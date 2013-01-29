@@ -1,6 +1,18 @@
 /* CSS Document */
 
  
+
+  * {
+	margin:0;
+	padding: 0;
+}
+body {
+	font-family: Segoe UI;
+	color: #666666;
+}
+a {
+font-family: Segoe UI;	
+}
 #wrapper {
 	 
 	margin: 20px auto;
@@ -8,7 +20,7 @@
 	min-height:200px;
 	 
 }
-/*h2 {
+h2 {
 	font-size: 23px;
 	font-weight: normal;
 	padding-bottom:20px;
@@ -35,7 +47,7 @@ li strong {
 }
 li p {
 	padding-left: 40px;
-}*/
+}
 
 .mw_help_nav {
  position:fixed;

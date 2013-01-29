@@ -2,7 +2,8 @@ mw.files = {
     settings:{
         filetypes:"png,gif,jpg,jpeg,tiff,bmp",
         url:mw.settings.upload_url,
-        type:'explorer' // ... or filedrag
+        type:'explorer', // ... or filedrag
+        multiple:true
     },
     filetypes:function(a){
         switch(a){
@@ -31,7 +32,7 @@ mw.files = {
         frame.className = 'mw-uploader mw-uploader-'+obj.type;
         frame.scrolling = 'no';
         frame.setAttribute('frameborder', 0);
-        var params = "?type="+obj.type+"&filters="+mw.files.filetypes(obj.filetypes);
+        var params = "?type="+obj.type+"&filters="+mw.files.filetypes(obj.filetypes)+'&multiple='+obj.multiple;
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
         return frame;

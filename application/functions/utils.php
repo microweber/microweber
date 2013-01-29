@@ -770,13 +770,59 @@ function rglob($pattern = '*', $flags = 0, $path = '') {
 
 
 
+function directory_tree_grep($q, $path){
+		$ret = array();
+		$fp = opendir($path);
+		while($f = readdir($fp)){
+			if( preg_match("#^\.+$#", $f) ) continue; // ignore symbolic links
+			$file_full_path = $path.DS.$f;
+			 
+			if(is_dir($file_full_path)) {
+				$ret[]= directory_tree_grep($q, $file_full_path);
+			} else if( stristr(file_get_contents($file_full_path), $q) ) {
+				$ret[]= $file_full_path;
+			}
+		}
+		return $ret;
+	}
 
-
-
-function directory_tree($path = '.')
+/**
+   flatten an arbitrarily deep multidimensional array 
+   into a list of its scalar values
+   (may be inefficient for large structures)
+   (will infinite recurse on self-referential structures)
+   (could be extended to handle objects)
+*/
+function array_values_recursive($ary)
+{
+   $lst = array();
+   foreach( array_keys($ary) as $k ){
+      $v = $ary[$k];
+      if (is_scalar($v)) {
+         $lst[] = $v;
+      } elseif (is_array($v)) {
+         $lst = array_merge( $lst,
+            array_values_recursive($v)
+         );
+      }
+   }
+   return $lst;
+}
+function directory_tree($path = '.', $search = false)
 	{
+	 $return = '';
+	 if($search == false){
 	    $return = directory_tree_full_path($path);
-		 
+	 } else {
+	 	$res = directory_tree_grep($search, $path);
+		 if(!empty($res)){
+		 	$res1 = array_values_recursive($res);
+		 	foreach ($res1 as $value) {
+		 	//	d($value);
+				 $return .= directory_tree_full_path($value);
+			 }
+		 }
+	 }
 		
 		return $return;
 	}
@@ -789,10 +835,12 @@ function directory_tree($path = '.')
 		$queue = array();
 		
 			//	d($path);
-				
+			$return .=  "<ul class='directory_tree'>";	
+			
+			if(is_dir($path)){
 		if ($handle = opendir($path)) 
 		{
-			$return .=  "<ul class='directory_tree'>";
+			
 		
 			while (false !== ($file = readdir($handle))) 
 			{
@@ -804,11 +852,19 @@ function directory_tree($path = '.')
 			}
 			
 		$return .=directory_tree_printQueue($queue, $path);
-		 $return .=  "</ul>";
+		
 		//	 $return = str_replace($path, '', $return);
 			 
 		}
-		
+			} else {
+				if(is_file($path)){
+				//	$path1 = dirname($path);
+					$queue[] = $path;
+							$return .=directory_tree_printQueue($queue);
+					
+				}
+			}
+		 $return .=  "</ul>";
 		
 		return $return;
 	}
@@ -816,7 +872,7 @@ function directory_tree($path = '.')
 	 
 	
 	
-	function directory_tree_printQueue($queue, $path)
+	function directory_tree_printQueue($queue, $path = '')
 	{
 				$return = '';
 			if(empty($queue)){

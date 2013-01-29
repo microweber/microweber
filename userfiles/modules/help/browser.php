@@ -1,19 +1,37 @@
 <? 
  $path = $base_path = $config['path_to_module'].'docs'.DS;
- if(isset($_GET['path'])): ?>
-<? $path .=html_entity_decode($_GET['path']).DS;  ?>
-<?  
- $dirs =  directory_tree($path);
-  $dirs = str_replace($base_path, '', $dirs);
- print $dirs  ;
-   ?>
+ $from_path = '';
+  
+ 
+ if(isset($params['from_path'])){
+	$from_path =  $params['from_path'];
+ }
+ 
+  if(isset($params['base_path']) and $params['base_path'] != ''){
+	$path =  $base_path.html_entity_decode($params['base_path']).DS;
+ }
+  
+ 
+ 
+ 
+ if($from_path != ''): ?>
+<? $path .=html_entity_decode($from_path).DS;  ?>
 <? endif; ?>
-<? if(isset($_GET['file'])): ?>
-<?  $file =$base_path.html_entity_decode($_GET['file']);
- $file = str_replace('..','', $file);
-if(is_file($file)){
-include($file);	
+ 
+<?
+ 
+$kw = false;  
+if(isset($params['kw'])){
+	$kw = $params['kw']; 
 }
  
- ?>
-<? endif; ?>
+ 
+ $dirs =  directory_tree($path,$kw);
+  $dirs = str_replace($base_path, '', $dirs);
+  if(isset($params['ul_class'])){
+     $dirs = str_replace("ul class='directory_tree'","ul class='directory_tree ".$params['ul_class']."'", $dirs);
+  }
+  
+ print $dirs  ;
+   ?>
+ 

@@ -665,6 +665,19 @@ form.add-edit-page-post textarea{
   columns: 4 auto;
   -webkit-columns: 4 auto;
   -moz-columns: 4 auto;
+  -o-columns: 4 auto;
+  -ms-columns: 4 auto;
+
+}
+
+
+
+.mw-quick-links-cols-4 li a {
+  display:inline !important;
+}
+
+.mw-quick-links-cols-4 li a span + span{
+    position: static;
 }
 
 .mw-module-live-edit-settings .mw-quick-links-cols-4{

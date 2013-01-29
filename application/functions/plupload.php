@@ -7,6 +7,8 @@ if (!isset($_SESSION) or empty($_SESSION)) {
 if (is_admin() == false) {
     error('only admin can upload');
 }
+
+ 
 /**
  * upload.php
  *

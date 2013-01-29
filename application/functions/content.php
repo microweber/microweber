@@ -536,7 +536,7 @@ function get_layout_for_page($page = array()) {
 	if ($render_file == false and ($page['layout_file']) != false) {
 		$template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
 		$template_view = normalize_path($template_view, false);
-
+ 
 		if (is_file($template_view) == true) {
 			$render_file = $template_view;
 		} else {

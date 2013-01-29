@@ -337,7 +337,7 @@ mw.wysiwyg = {
           return  $(range.commonAncestorContainer).parent().css("textAlign");
         }catch(err){return false}
     },
-    check_selection:function(){
+    check_selection:function(){   return false;
        var selection = window.getSelection();
        if(selection.rangeCount>0){
            var range = selection.getRangeAt(0);

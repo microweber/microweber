@@ -84,7 +84,7 @@ class MwController {
 					$page['content_type'] = db_escape_string($_GET['content_type']);
 				}
 				//d($_GET);
-				//d($page);
+				
 
 				template_var('new_content_type', $page['content_type']);
 				$page['parent'] = '0';
@@ -197,7 +197,7 @@ class MwController {
 		if ($is_custom_view and $is_custom_view != false) {
 			$content['custom_view'] = $is_custom_view;
 		}
-
+ 
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);

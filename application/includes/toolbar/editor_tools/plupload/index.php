@@ -46,6 +46,10 @@
             Params = mw.url.getUrlParams(window.location.href);
 
 
+
+            var multi = Params.multiple.contains('true');
+
+
             var filters = [ {title:"", extensions : Params.filters} ]
 
             this_frame = parent.mw.$("iframe[name='"+Name+"']");
@@ -57,7 +61,8 @@
                 container: 'container',
 				chunk_size : '3mb',
                 url : '<? print site_url('plupload'); ?>',
-                filters:filters
+                filters:filters,
+                multi_selection:multi
             });
 
             uploader.init();

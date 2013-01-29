@@ -1,5 +1,23 @@
 <? include('settings_header.php'); ?>
 
+<script>
+
+    if(typeof mw.custom_fields.upload_settings == 'undefined'){
+
+       mw.custom_fields.upload_settings = {
+         images:'',
+         documents:'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx',
+
+         archives:''
+       }
+
+
+
+
+    }
+
+</script>
+
 
  <div class="custom-field-col-left">
 
@@ -9,7 +27,7 @@
       </label>
 
         <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand; ?>">
- 
+
     </div>
 
 
@@ -23,19 +41,19 @@
 
 
 
-          <input type="checkbox"  name="options[file_types]" value="images"  />
+      <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('images',$data['options']['file_types'])) : ?> checked <? endif; ?> value="images"  />
           <span></span>
           <span>Images Files</span>
       </label>
       <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox"  name="options[file_types]" value="documents" />
+          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('documents',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="documents" />
           <span></span>
           <span>Document Files</span>
       </label>
        <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox"  name="options[file_types]" value="archives" />
+          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('archives',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="archives" />
           <span></span>
           <span>Archive Files</span>
       </label>
@@ -45,7 +63,11 @@
 
       <label class="mw-ui-label">Custom File Types</label>
 
-      <input type="text" class="mw-ui-field"  name="options[other]" value="images" value="psd,html,css" data-default='psd,html,css' onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
+      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<? if(isset($data['options']) and $data['options']['file_types'] and is_array($data['options']['file_types'])) : ?><?
+
+      $array2 = array("images", "documents", "archives");
+$oresult = array_diff($data['options']['file_types'], $array2);
+       print implode(',',$oresult); ?><? endif; ?>" data-default='psd,html,css' onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
 
     </div>
 
@@ -54,10 +76,7 @@
  <div class="custom-field-col-right">
 
 
-    <label class="mw-ui-label">Click here to upload</label>
-    <div style="width: 170px;height: 16px;" class="mw-ui-field relative left">
-        <span style="height: 15px;position: absolute; right: -1px; top: -1px;" id="insert_email" class="mw-ui-btn">Browse</span>
-    </div>
+
     
    <?php print $savebtn; ?>
 

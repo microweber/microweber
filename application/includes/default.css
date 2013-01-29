@@ -29,7 +29,7 @@ body.mw-preview{
 }
 
 
-.col, .mw-row, .element {
+.mw-col, .mw-row, .element {
     position: relative;
 }
 
@@ -107,21 +107,6 @@ body.mw-preview{
   display: inline-block !important;
 }
 
-
-.free-element{
-  position: relative;
-  display: block;
-  overflow: hidden;
-}
-
-.free-element img,
-.free-element div,
-.free-element p,
-.free-element ul,
-.free-element ol{
-  position: absolute;
-}
-
 .mw-embed-iframe{
   padding: 12px 0;
 }
@@ -154,6 +139,25 @@ body.mw-preview{
   overflow: hidden;
   clear: both;
 }
+
+.mw-uploader{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+}
+
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}
+
 
 
 
@@ -329,14 +333,7 @@ body.mw-preview{
 }
 
 
-@media screen and (-webkit-min-device-pixel-ratio : 1.5), screen and (min-device-pixel-ratio : 1.5) {
-    body .edit .mw-col{
-      width: auto !important;
-      clear: both !important;
-      float: none !important;
-    }
 
-}
 
 
 

@@ -140,15 +140,15 @@ mw.custom_fields.serialize = function(id){
             if(name.contains("[")){
                 if(name.contains('[]')){
                   var name = name.replace(/[\[\]']+/g, '');
-                  try{data[name].push(val)}
-                  catch(e){data[name] = [val]}
+                  try{data.options[name].push(val)}
+                  catch(e){data.options[name] = [val]}
                 }
                 else{
                   var i1 = name.indexOf("[");
                   var i2 = name.indexOf("]");
                   var name = name.slice(i1+1, i2);
-                  try{data[name].push(val)}
-                  catch(e){data[name] = [val]}
+                  try{data.options[name].push(val)}
+                  catch(e){data.options[name] = [val]}
                 }
             }
             else{

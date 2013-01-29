@@ -4,7 +4,8 @@
   document.body.className+=' loading';
 
   //mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
-  mw.require("http://code.jquery.com/jquery-1.8.3.min.js");
+
+  typeof jQuery == 'undefined' ? mw.require("http://code.jquery.com/jquery-1.8.3.min.js") : '' ;
   mw.require("liveadmin.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.8.20.custom.js");
   //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
