@@ -44,11 +44,11 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
  <div class="custom-field-col-left">
 
   <div class="mw-custom-field-group ">
-  <label class="mw-ui-label" for="input_field_label{rand}">
+  <label class="mw-ui-label" for="input_field_label<? print $rand; ?>">
     <?php _e('Define Title'); ?>
   </label>
 
-    <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label{rand}">
+    <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand; ?>">
 
     <div class="vSpace"></div>
 

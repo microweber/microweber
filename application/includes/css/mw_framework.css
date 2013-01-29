@@ -1550,6 +1550,7 @@ textarea.mw-ui-field{
 .mw-ui-check{
   display: inline-block;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .mw-ui-check input{

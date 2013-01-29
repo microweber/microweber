@@ -21,12 +21,13 @@ description: Default
 <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
   <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
   <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
-  <div class="mw-custom-field-group">
-    <label class="mw-custom-field-label">Security code</label>
-    <div class="mw-custom-field-form-controls"> <img  class="mw-captcha-img" src="<? print api_url('captcha') ?>" />
-      <input name="captcha" type="text"  class="mw-captcha-input"/>
+    <div class="control-group">
+      <label class="label">Security code</label>
+      <div class="input-prepend">
+        <span class="add-on" style="width: 100px;background: white"><img width="100" class="mw-captcha-img" src="<? print api_url('captcha') ?>" /></span>
+        <input name="captcha" type="text"  class="mw-captcha-input"/>
+      </div>
     </div>
-  </div>
   <?  endif;?>
-  <input type="submit"  value="submit" />
+  <input type="submit" class="btn"  value="Submit" />
 </form>

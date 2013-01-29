@@ -755,6 +755,100 @@ function rglob($pattern = '*', $flags = 0, $path = '') {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function directory_tree($path = '.')
+	{
+	    $return = directory_tree_full_path($path);
+		 
+		
+		return $return;
+	}
+ 
+
+	function directory_tree_full_path($path = '.')
+	{
+
+		$return = '';
+		$queue = array();
+		
+			//	d($path);
+				
+		if ($handle = opendir($path)) 
+		{
+			$return .=  "<ul class='directory_tree'>";
+		
+			while (false !== ($file = readdir($handle))) 
+			{
+				if (is_dir($path.$file) && $file != '.' && $file !='..')
+					$return .= directory_tree_printSubDir($file, $path, $queue);
+				else if ($file != '.' && $file !='..')
+					$queue[] = $file;
+				asort($queue);
+			}
+			
+		$return .=directory_tree_printQueue($queue, $path);
+		 $return .=  "</ul>";
+		//	 $return = str_replace($path, '', $return);
+			 
+		}
+		
+		
+		return $return;
+	}
+	
+	 
+	
+	
+	function directory_tree_printQueue($queue, $path)
+	{
+				$return = '';
+			if(empty($queue)){
+				
+		return $return;
+			}
+		foreach ($queue as $file) 
+		{
+			$return .= directory_tree_printFile($file, $path);
+		} 
+		return $return;
+	}
+	
+	function directory_tree_printFile($file, $path)
+	{
+			$return = '';
+			$file1 = no_ext($file);
+		$return .= "<li class='directory_tree_is_file'><a href=\"?file=".$path.$file."\">$file1</a></li>";
+		return $return;
+	}
+	
+	function directory_tree_printSubDir($dir, $path)
+	{
+			$return = '';
+		$return .=  "<li class='directory_tree_is_folder'><a href=\"?path=".$path.$dir."\" class=\"toggle\">$dir</a>";
+		$return .=  directory_tree_full_path($path.$dir.DS);
+		$return .=   "</li>";
+		return $return;
+	}
+	
+	 
+
 // ------------------------------------------------------------------------
 
 /**
@@ -780,7 +874,7 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
 
         while (FALSE !== ($file = readdir($fp))) {
             // Remove '.', '..', and hidden files [optional]
-            if (!trim($file, '.') OR ($hidden == FALSE && $file[0] == '.')) {
+            if (!trim($file, '.') OR($hidden == FALSE && $file[0] == '.')) {
                 continue;
             }
 

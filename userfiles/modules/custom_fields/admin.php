@@ -68,12 +68,13 @@ $module_id = $for_id;
                     obj.ids.push(id);
                 });
                 $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
-            if(window.parent != undefined && window.parent.mw != undefined){
-				 window.parent.mw.reload_module('custom_fields');
-			 }
+                    if(window.parent != undefined && window.parent.mw != undefined){
+        				 window.parent.mw.reload_module('custom_fields');
+        			 }
+                     mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
+                     mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
                 });
-            },
-            containment: "parent"
+            }
           });
         }
         return sortable_holder;

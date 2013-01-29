@@ -30,13 +30,13 @@ $(document).ready(function(){
 
 </style>
  <div class="custom-field-col-left">
+               
 
-
-  <label class="mw-ui-label" for="input_field_label{rand}">
+  <label class="mw-ui-label" for="input_field_label<? print $rand; ?>">
     <?php _e('Define Title'); ?>
   </label>
 
-    <input type="text" onkeyup="" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label{rand}">
+    <input type="text" onkeyup="" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand; ?>">
 
     <div class="vSpace"></div>
  
@@ -50,7 +50,7 @@ $(document).ready(function(){
 
    <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="custom_field_value{rand}">Default Value</label>
+      <label class="mw-ui-label" for="custom_field_value<? print $rand; ?>">Default Value</label>
         <div id="mw-custom-fields-text-holder">
             <input type="text" class="mw-ui-field" name="custom_field_value"  value="<? print ($data['custom_field_value']) ?>"  />
         </div>

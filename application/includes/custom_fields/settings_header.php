@@ -1,6 +1,6 @@
 <?
 
-//$rand = rand();
+ $rand = rand();
 //$rand = round($rand);
 
 $add_remove_controls = ''.
@@ -113,7 +113,7 @@ if (isset($data['save_to_content_id'])) {
 }
 ?>
 
-<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit{rand}" >
+<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand; ?>" >
 <? if (isset($data['id']) and intval($data['id']) != 0): ?>
 <input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
 <? endif; ?>

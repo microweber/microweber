@@ -6,12 +6,12 @@
 ?>
 
 <div class="mw-custom-field-group">
-  <label class="mw-custom-field-label" for="custom_field_help_text{rand}"><? print $data["custom_field_name"]; ?></label>
+  <label class="mw-custom-field-label" for="custom_field_help_text<? print $rand; ?>"><? print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
+    <input type="email"   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
     data-custom-field-id="<? print $data["id"]; ?>"
     name="<? print $data["custom_field_name"]; ?>"
-    id="custom_field_help_text{rand}"
+    id="custom_field_help_text<? print $rand; ?>"
     placeholder="<? print $data["custom_field_value"]; ?>" />
   </div>
 </div>

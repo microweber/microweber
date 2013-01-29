@@ -14,7 +14,7 @@ description: fluid layout
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
 
-<div class="edit container-fluid">
+<div class="edit container-fluid" field="content" rel="page">
       <div class="mw-row row-fluid">
         <div class="mw-col span3">
           <div class="well sidebar-nav">

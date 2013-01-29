@@ -249,6 +249,7 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 				}
 			}
 		}
+
 		$script_pattern = "/<module[^>]*>/Uis";
 
 		//$script_pattern = "/<module.*.[^>]*>/is";
@@ -754,6 +755,26 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				}
 			}
 		}
+
+		$script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+		$replaced_codes = array();
+		preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+		if (!empty($mw_script_matches)) {
+			foreach ($mw_script_matches [0] as $key => $value) {
+				if ($value != '') {
+					$v1 = crc32($value);
+					$v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
+					$layout = str_replace($value, $v1, $layout);
+					// $layout = str_replace_count($value, $v1, $layout,1);
+					if (!isset($replaced_scripts[$v1])) {
+						$replaced_codes[$v1] = $value;
+					}
+					//  p($replaced_codes);
+				}
+			}
+		}
+
 		$script_pattern = "/<module[^>]*>/Uis";
 
 		//$script_pattern = "/<module.*.[^>]*>/is";
@@ -839,35 +860,35 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		}
 
 		/*
-		$layout = str_replace('<mw ', '<module ', $layout);
-				$layout = str_replace('<editable ', '<div class="edit" ', $layout);
-				$layout = str_replace('</editable>', '</div>', $layout);
-		
-				$layout = str_replace('<microweber module=', '<module data-type=', $layout);
-				$layout = str_replace('</microweber>', '', $layout);
-				$layout = str_replace('></module>', '/>', $layout);
-				$script_pattern = "/<module[^>]*>/Uis";
-		
-				//$script_pattern = "/<module.*.[^>]*>/is";
-				preg_match_all($script_pattern, $layout, $mw_script_matches);
-		
-				if (!empty($mw_script_matches)) {
-					$matches1 = $mw_script_matches[0];
-					foreach ($matches1 as $key => $value) {
-						if ($value != '') {
-							$v1 = crc32($value);
-							$v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
-							$layout = str_replace($value, $v1, $layout);
-							// $layout = str_replace_count($value, $v1, $layout,1);
-							if (!isset($replaced_modules[$v1])) {
-		
-								$replaced_modules[$v1] = $value;
-							}
-							// p($value);
-						}
-					}
-				}*/
-		
+		 $layout = str_replace('<mw ', '<module ', $layout);
+		 $layout = str_replace('<editable ', '<div class="edit" ', $layout);
+		 $layout = str_replace('</editable>', '</div>', $layout);
+
+		 $layout = str_replace('<microweber module=', '<module data-type=', $layout);
+		 $layout = str_replace('</microweber>', '', $layout);
+		 $layout = str_replace('></module>', '/>', $layout);
+		 $script_pattern = "/<module[^>]*>/Uis";
+
+		 //$script_pattern = "/<module.*.[^>]*>/is";
+		 preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+		 if (!empty($mw_script_matches)) {
+		 $matches1 = $mw_script_matches[0];
+		 foreach ($matches1 as $key => $value) {
+		 if ($value != '') {
+		 $v1 = crc32($value);
+		 $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
+		 $layout = str_replace($value, $v1, $layout);
+		 // $layout = str_replace_count($value, $v1, $layout,1);
+		 if (!isset($replaced_modules[$v1])) {
+
+		 $replaced_modules[$v1] = $value;
+		 }
+		 // p($value);
+		 }
+		 }
+		 }*/
+
 		//  echo $dom->output();
 
 		/*
@@ -1072,7 +1093,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
 								global $mw_mod_counter;
 								$mw_mod_counter++;
-								 $mw_mod_counter1 = crc32(serialize($attrs));
+								$mw_mod_counter1 = crc32(serialize($attrs));
 								$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter1);
 								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
@@ -1171,9 +1192,19 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			}
 		}
 	}
+
+	if (!empty($replaced_codes)) {
+		foreach ($replaced_codes as $key => $value) {
+			if ($value != '') {
+
+				$layout = str_replace($key, $value, $layout);
+			}
+			unset($replaced_codes[$key]);
+		}
+	}
 	global $mw_rand;
 	//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-	$layout = str_replace('{rand}', uniqid().$mw_rand++, $layout);
+	$layout = str_replace('{rand}', uniqid() . $mw_rand++, $layout);
 	$layout = str_replace('{SITE_URL}', site_url(), $layout);
 	$layout = str_replace('{SITEURL}', site_url(), $layout);
 	$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
@@ -1189,6 +1220,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 	return $layout;
 	exit();
 }
+
 $mw_rand = rand();
 
 function make_microweber_tags($layout) {
