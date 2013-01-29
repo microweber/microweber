@@ -24,7 +24,7 @@
     </div>
 </div>
 <div class="mw-custom-field-group<? print $hidden_class ?>">
-    <label class="mw-custom-field-label" for="custom_field_help_text<? print $rand; ?>"><?php _e('Help text'); ?></label>
+    <label class="mw-custom-field-label" ><?php _e('Help text'); ?></label>
     <div class="mw-custom-field-form-controls">
         <input type="text"  name="custom_field_help_text" class="mw-ui-field"   value="<? print ($data['custom_field_help_text']) ?>"  id="custom_field_help_text<? print $rand; ?>">
     </div>

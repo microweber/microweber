@@ -5,7 +5,8 @@ mw.files = {
         type:'explorer', // ... or filedrag
         multiple:true
     },
-    filetypes:function(a){
+    filetypes:function(a, normalize){
+        var def = !!normalize ? a : mw.files.settings.filetypes;
         switch(a){
         case 'images':
           return mw.files.settings.filetypes;
@@ -16,6 +17,12 @@ mw.files = {
         case 'files':
           return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
           break;
+        case 'documents':
+          return 'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+          break;
+        case 'archives':
+          return 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
+          break;
         case 'all':
           return '*';
           break;
@@ -23,16 +30,28 @@ mw.files = {
           return '*';
           break;
         default:
-          return mw.files.settings.filetypes;
+          return def;
         }
+    },
+    normalize_filetypes:function(a){
+
+      var str = '';
+      var a = a.replace(/\s/g, '');
+      var arr = a.split(','), i=0, l=arr.length;
+      for( ; i<l; i++){
+        str+= mw.files.filetypes(arr[i], true) + ',';
+      }
+      var str = str.substring(0, str.length - 1);
+      return str;
     },
     uploader:function(obj){
         var obj = $.extend({}, mw.files.settings, obj);
+
         var frame = mwd.createElement('iframe');
         frame.className = 'mw-uploader mw-uploader-'+obj.type;
         frame.scrolling = 'no';
         frame.setAttribute('frameborder', 0);
-        var params = "?type="+obj.type+"&filters="+mw.files.filetypes(obj.filetypes)+'&multiple='+obj.multiple;
+        var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple;
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
         return frame;

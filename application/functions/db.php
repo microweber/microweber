@@ -1445,7 +1445,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		$q = $q . $order_by;
 	}
 
-	if (trim($limit_from_paging_q) != "") {
+	if (isset($limit_from_paging_q) and trim($limit_from_paging_q) != "") {
 		$limit = $limit_from_paging_q;
 	} else {
 
@@ -1454,7 +1454,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 		$q = $q . $limit;
 	}
-
+ 
 	if ($debug == true) {
 
 		var_dump($table, $q, $is_in_table);

@@ -30,9 +30,5 @@
       <?php print $savebtn; ?>
     </div>
 
-    <script>
-    $(document).ready(function(){
-      mw.$( "#custom_field_value<? print $rand; ?>" ).datepicker();
-    });
-    </script>
+   
     <? include('settings_footer.php'); ?>

@@ -21,9 +21,13 @@ include('empty_field_vals.php');
     <button type="button" class="btn">Browse</button>
  </div>
 </div>
-<div class="progress" id="upload_progress_<?php print($rand); ?>">
+<div class="progress" id="upload_progress_<?php print($rand); ?>" style="display:none;">
     <div class="bar notransition" style="width: 0%;"></div>
 </div>
+
+    <div class="alert alert-error" id="upload_err<?php print($rand); ?>"  style="display:none;">
+        <strong></strong> - Invalid filetype!
+    </div>
 
 
 
@@ -38,7 +42,7 @@ include('empty_field_vals.php');
 <script>
 var uploader = mw.files.uploader({
     multiple:false,
-    filters:['<?php print implode("','",$data['options']['file_types']); ?>]
+    filetypes:'<?php print implode(",",$data['options']['file_types']); ?>'
 });
 
 var local_id = '<?php print($rand); ?>';
@@ -54,6 +58,13 @@ $(document).ready(function(){
         mw.$("#upload_<?php print($rand); ?> input[type='text']").val(file.name);
         mw.$("#upload_<?php print($rand); ?> input[type='hidden']").val(file.src);
         mw.$("#upload_progress_"+local_id).hide();
+        mw.$("#upload_progress_"+local_id+" .bar").width(0);
+        mw.$("#upload_err"+local_id).hide();
+    });
+
+    $(uploader).bind('error', function(frame, name){
+        mw.$("#upload_progress_"+local_id).hide();
+        mw.$("#upload_err"+local_id).show().find('strong').html(name);
         mw.$("#upload_progress_"+local_id+" .bar").width(0)
     });
 

@@ -2,19 +2,7 @@
 
 <script>
 
-    if(typeof mw.custom_fields.upload_settings == 'undefined'){
 
-       mw.custom_fields.upload_settings = {
-         images:'',
-         documents:'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx',
-
-         archives:''
-       }
-
-
-
-
-    }
 
 </script>
 

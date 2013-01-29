@@ -22,6 +22,27 @@
  * @param array $settings
  */
 api_expose('make_custom_field');
+function custom_field_names_for_table($table) {
+	$table = db_escape_string($table);
+	$table1 = db_get_assoc_table_name($table);
+
+	$table = MW_DB_TABLE_CUSTOM_FIELDS;
+	$q = false;
+	$results = false;
+
+	$q = "SELECT *, count(id) as qty FROM $table where   custom_field_type IS NOT NULL and to_table='{$table1}' and custom_field_name!='' group by custom_field_name, custom_field_type order by qty desc limit 100";
+	//d($q);
+	$crc = (crc32($q));
+
+		$cache_id = __FUNCTION__ . '_' . $crc;
+
+		$results = db_query($q, $cache_id, 'custom_fields/global');
+ 
+	if (isarr($results)) {
+		return $results;
+	}
+
+}
 
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false) {
 	$data = false;
@@ -252,7 +273,7 @@ function remove_field($id) {
  * @param array $settings
  */
 function make_field($field_id = 0, $field_type = 'text', $settings = false) {
-			 
+
 	if (is_array($field_id)) {
 		if (!empty($field_id)) {
 			$data = $field_id;
