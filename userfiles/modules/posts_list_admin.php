@@ -87,9 +87,8 @@ $show_fields = array();
 <strong>Show fields</strong>
 <ul id="post_fields_sort_{rand}">
   <li>
-    <label>
-      <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />
-      thumbnail</label>
+    <label>Thumbnail</label>
+    <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />
   </li>
   <li>
     <label>

@@ -52,7 +52,8 @@
 
             var filters = [ {title:"", extensions : Params.filters} ]
 
-            this_frame = parent.mw.$("iframe[name='"+Name+"']");
+           this_frame = parent.mw.$("iframe[name='"+Name+"']");
+
 
             var uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
@@ -73,10 +74,18 @@
 
             uploader.bind('UploadProgress', function(up, file) {
                this_frame.trigger("progress", file);
+
             });
 
             uploader.bind('FileUploaded', function(up, files, info){
-              this_frame.trigger("FileUploaded", jQuery.parseJSON(info.response));
+              var json =  jQuery.parseJSON(info.response);
+              if(typeof json.error == 'undefined'){
+                 this_frame.trigger("FileUploaded", json);
+              }
+              else{
+                this_frame.trigger("responseError", json);
+              }
+
             });
 
             uploader.bind('UploadComplete', function(up, files){

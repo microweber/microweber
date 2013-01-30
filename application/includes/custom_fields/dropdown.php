@@ -6,6 +6,7 @@ include('empty_field_vals.php');
 ?>
 <?
 
+   //d($data);
 
 //print $data["custom_field_value"]; ?>
 <? if(!empty($data['custom_field_values'])) : ?>
@@ -27,9 +28,10 @@ include('empty_field_vals.php');
 
 
 
-
-  <select <? if(isset($data['options']) == true and isset($data['options']["multiple"]) == true and $data['options']["multiple"] == 'y'): ?> multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
-    <? foreach($data['custom_field_values'] as $k=>$v): ?>
+ <? if(isarr($data['custom_field_values'])): ?>
+  <select <? if(isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
+    <?
+	foreach($data['custom_field_values'] as $k=>$v): ?>
     <? if(is_string( $k)){
 	$kv =  $k;
 	} else {
@@ -39,5 +41,7 @@ include('empty_field_vals.php');
     <option  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <? endif; ?> ><? print ($v); ?></option>
     <? endforeach; ?>
   </select>
+  
+  <? endif; ?>
 </div>
 <? endif; ?>

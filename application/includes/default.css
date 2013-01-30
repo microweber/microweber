@@ -158,7 +158,12 @@ body.mw-preview{
   transition: none !important;
 }
 
-
+.relative{
+  position: relative;
+}
+.inline-block{
+  display: inline-block;
+}
 
 
 

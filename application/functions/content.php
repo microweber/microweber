@@ -20,7 +20,7 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
- //action_hook('mw_db_init', 'mw_db_init_content_table');
+  //action_hook('mw_db_init', 'mw_db_init_content_table');
 
 function mw_db_init_content_table() {
 	$function_cache_id = false;
@@ -169,6 +169,7 @@ $table_name = MW_DB_TABLE_MEDIA;
 	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
 	
 			$fields_to_add[] = array('custom_field_name', 'TEXT default NULL');
+			$fields_to_add[] = array('custom_field_name_plain', 'longtext default NULL');
 	
 	
 			$fields_to_add[] = array('custom_field_value', 'TEXT default NULL');
@@ -1276,7 +1277,8 @@ if ($id == 0) {
 					if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
 						if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
 							$try = base64_decode($it['custom_field_values']);
-							if ($try != false) {
+							 
+							if ($try != false and strlen($try) > 5) {
 								$it['custom_field_values'] = unserialize($try);
 							}
 						}

@@ -603,7 +603,12 @@ function session_set($name, $val) {
         if ($val == false) {
             session_del($name);
         } else {
+        	
+					 $is_the_same =  session_get($name);
+			if($is_the_same != $val){
+						
             $_SESSION [$name] = $val;
+			} 
         }
     }
 }
@@ -834,7 +839,12 @@ function directory_tree($path = '.', $search = false)
 		$return = '';
 		$queue = array();
 		
-			//	d($path);
+		$is_hidden= substr($path, 0, 2);
+	if ($is_hidden == '__') {
+		 return $return;
+	}
+		
+		 
 			$return .=  "<ul class='directory_tree'>";	
 			
 			if(is_dir($path)){
@@ -890,6 +900,7 @@ function directory_tree($path = '.', $search = false)
 	{
 			$return = '';
 			$file1 = no_ext($file);
+			$file1 = ltrim($file1, '_');
 		$return .= "<li class='directory_tree_is_file'><a href=\"?file=".$path.$file."\">$file1</a></li>";
 		return $return;
 	}

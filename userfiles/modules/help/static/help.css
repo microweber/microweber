@@ -4,7 +4,7 @@
 #wrapper {
 	 
 	 
-	padding: 40px;
+	padding: 10px;
 	min-height:200px;
 	 
 }
@@ -65,4 +65,27 @@ li p {
 .directory_tree_is_file a{
  
  font-weight:normal;
+}
+
+
+
+.table-wrap {
+ margin:5%;	
+  
+}
+.table-wrap th{
+  font-size:13px;
+}
+.table-wrap td{
+  font-size:12px;
+  padding:2px;
+}
+
+ 
+.table-wrap select, .table-wrap input,.table-wrap input[type="search"]{
+   width:150px;
+   font-size:12px;
+   height:23px;
+   line-height:16px;
+   padding:2px;
 }

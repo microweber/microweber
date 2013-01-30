@@ -398,6 +398,17 @@ window.onerror = function(a,b,c){
         .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
   }
 
+  get_content = function(params, callback){
+    var obj = mw.url.getUrlParams("?"+params);
+    if(typeof callback!='function'){
+       api('get_content_admin', obj);
+    }
+    else{
+       api('get_content_admin', obj, function(){callback.call(this)});
+    }
+
+  }
+
 
 
 

@@ -1,12 +1,18 @@
 <?php
 
+
+
 if (!isset($_SESSION) or empty($_SESSION)) {
-    session_start();
+   //session_start();
 }
 
 if (is_admin() == false) {
-    error('only admin can upload');
+    die('{"jsonrpc" : "2.0", "error" : {"code": 99, "message": "Only admin can upload."}, "id" : "id"}');
 }
+
+
+
+
 
  
 /**
@@ -24,6 +30,9 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+
+
+
 
 // Settings
 $target_path = MEDIAFILES . 'uploaded' . DS;

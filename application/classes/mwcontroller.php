@@ -557,6 +557,8 @@ $pq = phpQuery::newDocument($l);
 					}
 
 					if (!defined('MW_API_HTML_OUTPUT')) {
+						header('Content-Type: application/json');
+						
 						print json_encode($res);
 					} else {
 
@@ -632,6 +634,8 @@ $pq = phpQuery::newDocument($l);
 								}
 
 								if (!defined('MW_API_HTML_OUTPUT')) {
+									header('Content-Type: application/json');
+									
 									print json_encode($res);
 								} else {
 
@@ -727,6 +731,8 @@ $pq = phpQuery::newDocument($l);
 			}
 
 			if (!defined('MW_API_HTML_OUTPUT')) {
+				header('Content-Type: application/json');
+				
 				print json_encode($res);
 			} else {
 

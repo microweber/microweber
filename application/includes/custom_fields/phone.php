@@ -10,8 +10,8 @@ include('empty_field_vals.php');
 
 
 //print $data["custom_field_value"]; ?>
-
-<label class="mw-custom-field-label">
+<div class="control-group">
+<label class="label">
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print ucwords(str_replace('_', ' ', $data['name'])); ?>
     <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
@@ -25,3 +25,4 @@ include('empty_field_vals.php');
         data-custom-field-id="<? print $data["id"]; ?>"
         name="<? print $data["custom_field_name"]; ?>"
         placeholder="<? print $data["custom_field_value"]; ?>" />
+        </div>

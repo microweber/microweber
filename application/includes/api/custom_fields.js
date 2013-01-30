@@ -96,11 +96,7 @@ mw.custom_fields = {
             },
             scroll:false,
             update:function(){
-              mw.custom_fields.save(this.parentNode.id, function(){
-                if(typeof __sort_fields === 'function'){
-                     __sort_fields();
-                   }
-              });
+              __save();
             }
         });
     }
@@ -129,37 +125,50 @@ mw.custom_fields.serialize = function(id){
       fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {};
       data.options = {};
-      $(fields, el).each(function(){
+      $(fields, el).not(':disabled').each(function(){
           var el = this, _el = $(el);
           var val = _el.val();
           var name = el.name;
-          if(_el.hasClass('mw-custom-field-option')){
-            data.options[name] = val;
-          }
-          else{
-            if(name.contains("[")){
-                if(name.contains('[]')){
-                  var name = name.replace(/[\[\]']+/g, '');
+          if(name.contains("[")){
+              if(name.contains('[]')){
+                var _name = name.replace(/[\[\]']+/g, '');
+                if(name.indexOf('option')==0){
+                  try{data.options.push(val)}
+                  catch(e){data.options = [val]}
+                }
+                else{
+                  try{data[_name].push(val)}
+                  catch(e){data[_name] = [val]}
+                }
+              }
+              else{
+                if(name.indexOf('option')==0){
+                  var name = name.slice(name.indexOf("[")+1, name.indexOf("]"));
                   try{data.options[name].push(val)}
                   catch(e){data.options[name] = [val]}
                 }
                 else{
-                  var i1 = name.indexOf("[");
-                  var i2 = name.indexOf("]");
-                  var name = name.slice(i1+1, i2);
-                  try{data.options[name].push(val)}
-                  catch(e){data.options[name] = [val]}
+                  var arr_name =  name.slice(0, name.indexOf("["));
+                  var key = name.slice(name.indexOf("[")+1, name.indexOf("]"));
+                  if(typeof data[arr_name] == 'object'){
+                    try{data[arr_name][key].push(val)}
+                     catch(e){data[arr_name][key] = [val]}
+                  }
+                  else{
+                    data[arr_name] = {}
+                    data[arr_name][key] = [val]
+                  }
                 }
-            }
-            else{
-               data[name] = val;
-            }
-
+              }
+          }
+          else{
+             data[name] = val;
           }
       });
       if(mw.tools.isEmptyObject(data.options)){
         data.options = '';
       }
+      mw.log(data)
       return data;
 }
 
@@ -205,7 +214,9 @@ mw.custom_fields.del = function(id, toremove){
             if(!!toremove){
               $(toremove).remove();
             }
+            mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
             $(window).trigger('customFieldSaved', id);
+
          });
       });
     });

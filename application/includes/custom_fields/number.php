@@ -7,10 +7,10 @@
 
 <script>mw.require('forms.js');</script>
 
-<div class="mw-custom-field-group">
-  <label class="mw-custom-field-label" ><? print $data["custom_field_name"]; ?></label>
+<div class="control-group">
+  <label class="label" ><? print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"
+    <input type="number"
         onkeyup="mw.form.typeNumber(this);"
         <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
         <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>

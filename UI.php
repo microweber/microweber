@@ -19,9 +19,9 @@
 <meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter>
   <span class="mw-ui-btn" onclick="mw.dump();">DUMP!</span>
 
-  <table width="70%" id="qweqwe98989898">
-   <col width="50%" />
-   <col width="50%" />
+  <table width="90%" id="qweqwe98989898">
+   <col width="60%" />
+   <col width="40%" />
    <tbody>
     <tr>
       <td><button class="mw-ui-btn">Button</button></td>
@@ -278,14 +278,14 @@
     </tr>
 
     <tr>
-        <td id="qwewqeqw">
+        <td id="qwewqeqw" style="padding: 20px 0;">
           <script>
           $(document).ready(function(){
             mw.simpletabs();
           });
           </script>
           <div class="mw_simple_tabs mw_tabs_layout_stylish">
-            <ul class="mw_simple_tabs_nav activated">
+            <ul class="mw_simple_tabs_nav" style="margin: 0;">
               <li><a href="javascript:;" class="active">Comments</a></li>
               <li><a href="javascript:;">Settings</a></li>
             </ul>

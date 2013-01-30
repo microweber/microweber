@@ -853,17 +853,20 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 			}
+			
+			
 			if ($is_not_null == true) {
 				$cfvq = "custom_field_value IS NOT NULL  ";
 			} else {
-				$cfvq = "custom_field_value LIKE '$v'  ";
+				$cfvq = "(custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
+				
 			}
 			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
 			$q = "SELECT  to_table_id from $table_custom_fields where
 
 			to_table = '$table_assoc_name1' and
 
-			custom_field_name = '$k' and
+			(custom_field_name = '$k' or custom_field_name_plain='$k' ) and
 
 			$cfvq
 
@@ -1896,15 +1899,26 @@ function save_data($table, $data, $data_to_save_options = false) {
 		$original_data['new_id'] = $data['new_id'];
 	}
 
-	if (isset($data['custom_field_value'])) {
+	if (isset($data['custom_field_value']) and isset($data['custom_field_name'])) {
 		if (is_array($data['custom_field_value'])) {
-			$data['custom_field_values_plain'] = db_escape_string(array_pop(array_values($data['custom_field_value'])));
+	 
+			
 			$data['custom_field_values'] = base64_encode(serialize($data['custom_field_value']));
+			$data['custom_field_values_plain'] = db_escape_string(array_pop(array_values($data['custom_field_value'])));
+		
 			$data['custom_field_value'] = 'Array';
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
 		} else if (is_string($data['custom_field_value'])) {
 			$data['custom_field_values_plain'] = db_escape_string((strip_tags($data['custom_field_value'])));
 		}
+		
+		
+		 $cf_k_plain = url_title($data['custom_field_name']);
+							$cf_k_plain = db_escape_string($cf_k_plain);
+							$data['custom_field_name_plain'] = str_replace('-', '_', $cf_k_plain);
+		
+		
+		
 	}
 
 	// var_dump($data);
@@ -2454,10 +2468,14 @@ function save_data($table, $data, $data_to_save_options = false) {
 						$cfvq = '';
 						$custom_field_to_save['custom_field_name'] = $cf_k;
 						if (is_array($cf_v)) {
-							$custom_field_to_save['custom_field_values'] = base64_encode(json_encode($cf_v));
+							$cf_k_plain = url_title($cf_k);
+							$cf_k_plain = db_escape_string($cf_k_plain);
+							$cf_k_plain = str_replace('-', '_', $cf_k_plain);
+							$custom_field_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
 							$custom_field_to_save['custom_field_values_plain'] = db_escape_string(array_pop(array_values($cf_v)));
 							$cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
 							$cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
+							$cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
 						} else {
 							$cf_v = db_escape_string($cf_v);
@@ -2518,7 +2536,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
-
+ 
 						db_q($add);
 
 					}

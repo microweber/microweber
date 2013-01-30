@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Scaffolding · Bootstrap</title>
+<title>MW Api</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -15,20 +15,16 @@
 <link href="<? print $config['url_to_module'] ?>static/css/docs.css" rel="stylesheet">
 <link href="<? print $config['url_to_module'] ?>static/css/prettify.css" rel="stylesheet">
 <link href="<? print $config['url_to_module'] ?>static/help.css" rel="stylesheet">
-     <link rel="stylesheet" type="text/css" href="<? print $config['url_to_module'] ?>static/pretty-json/css/pretty-json.css" />
+<link rel="stylesheet" type="text/css" href="<? print $config['url_to_module'] ?>static/pretty-json/css/pretty-json.css" />
 
-    <!-- lib -->
-     <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/underscore-min.js" ></script>
-    <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/backbone-min.js" ></script>
-    <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/util.js" ></script>
-        <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/tpl.js" ></script>
+<!-- lib -->
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/underscore-min.js" ></script>
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/backbone-min.js" ></script>
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/util.js" ></script>
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/tpl.js" ></script>
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/node.js" ></script>
+<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/leaf.js" ></script>
 
-    <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/node.js" ></script>
-
-    <script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/leaf.js" ></script>
-
-
- 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -80,28 +76,43 @@ $(document).ready(function () {
 					//	data = serialized; 
 					
 					$(function_target+'_src').html(function_exec+'("'+data+'")');
-					
+					  
 					
 										
 						$.post('<? print api_url(); ?>'+function_exec,data, function(data) {
-						if(data == 'false'){
+							
+							
+							
+							
+							
+							
+						if(data == 'false' || data == false){
+							
 							$(function_target).html(data);
 						} else {
 						
-						 var json = data;
-            
-            var o;
-            try{ o = JSON.parse(json); }
-            catch(e){ 
-                alert('not valid JSON');
-				$(function_target).html(data);
-                return;
-            }
-
+						
+						 var z = typeof(data);
+						 if(z != 'object'){
+						  var json = data;
+							 
+									var o;
+									try{ o = JSON.parse(json); }
+									catch(e){ 
+									 
+										$(function_target).html(data);
+									 
+									}
+						 } else {
+							 var o = data; 
+						 }
+ 
             var node = new PrettyJSON.view.Node({ 
                 el:$(function_target), 
                 data:o
             });
+				
+				node.expandAll();
 						}
 						
 						//  
@@ -114,19 +125,27 @@ $(document).ready(function () {
   </script>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container-fluid"> <a class="brand" href="<? print $config['module_view'] ?>">MW Help</a>
+    <div class="container-fluid"> <a class="brand" href="<? print $config['module_view'] ?>">MW Api</a>
       <div class="nav">
         <form class="navbar-form pull-right">
           <input name="kw" type="text" class="span2" <? if(isset($_GET['kw'])): ?> value="<?  print $_GET['kw'] ?>" <? endif; ?> />
           <button type="submit" class="btn btn-mini">Search</button>
         </form>
-        <? if(isset($_GET['docs_path'])){
+        <?
+		
+		 $helpers_path=$config['path_to_module'].'helpers'.DS;
+
+		
+		
+		 if(isset($_GET['docs_path'])){
 		  $base_path = $_GET['docs_path'];
+		  
 		  if( $base_path == 'all'){
 			  		  session_set('docs_path',false);
 					   $base_path = false;
 
 		  } else {
+			  $base_path = str_replace('..','',$base_path);
 			  		  session_set('docs_path',$_GET['docs_path']);
 
 		  }
@@ -137,8 +156,9 @@ $(document).ready(function () {
 	  ?>
         <ul class="nav pull-left">
           <li <? if($base_path == false): ?> class="active" <? endif; ?> ><a href="<? print $config['module_view'] ?>?docs_path=all">Home</a></li>
-          <li  <? if($base_path == 'php api'): ?> class="active" <? endif; ?> ><a href="?docs_path=php api">PHP Api</a></li>
-          <li  <? if($base_path == 'js api'): ?> class="active" <? endif; ?> ><a href="?docs_path=js api">JS Api</a></li>
+          <li  <? if($base_path == 'core'): ?> class="active" <? endif; ?> ><a href="?docs_path=core">Core Api</a></li>
+          <li  <? if($base_path == 'modules'): ?> class="active" <? endif; ?> ><a href="?docs_path=modules">Modules Api</a></li>
+          <li  <? if($base_path == 'js'): ?> class="active" <? endif; ?> ><a href="?docs_path=js">JS Api</a></li>
         </ul>
       </div>
       <!--/.nav-collapse --> 
@@ -173,7 +193,7 @@ $(document).ready(function () {
       <!--/.well --> 
     </div>
     <!--/span-->
-    <div class="span8">
+    <div class="span9">
       <div id="wrapper">
         <? 
 		 $path = $config['path_to_module'].'docs'.DS;

@@ -478,6 +478,7 @@
   left: 0px;
   position: relative;
   background: #EEEEEE;
+  cursor: move;
 }
 
 
@@ -1254,7 +1255,7 @@ right: 15px;
   font-size:11px;
   color: #777777;
   box-shadow: 0 2px 2px -2px #CCCCCC;
-  background:white url(../img/manage_search.png) no-repeat 7px 3px;
+  background:white url(../img/manage_search.png) no-repeat 7px 3px !important;
   border-radius:2px;
 }
 
@@ -1352,7 +1353,10 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 
-.mw-ui-field{
+.mw-ui-field,
+.mw-module-live-edit-settings input[type='text'],
+.mw-module-live-edit-settings input[type='password'],
+.mw-module-live-edit-settings textarea{
   border: 1px solid #E6E6E6;
   border-top-color: #C6C6C6;
   padding:8px 10px;
@@ -1612,6 +1616,7 @@ textarea.mw-ui-field{
   text-transform: capitalize;
   height: 31px;
   padding: 7px 0 0 7px;
+  margin: 0;
   font-size: 12px;
   min-width: 100%;
   outline: none;
@@ -1642,12 +1647,12 @@ textarea.mw-ui-field{
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}
 
-select.mw-ui-simple-dropdown{
+select.mw-ui-simple-dropdown, .mw-module-live-edit-settings select{
   border: 1px solid #B9B9B9;
   border-radius:2px;
   padding: 4px;
 }
-select.mw-ui-simple-dropdown:focus{
+select.mw-ui-simple-dropdown:focus, .mw-module-live-edit-settings select:focus{
   box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
