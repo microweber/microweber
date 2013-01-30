@@ -116,6 +116,25 @@ $pt_opts['list_tag'] = " ";
               </select></td>
             <td>Is the content homepage</td>
           </tr>
+           <tr>
+            <td>have</td>
+            <td>
+             <? $db_in_table =db_get_tables_list();
+			//d($db_in_table );  ?>
+              <? if(isarr($db_in_table )): ?>
+              <select name="in_table"    class="mw-exec-option"  >
+               <option  selected="selected" value="" >false</option>
+  <? foreach($db_in_table  as $item): ?> 
+  <option  value="<? print $item ?>" ><? print db_get_assoc_table_name($item)  ?></option>
+   <? endforeach ; ?>
+<? endif; ?>
+</select>
+             </td>
+            <td>
+           
+            
+            have</td>
+          </tr>
           <tr>
             <td><a id="get_content_custom_fields_t" href="#messages">Custom fields</a></td>
             <td>      <div   style="display:none" id="get_content_custom_fields" class="mw-exec-custom-fields">

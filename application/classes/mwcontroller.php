@@ -84,7 +84,6 @@ class MwController {
 					$page['content_type'] = db_escape_string($_GET['content_type']);
 				}
 				//d($_GET);
-				
 
 				template_var('new_content_type', $page['content_type']);
 				$page['parent'] = '0';
@@ -197,7 +196,7 @@ class MwController {
 		if ($is_custom_view and $is_custom_view != false) {
 			$content['custom_view'] = $is_custom_view;
 		}
- 
+
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
@@ -235,11 +234,12 @@ class MwController {
 
 				// d($isolated_head);
 				$found_field = false;
-
-				foreach ($pq ['[field=content]'] as $elem) {
-					//d($elem);
-					$isolated_el = $l = pq($elem) -> htmlOuter();
-				}
+				if (isset($_REQUEST['isolate_content_field'])) {
+					foreach ($pq ['[field=content]'] as $elem) {
+						//d($elem);
+						$isolated_el = $l = pq($elem) -> htmlOuter();
+					}
+				}   
 
 				$is_admin = is_admin();
 				if ($is_admin == true) {
@@ -265,12 +265,62 @@ class MwController {
 						//$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
 
 					}
+				} else {
+
+				
+
 				}
 
 			}
 
-			//mw_var('get_module_template_settings_from_options', 1);
 			$l = parse_micrwober_tags($l, $options = false);
+			
+			if (isset($_REQUEST['embed_id'])) {
+					$find_embed_id = trim($_REQUEST['embed_id']);
+$pq = phpQuery::newDocument($l);
+				$isolated_head = pq('head') -> eq(0) -> html();
+
+				foreach ($pq ['#' . $find_embed_id] as $elem) {
+ 
+					$isolated_el = pq($elem) -> htmlOuter();
+				}
+					//$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
+					 	if (isset($isolated_el) and $isolated_el != false) {
+
+						$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
+						//$layout_toolbar = file_get_contents($filename);
+						$layout_toolbar = new MwView($tb);
+						$layout_toolbar = $layout_toolbar -> __toString();
+						if ($layout_toolbar != '') {
+
+							if (strstr($layout_toolbar, '{head}')) {
+								if ($isolated_head != false) {
+									//	d($isolated_head);
+									$layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
+								}
+							}
+
+							if (strpos($layout_toolbar, '{content}')) {
+
+								$l = str_replace('{content}', $isolated_el, $layout_toolbar);
+
+							}
+							//$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+
+						}
+						//$l = parse_micrwober_tags($isolated_el, $options = false);
+						//$l = $isolated_el;
+
+					}
+
+					//$isolated_el = $pq -> find($find_embed_id) ->  eq(0) ->  htmlOuter();
+
+				}
+			
+			
+
+			//mw_var('get_module_template_settings_from_options', 1);
+
 			//	mw_var('get_module_template_settings_from_options', 0);
 
 			$apijs_loaded = site_url('apijs');

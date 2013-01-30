@@ -1404,11 +1404,18 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	}
 
 	if ($is_in_table != false) {
+		$is_in_table = db_escape_string($is_in_table);
+		if (stristr($is_in_table, 'table_') == false and stristr($is_in_table, MW_TABLE_PREFIX) == false) {
+			$is_in_table = 'table_'.$is_in_table;
+		}
 		$v1 = db_get_real_table_name($is_in_table);
+		$check_if_ttid = db_get_table_fields($v1);	
+		 if(in_array('to_table_id', $check_if_ttid) and in_array('to_table', $check_if_ttid)){
 		$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
 		if ($v1 != false) {
 			$where .= " AND id in (select to_table_id from $v1 where $v1.to_table='{$aTable_assoc1}' and $v1.to_table_id=$table.id ) ";
 		}
+		 }
 		// d($where);
 	}
 
@@ -1629,7 +1636,29 @@ function map_array_to_database_table($table, $array) {
 	}
 	return $array_to_return;
 }
-
+function db_get_tables_list(){
+	$db = c('db');
+	 $db   = $db['dbname'];
+	$q = db_query("SHOW TABLES FROM $db", __FUNCTION__,'db');
+	if (isset($q['error'])) {
+		return false;
+	} else {
+		 $ret = array();
+		 if(is_arr($q)){
+		 	foreach ($q as  $value) {
+				 $v = array_values($value);
+				if(isset($v[0]) and is_string($v[0])){
+					if(strstr($v[0], MW_TABLE_PREFIX)){
+				$ret[]=($v[0]);
+					}
+				}
+			 }
+				
+		 	
+		 }
+		return $ret;
+	}
+}
 function db_table_exist($table) {
 	// $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
 	$sql_check = "DESC {$table};";
@@ -1692,6 +1721,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 	}
 
 	$table = db_get_real_table_name($table);
+$table = db_escape_string($table);
 
 	if (DB_IS_SQLITE != false) {
 		$sql = "PRAGMA table_info('{$table}');";

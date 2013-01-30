@@ -173,7 +173,7 @@ $(document).ready(function () {
       <!--/.well --> 
     </div>
     <!--/span-->
-    <div class="span9">
+    <div class="span8">
       <div id="wrapper">
         <? 
 		 $path = $config['path_to_module'].'docs'.DS;
