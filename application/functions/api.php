@@ -7,10 +7,10 @@ function api($function_name, $params = false) {
 			define('MW_API_RAW', true);
 		}
 		$c = new MwController();
-		
+
 	}
 	$res = $c -> api($function_name, $params);
-		return $res;
+	return $res;
 
 }
 
@@ -135,6 +135,30 @@ function event_stream() {
 	exit();
 }
 
+function array_to_module_params($params, $filter = false) {
+	$str = '';
+
+	if (is_array($params)) {
+		foreach ($params as $key => $value) {
+
+			if ($filter == false) {
+				$str .= $key . '="' . $value . '" ';
+			} else if (is_array($filter) and !empty($filter)) {
+				if (in_array($key, $filter)) {
+					$str .= $key . '="' . $value . '" ';
+				}
+			} else {
+				if ($key == $filter) {
+					$str .= $key . '="' . $value . '" ';
+				}
+			}
+
+		}
+	}
+
+	return $str;
+}
+
 function parse_params($params) {
 	$params2 = array();
 	if (is_string($params)) {
@@ -150,6 +174,7 @@ function mw_vars_destroy() {
 	global $mw_var_storage;
 	$mw_var_storage = array();
 }
+
 function mw_var($key, $new_val = false) {
 	global $mw_var_storage;
 	$contstant = ($key);

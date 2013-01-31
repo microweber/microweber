@@ -93,15 +93,18 @@ if(isarr( $diff) and isarr($more) ){
   <? endif; ?>
   <? endif; ?>
   <? foreach( $more as $field): ?>
+
   <? if(isset($params['save_to_content_id'])): ?>
   <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
-    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"> <? print ($field['title']); ?>
+    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><? print ($field['title']); ?>
   </a>
   <? else: ?>
 
   <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
     data-id="<? print $field['id'] ?>"
+    id="custom-field-<? print $field['id'] ?>"
     onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"><? print ($field['title']); ?>
+    <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span>
     <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
   </a>
 
@@ -112,8 +115,8 @@ if(isarr( $diff) and isarr($more) ){
 <? if(!isset($params['save_to_content_id'])): ?>
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags">
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
-    <?php _e("You dont have any custom fields"); ?>
-    .</span> </div>
+    <?php _e("You dont have any custom fields"); ?>.
+    </span> </div>
 </div>
 <? endif; ?>
 <? endif; ?>

@@ -14,7 +14,7 @@ $data = false;
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 
-$data = get_content_by_id($params["data-page-id"]); 
+$data = get_content_by_id($params["data-page-id"]);
 } 
 //d($data );
 
@@ -68,7 +68,7 @@ mw.templatePreview = {
     mw.$('.preview_frame_wrapper').removeClass("loading");
   },
   rend:function(url){
-     var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0" scrolling="no"></iframe>';
+     var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0" scrolling="auto"></iframe>';
     mw.$('.preview_frame_container').html(frame);
   },
   next:function(){
@@ -92,19 +92,19 @@ mw.templatePreview = {
     mw.$("#layout_selector{rand} li").eq(which).addClass('active');
     $(mw.templatePreview.selector).trigger('change');
   },
-  zoom:function(in_or_out){
-    var zoom = in_or_out || 'in';
-    mw.$('.preview_frame_wrapper').toggleClass('zoom');
-    mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
-    if(zoom==='in'){
-      /*var overlay = mw.tools.modal.overlay();
-      overlay.onclick = function(){
-         mw.templatePreview.zoom('out');
-      }  */
+  zoom:function(a){
+    if(typeof a =='undefined'){
+      mw.$('.preview_frame_wrapper').toggleClass('zoom');
+      mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+    }
+    else if(a=='out'){
+      mw.$('.preview_frame_wrapper').removeClass('zoom');
     }
     else{
-      mw.$(".mw_overlay").remove();
+       mw.$('.preview_frame_wrapper').addClass('zoom');
     }
+    mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+
   },
   
   
@@ -201,7 +201,7 @@ mw.templatePreview = {
 
 
 
-		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout
+		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout+'/?content_id=<? print  $data['id'] ?>'
 		
 if(return_url == undefined){
 		$(window).trigger('templateChanged', iframe_url);  

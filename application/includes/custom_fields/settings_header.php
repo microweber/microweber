@@ -64,7 +64,7 @@ if (!isset($data['type'])) {
 }
 
  if ($data['custom_field_name'] == '') {
-    $data['custom_field_name'] =  $field_type;
+    $data['custom_field_name'] =  ucfirst($field_type);
 }
 if (!isset($data['custom_field_required'])) {
     $data['custom_field_required'] = 'n';

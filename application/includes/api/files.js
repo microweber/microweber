@@ -50,10 +50,22 @@ mw.files = {
         var frame = mwd.createElement('iframe');
         frame.className = 'mw-uploader mw-uploader-'+obj.type;
         frame.scrolling = 'no';
+        frame.style.backgroundColor = "transparent";
         frame.setAttribute('frameborder', 0);
+        frame.setAttribute('allowtransparency', 'true');
         var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple;
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
+
+
+
+        frame.style.background = "transparent";
+        frame.setAttribute('frameborder', 0);
+        frame.setAttribute('frameBorder', 0);
+        frame.setAttribute('allowtransparency', 'true');
+        frame.setAttribute('allowTransparency', 'true');
+
+
         return frame;
     }
 }

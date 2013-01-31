@@ -1168,183 +1168,7 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 	return $more;
 }
 
-function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
- 
-	// $id = intval ( $id );
 
-
-	$id = trim($id);
-	$table = db_escape_string($table);
-	$table_assoc_name = false;
-	if ($table != false) {
-		$table_assoc_name = db_get_table_name($table);
-	} else {
-
-		$table_assoc_name = "MW_ANY_TABLE";
-	}
-
-	if ((int)$table_assoc_name == 0) {
-		$table_assoc_name = guess_table_name($table);
-	}
-	$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
-
-	 
-	// ->'table_custom_fields';
-	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-
-	$the_data_with_custom_field__stuff = array();
-
-	if (strval($table_assoc_name) != '') {
- 
-		if ($field_for != false) {
-			$field_for = trim($field_for);
-			$field_for_q = " and  (field_for='{$field_for} OR custom_field_name='{$field_for}')'";
-		} else {
-			$field_for_q = " ";
-		}
-
-		if ($table_assoc_name == 'MW_ANY_TABLE') {
-
-			$qt = '';
-		} else {
-			//$qt = " (to_table='{$table_assoc_name}'  or to_table='{$table_ass}'  ) and";
-
-			$qt = " to_table='{$table_assoc_name}'    and";
-		}
-
-		if ($return_full == true) {
-
-			$select_what = '*';
-		} else {
-			$select_what = '*';
-		}
-
-		if ($field_type == false) {
-
-			$field_type_q = ' ';
-			$field_type_q = ' and custom_field_type!="content"  ';
-		} elseif ($field_type == 'all') {
-
-			$field_type_q = ' ';
-			 
-		} else {
-			$field_type = db_escape_string($field_type);
-			$field_type_q = ' and custom_field_type="' . $field_type . '"  ';
-		}
-
-$sidq= '';
-if ($id == 0) {
-	if(is_admin() != false){
-		//$sid = session_id();
-				//$sidq = ' and session_id="' . $sid . '"  ';
-			} 
-	} else {
-		$sidq= '';
-	}
-
-
-		$q = " SELECT
-		{$select_what} from  $table_custom_field where
-		{$qt}
-		to_table_id='{$id}'
-		$field_for_q
-		$field_type_q
-		$sidq
-		order by position asc
-		   ";
-
-			if ($debug != false) {
-			
-		}
-	 
-		// $crc = crc32 ( $q );
-
-		$crc = (crc32($q));
-
-		$cache_id = __FUNCTION__ . '_' . $crc;
-
-		$q = db_query($q, $cache_id, 'custom_fields/global');
-
-		if (!empty($q)) {
-
-			if ($return_full == true) {
-				$to_ret = array();
-				$i = 1;
-				foreach ($q as $it) {
-
-					// $it ['value'] = $it ['custom_field_value'];
-					$it['value'] = $it['custom_field_value'];
-					if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
-						if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
-							$try = base64_decode($it['custom_field_values']);
-							 
-							if ($try != false and strlen($try) > 5) {
-								$it['custom_field_values'] = unserialize($try);
-							}
-						}
-					}
-
-					//  $it['values'] = $it['custom_field_value'];
-
-					// $it['cssClass'] = $it['custom_field_type'];
-					$it['type'] = $it['custom_field_type'];
-					$it['position'] = $i;
-					//  $it['baseline'] = "undefined";
-
-					$it['title'] = $it['custom_field_name'];
-					$it['required'] = $it['custom_field_required'];
-
-					$to_ret[] = $it;
-					$i++;
-				}
-				return $to_ret;
-			}
-
-			$append_this = array();
-			if (is_array($q) and !empty($q)) {
-				foreach ($q as $q2) {
-
-					$i = 0;
-
-					$the_name = false;
-
-					$the_val = false;
-
-					foreach ($q2 as $cfk => $cfv) {
-
-						if ($cfk == 'custom_field_name') {
-
-							$the_name = $cfv;
-						}
-
-						if ($cfk == 'custom_field_value') {
-
-							$the_val = $cfv;
-						}
-
-						$i++;
-					}
-
-					if ($the_name != false and $the_val != false) {
-						if ($return_full == false) {
-
-							$the_data_with_custom_field__stuff[$the_name] = $the_val;
-						} else {
-
-							$the_data_with_custom_field__stuff[$the_name] = $q2;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	$result = $the_data_with_custom_field__stuff;
-	$result = (array_change_key_case($result, CASE_LOWER));
-	$result = remove_slashes_from_array($result);
-	$result = replace_site_vars_back($result);
-	return $result;
-}
 
 function save_edit($post_data) {
 	$id = is_admin();
@@ -2351,6 +2175,15 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 			return;
 		}
 	}
+	
+	
+	
+	$is_shop = '';
+	if (isset($params['is_shop'])) {
+		$is_shop = db_escape_string($params['is_shop']);
+		$is_shop = " and is_shop='{$is_shop} '";
+		 
+	}
 
 	ob_start();
 
@@ -2367,12 +2200,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	}
 
 	if ($include_first == true) {
-		$sql = "SELECT * from $table where  id=$parent    and content_type='page'  order by created_on desc limit 0,1";
+		$sql = "SELECT * from $table where  id=$parent    and content_type='page' $is_shop order by created_on desc limit 0,1";
 		//
 	} else {
 
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-		$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by created_on desc limit 0,100";
+		$sql = "SELECT * from $table where  parent=$parent    and content_type='page' $is_shop  order by created_on desc limit 0,100";
 	}
 	
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";

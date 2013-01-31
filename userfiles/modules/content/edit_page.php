@@ -4,7 +4,7 @@ if(!isset($edit_post_mode)){
 }   //  $params['content_type'] = 'post';
 
  
-
+       $rand = uniqid();
 
 
 if(isset($params["data-content-id"])){
@@ -21,7 +21,7 @@ if(isset($params["data-content"])){
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
- 
+
 $pid = false;
 $data = false;
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
@@ -64,14 +64,14 @@ $(document).ready(function(){
 	
 
 
-mw.$('#admin_edit_page_form_{rand}').submit(function() {
+mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 
 	 
 
  
 
- mw_before_content_save{rand}();
- mw.form.post(mw.$('#admin_edit_page_form_{rand}') , '<? print site_url('api/save_content') ?>', function(){
+ mw_before_content_save<? print $rand; ?>();
+ mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
                         	<? if(intval($data['id']) == 0): ?>
 
 
@@ -80,7 +80,7 @@ mw.$('#admin_edit_page_form_{rand}').submit(function() {
 							 mw.url.windowHashParam("new_content", 'true');
 							 mw.reload_module('[data-type="pages_menu"]');
   <? else: ?>
- mw_after_content_save{rand}();
+// mw_after_content_save<? print $rand; ?>();
                              <? endif; ?>
 	
 
@@ -97,12 +97,12 @@ mw.$('#admin_edit_page_form_{rand}').submit(function() {
  });
    
 
-    mw.$('#admin_edit_page_form_{rand}  .go-live').click(function() {
+    mw.$('#admin_edit_page_form_<? print $rand; ?>  .go-live').click(function() {
 
 
-mw_before_content_save{rand}()
- var ed_area = $('#iframe_editor_mw-editor{rand}');
-	  	  var ed_area_src = mw.$('#mw-editor{rand}_src');
+mw_before_content_save<? print $rand; ?>()
+ var ed_area = $('#iframe_editor_mw-editor<? print $rand; ?>');
+	  	  var ed_area_src = mw.$('#mw-editor<? print $rand; ?>_src');
 
 	  if(ed_area != undefined && ed_area.length > 0){
 		  
@@ -115,8 +115,9 @@ mw_before_content_save{rand}()
 		   }
 	  }
   
- mw.form.post(mw.$('#admin_edit_page_form_{rand}') , '<? print site_url('api/save_content') ?>', function(){
- mw_after_content_save{rand}(this);
+ mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
+	
+ mw_after_content_save<? print $rand; ?>(this);
 
 
 
@@ -134,16 +135,64 @@ mw_before_content_save{rand}()
 
 
 
-  var el_par_page =$('#parent_page_select_{rand}');
+  var el_par_page =$('#parent_page_select_<? print $rand; ?>');
 	 if(el_par_page.length >0){
-		 __set_content_parent_info{rand}()
+		 __set_content_parent_info<? print $rand; ?>()
 			el_par_page.bind('change', function() {
 				
-				 __set_content_parent_info{rand}()
+				 __set_content_parent_info<? print $rand; ?>()
 				
 			})
-		 
+
 	 }
+
+
+
+  mw.$("#mw-scaleeditor, #mw-main-postpage-editor .mw-close").click(function(){
+
+        var span = $('#mw-scaleeditor span');
+        if(!span.hasClass('no-fullscreen')){
+          mw.$("#mw-main-postpage-editor").removeAttr('style')
+          mw.$("#mw-main-postpage-editor").draggable("enable");
+        }
+        else{mw.$("#mw-main-postpage-editor").draggable("disable");}
+
+        mw.tools.scaleTo('#mw-main-postpage-editor', 950, 600);
+
+        span.toggleClass('no-fullscreen');
+
+
+  });
+
+
+  $(mwd.body).mousedown(function(e){
+    if(!mw.tools.hasParentsWithClass(e.target, 'mw-scaleto')
+        && !$(e.target).hasClass('mw-scaleto')
+        && !mw.tools.hasParentsWithClass(e.target, 'zoom')
+        && !$(e.target).hasClass('zoom')){
+       mw.tools.scaleTo('#mw-main-postpage-editor', 'close');
+       $('#mw-scaleeditor span').removeClass('no-fullscreen');
+       if(mw.$('.preview_frame_wrapper iframe').length>0){
+          mw.templatePreview.zoom('out');
+       }
+
+    }
+  });
+
+  mw.$("#mw-main-postpage-editor").draggable({
+    handle:'#mw-main-postpage-editor-drag-handle',
+    containment:"window",
+    start:function(){
+        $(this).find(".iframe_fix").show();
+    },
+    stop:function(){
+       $(this).find(".iframe_fix").hide();
+    }
+  });
+
+  mw.$("#mw-main-postpage-editor").draggable("disable")
+
+
 
 
 
@@ -152,8 +201,8 @@ mw_before_content_save{rand}()
 
 	  mw.on.hashParam("new_content", function(){
 
-     //alert(' mw_on_save_complete{rand}')
-	 mw_on_save_complete{rand}();
+     //alert(' mw_on_save_complete<? print $rand; ?>')
+	 mw_on_save_complete<? print $rand; ?>();
 	 
 	 
 	
@@ -161,21 +210,21 @@ mw_before_content_save{rand}()
  });
  
  
- function __set_content_parent_info{rand}(){
+ function __set_content_parent_info<? print $rand; ?>(){
 	 
-	 mw.$('#admin_edit_page_form_content_parent_info{rand}').empty();
-	var el =$('#parent_page_select_{rand} option:selected');
+	 mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').empty();
+	var el =$('#parent_page_select_<? print $rand; ?> option:selected');
 	 if(el.length >0){
 		var val = el.val(); 
 		var title = el.attr('title'); 
 		if(title != undefined){
-			 mw.$('#admin_edit_page_form_content_parent_info{rand}').html('<a href="javascript:edit_page_open_page_and_menus{rand}()">Parent: '+ title+'</a>');
+			 mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').html('<a href="javascript:edit_page_open_page_and_menus<? print $rand; ?>()">Parent: '+ title+'</a>');
 		}
 
 	 }
  }
  
- function edit_page_open_page_and_menus{rand}(){
+ function edit_page_open_page_and_menus<? print $rand; ?>(){
 	   mw.$('.ed_page_and_menus_opener_link').addClass('active');
    		mw.$('.page_and_menus_holder').show();
    
@@ -188,31 +237,31 @@ mw_before_content_save{rand}()
 	 
  }
  
- function mw_on_save_complete{rand}(){
+ function mw_on_save_complete<? print $rand; ?>(){
 	//alert(1);
     mw.notification.success("<?php _e('All changes are saved'); ?>.");
  }
 
 
  
- function mw_before_content_save{rand}(){
-	mw.$('#admin_edit_page_form_{rand} .module[data-type="custom_fields"]').empty();
+ function mw_before_content_save<? print $rand; ?>(){
+	mw.$('#admin_edit_page_form_<? print $rand; ?> .module[data-type="custom_fields"]').empty();
  }
  
 
  
 
-		 function mw_after_content_save{rand}($id){
+		 function mw_after_content_save<? print $rand; ?>($id){
 		
 				mw.reload_module('[data-type="pages_menu"]');
 				  <? if($edit_post_mode != false): ?>
 					mw.reload_module('[data-type="posts"]');
 				  <? endif; ?>
 
-			
-			
-				mw.reload_module('#admin_edit_page_form_{rand} .module[data-type="custom_fields"]');
-				if($id != undefined){
+			$id = $id.toString();
+
+				mw.reload_module('#admin_edit_page_form_<? print $rand; ?> .module[data-type="custom_fields"]');
+				if( typeof $id =='string'){
 							$id = $id.replace(/"/g, "");
 					$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
 						   window.top.location.href = data+'/editmode:y';
@@ -223,14 +272,14 @@ mw_before_content_save{rand}()
 			
 
 			
-			mw_on_save_complete{rand}()
+			mw_on_save_complete<? print $rand; ?>()
 			
 
 
 		}
 </script>
 
-<form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_{rand}" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
+<form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $rand; ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <div id="page_title_and_url">
     <div class="mw-ui-field-holder">
@@ -268,7 +317,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
     <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
-    <div class="admin_edit_page_content_parent" id="admin_edit_page_form_content_parent_info{rand}"></div>
+    <div class="admin_edit_page_content_parent" id="admin_edit_page_form_content_parent_info<? print $rand; ?>"></div>
   </div>
   <?
     if(!isset($data['content'])){
@@ -277,14 +326,14 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
   <script>
  
 load_iframe_editor = function(){
-	  var area = mwd.getElementById('mw-editor{rand}');
+	  var area = mwd.getElementById('mw-editor<? print $rand; ?>');
 	  
 	  
-	 var  ifr_ed_url = '<? print content_link($data['id']) ?>';
+	 var  ifr_ed_url = '<? print content_link($data['id']) ?>?';
 	  var  ifr_ed_url_more = '';
 	    <? if($edit_post_mode != false): ?>
 		
-		 var selpage = $('#categorories_selector_for_post_{rand}');
+		 var selpage = $('#categorories_selector_for_post_<? print $rand; ?>');
 		 
  
 		 
@@ -312,7 +361,7 @@ load_iframe_editor = function(){
 		
 			<? endif; ?>	
 	      	
-		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'?isolate_content_field=1&content_id=<? print  $data['id'] ?>&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
+		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
 
 		
 		
@@ -337,15 +386,27 @@ load_iframe_editor = function(){
 
   }
 </script>
-  <div id="mw-editor{rand}" style="height: 310px;width:623px;"></div>
-  <textarea name="content"  style="display:none" id="mw-editor{rand}_src"></textarea>
-  <div class="mw-postaction-bar">
-    <div class="left"> <a href="javascript:;" onclick="mw.tools.fullscreen(mwd.getElementById('iframe_editor_mw-editor{rand}'))">Fullscreen</a> </div>
-    <div class="right">
-      <?php /*     <span class="mw-ui-btn">Preview</span>
-    <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
-      <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span> </div>
-  </div>
+
+<div class="mw-scaleto-holder">
+    <div id="mw-main-postpage-editor">
+      <div id="mw-main-postpage-editor-drag-handle"><span class="mw-close"></span></div>
+      <div id="mw-editor<? print $rand; ?>" style="height: 310px;width:623px;"></div>
+      <textarea name="content"  style="display:none" id="mw-editor<? print $rand; ?>_src"></textarea>
+      <div class="mw-postaction-bar">
+        <div class="left">
+            <a href="javascript:;" id="mw-scaleeditor" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico ifullscreen"></span></a>
+      </div>
+        <div class="right">
+          <?php /*     <span class="mw-ui-btn">Preview</span>
+        <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
+          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span> </div>
+      </div>
+      <div class="iframe_fix"></div>
+
+    </div>
+
+</div>
+
   <? if($edit_post_mode == false): ?>
   <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
   <div class="pictures-editor-holder" style="display: none;">
@@ -389,7 +450,7 @@ $pt_opts['active_ids'] = $data['parent'];
         <?php _e("Parent page"); ?>
       </label>
       <div class="mw-ui-select" style="width: 100%;">
-        <select name="parent" id="parent_page_select_{rand}">
+        <select name="parent" id="parent_page_select_<? print $rand; ?>">
           <option value="0"   <? if((0 == intval($data['parent']))): ?>   selected="selected"  <? endif; ?> title="None">None</option>
           <?
 
@@ -427,7 +488,7 @@ $pt_opts['active_ids'] = $data['parent'];
   </a>
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">
-    <div class="mw-ui-field mw-tag-selector" id="mw-post-added-{rand}">
+    <div class="mw-ui-field mw-tag-selector" id="mw-post-added-<? print $rand; ?>" style="width: 602px;">
       <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." style="width:250px;" />
     </div>
     <script>
@@ -436,9 +497,9 @@ $pt_opts['active_ids'] = $data['parent'];
 
 
           mw.tools.tag({
-            tagholder:'#mw-post-added-{rand}',
+            tagholder:'#mw-post-added-<? print $rand; ?>',
             items: ".mw-ui-check",
-            itemsWrapper: mwd.querySelector('#mw-category-selector-{rand}'),
+            itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand; ?>'),
             method:'parse',
             onTag:function(){
                 load_iframe_editor();
@@ -487,8 +548,8 @@ $pt_opts['active_ids'] = $data['parent'];
  $strz = ' add_ids="'.$x.'" ';   ?>
     <? endif; ?>
     <? $categories_active_ids = ''; ?>
-    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-{rand}">
-      <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_{rand} label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_{rand}'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
+    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand; ?>">
+      <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
       <? if(intval($data['id']) > 0): ?>
       <? $in_cats = get('from=taxonomy_items&fields=parent_id&to_table=table_content&to_table_id='.$data['id']);
 	if(isarr($in_cats)){
@@ -498,20 +559,20 @@ $pt_opts['active_ids'] = $data['parent'];
 	}
 	 //d($categories_active_ids);
 	 ?>
-      <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_{rand}" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
+      <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
       <? else: ?>
       <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
 		 
 		 $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 	 } ?>
-      <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_{rand}" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
+      <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
       <? endif; ?>
     </div>
     <div class="vSpace"></div>
     <script type="text/javascript">
     $(mwd).ready(function(){
 		if(!!mw.treeRenderer){
-             mw.treeRenderer.appendUI('#categorories_selector_for_post_{rand}');
+             mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
 		}
     });
   </script> 
@@ -588,22 +649,29 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_{rand}', this);">
+  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand; ?>', this);">
   <?php _e("Custom Fields"); ?>
   </a>
   <div class="vSpace"></div>
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
-  <div id="custom_fields_for_post_{rand}"  style="display:none;">
+  <div id="custom_fields_for_post_<? print $rand; ?>"  style="display:none;">
     <div class="vSpace"></div>
-    <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_{rand}" content-subtype="<? print $data['subtype'] ?>" />
+
+    <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
+
+
+    <div class="custom_fields_from_parent"  id="custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>" ></div>
+
+
+
     <script  type="text/javascript">
 
 
 $(document).ready(function(){
 
-		  mw_load_post_cutom_fields_from_categories{rand}();
-		  mw.$('#categorories_selector_for_post_{rand} input[type="radio"]').bindMultiple('change', function(e){
-		    mw_load_post_cutom_fields_from_categories{rand}();
+		  mw_load_post_cutom_fields_from_categories<? print $rand; ?>();
+		  mw.$('#categorories_selector_for_post_<? print $rand; ?> input[type="radio"]').bindMultiple('change', function(e){
+		    mw_load_post_cutom_fields_from_categories<? print $rand; ?>();
           });
 
 
@@ -640,9 +708,9 @@ load_iframe_editor();
 	  
 	}*/
 	
-function mw_load_post_cutom_fields_from_categories{rand}(){
- var vals = mw.$('#categorories_selector_for_post_{rand} input[name="parent"]:checked').val();
- var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1{rand}');
+function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
+ var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[name="parent"]:checked').val();
+ var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>');
  if(vals != undefined){
 	 i = 1;
 
@@ -651,7 +719,7 @@ function mw_load_post_cutom_fields_from_categories{rand}(){
 				 holder1.attr('to_table_id',vals);
 
 		
-				 mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1{rand}', function(){
+				 mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>', function(){
 
 				 // holder1.find('[name="to_table_id"]').val('<? print $data['id'] ?>');
 					 });
@@ -667,7 +735,7 @@ function mw_load_post_cutom_fields_from_categories{rand}(){
 	
 }
 </script>
-    <div id="custom_fields_from_categorories_selector_for_post_1{rand}" ></div>
+
   </div>
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>

@@ -544,8 +544,8 @@ function checkout($data) {
 
 			if ($data['payment_gw'] != 'none') {
 
-				$gw_process =  MODULES_DIR.$data['payment_gw'] . '_process.php';
- 
+				$gw_process = MODULES_DIR . $data['payment_gw'] . '_process.php';
+
 				$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
 				$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
 				$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
@@ -616,11 +616,17 @@ function update_cart($data) {
 		session_start();
 	}
 
+	if (isset($data['content_id'])) {
+		$data['for'] = 'table_content';
+		$for_id = $data['for_id'] = $data['content_id'];
+	}
+
 	if (!isset($data['for'])) {
 		$data['for'] = 'table_content';
 	}
 
 	if (!isset($data['for']) or !isset($data['for_id'])) {
+
 		error('Invalid data');
 	}
 
@@ -628,6 +634,7 @@ function update_cart($data) {
 
 	$for = $data['for'];
 	$for_id = intval($data['for_id']);
+
 	$update_qty = 0;
 
 	if ($for_id == 0) {
@@ -655,6 +662,7 @@ function update_cart($data) {
 	$cfs = array();
 	$cfs = get_custom_fields($for, $for_id, 1);
 	if ($cfs == false) {
+
 		error('Invalid data');
 	}
 
@@ -698,12 +706,18 @@ function update_cart($data) {
 				$prices[] = $cf['custom_field_value'];
 			}
 		}
-		 
- 
+
 		if (isarr($prices)) {
 
 			foreach ($prices as $price) {
-				if ($price == $item) {
+
+				if (isset($data['price'])) {
+
+					if ($price == $data['price']) {
+						$found = true;
+						$found_price = $price;
+					}
+				} else if ($price == $item) {
 					$found = true;
 					if ($found_price == false) {
 						$found_price = $item;
@@ -868,8 +882,22 @@ function get_cart($params) {
 
 	}
 
+	$get = get($params);
+	return $get;
+
+	$return = array();
+	if (isarr($get)) {
+		foreach ($get as $item) {
+			if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+
+			}
+			$return[] = $item;
+		}
+		return $return;
+	}
+
 	//  d($params);
-	return get($params);
+
 }
 
 function payment_options($option_key = false) {

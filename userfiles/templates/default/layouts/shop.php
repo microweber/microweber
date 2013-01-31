@@ -27,9 +27,7 @@ description: shop layout
     <div class="row"> 
       <!-------------- Blog post -------------->
       <div class="span8">
-        <div class="edit"  field="sub_content" rel="page">
-          <module type="shop/products" />
-        </div>
+        <module type="shop/products"   />
       </div>
       <!------------ Sidebar -------------->
       <div class="span4">

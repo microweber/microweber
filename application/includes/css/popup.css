@@ -48,6 +48,19 @@ body{
   margin-left: 10px;
 }
 
+body.mw-external-loading:after{
+  display: block;
+  width: 100%;
+  height: 100%;
+  content: '';
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background: white url(../img/img_check_loading.gif) no-repeat center center;
+  opacity:.8;
+}
+
 
 
 

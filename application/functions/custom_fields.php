@@ -1,4 +1,206 @@
 <?
+function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
+	$params = array();
+
+	$table_assoc_name = false;
+	// $id = intval ( $id );
+	if (is_string($table)) {
+
+		$params2 = parse_params($table);
+
+		if (!is_array($params2) or (is_array($params2) and count($params2) < 2)) {
+
+			$id = trim($id);
+			$table = db_escape_string($table);
+
+			if ($table != false) {
+				$table_assoc_name = db_get_table_name($table);
+			} else {
+
+				$table_assoc_name = "MW_ANY_TABLE";
+			}
+
+			if ((int)$table_assoc_name == 0) {
+				$table_assoc_name = guess_table_name($table);
+
+			}
+			if ($table_assoc_name == false) {
+				$table_assoc_name = db_get_assoc_table_name($table_assoc_name);
+
+			}
+		} else {
+			$params = $params2;
+		}
+	}
+
+	if (isset($params['for'])) {
+		$table_assoc_name = db_get_assoc_table_name($params['for']);
+	}
+
+	if (isset($params['for_id'])) {
+		$id = db_escape_string($params['for_id']);
+	}
+
+	if (isset($params['field_type'])) {
+		$field_type = db_escape_string($params['field_type']);
+	}
+
+	// ->'table_custom_fields';
+	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+
+	$the_data_with_custom_field__stuff = array();
+
+	if (strval($table_assoc_name) != '') {
+
+		if ($field_for != false) {
+			$field_for = trim($field_for);
+			$field_for_q = " and  (field_for='{$field_for} OR custom_field_name='{$field_for}')'";
+		} else {
+			$field_for_q = " ";
+		}
+
+		if ($table_assoc_name == 'MW_ANY_TABLE') {
+
+			$qt = '';
+		} else {
+			//$qt = " (to_table='{$table_assoc_name}'  or to_table='{$table_ass}'  ) and";
+
+			$qt = " to_table='{$table_assoc_name}'    and";
+		}
+
+		if ($return_full == true) {
+
+			$select_what = '*';
+		} else {
+			$select_what = '*';
+		}
+
+		if ($field_type == false) {
+
+			$field_type_q = ' ';
+			$field_type_q = ' and custom_field_type!="content"  ';
+		} elseif ($field_type == 'all') {
+
+			$field_type_q = ' ';
+
+		} else {
+			$field_type = db_escape_string($field_type);
+			$field_type_q = ' and custom_field_type="' . $field_type . '"  ';
+		}
+
+		$sidq = '';
+		if ($id == 0) {
+			if (is_admin() != false) {
+				//$sid = session_id();
+				//$sidq = ' and session_id="' . $sid . '"  ';
+			}
+		} else {
+			$sidq = '';
+		}
+
+		$q = " SELECT
+		{$select_what} from  $table_custom_field where
+		{$qt}
+		to_table_id='{$id}'
+		$field_for_q
+		$field_type_q
+		$sidq
+		order by position asc
+		   ";
+
+		if ($debug != false) {
+
+		}
+
+		// $crc = crc32 ( $q );
+
+		$crc = (crc32($q));
+ 
+		$cache_id = __FUNCTION__ . '_' . $crc;
+
+		$q = db_query($q, $cache_id, 'custom_fields/global');
+ 
+		if (!empty($q)) {
+
+			if ($return_full == true) {
+				$to_ret = array();
+				$i = 1;
+				foreach ($q as $it) {
+
+					// $it ['value'] = $it ['custom_field_value'];
+					$it['value'] = $it['custom_field_value'];
+					if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
+						if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
+							$try = base64_decode($it['custom_field_values']);
+
+							if ($try != false and strlen($try) > 5) {
+								$it['custom_field_values'] = unserialize($try);
+							}
+						}
+					}
+
+					//  $it['values'] = $it['custom_field_value'];
+
+					// $it['cssClass'] = $it['custom_field_type'];
+					$it['type'] = $it['custom_field_type'];
+					$it['position'] = $i;
+					//  $it['baseline'] = "undefined";
+
+					$it['title'] = $it['custom_field_name'];
+					$it['required'] = $it['custom_field_required'];
+
+					$to_ret[] = $it;
+					$i++;
+				}
+				return $to_ret;
+			}
+
+			$append_this = array();
+			if (is_array($q) and !empty($q)) {
+				foreach ($q as $q2) {
+
+					$i = 0;
+
+					$the_name = false;
+
+					$the_val = false;
+
+					foreach ($q2 as $cfk => $cfv) {
+
+						if ($cfk == 'custom_field_name') {
+
+							$the_name = $cfv;
+						}
+
+						if ($cfk == 'custom_field_value') {
+
+							$the_val = $cfv;
+						}
+
+						$i++;
+					}
+
+					if ($the_name != false and $the_val != false) {
+						if ($return_full == false) {
+
+							$the_data_with_custom_field__stuff[$the_name] = $the_val;
+						} else {
+
+							$the_data_with_custom_field__stuff[$the_name] = $q2;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	$result = $the_data_with_custom_field__stuff;
+	//$result = (array_change_key_case($result, CASE_LOWER));
+	$result = remove_slashes_from_array($result);
+	$result = replace_site_vars_back($result);
+	//d($result);
+	return $result;
+}
 
 /*document_ready('test_document_ready_api');
 
@@ -185,12 +387,9 @@ function save_custom_field($data) {
 	if (isset($data['options'])) {
 		$data_to_save['options'] = encode_var($data['options']);
 	}
-	
-	
-	
-	
+
 	//  $data_to_save['debug'] = 1;
- 
+
 	$save = save_data($table_custom_field, $data_to_save);
 
 	cache_clean_group('custom_fields');
@@ -352,17 +551,17 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 
 	if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
 		if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
-			
+
 			$try = base64_decode($data['custom_field_values']);
-			 
-		if ($try != false and strlen($try) > 5) {
+
+			if ($try != false and strlen($try) > 5) {
 				$data['custom_field_values'] = unserialize($try);
 			}
 		}
 	}
 	if (isset($data['options']) and $data['options'] != '') {
 		$data['options'] = decode_var($data['options']);
-	//	d($data['options'] );
+		//	d($data['options'] );
 	}
 
 	$dir = INCLUDES_DIR;

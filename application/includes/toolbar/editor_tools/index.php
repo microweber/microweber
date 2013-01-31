@@ -9,7 +9,7 @@
       <script type="text/javascript" src="<?php print INCLUDES_URL; ?>api/editor_externals.js"></script>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css"/>
   </head>
-  <body>
+  <body class="mw-external-loading">
     {content}
   </body>
 </html>

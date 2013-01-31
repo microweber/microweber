@@ -1,6 +1,6 @@
 <?
 
-// d($params);
+ 
  
 //$rand = uniqid();
 if (!isset($params['for'])) {

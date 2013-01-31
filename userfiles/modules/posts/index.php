@@ -191,6 +191,7 @@ if(isset($params['is_shop'])){
 
 $content   = get_content($post_params);
 $data = array();
+
 if (!empty($content)){
 // $data = $content;
 //  if(!empty($show_fields)){
@@ -207,14 +208,24 @@ if (!empty($content)){
 				if(isset( $item['content']) and $item['content'] != ''){
 					$item['description'] = character_limiter(strip_tags( $item['content']),$character_limit);
 				}
-				
-			}
+ 			}
+			
+			
+			
+if($post_params['subtype'] == 'product'){
+$item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);	
+ 
+} else {
+$item['prices'] = false;	
+}
 			
 			
 		 $data[] = $item;
 	 }
 // } 
 }
+
+
  
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
@@ -246,8 +257,8 @@ if($module_template == false and isset($params['template'])){
 
 
 
-
-
+ 
+ 
 if($module_template != false){
 		$template_file = module_templates( $config['module'], $module_template);
 
@@ -261,6 +272,6 @@ if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
 	
-	print 'No default template for posts is found';
+	print 'No default template for '.  $config['module'] .' is found';
 }
 

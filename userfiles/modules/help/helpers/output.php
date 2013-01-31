@@ -11,8 +11,6 @@
   <div class="tab-pane" id="<? print $this_field_name ?>_other">other</div>
 </div>
 <script>
- 
-
   $(function () {
  
 	  $('#<? print $this_field_name ?>_holder a').click(function (e) {

@@ -42,7 +42,7 @@ include('empty_field_vals.php');
 <script>
 var uploader = mw.files.uploader({
     multiple:false,
-    filetypes:'<?php print implode(",",$data['options']['file_types']); ?>'
+    filetypes:'<? if(isarr($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <? endif ?>'
 });
 
 var local_id = '<?php print($rand); ?>';
@@ -62,6 +62,7 @@ $(document).ready(function(){
         mw.$("#upload_progress_"+local_id+" .bar").width(0);
         mw.$("#upload_err"+local_id).hide();
     });
+
 
     $(uploader).bind('error', function(frame, file){
 

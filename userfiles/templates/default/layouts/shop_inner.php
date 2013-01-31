@@ -35,8 +35,8 @@ description: shop layout
               <module type="pictures" data-content-id="<? print POST_ID ?>" template="slider" />
             </div>
             <div class="span3">
-              <module type="custom_fields" data-content-id="<? print POST_ID ?>" class="form-horizontal" id="cart_item"  />
-              <span class="button-border button-radius-50 p1"><a class="button-green button-radius-50" href="javascript:mw.cart.add('#cart_item');">Add to cart</a></span> </div>
+              <module type="shop/cart_add" data-content-id="<? print POST_ID ?>" />
+            </div>
           </div>
         </div>
       </div>

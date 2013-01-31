@@ -92,9 +92,17 @@ $module_id = $for_id;
               table:'<? print $for  ?>',
               id:'<? print $module_id  ?>',
               onCreate:function(){
-                mw.$(".custom-field-edit-title").html(el.textContent);
+                mw.$(".custom-field-edit-title").html('<span class="'+el.querySelector('span').className+'"></span><strong>' + el.textContent + '</strong>');
                 mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
                 mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
+
+                $(mw.tools.firstParentWithClass(el, 'custom_fields_selector')).slideUp('fast');
+
+
+                __save();
+
+
+
               }
             });
        });
@@ -104,31 +112,35 @@ $module_id = $for_id;
 </script>
 
 <div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;"> <span class="ico iAdd"></span> <span>
-  <?php _e("Add New Custom Field"); ?>
+  <?php _e("Add Custom Field"); ?>
   </span> </span>
   <div class="vSpace"></div>
+
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links mw-quick-links-cols-4">
-      <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></li>
-      <li><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></li>
-      <li><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></li>
-      <li><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span>Phone</span></a></li>
-      <li><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span>Web Site</span></a></li>
-      <li><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span>E-mail</span></a></li>
-      <li><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span>Adress</span></a></li>
-      <li><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span>Date</span></a></li>
-      <li><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span>File Upload</span></a></li>
-      <li><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span>Single Choice</span></a></li>
-      <li><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span>Dropdown</span></a></li>
-      <li><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span>Multiple choices</span></a></li>
+
+
+      <li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span>Phone</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span>Web Site</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span>E-mail</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span>Adress</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span>Date</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span>File Upload</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span>Single Choice</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span>Dropdown</span></a></strong></li>
+      <li><strong><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span>Multiple choices</span></a></strong></li>
     </ul>
   </div>
-
-  <module  data-type="custom_fields/list" <? print $hide_preview  ?>
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>
         for="<? print $for  ?>"
         for_module_id="<? print $module_id ?>"
         <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
         id="mw_custom_fields_list_<? print $params['id']; ?>"  />
+
+
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
       <div class="custom-field-edit-title"></div>
@@ -137,4 +149,11 @@ $module_id = $for_id;
       <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?>"></div>
     </div>
   </div>
+
+
+
+
 </div>
+
+
+

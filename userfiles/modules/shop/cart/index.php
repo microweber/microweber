@@ -49,7 +49,7 @@ switch ($template_file):
     <thead>
       <tr>
         <th>Product Name</th>
-        <th>Quantity</th>
+        <th>Qty</th>
         <th>Unit Price</th>
         <th>Total</th>
       </tr>
@@ -59,7 +59,11 @@ switch ($template_file):
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
         <td><? print $item['title'] ?></td>
         <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
-        <td><? print $item['price'] ?></td>
+        <td>
+		
+		 
+		
+		<? print $item['price'] ?></td>
         <td><a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a></td>
       </tr>
       <? endforeach; ?>

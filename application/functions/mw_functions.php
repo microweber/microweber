@@ -45,9 +45,9 @@ if (MW_IS_INSTALLED == true) {
 }
 //	exec_action('mw_db_init_options');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
+include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 

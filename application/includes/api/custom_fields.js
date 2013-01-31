@@ -20,15 +20,20 @@ mw.custom_fields = {
 
     if(!!event){
         var curr = event.target;
+
+        if(mw.tools.hasClass(curr.className, 'mw-ui-btnclose')){
+            return false;
+        }
+
+        var curr = $(curr).hasClass('mw-ui-btn') ? curr : mw.tools.firstParentWithClass(curr, 'mw-ui-btn');
+
         if(mw.tools.hasClass(curr.className, 'ui-sortable-helper')){
           return false;
         }
         if(mw.tools.hasClass(curr.className, 'mw-ui-btn-blue')){
             return false;
         }
-        if(mw.tools.hasClass(curr.className, 'mw-ui-btnclose')){
-            return false;
-        }
+
         else if(mw.tools.hasClass(curr.className, 'mw-ui-btn-small')){
             $(curr.parentNode.querySelectorAll('a')).removeClass('mw-ui-btn-blue');
             $(curr).addClass('mw-ui-btn-blue')
@@ -41,9 +46,11 @@ mw.custom_fields = {
 
       var holder = mw.$("#custom-field-editor");
 
+      $(".custom_fields_selector:visible").slideUp('fast');
+
       holder.show();
       if(!!event){
-        holder.find('.custom-field-edit-title').html(event.target.textContent);
+        holder.find('.custom-field-edit-title').html('<span class="'+curr.querySelector('span').className+'"></span><strong>' + curr.textContent + '</strong>');
       }
 
       mw.$($selector).load(mw.settings.api_html+ 'make_custom_field',data , function(){
@@ -51,7 +58,7 @@ mw.custom_fields = {
       });
 
 
-	  
+
   },
 
 
@@ -60,8 +67,9 @@ mw.custom_fields = {
       if($copy !== undefined && $copy !== false){
         var copy_str = '/copy_from:'+ $copy;
       }
-      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
-		mw.is.func(callback) ? callback.call($type) : '';
+        mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
+
+        mw.is.func(callback) ? callback.call($type) : '';
       });
   },
   create:function(obj){
@@ -191,7 +199,7 @@ mw.custom_fields.save = function(id, callback){
 		if(window.parent != undefined && window.parent.mw != undefined){
 				 window.parent.mw.reload_module('custom_fields');
 			 }
-		
+
 		
     	mw.reload_module('custom_fields/list', function(){
             if(!!callback) callback.call(data);
@@ -244,7 +252,11 @@ __save = function(){
 
 
 
-
+  $(document).ready(function(){
+    $(window).bind('customFieldSaved', function(a,b,c){
+        $("a#custom-field-"+c).addClass('mw-ui-btn-blue');
+    });
+  });
 
 
 

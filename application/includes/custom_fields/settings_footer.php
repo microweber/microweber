@@ -39,7 +39,7 @@
                 __custom_fields_editor_binded = true;
                 mw.$("#custom-field-editor").keyup(function(e){
                   if(e.target.name == 'custom_field_name'){
-                      $(this).find('.custom-field-edit-title').html(e.target.value);
+                      $(this).find('.custom-field-edit-title strong').html(e.target.value);
                   }
                 });
            }

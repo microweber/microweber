@@ -55,6 +55,9 @@
            this_frame = parent.mw.$("iframe[name='"+Name+"']");
 
 
+
+
+
             var uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
                 browse_button : 'pickfiles_<? print $uid  ?>',

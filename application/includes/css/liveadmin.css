@@ -666,24 +666,16 @@ form.add-edit-page-post textarea{
   -webkit-columns: 4 auto;
   -moz-columns: 4 auto;
   -o-columns: 4 auto;
-  -ms-columns: 4 auto;
-
+  padding-right: 10px;
 }
 
 
-
-.mw-quick-links-cols-4 li a {
-  display:inline !important;
-}
-
-.mw-quick-links-cols-4 li a span + span{
-    position: static;
-}
 
 .mw-module-live-edit-settings .mw-quick-links-cols-4{
   columns: 3 auto;
   -webkit-columns: 3 auto;
   -moz-columns: 3 auto;
+  -o-columns: 4 auto;
 }
 
 .mw-quick-links li {
@@ -692,7 +684,7 @@ form.add-edit-page-post textarea{
   padding: 5px 0;
 }
 
-.mw-quick-links li a{
+.mw-quick-links li > a, .mw-quick-links li > strong{
   position: relative;
   list-style: none;
   display: inline-block;
@@ -709,19 +701,24 @@ form.add-edit-page-post textarea{
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-
-
-.mw-quick-links-cols-4 li a{
-  margin-right: 0;
+.mw-quick-links.mw-quick-links-cols-4 li a  {
+    display:inline; /* webkit colums bug */
 }
 
-.custom_fields_selector .mw-quick-links li a{
-  display: block;
+.mw-quick-links.mw-quick-links-cols-4 li > strong{
+    font-weight: normal;  /* webkit colums bug */
+    display:inline-block;  /* webkit colums bug */
+    padding: 0 14px 0 7px;
+    margin-right: 0;
+}
+
+
+.custom_fields_selector .mw-quick-links li > a{
   padding: 0 14px 0 7px;
   overflow: hidden;
 }
 
-.mw-quick-links li a:hover, .mw-quick-links li.active a{
+.mw-quick-links li > a:hover, .mw-quick-links li.active > a, .mw-quick-links li > strong:hover, .mw-quick-links li.active > strong{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
@@ -734,7 +731,7 @@ form.add-edit-page-post textarea{
   background: white;
 }
 
-.mw-quick-links li a:active{
+.mw-quick-links li > a:active, .mw-quick-links li > strong:active{
   box-shadow:inset 0 0 6px #ccc;
 }
 
@@ -783,14 +780,13 @@ form.add-edit-page-post textarea{
 
 .custom_fields_selector{
   width: auto;
-  padding: 5px;
+  padding: 10px 8px;
   margin-top: 12px;
   margin-bottom: 28px;
-  background: #EFEFEF;
-  border: 1px solid #CDCBCB;
-  border-top-color:#EAE6E6;
-  border-bottom-color:#9F9F9F;
-  border-radius:5px;
+  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  border: 1px solid #E6E6E6;
+  border-top-color: #C6C6C6;
+
 }
 .custom_fields_selector:after{
   content: ".";
@@ -932,6 +928,17 @@ div .mw-custom-field-form-controls:last-child{
   text-transform: capitalize;
   display: inline-block;
   padding: 3px 10px;
+}
+.custom-field-edit-title .ico{
+  left: -4px;
+  top: -4px;
+}
+
+.mw-custom-fields-tags .mw-ui-btn-small .ico-phone,
+.mw-custom-fields-tags .mw-ui-btn-small .iPhone,
+.custom-field-edit-title .ico-phone,
+.custom-field-edit-title .iPhone{
+  top: -2px;
 }
 
 
@@ -1253,7 +1260,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 
 
-.del-row{
+.del-row, .mw-close{
   background: url("../img/delete_item.png") no-repeat scroll 0 0 transparent;
   display: block;
   height: 8px;
@@ -1263,7 +1270,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 
 
-.del-row:hover{
+.del-row:hover, .mw-close:hover{
   background-position:0 -16px;
 }
 
@@ -1744,14 +1751,13 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 .preview_frame_small{
   overflow-x:hidden;
-  width:714px;
+  width:950px;
   height: 1000px;
-  zoom: 0.5;
-  -moz-transform: scale(0.5,0.5);
+  -moz-transform: scale(0.376, 0.376);
   -moz-transform-origin: 0 0;
-  -o-transform: scale(0.5,0.5);
+  -o-transform: scale(0.376, 0.376);
   -o-transform-origin: 0 0;
-  -webkit-transform: scale(0.5,0.5);
+  -webkit-transform: scale(0.376, 0.376);
   -webkit-transform-origin: 0 0;
 }
 .preview_frame_wrapper.zoom{

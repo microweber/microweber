@@ -215,7 +215,7 @@ mw.tools = {
 
         }
         return overlay;
-    },
+    }
   },
   alert:function(text){
     var html = ''
@@ -587,7 +587,7 @@ mw.tools = {
       return _has;
   },
   toggle:function(who, toggler, callback){
-    var who = mw.$(who).eq(0);
+    var who = mw.$(who);
     who.toggle();
     who.toggleClass('toggle-active');
     $(toggler).toggleClass('toggler-active');
@@ -797,6 +797,12 @@ mw.tools = {
         span_holder.className = 'mw-ui-btn mw-ui-btn-small';
         span_holder.id = 'id-'+el.value;
         span_holder.innerHTML = el.parentNode.textContent;
+        span_holder.onclick = function(e){
+            if(e.target.className != 'mw-ui-btnclose'){
+                mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
+            }
+        }
+
 
         span_x.className = 'mw-ui-btnclose';
         span_x.onclick = function(){
@@ -953,6 +959,25 @@ mw.tools = {
         if(obj.hasOwnProperty(a)) return false;
      }
      return true;
+  },
+  scaleTo:function(selector, w, h){
+    var w = w || 800;
+    var h = h || 600;
+    var item = mw.$(selector);
+    if(item.hasClass('mw-scaleto') || w == 'close'){
+       item.removeClass('mw-scaleto');
+       item.removeAttr('style');
+    }
+    else{
+       item.parent().height(item.height());
+        item.addClass('mw-scaleto');
+        item.css({
+          width:w,
+          height:h,
+          marginLeft:-w/2,
+          marginTop:-h/2
+        });
+    }
   }
 }
 

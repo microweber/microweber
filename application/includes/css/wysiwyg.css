@@ -317,7 +317,6 @@ margin-right: 6px;
 }
 
 .mw-admin-editor .mw-admin-editor-area{
-  resize:vertical;
   height: 260px;
   overflow: hidden;
   overflow-y:auto;

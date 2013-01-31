@@ -75,10 +75,13 @@ li p {
 }
 .table-wrap th{
   font-size:13px;
+   padding:2px;
+  margin:2px;
 }
 .table-wrap td{
   font-size:12px;
   padding:2px;
+  margin:2px;
 }
 
  
@@ -88,4 +91,5 @@ li p {
    height:23px;
    line-height:16px;
    padding:2px;
+   
 }

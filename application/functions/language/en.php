@@ -456,3 +456,4 @@ $language["from"]= 'From' ;
 $language["you-dont-have-any-custom-fields"]= 'You dont have any custom fields' ; 
 $language["define-title"]= 'Define Title' ; 
 $language["text"]= 'Text' ; 
+$language["add-custom-field"]= 'Add Custom Field' ; 
