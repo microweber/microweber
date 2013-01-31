@@ -12,7 +12,7 @@ description: Prices layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit" field="content" rel="page">
   <div class="row">
@@ -73,4 +73,4 @@ description: Prices layout
     </div>
   </div>
 </div>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

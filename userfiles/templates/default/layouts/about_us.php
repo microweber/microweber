@@ -12,8 +12,8 @@ description: About us layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
-
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+ 
 <section id="content">
   <div class="container edit"  field="content" rel="page"> 
     <!-- Icons -->
@@ -100,4 +100,4 @@ description: About us layout
     </div>
   </div>
 </section>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

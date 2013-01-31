@@ -354,7 +354,10 @@ $pq = phpQuery::newDocument($l);
 			}
 
 			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+						$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
+			
 			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+			$l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
 
 			// d(TEMPLATE_URL);
 

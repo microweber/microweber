@@ -33,7 +33,7 @@
                 <select id = "responsive-main-nav-menu" onchange = "javascript:window.location.replace(this.value);">
                 </select>
                 <div id="main-nav-menu" class="nav-collapse nav-collapse_ collapse">
-                <module type="nav" name="header_menu" id="main_nav" ul_class="nav sf-menu" li_class="sub-menu" />
+                  <module type="nav" name="header_menu" id="main_nav" ul_class="nav sf-menu" li_class="sub-menu" />
                   <!--<ul class="nav sf-menu">
                     <li class="active sub-menu"><a href="index.html"><span>Home <em> welcome page</em></span></a><em></em>
                       <ul>
@@ -87,7 +87,7 @@
                       </ul>
                     </li>
                     <li><a href="contact.html"><span>Contact us <em> stay in touch</em></span></a><em></em></li>
-                  </ul>-->
+                  </ul>--> 
                 </div>
               </div>
             </div>

@@ -12,7 +12,7 @@ description: fluid layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="edit container-fluid" field="content" rel="page">
       <div class="mw-row row-fluid">
@@ -88,4 +88,4 @@ description: fluid layout
       </footer>
 
     </div>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

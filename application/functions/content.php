@@ -312,10 +312,74 @@ function define_constants($content = false) {
  
 	$the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . DS);
 
+if (defined('DEFAULT_TEMPLATE_DIR') == false) {
+
+		define('DEFAULT_TEMPLATE_DIR', TEMPLATEFILES.'default'.DS);
+	}
+
+
+		if (trim($the_active_site_template) != 'default') {
+							if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
+										$use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
+										if (is_file($use_default_layouts)) {
+											//$render_file = ($use_default_layouts);
+															$template_view = DEFAULT_TEMPLATE_DIR .  $page['layout_file'];
+														if (is_file($template_view) == true) {
+															
+															if (defined('THIS_TEMPLATE_DIR') == false) {
+ 
+		define('THIS_TEMPLATE_DIR', TEMPLATEFILES.$the_active_site_template.DS );
+		
+	}
+															if (defined('THIS_TEMPLATE_URL') == false) {
+$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+	 
+	$the_template_url = $the_template_url . '/';
+	if (defined('THIS_TEMPLATE_URL') == false) {
+		define("THIS_TEMPLATE_URL", $the_template_url);
+	}
+ 	}
+															 $the_active_site_template = 'default';
+																		 $the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
+
+														//	d($the_active_site_template_dir);
+			} 
+											
+											 
+										}
+									}
+		
+			}
+
+
+
+
+
+
 	if (defined('ACTIVE_TEMPLATE_DIR') == false) {
 
 		define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
 	}
+
+if (defined('THIS_TEMPLATE_DIR') == false) {
+
+		define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
+	}
+
+
+
+
+if (defined('THIS_TEMPLATE_URL') == false) {
+$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+	 
+	$the_template_url = $the_template_url . '/';
+	if (defined('THIS_TEMPLATE_URL') == false) {
+		define("THIS_TEMPLATE_URL", $the_template_url);
+	}
+ 	}
+
+
+
 
 	if (defined('TEMPLATE_DIR') == false) {
 
@@ -338,6 +402,10 @@ function define_constants($content = false) {
 	if (defined('TEMPLATE_URL') == false) {
 		define("TEMPLATE_URL", $the_template_url);
 	}
+	
+	
+	
+	
 
 	if (defined('LAYOUTS_DIR') == false) {
 
@@ -393,8 +461,23 @@ function get_layout_for_page($page = array()) {
 			$render_file = $page['simply_a_file'];
 		}
 	}
+	
+	if (isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
+ 
+			$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'].DS.'use_default_layouts.php';
+			  //d( $use_default_layouts);
+			if (is_file($use_default_layouts)) {
+				 $page['active_site_template']  = 'default';
+			}
+		 
+
+	}
+	
 
 	if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
+		
+		
+	
 
 		if ($look_for_post != false) {
 			$f1 = $page['layout_file'];
@@ -411,13 +494,22 @@ function get_layout_for_page($page = array()) {
 				
 				$template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
 			}
+			
+		
+			
 //.
 
-//d($template_view);
+ 
 			if (is_file($template_view) == true) {
 				
 				$render_file = $template_view;
 			} else {
+				
+				
+				
+				
+				
+				
 				$dn = dirname($template_view);
 				$dn1 = $dn . DS;
 				$f1 = $dn1 . 'inner.php';
@@ -441,6 +533,9 @@ function get_layout_for_page($page = array()) {
 						}
 					}
 				}
+				
+				
+				
 			}
 		}
 
@@ -453,6 +548,22 @@ function get_layout_for_page($page = array()) {
 
 			if (is_file($template_view) == true) {
 				$render_file = $template_view;
+			} else {
+					
+					
+					if (trim($page['active_site_template']) != 'default') {
+			$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] .DS  . 'use_default_layouts.php';
+							 
+						
+			if (is_file($use_default_layouts)) {
+			 $page['active_site_template'] = 'default';
+			 
+			}
+		 
+
+	}
+					 
+				
 			}
 		}
 

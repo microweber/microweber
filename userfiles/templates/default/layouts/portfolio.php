@@ -12,7 +12,7 @@ description: Portfolio layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">
   <div class="container"> 
@@ -44,4 +44,4 @@ description: Portfolio layout
     </div>
   </div>
 </section>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

@@ -12,7 +12,7 @@ description: shop layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">
   <div class="container">
@@ -43,9 +43,9 @@ description: shop layout
       
       <!------------ Sidebar -------------->
       <div class="span3">
-        <? include_once TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; ?>
+        <? include_once ACTIVE_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; ?>
       </div>
     </div>
   </div>
 </section>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

@@ -103,6 +103,15 @@ function layouts_list($options = false) {
 	} else {
 		$path = $options['path'];
 	}
+	if (trim($the_active_site_template) != 'default') {
+		if (!isset($path) or $path == false or (!strstr($path, DEFAULT_TEMPLATE_DIR))) {
+			$use_default_layouts = $path . 'use_default_layouts.php';
+			if (is_file($use_default_layouts)) {
+				$path = DEFAULT_TEMPLATE_DIR;
+			}
+		}
+
+	}
 
 	if (!isset($options['no_cache'])) {
 		$args = func_get_args();
@@ -134,11 +143,11 @@ function layouts_list($options = false) {
 		foreach ($dir as $filename) {
 			$skip = false;
 			if (!isset($options['for_modules'])) {
-				if (strstr($filename, 'modules'.DS)) {
+				if (strstr($filename, 'modules' . DS)) {
 					$skip = true;
 				}
 			} else {
-				if (!strstr($filename, 'modules'.DS)) {
+				if (!strstr($filename, 'modules' . DS)) {
 					$skip = true;
 				}
 			}

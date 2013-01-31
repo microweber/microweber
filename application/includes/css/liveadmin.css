@@ -68,10 +68,21 @@ body.cross{
 }
 
 
+.admin-main-wrapper a{
+  
+  text-decoration: none  !important;
+  outline: none  !important;
+    font: 12px Verdana,Arial,Helvetica,sans-serif  !important;
+
+}
+
+.admin-main-wrapper {
+  font: 12px Verdana,Arial,Helvetica,sans-serif;
+  color: #212121;
+}
 
 
-
-body, textarea, input{
+/*body, textarea, input{
   font: 12px Verdana,Arial,Helvetica,sans-serif;
   color: #212121;
 }
@@ -83,7 +94,7 @@ a{
   color: #212121;
   text-decoration: none;
   outline: none;
-}
+}*/
 
 body:-webkit-full-screen {
     width: 100%;

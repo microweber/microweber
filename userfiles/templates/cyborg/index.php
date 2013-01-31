@@ -11,7 +11,7 @@ description: Home layout
 */
 
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">
   <div class="container edit"  field="content" rel="page"> 
@@ -214,4 +214,4 @@ description: Home layout
 
 <!-- /#main-content -->
 
-<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include TEMPLATE_DIR. "footer.php"; ?>

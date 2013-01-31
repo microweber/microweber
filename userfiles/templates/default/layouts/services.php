@@ -12,7 +12,7 @@ description: Services layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">
   <div class="container edit"  field="content" rel="page"> 
@@ -260,4 +260,4 @@ description: Services layout
     </div>
   </div>
 </section>
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
