@@ -30,7 +30,7 @@ mw.options = {
 				mw.extend(el);
 				
 				
-			
+			  var also_reload = el.attr('data-also-reload');
  
                 var refresh_modules11 = el.attr('data-refresh');
 				if(refresh_modules11 == undefined){
@@ -114,6 +114,17 @@ if(refresh_modules11 == undefined){
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
                     success: function (data) {
+						if(also_reload != undefined){
+							if (window.mw != undefined) {
+                                if (window.mw.reload_module !== undefined) {
+                                    
+									window.mw.reload_module(also_reload);
+                                }
+                            }
+							
+						}
+						
+						
 
 						 if (for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()

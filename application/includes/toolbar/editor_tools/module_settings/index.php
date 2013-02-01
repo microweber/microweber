@@ -14,13 +14,14 @@
 		  mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
 
-         
+
 
           
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
                     <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
+                    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
 
 
 		   <script type="text/javascript">
@@ -71,6 +72,10 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
                     var refresh_modules11 = '#'+refresh_modules11;
 				}
 
+
+
+			  var also_reload =  $(this).attr('data-also-reload');
+
 			 
 
 				var og = '<? print $params['id'] ?>';
@@ -113,6 +118,13 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
                             refresh_modules11 = refresh_modules11.toString()
  
                          
+						 
+						 if(also_reload != undefined){
+							 if (window.mw.reload_module != undefined) {
+                                    window.mw.reload_module(also_reload);
+							 
+                                }
+						 }
 							
 							 if (window.parent.mw != undefined) {
 								  if (window.parent.mw.reload_module != undefined) {

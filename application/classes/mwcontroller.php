@@ -201,7 +201,6 @@ class MwController {
 
 		//$page_data = get_content_by_id(PAGE_ID);
 
-		//d($page_data);
 		$render_file = get_layout_for_page($content);
 
 		if ($render_file) {
@@ -227,6 +226,7 @@ class MwController {
 
 			if (isset($_REQUEST['isolate_content_field'])) {
 				//d($_REQUEST);
+				
 				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 				$pq = phpQuery::newDocument($l);
 
@@ -239,7 +239,7 @@ class MwController {
 						//d($elem);
 						$isolated_el = $l = pq($elem) -> htmlOuter();
 					}
-				}   
+				}
 
 				$is_admin = is_admin();
 				if ($is_admin == true) {
@@ -267,57 +267,53 @@ class MwController {
 					}
 				} else {
 
-				
-
 				}
 
 			}
 
 			$l = parse_micrwober_tags($l, $options = false);
-			
+
 			if (isset($_REQUEST['embed_id'])) {
-					$find_embed_id = trim($_REQUEST['embed_id']);
-$pq = phpQuery::newDocument($l);
+				$find_embed_id = trim($_REQUEST['embed_id']);
+				$pq = phpQuery::newDocument($l);
 				$isolated_head = pq('head') -> eq(0) -> html();
 
 				foreach ($pq ['#' . $find_embed_id] as $elem) {
- 
+
 					$isolated_el = pq($elem) -> htmlOuter();
 				}
-					//$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
-					 	if (isset($isolated_el) and $isolated_el != false) {
+				//$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
+				if (isset($isolated_el) and $isolated_el != false) {
 
-						$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
-						//$layout_toolbar = file_get_contents($filename);
-						$layout_toolbar = new MwView($tb);
-						$layout_toolbar = $layout_toolbar -> __toString();
-						if ($layout_toolbar != '') {
+					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
+					//$layout_toolbar = file_get_contents($filename);
+					$layout_toolbar = new MwView($tb);
+					$layout_toolbar = $layout_toolbar -> __toString();
+					if ($layout_toolbar != '') {
 
-							if (strstr($layout_toolbar, '{head}')) {
-								if ($isolated_head != false) {
-									//	d($isolated_head);
-									$layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
-								}
+						if (strstr($layout_toolbar, '{head}')) {
+							if ($isolated_head != false) {
+								//	d($isolated_head);
+								$layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
 							}
+						}
 
-							if (strpos($layout_toolbar, '{content}')) {
+						if (strpos($layout_toolbar, '{content}')) {
 
-								$l = str_replace('{content}', $isolated_el, $layout_toolbar);
-
-							}
-							//$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+							$l = str_replace('{content}', $isolated_el, $layout_toolbar);
 
 						}
-						//$l = parse_micrwober_tags($isolated_el, $options = false);
-						//$l = $isolated_el;
+						//$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
 
 					}
-
-					//$isolated_el = $pq -> find($find_embed_id) ->  eq(0) ->  htmlOuter();
+					//$l = parse_micrwober_tags($isolated_el, $options = false);
+					//$l = $isolated_el;
 
 				}
-			
-			
+
+				//$isolated_el = $pq -> find($find_embed_id) ->  eq(0) ->  htmlOuter();
+
+			}
 
 			//mw_var('get_module_template_settings_from_options', 1);
 
@@ -354,8 +350,8 @@ $pq = phpQuery::newDocument($l);
 			}
 
 			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-						$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
-			
+			$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
+
 			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 			$l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
 
@@ -561,7 +557,7 @@ $pq = phpQuery::newDocument($l);
 
 					if (!defined('MW_API_HTML_OUTPUT')) {
 						header('Content-Type: application/json');
-						
+
 						print json_encode($res);
 					} else {
 
@@ -638,7 +634,7 @@ $pq = phpQuery::newDocument($l);
 
 								if (!defined('MW_API_HTML_OUTPUT')) {
 									header('Content-Type: application/json');
-									
+
 									print json_encode($res);
 								} else {
 
@@ -735,7 +731,7 @@ $pq = phpQuery::newDocument($l);
 
 			if (!defined('MW_API_HTML_OUTPUT')) {
 				header('Content-Type: application/json');
-				
+
 				print json_encode($res);
 			} else {
 
@@ -802,6 +798,7 @@ $pq = phpQuery::newDocument($l);
 		}
 
 		if (isset($_SERVER["HTTP_REFERER"])) {
+			 
 			$url = $_SERVER["HTTP_REFERER"];
 			$url = explode('?', $url);
 			$url = $url[0];
@@ -813,6 +810,7 @@ $pq = phpQuery::newDocument($l);
 			} else {
 
 				$page = get_content_by_url($url);
+				 
 			}
 		} else {
 			$url = url_string();
@@ -1081,6 +1079,7 @@ $pq = phpQuery::newDocument($l);
 
 		$res = execute_document_ready($res);
 		if (!defined('MW_NO_OUTPUT')) {
+			$res = replace_site_vars_back($res);
 			print $res;
 		}
 

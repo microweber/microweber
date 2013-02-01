@@ -1,5 +1,5 @@
-<div id="mwpreloader">&nbsp;</div>
-<div id="design_bnav" class="toolbar_bnav" style="width: 160px;">
+
+<div id="design_bnav" class="mw-defaults toolbar_bnav" style="width: 160px;">
   <div id="design_bnav_handle"></div>
   <ul class="ts_main_ul">
     <li class="ts_main_li mw-designtype-universal"> <a class="ts_main_a dd_design_size" href="javascript:;">Size</a>

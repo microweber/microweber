@@ -1,3 +1,49 @@
+
+United States
+Business Name: 	  	None
+Credit Card: 	  	Visa   4887380643164367
+Exp Date:  11/2017
+Bank Account: 	  	Checking (Confirmed)
+Routing Number: 325272063
+Bank Account Number: 076792569968188
+Balance: 	  	8000.00 USD
+Email: 	  	Confirmed
+Phone Number: 	  	4089838274
+First Name: 	  	P
+Last Name: 	  	I
+Notes: 	  	
+
+
+
+
+Test Account		Date Created
+Test Account:		boksio_1352898155_biz@gmail.com 	Nov 14, 2012 05:03:45 PST
+API Username: 	boksio_1352898155_biz_api1.gmail.com	
+API Password: 	1352898225	
+Signature: 	A3gEt3WXnVKeHHoeh0uLGXFuaRVvAxtzdKdF0t46v02YJBxqmFALdIHJ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 apigen --source ~/nella/Nella --source ~/doctrine2/lib/Doctrine --source ~/doctrine2/lib/vendor --source ~/nette/Nette --skip-doc-path "~/doctrine2/*" --skip-doc-prefix Nette --exclude "*/tests/*" --destination ~/docs/ --title "Nella Framework"
 
 

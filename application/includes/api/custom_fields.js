@@ -198,6 +198,7 @@ mw.custom_fields.save = function(id, callback){
 
 		if(window.parent != undefined && window.parent.mw != undefined){
 				 window.parent.mw.reload_module('custom_fields');
+				 
 			 }
 
 		

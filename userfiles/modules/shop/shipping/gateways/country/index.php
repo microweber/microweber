@@ -32,29 +32,30 @@ mw.$('#{rand}').change(function() {
 }); 
 
 
- 
+
 </script>
 
-<div class="<? print $config['module_class'] ?>" id="{rand}"> Choose country:
+<div class="<? print $config['module_class'] ?>" id="{rand}">
+
+
+    <label><?php _e("Choose country:"); ?></label>
   <select name="country" class="mw-ui-simple-dropdown">
     <? foreach($data  as $item): ?>
     <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
     <? endforeach ; ?>
   </select>
-  <br />
-  city
+
+  <label><?php _e("City"); ?></label>
   <input name="city"  type="text" value="" />
-  <br />
-  state
+
+  <label><?php _e("State"); ?></label>
   <input name="state"  type="text" value="" />
-  <br />
-  zip
+
+  <label><?php _e("Zip/Postal Code"); ?></label>
   <input name="zip"  type="text" value="" />
-  <br />
-  address
+  <label><?php _e("Address"); ?></label>
   <input name="address"  type="text" value="" />
-  <br />
-  phone
-  <input name="phone"  type="text" value="" />
-  <br />
+
+
+
 </div>

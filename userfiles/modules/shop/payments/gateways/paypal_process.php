@@ -169,6 +169,8 @@ foreach ($place_order as $k => $value) {
 $myPaypal->enableTestMode();
 
 // Let's start the train!
-$myPaypal->submitPayment();
+$result = $myPaypal->submitPayment();
+
+
 
 

@@ -229,8 +229,7 @@ mw.on.hashParam('installed', function(){
 
       </div>
       <div class="vSpace"></div>
-
-    <div id="pages_edit_container" > </div>
+ 
     <div id="modules_admin_{rand}" ></div>
   </div>
 </div>

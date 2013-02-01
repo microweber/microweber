@@ -18,7 +18,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
 //$shipping_modules = get_modules_from_db('debug=1&ui=any&module=shop\shipping\gateways\*');
  // d($shipping_modules);
- 
+
 // d($shipping_modules);
 ?>
 <div class="mw-set-shipping-options mw-admin-wrap">
@@ -32,10 +32,10 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
         <span class="ico itruck"></span><span><? print $shipping_module['name'] ?></span>
 
 
-        <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable right <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?>mw-switcher-off<?php endif; ?>">
+        <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable right <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?>mw-switcher-off<?php else: ?>mw-switcher-on<?php endif; ?>">
           <span class="mw-switch-handle"></span>
-          <label>Enabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="y" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') == 'y'): ?> checked="checked" <? endif; ?> /></label>
-          <label>Disabled<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="n" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> checked="checked" <? endif; ?> /></label>
+          <label>Yes<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="y" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') == 'y'): ?> checked="checked" <? endif; ?> /></label>
+          <label>No<input name="shipping_gw_<? print $shipping_module['module'] ?>" class="mw_option_field" data-option-group="shipping" value="n" type="radio" <? if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> checked="checked" <? endif; ?> /></label>
       </div>
       <label class="mw-ui-label right" style="margin-right: 12px;">Enabled: </label>
 

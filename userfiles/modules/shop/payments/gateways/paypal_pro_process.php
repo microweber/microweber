@@ -17,14 +17,30 @@ $cvv2Number = urlencode(trim($_POST['cc_verification_value']));
 
 
 
-
-
+$address1 = '';
+if(isset($_POST['address'])){
 $address1 = urlencode($_POST['address']);
+}
 $address2 = '';
-$city = urlencode($_POST['city']);
-$state =urlencode( $_POST['state']);
-$zip = urlencode($_POST['zip']);
 
+
+$city = '';
+if(isset($_POST['city'])){
+$city = urlencode($_POST['city']);
+}
+
+
+$state = '';
+if(isset($_POST['state'])){
+$state = urlencode($_POST['state']);
+}
+
+
+$zip = '';
+if(isset($_POST['zip'])){
+$zip = urlencode($_POST['zip']);
+}
+ 
 $amount = ($place_order['amount']);
 if(isset($place_order['shipping']) and intval($place_order['shipping']) > 0){
 	$amount = $amount+floatval($place_order['shipping']);
@@ -84,4 +100,5 @@ $place_order['curency'] = $currencyCode;
  
 
 }
-print json_encode($res);
+$result = $res;
+//print json_encode($res);

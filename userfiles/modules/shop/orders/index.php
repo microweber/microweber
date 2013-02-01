@@ -1,5 +1,10 @@
 <?
 
+if(is_admin() == false){
+return;	
+}
+
+
 $ord = '';
  
 
@@ -70,7 +75,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>
         <td class="mw-order-item-country"><? print $item['country'] ?></td>
-        <td class="mw-order-item-edit"><span class="mw-ui-admin-table-show-on-hover del-row"></span>
+        <td class="mw-order-item-edit"><span class="mw-ui-admin-table-show-on-hover del-row" onclick="mw_delete_shop_order('<? print ($item['id']) ?>');"></span>
           <div class="mw_clear"></div>
           <center>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#vieworder=<? print ($item['id']) ?>">

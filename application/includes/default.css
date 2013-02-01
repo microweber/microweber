@@ -158,6 +158,20 @@ body.mw-preview{
   transition: none !important;
 }
 
+
+.left{
+  float: left !important;
+}
+
+.right{
+  float: right !important;
+}
+
+
+.clear{
+  clear: both;
+}
+
 .relative{
   position: relative;
 }

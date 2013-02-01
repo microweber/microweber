@@ -1338,6 +1338,17 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[mt]', '', $v);
 			}
+			
+			if (stristr($v, '[neq]')) {
+				$compare_sign = '!=';
+				$v = str_replace('[neq]', '', $v);
+			}
+			
+			if (stristr($v, '[eq]')) {
+				$compare_sign = '=';
+				$v = str_replace('[eq]', '', $v);
+			}
+			
 
 			if (stristr($v, '[int]')) {
 

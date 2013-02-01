@@ -27,7 +27,9 @@ if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
      
    
     <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
-    <strong>Display posts from</strong>
+    <label class="mw-ui-label">Display posts from</label>
+
+    <div class="mw-ui-select" style="width: 100%;">
     <select name="data-page-id" id="the_post_data-page-id{rand}"  class="mw_option_field"  >
       <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
       <?
@@ -45,6 +47,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
   ?>
     </select>
+
+     </div>
     <?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);
@@ -57,33 +61,44 @@ $show_fields = array();
 
 //d($show_fields);
  ?>
-    <script>
-    $(function() {
-        $( "#post_fields_sort_{rand}" ).sortable({
-		
-		containment: "parent",
-		stop: function( event, ui ){
-		
-		 $( "#post_fields_sort_{rand} name['data-show']:first" ).trigger('change');
-			
-		}
-		}
-);
-        
-    });
-    </script> 
 
-    <strong>Show fields</strong>
-    <ul id="post_fields_sort_{rand}">
+    <style type="text/css">
+
+    .fields-controlls li{
+      list-style: none;
+      clear: both;
+      min-height: 45px;
+    }
+
+    .mw-ui-label-horizontal{
+      display: inline-block;
+      float: left;
+      text-align: right;
+      padding-right: 10px;
+      margin-top: 5px;
+    }
+
+    .mw-ui-check input + span{
+      top: 5px;
+    }
+
+    </style>
+     <div class="vSpace"></div>
+    <label class="mw-ui-label">Display on posts:  </label>
+    <ul id="post_fields_sort_{rand}" class="fields-controlls">
       <li>
-        <label class="mw-ui-check">
+        <label class="mw-ui-check left">
           <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />
           <span></span>
           <span>Thumbnail</span>
         </label>
-        <label class="mw-ui-label">Size</label>
-        <input name="data-thumbnail-size" class="mw_option_field"   type="text"    value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
-        <small>ex: 250x200</small> </li>
+        <div class="right">
+          <label class="mw-ui-label-horizontal">Size</label>
+          <input name="data-thumbnail-size" class="mw_option_field"   type="text" style="width:65px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
+
+        </div>
+        </li>
+
       <li>
         <label class="mw-ui-check">
           <input type="checkbox" name="data-show" value="title" class="mw_option_field" <? if(in_array('title',$show_fields)): ?>   checked="checked"  <? endif; ?> />
@@ -95,9 +110,10 @@ $show_fields = array();
           <input type="checkbox" name="data-show" value="description" class="mw_option_field" <? if(in_array('description',$show_fields)): ?>   checked="checked"  <? endif; ?> />
           <span></span>
           <span>Description</span></label>
-          
-          <input name="data-character-limit" class="mw_option_field"   type="text"    value="<?php print get_option('data-character-limit', $params['id']) ?>" />
-        <small>ex: 80</small>
+          <div class="right">
+          <label class="mw-ui-label-horizontal">Length</label>
+          <input name="data-character-limit" class="mw_option_field"   type="text" placeholder="80" style="width:65px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
+          </div>
         
         
       </li>
@@ -105,13 +121,13 @@ $show_fields = array();
            
       <? if($is_shop): ?>
            <li>
-       
+
         <label class="mw-ui-check">
           <input type="checkbox" name="data-show" value="price" class="mw_option_field" <? if(in_array('price',$show_fields)): ?>   checked="checked"  <? endif; ?> />
           <span></span>
-          <span>Show price</span></label>
+          <span>Show price</span></label></li>
        <li>
-       
+
        
        
         <label class="mw-ui-check">
@@ -123,16 +139,19 @@ $show_fields = array();
       
       
       <? endif; ?>
-      
+
       
       
       <li>
         <label class="mw-ui-check">
           <input type="checkbox" name="data-show" value="read_more" class="mw_option_field"  <? if(in_array('read_more',$show_fields)): ?>   checked="checked"  <? endif; ?> />
           <span></span>
-          <span>Link</span></label>
-        <input name="data-read-more-text" class="mw_option_field"   type="text"    value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
-        <small>ex: Read more</small> </li>
+          <span>Read More Link</span></label>
+          <div class="right">
+          <label class="mw-ui-label-horizontal">Text</label>
+        <input name="data-read-more-text" class="mw_option_field"   type="text" placeholder="Read more" style="width:65px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
+        </div>
+        </li>
       <li>
         <label class="mw-ui-check">
           <input type="checkbox" name="data-show" value="created_on" class="mw_option_field"  <? if(in_array('created_on',$show_fields)): ?>   checked="checked"  <? endif; ?> />
@@ -143,14 +162,15 @@ $show_fields = array();
       
       
     </ul>
-    <br />
-    <label class="mw-ui-check">
+
+    <label class="mw-ui-check left">
       <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <? if(get_option('data-hide-paging', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> />
       <span></span><span>Hide paging</span></label>
 
-    <label class="mw-ui-label">Number of posts per page</label>
-    <input name="data-limit" class="mw_option_field"   type="number"    value="<?php print get_option('data-limit', $params['id']) ?>" />
-  </div>
+      <div class="right">
+      <label class="mw-ui-labe-horizontall">Posts per page</label>
+      <input name="data-limit" class="mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
+    </div>
   <div class="tab">
     <module type="admin/modules/templates"  />
   </div>

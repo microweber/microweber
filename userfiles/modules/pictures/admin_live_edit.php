@@ -1,6 +1,18 @@
 <?
 $for = $config['module'];
 $for_module_id = $params['id'];
+
+if(get_option('data-use-from-post', $params['id']) =='y'){
+ if(POST_ID != false){
+	$params['content-id'] = POST_ID;
+	 } else {
+		 	$params['content-id'] = PAGE_ID;
+
+	 }	 
+}
+
+
+
 if(isset($params['content-id'])){
 	$for_module_id = $params['content-id']; 
 	 $for = 'table_content';
@@ -10,10 +22,19 @@ if(isset($params['content-id'])){
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav">
-    <li><a href="javascript:;" class="active">My menus</a></li>
+    <li><a href="javascript:;" class="active">My pictures</a></li>
     <li><a href="javascript:;">Skin/Template</a></li>
   </ul>
   <div class="tab">
+ 
+  
+  <label class="mw-ui-check">
+      <input type="checkbox" name="data-use-from-post" value="y" class="mw_option_field" <? if(get_option('data-use-from-post', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> data-also-reload="<? print $config['the_module'] ?>" />
+      <span></span><span>Use pictures from post</span></label>
+      
+      
+      
+      
     <? include_once($config['path_to_module'].'admin_backend.php'); ?>
   </div>
   <div class="tab"> <strong>Skin/Template</strong>

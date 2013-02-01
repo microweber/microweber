@@ -60,22 +60,20 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 
       ?>
       <div id="mw-custom-fields-address-fields-selector">
-        <?php foreach($opt as $key => $val){ ?>
+        <?php if(isarr($opt)) { foreach($opt as $key => $val){ ?>
         <div>
           <label class="mw-ui-check">
-            <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <? if(in_array( $key,$data['options'])) : ?> checked="checked" <? endif; ?>  />
+            <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <? if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <? endif; ?>  />
             <span></span><span><?php print $val; ?></span></label>
         </div>
-        <?php } ?>
+        <?php
+		}
+		 } ?>
       </div>
     </div>
   </div>
-
   <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
-     
-    
-    
       <?php foreach($opt as $key => $val){ ?>
       <div id="mw-custom-fields-address-fields-<?php print $key; ?>">
         <label class="mw-ui-label"><?php print $val; ?></label>
@@ -83,8 +81,5 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
       </div>
       <?php } ?>
     </div>
-
-
-    <?php print $savebtn; ?>
-    </div>
+    <?php print $savebtn; ?> </div>
   <? include('settings_footer.php'); ?>

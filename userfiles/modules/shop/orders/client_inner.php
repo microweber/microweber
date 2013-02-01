@@ -1,7 +1,7 @@
 <? if(isset($params['order-id']) == true): ?>
 <? 
 $client = get_orders('one=1&id='.intval($params['order-id']));
-$orders = get_orders('order_by=created_on desc&is_completed=y&email='.$client['email']);
+$orders = get_orders('order_by=created_on desc&order_completed=y&email='.$client['email']);
  ?>
 <script type="text/javascript">
     mw.require('forms.js');
@@ -19,12 +19,14 @@ $orders = get_orders('order_by=created_on desc&is_completed=y&email='.$client['e
             mw.$('.mw-client-information').addClass('nonactive');
          },
          save:function(){
-           var URL = 'somewhere/over/the/rainbow';
+           var URL = '<? print api_url('update_order') ?>';
            if(!mw.$('.mw-client-information').hasClass('nonactive')){
              var obj = mw.form.serialize('.mw-client-information');
-             $.post(URL, obj);
+             $.post(URL, obj ,function(data) {
+mw.reload_module('<? print $config['module'] ?>');
+});
            }
-           mw.client_edit.disable();
+         //  mw.client_edit.disable();
          }
        }
 
@@ -65,7 +67,8 @@ $orders = get_orders('order_by=created_on desc&is_completed=y&email='.$client['e
         </thead>
         <tbody>
           <tr class="last">
-            <td><input class="left" type="text" name="first_name" value="<? print $client['first_name'] ?>" />
+            <td><input type="hidden" name="id"   value="<? print $client['id'] ?>" />
+              <input class="left" type="text" name="first_name" value="<? print $client['first_name'] ?>" />
               <input class="right" type="text" name="last_name" value="<? print $client['last_name'] ?>" />
               <span class="val"><? print $client['first_name'] ?></span> <span class="val"><? print $client['last_name'] ?></span></td>
             <td><input type="text" name="email" value="<? print $client['email'] ?>" />
@@ -110,6 +113,7 @@ $orders = get_orders('order_by=created_on desc&is_completed=y&email='.$client['e
   </div>
   <div class="vSpace"></div>
   <div class="vSpace"></div>
+  <h2>Orders from <? print $client['first_name'] ?> <? print $client['last_name'] ?></h2>
   <? if(isarr($orders )): ?>
   <? foreach($orders  as $item): ?>
   <div class="mw-o-box mw-o-box-accordion mw-accordion-active">

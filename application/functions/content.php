@@ -216,7 +216,7 @@ function create_mw_default_pages_in_not_exist() {
 }
 function define_constants($content = false) {
 						
-					if($content == false and isAjax()){
+					if($content == false){
 						if (isset($_SERVER['HTTP_REFERER'])) {
 			$ref_page = $_SERVER['HTTP_REFERER'];
 			if ($ref_page != '') {
@@ -439,9 +439,9 @@ function get_layout_for_page($page = array()) {
 	if (isset($page['content_type']) and $page['content_type'] == 'post') {
 		$look_for_post = $page;
 		if (isset($page['parent'])) {
-
+ 
 			$par_page = get_content_by_id($page['parent']);
-		//	d($par_page);
+
 			if (isarr($par_page)) {
 				$page = $par_page;
 			} else {
@@ -465,11 +465,11 @@ function get_layout_for_page($page = array()) {
 	if (isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
  
 			$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'].DS.'use_default_layouts.php';
-			  //d( $use_default_layouts);
+			 
 			if (is_file($use_default_layouts)) {
 				 $page['active_site_template']  = 'default';
 			}
-		 
+		
 
 	}
 	
@@ -480,6 +480,9 @@ function get_layout_for_page($page = array()) {
 	
 
 		if ($look_for_post != false) {
+			
+			
+			
 			$f1 = $page['layout_file'];
 			$stringA = $f1;
 			$stringB = "_inner";
@@ -1939,6 +1942,8 @@ $check_ex = false;
 	 if(trim($data_to_save['content']) == '' or $data_to_save['content'] == false){
 	 	unset($data_to_save['content']);
 	//	 d($data_to_save);
+	 } else {
+	 	$data_to_save['content'] = make_microweber_tags($data_to_save['content']);
 	 }
 	}
 	
@@ -2295,6 +2300,18 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 		$is_shop = " and is_shop='{$is_shop} '";
 		 
 	}
+	$ul_class = 'pages_tree';
+	if (isset($params['ul_class'])) {
+		 
+	 	$ul_class_name = $ul_class = $params['ul_class'] ;
+	}
+	
+	$li_class = 'pages_tree_item';
+	if (isset($params['li_class'])) {
+		 
+	 	$li_class =   $params['li_class'] ;
+	}
+	
 
 	ob_start();
 
@@ -2456,7 +2473,7 @@ if (isset($active_ids)){
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
-				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
+				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid} {$li_class}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
 

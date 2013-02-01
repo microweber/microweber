@@ -10,6 +10,16 @@ if(isset($params['for'])){
  $for = 'table_modules';	
 }
 
+
+if(get_option('data-use-from-post', $params['id']) =='y'){
+	 if(POST_ID != false){
+	$params['content-id'] = POST_ID;
+	 } else {
+		 	$params['content-id'] = PAGE_ID;
+
+	 }
+}
+
 if(isset($params['content-id'])){
 	$params['to_table_id'] = $params['content-id']; 
 	 $for = 'content';

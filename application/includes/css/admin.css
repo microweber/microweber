@@ -1,5 +1,20 @@
 @import url("liveadmin.css");
 
+
+*{
+  margin: 0;
+  padding: 0
+}
+body, textarea, input,  select{
+  font: 12px/1.5 Verdana,Arial,Helvetica,sans-serif;
+  color: #212121;
+}
+a{
+  color: #212121;
+  text-decoration: none;
+  outline: none;
+}
+
 input, a, textarea, select{
   outline: none;
 }

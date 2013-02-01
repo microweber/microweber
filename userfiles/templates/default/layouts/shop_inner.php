@@ -2,18 +2,13 @@
 
 /*
 
-type: layout
-content_type: post
-name: Shop inner page
-is_shop: y
-description: shop layout
-
+ 
 */
 
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
-
+ 
 <section id="content">
   <div class="container">
     <div class="row"> 

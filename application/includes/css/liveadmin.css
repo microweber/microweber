@@ -3,12 +3,24 @@
 
 */
 
-*{
-  margin: 0;
-  padding: 0
+.mw-defaults{
+  line-height: 1.5;
 }
 
+.mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
+  font: 12px Verdana,Arial,Helvetica,sans-serif;
+  color: #212121;
+}
+.mw-defaults a{
+  color: #212121;
+  text-decoration: none;
+  outline: none;
+}
 
+.mw-defaults li, .mw-defaults ol, .mw-defaults ul{
+  margin: 0;
+  padding: 0;
+}
 
 
 /*
@@ -68,57 +80,10 @@ body.cross{
 }
 
 
-.admin-main-wrapper a{
-  
-  text-decoration: none  !important;
-  outline: none  !important;
-    font: 12px Verdana,Arial,Helvetica,sans-serif  !important;
-
-}
-
-.admin-main-wrapper {
-  font: 12px Verdana,Arial,Helvetica,sans-serif;
-  color: #212121;
-}
 
 
-/*body, textarea, input{
-  font: 12px Verdana,Arial,Helvetica,sans-serif;
-  color: #212121;
-}
-body{
-  line-height: 1.5;
-}
 
-a{
-  color: #212121;
-  text-decoration: none;
-  outline: none;
-}*/
 
-body:-webkit-full-screen {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.mw{
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: normal;
-  color: #212121;
-}
-.mw ul, .mw ol{
-  margin: 0;
-  padding: 0;
-}
-
-.mw *{
-  line-height: normal;
-  /*font-size: 12px;*/
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-}
 
 .left{
   float: left !important;
@@ -188,7 +153,7 @@ body:-webkit-full-screen {
 
 #mw_tabs li a{
   display: block;
-  padding: 19px 20px 14px;
+  padding: 15px 20px 12px;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -934,12 +899,16 @@ div .mw-custom-field-form-controls:last-child{
 }
 
 .custom-field-edit-title{
-  color: #8B8B8B;
+
   text-shadow:0 1px 0 #fff;
   text-transform: capitalize;
   display: inline-block;
   padding: 3px 10px;
 }
+.custom-field-edit-title strong{
+  font-weight: normal;
+}
+
 .custom-field-edit-title .ico{
   left: -4px;
   top: -4px;
@@ -1134,7 +1103,7 @@ body.still-loading:before{
   float: left;
   border: 1px solid #DCDCDC;
   background: #f7f7f7;
-  border-radius:7px;
+  border-radius:2px;
 }
 
 #mw-admin-shop-navigation ul{
@@ -1164,7 +1133,7 @@ body.still-loading:before{
   float: left;
   margin-right: 17px;
   text-align: center;
-  border-radius:7px;
+  border-radius:2px;
   font-size: 12px;
   color: #4D7301;
   background: #D7FFC3;
@@ -1757,11 +1726,11 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 .preview_frame_wrapper.loading iframe{
   visibility: hidden;
-
+    overflow: hidden;
 }
 
 .preview_frame_small{
-  overflow-x:hidden;
+  overflow:hidden;
   width:950px;
   height: 1000px;
   -moz-transform: scale(0.376, 0.376);
@@ -1773,6 +1742,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 .preview_frame_wrapper.zoom{
   position: fixed;
+  overflow: hidden;
   width: 80%;
   height: 80%;
   top: 10%;
@@ -1784,6 +1754,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .preview_frame_wrapper.zoom iframe{
   width: 100%;
   height: 100%;
+  overflow-x:auto;
   overflow-y:auto;
   zoom: 1;
   -moz-transform: scale(1,1);
@@ -1906,6 +1877,12 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
   border-radius:3px;
   box-shadow:inset 0 1px 1px #CFCFCF;
 }
+.mw-switcher-green.mw-switcher-on{
+    background: #D7FFC3;
+    box-shadow: 0 0 0;
+}
+
+
 .mw-switch-handle{
   background: url("../img/onoff_slider.png") no-repeat scroll 0 0 transparent;
   display: block;
@@ -1927,6 +1904,7 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
   font-size: 10px;
   float: left;
   margin: 1px 0 0 1px;
+  margin: 1px 8px 0 4px;
   line-height: 13px;
   text-shadow: 1px 0 0 #FFFFFF;
 
@@ -1937,6 +1915,7 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
 .mw-switcher label:last-child{
   visibility: hidden;
   margin: 1px 0 0;
+  margin: 1px 3px 0 6px;
   padding-right: 2px;
   float: right;
 }

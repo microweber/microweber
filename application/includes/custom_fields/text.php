@@ -2,7 +2,7 @@
  <?  // d($data); ?>
 
  <div class="control-group">
-  <label class="label">
+  <label>
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print ucwords(str_replace('_', ' ', $data['name'])); ?>
     <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>

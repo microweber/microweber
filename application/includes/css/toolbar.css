@@ -998,19 +998,7 @@ li .ts_action_item:last-child{
   opacity:0.6;
 }
 
-#mwpreloader{
-  width: 16px;
-  height: 16px;
-  display: block;
-  background: url(../img/loader.png) no-repeat;
-  background-size:16px 16px;
-  position: absolute;
-  right: 100px;
-  top: 15px;
-  visibility: visible;
-  z-index: 999;
-  display: none !important;
-}
+
 
 
 

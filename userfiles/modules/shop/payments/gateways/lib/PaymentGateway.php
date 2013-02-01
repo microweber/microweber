@@ -135,7 +135,7 @@ $(document).ready(function(){
 </script>
 
 <?
-
+$rand = uniqid();
 	
 }
         

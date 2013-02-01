@@ -313,7 +313,13 @@ function replace_site_vars_back($arr) {
 		// $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
 
 		$ret = str_replace('{SITE_URL}', $site, $arr);
-		$ret = htmlspecialchars_decode($ret);
+				$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
+						$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
+			
+			$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
+			$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+		
+	//	$ret = htmlspecialchars_decode($ret);
 		return $ret;
 	}
 

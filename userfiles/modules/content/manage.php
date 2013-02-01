@@ -56,6 +56,9 @@ if(isset($params['data-category-id'])){
   //d($params);
 ?>
 <? //d($params); ?>
+<?  if(isset($params['paaaaaage-id'])):  ?>
+<module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" data-small=1  />
+<? endif; ?>
 
 <div class="mw-manageconten-nav">
   <? if(isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product'): ?>
@@ -334,3 +337,4 @@ if( isset($params['category-id']) and intval($params['category-id']) > 0){
 }
  
 */
+

@@ -38,7 +38,7 @@
       </tr>
     </tfoot>
     <tbody>
-      <? foreach ($orders as $order) : ?>
+      <? if(!empty($orders)): foreach ($orders as $order) : ?>
        <tr>
         <td><?php print $order['first_name'] . " " . $order['last_name']; ?></td>
         <td><?php print $order['email']; ?></td>
@@ -53,7 +53,7 @@
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
-      <? endforeach; ?>
+      <? endforeach; endif; ?>
     </tbody>
   </table>
 

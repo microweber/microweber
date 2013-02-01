@@ -14,7 +14,7 @@ include('empty_field_vals.php');
 
 
 <div class="control-group">
-  <label class="label">
+  <label>
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print $data['name'] ?>
     <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
@@ -29,7 +29,7 @@ include('empty_field_vals.php');
 
 
  <? if(isarr($data['custom_field_values'])): ?>
-  <select <? if(isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
+  <select <? if(isset($data['options']) and isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
     <?
 	foreach($data['custom_field_values'] as $k=>$v): ?>
     <? if(is_string( $k)){

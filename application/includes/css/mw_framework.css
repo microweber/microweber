@@ -456,6 +456,7 @@
 
 .mw_modal_type_iframe .mw_modal_container{
   padding: 0;
+  width: 100%; /* TODO */
 }
 
 .mw_modal_maximized{
@@ -1385,6 +1386,25 @@ input.mw-ui-field,
 }
 
 
+.mw-module-live-edit-settings input[placeholder],
+.mw-module-live-edit-settings textarea[placeholder],
+.mw-ui-field[data-default], .mw-ui-field[placeholder]{
+  color: #8C8C8C;
+}
+
+
+::-webkit-input-placeholder {color: #8C8C8C;}
+:-moz-input-placeholder {color:  #8C8C8C; }
+::-moz-placeholder { color:  #8C8C8C; }
+:-ms-input-placeholder { color:  #8C8C8C; }
+
+
+
+.mw-ui-field[data-default]:focus, .mw-ui-field[placeholder]:focus, .mw-module-live-edit-settings input[placeholder]:focus, .mw-module-live-edit-settings textarea[placeholder]:focus{
+  color: #212121;
+}
+
+
 
 
 div.mw-ui-field{
@@ -1439,12 +1459,7 @@ div.mw-custom-fields-tags{
 }
 
 
-.mw-ui-field[data-default]{
-  color: #8C8C8C;
-}
-.mw-ui-field[data-default]:focus{
-  color: #212121;
-}
+
 
 .mw-ui-invisible-field{
   background: transparent;
@@ -1464,7 +1479,7 @@ textarea.mw-ui-field{
   box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
-.mw-title-field{
+input.mw-title-field{
   font-size: 18px;
   padding-top:5px;
   padding-bottom: 5px;
@@ -1667,12 +1682,12 @@ textarea.mw-ui-field{
 
 .mw-ui-select option{padding: 5px 0 5px 5px;}
 
-select.mw-ui-simple-dropdown, .mw-module-live-edit-settings select{
+select.mw-ui-simple-dropdown{
   border: 1px solid #B9B9B9;
   border-radius:2px;
   padding: 4px;
 }
-select.mw-ui-simple-dropdown:focus, .mw-module-live-edit-settings select:focus{
+select.mw-ui-simple-dropdown:focus{
   box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 

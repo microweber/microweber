@@ -1,5 +1,13 @@
 <script type="text/javascript">
 mw.require("<?php print( module_url('shop')); ?>shop.js");
+mw.require("events.js");
+
+</script>
+
+<script type="text/javascript">
+	mw.on.moduleReload('cart_fields_<? print $params['id'] ?>', function(){
+          mw.reload_module('#<? print $params['id'] ?>');
+    	});
 </script>
 <?
 
@@ -35,7 +43,7 @@ if($module_template != false and $module_template != 'none'){
 <? if($for_id != false): ?>
 
 <div class="mw-add-to-cart-holder mw-add-to-cart-<? print $params['id'] ?>">
-  <module type="custom_fields" data-content-id="<? print $for_id ?>" data-skip-type="price"    />
+  <module type="custom_fields" data-content-id="<? print $for_id ?>" data-skip-type="price"  id="cart_fields_<? print $params['id'] ?>"  />
   <? $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id); ?>
   <? if(isarr($data) == true): ?>
   <input type="hidden"  name="for" value="<? print $for ?>" />

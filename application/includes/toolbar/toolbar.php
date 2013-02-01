@@ -69,8 +69,8 @@
     </script>
 
 <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
-<div class="mw" id="live_edit_toolbar_holder">
-  <div class="mw" id="live_edit_toolbar">
+<div class="mw-defaults" id="live_edit_toolbar_holder">
+  <div  id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
       <div id="mw-menu-liquify"><ul id="mw_tabs">
@@ -102,7 +102,7 @@
 
     <div id="tab_modules" class="mw_toolbar_tab">
       <microweber module="admin/modules/categories_dropdown" />
-      <div class="modules_bar_slider bar_slider">
+      <div class ="modules_bar_slider bar_slider">
         <div class="modules_bar">
           <microweber module="admin/modules/list" />
         </div>

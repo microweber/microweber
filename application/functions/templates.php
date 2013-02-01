@@ -103,7 +103,7 @@ function layouts_list($options = false) {
 	} else {
 		$path = $options['path'];
 	}
-	if (trim($the_active_site_template) != 'default') {
+	if (isset($the_active_site_template) and trim($the_active_site_template) != 'default') {
 		if (!isset($path) or $path == false or (!strstr($path, DEFAULT_TEMPLATE_DIR))) {
 			$use_default_layouts = $path . 'use_default_layouts.php';
 			if (is_file($use_default_layouts)) {

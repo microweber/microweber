@@ -30,10 +30,8 @@
             <div class="navbar-inner">
               <div class="container">
                 <h1 class="brand"><a href="index.html"></a></h1>
-                <select id = "responsive-main-nav-menu" onchange = "javascript:window.location.replace(this.value);">
-                </select>
-                <div id="main-nav-menu" class="nav-collapse nav-collapse_ collapse">
-                  <module type="nav" name="header_menu" id="main_nav" ul_class="nav sf-menu" li_class="sub-menu" />
+                             <div id="main-nav-menu" class="nav-collapse nav-collapse_ collapse">
+                  <module type="nav" name="header_menu" id="main_nav" ul_class="nav sf-menu"  />
                   <!--<ul class="nav sf-menu">
                     <li class="active sub-menu"><a href="index.html"><span>Home <em> welcome page</em></span></a><em></em>
                       <ul>

@@ -13,7 +13,7 @@ include('empty_field_vals.php');
 <? if(!empty($data['custom_field_values'])) : ?>
 
 <div class="control-group">
-  <label class="label"><? print $data["custom_field_name"]; ?></label>
+  <label><? print $data["custom_field_name"]; ?></label>
   <? foreach($data['custom_field_values'] as $k => $v): ?>
   <? if(is_string( $k)){
 	$kv =  $k;

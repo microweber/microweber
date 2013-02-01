@@ -2160,3 +2160,105 @@ body {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
+
+/* Default styles for 'Products List' */
+
+.products-list-default .mw-products-list-item-info{
+  padding-bottom: 10px;
+  text-align: justify;
+}
+
+.products-list-default .lead{
+    font-size: 16px;
+    display: block;
+    padding: 6px 0 3px;
+}
+
+.products-list-default .products-list-price{
+  font-size: 16px;
+  color: #3F9F89;
+  float: left;
+  white-space: nowrap;
+  margin-top: 5px;
+}
+
+.products-list-default .products-list-proceholder .btn{
+  float: right;
+}
+
+.products-list-default  .products-list-image{
+  display: block;
+  max-height: 170px;
+  overflow: hidden;
+}
+
+.products-list-default  .products-list-image > span{
+  display: block;
+  height: 170px;
+  overflow: hidden;
+}
+
+.products-list-default  .products-list-image img{
+    width: 100%;
+}
+
+
+
+.products-list-default .row-fluid .span4{
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.products-list-default .row-fluid .span4:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+/* End: Default styles for 'Products List' */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-<div id="mw-text-editor" class="mw_editor">
+<div id="mw-text-editor" class="mw-defaults mw_editor">
         <div class="editor_wrapper">
             <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ed-ico"></span></span>

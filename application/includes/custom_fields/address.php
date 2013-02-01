@@ -34,7 +34,7 @@ include('empty_field_vals.php');
 	$kv =  $v[0];	
 	}
 	?>
-     <label class="label"><? print ($kv); ?></label>
+     <label><? print ($kv); ?></label>
 
      <input type="text" name="<? print $data['custom_field_name'] ?>[<? print ($k); ?>]"  data-custom-field-id="<? print $data["id"]; ?>"  />
 

@@ -42,15 +42,15 @@ switch ($template_file):
 
 <div class="mw-cart mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<? print $params['id']?>">
-    <?   _e('My cart') ?>
+    <h2 style="margin-top: 16px;"><?   _e('My cart') ?></h2>
   </div>
   <? if(isarr($data)) :?>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th>Product Name</th>
-        <th>Qty</th>
-        <th>Unit Price</th>
+        <th>QTY</th>
+        <th>Price</th>
         <th>Total</th>
       </tr>
     </thead>
@@ -59,12 +59,8 @@ switch ($template_file):
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
         <td><? print $item['title'] ?></td>
         <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
-        <td>
-		
-		 
-		
-		<? print $item['price'] ?></td>
-        <td><a href="javascript:mw.cart.remove('<? print $item['id'] ?>');">remove</a></td>
+        <td style="text-align: center"><? print $item['price'] ?></td>
+        <td style="text-align: center"><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
       </tr>
       <? endforeach; ?>
     </tbody>
@@ -87,7 +83,7 @@ switch ($template_file):
    }
    
    ?>
-  <a href="<? print $checkout_page_link; ?>">Checkout</a>
+  <a class="btn btn-warning right" href="<? print $checkout_page_link; ?>">Checkout</a>
   <? endif ; ?>
   <? else : ?>
   <div class="mw-cart-empty mw-cart-<? print $params['id']?>">

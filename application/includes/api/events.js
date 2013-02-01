@@ -5,6 +5,7 @@ mw.on = {
   _onmodules : [],
   _onmodules_funcs : [],
   moduleReload : function(id, c, trigger){
+
      if(trigger){
           var index = mw.on._onmodules.indexOf(id);
           if(index != -1){

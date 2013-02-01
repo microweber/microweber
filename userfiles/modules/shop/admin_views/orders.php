@@ -47,7 +47,30 @@ source.onmessage = function (event) {
 
 
 
+
+
 });
+
+
+
+
+ function mw_delete_shop_order($p_id){
+	 var r=confirm("Are you sure you want to delete this order?")
+if (r==true)
+  {
+ 
+ 
+ $.post("<? print api_url('delete_order') ?>", { id: $p_id } ,function(data) {
+    mw.reload_module('shop/orders');
+});
+
+ 
+ 
+ 
+ 
+   }
+ 
+}
 </script>
 
 <div class="mw-simple-rotator" style="width: 960px;padding: 20px;">

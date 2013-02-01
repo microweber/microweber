@@ -101,19 +101,7 @@ mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 
 
 mw_before_content_save<? print $rand; ?>()
- var ed_area = $('#iframe_editor_mw-editor<? print $rand; ?>');
-	  	  var ed_area_src = mw.$('#mw-editor<? print $rand; ?>_src');
-
-	  if(ed_area != undefined && ed_area.length > 0){
-		  
-		 var ed_area_ch =  ed_area.contents().find('.changed[field="content"]').first();  
-		 d(ed_area_ch);
-		   if(ed_area_ch != undefined && ed_area_src != undefined){
-			   var changed_html = ed_area_ch.html();
-			 //  d(changed_html);
-			   ed_area_src.val(changed_html);
-		   }
-	  }
+ 
   
  mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
 	
@@ -245,6 +233,29 @@ mw_before_content_save<? print $rand; ?>()
 
  
  function mw_before_content_save<? print $rand; ?>(){
+	 
+	 var ed_area = $('#iframe_editor_mw-editor<? print $rand; ?>');
+	  	  var ed_area_src = mw.$('#mw-editor<? print $rand; ?>_src');
+
+	  if(ed_area != undefined && ed_area.length > 0){
+		  
+		 var ed_area_ch =  ed_area.contents().find('.changed[field="content"]').first();  
+		
+		   if(ed_area_ch != undefined && ed_area_src != undefined && ed_area_src.length > 0){
+			   var changed_html = ed_area_ch.html();
+			 if(changed_html == undefined){
+				 		 var ed_area_ch1 =  ed_area.contents().find('#mw-iframe-editor-area').first().html();  
+ if(ed_area_ch1 != undefined){
+	// changed_html = ed_area_ch1;
+ }
+			 }
+			 // 
+			   ed_area_src.val(changed_html);
+		   }
+	  }
+	 
+	 
+	 
 	mw.$('#admin_edit_page_form_<? print $rand; ?> .module[data-type="custom_fields"]').empty();
  }
  
@@ -329,7 +340,7 @@ load_iframe_editor = function(){
 	  var area = mwd.getElementById('mw-editor<? print $rand; ?>');
 	  
 	  
-	 var  ifr_ed_url = '<? print content_link($data['id']) ?>?';
+	 var  ifr_ed_url = '<? print content_link($data['id']) ?>?content_id=<? print $data['id'] ?>';
 	  var  ifr_ed_url_more = '';
 	    <? if($edit_post_mode != false): ?>
 		

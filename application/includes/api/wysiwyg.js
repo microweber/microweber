@@ -9,6 +9,8 @@
 
 mw.wysiwyg = {
     init_editables : function(module){
+       if (!window['mwAdmin']) {
+
         if(mw.is.defined(module)){
             module.contentEditable = false;
             $(module.querySelectorAll(".edit")).each(function(){
@@ -32,6 +34,9 @@ mw.wysiwyg = {
                   mw.wysiwyg.nceui();
             })
         }
+
+      }
+
     },
     removeEditable : function(){
       if(!mw.is.ie){
@@ -552,36 +557,45 @@ mw.wysiwyg = {
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
-    set_cursor : function(before_after, element){     return false;      //Currently disabled - gives errors
+    set_cursor : function(before_after, element){     //return false;      //Currently disabled - gives errors
 
-        var range = document.createRange();
         var el = $(element)[0];
+        var range = document.createRange();
         if(before_after=='after'){
-           var start = 0;
-           range.collapse(false);
+          if($(el).next().length>0) {
+            var next = $(el).next()[0];
+          }
+          else{
+            $(el).after("<div></div>");
+            var next = $(el).next()[0];
+          }
+          range.selectNodeContents(next);
+          range.collapse(false);
         }
         else if(before_after=='before'){
-           var el = el.previousSibling;
-           var start = el.data.length;
-           range.collapse(true);
+            if($(el).prev().length>0) {
+              var prev = $(el).prev()[0];
+            }
+            else{
+              $(el).before("<div></div>");
+              var prev = $(el).prev()[0];
+            }
+            range.selectNodeContents(prev);
+            range.collapse(true);
         }
         else if(before_after=='end'){
-           range.selectNode(el);
-           range.collapse(false);
+
         }
         else if(before_after=='beginning'){
-           var start = 1;
-           range.collapse(true);
+
         }
-        range.setStart(el,start);
-        range.setEnd(el, start);
 
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
     },
 	iframe_editor:function(textarea, iframe_url){
-     
+
 	 
 	    var id = $(textarea).attr("id");
 		$("#iframe_editor_"+id).remove();
@@ -794,8 +808,10 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
   });
 
 
+ if(!window['mwAdmin']){
+   mw.wysiwyg.prepareContentEditable();
+ }
 
-  mw.wysiwyg.prepareContentEditable();
 
 
 });

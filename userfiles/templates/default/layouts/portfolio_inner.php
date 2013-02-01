@@ -1,15 +1,6 @@
 <?php
 
-/*
-
-type: layout
-content_type: post
-name: Portfolio inner page
-
-description: Portfolio inner page
-
-*/
-
+ 
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>

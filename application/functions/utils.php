@@ -312,6 +312,23 @@ function mw_notif($text,$exit = false) {
 			die();
 		}
 }
+function json_error($text){
+	$arr = array('error' => $text);
+	print json_encode($arr);
+	exit();
+}
+function json_html($text){
+	$arr = array('html' => $text);
+	print json_encode($arr);
+	exit();
+}
+function json_success($text){
+	$arr = array('success' => $text);
+	print json_encode($arr);
+	exit();
+}
+
+
 
 function mw_error($text, $exit = false) {
           include (ADMIN_VIEWS_PATH . 'mw_error.php');
@@ -964,7 +981,35 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
     return FALSE;
 }
 
-
+function curencies_list(){
+	$row = 1;
+	
+	$cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs'.DS.'currencies.csv';
+	//d($cur_file);
+	if(is_file($cur_file)){
+		
+if (($handle = fopen($cur_file, "r")) !== FALSE) {
+ 
+ $res = array();
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      $itm = array();
+	  
+	    $num = count($data);
+     //   echo "<p> $num fields in line $row: <br /></p>\n";
+        $row++;
+        for ($c=0; $c < $num; $c++) {
+           //echo $data[$c] . "<br />\n";
+            $itm[] = $data[$c];
+        }
+		
+		$res[] =$itm;
+    }
+	
+    fclose($handle);
+	return $res;
+}
+	}	
+}
  
 function percent($num_amount, $num_total) {
     $count1 = $num_amount / $num_total;

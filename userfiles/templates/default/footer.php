@@ -20,25 +20,12 @@
         <!-- links -->
         <div class="span3">
           <h2>Useful Links</h2>
-          <ul class="list">
-            <li><a href="#">In faucibus orci luctus et</a></li>
-            <li><a href="#">Ultrices posuere cubilia Curae</a></li>
-            <li><a href="#">Suspendisse sollicitudin velit sed leo</a></li>
-            <li><a href="#">Ut pharetra augue nec augue</a></li>
-            <li><a href="#">Nam elit agna,endrerit sit amet</a></li>
-            <li><a href="#">Tincidunt ac, viverra sed, nulla</a></li>
-            <li><a href="#">Donec porta diam eu massa</a></li>
-            <li><a href="#">Interdum vitae,dapibus ac</a></li>
-          </ul>
+          <module type="nav" name="footer_menu" id="footer_menu_main" ul_class="list"  />
         </div>
         <!-- twitter feed  -->
-        <div class="span3">
-          <h2>Twitter Feed</h2>
-          <div class="tweets">
-            <p> Loading Tweets... </p>
-            <ul id="tweet-list">
-            </ul>
-          </div>
+        <div class="span3 edit" field="custom_footer" rel="global">
+        <h2>My editable text</h2>
+            <p class="text-info"><i>Lorem ipsum dolor sit amet, consectetuer adipiscing, sed diam nonummy nibh eui.</i></p>
         </div>
         <!-- latest blog -->
         <div class="span3">

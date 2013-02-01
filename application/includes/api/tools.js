@@ -51,28 +51,7 @@ mw.external_tool = function(url){
 
 
 mw.tools = {
-  preloader:function(init, element){
-    if(!mw._preloader)mw._preloader=mwd.getElementById('mwpreloader');
-    if(element){
-        var el = $(element);
-        var off = el.offset();
-        var w = el.outerWidth();
-        var h = el.outerHeight();
-        $(mw._preloader).css({
-         left:off.left+(w/2)-8,
-         top:off.top+(h/2)-8
-       })
-    }
-    else{
-       $(mw._preloader).css({
-         left:"",
-         top:""
-       })
-    }
-    if(init=='stop'){$(mw._preloader).invisible()}
-    else if(init=='start'){$(mw._preloader).visible()}
 
-  },
   modal:{
     settings:{
       width:600,
@@ -783,6 +762,7 @@ mw.tools = {
   tag:function(obj){
     var o = this;
     var itemsWrapper = obj.itemsWrapper;
+    if (itemsWrapper == null) return false;
     var items = obj.itemsWrapper.querySelectorAll(obj.items);
     var tagMethod = obj.method || 'parse';
 
@@ -1189,6 +1169,7 @@ mw.switcher = {
     if(el){
      var _el = $(el);
      _el.removeClass('mw-switcher-off');
+     _el.addClass('mw-switcher-on');
      el.getElementsByTagName('input')[0].checked = true;
     }
   },
@@ -1196,6 +1177,7 @@ mw.switcher = {
      if(el){
      var _el = $(el);
      _el.addClass('mw-switcher-off');
+     _el.removeClass('mw-switcher-on');
      el.getElementsByTagName('input')[1].checked = true;
      }
   }

@@ -64,8 +64,48 @@ if (!isset($data['type'])) {
 }
 
  if ($data['custom_field_name'] == '') {
-    $data['custom_field_name'] =  ucfirst($field_type);
+	 
+	  $data['custom_field_name'] =  ucfirst($field_type);
+	 switch($field_type){
+		case 'text': 
+		 $data['custom_field_name'] = 'text field';
+		 
+		 break;
+		 
+		 case 'site': 
+		 $data['custom_field_name'] = 'web site';
+		 
+		 break;
+		 
+		 	 case 'upload': 
+		 $data['custom_field_name'] = 'file upload';
+		 
+		 break;
+		 
+		 
+		  
+		 	 case 'checkbox': 
+		 $data['custom_field_name'] = 'multiple choices';
+		 
+		 break;
+		 
+		 
+		  case 'radio': 
+		 $data['custom_field_name'] = 'single choice';
+		 
+		 break;
+		 
+	 }
+	 
+	 
+	 
+ $data['custom_field_name'] =  ucwords( $data['custom_field_name'] );
+	 
+	 
+  
 }
+
+ 
 if (!isset($data['custom_field_required'])) {
     $data['custom_field_required'] = 'n';
 }

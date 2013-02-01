@@ -129,7 +129,7 @@ function mw_shop_module_init_db() {
 
 	$fields_to_add[] = array('payer_status', 'TEXT default NULL');
 	$fields_to_add[] = array('payment_type', 'TEXT default NULL');
-	$fields_to_add[] = array('order_status', 'TEXT default NULL');
+	$fields_to_add[] = array('order_status', 'varchar(255) default "pending" ');
 
 	$fields_to_add[] = array('payment_shipping', 'float default NULL');
 
@@ -216,6 +216,24 @@ function update_order($params = false) {
 	//  d($params);
 	return save_data($table, $params);
 
+}
+
+api_expose('delete_order');
+
+function delete_order($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	$table = MODULE_DB_SHOP_ORDERS;
+
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id($table, $c_id);
+return $c_id;
+		//d($c_id);
+	}
 }
 
 function get_orders($params = false) {
@@ -409,7 +427,7 @@ function checkout($data) {
 	if (isset($_GET['mw_payment_success'])) {
 		$mw_process_payment = false;
 	}
-
+	mw_var("FORCE_SAVE", $table_orders);
 	if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1 and isset($_SESSION['order_id'])) {
 
 		$_SESSION['mw_payment_success'] = true;
@@ -443,7 +461,13 @@ function checkout($data) {
 
 	$check_cart = get_cart($cart);
 	if (!isarr($check_cart)) {
-		error('Your cart is empty');
+
+		if (isAjax()) {
+			json_error('Your cart is empty');
+
+		} else {		error('Your cart is empty');
+
+		}
 	} else {
 
 		if (!isset($data['payment_gw']) and $mw_process_payment == true) {
@@ -601,7 +625,7 @@ function checkout($data) {
 
 		//	exit();
 
-		return ($ord);
+		return ($result);
 
 	}
 
@@ -919,7 +943,16 @@ function payment_options($option_key = false) {
 				$title = substr($value['option_key'], $l);
 				$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
 				$value['gw_file'] = $title;
-				$value['title'] = $string;
+
+				$mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
+
+				if (!empty($mod_infp)) {
+					$value = $mod_infp;
+					$value['gw_file'] = $title;
+				} else {
+					$value['name'] = $title;
+				}
+				//
 				$valid[] = $value;
 
 			}

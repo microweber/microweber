@@ -37,7 +37,7 @@ body.mw-live-edit.dragStart .edit:before{
 	right:30px;
 }
 
-#mw_tabs li.active a{padding:19px 20px 19px;}
+#mw_tabs li.active a{padding:15px 20px;}
 
 
 .sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
