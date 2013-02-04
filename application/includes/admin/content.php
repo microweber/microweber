@@ -9,6 +9,10 @@ if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 <script type="text/javascript">
 
 
+
+
+
+
   if(typeof toggle_cats_and_pages === 'undefined'){
               toggle_cats_and_pages = function(){
                   mw.cookie.ui('ToggleCatsAndPages', this.value);
@@ -273,6 +277,10 @@ mw.treeRenderer = {
 $(document).ready(function(){
 
 
+ 
+
+
+
     mw.treeRenderer.appendUI();
 
  mw.treeRenderer.appendUI('.page_posts_list_tree');
@@ -325,7 +333,7 @@ function mw_delete_content($p_id){
 
 
 function mw_select_page_for_editing($p_id){
- 
+
  
  
  	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
@@ -703,7 +711,7 @@ $ed_content = false;
         <? if( $ed_content=== false): ?>
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
         <? else: ?>
-        <module data-type="content/edit_page"  id="edit_content_admin" <? print  $content_id ?>  />
+        <div id="edit_content_admin" <? print  $content_id ?>></div>
         <? endif; ?>
       </div>
     </div>

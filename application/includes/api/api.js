@@ -310,7 +310,7 @@ window.onerror = function(a,b,c){
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
     var attrs = $(obj.selector)[0].attributes;
-	
+
 	
 	
 
@@ -420,7 +420,7 @@ window.onerror = function(a,b,c){
 
 mw.serializeFields =  function(id){
       var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {}
       $(fields, el).each(function(){
           if(!$(this).hasClass('no-post')){

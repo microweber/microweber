@@ -41,6 +41,8 @@
 
 <style>
 
+
+
 #settings-main{
  /* overflow-x:hidden;
   overflow-y:auto; */
@@ -85,8 +87,9 @@
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, false);
                 var _new = thismodal.main.height();
                 if(_new>_old) {
-                   parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical')
+                   parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical');
                 }
+
             }
 
 
@@ -221,9 +224,9 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
 
                   <div class="mw-module-live-edit-settings <? print $params['id'] ?>" id="<? print $params['id'] ?>">{content}</div>
 
-                   <div class="mw_clear">&nbsp;</div>
+
             </div>
-            <div class="mw_clear">&nbsp;</div>
+
           </div>
 </body>
 </html>

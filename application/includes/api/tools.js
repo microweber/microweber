@@ -199,6 +199,7 @@ mw.tools = {
       var maxh = $(window).height() - 60;
       var maxw = $(window).width() - 60;
 
+
       var w = w<maxw?w:maxw;
       var h = h<maxh?h:maxh;
 
@@ -629,7 +630,54 @@ mw.tools = {
 
     mw.is.func(callback) ? callback.call(who) : '';
   },
+  memoryToggle:function(toggler){
+    if(typeof _MemoryToggleContentID == 'undefined') return false;
 
+    var id = toggler.id;
+    var who = $(toggler).dataset('for');
+
+    mw.tools.toggle(who, "#"+id);
+
+    var page =  "page_" + _MemoryToggleContentID;
+
+    var is_active = $(toggler).hasClass('toggler-active');
+
+    var curr = mw.cookie.ui(page);
+    if(curr==""){
+        var obj = {}
+        obj[id] = is_active;
+        mw.cookie.ui(page, obj);
+    }
+    else{
+        curr[id] = is_active;
+        mw.cookie.ui(page, curr);
+        mw.log(mw.cookie.ui(page))
+    }
+
+  },
+  memoryToggleRecall:function(){
+     if(typeof _MemoryToggleContentID == 'undefined') return false;
+     var page =  "page_" + _MemoryToggleContentID;
+     var curr = mw.cookie.ui(page);
+     if(curr!=""){
+        $.each(curr, function(a,b){
+            if(b==true){
+              var toggler = mw.$("#"+a);
+              toggler.addClass('toggler-active');
+              var who = toggler.dataset("for");
+              $(who).show().addClass('toggle-active');
+              var callback = toggler.dataset("callback");
+              if(callback != ""){
+                Wait('$', function(){
+                    window[callback]();
+                })
+
+              }
+            }
+
+        });
+     }
+  },
   confirm:function(question, callback){
     if(confirm(question)){
       callback.call(window);
@@ -1108,7 +1156,7 @@ mw.cookie = {
   },
   ui:function(a,b){
     var mwui = mw.cookie.get("mwui");
-    var mwui = !mwui ? {} : $.parseJSON(mwui);
+    var mwui = (!mwui || mwui=='') ? {} : $.parseJSON(mwui);
     if(a===undefined){return mwui}
     if(b===undefined){return mwui[a]!==undefined?mwui[a]:""}
     else{
@@ -1488,17 +1536,7 @@ $(window).load(function(){
   }
 });
 
-remember_the_toggle = function(el1,el2,page_id){
 
-}
-
-recall_the_toggle = function(content_id){
-    var info =  mw.cookie.ui(content_id);
-    mw.$("mw-cookie-remember").each(function(){
-        var state = info[this.id];
-
-    });
-}
 
 
 

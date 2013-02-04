@@ -78,7 +78,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		if ($field_type == false) {
 
 			$field_type_q = ' ';
-			$field_type_q = ' and custom_field_type!="content"  ';
+			//	$field_type_q = ' and custom_field_type!="content"  ';
 		} elseif ($field_type == 'all') {
 
 			$field_type_q = ' ';
@@ -98,16 +98,22 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 			$sidq = '';
 		}
 
+		if ($id != 'all') {
+			$idq1ttid = " to_table_id='{$id}' ";
+		} else {
+			$idq1ttid = ' to_table_id is not null ';
+		}
+
 		$q = " SELECT
 		{$select_what} from  $table_custom_field where
 		{$qt}
-		to_table_id='{$id}'
+		$idq1ttid
 		$field_for_q
 		$field_type_q
 		$sidq
 		order by position asc
 		   ";
-
+ 
 		if ($debug != false) {
 
 		}
@@ -115,11 +121,11 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));
- 
+
 		$cache_id = __FUNCTION__ . '_' . $crc;
 
 		$q = db_query($q, $cache_id, 'custom_fields/global');
- 
+
 		if (!empty($q)) {
 
 			if ($return_full == true) {
@@ -129,6 +135,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 					// $it ['value'] = $it ['custom_field_value'];
 					$it['value'] = $it['custom_field_value'];
+
 					if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
 						if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
 							$try = base64_decode($it['custom_field_values']);
@@ -174,6 +181,20 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 						if ($cfk == 'custom_field_value') {
 
+							if (strtolower($cfv) == 'array') {
+
+								if (isset($q2['custom_field_values_plain']) and is_string($q2['custom_field_values_plain']) and ($q2['custom_field_values_plain']) != '') {
+									$cfv = $q2['custom_field_values_plain'];
+								} else if (isset($q2['custom_field_values']) and is_string($q2['custom_field_values'])) {
+									$try = base64_decode($q2['custom_field_values']);
+
+									if ($try != false and strlen($try) > 3) {
+										$cfv = unserialize($try);
+									}
+								}
+
+							}
+
 							$the_val = $cfv;
 						}
 
@@ -181,6 +202,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 					}
 
 					if ($the_name != false and $the_val != false) {
+
 						if ($return_full == false) {
 
 							$the_data_with_custom_field__stuff[$the_name] = $the_val;

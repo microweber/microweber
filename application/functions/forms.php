@@ -160,6 +160,33 @@ function save_form_list($params) {
 	return $params;
 }
 
+function get_form_entires($params) {
+	$params = parse_params($params);
+	$table = MW_DB_TABLE_FORMS_DATA;
+	$params['table'] = $table;
+
+	$data = get($params);
+	$ret = array();
+	if (isarr($data)) {
+
+		foreach ($data as $item) {
+			//d($item);
+			$fields = get_custom_fields($item['to_table'], $item['to_table_id']);
+		 
+			ksort($fields);
+			if (isarr($fields)) {
+				$item['custom_fields'] = array();
+				foreach ($fields as $key => $value) {
+					$item['custom_fields'][$key] = $value;
+				}
+			}
+			//d($fields);
+			$ret[] = $item;
+		}
+		return $ret;
+	}
+}
+
 function get_form_lists($params) {
 	$params = parse_params($params);
 	$table = MW_DB_TABLE_FORMS_LISTS;
@@ -214,6 +241,7 @@ function post_form($params) {
 		foreach ($more as $item) {
 			if (isset($item['custom_field_name'])) {
 				$cfn = ($item['custom_field_name']);
+				
 				$cfn2 = str_replace(' ', '_', $cfn);
 				$fffound = false;
 				if (isset($params[$cfn2])) {
@@ -231,6 +259,7 @@ function post_form($params) {
 	$to_save['to_table_id'] = $for_id;
 	$to_save['to_table'] = $for;
 	$to_save['custom_fields'] = $fields_data;
+
 	if (isset($params['module_name'])) {
 		$to_save['module_name'] = $params['module_name'];
 	}

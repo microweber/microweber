@@ -94,7 +94,7 @@
 
 
 
-        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>?edit_content=<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
+        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
         <span onclick="mw.preview();" class="mw-ui-btn unselectable">Preview</span>
         <span class="mw-ui-btn mw-ui-btn-blue">Publish</span>
       </div>
@@ -130,7 +130,7 @@
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-          src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>&edit_content=<? print CONTENT_ID ?><? endif; ?>">
+          src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>/#action=editpage:<? print CONTENT_ID ?><? endif; ?>">
         </iframe>
 
 

@@ -130,7 +130,7 @@ mw.custom_fields = {
 
 mw.custom_fields.serialize = function(id){
       var el = mw.$(id);
-      fields = "input[type='text'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+      fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {};
       data.options = {};
       $(fields, el).not(':disabled').each(function(){

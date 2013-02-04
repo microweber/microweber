@@ -194,7 +194,7 @@ $pages_count = intval($pages);
       <a class="manage-post-image manage-post-image-no-image left"></a>
       <? endif; ?>
       
-      <? $edit_link = admin_url('view:content?edit_content='.$item['id']);  ?>
+      <? $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
       
       <div class="manage-post-main">
         <h3 class="manage-post-item-title"><a target="_top" href="<? print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"><? print strip_tags($item['title']) ?></a></h3>

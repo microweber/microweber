@@ -58,17 +58,29 @@ if(isset($params["data-is-shop"])){
 <script type="text/javascript">
 
 
+ _MemoryToggleContentID = "<? print $data['id']; ?>";
 
+
+  __loadpreview = function(){
+
+  if(!!mw.templatePreview){
+          if(!mw.templatePreview._once){
+            mw.templatePreview._once = true;
+            mw.templatePreview.generate();
+          }
+        }
+
+  }
 
 $(document).ready(function(){
-	
+
 
 
 mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 
 	 
 
- 
+
 
  mw_before_content_save<? print $rand; ?>();
  mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
@@ -182,6 +194,9 @@ mw_before_content_save<? print $rand; ?>()
 
 
 
+ mw.tools.memoryToggleRecall();
+
+
 
 
 });
@@ -288,6 +303,12 @@ mw_before_content_save<? print $rand; ?>()
 
 
 		}
+
+
+
+
+
+
 </script>
 
 <form autocomplete="off" name="mw_edit_page_form" id="admin_edit_page_form_<? print $rand; ?>" class="mw_admin_edit_content_form mw-ui-form add-edit-page-post content-type-<? print $data['content_type'] ?>">
@@ -386,16 +407,7 @@ load_iframe_editor = function(){
 
 
 
-  __loadpreview = function(){
 
-  if(!!mw.templatePreview){
-          if(!mw.templatePreview._once){
-            mw.templatePreview._once = true;
-            mw.templatePreview.generate();
-          }
-        }
-
-  }
 </script>
 
 <div class="mw-scaleto-holder">
@@ -419,15 +431,17 @@ load_iframe_editor = function(){
 </div>
 
   <? if($edit_post_mode == false): ?>
-  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+
+  <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>
+
   <div class="pictures-editor-holder" style="display: none;">
-    <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id'] ?> />
+    <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id']; ?> />
   </div>
   <div class="vSpace"></div>
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
-  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.mw-layout-selector-holder', this, __loadpreview);" href="javascript:;">Template</a>
+  <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="__loadpreview" onclick="mw.tools.memoryToggle(this);__loadpreview();" href="javascript:;">Template</a>
   <?  //  d($data); ?>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
@@ -451,7 +465,7 @@ $pt_opts['active_ids'] = $data['parent'];
   
 
    ?>
-  <a href="javascript:;" onclick="mw.tools.toggle('.page_and_menus_holder', this);"  class="toggle_advanced_settings mw-ui-more ed_page_and_menus_opener_link">
+  <a href="javascript:;" data-for='.page_and_menus_holder' id="advanced-settings-toggle" onclick="mw.tools.memoryToggle(this);"  class="toggle_advanced_settings mw-ui-more ed_page_and_menus_opener_link">
   <?php _e('Page &amp; Menus'); ?>
   </a>
   <div class="page_and_menus_holder" style="display: none;">
@@ -494,7 +508,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? if($edit_post_mode != false): ?>
-  <a href="javascript:;" onclick="mw.tools.toggle('#edit_post_select_category', this);" class="mw-ui-more toggler-active">
+  <a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
   <?php _e("Add to Page &amp; Category"); ?>
   </a>
   <div class="vSpace"></div>
@@ -642,7 +656,7 @@ $pt_opts['active_ids'] = $data['parent'];
 ?>
   <? if($edit_post_mode != false): ?>
   <? $data['content_type'] = 'post'; ?>
-  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.toggle('.pictures-editor-holder', this);" href="javascript:;">Pictures Gallery</a>
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.memoryToggle(this);" data-for='.pictures-editor-holder' id="pictures-editor-toggle" href="javascript:;">Pictures Gallery</a>
   <div class="pictures-editor-holder" style="display: none;">
     <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
   </div>
@@ -660,7 +674,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand; ?>', this);">
+  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<? print $rand; ?>'>
   <?php _e("Custom Fields"); ?>
   </a>
   <div class="vSpace"></div>
@@ -751,7 +765,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>
-  <div class="advanced_settings"> <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-more">
+  <div class="advanced_settings"> <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
     <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn-rect">

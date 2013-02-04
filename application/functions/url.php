@@ -282,6 +282,14 @@ function url_param_unset($param, $url = false) {
 	return $site;
 }
 
+function titlelize($string) {
+
+	$slug = preg_replace('/-/', ' ', $string);
+	$slug = preg_replace('/_/', ' ', $slug);
+
+	return $slug;
+}
+
 function url_title($text) {
 
 	// Swap out Non "Letters" with a -
@@ -292,7 +300,7 @@ function url_title($text) {
 
 	// Convert letters that we have left to the closest ASCII representation
 	if (function_exists('iconv')) {
-	//	$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+		//	$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
 	}
 	$text = URLify::filter($text);
 	// Make text lowercase
@@ -313,13 +321,13 @@ function replace_site_vars_back($arr) {
 		// $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
 
 		$ret = str_replace('{SITE_URL}', $site, $arr);
-				$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
-						$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
-			
-			$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
-			$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
-		
-	//	$ret = htmlspecialchars_decode($ret);
+		$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
+		$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
+
+		$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
+		$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+
+		//	$ret = htmlspecialchars_decode($ret);
 		return $ret;
 	}
 
@@ -545,7 +553,7 @@ function url_download($requestUrl, $post_params = false, $save_to_file = false) 
 			curl_setopt($ch, CURLOPT_POST, count($post_params));
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
 		}
-	//	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+		//	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
 		//curl_setopt($ch, CURLOPT_TIMEOUT, 400);
 		$result = curl_exec($ch);
 
