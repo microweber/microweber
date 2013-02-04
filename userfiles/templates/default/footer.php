@@ -23,10 +23,13 @@
           <module type="nav" name="footer_menu" id="footer_menu_main" ul_class="list"  />
         </div>
         <!-- twitter feed  -->
-        <div class="span3 edit" field="custom_footer" rel="global">
+        <div class="span3">
+                <div  class="edit" data-field="my_footer" rel="global">
+
         <h2>My editable text</h2>
             <p class="text-info"><i>Lorem ipsum dolor sit amet, consectetuer adipiscing, sed diam nonummy nibh eui.</i></p>
         </div>
+          </div>
         <!-- latest blog -->
         <div class="span3">
           <h2>Latest From The Blog</h2>

@@ -62,26 +62,9 @@ error("Invalid order id");
             data-index = "<?php print $index; ?>"
             class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
           <td class="mw-order-item-id"><a href="javascript:;"><span><? print $item['title'] ?></span></a></td>
-          <td class="mw-order-item-fields"><? if(isset($item['custom_fields_data'])): 
-					
-					 
-					if (isset($item['custom_fields_data']) and trim($item['custom_fields_data']) != '') {
-						
-						$try_dec = decode_var($item['custom_fields_data']);
-
-				if (isarr($try_dec)) {
-					 foreach($try_dec as $k1=>$v1){
-						?><? print $k1 ?>: <? print $v1 ?><br />
-<?  
-	 				 }
-					 
-				} else {
-					 
-				}
-					}
-					
-					?>
-            <? endif; ?></td>
+          <td class="mw-order-item-fields"><? 	if(isset($item['custom_fields'])): ?>
+            <? print $item['custom_fields'] ?>
+            <?  endif ?></td>
           <td class="mw-order-item-amount">$<? print $item['price'] ?></td>
           <td class="mw-order-item-count"><? print $item['qty'] ?></td>
           <?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>

@@ -56,7 +56,7 @@ function error($e, $f = false, $l = false) {
  */
 
 $default_timezone = c('default_timezone');
-if ($default_timezone == false) {
+if ($default_timezone == false or $default_timezone == '{default_timezone}') {
 	date_default_timezone_set('UTC');
 } else {
 	date_default_timezone_set($default_timezone);

@@ -4,10 +4,7 @@ mw.module_pictures = {
   after_upload : function(data){
      $.post(mw.settings.api_url+'save_media', data ,
      function(data) {
-         mw.reload_module('pictures');
-         if(mw.tools != undefined){
-    	    mw.tools.modal.remove('mw_rte_image');
-    	 }
+      
      });
   },
 

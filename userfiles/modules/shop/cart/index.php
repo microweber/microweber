@@ -42,7 +42,9 @@ switch ($template_file):
 
 <div class="mw-cart mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<? print $params['id']?>">
-    <h2 style="margin-top: 16px;"><?   _e('My cart') ?></h2>
+    <h2 style="margin-top: 16px;">
+      <?   _e('My cart') ?>
+    </h2>
   </div>
   <? if(isarr($data)) :?>
   <table class="table table-bordered table-striped">
@@ -57,7 +59,10 @@ switch ($template_file):
     <tbody>
       <? foreach ($data as $item) : ?>
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
-        <td><? print $item['title'] ?></td>
+        <td><? print $item['title'] ?>
+          <? 	if(isset($item['custom_fields'])): ?>
+          <? print $item['custom_fields'] ?>
+          <?  endif ?></td>
         <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
         <td style="text-align: center"><? print $item['price'] ?></td>
         <td style="text-align: center"><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>

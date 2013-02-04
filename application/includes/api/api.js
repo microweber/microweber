@@ -310,6 +310,9 @@ window.onerror = function(a,b,c){
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
     var attrs = $(obj.selector)[0].attributes;
+	
+	
+	
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""

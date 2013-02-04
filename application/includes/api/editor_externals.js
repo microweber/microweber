@@ -1,11 +1,15 @@
 
     hash = window.location.hash.replace(/#/g, '');
 
-    afterInput = function(url, todo){   //what to do after image is uploaded (depending on the hash in the url)
+    afterInput = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
 
-      var todo = todo || false;
+
+      if(typeof todo =='undefined'){var todo = false;}
 
       if(url == false){
+          if(eventType=='done'){
+            parent.mw.exec(hash, url, eventType);
+          }
           parent.mw.tools.modal.remove('mw_rte_image');
           return false;
       }
@@ -22,7 +26,7 @@
 
             }
             else{
-              parent.mw.exec(hash, url);
+              parent.mw.exec(hash, url, eventType);
             }
           }
           else{

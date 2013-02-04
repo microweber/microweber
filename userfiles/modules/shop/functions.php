@@ -231,7 +231,7 @@ function delete_order($data) {
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		db_delete_by_id($table, $c_id);
-return $c_id;
+		return $c_id;
 		//d($c_id);
 	}
 }
@@ -624,8 +624,9 @@ function checkout($data) {
 		}
 
 		//	exit();
-
-		return ($result);
+		if (isset($result)) {
+			return ($result);
+		}
 
 	}
 
@@ -693,75 +694,114 @@ function update_cart($data) {
 	$add = array();
 	$prices = array();
 	$found_price = false;
+	$skip_keys = array();
 	foreach ($data as $k => $item) {
-		$found = false;
 
-		foreach ($cfs as $cf) {
-			if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
+		if ($k != 'for' and $k != 'for_id' and $k != 'title') {
 
-				if (isset($cf['custom_field_name']) and $cf['custom_field_name'] == $k) {
-					$found = true;
-					if (is_array($item)) {
+			$found = false;
 
+			foreach ($cfs as $cf) {
+
+				if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
+
+					if (isset($cf['custom_field_name']) and $cf['custom_field_name'] == $k) {
+
+						$found = true;
+						/*
+						 if ($item== 'ala' and is_array($item)) {
+
+						 if (isarr($cf['custom_field_values'])) {
+
+						 $vi = 0;
+						 foreach ($item as $ik => $item_value) {
+
+						 if (in_array($item_value, $cf['custom_field_values'])) {
+
+						 //	$cf1 = $cf;
+						 //$cf1['custom_field_values'] = $item_value;
+						 $item[$ik] = $item_value;
+
+						 } else {
+						 unset($item[$ik]);
+						 }
+
+						 $vi++;
+						 }
+						 }
+						 // d($item);
+						 } else {*/
+
+						//if($cf['custom_field_type'] != 'price'){
 						if (isarr($cf['custom_field_values'])) {
-
-							$vi = 0;
-							foreach ($item as $ik => $item_value) {
-
-								if (in_array($item_value, $cf['custom_field_values'])) {
-
-								} else {
-									unset($item[$ik]);
-								}
-
-								$vi++;
+							if (in_array($item, $cf['custom_field_values'])) {
+								$found = true;
 							}
+
+						}
+
+						if ($found == false and $cf['custom_field_value'] != $item) {
+							unset($item);
+						}
+						//}
+					} else {
+						//	$skip_keys[] = $k;
+						//break(1);
+						//	unset($item );
+					}
+
+					//   d($k);
+					//
+					//}
+				} elseif (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
+					$prices[$cf['custom_field_name']] = $cf['custom_field_value'];
+					//$item[$cf['custom_field_name']] = $cf['custom_field_value'];
+					// unset($item[$k]);
+				} else {
+					unset($item);
+				}
+
+			}
+			if ($found == false) {
+				$skip_keys[] = $k;
+			}
+			if (isarr($prices)) {
+
+				foreach ($prices as $price_key => $price) {
+
+					if (isset($data['price'])) {
+
+						if ($price == $data['price']) {
+							$found = true;
+							$found_price = $price;
+
+						}
+					} else if ($price == $item) {
+						$found = true;
+						if ($found_price == false) {
+							$found_price = $item;
 						}
 						// d($item);
 					} else {
-						if ($cf['custom_field_value'] != $item) {
-							//unset($item);
-						}
+						// unset($item);
 					}
-					//   d($k);
-					//
 				}
-			} elseif (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
-				$prices[] = $cf['custom_field_value'];
+				if ($found_price == false) {
+					$found_price = $prices[0];
+
+				}
+
+				// d($prices);
 			}
-		}
 
-		if (isarr($prices)) {
-
-			foreach ($prices as $price) {
-
-				if (isset($data['price'])) {
-
-					if ($price == $data['price']) {
-						$found = true;
-						$found_price = $price;
+			if (isset($item)) {
+				if ($found == true) {
+					if ($k != 'price' and !in_array($k, $skip_keys)) {
+						$add[$k] = ($item);
 					}
-				} else if ($price == $item) {
-					$found = true;
-					if ($found_price == false) {
-						$found_price = $item;
-					}
-					// d($item);
-				} else {
-					// unset($item);
 				}
 			}
-			if ($found_price == false) {
-				$found_price = $prices[0];
 
-			}
-
-			// d($prices);
-		}
-
-		//if (isset($item)) {
-		if ($found == true) {
-			$add[$k] = ($item);
 		}
 		// }
 	}
@@ -782,18 +822,18 @@ function update_cart($data) {
 		$cart['custom_fields_data'] = encode_var($add);
 		$cart['order_completed'] = 'n';
 		$cart['session_id'] = session_id();
-		$cart['one'] = 1;
+		//$cart['one'] = 1;
 		$cart['limit'] = 1;
 		//  $cart['no_cache'] = 1;
 		$checkz = get_cart($cart);
 		// d($checkz);
-		if ($checkz != false and isarr($checkz)) {
+		if ($checkz != false and isarr($checkz) and isset($checkz[0])) {
 			//    d($check);
-			$cart['id'] = $checkz['id'];
+			$cart['id'] = $checkz[0]['id'];
 			if ($update_qty > 0) {
-				$cart['qty'] = $checkz['qty'] + $update_qty;
+				$cart['qty'] = $checkz[0]['qty'] + $update_qty;
 			} else {
-				$cart['qty'] = $checkz['qty'] + 1;
+				$cart['qty'] = $checkz[0]['qty'] + 1;
 			}
 
 			//
@@ -907,19 +947,44 @@ function get_cart($params) {
 	}
 
 	$get = get($params);
-	return $get;
+	//return $get;
 
 	$return = array();
 	if (isarr($get)) {
 		foreach ($get as $item) {
 			if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+				$item['custom_fields_data'] = decode_var($item['custom_fields_data']);
+
+				$tmp_val = '';
+				if (isset($item['custom_fields_data']) and isarr($item['custom_fields_data'])) {
+					$tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+					foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+						if (isarr($cfv)) {
+							$tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+							$tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+							foreach ($cfv as $cfk1 => $cfv1) {
+								$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+							}
+							$tmp_val .= '</ul>';
+							$tmp_val .= '</li>';
+						} else {
+							$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+						}
+					}
+					$tmp_val .= '</ul>';
+					$item['custom_fields'] = $tmp_val;
+				}
 
 			}
 			$return[] = $item;
 		}
-		return $return;
+
+	}
+	if (empty($return)) {
+		$return = false;
 	}
 
+	return $return;
 	//  d($params);
 
 }

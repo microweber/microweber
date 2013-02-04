@@ -6,17 +6,22 @@
 <?
  
 
-$for = 'table_content';
-$for_id = 0;
- 
 
+if(!isset($for_id)){
+$for_id = 0;
+}
 if(isset($params['for'])){
-	 $for = 'table_content';
+	 $for = $params['for'];
 } else {
  $for = 'table_modules';	
 }
 
+if(!isset($for)){
+$for = 'table_content';
 
+}
+
+ 
 
 $for =  db_get_assoc_table_name($for);
 
@@ -36,31 +41,43 @@ if(isset($params['content-id'])){
 	$for_id = $for_module_id = $params['content-id']; 
 	 $for = 'table_content';
 }
-
+ 
  ?>
-<? //$rand = uniqid(); ?>
+<?  $rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
 
 
 
-function after_upld_{rand}(a){
+function after_upld_<? print $rand; ?>(a, eventType){
 
-	 var data = {};
-	 data.for = '<? print $for ?>';
-	 data.src = a;
-	 data.media_type = 'picture';
-	 data.for_id = '<? print $for_id ?>';
-	 mw.module_pictures.after_upload(data);
-	 
-	 
-	 
- mw.reload_module('pictures/admin');
  
-	 if(window.parent != undefined && window.parent.mw != undefined){
-		 window.parent.mw.reload_module('pictures');
-	 }
+	if(eventType != undefined && eventType != 'done' ){	 
+			 var data = {};
+			 data.for = '<? print $for ?>';
+			 data.src = a;
+			 data.media_type = 'picture';
+			 data.for_id = '<? print $for_id ?>';
+			 mw.module_pictures.after_upload(data);
+			 
+	}
+			if(eventType != undefined && eventType == 'done' ){	 
+		 
+		   
+         if(mw.tools != undefined){
+    	    mw.tools.modal.remove('mw_rte_image');
+    	 }
+		 
+		 mw.reload_module('pictures/admin');
+		 
+			 if(window.parent != undefined && window.parent.mw != undefined){
+				 window.parent.mw.reload_module('pictures');
+			 } else {
+				 mw.reload_module('pictures'); 
+			 }
+			 
+		}
  
 }
 
@@ -72,7 +89,7 @@ function after_upld_{rand}(a){
 
 <script  type="text/javascript">
 $(document).ready(function(){
-   mw.module_pictures.init('#admin-thumbs-holder-sort-{rand}');
+   mw.module_pictures.init('#admin-thumbs-holder-sort-<? print $rand; ?>');
 });
 </script>
 <?  if(!isset($data["thumbnail"])){
@@ -93,7 +110,7 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
  ?>
 <div class="vSpace">&nbsp;</div>
 <label class="mw-ui-label">Add Images <small>(The first image will be thumbnail)</small></label>
-<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-{rand}">
+<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<? print $rand; ?>">
   <? if(isarr( $media)): ?>
   <?php $default_title = _e("Image title", true); ?>
   <? foreach( $media as $item): ?>
@@ -115,6 +132,6 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
   </div>
   <? endforeach; ?>
   <? endif;?>
-  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_{rand}');"> Add Image </div>
+  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand; ?>');"> Add Image </div>
 </div>
  

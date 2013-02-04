@@ -12,11 +12,11 @@ if(typeof mw.custom_fields.text === 'undefined'){
 $(document).ready(function(){
   mw.$("#mw-custom-fields-text-switch").commuter(function(){
     var curr = mwd.querySelector('#mw-custom-fields-text-holder input');
-    mw.tools.migrateAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
+    mw.tools.copyAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
     curr.parentNode.replaceChild(mw.custom_fields.text._globalarea, curr);
   }, function(){
      var curr = mwd.querySelector('#mw-custom-fields-text-holder textarea');
-     mw.tools.migrateAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
+     mw.tools.copyAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
      curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
   });
 });

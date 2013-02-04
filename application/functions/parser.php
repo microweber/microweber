@@ -1042,6 +1042,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								}
 								$userclass = str_replace('ui-sortable', '', $userclass);
 								$userclass = str_replace('module-item', '', $userclass);
+								$userclass = str_replace('module module module', 'module', $userclass);
+								$userclass = str_replace('module  module ', 'module ', $userclass);
 
 							} else {
 								$module_html .= " {$nn}='{$nv}'  ";
@@ -1204,7 +1206,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 	}
 	global $mw_rand;
 	//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-	$layout = str_replace('{rand}', uniqid() , $layout);
+	$layout = str_replace('{rand}', uniqid(), $layout);
 	$layout = str_replace('{SITE_URL}', site_url(), $layout);
 	$layout = str_replace('{SITEURL}', site_url(), $layout);
 	$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);

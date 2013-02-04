@@ -47,13 +47,13 @@
           $(frame).bind("FileUploaded", function(frame, item){
               li.parent().find("li").removeClass('disabled');
               if(filetypes=='images'){
-                  afterInput(item.src);
+                  afterInput(item.src, '', "FileUploaded");
               }
               else if(filetypes=='videos'){
-                  afterInput(item.src, 'video');
+                  afterInput(item.src, 'video', "FileUploaded");
               }
               else if(filetypes=='files'){
-                  afterInput(item.src, 'files');
+                  afterInput(item.src, 'files', "FileUploaded");
               }
           });
 
@@ -61,7 +61,7 @@
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
-              afterInput(false);
+              afterInput(false,'', "done");
            });
 
 

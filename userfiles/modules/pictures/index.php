@@ -1,5 +1,6 @@
 <?
 
+ 
 if(!isset($params['to_table_id'])){
 	$params['to_table_id'] = $params['id']; 
 }

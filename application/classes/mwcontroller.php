@@ -226,7 +226,7 @@ class MwController {
 
 			if (isset($_REQUEST['isolate_content_field'])) {
 				//d($_REQUEST);
-				
+
 				require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 				$pq = phpQuery::newDocument($l);
 
@@ -796,10 +796,23 @@ class MwController {
 				$custom_display_id = $_REQUEST['data-id'];
 			}
 		}
-
 		if (isset($_SERVER["HTTP_REFERER"])) {
-			 
-			$url = $_SERVER["HTTP_REFERER"];
+			$from_url = $_SERVER["HTTP_REFERER"];
+
+		}
+		if (isset($_REQUEST['from_url'])) {
+			$from_url = $_REQUEST['from_url'];
+		}
+
+		if (isset($from_url) and $from_url != false) {
+
+			$url = $from_url;
+
+			if (strpos($url, '#')) {
+				$url = substr($url, 0, strpos($url, '#'));
+			}
+
+			//$url = $_SERVER["HTTP_REFERER"];
 			$url = explode('?', $url);
 			$url = $url[0];
 
@@ -810,7 +823,7 @@ class MwController {
 			} else {
 
 				$page = get_content_by_url($url);
-				 
+
 			}
 		} else {
 			$url = url_string();

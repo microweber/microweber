@@ -85,12 +85,19 @@ mw.tools = {
 
         var container = modal_object.find(".mw_modal_container").eq(0);
         modal_object.width(width).height(height);
+
         var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
+
+
         container.append(html).height(height-padding);
+
+
+
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
+
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
-          containment:'body',
+          containment:'window',
           iframeFix: false,
           start:function(){
             $(this).find(".iframe_fix").show();
@@ -121,7 +128,9 @@ mw.tools = {
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay);
     },
     minimize:function(id){
-        var modal = $("#"+id);
+
+
+        var modal = mw.$("#"+id);
         var window_h = $(window).height();
         var window_w = $(window).width();
         var modal_width = modal.width();
@@ -162,7 +171,7 @@ mw.tools = {
     },
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
-        var frame = "<iframe  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "' scrolling='auto' frameborder='0' allowfullscreen></iframe>";
+        var frame = "<iframe style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
@@ -174,15 +183,62 @@ mw.tools = {
           template:obj.template
         });
         $(modal.main).addClass("mw_modal_type_iframe");
-
+        $(modal.container).css("overflow", "hidden");
         modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
 
         return modal;
     },
+
     remove:function(id){
         if(typeof id == 'object') var id = $(id)[0].id;
         $(document.getElementById(id)).remove();
         $("div.mw_overlay[rel='"+id+"']").remove();
+    },
+    resize:function(modal, w, h, center){
+
+      var maxh = $(window).height() - 60;
+      var maxw = $(window).width() - 60;
+
+      var w = w<maxw?w:maxw;
+      var h = h<maxh?h:maxh;
+
+      var center = typeof center == 'undefined' ? true : center;
+      var modal = $(modal);
+      var container = modal.find(".mw_modal_container").eq(0);
+      var frame = modal.find(".mw-modal-frame").eq(0);
+
+
+      var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom")) + container.offset().top - modal.offset().top;
+
+
+      if(!!w){
+        modal.width(w);
+        container.width(w);
+        frame.width(w);
+      }
+      if(!!h){
+        modal.height(h);
+        container.height(h-padding);
+        frame.height(h-padding);
+      }
+
+      if(center == true){mw.tools.modal.center(modal)};
+    },
+    center:function(modal, only){
+        var only = only || 'all';
+        var modal = $(modal);
+        var h = modal.height();
+        var w = modal.width();
+        if(only == 'all'){
+          modal.css({top:($(window).height()/2)-(h/2),left:($(window).width()/2)-(w/2)});
+        }
+        else if(only == 'vertical'){
+          modal.css({top:($(window).height()/2)-(h/2)});
+        }
+        else if(only == 'horizontal'){
+          modal.css({left:($(window).width()/2)-(w/2)});
+        }
+
     },
     overlay:function(for_who, is_over_modal){
         var overlay = document.createElement('div');
@@ -570,8 +626,10 @@ mw.tools = {
     who.toggle();
     who.toggleClass('toggle-active');
     $(toggler).toggleClass('toggler-active');
+
     mw.is.func(callback) ? callback.call(who) : '';
   },
+
   confirm:function(question, callback){
     if(confirm(question)){
       callback.call(window);
@@ -926,7 +984,7 @@ mw.tools = {
     }
     return obj;
   },
-  migrateAttributes:function(from, to, except){
+  copyAttributes:function(from, to, except){
     var except = except || [];
     var attrs = mw.tools.getAttrs(from);
     if(mw.tools.is_field(from) && mw.tools.is_field(to)) to.value = from.value;
@@ -1429,6 +1487,18 @@ $(window).load(function(){
 
   }
 });
+
+remember_the_toggle = function(el1,el2,page_id){
+
+}
+
+recall_the_toggle = function(content_id){
+    var info =  mw.cookie.ui(content_id);
+    mw.$("mw-cookie-remember").each(function(){
+        var state = info[this.id];
+
+    });
+}
 
 
 

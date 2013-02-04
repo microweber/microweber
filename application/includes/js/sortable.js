@@ -1131,6 +1131,14 @@ module_settings: function() {
   }
 	data1.live_edit = 'true';
 	data1.view = 'admin';
+	
+	
+	if(data1.from_url == undefined){
+	 data1.from_url = window.top.location;
+
+	}
+	
+
 	//data1.no_wrap = '1';
 
 
@@ -1141,7 +1149,8 @@ module_settings: function() {
   var modal = mw.tools.modal.frame({
     url:src,
     width:432,
-    title:$(curr).dataset('type'),
+    height:150,
+    title:'',
     callback:function(){
         mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
         $(this.container).attr('data-settings-for-module', curr.id);

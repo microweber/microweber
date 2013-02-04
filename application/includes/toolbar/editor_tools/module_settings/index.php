@@ -10,8 +10,8 @@
           <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
           
           <script type="text/javascript">
-          mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
-		  mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
+            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
+  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
 
 
@@ -20,8 +20,8 @@
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
-                    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
-                    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
 
 
 		   <script type="text/javascript">
@@ -36,8 +36,35 @@
   mw.require("tools.js");
    mw.require("forms.js");
  mw.require('wysiwyg.js');
- 
+
 </script>
+
+<style>
+
+#settings-main{
+ /* overflow-x:hidden;
+  overflow-y:auto; */
+  min-height: 200px;
+
+}
+
+#settings-container{
+  overflow: hidden;
+  position: relative;
+  min-height: 200px;
+
+}
+
+#settings-container:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+</style>
 
  <script type="text/javascript">
          <? if(isarr( $module_info)): ?>
@@ -45,7 +72,44 @@
            mw_module_settings_info  = <? print json_encode($module_info); ?>
 
 
-           typeof thismodal != 'undefined' ? $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name) : '';
+           if(typeof thismodal != 'undefined'){
+
+
+
+            $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name);
+
+
+
+            __autoresize = function(){
+                var _old = thismodal.main.height();
+                parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, false);
+                var _new = thismodal.main.height();
+                if(_new>_old) {
+                   parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical')
+                }
+            }
+
+
+              $(window).load(function () {
+                $(mwd.body).removeClass('mw-external-loading');
+                parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, true);
+                $(mwd.body).bind('mouseup DOMNodeInserted',function(){
+                  setTimeout(function(){
+                     __autoresize();
+                  }, 99);
+                }).ajaxStop(function(){
+                    setTimeout(function(){
+                    __autoresize();
+                  }, 99);
+                });
+
+              });
+
+
+
+
+
+           };
 
 
           <? endif; ?>
@@ -149,10 +213,17 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
             });
           </script>
           </head>
-          <body>
+          <body class="mw-external-loading">
+
+          <div id="settings-main">
+            <div id="settings-container">
 
 
+                  <div class="mw-module-live-edit-settings <? print $params['id'] ?>" id="<? print $params['id'] ?>">{content}</div>
 
-          <div class="mw-module-live-edit-settings <? print $params['id'] ?>" id="<? print $params['id'] ?>">{content}</div>
+                   <div class="mw_clear">&nbsp;</div>
+            </div>
+            <div class="mw_clear">&nbsp;</div>
+          </div>
 </body>
 </html>

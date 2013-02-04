@@ -1368,7 +1368,7 @@ function save_edit($post_data) {
 					}
 
 					if (isset($the_field_data['attributes']['data-field'])) {
-						$field = trim($the_field_data['attributes']['data-field']);
+						$field = $the_field_data['attributes']['field'] = trim($the_field_data['attributes']['data-field']);
 					}
 
 					if ($field == false) {
@@ -1503,8 +1503,8 @@ function save_edit($post_data) {
 						$cont_field = array();
 							$cont_field['to_table'] = $the_field_data['attributes']['rel'];
 							$cont_field['to_table_id'] = 0;
-							if(isset($the_field_data['attributes']['data-id'])){
-						  $cont_field['to_table_id'] = $the_field_data['attributes']['data-id']; 
+							if($cont_field['to_table'] != 'global' and isset($the_field_data['attributes']['data-id'])){
+							  $cont_field['to_table_id'] = $the_field_data['attributes']['data-id']; 
 							}
 							$cont_field['value'] = make_microweber_tags($html_to_save);;
 							if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){
@@ -1513,11 +1513,11 @@ function save_edit($post_data) {
 							$cont_field['field'] = $the_field_data['attributes']['field'];
 							
 							
-							 
+							 	  //d($cont_field);
 							
 							
 							if($field != 'content'){
-						 
+					
 							$cont_field_new = save_content_field($cont_field);
 							
 							}

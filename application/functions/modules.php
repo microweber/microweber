@@ -1380,6 +1380,7 @@ function load_module_lic($module_name = false) {
 }
 
 $mw_mod_counter = 0;
+$mw_mod_counter_array = array();
 function load_module($module_name, $attrs = array()) {
 	$function_cache_id = false;
 	//if (defined('PAGE_ID') == false) {
@@ -1540,7 +1541,43 @@ function load_module($module_name, $attrs = array()) {
 		$config['module_class'] = module_css_class($module_name);
 		$config['url_to_module'] = pathToURL($config['path_to_module']);
 		$get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
+
+		// global $mw_mod_counter_array;
+		// if (!isset($mw_mod_counter_array[$module_name])) {
+		// $mw_mod_counter_array[$module_name] = 1;
+		// } else {
+		// $mw_mod_counter_array[$module_name]++;
+		// }
+		//
+		// $config['module_num'] = $mw_mod_counter_array[$module_name];
+
 		//d($get_module_template_settings_from_options);
+
+	/*
+		if (isset($attrs['from_url'])) {
+	
+				$url = $attrs['from_url'];
+				
+				if (strpos($url, '#')) {
+			$url = substr($url, 0, strpos($url, '#'));
+		}
+				
+				$url = explode('?', $url);
+				$url = $url[0];
+	
+				if (trim($url) == '' or trim($url) == site_url()) {
+					//$page = get_content_by_url($url);
+					$page = get_homepage();
+					// var_dump($page);
+				} else {
+	
+					$page = get_content_by_url($url);
+	
+				}
+					   define_constants($page);
+			}*/
+	
+
 		if (isset($attrs['id'])) {
 			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
 
@@ -1576,6 +1613,7 @@ function load_module($module_name, $attrs = array()) {
 		if (!isset($attrs['id'])) {
 			global $mw_mod_counter;
 			$mw_mod_counter++;
+
 			$attrs1 = crc32(serialize($attrs) . url_segment(0) . $mw_mod_counter);
 			//	$s1 = crc32();
 			//$s1 = '';
