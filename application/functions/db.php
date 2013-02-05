@@ -469,7 +469,7 @@ function save($get_params, $save_params = false) {
  *
  * @see db
  * @since 0.320
- * @return mixed Array with data or false
+ * @return mixed Array with data or false or integer
  * @param array $params parameters for the DB
  *
  */
@@ -588,8 +588,11 @@ function get($params) {
 				//$results_map_hits[$criteria_id]++;
 			} else {
 				$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+
+
 				//$results_map_hits[$criteria_id] = 1;
 				$results_map[$criteria_id] = $ge;
+
 			}
 			break;
 
@@ -598,6 +601,14 @@ function get($params) {
 
 			break;
 	}
+
+if(is_integer($ge)){
+
+
+
+	return ($ge);
+}
+
 	if (empty($ge)) {
 		return false;
 	}
@@ -853,13 +864,13 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
 			}
-			
-			
+
+
 			if ($is_not_null == true) {
 				$cfvq = "custom_field_value IS NOT NULL  ";
 			} else {
 				$cfvq = "(custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
-				
+
 			}
 			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
 			$q = "SELECT  to_table_id from $table_custom_fields where
@@ -873,7 +884,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$ids_q   $only_custom_fieldd_ids_q
 
 
-			 
+
 
 			";
 
@@ -1265,7 +1276,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				}
 
 			}
-			// d($add_to_seachq_q);
+
 			if ($debug == true) {
 
 			}
@@ -1286,6 +1297,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 							break;
 
 						default :
+
+
 							break;
 					}
 
@@ -1297,8 +1310,20 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 					}
 				}
+
 			}
 		}
+
+		if(isset($to_search) and $to_search != ''){
+	$table_custom_fields = MW_TABLE_PREFIX . 'custom_fields';
+			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
+
+$where_q1 = " id in (select to_table_id from $table_custom_fields where
+to_table='$table_assoc_name1' and
+	custom_field_values_plain REGEXP '$to_search')  " ;
+		$where_q .=		$where_q1 ;
+}
+
 
 		$where_q = rtrim($where_q, ' OR ');
 
@@ -1338,17 +1363,17 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$v = str_replace('[mt]', '', $v);
 			}
-			
+
 			if (stristr($v, '[neq]')) {
 				$compare_sign = '!=';
 				$v = str_replace('[neq]', '', $v);
 			}
-			
+
 			if (stristr($v, '[eq]')) {
 				$compare_sign = '=';
 				$v = str_replace('[eq]', '', $v);
 			}
-			
+
 
 			if (stristr($v, '[int]')) {
 
@@ -1423,7 +1448,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$is_in_table = 'table_'.$is_in_table;
 		}
 		$v1 = db_get_real_table_name($is_in_table);
-		$check_if_ttid = db_get_table_fields($v1);	
+		$check_if_ttid = db_get_table_fields($v1);
 		 if(in_array('to_table_id', $check_if_ttid) and in_array('to_table', $check_if_ttid)){
 		$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
 		if ($v1 != false) {
@@ -1505,7 +1530,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 	if (isset($result[0]['qty']) == true and $count_only == true) {
 
 		$ret = $result[0]['qty'];
-
+ //d($count_paging);
 		if ($count_paging == true) {
 			$plimit = false;
 
@@ -1523,6 +1548,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 				return ceil($ret / $plimit);
 				// d($plimit);
 			}
+		} else {
+			 return intval($ret);
 		}
 
 		// p($result);
@@ -1667,8 +1694,8 @@ function db_get_tables_list(){
 					}
 				}
 			 }
-				
-		 	
+
+
 		 }
 		return $ret;
 	}
@@ -1912,27 +1939,25 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 	if (isset($data['custom_field_value']) and isset($data['custom_field_name'])) {
 		if (is_array($data['custom_field_value'])) {
-	 
-			
+
+
 			$data['custom_field_values'] = base64_encode(serialize($data['custom_field_value']));
-			$data['custom_field_values_plain'] = db_escape_string(array_pop(array_values($data['custom_field_value'])));
-		
+			$data['custom_field_values_plain'] = db_escape_string(implode(', ',array_values($data['custom_field_value'])));
+
 			$data['custom_field_value'] = 'Array';
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
 		} else if (is_string($data['custom_field_value'])) {
 			$data['custom_field_values_plain'] = db_escape_string((strip_tags($data['custom_field_value'])));
 		}
-		
-		
+
+
 		 $cf_k_plain = url_title($data['custom_field_name']);
 							$cf_k_plain = db_escape_string($cf_k_plain);
 							$data['custom_field_name_plain'] = str_replace('-', '_', $cf_k_plain);
-		
-		
-		
+
 	}
 
-	// var_dump($data);
+	//
 	if (intval($data['id']) == 0) {
 
 		if (isset($data['created_on']) == false) {
@@ -2123,7 +2148,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 
 								$cncheckq = "select id
                     from $taxonomy_table where
-                    data_type='category' 
+                    data_type='category'
                     and   to_table='{$table_assoc_name}'
                     and   title='{$cname_check}'   ";
 								// d($cncheckq);
@@ -2398,7 +2423,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 					$media_table = MW_TABLE_PREFIX . 'media';
 
 					$add = " insert into $media_table set
-                    position ='1', 
+                    position ='1',
 					media_type ='picture',
 				 	filename ='{$picfn}',
 					to_table ='{$table_assoc_name}',
@@ -2526,7 +2551,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 			";
 
 						$add = " insert into $custom_field_table set
-                        
+
 			custom_field_name ='{$cf_k}',
 			$cfvq
 			custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
@@ -2547,7 +2572,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 						}
 						$cf_to_save['custom_field_name'] = $cf_k;
 						$cf_to_save['custom_field_name'] = $cf_k;
- 
+
 						db_q($add);
 
 					}
@@ -2901,9 +2926,9 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 		$sql = "CREATE TABLE " . $table_name . " (
 		id int(11) NOT NULL auto_increment,
 		PRIMARY KEY (id)
-		
+
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
-		 
+
 		";
 		//
 		//if (isset($_GET['debug'])) {

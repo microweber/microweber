@@ -312,7 +312,7 @@ window.onerror = function(a,b,c){
     var attrs = $(obj.selector)[0].attributes;
 
 	
-	
+
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
@@ -325,7 +325,7 @@ window.onerror = function(a,b,c){
             var val = attrs[i].nodeValue;
             to_send[name] = val;
 		  }
-      } 
+      }
 	  
 	//  to_send = attrs;
     }
@@ -366,6 +366,7 @@ window.onerror = function(a,b,c){
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
+
     if (mw.qsas) {
       if (mw.is.string(selector)) {
         try {
@@ -380,6 +381,10 @@ window.onerror = function(a,b,c){
       return jQuery(selector, context);
     }
   };
+
+
+
+
 
 
   api = function(action, params, callback){
@@ -458,6 +463,7 @@ mw.serializeFields =  function(id){
    o.localstorage = o.localStorage = 'localStorage' in window;
    o.canvas = !!c.getContext;
    o.placeholder = 'placeholder' in i;
+   o.pushstate = 'pushState' in history;
 
 
 

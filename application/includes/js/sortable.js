@@ -404,6 +404,29 @@ mw.drag = {
             $(".ts_main_ul .ts_action").css({left:"100%", top:0});
           }
 
+
+
+          if(event.target.hasAttribute("field")){
+            var attrs = mw.tools.getAttrs(event.target);
+            var tag = event.target.tagName.toLowerCase();
+            var input = mwd.createElement('input');
+            input.value = event.target.innerHTML;
+            input.style.fontSize = $(event.target).css('fontSize');
+            mw.log($(event.target).css('fontSize'))
+            input.onblur = function(){
+                var el = mwd.createElement(tag);
+                el.innerHTML = input.value;
+                for(var x in attrs){
+                    el.setAttribute(x, attrs[x]);
+                }
+                $(input).replaceWith(el);
+            }
+             $(event.target).replaceWith(input);
+             input.focus();
+          }
+
+
+
         });
 
         $(mwd.body).mousedown(function(event){
@@ -422,6 +445,9 @@ mw.drag = {
           if($(".desc_area_hover").length==0){
              $(".desc_area").hide();
           }
+
+
+
 
 
         });

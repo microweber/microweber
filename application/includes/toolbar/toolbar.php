@@ -124,7 +124,7 @@
         <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
 
         <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
- 
+
         <iframe
             onload="mw.tools.iframeLinksToParent(this);"
             frameborder="0"
@@ -148,8 +148,8 @@
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
   </div>
-  
-  <!-- /end .mw --> 
+
+  <!-- /end .mw -->
 </div>
 <!-- /end mw_holder -->
 

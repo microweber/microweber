@@ -84,8 +84,8 @@ $module_id = $for_id;
     $(document).ready(function(){
        __sort_fields();
 
-       mw.$(".custom_fields_selector a").click(function(){
-            var el = this;
+       mw.$(".custom_fields_selector strong").click(function(){
+            var el = this.getElementsByTagName('a')[0];
             mw.custom_fields.create({
               selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
               type:$(el).dataset('type'),

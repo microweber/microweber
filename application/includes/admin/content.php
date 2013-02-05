@@ -70,12 +70,12 @@ mw.treeRenderer = {
               <?php _e("Edit"); ?>\
           </span>\
           ";
-		  
+
 		  if(sort_button != undefined && sort_button == true){
 			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
 		     $str = $str+$str2;
 		  }
-		  
+
 		  return  $str;
       }
       else if(type==='category'){
@@ -87,7 +87,7 @@ mw.treeRenderer = {
                   <?php _e("Edit"); ?>\
               </span>\
           ";
-		  
+
 
 		   if(sort_button != undefined && sort_button == true){
 			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
@@ -107,14 +107,14 @@ mw.treeRenderer = {
         //  var master = $(this);
 
 		   var master = $is_sort;
-		  
+
     		  if(!master.hasClass("ui-sortable")){
 
 
 
                master.sortable({
                    items: 'li',
-				     
+
                    axis:'y',
 				   containment: master,
 				 // containment: '.category_tree',
@@ -160,18 +160,18 @@ mw.treeRenderer = {
 
 
 	}
- 
+
   },
 
   rendController:function(holder){
 	 var  $is_sort = mw.$(holder).attr('data-sortable');
 
-	  
+
       mw.$(holder+' li').each(function(){
           var master = this;
           var el = master.querySelector('a');
-          
-		  
+
+
 		  if(el != undefined){
 		  var href = el.href;
           el.href = 'javascript:void(0);';
@@ -189,16 +189,16 @@ mw.treeRenderer = {
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.top.location.href=\""+href+"/editmode:y\"'></span>";
-             
+
 			 var  sort_content = false;
-			  
+
 			if($is_sort != undefined){
 		    var sort_content = true;
 	  		}
 			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
-			  
-			  
+
+
           }
           else if(attr['data-category-id']!==undefined){
               var pageid = attr['data-category-id'].nodeValue;
@@ -206,24 +206,24 @@ mw.treeRenderer = {
                   var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
               }
 			  	 var  sort_content = false;
-			  
+
 			if($is_sort != undefined){
 		    var sort_content = true;
 	  		}
-			
-			
+
+
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
               el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
-		  
-		  
+
+
 		  }
-		  
+
       });
-	  
-	  
-	  
+
+
+
   },
   rendSelector:function(holder){
        mw.$(holder+' li').each(function(){
@@ -277,7 +277,7 @@ mw.treeRenderer = {
 $(document).ready(function(){
 
 
- 
+
 
 
 
@@ -287,8 +287,8 @@ $(document).ready(function(){
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
-	
-	
+
+
 	if(mw.url.windowHashParam ("action") === undefined){
 		}
 
@@ -334,35 +334,35 @@ function mw_delete_content($p_id){
 
 function mw_select_page_for_editing($p_id){
 
- 
- 
+
+
  	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 	 var active_item_is_page = active_item.attr('data-page-id');
-	
-	 
-	 
+
+
+
 	  var active_item_is_category = active_item.attr('data-category-id');
 	 if(active_item_is_category != undefined){
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
 			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
 			   if(active_item_parent_page != undefined){
 					var active_item_is_page = active_item_parent_page.attr('data-page-id');
-				   
+
 			   } else {
 				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
 				   if(active_item_parent_page != undefined){
 						var active_item_is_page = active_item_parent_page.attr('data-page-id');
-					   
-				   }   
-				   
+
+				   }
+
 			   }
-  
-  
+
+
 	 } else {
 	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
 
 	 }
-	 
+
 	  if(active_item_is_page != undefined){
 		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
 
@@ -370,9 +370,9 @@ function mw_select_page_for_editing($p_id){
 		mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
 
 	 }
-	
-	
-	
+
+
+
     mw.$('#pages_edit_container').attr('data-page-id',$p_id);
     mw.$('#pages_edit_container').attr('data-type','content/edit_page');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
@@ -477,8 +477,8 @@ mw.on.hashParam("action", function(){
 
 
 function mw_select_category_for_editing($p_id){
-	
-	
+
+
 					  var  active_cat = $('#pages_tree_container_<?php print $my_tree_id; ?> li.category_element.active-bg').first();
 				   if(active_cat != undefined){
 						var active_cat = active_cat.attr('data-category-id');
@@ -487,10 +487,10 @@ function mw_select_category_for_editing($p_id){
 					   	   mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
 
 				   }
-	
- 
-	
-	
+
+
+
+
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
   	 mw.load_module('categories/edit_category','#pages_edit_container');
 }
@@ -525,7 +525,7 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 
-	 
+
 
 
 
@@ -537,34 +537,34 @@ if($in_page != undefined && $is_cat != undefined){
 
 
 function mw_select_post_for_editing($p_id, $subtype){
-	
+
 	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 	 var active_item_is_page = active_item.attr('data-page-id');
-	
-	 
-	 
+
+
+
 	  var active_item_is_category = active_item.attr('data-category-id');
 	 if(active_item_is_category != undefined){
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
 			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
 			   if(active_item_parent_page != undefined){
 					var active_item_is_page = active_item_parent_page.attr('data-page-id');
-				   
+
 			   } else {
 				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
 				   if(active_item_parent_page != undefined){
 						var active_item_is_page = active_item_parent_page.attr('data-page-id');
-					   
-				   }   
-				   
+
+				   }
+
 			   }
-  
-  
+
+
 	 } else {
 	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
 
 	 }
-	 
+
 	  if(active_item_is_page != undefined){
 		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
 
@@ -572,9 +572,9 @@ function mw_select_post_for_editing($p_id, $subtype){
 		mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
 
 	 }
-	 
-	 
-	 
+
+
+
 	 mw.$('#pages_edit_container').removeAttr('data-subtype');
 	 mw.$('#pages_edit_container').removeAttr('is_shop');
 	 mw.$('#pages_edit_container').attr('data-content-id',$p_id);
@@ -582,8 +582,8 @@ function mw_select_post_for_editing($p_id, $subtype){
 		 if($subtype == 'product'){
 			  mw.$('#pages_edit_container').attr('is_shop', 'y');
 		 }
-		 
-		 
+
+
 	 mw.$('#pages_edit_container').attr('data-subtype', $subtype);
 	 } else {
 		mw.$('#pages_edit_container').attr('data-subtype', 'post');
@@ -592,12 +592,12 @@ function mw_select_post_for_editing($p_id, $subtype){
 }
 
 function mw_add_product(){
-	
-	
+
+
 	 mw_select_post_for_editing(0,   'product')
- 
-	
- 
+
+
+
 }
 
 
@@ -654,7 +654,7 @@ function mw_add_product(){
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    <div class="mw_edit_page_right"> 
+    <div class="mw_edit_page_right">
       <script>
 
   /*  $(document).ready(function(){
@@ -690,28 +690,28 @@ $ed_content = false;
 			 $content_id = ' data-content-id='.intval($_GET['edit_content']).' ';
 			 $ed_content = true;
 		} else {
-				
+
 				if(defined('CONTENT_ID')== true and CONTENT_ID != false and CONTENT_ID != 0){
 					 $ed_content = true;
 				 $content_id = ' data-content-id='.intval(CONTENT_ID).' ';
-		
+
 			  } else   if(defined('POST_ID')== true and POST_ID != false and POST_ID != 0){
 				   $ed_content = true;
 				 $content_id = ' data-content-id='.intval(POST_ID).' ';
-		
+
 			  } else if(defined('PAGE_ID') == true and PAGE_ID != false and PAGE_ID != 0 ){
 				   $ed_content = true;
 				  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
-		
+
 			  }
 		}
-		 
+
 	   ?>
       <div id="pages_edit_container"  <? print $is_shop_str ?>>
         <? if( $ed_content=== false): ?>
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
         <? else: ?>
-        <div id="edit_content_admin" <? print  $content_id ?>></div>
+        <div id="edit_content_admin"   <? print  $content_id ?> /></div>
         <? endif; ?>
       </div>
     </div>

@@ -7,6 +7,10 @@
   line-height: 1.5;
 }
 
+.mw-defaults li{
+  line-height: 22px;
+}
+
 .mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
   font: 12px Verdana,Arial,Helvetica,sans-serif;
   color: #212121;
@@ -391,6 +395,7 @@ form.add-edit-page-post textarea{
     max-width: 250px;
     min-width: 25px;
     padding: 0;
+    height: 14px;
 }
 .edit-post-url-field:focus{
 

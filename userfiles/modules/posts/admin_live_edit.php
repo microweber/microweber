@@ -64,11 +64,22 @@ $show_fields = array();
 
     <style type="text/css">
 
+    .mw-ui-check input + span + span, body{
+      font-size: 11px;
+    }
+
     .fields-controlls li{
       list-style: none;
       clear: both;
       min-height: 45px;
+
+      min-height: 32px;
+      overflow: hidden;
+      padding: 6px 6px 4px;
+      border-radius:2px;
+
     }
+    .fields-controlls li:hover{background: #F8F8F8}
 
     .mw-ui-label-horizontal{
       display: inline-block;
@@ -129,14 +140,17 @@ $show_fields = array();
        <li>
 
        
-       
+
         <label class="mw-ui-check">
           <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field"  <? if(in_array('add_to_cart',$show_fields)): ?>   checked="checked"  <? endif; ?> />
           <span></span>
           <span>Add to cart</span></label>
-        <input name="data-add-to-cart-text" class="mw_option_field"   type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
-        <small>ex: Buy now</small> </li>
-      
+          <div class="right">
+          <label class="mw-ui-label-horizontal">Title</label>
+        <input name="data-add-to-cart-text" class="mw_option_field" style="width:65px;" placeholder="Buy now"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
+        </div>
+        </li>
+
       
       <? endif; ?>
 
@@ -148,7 +162,7 @@ $show_fields = array();
           <span></span>
           <span>Read More Link</span></label>
           <div class="right">
-          <label class="mw-ui-label-horizontal">Text</label>
+          <label class="mw-ui-label-horizontal">Title</label>
         <input name="data-read-more-text" class="mw_option_field"   type="text" placeholder="Read more" style="width:65px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
         </div>
         </li>
@@ -159,19 +173,21 @@ $show_fields = array();
           <span>Date</span></label>
       </li>
  
-      
-      
-    </ul>
-
-    <label class="mw-ui-check left">
+      <li> <label class="mw-ui-check left">
       <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <? if(get_option('data-hide-paging', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> />
       <span></span><span>Hide paging</span></label>
 
       <div class="right">
       <label class="mw-ui-labe-horizontall">Posts per page</label>
       <input name="data-limit" class="mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
-    </div>
+        </div></li>
+
+    </ul>
+
+
   <div class="tab">
     <module type="admin/modules/templates"  />
   </div>
+  <div class="mw_clear"></div>
+  <div class="vSpace"></div>
 </div>

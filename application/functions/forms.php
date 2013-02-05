@@ -160,21 +160,40 @@ function save_form_list($params) {
 	return $params;
 }
 
+api_expose('delete_form_entry');
+
+function delete_form_entry($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	$table = MW_DB_TABLE_FORMS_LISTS;
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id('table_forms_data', $c_id);
+
+		//d($c_id);
+	}
+}
 function get_form_entires($params) {
 	$params = parse_params($params);
 	$table = MW_DB_TABLE_FORMS_DATA;
 	$params['table'] = $table;
-
+ //$params['debug'] = $table;
 	$data = get($params);
 	$ret = array();
 	if (isarr($data)) {
 
 		foreach ($data as $item) {
 			//d($item);
-			$fields = get_custom_fields($item['to_table'], $item['to_table_id']);
-		 
-			ksort($fields);
+			//
+
+			$fields = get_custom_fields('table_forms_data', $item['id'],1);
+
+
 			if (isarr($fields)) {
+					ksort($fields);
 				$item['custom_fields'] = array();
 				foreach ($fields as $key => $value) {
 					$item['custom_fields'][$key] = $value;
@@ -184,6 +203,8 @@ function get_form_entires($params) {
 			$ret[] = $item;
 		}
 		return $ret;
+	} else {
+		return $data;
 	}
 }
 
@@ -237,18 +258,25 @@ function post_form($params) {
 	$to_save = array();
 	$fields_data = array();
 	$more = get_custom_fields($for, $for_id, 1);
+	$cf_to_save = array();
 	if (!empty($more)) {
 		foreach ($more as $item) {
 			if (isset($item['custom_field_name'])) {
 				$cfn = ($item['custom_field_name']);
-				
+
 				$cfn2 = str_replace(' ', '_', $cfn);
 				$fffound = false;
+
+
 				if (isset($params[$cfn2])) {
 					$fields_data[$cfn2] = $params[$cfn2];
+					$item['custom_field_value'] = $params[$cfn2];
 					$fffound = 1;
+					$cf_to_save[] = $item;
 				} elseif (isset($params[$cfn])) {
 					$fields_data[$cfn] = $params[$cfn];
+					$item['custom_field_value'] = $params[$cfn2];
+					$cf_to_save[] = $item;
 					$fffound = 1;
 				}
 
@@ -258,7 +286,7 @@ function post_form($params) {
 	$to_save['list_id'] = $list_id;
 	$to_save['to_table_id'] = $for_id;
 	$to_save['to_table'] = $for;
-	$to_save['custom_fields'] = $fields_data;
+	//$to_save['custom_fields'] = $fields_data;
 
 	if (isset($params['module_name'])) {
 		$to_save['module_name'] = $params['module_name'];
@@ -269,6 +297,25 @@ function post_form($params) {
 	}
 
 	$save = save_data($table, $to_save);
+
+if(!empty($cf_to_save)){
+		$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+
+	foreach ($cf_to_save as  $value) {
+
+		$value['copy_of_field'] = $value['id'];
+
+		$value['id'] = 0;
+		if(isset($value['session_id'])){
+		unset($value['session_id']);
+		}
+		$value['to_table_id'] = $save;
+		$value['to_table'] = 'table_forms_data';
+
+		$cf_save = save_data($table_custom_field, $value);
+	}
+}
+
 
 	return ($save);
 

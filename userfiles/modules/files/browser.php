@@ -23,7 +23,7 @@
   
  //$data = rglob($path);
   $params_get_files = array();
-   $params_get_files['directory']  =  $path;  
+   $params_get_files['directory']  =  $path;
    
    if (isset($params['search'])) {
 		   $params_get_files['search']  =  $params['search'];  
@@ -52,6 +52,9 @@ PreviousFolder = [];
 
 
 <div class="mw-o-box mw-file-browser">
+
+
+<?php if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
 <div class="mw-o-box-header">
 <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right"><span class="backico"></span><?php _e("Back"); ?></a>
 <span class="ico ireport"></span>
@@ -77,6 +80,8 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 <? endif; ?>
     </span>
 </div>
+
+<?php } ?>
  <script>
     PreviousFolder.length > 1 ? PreviousFolder.pop() : '';
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];

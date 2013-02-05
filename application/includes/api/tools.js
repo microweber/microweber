@@ -87,6 +87,7 @@ mw.tools = {
         modal_object.width(width).height(height);
 
         var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
+        var padding = container.offset().top - modal_object.offset().top;
 
 
         container.append(html).height(height-padding);
@@ -185,7 +186,7 @@ mw.tools = {
         $(modal.main).addClass("mw_modal_type_iframe");
         $(modal.container).css("overflow", "hidden");
         modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
-
+        $(modal.main).find("iframe").eq(0).height($(modal.main).find(".mw_modal_container").height())
         return modal;
     },
 
@@ -319,18 +320,18 @@ mw.tools = {
   dd_sub_set:function(item){
       var html = $(item).html();
       var value = item.parentNode.getAttribute("value");
-      $(item).parents(".mw_dropdown").setDropdownValue(value, true);
+      $(mw.tools.firstParentWithClass(item, 'mw_dropdown')).setDropdownValue(value, true);
   },
   module_slider:{
     scale:function(){
       var window_width = $(window).width();
-      $(".modules_bar").each(function(){
+      mw.$(".modules_bar").each(function(){
            $(this).width(window_width-204);
            $(this).find(".modules_bar_slider").width(window_width-220);
       });
     },
     prepare:function(){
-      $(".modules_bar").each(function(){
+      mw.$(".modules_bar").each(function(){
           var module_item_width = 0;
           $(this).find("li").each(function(){
             module_item_width += $(this).outerWidth(true);
@@ -408,7 +409,7 @@ mw.tools = {
         var id = child_object.id;
         var categories = child_object.category.replace(/\s/gi,'').split(',');
         var item = $(document.getElementById(id));
-        if(categories.indexOf(value_to_search)!=-1){
+        if(categories.indexOf(value_to_search)!==-1){
            item.show();
         }
         else{
@@ -598,7 +599,9 @@ mw.tools = {
     mw.tools.loop[loop] = false;
   },
   foreachParents:function(el, callback){
+     if(typeof el === 'undefined') return false;
      if(el === null) return false;
+
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.parentNode;
@@ -641,7 +644,7 @@ mw.tools = {
     var page =  "page_" + _MemoryToggleContentID;
 
     var is_active = $(toggler).hasClass('toggler-active');
-
+    if(_MemoryToggleContentID=='0') return false;
     var curr = mw.cookie.ui(page);
     if(curr==""){
         var obj = {}
@@ -668,10 +671,9 @@ mw.tools = {
               $(who).show().addClass('toggle-active');
               var callback = toggler.dataset("callback");
               if(callback != ""){
-                Wait('$', function(){
+                Wait(callback, function(){
                     window[callback]();
-                })
-
+                });
               }
             }
 
@@ -823,6 +825,7 @@ mw.tools = {
     }
   },
   highlight:function(el, color, speed1, speed2){
+    if(typeof el === 'undefined') return false;
     $(el).stop();
     var color = color || '#D8FFC4';
     var speed1 = speed1 || 777;
@@ -868,6 +871,7 @@ mw.tools = {
   tag:function(obj){
     var o = this;
     var itemsWrapper = obj.itemsWrapper;
+       $(itemsWrapper).scrollTop(1);
     if (itemsWrapper == null) return false;
     var items = obj.itemsWrapper.querySelectorAll(obj.items);
     var tagMethod = obj.method || 'parse';
@@ -887,6 +891,37 @@ mw.tools = {
             if(e.target.className != 'mw-ui-btnclose'){
                 mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
             }
+
+
+
+            var input = itemsWrapper.querySelector(".item_"+el.value + " input");
+
+            if(input !== null){
+
+              mw.tools.foreachParents(input, function(loop){
+
+                if(mw.tools.hasClass(this.className, 'mw-ui-category-selector')){
+                   mw.tools.stopLoop(loop);
+                }
+                if(this.tagName=='LI'){
+                  $(this).addClass('active');
+                }
+              });
+
+
+
+               var pos = $(input).offset().top + $(itemsWrapper).offset().top + $(itemsWrapper).scrollTop() ;
+
+
+               $(itemsWrapper).stop().animate({scrollTop:pos}, 200)
+
+             if(itemsWrapper.scrollHeight > $(itemsWrapper).height()){
+
+             }
+
+
+            }
+
         }
 
 

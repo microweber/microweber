@@ -38,6 +38,16 @@
 .font-16{font-size: 16px !important;}
 
 
+[class^='mw-ui']{
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+
+}
+
+
 
 /* Microweber UI Elements  */
 
@@ -236,11 +246,20 @@
        .mw_dropdown_type_navigation li a{
             display: block;
             padding: 5px 6px 5px 13px;
+            margin: 0;
+              -webkit-transition: none !important;
+            -moz-transition: none !important;
+            -o-transition: none !important;
+            -ms-transition: none !important;
+            transition: none !important;
             text-transform: capitalize;
             text-shadow:1px 1px 0px white;
             font-size: 11px;
             color: #212121;
             text-decoration: none !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow:ellipsis;
        }
        .mw_dropdown_type_navigation li li li a{
          padding:3px 6px 3px 26px;
@@ -308,7 +327,7 @@
         top: 0 ;
         width: 90%;
         padding: 7px 7px 6px;
-        height: calc(100% - 18px);
+        height:14px;
 
     }
     .mw_dropdown_autocomplete.active .mw-ui-field{
@@ -1270,7 +1289,7 @@ right: 15px;
   font-size:11px;
   color: #777777;
   box-shadow: 0 2px 2px -2px #CCCCCC;
-  background:white url(../img/manage_search.png) no-repeat 7px 3px !important;
+  background:white url(../img/manage_search.png) no-repeat 7px 3px;
   border-radius:2px;
 }
 
@@ -1374,8 +1393,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-module-live-edit-settings input[type='text'],
 .mw-module-live-edit-settings input[type='password'],
 .mw-module-live-edit-settings textarea{
-  border: 1px solid #E6E6E6;
-  border-top-color: #C6C6C6;
+  border: 1px solid #E6E6E6 !important;
+  border-top-color: #C6C6C6 !important;
   padding:8px 10px;
   background: white;
   outline: none;
@@ -1486,7 +1505,7 @@ textarea.mw-ui-field{
 }
 
 .mw-ui-field:focus{
-  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset !important;
 }
 
 input.mw-title-field{
@@ -2524,6 +2543,29 @@ body.mw-external-loading:after{
   left: 0;
   background: white url(../img/img_check_loading.gif) no-repeat center center;
   opacity:.8;
+}
+
+.mw-save-content-bar{
+  clear: both;
+  text-align: right;
+  padding: 12px 0;
+}
+
+
+.mwoffice .module:hover:before{
+  position: absolute;
+  margin-top: -10px;
+  z-index: 997;
+  display: inline-block;
+  content:attr(data-type);
+  padding:2px 5px;
+  background: #2680D3;
+  color: white;
+  box-shadow:0 0 1px #000;
+}
+
+.mwoffice .module:hover{
+  outline: 1px solid #2680D3;
 }
 
 

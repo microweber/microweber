@@ -98,8 +98,11 @@ mw.on.hashParam('sort_order', function(){
 
  ?>
 
-<div style="padding: 20px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-  <div >
+<div style="padding: 10 0px 0px;border:none;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
+
+
+<?php if(in_array('sorting', $_GET) and $_GET['sorting'] == 'true'){ ?>
+<div>
 
     <div class="mw-item-sorter left" style="margin-right: 10px;">
     <span class="mw-ui-label-help">Sort by</span>
@@ -176,16 +179,15 @@ mw.on.hashParam('sort_order', function(){
       <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
     </div>
-  </div>
+  </div> <div class="vSpace"></div>
+  <?php } ?>
 
 
-    <div class="vSpace"></div>
+
     <div id="files_admin_{rand}" ></div>
     <div id="user_edit_admin_{rand}" ></div>
 
 </div>
 <div class="mw_clear"></div>
-<div class="vSpace"></div>
-<center>
-  <div class="mw-ui-btn-rect relative" id="mw_folder_upload" style="width: 100px;height: 20px;">Upload Files</div>
-</center>
+
+

@@ -164,7 +164,7 @@ $(document).ready(function(){
 
        ?>
     <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
-    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="edit_category_set_par_<? print $form_rand_id ?>">
+    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<? print $form_rand_id ?>">
       <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
     </div>
   </div>
@@ -182,10 +182,12 @@ $(document).ready(function(){
   </div>
   <input name="position"  type="hidden" value="<? print ($data['position'])?>" />
   <input type="submit" class="semi hidden" name="save" />
-</form>
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />
 <div class="post-save-bottom">
   <input type="submit" name="save" class="semi_hidden"  value="Save" />
   <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
   <?php _e("Save"); ?>
   </a> </div>
+
+  </form>
+

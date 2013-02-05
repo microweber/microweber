@@ -103,9 +103,13 @@ if(isarr( $diff) and isarr($more) ){
   <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
     data-id="<? print $field['id'] ?>"
     id="custom-field-<? print $field['id'] ?>"
-    onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"><? print ($field['title']); ?>
+    onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);">
+
+
     <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span>
     <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
+
+    <? print ($field['title']); ?>
   </a>
 
   <? endif; ?>

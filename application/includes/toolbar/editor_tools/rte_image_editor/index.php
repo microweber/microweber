@@ -249,7 +249,7 @@ mw.embed = {
 <style type="text/css">
 
 .mw-o-box-content{
-  height: 150px;
+  height: 138px;
 }
 
 .mw-upload-filetypes{
@@ -324,7 +324,7 @@ mw.embed = {
   <ul class="mw_simple_tabs_nav">
     <li><a href="#">My Computer</a></li>
     <li><a href="#" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
-    <li><a href="#">Search</a></li>
+    <li><a href="#">Uploaded</a></li>
   </ul>
   
   <div class="tab" id="drag_files_here">

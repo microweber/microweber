@@ -61,16 +61,7 @@ if(isset($params["data-is-shop"])){
  _MemoryToggleContentID = "<? print $data['id']; ?>";
 
 
-  __loadpreview = function(){
 
-  if(!!mw.templatePreview){
-          if(!mw.templatePreview._once){
-            mw.templatePreview._once = true;
-            mw.templatePreview.generate();
-          }
-        }
-
-  }
 
 $(document).ready(function(){
 
@@ -441,10 +432,38 @@ load_iframe_editor = function(){
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
-  <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="__loadpreview" onclick="mw.tools.memoryToggle(this);__loadpreview();" href="javascript:;">Template</a>
-  <?  //  d($data); ?>
+
+
+  <script>
+
+  load_preview = function(){
+
+  if(!!mw.templatePreview){
+          if(!mw.templatePreview._once){
+            mw.templatePreview._once = true;
+            mw.templatePreview.generate();
+          }
+        }
+
+  }
+
+
+  </script>
+
+
+  <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">Template</a>
+
+
+
+
   <div class="mw-layout-selector-holder" style="display: none;">
     <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+
+    <div class="mw-save-content-bar">
+        <span class="mw-ui-btn go-live">Go Live Edit</span>
+        <span onclick="$(this).parents('form').submit();" style="min-width: 66px;" class="mw-ui-btn mw-ui-btn-green">Save</span>
+    </div>
+
   </div>
   <div class="vSpace"></div>
   <? if($edit_post_mode == false): ?>

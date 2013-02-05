@@ -130,8 +130,8 @@ mw.on.hashParam('search', function(){
 });
 mw.on.hashParam('category', function(){
   _modulesSort();
-  $("#mw_index_modules .category_tree a").removeClass('active');
-  $("#mw_index_modules .cat-"+this).addClass('active');
+  mw.$("#mw_index_modules a.active").removeClass('active');
+  mw.$("#mw_index_modules .cat-"+this).addClass('active');
 });
 mw.on.hashParam('installed', function(){
 
