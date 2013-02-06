@@ -2,16 +2,21 @@
 
 /*
 
- 
+type: layout
+content_type: product
+name: Product inner page
+description: shop layout
+
 */
+
 
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
- 
+
 <section id="content">
   <div class="container">
-    <div class="row"> 
+    <div class="row">
       <!-------------- Product -------------->
 
       <div class="span9">
@@ -38,7 +43,7 @@
           </div>
         </div>
       </div>
-      
+
       <!------------ Sidebar -------------->
       <div class="span3">
         <? include_once ACTIVE_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; ?>

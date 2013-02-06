@@ -88,7 +88,7 @@ mw.templatePreview = {
 		  	//var $sel = mw.$('#active_site_layout_{rand} option:selected');
 
 	  
-	  
+
     mw.templatePreview.selector.selectedIndex = which;
     mw.$("#layout_selector{rand} li.active").removeClass('active');
     mw.$("#layout_selector{rand} li").eq(which).addClass('active');
@@ -269,7 +269,7 @@ mw.templatePreview.generate();
 <div class="layout_selector_wrap">
   <div class="vSpace"></div>
   <div class="vSpace"></div>
-  <div class="mw-ui-field-holder mw-template-selector <? if( isset($params['small'])): ?> semi_hidden  <? endif; ?>" style="padding-top: 0">
+  <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<? if( isset($params['small'])): ?>display:none;<? endif; ?>">
     <label class="mw-ui-label">
       <?php _e("Template"); ?>
     </label>

@@ -710,6 +710,10 @@ form.add-edit-page-post textarea{
     background:#DEFFB8;
     border: 1px solid #9BCB61;
 }
+.mw-quick-links-blue li > a:hover{
+    background: url(../img/grad.php?top=D3EEFE&bot=8CC4E9);
+  border-color: #A1D1EF #589DC8 #4991C0;
+}
 
 
 
@@ -735,6 +739,10 @@ form.add-edit-page-post textarea{
 .mw-quick-links li a span.mw-ui-btn-plus + span{
   margin-left:23px;
   top: 0;
+}
+
+.mw-admin-page-preview-page  .mw-quick-links li a {
+  width: 140px;
 }
 
 .quick-links-case{

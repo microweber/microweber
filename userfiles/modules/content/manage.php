@@ -57,55 +57,86 @@ if(isset($params['data-category-id'])){
 ?>
 <? //d($params); ?>
 <?  if(isset($params['page-id'])):  ?>
+ <? $page_info = get_content_by_id($params['page-id']); ?>
+
 <div class="mw-admin-page-preview-holder">
 
 <div  class="mw-admin-page-preview-page">
-<module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" data-small=1  />
 
 
-<h2>Add new</h2>
-<div class="hr"></div>
+<div style="width: 370px;margin-left: 30px;" class="left"><module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" data-small=1  /></div>
 
-<ul class="mw-quick-links mw-quick-links-green" >
-  <li>
-    <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>">
-        <span class="mw-ui-btn-plus">&nbsp;</span>
-        <span class="ico ipage"></span>
-        <span>New Page</span>
-    </a>
-  </li>
-  <li>
-    <a href="#action=new:category&parent_page=<? print $params["page-id"]; ?>">
-        <span class="mw-ui-btn-plus">&nbsp;</span>
-        <span class="ico icategory"></span>
-        <span>New Category</span>
-    </a>
-  </li>
-  <li>
-    <a href="#action=new:post&parent_page=<? print $params["page-id"]; ?>">
-        <span class="mw-ui-btn-plus">&nbsp;</span>
-        <span class="ico ipost"></span>
-        <span>New Post</span>
-    </a>
-  </li>
-  <li>
-    <a href="#action=new:product&parent_page=<? print $params["page-id"]; ?>">
-        <span class="mw-ui-btn-plus">&nbsp;</span>
-        <span class="ico iproduct"></span>
-        <span>New Product</span>
-    </a>
-  </li>
-</ul>
 
+<div class="right" style="width: 210px;">
+
+
+ <? if(isarr($page_info) and isset($page_info['title'])): ?>
+  <h2 class="hr"><? print ($page_info['title']) ?></h2>
+
+  <ul class="mw-quick-links">
+    <li>
+        <a href="#action=editpage:<? print $params["page-id"]; ?>">
+            <span class="ico ieditpage"></span>
+            <span>Edit this Page</span>
+        </a>
+    </li>
+  </ul>
+  <ul class="mw-quick-links mw-quick-links-blue">
+    <li>
+
+
+        <a href="<?php print page_link($params["page-id"]);  ?>/editmode:y">
+            <span class="ico ilive"></span>
+            <span>Go Live Edit</span>
+        </a>
+    </li>
+  </ul>
+
+
+  <? endif; ?>
+
+    <h2 class="hr">Add new</h2>
+    <ul class="mw-quick-links mw-quick-links-green" >
+      <li>
+        <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>">
+            <span class="mw-ui-btn-plus">&nbsp;</span>
+            <span class="ico ipage"></span>
+            <span>New Page</span>
+        </a>
+      </li>
+      <li>
+        <a href="#action=new:category&parent_page=<? print $params["page-id"]; ?>">
+            <span class="mw-ui-btn-plus">&nbsp;</span>
+            <span class="ico icategory"></span>
+            <span>New Category</span>
+        </a>
+      </li>
+      <li>
+        <a href="#action=new:post&parent_page=<? print $params["page-id"]; ?>">
+            <span class="mw-ui-btn-plus">&nbsp;</span>
+            <span class="ico ipost"></span>
+            <span>New Post</span>
+        </a>
+      </li>
+      <li>
+        <a href="#action=new:product&parent_page=<? print $params["page-id"]; ?>">
+            <span class="mw-ui-btn-plus">&nbsp;</span>
+            <span class="ico iproduct"></span>
+            <span>New Product</span>
+        </a>
+      </li>
+    </ul>
+    
+
+</div>
+
+<div class="mw_clear"></div>
 
 </div>
 
 <div class="mw-admin-page-preview-page-info">
- <? $page_info = get_content_by_id($params['page-id']); ?>
 
-  <? if(isarr($page_info) and isset($page_info['title'])): ?>
-  <h2><? print ($page_info['title']) ?></h2>
-  <? endif; ?>
+
 </div>
 </div>
 
@@ -113,7 +144,7 @@ if(isset($params['data-category-id'])){
 <? endif; ?>
 
 
-<div style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;">
+<div class="left" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>Yes
       <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />

@@ -304,10 +304,12 @@ function define_constants($content = false) {
 		define('MAIN_PAGE_ID', false);
 	}
 
-	if (isset($page) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
+	if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
+
 		$the_active_site_template = $page['active_site_template'];
 	} else {
 		$the_active_site_template = get_option('curent_template');
+		// d($the_active_site_template );
 	}
 
 	$the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . DS);
@@ -319,6 +321,7 @@ function define_constants($content = false) {
 
 
 	if (trim($the_active_site_template) != 'default') {
+
 		if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
 			$use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
 			if (is_file($use_default_layouts)) {
@@ -377,9 +380,6 @@ function define_constants($content = false) {
 
 		define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
 	}
-
-
-
 
 	if (defined('THIS_TEMPLATE_URL') == false) {
 		$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
@@ -473,7 +473,9 @@ function get_layout_for_page($page = array()) {
 			$render_file = $page['simply_a_file'];
 		}
 	}
-
+if (!isset($page['active_site_template'])){
+	$page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+}
 	if (isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
 
 		$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'].DS.'use_default_layouts.php';
@@ -484,24 +486,39 @@ function get_layout_for_page($page = array()) {
 
 
 	}
+ if (isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
+$layouts_list  = layouts_list('site_template='.$page['active_site_template']);
 
+ 		if(isarr($layouts_list)){
+ 			foreach ($layouts_list as $layout_item) {
+ 				if($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] ==$layout_item['content_type']){
+
+$page['layout_file']  = $layout_item['layout_file'];
+$render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'] ;
+ 				}
+
+ 			}
+ 		}
+
+
+
+ }
 
 	if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
-
-
-
-
 		if ($look_for_post != false) {
-
-
-
 			$f1 = $page['layout_file'];
+
+
 			$stringA = $f1;
 			$stringB = "_inner";
 			$length = strlen($stringA);
 			$temp1 = substr($stringA, 0, $length - 4);
 			$temp2 = substr($stringA, $length - 4, $length);
 			$f1 = $temp1 . $stringB . $temp2;
+
+
+
+
 
 			if (strtolower($page['active_site_template']) == 'default') {
 				$template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
@@ -553,6 +570,8 @@ function get_layout_for_page($page = array()) {
 
 			}
 		}
+
+
 
 		if ($render_file == false) {
 			if (strtolower($page['active_site_template']) == 'default') {

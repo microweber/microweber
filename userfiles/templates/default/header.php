@@ -12,15 +12,21 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="" />
 <meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
+<? if(isset($custom_head)): ?>
+<?  print $custom_head; ?>
+<? else : ?>
 <link rel="stylesheet" href="{TEMPLATE_URL}css/bootstrap.css" type="text/css" media="screen">
+
 <link rel="stylesheet" href="{TEMPLATE_URL}css/responsive.css" type="text/css" media="screen">
 <link rel="stylesheet" href="{TEMPLATE_URL}css/style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="{TEMPLATE_URL}css/camera.css" type="text/css" media="screen">
 <link rel="stylesheet" href="{TEMPLATE_URL}css/portfolio.css" type="text/css" media="screen">
 <link rel="stylesheet" href="{TEMPLATE_URL}css/elements.css" type="text/css" media="screen">
+
+<? endif; ?>
 </head>
 <body>
-<div class="header-block clearfix"> 
+<div class="header-block clearfix">
   <!-- Navigation -->
   <header>
     <div class="container">
@@ -85,7 +91,7 @@
                       </ul>
                     </li>
                     <li><a href="contact.html"><span>Contact us <em> stay in touch</em></span></a><em></em></li>
-                  </ul>--> 
+                  </ul>-->
                 </div>
               </div>
             </div>

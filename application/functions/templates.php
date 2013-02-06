@@ -86,7 +86,7 @@ function templates_list($options = false) {
 }
 
 function layouts_list($options = false) {
-
+$options = parse_params($options);
 	if (!isset($options['path'])) {
 		if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
 			$tmpl = trim($options['site_template']);
