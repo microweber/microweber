@@ -17,7 +17,7 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 
  
 if(isset($params['content-id'])){
-	$for_module_id = $for_id = $params['content-id']; 
+	$for_module_id = $for_id = $params['content-id'];
 	 $for = 'table_content';
 } else {
 	$for_module_id = $for_id = $params['id']; 
@@ -31,13 +31,13 @@ if(isset($params['content-id'])){
     <li><a href="javascript:;">Skin/Template</a></li>
   </ul>
   <div class="tab">
- 
+
  
   <label class="mw-ui-check">
       <input type="checkbox" name="data-use-from-post" value="y" class="mw_option_field" <? if(get_option('data-use-from-post', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> data-also-reload="<? print $config['the_module'] ?>" />
       <span></span><span>Use pictures from post</span></label>
-      
-          <microweber module="pictures/admin_backend"     for="<? print $for ?>"  for-id="<? print $for_id ?>" >
+
+          <microweber module="pictures/admin_backend" for="<? print $for ?>" for-id="<? print $for_id ?>" >
 
        
   </div>
@@ -46,3 +46,6 @@ if(isset($params['content-id'])){
     <microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
   </div>
 </div>
+<div class="mw_clear"></div>
+<div class="vSpace"></div>
+<div class="vSpace"></div>

@@ -626,13 +626,26 @@ function db_get($table, $criteria, $cache_group = false) {
 	return db_get_long($table, $criteria, $limit = false, $offset = false, $orderby = false, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 }
 
+
+
+
+
+
+
 /**
- * get data
- * Microweber CMS.
- * Everything relies on it.
+ * db_get_long
  *
+ * Gets data from table
+ *
+ * @param $table string
+ *        	- table name
+
+ * @return array
  * @author Peter Ivanov
+ * @version 1.0
+ * @since Version 0.320
  */
+
 function db_get_long($table = false, $criteria = false, $limit = false, $offset = false, $orderby = false, $cache_group = false, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false) {
 
 	if ($table == false) {
@@ -1320,7 +1333,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 $where_q1 = " id in (select to_table_id from $table_custom_fields where
 to_table='$table_assoc_name1' and
-	custom_field_values_plain REGEXP '$to_search')  " ;
+	custom_field_values_plain REGEXP '$to_search' )  " ;
 		$where_q .=		$where_q1 ;
 }
 

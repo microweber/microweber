@@ -12,23 +12,23 @@ description: Post inner layout
 
 ?>
 <? include TEMPLATE_DIR. "header.php"; ?>
- 
- 
- 
- 
+
+
+
+
 <section id="content">
-  <div class="container"> 
+  <div class="container">
     <!--=========== Blog ===========-->
-    <div class="row"> 
+    <div class="row">
       <!-------------- Blog post -------------->
-      <div class="span8"> 
+      <div class="span8">
         <!-- blog 1 -->
         <div class="blog-post">
           <div class="blog-post-header">
             <h2  class="edit"  rel="content"  field="title">Your title goes here</h2>
             <a class="btn blog-fright" href="#"><i> 14 </i></a> </div>
           <div class="blog-post-body edit"  rel="content"  field="content"> <img src="{TEMPLATE_URL}img/blog-1.jpg" alt="" class="img-circle">
-            <div class="post-meta">Posted by: <a href="#">owltemplates </a> | Posted in: <a href="#">template,</a> <a href="#">wordpress,</a> <a href="#">premium</a> </div>
+            <div class="post-meta">Posted by: <a href="#">owltemplates </a> | Posted in: <a href="#">template,</a><a href="#">premium</a> </div>
             <p class="element">Lorem ipsum dolor sit amet, consectetueradipiscing elied diam nonummy nibh euisod tincidunt ut laoreet dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Donec quam felis, ultricies nec, pellentesque pretium quis, sem. Nulla consequat massa quis enim. Donec pe justo fringilla vel, aliquet nec vulputate eget, arcu enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felisa penelore mollis pretium. Integer tincidunt vamus elementum semper nisi. </p>
             <p class="p0 element">Donec quam felis, ultricies nec, pellentesque pretium quis, sem. Nulla consequat massa quis enim. Donec pe justo fringilla vel, aliquet nec vulputate eget, arcu enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felisa penelore mollis pretium. Integer tincidunt vamus elementum semper nisi. Lorem ipsum dolor sit amet, consectetueradipiscing elied diam nonummy nibh euisod tincidunt ut laoreet dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
           </div>

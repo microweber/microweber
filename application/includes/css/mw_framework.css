@@ -926,12 +926,22 @@ body.view-shop .mw_action_post{
   position: relative;
   padding-top: 7px;
   padding-bottom: 7px;
+
+  padding:9px 2px 6px;
+
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
   outline: none;
   background-image: url(../img/tree.pageico.png);
   background-repeat: no-repeat;
   background-position: 57px 8px;
+}
+
+.mw-tree label.highlighted{
+  background-color:white;
+  border-bottom-color: #EDEDED;
+  border-top-color: #EDEDED;
+  color: #235F99;
 }
 
 
@@ -2357,70 +2367,7 @@ tr.mw-o-box-table-footer td:first-child{
   text-overflow:ellipsis;
 }
 
-.mw-manage-btn{
-  display: inline-block;
-  min-width:90px;
-  height: 60px;
-  background: url(../img/grad.php?top=FBFBFB&bot=F0F0F0);
-  border-width: 1px;
-  border-style: solid;
-  border-color:  #F5F3F3 #DCDBDB #D0CFCF #DCDBDB;
-  border-radius:2px;
-  font-size: 10px;
-  color: #909090;
-}
-.mw-manage-btn span{
-  display: block;
-  width: 90px;
-  height: 45px;
-  background: url(../img/add_new_big.png) no-repeat;
-}
 
-.mw-manage-btn:hover{
-  border-color:  #EAE6E6 #BDBABA #A09F9F #BDBABA;
-  background: url(../img/grad.php?top=F6F6F6&bot=E0E0E0);
-  color:#434343;
-}
-
-.mw-manage-btn:active{
-  box-shadow:0 1px 6px -3px #555 inset;
-}
-
-.mw-manage-btn strong{
-  display: block;
-  line-height: 10px;
-  white-space: nowrap;
-  text-align: center;
-  font-weight: normal;
-}
-
-.mw-manageconten-nav{
-  padding: 10px 0 10px 10px;
-  overflow: hidden;
-  position: absolute;
-  top: 32px;
-}
-
-.mw-manageconten-nav a{
-  float: left;
-  margin-right: 10px;
-}
-
-
-.mw-manage-btn-post-add span{background-position: 17px 8px;}
-.mw-manage-btn-post-add:hover span{background-position: 17px -62px;}
-
-.mw-manage-btn-category-add span{background-position: -75px 8px;}
-.mw-manage-btn-category-add:hover span{background-position: -75px -62px;}
-
-.mw-manage-btn-product-add span{background-position: -172px 8px;}
-.mw-manage-btn-product-add:hover span{background-position: -172px -62px;}
-
-.mw-manage-btn-page-edit span{background-position: -276px 8px;}
-.mw-manage-btn-page-edit:hover span{background-position: -276px -62px;}
-
-.mw-manage-btn-category-edit span{background-position: -380px 8px;}
-.mw-manage-btn-category-edit:hover span{background-position: -380px -62px;}
 
 
 .mw-ui-btnclose{
@@ -2550,7 +2497,7 @@ body.mw-external-loading:after{
   text-align: right;
   padding: 12px 0;
 }
-
+  /*
 
 .mwoffice .module:hover:before{
   position: absolute;
@@ -2564,10 +2511,12 @@ body.mw-external-loading:after{
   box-shadow:0 0 1px #000;
 }
 
+
+
 .mwoffice .module:hover{
   outline: 1px solid #2680D3;
 }
-
+         */
 
 
 

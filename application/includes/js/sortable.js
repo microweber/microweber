@@ -406,7 +406,8 @@ mw.drag = {
 
 
 
-          if(event.target.hasAttribute("field")){
+          if(event.target.hasAttribute("field")){    d("sortable.js - Line: 409");
+          /*
             var attrs = mw.tools.getAttrs(event.target);
             var tag = event.target.tagName.toLowerCase();
             var input = mwd.createElement('input');
@@ -422,7 +423,7 @@ mw.drag = {
                 $(input).replaceWith(el);
             }
              $(event.target).replaceWith(input);
-             input.focus();
+             input.focus();  */
           }
 
 

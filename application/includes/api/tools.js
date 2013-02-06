@@ -842,6 +842,11 @@ mw.tools = {
         })
     });
   },
+  highlightStop:function(el){
+     $(el).stop();
+     $(el).css('backgroundColor', '');
+     $(el).css('boxShadow', '');
+  },
   toCamelCase:function(str){
      return str.replace(/(\-[a-z])/g, function(a){return a.toUpperCase().replace('-','');})
   },
@@ -871,7 +876,7 @@ mw.tools = {
   tag:function(obj){
     var o = this;
     var itemsWrapper = obj.itemsWrapper;
-       $(itemsWrapper).scrollTop(1);
+
     if (itemsWrapper == null) return false;
     var items = obj.itemsWrapper.querySelectorAll(obj.items);
     var tagMethod = obj.method || 'parse';
@@ -888,6 +893,8 @@ mw.tools = {
         span_holder.id = 'id-'+el.value;
         span_holder.innerHTML = el.parentNode.textContent;
         span_holder.onclick = function(e){
+
+
             if(e.target.className != 'mw-ui-btnclose'){
                 mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
             }
@@ -910,15 +917,14 @@ mw.tools = {
 
 
 
-               var pos = $(input).offset().top + $(itemsWrapper).offset().top + $(itemsWrapper).scrollTop() ;
+              var label = itemsWrapper.querySelector(".item_"+el.value + " label");
 
-
-               $(itemsWrapper).stop().animate({scrollTop:pos}, 200)
-
-             if(itemsWrapper.scrollHeight > $(itemsWrapper).height()){
-
-             }
-
+              setTimeout(function(){
+                  label.scrollIntoView(false);
+                  mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
+                  mw.tools.highlight(label);
+                  $(label).addClass("highlighted");
+               }, 55);
 
             }
 
@@ -969,6 +975,7 @@ mw.tools = {
 
     tagholder.click(function(e){
       if(e.target.tagName != 'INPUT'){ field.focus(); }
+
         itemsWrapper.style.display = 'block';
         if(itemsWrapper.querySelector('input').binded != true){
             itemsWrapper.querySelector('input').binded = true;
@@ -992,7 +999,7 @@ mw.tools = {
            tagholder.hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});
            $(itemsWrapper).hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});
            $(mwd.body).bindMultiple('mousedown', function(){
-               if(!mw.tools.hasClass(itemsWrapper.className, 'mw-tagger-hover') && !tagholder.hasClass('mw-tagger-hover')){
+               if(mw.$(".mw-tagger-hover").length==0){
                    itemsWrapper.style.display = 'none';
                    if(mw.$('.mw-ui-btn', tagholder).length==0){
                       field.val(def);
@@ -1569,6 +1576,10 @@ $(window).load(function(){
 
 
   }
+
+
+
+
 });
 
 

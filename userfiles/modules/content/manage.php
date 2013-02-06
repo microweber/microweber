@@ -2,33 +2,33 @@
 $posts_mod = array();
 $posts_mod['type'] = 'content/admin_posts_list';
  // $posts_mod['display'] = 'custom';
- if(isset($params['page-id'])){ 
+ if(isset($params['page-id'])){
 $posts_mod['data-page-id'] =$params['page-id'];
  }
- 
+
   if(isset($params['keyword'])){
  $posts_mod['search_by_keyword'] =$params['keyword'];
  }
    if(isset($params['keyword'])){
 
  }
- 
+
    if(isset($params['is_shop']) and $params['is_shop']=='y'){
-	    $posts_mod['subtype'] = 'product';  
- }  
- 
+	    $posts_mod['subtype'] = 'product';
+ }
+
  if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
   $check_if_excist = get_content_by_id($params['page-id']);
 	  if(isarr($check_if_excist)){
 		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
-			$posts_mod['subtype'] = 'product';  
+			$posts_mod['subtype'] = 'product';
 		}
 	  }
  }
 
   if(isset($params['category-id']) and $params['category-id']!='global'){
   $check_if_excist = get_page_for_category($params['category-id']);
-  
+
 	  if(isarr($check_if_excist)){
 		if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
 		 $posts_mod['subtype'] = 'product';
@@ -38,7 +38,7 @@ $posts_mod['data-page-id'] =$params['page-id'];
   $posts_mod['wrap'] =1;
  $posts_mod['paging_param'] ='pg';
   $posts_mod['orderby'] ='created_on desc';
- 
+
  if(isset($params['pg'])){
  $posts_mod['curent_page'] =$params['pg'];
  }
@@ -47,42 +47,72 @@ if(isset($params['data-category-id'])){
         $posts_mod['category-id'] = $params['data-category-id'];
 }
  $posts = array();
- 
+
 
 //$pics_module = is_module('pictures');
- 
- 
+
+
 //print $posts ;
   //d($params);
 ?>
 <? //d($params); ?>
-<?  if(isset($params['paaaaaage-id'])):  ?>
-<module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" data-small=1  />
-<? endif; ?>
+<?  if(isset($params['page-id'])):  ?>
+<div class="mw-admin-page-preview-holder">
 
-<div class="mw-manageconten-nav">
-  <? if(isset($posts_mod['subtype']) and $posts_mod['subtype'] == 'product'): ?>
-  <? if(isset($params["selected-category-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-product-add" href="#action=new:product&category_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>New Product</strong></a>
-  <? elseif(isset($params["page-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-product-add" href="#action=new:product&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Product</strong></a>
-  <? endif; ?>
-  <? else: ?>
-  <? if(isset($params["selected-category-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-post-add" href="#action=new:post&category_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>New Post</strong></a>
-  <? elseif(isset($params["page-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-post-add" href="#action=new:post&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Post</strong></a>
-  <? endif; ?>
-  <? endif; ?>
-  <? if(isset($params["selected-category-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-category-add" href="#action=new:category&parent_id=<? print $params["selected-category-id"]; ?>"><span></span><strong>Sub Category</strong></a> <a class="mw-manage-btn mw-manage-btn-category-edit" href="#action=editcategory:<? print $params["selected-category-id"]; ?>"><span></span><strong>Edit Category</strong></a>
-  <? elseif(isset($params["page-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-category-add" href="#action=new:category&parent_page=<? print $params["page-id"]; ?>"><span></span><strong>New Category</strong></a>
-  <? endif; ?>
-  <? if(isset($params["page-id"])): ?>
-  <a class="mw-manage-btn mw-manage-btn-page-edit" href="#action=editpage:<? print $params["page-id"]; ?>"><span></span><strong>Edit Page</strong></a>
+<div  class="mw-admin-page-preview-page">
+<module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" data-small=1  />
+
+
+<h2>Add new</h2>
+<div class="hr"></div>
+
+<ul class="mw-quick-links mw-quick-links-green" >
+  <li>
+    <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>">
+        <span class="mw-ui-btn-plus">&nbsp;</span>
+        <span class="ico ipage"></span>
+        <span>New Page</span>
+    </a>
+  </li>
+  <li>
+    <a href="#action=new:category&parent_page=<? print $params["page-id"]; ?>">
+        <span class="mw-ui-btn-plus">&nbsp;</span>
+        <span class="ico icategory"></span>
+        <span>New Category</span>
+    </a>
+  </li>
+  <li>
+    <a href="#action=new:post&parent_page=<? print $params["page-id"]; ?>">
+        <span class="mw-ui-btn-plus">&nbsp;</span>
+        <span class="ico ipost"></span>
+        <span>New Post</span>
+    </a>
+  </li>
+  <li>
+    <a href="#action=new:product&parent_page=<? print $params["page-id"]; ?>">
+        <span class="mw-ui-btn-plus">&nbsp;</span>
+        <span class="ico iproduct"></span>
+        <span>New Product</span>
+    </a>
+  </li>
+</ul>
+
+
+</div>
+
+<div class="mw-admin-page-preview-page-info">
+ <? $page_info = get_content_by_id($params['page-id']); ?>
+
+  <? if(isarr($page_info) and isset($page_info['title'])): ?>
+  <h2><? print ($page_info['title']) ?></h2>
   <? endif; ?>
 </div>
+</div>
+
+
+<? endif; ?>
+
+
 <div style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>Yes
@@ -172,45 +202,45 @@ mw.manage_content_sort = function(){
   <?  if(isset($params['page-id'])):  ?>
   <?
 
-  
-  
 
-  
-  
+
+
+
+
  $pt_opts = array();
- 
+
   if(isset($params['is_shop'])){
-	    $pt_opts['is_shop'] = $params['is_shop'];  
- }  
+	    $pt_opts['is_shop'] = $params['is_shop'];
+ }
 
  if($params['page-id'] == 'global'){
 	 $params['page-id'] = '0';
  } else {
-	 
+
 	 // d( $check_if_excist);
  }
- 
-  $pt_opts['parent'] = $params['page-id'];  
+
+  $pt_opts['parent'] = $params['page-id'];
+
+
  //  $pt_opts['id'] = "pgs_tree";
  	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" href="{url}">{title}</a>';
 	 $pt_opts['max_level'] = 2;
  if($params['page-id'] == '0'){
-	  $pt_opts['include_first'] =  false;  
+	  $pt_opts['include_first'] =  false;
 	   $pt_opts['max_level'] = 1;
  } else {
-	 $pt_opts['include_first'] = 'yes';  
+	 $pt_opts['include_first'] = 'yes';
  }
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
   //
   $pt_opts['include_categories'] = 'yes';
-   
+
  //$pt_opts['debug'] = 2;
    if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
@@ -222,7 +252,7 @@ mw.manage_content_sort = function(){
   <?  if(isset($params['category-id'])):  ?>
   <?
  $pt_opts = array();
-  $pt_opts['parent'] = $params['category-id'];  
+  $pt_opts['parent'] = $params['category-id'];
  //  $pt_opts['id'] = "pgs_tree";
  //	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
 
@@ -283,13 +313,13 @@ mw.manage_content_sort = function(){
   	// mw.load_module('content/admin_posts_list','#mw_admin_posts_manage');
 
   mw.reload_module('#mw_admin_posts_manage');
- 
+
 
 
  });
- 
- 
- 
+
+
+
 
  mw.on.hashParam("search", function(){
 
@@ -335,6 +365,6 @@ if( isset($params['category-id']) and intval($params['category-id']) > 0){
 	}
 //	d($cat);
 }
- 
+
 */
 

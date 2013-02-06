@@ -1,6 +1,6 @@
 <?php //$rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
-<? $active_content_id = 0;
+<? $active_content_id = '';
 if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 	$active_content_id = $_REQUEST['edit_content'];
 }

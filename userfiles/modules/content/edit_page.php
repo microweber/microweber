@@ -3,7 +3,7 @@ if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
 }   //  $params['content_type'] = 'post';
 
- 
+
        $rand = uniqid();
 
 
@@ -33,6 +33,21 @@ $data = get_content_by_id(intval($params["data-page-id"]));
 
 if($data == false or empty($data )){
 include('_empty_content_data.php');
+   if(!isset($params["parent-page-id"]) or intval($params["parent-page-id"]) == 0){
+       if(isset($params["is_shop"]) and $params["is_shop"] == 'y'){
+       $parent_cont = get_content('subtype=dynamic&is_active=y&content_type=page&limit=1&order_by=updated_on desc&is_shop=y');
+        }
+
+         if(!isset($params["is_shop"]) or $params["is_shop"] == 'n'){
+       $parent_cont = get_content('subtype=dynamic&is_active=y&content_type=page&limit=1&order_by=updated_on desc&is_shop=n');
+        }
+        if(isarr($parent_cont) and isset($parent_cont[0])){
+          $params["parent-page-id"] = $parent_cont[0]['id'];
+          $params["parent-category-id"] = $parent_cont[0]['subtype_value'];
+        }
+
+   //d(  $parent_cont);
+    }
 }
 if(isset($edit_post_mode) and $edit_post_mode == true){
              $data['content_type'] = 'post';
@@ -69,7 +84,7 @@ $(document).ready(function(){
 
 mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 
-	 
+
 
 
 
@@ -85,7 +100,7 @@ mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
   <? else: ?>
 // mw_after_content_save<? print $rand; ?>();
                              <? endif; ?>
-	
+
 
  });
 
@@ -95,19 +110,19 @@ mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 		  // mw.reload_module($pmod);
 
  return false;
- 
- 
+
+
  });
-   
+
 
     mw.$('#admin_edit_page_form_<? print $rand; ?>  .go-live').click(function() {
 
 
 mw_before_content_save<? print $rand; ?>()
- 
-  
+
+
  mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
-	
+
  mw_after_content_save<? print $rand; ?>(this);
 
 
@@ -115,11 +130,11 @@ mw_before_content_save<? print $rand; ?>()
 
 });
 
- 
+
 
 
  return false;
- 
+
 
  });
 
@@ -130,9 +145,9 @@ mw_before_content_save<? print $rand; ?>()
 	 if(el_par_page.length >0){
 		 __set_content_parent_info<? print $rand; ?>()
 			el_par_page.bind('change', function() {
-				
+
 				 __set_content_parent_info<? print $rand; ?>()
-				
+
 			})
 
 	 }
@@ -197,79 +212,79 @@ mw_before_content_save<? print $rand; ?>()
 
      //alert(' mw_on_save_complete<? print $rand; ?>')
 	 mw_on_save_complete<? print $rand; ?>();
-	 
-	 
-	
+
+
+
 //mw.url.windowDeleteHashParam("new_content")
  });
- 
- 
+
+
  function __set_content_parent_info<? print $rand; ?>(){
-	 
+
 	 mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').empty();
 	var el =$('#parent_page_select_<? print $rand; ?> option:selected');
 	 if(el.length >0){
-		var val = el.val(); 
-		var title = el.attr('title'); 
+		var val = el.val();
+		var title = el.attr('title');
 		if(title != undefined){
 			 mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').html('<a href="javascript:edit_page_open_page_and_menus<? print $rand; ?>()">Parent: '+ title+'</a>');
 		}
 
 	 }
  }
- 
+
  function edit_page_open_page_and_menus<? print $rand; ?>(){
 	   mw.$('.ed_page_and_menus_opener_link').addClass('active');
    		mw.$('.page_and_menus_holder').show();
-   
+
   		 var sel_hl = mw.$('.mw_parent_page_sel_holder')[0];
-		 
+
 		  mw.tools.scrollTo(sel_hl)
 	 		 mw.tools.highlight(sel_hl, '#d8ffc3',300,5000)
-	 
-	 
-	 
+
+
+
  }
- 
+
  function mw_on_save_complete<? print $rand; ?>(){
 	//alert(1);
     mw.notification.success("<?php _e('All changes are saved'); ?>.");
  }
 
 
- 
+
  function mw_before_content_save<? print $rand; ?>(){
-	 
+
 	 var ed_area = $('#iframe_editor_mw-editor<? print $rand; ?>');
 	  	  var ed_area_src = mw.$('#mw-editor<? print $rand; ?>_src');
 
 	  if(ed_area != undefined && ed_area.length > 0){
-		  
-		 var ed_area_ch =  ed_area.contents().find('.changed[field="content"]').first();  
-		
+
+		 var ed_area_ch =  ed_area.contents().find('.changed[field="content"]').first();
+
 		   if(ed_area_ch != undefined && ed_area_src != undefined && ed_area_src.length > 0){
 			   var changed_html = ed_area_ch.html();
 			 if(changed_html == undefined){
-				 		 var ed_area_ch1 =  ed_area.contents().find('#mw-iframe-editor-area').first().html();  
+				 		 var ed_area_ch1 =  ed_area.contents().find('#mw-iframe-editor-area').first().html();
  if(ed_area_ch1 != undefined){
 	// changed_html = ed_area_ch1;
  }
 			 }
-			 // 
+			 //
 			   ed_area_src.val(changed_html);
 		   }
 	  }
-	 
-	 
-	 
+
+
+
 	mw.$('#admin_edit_page_form_<? print $rand; ?> .module[data-type="custom_fields"]').empty();
  }
- 
 
- 
+
+
 
 		 function mw_after_content_save<? print $rand; ?>($id){
-		
+
 				mw.reload_module('[data-type="pages_menu"]');
 				  <? if($edit_post_mode != false): ?>
 					mw.reload_module('[data-type="posts"]');
@@ -282,15 +297,15 @@ mw_before_content_save<? print $rand; ?>()
 							$id = $id.replace(/"/g, "");
 					$.get('<? print site_url('api_html/content_link/') ?>'+$id, function(data) {
 						   window.top.location.href = data+'/editmode:y';
-			
-					});
-			
-				}
-			
 
-			
+					});
+
+				}
+
+
+
 			mw_on_save_complete<? print $rand; ?>()
-			
+
 
 
 		}
@@ -330,7 +345,7 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
       <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
       <? else : ?>
       <?
-    
+
 
      ?>
       <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
@@ -347,52 +362,52 @@ if(intval($data['id']) == 0 and isset($params['subtype']) and trim($params['subt
         $data['content'] = '';
     }?>
   <script>
- 
+
 load_iframe_editor = function(){
 	  var area = mwd.getElementById('mw-editor<? print $rand; ?>');
-	  
-	  
+
+
 	 var  ifr_ed_url = '<? print content_link($data['id']) ?>?content_id=<? print $data['id'] ?>';
 	  var  ifr_ed_url_more = '';
 	    <? if($edit_post_mode != false): ?>
-		
+
 		 var selpage = $('#categorories_selector_for_post_<? print $rand; ?>');
-		 
- 
-		 
+
+
+
 		if(selpage.length > 0){
 		selpage_find = 	selpage.find('input[type="radio"]:checked').first().val();
 		//mw.log('pecata   '+selpage_find);
 		if(selpage_find != undefined){
 			ifr_ed_url_more = '&parent_id='+selpage_find;
 		}
-	// 
-		
+	//
+
 		}
-		
-		
-		
-		
+
+
+
+
 		  <? else:  ?>
-		  
-		  
+
+
 		   if(!!mw.templatePreview){
           var ifr_ed_url =  mw.templatePreview.generate(true);
-		 
-        }      
 
-		
-			<? endif; ?>	
-	      	
+        }
+
+
+			<? endif; ?>
+
 		 mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
 
-		
-		
-		
-		
+
+
+
+
 
   }
-  
+
 
 
 
@@ -421,15 +436,7 @@ load_iframe_editor = function(){
 
 </div>
 
-  <? if($edit_post_mode == false): ?>
 
-  <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>
-
-  <div class="pictures-editor-holder" style="display: none;">
-    <microweber module="pictures" view="admin" for="content" for-id=<? print $data['id']; ?> />
-  </div>
-  <div class="vSpace"></div>
-  <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? if($edit_post_mode == false): ?>
 
@@ -466,13 +473,14 @@ load_iframe_editor = function(){
 
   </div>
   <div class="vSpace"></div>
+
   <? if($edit_post_mode == false): ?>
   <?   //  d($data);
 
   $pt_opts = array();
   if(intval($data['id']) > 0){
 $pt_opts['active_ids'] = $data['parent'];
-	
+
 } else {
 
   if(isset($params['parent-page-id']) and intval($data['parent']) == 0 and intval($params['parent-page-id']) > 0){
@@ -481,7 +489,7 @@ $pt_opts['active_ids'] = $data['parent'];
 
 
 }
-  
+
 
    ?>
   <a href="javascript:;" data-for='.page_and_menus_holder' id="advanced-settings-toggle" onclick="mw.tools.memoryToggle(this);"  class="toggle_advanced_settings mw-ui-more ed_page_and_menus_opener_link">
@@ -523,6 +531,11 @@ $pt_opts['active_ids'] = $data['parent'];
   </div>
   <div class="vSpace"></div>
   <? endif; ?>
+
+
+
+
+
   <? endif; ?>
   <? /* PAGES ONLY  */ ?>
   <? /* ONLY FOR POSTS  */ ?>
@@ -560,7 +573,7 @@ $pt_opts['active_ids'] = $data['parent'];
     <?
 
    $shopstr = '&is_shop=n';
-   
+
 
    if(isset($params["subtype"]) and $params["subtype"] == 'product'){
 	   $shopstr = '&is_shop=y';
@@ -572,20 +585,20 @@ $pt_opts['active_ids'] = $data['parent'];
     if(isset($data["subtype"]) and $data["subtype"] == 'product'){
 	   $shopstr = '&is_shop=y';
 }
-  
+
  $strz = '';
 
- 
+
   $selected_parent_ategory_id = '';
   if(isset($params["parent-category-id"])){
 	   $selected_parent_ategory_id = " data-parent-category-id={$params["parent-category-id"]} ";
 }
-  
 
 
- 
- 
- 
+
+
+
+
   if(isset($include_categories_in_cat_selector)): ?>
     <?
  $x = implode(',',$include_categories_in_cat_selector);
@@ -606,7 +619,7 @@ $pt_opts['active_ids'] = $data['parent'];
       <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
       <? else: ?>
       <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
-		 
+
 		 $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 	 } ?>
       <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
@@ -619,10 +632,11 @@ $pt_opts['active_ids'] = $data['parent'];
              mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
 		}
     });
-  </script> 
+  </script>
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
+
   <? if($edit_post_mode != false): ?>
   <?
 
@@ -636,16 +650,16 @@ $pt_opts['active_ids'] = $data['parent'];
 		  } else {
 			  $params['subtype'] = 'post';
 		  }
-		  
-		  
-		   
+
+
+
 	  } else {
 		  $params['subtype'] = 'post';
 
-		  
-		  
+
+
 	  }
-	
+
 }
 
  ?>
@@ -658,7 +672,7 @@ $pt_opts['active_ids'] = $data['parent'];
  if(intval($data['id']) == 0){
  if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
 			  $data['parent'] = $params["parent-page-id"];
-			   
+
 		   }
  }
 // d(  $data['parent']);
@@ -677,7 +691,7 @@ $pt_opts['active_ids'] = $data['parent'];
   <? $data['content_type'] = 'post'; ?>
   <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.memoryToggle(this);" data-for='.pictures-editor-holder' id="pictures-editor-toggle" href="javascript:;">Pictures Gallery</a>
   <div class="pictures-editor-holder" style="display: none;">
-    <module type="pictures" view="admin" for="content" for-id=<? print $data['id'] ?>  />
+    <module type="pictures/admin" for="content" for-id=<? print $data['id'] ?>  />
   </div>
   <? endif; ?>
   <? exec_action('mw_edit_content_admin', $data); ?>
@@ -691,6 +705,10 @@ $pt_opts['active_ids'] = $data['parent'];
   <div class="mw_clear"></div>
   <div class="vSpace"></div>
   <? endif; ?>
+
+
+
+
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<? print $rand; ?>'>
@@ -727,31 +745,31 @@ $(document).ready(function(){
      $(window).bind("templateChanged", function(e, el){
         load_iframe_editor();
      });
-        
-		
+
+
 	//
-		    	
+
 		//}
 
 });
 
 load_iframe_editor();
 	/*if(window.parent == undefined && window.parent.mw == undefined){
-		
-		
+
+
 	} else {
-	  
+
 	   $(".is_admin").bind("mouseover", function(){
-		 
+
 	 load_iframe_editor();
- 
-		$(this).unbind("mouseover"); 
-       
+
+		$(this).unbind("mouseover");
+
       });
-	  
-	  
+
+
 	}*/
-	
+
 function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
  var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[name="parent"]:checked').val();
  var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>');
@@ -762,25 +780,40 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 				 holder1.attr('save_to_content_id','<? print $data['id'] ?>');
 				 holder1.attr('to_table_id',vals);
 
-		
+
 				 mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>', function(){
 
 				 // holder1.find('[name="to_table_id"]').val('<? print $data['id'] ?>');
 					 });
-	 
+
  }
 
- 
- 
- 
- 
- 
+
+
+
+
+
 // mw.log(vals);
-	
+
 }
 </script>
 
   </div>
+
+
+  <? if($edit_post_mode == false): ?>
+
+  <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>
+
+  <div class="pictures-editor-holder" style="display: none;">
+    <microweber module="pictures/admin" for="content" for-id=<? print $data['id']; ?> />
+  </div>
+  <div class="vSpace"></div>
+  <? endif; ?>
+
+
+
+
   <? //endif; ?>
   <div class="mw_clear">&nbsp;</div>
   <? /* ONLY FOR POSTS  */ ?>

@@ -199,7 +199,7 @@ description: Home layout
     <!-- client logo -->
     <div class="row edit"  field="sub_content2" rel="global" >
       <div class="span12">
-        <ul class="list-banners">
+        <ul class="inline list-banners">
           <li><a href="#"><img src="{TEMPLATE_URL}img/banner-1.png" alt=""></a></li>
           <li><a href="#"><img src="{TEMPLATE_URL}img/banner-2.png" alt=""></a></li>
           <li><a href="#"><img src="{TEMPLATE_URL}img/banner-3.png" alt=""></a></li>

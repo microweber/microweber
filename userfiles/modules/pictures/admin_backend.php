@@ -1,10 +1,10 @@
- 
+
 <script  type="text/javascript">
     mw.require('<? print $config['url_to_module'] ?>pictures.js');
 
 </script>
 <?
- 
+
 
 
 if(!isset($for_id)){
@@ -13,7 +13,7 @@ $for_id = 0;
 if(isset($params['for'])){
 	 $for = $params['for'];
 } else {
- $for = 'table_modules';	
+ $for = 'table_modules';
 }
 
 if(!isset($for)){
@@ -21,7 +21,7 @@ $for = 'table_content';
 
 }
 
- 
+
 
 $for =  db_get_assoc_table_name($for);
 
@@ -36,12 +36,12 @@ if(isset($params['for-id'])){
 	$for_id = $params['for-id'];
 }
 
- 
+
 if(isset($params['content-id'])){
-	$for_id = $for_module_id = $params['content-id']; 
+	$for_id = $for_module_id = $params['content-id'];
 	 $for = 'table_content';
 }
- 
+
  ?>
 <?  $rand = uniqid(); ?>
 <script  type="text/javascript">
@@ -52,33 +52,29 @@ if(isset($params['content-id'])){
 
 function after_upld_<? print $rand; ?>(a, eventType){
 
- 
-	if(eventType != undefined && eventType != 'done' ){	 
+	if(eventType != undefined && eventType != 'done' ){
 			 var data = {};
 			 data.for = '<? print $for ?>';
 			 data.src = a;
 			 data.media_type = 'picture';
 			 data.for_id = '<? print $for_id ?>';
 			 mw.module_pictures.after_upload(data);
-			 
 	}
-			if(eventType != undefined && eventType == 'done' ){	 
-		 
-		   
-         if(mw.tools != undefined){
+	if(eventType != undefined && eventType == 'done' ){
+
+
+        if(mw.tools != undefined){
     	    mw.tools.modal.remove('mw_rte_image');
-    	 }
-		 
-		 mw.reload_module('pictures/admin');
-		 
-			 if(window.parent != undefined && window.parent.mw != undefined){
-				 window.parent.mw.reload_module('pictures');
-			 } else {
-				 mw.reload_module('pictures'); 
-			 }
-			 
-		}
- 
+    	}
+
+
+        mw.reload_module('pictures/admin');
+        if(window.parent != undefined && window.parent.mw != undefined){
+            window.parent.mw.reload_module('pictures');
+        } else {
+
+        }
+	}
 }
 
 
@@ -98,7 +94,7 @@ $(document).ready(function(){
   }?>
 
 <input name="thumbnail"  type="hidden" value="<? print ($data['thumbnail'])?>" />
-<? 
+<?
 
 if(intval($for_id) >0){
 $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
@@ -132,6 +128,36 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
   </div>
   <? endforeach; ?>
   <? endif;?>
-  <div class="post-thumb-uploader" onclick="mw.wysiwyg.request_image('#after_upld_<? print $rand; ?>');"> Add Image </div>
+
+
+
+  <script>mw.require("files.js");</script>
+  <script>
+
+
+
+
+
+  var uploader = mw.files.uploader({
+         filetypes:"images"
+  });
+
+
+  $(document).ready(function(){
+
+     mw.$("#backend_image_uploader").append(uploader);
+
+     $(uploader).bind("FileUploaded done" ,function(e, a){
+
+      after_upld_<? print $rand; ?>(a.src, e.type);
+     })
+  });
+
+
+
+  </script>
+
+  <div class="relative post-thumb-uploader" id="backend_image_uploader"></div>
+
+
 </div>
- 

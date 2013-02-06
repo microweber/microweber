@@ -121,7 +121,7 @@
 
 
 
-        <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
+           <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
 
         <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
 
@@ -170,6 +170,9 @@
 <?php } else { ?>
 
 <script>
+
+
+
 
 
   previewHTML = function(html, index){

@@ -23,62 +23,62 @@
  */
 mw.options = {
     save:function(el, callback){
- 
+
            //    mw.extend(el);
-			 
+
 				var el = el;
 				mw.extend(el);
-				
-				
-			  var also_reload = el.attr('data-also-reload');
- 
+
+
+			  	var also_reload = el.attr('data-also-reload');
+ 				var opt_id = el.attr('data-id');
                 var refresh_modules11 = el.attr('data-refresh');
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-reload');
 				}
-				
+
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-reload');
 				}
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('option-group');
 				}
-				
+
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('option_group');
 				}
-				
+
 					if(refresh_modules11 == undefined){
 				    var refresh_modules11 = el.attr('data-option-group');
 				}
 				//mw.log(modal);
-				
-				
-					
+
+
+
                 var modal = el.getModal().container;
-				
-			
-				
+
+
+
 				if(refresh_modules11 == undefined && modal!==undefined){
-						mw.extend(modal);
+					mw.extend(modal);
 				    var for_m_id = modal.attr('data-settings-for-module');
-							  
+
 				}
-				
+
                 var a = ['data-module-id','data-settings-for-module','data-refresh','option-group','data-option-group'], i=0, l=a.length, og='';
          		var mname = modal!==undefined ? modal.attr('data-type'):undefined;
 
-if(refresh_modules11 == undefined){
-				    for( ; i<l; i++){
-                  var og = og === undefined ? el.attr(a[i]) : og;
-                }
+					if(refresh_modules11 == undefined){
+					    for( ; i<l; i++){
+	                  var og = og === undefined ? el.attr(a[i]) : og;
+	                }
 				} else {
 					var og = refresh_modules11;
 				}
-				
-				
-				
-               
+
+
+
+
                 if(el.type==='checkbox'){
                    var val = '';
                    var items = mwd.getElementsByName(el.name), i=0, len = items.length;
@@ -96,19 +96,34 @@ if(refresh_modules11 == undefined){
 				if(mname !== undefined){
 					o_data.module = mname;
 				}
+
+
+
+
+
+
+
 				if(for_m_id !== undefined){
 					o_data.for_module_id = for_m_id;
 				}
 				 if(og != undefined){
 				    o_data.id = have_id;
 				}
-				
+
 				var have_id = el.attr('data-custom-field-id');
-				 
+
 				if(have_id != undefined){
 				    o_data.id = have_id;
 				}
-				
+
+
+				if(opt_id !== undefined){
+
+
+				o_data.id = opt_id;
+
+				}
+
                 $.ajax({
                     type: "POST",
                     url: mw.settings.site_url+"api/save_option",
@@ -117,20 +132,20 @@ if(refresh_modules11 == undefined){
 						if(also_reload != undefined){
 							if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
-                                    
+
 									window.mw.reload_module(also_reload);
                                 }
                             }
-							
+
 						}
-						
-						
+
+
 
 						 if (for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
-                                    
+
 									window.mw.reload_module('#'+for_m_id);
                                 }
                             }

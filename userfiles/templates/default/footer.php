@@ -8,7 +8,7 @@
           <div class="clearfix p1">
             <p class="text-info"><i>Lorem ipsum dolor sit amet, consectetuer adipiscing, sed diam nonummy nibh eui.</i></p>
             Lorem ipsum dolor sit amet, consectetuerad ipiscing elit, sed diam nonummy nibh euisod dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tinc. </div>
-          <ul id="social" class="tooltip-demo">
+          <ul id="social" class="inline tooltip-demo">
             <li><a rel="tooltip" title="RSS" href="#"><img alt="RSS" src="{TEMPLATE_URL}img/social_icons/rss.png"></a></li>
             <li><a rel="tooltip" title="Twitter" href="#"><img alt="Twitter" src="{TEMPLATE_URL}img/social_icons/twitter.png"></a></li>
             <li><a rel="tooltip" title="Facebook" href="#"><img alt="Facebook" src="{TEMPLATE_URL}img/social_icons/facebook.png"></a></li>
@@ -33,26 +33,10 @@
         <!-- latest blog -->
         <div class="span3">
           <h2>Latest From The Blog</h2>
-          <ul class="footer-list-news">
-            <li>
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
-              <div class="extra-wrap">
-                <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-                <span>12 October 2012</span> </div>
-            </li>
-            <li>
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
-              <div class="extra-wrap">
-                <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-                <span>12 October 2012</span> </div>
-            </li>
-            <li>
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
-              <div class="extra-wrap">
-                <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-                <span>12 October 2012</span> </div>
-            </li>
-          </ul>
+
+
+          <module type="posts" template="sidebar" data-limit="4" id="posts_footer" />
+
         </div>
       </div>
     </div>

@@ -13,14 +13,12 @@
   <div class="container">
     <div class="row"> 
       <!-------------- Product -------------->
-      
+
       <div class="span9">
         <div class="page-header1">
           <h2 class="edit"  field="title" rel="post">Product inner page</h2>
         </div>
-        <div class="edit"  field="content" rel="post">
-          <p class="p0 element">Nullam egestas nulla rutrum lorem varius nec faucibus est fringilla. Quisque at urna vel leo tincidunt rutrum vitae at enim. Duis ac mi nulla. Sed convallis lobortis vulputate. Etiam feugiat sapien vel felis scelerisque dapibus. Curabitur dictum massa id urna imperdiet eu blandit dolor faucibus. Fusce eu lobortis sem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laor.</p>
-        </div>
+
         <div class="clearfix"> <br />
           <br />
         </div>
@@ -30,6 +28,11 @@
               <module type="pictures" data-content-id="<? print POST_ID ?>" template="slider" />
             </div>
             <div class="span3">
+
+             <div class="edit"  field="content" rel="post">
+              <p class="p0 element">Describe your product</p>
+             </div>
+
               <module type="shop/cart_add" data-content-id="<? print POST_ID ?>" />
             </div>
           </div>

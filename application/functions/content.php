@@ -323,7 +323,17 @@ function define_constants($content = false) {
 			$use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
 			if (is_file($use_default_layouts)) {
 											//$render_file = ($use_default_layouts);
-				$template_view = DEFAULT_TEMPLATE_DIR .  $page['layout_file'];
+											//if()
+											//
+											//
+
+				if(isset($page['layout_file'])){
+					$template_view = DEFAULT_TEMPLATE_DIR .  $page['layout_file'];
+				} else {
+						$template_view = DEFAULT_TEMPLATE_DIR ;
+				}
+
+
 				if (is_file($template_view) == true) {
 
 					if (defined('THIS_TEMPLATE_DIR') == false) {
@@ -349,6 +359,8 @@ function define_constants($content = false) {
 			}
 		}
 
+	} else {
+		//d($the_active_site_template);
 	}
 
 
@@ -2272,7 +2284,9 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 
 	//
+
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
+	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -2304,6 +2318,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	if (isset($params['is_shop'])) {
 		$is_shop = db_escape_string($params['is_shop']);
 		$is_shop = " and is_shop='{$is_shop} '";
+		$include_first = false;
 
 	}
 	$ul_class = 'pages_tree';
@@ -2327,10 +2342,13 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 
 	$table = MW_TABLE_PREFIX . 'content';
-
+$par_q = '';
 	if ($parent == false) {
 
 		$parent = (0);
+	} else {
+$par_q = " parent=$parent    and  ";
+
 	}
 
 	if ($include_first == true) {
@@ -2339,7 +2357,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	} else {
 
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-		$sql = "SELECT * from $table where  parent=$parent    and content_type='page' $is_shop  order by created_on desc limit 0,100";
+		$sql = "SELECT * from $table where  $par_q  content_type='page' $is_shop  order by created_on desc limit 0,100";
 	}
 
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -2393,8 +2411,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 		$the_active_class = $params['active_class'];
 	}
 	//	$params['debug'] = $parent;
+	//
 	$params['content_type'] = 'page';
+
+	$include_first_set = false;
 	if ($include_first == true) {
+			$include_first_set = 1;
 		$include_first = false;
 		$params['id'] = $parent;
 		if (isset($params['include_first'])) {
@@ -2403,14 +2425,48 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 		if (isset($params['parent'])) {
 			unset($params['parent']);
 		}
+
+
+
+
+
 	} else {
+		// if($parent != 0){
 		$params['parent'] = $parent;
+		// }
 	}
+
+		if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+			if(isset($params['parent']) and $params['parent'] == 0){
+			 //	unset($params['parent']);
+			}
+
+		}
+
+if(isset($params['parent']) and $params['parent'] == 'any'){
+	unset($params['parent']);
+
+}
 	$params['limit'] = 50;
 	$params['orderby'] = 'created_on desc';
 
 	$params['curent_page'] = 1;
-	$q = get_content($params);
+
+ //$params['debug'] = 1;
+
+ $skip_pages_from_tree = false;
+$params2 = $params;
+if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+
+ //$max_level = $params2['max_level'] =2;
+ // $skip_pages_from_tree = 1;
+  unset($params2['parent']);
+//d($params2);
+
+
+}
+
+	$q = get_content($params2);
 
 	$result = $q;
 
@@ -2545,7 +2601,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 								$to_print = false;
 							} else {
-
+$remove_ids[] = $item['id'];
 								$to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);
 								//$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);
 							}
@@ -2578,9 +2634,14 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 					//   $nest_level++;
 					$params['nest_level'] = $nest_level;
+
+					if( $skip_pages_from_tree  == false){
 					$children = pages_tree($params);
+					}
 				} else {
+					if( $skip_pages_from_tree  == false){
 					$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
+					}
 				}
 
 				if (isset($include_categories) and $include_categories == true) {

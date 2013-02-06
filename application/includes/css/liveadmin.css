@@ -706,6 +706,11 @@ form.add-edit-page-post textarea{
   border-bottom-color: #A1A0A0;
 }
 
+.mw-quick-links-green li > a:hover{
+    background:#DEFFB8;
+    border: 1px solid #9BCB61;
+}
+
 
 
 .custom_fields_selector .quick-links li a:hover{

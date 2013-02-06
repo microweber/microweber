@@ -6,7 +6,7 @@
 	$here =	pathToURL($here).'/';
 	
 
-	$uid =  uniqid() ; 
+	$uid =  uniqid() ;
 	 
 		?>
 
@@ -70,6 +70,7 @@
             });
 
             uploader.init();
+
 
             uploader.bind('FilesAdded', function(up, files) {
                 uploader.start();

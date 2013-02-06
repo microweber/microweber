@@ -1,3 +1,19 @@
+<script>
+
+if(typeof __smart_field_opener !== 'function'){
+      __smart_field_opener = function(e){
+
+        if(!mw.tools.hasClass(e.target, 'mw-ui-btn') && e.target.querySelector('.mw-ui-btn') === null){
+            mw.tools.toggle('.custom_fields_selector', '#smart_field_opener');
+        }
+
+      }
+}
+
+
+</script>
+
+
 <?
 
   $for = 'module';
@@ -83,7 +99,7 @@ if(isarr( $diff) and isarr($more) ){
 ?>
 <? if(!empty( $more)):  ?>
 
-<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags">
+<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <? if(isset($params['save_to_content_id']) and isset($params["to_table_id"]) and intval(($params["to_table_id"]) > 0)): ?>
   <? $p = get_content_by_id($params["to_table_id"]); ?>
   <? if(isset($p['title'])): ?>
@@ -117,7 +133,7 @@ if(isarr( $diff) and isarr($more) ){
 </div>
 <? else : ?>
 <? if(!isset($params['save_to_content_id'])): ?>
-<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags">
+<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
     <?php _e("You dont have any custom fields"); ?>.
     </span> </div>
