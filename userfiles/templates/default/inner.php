@@ -27,7 +27,7 @@ description: Post inner layout
           <div class="blog-post-header">
             <h2  class="edit"  rel="content"  field="title">Your title goes here</h2>
             <a class="btn blog-fright" href="#"><i> 14 </i></a> </div>
-          <div class="blog-post-body edit"  rel="content"  field="content"> <img src="{TEMPLATE_URL}img/blog-1.jpg" alt="" class="img-circle">
+          <div class="blog-post-body edit"  rel="content"  field="content"> <img src="{DEFAULT_TEMPLATE_URL}img/blog-1.jpg" alt="" class="img-circle">
             <div class="post-meta">Posted by: <a href="#">owltemplates </a> | Posted in: <a href="#">template,</a><a href="#">premium</a> </div>
             <p class="element">Lorem ipsum dolor sit amet, consectetueradipiscing elied diam nonummy nibh euisod tincidunt ut laoreet dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Donec quam felis, ultricies nec, pellentesque pretium quis, sem. Nulla consequat massa quis enim. Donec pe justo fringilla vel, aliquet nec vulputate eget, arcu enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felisa penelore mollis pretium. Integer tincidunt vamus elementum semper nisi. </p>
             <p class="p0 element">Donec quam felis, ultricies nec, pellentesque pretium quis, sem. Nulla consequat massa quis enim. Donec pe justo fringilla vel, aliquet nec vulputate eget, arcu enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felisa penelore mollis pretium. Integer tincidunt vamus elementum semper nisi. Lorem ipsum dolor sit amet, consectetueradipiscing elied diam nonummy nibh euisod tincidunt ut laoreet dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
@@ -40,27 +40,27 @@ description: Post inner layout
           <module type="comments" />
           <h2>25 Comments</h2>
           <div class="parent">
-            <figure class="img-circle blog-fleft"><img src="{TEMPLATE_URL}img/mark.jpg" alt="" class="img-circle"></figure>
+            <figure class="img-circle blog-fleft"><img src="{DEFAULT_TEMPLATE_URL}img/mark.jpg" alt="" class="img-circle"></figure>
             <h2><a href="#">Mark Abucayon</a></h2>
             <span>October 18, 2012 at 5:02pm</span> <a class="reply" href="#">Reply</a>
             <p> Donec ut mauris vel risus rutrum commodo. Duis sed massa id urna elementum varius. Fusce nibh sapien, porttitor sed euismod in, aliquet eget lorem. Curabitur scelerisque mauris quis diam gravida eu placerat ligula scelerisque. In vitae sem nec massa imperdiet condimentum. </p>
           </div>
           <div class="parent child">
-            <figure class="img-circle blog-fleft"><img src="{TEMPLATE_URL}img/jade.jpg" alt="" class="img-circle"></figure>
+            <figure class="img-circle blog-fleft"><img src="{DEFAULT_TEMPLATE_URL}img/jade.jpg" alt="" class="img-circle"></figure>
             <div class="parent-sub-img"></div>
             <h2><a href="#">Jade Thompson</a></h2>
             <span>October 18, 2012 at 5:02pm</span> <a class="reply" href="#">Reply</a>
             <p> Donec ut mauris vel risus rutrum commodo. Duis sed massa id urna elementum varius. Fusce nibh sapien, porttitor sed euismod in, aliquet eget lorem. Curabitur scelerisque mauris quis diam gravida eu placerat ligula scelerisque. In vitae sem nec massa imperdiet condimentum. </p>
           </div>
           <div class="parent subchild">
-            <figure class="img-circle blog-fleft"><img src="{TEMPLATE_URL}img/mark.jpg" alt="" class="img-circle"></figure>
+            <figure class="img-circle blog-fleft"><img src="{DEFAULT_TEMPLATE_URL}img/mark.jpg" alt="" class="img-circle"></figure>
             <div class="parent-sub-img"></div>
             <h2><a href="#">Mark Abucayon</a></h2>
             <span>October 18, 2012 at 5:02pm</span>
             <p> Donec ut mauris vel risus rutrum commodo. Duis sed massa id urna elementum varius. Fusce nibh sapien, porttitor sed euismod in, aliquet eget lorem. Curabitur scelerisque mauris quis diam gravida. </p>
           </div>
           <div class="parent">
-            <figure class="img-circle blog-fleft"><img src="{TEMPLATE_URL}img/jade.jpg" alt="" class="img-circle"></figure>
+            <figure class="img-circle blog-fleft"><img src="{DEFAULT_TEMPLATE_URL}img/jade.jpg" alt="" class="img-circle"></figure>
             <h2><a href="#">Jade Thompson</a></h2>
             <span>October 18, 2012 at 5:02pm</span> <a class="reply" href="#">Reply</a>
             <p> Donec ut mauris vel risus rutrum commodo. Duis sed massa id urna elementum varius. Fusce nibh sapien, porttitor sed euismod in, aliquet eget lorem. Curabitur scelerisque mauris quis diam gravida eu placerat ligula scelerisque. In vitae sem nec massa imperdiet condimentum. </p>

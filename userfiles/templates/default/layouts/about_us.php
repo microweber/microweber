@@ -52,7 +52,7 @@ description: About us layout
         <ul class="thumbnails p0">
           <li class="span3">
             <div class="thumbnail">
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img1.jpg" alt="" class="img-circle"></figure>
+              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img1.jpg" alt="" class="img-circle"></figure>
               <h2 class="our-team">Alexia Smith<span>Creative Design</span></h2>
               <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
                 smod tincidunt ut laor.</p>
@@ -63,7 +63,7 @@ description: About us layout
           </li>
           <li class="span3">
             <div class="thumbnail">
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img2.jpg" alt="" class="img-circle"></figure>
+              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img2.jpg" alt="" class="img-circle"></figure>
               <h2 class="our-team">Sylvia Pete<span>Creative Design</span></h2>
               <p>Lorem ipsum dolor sit amet, consecteter
                 dipiscing elit, sed diam nonummy nibh euis
@@ -75,7 +75,7 @@ description: About us layout
           </li>
           <li class="span3">
             <div class="thumbnail">
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img3.jpg" alt="" class="img-circle"></figure>
+              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img3.jpg" alt="" class="img-circle"></figure>
               <h2 class="our-team">Tanzi Smith<span>Creative Design</span></h2>
               <p>Lorem ipsum dolor sit amet, consectet
                 er adipiscing elit, sed diam nonummy nibh euismod tincidunt ut lao.</p>
@@ -86,7 +86,7 @@ description: About us layout
           </li>
           <li class="span3">
             <div class="thumbnail">
-              <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img4.jpg" alt="" class="img-circle"></figure>
+              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img4.jpg" alt="" class="img-circle"></figure>
               <h2 class="our-team">John Doe<span>Creative Design</span></h2>
               <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
                 smod tincidunt ut laor.</p>

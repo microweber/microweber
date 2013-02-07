@@ -64,7 +64,10 @@ if(isset($params['data-category-id'])){
 <div  class="mw-admin-page-preview-page">
 
 
-<div style="width: 370px;margin-left: 30px;" class="left"><module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" inherit_from="<? print ($page_info['parent_id'])?>" data-small=1  /></div>
+<div style="width: 370px;margin-left: 30px;" class="left">
+
+
+  <module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1  /></div>
 
 
 <div class="right" style="width: 210px;">

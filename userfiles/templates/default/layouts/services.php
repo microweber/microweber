@@ -30,7 +30,7 @@ description: Services layout
       <div class="span12">
         <ul class="thumbnails thumbnails_2">
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img5.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img5.png" alt="">
               <div>
                 <h2>Easy to customize</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -38,7 +38,7 @@ description: Services layout
             </div>
           </li>
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img6.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img6.png" alt="">
               <div>
                 <h2>Responsive Template</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -46,7 +46,7 @@ description: Services layout
             </div>
           </li>
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img7.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img7.png" alt="">
               <div>
                 <h2>Clean Design</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -56,7 +56,7 @@ description: Services layout
         </ul>
         <ul class="thumbnails thumbnails_2">
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img8.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.png" alt="">
               <div>
                 <h2>Calculation</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -64,7 +64,7 @@ description: Services layout
             </div>
           </li>
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img6.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img6.png" alt="">
               <div>
                 <h2>Responsive Template</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -72,7 +72,7 @@ description: Services layout
             </div>
           </li>
           <li class="span4">
-            <div class="thumbnail_2"><img src="{TEMPLATE_URL}img/page1-img7.png" alt="">
+            <div class="thumbnail_2"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img7.png" alt="">
               <div>
                 <h2>Clean Design</h2>
                 <p class="p0">Lorem ipsum dolor sit amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismodt. Lorem ipsum dolor sit amet.</p>
@@ -87,7 +87,7 @@ description: Services layout
       <div class="span4">
         <h2>Our Mission</h2>
         <div class="clearfix">
-          <figure class="img-circle img-indent float-none"><img class="img-circle" alt="" src="{TEMPLATE_URL}img/page1-img8.jpg"></figure>
+          <figure class="img-circle img-indent float-none"><img class="img-circle" alt="" src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg"></figure>
           <p class="text-info"><i>Suspendisse vitae libero justo. Integer eu dui nulla.</i></p>
           <p>Nam condimentum ante sed tellus dictum non accumsan feugiat purus imperdiet. Proin arcu tellus, placerat facilisis rhoncus eget, mollis ac erat. </p>
         </div>
@@ -95,7 +95,7 @@ description: Services layout
       <div class="span4">
         <h2>Our Vision</h2>
         <div class="clearfix">
-          <figure class="img-circle img-indent float-none"><img class="img-circle" alt="" src="{TEMPLATE_URL}img/page1-img9.jpg"></figure>
+          <figure class="img-circle img-indent float-none"><img class="img-circle" alt="" src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg"></figure>
           <p class="text-info"><i>Suspendisse vitae libero justo. Integer eu dui nulla.</i></p>
           <p>Nam condimentum ante sed tellus dictum non accumsan feugiat purus imperdiet. Proin arcu tellus, placerat facilisis rhoncus eget, mollis ac erat. </p>
         </div>
@@ -150,28 +150,28 @@ description: Services layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Alexia Smith</a><br>
                     <small>Creative Design</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sylvia Pete</a><br>
                     <small>Creative Design</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tanzi Smith</a><br>
                     <small>Creative Design</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">John Doe</a><br>
                     <small>Creative Design</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -182,28 +182,28 @@ description: Services layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tomas Brown</a><br>
                     <small>business analyst</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Andrew Johnson</a><br>
                     <small>business planning</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sean Pete</a><br>
                     <small>Client Support</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sarah Smith</a><br>
                     <small>strategy development</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -214,28 +214,28 @@ description: Services layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tomas Brown</a><br>
                     <small>business analyst</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Andrew Johnson</a><br>
                     <small>business planning</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sean Pete</a><br>
                     <small>Client Support</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sarah Smith</a><br>
                     <small>strategy development</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -249,12 +249,12 @@ description: Services layout
     <div class="row">
       <div class="span12">
         <ul class="list-banners">
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-1.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-2.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-3.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-4.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-5.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-6.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-1.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-2.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-3.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-4.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-5.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-6.png" alt=""></a></li>
         </ul>
       </div>
     </div>

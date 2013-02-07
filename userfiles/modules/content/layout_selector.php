@@ -25,35 +25,42 @@ include('_empty_content_data.php');
 
 
 
+if(isset($data['active_site_template']) and $data['active_site_template'] == ''){
+   $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+}
 
 if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
   $data['layout_file'] = $params["layout_file"] ;
 }
 $inherit_from = false;
 
-if(!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'){
-d($params["inherit_from"]);
-    if(isset($params["inherit_from"]) and trim($params["inherit_from"]) != '' and trim($params["inherit_from"]) != '0'){
 
+if(!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'){
+
+    if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
+//d($params["inherit_from"]);
 $inh1 = content_get_inherited_parent($params["inherit_from"]);
 if($inh1 != false){
+
        $inherit_from = get_content_by_id($inh1);
+       //d($inherit_from['active_site_template']);
+    //   d( $inherit_from);
         if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
         $data['active_site_template']  =  $inherit_from['active_site_template'];
          $data['layout_file']  = 'inherit';
         }
 }
- d($inherit_from);
+
     }
 }
+
 
 if(isset($params["active-site-template"])){
   $data['active_site_template'] = $params["active-site-template"] ;
 }
 
-if(isset($data['active_site_template']) and $data['active_site_template'] == ''){
-   $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-}
+//d($data);
+
 
  $templates= templates_list();
 
@@ -349,7 +356,7 @@ mw.templatePreview.generate();
   <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
   <? endif; ?>
 
-  <div style="display: block">
+  <div style="display: none">
   <select name="layout_file"     id="active_site_layout_<? print $rand; ?>"
 autocomplete="off">
     <? if(!empty($layouts)): ?>
@@ -362,8 +369,8 @@ autocomplete="off">
     <? endif; ?>
     <option title="none" <? if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<? print $inherit_from['id'] ?>"  <? endif; ?> value="inherit"  <? if(trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <? endif; ?>>Inherit from parent</option>
   </select>
-<? d($data['layout_file']) ?>
-<? d($data['active_site_template']) ?>
+<? // d($data['layout_file']) ?>
+<?// d($data['active_site_template']) ?>
   </div>
 
   <div class="left">

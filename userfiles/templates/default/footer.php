@@ -9,12 +9,12 @@
             <p class="text-info"><i>Lorem ipsum dolor sit amet, consectetuer adipiscing, sed diam nonummy nibh eui.</i></p>
             Lorem ipsum dolor sit amet, consectetuerad ipiscing elit, sed diam nonummy nibh euisod dolore magna aliquam erat volutpatorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tinc. </div>
           <ul id="social" class="inline tooltip-demo">
-            <li><a rel="tooltip" title="RSS" href="#"><img alt="RSS" src="{TEMPLATE_URL}img/social_icons/rss.png"></a></li>
-            <li><a rel="tooltip" title="Twitter" href="#"><img alt="Twitter" src="{TEMPLATE_URL}img/social_icons/twitter.png"></a></li>
-            <li><a rel="tooltip" title="Facebook" href="#"><img alt="Facebook" src="{TEMPLATE_URL}img/social_icons/facebook.png"></a></li>
-            <li><a rel="tooltip" title="Dribbble" href="#"><img alt="Dribbble" src="{TEMPLATE_URL}img/social_icons/dribbble.png"></a></li>
-            <li><a rel="tooltip" title="Flickr" href="#"><img alt="Flickr" src="{TEMPLATE_URL}img/social_icons/flickr.png"></a></li>
-            <li><a rel="tooltip" title="Skype" href="#"><img alt="Skype" src="{TEMPLATE_URL}img/social_icons/skype.png"></a></li>
+            <li><a rel="tooltip" title="RSS" href="#"><img alt="RSS" src="{DEFAULT_TEMPLATE_URL}img/social_icons/rss.png"></a></li>
+            <li><a rel="tooltip" title="Twitter" href="#"><img alt="Twitter" src="{DEFAULT_TEMPLATE_URL}img/social_icons/twitter.png"></a></li>
+            <li><a rel="tooltip" title="Facebook" href="#"><img alt="Facebook" src="{DEFAULT_TEMPLATE_URL}img/social_icons/facebook.png"></a></li>
+            <li><a rel="tooltip" title="Dribbble" href="#"><img alt="Dribbble" src="{DEFAULT_TEMPLATE_URL}img/social_icons/dribbble.png"></a></li>
+            <li><a rel="tooltip" title="Flickr" href="#"><img alt="Flickr" src="{DEFAULT_TEMPLATE_URL}img/social_icons/flickr.png"></a></li>
+            <li><a rel="tooltip" title="Skype" href="#"><img alt="Skype" src="{DEFAULT_TEMPLATE_URL}img/social_icons/skype.png"></a></li>
           </ul>
         </div>
         <!-- links -->

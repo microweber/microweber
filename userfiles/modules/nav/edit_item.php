@@ -46,19 +46,7 @@ if( $id != 0){
 
 
 
- mw.menu_<?  print $rand ?>add_new_menu_item_from_content = function($selector){ 
- $('#mw-menu-add-link-from-content').show();
-  $('#mw-menu-add-link-custom').hide();
 
- }
- 
-  mw.menu_<?  print $rand ?>add_new_menu_item_custom = function($selector){ 
- $('#mw-menu-add-link-custom').show();
-   $('#mw-menu-add-link-from-content').hide();
- 
- }
- 
- 
  
  mw.menu_<?  print $rand ?>save_new_item = function(){ 
   
@@ -99,7 +87,7 @@ if( $id != 0){
 			the_new_cat.val(is_cat)
 			the_new_page.val('');
 		}
-		
+
 		
 		var is_content_id= $sel_data.attr('data-page-id');
 		if(is_content_id != undefined){
@@ -113,39 +101,32 @@ if( $id != 0){
  
 	});
 </script>
+<div class="vSpace"></div>
 
-<div class="<? print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?  print $rand ?>"> <a href="javascript:mw.menu_<?  print $rand ?>add_new_menu_item_from_content()" class="mw-ui-btn-rect">New link</a> <a href="javascript:mw.menu_<?  print $rand ?>add_new_menu_item_custom()" class="mw-ui-btn-rect">Custom link</a> <br />
-  <br />
-  <div id="mw-menu-add-link-from-content" style="display:none">
-    <microweber module="categories/selector"  for="content" id="add_new_content_to_menu{rand}" input-type-categories="radio" input-name="content_id"   input-name-categories="content_id"  />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-  </div>
-  <div id="mw-menu-add-link-custom" style="display:none"> url </div>
-  <input type="text" name="url" value="<?  print $data['url'] ?>" />
-  <br />
-  id
-  <input type="text" name="id" value="<?  print $data['id'] ?>" />
-  <br />
-  title
-  <input type="text" name="title" value="<?  print $data['title'] ?>" />
-  content_id
-  <input type="text" name="content_id" value="<?  print $data['content_id'] ?>" />
-  <br />
-  taxonomy_id
-  <input type="text" name="taxonomy_id" value="<?  print $data['taxonomy_id'] ?>" />
+<div class="<? print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?  print $rand ?>">
+
+      <br />
+
+
+
+
+  <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
+
+
+
+  <input type="hidden" name="content_id" value="<?  print $data['content_id'] ?>" />
+
+
+  <input type="hidden" name="taxonomy_id" value="<?  print $data['taxonomy_id'] ?>" />
   <?  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
-  <input type="text" name="parent_id" value="<?  print $params['menu-id'] ?>" />
+  <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
   <?  elseif(isset($params['parent_id'])): ?>
   parent_id
-  <input type="text" name="parent_id" value="<?  print $params['parent_id'] ?>" />
+  <input type="hidden" name="parent_id" value="<?  print $params['parent_id'] ?>" />
   <? endif; ?>
-  <input type="text" name="id" value="<?  print $data['id'] ?>" />
+  <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
   <button class="mw-ui-btn" onclick="mw.menu_<?  print $rand ?>save_new_item();">Save</button>
-  <br />
+
 </div>
 <? else: ?>
 <? endif; ?>

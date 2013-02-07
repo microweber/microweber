@@ -3,6 +3,16 @@
 
   $rand = crc32(serialize($params));
   ?>
+
+
+  <style type="text/css">
+
+  .mw_tabs_layout_simple .mw_simple_tabs_nav li{
+    margin:0 11px;
+  }
+
+  </style>
+
 <script  type="text/javascript">
   mw.require('forms.js');
   mw.require('url.js');
@@ -20,6 +30,28 @@
  }
 
 
+ requestlink = function(){
+   if(typeof _requestlink === 'undefined'){
+        _requestlink = true;
+        var url = mw.external_tool("rte_link_editor");
+        mw.$("#requestlink_holder").show().html("<iframe style='border:1px solid #D7D7D7;margin-left:-20px' frameBorder='0' width='430' height='300' src='" + url +"' ></iframe>");
+   }
+   else{
+        mw.$("#requestlink_holder").toggle();
+   }
+
+
+ }
+
+ add_new_menu = function(){
+   var m = mw.$("#add_new_menu")
+   m.toggle();
+   if(m.is(":visible")){
+       mw.$("#requestlink_holder").hide()
+   }
+ }
+
+
   mw.menu_edit_items = function($menu_id, $selector){
 
 
@@ -32,21 +64,36 @@
 <? $menus = get_menu(); ?>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
+
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;" class="active">My menus</a></li>
     <li><a href="javascript:;">Skin/Template</a></li>
   </ul>
+
+
+  <a href="javascript:add_new_menu();" class="mw-ui-btn" style="height: 19px;position: absolute;right: 13px;top: 12px;z-index: 1"><span class="ico iplus"></span><span>Create New Menu</span></a>
+
+
   <div class="tab">
-    <fieldset id="add_new_menu">
-      <div class="control-group">
-        <label class="control-label">Create new menu</label>
+
+
+
+
+
+
+    <div id="add_new_menu" style="display: none;overflow: hidden">
+
+
         <input name="menu_id"  type="hidden"  value="0"    />
-        <div class="controls">
-          <input type="text" name="title" value="Menu name" onFocus="if(this.value=='Menu name')this.value='';">
+        <div style="overflow: hidden">
+          <input class="left" type="text" name="title" value="Menu Name" data-default="Menu Name" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
+
+          <button type="button" class="mw-ui-btn right" onclick="mw.menu_save('#add_new_menu')">Add</button>
+
         </div>
-        <button type="button" class="mw-ui-btn" onclick="mw.menu_save('#add_new_menu')">Save</button>
-      </div>
-    </fieldset>
+      <hr />
+    </div>
+
     <?php
 
 
@@ -69,16 +116,24 @@ $menu_id = get_menu_id('title='.$menu_name);
  ?>
     <? if(isarr($menus) == true): ?>
     <? if(isarr($menus )): ?>
-    <fieldset>
+
       <div class="control-group">
-        <label class="control-label">Use existing menu</label>
-        <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?  print $rand ?>');" >
-          <? foreach($menus  as $item): ?>
-          <option <?  if($menu_name == $item['title']): ?> <?  $active_menu = $item['title'] ?> selected="selected" <? endif; ?> value="<? print $item['title'] ?>"><? print $item['title'] ?></option>
-          <? endforeach ; ?>
-        </select>
+        <label class="mw-ui-label">Use existing menu</label>
+
+        <div class="mw-ui-select" style="width:100%">
+          <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?  print $rand ?>');" >
+            <? foreach($menus  as $item): ?>
+            <option <?  if($menu_name == $item['title']): ?> <?  $active_menu = $item['title'] ?> selected="selected" <? endif; ?> value="<? print $item['title'] ?>"><? print $item['title'] ?></option>
+            <? endforeach ; ?>
+          </select>
+        </div>
+          <div class="vSpace"></div>
+        <a href="javascript:requestlink();" class="mw-ui-btn" style="height: 19px;"><span class="ico iplus"></span><span>New Link</span></a>
+         <div class="vSpace"></div>
+         <div id="requestlink_holder" style="display: none;"></div>
+         <div class="vSpace"></div>
       </div>
-    </fieldset>
+
     <? endif; ?>
     <? else : ?>
     You have no exising menus. Please create one.

@@ -201,9 +201,9 @@ function reorder_menu_items($data) {
 
 				$sql = "UPDATE $table set
 				parent_id=$k
-	where id=$value2 and id!=$k
-	and item_type='menu_item'
-	  ";
+				where id=$value2 and id!=$k
+				and item_type='menu_item'
+				";
 				  // d($sql);
 				$q = db_q($sql);
 				cache_clean_group('menus/' . $k);
@@ -420,10 +420,10 @@ function add_content_to_menu($content_id) {
 		foreach ($add_to_menus as $value) {
 			if ($value == 'remove_from_all') {
 				$sql = "delete from {$table_menus}
-	where
-	  item_type='menu_item'
-	 and content_id={$content_id}
-	  ";
+				where
+				item_type='menu_item'
+				and content_id={$content_id}
+				";
 				//d($sql);
 				cache_clean_group('menus');
 				$q = db_q($sql);
@@ -441,10 +441,10 @@ function add_content_to_menu($content_id) {
 	if (isset($add_to_menus_int) and isarr($add_to_menus_int)) {
 		$add_to_menus_int_implode = implode(',', $add_to_menus_int);
 		$sql = "delete from {$table_menus}
-			where parent_id not in ($add_to_menus_int_implode)
-			and item_type='menu_item'
-			 and content_id={$content_id}
-	  ";
+		where parent_id not in ($add_to_menus_int_implode)
+		and item_type='menu_item'
+		and content_id={$content_id}
+		";
 
 		$q = db_q($sql);
 

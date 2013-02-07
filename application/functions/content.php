@@ -319,6 +319,11 @@ function define_constants($content = false) {
 		define('DEFAULT_TEMPLATE_DIR', TEMPLATEFILES.'default'.DS);
 	}
 
+	if (defined('DEFAULT_TEMPLATE_URL') == false) {
+
+		define('DEFAULT_TEMPLATE_URL', site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . 'default/'));
+	}
+
 
 	if (trim($the_active_site_template) != 'default') {
 
@@ -470,11 +475,20 @@ function get_layout_for_page($page = array()) {
 
 
 	if (isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
+
+
+
+
 		$inherit_from = get_content_parents($page['id']);
+
+
+
+
+
 		$found = 0;
 		if(!empty( $inherit_from )){
 			foreach ( $inherit_from   as $value) {
-				if($found  == 0){
+				if($found  == 0 and $value !=$page['id']){
 					$par_c = get_content_by_id($value);
 					if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
 
@@ -489,7 +503,7 @@ function get_layout_for_page($page = array()) {
 							$render_file_temp = DEFAULT_TEMPLATE_DIR. $page['layout_file'] ;
 							if(is_file($render_file_temp)){
 								$render_file = $render_file_temp;
-								//d($render_file_temp);
+
 								//d(THIS_TEMPLATE_DIR);
 
 							}
@@ -2929,7 +2943,7 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
 		$with_main_parrent_q = false;
 	}
 	$id = intval($id);
-	$q = " select id, parent  from $table where id = $id    $with_main_parrent_q ";
+	$q = " select id, parent  from $table where id = $id   $with_main_parrent_q ";
 
 	$taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
@@ -2945,7 +2959,7 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
 
 				$ids[] = $item['parent'];
 			}
-			if ($item['parent'] != $item['id']) {
+			if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
 				$next = get_content_parents($item['parent'], $without_main_parrent);
 
 				if (!empty($next)) {

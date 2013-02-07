@@ -1608,6 +1608,7 @@ mw.tools.scrollBar =  {
   },
   init:function(el){
     if(typeof mwAdmin == 'undefined') return false;
+    if(el == null) return false;
     if(!$.browser.mozilla) return false;
     el.style.position = 'relative';
     el.style.overflow = 'hidden';

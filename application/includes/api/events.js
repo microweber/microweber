@@ -52,6 +52,13 @@ mw.on = {
     }
 },
 hashParamEventInit:function(){
+  if(typeof mw.url == 'undefined'){
+    mw.require('url.js');
+  }
+
+
+
+
   var hash = mw.hash();
   var params = mw.url.getHashParams(hash);
   if(hash==='' || hash==='#' || hash ==='#?'){

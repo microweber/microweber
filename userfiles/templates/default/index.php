@@ -14,7 +14,7 @@ description: Home layout
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">
-  <div class="container edit"  field="content" rel="page"> 
+  <div class="container edit"  field="content" rel="page">
     <!-- Icons -->
     <div class="row">
       <div class="span12">
@@ -22,7 +22,7 @@ description: Home layout
           <div class="mw-row">
             <div class="mw-col" style="width: 25%">
               <div class="mw-col-container">
-                <div class="element thumbnail"> <img src="{TEMPLATE_URL}img/icon-1.png" alt="" class="element img-circle" />
+                <div class="element thumbnail"> <img src="{DEFAULT_TEMPLATE_URL}img/icon-1.png" alt="" class="element img-circle" />
                   <h2>Easy to customize</h2>
                   <p class="p0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
                     smod tincidunt ut laor.</p>
@@ -31,7 +31,7 @@ description: Home layout
             </div>
             <div class="mw-col" style="width: 25%">
               <div class="mw-col-container">
-                <div class="element thumbnail"> <img src="{TEMPLATE_URL}img/icon-2.png" alt="" class="element img-circle" />
+                <div class="element thumbnail"> <img src="{DEFAULT_TEMPLATE_URL}img/icon-2.png" alt="" class="element img-circle" />
                   <h2>Responsive Template</h2>
                   <p class="p0">Lorem ipsum dolor sit amet, consecteter
                     dipiscing elit, sed diam nonummy nibh euis
@@ -41,7 +41,7 @@ description: Home layout
             </div>
             <div class="mw-col" style="width: 25%">
               <div class="mw-col-container">
-                <div class="element thumbnail"> <img src="{TEMPLATE_URL}img/icon-3.png" alt="" class="element img-circle" />
+                <div class="element thumbnail"> <img src="{DEFAULT_TEMPLATE_URL}img/icon-3.png" alt="" class="element img-circle" />
                   <h2>Clean Design</h2>
                   <p class="p0">Lorem ipsum dolor sit amet, consectet
                     er adipiscing elit, sed diam nonummy nibh euismod tincidunt ut lao.</p>
@@ -50,7 +50,7 @@ description: Home layout
             </div>
             <div class="mw-col" style="width: 25%">
               <div class="mw-col-container">
-                <div class="element thumbnail"> <img src="{TEMPLATE_URL}img/icon-4.png" alt="" class="element img-circle" />
+                <div class="element thumbnail"> <img src="{DEFAULT_TEMPLATE_URL}img/icon-4.png" alt="" class="element img-circle" />
                   <h2>Calculation</h2>
                   <p class="p0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
                     smod tincidunt ut laor.</p>
@@ -63,7 +63,7 @@ description: Home layout
     </div>
   </div>
   <div class="section-4">
-    <div class="container edit"  field="sub_content" rel="page"> 
+    <div class="container edit"  field="sub_content" rel="page">
       <!-- Strip with button -->
       <div class="row">
         <div class="span12">
@@ -75,7 +75,7 @@ description: Home layout
     </div>
   </div>
   <div class="container edit"  field="sub_content2" rel="page">
-    <div class="row"> 
+    <div class="row">
       <!-- welcome -->
       <div class="span4">
         <div class="border-right">
@@ -101,28 +101,28 @@ description: Home layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tomas Brown</a><br>
                     <small>business analyst</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Andrew Johnson</a><br>
                     <small>business planning</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sean Pete</a><br>
                     <small>Client Support</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sarah Smith</a><br>
                     <small>strategy development</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -133,28 +133,28 @@ description: Home layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tomas Brown</a><br>
                     <small>business analyst</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Andrew Johnson</a><br>
                     <small>business planning</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sean Pete</a><br>
                     <small>Client Support</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sarah Smith</a><br>
                     <small>strategy development</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -165,28 +165,28 @@ description: Home layout
             <ul class="thumbnails thumbnails_3">
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Tomas Brown</a><br>
                     <small>business analyst</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Andrew Johnson</a><br>
                     <small>business planning</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sean Pete</a><br>
                     <small>Client Support</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
               </li>
               <li class="span2">
                 <div class="thumbnail_3">
-                  <figure class="img-circle"><img src="{TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
+                  <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
                   <div><a href="#" class="lead">Sarah Smith</a><br>
                     <small>strategy development</small> Nam aliquam volutpat leo vel lorem bibendum suncea elit.</div>
                 </div>
@@ -200,12 +200,12 @@ description: Home layout
     <div class="row edit"  field="sub_content2" rel="global" >
       <div class="span12">
         <ul class="inline list-banners">
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-1.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-2.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-3.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-4.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-5.png" alt=""></a></li>
-          <li><a href="#"><img src="{TEMPLATE_URL}img/banner-6.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-1.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-2.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-3.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-4.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-5.png" alt=""></a></li>
+          <li><a href="#"><img src="{DEFAULT_TEMPLATE_URL}img/banner-6.png" alt=""></a></li>
         </ul>
       </div>
     </div>

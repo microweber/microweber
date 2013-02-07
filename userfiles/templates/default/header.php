@@ -15,13 +15,13 @@
 <? if(isset($custom_head)): ?>
 <?  print $custom_head; ?>
 <? else : ?>
-<link rel="stylesheet" href="{TEMPLATE_URL}css/bootstrap.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="screen">
 
-<link rel="stylesheet" href="{TEMPLATE_URL}css/responsive.css" type="text/css" media="screen">
-<link rel="stylesheet" href="{TEMPLATE_URL}css/style.css" type="text/css" media="screen">
-<link rel="stylesheet" href="{TEMPLATE_URL}css/camera.css" type="text/css" media="screen">
-<link rel="stylesheet" href="{TEMPLATE_URL}css/portfolio.css" type="text/css" media="screen">
-<link rel="stylesheet" href="{TEMPLATE_URL}css/elements.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/camera.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/portfolio.css" type="text/css" media="screen">
+<link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/elements.css" type="text/css" media="screen">
 
 <? endif; ?>
 </head>
