@@ -335,7 +335,23 @@ function define_constants($content = false) {
 				} else {
 					$template_view = DEFAULT_TEMPLATE_DIR ;
 				}
+				if(isset($page)){
+					if(!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')){
+						$par_page = content_get_inherited_parent($page['id']);
+						if($par_page != false){
+							$par_page = get_content_by_id($par_page);
+						}
+						if(isset($par_page['layout_file'])){
+							$the_active_site_template = $par_page['active_site_template'];
+							$page['layout_file'] = $par_page['layout_file'];
+							$page['active_site_template'] = $par_page['active_site_template'];
+							$template_view = TEMPLATEFILES.$page['active_site_template'].DS .  $page['layout_file'];
 
+
+						}
+
+					}
+				}
 
 				if (is_file($template_view) == true) {
 
@@ -469,9 +485,13 @@ function get_layout_for_page($page = array()) {
 						if(is_file($render_file_temp)){
 							$render_file = $render_file_temp;
 						} else {
+
 							$render_file_temp = DEFAULT_TEMPLATE_DIR. $page['layout_file'] ;
 							if(is_file($render_file_temp)){
 								$render_file = $render_file_temp;
+								//d($render_file_temp);
+								//d(THIS_TEMPLATE_DIR);
+
 							}
 						}
 
@@ -1504,20 +1524,20 @@ function save_edit($post_data) {
 
 					}
 					$inh = false;
-if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'inherit') {
+					if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'inherit') {
 
 
-							$save_global = false;
-							$save_layout = false;
-							$content_id = $page_id;
+						$save_global = false;
+						$save_layout = false;
+						$content_id = $page_id;
 
-							$inh = content_get_inherited_parent($page_id);
-							if($inh != false){
-								$content_id_for_con_field = $content_id = $inh;
+						$inh = content_get_inherited_parent($page_id);
+						if($inh != false){
+							$content_id_for_con_field = $content_id = $inh;
 							//	d($content_id);
-							}
+						}
 
-}
+					}
 
 
 
@@ -1527,15 +1547,15 @@ if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes
 
 
 					$save_layout = false;
-if($inh  == false){
-					if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){
-						$content_id_for_con_field = intval($ref_page['parent']);
+					if($inh  == false){
+						if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){
+							$content_id_for_con_field = intval($ref_page['parent']);
 						// d($content_id);
-					} else {
-						$content_id_for_con_field = intval($ref_page['id']);
+						} else {
+							$content_id_for_con_field = intval($ref_page['id']);
 
+						}
 					}
-}
 					$html_to_save = $the_field_data['html'];
 					$html_to_save = $content = make_microweber_tags($html_to_save);
 					if ($save_global == false and $save_layout == false) {

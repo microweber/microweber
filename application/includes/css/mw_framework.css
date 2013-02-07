@@ -2524,18 +2524,44 @@ body.mw-external-loading:after{
            top: 0;
            right:0;
            z-index: 9;
-           width: 9px;
+           width: 12px;
            background: rgba(122, 122, 122, 0.5);
            height:100%;
-           border-radius:1px;
+           border-radius:0;
+           box-shadow:inset 0 0 3px #777;
          }
          .mw-scrollbar span{
            display: block;
-           width: 9px;
+           width: 10px;
+           left: 1px;
            height: 20px;
            background: white;
            position: absolute;
-           border-radius:1px;
+           border-radius:0;
+           box-shadow: 0 0 3px -2px #000;
+            background: -moz-linear-gradient(left, #eeeeee 0%, #cccccc 100%);
+            background: -webkit-gradient(linear, left top, right top, color-stop(0%,#eeeeee), color-stop(100%,#cccccc));
+            background: -webkit-linear-gradient(left, #eeeeee 0%,#cccccc 100%);
+            background: -o-linear-gradient(left, #eeeeee 0%,#cccccc 100%);
+            background: -ms-linear-gradient(left, #eeeeee 0%,#cccccc 100%);
+            background: linear-gradient(to right, #eeeeee 0%,#cccccc 100%);
+         }
+         .mw-scrollbar:hover{
+
+         }
+
+         .mw-scrollbar:hover span{
+            background: -moz-linear-gradient(left, #fff 0%, #eee 100%);
+            background: -webkit-gradient(linear, left top, right top, color-stop(0%,#fff), color-stop(100%,#eee));
+            background: -webkit-linear-gradient(left, #fff 0%,#eee 100%);
+            background: -o-linear-gradient(left, #fff 0%,#eee 100%);
+            background: -ms-linear-gradient(left, #fff 0%,#eee 100%);
+            background: linear-gradient(to right, #fff 0%,#eee 100%);
+            opacity:0.7;
+         }
+
+         .mw-scrollbar span:active{
+           box-shadow:inset 0 0 3px #777;
          }
 
 

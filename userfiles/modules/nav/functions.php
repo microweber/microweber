@@ -195,7 +195,7 @@ function reorder_menu_items($data) {
 		$value = $data['ids_parents'];
 		if (is_arr($value)) {
 
-			foreach ($value as $k => $value2) {
+			foreach ($value as $value2 => $k  ) {
 				$k = intval($k);
 				$value2 = intval($value2);
 
@@ -204,7 +204,7 @@ function reorder_menu_items($data) {
 	where id=$value2 and id!=$k
 	and item_type='menu_item'
 	  ";
-				   d($sql);
+				  // d($sql);
 				$q = db_q($sql);
 				cache_clean_group('menus/' . $k);
 			}

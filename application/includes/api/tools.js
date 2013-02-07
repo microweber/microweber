@@ -1602,17 +1602,23 @@ $(window).load(function(){
 mw.tools.scrollBar =  {
   height:function(parent, child){
     if(typeof parent === 'undefined') var parent = window, child = document.body;
-
-    return ($(child).height() - 2*$(parent).height());
+        var h = ($(window).height() / $(child).height()) *  $(window).height();
+        var h = h>0?h:-(h);
+    return h;
   },
   init:function(el){
     if(typeof mwAdmin == 'undefined') return false;
+    if(!$.browser.mozilla) return false;
     el.style.position = 'relative';
     el.style.overflow = 'hidden';
     mwd.body.style.overflow = 'hidden';
     var height = mw.tools.scrollBar.height(el, $(el).find(".admin-main-wrapper"));
 
     $(el).append("<div class='mw-scrollbar'><span style='height:"+height+"px;top:0;'></span></div>");
+
+
+    $(".mw-scrollbar span").draggable({axis:'y',drag:function(){}})
+
     el.addEventListener ("DOMMouseScroll", function(e){
            /*
 
@@ -1621,14 +1627,19 @@ mw.tools.scrollBar =  {
 
            */
 
+           var step = 50;
+
            if((-e.detail/3) > 0){
-              $(el).scrollTop( $(el).scrollTop() - 20)
-              var s = parseFloat($(".mw-scrollbar span").css("top") )-20>0?parseFloat($(".mw-scrollbar span").css("top") )-20:0
-              $(".mw-scrollbar span").css("top", s)
+              $(el).scrollTop( $(el).scrollTop() - step);
+              var x = parseFloat($(".mw-scrollbar span").css("top") )-20;
+              var s = x>0?x:0
+              $(".mw-scrollbar span").stop().css({"top":s}, 100);
            }
            else{
-              $(el).scrollTop($(el).scrollTop() + 20)
-              $(".mw-scrollbar span").css("top", parseFloat($(".mw-scrollbar span").css("top") )+20)
+              $(el).scrollTop($(el).scrollTop() + step);
+              var x = parseFloat($(".mw-scrollbar span").css("top") )+20;
+              var s = (x+$(".mw-scrollbar span").height())<mw.$(".mw-scrollbar").height()?x:x-20;
+              $(".mw-scrollbar span").stop().css({"top":s}, 100);
            }
 
            e.preventDefault();

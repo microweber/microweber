@@ -12,6 +12,7 @@ description: Right Sidebar layout
 
 
 ?>
+
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
 <section id="content">
   <div class="container">

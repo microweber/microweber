@@ -83,7 +83,7 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
 
 
 
-  $("#mw_admin_menu_items_sort_<? print $rand; ?> ul").nestedSortable({
+  $("#mw_admin_menu_items_sort_<? print $rand; ?> ul:first").nestedSortable({
        items: 'li',
 	   listType: 'ul',
 	   handle: '.iMove',
@@ -97,12 +97,24 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
             var id = this.attributes['data-item-id'].nodeValue;
             obj.ids.push(id);
 
+
+
+
+
+
 			$has_p =  $(this).parents('.menu_element:first').attr('data-item-id');
 			if($has_p != undefined){
+	//obj.ids_parents[$has_p] =id;
 
-
-				 obj.ids_parents[id] = $has_p;
+			  obj.ids_parents[id] = $has_p;
 			} else {
+				var $has_p1 =  $('#ed_menu_holder').find('[name="parent_id"]').first().val();
+
+			if($has_p1 != undefined){
+			 	obj.ids_parents[id] =$has_p1;
+			}
+
+//d($has_p1);
 //obj.ids_parents[0] = id;
 
 			}
@@ -113,14 +125,19 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
 		// obj = $("#mw_admin_menu_items_sort_<? print $rand; ?> ul").nestedSortable('serialize');
 
          $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj, function(resp){
-			 if(window.parent != undefined && window.parent.mw != undefined){
+
+
+			 });
+
+
+if(window.parent != undefined && window.parent.mw != undefined){
 				   window.parent.mw.reload_module('nav');
-				   d(resp);
+
 			 } else {
 				  mw.reload_module('nav');
 			 }
 
-			 });
+
        },
        start:function(a,ui){
               $(this).height($(this).outerHeight());

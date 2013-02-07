@@ -31,16 +31,19 @@ if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
 }
 $inherit_from = false;
 
-if(!isset($data['layout_name']) or $data['layout_name'] == ''){
-
+if(!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'){
+d($params["inherit_from"]);
     if(isset($params["inherit_from"]) and trim($params["inherit_from"]) != '' and trim($params["inherit_from"]) != '0'){
-       $inherit_from = get_content_by_id($params["inherit_from"]);
+
+$inh1 = content_get_inherited_parent($params["inherit_from"]);
+if($inh1 != false){
+       $inherit_from = get_content_by_id($inh1);
         if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
         $data['active_site_template']  =  $inherit_from['active_site_template'];
          $data['layout_file']  = 'inherit';
         }
-
- //d($inherit_from);
+}
+ d($inherit_from);
     }
 }
 
@@ -346,7 +349,7 @@ mw.templatePreview.generate();
   <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
   <? endif; ?>
 
-  <div style="display: none">
+  <div style="display: block">
   <select name="layout_file"     id="active_site_layout_<? print $rand; ?>"
 autocomplete="off">
     <? if(!empty($layouts)): ?>
