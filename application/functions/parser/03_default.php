@@ -105,7 +105,28 @@ if ($layout != '') {
 				}
 				$data = get_content_by_id($data_id);
 
-			} else if (isset($attr['post'])) {
+			} else if ($rel == 'inherit') {
+				if (!isset($data_id) or $data_id == false) {
+					$data_id = CONTENT_ID;
+				}
+				$inh = content_get_inherited_parent($data_id);
+				if($inh != false){
+					$data_id = $inh;
+					$rel = 'content';
+					$data = get_content_by_id($data_id);
+				} else {
+					$rel = 'content';
+					$data = get_page($data_id);
+					//d($data );
+				}
+
+			}
+
+
+
+
+
+			else if (isset($attr['post'])) {
 				$get_global = false;
 				$data = get_post($attr['post']);
 				if ($data == false) {
@@ -173,7 +194,7 @@ if ($layout != '') {
 						 $field_content = $data['custom_fields'][$use_id_as_field];
 						 }
 						 // d($field_content);
-						 }*/
+						}*/
 
 					}
 
@@ -195,7 +216,7 @@ if ($layout != '') {
 						 if ($cont_field != false) {
 						 d($cont_field);
 
-						 }*/
+						}*/
 
 					}
 					//}
@@ -242,7 +263,7 @@ if ($layout != '') {
 				 //	d($field_content);
 				 pq($elem) -> html($field_content);
 				 }
-				 }*/
+				}*/
 
 				if ($ch2 == false) {
 					$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
@@ -252,7 +273,7 @@ if ($layout != '') {
 					/*
 					 if ($use_apc == true) {
 					 @apc_store($cache_id_apc, $field_content, APC_EXPIRES);
-					 }*/
+					}*/
 
 				}
 				mw_var($parser_mem_crc2, 1);

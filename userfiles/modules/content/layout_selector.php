@@ -3,52 +3,70 @@
 
 
 //d($params);
- 
-  
-//$rand = uniqid().rand().rand();
+
+
+ $rand = uniqid().rand();
 if(!isset($params["data-page-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
- 
+
 $data = false;
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 
-$data = get_content_by_id($params["data-page-id"]);
-} 
+   $data = get_content_by_id($params["data-page-id"]);
+}
 //d($data );
 
 if($data == false or empty($data )){
-include('_empty_content_data.php');	
+include('_empty_content_data.php');
 }
 
 
-if(isset($params["data-active-site-template"])){
-	$data['active_site_template'] = $params["data-active-site-template"] ;
+
+
+
+if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
+  $data['layout_file'] = $params["layout_file"] ;
+}
+$inherit_from = false;
+
+if(!isset($data['layout_name']) or $data['layout_name'] == ''){
+
+    if(isset($params["inherit_from"]) and trim($params["inherit_from"]) != '' and trim($params["inherit_from"]) != '0'){
+       $inherit_from = get_content_by_id($params["inherit_from"]);
+        if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
+        $data['active_site_template']  =  $inherit_from['active_site_template'];
+         $data['layout_file']  = 'inherit';
+        }
+
+ //d($inherit_from);
+    }
+}
+
+if(isset($params["active-site-template"])){
+  $data['active_site_template'] = $params["active-site-template"] ;
 }
 
 if(isset($data['active_site_template']) and $data['active_site_template'] == ''){
-	 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+   $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
- 
- 
 
- 
  $templates= templates_list();
- 
+
  $layout_options = array();
- 
+
  $layout_options  ['site_template'] = $data['active_site_template'];
- 
+
   $layouts = layouts_list($layout_options);
 
  ?>
 <script>
 
 
-safe_chars_to_str = function(str){ 
+safe_chars_to_str = function(str){
 if(str == undefined){
-return;	
+return;
 }
 
 
@@ -59,10 +77,10 @@ return str.replace(/\\/g,'____').replace(/\'/g,'\\\'').replace(/\"/g,'\\"').repl
 
 
 mw.templatePreview = {
-	
-	
-	
-	
+
+
+
+
   set:function(){
     mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
     mw.$('.preview_frame_wrapper').removeClass("loading");
@@ -84,14 +102,14 @@ mw.templatePreview = {
     mw.templatePreview.view(prev);
   },
   view:function(which){
-	  
-		  	//var $sel = mw.$('#active_site_layout_{rand} option:selected');
 
-	  
+		  	//var $sel = mw.$('#active_site_layout_<? print $rand; ?> option:selected');
+
+
 
     mw.templatePreview.selector.selectedIndex = which;
-    mw.$("#layout_selector{rand} li.active").removeClass('active');
-    mw.$("#layout_selector{rand} li").eq(which).addClass('active');
+    mw.$("#layout_selector<? print $rand; ?> li.active").removeClass('active');
+    mw.$("#layout_selector<? print $rand; ?> li").eq(which).addClass('active');
     $(mw.templatePreview.selector).trigger('change');
   },
   zoom:function(a){
@@ -110,25 +128,25 @@ mw.templatePreview = {
     mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
 
   },
-  
-  
+
+
   prepare:function(){
-	  
-	  
-	var $sel = mw.$('#active_site_layout_{rand} option');
-	var $layout_list_rend = mw.$('#layout_selector{rand}');
+
+
+	var $sel = mw.$('#active_site_layout_<? print $rand; ?> option');
+	var $layout_list_rend = mw.$('#layout_selector<? print $rand; ?>');
 	var $layout_list_rend_str = '<ul>';
 	if($sel.length >0){
 	var indx = 0;
 	$sel.each(function() {
-		
-		
+
+
 		var  val = $(this).attr('value');
 		var  selected = $(this).attr('selected');
 		var  title = $(this).attr('title');
 	//	mw.log(val);
 		//mw.log(selected);
-		
+
 		 //var value=this.val();
 		 $layout_list_rend_str += '<li ';
 		  $layout_list_rend_str += ' onclick="mw.templatePreview.view('+indx+');" ';
@@ -146,63 +164,79 @@ mw.templatePreview = {
 		    $layout_list_rend_str +=   title;
 		}
          $layout_list_rend_str += ' </li>';
-   
-   
+
+
    indx++;
     });
 	   $layout_list_rend_str += '</ul>';
 		 $layout_list_rend.html($layout_list_rend_str);
 	}
 	//d($sel );
-	  
+
   },
   generate:function(return_url){
-	  
+
         mw.$('.preview_frame_wrapper').addClass("loading");
 
-		var template = mw.$('#active_site_template_{rand}').val();
-		var layout = mw.$('#active_site_layout_{rand}').val();
-		
-		
-		var is_shop = mw.$('#active_site_layout_{rand} option:selected').attr('data-is-shop');
-		var ctype = mw.$('#active_site_layout_{rand} option:selected').attr('data-content-type');
-		var root = mwd.querySelector('#active_site_layout_{rand}');
-			
+		var template = mw.$('#active_site_template_<? print $rand; ?> option:selected').val();
+		var layout = mw.$('#active_site_layout_<? print $rand; ?>').val();
+
+
+		var is_shop = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-is-shop');
+		var ctype = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('data-content-type');
+
+var inherit_from = mw.$('#active_site_layout_<? print $rand; ?> option:selected').attr('inherit_from');
+
+
+
+		var root = mwd.querySelector('#active_site_layout_<? print $rand; ?>');
+
 		var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-		
-		
-		
+
+
+
 		if(form != undefined && form != false){
-			
-			
-		 
-			
+
+
+
+
 		 if(is_shop != undefined){
 		if(is_shop != undefined && is_shop =='y'){
 			form.querySelector('input[name="is_shop"][value="y"]').checked = true;
 		} else {
-			form.querySelector('input[name="is_shop"][value="n"]').checked = true;	
+			form.querySelector('input[name="is_shop"][value="n"]').checked = true;
 		}
 		 }
-		
+
 		if(ctype != undefined && ctype =='dynamic'){
-			
-			
+
+
 		} else {
 		ctype = 'static';
 		}
-		mw.$("select[name='subtype']", form).val(ctype);	
-	
-		
+		mw.$("select[name='subtype']", form).val(ctype);
+
+
 		}
-		
-		
 
-		var template = safe_chars_to_str(template);
-		var layout =  safe_chars_to_str(layout);
 
+
+
+
+if(template != undefined){
+  var template = safe_chars_to_str(template);
 		var template = template.replace('/','___');;
-		var layout = layout.replace('/','___');;
+
+    } else {
+
+    }
+if(layout != undefined){
+  var layout =  safe_chars_to_str(layout);
+  var layout = layout.replace('/','___');
+}
+
+
+
 <? if($data['id'] ==0){
 	$iframe_start = site_url('home');
 } else {
@@ -210,13 +244,27 @@ mw.templatePreview = {
 }
 
 ?>
+    var inherit_from_param = '';
+    if(inherit_from != undefined){
+    inherit_from_param = '&inherit_template_from='+inherit_from;
+    }
 
 
 
-		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true/preview_template:'+template+'/preview_layout:'+layout+'/?content_id=<? print  $data['id'] ?>'
-		
+     var preview_template_param = '';
+    if(template != undefined){
+    preview_template_param = '/preview_template:'+template;
+    }
+
+      var preview_layout_param = '';
+    if(layout != undefined){
+    preview_layout_param = '/preview_layout:'+layout;
+    }
+
+		var iframe_url = '<? print $iframe_start; ?>/no_editmode:true'+preview_template_param+preview_layout_param+'/?content_id=<? print  $data['id'] ?>'+inherit_from_param
+
 if(return_url == undefined){
-		$(window).trigger('templateChanged', iframe_url);  
+		$(window).trigger('templateChanged', iframe_url);
 
         mw.templatePreview.rend(iframe_url);
 } else {
@@ -238,9 +286,9 @@ $(document).ready(function() {
 
 
 
-    mw.templatePreview.selector = mwd.getElementById('active_site_layout_{rand}');
+    mw.templatePreview.selector = mwd.getElementById('active_site_layout_<? print $rand; ?>');
 
-	mw.$('#active_site_template_{rand}').bind("change", function(e) {
+	mw.$('#active_site_template_<? print $rand; ?>').bind("change", function(e) {
 	 var parent_module = $(this).parents('.module').first();
 	 if(parent_module != undefined){
  parent_module.attr('data-active-site-template',$(this).val());
@@ -251,7 +299,7 @@ $(document).ready(function() {
 	 }
     });
 
-	mw.$('#active_site_layout_{rand}').bind("change", function(e) {
+	mw.$('#active_site_layout_<? print $rand; ?>').bind("change", function(e) {
 		mw.templatePreview.generate();
     });
 
@@ -275,12 +323,12 @@ mw.templatePreview.generate();
     </label>
     <div class="mw-ui-select" style="width: 235px">
       <? if($templates != false and !empty($templates)): ?>
-      <select name="active_site_template" id="active_site_template_{rand}">
+      <select name="active_site_template" id="active_site_template_<? print $rand; ?>">
         <? if( trim($data['active_site_template']) != ''): ?>
         <option value="<? print $data['active_site_template'] ?>"      selected="selected"   ><? print $data['active_site_template'] ?></option>
         <? endif ?>
 <!--        <option value="default"   <? if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>Default</option>
-      
+
 
   <option value="inherit"   <? if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <? endif; ?>>From parent page</option>-->
         <? foreach($templates as $item): ?>
@@ -297,7 +345,9 @@ mw.templatePreview.generate();
   <? if(('' != trim($data['layout_file']))): ?>
   <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
   <? endif; ?>
-  <select name="layout_file" class="semi_hidden"   id="active_site_layout_{rand}" 
+
+  <div style="display: none">
+  <select name="layout_file"     id="active_site_layout_<? print $rand; ?>"
 autocomplete="off">
     <? if(!empty($layouts)): ?>
     <? $i=0; foreach($layouts as $item): ?>
@@ -307,12 +357,12 @@ autocomplete="off">
     </option>
     <? $i++; endforeach; ?>
     <? endif; ?>
-    <option title="none" value="inherit"  <? if(trim($data['layout_file']) == ''): ?>   selected="selected"  <? endif; ?>>None</option>
+    <option title="none" <? if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<? print $inherit_from['id'] ?>"  <? endif; ?> value="inherit"  <? if(trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <? endif; ?>>Inherit from parent</option>
   </select>
-  
-  
-  
-  
+<? d($data['layout_file']) ?>
+<? d($data['active_site_template']) ?>
+  </div>
+
   <div class="left">
     <div class="preview_frame_wrapper loading left">
       <div class="preview_frame_ctrls">
@@ -327,7 +377,7 @@ autocomplete="off">
       <?php _e("Page Layout"); ?>
     </label>
     <div class="layouts_box_container">
-      <div class="layouts_box" id="layout_selector{rand}">
+      <div class="layouts_box" id="layout_selector<? print $rand; ?>">
         <?
 	  /*<ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
@@ -338,7 +388,7 @@ autocomplete="off">
         <? endforeach; ?>
         <? endif; ?>
       </ul>*/
-	  
+
 	   ?>
       </div>
     </div>

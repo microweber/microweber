@@ -938,7 +938,7 @@ body.view-shop .mw_action_post{
   background-position: 57px 8px;
 }
 
-.mw-tree label.highlighted{
+.mw-tree label.highlighted, .mw-tree label.active{
   background-color:white;
   border-bottom-color: #EDEDED;
   border-top-color: #EDEDED;
@@ -2518,6 +2518,25 @@ body.mw-external-loading:after{
   outline: 1px solid #2680D3;
 }
          */
+
+         .mw-scrollbar{
+           position: fixed;
+           top: 0;
+           right:0;
+           z-index: 9;
+           width: 9px;
+           background: rgba(122, 122, 122, 0.5);
+           height:100%;
+           border-radius:1px;
+         }
+         .mw-scrollbar span{
+           display: block;
+           width: 9px;
+           height: 20px;
+           background: white;
+           position: absolute;
+           border-radius:1px;
+         }
 
 
 

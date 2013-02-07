@@ -413,14 +413,20 @@ body.dragStart #items_handle{
             transition: outline-offset 0.6s;*/
 }
 
+
+
+
+
 img.element{
   padding: 0;
 }
 
 .element-current, .element-current:hover{
   outline: 1px solid #3D80AB !important;
-  outline-offset: -2px
+  outline-offset: -2px;
 }
+
+
 
 
 li.module-item.ui-draggable-dragging{

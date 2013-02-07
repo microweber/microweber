@@ -179,6 +179,10 @@ body.mw-preview{
   display: inline-block;
 }
 
+.mw-vspace{
+  padding: 12px 0;
+}
+
 
 
 .mw-textfx-3d{

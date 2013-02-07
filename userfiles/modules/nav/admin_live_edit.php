@@ -1,32 +1,32 @@
 <? //include_once($config['path_to_module'].'functions.php'); ?>
 <? // d($params);
- 
- //$rand = crc32(serialize($params));
+
+  $rand = crc32(serialize($params));
   ?>
 <script  type="text/javascript">
   mw.require('forms.js');
   mw.require('url.js');
-  
+
   </script>
 <script type="text/javascript">
   mw.menu_save = function($selector){
-   
+
       var obj = mw.form.serialize($selector);
       $.post("<? print site_url('api/add_new_menu') ?>",  obj, function(data){
       //  mw.reload_module('nav');
 	  window.location.href = window.location.href;
       });
-  
+
  }
- 
- 
+
+
   mw.menu_edit_items = function($menu_id, $selector){
-  
-	  
+
+
   mw.$($selector).attr('menu-name',$menu_id);
    mw.load_module('nav/edit_items',$selector);
-      
- 
+
+
  }
  </script>
 <? $menus = get_menu(); ?>
@@ -47,14 +47,14 @@
         <button type="button" class="mw-ui-btn" onclick="mw.menu_save('#add_new_menu')">Save</button>
       </div>
     </fieldset>
-    <?php 
-	
-	
+    <?php
+
+
 	if(isset( $params['menu_name'])){
-		
+
 		$menu_name =  $params['menu_name'];
 	}elseif(isset( $params['name'])){
-		
+
 		$menu_name =  $params['name'];
 	} else {
 			$menu_name = get_option('menu_name', $params['id']);
@@ -63,9 +63,9 @@
 	$active_menu = false;
 $menu_id = false;
 if($menu_name != false){
-$menu_id = get_menu_id('title='.$menu_name);	
+$menu_id = get_menu_id('title='.$menu_name);
 }
- 
+
  ?>
     <? if(isarr($menus) == true): ?>
     <? if(isarr($menus )): ?>

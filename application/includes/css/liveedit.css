@@ -226,3 +226,25 @@ body .mw-col > .ui-resizable-e *{
   float: right;
 }
 
+.mw-horizontal-resizer{
+  position: absolute !important;
+  margin-top: 20px;
+  z-index: 998;
+  width: 12px;
+  height: 12px;
+  background: rgba(170, 170, 170, 1);
+  cursor: e-resize;
+}
+.mw-vertical-resizer{
+  position: absolute !important;
+  margin-top: 20px;
+  z-index: 998;
+  width: 12px;
+  height: 12px;
+  background: rgba(170, 170, 170, 1);
+  cursor: n-resize;
+}
+
+
+
+

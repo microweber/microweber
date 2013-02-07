@@ -1477,11 +1477,19 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   border-top: 1px solid #E0DEDE;
 }
 
+.mw-modules-admin ul{
+  height: auto !important;
+}
+
+.mw-modules-admin ul ul{
+  padding-left: 40px;
+}
+
 .mw-modules-admin li {
   list-style: none;
   background: white;
 }
-.mw-modules-admin li > .module{
+.mw-modules-admin li > .module, .mw-modules-admin .module_item  {
   padding: 13px 0 10px;
   overflow: hidden;
   position: relative;
@@ -1492,7 +1500,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 
 
-.mw-modules-admin li > .module:hover{
+.mw-modules-admin li > .module:hover, .mw-modules-admin .module_item:hover{
   background: url(../img/grad.php?top=FBFBFB&bot=F1F1F1)
 }
 
@@ -2084,6 +2092,7 @@ ul.mw-menu-selector-list li{
 
 
 */
+
 
 
 

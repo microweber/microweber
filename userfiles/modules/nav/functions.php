@@ -199,12 +199,12 @@ function reorder_menu_items($data) {
 				$k = intval($k);
 				$value2 = intval($value2);
 
-				$sql = "UPDATE $table set 
+				$sql = "UPDATE $table set
 				parent_id=$k
-	where id=$value2
+	where id=$value2 and id!=$k
 	and item_type='menu_item'
 	  ";
-				// d($sql);
+				   d($sql);
 				$q = db_q($sql);
 				cache_clean_group('menus/' . $k);
 			}
@@ -260,10 +260,10 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 	$sql = "SELECT * from {$table_menus}
 	where parent_id=$menu_id
-	and item_type='menu_item'
-	 
+
 	order by position ASC ";
-	//d($sql);
+	 //d($sql); and item_type='menu_item'
+
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
 	// $data = $q;
@@ -280,10 +280,10 @@ function menu_tree($menu_id, $maxdepth = false) {
 		$li_class = 'menu_element';
 	}
 
-	if (!isset($link)) {
+	if (!isset($link) or $link == false) {
 		$link = '<a data-item-id="{id}" class="menu_element_link {active_class}" href="{url}">{title}</a>';
 	}
-
+	//d($link);
 	// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
 	$to_print = '<ul class="' . $ul_class . ' menu_' . $menu_id . '" >';
 
@@ -333,7 +333,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$menu_link = str_replace('{active_class}', $active_class, $menu_link);
 			$to_print .= $menu_link;
 			//	$to_print .= '<a data-item-id="' . $item['id'] . '" class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
-			$to_print .= '</li>';
+
 			if (in_array($item['id'], $passed_ids) == false) {
 
 				if ($maxdepth == false) {
@@ -370,6 +370,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 					}
 				}
 			}
+			$to_print .= '</li>';
 
 		}
 
@@ -419,7 +420,7 @@ function add_content_to_menu($content_id) {
 		foreach ($add_to_menus as $value) {
 			if ($value == 'remove_from_all') {
 				$sql = "delete from {$table_menus}
-	where 
+	where
 	  item_type='menu_item'
 	 and content_id={$content_id}
 	  ";

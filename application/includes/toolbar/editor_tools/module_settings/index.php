@@ -69,9 +69,13 @@
 </style>
 
  <script type="text/javascript">
+
+        mw_module_settings_info = "";
          <? if(isarr( $module_info)): ?>
 
            mw_module_settings_info  = <? print json_encode($module_info); ?>
+
+         <? endif; ?>
 
 
            if(typeof thismodal != 'undefined'){
@@ -93,8 +97,13 @@
             }
 
 
+
               $(window).load(function () {
-                $(mwd.body).removeClass('mw-external-loading');
+
+
+
+
+
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, true);
                 $(mwd.body).bind('mouseup DOMNodeInserted',function(){
                   setTimeout(function(){
@@ -112,12 +121,16 @@
 
 
 
+
            };
 
 
-          <? endif; ?>
-
-
+            $(window).load(function () {
+                   $(mwd.body).removeClass('mw-external-loading');
+                $(mwd.body).ajaxStop(function(){
+                 $(mwd.body).removeClass('mw-external-loading');
+                });
+             });
 
 
 			</script>

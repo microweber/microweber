@@ -897,42 +897,46 @@ mw.tools = {
 
             if(e.target.className != 'mw-ui-btnclose'){
                 mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
+
+                var input = itemsWrapper.querySelector(".item_"+el.value + " input");
+
+                if(input !== null){
+
+                  mw.tools.foreachParents(input, function(loop){
+
+                    if(mw.tools.hasClass(this.className, 'mw-ui-category-selector')){
+                       mw.tools.stopLoop(loop);
+                    }
+                    if(this.tagName=='LI'){
+                      $(this).addClass('active');
+                    }
+                  });
+
+
+
+                  var label = itemsWrapper.querySelector(".item_"+el.value + " label");
+
+                  setTimeout(function(){
+                      label.scrollIntoView(false);
+                      mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
+                      mw.tools.highlight(label);
+                      $(label).addClass("highlighted");
+                   }, 55);
+
+                }
+
             }
 
 
 
-            var input = itemsWrapper.querySelector(".item_"+el.value + " input");
 
-            if(input !== null){
-
-              mw.tools.foreachParents(input, function(loop){
-
-                if(mw.tools.hasClass(this.className, 'mw-ui-category-selector')){
-                   mw.tools.stopLoop(loop);
-                }
-                if(this.tagName=='LI'){
-                  $(this).addClass('active');
-                }
-              });
-
-
-
-              var label = itemsWrapper.querySelector(".item_"+el.value + " label");
-
-              setTimeout(function(){
-                  label.scrollIntoView(false);
-                  mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
-                  mw.tools.highlight(label);
-                  $(label).addClass("highlighted");
-               }, 55);
-
-            }
 
         }
 
 
         span_x.className = 'mw-ui-btnclose';
         span_x.onclick = function(){
+
             o.untag(this.parentNode, el);
         }
         span_holder.appendChild(span_x);
@@ -946,6 +950,7 @@ mw.tools = {
         var checks = itemsWrapper.querySelectorAll('input[type="radio"], input[type="checkbox"]');
         $(checks).each(function(){
            if(this.checked == true){
+              $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).addClass("active");
               var tag = o.createTag(this);
               html.push(tag);
            }
@@ -965,7 +970,7 @@ mw.tools = {
 
     o.untag = function(pill, input){
       $(pill).remove();
-      if(!!input) { $(input)[0].checked = false; }
+      if(!!input) { $(input)[0].checked = false; $(mw.tools.firstParentWithClass($(input)[0], 'mw-ui-check')).removeClass("active");}
       if(typeof obj.onUntag === 'function'){
            obj.onUntag.call(o);
       }
@@ -1575,12 +1580,66 @@ $(window).load(function(){
     });
 
 
+
+    xx = mw.$(".mw-ui-category-selector div.module-categories-selector");
+
+    xx.css("position", "relative");
+
+    xx.scroll(function(e){
+         mw.log(e)
+    })
+
+
   }
 
 
+  $("#mw-admin-container").height($(window).height())
 
+ mw.tools.scrollBar.init(mwd.getElementById('mw-admin-container'));
 
 });
+
+mw.tools.scrollBar =  {
+  height:function(parent, child){
+    if(typeof parent === 'undefined') var parent = window, child = document.body;
+
+    return ($(child).height() - 2*$(parent).height());
+  },
+  init:function(el){
+    if(typeof mwAdmin == 'undefined') return false;
+    el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    mwd.body.style.overflow = 'hidden';
+    var height = mw.tools.scrollBar.height(el, $(el).find(".admin-main-wrapper"));
+
+    $(el).append("<div class='mw-scrollbar'><span style='height:"+height+"px;top:0;'></span></div>");
+    el.addEventListener ("DOMMouseScroll", function(e){
+           /*
+
+           delta = event.wheelDelta/120;
+    if ( event.detail     ) delta = -event.detail/3;
+
+           */
+
+           if((-e.detail/3) > 0){
+              $(el).scrollTop( $(el).scrollTop() - 20)
+              var s = parseFloat($(".mw-scrollbar span").css("top") )-20>0?parseFloat($(".mw-scrollbar span").css("top") )-20:0
+              $(".mw-scrollbar span").css("top", s)
+           }
+           else{
+              $(el).scrollTop($(el).scrollTop() + 20)
+              $(".mw-scrollbar span").css("top", parseFloat($(".mw-scrollbar span").css("top") )+20)
+           }
+
+           e.preventDefault();
+
+    }, false);
+  }
+}
+
+
+
+
 
 
 

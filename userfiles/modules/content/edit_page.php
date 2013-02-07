@@ -30,10 +30,12 @@ $data = get_content_by_id(intval($params["data-page-id"]));
 
 }
 
-
+$active_site_template = '';
+$layout_file = '';
+$layout_from_parent = '';
 if($data == false or empty($data )){
 include('_empty_content_data.php');
-   if(!isset($params["parent-page-id"]) or intval($params["parent-page-id"]) == 0){
+   if(isset($edit_post_mode) and $edit_post_mode == true and !isset($params["parent-page-id"]) or (isset($params["parent-page-id"]) and intval($params["parent-page-id"]) == 0)){
        if(isset($params["is_shop"]) and $params["is_shop"] == 'y'){
        $parent_cont = get_content('subtype=dynamic&is_active=y&content_type=page&limit=1&order_by=updated_on desc&is_shop=y');
         }
@@ -46,7 +48,21 @@ include('_empty_content_data.php');
           $params["parent-category-id"] = $parent_cont[0]['subtype_value'];
         }
 
-   //d(  $parent_cont);
+
+    } else {
+       if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
+        $parent_cont = get_content_by_id($params["parent-page-id"]);
+if(isarr($parent_cont) and isset($parent_cont['active_site_template'])){
+
+
+$layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
+
+         //$active_site_template = $parent_cont['active_site_template'];
+        //  $layout_file = 'inherit';
+
+        }
+   //d($parent_cont);
+      }
     }
 }
 if(isset($edit_post_mode) and $edit_post_mode == true){
@@ -98,7 +114,8 @@ mw.$('#admin_edit_page_form_<? print $rand; ?>').submit(function() {
 							 mw.url.windowHashParam("new_content", 'true');
 							 mw.reload_module('[data-type="pages_menu"]');
   <? else: ?>
-// mw_after_content_save<? print $rand; ?>();
+   mw.reload_module('[data-type="pages_menu"]');
+ // mw_after_content_save<? print $rand; ?>();
                              <? endif; ?>
 
 
@@ -230,6 +247,15 @@ mw_before_content_save<? print $rand; ?>()
 			 mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').html('<a href="javascript:edit_page_open_page_and_menus<? print $rand; ?>()">Parent: '+ title+'</a>');
 		}
 
+      if(val != undefined && val != 0){
+$('#mw-layout-selector-module').attr('inherit_from',val);
+
+
+
+ mw.reload_module('#mw-layout-selector-module')
+
+      }
+
 	 }
  }
 
@@ -249,6 +275,7 @@ mw_before_content_save<? print $rand; ?>()
  function mw_on_save_complete<? print $rand; ?>(){
 	//alert(1);
     mw.notification.success("<?php _e('All changes are saved'); ?>.");
+
  }
 
 
@@ -464,7 +491,8 @@ load_iframe_editor = function(){
 
 
   <div class="mw-layout-selector-holder" style="display: none;">
-    <module data-type="content/layout_selector" data-page-id="<? print ($data['id'])?>"  />
+    <module id="mw-layout-selector-module" data-type="content/layout_selector" <? print
+$layout_from_parent ?> data-page-id="<? print ($data['id'])?>"  autoload=1 />
 
     <div class="mw-save-content-bar">
         <span class="mw-ui-btn go-live">Go Live Edit</span>

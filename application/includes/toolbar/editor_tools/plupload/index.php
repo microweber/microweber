@@ -45,7 +45,7 @@
 
             Params = mw.url.getUrlParams(window.location.href);
 
-
+           $(document).ready(function(){
 
             var multi = Params.multiple.contains('true');
 
@@ -104,7 +104,7 @@
              this_frame.trigger("error", err.file);
 	        });
 
-            $(document).ready(function(){
+
                  $(document.body).click(function(){
                        this_frame.trigger("click");
                  });

@@ -102,6 +102,17 @@ class MwController {
 					$page['layout_file'] = $is_layout_file;
 				}
 
+
+				if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
+					$page['parent'] = intval($_GET['inherit_template_from']);
+					  $inherit_from = get_content_by_id($_GET["inherit_template_from"]);
+					  if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
+        $page['active_site_template']  =  $inherit_from['active_site_template'];
+        $is_layout_file = $page['layout_file']  =  $inherit_from['layout_file'];;
+        }
+				}
+
+
 				//$page['active_site_template'] = $page_url_segment_1;
 				//$page['layout_file'] = $the_new_page_file;
 				//$page['simply_a_file'] = $simply_a_file;
