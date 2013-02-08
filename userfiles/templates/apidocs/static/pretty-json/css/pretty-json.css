@@ -1,0 +1,47 @@
+/* common */
+.mark-water{
+    color:#bbb;
+}
+/* eof common */
+
+/* node */
+.node-content-wrapper{
+    font-family: 'Quicksand', sans-serif;
+    background-color:#fff;
+}
+.node-content-wrapper ul{
+    border-left:1px dotted #ccc;
+    list-style:none;
+    padding-left:25px;
+    margin:0px;
+}
+.node-content-wrapper ul li{
+    list-style:none;
+    border-bottom:0; 
+    padding-bottom:0
+}
+.node-hgl-path{
+    background-color:#fefbdf;
+}
+.node-bracket{
+    font-weight:bold;
+    display:inline-block;
+    cursor:pointer;
+}
+.node-bracket:hover{
+    color:#999;
+}
+/* eof node */
+
+/* leaf */
+.leaft-container{
+    width:100%;
+    max-width:300px;
+    height:100%;
+}
+
+.title{ color:#ccc;}
+.string{ color:#080;}
+.number{ color:#ccaa00;}
+.boolean{ color:#1979d3;}
+/* eof leaf */

@@ -150,9 +150,29 @@ mw.isDragItem = function(obj){
   var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table|div)$/i;
   return items.test(obj.nodeName);
 }
-
+hasAbilityToDropElementsInside = function(target){
+  var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr)$/i;
+  var x =  items.test(target.nodeName);
+  if(x){
+    return false;
+  }
+  else{
+    if(mw.tools.hasParentsWithClass(target, 'module') ){
+      if(mw.tools.hasParentsWithClass(target, 'edit') ){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else if(mw.tools.hasClass(target, 'module')){
+        return false;
+    }
+  }
+}
 
 mw.drag = {
+
 	create: function () {
          mw.top_half = false;
 
@@ -261,6 +281,14 @@ mw.drag = {
            }
 
 
+          if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
+              mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
+          }
+          else if(mw.tools.hasClass(mw.mm_target, 'module')){
+                 mw.currentDragMouseOver = mw.mm_target;
+          }
+          else{
+
 
 
              if(   mw.$mm_target.hasClass("element")
@@ -288,6 +316,7 @@ mw.drag = {
 
                     }
                }
+             }
              }
 
 
@@ -318,7 +347,7 @@ mw.drag = {
                } */
            }
 
-           if(mw.isDrag && mw.currentDragMouseOver!=null  && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module')){
+           if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
 
             if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver) || mw.tools.hasParentsWithClass('nodrop', mw.currentDragMouseOver)){
               mw.currentDragMouseOver=null;
@@ -826,6 +855,29 @@ mw.drag = {
                           return false;
                         }
 
+                        if($(mw.currentDragMouseOver).hasClass("module")){
+
+                           if(position=='top'){
+                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                           }
+                           else if(position=='bottom'){
+                               $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                           }
+
+                           else if(position=='left'){
+                             d("qwerty")
+                               __createRow(mw.currentDragMouseOver, mw.dragCurrent, position);
+                           }
+
+                            else if(position=='right'){
+                               __createRow(mw.currentDragMouseOver, mw.dragCurrent, position);
+                           }
+
+
+
+                          return false;
+                        }
+
                         if($(mw.currentDragMouseOver).hasClass("mw-free-element")){
                               $(mw.currentDragMouseOver).append(mw.dragCurrent);
                               $(window).trigger("onFreeEnter", mw.currentDragMouseOver);
@@ -908,27 +960,14 @@ mw.drag = {
 
                                     //hovered.before(mw.dragCurrent);
 
-                                    var row = mwd.createElement('div');
-                                    row.className = 'mw-row';
-                                    row.id = "row_" + mw.random();
-                                    row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col' style='width:50%'></div>";
-                                    hovered.before(row);
-                                    hovered.addClass("element");
-
-                                    $(row).find(".mw-col").eq(0).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                                    $(row).find(".mw-col").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-
-                                    if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
-                                         setTimeout(function(){
-                                              mw.drag.fix_placeholders(true);
-                                         }, 200)
-                                    }
+                                    __createRow(hovered, mw.dragCurrent, position);
 
                                   }
                                   else if(position=='right'){
 
+                                          __createRow(hovered, mw.dragCurrent, position);
 
-                                          var row = mwd.createElement('div');
+                                         /* var row = mwd.createElement('div');
                                           row.className = 'mw-row';
                                           row.id = "row_" + mw.random();
                                           row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col temp_column' style='width:50%'></div>";
@@ -942,7 +981,7 @@ mw.drag = {
                                             setTimeout(function(){
                                               mw.drag.fix_placeholders(true);
                                             }, 200)
-                                          }
+                                          }    */
                                   }
                             }
 
@@ -1607,12 +1646,12 @@ mw.delete_column = function(which){
  */
 mw.resizable_columns = function () {
 
-$(".edit .mw-row").each(function(){
+$(".mw-row").each(function(){
     mw.px2pc(this);
 });
 
 
-	mw.$('.edit .mw-col').not(".ui-resizable").each(function () {
+	mw.$('.mw-col').not(".ui-resizable").each(function () {
 
 		$el_id_column = $(this).attr('id');
 		if ($el_id_column == undefined || $el_id_column == 'undefined') {
@@ -1888,23 +1927,31 @@ mw.history = {
 
 
 
-mw.drag.story_active = -1;
+__createRow = function(hovered, mw_drag_current, pos){
+  var hovered = $(hovered);
+  var row = mwd.createElement('div');
+  row.className = 'mw-row';
+  row.id = "row_" + mw.random();
+  row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col' style='width:50%'></div>";
+  hovered.before(row);
+  hovered.addClass("element");
 
-mw.drag.stories = [];
+  if(pos=='left'){
+      $(row).find(".mw-col").eq(0).append(mw_drag_current).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
-mw.drag.story = {
-  forward:function(){
-
-  },
-  back:function(){
-    var curr = mw.drag.stories[mw.drag.story_active];
-    if(mw.is.defined(curr)){
-      $("#"+curr.pos).replaceWith(curr.who);
-      mw.drag.story_active-=1;
-    }
   }
-}
+  else if(pos=='right'){
+      $(row).find(".mw-col").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col").eq(1).append(mw_drag_current).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+  }
 
+
+  setTimeout(function(){
+            mw.drag.fix_placeholders(true);
+            mw.resizable_columns();
+       }, 200)
+}
 
 
 

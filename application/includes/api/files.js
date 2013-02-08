@@ -73,11 +73,15 @@ mw.files = {
        var data = loader.getEntries(url);
        data.forEach(function(entry){
           if(!entry.isDirectory()){
-            var obj = {
-                src:loader.loadImage(url+'://'+entry.name()),
+            loader.loadImage(url+'://'+entry.name(), function(){
+              d(1 + " - " + this);
+              var obj = {
+                src:this,
                 name:entry.name()
-            }
-            callback.call(obj);
+              }
+              callback.call(obj);
+            });
+
           }
         });
 
