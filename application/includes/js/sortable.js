@@ -1129,6 +1129,14 @@ mw.drag = {
 module_settings: function() {
     var curr = $("#mw_handle_module").data("curr");
     var attributes = {};
+
+    if(mw.$('#module-settings-'+curr.id).length>0){
+      var m = mw.$('#module-settings-'+curr.id)[0];
+      m.scrollIntoView();
+      mw.tools.highlight(m);
+      return false;
+    }
+
     $.each(curr.attributes, function(index, attr) {
       attributes[attr.name] = attr.value;
     });
@@ -1158,7 +1166,7 @@ module_settings: function() {
   }
 	data1.live_edit = 'true';
 	data1.view = 'admin';
-	
+
 	
 	if(data1.from_url == undefined){
 	 data1.from_url = window.top.location;
@@ -1177,6 +1185,7 @@ module_settings: function() {
     url:src,
     width:432,
     height:150,
+    name:'module-settings-'+curr.id,
     title:'',
     callback:function(){
         mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);

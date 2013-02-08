@@ -64,12 +64,21 @@ mw.VResizer = function(){
 }
 
 $(document).ready(function(){
+
   mwd.body.appendChild(_HResizer)
   mw.HResizer();
     mwd.body.appendChild(_VResizer)
   mw.VResizer();
 
 });
+
+
+
+
+
+
+
+
 
 
 

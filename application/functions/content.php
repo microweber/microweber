@@ -798,7 +798,18 @@ function get_page_by_url($url = '', $no_recursive = false) {
 		$url = url_string();
 	}
 
+	$u1 = $url;
+	$u2 = site_url();
 
+	$u1 = rtrim($u1, '\\');
+	$u1 = rtrim($u1, '/');
+
+	$u2 = rtrim($u2, '\\');
+	$u2 = rtrim($u2, '/');
+	$u1 = str_replace($u2, '', $u1);
+	$u1 = ltrim($u1, '/');
+	$url = $u1;
+//d($url);
 	// ->'table_content';
 	$table = MW_TABLE_PREFIX . 'content';
 
@@ -823,7 +834,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	$url = rtrim($url, '?');
 	$url = rtrim($url, '#');
 	$sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
-	//d($sql);
+	// d($sql);
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
 	$result = $q;
@@ -1413,12 +1424,32 @@ function save_edit($post_data) {
 	} else {
 		exit('Error: no POST?');
 	}
-	$ref_page = $_SERVER['HTTP_REFERER'];
+	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page);
 
-		$page_id = $ref_page['id'];
-		$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+		if($ref_page == false){
+
+
+			$guess_page_data = new MwController();
+			$guess_page_data->page_url =  $ref_page_url;
+			$guess_page_data->return_data = true;
+			$guess_page_data->create_new_page = true;
+			$pd = $guess_page_data->index();
+			if(isarr($pd) and isset($pd["active_site_template"])){
+				$save_page = $pd;
+				$save_page['url'] = url_string(1);
+				$save_page['title'] = url_title(url_string(1));
+				$page_id = save_content($save_page);
+			//	d($save_page);
+			}
+			//d($pd);
+
+			// d($ref_page_url);
+		} else {
+			$page_id = $ref_page['id'];
+			$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+		}
 	}
 
 	$json_print = array();
@@ -1835,11 +1866,11 @@ function save_content($data, $delete_the_cache = true) {
 
 
 	if (isset($data['url']) and (strval($data['url']) == '')) {
-		$data['url'] = url_title($thetitle);
+		$data['url'] = ($thetitle);
 	}
 
 	if (isset($data['url']) and (strval($data['url']) != '')) {
-		$data['url'] = url_title($data['url']);
+		$data['url'] = ($data['url']);
 	}
 
 
@@ -1862,7 +1893,7 @@ function save_content($data, $delete_the_cache = true) {
 	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
 
 	if (isset($data['url']) and $data['url'] != false) {
-		$data['url'] = url_title($data['url']);
+		//$data['url'] = url_title($data['url']);
 
 		if (trim($data['url']) == '') {
 

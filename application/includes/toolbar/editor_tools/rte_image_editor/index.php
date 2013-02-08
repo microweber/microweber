@@ -53,7 +53,13 @@
                   afterInput(item.src, 'video', "FileUploaded");
               }
               else if(filetypes=='files'){
-                  afterInput(item.src, 'files', "FileUploaded");
+                  if(item.src.contains("base64")){
+                     afterInput(item.src, '', "FileUploaded");
+                  }
+                  else{
+                     afterInput(item.src, 'files', "FileUploaded");
+                  }
+
               }
           });
 

@@ -84,9 +84,66 @@ function templates_list($options = false) {
 
 	return $to_return;
 }
+function layout_link($options = false) {
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
 
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = __FUNCTION__ . crc32($function_cache_id);
+	//get cache from memory
+	$mem = mw_var($cache_id);
+	if($mem !=false){
+
+		return $mem;
+	}
+
+
+	$options = parse_params($options);
+	$fn = false;
+
+	if(isset($options[0])){
+		$fn = $options[0];
+	} elseif(isarr($options)) {
+		$val = current($options);
+		$fn = key($options);
+	}
+
+	$page_url_segment_1 = url_segment(0);
+	$td = TEMPLATEFILES .  $page_url_segment_1;
+	$td_base = $td;
+
+
+	$page_url_segment_2 = url_segment(1);
+	$directly_to_file = false;
+	$page_url_segment_3 = url_segment();
+
+
+	if (!is_dir($td_base)) {
+		array_shift($page_url_segment_3);
+		//$page_url_segment_1 =	$the_active_site_template = get_option('curent_template');
+		//$td_base = TEMPLATEFILES .  $the_active_site_template.DS;
+	} else {
+
+	}
+	if(empty($page_url_segment_3)){
+		$page_url_segment_str =   '';
+	} else {
+		$page_url_segment_str =$page_url_segment_3[0];
+	}
+	//$page_url_segment_str = implode('/', $page_url_segment_3);
+	$fn = site_url($page_url_segment_str.'/'.$fn);
+	//d($page_url_segment_3);
+
+	//set cache in memory
+	mw_var($cache_id, $fn);
+
+	return $fn;
+}
 function layouts_list($options = false) {
-$options = parse_params($options);
+	$options = parse_params($options);
 	if (!isset($options['path'])) {
 		if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
 			$tmpl = trim($options['site_template']);

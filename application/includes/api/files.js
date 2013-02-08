@@ -67,6 +67,20 @@ mw.files = {
 
 
         return frame;
+    },
+    unzip:function(url, callback){
+       var loader = new ZipLoader(url);
+       var data = loader.getEntries(url);
+       data.forEach(function(entry){
+          if(!entry.isDirectory()){
+            var obj = {
+                src:loader.loadImage(url+'://'+entry.name()),
+                name:entry.name()
+            }
+            callback.call(obj);
+          }
+        });
+
     }
 }
 

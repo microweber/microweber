@@ -9,38 +9,32 @@ function api_url($str = '') {
 	return site_url('api/' . $str);
 }
 
-function url_segment($k = -1) {
-	static $u;
-
-	if ($u == false) {
-
+function url_segment($k = -1,$page_url=false) {
+	//static $u;
+	$u = '';
+	if($page_url == false or $page_url == ''){
 		$u1 = curent_url();
-		$u2 = site_url();
+	} else {
 
-		$u1 = rtrim($u1, '\\');
-		$u1 = rtrim($u1, '/');
-
-		$u2 = rtrim($u2, '\\');
-		$u2 = rtrim($u2, '/');
-		//
-		//      $u2 = explode("?", $u2);
-		///$u2 = $u2[0];
-		//
-		//        $u1 = explode("?", $u1);
-		//        $u1 = $u1[0];
-
-		$u1 = str_replace($u2, '', $u1);
-
-		//$u1 = str_replace('admin/admin/', 'admin/', $u1);
-		//  $u = $u ? : explode('/', trim(preg_replace('/([^\w\:\-\.\/])/i', '', current(explode('?', $u1, 2))), '/'));
-		if (!isset($u) or $u == false) {
-
-			$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-
-		}
-
-		// $u = $u ? :
+		$u1 = $page_url;
 	}
+
+	//if ($u == false) {
+
+
+	$u2 = site_url();
+
+	$u1 = rtrim($u1, '\\');
+	$u1 = rtrim($u1, '/');
+
+	$u2 = rtrim($u2, '\\');
+	$u2 = rtrim($u2, '/');
+	$u1 = str_replace($u2, '', $u1);
+	if (!isset($u) or $u == false) {
+		$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+
+	}
+	//}
 
 	return $k != -1 ? v($u[$k]) : $u;
 
@@ -75,11 +69,16 @@ function url($k = -1) {
  *
  * @return string the url string
  */
-function url_string() {
-	static $u1;
-	if ($u1 == false) {
-		$u1 = implode('/', url_segment());
+function url_string($skip_ajax = false) {
+	if ($skip_ajax == true) {
+		$url = curent_url($skip_ajax);
+	} else {
+		$url = false;
 	}
+	//static $u1;
+	//if ($u1 == false) {
+	$u1 = implode('/', url_segment(-1,$url));
+	//}
 	return $u1;
 }
 
@@ -585,7 +584,7 @@ function esip($ip_addr) {
 		}
 		return TRUE;
 	} else
-		return FALSE;
+	return FALSE;
 	//if format of ip address doesn't matches
 }
 

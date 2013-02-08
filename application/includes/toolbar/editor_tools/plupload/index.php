@@ -38,6 +38,12 @@
 
 
         <script type="text/javascript">
+            mw.require('archive.js?v=1');
+        </script>
+        <script type="text/javascript">
+            mw.require('files.js');
+        </script>
+        <script type="text/javascript">
 
             Name = this.name;
 
@@ -81,8 +87,21 @@
 
             });
 
-            uploader.bind('FileUploaded', function(up, files, info){
+            uploader.bind('FileUploaded', function(up, file, info){
+
               var json =  jQuery.parseJSON(info.response);
+
+              if(file.name.contains('zip')){
+
+
+                  mw.files.unzip(json.src, function(){
+                    this_frame.trigger("FileUploaded", this);
+                  });
+
+
+               return false;
+              }
+
               if(typeof json.error == 'undefined'){
                  this_frame.trigger("FileUploaded", json);
               }
@@ -93,7 +112,7 @@
             });
 
             uploader.bind('UploadComplete', function(up, files){
-              this_frame.trigger("done", files);
+             // this_frame.trigger("done", files);
             });
 
             uploader.bind('FilesAdded', function(up, files){

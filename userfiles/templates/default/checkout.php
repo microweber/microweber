@@ -5,7 +5,7 @@
 
 
      <module type="shop/checkout" id="cart_checkout" />
-   
+
 </div>
 
 
