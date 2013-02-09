@@ -497,7 +497,14 @@ mw.drag = {
           mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function(a, element){
+          var order = mw.tools.parentsOrder(element, ['edit', 'module']);
 
+          if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
+            mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
+          }
+          else{
+            mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
+          }
           var el = $(element);
           var title = el.dataset("filter");
           $(mw.handle_module).find(".mw-element-name-handle").html(title);
@@ -841,7 +848,15 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
+                         if($(mw.currentDragMouseOver).hasClass("empty-element")){
 
+                               $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                               $(mw.dragCurrent).removeClass("mw_drag_float");
+                               $(mw.dragCurrent).removeClass("mw_drag_float_right");
+
+
+                                return false;
+                         }
 
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
@@ -865,7 +880,7 @@ mw.drag = {
                            }
 
                            else if(position=='left'){
-                             d("qwerty")
+
                                __createRow(mw.currentDragMouseOver, mw.dragCurrent, position);
                            }
 
@@ -895,9 +910,7 @@ mw.drag = {
                             }
                             if(hovered.hasClass("empty-element")){
 
-                               hovered.before(mw.dragCurrent);
-                               $(mw.dragCurrent).removeClass("mw_drag_float");
-                               $(mw.dragCurrent).removeClass("mw_drag_float_right");
+
                             }
                             else{
                                   if(position=='top'){
@@ -956,32 +969,11 @@ mw.drag = {
                                      $(mw.dragCurrent).addClass("clear");
                                   }
                                   else if(position=='left'){
-                                    $(mw.dragCurrent).removeClass("clear");
-
-                                    //hovered.before(mw.dragCurrent);
-
-                                    __createRow(hovered, mw.dragCurrent, position);
-
+                                        $(mw.dragCurrent).removeClass("clear");
+                                        __createRow(hovered, mw.dragCurrent, position);
                                   }
                                   else if(position=='right'){
-
-                                          __createRow(hovered, mw.dragCurrent, position);
-
-                                         /* var row = mwd.createElement('div');
-                                          row.className = 'mw-row';
-                                          row.id = "row_" + mw.random();
-                                          row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col temp_column' style='width:50%'></div>";
-                                          hovered.before(row);
-                                          hovered.addClass("element");
-
-                                          $(row).find(".mw-col").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                                          $(row).find(".mw-col").eq(1).append(mw.dragCurrent).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-
-                                          if(hovered.parent().hasClass("temp_column") && $(mw.dragCurrent).parent().hasClass("temp_column")){
-                                            setTimeout(function(){
-                                              mw.drag.fix_placeholders(true);
-                                            }, 200)
-                                          }    */
+                                        __createRow(hovered, mw.dragCurrent, position);
                                   }
                             }
 
@@ -1075,9 +1067,9 @@ mw.drag = {
         });
       }
       //scale the empty elements
-      $("div.empty-element").css({position:'absolute'});
-      $("div.empty-element").parent().height('auto');
-      $("div.empty-element").each(function(){
+      mw.$("div.empty-element").css({position:'absolute'});
+      mw.$("div.empty-element").parent().height('auto');
+      mw.$("div.empty-element").each(function(){
         var el = $(this);
         var the_row_height = el.parents(".mw-row").eq(0).height();
         var the_column_height = el.parent().height();
@@ -1262,7 +1254,7 @@ module_settings: function() {
   }
   
   
-  
+
 	data1.live_edit = 'true';
 	data1.view = 'admin';
 	data1.no_wrap = '1';

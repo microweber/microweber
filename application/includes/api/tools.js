@@ -605,15 +605,33 @@ mw.tools = {
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.parentNode;
+     var count = 0;
      if(_curr !== null && _curr !== undefined){
        var _tag = _curr.tagName;
        while(_tag !== 'BODY'){
-           var caller =  callback.call( _curr, index);
+           count++;
+           var caller =  callback.call( _curr, index, count);
            var _curr = _curr.parentNode;
            if( caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
            var _tag = _curr.tagName;
        }
      }
+  },
+  parentsOrder:function(node, arr){
+    var only_first = [];
+    var obj = {}, l = arr.length, i=0;
+    for( ; i<l; i++) {obj[arr[i]] = -1}
+    mw.tools.foreachParents(node, function(loop, count){
+        var cls = this.className;
+        var i=0;
+        for( ; i<l; i++) {
+           if(mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i])==-1){
+                obj[arr[i]] = count;
+                only_first.push(arr[i]);
+           }
+        }
+    });
+    return obj;
   },
   firstParentWithClass:function(el,cls){
       _has = false;
@@ -1252,7 +1270,7 @@ String.prototype._exec = function(a,b,c){
     for( ; i<=len; i++){
         var temp = temp[arr[i]];
     }
-    return mw.is.func(temp) ? temp(a,b,c) : temp;
+    return (typeof temp === 'function') ? temp(a,b,c) : temp;
   }
 }
 
@@ -1581,13 +1599,7 @@ $(window).load(function(){
 
 
 
-    xx = mw.$(".mw-ui-category-selector div.module-categories-selector");
 
-    xx.css("position", "relative");
-
-    xx.scroll(function(e){
-         mw.log(e)
-    })
 
 
   }
