@@ -469,3 +469,4 @@ $language["continue-reading"]= 'Continue Reading' ;
 $language["continue-reading"]= 'Continue Reading' ; 
 $language["continue-reading"]= 'Continue Reading' ; 
 $language["continue-reading"]= 'Continue Reading' ; 
+$language["two-coloms-amp-picture"]= 'Two Coloms &amp; Picture' ; 

@@ -125,29 +125,46 @@ function array_rpush($arr, $item) {
  */
 function normalize_path($path, $slash_it = true) {
 
-	$path_original = $path;
-	$s             = DIRECTORY_SEPARATOR;
-	$path          = preg_replace('/[\/\\\]/', $s, $path);
+	$parser_mem_crc = 'normalize_path' . crc32($path.$slash_it);
+
+	$ch = mw_var($parser_mem_crc);
+	if ($ch != false) {
+
+		$path = $ch;
+	} else {
+
+
+
+
+
+		$path_original = $path;
+		$s             = DIRECTORY_SEPARATOR;
+		$path          = preg_replace('/[\/\\\]/', $s, $path);
 	// $path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
-	$path          = str_replace($s . $s, $s, $path);
-	if (strval($path) == '') {
-		$path = $path_original;
-	}
-	if ($slash_it == false) {
-		$path = rtrim($path, DIRECTORY_SEPARATOR);
-	} else {
-		$path .= DIRECTORY_SEPARATOR;
-		$path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
-	}
-	if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
-		$path = $path_original;
-	}
-	if ($slash_it == false) {
-	} else {
-		$path = $path . DIRECTORY_SEPARATOR;
-		$path = reduce_double_slashes($path);
+		$path          = str_replace($s . $s, $s, $path);
+		if (strval($path) == '') {
+			$path = $path_original;
+		}
+		if ($slash_it == false) {
+			$path = rtrim($path, DIRECTORY_SEPARATOR);
+		} else {
+			$path .= DIRECTORY_SEPARATOR;
+			$path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+		}
+		if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
+			$path = $path_original;
+		}
+		if ($slash_it == false) {
+		} else {
+			$path = $path . DIRECTORY_SEPARATOR;
+			$path = reduce_double_slashes($path);
 		// $path = rtrim ( $path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR );
+		}
+
+		mw_var($parser_mem_crc, $path);
+
 	}
+
 	return $path;
 }
 
@@ -266,7 +283,7 @@ function ago($time, $granularity = 2) {
 		'hour' => 3600,
 		'minute' => 60,
 		'second' => 1
-       );
+		);
 	foreach ($periods as $key => $value) {
 		if ($difference >= $value) {
 			$time = floor($difference / $value);
@@ -303,21 +320,21 @@ function mw_notif($text, $exit = false) {
 function json_error($text) {
 	$arr = array(
 		'error' => $text
-       );
+		);
 	print json_encode($arr);
 	exit();
 }
 function json_html($text) {
 	$arr = array(
 		'html' => $text
-       );
+		);
 	print json_encode($arr);
 	exit();
 }
 function json_success($text) {
 	$arr = array(
 		'success' => $text
-       );
+		);
 	print json_encode($arr);
 	exit();
 }
@@ -785,7 +802,7 @@ function directory_tree_grep($q, $path) {
 			$ret[] = $file_full_path;
 		}
 	}
-    return $ret;
+	return $ret;
 }
 
 

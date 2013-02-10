@@ -209,9 +209,9 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			}
 
 			if (isset($mw_cache_mem[$key])) {
-				 
-				
-				
+
+
+
 				$mw_cache_mem_hits[$cache_id_o]++;
 				return $mw_cache_mem[$key];
 			} else {
@@ -288,7 +288,7 @@ function cache_clean_group($cache_group = 'global') {
 		// @unlink($cache_group_index);
 
 		$dir = cache_get_dir('global');
- 
+
 		if (is_dir($dir)) {
 			@recursive_remove_from_cache_index($dir);
 		}

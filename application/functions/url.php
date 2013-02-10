@@ -314,18 +314,30 @@ function url_title($text) {
 }
 
 function replace_site_vars_back($arr) {
-	$site = site_url();
+
 
 	if (is_string($arr)) {
-		// $arr = html_entity_decode($arr, ENT_COMPAT, "UTF-8");
 
-		$ret = str_replace('{SITE_URL}', $site, $arr);
-		$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
-		$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
 
-		$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
-		$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+		$parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
 
+		$ch = mw_var($parser_mem_crc);
+		if ($ch != false) {
+
+			$ret = $ch;
+		} else {
+
+
+			$site = site_url();
+
+			$ret = str_replace('{SITE_URL}', $site, $arr);
+			$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
+			$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
+
+			$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
+			$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+			mw_var($parser_mem_crc, $ret);
+		}
 		//	$ret = htmlspecialchars_decode($ret);
 		return $ret;
 	}
@@ -342,8 +354,8 @@ function replace_site_vars_back($arr) {
 			} else {
 				//$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
 				// $v = str_ireplace($site, '{SITE_URL}', $v);
-				$v = str_replace('{SITE_URL}', $site, $v);
-				$v = htmlspecialchars_decode($v);
+				//$v = str_replace('{SITE_URL}', $site, $v);
+				//$v = htmlspecialchars_decode($v);
 				// $v = addslashes ( $v );
 				// $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
 			}

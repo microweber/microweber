@@ -1630,7 +1630,10 @@ mw.tools.scrollBar =  {
     $(el).append("<div class='mw-scrollbar'><span style='height:"+height+"px;top:0;'></span></div>");
 
 
-    $(".mw-scrollbar span").draggable({axis:'y',drag:function(){}})
+    $(".mw-scrollbar span").draggable({axis:'y',drag:function(){
+      var top = parseFloat($(this).css("top")) + $(this).height();
+        $(el).scrollTop( top);
+    }, containment:'parent'})
 
     el.addEventListener ("DOMMouseScroll", function(e){
            /*

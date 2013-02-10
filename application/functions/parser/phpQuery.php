@@ -1294,7 +1294,7 @@ class phpQueryObject implements Iterator, Countable, ArrayAccess {
 
     public function __destruct()
 	{
-		 
+
 	}
 
     /**

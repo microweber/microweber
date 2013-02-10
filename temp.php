@@ -1,3 +1,12 @@
+ C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://192.168.0.3/1k/apidocs/docs/core/content/get_content.php
+
+
+
+
+
+
+
+
 
 United States
 Business Name: 	  	None
@@ -7,16 +16,16 @@ Bank Account: 	  	Checking (Confirmed)
 Routing Number: 325272063
 Bank Account Number: 076792569968188
 Balance: 	  	8000.00 USD
- 
+
 
  Credit Card: 	  	Visa   4887380643164367
  Exp Date:  11/2017
- 
- 
+
+
 Test Account:		boksio_1352898155_biz@gmail.com 	Nov 14, 2012 05:03:45 PST
-API Username: 	boksio_1352898155_biz_api1.gmail.com	
-API Password: 	1352898225	
-Signature: 	A3gEt3WXnVKeHHoeh0uLGXFuaRVvAxtzdKdF0t46v02YJBxqmFALdIHJ 
+API Username: 	boksio_1352898155_biz_api1.gmail.com
+API Password: 	1352898225
+Signature: 	A3gEt3WXnVKeHHoeh0uLGXFuaRVvAxtzdKdF0t46v02YJBxqmFALdIHJ
 
 
 
@@ -48,7 +57,7 @@ apigen --source ~/nella/Nella --source ~/doctrine2/lib/Doctrine --source ~/doctr
 apigen --source  C:\xampp\htdocs\1k\application --skip-doc-path "~/cache/*" --skip-doc-prefix Nette --exclude "*/tests/*" --destination C:\xampp\htdocs\1k\apigen --title "MW Framework"
 
 
-apigen --config C:\xampp\htdocs\1k\apigen.ini 
+apigen --config C:\xampp\htdocs\1k\apigen.ini
 
 
 
@@ -77,7 +86,7 @@ ab -n 100 -c 10 -r "http://pecata/1k/peter"
 ab -n 100 -c 10 -r "http://pecata/1k/title-20121011104847?test_cookie=9"
 ab -n 1000 -c 50 -r "http://pecata/1k/metodi-page"
 
- 
+
 
 ab -n 1000 -c 100 -r "http://pecata/1k/sdfsdfsdfsdfsd"
 

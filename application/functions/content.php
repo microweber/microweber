@@ -466,6 +466,35 @@ function define_constants($content = false) {
 }
 
 function get_layout_for_page($page = array()) {
+
+
+
+
+
+
+	$args = func_get_args();
+	$function_cache_id = '';
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$cache_id = __FUNCTION__ . crc32($function_cache_id);
+	if (isset($page['id']) and intval($page['id']) != 0){
+		$cache_group = 'content/'.$page['id'];
+	} else {
+		$cache_group = 'content/global';
+	}
+
+
+	$cache_content = cache_get_content($cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
+
 	$render_file = false;
 	$look_for_post = false;
 	$template_view_set_inner = false;
@@ -476,14 +505,7 @@ function get_layout_for_page($page = array()) {
 
 	if (isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
-
-
-
 		$inherit_from = get_content_parents($page['id']);
-
-
-
-
 
 		$found = 0;
 		if(!empty( $inherit_from )){
@@ -519,7 +541,7 @@ function get_layout_for_page($page = array()) {
 		 //d($inherit_from);
 	}
 
-
+//d($page);
 
 
 	if (isset($page['content_type']) and $page['content_type'] == 'post') {
@@ -763,6 +785,7 @@ function get_layout_for_page($page = array()) {
 
 		}
 	}
+	cache_store_data($render_file, $cache_id, $cache_group);
 
 	return $render_file;
 }
@@ -2433,7 +2456,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	//
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	$cache_content = false;
+//	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
