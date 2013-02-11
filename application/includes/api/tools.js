@@ -172,7 +172,8 @@ mw.tools = {
     },
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
-        var frame = "<iframe style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
+        var span = "<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: 0;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>";
+        var frame = span+"<iframe style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
