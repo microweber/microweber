@@ -252,13 +252,13 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$cache_group = 'menus/global';
 	$function_cache_id = false;
 
-	$function_cache_id = __FUNCTION__.crc32 ($menu_id);
+	/*$function_cache_id = __FUNCTION__.crc32 ($menu_id);
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
 	if (($cache_content) != false) {
 		print $cache_content;
 		return;
 
-	}
+	}*/
 
 
 
@@ -400,7 +400,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 	// print "[[ $time ]]seconds\n";
 	$to_print .= '</ul>';
-cache_store_data($to_print, $function_cache_id, $cache_group);
+//cache_store_data($to_print, $function_cache_id, $cache_group);
 	return $to_print;
 }
 

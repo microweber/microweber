@@ -501,9 +501,11 @@ mw.drag = {
 
           if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
             mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
+            mw.$("#mw_handle_module .mw_edit_delete").hide();
           }
           else{
             mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
+            mw.$("#mw_handle_module .mw_edit_delete").show();
           }
           var el = $(element);
           var title = el.dataset("filter");
@@ -1904,7 +1906,7 @@ mw.history = {
 					$.each(data, function (i, d) {
 						var $what_is_the_content = ''
 						//if(this.page_element_id != un
-						
+
 						
 						if (window.console && window.console.log) {
 							window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);

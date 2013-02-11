@@ -620,7 +620,7 @@ mw.tools = {
   parentsOrder:function(node, arr){
     var only_first = [];
     var obj = {}, l = arr.length, i=0;
-    for( ; i<l; i++) {obj[arr[i]] = -1}
+    for( ; i<l; i++) {obj[arr[i]] = -1;}
     mw.tools.foreachParents(node, function(loop, count){
         var cls = this.className;
         var i=0;
