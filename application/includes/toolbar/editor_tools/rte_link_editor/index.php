@@ -1,6 +1,6 @@
 
 <script>
-
+     parent.mw.require("external_callbacks.js");
      mw.require("forms.js");
      mw.require("files.js");
      mw.require("tools.js");
@@ -17,6 +17,8 @@
 
     var hash = hash!=='' ? hash : 'insert_link';
 
+
+
     mw.search = function(keyword, limit, callback){
       is_searching = true;
       var obj = {
@@ -26,14 +28,14 @@
         search_in_fields:'title'
       }
       $.post(mw.settings.site_url + "api/get_content_admin", obj, function(data){
-        var json = $.parseJSON(data);
-        callback.call(json);
+        callback.call(data);
         is_searching = false;
       });
     }
 
     mw.dd_autocomplete = function(id){
       var el = $(id);
+
       el.bind("change keyup focus", function(event){
         if(!is_searching){
             var val = el.val();
@@ -135,7 +137,8 @@
 
 
           $(frame).bind("FileUploaded", function(frame, item){
-              parent.mw.wysiwyg[hash](item.src);
+
+              parent.mw.iframecallbacks[hash](item.src);
 
           });
 
@@ -166,14 +169,10 @@
              var target = '_blank';
            }
 
-            parent.mw.wysiwyg.insert_link(val, target);
-         }
-         else{
-            parent.mw.wysiwyg[hash](val);
+
          }
 
-
-
+         parent.mw.iframecallbacks[hash](val, target);
 
          parent.mw.tools.modal.remove('mw_rte_link');
 
@@ -184,7 +183,7 @@
 
          var val = mw.$("#insert_link_list").getDropdownValue();
 
-         parent.mw.wysiwyg[hash](val);
+         parent.mw.iframecallbacks[hash](val);
 
          parent.mw.tools.modal.remove('mw_rte_link');
 

@@ -24,6 +24,30 @@ body.mw-preview{
   -webkit-transform-origin: 0 0;
 }
 
+
+.autoscale{
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  height: 100%;
+}
+.autoscale-x{
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+.autoscale-y{
+  min-height: 100%;
+  max-height: 100%;
+  height: 100%;
+  width:auto;
+  min-width: 100%;
+}
+
 .mw-hide{
   display: none !important;
 }
@@ -109,9 +133,13 @@ body.mw-preview{
 
 .mw-embed-iframe{
   padding: 12px 0;
+  min-height: 200px;
 }
 .mw-embed-iframe iframe{
   max-width: 100%;
+  max-height: 100%;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .mw-embed-embed{

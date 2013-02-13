@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/C/xampp/htdocs/1k",
+			"folder_exclude_patterns": ["backup","cache","history"]
+		}
+	]
+}

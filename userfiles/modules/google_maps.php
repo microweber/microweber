@@ -1,4 +1,4 @@
-<? 
+<?
 if($params['type'] != 'google_maps'){
 return;	
 }
@@ -45,16 +45,15 @@ $zoom = "14";
 var T = 1;
 
 </script>
-<br />
 
-<div class="resize-x resize-y " style="width: 100%;height: 250px">
- 
+
+
+
  
  <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;hl=en&amp;geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<? print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<? print intval($zoom); ?>&amp;output=embed"></iframe>
- 
- 
- 
- 
 
-</div>
+
+ <div class="iframe_fix"></div>
+
+
 

@@ -234,6 +234,8 @@ mw.wysiwyg = {
           left:offset.left
         });
         $(mw.wysiwyg.external).html("<iframe src='" + url + "' scrolling='no' frameborder='0' />");
+        var frame = mw.wysiwyg.external.querySelector('iframe');
+        frame.contentWindow.thisframe = frame;
     },
     createelement : function(){
        var el = mw.wysiwyg.applier('div', 'mw_applier element');
@@ -441,7 +443,7 @@ mw.wysiwyg = {
     image_link:function(url){
         $("img.element-current").wrap("<a href='" + url + "'></a>");
     },
-    request_image:function(hash){
+    request_media:function(hash){
         mw.tools.modal.frame({
           url:"rte_image_editor"+hash,
           //title:"Upload Picture",
@@ -451,20 +453,20 @@ mw.wysiwyg = {
           template:'mw_modal_simple'
         });
     },
-    image:function(hash){
-        var hash = hash || '#mw.wysiwyg.insert_image';
+    media:function(hash){
+        var hash = hash || '#insert_html';
         if($("#mw_rte_image").length>0){
            $("#mw_rte_image").remove();
         }
         else{
           if(mw.wysiwyg.isThereEditableContent() || mw.target.item.className=='image_change'){
               mw.wysiwyg.save_selection();
-              mw.wysiwyg.request_image(hash);
+              mw.wysiwyg.request_media(hash);
           }
         }
     },
     request_bg_image:function(){
-      mw.wysiwyg.request_image('#set_bg_image');
+      mw.wysiwyg.request_media('#set_bg_image');
     },
     set_bg_image:function(url){
       $(".element-current").css("backgroundImage", "url(" + url + ")");
@@ -492,21 +494,6 @@ mw.wysiwyg = {
     selection_length:function(){
       return window.getSelection().getRangeAt(0).cloneContents().textContent.length;
     },
-    insert_link:function(url, target){
-      var target = target || '_self';
-      mw.wysiwyg.restore_selection();
-      if(mw.wysiwyg.selection_length()>0){
-         var text = window.getSelection().getRangeAt(0).cloneContents().textContent;
-         var html = "<a href='" + url + "' target='"+target+"'>" + text + "</a>";
-         mw.wysiwyg.insert_html(html);
-      }
-      else{
-         var name =  mw.tools.get_filename(url);
-         var extension = url.split('.').pop();
-         var html = "<a href='" + url + "' target='"+target+"'>" + name + "." + extension + "</a>";
-         mw.wysiwyg.insert_html(html);
-      }
-    },
     fontFX:function(cls){
        mw.wysiwyg.applier('span', cls);
     },
@@ -518,10 +505,10 @@ mw.wysiwyg = {
         $("#"+id).removeAttr("_moz_dirty");
         mw.disable_selection("#"+id);
         if(typeof mw.drag==='object'){
-          mw.drag.init("#"+id);
-          mw.image.resize.init("#"+ id);
+          //mw.drag.init("#"+id);
+          //mw.image.resize.init("#"+ id);
         }
-        mw.wysiwyg.set_cursor('after', "#"+ id + " img");
+        mw.wysiwyg.set_cursor('after', "#"+ id);
         mw.wysiwyg.save_selection();
         return id;
     },
@@ -566,7 +553,7 @@ mw.wysiwyg = {
             var next = $(el).next()[0];
           }
           else{
-            $(el).after("<div></div>");
+            $(el).after("<span></span>");
             var next = $(el).next()[0];
           }
           range.selectNodeContents(next);

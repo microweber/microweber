@@ -35,7 +35,7 @@
             </div>
             <span class="mw_dlm"></span>
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-image" title="Insert Media"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
             <div class="mw_clear">&nbsp;</div>
         </div>
         <div class="mw_small_editor_bottom">

@@ -93,13 +93,13 @@
 
               if(file.name.contains('zip')){
 
-
+                  /*
                   mw.files.unzip(json.src, function(){
                     this_frame.trigger("FileUploaded", this);
                   });
 
 
-               return false;
+               return false;   */
               }
 
               if(typeof json.error == 'undefined'){
@@ -112,7 +112,7 @@
             });
 
             uploader.bind('UploadComplete', function(up, files){
-             // this_frame.trigger("done", files);
+              this_frame.trigger("done", files);
             });
 
             uploader.bind('FilesAdded', function(up, files){

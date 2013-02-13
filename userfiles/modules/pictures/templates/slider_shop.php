@@ -13,16 +13,20 @@ description: Product Slider
   ?>
 
 
+
+
  <? if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
-<div id="<?php print $id; ?>">
-  <div class="mw-gallery-holder">
+<div class="autoscale" id="<?php print $id; ?>">
+  <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
-    <div class="mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
+    <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
 
-        <img style="max-width:100%;max-height: 100%;" src="<? print $item['filename']; ?>" alt="" />
-        <img src="<? print $item['filename']; ?>" style="display: none;" class="mw-slider-zoomimg" alt="" />
+        <span class="autoscale mw-slider-zoomholder">
+            <img class="autoscale-x mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
+            <img src="<? print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
+        </span>
 
     </div>
     <? endforeach ; ?>
@@ -30,23 +34,27 @@ description: Product Slider
 </div>
 
 <style type="text/css">
-#<?php print $id; ?>{
-  width:100%;
-  min-height: 300px;
+
+.mw-slider-zoomholder{
   overflow: hidden;
+  position: relative;
+}
+
+#<?php print $id; ?>{
+  overflow: hidden;
+  position: relative;
 }
 #<?php print $id; ?> .mw-gallery-item{
   background-repeat: no-repeat;
   background-position: center;
   background-size:100% auto;
-  width:100%;
-  min-height:300px;
+  position: relative;
   
 }
 #<?php print $id; ?> .mw-gallery-holder{
   overflow: hidden;
   position: relative;
-    width:100%;
+  width:100%;
   min-height: 300px;
 }
 
@@ -68,6 +76,7 @@ description: Product Slider
 }
 #<?php print $id; ?> .mw-rotator-slide.active{
   opacity:1;
+  z-index: 2;
   -transform: scale(1);
   -moz-transform: scale(1);
   -webkit-transform: scale(1);
@@ -84,7 +93,7 @@ description: Product Slider
   width: 30px;
   height: 40px;
   cursor: pointer;
-  background: url(ico.png) no-repeat 0 -38px;
+  background: url(<?php print $config['url_to_module']; ?>ico.png) no-repeat 0 -38px;
   visibility: hidden;
 }
 
@@ -116,6 +125,19 @@ description: Product Slider
 .rotator-prev{
   background-position: -30px -38px;
   left: 45px;
+}
+
+
+.mw-slider-zoomimg{
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  max-height: none !important;
 }
 
 
@@ -237,16 +259,37 @@ if(!mw.rotator){
 
 
     mw.productZoom = function(parent){
-        var parent = $(parent);
-        var img = $(parent[0].querySelector('img'));
-        var offset = parent.offset();
-        parent.mousemove(function(e){
-            img.css({
+            var img =  mw.$('.mw-slider-zoomimg', parent)[0];
+            var el = $(parent);
+            img_width = $(img).width();
+            img_height = $(img).height();
+            el.mouseenter(function(){
+              $(img).css({
+                 visibility:'visible'
+              });
+            });
+            el.mousemove(function(event){
+                offset = Math.floor( ( img_width - el.width() ) * ( ( event.pageX - el.offset().left ) / el.width() ) )
+      	   	    offset2 = Math.floor( ( img_height - el.height() ) * ( ( event.pageY - el.offset().top ) / el.height() ) )
+    		if( offset <= img_width - el.width()  ) {
+               img.style.left = -offset+'px';
+            }
+            else{
+               //img.style.left = '';
+            }
 
-            })
-        });
+            if(offset2 <= img_height - el.height()){
+                 img.style.top = -offset2+'px';
+            }
+            else{
+               //img.style.top = '';
+            }
 
-
+            });
+            el.mouseleave(function(){
+              img.style.visibility = 'hidden';
+            });
+       return img;
     }
 
 
@@ -261,6 +304,7 @@ if(!mw.rotator){
   Rotator = null;
 
   $(document).ready(function(){
+    $("#mw_edit_pages").remove(); console.info("PAGES FRAME - REMOVED!!!!!");
 
       Rotator = mw.rotator('#<?php print $id; ?>');
 
@@ -270,7 +314,16 @@ if(!mw.rotator){
           next:true,
           prev:true
       });
-      Rotator.autoRotate(3000);
+      //Rotator.autoRotate(3000);
+
+
+      mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
+            d(mw.productZoom(this));
+
+      });
+
+
+
   });
 </script>
  

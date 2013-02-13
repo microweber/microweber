@@ -1,5 +1,6 @@
+<?php $rand = uniqid();  ?>
 
-<div class="mw-row">
+<div class="mw-row" id='<?php print $rand; ?>'>
   <div class="mw-col" style="width:33.33%" >
       <div style="padding:12px 12px 12px 0" >
            <div class="thumbnail">
@@ -44,6 +45,10 @@
   </div>
 </div>
 
+
+<script>
+    mw.disable_selection("#<?php print $rand; ?> img");
+</script>
 
 
 

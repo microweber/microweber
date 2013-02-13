@@ -28,6 +28,16 @@ _VResizer.className = 'mw-vertical-resizer';
 ;
 $(_HResizer).draggable({
     axis:'x',
+    start:function(){
+     var f = $(this).data("for");
+     try{f.querySelector('.iframe_fix').style.display = 'block';}
+     catch(e){}
+    },
+    stop:function(){
+      var f = $(this).data("for");
+       try{f.querySelector('.iframe_fix').style.display = 'none';}
+       catch(e){}
+    },
     drag: function( event, ui ) {
       var f = $(this).data("for");
       var w =  $(this).offset().left - $(f).offset().left;
@@ -36,6 +46,16 @@ $(_HResizer).draggable({
 });
 $(_VResizer).draggable({
     axis:'y',
+    start:function(){
+     var f = $(this).data("for");
+     try{f.querySelector('.iframe_fix').style.display = 'block';}
+     catch(e){}
+    },
+    stop:function(){
+      var f = $(this).data("for");
+       try{f.querySelector('.iframe_fix').style.display = 'none';}
+       catch(e){}
+    },
     drag: function( event, ui ) {
       var f = $(this).data("for");
       var h =  $(this).offset().top - $(f).offset().top;

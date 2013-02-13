@@ -1,0 +1,4 @@
+<div class="<? print $config['module_class']; ?>">
+
+    <module type="posts" is_shop="y" <? print array_to_module_params($params, 'template'); ?>  />
+</div>

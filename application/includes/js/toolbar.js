@@ -165,7 +165,7 @@ mw.$(".ts_main_li .ts_action_item").mouseenter(function(){
   $(this).parent().find(".ts_action").css("left", "100%");
   var toshow = $(this).find(".ts_action:first");
   var offset = toshow.offset();
-  if(offset!==null){
+  if(typeof offset === 'object' && offset !== null){
 
   var width = toshow.outerWidth();
   var window_w = $(window).width();
@@ -223,7 +223,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.wysiwyg.image(\'#editimage\');" class="image_change">Change</span>';
+          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer;
         }
@@ -260,29 +260,27 @@ mw.image = {
         $(window).bind("onImageClick", function(e, el){
 
          if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName=='IMG'){
-             var el = $(el);
+             var order = mw.tools.parentsOrder(el, ['edit', 'module']);
 
+             if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){
 
+               var el = $(el);
+               var offset = el.offset();
+               var r = $(mw.image_resizer);
+               var width = el.width();
+               var height = el.height();
+               r.css({
+                  left:offset.left,
+                  top:offset.top,
+                  width:width,
+                  height:height
+               });
+               r.addClass("active");
+               $(mw.image_resizer).resizable( "option", "alsoResize", el);
+               $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
+               mw.image.currentResizing = el;
 
-             //window.location.hash = '#mw_tab_design';
-
-             //mw.$("#module_design_selector").setDropdownValue("#tb_image_edit", true);
-
-             var offset = el.offset();
-             var r = $(mw.image_resizer);
-             var width = el.width();
-             var height = el.height();
-             r.css({
-                left:offset.left,
-                top:offset.top,
-                width:width,
-                height:height
-             });
-             r.addClass("active");
-             $(mw.image_resizer).resizable( "option", "alsoResize", el);
-             $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
-             mw.image.currentResizing = el;
-
+         }
          }
         })
 

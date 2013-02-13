@@ -2,14 +2,73 @@
 <?php $path = INCLUDES_URL . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script type="text/javascript">
-
+     parent.mw.require("external_callbacks.js");
      mw.require("forms.js");
      mw.require("files.js");
      mw.require("tools.js");
      mw.require("url.js");
 
+
+
 </script>
 <script type="text/javascript">
+
+    var hash = window.location.hash;
+    var hash = hash.replace(/#/g, "");
+
+    hash = hash!=='' ? hash : 'insert_html';
+
+    afterMediaIsInserted = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
+
+
+      if(typeof todo =='undefined'){var todo = false;}
+
+      if(url == false){
+          if(eventType=='done'){
+            //parent.mw.iframecallbacks[hash](url, eventType);
+          }
+          parent.mw.tools.modal.remove(thismodal.main);
+          return false;
+      }
+
+
+      if(!todo){
+          if(hash!==''){
+            if(hash=='editimage'){
+              parent.mw.image.currentResizing.attr("src", url);
+              parent.mw.image.currentResizing.css('height', 'auto');
+            }
+            else if(hash=='set_bg_image'){
+              parent.mw.wysiwyg.set_bg_image(url);
+
+            }
+            else{
+             parent.mw.iframecallbacks['insert_image'](url, eventType);
+            }
+          }
+          else{
+
+              parent.mw.wysiwyg.restore_selection();
+              parent.mw.wysiwyg.insert_image(url, true);
+
+
+          }
+      }
+      else{
+        if(todo=='video'){
+          parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" wmode="transparent" windowlessVideo="true" loop="false" autoplay="false" width="560" height="315" src="'+url+'"></embed></div>');
+
+        }
+        else if(todo=='files'){
+
+          var name = mw.tools.get_filename(url);
+          var extension = url.split(".").pop();
+          var html = "<a class='mw-uploaded-file mw-filetype-"+extension+"' href='" + url + "'><span></span>" + name + "." + extension + "</a>";
+          parent.mw.wysiwyg.insert_html(html);
+        }
+      }
+    }
+
 
 
     GlobalEmbed = false;
@@ -46,18 +105,23 @@
           });
           $(frame).bind("FileUploaded", function(frame, item){
               li.parent().find("li").removeClass('disabled');
+
+
+
+
+
               if(filetypes=='images'){
-                  afterInput(item.src, '', "FileUploaded");
+                  afterMediaIsInserted(item.src, '', "FileUploaded");
               }
               else if(filetypes=='videos'){
-                  afterInput(item.src, 'video', "FileUploaded");
+                  afterMediaIsInserted(item.src, 'video', "FileUploaded");
               }
               else if(filetypes=='files'){
                   if(item.src.contains("base64")){
-                     afterInput(item.src, '', "FileUploaded");
+                     afterMediaIsInserted(item.src, '', "FileUploaded");
                   }
                   else{
-                     afterInput(item.src, 'files', "FileUploaded");
+                     afterMediaIsInserted(item.src, 'files', "FileUploaded");
                   }
 
               }
@@ -67,7 +131,8 @@
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
-              afterInput(false,'', "done");
+              afterMediaIsInserted(false,'', "done");
+
            });
 
 
@@ -96,43 +161,8 @@
           });
         }); // end each
 
-/*
-
-        var fu = mw.$('#mw_folder_upload');
-        var frame = mw.files.uploader({name:'upload_file_link'});
-        frame.className += ' mw_upload_frame';
-        frame.width = fu.width();
-        frame.height = fu.height();
-        fu.append(frame);
-
-        $(frame).bind("progress", function(frame, file){
-              ProgressBar.width(file.percent+'%');
-              ProgressPercent.html(file.percent+'%');
-
-        });
-        $(frame).bind("done", function(frame, item){
-              ProgressBar.width('0%');
-              ProgressPercent.html('');
-              ProgressInfo.html(ProgressDoneHTML);
-
-              afterInput(item.src);
-
-        });
-
-        $(frame).bind("error", function(frame, file){
-              ProgressBar.width('0%');
-              ProgressPercent.html('');
-              ProgressInfo.html(ProgressErrorHTML(file.name));
-        });
-
-         $(frame).bind("FilesAdded", function(frame, files_array, runtime){
-              if(runtime == 'html4'){
-                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
-              }
-          });
 
 
-*/
 
 
           var urlSearcher = mw.$("#media_search_field");
@@ -161,7 +191,8 @@
                    var type = mw.url.type(val);
                    GlobalEmbed = __generateEmbed(type, val);
                    if(type!='link'){
-                       parent.mw.wysiwyg.insert_html(GlobalEmbed);
+                     alert(hash)
+                       parent.mw.iframecallbacks[hash](GlobalEmbed);
                        parent.mw.tools.modal.remove('mw_rte_image');
                    }
                  }, 500);
@@ -176,10 +207,10 @@
               var val = urlSearcher.val();
               var type = mw.url.type(val);
               if(type!='link'){
-                parent.mw.wysiwyg.insert_html(GlobalEmbed);
+                parent.mw.iframecallbacks[hash](GlobalEmbed);
               }
               else{
-                parent.mw.wysiwyg.insert_link(val);
+                parent.mw.iframecallbacks[hash](val);
               }
               parent.mw.tools.modal.remove('mw_rte_image');
           });
@@ -232,11 +263,11 @@ mw.embed = {
       if(id==''){
         var id = id.pop();
       }
-      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
     else{
       var id = mw.url.getUrlParams(url).v;
-      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
   },
   vimeo:function(url){
@@ -244,7 +275,7 @@ mw.embed = {
     if(id==''){
       var id = id.pop();
     }
-    return '<div class="element mw-embed-iframe"><iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
+    return '<div class="element mw-embed-iframe"><iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
   }
 }
 

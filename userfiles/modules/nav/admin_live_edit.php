@@ -30,11 +30,13 @@
  }
 
 
+
+
  requestlink = function(){
    if(typeof _requestlink === 'undefined'){
         _requestlink = true;
-        var url = mw.external_tool("rte_link_editor");
-        mw.$("#requestlink_holder").show().html("<iframe style='border:1px solid #D7D7D7;margin-left:-20px' frameBorder='0' width='430' height='300' src='" + url +"' ></iframe>");
+        var url = mw.external_tool("rte_link_editor#add_link_to_menu");
+        mw.$("#requestlink_holder").show().html("<iframe style='border-top:1px solid #D7D7D7;border-bottom:1px solid #D7D7D7;margin-left:-20px' frameBorder='0' width='430' height='300' src='" + url +"' ></iframe>");
    }
    else{
         mw.$("#requestlink_holder").toggle();

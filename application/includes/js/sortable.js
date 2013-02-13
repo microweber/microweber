@@ -172,9 +172,11 @@ hasAbilityToDropElementsInside = function(target){
 }
 
 mw.drag = {
-
+    noop:mwd.createElement('div'),
 	create: function () {
          mw.top_half = false;
+
+
 
          $(mwd.body).mousemove(function(event){
 
@@ -206,7 +208,7 @@ mw.drag = {
 
 
            if(!mw.isDrag){
-               if(mw.mouse.x % 2 ===0 ){ //not on every pixel
+               if(mw.mouse.x % 2 === 0 ){ //not on every pixel
                    //trigger on element
 
                    if(mw.$mm_target.hasClass("element")){
@@ -274,12 +276,33 @@ mw.drag = {
 
 
            if( mw.$mm_target.hasClass("empty-element")){
-            $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit bug
+            $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit mouseover bug
            }
            else if($(mw.mm_target.parentNode).hasClass("empty-element")){
             $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
 
+
+           if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
+
+
+             mw.mm_target = mw.drag.noop;
+             mw.$mm_target = $(mw.drag.noop);
+
+             mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+           //return false;
+           }
+           else{
+             var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
+
+             if((order.module > -1 && order.edit > order.module)){
+                mw.mm_target = mw.drag.noop;
+                mw.$mm_target = $(mw.drag.noop);
+
+                mw.dropable.removeClass("mw_dropable_onleaveedit");
+             }
+           }
 
           if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
               mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
@@ -1025,16 +1048,18 @@ mw.drag = {
 	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
-		$(".mw-col, .element, .mw-row", '.edit').height('auto');
+		$(".mw-col, .mw-row", '.edit').height('auto');
         $(mw.dragCurrent).css({
           top:'',
           left:''
         });
 		//$(mw.dragCurrent).removeAttr('style');
 		//$(".element", '.edit').removeAttr('style');
+        setTimeout(function(){
 		$(".mw-col", '.edit').each(function () {
 			var el = $(this);
 			if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
+			    el.height('auto');
 				if (el.height() < el.parent().height()) {
 					el.height(el.parent().height());
 				}
@@ -1047,7 +1072,7 @@ mw.drag = {
 				el.height('auto');
 				el.parents('.mw-row:first').height('auto')
 			}
-		});
+		}); }, 222);
 	},
     /**
 	 * fix_placeholders in the layout
@@ -1221,7 +1246,7 @@ module_settings: function() {
     name:'module-settings-'+curr.id,
     title:'',
     callback:function(){
-        mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
+        //mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
         $(this.container).attr('data-settings-for-module', curr.id);
     }
   });
@@ -1230,52 +1255,7 @@ module_settings: function() {
 
   },
 
-/**
-   * Loads module settings in lightbox
-   *
-   * @method mw.drag.module_settings()
-   */
-  module_settings_old: function() {
-    var curr = $("#mw_handle_module").data("curr");
-    var attributes = {};
-    $.each(curr.attributes, function(index, attr) {
-      attributes[attr.name] = attr.value;
-    });
 
-
-    data1 = attributes
-  //  data1.view = 'admin';
-  if(data1['data-type'] != undefined){
-	 // alert(1);
-	 data1['data-type'] = data1['data-type']+'/admin';
-  }
-  
-    if(data1['type'] != undefined){
-	 // alert(1);
-	 data1['type'] = data1['type']+'';
-  }
-  
-  
-
-	data1.live_edit = 'true';
-	data1.view = 'admin';
-	data1.no_wrap = '1';
-    mw.tools.modal.init({
-    	html:"",
-    	width:600,
-    	height:450,
-        overlay:false,
-    	callback:function() {
-          var id = this.main[0].id;
-          $(this.container).load(mw.settings.site_url + "api/module", data1, function(){
-            mw.drag.ModuleSettingsPopupLoaded(id);
-    		mw.simpletabs(this.container);
-          });
-          $(this.container).attr('data-settings-for-module', curr.id);
-        }
-	});
-
-  },
 
   ModuleSettingsPopupLoaded : function(id){
 

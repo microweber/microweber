@@ -36,11 +36,15 @@
   width: 240px; height: 130px;
 }
 
+
+
+
 </style>
 
 
 	<script type="text/javascript" src="<? print pathToURL(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
     <script>
+        parent.mw.require('external_callbacks.js');
         mw.require('color.js');
     </script>
     <script type="text/javascript">
@@ -56,7 +60,6 @@
 
 
         if(_hide_selection.indexOf(_command)!=-1){
-          mw.log(parent.mw.$(mwd.body))
           $(parent.mwd.body).addClass('hide_selection');
         }
 
@@ -103,7 +106,7 @@
         });
 
         _do = function(val){
-          parent.mw.wysiwyg[_command](val);
+          parent.mw.iframecallbacks[_command](val);
         }
 
 
