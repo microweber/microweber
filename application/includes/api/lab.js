@@ -42,6 +42,7 @@ $(_HResizer).draggable({
       var f = $(this).data("for");
       var w =  $(this).offset().left - $(f).offset().left;
       $(f).width(w);
+      $(f).trigger("moduleResize", 'horizontal');
     }
 });
 $(_VResizer).draggable({
@@ -60,6 +61,7 @@ $(_VResizer).draggable({
       var f = $(this).data("for");
       var h =  $(this).offset().top - $(f).offset().top;
       $(f).height(h);
+      $(f).trigger("moduleResize", 'vertical');
     }
 });
 mw.HResizer = function(){
@@ -89,6 +91,11 @@ $(document).ready(function(){
   mw.HResizer();
     mwd.body.appendChild(_VResizer)
   mw.VResizer();
+
+
+
+ /* $("#mw_edit_pages").remove();
+  console.warn("pages frame removed from includes/api/lab.js - line 95");      */
 
 });
 

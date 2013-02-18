@@ -80,13 +80,14 @@ window.onerror = function(a,b,c){
 
 (function() {
     mw.required = [];
-    mw.require = function(url) {
+    mw.require = function(url, inHead) {
+      var inHead = inHead || false;
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
         var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if (document.readyState === 'loading' || document.readyState === 'interactive') {
+        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead) {
            mwd.write(string);
         } else {
           $(mwd.getElementsByTagName('head')[0]).append(string);
@@ -135,6 +136,8 @@ window.onerror = function(a,b,c){
     },
     ie: /*@cc_on!@*/false
   }
+
+
 
   if (window.console != undefined) {
     console.log('Microweber Javascript Framework Loaded');
@@ -263,7 +266,7 @@ window.onerror = function(a,b,c){
 
           if ($module_name != undefined) {
 			 $module_name = $module_name.replace(/##/g, '#');
-			   mw.log( $module_name );
+
 
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
@@ -289,7 +292,7 @@ window.onerror = function(a,b,c){
     }
 	
 		  
-	
+
 	
 	
 	
@@ -305,7 +308,7 @@ window.onerror = function(a,b,c){
 
 
   mw._ = function(obj, sendSpecific) {
-    var url = mw.is.defined(obj.url) ? obj.url : '{SITE_URL}module/';
+    var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
     var selector = mw.is.defined(obj.selector) ? obj.selector : '';
     var params = mw.is.defined(obj.params) ? obj.params : {};
     var to_send = params;
@@ -332,16 +335,18 @@ window.onerror = function(a,b,c){
 
     $.post(url, to_send, function(data) {
       $(selector).after(data);
-
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
-      typeof obj.done === 'function' ? obj.done.call(selector) : '';
+
 
 
       mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() : '';
       mw.is.defined(mw.drag) ? mw.drag.fix_placeholders(true) : '';
 
       var m = mwd.getElementById(id);
+
+      typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
+
       if(!!mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
         mw.on.moduleReload(id, "", true);
@@ -366,9 +371,8 @@ window.onerror = function(a,b,c){
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
-
     if (mw.qsas) {
-      if (mw.is.string(selector)) {
+      if (typeof selector === 'string') {
         try {
           return jQuery(context.querySelectorAll(selector));
         } catch (e) {

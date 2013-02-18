@@ -1,8 +1,29 @@
 mw.CSSParser = function(el){
-    if(el.tagName === undefined) return false;
+    if(el.nodeName === undefined || el.nodeName === '#text') return false;
     var css = window.getComputedStyle(el, null);
 
-
+    this.is = function(){
+        return {
+          bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',
+          italic:css.fontStyle=='italic'||css.fontStyle=='oblique',
+          underlined:css.textDecoration=='underline'
+        }
+    }
+    this.font = function(){
+      return {
+        size:css.fontSize,
+        weight:css.fontWeight,
+        style:css.fontStyle,
+        height:css.lineHeight,
+        family:css.fontFamily,
+        color:css.color
+      }
+    }
+    this.alignNormalize = function(){
+      var a = css.textAlign;
+      var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
+      return final;
+    }
     this.border = function(){
         return {
             top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},

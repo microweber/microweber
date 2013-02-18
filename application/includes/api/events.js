@@ -41,7 +41,7 @@ mw.on = {
         if(index != -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
-          if(mw.is.string(params[param])){
+          if(typeof params[param] === 'string'){
               mw.on._hashparam_funcs[index].call(params[param]);
           }
         }
@@ -145,7 +145,7 @@ $(window).bind("hashchange load", function(event){
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if(l>0){
        for( ; i<l; i++){
-         mw.log(changes[i])
+         
           mw.on.hashParam(changes[i], "", true, true);
        }
      }

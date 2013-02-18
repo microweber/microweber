@@ -146,10 +146,7 @@ $(document).ready(function(){
 
 });
 
-mw.isDragItem = function(obj){
-  var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table|div)$/i;
-  return items.test(obj.nodeName);
-}
+
 hasAbilityToDropElementsInside = function(target){
   var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr)$/i;
   var x =  items.test(target.nodeName);
@@ -842,7 +839,11 @@ mw.drag = {
 
 
                 if(target.tagName=='IMG'){
-                  $(window).trigger("onImageClick", target);
+                  var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
+
+                  if((order.module == -1 || order.edit <= order.module)){
+                    $(window).trigger("onImageClick", target);
+                  }
                 }
                 if(target.tagName=='BODY'){
                   $(window).trigger("onBodyClick", target);
@@ -1151,6 +1152,15 @@ mw.drag = {
 
 
 
+    fancynateLoading:function(module){
+        mw.$(module).addClass("module_loading");
+        setTimeout(function(){
+            $(module).addClass("module_activated");
+            setTimeout(function(){
+                  mw.$(module).removeClass("module_loading module_activated");
+            }, 510);
+        }, 150);
+    },
 
 	/**
 	 * Scans for new dropped modules and loads them
@@ -1161,10 +1171,11 @@ mw.drag = {
 	load_new_modules: function (callback) {
         var need_re_init = false;
 		$(".module-item", '.edit').each(function (c) {
+
                 mw._({
                   selector:this,
-                  done:function(){
-
+                  done:function(module){
+                    mw.drag.fancynateLoading(module);
                   }
                 }, true);
 			need_re_init = true;
@@ -1206,12 +1217,12 @@ module_settings: function() {
 	 // alert(1);
 	 data1['data-type'] = data1['data-type']+'/admin';
   }
-  
+
     if(data1['type'] != undefined){
 	 // alert(1);
 	 data1['type'] = data1['type']+'/admin';
   }
-  
+
   if(data1.class != undefined){
 	  delete(data1.class);
   }
@@ -1225,12 +1236,12 @@ module_settings: function() {
 	data1.live_edit = 'true';
 	data1.view = 'admin';
 
-	
+
 	if(data1.from_url == undefined){
 	 data1.from_url = window.top.location;
 
 	}
-	
+
 
 	//data1.no_wrap = '1';
 
@@ -1315,7 +1326,7 @@ module_settings: function() {
                     success: function () {
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
- 
+
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module != undefined) {
                                     window.mw.reload_module(refresh_modules11);
@@ -1466,10 +1477,10 @@ module_settings: function() {
 /*mw.log(edits2);
  	if(edits2 != undefined){
 		var edits = $.merge(edits, edits2);
-		
+
 	}*/
-	
-	
+
+
 
     var master = {};
 
@@ -1534,7 +1545,7 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
      if(final<100){
        mw.pcWidthExtend(selector, howMuch, cache, final, len);
      }
-     
+
   }
 
 }
@@ -1725,7 +1736,7 @@ $(".mw-row").each(function(){
 								"top": (event.pageY - el.offset().top) + "px"
 							});
 						});
-                        
+
                         mw.px2pc(mw.tools.firstParentWithClass(this, 'mw-row'));
 					},
 					start: function (event, ui) {
@@ -1887,7 +1898,7 @@ mw.history = {
 						var $what_is_the_content = ''
 						//if(this.page_element_id != un
 
-						
+
 						if (window.console && window.console.log) {
 							window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);
 						}

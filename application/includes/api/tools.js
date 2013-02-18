@@ -644,6 +644,17 @@ mw.tools = {
       });
       return _has;
   },
+  firstParentWithTag:function(el,tag){
+      var tag = typeof tag !== 'string'?tag:[tag];
+      _has = false;
+      mw.tools.foreachParents(el, function(loop){
+         if(tag.indexOf(this.nodeName.toLowerCase()) !== -1){
+           _has = this;
+           mw.tools.stopLoop(loop);
+         }
+      });
+      return _has;
+  },
   toggle:function(who, toggler, callback){
     var who = mw.$(who);
     who.toggle();
@@ -1129,6 +1140,19 @@ mw.tools = {
           marginLeft:-w/2,
           marginTop:-h/2
         });
+    }
+  },
+  getFirstEqualFromTwoArrays:function(a,b){
+    var ia=0, ib=0, la=a.length, lb=b.length;
+    loop:
+    for( ; ia<la; ia++){
+      var curr = a[ia];
+      for( ; ib<lb; ib++){
+          if(b[ib]==curr){
+            //break loop;
+            return curr;
+          }
+      }
     }
   }
 }
@@ -1666,7 +1690,10 @@ mw.tools.scrollBar =  {
 }
 
 
-
+mw.isDragItem = mw.isBlockLevel = function(obj){
+  var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table|div)$/i;
+  return items.test(obj.nodeName);
+}
 
 
 

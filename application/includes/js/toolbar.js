@@ -195,7 +195,7 @@ mw.$(".toolbar_bnav").hover(function(){
 
 mw.$(".ts_action_item").mouseenter(function(){
    var toshow = $(this).find(".ts_action:first");
-   mw.log(toshow.html())
+
    toshow.css({
        left:"100%",
        visibility:'visible'
@@ -388,7 +388,7 @@ mw.image = {
           mw.image._dragcurrent.style.top = y + 'px';
           mw.image._dragcurrent.style.left = x + 'px';
 
-          mw.log(mw.image._dragcurrent.startedX)
+         
 
         }
       },
@@ -493,7 +493,8 @@ $.expr[':'].isHidden = function(obj, index, meta, stack){
     return  mw.is.invisible(obj);
 };
 $.expr[':'].isVisible = function(obj, index, meta, stack){
-    return  mw.is.visible(obj);
+
+    return window.getComputedStyle(obj, null).visibility === 'visible';
 };
 
 

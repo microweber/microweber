@@ -77,7 +77,7 @@ canvasCTRL_defaults = {
 
 $.fn.canvasCTRL = function(options){
 
-  var opt = mw.is.obj(options) ? $.extend({}, canvasCTRL_defaults, options) : canvasCTRL_defaults;
+  var opt = typeof options === 'object' ? $.extend({}, canvasCTRL_defaults, options) : canvasCTRL_defaults;
 
   var isX =  opt.axis.contains('x');
   var isY =  opt.axis.contains('y');
@@ -241,7 +241,7 @@ width_slider_onstart = function(){
 
 
 
-mw.sliders_settings = function(el){   mw.log(el)
+mw.sliders_settings = function(el){   
     var el = $(el);
     var step = parseFloat(el.dataset('step'));
     var step = !isNaN(step)?step:1;

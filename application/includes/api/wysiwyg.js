@@ -2,7 +2,7 @@
 
 
 
-
+mw.require('css_parser.js');
 
 
 
@@ -158,7 +158,7 @@ mw.wysiwyg = {
     },
     prepare:function(){
       mw.wysiwyg.external = mw.wysiwyg._external();
-      mw.wysiwyg.checker = mw.wysiwyg._checker();
+
       mw.$("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
       items.bind("paste", function(event){
@@ -192,8 +192,8 @@ mw.wysiwyg = {
                 var name = command.replace('custom-', "");
                 mw.wysiwyg[name]();
               }
-              mw.wysiwyg.check_selection();
               $(this).removeClass("mw_editor_btn_mousedown");
+              $(this).addClass("mw_editor_btn_active");
           }
           if(event.type=='mousedown'){
               $(this).addClass("mw_editor_btn_mousedown");
@@ -205,7 +205,7 @@ mw.wysiwyg = {
         $(this).removeClass("mw_editor_btn_hover");
       });
       $(mwd.body).keyup(function(event){
-         mw.wysiwyg.check_selection();
+         mw.wysiwyg.check_selection(event.target);
 
          if(event.keyCode == 13) {
             //event.preventDefault();
@@ -307,124 +307,116 @@ mw.wysiwyg = {
         //var el = mw.wysiwyg.applier('span', 'mw_applier', obj);
         mw.wysiwyg.execCommand('fontsize', null, px);
     },
-    does_selection_has:function(range,tagname){
-      try{
-        return $(range.commonAncestorContainer).parents(tagname).length>0 || range.commonAncestorContainer.getElementsByTagName(tagname).length>0;
-      }catch(err){return false}
+    resetActiveButtons:function(){
+      mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active')
     },
-    get_format:function(range){
-       try{
-        return $(range.commonAncestorContainer).parents("p,h1,h2,h3,h4,h5,h6")[0].tagName.toLowerCase();
-      }catch(err){return false}
+    setActiveButtons:function(node){
+        var css = mw.CSSParser(node);
+        if(typeof css.get !== 'undefined'){
+          var is = css.get.is();
+          is.bold?mw.$('.mw_editor_bold').addClass('mw_editor_btn_active'):'';
+          is.italic?mw.$('.mw_editor_italic').addClass('mw_editor_btn_active'):'';
+          is.underlined?mw.$('.mw_editor_underline').addClass('mw_editor_btn_active'):'';
+          var font = css.get.font();
+           var family_array = font.family.split(',');
+           var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
+           mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
+         }
     },
-    get_list:function(range){
-       try{
-        return $(range.commonAncestorContainer).parents("ul,ol")[0].tagName.toLowerCase();
-      }catch(err){return false}
+    setActiveFontSize:function(node){
+        var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
+        mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.wysiwyg.editorFontSizes[size]);
     },
-    get_size:function(range){
-      try{
-        var font_size = $(range.commonAncestorContainer).parents("font").attr("size");
-        return font_size!=undefined?font_size:'-1';
-      }catch(err){return false}
+    isFormatElement:function(obj){
+        var items = /^(div|h[1-6]|p)$/i;
+        return items.test(obj.nodeName);
     },
-    get_font_family:function(range){
-       try{
-        return $(range.commonAncestorContainer).parent().css("fontFamily");
-       }catch(err){return false}
-    },
-    _checker:function(){
-        var checker = document.createElement('div');
-        checker.className='wysiwyg_checker';
-        document.body.appendChild(checker);
-        return checker;
-    },
-    get_alignment:function(range){
-        try{
-          return  $(range.commonAncestorContainer).parent().css("textAlign");
-        }catch(err){return false}
-    },
-    check_selection:function(){   return false;
-       var selection = window.getSelection();
-       if(selection.rangeCount>0){
-           var range = selection.getRangeAt(0);
-           var selection_clone = range.cloneContents();
-           $(mw.wysiwyg.checker).empty().append(selection_clone);
-           var checker_tags = $(mw.wysiwyg.checker).find("*");
-           wys_is_bold = false;
-           wys_is_italic = false;
-           wys_is_underlined = false;
-           if(checker_tags.length==0){
-             wys_is_bold = mw.wysiwyg.does_selection_has(range, 'b') || mw.wysiwyg.does_selection_has(range, 'b');
-             wys_is_italic = mw.wysiwyg.does_selection_has(range, 'i') || mw.wysiwyg.does_selection_has(range, 'em');
-             wys_is_underlined = mw.wysiwyg.does_selection_has(range, 'u');
-             wys_is_link = mw.wysiwyg.does_selection_has(range, 'a');
+    started_checking:false,
+    check_selection:function(target){
+         var target = target || false;
+         if(!mw.wysiwyg.started_checking){
+             mw.wysiwyg.started_checking = true;
+
+             var selection = window.getSelection();
+
+             if(selection.rangeCount>0){
+                  mw.wysiwyg.resetActiveButtons();
+                 var range = selection.getRangeAt(0);
+                 var start = range.startContainer;
+                 var end = range.endContainer;
+                 var common = range.commonAncestorContainer;
+                 var children = range.cloneContents().childNodes, i=0, l=children.length;
+
+                 var list = mw.tools.firstParentWithTag(common, ['ul','ol']);
+                 if(!!list){
+                   mw.$('.mw_editor_'+list.nodeName.toLowerCase()).addClass('mw_editor_btn_active');
+                 }
+
+                 if(common.nodeName !== '#text'){
+                     var commonCSS = mw.CSSParser(common);
+                     var align = commonCSS.get.alignNormalize();
+                     mw.$(".mw_editor_alignment").removeClass('mw_editor_btn_active');
+                     mw.$(".mw-align-"+align).addClass('mw_editor_btn_active');
+                     for( ; i<l; i++){
+                        mw.wysiwyg.setActiveButtons(children[i]);
+                     }
+
+                     mw.wysiwyg.setActiveFontSize(common);
+                 }
+                 else{
+                    var align = mw.CSSParser(common.parentElement).get.alignNormalize();
+                    mw.$(".mw_editor_alignment").removeClass('mw_editor_btn_active');
+                    mw.$(".mw-align-"+align).addClass('mw_editor_btn_active');
+                    mw.wysiwyg.setActiveButtons(common.parentElement);
+                    mw.wysiwyg.setActiveFontSize(common.parentElement);
+                 }
+
+                 if(mw.wysiwyg.isFormatElement(common)){
+                   var format = common.nodeName.toLowerCase();
+                   mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+                 }
+                 else{
+                     mw.tools.foreachParents(common, function(loop){
+                        if(mw.wysiwyg.isFormatElement(this)){
+                            var format = this.nodeName.toLowerCase();
+                            mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+                            mw.tools.stopLoop(loop);
+                        }
+                     });
+                 }
             }
-            else{
-               checker_tags.each(function(){
-                  var tagname = this.tagName.toLowerCase();
-                  if(tagname=='b' || tagname =='strong'){
-                       wys_is_bold = true;
-                  }
-                  if(tagname=='i' || tagname =='em'){
-                       wys_is_italic = true;
-                  }
-                  if(tagname=='u'){
-                       wys_is_underlined = true;
-                  }
-                  if(tagname=='a'){
-                       wys_is_link = true;
-                  }
-               });
-           }
 
-          wys_is_bold ? $(".mw_editor_bold").addClass("mw_editor_btn_active") : $(".mw_editor_bold").removeClass("mw_editor_btn_active");
-          wys_is_italic ? $(".mw_editor_italic").addClass("mw_editor_btn_active") : $(".mw_editor_italic").removeClass("mw_editor_btn_active");
-          wys_is_underlined ? $(".mw_editor_underline").addClass("mw_editor_btn_active") : $(".mw_editor_underline").removeClass("mw_editor_btn_active");
-          wys_is_link ? $(".mw_editor_link").addClass("mw_editor_btn_active") : $(".mw_editor_link").removeClass("mw_editor_btn_active");
+            if(!!target){
+                mw.wysiwyg.setActiveButtons(target);
+                //mw.wysiwyg.setActiveFontSize(target);
 
-          var format = mw.wysiwyg.get_format(range);
-          var font_size = mw.wysiwyg.get_size(range);
-          var font_family = mw.wysiwyg.get_font_family(range);
+                if(target.tagName == 'A'){
+                  mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
+                }
+                var parent_a = mw.tools.firstParentWithTag(target, 'a');
+                if(!!parent_a){
+                    mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
+                }
+             }
 
-          $(".mw_dropdown_action_format").setDropdownValue(format);
-          $(".mw_dropdown_action_font_size").setDropdownValue(font_size);
-          $(".mw_dropdown_action_font_family").setDropdownValue(font_family);
+            mw.wysiwyg.started_checking = false;
+        }
 
-          var the_list = mw.wysiwyg.get_list(range);
-          if(the_list=='ul'){
-            $(".mw_editor_ul").addClass("mw_editor_btn_active");
-            $(".mw_editor_ol").removeClass("mw_editor_btn_active");
-          }
-          else if(the_list=='ol'){
-            $(".mw_editor_ol").addClass("mw_editor_btn_active");
-            $(".mw_editor_ul").removeClass("mw_editor_btn_active");
-          }
-          else{
-             $(".mw_editor_ol").removeClass("mw_editor_btn_active");
-             $(".mw_editor_ul").removeClass("mw_editor_btn_active");
-          }
-
-          var align = mw.wysiwyg.get_alignment(range);
-          $(".mw_editor_alignment").removeClass("mw_editor_btn_active");
-          if(align.contains("right")) {$(".mw_editor_justifyright").addClass("mw_editor_btn_active");}
-          else if(align.contains("center")) {$(".mw_editor_justifycenter").addClass("mw_editor_btn_active");}
-          else if(align.contains("justify")) {$(".mw_editor_justifyfull").addClass("mw_editor_btn_active");}
-          else {$(".mw_editor_justifyleft").addClass("mw_editor_btn_active");}
-
-      }
     },
     link:function(){
-        if($(".mw_editor_link.mw_editor_btn_active").length>0){
+        if(mw.$(".mw_editor_link.mw_editor_btn_active").length>0){
           if(mw.wysiwyg.selection_length()>0){
              mw.wysiwyg.execCommand('unlink', null, null);
           }
           else{
-            var html = $(mw.target.item).html();
-            $(mw.target.item).replaceWith(html);
+            var link = mw.wysiwyg.findTagAcrossSelection('a');
+            if(!!link){
+                 mw.wysiwyg.select_element(link);
+                 mw.wysiwyg.execCommand('unlink', null, null);
+            }
+
           }
-          mw.wysiwyg.check_selection();
-          $(".mw_editor_link.mw_editor_btn_active").removeClass("mw_editor_btn_active");
+          mw.$(".mw_editor_link").removeClass("mw_editor_btn_active");
         }
         else{
           if(mw.wysiwyg.isThereEditableContent()){
@@ -439,6 +431,20 @@ mw.wysiwyg = {
             });
          }
       }
+    },
+    findTagAcrossSelection:function(tag){
+          var selection = window.getSelection();
+          var range = selection.getRangeAt(0);
+          var common = range.commonAncestorContainer;
+          var children = range.cloneContents().childNodes, i=0, l=children.length;
+          if(l>0){
+            for(; i<l;i++){
+               if(children[i].nodeName.toLowerCase()==tag){return children[i]}
+            }
+          }
+          var parent = mw.tools.firstParentWithTag(common, [tag]);
+          if(!!parent){return parent}
+          return false;
     },
     image_link:function(url){
         $("img.element-current").wrap("<a href='" + url + "'></a>");
@@ -738,7 +744,6 @@ $(mwd).ready(function(){
 
 
 
-
 mw.$(".mw_dropdown_action_font_family").change(function(){
     var val = $(this).getDropdownValue();
      mw.wysiwyg.fontFamily(val);
@@ -798,6 +803,24 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
  if(!window['mwAdmin']){
    mw.wysiwyg.prepareContentEditable();
  }
+
+
+ mw.wysiwyg.editorFonts = [];
+ mw.wysiwyg.editorFontSizes = {};
+
+
+
+mw.$(".mw_dropdown_action_font_family li").each(function(){
+    mw.wysiwyg.editorFonts.push(this.getAttribute('value'));
+});
+
+
+
+mw.$(".mw_dropdown_action_font_size li a").each(function(i){
+   mw.wysiwyg.editorFontSizes[Math.round(parseFloat(mw.CSSParser(this).get.font().size))] = this.parentNode.getAttribute("value");
+});
+
+
 
 
 

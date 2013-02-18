@@ -16,6 +16,11 @@ $(document).ready(function(){
    });
 
 
+   $(mwd.body).bind("mouseup keyup", function(e){
+          mw.wysiwyg.check_selection(e.target);
+   });
+
+
 });
 
 </script>
@@ -33,10 +38,10 @@ $(document).ready(function(){
 
             <span class="mw_dlm"></span>
 
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull" data-command="justifyFull" title="Align Both Sides"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="Align Both Sides"><span class="ed-ico"></span></span>
 
 
             <span class="mw_dlm"></span>
@@ -90,13 +95,13 @@ $(document).ready(function(){
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="1"><a href="#" style="font-size: 8pt">8pt</a></li>
-                  <li value="2"><a href="#" style="font-size: 10pt">10pt</a></li>
-                  <li value="3"><a href="#" style="font-size: 12pt">12pt</a></li>
-                  <li value="4"><a href="#" style="font-size: 14pt">14pt</a></li>
-                  <li value="5"><a href="#" style="font-size: 18pt">18pt</a></li>
-                  <li value="6"><a href="#" style="font-size: 24pt">24pt</a></li>
-                  <li value="7"><a href="#" style="font-size: 36pt">36pt</a></li>
+                  <li value="1"><a href="#" style="font-size: 10px">8pt</a></li>
+                  <li value="2"><a href="#" style="font-size: 13px">10pt</a></li>
+                  <li value="3"><a href="#" style="font-size: 16px">12pt</a></li>
+                  <li value="4"><a href="#" style="font-size: 18px">14pt</a></li>
+                  <li value="5"><a href="#" style="font-size: 24px">18pt</a></li>
+                  <li value="6"><a href="#" style="font-size: 32px">24pt</a></li>
+                  <li value="7"><a href="#" style="font-size: 48px">36pt</a></li>
                 </ul>
               </div>
             </div>
