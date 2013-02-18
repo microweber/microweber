@@ -899,12 +899,15 @@ function install_module($params) {
 				$to_save['installed'] = '1';
 			} else if (isset($this_module['installed']) and $this_module['installed'] != '') {
 				$to_save['installed'] = $this_module['installed'];
+			} else {
+				$to_save['installed'] = '1';
 			}
 
 		} else {
 			$to_save['installed'] = '1';
 
 		}
+
 		if ($to_save['installed'] == '1') {
 			if (isset($config)) {
 				if (isset($config['tables']) and is_arr($config['tables'])) {
@@ -1555,28 +1558,28 @@ function load_module($module_name, $attrs = array()) {
 
 	/*
 		if (isset($attrs['from_url'])) {
-	
+
 				$url = $attrs['from_url'];
-				
+
 				if (strpos($url, '#')) {
 			$url = substr($url, 0, strpos($url, '#'));
 		}
-				
+
 				$url = explode('?', $url);
 				$url = $url[0];
-	
+
 				if (trim($url) == '' or trim($url) == site_url()) {
 					//$page = get_content_by_url($url);
 					$page = get_homepage();
 					// var_dump($page);
 				} else {
-	
+
 					$page = get_content_by_url($url);
-	
+
 				}
 					   define_constants($page);
 			}*/
-	
+
 
 		if (isset($attrs['id'])) {
 			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);

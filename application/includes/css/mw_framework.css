@@ -164,6 +164,25 @@
 
 
 
+
+.icotype{
+  background-image: url("../img/add_new_labels.png");
+  background-repeat: no-repeat;
+  height: 20px;
+  position: relative;
+  top: 4px;
+  width: 20px;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+
+.icotype-page{background-position: 0 0px;}
+.icotype-dynamicpage{background-position: 0 -190px;}
+.icotype-shop{background-position: 0 -151px;}
+
+
+
 .mw-ui-btn .ico, .mw-ui-btn-rect .ico{
     margin-right: 7px;
     top: -4px;

@@ -217,10 +217,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		}
 		// $cache_content = false;
 		if (($cache_content) != false) {
-	
+
 			return $cache_content;
 		}*/
-	
+
 
 	// ->'table_options';
 	$table = MW_DB_TABLE_OPTIONS;
@@ -335,6 +335,10 @@ function get_option_groups() {
 	$q = "select option_group from $table where module IS NULL and option_group IS NOT NULL group by option_group order by position ASC ";
 	$function_cache_id = __FUNCTION__ . crc32($q);
 	$res1 = false;
+
+
+//d($q);
+
 	$res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
 	if (is_array($res) and !empty($res)) {
 		$res1 = array();

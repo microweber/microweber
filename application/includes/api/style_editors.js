@@ -241,7 +241,7 @@ width_slider_onstart = function(){
 
 
 
-mw.sliders_settings = function(el){   
+mw.sliders_settings = function(el){
     var el = $(el);
     var step = parseFloat(el.dataset('step'));
     var step = !isNaN(step)?step:1;

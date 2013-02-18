@@ -65,26 +65,34 @@ if(isset($params['data-category-id'])){
 
 
 <div style="width: 370px;margin-left: 30px;" class="left">
+    <? if(isarr($page_info) and isset($page_info['title'])): ?>
 
 
-  <module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1  /></div>
+      <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
+
+
+  <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><? print ($page_info['title']) ?></h2>
+
+  <?php endif; ?>
+
+  <module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1 edit_page_id="<? print ($page_info['id'])?>"  />
+
+
+
+  </div>
+
+
+
 
 
 <div class="right" style="width: 210px;">
 
 
- <? if(isarr($page_info) and isset($page_info['title'])): ?>
-  <h2 class="hr"><? print ($page_info['title']) ?></h2>
+ <? if(isset($page_info) and isset($page_info['title'])): ?>
 
-  <ul class="mw-quick-links">
-    <li>
-        <a href="#action=editpage:<? print $params["page-id"]; ?>">
-            <span class="ico ieditpage"></span>
-            <span>Edit this Page</span>
-        </a>
-    </li>
-  </ul>
-  <ul class="mw-quick-links mw-quick-links-blue">
+
+
+  <?php  /*   <ul class="mw-quick-links mw-quick-links-blue">
     <li>
 
 
@@ -93,12 +101,12 @@ if(isset($params['data-category-id'])){
             <span>Go Live Edit</span>
         </a>
     </li>
-  </ul>
+  </ul>  */  ?>
 
 
   <? endif; ?>
 
-    <h2 class="hr">Add new</h2>
+    <h2 class="hr" style="padding-top: 19px;">Add new</h2>
     <ul class="mw-quick-links mw-quick-links-green" >
       <li>
         <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>">
@@ -147,7 +155,7 @@ if(isset($params['data-category-id'])){
 <? endif; ?>
 
 
-<div class="left" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
+<div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>Yes
       <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
@@ -158,7 +166,28 @@ if(isset($params['data-category-id'])){
   </div>
   <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
 </div>
+
+
+
+<? if(isset($page_info) and isset($page_info['title'])): ?>
+
+<?php if($page_info['is_shop'] == 'y'){ ?>
+<h2 class="left" style="padding-left: 20px;width: 430px;">Products from <? print ($page_info['title']) ?></h2> 
+<?php } else{  ?>
+
+<h2 class="left" style="padding-left: 20px;width: 430px;">Posts from <? print ($page_info['title']) ?></h2>
+
+
+<?php } ?>
+
+<?php endif; ?>
+
 <div class="mw_clear"></div>
+
+
+
+
+
 <script  type="text/javascript">
   mw.require('forms.js');
 

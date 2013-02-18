@@ -2,7 +2,7 @@ mw.CSSParser = function(el){
     if(el.nodeName === undefined || el.nodeName === '#text') return false;
     var css = window.getComputedStyle(el, null);
 
-    this.is = function(){
+    this.isit = function(){
         return {
           bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',
           italic:css.fontStyle=='italic'||css.fontStyle=='oblique',

@@ -324,9 +324,15 @@ $(document).ready(function() {
 
 </script>
 
+
+
 <div class="layout_selector_wrap">
   <div class="vSpace"></div>
-  <div class="vSpace"></div>
+
+
+
+
+
   <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<? if( isset($params['small'])): ?>display:none;<? endif; ?>">
     <label class="mw-ui-label">
       <?php _e("Template"); ?>
@@ -375,11 +381,33 @@ $(document).ready(function() {
 
 <div class="left">
   <div class="preview_frame_wrapper loading left">
+        <? if( !isset($params['edit_page_id'])): ?>
+
     <div class="preview_frame_ctrls">
       <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
-      <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
+
+      <span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span>
+
+      <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
+
+      </div>
+       <?php endif; ?>
+
       <div class="preview_frame_container"></div>
-      <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
+      <? if( !isset($params['edit_page_id'])): ?>
+        <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
+      <?php else: ?>
+        <div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<? print $params["edit_page_id"]; ?>')">
+           <ul class="mw-quick-links mw-quick-links-blue">
+            <li class="active">
+              <a style="width: auto;" href="#action=editpage:<? print $params["edit_page_id"]; ?>">
+                <span class="ico ieditpage"></span>
+                <span>Edit Page</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
   <div class="layouts_box_holder <? if( isset($params['small'])): ?> semi_hidden  <? endif; ?>" style="margin-top: 10px;">

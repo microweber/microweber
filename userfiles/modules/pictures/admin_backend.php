@@ -103,6 +103,8 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
 	$media = get_pictures("to_table_id={$for_id}&to_table={$for}&session_id={$sid}");
 }
 
+
+
  ?>
 <div class="vSpace">&nbsp;</div>
 <label class="mw-ui-label">Add Images <small>(The first image will be thumbnail)</small></label>

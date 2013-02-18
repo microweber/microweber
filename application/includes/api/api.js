@@ -305,12 +305,18 @@ window.onerror = function(a,b,c){
     });
   }
 
+  mw.requestModuleApi = function(folder, inHeader){
+    var inHeader = inHeader || false;
+   //mw.require(mw.settings.site_url + 'userfiles/modules/' + folder + '/css/style.css', true);
+   mw.require(mw.settings.site_url + 'userfiles/modules/' + folder + '/js/api.js', inHeader);
+  };
+
 
 
   mw._ = function(obj, sendSpecific) {
     var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
-    var selector = mw.is.defined(obj.selector) ? obj.selector : '';
-    var params = mw.is.defined(obj.params) ? obj.params : {};
+    var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
+    var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
     var attrs = $(obj.selector)[0].attributes;
 

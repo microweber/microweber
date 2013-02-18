@@ -330,6 +330,9 @@ body.cross{
 }
 
 
+
+
+
 .mw-title-field-label-post{
   background-position:  15px -32px, 0 0;
 }
@@ -710,7 +713,7 @@ form.add-edit-page-post textarea{
     background:#DEFFB8;
     border: 1px solid #9BCB61;
 }
-.mw-quick-links-blue li > a:hover{
+.mw-quick-links-blue li > a:hover, .mw-quick-links-blue li.active a{
     background: url(../img/grad.php?top=D3EEFE&bot=8CC4E9);
   border-color: #A1D1EF #589DC8 #4991C0;
 }
@@ -1717,6 +1720,24 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .preview_frame_wrapper .mw-overlay:hover{
   background: url(../img/magn.png) no-repeat center center;
 }
+
+.preview_frame_wrapper .mw-overlay-quick-link:hover{
+  background: rgba(198, 198, 198, 0.2);
+}
+
+.preview_frame_wrapper .mw-overlay-quick-link a{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin:-10px 0 0 -55px;
+  visibility: hidden;
+  width: auto;
+}
+
+.preview_frame_wrapper .mw-overlay-quick-link:hover a{
+  visibility: visible;
+}
+
 
 .preview_frame_ctrls span{
   display: block;

@@ -100,6 +100,8 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 	text-align: center;
 	margin: 5px;
 	font-size: 11px;
+    width: auto !important;
+    height: auto !important;
 
 }
 

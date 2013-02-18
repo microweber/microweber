@@ -294,6 +294,7 @@ mw.drag = {
              var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
              if((order.module > -1 && order.edit > order.module)){
+               d(order)
                 mw.mm_target = mw.drag.noop;
                 mw.$mm_target = $(mw.drag.noop);
 

@@ -6,7 +6,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 	$arr['limit'] = '1';
 	$arr['to_table_id'] = $content_id;
 	$imgages = get_pictures($arr);
-	// d($imgages);
+	//  d($imgages);
 	if (isset($imgages[0])) {
 		if (isset($imgages[0]['filename']) and $full == false) {
 			return $imgages[0]['filename'];
@@ -18,7 +18,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 		$cont_id = get_content_by_id($content_id);
 		if (isset($cont_id['content'])) {
 			$img = get_first_image_from_html($cont_id['content']);
-			  
+
 			if ($img != false) {
 				$surl = site_url();
 
@@ -399,8 +399,28 @@ function thumbnail($src, $width = 200, $height = 200) {
 	$local = false;
 
 	$media_url = MEDIA_URL;
-	if (stristr($src, $surl)) {
-		$src = str_ireplace($surl . '/', $surl, $src);
+	$media_url = trim($media_url);
+	 $src = str_replace_once('{SITE_URL}', $surl, $src);
+
+/*
+
+
+
+
+d($src);
+d($media_url);
+print '<hr>';
+
+
+
+*/
+
+	if (strstr($src, $surl) or strpos($src, $surl)) {
+
+
+
+
+		$src = str_replace($surl . '/', $surl, $src);
 
 		$src = str_replace($media_url, '', $src);
 		$src = str_ireplace($surl, '', $src);
@@ -410,7 +430,8 @@ function thumbnail($src, $width = 200, $height = 200) {
 		$src = rtrim($src, '/');
 		$src = MEDIAFILES . $src;
 		$src = normalize_path($src, false);
-		//d($src);
+
+
 	} else {
 		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
 		//
@@ -440,7 +461,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 	} else {
 		//
-		//exit($src);
+	//	exit($src);
 		if (file_exists($src)) {
 
 			$tn = new Thumbnailer($src);
@@ -473,7 +494,7 @@ function get_pictures($params) {
 	if (isset($params['for'])) {
 		$params['to_table'] = db_get_assoc_table_name($params['for']);
 	}
-	
+
 	//$params['debug'] = $table;
 
 	$params['table'] = $table;

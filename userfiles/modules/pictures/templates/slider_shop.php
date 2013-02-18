@@ -18,7 +18,7 @@ description: Product Slider
  <? if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
-<div class="autoscale mw-rotator" id="<?php print $id; ?>">
+<div class="autoscale mw-rotator mw-rotator-template-default" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
@@ -45,7 +45,7 @@ description: Product Slider
   $(document).ready(function(){
       Rotator = mw.rotator('#<?php print $id; ?>');
       if (!Rotator) return false;
-      Rotator.controlls({
+      Rotator.options({
           paging:true,
           pagingMode:"thumbnails",
           next:true,

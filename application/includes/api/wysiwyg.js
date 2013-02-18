@@ -313,7 +313,7 @@ mw.wysiwyg = {
     setActiveButtons:function(node){
         var css = mw.CSSParser(node);
         if(typeof css.get !== 'undefined'){
-          var is = css.get.is();
+          var is = css.get.isit();
           is.bold?mw.$('.mw_editor_bold').addClass('mw_editor_btn_active'):'';
           is.italic?mw.$('.mw_editor_italic').addClass('mw_editor_btn_active'):'';
           is.underlined?mw.$('.mw_editor_underline').addClass('mw_editor_btn_active'):'';

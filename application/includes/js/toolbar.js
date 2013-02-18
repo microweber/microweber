@@ -388,7 +388,7 @@ mw.image = {
           mw.image._dragcurrent.style.top = y + 'px';
           mw.image._dragcurrent.style.left = x + 'px';
 
-         
+
 
         }
       },

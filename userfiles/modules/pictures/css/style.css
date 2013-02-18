@@ -1,0 +1,289 @@
+.mw-slider-zoomholder{
+  overflow: hidden;
+  position: relative;
+  display: block !important;
+}
+
+.mw-rotator{
+  overflow: hidden;
+  min-height: 100px;
+  position: relative;
+}
+
+
+.mw-rotator .mw-gallery-item{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:100% auto;
+  position: relative;
+
+}
+.mw-rotator  .mw-gallery-holder{
+  overflow: hidden;
+  position: relative;
+  width:100%;
+  min-height: 300px;
+}
+
+.mw-rotator  .mw-rotator-slide{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  opacity:0;
+  transform: scale(1.15);
+  -moz-transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+  -o-transform: scale(1.15);
+  transition: all 0.6s linear;
+  -webkit-transition: all 0.6s linear;
+  -moz-transition: all 0.6s linear;
+  -o-transition: all 0.6s linear;
+}
+.mw-rotator  .mw-rotator-slide.active{
+  opacity:1;
+  z-index: 2;
+  -transform: scale(1);
+  -moz-transform: scale(1);
+  -webkit-transform: scale(1);
+  -o-transform: scale(1);
+}
+
+.rotator-index-control{
+  z-index: 10;
+}
+
+.mw-slider-zoomimg{
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  max-height: none !important;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.rotator-reflection-original{
+  display: block;
+}
+
+.rotator-reflection{
+  position: relative;
+  display: block;
+}
+
+.mw-rotator-reflection{
+    display: block;
+    -webkit-transform: scaleY(-1);
+    -moz-transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: flipv;
+    opacity:0.20;
+    filter: alpha(opacity='20');
+}
+.mw-rotator-reflection-overlay {
+   display: block;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-image: -moz-linear-gradient( center bottom, rgb(255,255,255) 60%, rgba(255,255,255,0) 75%);
+    background-image: -o-linear-gradient( rgba(255,255,255,0) 25%, rgb(255,255,255) 40%);
+    background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.60, rgb(255,255,255)), color-stop(0.75, rgba(255,255,255,0)));
+    filter: progid:DXImageTransform.Microsoft.Gradient( gradientType=0, startColor=0, EndColorStr=#ffffff);
+}
+
+.mw-rotator-thumbnail-scroller{
+  white-space: nowrap;
+  position: relative;
+}
+
+a.rotator-paging-item-thumbnail img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  image-rendering:-moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering:-webkit-optimize-contrast;
+  -ms-interpolation-mode:nearest-neighbor;
+}
+
+
+/*  DEFAULT Template */
+
+.mw-rotator-template-default .rotator-next,
+.mw-rotator-template-default .rotator-prev{
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  right: 25px;
+  margin-top: -15px;
+  display: block;
+  width: 27px;
+  height: 40px;
+  cursor: pointer;
+  background: url(../img/ico.png) no-repeat;
+  visibility: hidden;
+}
+.mw-rotator-template-default .rotator-prev{
+  background-position: -27px 0;
+  left: 25px;
+}
+.mw-rotator-template-default .rotator-index-control-mode-numbers{
+  position: absolute;
+  visibility: hidden;
+  bottom: 20px;
+  right: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.mw-rotator-template-default .rotator-index-control-mode-thumbnails{
+    bottom: 20px;
+    cursor: pointer;
+    left: 50%;
+    margin-left: -40% !important;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    visibility: hidden;
+    white-space: nowrap;
+    width: 80%;
+}
+.mw-rotator-template-default a.rotator-paging-item-digit{
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  text-shadow:0 0 1px #000;
+  padding: 1px 4px;
+  margin: 0 3px;
+  border-radius: 3px;
+
+}
+.mw-rotator-template-default a.rotator-paging-item-digit.active{
+  background:white;
+  color:#353535;
+  text-shadow:0 0 0px #000;
+  box-shadow:0 0 2px #000;
+}
+.mw-rotator-template-default a.rotator-paging-item-thumbnail{
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  margin: 6px 4px 6px;
+}
+.mw-rotator-template-default a.rotator-paging-item-thumbnail.active{
+  border:2px solid #2E3448;
+  width: 36px;
+  height: 36px;
+  border-radius:2px;
+}
+
+.mw-rotator-template-default:hover .rotator-next,
+.mw-rotator-template-default:hover .rotator-index-control,
+.mw-rotator-template-default:hover .rotator-prev{
+  visibility: visible;
+}
+
+
+
+
+/*  INNER Template */
+
+
+.mw-rotator-template-inner .mw-gallery-holder{
+  border: 1px solid #B3B3B3;
+  min-width: calc(100% - 2px);
+  width: calc(100% - 2px);
+  min-height: calc(100% - 2px);
+  height: calc(100% - 2px);
+}
+
+.mw-rotator-template-inner .rotator-next,
+.mw-rotator-template-inner .rotator-prev{
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 60px;
+  height: 100%;
+  cursor: pointer;
+  background-color: #F3F3F3;
+  background-color: rgba(243,243,243,0.1);
+  filter:alpha(opacity=50);
+  background-image: url(../img/inner_next.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  visibility: hidden;
+}
+.mw-rotator-template-inner .rotator-prev{
+  background-image: url(../img/inner_prev.png);
+  left: 0;
+}
+.mw-rotator-template-inner .mw-rotator-ctrls{
+
+}
+
+.mw-rotator-template-inner .rotator-index-control-mode-thumbnails{
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    height: 120px;
+}
+.mw-rotator-template-inner a.rotator-paging-item-thumbnail{
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  width: 66px;
+  margin: 6px 3px 6px;
+  transition: all  0.2s;
+  -webkit-transition: all  0.5s;
+}
+
+.mw-rotator-template-inner span.rotator-reflection-original,
+.mw-rotator-template-inner span.rotator-reflection,
+.mw-rotator-template-inner span.mw-rotator-reflection{
+  position: relative;
+  overflow: hidden;
+  width: 66px;
+  height: 66px;
+}
+
+
+.mw-rotator-template-inner a.rotator-paging-item-thumbnail.active {
+  transform:scale(1.2, 1.2);
+  -moz-transform:scale(1.2, 1.2);
+  -webkit-transform:scale(1.2, 1.2);
+  -o-transform:scale(1.2, 1.2);
+  -ms-transform:scale(1.2, 1.2);
+  transform-origin:50% 20%;
+  -moz-transform-origin:50% 20%;
+  -webkit-transform-origin:50% 20%;
+  -o-transform-origin:50% 20%;
+  -ms-transform-origin:50% 20%;
+}
+
+.mw-rotator-template-inner a.rotator-paging-item-thumbnail.active .rotator-reflection-original{
+  box-shadow: 0 0 15px #000;
+  box-shadow: 0 0 15px -1px #000;
+}
+
+.mw-rotator-template-inner:hover .rotator-next,
+.mw-rotator-template-inner:hover .rotator-index-control,
+.mw-rotator-template-inner:hover .rotator-prev{
+  visibility: visible;
+}
+
