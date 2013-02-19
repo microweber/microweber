@@ -578,9 +578,7 @@ $(window).load(function(){
         editablePurify(this);
     });
 
-    mw.$(".element").mouseup(function(event){
-        mw.wysiwyg.check_selection();
-    });
+
     mw.$(".element").mousedown(function(event){
         mw.$(".mw_editor_btn").removeClass("mw_editor_btn_active");
 
@@ -624,7 +622,7 @@ $(window).load(function(){
 
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
-        mw.wysiwyg.check_selection();
+     
         $(mwd.body).removeClass('hide_selection');
       }
 

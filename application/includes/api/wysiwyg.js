@@ -204,8 +204,13 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(mwd.body).keyup(function(event){
-         mw.wysiwyg.check_selection(event.target);
+      $(mwd.body).bind('mouseup keyup', function(event){
+        if(event.target.isContentEditable){
+          mw.wysiwyg.check_selection(event.target);
+        }
+        else{
+           mw.wysiwyg.check_selection();
+        }
 
          if(event.keyCode == 13) {
             //event.preventDefault();

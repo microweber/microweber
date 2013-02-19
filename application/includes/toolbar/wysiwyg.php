@@ -3,6 +3,10 @@
             <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ed-ico"></span></span>
             <span class="mw_dlm"></span>
+
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
+
+            <span class="mw_dlm"></span>
             <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ed-ico"></span></span>
@@ -33,7 +37,7 @@
                 </ul>
               </div>
             </div>
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
+            <?php /*<div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val">Font FX</span>
@@ -44,7 +48,7 @@
                   <li value="mw-textfx-neon"><a href="#">Neon</a></li>
                 </ul>
               </div>
-            </div>
+            </div>*/ ?>
 
 
 
@@ -111,7 +115,7 @@
 
 
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
+
             <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ed-ico"></span></span>
 
 

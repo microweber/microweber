@@ -16,11 +16,6 @@ $(document).ready(function(){
    });
 
 
-   $(mwd.body).bind("mouseup keyup", function(e){
-          mw.wysiwyg.check_selection(e.target);
-   });
-
-
 });
 
 </script>

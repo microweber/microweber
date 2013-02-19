@@ -1889,20 +1889,31 @@ function save_content($data, $delete_the_cache = true) {
 
 
 	if (isset($data['url']) and (strval($data['url']) == '')) {
-		$data['url'] = ($thetitle);
+		//$data['url'] = ($thetitle);
 	}
 
 	if (isset($data['url']) and (strval($data['url']) != '')) {
-		$data['url'] = ($data['url']);
+		//$data['url'] = ($data['url']);
 	}
 
 
 
-	if (isset($item['title'])) {
-		$item['title'] = htmlspecialchars_decode($item['title'], ENT_QUOTES);
+	if (isset($data['title'])) {
+		$data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);
 
-		$item['title'] = strip_tags($item['title']);
+		$data['title'] = strip_tags($data['title']);
 	}
+
+	if (isset($data['url']) == false or $data['url'] == '') {
+		if (isset($data['title']) != false and intval ( $data ['id'] ) == 0) {
+			$data['url'] = url_title($data['title']);
+
+
+		}
+	}
+
+
+
 	if (isset($data['url']) != false) {
 		// if (intval ( $data ['id'] ) == 0) {
 		$data_to_save['url'] = $data['url'];
@@ -2456,7 +2467,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	//
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-//	$cache_content = false;
+ 	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -2593,7 +2604,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 			unset($params['include_first']);
 		}
 		if (isset($params['parent'])) {
-			unset($params['parent']);
+			//unset($params['parent']);
 		}
 
 
@@ -2608,15 +2619,17 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 	if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 		if(isset($params['parent']) and $params['parent'] == 0){
-			 //	unset($params['parent']);
+		  unset($params['parent']);
 		}
 
-	}
-
-	if(isset($params['parent']) and $params['parent'] == 'any'){
-		unset($params['parent']);
+		if(isset($params['parent']) and $params['parent'] == 'any'){
+	 	unset($params['parent']);
 
 	}
+
+	}
+
+
 	$params['limit'] = 50;
 	$params['orderby'] = 'created_on desc';
 
@@ -2630,7 +2643,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
  //$max_level = $params2['max_level'] =2;
  // $skip_pages_from_tree = 1;
-		unset($params2['parent']);
+	//	unset($params2['parent']);
 //d($params2);
 
 

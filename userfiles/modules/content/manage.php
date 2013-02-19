@@ -172,7 +172,7 @@ if(isset($params['data-category-id'])){
 <? if(isset($page_info) and isset($page_info['title'])): ?>
 
 <?php if($page_info['is_shop'] == 'y'){ ?>
-<h2 class="left" style="padding-left: 20px;width: 430px;">Products from <? print ($page_info['title']) ?></h2> 
+<h2 class="left" style="padding-left: 20px;width: 430px;">Products from <? print ($page_info['title']) ?></h2>
 <?php } else{  ?>
 
 <h2 class="left" style="padding-left: 20px;width: 430px;">Posts from <? print ($page_info['title']) ?></h2>
