@@ -470,3 +470,6 @@ $language["continue-reading"]= 'Continue Reading' ;
 $language["continue-reading"]= 'Continue Reading' ; 
 $language["continue-reading"]= 'Continue Reading' ; 
 $language["two-coloms-amp-picture"]= 'Two Coloms &amp; Picture' ; 
+$language["you-dont-have-any-clients"]= 'You don\'t have any clients' ; 
+$language["image-description"]= 'Image Description' ; 
+$language["image-description"]= 'Image Description' ; 

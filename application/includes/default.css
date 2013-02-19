@@ -80,7 +80,7 @@ body.mw-preview{
     clear: none;
     max-width: 100%;
 }
-.edit:after, .mw-col:after, .element:after {
+.edit:after, .mw-col:after, .element:after{
     clear: both;
     content: ".";
     display: block;
@@ -89,9 +89,9 @@ body.mw-preview{
     visibility: hidden;
 }
 .mw-col {
-    float: left !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    float: left;
+    margin: 0;
+    padding: 0;
 }
 .edit, .mw-col {
     min-height: 50px;
@@ -102,35 +102,12 @@ body.mw-preview{
   max-width: 100%;
 }
 
-.mw_drag_float{
-    display: inline-block !important;
-    float: left !important;
-}
-.mw_drag_float_right {
-    display: inline-block !important;
-    float: right !important;
-}
 .layout-element{
   clear: both;
   float: none;
 }
 
-.mw-free-element{
-  position: relative !important;
-  min-height: 100px;
-  overflow: hidden;
-}
 
-.mw-free-element .element{
-  position: absolute;
-}
-.mw-free-element:empty{
-  background:#ffffb9
-}
-.free-element-item{
-  position: absolute;
-  display: inline-block !important;
-}
 
 .mw-embed-iframe{
   padding: 12px 0;
@@ -189,11 +166,11 @@ body.mw-preview{
 
 
 .left{
-  float: left !important;
+  float: left;
 }
 
 .right{
-  float: right !important;
+  float: right;
 }
 
 
@@ -207,7 +184,6 @@ body.mw-preview{
 .inline-block{
   display: inline-block;
 }
-
 .mw-vspace{
   padding: 12px 0;
 }
@@ -248,9 +224,9 @@ body.mw-preview{
 /* FILETYPES  */
 
 
-/*Adding icons to pdf span, doc span, etc.mw-filetype-*/
-/*MICROSOFT*/
-/*MS Access*/
+/* Adding icons to pdf span, doc span, etc.mw-filetype- */
+/* MICROSOFT */
+/* MS Access */
 .mw-filetype-ade span, .mw-filetype-adp span, .mw-filetype-adn span, .mw-filetype-accdb span, .mw-filetype-accdr span, .mw-filetype-accdt span, .mw-filetype-mdb span, .mw-filetype-mda span, .mw-filetype-mdn span, .mw-filetype-mdt span, .mw-filetype-mdw span, .mw-filetype-mdf span, .mw-filetype-mde span, .mw-filetype-accde span, .mw-filetype-mam span, .mw-filetype-maq span, .mw-filetype-mar span, .mw-filetype-mat span, .mw-filetype-maf span {
    padding-left: 18px;
    background: transparent url('img/filetypes/access.png') no-repeat center left;

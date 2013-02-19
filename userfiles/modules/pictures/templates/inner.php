@@ -18,6 +18,9 @@ description: Inner Slider
  <? if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
+
+
+
 <div class="autoscale mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
@@ -38,6 +41,13 @@ description: Inner Slider
 <script type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
     mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
+
+    $(document).ready(function(){
+      var el = mwd.getElementById('<?php print $id; ?>');
+      var module = mw.tools.firstParentWithClass(el, 'module');
+      module.style.paddingBottom = '130px';
+    });
+
 </script>
 
 <script type="text/javascript">

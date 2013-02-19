@@ -490,7 +490,17 @@ form .shipping-country-row:first-child{
   width:757px;
 }
 
-#mw_index_users
+.has-options-bar{
+  background: url("../img/treebg.gif") repeat-y -340px 0;;
+}
+
+.options-bar{
+  float: left;
+  width: 160px;
+  min-height: 100px;
+  margin-right: 17px;
+
+}
 
 
 

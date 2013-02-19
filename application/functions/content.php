@@ -2089,18 +2089,7 @@ function save_content($data, $delete_the_cache = true) {
 
 				$par_page_new = save_data($table, $par_page_new);
 				$cats_modified = true;
-
-
-
 			}
-
-
-
-
-
-
-
-
 			if (!isset($data_to_save['categories'])) {
 				$data_to_save['categories'] = '';
 			}
@@ -2467,7 +2456,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	//
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
- 	$cache_content = false;
+	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -2619,13 +2608,21 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 	if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 		if(isset($params['parent']) and $params['parent'] == 0){
-		  unset($params['parent']);
+			unset($params['parent']);
 		}
 
 		if(isset($params['parent']) and $params['parent'] == 'any'){
-	 	unset($params['parent']);
+			unset($params['parent']);
 
-	}
+		}
+
+	} else {
+
+		if(isset($params['parent']) and $params['parent'] == 'any'){
+			$params['parent'] = 0;
+
+		}
+
 
 	}
 
@@ -2919,7 +2916,10 @@ function mw_create_default_content($what) {
 			$find_layout = layouts_list();
 			if(isarr($find_layout)){
 				foreach ($find_layout as $item) {
-					if (isset($item['layout_file']) and isset($item['is_shop']) and $item['is_shop'] == 'yes') {
+
+//d($item);
+
+					if (isset($item['layout_file']) and isset($item['is_shop']) ) {
 						$add_page['layout_file'] = $item['layout_file'];
 						if (isset($item['name'])) {
 							$add_page['title'] = $item['name'];
@@ -2927,8 +2927,8 @@ function mw_create_default_content($what) {
 					}
 				}
 			}
-				//d($add_page);
-			$new_shop = save_content($add_page);
+				//  d($add_page);
+			$new_shop = save_data('table_content',$add_page);
 			clearcache();
 				//
 		} else {

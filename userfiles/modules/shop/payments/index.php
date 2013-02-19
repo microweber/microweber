@@ -31,7 +31,7 @@ $(document).ready(function(){
 <div class="well">
 
 <h2 style="margin-top: 0">Payment method</h2>
-<hr />
+
 <select name="payment_gw" class="mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
   <? foreach ($payment_options as $item) : ?>
   <option value="<? print  $item['gw_file']; ?>"><? print  $item['name']; ?></option>

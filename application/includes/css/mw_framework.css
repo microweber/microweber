@@ -209,6 +209,11 @@
   top: 3px;
 }
 
+.mw-ui-inline-selector li label.mw-ui-label{
+  display: inline-block;
+    padding: 0;
+}
+
 /* Smaller labels for fields */
 
 .mw-ui-label-help{
@@ -1435,6 +1440,17 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 
+.mw-ui-field::-webkit-input-placeholder {
+  color: #AAAAAA;
+}
+.mw-ui-field:-moz-placeholder {
+  color: #AAAAAA;
+}
+.mw-ui-field::-moz-placeholder {
+  color: #AAAAAA;
+}
+
+
 input.mw-ui-field,
 .mw-module-live-edit-settings input[type='email'],
 .mw-module-live-edit-settings input[type='number'],
@@ -1660,7 +1676,7 @@ input.mw-title-field{
 .mw-ui-check input + span{
   display: inline-block;
   position: relative;
-  top: 1px;
+  top: 3px;
   cursor: pointer;
   background: url(../img/chkrd.png) no-repeat;
 }
@@ -1812,22 +1828,34 @@ select.mw-ui-simple-dropdown:focus{
 
 .mw-post-media-img-edit{
   clear: both;
-  visibility: hidden;
-  padding-top: 1px;
+  padding-top: 5px;
 }
 
 .mw-post-media-img-edit input{
-  border-width: 0;
   background: transparent;
   font-size: 11px;
   float: left;
   width: 105px;
   padding: 3px;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.mw-post-media-img-edit input::-webkit-input-placeholder {
+  color: #AAAAAA;
+}
+.mw-post-media-img-edit input:-moz-placeholder {
+  color: #AAAAAA;
+}
+.mw-post-media-img-edit input::-moz-placeholder {
+  color: #AAAAAA;
 }
 
 
-.admin-thumb-item:hover .mw-post-media-img-edit, .mw-post-media-img-edit.active{
-  visibility: visible;
+
+.admin-thumb-item:hover .mw-post-media-img-edit input, .mw-post-media-img-edit input:focus{
+  border-color: #BDBDBD
 }
 
 .admin-thumb-delete:hover{

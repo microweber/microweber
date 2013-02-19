@@ -117,6 +117,7 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
     <span class="mw-post-media-img" style="background-image: url(<?php print $tn; ?>);"></span>
     <div class="mw-post-media-img-edit">
       <input
+            placeholder="<?php _e("Image Description"); ?>"
             type="text" autocomplete="off"
             value="<? if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
             onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<? print $item['id'] ?>', this.value);});"

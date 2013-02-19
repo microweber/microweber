@@ -633,6 +633,12 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
   $strz = ' add_ids="'.$x.'" ';   ?>
 <? endif; ?>
 <? $categories_active_ids = ''; ?>
+
+
+
+
+
+
 <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand; ?>">
   <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
   <? if(intval($data['id']) > 0): ?>

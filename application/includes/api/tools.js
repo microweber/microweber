@@ -1154,6 +1154,16 @@ mw.tools = {
           }
       }
     }
+  },
+  tabGroup : function(obj){
+    mw.$(obj.nav).click(function(){
+      if(!$(this).hasClass("active")){
+        var i = mw.tools.index(this, this.parentNode.parentNode);
+        mw.$(obj.nav).removeClass("active");
+        $(this).addClass("active");
+        mw.$(obj.tabs).hide().eq(i).show();
+      }
+    });
   }
 }
 

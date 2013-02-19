@@ -16,7 +16,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
  $data = get_content_by_id($params["data-page-id"]);
 }
-//d($data );
+
 
 if($data == false or empty($data )){
   include('_empty_content_data.php');
@@ -32,10 +32,11 @@ if(isset($data['active_site_template']) and $data['active_site_template'] == '')
 if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
   $data['layout_file'] = $params["layout_file"] ;
 }
+
 $inherit_from = false;
 
-//d($params["inherit_from"]);
-if(!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'){
+// d($data['layout_file']);
+if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit')){
 
   if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
 //
@@ -159,8 +160,8 @@ mw.templatePreview = {
 
 		 //var value=this.val();
 		 $layout_list_rend_str += '<li ';
-    $layout_list_rend_str += ' onclick="mw.templatePreview.view('+indx+');" ';
-    if(val != undefined){
+     $layout_list_rend_str += ' onclick="mw.templatePreview.view('+indx+');" ';
+     if(val != undefined){
       $layout_list_rend_str += 'value="'+val+'" ';
     }
     if(val != undefined){
@@ -381,7 +382,7 @@ $(document).ready(function() {
 
 <div class="left">
   <div class="preview_frame_wrapper loading left">
-        <? if( !isset($params['edit_page_id'])): ?>
+    <? if( !isset($params['edit_page_id'])): ?>
 
     <div class="preview_frame_ctrls">
       <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
@@ -390,33 +391,33 @@ $(document).ready(function() {
 
       <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
-      </div>
-       <?php endif; ?>
-
-      <div class="preview_frame_container"></div>
-      <? if( !isset($params['edit_page_id'])): ?>
-        <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
-      <?php else: ?>
-        <div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<? print $params["edit_page_id"]; ?>')">
-           <ul class="mw-quick-links mw-quick-links-blue">
-            <li class="active">
-              <a style="width: auto;" href="#action=editpage:<? print $params["edit_page_id"]; ?>">
-                <span class="ico ieditpage"></span>
-                <span>Edit Page</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      <?php endif; ?>
     </div>
-  </div>
-  <div class="layouts_box_holder <? if( isset($params['small'])): ?> semi_hidden  <? endif; ?>" style="margin-top: 10px;">
-    <label class="mw-ui-label">
-      <?php _e("Page Layout"); ?>
-    </label>
-    <div class="layouts_box_container">
-      <div class="layouts_box" id="layout_selector<? print $rand; ?>">
-        <?
+  <?php endif; ?>
+
+  <div class="preview_frame_container"></div>
+  <? if( !isset($params['edit_page_id'])): ?>
+  <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
+<?php else: ?>
+  <div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<? print $params["edit_page_id"]; ?>')">
+   <ul class="mw-quick-links mw-quick-links-blue">
+    <li class="active">
+      <a style="width: auto;" href="#action=editpage:<? print $params["edit_page_id"]; ?>">
+        <span class="ico ieditpage"></span>
+        <span>Edit Page</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<?php endif; ?>
+</div>
+</div>
+<div class="layouts_box_holder <? if( isset($params['small'])): ?> semi_hidden  <? endif; ?>" style="margin-top: 10px;">
+  <label class="mw-ui-label">
+    <?php _e("Page Layout"); ?>
+  </label>
+  <div class="layouts_box_container">
+    <div class="layouts_box" id="layout_selector<? print $rand; ?>">
+      <?
 	  /*<ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <? if(('' == trim($data['layout_file']))): ?>   selected="selected"  <? endif; ?>>None</li>
         <? if(!empty($layouts)): ?>

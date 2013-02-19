@@ -16,6 +16,57 @@
 	"buffers":
 	[
 		{
+			"file": "userfiles/modules/pictures/admin_backend.php",
+			"settings":
+			{
+				"buffer_size": 3724,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<?php\n\n\nif (!defined(\"MW_DB_TABLE_CONTENT\")) {\n	define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');\n}\n\nif (!defined(\"MW_DB_TABLE_CONTENT_FIELDS\")) {\n	define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');\n}\n\nif (!defined(\"MW_DB_TABLE_MEDIA\")) {\n	define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');\n}\n\nif (!defined(\"MW_DB_TABLE_CUSTOM_FIELDS\")) {\n	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');\n}\n\n\n\naction_hook('mw_db_init_default', 'mw_db_init_content_table');\n  //action_hook('mw_db_init', 'mw_db_init_content_table');\n\nfunction mw_db_init_content_table() {\n	$function_cache_id = false;\n\n	$args = func_get_args();\n\n	foreach ($args as $k => $v) {\n\n		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);\n	}\n\n	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);\n\n	$cache_content = cache_get_content($function_cache_id, 'db');\n\n	if (($cache_content) != false) {\n\n		return $cache_content;\n	}\n\n	$table_name = MW_DB_TABLE_CONTENT;\n\n	$fields_to_add = array();\n\n	$fields_to_add[] = array('updated_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_on', 'datetime default NULL');\n	$fields_to_add[] = array('expires_on', 'datetime default NULL');\n\n	$fields_to_add[] = array('created_by', 'int(11) default NULL');\n\n	$fields_to_add[] = array('edited_by', 'int(11) default NULL');\n\n\n	$fields_to_add[] = array('content_type', 'TEXT default NULL');\n	$fields_to_add[] = array('url', 'longtext default NULL');\n	$fields_to_add[] = array('content_filename', 'TEXT default NULL');\n	$fields_to_add[] = array('title', 'longtext default NULL');\n	$fields_to_add[] = array('parent', 'int(11) default NULL');\n	$fields_to_add[] = array('description', 'TEXT default NULL');\n\n\n	$fields_to_add[] = array('content', 'TEXT default NULL');\n\n	$fields_to_add[] = array('is_active', \"char(1) default 'y'\");\n	$fields_to_add[] = array('is_home', \"char(1) default 'n'\");\n	$fields_to_add[] = array('is_pinged', \"char(1) default 'n'\");\n	$fields_to_add[] = array('is_shop', \"char(1) default 'n'\");\n	$fields_to_add[] = array('require_login', \"char(1) default 'n'\");\n\n\n\n	$fields_to_add[] = array('subtype', 'TEXT default NULL');\n	$fields_to_add[] = array('subtype_value', 'TEXT default NULL');\n	$fields_to_add[] = array('original_link', 'TEXT default NULL');\n	$fields_to_add[] = array('layout_file', 'TEXT default NULL');\n	$fields_to_add[] = array('layout_name', 'TEXT default NULL');\n	$fields_to_add[] = array('layout_style', 'TEXT default NULL');\n	$fields_to_add[] = array('active_site_template', 'TEXT default NULL');\n	$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');\n	set_db_table($table_name, $fields_to_add);\n\n\n	db_add_table_index('url', $table_name, array('url(255)'));\n	db_add_table_index('title', $table_name, array('title(255)'));\n\n\n\n\n\n\n	$table_name = MW_DB_TABLE_CONTENT_FIELDS;\n\n	$fields_to_add = array();\n\n	$fields_to_add[] = array('updated_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_by', 'int(11) default NULL');\n	$fields_to_add[] = array('edited_by', 'int(11) default NULL');\n	$fields_to_add[] = array('to_table', 'TEXT default NULL');\n\n	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');\n	$fields_to_add[] = array('position', 'int(11) default NULL');\n	$fields_to_add[] = array('field', 'longtext default NULL');\n	$fields_to_add[] = array('value', 'TEXT default NULL');\n\n\n\n\n	set_db_table($table_name, $fields_to_add);\n\n	db_add_table_index('to_table', $table_name, array('to_table(55)'));\n	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));\n	db_add_table_index('field', $table_name, array('field(55)'));\n\n\n\n\n\n	$table_name = MW_DB_TABLE_MEDIA;\n\n	$fields_to_add = array();\n\n	$fields_to_add[] = array('updated_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_by', 'int(11) default NULL');\n	$fields_to_add[] = array('edited_by', 'int(11) default NULL');\n	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');\n	$fields_to_add[] = array('to_table', 'TEXT default NULL');\n\n	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');\n	$fields_to_add[] = array('media_type', 'TEXT default NULL');\n	$fields_to_add[] = array('position', 'int(11) default NULL');\n	$fields_to_add[] = array('title', 'longtext default NULL');\n	$fields_to_add[] = array('description', 'TEXT default NULL');\n	$fields_to_add[] = array('embed_code', 'TEXT default NULL');\n	$fields_to_add[] = array('filename', 'TEXT default NULL');\n\n\n\n	set_db_table($table_name, $fields_to_add);\n\n	db_add_table_index('to_table', $table_name, array('to_table(55)'));\n	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));\n	db_add_table_index('media_type', $table_name, array('media_type(55)'));\n\n	 //db_add_table_index('url', $table_name, array('url'));\n	 //db_add_table_index('title', $table_name, array('title'));\n\n\n\n\n\n	$table_name = MW_DB_TABLE_CUSTOM_FIELDS;\n\n	$fields_to_add = array();\n	$fields_to_add[] = array('to_table', 'TEXT default NULL');\n\n	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');\n	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');\n	$fields_to_add[] = array('position', 'int(11) default NULL');\n\n\n	$fields_to_add[] = array('updated_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_on', 'datetime default NULL');\n	$fields_to_add[] = array('created_by', 'int(11) default NULL');\n	$fields_to_add[] = array('edited_by', 'int(11) default NULL');\n\n	$fields_to_add[] = array('custom_field_name', 'TEXT default NULL');\n	$fields_to_add[] = array('custom_field_name_plain', 'longtext default NULL');\n\n\n	$fields_to_add[] = array('custom_field_value', 'TEXT default NULL');\n\n\n\n	$fields_to_add[] = array('custom_field_type', 'TEXT default NULL');\n	$fields_to_add[] = array('custom_field_values', 'longtext default NULL');\n	$fields_to_add[] = array('custom_field_values_plain', 'longtext default NULL');\n\n	$fields_to_add[] = array('field_for', 'TEXT default NULL');\n	$fields_to_add[] = array('custom_field_field_for', 'TEXT default NULL');\n	$fields_to_add[] = array('custom_field_help_text', 'TEXT default NULL');\n	$fields_to_add[] = array('options', 'TEXT default NULL');\n\n\n	$fields_to_add[] = array('custom_field_is_active', \"char(1) default 'y'\");\n	$fields_to_add[] = array('custom_field_required', \"char(1) default 'n'\");\n	$fields_to_add[] = array('copy_of_field', 'int(11) default NULL');\n\n\n\n\n	set_db_table($table_name, $fields_to_add);\n\n	db_add_table_index('to_table', $table_name, array('to_table(55)'));\n	db_add_table_index('to_table_id', $table_name, array('to_table_id(55)'));\n	db_add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));\n\n\n\n\n\n\n\n	cache_store_data(true, $function_cache_id, $cache_group = 'db');\n	return true;\n\n}\naction_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');\nfunction create_mw_default_pages_in_not_exist() {\n	mw_create_default_content('default');\n\n}\nfunction define_constants($content = false) {\n\n	if($content == false){\n		if (isset($_SERVER['HTTP_REFERER'])) {\n			$ref_page = $_SERVER['HTTP_REFERER'];\n			if ($ref_page != '') {\n				$ref_page = get_content_by_url($ref_page);\n				if(!empty($ref_page)){\n					$content = $ref_page;\n				}\n			}\n		}\n	}\n\n\n\n	$page_data = false;\n	if (is_array($content)) {\n		if (isset($content['id'])) {\n\n			$page = $content;\n		}\n	}\n\n	if (isset($page)) {\n		if ($page['content_type'] == \"post\") {\n			$content = $page;\n\n			$page = get_content_by_id($page['parent']);\n			if (defined('POST_ID') == false) {\n				define('POST_ID', $content['id']);\n			}\n		} else {\n			$content = $page;\n			if (defined('POST_ID') == false) {\n				define('POST_ID', false);\n			}\n		}\n\n		if (defined('ACTIVE_PAGE_ID') == false) {\n\n			define('ACTIVE_PAGE_ID', $page['id']);\n		}\n\n		if (defined('CATEGORY_ID') == false) {\n			define('CATEGORY_ID', false);\n		}\n\n		if (defined('CONTENT_ID') == false) {\n			define('CONTENT_ID', $content['id']);\n		}\n\n		if (defined('PAGE_ID') == false) {\n			define('PAGE_ID', $page['id']);\n		}\n		if (isset($page['parent'])) {\n			if (defined('MAIN_PAGE_ID') == false) {\n				define('MAIN_PAGE_ID', $page['parent']);\n			}\n\n			if (defined('PARENT_PAGE_ID') == false) {\n				define('PARENT_PAGE_ID', $page['parent']);\n			}\n		}\n	}\n\n	if (defined('ACTIVE_PAGE_ID') == false) {\n\n		define('ACTIVE_PAGE_ID', false);\n	}\n\n	if (defined('CATEGORY_ID') == false) {\n		define('CATEGORY_ID', false);\n	}\n\n	if (defined('CONTENT_ID') == false) {\n		define('CONTENT_ID', false);\n	}\n\n	if (defined('POST_ID') == false) {\n		define('POST_ID', false);\n	}\n	if (defined('PAGE_ID') == false) {\n		define('PAGE_ID', false);\n	}\n\n	if (defined('MAIN_PAGE_ID') == false) {\n		define('MAIN_PAGE_ID', false);\n	}\n\n	if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {\n\n		$the_active_site_template = $page['active_site_template'];\n	} else {\n		$the_active_site_template = get_option('curent_template');\n		// d($the_active_site_template );\n	}\n\n	$the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . DS);\n\n	if (defined('DEFAULT_TEMPLATE_DIR') == false) {\n\n		define('DEFAULT_TEMPLATE_DIR', TEMPLATEFILES.'default'.DS);\n	}\n\n	if (defined('DEFAULT_TEMPLATE_URL') == false) {\n\n		define('DEFAULT_TEMPLATE_URL', site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . 'default/'));\n	}\n\n\n	if (trim($the_active_site_template) != 'default') {\n\n		if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {\n			$use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';\n			if (is_file($use_default_layouts)) {\n											//$render_file = ($use_default_layouts);\n											//if()\n											//\n											//\n\n				if(isset($page['layout_file'])){\n					$template_view = DEFAULT_TEMPLATE_DIR .  $page['layout_file'];\n				} else {\n					$template_view = DEFAULT_TEMPLATE_DIR ;\n				}\n				if(isset($page)){\n					if(!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')){\n						$par_page = content_get_inherited_parent($page['id']);\n						if($par_page != false){\n							$par_page = get_content_by_id($par_page);\n						}\n						if(isset($par_page['layout_file'])){\n							$the_active_site_template = $par_page['active_site_template'];\n							$page['layout_file'] = $par_page['layout_file'];\n							$page['active_site_template'] = $par_page['active_site_template'];\n							$template_view = TEMPLATEFILES.$page['active_site_template'].DS .  $page['layout_file'];\n\n\n						}\n\n					}\n				}\n\n				if (is_file($template_view) == true) {\n\n					if (defined('THIS_TEMPLATE_DIR') == false) {\n\n						define('THIS_TEMPLATE_DIR', TEMPLATEFILES.$the_active_site_template.DS );\n\n					}\n					if (defined('THIS_TEMPLATE_URL') == false) {\n						$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);\n\n						$the_template_url = $the_template_url . '/';\n						if (defined('THIS_TEMPLATE_URL') == false) {\n							define(\"THIS_TEMPLATE_URL\", $the_template_url);\n						}\n					}\n					$the_active_site_template = 'default';\n					$the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;\n\n														//	d($the_active_site_template_dir);\n				}\n\n\n			}\n		}\n\n	} else {\n		//d($the_active_site_template);\n	}\n\n\n\n\n\n\n	if (defined('ACTIVE_TEMPLATE_DIR') == false) {\n\n		define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);\n	}\n\n	if (defined('THIS_TEMPLATE_DIR') == false) {\n\n		define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);\n	}\n\n	if (defined('THIS_TEMPLATE_URL') == false) {\n		$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);\n\n		$the_template_url = $the_template_url . '/';\n		if (defined('THIS_TEMPLATE_URL') == false) {\n			define(\"THIS_TEMPLATE_URL\", $the_template_url);\n		}\n	}\n\n\n\n\n	if (defined('TEMPLATE_DIR') == false) {\n\n		define('TEMPLATE_DIR', $the_active_site_template_dir);\n	}\n\n	if (defined('ACTIVE_SITE_TEMPLATE') == false) {\n\n		define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);\n	}\n\n	if (defined('TEMPLATES_DIR') == false) {\n\n		define('TEMPLATES_DIR', TEMPLATEFILES);\n	}\n\n	$the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);\n\n	$the_template_url = $the_template_url . '/';\n	if (defined('TEMPLATE_URL') == false) {\n		define(\"TEMPLATE_URL\", $the_template_url);\n	}\n\n\n\n\n\n	if (defined('LAYOUTS_DIR') == false) {\n\n		$layouts_dir = TEMPLATE_DIR . 'layouts/';\n\n		define(\"LAYOUTS_DIR\", $layouts_dir);\n	} else {\n\n		$layouts_dir = LAYOUTS_DIR;\n	}\n\n	if (defined('LAYOUTS_URL') == false) {\n\n		$layouts_url = reduce_double_slashes(dirToURL($layouts_dir) . '/');\n\n		define(\"LAYOUTS_URL\", $layouts_url);\n	} else {\n\n		$layouts_url = LAYOUTS_URL;\n	}\n\n\n\n	return true;\n}\n\nfunction get_layout_for_page($page = array()) {\n\n\n\n\n\n\n	$args = func_get_args();\n	$function_cache_id = '';\n	foreach ($args as $k => $v) {\n\n		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);\n	}\n\n	$cache_id = __FUNCTION__ . crc32($function_cache_id);\n	if (isset($page['id']) and intval($page['id']) != 0){\n		$cache_group = 'content/'.$page['id'];\n	} else {\n		$cache_group = 'content/global';\n	}\n\n\n	$cache_content = cache_get_content($cache_id, $cache_group);\n\n	if (($cache_content) != false) {\n\n		return $cache_content;\n	}\n\n\n	$render_file = false;\n	$look_for_post = false;\n	$template_view_set_inner = false;\n\n\n\n\n\n	if (isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {\n\n		$inherit_from = get_content_parents($page['id']);\n\n		$found = 0;\n		if(!empty( $inherit_from )){\n			foreach ( $inherit_from   as $value) {\n				if($found  == 0 and $value !=$page['id']){\n					$par_c = get_content_by_id($value);\n					if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {\n\n						$page['layout_file'] = $par_c['layout_file'];\n						$page['active_site_template'] = $par_c['active_site_template'];\n						$render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'] ;\n\n						if(is_file($render_file_temp)){\n							$render_file = $render_file_temp;\n						} else {\n\n							$render_file_temp = DEFAULT_TEMPLATE_DIR. $page['layout_file'] ;\n							if(is_file($render_file_temp)){\n								$render_file = $render_file_temp;\n\n								//d(THIS_TEMPLATE_DIR);\n\n							}\n						}\n\n						//$page = $par_c;\n						//\n						$found = 1;\n					}\n				}\n			}\n		}\n		 //d($inherit_from);\n	}\n\n//d($page);\n\n\n	if (isset($page['content_type']) and $page['content_type'] == 'post') {\n		$look_for_post = $page;\n		if (isset($page['parent'])) {\n\n			$par_page = get_content_by_id($page['parent']);\n\n			if (isarr($par_page)) {\n				$page = $par_page;\n			} else {\n				$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';\n\n			}\n		} else {\n			$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';\n\n\n		}\n	}\n\n	if (isset($page['simply_a_file'])) {\n\n		if (is_file($page['simply_a_file']) == true) {\n			$render_file = $page['simply_a_file'];\n		}\n	}\n	if (!isset($page['active_site_template'])){\n		$page['active_site_template'] = ACTIVE_SITE_TEMPLATE;\n	}\n	if (isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {\n\n		$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'].DS.'use_default_layouts.php';\n\n		if (is_file($use_default_layouts)) {\n			$page['active_site_template']  = 'default';\n		}\n	}\n	if (isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {\n		$layouts_list  = layouts_list('site_template='.$page['active_site_template']);\n\n		if(isarr($layouts_list)){\n			foreach ($layouts_list as $layout_item) {\n				if($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] ==$layout_item['content_type']){\n\n					$page['layout_file']  = $layout_item['layout_file'];\n					$render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'] ;\n				}\n\n			}\n		}\n\n\n\n	}\n\n	if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {\n		if ($look_for_post != false) {\n			$f1 = $page['layout_file'];\n\n\n			$stringA = $f1;\n			$stringB = \"_inner\";\n			$length = strlen($stringA);\n			$temp1 = substr($stringA, 0, $length - 4);\n			$temp2 = substr($stringA, $length - 4, $length);\n			$f1 = $temp1 . $stringB . $temp2;\n\n\n\n\n\n			if (strtolower($page['active_site_template']) == 'default') {\n				$template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;\n			} else {\n\n				$template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;\n			}\n\n\n\n//.\n\n\n			if (is_file($template_view) == true) {\n\n				$render_file = $template_view;\n			} else {\n\n\n\n\n\n\n				$dn = dirname($template_view);\n				$dn1 = $dn . DS;\n				$f1 = $dn1 . 'inner.php';\n\n				if (is_file($f1) == true) {\n					$render_file = $f1;\n				} else {\n					$dn = dirname($dn);\n					$dn1 = $dn . DS;\n					$f1 = $dn1 . 'inner.php';\n\n					if (is_file($f1) == true) {\n						$render_file = $f1;\n					} else {\n						$dn = dirname($dn);\n						$dn1 = $dn . DS;\n						$f1 = $dn1 . 'inner.php';\n\n						if (is_file($f1) == true) {\n							$render_file = $f1;\n						}\n					}\n				}\n\n\n\n			}\n		}\n\n\n\n		if ($render_file == false) {\n			if (strtolower($page['active_site_template']) == 'default') {\n				$template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];\n			} else {\n				$template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];\n			}\n\n			if (is_file($template_view) == true) {\n				$render_file = $template_view;\n			} else {\n\n\n				if (trim($page['active_site_template']) != 'default') {\n					$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] .DS  . 'use_default_layouts.php';\n\n\n					if (is_file($use_default_layouts)) {\n						$page['active_site_template'] = 'default';\n\n					}\n\n\n				}\n\n\n			}\n		}\n\n	}\n\n\n\n\n	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {\n		$template_view = ACTIVE_TEMPLATE_DIR . 'index.php';\n		if (is_file($template_view) == true) {\n			$render_file = $template_view;\n		}\n	}\n\n	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {\n		$template_view = ACTIVE_TEMPLATE_DIR . 'index.php';\n		if (is_file($template_view) == true) {\n			$render_file = $template_view;\n		}\n	}\n	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {\n		$template_view = ACTIVE_TEMPLATE_DIR . 'index.html';\n		if (is_file($template_view) == true) {\n			$render_file = $template_view;\n		}\n	}\n\n	if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {\n		$template_view = ACTIVE_TEMPLATE_DIR . 'index.htm';\n		if (is_file($template_view) == true) {\n			$render_file = $template_view;\n		}\n	}\n\n	if($template_view_set_inner != false){\n		$template_view_set_inner = normalize_path($template_view_set_inner, false);\n		if (is_file($template_view_set_inner) == true) {\n			$render_file = $template_view_set_inner;\n		}\n	//d($template_view_set_inner);\n	}\n\n	//    if (trim($page['layout_name']) != '') {\n	//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['layout_name'] . DS . 'index.php';\n	//        // d($template_view);\n	//        if (is_file($template_view) == true) {\n	//            $render_file = $template_view;\n	//        }\n	//    }\n	//\n	//    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {\n	//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';\n	//        if (is_file($template_view) == true) {\n	//            $render_file = $template_view;\n	//        }\n	//    }\n	//\n	//    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {\n	//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';\n	//        if (is_file($template_view) == true) {\n	//            $render_file = $template_view;\n	//        }\n	//    }\n	//\n	//    if ($render_file == false and ($page['layout_name']) == false and ($page['layout_style']) == false) {\n	//        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';\n	//        if (is_file($template_view) == true) {\n	//            $render_file = $template_view;\n	//        }\n	//    }\n	if (isset($page['custom_view']) and isset($render_file)) {\n		$check_custom = dirname($render_file) . DS;\n		$cv = trim($page['custom_view']);\n		$cv = str_replace('..', '', $cv);\n		$cv = str_ireplace('.php', '', $cv);\n		$check_custom_f = $check_custom . $cv . '.php';\n		if (is_file($check_custom_f)) {\n			$render_file = $check_custom_f;\n		}\n		//d($check_custom_f);\n\n	}\n	if ($render_file == false and ($page['layout_file']) != false) {\n		$template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];\n		$template_view = normalize_path($template_view, false);\n\n		if (is_file($template_view) == true) {\n			$render_file = $template_view;\n		} else {\n\n		}\n	}\n	cache_store_data($render_file, $cache_id, $cache_group);\n\n	return $render_file;\n}\n\nfunction homepage_link() {\n	$hp = get_homepage();\n	return content_link($hp['id']);\n}\n\nfunction get_homepage() {\n\n	// ->'table_content';\n	$table = MW_TABLE_PREFIX . 'content';\n\n	$sql = \"SELECT * from $table where is_home='y'  order by updated_on desc limit 0,1 \";\n\n	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');\n	// var_dump($q);\n	$result = $q;\n\n	$content = $result[0];\n\n	return $content;\n}\n\nfunction get_content_by_url($url = '', $no_recursive = false) {\n	return get_page_by_url($url, $no_recursive);\n}\n\nfunction get_page_by_url($url = '', $no_recursive = false) {\n	if (strval($url) == '') {\n\n		$url = url_string();\n	}\n\n	$u1 = $url;\n	$u2 = site_url();\n\n	$u1 = rtrim($u1, '\\\\');\n	$u1 = rtrim($u1, '/');\n\n	$u2 = rtrim($u2, '\\\\');\n	$u2 = rtrim($u2, '/');\n	$u1 = str_replace($u2, '', $u1);\n	$u1 = ltrim($u1, '/');\n	$url = $u1;\n//d($url);\n	// ->'table_content';\n	$table = MW_TABLE_PREFIX . 'content';\n\n	// $url = strtolower($url);\n	//  $url = string_clean($url);\n	$url = db_escape_string($url);\n	$url = addslashes($url);\n\n	$url12 = parse_url($url);\n	if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {\n\n		$u1 = site_url();\n		$u2 = str_replace($u1, '', $url);\n		$current_url = explode('?', $u2);\n		$u2 = $current_url[0];\n		$url = ($u2);\n	} else {\n		$current_url = explode('?', $url);\n		$u2 = $current_url[0];\n		$url = ($u2);\n	}\n	$url = rtrim($url, '?');\n	$url = rtrim($url, '#');\n	$sql = \"SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 \";\n	// d($sql);\n	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');\n\n	$result = $q;\n\n	$content = $result[0];\n\n	if (!empty($content)) {\n\n		$get_by_id = get_content_by_id($content['id']);\n\n		return $get_by_id;\n	}\n\n	if ($no_recursive == false) {\n\n		if (empty($content) == true) {\n\n			// /var_dump ( $url );\n\n			$segs = explode('/', $url);\n\n			$segs_qty = count($segs);\n\n			for ($counter = 0; $counter <= $segs_qty; $counter += 1) {\n\n				$test = array_slice($segs, 0, $segs_qty - $counter);\n\n				$test = array_reverse($test);\n\n				if (isset($test[0])) {\n					$url = get_page_by_url($test[0], true);\n				}\n				if (!empty($url)) {\n\n					return $url;\n				}\n\n\n			}\n		}\n	} else {\n		$content['id'] = ((int)$content['id']);\n		$get_by_id = get_content_by_id($content['id']);\n\n		return $get_by_id;\n	}\n}\n\n/**\n * Function to get single content item by id from the content_table\n *\n * @param\n *        	int\n * @return array\n * @author Peter Ivanov\n *\n */\nfunction get_content_by_id($id) {\n\n\n	// ->'table_content';\n	$table = MW_TABLE_PREFIX . 'content';\n\n	$id = intval($id);\n	if ($id == 0) {\n		return false;\n	}\n\n	$q = \"SELECT * from $table where id='$id'  limit 0,1 \";\n\n	$params = array();\n	$params['id'] = $id;\n	$params['limit'] = 1;\n	$params['table'] = $table;\n	$params['cache_group'] = 'content/'.$id;\n\n\n	$q = get($params);\n\n	//  $q = db_get($table, $params, $cache_group = 'content/' . $id);\n	//  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);\n	if (isset($q[0])) {\n		$content = $q[0];\n	} else {\n		return false;\n	}\n	return $content;\n}\n\nfunction get_page($id = false) {\n	if ($id == false) {\n		return false;\n	}\n\n	// $CI = get_instance ();\n	if (intval($id) != 0) {\n		$page = get_content_by_id($id);\n\n		if (empty($page)) {\n			$page = get_content_by_url($id);\n		}\n	} else {\n		if (empty($page)) {\n			$page = array();\n			$page['layout_name'] = trim($id);\n\n			$page = get_pages($page);\n			$page = $page[0];\n		}\n	}\n\n	return $page;\n\n	// $link = get_instance()->content_model->getContentURLByIdAndCache (\n	// $link['id'] );\n}\n\napi_expose('reorder_content');\nfunction reorder_content()\n{\n	$id = is_admin();\n	if ($id == false) {\n		exit('Error: not logged in as admin.');\n	}\n	$ids = $_POST['ids'];\n	if (empty($ids)) {\n		$ids = $_POST[0];\n	}\n	if (empty($ids)) {\n		exit();\n	}\n	$ids = array_unique($ids);\n	$ids_implode = implode(',', $ids);\n\n\n\n\n	$table = MW_TABLE_PREFIX . 'content';\n\n\n\n	$q = \" SELECT id, created_on from $table where id IN ($ids_implode)  order by created_on DESC  \";\n	$q = db_query($q);\n	$max_date = $q[0]['created_on'];\n	$max_date_str = strtotime($max_date);\n	$i = 1;\n	foreach ($ids as $id) {\n		$max_date_str = $max_date_str - $i;\n		$nw_date = date('Y-m-d H:i:s', $max_date_str);\n		$q = \" UPDATE $table set created_on='$nw_date' where id = '$id'    \";\n             //var_dump($q);\n		$q = db_q($q);\n		$i++;\n	}\n       //\n        // var_dump($q);\n	cache_clean_group('content/global');\n	cache_clean_group('taxonomy/global');\n	exit();\n}\n\napi_expose('get_content_admin');\n\nfunction get_content_admin($params) {\n	if (is_admin() == false) {\n		return false;\n	}\n\n	return get_content($params);\n}\n\n\n\n/**\n *\n * Function to get single content item by id from the content_table\n *\n * @access public\n * @package content\n *\n * @author Peter Ivanov\n * @version 1.0\n *\n *\n * @see db#get\n * @since 0.320\n * @return mixed Array with posts or false\n * @param array $params parameters for the DB\n *\n */\n\n\napi_expose('get_content');\n\nfunction get_content($params) {\n\n	if(defined('MW_API_CALL')){\n		if (isset($_REQUEST['api_key']) and is_admin() == 0) {\n			api_login($_REQUEST['api_key']);\n			if(is_admin() == 0){\n				return false;\n			}\n		}\n\n	}\n\n\n	$params2 = array();\n\n	if (is_string($params)) {\n		$params = parse_str($params, $params2);\n		$params = $params2;\n	}\n\n	$function_cache_id = false;\n\n	$args = func_get_args();\n\n	foreach ($args as $k => $v) {\n\n		$function_cache_id = $function_cache_id . serialize($params);\n	}\n\n	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);\n	$cache_content = false;\n	// $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');\n	if (($cache_content) == '--false--') {\n		//return false;\n	}\n	// $cache_content = false;\n	if (($cache_content) != false) {\n\n		//	return $cache_content;\n	} else {\n\n		// $params['orderby'];\n		if (isset($params['orderby'])) {\n			$orderby = $params['orderby'];\n		}\n		if (isset($orderby) == false) {\n			$orderby = array();\n			$orderby[0] = 'created_on';\n\n			$orderby[1] = 'DESC';\n		}\n		$cache_group = 'content/global';\n		if (isset($params['cache_group'])) {\n			$cache_group = $params['cache_group'];\n		}\n\n\n		if (isset($params['limit'])) {\n			$limit = $params['limit'];\n		} else {\n			$limit = array();\n			$limit[0] = '0';\n\n			$limit[1] = '30';\n		}\n		// $params['debug'] = 1;\n		// d($table);\n\n\n		$table = MW_TABLE_PREFIX . 'content';\n		$get = db_get($table, $params, $cache_group );\n		if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {\n			return $get;\n		}\n		if (!empty($get)) {\n			$data2 = array();\n			foreach ($get as $item) {\n				if (isset($item['url'])) {\n					//$item['url'] = page_link($item['id']);\n					$item['url'] = site_url($item['url']);\n				}\n				$data2[] = $item;\n			}\n			$get = $data2;\n			//  cache_store_data($get, $function_cache_id, $cache_group = 'content/global');\n\n			return $get;\n		} else {\n			// cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');\n\n			return FALSE;\n		}\n	}\n}\n\nfunction post_link($id = false) {\n	if (is_string($id)) {\n		// $link = page_link_to_layout ( $id );\n	}\n	if ($id == false) {\n		if (defined('PAGE_ID') == true) {\n			$id = PAGE_ID;\n		}\n	}\n\n	$link = get_content_by_id($id);\n	if (strval($link) == '') {\n		$link = get_page_by_url($id);\n	}\n	$link = site_url($link['url']);\n	return $link;\n}\n\napi_expose('content_link');\n\nfunction content_link($id = false) {\n	if (is_string($id)) {\n		// $link = page_link_to_layout ( $id );\n	}\n	if ($id == false) {\n		if (defined('PAGE_ID') == true) {\n			$id = PAGE_ID;\n		}\n	}\n	if($id == 0){\n		return site_url();\n	}\n\n	$link = get_content_by_id($id);\n	if (strval($link['url']) == '') {\n		$link = get_page_by_url($id);\n	}\n	$link = site_url($link['url']);\n	return $link;\n}\n\nfunction page_link($id = false) {\n	if (is_string($id)) {\n		// $link = page_link_to_layout ( $id );\n	}\n	if ($id == false) {\n		if (defined('PAGE_ID') == true) {\n			$id = PAGE_ID;\n		}\n	}\n\n	$link = get_content_by_id($id);\n	if (isset($link['url'])) {\n		if (strval($link['url']) == '') {\n			$link = get_page_by_url($id);\n		}\n		$link = site_url($link['url']);\n		return $link;\n	} else {\n		$link = site_url();\n		return $link;\n	}\n}\n\n/**\n * get_posts\n *\n * get_posts is used to get content by parameters\n *\n * @category posts\n *\n *\n */\n\nfunction get_posts($params = false) {\n	$params2 = array();\n\n	if (is_string($params)) {\n		$params = parse_str($params, $params2);\n		$params = $params2;\n	}\n\n	// $params\n	return get_content($params);\n}\n\nfunction paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword') {\n\n	// getCurentURL()\n	if ($base_url == false) {\n		/*if (PAGE_ID != false and CATEGORY_ID == false) {\n			$base_url = page_link(PAGE_ID);\n\n			// p($base_url);\n		} elseif (PAGE_ID != false and CATEGORY_ID != false) {\n			$base_url = category_link(CATEGORY_ID);\n		} else {\n\n			// $base_url =  full_url(true);\n		}*/\n\n		if (isAjax() == false) {\n			$base_url = curent_url(1);\n\n		} else {\n			if ($_SERVER['HTTP_REFERER'] != false) {\n				$base_url = $_SERVER['HTTP_REFERER'];\n			}\n		}\n\n\n	}\n\n	// print $base_url;\n\n	$page_links = array();\n\n// $the_url = parse_url($base_url, PHP_URL_QUERY);\n\n	//$the_url = parse_url($base_url);\n	$the_url = $base_url;\n\n	$append_to_links  = '';\n	if (strpos($the_url, '?')) {\n		$the_url= substr($the_url, 0, strpos($the_url, '?'));\n//$append_to_links = str_replace($the_url, '', $base_url);\n\n\n	}\n\n	//\n	//\n	//\n	//\n	if(isset($_GET) and !empty($_GET)){\n		 // $append_to_links  = '?'.  http_build_query($_GET);\n	}\n\n\n	$the_url = explode('/', $the_url);\n\n	// var_dump ( $the_url );\n\n	for ($x = 1; $x <= $pages_count; $x++) {\n\n		$new_url = array();\n\n		$new = array();\n\n		foreach ($the_url as $itm) {\n\n			$itm = explode(':', $itm);\n\n			if ($itm[0] == $paging_param) {\n\n				$itm[1] = $x;\n			}\n\n			$new[] = implode(':', $itm);\n		}\n\n		$new_url = implode('/', $new);\n\n		// var_dump ( $new_url);\n\n		$page_links[$x] = $new_url.$append_to_links;\n	}\n\n	for ($x = 1; $x <= count($page_links); $x++) {\n\n		if (stristr($page_links[$x], $paging_param . ':') == false) {\n\n			$l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);\n			$l = str_ireplace('module/', '', $l);\n			$page_links[$x] = $l.$append_to_links;\n		}\n	}\n\n	return $page_links;\n}\n\n/**\n * paging\n *\n * paging\n *\n * @access public\n * @category posts\n * @author Microweber\n * @link\n *\n * @param $display =\n *        	'default' //sets the default paging display with <ul> and </li>\n *        	tags. If $display = false, the function will return the paging\n *        	array which is the same as $posts_pages_links in every template\n *\n *\n */\nfunction paging($params) {\n	$params = parse_params($params);\n	$pages_count = 1;\n	$base_url = false;\n	$paging_param = 'curent_page';\n	$keyword_param = 'keyword_param';\n	if(isset($params['num'])){\n		$pages_count = $params['num'];\n	}\n\n\n	if(isset($params['num'])){\n		$pages_count = $params['num'];\n	}\n\n	if(isset($params['paging_param'])){\n		$paging_param = $params['paging_param'];\n	}\n\n	$data = paging_links($base_url, $pages_count, $paging_param,$keyword_param);\n	if(isarr($data)){\n		$to_print = \"<ul>\";\n		foreach ($data as $key => $value) {\n			$to_print .= \"<li>\";\n			$to_print .= \"<a href=\\\"$value\\\">$key</a> \";\n			$to_print .= \"</li>\";\n		}\n		$to_print .= \"</ul>\";\n		return  $to_print;\n	}\n\n\n}\n\n/**\n * cf_val\n *\n * Returns custom field value\n *\n * @return string or array\n * @author Peter Ivanov\n */\nfunction custom_field_value($content_id, $field_name, $use_vals_array = true) {\n	$fields = get_custom_fields_for_content($content_id);\n	if (empty($fields)) {\n		return false;\n	}\n	// p($fields);\n	foreach ($fields as $field) {\n		if ((strtolower($field_name)) == strtolower($field['custom_field_name'])) {\n\n			if (!empty($field['custom_field_values']) and $use_vals_array == true) {\n				return $field['custom_field_values'];\n			}\n\n			if ($field['custom_field_value'] != 'Array' and $field['custom_field_value'] != '') {\n				return $field['custom_field_value'];\n			} else {\n\n				if ($field['custom_field_values']) {\n					return $field['custom_field_values'];\n				}\n			}\n\n			// p ( $field );\n		}\n	}\n}\n\nfunction custom_fields_content($content_id, $field_type = false, $full = true) {\n	return get_custom_fields_for_content($content_id, $full, $field_type);\n}\n\nfunction get_custom_fields_for_content($content_id, $full = true, $field_type = false) {\n	$more = false;\n	$more = get_custom_fields('table_content', $content_id, $full, false, false, $field_type);\n\n	return $more;\n}\n\n\n\nfunction save_edit($post_data) {\n	$id = is_admin();\n	if ($id == false) {\n		exit('Error: not logged in as admin.');\n	}\n	if ($post_data) {\n		if (isset($post_data['json_obj'])) {\n			$obj = json_decode($post_data['json_obj'], true);\n			$post_data = $obj;\n		}\n		// p($post_data);\n		if (isset($post_data['mw_preview_only'])) {\n			$is_no_save = true;\n			unset($the_field_data_all['mw_preview_only']);\n		}\n		$is_no_save = false;\n		$the_field_data_all = $post_data;\n	} else {\n		exit('Error: no POST?');\n	}\n	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];\n	if ($ref_page != '') {\n		$ref_page = $the_ref_page = get_content_by_url($ref_page);\n\n		if($ref_page == false){\n\n\n			$guess_page_data = new MwController();\n			$guess_page_data->page_url =  $ref_page_url;\n			$guess_page_data->return_data = true;\n			$guess_page_data->create_new_page = true;\n			$pd = $guess_page_data->index();\n			if(isarr($pd) and isset($pd[\"active_site_template\"])){\n				$save_page = $pd;\n				$save_page['url'] = url_string(1);\n				$save_page['title'] = url_title(url_string(1));\n				$page_id = save_content($save_page);\n			//	d($save_page);\n			}\n			//d($pd);\n\n			// d($ref_page_url);\n		} else {\n			$page_id = $ref_page['id'];\n			$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);\n		}\n	}\n\n	$json_print = array();\n	foreach ($the_field_data_all as $the_field_data) {\n		$save_global = false;\n		$save_layout = false;\n		if (!empty($the_field_data)) {\n			$save_global = false;\n			if ($the_field_data['attributes']) {\n				// $the_field_data ['attributes'] = json_decode($the_field_data\n				// ['attributes']);\n				// var_dump($the_field_data ['attributes']);\n			}\n			$content_id = $page_id;\n\n			/*\n			 * if (intval ( $the_field_data ['attributes'] ['page'] ) != 0) {\n			 * $page_id = intval ( $the_field_data ['attributes'] ['page'] );\n			 * $the_ref_page = get_page ( $page_id ); } if (intval (\n			 * $the_field_data ['attributes'] ['post'] ) != 0) { $post_id =\n			 * intval ( $the_field_data ['attributes'] ['post'] ); $content_id =\n			 * $post_id; $the_ref_post = get_content_by_id ( $post_id ); } if\n			 * (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {\n			 * $category_id = intval ( $the_field_data ['attributes']\n			 * ['category'] ); } $page_element_id = false; if (strval (\n			 * $the_field_data ['attributes'] ['id'] ) != '') { $page_element_id\n			 * = ($the_field_data ['attributes'] ['id']); } if (($the_field_data\n			 * ['attributes'] ['global']) != false) { $save_global = true; } if\n			 * (($the_field_data ['attributes'] ['rel']) == 'global') {\n			 * $save_global = true; $save_layout = false; } if (trim (\n			 * $the_field_data ['attributes'] ['rel'] ) == 'layout') {\n			 * $save_global = false; $save_layout = true; // p($the_field_data\n			 * ['attributes'] ['rel']); } if (($the_field_data ['attributes']\n			 * ['rel']) == 'post') { if ($ref_page != '') { $save_global =\n			 * false; $ref_post = $the_ref_post = get_ref_post (); // p (\n			 * $ref_post ); $post_id = $ref_post ['id']; $page_id = $ref_page\n			 * ['id']; $content_id = $post_id; } } if (($the_field_data\n			 * ['attributes'] ['rel']) == 'page') { p ( $_SERVER ); if\n			 * ($ref_page != '') { $save_global = false; $ref_page =\n			 * $the_ref_page = get_ref_page (); $page_id = $ref_page ['id'];\n			 * $content_id = $page_id; } } if (($the_field_data ['attributes']\n			 * ['rel']) == 'PAGE_ID') { // p ( $_SERVER ); if ($ref_page != '')\n			 * { $save_global = false; $ref_page = $the_ref_page = get_ref_page\n			 * (); $page_id = $ref_page ['id']; $content_id = $page_id; } } if\n			 * (($the_field_data ['attributes'] ['rel']) == 'POST_ID') { // p (\n			 * $_SERVER ); if ($ref_page != '') { $save_global = false;\n			 * $ref_page = $the_ref_page = get_ref_page (); $page_id = $ref_page\n			 * ['id']; $content_id = $page_id; } }\n			 */\n			$some_mods = array();\n			if (($the_field_data['attributes'])) {\n				if (($the_field_data['html']) != '') {\n					$field = false;\n					if (isset($the_field_data['attributes']['field'])) {\n						$field = trim($the_field_data['attributes']['field']);\n					}\n\n					if (isset($the_field_data['attributes']['data-field'])) {\n						$field = $the_field_data['attributes']['field'] = trim($the_field_data['attributes']['data-field']);\n					}\n\n					if ($field == false) {\n						if (isset($the_field_data['attributes']['id'])) {\n						//	$the_field_data['attributes']['field'] = $field = $the_field_data['attributes']['id'];\n						}\n					}\n\n					if (($field != false)) {\n						$page_element_id = $field;\n					}\n\n					$save_global = false;\n					if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {\n						$save_global = true;\n						// p($the_field_data ['attributes'] ['rel']);\n					} else {\n						$save_global = false;\n					}\n					if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'layout') {\n						$save_global = false;\n						$save_layout = true;\n					} else {\n						$save_layout = false;\n					}\n					if(!isset($the_field_data['attributes']['data-id'])){\n						$the_field_data['attributes']['data-id'] = $content_id;\n					}\n\n					$save_global = 1;\n\n					if (isset($the_field_data['attributes']['rel']) and isset($the_field_data['attributes']['data-id'])) {\n\n\n\n						$rel_ch = trim($the_field_data['attributes']['rel']);\n						switch ($rel_ch) {\n							case 'content':\n\n							$save_global = false;\n							$save_layout = false;\n							$content_id = $the_field_data['attributes']['data-id'];\n							break;\n							case 'page':\n							case 'post':\n							$save_global = false;\n							$save_layout = false;\n							$content_id = $page_id;\n							break;\n\n\n							default:\n\n							break;\n						}\n\n\n\n					}\n					$inh = false;\n					if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'inherit') {\n\n\n						$save_global = false;\n						$save_layout = false;\n						$content_id = $page_id;\n\n						$inh = content_get_inherited_parent($page_id);\n						if($inh != false){\n							$content_id_for_con_field = $content_id = $inh;\n							//	d($content_id);\n						}\n\n					}\n\n\n\n\n\n\n\n\n					$save_layout = false;\n					if($inh  == false){\n						if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){\n							$content_id_for_con_field = intval($ref_page['parent']);\n						// d($content_id);\n						} else {\n							$content_id_for_con_field = intval($ref_page['id']);\n\n						}\n					}\n					$html_to_save = $the_field_data['html'];\n					$html_to_save = $content = make_microweber_tags($html_to_save);\n					if ($save_global == false and $save_layout == false) {\n						if ($content_id) {\n\n							$for_histroy = $ref_page;\n							$old = false;\n							$field123 = str_ireplace('custom_field_', '', $field);\n\n							if (stristr($field, 'custom_field_')) {\n\n								$old = $for_histroy['custom_fields'][$field123];\n							} else {\n\n								if (isset($for_histroy['custom_fields'][$field123])) {\n									$old = $for_histroy['custom_fields'][$field123];\n								} elseif (isset($for_histroy[$field])) {\n									$old = $for_histroy[$field];\n								}\n							}\n							$history_to_save = array();\n							$history_to_save['table'] = 'table_content';\n							$history_to_save['id'] = $content_id;\n							$history_to_save['value'] = $old;\n							$history_to_save['field'] = $field;\n							// p ( $history_to_save );\n							if ($is_no_save != true) {\n								save_history($history_to_save);\n							}\n							$cont_field = array();\n							$cont_field['to_table'] = 'table_content';\n							$cont_field['to_table_id'] = $content_id_for_con_field;\n							$cont_field['value'] = $html_to_save;\n							$cont_field['field'] = $field;\n							if($field != 'content'){\n							//	d($cont_field);\n								$cont_field = save_content_field($cont_field);\n							}\n							$to_save = array();\n							$to_save['id'] = $content_id;\n\n						// $to_save['debug'] = $content_id;\n\n							$to_save['page_element_id'] = $page_element_id;\n\n							$is_native_fld = db_get_table_fields('table_content');\n							if (in_array($field, $is_native_fld)) {\n								$to_save[$field] = ($html_to_save);\n							} else {\n\n								$to_save['custom_fields'][$field] = ($html_to_save);\n							}\n\n\n							if ($is_no_save != true) {\n								$json_print[] = $to_save;\n\n								$saved = save_content($to_save);\n							}\n						} else if (isset($category_id)) {\n							print(__FILE__ . __LINE__ . ' category is not implemented not ready yet');\n						}\n					} else {\n\n						$cont_field = array();\n						$cont_field['to_table'] = $the_field_data['attributes']['rel'];\n						$cont_field['to_table_id'] = 0;\n						if($cont_field['to_table'] != 'global' and isset($the_field_data['attributes']['data-id'])){\n							$cont_field['to_table_id'] = $the_field_data['attributes']['data-id'];\n						}\n						$cont_field['value'] = make_microweber_tags($html_to_save);;\n						if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){\n							$the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];\n						}\n						$cont_field['field'] = $the_field_data['attributes']['field'];\n\n\n							 	  //d($cont_field);\n\n\n						if($field != 'content'){\n\n							$cont_field_new = save_content_field($cont_field);\n\n						}\n\n\n\n\n						if ($save_global == true and $save_layout == false) {\n\n							/*\n							if (isset($the_field_data['attributes']['data-option_group'])) {\n															$og = $the_field_data['attributes']['data-option_group'];\n														} else {\n															$og = 'editable_region';\n														}\n\n														$field_content = get_option($the_field_data['attributes']['field'], $og, $return_full = true, $orderby = false);\n														$html_to_save = make_microweber_tags($html_to_save);\n														// p($html_to_save,1);\n														$to_save = $field_content;\n														$to_save['option_key'] = $the_field_data['attributes']['field'];\n														$to_save['option_value'] = $html_to_save;\n														//  $to_save['option_key2'] = 'editable_region';\n														$to_save['option_group'] = $og;\n														$to_save['page_element_id'] = $page_element_id;\n\n														if (isset($the_field_data['attributes']['data-module'])) {\n															$to_save['module'] = $the_field_data['attributes']['data-module'];\n														}\n\n														$opts_saved = true;\n\n\n							if ($is_no_save != true) {\n								save_option($to_save);\n							}\n							 * */\n							$json_print[] = $cont_field;\n							$history_to_save = array();\n							$history_to_save['table'] = 'global';\n							// $history_to_save ['id'] = 'global';\n							$history_to_save['value'] = $cont_field['value'] ;\n							$history_to_save['field'] = $field;\n							$history_to_save['page_element_id'] = $page_element_id;\n\n							if ($is_no_save != true) {\n								save_history($history_to_save);\n								//  $this->core_model->saveHistory($history_to_save);\n							}\n						}\n						if ($save_global == false and $save_layout == true) {\n\n							$d = TEMPLATE_DIR . 'layouts' . DIRECTORY_SEPARATOR . 'editable' . DIRECTORY_SEPARATOR;\n							$f = $d . $ref_page['id'] . '.php';\n							if (!is_dir($d)) {\n								mkdir_recursive($d);\n							}\n\n							file_put_contents($f, $html_to_save);\n						}\n					}\n				}\n			} else {\n\n			}\n		}\n	}\n	if (isset($opts_saved)) {\n		cache_clean_group('options');\n	}\n	header('Cache-Control: no-cache, must-revalidate');\n	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');\n	header('Content-type: application/json');\n\n	$json_print = json_encode($json_print);\n\n	$history_to_save = array();\n	$history_to_save['table'] = 'edit';\n	$history_to_save['id'] = (parse_url(strtolower($_SERVER['HTTP_REFERER']), PHP_URL_PATH));\n	$history_to_save['value'] = $json_print;\n	$history_to_save['field'] = 'html_content';\n	save_history($history_to_save);\n	// }\n	print $json_print;\n	//cache_clean_group('global/blocks');\n	exit();\n}\n\napi_expose('delete_content');\n\nfunction delete_content($data) {\n\n	$adm = is_admin();\n	if ($adm == false) {\n		error('Error: not logged in as admin.');\n	}\n\n	if (isset($data['id'])) {\n		$c_id = intval($data['id']);\n		db_delete_by_id('table_content', $c_id);\n	}\n\n	if (isset($data['ids']) and isarr($data['ids'])) {\n		foreach ($data['ids'] as   $value) {\n			$c_id = intval($value);\n			db_delete_by_id('table_content', $c_id);\n		}\n\n	}\n}\n\n/**\n * Function to save content into the content_table\n *\n * @param\n *        	array\n *\n * @param\n *        	boolean\n *\n * @return string | the id saved\n *\n * @author Peter Ivanov\n *\n * @version 1.0\n *\n * @since Version 1.0\n *\n */\napi_expose('save_content');\n\nfunction save_content($data, $delete_the_cache = true) {\n\n	$adm = is_admin();\n	$table = MW_TABLE_PREFIX . 'content';\n	$checks = mw_var('FORCE_SAVE_CONTENT');\n\n	if($checks != $table){\n		if ($adm == false) {\n			error('Error: not logged in as admin.');\n		}\n	}\n	$cats_modified = false;\n\n\n\n\n	if (empty($data) or !isset($data['id'])) {\n\n		return false;\n	}\n\n	if(isset($data['content_url']) and !isset($data['url'])){\n		$data['url'] = $data['content_url'];\n	}\n	$data_to_save = $data;\n\n	$more_categories_to_delete = array();\n	if (!isset($data['url']) and intval($data['id']) != 0) {\n\n		$q = \"SELECT * from $table where id='{$data_to_save['id']}' \";\n\n		$q = db_query($q);\n\n		$thetitle = $q[0]['title'];\n\n		$q = $q[0]['url'];\n\n		$theurl = $q;\n\n		$more_categories_to_delete = get_categories_for_content($data['id'], 'categories');\n	} else {\n		if(isset($data['url'])){\n			$theurl = $data['url'];\n		} else {\n			$theurl = $data['title'];\n		}\n		$thetitle = $data['title'];\n	}\n\n\n\n	if (isset($data['url']) and (strval($data['url']) == '')) {\n		//$data['url'] = ($thetitle);\n	}\n\n	if (isset($data['url']) and (strval($data['url']) != '')) {\n		//$data['url'] = ($data['url']);\n	}\n\n\n\n	if (isset($data['title'])) {\n		$data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);\n\n		$data['title'] = strip_tags($data['title']);\n	}\n\n	if (isset($data['url']) == false or $data['url'] == '') {\n		if (isset($data['title']) != false and intval ( $data ['id'] ) == 0) {\n			$data['url'] = url_title($data['title']);\n\n\n		}\n	}\n\n\n\n	if (isset($data['url']) != false) {\n		// if (intval ( $data ['id'] ) == 0) {\n		$data_to_save['url'] = $data['url'];\n\n		// }\n	}\n\n	if (isset($data['category']) or isset($data['categories'])) {\n		$cats_modified = true;\n	}\n	$table_cats = MW_TABLE_PREFIX . 'taxonomy';\n\n	if (isset($data['url']) and $data['url'] != false) {\n		//$data['url'] = url_title($data['url']);\n\n		if (trim($data['url']) == '') {\n\n			$data['url'] = url_title($data['title']);\n		}\n\n		$date123 = date(\"YmdHis\");\n\n		$q = \"select id, url from $table where url LIKE '{$data ['url']}'\";\n\n		$q = db_query($q);\n\n		if (!empty($q)) {\n\n			$q = $q[0];\n\n			if ($data['id'] != $q['id']) {\n\n				$data['url'] = $data['url'] . '-' . $date123;\n				$data_to_save['url'] = $data['url'];\n			}\n		}\n\n		if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {\n\n			$data_to_save['url'] = $data_to_save['url'] . '-' . $date123;\n		}\n\n		if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and (isset($data_to_save['quick_save']) == false)) {\n\n			$data_to_save['title'] = 'post-' . $date123;\n		}\n		if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {\n			$data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));\n		}\n\n		// $data_to_save ['url_md5'] = md5 ( $data_to_save\n		// ['url'] );\n	}\n\n	$data_to_save_options = array();\n\n	if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {\n		$sql = \"UPDATE $table set is_home='n'   \";\n		$q = db_query($sql);\n	}\n\n	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {\n		$check_ex = false;\n		if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(($data_to_save['subtype_value'])) > 0) {\n\n			$check_ex = get_category_by_id(intval($data_to_save['subtype_value']));\n		}\n		if ($check_ex == false) {\n			if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {\n				$test2 = get_taxonomy('data_type=category&to_table=table_content&to_table_id='.intval(($data_to_save['id'])));\n\n				if(isset($test2[0])){\n					$check_ex = $test2[0];\n					$data_to_save['subtype_value'] =  $test2[0]['id'];\n				}\n\n\n			}\n\n			if ($check_ex == false) {\n\n			}\n\n			unset($data_to_save['subtype_value']);\n		}\n\n\n		if (isset($check_ex) and $check_ex == false) {\n\n			if (!isset($data_to_save['subtype_value_new'])) {\n				if (isset($data_to_save['title'])) {\n					//$cats_modified = true;\n					//$data_to_save['subtype_value_new'] = $data_to_save['title'];\n				}\n			}\n		}\n	}\n\n/*\n	if (isset($data_to_save['subtype_value_new']) and strval($data_to_save['subtype_value_new']) != '') {\n\n\n		if ($data_to_save['subtype_value_new'] != '') {\n\n			if ($adm == true) {\n\n				$new_category = array();\n				$new_category[\"data_type\"] = \"category\";\n				$new_category[\"to_table\"] = \"table_content\";\n				$new_category[\"table\" ] = $table_cats;\n				//$new_category[\"debug\" ] = $table_cats;\n					if (isset($data_to_save['id']) and intval(($data_to_save['id'])) > 0) {\n					$new_category[\"to_table_id\"] = intval(($data_to_save['id']));\n				}\n				$new_category[\"title\"] = $data_to_save['subtype_value_new'];\n				$new_category[\"parent_id\"] = \"0\";\n				$cats_modified = true;\n				//@todo remove code here and around\n				//$new_category = save_category($new_category);\n\n				$data_to_save['subtype_value'] = $new_category;\n				$data_to_save['subtype'] = 'dynamic';\n			}\n		}\n\n		if (isset($data_to_save['taxonomy_categories_str']) and !empty($data_to_save['taxonomy_categories_str'])) {\n			$data_to_save['subtype_value_auto_create'] = $data_to_save['taxonomy_categories_str'];\n\n			if ($adm == true) {\n				if (!is_array($original_data['subtype_value_auto_create'])) {\n\n					$scats = explode(',', $data_to_save['subtype_value_auto_create']);\n				} else {\n\n					$scats = explode(',', $data_to_save['subtype_value_auto_create']);\n				}\n				if (!empty($scats)) {\n					foreach ($scats as $sc) {\n						$new_scategory = array();\n						$new_scategory[\"data_type\"] = \"category\";\n						$new_scategory[\"title\"] = $sc;\n						$new_scategory[\"to_table\"] = \"table_content\";\n				$new_scategory[\"table\" ] = $table_cats;\n						$new_scategory[\"parent_id\"] = intval($new_category);\n						$cats_modified = true;\n						//@todo remove code here and around\n					//	$new_scategory = save_category($new_scategory);\n					}\n				}\n			}\n		}\n	}*/\n\n	$par_page = false;\n	if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {\n		if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {\n			$par_page = get_content_by_id($data_to_save['parent']);\n		}\n\n\n\n\n\n\n		if (is_array($par_page)) {\n\n\n\n			if($par_page['subtype'] == 'static'){\n				$par_page_new = array();\n				$par_page_new['id'] = $par_page['id'];\n				$par_page_new['subtype'] = 'dynamic';\n\n				$par_page_new = save_data($table, $par_page_new);\n				$cats_modified = true;\n			}\n			if (!isset($data_to_save['categories'])) {\n				$data_to_save['categories'] = '';\n			}\n			if (is_string($data_to_save['categories'])) {\n				$data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];\n			}\n		}\n		$c1 = false;\n		if (isset($data_to_save['categories']) and $par_page == false) {\n			if (is_string($data_to_save['categories'])) {\n				$c1 = explode(',', $data_to_save['categories']);\n				if (isarr($c1)) {\n					foreach ($c1 as $item) {\n						$item = intval($item);\n						if ($item > 0) {\n							$cont_cat = get_content('limit=1&content_type=page&subtype=dynamic&subtype_value=' . $item);\n						//	d($cont_cat);\n							if (isset($cont_cat[0]) and isarr($cont_cat[0])) {\n								$cont_cat = $cont_cat[0];\n								if (isset($cont_cat[\"subtype_value\"]) and intval($cont_cat[\"subtype_value\"]) > 0) {\n\n\n									$data_to_save['parent'] = $cont_cat[\"id\"];\n									break;\n								}\n							}\n							//\n						}\n					}\n				}\n\n\n			}\n		}\n	}\n\n	if (isset($data_to_save['content'])) {\n		if(trim($data_to_save['content']) == '' or $data_to_save['content'] == false){\n			unset($data_to_save['content']);\n	//	 d($data_to_save);\n		} else {\n			$data_to_save['content'] = make_microweber_tags($data_to_save['content']);\n		}\n	}\n\n //d($data_to_save);\n	$cats_modified = true;\n	$save = save_data($table, $data_to_save);\n\n	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {\n		$new_category = get_categories_for_content($save);\n\n		if ($new_category == false ) {\n		//$new_category_id = intval($new_category);\n			$new_category = array();\n			$new_category[\"data_type\"] = \"category\";\n			$new_category[\"to_table\"] = 'table_content';\n			$new_category[\"to_table_id\"] = $save;\n			$new_category[\"table\" ] = $table_cats;\n			$new_category[\"id\" ] = 0;\n			$new_category[\"title\"] = $data_to_save['title'];\n			$new_category[\"parent_id\"] = \"0\";\n			$cats_modified = true;\n					//	 d($new_category);\n			$new_category = save_category($new_category);\n\n\n		}\n	}\n	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';\n\n	$sid = session_id();\n\n	$id = $save;\n\n	$clean = \" update $custom_field_table set\n	to_table =\\\"table_content\\\"\n	, to_table_id =\\\"{$id}\\\"\n	where\n	session_id =\\\"{$sid}\\\"\n	and (to_table_id=0 or to_table_id IS NULL) and to_table =\\\"table_content\\\"\n\n	\";\n\n\n	db_q($clean);\n	cache_clean_group('custom_fields');\n\n	$media_table =  MW_TABLE_PREFIX . 'media';\n\n	$clean = \" update $media_table set\n\n	to_table_id =\\\"{$id}\\\"\n	where\n	session_id =\\\"{$sid}\\\"\n	and to_table =\\\"table_content\\\" and (to_table_id=0 or to_table_id IS NULL)\n\n	\";\n\n\n	cache_clean_group('media');\n\n	db_q($clean);\n\n	if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {\n		cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));\n	}\n	if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {\n		cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));\n	}\n	cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');\n	cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');\n\n	if ($cats_modified != false) {\n\n		cache_clean_group('taxonomy/global');\n		cache_clean_group('taxonomy_items/global');\n		if (isset($c1) and isarr($c1)) {\n			foreach ($c1 as $item) {\n				$item = intval($item);\n				if ($item > 0) {\n					cache_clean_group('taxonomy/' . $item);\n				}\n			}\n		}\n	}\n	return $save;\n	//exit();\n	// if ($data_to_save ['content_type'] == 'page') {\n	// if (!empty($data_to_save['menus'])) {\n	//\n	// // housekeep\n	//\n	// $this -> removeContentFromUnusedMenus($save, $data_to_save['menus']);\n	//\n	// foreach ($data_to_save ['menus'] as $menu_item) {\n	//\n	// $to_save = array();\n	//\n	// $to_save['item_type'] = 'menu_item';\n	//\n	// $to_save['item_parent'] = $menu_item;\n	//\n	// $to_save['content_id'] = intval($save);\n	//\n	// $to_save['item_title'] = $data_to_save['title'];\n	//\n	// $this -> saveMenu($to_save);\n	//\n	// $this -> core_model -> cleanCacheGroup('menus');\n	// }\n	// }\n	//\n	// // }\n	// // $this->core_model->cacheDeleteAll ();\n	//\n	// if ($data_to_save['preserve_cache'] == false) {\n	// if (intval($data_to_save['parent']) != 0) {\n	// cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));\n	// }\n	// cache_clean_group('content' . DIRECTORY_SEPARATOR . $id);\n	// // cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . '0' );\n	// cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');\n	//\n	// if (!empty($data_to_save['taxonomy_categories'])) {\n	// foreach ($data_to_save ['taxonomy_categories'] as $cat) {\n	//\n	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . intval($cat));\n	// }\n	// // cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );\n	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');\n	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'items');\n	// }\n	//\n	// if (!empty($more_categories_to_delete)) {\n	// foreach ($more_categories_to_delete as $cat) {\n	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . intval($cat));\n	// }\n	// }\n	// }\n	// return $save;\n}\n\n\n	//api_expose('save_content_field');\n\nfunction save_content_field($data, $delete_the_cache = true) {\n\n	$adm = is_admin();\n	$table = MW_DB_TABLE_CONTENT_FIELDS;\n	//$checks = mw_var('FORCE_SAVE_CONTENT');\n\n\n	if ($adm == false) {\n		error('Error: not logged in as admin.');\n	}\n\n	if(!is_array($data)){\n		$data = array();\n	}\n	if(!isset($data['to_table']) or !isset($data['to_table_id'])){\n		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');\n	}\n	//if($data['to_table'] == 'global'){\n	if(isset($data['field'])){\n		$fld = db_escape_string($data['field']);\n		$fld_to_table = db_escape_string($data['to_table']);\n		$del_q = \"delete from {$table} where to_table='$fld_to_table' and  field='$fld' \";\n		if(isset($data['to_table_id'])){\n			$i = db_escape_string($data['to_table_id']);\n			$del_q .= \" and  to_table_id='$i' \";\n\n		} else {\n			$data['to_table_id'] = 0;\n		}\n		$cache_group = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);\n		db_q($del_q);\n		cache_clean_group($cache_group);\n\n\n	}\n	//}\n\n	$save = save_data($table, $data);\n\n\n	return $save;\n\n\n\n}\nfunction get_content_field($data, $debug = false) {\n\n\n	$table = MW_DB_TABLE_CONTENT_FIELDS;\n\n\n	if(is_string($data)){\n		$data = parse_params($data);\n	}\n\n	if(!is_array($data)){\n		$data = array();\n	}\n	// d($data);\n\n\n\n	if(!isset($data['to_table'])){\n		if(isset($data['rel'])){\n			if($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post'){\n				$data['rel']  = 'table_content';\n			}\n			$data['to_table'] = $data['rel'];\n		}\n	}\n	if(!isset($data['to_table_id'])){\n		if(isset($data['data-id'])){\n			$data['to_table_id'] = $data['data-id'];\n		} else {\n\n		}\n	}\n	if(!isset($data['to_table_id'])){\n		$data['to_table_id'] = 0;\n	}\n\n	if(!isset($data['to_table']) or !isset($data['to_table_id'])){\n		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');\n	}\n	//if($data['to_table'] == 'global'){\n	if(isset($data['field'])){\n\n		$data['limit'] = 1;\n		$data['cache_group'] = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);\n\n		$data['one'] = 1;\n		$data['table'] = $table;\n		if($debug!=false){\n			$data['debug'] = 1;\n		}\n		//\n		$get = get($data);\n//	d($get);\n		if(isset($get['value'])){\n			return $get['value'];\n		}\n	}\n	//}\n\n	return false;\n\n\n\n}\n/*\n *\n *\n *\n * Example Usage:\n * pt_opts = array();\n * $pt_opts['link'] = \"{title}\";\n * $pt_opts['list_tag'] = \"ol\";\n * $pt_opts['list_item_tag'] = \"li\";\n *\n *\n * pages_tree($pt_opts);\n *\n *\n *\n *\n * Example Usage to make options for <select>:\n * $pt_opts = array();\n * $pt_opts['link'] = \"{title}\";\n * $pt_opts['list_tag'] = \" \";\n * $pt_opts['list_item_tag'] = \"option\";\n * $pt_opts['active_ids'] = $data['parent'];\n * $pt_opts['active_code_tag'] = '   selected=\"selected\"  ';\n *  pages_tree($pt_opts);\n *\n * 	Other options\n * $pt_opts['parent'] = \"8\"; //\n * $pt_opts['include_first'] =  true; //includes the parent in the tree\n * $pt_opts['id_prefix'] = 'my_id';\n */\n\nfunction pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {\n\n	$params2 = array();\n	$params = false;\n	$output = '';\n	if (is_integer($parent)) {\n\n	} else {\n		$params = $parent;\n		if (is_string($params)) {\n			$params = parse_str($params, $params2);\n			$params = $params2;\n			extract($params);\n		}\n		if (is_array($params)) {\n			$parent = 0;\n			extract($params);\n		}\n	}\n\n	$function_cache_id = false;\n	$args = func_get_args();\n	foreach ($args as $k => $v) {\n		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);\n	}\n	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);\n	if ($parent == 0) {\n		$cache_group = 'content/global';\n	} else {\n		$cache_group = 'content/' . $parent;\n	}\n	if (isset($include_categories) and $include_categories == true) {\n		$cache_group = 'taxonomy/global';\n	}\n\n\n\n	//\n\n	$cache_content = cache_get_content($function_cache_id, $cache_group);\n	$cache_content = false;\n//	if (!isset($_GET['debug'])) {\n	if (($cache_content) != false) {\n		print $cache_content;\n		return;\n			//  return $cache_content;\n	}\n	//}\n	$nest_level = 0;\n\n	if (isset($params['nest_level'])) {\n		$nest_level = $params['nest_level'];\n	}\n	$max_level = false;\n	if (isset($params['max_level'])) {\n		$max_level = $params['max_level'];\n	}\n\n	if ($max_level != false) {\n\n		if (intval($nest_level) >= intval($max_level)) {\n			print '';\n			return;\n		}\n	}\n\n\n\n	$is_shop = '';\n	if (isset($params['is_shop'])) {\n		$is_shop = db_escape_string($params['is_shop']);\n		$is_shop = \" and is_shop='{$is_shop} '\";\n		$include_first = false;\n\n	}\n	$ul_class = 'pages_tree';\n	if (isset($params['ul_class'])) {\n\n		$ul_class_name = $ul_class = $params['ul_class'] ;\n	}\n\n	$li_class = 'pages_tree_item';\n	if (isset($params['li_class'])) {\n\n		$li_class =   $params['li_class'] ;\n	}\n\n\n	ob_start();\n\n\n\n\n\n\n	$table = MW_TABLE_PREFIX . 'content';\n	$par_q = '';\n	if ($parent == false) {\n\n		$parent = (0);\n	} else {\n		$par_q = \" parent=$parent    and  \";\n\n	}\n\n	if ($include_first == true) {\n		$sql = \"SELECT * from $table where  id=$parent    and content_type='page' $is_shop order by created_on desc limit 0,1\";\n		//\n	} else {\n\n		//$sql = \"SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1\";\n		$sql = \"SELECT * from $table where  $par_q  content_type='page' $is_shop  order by created_on desc limit 0,100\";\n	}\n\n	//$sql = \"SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000\";\n\n	$cid = __FUNCTION__ . crc32($sql);\n	$cidg = 'content/' . $parent;\n\n	//$q = db_query($sql, $cid, $cidg);\n	if (!isarr($params)) {\n		$params = array();\n	}\n	if (isset($params['id'])) {\n		unset($params['id']);\n	}\n	if (isset($append_to_link) == false) {\n		$append_to_link = '';\n	}\n	if (isset($id_prefix) == false) {\n		$id_prefix = '';\n	}\n\n	if (isset($link) == false) {\n		$link = '<span data-page-id=\"{id}\" class=\"pages_tree_link {nest_level} {active_class}\" href=\"{link}' . $append_to_link . '\">{title}</span>';\n	}\n\n	if (isset($list_tag) == false) {\n		$list_tag = 'ul';\n	}\n\n	if (isset($active_code_tag) == false) {\n		$active_code_tag = '';\n	}\n\n	if (isset($list_item_tag) == false) {\n		$list_item_tag = 'li';\n	}\n\n	if (isset($remove_ids) and is_string($remove_ids)) {\n		$remove_ids = explode(',', $remove_ids);\n	}\n	if (isset($active_ids)){\n		$active_ids = $active_ids;\n	}\n\n\n	if (isset($active_ids) and is_string($active_ids)) {\n		$active_ids = explode(',', $active_ids);\n	}\n	$the_active_class='active';\n	if (isset($params['active_class'])) {\n		$the_active_class = $params['active_class'];\n	}\n	//	$params['debug'] = $parent;\n	//\n	$params['content_type'] = 'page';\n\n	$include_first_set = false;\n	if ($include_first == true) {\n		$include_first_set = 1;\n		$include_first = false;\n		$params['id'] = $parent;\n		if (isset($params['include_first'])) {\n			unset($params['include_first']);\n		}\n		if (isset($params['parent'])) {\n			//unset($params['parent']);\n		}\n\n\n\n\n\n	} else {\n		// if($parent != 0){\n		$params['parent'] = $parent;\n		// }\n	}\n\n	if(isset($params['is_shop']) and $params['is_shop'] == 'y'){\n		if(isset($params['parent']) and $params['parent'] == 0){\n			unset($params['parent']);\n		}\n\n		if(isset($params['parent']) and $params['parent'] == 'any'){\n			unset($params['parent']);\n\n		}\n\n	} else {\n\n		if(isset($params['parent']) and $params['parent'] == 'any'){\n			$params['parent'] = 0;\n\n		}\n\n\n	}\n\n\n	$params['limit'] = 50;\n	$params['orderby'] = 'created_on desc';\n\n	$params['curent_page'] = 1;\n\n //$params['debug'] = 1;\n\n	$skip_pages_from_tree = false;\n	$params2 = $params;\n	if(isset($params['is_shop']) and $params['is_shop'] == 'y'){\n\n //$max_level = $params2['max_level'] =2;\n // $skip_pages_from_tree = 1;\n	//	unset($params2['parent']);\n//d($params2);\n\n\n	}\n\n	$q = get_content($params2);\n\n	$result = $q;\n\n	if (is_array($result) and !empty($result)) {\n		$nest_level++;\n		if (trim($list_tag) != '') {\n			if ($ul_class_name == false) {\n				print \"<{$list_tag} class='pages_tree depth-{$nest_level}'>\";\n			} else {\n				print \"<{$list_tag} class='{$ul_class_name} depth-{$nest_level}'>\";\n			}\n		}\n		foreach ($result as $item) {\n			$skip_me_cause_iam_removed = false;\n			if (is_array($remove_ids) == true) {\n\n				if (in_array($item['id'], $remove_ids)) {\n\n					$skip_me_cause_iam_removed = true;\n				}\n			}\n\n			if ($skip_me_cause_iam_removed == false) {\n\n				$output = $output . $item['title'];\n\n				$content_type_li_class = false;\n\n				switch ($item ['subtype']) {\n\n					case 'dynamic' :\n					$content_type_li_class = 'have_category';\n\n					break;\n\n					case 'module' :\n					$content_type_li_class = 'is_module';\n\n					break;\n\n					default :\n					$content_type_li_class = 'is_page';\n\n					break;\n				}\n\n				if ($item['is_home'] != 'y') {\n\n				} else {\n\n					$content_type_li_class .= ' is_home';\n				}\n				$st_str = '';\n				$st_str2 = '';\n				$st_str3 = '';\n				if (isset($item['subtype']) and trim($item['subtype']) != '') {\n					$st_str = \" data-subtype='{$item['subtype']}' \";\n				}\n\n				if (isset($item['subtype_value']) and trim($item['subtype_value']) != '') {\n					$st_str2 = \" data-subtype-value='{$item['subtype_value']}' \";\n				}\n\n				if (isset($item['is_shop']) and trim($item['is_shop']) == 'y') {\n					$st_str3 = \" data-is-shop=true \";\n					$content_type_li_class .= ' is_shop';\n				}\n				$iid = $item['id'];\n				$to_pr_2 = \"<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid} {$li_class}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='\".addslashes($item['title']).\"' >\";\n\n				if ($link != false) {\n\n					$to_print = str_ireplace('{id}', $item['id'], $link);\n\n					$to_print = str_ireplace('{title}', $item['title'], $to_print);\n\n					$to_print = str_ireplace('{nest_level}', 'depth-' . $nest_level, $to_print);\n					if (strstr($to_print, '{link}')) {\n						$to_print = str_ireplace('{link}', page_link($item['id']), $to_print);\n					}\n					$empty1 =  intval($nest_level);\n					$empty = '';\n					for ($i1=0; $i1 < $empty1; $i1++) {\n						$empty = $empty.'&nbsp;&nbsp;';\n					}\n					$to_print = str_replace('{empty}', $empty, $to_print);\n\n\n					if (strstr($to_print, '{tn}')) {\n						$to_print = str_ireplace('{tn}', thumbnail($item['id'], 'original'), $to_print);\n					}\n					foreach ($item as $item_k => $item_v) {\n						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);\n					}\n\n					if (is_array($active_ids) == true) {\n\n						$is_there_active_ids = false;\n\n						foreach ($active_ids as $active_id) {\n\n							if (intval($item['id']) == intval($active_id)) {\n\n								$is_there_active_ids = true;\n\n								$to_print = str_ireplace('{active_code}', $active_code, $to_print);\n								$to_print = str_ireplace('{active_class}', $the_active_class, $to_print);\n								$to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);\n								$to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);\n							}\n						}\n\n						if ($is_there_active_ids == false) {\n\n							$to_print = str_ireplace('{active_code}', '', $to_print);\n							$to_print = str_ireplace('{active_class}', '', $to_print);\n							$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);\n							$to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);\n						}\n					} else {\n\n						$to_print = str_ireplace('{active_code}', '', $to_print);\n						$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);\n						$to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);\n					}\n\n					if (is_array($remove_ids) == true) {\n\n						if (in_array($item['id'], $remove_ids)) {\n\n							if ($removed_ids_code == false) {\n\n								$to_print = false;\n							} else {\n								$remove_ids[] = $item['id'];\n								$to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);\n								//$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);\n							}\n						} else {\n\n							$to_print = str_ireplace('{removed_ids_code}', '', $to_print);\n							//$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);\n						}\n					}\n					$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);\n\n					print $to_pr_2;\n					$to_pr_2 = false;\n					print $to_print;\n				} else {\n					$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);\n					print $to_pr_2;\n					$to_pr_2 = false;\n					print $item['title'];\n				}\n\n				if (is_array($params)) {\n					$params['parent'] = $item['id'];\n					if ($max_level != false) {\n						$params['max_level'] = $max_level;\n					}\n					if (isset($params['is_shop'])) {\n						unset($params['is_shop']);\n					}\n\n					//   $nest_level++;\n					$params['nest_level'] = $nest_level;\n\n					if( $skip_pages_from_tree  == false){\n						$children = pages_tree($params);\n					}\n				} else {\n					if( $skip_pages_from_tree  == false){\n						$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);\n					}\n				}\n\n				if (isset($include_categories) and $include_categories == true) {\n\n					$content_cats = array();\n					if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {\n\n					}\n\n\n\n\n					$cat_params = array();\n					if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {\n						//$cat_params['subtype_value'] = $item['subtype_value'];\n					}\n						//$cat_params['try_to_table_id'] = $item['id'];\n\n					if(isset($categores_link)){\n						$cat_params['link'] = $categores_link;\n\n					}\n\n					if(isset($categories_active_ids)){\n						$cat_params['active_ids'] = $categories_active_ids;\n\n					}\n\n					if(isset($active_code)){\n						$cat_params['active_code'] = $active_code;\n\n					}\n\n\n\n\n						//$cat_params['for'] = 'table_content';\n					$cat_params['list_tag'] = $list_tag;\n					$cat_params['list_item_tag'] = $list_item_tag;\n					$cat_params['to_table'] = 'table_content';\n					$cat_params['to_table_id'] = $item['id'];\n\n					$cat_params['include_first'] = 1;\n					$cat_params['nest_level'] = $nest_level;\n					if ($max_level != false) {\n						$cat_params['max_level'] = $max_level;\n					}\n					if (isset($debug)) {\n\n					}\n						 //d($cat_params);\n					category_tree($cat_params);\n\n				}\n			}\n			print \"</{$list_item_tag}>\";\n		}\n		if (trim($list_tag) != '') {\n			print \"</{$list_tag}>\";\n		}\n	} else {\n\n	}\n\n	$content = ob_get_contents();\n//	if (!isset($_GET['debug'])) {\n	cache_store_data($content, $function_cache_id, $cache_group);\n	//}\n	ob_end_clean();\n	print $content;\n	return;\n}\n\nfunction mw_create_default_content($what) {\n\n	switch ($what) {\n		case 'shop' :\n		$is_shop = get_content('content_type=page&is_shop=y');\n			//$is_shop = false;\n		$new_shop = false;\n		if ($is_shop == false) {\n			$add_page = array();\n			$add_page['id'] = 0;\n			$add_page['parent'] = 0;\n\n			$add_page['title'] = \"Online shop\";\n			$add_page['url'] = \"shop\";\n			$add_page['content_type'] = \"page\";\n			$add_page['subtype'] = 'dynamic';\n			$add_page['is_shop'] = 'y';\n			$add_page['active_site_template'] = 'default';\n			$find_layout = layouts_list();\n			if(isarr($find_layout)){\n				foreach ($find_layout as $item) {\n\n//d($item);\n\n					if (isset($item['layout_file']) and isset($item['is_shop']) ) {\n						$add_page['layout_file'] = $item['layout_file'];\n						if (isset($item['name'])) {\n							$add_page['title'] = $item['name'];\n						}\n					}\n				}\n			}\n				//  d($add_page);\n			$new_shop = save_data('table_content',$add_page);\n			clearcache();\n				//\n		} else {\n\n			if(isset($is_shop[0])){\n				$new_shop = $is_shop[0]['id'];\n			}\n		}\n\n		$posts = get_content('content_type=post&parent=' . $new_shop);\n		if ($posts == false and $new_shop != false) {\n			$add_page = array();\n			$add_page['id'] = 0;\n			$add_page['parent'] = $new_shop;\n			$add_page['title'] = \"My product\";\n			$add_page['url'] = \"my-product\";\n			$add_page['content_type'] = \"post\";\n			$add_page['subtype'] = \"product\";\n\n			$new_shop = save_content($add_page);\n			clearcache();\n		}\n\n\n		break;\n\n		case 'default' :\n		case 'install' :\n		$any = get_content('count=1&content_type=page&limit=1');\n		if(intval($any) == 0){\n\n\n			$table = MW_TABLE_PREFIX . 'content';\n			mw_var('FORCE_SAVE_CONTENT', $table);\n			mw_var('FORCE_SAVE', $table);\n\n			$add_page = array();\n			$add_page['id'] = 0;\n			$add_page['parent'] = 0;\n			$add_page['title'] = \"Home\";\n			$add_page['url'] = \"home\";\n			$add_page['content_type'] = \"page\";\n			$add_page['subtype'] = 'static';\n			$add_page['is_shop'] = 'n';\n			$add_page['debug'] = 1;\n			$add_page['is_home'] = 'y';\n			$add_page['active_sitezXSzxcxzczcxxczxzcxzcxzc1_template'] = 'default';\n			$new_shop = save_content($add_page);\n		}\n\n		break;\n\n		default :\n		break;\n	}\n}\n\n\n\n\nfunction get_content_parents($id = 0, $without_main_parrent = false, $data_type = 'category') {\n\n	if (intval($id) == 0) {\n\n		return FALSE;\n	}\n\n	$table =MW_DB_TABLE_CONTENT;\n\n	$ids = array();\n\n	$data = array();\n\n	if (isset($without_main_parrent) and $without_main_parrent == true) {\n\n		$with_main_parrent_q = \" and parent<>0 \";\n	} else {\n\n		$with_main_parrent_q = false;\n	}\n	$id = intval($id);\n	$q = \" select id, parent  from $table where id = $id   $with_main_parrent_q \";\n\n	$taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);\n\n	//var_dump($q);\n	//  var_dump($taxonomies);\n	//  exit;\n\n	if (!empty($taxonomies)) {\n\n		foreach ($taxonomies as $item) {\n\n			if (intval($item['id']) != 0) {\n\n				$ids[] = $item['parent'];\n			}\n			if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {\n				$next = get_content_parents($item['parent'], $without_main_parrent);\n\n				if (!empty($next)) {\n\n					foreach ($next as $n) {\n\n						if ($n != '' and $n != 0) {\n\n							$ids[] = $n;\n						}\n					}\n				}\n			}\n		}\n	}\n\n	if (!empty($ids)) {\n\n		$ids = array_unique($ids);\n\n		return $ids;\n	} else {\n\n		return false;\n	}\n}\n\n\n\nfunction content_get_inherited_parent($content_id){\n\n\n\n	$inherit_from = get_content_parents($content_id);\n\n	$found = 0;\n	if(!empty( $inherit_from )){\n		foreach ( $inherit_from   as $value) {\n			if($found  == 0){\n				$par_c = get_content_by_id($value);\n				if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {\n					return $par_c['id'];\n					$found = 1;\n				}\n			}\n		}\n	}\n\n}",
+			"file": "application/functions/content.php",
+			"file_size": 79528,
+			"file_write_time": 130057499605691716,
+			"settings":
+			{
+				"buffer_size": 76476,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/content/edit_page.php",
+			"settings":
+			{
+				"buffer_size": 28458,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/categories/selector.php",
+			"settings":
+			{
+				"buffer_size": 7408,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/content/manage.php",
+			"settings":
+			{
+				"buffer_size": 11570,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/content/layout_selector.php",
+			"settings":
+			{
+				"buffer_size": 13241,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "application/classes/MwController.php",
 			"settings":
 			{
@@ -24,42 +75,10 @@
 			}
 		},
 		{
-			"file": "application/functions/templates.php",
+			"file": "application/functions/media.php",
 			"settings":
 			{
-				"buffer_size": 7065,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "userfiles/modules/help/index.php",
-			"settings":
-			{
-				"buffer_size": 8139,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "userfiles/modules/files/directory_tree.php",
-			"settings":
-			{
-				"buffer_size": 926,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/functions/cache.php",
-			"settings":
-			{
-				"buffer_size": 22664,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/functions/db.php",
-			"settings":
-			{
-				"buffer_size": 76769,
+				"buffer_size": 10655,
 				"line_ending": "Windows"
 			}
 		},
@@ -67,39 +86,7 @@
 			"file": "application/functions/utils.php",
 			"settings":
 			{
-				"buffer_size": 21746,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "temp.php",
-			"settings":
-			{
-				"buffer_size": 1923,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/functions/content.php",
-			"settings":
-			{
-				"buffer_size": 75605,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/includes/api/events.js",
-			"settings":
-			{
-				"buffer_size": 5256,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "userfiles/templates/apidocs/header.php",
-			"settings":
-			{
-				"buffer_size": 883,
+				"buffer_size": 21931,
 				"line_ending": "Windows"
 			}
 		}
@@ -107,11 +94,15 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 311.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ",
+				"Package Control: Upgrade Package"
+			]
 		],
-		"width": 0.0
+		"width": 640.0
 	},
 	"console":
 	{
@@ -128,6 +119,33 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/php/php.ini",
+		"/C/xampp/htdocs/1k/bootstrap.php",
+		"/C/xampp/htdocs/1k/application/classes/MwController.php",
+		"/C/xampp/htdocs/1k/application/functions/templates.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/help/index.php",
+		"/C/xampp/htdocs/1k/application/functions/cache.php",
+		"/C/xampp/htdocs/1k/application/functions/db.php",
+		"/C/xampp/htdocs/1k/application/functions/utils.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/nav/functions.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/settings/admin.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/settings/list.php",
+		"/C/xampp/htdocs/1k/application/functions/options.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/options/edit.php",
+		"/C/xampp/htdocs/1k/application/functions/modules.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/pictures/admin.php",
+		"/C/xampp/htdocs/1k/application/config_192.168.0.3.php",
+		"/C/xampp/htdocs/1k/application/config.php",
+		"/C/xampp/htdocs/1k/application/includes/api/events.js",
+		"/C/xampp/htdocs/1k/userfiles/modules/help/helpers/pages_tree.php",
+		"/C/xampp/htdocs/1k/userfiles/templates/apidocs/header.php",
+		"/C/xampp/htdocs/1k/application/functions/url.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/files/directory_tree.php",
+		"/C/xampp/htdocs/1k/temp.php",
+		"/C/xampp/htdocs/1k/application/functions/parser/03_default.php",
+		"/C/xampp/htdocs/1k/application/functions/parser/phpQuery.php",
+		"/C/xampp/htdocs/1k/application/functions/menus.php",
+		"/C/xampp/htdocs/1k/application/functions/content.php",
 		"/C/xampp/htdocs/1k/service/ip2country/index.php",
 		"/C/xampp/htdocs/1k/userfiles/templates/apidocs/docs/core/content/content_link.php",
 		"/C/xampp/htdocs/1k/userfiles/templates/apidocs/docs/core/content/_index.php",
@@ -135,7 +153,6 @@
 		"/C/xampp/htdocs/1k/userfiles/templates/apidocs/docs/core/db/get1.php",
 		"/C/xampp/htdocs/1k/userfiles/templates/apidocs/functions/get.php",
 		"/C/xampp/htdocs/1k/mw.sublime-project",
-		"/C/xampp/htdocs/1k/application/functions/url.php",
 		"/C/xampp/htdocs/sublime_php/Data/Packages/SublimeCodeIntel/Base File.sublime-settings",
 		"/C/xampp/htdocs/sublime_php/Data/Packages/User/Default (Windows).sublime-keymap",
 		"/C/xampp/htdocs/sublime_php/Data/Packages/Default/Default (Windows).sublime-keymap",
@@ -158,6 +175,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mw_create_default_content",
+			"default",
+			"defaul",
+			"selector",
+			"get_option_groups",
+			"site_v",
+			"mw_va",
+			"replace_site_vars_back",
 			"+r"
 		],
 		"highlight": true,
@@ -176,827 +201,22 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "application/classes/MwController.php",
+					"file": "userfiles/modules/pictures/admin_backend.php",
 					"settings":
 					{
-						"buffer_size": 33515,
+						"buffer_size": 3724,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7824,
-								7824
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 8620.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "application/functions/templates.php",
-					"settings":
-					{
-						"buffer_size": 7065,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5375,
-								5375
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2421.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "userfiles/modules/help/index.php",
-					"settings":
-					{
-						"buffer_size": 8139,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6213,
-								6075
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3300.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "userfiles/modules/files/directory_tree.php",
-					"settings":
-					{
-						"buffer_size": 926,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								780,
-								780
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "application/functions/cache.php",
-					"settings":
-					{
-						"buffer_size": 22664,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10413,
-								10413
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1146.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "application/functions/db.php",
-					"settings":
-					{
-						"buffer_size": 76769,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1954,
-								1954
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1418.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "application/functions/utils.php",
-					"settings":
-					{
-						"buffer_size": 21746,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5304,
-								5304
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4479.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "temp.php",
-					"settings":
-					{
-						"buffer_size": 1923,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								105,
+								0,
 								0
 							]
 						],
@@ -1078,8 +298,8 @@
 							{
 							},
 							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
 							"sublimelinter_notes": false,
 							"sublimelinter_objj_check_ascii": false,
 							"sublimelinter_popup_errors_on_save": false,
@@ -1090,7 +310,587 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage"
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1379.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/functions/content.php",
+					"settings":
+					{
+						"buffer_size": 76476,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								73866,
+								73866
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2329.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "userfiles/modules/content/edit_page.php",
+					"settings":
+					{
+						"buffer_size": 28458,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16717,
+								16717
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 855.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "userfiles/modules/categories/selector.php",
+					"settings":
+					{
+						"buffer_size": 7408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								851,
+								825
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 432.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "userfiles/modules/content/manage.php",
+					"settings":
+					{
+						"buffer_size": 11570,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2176,
+								2199
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 858.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "userfiles/modules/content/layout_selector.php",
+					"settings":
+					{
+						"buffer_size": 13241,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7724,
+								7724
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1101,23 +901,23 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 1,
 					"file": "application/functions/content.php",
 					"settings":
 					{
-						"buffer_size": 75605,
+						"buffer_size": 76476,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14207,
-								14207
+								74743,
+								74743
 							]
 						],
 						"settings":
@@ -1198,8 +998,8 @@
 							{
 							},
 							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
 							"sublimelinter_notes": false,
 							"sublimelinter_objj_check_ascii": false,
 							"sublimelinter_popup_errors_on_save": false,
@@ -1214,13 +1014,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 11749.0,
+						"translation.y": 87142.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 0,
+					"buffer": 6,
 					"file": "application/classes/MwController.php",
 					"settings":
 					{
@@ -1231,8 +1031,8 @@
 						"selection":
 						[
 							[
-								18124,
-								18124
+								214,
+								215
 							]
 						],
 						"settings":
@@ -1313,8 +1113,8 @@
 							{
 							},
 							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
 							"sublimelinter_notes": false,
 							"sublimelinter_objj_check_ascii": false,
 							"sublimelinter_popup_errors_on_save": false,
@@ -1329,237 +1129,237 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 25098.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "application/includes/api/events.js",
-					"settings":
-					{
-						"buffer_size": 5256,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								615,
-								615
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 120.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "userfiles/templates/apidocs/header.php",
-					"settings":
-					{
-						"buffer_size": 883,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								265,
-								265
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "application/functions/media.php",
+					"settings":
+					{
+						"buffer_size": 10655,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8866,
+								8866
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 9985.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "application/functions/utils.php",
+					"settings":
+					{
+						"buffer_size": 21931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								979,
+								979
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1595,7 +1395,7 @@
 		"cols":
 		[
 			0.0,
-			0.416809604877,
+			0.609471217848,
 			1.0
 		],
 		"rows":
@@ -1615,6 +1415,62 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"content/layout_selector",
+				"userfiles/modules/content/layout_selector.php"
+			],
+			[
+				"mana",
+				"userfiles/modules/content/manage.php"
+			],
+			[
+				"categories/selector",
+				"userfiles/modules/categories/selector.php"
+			],
+			[
+				"edit_page",
+				"userfiles/modules/content/edit_page.php"
+			],
+			[
+				"content.",
+				"application/functions/content.php"
+			],
+			[
+				"pictures/admin",
+				"userfiles/modules/pictures/admin.php"
+			],
+			[
+				"media",
+				"application/functions/media.php"
+			],
+			[
+				"edit.",
+				"userfiles/modules/options/edit.php"
+			],
+			[
+				"settings/list",
+				"userfiles/modules/settings/list.php"
+			],
+			[
+				"optin",
+				"application/functions/options.php"
+			],
+			[
+				"menus",
+				"application/functions/menus.php"
+			],
+			[
+				"parser/p",
+				"application/functions/parser/phpQuery.php"
+			],
+			[
+				"pages_t",
+				"userfiles/modules/help/helpers/pages_tree.php"
+			],
+			[
+				"nav/fu",
+				"userfiles/modules/nav/functions.php"
+			],
 			[
 				"uti",
 				"application/functions/utils.php"
@@ -1649,7 +1505,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 337.0,
 	"status_bar_visible": true
 }

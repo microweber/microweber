@@ -484,8 +484,8 @@ mw.wysiwyg = {
     },
     insert_html:function(html){
 
-      var isiframe = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
-      if(isiframe){
+      var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
+      if(isembed){
         var id = 'frame-'+mw.random();
         var frame = html;
         var html = '<span id="'+id+'"></span>';
@@ -496,7 +496,7 @@ mw.wysiwyg = {
       else{
         document.selection.createRange().pasteHTML(html)
       }
-      if(isiframe){
+      if(isembed){
         var el = mwd.getElementById(id);
         el.parentNode.contentEditable = false;
         $(el).replaceWith(frame);
@@ -771,10 +771,7 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
 
     mw.wysiwyg.init_editables();
 
-
-
-
-    mw.wysiwyg.nceui();
+  mw.wysiwyg.nceui();
 
   mw.smallEditor = mw.$("#mw_small_editor");
   mw.bigEditor = mw.$("#mw-text-editor");
