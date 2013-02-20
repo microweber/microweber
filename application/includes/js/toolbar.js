@@ -260,9 +260,9 @@ mw.image = {
         $(window).bind("onImageClick", function(e, el){
 
          if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName=='IMG'){
-             var order = mw.tools.parentsOrder(el, ['edit', 'module']);
+           //  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
 
-             if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){
+           //  if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){
 
                var el = $(el);
                var offset = el.offset();
@@ -280,7 +280,7 @@ mw.image = {
                $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
                mw.image.currentResizing = el;
 
-         }
+        // }
          }
         })
 
@@ -622,7 +622,7 @@ $(window).load(function(){
 
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
-     
+
         $(mwd.body).removeClass('hide_selection');
       }
 

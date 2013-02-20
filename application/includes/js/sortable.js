@@ -294,7 +294,7 @@ mw.drag = {
              var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
              if((order.module > -1 && order.edit > order.module)){
-               d(order)
+
                 mw.mm_target = mw.drag.noop;
                 mw.$mm_target = $(mw.drag.noop);
 
@@ -841,8 +841,7 @@ mw.drag = {
 
                 if(target.tagName=='IMG'){
                   var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
-
-                  if((order.module == -1 || order.edit <= order.module)){
+                  if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     $(window).trigger("onImageClick", target);
                   }
                 }
@@ -863,6 +862,8 @@ mw.drag = {
                 mw.drag.stories.push(story);
                 mw.drag.story_active+=1;  */
 
+                mw.$(".mw_dropable").hide();
+
 				setTimeout(function () {
 				  mw.isDrag = false;
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
@@ -876,17 +877,16 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
-
-                               $(mw.currentDragMouseOver).before(mw.dragCurrent);
-                               $(mw.dragCurrent).removeClass("mw_drag_float");
-                               $(mw.dragCurrent).removeClass("mw_drag_float_right");
-
-
+                              if(!$(mw.currentDragMouseOver).prev().hasClass('mw-col-container')){
+                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                              }
+                              else{
+                                 $(mw.currentDragMouseOver).prev().append(mw.dragCurrent);
+                              }
                                 return false;
                          }
 
                         if($(mw.currentDragMouseOver).hasClass("edit")){
-
                            if(position=='top'){
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                            }
@@ -949,6 +949,7 @@ mw.drag = {
                                      }
                                      else{
                                          if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+
                                             hovered.before(mw.dragCurrent);
                                          }
                                          else{
@@ -958,6 +959,7 @@ mw.drag = {
                                            }
                                            else{
                                              if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
+
                                                 parent.before(mw.dragCurrent);
                                              }
                                              else{
@@ -1420,6 +1422,7 @@ module_settings: function() {
 					for (i = $exisintg_num; i < $numcols; i++) {
                         var new_col = mwd.createElement('div');
                         new_col.className = 'mw-col';
+                        new_col.innerHTML = '<div class="mw-col-container"></div>';
                         mw.$('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 					}
@@ -1431,8 +1434,17 @@ module_settings: function() {
                         var last_after_remove = mw.$('#' + $el_id).children(".mw-col").eq($numcols-1);
                         var elements_to_clone = mw.$('#' + $el_id).children(".mw-col:gt("+($numcols-1)+")");
                         $(elements_to_clone).each(function(){
-                            var el = $(this).children(".element, .module, .mw-row, .mw-layout-holder");
-                            last_after_remove.find(".empty-element").before(el);
+                            //var el = $(this).children(".element, .module, .mw-row, .mw-layout-holder");
+                            $(this).find('.empty-element, .ui-resizable-handle').remove();
+                            var el = $(this).html();
+                            if(last_after_remove.find(".mw-col-container").length==0){
+                              last_after_remove.find(".empty-element").before(el);
+                            }
+                            else{
+                              last_after_remove.find(".mw-col-container").append(el);
+                            }
+
+
                            $("#"+this.id).remove();
                         });
                         last_after_remove.resizable("destroy");

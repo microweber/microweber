@@ -1,0 +1,48 @@
+
+body{
+  background: #F3F3F3;
+  font: 14px/1.5 Roboto, Arial, sans-serif;
+  color: #242B35;
+}
+
+
+#header{
+  background: #242B35;
+  padding: 10px 20px 0;
+}
+#header .nav a, #header .nav a.active:hover{
+  color: white;
+}
+
+#header .nav a:hover{
+  color:#242B35;
+}
+
+#logo{
+  float: left;
+  margin-bottom: 10px;
+  display: block;
+  color: white;
+  font-size: 35px;
+  text-decoration: none;
+}
+
+#main-navigation{
+  float: right;
+  margin-top: 10px;
+}
+
+#home-top{
+  padding-top: 50px;
+}
+
+
+#footer{
+  background: #242B35;
+  padding: 20px 0 0;
+  color: white;
+}
+
+#footer a{
+  color: white;
+}

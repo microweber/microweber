@@ -89,20 +89,7 @@ body.cross{
 
 
 
-.left{
-  float: left !important;
-}
 
-.right{
-  float: right !important;
-}
-
-
-
-.clear{
-  clear: both;
-  float: none;
-}
 
 
 .mw-overlay{

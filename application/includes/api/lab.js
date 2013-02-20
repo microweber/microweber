@@ -19,7 +19,7 @@ mw.cache = {
    }
 }
 
-
+/*
 _HResizer = mwd.createElement('div');
 _HResizer.className = 'mw-horizontal-resizer';
 
@@ -83,14 +83,14 @@ mw.VResizer = function(){
         left:off.left,
     }).data("for", el)
    });
-}
+}   */
 
-$(document).ready(function(){
+$(document).ready(function(){  /*
 
   mwd.body.appendChild(_HResizer)
   mw.HResizer();
     mwd.body.appendChild(_VResizer)
-  mw.VResizer();
+  mw.VResizer();   */
 
 
 

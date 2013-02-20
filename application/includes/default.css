@@ -58,6 +58,13 @@ body.mw-preview{
     position: relative;
 }
 
+.mw-col-container{
+  padding: 0 10px;
+}
+
+.mw-row > .mw-col:first-child > .mw-col-container{ padding: 0 10px 0 0; }
+.mw-row > .mw-col:last-child > .mw-col-container{ padding: 0 0 0 10px; }
+
 .element {
     display: block;
     clear: both !important;
@@ -100,6 +107,17 @@ body.mw-preview{
 .edit .mw-col img{
   height: auto !important;
   max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .mw-col{
+    width: auto !important;
+    float: none;
+  }
+  .mw-col > .mw-col-container[class]{
+    padding: 0;
+  }
+
 }
 
 .layout-element{
@@ -164,19 +182,6 @@ body.mw-preview{
   transition: none !important;
 }
 
-
-.left{
-  float: left;
-}
-
-.right{
-  float: right;
-}
-
-
-.clear{
-  clear: both;
-}
 
 .relative{
   position: relative;

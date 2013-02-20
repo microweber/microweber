@@ -195,7 +195,7 @@ function reorder_menu_items($data) {
 		$value = $data['ids_parents'];
 		if (is_arr($value)) {
 
-			foreach ($value as $value2 => $k  ) {
+			foreach ($value as $value2 => $k) {
 				$k = intval($k);
 				$value2 = intval($value2);
 
@@ -204,7 +204,7 @@ function reorder_menu_items($data) {
 				where id=$value2 and id!=$k
 				and item_type='menu_item'
 				";
-				  // d($sql);
+				// d($sql);
 				$q = db_q($sql);
 				cache_clean_group('menus/' . $k);
 			}
@@ -236,7 +236,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	if (!is_array($passed_ids)) {
 		$passed_ids = array();
 	}
-	$menu_params  = '';
+	$menu_params = '';
 	if (is_string($menu_id)) {
 		$menu_params = parse_params($menu_id);
 		if (is_array($menu_params)) {
@@ -253,19 +253,12 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$function_cache_id = false;
 
 	/*$function_cache_id = __FUNCTION__.crc32 ($menu_id);
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (($cache_content) != false) {
-		print $cache_content;
-		return;
+	 $cache_content = cache_get_content($function_cache_id, $cache_group);
+	 if (($cache_content) != false) {
+	 print $cache_content;
+	 return;
 
-	}*/
-
-
-
-
-
-
-
+	 }*/
 
 	$params = array();
 	$params['item_parent'] = $menu_id;
@@ -280,7 +273,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	where parent_id=$menu_id
 
 	order by position ASC ";
-	 //d($sql); and item_type='menu_item'
+	//d($sql); and item_type='menu_item'
 
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
@@ -337,6 +330,20 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$item['title'] = $title;
 		} else {
 			$title = $item['title'];
+		}
+ 
+ 
+ 
+ 		if ($item['content_id'] == CONTENT_ID) {
+			$active_class = 'active';
+		} elseif ($item['content_id'] == PAGE_ID) {
+			$active_class = 'active';
+		} elseif ($item['content_id'] == POST_ID) {
+			$active_class = 'active';
+		} elseif (CATEGORY_ID != false and intval($item['taxonomy_id']) != 0 and $item['taxonomy_id'] == CATEGORY_ID) {
+			$active_class = 'active';
+		} else {
+			$active_class = '';
 		}
 
 		if ($title != '') {
@@ -400,7 +407,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 	// print "[[ $time ]]seconds\n";
 	$to_print .= '</ul>';
-//cache_store_data($to_print, $function_cache_id, $cache_group);
+	//cache_store_data($to_print, $function_cache_id, $cache_group);
 	return $to_print;
 }
 

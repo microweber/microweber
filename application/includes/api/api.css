@@ -71,13 +71,6 @@ body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
     background: grey
 }
 
-.left{
-  float: left ;
-}
-.right{
-  float: right ;
-}
-
 .semi_hidden{
   position: absolute !important;
   top: -9999px !important;

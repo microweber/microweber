@@ -561,6 +561,7 @@
     height: 2px;
     background:#56B2F3;
     z-index: 997;
+    display: none;
 }
 
 .mw_dropable_vertical{
@@ -669,6 +670,7 @@
 
 .mw_edit_btn{
   display: inline-block;
+  box-shadow:0 0 9px -3px #000000;
   position: relative;
   padding: 0 6px;
   font-size: 11px;

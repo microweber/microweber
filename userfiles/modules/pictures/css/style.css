@@ -303,3 +303,9 @@ a.rotator-paging-item-thumbnail img{
   visibility: visible;
 }
 
+/*  Bootstrap Template  */
+
+.mw-image-carousel .carousel-inner .item img{
+  margin: 0 auto;
+}
+

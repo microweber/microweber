@@ -119,6 +119,7 @@
 	},
 	"file_history":
 	[
+		"/X/microweber/Про/New Text Document.txt",
 		"/C/xampp/php/php.ini",
 		"/C/xampp/htdocs/1k/bootstrap.php",
 		"/C/xampp/htdocs/1k/application/classes/MwController.php",
@@ -661,7 +662,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 432.0,
+						"translation.y": 410.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

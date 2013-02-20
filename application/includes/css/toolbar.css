@@ -338,6 +338,7 @@ padding:0px !important;
 #elements_category_selector{
   clear: both;
   margin:21px 20px;
+  float: left;
 }
 
 #module_category_selector span,

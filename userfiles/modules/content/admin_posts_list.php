@@ -189,9 +189,9 @@ $pages_count = intval($pages);
 		
 		 ?>
       <? if($pic == true ): ?>
-      <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic, 108) ?>');"></a>
+      <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
       <? else : ?>
-      <a class="manage-post-image manage-post-image-no-image left"></a>
+      <a class="manage-post-image manage-post-image-no-image left"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
       <? endif; ?>
       
       <? $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
