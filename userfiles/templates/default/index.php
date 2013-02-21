@@ -17,28 +17,25 @@
     <div class="mw-row clearfix">
         <div class="mw-col" style="width: 50%">
           <div class="mw-col-container">
-              <module type="pictures" template="bootstrap_carousel"  />
+              <module type="pictures" content-id="<?php print PAGE_ID; ?>" template="bootstrap_carousel"  />
           </div>
         </div>
         <div class="mw-col" style="width: 50%">
-            <div class="mw-col-container">
+            <div class="mw-col-container" id="mw-welcome">
                 <div class="edit">
                     <h2 class="element">Welcome to Microweber</h2>
-                    <h4 class="element">New World Theme</h4>
-                    <blockquote class="element"><em>Imagine " ... A world without rules and controls, without borders or boundaries; a world where anything is possible. Where we go from there is a choice I leave to you. ... "</em></blockquote>
-                    <p class="element">
-                      You can edit this text in what ever ways you like.<br>
-                      You can format it, delete it or even insert other elements inside it. <br>
-                      You can do what ever you want. It's up to your imagination. <br>
-                    </p>
-                    <p class="element"><a href="javascript:;" class="btn btn-primary btn-large right">Demo &raquo;</a></p>
+                    <p class="element">This is the default theme of (MW). </p> <br>
+                    <h4 class="element">You are able to use it to create your own Website, Blog, Online Shop or anything you need, for free.</h4>  <br>
+                    <h4 class="element"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>   <br>
+                    <p class="element"><a href="javascript:;" class="btn btn-large pull-right">Simple Button</a></p>
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
         <br><br>
-        <h2 class="text-center">Microweber is a powerfull, UI Friendly, Content Management System, <br>with rich PHP and JavaScript API.</h2>
+        <h3 align="center" class="symbol">Powerful &nbsp;&amp;&nbsp; User Friendly &nbsp;Content Management System &nbsp;of &nbsp;New Generation</h3>
+        <h4 align="center">with rich PHP and JavaScript API</h4>
     </div>
     <div class="container">
         <h2 class="section-title">
@@ -62,6 +59,14 @@
             <hr class="right visible-desktop">
         </h2>
        <module
+          data-type="shop/products"
+          data-limit="3"
+          id="home-products"
+          data-description-length="150"
+          data-show="thumbnail,title,add_to_cart,description,price"
+          data-template="columns" />
+
+                 <module
           data-type="shop/products"
           data-limit="3"
           id="home-products"

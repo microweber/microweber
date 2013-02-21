@@ -90,21 +90,21 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
      <div class="otab" style="display: block">
 
      <h2>Currency settings</h2>
-
+  <? ?><? $cur = get_option('currency', 'payments');  ?>
       <? $curencies = curencies_list(); ?>
       <? if(isarr($curencies )): ?>
-      <div class="mw-ui-select"><select>
+      <div class="mw-ui-select"><select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
         <? foreach($curencies  as $item): ?>
-        <option value="<? print $item[1] ?>"><? print $item[3] ?>  <? print $item[1] ?> (<? print $item[2] ?>)</option>
+        <option  value="<? print $item[1] ?>" <? if($cur == $item[1]): ?> selected="selected" <? endif; ?>><? print $item[1] ?> <? print $item[3] ?> (<? print $item[2] ?>)</option>
         <? endforeach ; ?>
       </select></div>
       <? endif; ?>
-      <label class="mw-ui-label">Currency</label>
-      <input name="currency" class="mw-ui-field mw_option_field" data-option-group="payments"  value="<? print get_option('currency', 'payments') ?>"  type="text" />
-      <div class="vSpace"></div>
-      <label class="mw-ui-label">Currency Sign</label>
-      <input name="currency_sign" class="mw-ui-field mw_option_field"    data-option-group="payments"  value="<? print get_option('currency_sign', 'payments') ?>"  type="text" />
-      <div class="vSpace"></div>
+      
+      
+      
+<module type="shop/payments/currency_render" id="mw_curr_rend" />
+
+ 
 
       </div>
 

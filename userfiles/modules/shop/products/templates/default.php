@@ -40,7 +40,7 @@ description: Products
 
           <? if($show_fields == false or in_array('price', $show_fields)): ?>
 
-          <span class="products-list-price">$<? print $v ?></span>
+          <span class="products-list-price"><? print currency_format($v); ?></span>
           <? endif; ?>
           <? if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
           <?

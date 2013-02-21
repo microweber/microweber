@@ -6,7 +6,8 @@ body{
 }
 
 h1,h2,h3,h4,h5,h6{
-  font-weight: normal;
+  font-weight: 300;
+  line-height: normal;
 }
 
 
@@ -37,11 +38,22 @@ h1,h2,h3,h4,h5,h6{
   margin-top: 10px;
 }
 
+#mw-welcome{
+  padding-left: 30px;
+}
+
+#mw-welcome * :first-child{
+  padding-top: 0;
+  padding-bottom: 10px;
+  margin-top: 0;
+
+}
+
 #home-top{
   padding-top: 50px;
 }
 
-.module-posts-template-columns{
+.module-posts-template-columns .span4{
   padding-bottom: 25px;
 }
 
@@ -55,9 +67,14 @@ h1,h2,h3,h4,h5,h6{
 
 .module-posts-template-columns .price{
   float: right;
-  margin-top:19px;
-  font-size: 21px;
-  font-weight: 200;
+  margin-top:15px;
+  font-size: 24px;
+  color: #0088CC;
+}
+
+.symbol{
+  font-size: 35px;
+  font-weight: 100;
   color: #0088CC;
 }
 
@@ -79,6 +96,15 @@ h1,h2,h3,h4,h5,h6{
   line-height:normal;
 }
 
+.mw-image-carousel .carousel-control{
+  visibility: hidden;
+  font-size: 46px;
+}
+
+.mw-image-carousel:hover .carousel-control{
+  visibility: visible;
+}
+
 
 .section-title{
   text-align: center;
@@ -96,6 +122,38 @@ h1,h2,h3,h4,h5,h6{
   right: 0;
   top: 0
 }
+
+
+/* Comments  */
+
+.mw-cooments-form .captcha .add-on{
+  background-color: white;
+}
+
+.mw-cooments-form .captcha img{
+  cursor: pointer;
+}
+
+.mw-cooments-form input[type='text'],
+.mw-cooments-form textarea{
+  width: 100%;
+}
+
+.mw-cooments-form textarea{
+  height: 100px;
+}
+
+.mw-cooments-form input[type='submit']{
+  margin-right: -15px;
+}
+
+.comment-content{
+  padding-left: 10px;
+}
+
+
+/* /Comments  */
+
 
 
 #footer{

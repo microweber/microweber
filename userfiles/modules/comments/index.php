@@ -42,7 +42,7 @@ if ($template != false and strtolower($template) != 'none') {
 //d();
 }
 ?>
-<script  type="text/javascript">
+<script type="text/javascript">
     mw.require("forms.js");
 </script>
 <script  type="text/javascript">
@@ -52,24 +52,19 @@ if ($template != false and strtolower($template) != 'none') {
 			function() {
 				mw.reload_module('#<? print $params['id'] ?>');
 			});
-
-           // 
-
             return false;
         });
     });
 </script>
-<?php
-switch ($template_file):
-    case true:
-        ?>
+<?php  switch ($template_file):  case true:  ?>
+
+
+
         <? include($template_file); ?>
         <?
-        // d();
-
-        if ($template_file != false) {
-            break;
-        }
+          if ($template_file != false) {
+              break;
+          }
         ?>
     <?php
     case false:
@@ -82,47 +77,42 @@ switch ($template_file):
             <div class="comments" id="comments-list-<? print $data['id'] ?>">
             <? foreach ($comments as $comment) : ?>
                     <div class="comment" id="comment-<? print $comment['id'] ?>">
-
-                        <div class="comment-author">
-                    <? print $comment['comment_name'] ?>
-
+                       <img src="http://wbpreview.com/previews/WB0D95984/img/pic1.jpg" class="img-polaroid img-rounded pull-left comment-image" alt="" />
+                       <div class="comment-content">
+                            <div class="comment-author">
+                                <? print $comment['comment_name'] ?>
+                            </div>
+                            <div class="comment-body">
+                                <? print $comment['comment_body'] ?>
+                            </div>
                         </div>
-
-                        <div class="comment-body">
-                <? print $comment['comment_body'] ?>
-
-                        </div>
-
-
                     </div>
             <? endforeach; ?>
 
             </div>
             <? endif; ?>
 
-        <div class="comments_form" id="comments-<? print $data['id'] ?>">
-            <form id="comments-form-<? print $data['id'] ?>">
+        <div class="mw-cooments-form" id="comments-<? print $data['id'] ?>">
+            <form autocomplete="off" id="comments-form-<? print $data['id'] ?>">
                 <input type="hidden" name="to_table_id" value="<? print $data['to_table_id'] ?>">
                 <input type="hidden" name="to_table" value="<? print $data['to_table'] ?>">
-                Your name: <br>
-                <input type="text" name="comment_name">
-                <br>
-                <br>
-                Website: <br>
-                <input type="text" name="comment_website">
-                <br>
-                <br>
-                Your email: <br>
-                <input type="text" name="comment_email">
-                <br>
-                <br>
-                Your comments: <br>
-                <textarea name="comment_body" rows="15" cols="50"></textarea>
-                <br>
-                <br>
-                <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
-                <input type="text"   name="captcha" placeholder="?">
-                <input type="submit" value="Submit">
+                <div class="row">
+                    <div class="span2"><input class="input-medium" placeholder="Your name" type="text" name="comment_name"></div>
+                    <div class="span2"><input class="input-medium" placeholder="Website" type="text" name="comment_website"></div>
+                    <div class="span2"><input class="input-medium" placeholder="Your email" type="text" name="comment_email"></div>
+                </div>
+                <div class="row"><div class="span6"><textarea class="input-xxlarge" placeholder="Comment" name="comment_body"></textarea></div></div>
+                <div class="row">
+                    <div class="span6">
+                      <div class="input-prepend captcha pull-left">
+                        <span class="add-on">
+                            <img title="Click to refresh image" alt="Captcha image" src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'">
+                        </span>
+                        <input type="text" name="captcha" placeholder="Enter text from the picture">
+                      </div>
+                      <input type="submit" class="btn pull-right" value="Add comment">
+                    </div>
+                </div>
             </form>
         </div>
         <?php break; ?>

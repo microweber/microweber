@@ -54,17 +54,17 @@ description: Inner Slider
 
   Rotator = null;
   $(document).ready(function(){
-      Rotator = mw.rotator('#<?php print $id; ?>');
-      if (!Rotator) return false;
-      Rotator.options({
-          paging:true,
-          pagingMode:"thumbnails",
-          next:true,
-          prev:true,
-          reflection:true
-      });
-
-
+    if($('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
+        Rotator = mw.rotator('#<?php print $id; ?>');
+        if (!Rotator) return false;
+        Rotator.options({
+            paging:true,
+            pagingMode:"thumbnails",
+            next:true,
+            prev:true,
+            reflection:true
+        });
+    }
   });
 
 </script>

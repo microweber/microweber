@@ -43,15 +43,17 @@ description: Product Slider
 
   Rotator = null;
   $(document).ready(function(){
+    if($('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
       Rotator = mw.rotator('#<?php print $id; ?>');
-      if (!Rotator) return false;
-      Rotator.options({
-          paging:true,
-          pagingMode:"thumbnails",
-          next:true,
-          prev:true
-      });
-      Rotator.autoRotate(5000);
+        if (!Rotator) return false;
+        Rotator.options({
+            paging:true,
+            pagingMode:"thumbnails",
+            next:true,
+            prev:true
+        });
+        Rotator.autoRotate(5000);
+      }
       mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
             mw.productZoom(this);
       });

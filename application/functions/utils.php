@@ -534,6 +534,10 @@ function decrypt_var($var, $key = false) {
 
 	return $var;
 }
+ 
+ 
+ 
+
 function str_replace_once($needle, $replace, $haystack) {
 	// Looks for the first occurence of $needle in $haystack
 	// and replaces it with $replace.
@@ -965,33 +969,6 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
 	return FALSE;
 }
 
-function curencies_list() {
-	$row = 1;
-
-	$cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
-	//d($cur_file);
-	if (is_file($cur_file)) {
-		if (($handle = fopen($cur_file, "r")) !== FALSE) {
-			$res = array();
-			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-				$itm = array();
-
-				$num = count($data);
-				//   echo "<p> $num fields in line $row: <br /></p>\n";
-				$row++;
-				for ($c = 0; $c < $num; $c++) {
-					//echo $data[$c] . "<br />\n";
-					$itm[] = $data[$c];
-				}
-
-				$res[] = $itm;
-			}
-
-			fclose($handle);
-			return $res;
-		}
-	}
-}
 
 function percent($num_amount, $num_total) {
 	$count1 = $num_amount / $num_total;
@@ -1014,3 +991,206 @@ function _d($a) {
 	print "</div>";
 	print "<script>$(document).ready(function(){var x = mw.$('#d-" . $rand . "').html();var xx = mw.tools.modal.init({html:'<pre>'+x+'</pre>'});$(xx.main).css({left:'auto',right:0})});</script>";
 }
+
+
+/***********************************
+* string_format
+ * 
+ * 
+ * To Use:
+
+print string_format("(###)###-####", "4015551212");
+will print out:
+(401)555-1212
+
+Hope this helps someone,
+***********************************/
+function string_format($format, $string, $placeHolder = "#")
+{            
+    $numMatches = preg_match_all("/($placeHolder+)/", $format, $matches);              
+    foreach ($matches[0] as $match)
+    {
+        $matchLen = strlen($match);
+        $format = preg_replace("/$placeHolder+/", substr($string, 0, $matchLen), $format, 1);
+        $string = substr($string, $matchLen);
+    }
+    return $format;
+} 
+if(!function_exists('money_format')){
+function money_format($format, $number) 
+{ 
+    $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?'. 
+              '(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/'; 
+    if (setlocale(LC_MONETARY, 0) == 'C') { 
+        setlocale(LC_MONETARY, ''); 
+    } 
+    $locale = localeconv(); 
+    preg_match_all($regex, $format, $matches, PREG_SET_ORDER); 
+    foreach ($matches as $fmatch) { 
+        $value = floatval($number); 
+        $flags = array( 
+            'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? 
+                           $match[1] : ' ', 
+            'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0, 
+            'usesignal' => preg_match('/\+|\(/', $fmatch[1], $match) ? 
+                           $match[0] : '+', 
+            'nosimbol'  => preg_match('/\!/', $fmatch[1]) > 0, 
+            'isleft'    => preg_match('/\-/', $fmatch[1]) > 0 
+        ); 
+        $width      = trim($fmatch[2]) ? (int)$fmatch[2] : 0; 
+        $left       = trim($fmatch[3]) ? (int)$fmatch[3] : 0; 
+        $right      = trim($fmatch[4]) ? (int)$fmatch[4] : $locale['int_frac_digits']; 
+        $conversion = $fmatch[5]; 
+
+        $positive = true; 
+        if ($value < 0) { 
+            $positive = false; 
+            $value  *= -1; 
+        } 
+        $letter = $positive ? 'p' : 'n'; 
+
+        $prefix = $suffix = $cprefix = $csuffix = $signal = ''; 
+
+        $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign']; 
+        switch (true) { 
+            case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+': 
+                $prefix = $signal; 
+                break; 
+            case $locale["{$letter}_sign_posn"] == 2 && $flags['usesignal'] == '+': 
+                $suffix = $signal; 
+                break; 
+            case $locale["{$letter}_sign_posn"] == 3 && $flags['usesignal'] == '+': 
+                $cprefix = $signal; 
+                break; 
+            case $locale["{$letter}_sign_posn"] == 4 && $flags['usesignal'] == '+': 
+                $csuffix = $signal; 
+                break; 
+            case $flags['usesignal'] == '(': 
+            case $locale["{$letter}_sign_posn"] == 0: 
+                $prefix = '('; 
+                $suffix = ')'; 
+                break; 
+        } 
+        if (!$flags['nosimbol']) { 
+            $currency = $cprefix . 
+                        ($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']) . 
+                        $csuffix; 
+        } else { 
+            $currency = ''; 
+        } 
+        $space  = $locale["{$letter}_sep_by_space"] ? ' ' : ''; 
+
+        $value = number_format($value, $right, $locale['mon_decimal_point'], 
+                 $flags['nogroup'] ? '' : $locale['mon_thousands_sep']); 
+        $value = @explode($locale['mon_decimal_point'], $value); 
+
+        $n = strlen($prefix) + strlen($currency) + strlen($value[0]); 
+        if ($left > 0 && $left > $n) { 
+            $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0]; 
+        } 
+        $value = implode($locale['mon_decimal_point'], $value); 
+        if ($locale["{$letter}_cs_precedes"]) { 
+            $value = $prefix . $currency . $space . $value . $suffix; 
+        } else { 
+            $value = $prefix . $value . $space . $currency . $suffix; 
+        } 
+        if ($width > 0) { 
+            $value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ? 
+                     STR_PAD_RIGHT : STR_PAD_LEFT); 
+        } 
+
+        $format = str_replace($fmatch[0], $value, $format); 
+    } 
+    return $format; 
+} 
+
+}
+
+function curency_symbol($curr,$key=3) {
+	$all_cur = curencies_list();
+	if(isarr($all_cur)){
+		foreach ($all_cur as $value) {
+			if(in_array($curr, $value)){
+					if($key == false){
+						return $value;
+					} else {
+						return $value[$key];
+					}
+
+			}
+		}
+	}
+	
+}
+
+ 
+function curencies_list() {
+	
+	
+	
+	$curencies_list_memory = mw_var('curencies_list');
+	if($curencies_list_memory != false){
+		return $curencies_list_memory;
+	}
+	
+	$row = 1;
+
+	$cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
+	//d($cur_file);
+	if (is_file($cur_file)) {
+		if (($handle = fopen($cur_file, "r")) !== FALSE) {
+			$res = array();
+			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				$itm = array();
+
+				$num = count($data);
+				//   echo "<p> $num fields in line $row: <br /></p>\n";
+				$row++;
+				for ($c = 0; $c < $num; $c++) {
+					//echo $data[$c] . "<br />\n";
+					$itm[] = $data[$c];
+				}
+
+				$res[] = $itm;
+			}
+
+			fclose($handle);
+			mw_var('curencies_list', $res);
+			return $res;
+		}
+	}
+}
+
+function currency_format($amount, $curr = false){
+	
+	if($curr == false){
+		
+		$curr = get_option('currency', 'payments'); 
+	}
+	
+	
+	
+  $amount = floatval($amount);
+  $sym = curency_symbol($curr); 
+  switch ($curr){
+	  case "EUR":
+	  $ret = "&euro; ".number_format($amount, 2, ",", " ");
+	  break;
+	  case "BGN":
+	  case "RUB":
+	  $ret = number_format($amount, 2, ".", " ").' '.$sym;
+	  break;
+	  case "US":
+	  case "USD":
+	  $ret = "&#36; ".number_format($amount, 2, ".", ",");
+	  break;
+	  default:
+		//  print $sym;
+	  $ret =  $sym.' '.number_format($amount, 2, ".", ",");
+	  break;
+  }
+return $ret;
+ 
+}
+
+

@@ -64,8 +64,8 @@ switch ($template_file):
           <? print $item['custom_fields'] ?>
           <?  endif ?></td>
         <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
-        <td style="text-align: center"><? print $item['price'] ?></td>
-        <td style="text-align: center"><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
+        <td style="text-align: center"><? print currency_format($item['price']); ?></td>
+        <td style="text-align: center"><? print currency_format($item['price']* $item['qty']); ?><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
       </tr>
       <? endforeach; ?>
     </tbody>

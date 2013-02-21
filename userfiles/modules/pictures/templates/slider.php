@@ -34,6 +34,7 @@ description: Pictures slider
 <script type="text/javascript">
   Rotator = null;
   $(document).ready(function(){
+    if($('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
       Rotator = mw.rotator('#<?php print $id; ?>');
       if (!Rotator) return false;
       Rotator.options({
@@ -42,6 +43,7 @@ description: Pictures slider
           prev:true
       });
       Rotator.autoRotate(3000);
+    }
   });
 </script>
  

@@ -120,7 +120,7 @@ function category_tree($params = false) {
 
 	$cache_group = 'taxonomy/global';
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	 $cache_content = false;
+	// $cache_content = false;
 	//if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -302,7 +302,7 @@ function category_tree($params = false) {
 	//  cache_store_data($fields, $function_cache_id, $cache_group = 'db');
 
 	if ($skip123 == false) {
-d($parent);
+ 
 		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 	} else {
  

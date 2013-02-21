@@ -16,7 +16,7 @@ description: Blog layout
 
 <section id="content">
   <div class="container">
-    <div class="row"> 
+    <div class="row">
       <!-------------- Blog post -------------->
       <div class="span8">
         <div class="row">
