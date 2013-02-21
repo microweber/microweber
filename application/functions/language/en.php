@@ -473,3 +473,5 @@ $language["two-coloms-amp-picture"]= 'Two Coloms &amp; Picture' ;
 $language["you-dont-have-any-clients"]= 'You don\'t have any clients' ; 
 $language["image-description"]= 'Image Description' ; 
 $language["image-description"]= 'Image Description' ; 
+$language["latest-posts"]= 'Latest Posts' ; 
+$language["latest-products"]= 'Latest Products' ; 

@@ -2,7 +2,11 @@
 body{
   background: #F3F3F3;
   font: 14px/1.5 Roboto, Arial, sans-serif;
-  color: #242B35;
+  color: #696969;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-weight: normal;
 }
 
 
@@ -25,6 +29,7 @@ body{
   color: white;
   font-size: 35px;
   text-decoration: none;
+  font-weight: 200;
 }
 
 #main-navigation{
@@ -34,6 +39,62 @@ body{
 
 #home-top{
   padding-top: 50px;
+}
+
+.module-posts-template-columns{
+  padding-bottom: 25px;
+}
+
+.module-posts-template-columns .description{
+  width: 85%;
+}
+
+.module-posts-template-columns img{
+  max-height: 210px;
+}
+
+.module-posts-template-columns .price{
+  float: right;
+  margin-top:19px;
+  font-size: 21px;
+  font-weight: 200;
+  color: #0088CC;
+}
+
+.product-title-price{
+  width: 85%;
+}
+
+
+.module-posts-head{
+  padding-bottom:12px;
+}
+.module-posts-template-columns .description{
+  padding-bottom: 5px;
+}
+
+.module-posts-head h3{
+  padding-bottom: 0;
+  margin-bottom: 0;
+  line-height:normal;
+}
+
+
+.section-title{
+  text-align: center;
+  position: relative;
+  margin: 40px 0;
+}
+
+.section-title hr{
+  position: absolute;
+  width: 35%;
+  border-top: 1px solid #BEC0C3;
+  border-bottom: 1px solid white;
+}
+.section-title hr.right{
+  right: 0;
+  top: 0
 }
 
 

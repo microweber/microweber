@@ -64,15 +64,24 @@ if (isset($post_params['data-show'])) {
     //  $show_fields = explode(',', $post_params['data-show']);
 
     $show_fields = $post_params['data-show'];
-} else {
-    $show_fields = get_option('data-show', $params['id']);
-}
+} if (isset($post_params['show'])) {
+    //  $show_fields = explode(',', $post_params['data-show']);
 
+    $show_fields = $post_params['show'];
+} else {
+    
+}
+$show_fields1 = get_option('data-show', $params['id']);
+if ($show_fields1 != false  and is_string($show_fields1)  and trim($show_fields1) != '' ){
+   $show_fields =$show_fields1;
+}
 if ($show_fields != false and is_string($show_fields)) {
     $show_fields = explode(',', $show_fields);
 }
 
-
+if (isset($post_params['limit'])) {
+ $post_params['limit'] = $post_params['limit'];
+}
 if (isset($post_params['data-limit'])) {
  $post_params['limit'] = $post_params['data-limit'];
 }
@@ -84,11 +93,12 @@ if (!isset($post_params['data-limit'])) {
     	$post_params['limit'] = $lim;
     }
 } else if (!isset($post_params['limit'])) {
-     $lim = get_option('data-limit', $params['id']);
-    if($lim != false){
-    	$post_params['limit'] = $lim;
-    }
+    
 }
+ $lim = get_option('data-limit', $params['id']);
+    if($lim != false){
+    	$post_params['data-limit'] = $post_params['limit'] = $lim;
+    }
 $cfg_page_id = get_option('data-page-id', $params['id']);
 if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
@@ -172,8 +182,10 @@ $character_limit = 120;
 $cfg_character_limit = get_option('data-character-limit', $params['id']);
 if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
 	$character_limit = intval($cfg_character_limit);
+} else if(isset($params['description-length'])){
+	$character_limit = intval($params['description-length']);
 }
-
+ 
 if ($show_fields == false) {
 //$show_fields = array('thumbnail', 'title', 'description', 'read_more');
 }
@@ -197,7 +209,13 @@ if(isset($params['is_shop'])){
 } else {
  $post_params['subtype'] = 'post';
 }
+if(!isset($params['order_by'])){
+	  $post_params['orderby'] ='position asc';
+}
 
+
+
+// d($post_params);
 
 $content   = get_content($post_params);
 $data = array();
@@ -218,7 +236,9 @@ if (!empty($content)){
 				if(isset( $item['content']) and $item['content'] != ''){
 					$item['description'] = character_limiter(strip_tags( $item['content']),$character_limit);
 				}
- 			}
+ 			} else {
+				$item['description'] = character_limiter(strip_tags( $item['description']),$character_limit);
+			}
 
 
 
@@ -239,9 +259,10 @@ $item['prices'] = false;
 
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
-
+//$post_params_paging['page_count'] = true;
+//$post_params_paging['data-limit'] = $post_params_paging['limit'] = false; 
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
-
+ 
 
 if($cfg_data_hide_paging != 'y'){
 $pages_of_posts = get_content($post_params_paging);

@@ -502,6 +502,14 @@ form .shipping-country-row:first-child{
 
 }
 
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
 
 
 

@@ -37,7 +37,7 @@ $posts_mod['data-page-id'] =$params['page-id'];
  }
   $posts_mod['wrap'] =1;
  $posts_mod['paging_param'] ='pg';
-  $posts_mod['orderby'] ='created_on desc';
+  $posts_mod['orderby'] ='position asc';
 
  if(isset($params['pg'])){
  $posts_mod['curent_page'] =$params['pg'];

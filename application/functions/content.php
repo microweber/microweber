@@ -20,8 +20,8 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
-  //action_hook('mw_db_init', 'mw_db_init_content_table');
-
+ // action_hook('mw_db_init', 'mw_db_init_content_table');
+ 
 function mw_db_init_content_table() {
 	$function_cache_id = false;
 
@@ -61,6 +61,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('parent', 'int(11) default NULL');
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 
+	$fields_to_add[] = array('position', 'int(11) default 1');
 
 	$fields_to_add[] = array('content', 'TEXT default NULL');
 
@@ -999,16 +1000,19 @@ function reorder_content()
 
 
 
-	$q = " SELECT id, created_on from $table where id IN ($ids_implode)  order by created_on DESC  ";
-	$q = db_query($q);
-	$max_date = $q[0]['created_on'];
-	$max_date_str = strtotime($max_date);
+	// $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position asc  ";
+	// $q = db_query($q);
+	// $max_date = $q[0]['created_on'];
+	// $max_date_str = strtotime($max_date);
 	$i = 1;
 	foreach ($ids as $id) {
-		$max_date_str = $max_date_str - $i;
-		$nw_date = date('Y-m-d H:i:s', $max_date_str);
-		$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
-             //var_dump($q);
+		$id = intval($id);
+		//$max_date_str = $max_date_str - $i;
+	//	$nw_date = date('Y-m-d H:i:s', $max_date_str);
+		//$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
+		
+		$q = " UPDATE $table set position=$i where id=$id   ";
+         //     var_dump($q);
 		$q = db_q($q);
 		$i++;
 	}
@@ -1099,9 +1103,15 @@ function get_content($params) {
 		}
 		if (isset($orderby) == false) {
 			$orderby = array();
-			$orderby[0] = 'created_on';
+			//$orderby[0] = 'created_on';
 
-			$orderby[1] = 'DESC';
+			//$orderby[1] = 'DESC';
+			
+			$orderby[0] = 'position';
+
+			$orderby[1] = 'ASC';
+			
+			
 		}
 		$cache_group = 'content/global';
 		if (isset($params['cache_group'])) {

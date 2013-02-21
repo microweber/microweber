@@ -1,7 +1,6 @@
 <!-- Blog Categories -->
 
-
-<div class="edit"  field="blog_sidebar" rel="page">
+<div class="edit"  field="blog_sidebar" rel="inherit">
   <h2 class="indent-2 element">Pages</h2>
   <module type="pages_tree"  />
   <h2 class="indent-2 element">Blog Categories</h2>
@@ -9,7 +8,7 @@
 </div>
 <!-- Tabs -->
 
-<div class="edit"  field="blog_sidebar2" rel="page">
+<div class="edit"  field="blog_sidebar2" rel="inherit">
   <div class="sidebar-tabs">
     <ul id="myTab" class="nav nav-tabs">
       <li class="active"><a href="#text" data-toggle="tab">Text</a></li>
@@ -49,35 +48,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</div>
-<div class="edit"  field="blog_sidebar3" rel="page">
-  <div class="tab-pane fade" id="recent">
-    <ul class="footer-list-news">
-      <li>
-        <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img8.jpg" alt="" class="img-circle"></figure>
-        <div class="extra-wrap">
-          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-          <span>12 October 2012</span> </div>
-      </li>
-      <li>
-        <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img9.jpg" alt="" class="img-circle"></figure>
-        <div class="extra-wrap">
-          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-          <span>12 October 2012</span> </div>
-      </li>
-      <li>
-        <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img10.jpg" alt="" class="img-circle"></figure>
-        <div class="extra-wrap">
-          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-          <span>12 October 2012</span> </div>
-      </li>
-      <li class="p0">
-        <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img11.jpg" alt="" class="img-circle"></figure>
-        <div class="extra-wrap">
-          <p><a href="#">Interdum vitae dapibus volutpat.</a></p>
-          <span>12 October 2012</span> </div>
-      </li>
-    </ul>
   </div>
 </div>

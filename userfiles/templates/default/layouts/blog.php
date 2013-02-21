@@ -28,7 +28,7 @@ description: Blog layout
           </div>
         </div>
         <div class="edit"  field="sub_content" rel="page">
-          <module type="posts" template="blog"   />
+          <module data-type="posts" data-template="blog" data-page-id="<? print PAGE_ID ?>"  />
         </div>
       </div>
       <!------------ Sidebar -------------->

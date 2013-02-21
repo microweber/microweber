@@ -108,8 +108,11 @@ body.mw-live-edit.dragStart .edit:before{
 	text-transform: none;
 	width:100%;
     min-height: 40px;
+    display: none;
 
 }
+
+body.dragStart .empty-element { display: block; }
 
 .empty-element:hover, .empty-element.hover {
   background-color:#FFFFB9 !important;

@@ -7,7 +7,7 @@
             <span rel="footer" field="copyright" class="edit">Copyright &copy; <span class="unselectable" contentEditable="false"><?php print date('Y'); ?></span>, All rights reserved
             </span>
         </address>
-        <a title="Microweber - Drag and Drop Content Management System" href="http://microweber.com" class="pull-right" target="_blank">Powered by Microweber</a>
+        <span class="pull-right">Powered by <a title="Microweber - Drag and Drop Content Management System" href="http://microweber.com" target="_blank">Microweber</a> (<a style="color: #5B5B5B" href="http://microweber.com" target="_blank">MW</a>) <a href="http://microweber.com" target="_blank">Make Web</a></span>
     </div>
 </div>
 

@@ -120,7 +120,7 @@ function category_tree($params = false) {
 
 	$cache_group = 'taxonomy/global';
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	//$cache_content = false;
+	 $cache_content = false;
 	//if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -207,8 +207,14 @@ function category_tree($params = false) {
 	}
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
+	if (isset($params['content_id'])) {
+		$params['for_page'] = $params['content_id'];
+		
+	}
+
 	if (isset($params['for_page']) and $params['for_page'] != false) {
-		$page = get_page($params['for_page']);
+		$page = get_content_by_id($params['for_page']);
+	 	//d($page);
 		$parent = $page['subtype_value'];
 	}
 	if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
@@ -221,10 +227,11 @@ function category_tree($params = false) {
 
 	$skip123 = false;
 	$fors = array();
+
 	if (!isset($params['for'])) {
 		$params['for'] = 'content';
 	}
-	if (isset($params['for']) and $params['for'] != false) {
+	if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
@@ -234,7 +241,7 @@ function category_tree($params = false) {
 
 	}
 
-	if (isset($params['try_to_table_id']) and intval($params['try_to_table_id']) != 0) {
+	if (!isset($params['content_id']) and isset($params['try_to_table_id']) and intval($params['try_to_table_id']) != 0) {
 		$skip123 = true;
 
 		$str1 = 'orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&to_table_id=' . $params['try_to_table_id'];
@@ -276,7 +283,7 @@ function category_tree($params = false) {
 		$add_ids = explode(',', $add_ids);
 	}
 
-	if (isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
+	if ( isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['to_table']);
 		$skip123 = true;
@@ -295,10 +302,10 @@ function category_tree($params = false) {
 	//  cache_store_data($fields, $function_cache_id, $cache_group = 'db');
 
 	if ($skip123 == false) {
-
+d($parent);
 		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 	} else {
-
+ 
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
 				content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);

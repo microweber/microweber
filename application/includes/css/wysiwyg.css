@@ -252,6 +252,7 @@ background-image: -webkit-gradient(
   font-size: 11px !important;
   padding: 0 !important;
   margin: 0 !important;
+  line-height: normal;
 }
 
 .dd_rte_arr{
@@ -260,8 +261,8 @@ background-image: -webkit-gradient(
    height: 3px;
    width: 5px;
    float: right;
-margin-right: 6px;
-    margin-top: 12px;
+   margin-right: 6px;
+   margin-top: 12px;
 }
 
 .mw_dropdown_type_wysiwyg .mw_dropdown_fields{
@@ -294,6 +295,10 @@ margin-right: 6px;
 }
 .mw_dropdown_action_font_size .mw_dropdown_fields ul{
   width: 130px;
+}
+
+.mw_dropdown_action_format .mw_dropdown_fields ul{
+  width: 245px;
 }
 
 .mw_editor_btn, .mw_dropdown_type_wysiwyg{
