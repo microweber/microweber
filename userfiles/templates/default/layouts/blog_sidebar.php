@@ -1,4 +1,10 @@
 
+
+<form action="#">
+    <input type="text" class="input-large search-query" placeholder="<?php _e("Search"); ?>">
+</form>
+
+
 <h4 class="sidebar-title">Pages</h4>
 <div class="sidebar-box">
   <module type="pages_menu" template="pills" />

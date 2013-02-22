@@ -76,7 +76,7 @@ if ($template != false and strtolower($template) != 'none') {
         <? if (isarr($comments)): ?>
             <div class="comments" id="comments-list-<? print $data['id'] ?>">
             <? foreach ($comments as $comment) : ?>
-                    <div class="comment" id="comment-<? print $comment['id'] ?>">
+                    <div class="clearfix comment" id="comment-<? print $comment['id'] ?>">
                        <img src="http://wbpreview.com/previews/WB0D95984/img/pic1.jpg" class="img-polaroid img-rounded pull-left comment-image" alt="" />
                        <div class="comment-content">
                             <div class="comment-author">
@@ -91,6 +91,8 @@ if ($template != false and strtolower($template) != 'none') {
 
             </div>
             <? endif; ?>
+
+            <hr>
 
         <div class="mw-cooments-form" id="comments-<? print $data['id'] ?>">
             <form autocomplete="off" id="comments-form-<? print $data['id'] ?>">

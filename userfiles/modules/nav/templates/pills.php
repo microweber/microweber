@@ -16,9 +16,9 @@ description: Pills Navigation
 		$menu_filter['ul_class'] = 'nav nav-pills';
 		$mt =  menu_tree($menu_filter);
 		if($mt != false){
-		print ($mt);
+		    print ($mt);
 		} else {
-		mw_notif("There are no items in the menu <b>".$params['menu-name']. '</b>');
+		    mw_notif("There are no items in the menu <b>".$params['menu-name']. '</b>');
 		}
    		?>
  

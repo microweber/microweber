@@ -15,19 +15,23 @@ description: Post inner layout
 
 
 <div class="container">
-  <!--=========== Blog ===========-->
   <div class="row">
-    <!-------------- Blog post -------------->
     <div class="span8">
-      <h2  class="edit"  rel="content" field="title">Your title goes here</h2>
-
-      <div class="blog-post-body edit"  rel="content" field="content">
-        <p>Your content goes here</p>
-      </div>
-       <module data-type="pictures" data-content-id="<? print CONTENT_ID; ?>" template="bootstrap_carousel" />
-       <module data-type="comments" data-template="default" data-content-id="<? print CONTENT_ID; ?>"  />
+       <div class="post-single-inner">
+          <h2  class="edit"  rel="content" field="title">Your title goes here</h2>
+          <div class="edit post-content"  rel="content" field="content">
+            <p>Your content goes here</p>
+          </div>
+       </div>
+       <div class="clearfix post-gallery">
+            <module data-type="pictures" data-content-id="<? print CONTENT_ID; ?>" template="bootstrap_carousel" />
+       </div>
+       <hr>
+       <div class="clearfix post-comments">
+            <module data-type="comments" data-template="default" data-content-id="<? print CONTENT_ID; ?>"  />
+       </div>
     </div>
-    <div class="span4">
+    <div class="span3 offset1">
         <? include TEMPLATE_DIR. 'layouts' . DS."blog_sidebar.php"; ?>
       </div>
   </div>

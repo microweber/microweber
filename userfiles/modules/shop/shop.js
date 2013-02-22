@@ -56,14 +56,15 @@ mw.cart = {
   },
   
     checkout : function(selector){
-	  
+	   
 	  
 	 //  data = mw.$(selector+' input').serialize();
 
 	   var obj = mw.form.serialize(selector);
+	    alert(obj.payment_gw);
      $.post(mw.settings.api_url+'checkout', obj ,
      function(data) {
-		 // alert(obj);
+		
 		 if(data != undefined){
 			 if(parseInt(data) > 0){
     		 	 mw.$('[data-type="shop/checkout"]').attr('view', 'completed');

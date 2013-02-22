@@ -16,7 +16,7 @@ description: Default comments template
   <? if (isarr($comments)): ?>
   <div class="comments comment_form_black" id="comments-list-<? print $data['id'] ?>">
     <? foreach ($comments as $comment) : ?>
-    <div class="comment" id="comment-<? print $comment['id'] ?>">
+    <div class="clearfix comment" id="comment-<? print $comment['id'] ?>">
       <div class="comment-author"> <? print $comment['comment_name'] ?> </div>
       <div class="comment-body"> <? print $comment['comment_body'] ?> </div>
     </div>

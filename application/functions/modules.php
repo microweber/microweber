@@ -416,7 +416,7 @@ function save_settings_md($data_to_save) {
 }
 
 function save_element_to_db($data_to_save) {
-
+ 
 	if (is_admin() == false) {
 		return false;
 	}

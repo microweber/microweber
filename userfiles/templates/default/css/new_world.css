@@ -54,6 +54,10 @@ h1,h2,h3,h4,h5,h6{
 
 }
 
+#content{
+  padding-top: 50px;
+}
+
 #home-top{
   padding-top: 50px;
 }
@@ -175,34 +179,87 @@ h1,h2,h3,h4,h5,h6{
 
 /* /Sidebar */
 
+/* Blog */
 
-/* Comments  */
-
-.mw-cooments-form .captcha .add-on{
-  background-color: white;
+.post-list{
+  padding-top: 30px;
 }
 
-.mw-cooments-form .captcha img{
-  cursor: pointer;
+.post-single{
+  background: white;
+  margin-bottom: 40px;
+  position: relative;
 }
 
-.mw-cooments-form input[type='text'],
-.mw-cooments-form textarea{
-  width: 100%;
+.post-single img{
+  margin-right: 30px;
 }
 
-.mw-cooments-form textarea{
-  height: 100px;
+.post-content img{
+  margin: 12px 0;
+}
+.post-gallery{
+  padding: 12px 0;
 }
 
-.mw-cooments-form input[type='submit']{
-  margin-right: -15px;
+.post-comments{
+  padding: 12px 0;
 }
 
-.comment-content{
-  padding-left: 10px;
+/*
+
+.post-list .post-single .btn{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
+@media (max-width: 979px) {
+    .post-list .post-single .btn{
+      position: static;
+    }
+}
+
+*/
+.post-single .lead{
+  margin-bottom: 0;
+}
+
+.post-single-title-date{
+  padding-bottom: 12px;
+}
+
+
+    /* Comments  */
+
+    .mw-cooments-form .captcha .add-on{
+      background-color: white;
+    }
+
+    .mw-cooments-form .captcha img{
+      cursor: pointer;
+    }
+
+    .mw-cooments-form input[type='text'],
+    .mw-cooments-form textarea{
+      width: 100%;
+    }
+
+    .mw-cooments-form textarea{
+      height: 100px;
+    }
+
+    .mw-cooments-form input[type='submit']{
+      margin-right: -15px;
+    }
+
+    .comment-content{
+      padding-left: 10px;
+    }
+
+    /* /Comments  */
+
+/* /Blog  */
 
 .icon {
 	background: url('../img/icons.png') no-repeat 0 0;
@@ -224,7 +281,7 @@ h1,h2,h3,h4,h5,h6{
   background-color: #1A1E25;
 }
 
-/* /Comments  */
+
 
 /* Footer */
 

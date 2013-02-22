@@ -12,7 +12,7 @@
     <meta property="og:image" content="">
 
     <script type="text/javascript">
-    mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
+        mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
     </script>
     <? if(isset($custom_head)): ?>
         <? print $custom_head; ?>
@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
-    
+    <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
+
     <? endif; ?>
   </head>
 <body>

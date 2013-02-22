@@ -475,3 +475,7 @@ $language["image-description"]= 'Image Description' ;
 $language["image-description"]= 'Image Description' ; 
 $language["latest-posts"]= 'Latest Posts' ; 
 $language["latest-products"]= 'Latest Products' ; 
+$language["dynamic-layout"]= 'Dynamic Layout' ; 
+$language["table"]= 'Table' ; 
+$language["tabs"]= 'Tabs' ; 
+$language["accordion"]= 'Accordion' ; 

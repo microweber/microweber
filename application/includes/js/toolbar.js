@@ -279,6 +279,8 @@ mw.image = {
                $(mw.image_resizer).resizable( "option", "alsoResize", el);
                $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
                mw.image.currentResizing = el;
+       
+               mw.wysiwyg.select_element(el[0])
 
         // }
          }

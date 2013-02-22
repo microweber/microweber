@@ -232,6 +232,10 @@ if (!empty($content)){
 			} else {
 				 $item['image'] = false;
 			}
+			$item['content'] = htmlspecialchars_decode($item['content']);;
+			
+			
+			
 			$item['link'] = content_link($item['id']);
 			if(!isset( $item['description']) or $item['description'] == ''){
 				if(isset( $item['content']) and $item['content'] != ''){
@@ -282,28 +286,37 @@ $read_more_text = get_option('data-read-more-text',$params['id']);
 
 
 
-$module_template = get_option('data-template',$params['id']);
-if($module_template == false and isset($params['template'])){
-	$module_template =$params['template'];
-}
 
 
 
 
+if(!isset( $params['return'])){
 
-if($module_template != false){
-		$template_file = module_templates( $config['module'], $module_template);
+	$module_template = get_option('data-template',$params['id']);
+	if($module_template == false and isset($params['template'])){
+		$module_template =$params['template'];
+	}
+	
+	
+	
+	
+	
+	if($module_template != false){
+			$template_file = module_templates( $config['module'], $module_template);
+	
+	} else {
+			$template_file = module_templates( $config['module'], 'default');
+	
+	}
+	
+	//d($module_template );
+	if(isset($template_file) and is_file($template_file) != false){
+		include($template_file);
+	} else {
+	
+		print 'No default template for '.  $config['module'] .' is found';
+	}
 
-} else {
-		$template_file = module_templates( $config['module'], 'default');
 
-}
-
-//d($module_template );
-if(isset($template_file) and is_file($template_file) != false){
- 	include($template_file);
-} else {
-
-	print 'No default template for '.  $config['module'] .' is found';
 }
 
