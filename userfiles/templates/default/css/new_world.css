@@ -42,7 +42,12 @@ h1,h2,h3,h4,h5,h6{
   padding-left: 30px;
 }
 
-#mw-welcome * :first-child{
+#mw-welcome h1:first-child,
+#mw-welcome h2:first-child,
+#mw-welcome h3:first-child,
+#mw-welcome h4:first-child,
+#mw-welcome h5:first-child,
+#mw-welcome h6:first-child{
   padding-top: 0;
   padding-bottom: 10px;
   margin-top: 0;
@@ -69,6 +74,7 @@ h1,h2,h3,h4,h5,h6{
   float: right;
   margin-top:15px;
   font-size: 24px;
+  line-height: 30px;
   color: #0088CC;
 }
 
@@ -118,10 +124,56 @@ h1,h2,h3,h4,h5,h6{
   border-top: 1px solid #BEC0C3;
   border-bottom: 1px solid white;
 }
+.section-title hr.left{
+  left: 0;
+}
+
 .section-title hr.right{
   right: 0;
   top: 0
 }
+
+/* Sidebar */
+
+.sidebar-title{
+  padding: 10px 0;
+  border-bottom: 1px solid #bfc0c4;
+  box-shadow: 0px 2px 1px 0px white;
+}
+
+.sidebar-box ul,
+.sidebar-box ol{
+  list-style: none;
+}
+.sidebar-box li{
+  line-height: 25px;
+}
+
+.sidebar-box li a{
+  color: #242B35;
+}
+
+.sidebar-box .navbar-inner{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.sidebar-box .nav li.depth-1 ul{
+  margin-left: 30px;
+}
+
+.sidebar-box .nav li.depth-1 li a{
+  display: block;
+}
+.sidebar-box .nav li.depth-1 > a.active-parent{
+  background: #eee;
+}
+
+.sidebar-box .nav li.depth-1 li.active > a{
+  text-decoration: underline;
+}
+
+/* /Sidebar */
 
 
 /* Comments  */
@@ -152,16 +204,60 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+.icon {
+	background: url('../img/icons.png') no-repeat 0 0;
+	width: 33px;
+	height: 33px;
+	display: inline-block;
+    position: relative;
+    top: 9px;
+    margin: 0 5px;
+    border-radius:33px;
+}
+
+.icon.tw{background-position: 4px -344px;}
+.icon.fb{background-position: 10px -397px;}
+.icon.yt{background-position: 4px -448px;}
+
+
+.icon:hover{
+  background-color: #1A1E25;
+}
+
 /* /Comments  */
 
-
+/* Footer */
 
 #footer{
   background: #242B35;
   padding: 20px 0 0;
+  margin-top: 45px;
   color: white;
 }
 
 #footer a{
   color: white;
+}
+
+#footer hr {
+  border-top: 1px solid black;
+  border-bottom: 1px solid #363B43;
+  margin: 8px 0px 0px 0px;
+}
+
+#footer-social h3{
+  font-weight: bold;
+  padding-right: 7px;
+}
+
+#footer-bottom{
+  padding-top: 20px;
+}
+
+#footer address{
+  color:#6D6E71;
+}
+
+#footer .MW{
+  color:#6D6E71;
 }

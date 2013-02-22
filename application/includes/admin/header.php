@@ -23,7 +23,7 @@
     <script type="text/javascript" src="<? print site_url(); ?>apijs"></script>
     <script type="text/javascript">
 
-      mw.require("<? print INCLUDES_URL; ?>js/jquery.js");
+      mw.require("<? print INCLUDES_URL; ?>js/jquery-1.9.1.js");
       mw.require("liveadmin.js");
 
       mw.require("jquery-ui.js");

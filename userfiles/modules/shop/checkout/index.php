@@ -26,7 +26,7 @@ function checkout_callback(data,selector){
 									
 									 }
 									catch(e){ 
-									 
+									
 										$('.mw-checkout-responce').append(data);
 									 
 									}  
@@ -36,6 +36,8 @@ function checkout_callback(data,selector){
 									
 
 						 } else {
+							 $('.mw-checkout-responce').html(data);
+							
  						 } 
 
 
@@ -58,6 +60,7 @@ function checkout_callback(data,selector){
 
 		//alert(data.error);
 	} else {
+		
 		$('.mw-checkout-responce').append(data);
 
 	}

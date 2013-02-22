@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
-function checkout_callback(data,selector){
+function paypal_checkout_callback(data,selector){
+	alert(data);
 	$(selector).empty().append(data);	 
  
 }

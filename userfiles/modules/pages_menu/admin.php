@@ -15,3 +15,7 @@
   <option  value="0"   <? if((0 == intval($include_categories))): ?>   selected="selected"  <? endif; ?>>No</option>
   <option  value="1"   <? if((1 == intval($include_categories))): ?>   selected="selected"  <? endif; ?>>Yes</option>
 </select>
+
+
+
+    <module type="admin/modules/templates"  />

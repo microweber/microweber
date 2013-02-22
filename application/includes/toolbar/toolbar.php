@@ -5,10 +5,9 @@
 
   //mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
 
-  typeof jQuery == 'undefined' ? mw.require("http://code.jquery.com/jquery-1.8.3.min.js") : '' ;
+  typeof jQuery == 'undefined' ? mw.require("<? print INCLUDES_URL; ?>js/jquery-1.9.1.js") : '' ;
   mw.require("liveadmin.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
-  //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");

@@ -756,6 +756,7 @@ html.mw_pages #design_bnav{
 
 .ts_main_li:hover{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  background-size: 100% 100%;
   border-bottom: 1px solid #B0B0B0;
 }
 .ts_main_li:hover .ts_main_a{
@@ -773,6 +774,7 @@ div.ts_action{
   left: 100%;
   top: -1px;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  background-size: 100% 100%;
   border-top:1px solid #EAE6E6;
   border-right:1px solid #BFBCBC;
   border-left:1px solid #BFBCBC;

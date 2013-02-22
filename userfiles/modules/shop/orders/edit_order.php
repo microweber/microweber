@@ -3,7 +3,7 @@
 
 
 $ord = get_orders('id='.$params['order-id']);
- 
+
 $cart_items = array();
 if(isarr($ord[0])){
 	$ord = $ord[0];
@@ -11,11 +11,11 @@ if(isarr($ord[0])){
 
 
 } else {
-	
+
 error("Invalid order id");
 }
 
- 
+
 ?>
 
 <div id="mw-order-table-holder"> <a class="mw-ui-btn right" href="#vieworder=0"><span class="backico"></span>
@@ -57,6 +57,7 @@ error("Invalid order id");
             $index++;
             $item_total = floatval($item['qty']) * floatval($item['price']);
             $subtotal = $subtotal + $item_total;
+             $grandtotal = $subtotal + $ord['shipping'];
           ?>
         <tr
             data-index = "<?php print $index; ?>"
@@ -65,16 +66,16 @@ error("Invalid order id");
           <td class="mw-order-item-fields"><? 	if(isset($item['custom_fields'])): ?>
             <? print $item['custom_fields'] ?>
             <?  endif ?></td>
-          <td class="mw-order-item-amount">$<? print $item['price'] ?></td>
+          <td class="mw-order-item-amount"><? print ($item['price']) ?></td>
           <td class="mw-order-item-count"><? print $item['qty'] ?></td>
           <?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>
-          <td class="mw-order-item-count"><? print $item_total; ?></td>
+          <td class="mw-order-item-count"><? print  currency_format($item_total, $ord['currency']); ?></td>
         </tr>
         <? endforeach; ?>
         <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
           <td><?php _e("Subtotal"); ?></td>
-          <td class="mw-o-box-table-green"><?php print $subtotal; ?></td>
+          <td class="mw-o-box-table-green"><? print  currency_format($subtotal, $ord['currency']); ?> </td>
         </tr>
         <?php /* <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
@@ -84,14 +85,14 @@ error("Invalid order id");
         <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
           <td><?php _e("Shipping price"); ?></td>
-          <td class="mw-o-box-table-green">$ <? print $ord['shipping']; ?></td>
+          <td class="mw-o-box-table-green"><? print  currency_format($ord['shipping'], $ord['currency']); ?></td>
         </tr>
         <tr class="mw-o-box-table-footer last">
           <td colspan="3">&nbsp;</td>
           <td class="mw-o-box-table-green"><b>
             <?php _e("Total:"); ?>
             </b></td>
-          <td class="mw-o-box-table-green"><b> $ <? print $ord['amount']; ?> </b></td>
+          <td class="mw-o-box-table-green"><b><? print  currency_format($grandtotal, $ord['currency']); ?></b></td>
         </tr>
       </tbody>
     </table>

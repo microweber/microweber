@@ -540,6 +540,11 @@ function checkout($data) {
 			return;
 		}
 		$place_order['amount'] = $amount;
+		$place_order['currency'] =  get_option('currency', 'payments'); 
+
+
+
+
 
 		if (isset($data['shipping_gw'])) {
 			$place_order['shipping_service'] = $data['shipping_gw'];

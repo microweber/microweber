@@ -25,7 +25,7 @@
                 <div class="edit">
                     <h2 class="element">Welcome to Microweber</h2>
                     <p class="element">This is the default theme of (MW). </p> <br>
-                    <h4 class="element">You are able to use it to create your own Website, Blog, Online Shop or anything you need, for free.</h4>  <br>
+                    <h4 class="element">You are able to create your own Website, Blog, Online Shop or anything you need, for free.</h4>  <br>
                     <h4 class="element"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>   <br>
                     <p class="element"><a href="javascript:;" class="btn btn-large pull-right">Simple Button</a></p>
                 </div>
@@ -51,7 +51,6 @@
           data-show="thumbnail,title,created_on,read_more,description"
           data-template="columns" />
     </div>
-
     <div class="container">
         <h2 class="section-title">
             <hr class="left visible-desktop">
@@ -65,26 +64,13 @@
           data-description-length="150"
           data-show="thumbnail,title,add_to_cart,description,price"
           data-template="columns" />
-
-                 <module
-          data-type="shop/products"
-          data-limit="3"
-          id="home-products"
-          data-description-length="150"
-          data-show="thumbnail,title,add_to_cart,description,price"
-          data-template="columns" />
     </div>
-
 </div>
 
 
 
 
-<div class="edit" style="height: 100px;">
 
-
-
-</div>
 
 
 

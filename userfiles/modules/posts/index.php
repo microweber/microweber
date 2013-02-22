@@ -226,6 +226,7 @@ if (!empty($content)){
 
 	  foreach ($content as $item){
 		  $iu = get_picture($item['id'], $for = 'post', $full = false);
+		 
 			if($iu != false){
 				 $item['image'] = $iu;
 			} else {

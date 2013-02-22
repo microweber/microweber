@@ -6,8 +6,8 @@ function get_picture($content_id, $for = 'post', $full = false) {
 	$arr['limit'] = '1';
 	$arr['to_table_id'] = $content_id;
 	$imgages = get_pictures($arr);
-	//  d($imgages);
-	if (isset($imgages[0])) {
+
+	if ($imgages != false and isset($imgages[0])) {
 		if (isset($imgages[0]['filename']) and $full == false) {
 			return $imgages[0]['filename'];
 		} else {
@@ -16,11 +16,14 @@ function get_picture($content_id, $for = 'post', $full = false) {
 
 	} else {
 		$cont_id = get_content_by_id($content_id);
+
 		if (isset($cont_id['content'])) {
-			$img = get_first_image_from_html($cont_id['content']);
+			$img = get_first_image_from_html(html_entity_decode($cont_id['content']));
 
 			if ($img != false) {
 				$surl = site_url();
+
+				$img = str_replace_once('{SITE_URL}', $surl, $img);
 
 				$media_url = MEDIA_URL;
 				if (stristr($img, $surl)) {
@@ -51,6 +54,8 @@ function get_picture($content_id, $for = 'post', $full = false) {
 
 function get_first_image_from_html($html) {
 	if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)) {
+		return $matches[1];
+	} elseif (preg_match('/<img.+?src=\'(.+?)\'/', $html, $matches)) {
 		return $matches[1];
 	} else {
 		return false;
@@ -400,25 +405,15 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 	$media_url = MEDIA_URL;
 	$media_url = trim($media_url);
-	 $src = str_replace_once('{SITE_URL}', $surl, $src);
+	$src = str_replace_once('{SITE_URL}', $surl, $src);
 
-/*
+	/*d($src);
+	 d($media_url);
+	 print '<hr>';
 
-
-
-
-d($src);
-d($media_url);
-print '<hr>';
-
-
-
-*/
+	 */
 
 	if (strstr($src, $surl) or strpos($src, $surl)) {
-
-
-
 
 		$src = str_replace($surl . '/', $surl, $src);
 
@@ -430,7 +425,6 @@ print '<hr>';
 		$src = rtrim($src, '/');
 		$src = MEDIAFILES . $src;
 		$src = normalize_path($src, false);
-
 
 	} else {
 		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
@@ -461,7 +455,7 @@ print '<hr>';
 
 	} else {
 		//
-	//	exit($src);
+		//	exit($src);
 		if (file_exists($src)) {
 
 			$tn = new Thumbnailer($src);

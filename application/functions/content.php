@@ -2560,7 +2560,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	}
 
 	if (isset($link) == false) {
-		$link = '<span data-page-id="{id}" class="pages_tree_link {nest_level} {active_class}" href="{link}' . $append_to_link . '">{title}</span>';
+		$link = '<span data-page-id="{id}" class="pages_tree_link {nest_level} {active_class} {active_parent_class}" href="{link}' . $append_to_link . '">{title}</span>';
 	}
 
 	if (isset($list_tag) == false) {
@@ -2669,6 +2669,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 				print "<{$list_tag} class='{$ul_class_name} depth-{$nest_level}'>";
 			}
 		}
+$res_count = 0;
 		foreach ($result as $item) {
 			$skip_me_cause_iam_removed = false;
 			if (is_array($remove_ids) == true) {
@@ -2725,11 +2726,65 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
-				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} depth-{$nest_level} item_{$iid} {$li_class}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
+				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {$li_class} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
-
-					$to_print = str_ireplace('{id}', $item['id'], $link);
+										
+									
+					$active_parent_class = '';	
+					//if(isset($item['parent']) and intval($item['parent']) != 0){	
+					if (intval($item['parent']) != 0 and intval($item['parent']) == intval(MAIN_PAGE_ID)) {
+						$active_parent_class = 'active-parent';
+					} 	elseif (intval($item['id']) == intval(MAIN_PAGE_ID)) {
+						$active_parent_class = 'active-parent';
+					}  else {
+						$active_parent_class = '';
+				 } 
+					
+		//}	
+						if ($item['id'] == CONTENT_ID) {
+			$active_class = 'active';
+		} elseif ($item['id'] == PAGE_ID) {
+			$active_class = 'active';
+		} elseif ($item['id'] == POST_ID) {
+			$active_class = 'active';
+		} elseif (CATEGORY_ID != false and intval($item['subtype_value']) != 0 and $item['subtype_value'] == CATEGORY_ID) {
+			$active_class = 'active';
+		} else {
+			$active_class = '';
+		}
+		
+		
+		$ext_classes = '';
+		if($res_count == 0){
+			$ext_classes .= ' first-child';
+			$ext_classes .= ' child-'.$res_count.'';
+		} else if(!isset($result[$res_count +1])){
+			$ext_classes .= ' last-child';
+			$ext_classes .= ' child-'.$res_count.'';
+		} else {
+			$ext_classes .= ' child-'.$res_count.'';
+		}
+		
+		if(isset($item['parent']) and intval($item['parent']) > 0){
+			$ext_classes .= ' have-parent';
+		}
+		
+		
+		if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+			$ext_classes .= ' have-category';
+		}
+		
+		$ext_classes = trim($ext_classes);
+				$the_active_class = $active_class;		
+					$to_print = str_replace('{id}', $item['id'], $link);
+					$to_print = str_replace('{active_class}', $active_class, $to_print);
+					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
+$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+	$to_pr_2= str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
+				$to_pr_2= str_replace('{active_class}', $active_class, $to_pr_2);
+								$to_pr_2= str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
+				
 
 					$to_print = str_ireplace('{title}', $item['title'], $to_print);
 
@@ -2751,7 +2806,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 					foreach ($item as $item_k => $item_v) {
 						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);
 					}
-
+$res_count++;
 					if (is_array($active_ids) == true) {
 
 						$is_there_active_ids = false;
@@ -2824,13 +2879,17 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 					//   $nest_level++;
 					$params['nest_level'] = $nest_level;
+$params['ul_class_name'] = false;
+$params['ul_class'] = false;
 
 					if( $skip_pages_from_tree  == false){
 						$children = pages_tree($params);
 					}
 				} else {
 					if( $skip_pages_from_tree  == false){
-						$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
+					//	$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
+					
+						$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
 					}
 				}
 
@@ -2889,6 +2948,8 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 			}
 			print "</{$list_item_tag}>";
 		}
+
+
 		if (trim($list_tag) != '') {
 			print "</{$list_tag}>";
 		}
