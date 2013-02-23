@@ -463,6 +463,21 @@ function has_access($function_name) {
 	}
 }
 
+function admin_access() {
+	if(is_admin() == false){
+		exit('You must be logged as admin');
+	}
+	
+	
+}
+function only_admin_access() {
+	if(is_admin() == false){
+		exit('You must be logged as admin');
+	}
+	
+	
+}
+
 function is_admin() {
 	static $is = 0;
 	if (MW_IS_INSTALLED == false) {

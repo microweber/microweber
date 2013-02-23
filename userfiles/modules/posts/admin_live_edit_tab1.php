@@ -1,12 +1,37 @@
-<?  $rand = uniqid(); ?>
+<?  
+
+ 
+$set_content_type = 'post';
+if(isset($params['global']) and $params['global'] != false){
+	$set_content_type =  get_option('data-content-type', $params['id']); 
+}
+$rand = uniqid(); ?>
 <? if(!isset($is_shop) or $is_shop == false): ?>
 <? $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
+ 
 <? else:  ?>
 <? $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
 <? endif; ?>
 <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
+<? if(isset($params['global']) and $params['global'] != false) :  ?>
+<? if($set_content_type =='product'):  ?>
+<? $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
+<? endif; ?>
+<label class="mw-ui-label">Content type</label>
+<div class="mw-ui-select" style="width: 100%;">
+  <select name="data-content-type" id="the_post_data-content-type<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"  >
+    <option  value="post"    <? if(('post' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Posts</option>
+    <option  value="page"    <? if(('page' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Pages</option>
+    <option  value="product"    <? if(('product' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Product</option>
+    <option   value="none"   <? if(('none' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>None</option>
+  </select>
+</div>
+<? endif; ?>
 
-<label class="mw-ui-label">Display posts from</label>
+<? if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
+
+
+<label class="mw-ui-label">Display <? print pluralize($set_content_type) ?> from</label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-page-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"  >
     <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
@@ -21,6 +46,11 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
  if($is_shop != false){
 	 $pt_opts['is_shop'] = 'y';
  }
+ if($set_content_type == 'product'){
+	  $pt_opts['is_shop'] = 'y';
+}
+
+
  pages_tree($pt_opts);
 
   ?>
@@ -86,6 +116,10 @@ $show_fields = array();
     <label class="mw-ui-check">
       <input type="checkbox" name="data-show" value="title" class="mw_option_field" <? if(in_array('title',$show_fields)): ?>   checked="checked"  <? endif; ?> />
       <span></span> <span>Title</span></label>
+      <div class="right">
+      <label class="mw-ui-label-horizontal">Length</label>
+      <input name="data-title-limit" class="mw_option_field"   type="text" placeholder="255" style="width:65px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
+    </div>
   </li>
   <li>
     <label class="mw-ui-check">
@@ -136,3 +170,4 @@ $show_fields = array();
     </div>
   </li>
 </ul>
+<? endif; ?>

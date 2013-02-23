@@ -84,9 +84,12 @@ function mw_db_init_modules_table() {
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('as_element', 'int(11) default 0');
 	$fields_to_add[] = array('ui_admin', 'int(11) default 0');
+
 	$fields_to_add[] = array('notifications', 'int(11) default 0');
 
 	set_db_table($table_name, $fields_to_add);
+
+	$fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
 	db_add_table_index('module', $table_name, array('module(255)'));
 	db_add_table_index('module_id', $table_name, array('module_id(255)'));
@@ -366,6 +369,7 @@ function get_elements_from_db($params = false) {
 	if (!isset($params['ui'])) {
 		//   $params['ui'] = 1;
 	}
+	
 	$s = get($params);
 	// d($params); d( $s);
 	return $s;
@@ -416,7 +420,7 @@ function save_settings_md($data_to_save) {
 }
 
 function save_element_to_db($data_to_save) {
- 
+
 	if (is_admin() == false) {
 		return false;
 	}
@@ -1556,30 +1560,29 @@ function load_module($module_name, $attrs = array()) {
 
 		//d($get_module_template_settings_from_options);
 
-	/*
-		if (isset($attrs['from_url'])) {
+		/*
+		 if (isset($attrs['from_url'])) {
 
-				$url = $attrs['from_url'];
+		 $url = $attrs['from_url'];
 
-				if (strpos($url, '#')) {
-			$url = substr($url, 0, strpos($url, '#'));
-		}
+		 if (strpos($url, '#')) {
+		 $url = substr($url, 0, strpos($url, '#'));
+		 }
 
-				$url = explode('?', $url);
-				$url = $url[0];
+		 $url = explode('?', $url);
+		 $url = $url[0];
 
-				if (trim($url) == '' or trim($url) == site_url()) {
-					//$page = get_content_by_url($url);
-					$page = get_homepage();
-					// var_dump($page);
-				} else {
+		 if (trim($url) == '' or trim($url) == site_url()) {
+		 //$page = get_content_by_url($url);
+		 $page = get_homepage();
+		 // var_dump($page);
+		 } else {
 
-					$page = get_content_by_url($url);
+		 $page = get_content_by_url($url);
 
-				}
-					   define_constants($page);
-			}*/
-
+		 }
+		 define_constants($page);
+		 }*/
 
 		if (isset($attrs['id'])) {
 			$attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);

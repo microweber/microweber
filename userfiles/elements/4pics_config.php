@@ -10,3 +10,4 @@ $config['categories'] = "portfolio, online shop, gallery, recommended";
 $config['version'] = 0.5;
 $config['position'] = 8;
 $config['as_element'] = true;
+$config['layout_type'] = "dynamic";

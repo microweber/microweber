@@ -10,4 +10,4 @@ $config['categories'] = "tabs";
 $config['position'] = 12;
 $config['version'] = 0.2;
 $config['as_element'] = true;
- 
+$config['layout_type'] = "dynamic";

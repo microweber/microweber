@@ -185,6 +185,17 @@ if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
 } else if(isset($params['description-length'])){
 	$character_limit = intval($params['description-length']);
 }
+ $title_character_limit = 1200;
+ $cfg_character_limit1 = get_option('data-title-limit', $params['id']);
+if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
+	$title_character_limit = intval($cfg_character_limit1);
+} else if(isset($params['title-length'])){
+	$title_character_limit = intval($params['title-length']);
+}
+ 
+ 
+ 
+ 
  
 if ($show_fields == false) {
 //$show_fields = array('thumbnail', 'title', 'description', 'read_more');
@@ -202,12 +213,23 @@ if(isset($curent_page) and intval($curent_page) > 0){
 }
 
 // $post_params['debug'] = 'posts';
-$post_params['content_type'] = 'post';
+if(!isset($post_params['content_type'])){
+	$post_params['content_type'] = 'post';
+}
+
+if($post_params['content_type'] == 'product'){
+	$post_params['subtype'] = 'product';
+	$post_params['content_type'] = 'post';
+}
+
+
 if(isset($params['is_shop'])){
 	$post_params['subtype'] = 'product';
 	unset($post_params['is_shop']);
 } else {
+if(!isset($post_params['content_type'])){	
  $post_params['subtype'] = 'post';
+}
 }
 if(!isset($params['order_by'])){
 	  $post_params['orderby'] ='position asc';
@@ -246,8 +268,13 @@ if (!empty($content)){
 			}
 
 
+	if(isset( $item['title']) and $item['title'] != ''){
+				 
+					$item['title'] = character_limiter(( $item['title']),$title_character_limit);
+				 
+ 			}  
 
-if($post_params['subtype'] == 'product'){
+if(isset($post_params['subtype']) and $post_params['subtype'] == 'product'){
 $item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);
 
 } else {

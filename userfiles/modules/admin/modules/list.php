@@ -2,7 +2,7 @@
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
- 
+
  if(!isset($modules ) ){
 //$modules = scan_for_get_modules($modules_options );
  }
@@ -13,12 +13,16 @@ $modules_options['ui'] = true;
 $mod_obj_str = 'modules';
  if(isset($is_elements) and $is_elements == true) {
                               $mod_obj_str = 'elements';
-                                         $modules = get_elements_from_db();
-										// 
+                              $el_params = array();
+if(isset($params['layout_type'])){
+  $el_params['layout_type'] = $params['layout_type'];
+}
+                                         $modules = get_elements_from_db($el_params);
+										//
 }     else {
 
  $modules = get_modules_from_db();
- 
+
 }
 
  ?>
@@ -33,12 +37,12 @@ $mod_obj_str = 'modules';
 
 <ul class="modules-list list-<? print $mod_obj_str ?>">
   <? foreach($modules as $module2): ?>
-   
+
    <? if(isset($module2['module'])): ?>
-   
+
   <?
-		
-		 
+
+
 		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);
 		 $module_group2 = $module_group2[0];
 		?>
@@ -52,14 +56,14 @@ $mod_obj_str = 'modules';
 			   // $temp2 = array();
 			     if(is_array($module2['categories']) and !empty($module2['categories'])){
 
-                  
+
                    foreach($module2['categories'] as $it){
                     $temp[]            = $it['parent_id'];
 					//  $temp2[]            = $it['id'];
                    }
                    $module2['categories'] = implode(',',$temp);
 				 //   $module2['categories_ids'] = implode(',',$temp2);
-				//   d( $module2['categories']); 
+				//   d( $module2['categories']);
                  }
 
    ?>
@@ -67,7 +71,7 @@ $mod_obj_str = 'modules';
   <? $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
   <? $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']);
 if(is_array($module2['categories'])){
-$module2['categories'] = implode(',',$module2['categories']);	
+$module2['categories'] = implode(',',$module2['categories']);
 }
 
   ?>
@@ -105,10 +109,10 @@ $module2['categories'] = implode(',',$module2['categories']);
                  /> <s class="mw_module_image_shadow"></s></span></span>
     <? endif; ?>
     <span class="module_name" alt="<? isset($module2['description'])? print addslashes($module2['description']) : ''; ?>"><? _e($module2['name']); ?></span>  </span> </li>
-    
-    
-    
+
+
+
      <? endif; ?>
   <? endforeach; ?>
-   
+
 </ul>
