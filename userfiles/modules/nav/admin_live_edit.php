@@ -23,6 +23,44 @@
     margin-bottom: 20px;
   }
 
+ .mw-modules-admin li > .module-nav-edit-item{
+    box-shadow: 0 0 17px #555;
+    background: white;
+    padding: 0;
+  }
+
+ .mw-modules-admin li > .module-nav-edit-item:hover{
+    background: white;
+  }
+
+  #custom_link_inline_controller{
+    background: white;
+    border:none;
+  }
+
+  #custom_link_inline_controller .pages_tree.depth-1{
+    padding-left: 0;
+  }
+
+  #custom_link_inline_controller .pages_tree li{
+    background-color: transparent;
+  }
+
+  #custom_link_inline_controller input[type='text']{
+    float: left;
+    width: 220px;
+    margin-right:15px;
+  }
+
+  .menu_element_link{
+    position: relative;
+    top: 7px;
+  }
+
+  #custom_link_inline_controller .mw-ui-btn{
+    width: 60px;
+  }
+
   </style>
 
 <script  type="text/javascript">
@@ -133,7 +171,7 @@ $(document).ready(function(){
         <div style="overflow: hidden">
           <input class="left" type="text" name="title" value="Menu Name" data-default="Menu Name" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
 
-          <button type="button" class="mw-ui-btn right" onclick="mw.menu_save('#add_new_menu')">Add</button>
+          <span type="button" class="mw-ui-btn right" onclick="mw.menu_save('#add_new_menu')">Add</span>
 
         </div>
       <hr />

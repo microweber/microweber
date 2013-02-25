@@ -25,9 +25,10 @@ function api_expose($function_name) {
 }
 
 function exec_action($api_function, $data = false) {
-
-	$hooks = action_hook(true);
-
+	global $mw_action_hook_index;
+	$hooks = $mw_action_hook_index;
+	;
+	//d($hooks);
 	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
 		foreach ($hooks[$api_function] as $hook_key => $hook_value) {
@@ -64,17 +65,19 @@ function action_hook($function_name, $next_function_name = false) {
 	}
 }
 
+$mw_api_hooks = array();
 function api_hook($function_name, $next_function_name = false) {
-	static $index = array();
-
+	//static $index = array();
+	global $mw_api_hooks;
 	if (is_bool($function_name)) {
-		$index = array_unique($index);
+		$index = array_unique($mw_api_hooks);
 		return $index;
 	} else {
+		 //d($function_name);
+		$function_name = trim($function_name);
+		$mw_api_hooks[$function_name][] = $next_function_name;
 
-		$index[$function_name][] = $next_function_name;
-
-		//  $index .= ' ' . $function_name;
+		// $index .= ' ' . $function_name;
 	}
 }
 

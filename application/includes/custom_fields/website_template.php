@@ -18,11 +18,29 @@ function mw_set_default_template(){
 
 
 $(document).ready(function(){
- $("[name='active_site_template']").live('change',function(){
-      $("#mw_curr_theme_val").val($(this).val());
-    })
-  //mw.templatePreview.generate();
+	
+	
+	 $(window).bind('templateChanged', function(){
+		 
+		
+  $(".mw-site-theme-selector").find("[name='active_site_template']").each(function( index ) {
+  $("#mw_curr_theme_val").val($(this).val());
 });
+	
+	});
+
+
+
+
+
+
+	
+	
+	
+/* $("[name='active_site_template']").live('change',function(){
+      $("#mw_curr_theme_val").val($(this).val());
+    })*/
+ });
 
 </script>
 <?  //d($data); ?>
@@ -32,7 +50,7 @@ $(document).ready(function(){
   <!--  <button class="mw-ui-btn mw-action-delete-template">Delete Template</button>
 -->
 
-  <input id="mw_curr_theme_val" name="<? print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="text" option-group="<? print  $data['option_group']; ?>"  value="<? print  $data['option_value']; ?>" data-id="<? print  $data['id']; ?>" />
+  <input id="mw_curr_theme_val" name="<? print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<? print  $data['option_group']; ?>"  value="<? print  $data['option_value']; ?>" data-id="<? print  $data['id']; ?>" />
   <module type="content/layout_selector" data-active-site-template="<? print $data['option_value'] ?>" autoload="1"  />
   <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()">Apply Template</button>
 </div>

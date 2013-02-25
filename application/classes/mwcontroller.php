@@ -647,7 +647,7 @@ class MwController {
 
 			if (method_exists($res, $try_class_func)) {
 				$res = $res -> $try_class_func($data);
-
+	
 				if (defined('MW_API_RAW')) {
 					$mod_class_api_called = true;
 					return ($res);
@@ -683,12 +683,14 @@ class MwController {
 							if ($mod_api_err == true) {
 								if ($api_exposed_value == $try_class_full) {
 									$mod_api_err = false;
+								} else if ($api_exposed_value == $try_class_full2) {
+									$mod_api_err = false;
 								} else {
 									$convert_slashes = str_replace('\\', '/', $try_class_full);
 										//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
 										//d($convert_slashes);
-										//d($try_class_full);
+									// d($try_class_full);
 									if ($convert_slashes == $api_exposed_value) {
 										$mod_api_err = false;
 									}
@@ -731,6 +733,10 @@ class MwController {
 						if (method_exists($res, $try_class_func)) {
 							$res = $res -> $try_class_func($data);
 							$mod_class_api_called = true;
+											
+								
+												
+							
 							if (defined('MW_API_RAW')) {
 								return ($res);
 							}
@@ -743,6 +749,11 @@ class MwController {
 
 								print($res);
 							}
+							
+							
+				
+				
+				
 							exit();
 						}
 
@@ -810,7 +821,7 @@ class MwController {
 
 				}
 				$hooks = api_hook(true);
-
+ 
 				if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
 					foreach ($hooks[$api_function] as $hook_key => $hook_value) {

@@ -211,16 +211,15 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 	/*
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-		if (($cache_content) == '--false--') {
-			return false;
-		}
-		// $cache_content = false;
-		if (($cache_content) != false) {
+	 $cache_content = cache_get_content($function_cache_id, $cache_group);
+	 if (($cache_content) == '--false--') {
+	 return false;
+	 }
+	 // $cache_content = false;
+	 if (($cache_content) != false) {
 
-			return $cache_content;
-		}*/
-
+	 return $cache_content;
+	 }*/
 
 	// ->'table_options';
 	$table = MW_DB_TABLE_OPTIONS;
@@ -294,7 +293,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
 function set_default_option($data) {
 	$changes = false;
-		 
+
 	if (is_array($data)) {
 		if (!isset($data['option_group'])) {
 			$data['option_group'] = 'other';
@@ -302,9 +301,9 @@ function set_default_option($data) {
 
 		if (isset($data['option_key'])) {
 			$check = get_option($data['option_key'], $option_group = $data['option_group'], $return_full = false, $orderby = false);
-		
+
 			if ($check == false) {
-				
+
 				save_option($data);
 			}
 		}
@@ -331,16 +330,20 @@ function get_option_by_id($id) {
 
 }
 
-function get_option_groups() {
+function get_option_groups($is_system = false) {
 
 	$table = MW_DB_TABLE_OPTIONS;
-
-	$q = "select option_group from $table where module IS NULL and option_group IS NOT NULL group by option_group order by position ASC ";
+	$is_systemq = '';
+	if ($is_system != false) {
+		$is_systemq = ' and is_system=1 ';
+	} else {
+		$is_systemq = ' and is_system=0 ';
+	}
+	$q = "select option_group from $table where module IS NULL $is_systemq and option_group  IS NOT NULL group by option_group order by position ASC ";
 	$function_cache_id = __FUNCTION__ . crc32($q);
 	$res1 = false;
 
-
-//d($q);
+	//d($q);
 
 	$res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
 	if (is_array($res) and !empty($res)) {

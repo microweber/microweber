@@ -81,14 +81,21 @@ if( $id != 0){
 <? endif; ?>
 
 <div id="custom_link_inline_controller" class="mw-ui-gbox">
+
     <input type="text" placeholder="<?php _e("Title"); ?>" name="title" value="<?  print $data['title'] ?>" />
+    <span class="mw-ui-btn" onclick="mw.$('#menu-selector-<?  print $data['id'] ?>').toggle();"><?php _e("Change"); ?></span>
+    <div class="mw_clear vSpace"></div>
     <input type="text" placeholder="<?php _e("URL"); ?>" name="url" value="<?  print $data['url'] ?>" />
 
+    <span class="mw-ui-btn mw-ui-btn-blue left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');">Save</span>
+
+    <div class="mw_clear vSpace"></div>
+
     <?php if($data['id'] != 0): ?>
-    change
 
 
-                <div id="menu-selector-<?  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block">
+
+    <div id="menu-selector-<?  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
 
     <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['taxonomy_id'] ?>"  for="content" to_table_id="<? print 0 ?>" input-type-categories="radio" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
 
@@ -101,7 +108,7 @@ if( $id != 0){
 
      <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
 
-    <button class="mw-ui-btn" onclick="mw.menu_save_new_item('#custom_link_inline_controller');">Add to menu</button>
+
 </div>
 
     <input type="hidden" name="id" value="<?  print $data['id'] ?>" />

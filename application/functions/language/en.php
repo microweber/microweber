@@ -480,3 +480,4 @@ $language["table"]= 'Table' ;
 $language["tabs"]= 'Tabs' ; 
 $language["accordion"]= 'Accordion' ; 
 $language["url"]= 'URL' ; 
+$language["change"]= 'Change' ; 

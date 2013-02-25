@@ -1,5 +1,5 @@
 <?php //$rand = $params['id']; ?>
-<?  $option_groups = get_option_groups(); ?>
+<?  $option_groups = get_option_groups(1); ?>
 <script  type="text/javascript">
 
 

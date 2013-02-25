@@ -1,10 +1,12 @@
 <?
+api_hook('shop/shipping/gateways/country/shipping_to_country/test', 'shop/shipping/gateways/country/shipping_to_country/test2');
 
- 
+// print('shop/shipping/gateways/country/shipping_to_country/test'. 'shop/shipping/gateways/country/shipping_to_country/test2');
 api_expose('shop/shipping/gateways/country/shipping_to_country/save');
 api_expose('shop/shipping/gateways/country/shipping_to_country/set');
+api_expose('shop/shipping/gateways/country/shipping_to_country/get');
 api_expose('shop/shipping/gateways/country/shipping_to_country/delete');
-
+ 
 
 class shipping_to_country {
 
@@ -15,6 +17,15 @@ class shipping_to_country {
 	// to prevent external instantiation
 	function __construct() {
 		$this -> table = MW_TABLE_PREFIX . 'cart_shipping';
+	}
+	
+	
+	function test() {
+	 return 'ping ';
+	}
+	
+	function test2() {
+	 return 'pong ';
 	}
 
 	// getInstance method

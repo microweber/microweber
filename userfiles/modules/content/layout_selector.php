@@ -273,7 +273,7 @@ if(layout != undefined){
 }
 
 var iframe_url = '<? print $iframe_start; ?>/no_editmode:true'+preview_template_param+preview_layout_param+'/?content_id=<? print  $data['id'] ?>'+inherit_from_param
-
+d('iframe_url is '+iframe_url);
 if(return_url == undefined){
   $(window).trigger('templateChanged', iframe_url);
 
