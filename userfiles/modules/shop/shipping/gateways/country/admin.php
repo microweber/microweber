@@ -17,8 +17,9 @@
      $countries[] = 'Worldwide';
     ?>
 <script  type="text/javascript">
+if(mw.shipping_country == undefined){
   mw.shipping_country = {};
-
+}
   mw.require('forms.js');
 
   mw.require('<? print $config['url_to_module'] ?>country.js');
@@ -83,7 +84,7 @@ SaveShipping = function(form, dataType){
        mw.reload_module('shop/shipping');
     }
     else{
-       mw.reload_module(dataType);
+    mw.reload_module(dataType);
     }
 }
 

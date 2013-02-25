@@ -12,9 +12,9 @@ if($active_action != false){
 	$vf = $here.$active_action.'.php' ;
 	
 	if(is_file($vf)){
-$display_file = ($vf);
-
-}
+	$display_file = ($vf);
+	
+	}
 
 }
 

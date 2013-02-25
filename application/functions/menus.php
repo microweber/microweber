@@ -127,7 +127,7 @@ function delete_menu_item($id) {
 
 	cache_clean_group('menus/global');
 
-	return $save;
+	return true;
 
 }
 
@@ -163,6 +163,14 @@ function edit_menu_item($data_to_save) {
 		cache_clean_group('menus/' . $data_to_save['id']);
 	}
 
+	if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
+		unset($data_to_save['content_id']);
+	}
+
+	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) == 0) {
+		unset($data_to_save['taxonomy_id']);
+	}
+
 	if (isset($data_to_save['parent_id'])) {
 		$data_to_save['parent_id'] = intval($data_to_save['parent_id']);
 		cache_clean_group('menus/' . $data_to_save['parent_id']);
@@ -172,7 +180,7 @@ function edit_menu_item($data_to_save) {
 
 	$data_to_save['table'] = $table;
 	$data_to_save['item_type'] = 'menu_item';
-
+	//d($data_to_save);
 	$save = save_data($table, $data_to_save);
 
 	cache_clean_group('menus/global');
@@ -274,8 +282,14 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 	order by position ASC ";
 	//d($sql); and item_type='menu_item'
+	$menu_params = array();
+	$menu_params['parent_id'] = $menu_id;
+	$menu_params['table'] = $table_menus;
+	$menu_params['orderby'] = "position ASC";
 
-	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+	 //$q = get($menu_params);
+	// d($q);
+ 	 $q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
 	// $data = $q;
 	if (empty($q)) {
@@ -292,13 +306,14 @@ function menu_tree($menu_id, $maxdepth = false) {
 	}
 
 	if (!isset($link) or $link == false) {
-		$link = '<a data-item-id="{id}" class="menu_element_link {active_class}" href="{url}">{title}</a>';
+		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes}" href="{url}">{title}</a>';
 	}
 	//d($link);
 	// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-	$to_print = '<ul class="' . $ul_class . ' menu_' . $menu_id . '" >';
+	$to_print = '<ul class="' . $ul_class . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
 	$cur_depth = 0;
+	$res_count = 0;
 	foreach ($q as $item) {
 		$full_item = $item;
 
@@ -331,10 +346,8 @@ function menu_tree($menu_id, $maxdepth = false) {
 		} else {
 			$title = $item['title'];
 		}
- 
- 
- 
- 		if ($item['content_id'] == CONTENT_ID) {
+
+		if ($item['content_id'] == CONTENT_ID) {
 			$active_class = 'active';
 		} elseif ($item['content_id'] == PAGE_ID) {
 			$active_class = 'active';
@@ -351,6 +364,17 @@ function menu_tree($menu_id, $maxdepth = false) {
 			//$full_item['the_url'] = page_link($full_item['content_id']);
 			$to_print .= '<li   class="' . $li_class . ' ' . ' ' . $active_class . '" data-item-id="' . $item['id'] . '" >';
 
+			$ext_classes = '';
+			if (isset($item['parent']) and intval($item['parent']) > 0) {
+				$ext_classes .= ' have-parent';
+			}
+
+			if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+				$ext_classes .= ' have-category';
+			}
+
+			$ext_classes = trim($ext_classes);
+
 			$menu_link = $link;
 			foreach ($item as $key => $value) {
 				$menu_link = str_replace('{' . $key . '}', $value, $menu_link);
@@ -359,20 +383,35 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$to_print .= $menu_link;
 			//	$to_print .= '<a data-item-id="' . $item['id'] . '" class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
 
+			$ext_classes = '';
+			if ($res_count == 0) {
+				$ext_classes .= ' first-child';
+				$ext_classes .= ' child-' . $res_count . '';
+			} else if (!isset($q[$res_count + 1])) {
+				$ext_classes .= ' last-child';
+				$ext_classes .= ' child-' . $res_count . '';
+			} else {
+				$ext_classes .= ' child-' . $res_count . '';
+			}
+
+			$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+
 			if (in_array($item['id'], $passed_ids) == false) {
 
 				if ($maxdepth == false) {
 
 					if (isset($params) and isarr($params)) {
+						//$menu_params = $params;
+						//d($params);
 						$menu_params['menu_id'] = $item['id'];
-
+						if (isset($menu_params['item_parent'])) {
+							unset($menu_params['item_parent']);
+						}
 						$test1 = menu_tree($menu_params);
-
 					} else {
 						$test1 = menu_tree($item['id']);
 
 					}
-
 					//$test1 = menu_tree($item['id']);
 					if (strval($test1) != '') {
 						$to_print .= strval($test1);
@@ -395,6 +434,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 					}
 				}
 			}
+			$res_count++;
 			$to_print .= '</li>';
 
 		}

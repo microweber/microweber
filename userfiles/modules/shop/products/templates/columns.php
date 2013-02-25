@@ -17,8 +17,8 @@ description: Columns
     <?  $j=1;  foreach ($data as $item): ?>
     <div class="span4">
       <? if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
-      <a href="<? print $item['link'] ?>">
-        <img class="img-polaroid img-rounded" src="<? print thumbnail($item['image'], 290); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  />
+      <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
+        <span class="cell"><img src="<? print thumbnail($item['image'], 290); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  /></span>
       </a>
       <? endif; ?>
       <div class="product-title-price clearfix">

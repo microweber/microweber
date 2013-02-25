@@ -579,14 +579,14 @@ class MwController {
 		$try_class_func = array_pop($mod_api_class);
 		$mod_api_class = implode(DS, $mod_api_class);
 		$mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
-		// ..d($mod_api_class1);
-
+	 
+ 
 		$try_class = str_replace('/', '\\', $mod_api_class);
 		if (class_exists($try_class, false)) {
 			$caller_commander = 'class_is_already_here';
 			$mod_class_api_class_exist = true;
 		} else {
-			//	d($mod_api_class1);
+			//	
 			if (is_file($mod_api_class1)) {
 				$mod_class_api = true;
 				include_once ($mod_api_class1);
@@ -671,9 +671,13 @@ class MwController {
 
 				$try_class = str_replace('/', '\\', $mod_api_class);
 				$try_class_full = str_replace('/', '\\', $api_function_full);
+				
+				$try_class_full2 = str_replace('\\', '/', $api_function_full);
+				
+				 
 				$mod_api_err = false;
 				if (!defined('MW_API_RAW')) {
-					if (!in_array($try_class_full, $api_exposed)) {
+					if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed) ) {
 						$mod_api_err = true;
 						foreach ($api_exposed as $api_exposed_value) {
 							if ($mod_api_err == true) {
@@ -696,6 +700,7 @@ class MwController {
 
 					}
 				}
+				 
 				if ($mod_class_api and $mod_api_err == false) {
 
 					if (!class_exists($try_class, false)) {
@@ -721,7 +726,7 @@ class MwController {
 						} else {
 							$data = $_REQUEST;
 						}
-
+ 
 						$res = new $try_class($data);
 						if (method_exists($res, $try_class_func)) {
 							$res = $res -> $try_class_func($data);
@@ -754,7 +759,7 @@ class MwController {
 		}
 
 		if ($api_function) {
-
+ 
 		} else {
 			$api_function = 'index';
 		}

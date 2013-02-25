@@ -55,9 +55,20 @@ if(isset($params['data-category-id'])){
 //print $posts ;
   //d($params);
 ?>
-<? //d($params); ?>
+<?  //d($params['page-id']); ?>
 <?  if(isset($params['page-id'])):  ?>
- <? $page_info = get_content_by_id($params['page-id']); ?>
+ <?
+
+if($params['page-id'] == 'global'){
+
+ $page_info = get_homepage();
+} else {
+
+
+ $page_info = get_content_by_id($params['page-id']);
+}
+
+ ?>
 
 <div class="mw-admin-page-preview-holder">
 
@@ -75,7 +86,7 @@ if(isset($params['data-category-id'])){
 
   <?php endif; ?>
 
-  <module data-type="content/layout_selector" data-page-id="<? print ($params['page-id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1 edit_page_id="<? print ($page_info['id'])?>"  />
+  <module data-type="content/layout_selector" data-page-id="<? print ($page_info['id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1 edit_page_id="<? print ($page_info['id'])?>"  />
 
 
 
@@ -331,7 +342,7 @@ mw.manage_content_sort = function(){
   <? endif; ?>
   <? endif; ?>
 </div>
-<div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')">Select All</span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">Unselect All</span></span> <span class="mw-ui-btn">Delete</span>
+<div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')">Select All</span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">Unselect All</span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();">Delete</span>
   <input
             onfocus="mw.form.dstatic(event);"
             onblur="mw.form.dstatic(event);"

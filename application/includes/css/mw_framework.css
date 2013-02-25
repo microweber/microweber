@@ -1224,7 +1224,6 @@ a:hover .mw_ed_tree_content{
     border-radius:10px;
 }*/
 .mw-ui-category-selector{
-    padding: 15px 15px 15px 40px;
     position: relative;
     padding: 0;
     background:#F4F4F4;
@@ -1235,6 +1234,17 @@ a:hover .mw_ed_tree_content{
     width: 622px;
     display: none;
 }
+
+.mw-ui-gbox{
+    padding: 15px;
+    position: relative;
+    background:#F4F4F4;
+    border:1px solid #DCDCDC;
+    border-top-color:#BDBDBD;
+    overflow: hidden;
+    border-radius:2px;
+}
+
 .mw-ui-category-selector div.module-categories-selector {
     overflow-y: auto;
     overflow-x:hidden;
@@ -1678,7 +1688,6 @@ input.mw-title-field{
 .mw-ui-check input + span{
   display: inline-block;
   position: relative;
-  top: 3px;
   cursor: pointer;
   background: url(../img/chkrd.png) no-repeat;
 }

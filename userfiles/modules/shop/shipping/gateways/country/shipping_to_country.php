@@ -3,6 +3,8 @@
  
 api_expose('shop/shipping/gateways/country/shipping_to_country/save');
 api_expose('shop/shipping/gateways/country/shipping_to_country/set');
+api_expose('shop/shipping/gateways/country/shipping_to_country/delete');
+
 
 class shipping_to_country {
 
@@ -78,6 +80,7 @@ class shipping_to_country {
 
 		//d($c_id);
 	}
+	return true;
 }
 	
 		function set($params = false) {

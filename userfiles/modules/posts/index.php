@@ -285,6 +285,8 @@ $item['prices'] = false;
 		 $data[] = $item;
 	 }
 // }
+} else {
+	mw_notif('Your posts module is empty');	
 }
 
 

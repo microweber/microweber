@@ -20,7 +20,7 @@
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div class="module_item"><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:mw.menu_items_set_edit({id});">{title}</a> <span class="mw-ui-close" onclick="mw.menu_item_delete({id});">[x]</span></div>';
+	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:mw.menu_items_set_edit({id});">{title}</a> <span class="mw-ui-close" onclick="mw.menu_item_delete({id});">[x]</span></div>';
 
 $data = menu_tree( $menu_params);
 }
@@ -64,10 +64,17 @@ var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
 	// the_li.append('<div id="menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
  }
 
+                mw.$('.module-nav-edit-item').remove();
+                the_li.append('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
 
- $('#ed_menu_holder').attr('item-id',$item_id);
- mw.reload_module('#ed_menu_holder');
+                   $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
 
+                   $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<? print $id?>');
+
+                   mw.load_module('nav/edit_item','#edit-menu_item_edit_wrap-'+$item_id);
+
+
+                  $('#ed_menu_holder').hide();
 
 
 }

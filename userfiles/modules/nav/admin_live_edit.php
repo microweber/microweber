@@ -10,38 +10,52 @@
   .mw_tabs_layout_simple .mw_simple_tabs_nav li{
     margin:0 11px;
   }
+  .mw-ui-category-selector{
+    width: auto;
+  }
+  #custom_link_controller {
+    width: 280px;
+    display: none;
+  }
+
+  #custom_link_controller input[type='text']{
+    width: 220px;
+    margin-bottom: 20px;
+  }
 
   </style>
 
 <script  type="text/javascript">
-  mw.require('forms.js');
-  mw.require('url.js');
-
-  </script>
+  mw.require('forms.js', true);
+  mw.require('url.js', true);
+</script>
 <script type="text/javascript">
-  mw.menu_save = function($selector){
 
+
+
+  <?php include INCLUDES_DIR . 'api/treerenderer.php'; ?>
+
+
+  mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
       $.post("<? print site_url('api/add_new_menu') ?>",  obj, function(data){
-      //  mw.reload_module('nav');
-	  window.location.href = window.location.href;
+	    window.location.href = window.location.href;
       });
-
  }
 
 
 
 
- requestlink = function(){
-   if(typeof _requestlink === 'undefined'){
-        _requestlink = true;
-        var url = mw.external_tool("rte_link_editor#add_link_to_menu");
-        mw.$("#requestlink_holder").show().html("<iframe style='border-top:1px solid #D7D7D7;border-bottom:1px solid #D7D7D7;margin-left:-20px' frameBorder='0' width='430' height='300' src='" + url +"' ></iframe>");
-   }
-   else{
-        mw.$("#requestlink_holder").toggle();
-   }
+ requestLink = function(){
 
+    mw.$("#menu-selector").toggle();
+    mw.$("#custom_link_controller").hide();
+ }
+
+ requestCustomLink = function(){
+
+    mw.$("#custom_link_controller").toggle();
+    mw.$("#menu-selector").hide();
 
  }
 
@@ -62,6 +76,35 @@
 
 
  }
+
+
+$(document).ready(function(){
+
+ mw.treeRenderer.appendUI('#menu-selector');
+
+   mw.$('#menu-selector input[type="radio"]').commuter(function(){
+
+      var content_id =  mw.$(".module-nav-edit-item input[name='content_id']");
+      var taxonomy_id =  mw.$(".module-nav-edit-item input[name='taxonomy_id']");
+
+      var el = this;
+
+      content_id.val('');
+      taxonomy_id.val('');
+
+      if(mw.tools.hasParentsWithClass(el, 'category_element')){
+         taxonomy_id.val(el.value);
+      }
+      else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
+          content_id.val(el.value);
+      }
+      mw.menu_save_new_item('.menu_item_edit');
+      mw.$("#menu-selector").hide();
+   });
+
+
+});
+
  </script>
 <? $menus = get_menu(); ?>
 
@@ -110,10 +153,10 @@
 
 	}
 	$active_menu = false;
-$menu_id = false;
-if($menu_name != false){
-$menu_id = get_menu_id('title='.$menu_name);
-}
+  $menu_id = false;
+  if($menu_name != false){
+  $menu_id = get_menu_id('title='.$menu_name);
+  }
 
  ?>
     <? if(isarr($menus) == true): ?>
@@ -130,7 +173,8 @@ $menu_id = get_menu_id('title='.$menu_name);
           </select>
         </div>
           <div class="vSpace"></div>
-        <a href="javascript:requestlink();" class="mw-ui-btn" style="height: 19px;"><span class="ico iplus"></span><span>New Link</span></a>
+        <a href="javascript:requestLink();" class="mw-ui-btn" style="height: 19px;"><span class="ico iplus"></span><span>New Link</span></a>
+        <a href="javascript:requestCustomLink();" class="mw-ui-btn" style="height: 19px;"><span class="ico iplus"></span><span>Custom Link</span></a>
          <div class="vSpace"></div>
          <div id="requestlink_holder" style="display: none;"></div>
          <div class="vSpace"></div>
@@ -140,6 +184,21 @@ $menu_id = get_menu_id('title='.$menu_name);
     <? else : ?>
     You have no exising menus. Please create one.
     <? endif; ?>
+
+    <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+
+    <microweber module="categories/selector"  for="content" to_table_id="<? print 0 ?>" input-type-categories="radio" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
+
+    </div>
+
+
+ <div id="custom_link_controller" class="mw-ui-gbox">
+    <input type="text" placeholder="<?php _e("Title"); ?>" name="title" />
+    <input type="text" placeholder="<?php _e("URL"); ?>" name="url"  />
+    <input type="hidden" name="parent_id" value="<?  print   $menu_id ?>" />
+    <button class="mw-ui-btn mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">Add to menu</button>
+</div>
+
     <?  //d( $active_menu); ?>
     <? //.. d( $params); ?>
     <div class="<? print $config['module_class']; ?> menu_items"   id="items_list_<?  print $rand ?>">

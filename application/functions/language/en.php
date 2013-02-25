@@ -479,3 +479,4 @@ $language["dynamic-layout"]= 'Dynamic Layout' ;
 $language["table"]= 'Table' ; 
 $language["tabs"]= 'Tabs' ; 
 $language["accordion"]= 'Accordion' ; 
+$language["url"]= 'URL' ; 

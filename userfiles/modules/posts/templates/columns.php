@@ -19,7 +19,9 @@ description: Columns
     <? foreach ($data as $item): ?>
     <div class="span4">
         <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], 290); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" class="img-polaroid img-rounded" /></a>
+            <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
+                <span class="cell"><img src="<? print thumbnail($item['image'], 290); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" /></span>
+            </a>
         <? endif; ?>
         <div class="module-posts-head">
         <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
@@ -43,11 +45,14 @@ description: Columns
       <? endif; ?>
     </div>
     <? endforeach; ?>
+
+
+
     <? endif; ?>
   </div>
   <?
 
- 
+
    if (!empty($paging_links)): ?>
   <div class="pagination">
     <ul>

@@ -17,7 +17,7 @@ $mod_obj_str = 'modules';
 if(isset($params['layout_type'])){
   $el_params['layout_type'] = $params['layout_type'];
 }
-                                         $modules = get_elements_from_db($el_params);
+  $modules = get_elements_from_db($el_params);
 										//
 }     else {
 

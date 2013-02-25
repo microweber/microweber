@@ -156,6 +156,53 @@ function mw_shop_module_init_db() {
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
 }
 
+action_hook('mw_db_init_options', 'create_mw_shop_default_options');
+function create_mw_shop_default_options() {
+
+	$function_cache_id = __FUNCTION__;
+
+	$cache_content = cache_get_content($function_cache_id, $cache_group = 'db');
+	if (($cache_content) == '--true--') {
+		 	return true;
+	}
+
+	$table = MW_DB_TABLE_OPTIONS;
+
+	mw_var('FORCE_SAVE', $table);
+	$datas = array();
+
+	$data = array();
+
+	$data['name'] = 'Currency';
+	$data['help'] = 'The website currency';
+	$data['option_group'] = 'payments';
+	$data['option_key'] = 'currency';
+	$data['option_value'] = 'USD';
+	$data['field_type'] = 'currency';
+
+	$data['position'] = '1';
+	$datas[] = $data;
+
+	//
+
+	$changes = false;
+	foreach ($datas as $val) {
+
+		$ch = set_default_option($val);
+		if ($ch == true) {
+
+			$changes = true;
+		}
+	}
+	if ($changes == true) {
+
+		cache_clean_group('options/global');
+	}
+	cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
+
+	return true;
+}
+
 action_hook('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
 
 function mw_print_admin_menu_shop_btn() {
@@ -540,11 +587,7 @@ function checkout($data) {
 			return;
 		}
 		$place_order['amount'] = $amount;
-		$place_order['currency'] =  get_option('currency', 'payments'); 
-
-
-
-
+		$place_order['currency'] = get_option('currency', 'payments');
 
 		if (isset($data['shipping_gw'])) {
 			$place_order['shipping_service'] = $data['shipping_gw'];

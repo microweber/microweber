@@ -1007,6 +1007,7 @@ function reorder_content()
 	$i = 1;
 	foreach ($ids as $id) {
 		$id = intval($id);
+		cache_clean_group('content/'.$id);
 		//$max_date_str = $max_date_str - $i;
 	//	$nw_date = date('Y-m-d H:i:s', $max_date_str);
 		//$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";

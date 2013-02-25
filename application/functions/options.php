@@ -294,6 +294,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
 function set_default_option($data) {
 	$changes = false;
+		 
 	if (is_array($data)) {
 		if (!isset($data['option_group'])) {
 			$data['option_group'] = 'other';
@@ -301,7 +302,9 @@ function set_default_option($data) {
 
 		if (isset($data['option_key'])) {
 			$check = get_option($data['option_key'], $option_group = $data['option_group'], $return_full = false, $orderby = false);
+		
 			if ($check == false) {
+				
 				save_option($data);
 			}
 		}

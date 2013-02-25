@@ -1,7 +1,7 @@
 
 body{
   background: #F3F3F3;
-  font: 14px/1.5 Roboto, Arial, sans-serif;
+  font: 16px/1.5 Roboto, Arial, sans-serif;
   color: #696969;
 }
 
@@ -70,8 +70,37 @@ h1,h2,h3,h4,h5,h6{
   width: 85%;
 }
 
-.module-posts-template-columns img{
+.module-posts-template-columns .img-polaroid,
+.module-posts-template-columns .img-rounded{
+  display: block;
+  max-width: 290px;
   max-height: 210px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cell{
+    display: table-cell;
+    max-width: 100%;
+    width: 100%;
+    vertical-align: middle;
+    *display: block;
+}
+
+.module-posts-template-columns h3{
+  width: 300px;
+}
+
+.module-posts-template-columns h3.pull-left{
+    width: 245px;
+    width: 205px;
+}
+
+.module-posts-template-columns img{
+    max-height: 210px;
+    max-width: 290px;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .module-posts-template-columns .price{
@@ -86,6 +115,10 @@ h1,h2,h3,h4,h5,h6{
   font-size: 35px;
   font-weight: 100;
   color: #0088CC;
+}
+
+.lead{
+  font-weight: 300;
 }
 
 .product-title-price{
@@ -292,9 +325,9 @@ h1,h2,h3,h4,h5,h6{
   color: white;
 }
 
-#footer a{
-  color: white;
-}
+#footer a{color: white;}
+
+#footer .muted{color: #999999;}
 
 #footer hr {
   border-top: 1px solid black;
