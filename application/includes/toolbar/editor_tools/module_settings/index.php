@@ -31,11 +31,12 @@
   //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
 
 
-  mw.require("events.js");
-  mw.require("url.js");
-  mw.require("tools.js");
-   mw.require("forms.js");
- mw.require('wysiwyg.js');
+
+    mw.require("events.js");
+    mw.require("url.js");
+    mw.require("tools.js");
+    mw.require("forms.js");
+    mw.require('wysiwyg.js');
 
 </script>
 
@@ -77,15 +78,14 @@
 
          <? endif; ?>
 
+         if(typeof thismodal == 'undefined' && self !== parent){
+           var frame = parent.mw.$('#'+this.name)[0];
+           thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
+         }
 
-           if(typeof thismodal != 'undefined'){
 
-
-
+           if(typeof thismodal != 'undefined' && thismodal != false){
             $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name);
-
-
-
             __autoresize = function(){
                 var _old = thismodal.main.height();
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, false);

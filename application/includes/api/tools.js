@@ -67,15 +67,15 @@ mw.simpletabs = function(root){
 
 mw.simpletab = {
   set:function(el){
-    if(!$(el).hasClass('active')){
-      var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
-      var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
-      $(ul.querySelector('.active')).removeClass('active');
-      $(el).addClass('active');
-      var index = mw.tools.index(el, ul);
-      $(master.querySelectorAll('.tab')).addClass('semi_hidden');
-      $(master.querySelectorAll('.tab')[index]).removeClass('semi_hidden');
-    }
+      if(!$(el).hasClass('active')){
+        var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
+        var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
+        $(ul.querySelector('.active')).removeClass('active');
+        $(el).addClass('active');
+        var index = mw.tools.index(el, ul);
+        $(master.querySelectorAll('.tab')).addClass('semi_hidden');
+        $(master.querySelectorAll('.tab')[index]).removeClass('semi_hidden');
+      }
   }
 }
 
@@ -164,6 +164,15 @@ mw.tools = {
 
         return modal_return;
     },
+    get:function(selector){
+      if(mw.$(selector).find(".mw_modal_container").length>0){
+        return {
+          main:mw.$(selector),
+          container: mw.$(selector).find(".mw_modal_container")[0]
+        }
+      }
+      else{return false;}
+    },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay);
@@ -213,7 +222,7 @@ mw.tools = {
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
         var span = "<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: 0;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>";
-        var frame = span+"<iframe style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
+        var frame = span+"<iframe name='frame-"+obj.name+"' id='frame-"+obj.name+"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
@@ -1204,8 +1213,14 @@ mw.tools = {
         mw.$(obj.tabs).hide().eq(i).show();
       }
     });
+  },
+  has:function(el, what){
+    return el.querySelector(what) !== null;
   }
 }
+
+
+
 
 
 

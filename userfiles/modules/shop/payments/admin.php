@@ -5,6 +5,11 @@
   $(document).ready(function(){
     mw.options.form('.mw-set-payment-options');
 
+$('.mw-admin-wrap').click(function(){
+	 mw.options.form('.mw-set-payment-options');
+  });
+
+
     mw.tools.tabGroup({
        nav:'.mw-admin-side-nav a',
        tabs:'.mw-set-payment-options .otab'

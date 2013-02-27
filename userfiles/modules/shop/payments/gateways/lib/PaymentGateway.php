@@ -116,51 +116,48 @@ abstract class PaymentGateway
 //$rand = uniqid();
 
 $aj = isAjax();
-
+$ret = '';
 if($aj  == false){
-        echo "<html>\n";
-        echo "<head><title>Processing Payment...</title></head>\n";
-        echo "<body onLoad=\"document.forms['gateway_form'].submit();\">\n";
+        $ret .="<html>\n";
+          $ret .= "<head><title>Processing Payment...</title></head>\n";
+         $ret .= "<body onLoad=\"document.forms['gateway_form'].submit();\">\n";
 		
 } else {
 
-?>
-<script  type="text/javascript">
-$(document).ready(function(){
  
- 
- $('#gateway_form_{rand}').submit();
-
-});
-</script>
-
-<?
 $rand = uniqid();
 	
 }
         
 		
-		
-		echo "<p style=\"text-align:center;\"><h2>Please wait, your order is being processed and you";
-        echo " will be redirected to the payment website.</h2></p>\n";
-        echo "<form method=\"POST\" name=\"gateway_form\" id='gateway_form_{$rand}' ";
-        echo "action=\"" . $this->gatewayUrl . "\">\n";
+		 $ret .= '<script  type="text/javascript">
+$(document).ready(function(){
+ 
+ 
+ $("#gateway_form_'.$rand .'").submit();
+
+});
+</script>';
+		 $ret .= "<p style=\"text-align:center;\"><h2>Please wait, your order is being processed and you";
+         $ret .= " will be redirected to the payment website.</h2></p>\n";
+         $ret .= "<form method=\"POST\" name=\"gateway_form\" id='gateway_form_{$rand}' ";
+         $ret .= "action=\"" . $this->gatewayUrl . "\">\n";
 
         foreach ($this->fields as $name => $value)
         {
-             echo "<input type=\"hidden\" name=\"$name\" value=\"$value\"/>\n";
+              $ret .= "<input type=\"hidden\" name=\"$name\" value=\"$value\"/>\n";
         }
 
 
-        echo "<p style=\"text-align:center;\"><br/><br/>If you are not automatically redirected to ";
-        echo "payment website within 5 seconds...<br/><br/>\n";
-        echo "<input type=\"submit\" value=\"Click Here\"></p>\n";
+         $ret .= "<p style=\"text-align:center;\"><br/><br/>If you are not automatically redirected to ";
+         $ret .= "payment website within 5 seconds...<br/><br/>\n";
+         $ret .= "<input type=\"submit\" value=\"Click Here\"></p>\n";
 
-        echo "</form>\n";
+         $ret .= "</form>\n";
 		if($aj  == false){
-        echo "</body></html>\n";
+         $ret .= "</body></html>\n";
 		}
-		
+		return  $ret;
 		
 		
     }

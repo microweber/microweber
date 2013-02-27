@@ -22,7 +22,7 @@ $counter = 3;
     <div style="padding:12px 12px 12px 0" >
       <div class="thumbnail">
         <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-        <img src="<? print thumbnail($item['image'], 290, 150); ?>" alt="" class="img-circle">
+        <img src="<? print thumbnail($item['image'], 290, 150); ?>" alt="">
         <? endif; ?>
         <div class="caption">
           <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>

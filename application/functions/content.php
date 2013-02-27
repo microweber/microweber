@@ -60,7 +60,9 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('title', 'longtext default NULL');
 	$fields_to_add[] = array('parent', 'int(11) default NULL');
 	$fields_to_add[] = array('description', 'TEXT default NULL');
-
+	 $fields_to_add[] = array('content_meta_title', 'TEXT default NULL');
+	
+	$fields_to_add[] = array('content_meta_keywords', 'TEXT default NULL');
 	$fields_to_add[] = array('position', 'int(11) default 1');
 
 	$fields_to_add[] = array('content', 'TEXT default NULL');

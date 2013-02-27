@@ -374,6 +374,15 @@ function mw_after_content_save<? print $rand; ?>($id){
 
 
 
+ <? if(isset($data['subtype']) and trim($data['subtype']) == 'a_product'): ?>
+
+
+
+   <? endif; ?>
+
+
+
+
 
 
 </script>
@@ -507,7 +516,7 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
     }
 
 
-    </script> 
+    </script>
   <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">Template</a>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module id="mw-layout-selector-module" data-type="content/layout_selector" <? print
@@ -668,7 +677,7 @@ $(mwd).ready(function(){
    mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
  }
 });
-</script> 
+</script>
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
@@ -742,12 +751,31 @@ if(intval($data['id']) == 0){
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
   <? // if($edit_post_mode != false): ?>
-  <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<? print $rand; ?>'>
+
+
+ <? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>
+
+
+  <a href="javascript:;" class="mw-ui-more toggler-active" onclick="mw.tools.toggle('#custom_fields_for_post_<? print $rand; ?>', this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<? print $rand; ?>'>
   <?php _e("Custom Fields"); ?>
   </a>
+
+<? else: ?>
+    <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<? print $rand; ?>'>
+  <?php _e("Custom Fields"); ?>
+  </a>
+
+   <? endif; ?>
+
+
+
+
+
+
+
   <div class="vSpace"></div>
   <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
-  <div id="custom_fields_for_post_<? print $rand; ?>"  style="display:none;">
+  <div id="custom_fields_for_post_<? print $rand; ?>"  style="<? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<? else: ?>display:none;<? endif; ?>">
     <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
     <div class="custom_fields_from_parent"  id="custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>" ></div>
@@ -765,6 +793,19 @@ if(intval($data['id']) == 0){
       <? if($edit_post_mode != false): ?>
 
       <? endif; ?>
+
+
+
+ <? if(intval($data['id']) == 0 and isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>
+
+
+var is_price = $("#custom_fields_for_post_<? print $rand; ?>").find('a.mw-field-type-price');
+if(is_price.length == 0){
+ createFieldPill(mwd.querySelector("#field-type-price a"));
+}
+
+  <? endif; ?>
+
 
 
       $(window).bind("templateChanged", function(e, el){
@@ -821,7 +862,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 // mw.log(vals);
 
 }
-</script> 
+</script>
   </div>
   <? if($edit_post_mode == false): ?>
   <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>
@@ -844,17 +885,19 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea
-        class="mw-ui-field" name="description"
-        onfocus="mw.form.dstatic(event);"
-        onblur="mw.form.dstatic(event);" data-default="Describe your page in short"><?php if($data['description']==''){print 'Describe your page in short';} else{print $data['description'];} ?>
-      </textarea>
+        class="mw-ui-field" name="description"   placeholder="Describe your page in short"><?php if($data['description']!='') print ($data['description'])?></textarea>
       </div>
+
+ <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Meta Title</label>
+
+
+        <textarea class="mw-ui-field" name="content_meta_title"  placeholder="Title to appear on the search engines results page."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?></textarea>
+      </div>
+
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Meta Keywords</label>
-        <textarea class="mw-ui-field" name="metakeys"
-      onfocus="mw.form.dstatic(event);"
-      onblur="mw.form.dstatic(event);"
-      data-default="Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc.">Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc.</textarea>
+       <label class="mw-ui-label">Meta Keywords</label>
+       <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?></textarea>
       </div>
       <? /* PAGES ONLY  */ ?>
       <? if($edit_post_mode == false): ?>
@@ -906,11 +949,53 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
               if(isset($data['position'])): ?>
       <input name="position"  type="hidden" value="<? print ($data['position'])?>" />
       <? endif; ?>
+
+
+
+
+
       <? /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Password <small>(Only the users which have a password can have a access)</small></label>
+        <label class="mw-ui-label">Password <small>(Only the users with the password can have a access)</small></label>
         <input name="password" style="width: 603px;" class="mw-ui-field" type="password" value="" />
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <? /* PRODUCTS ONLY  */ ?>
+   <? if(isset($data['subtype']) and trim($data['subtype']) == 'a_product'): ?>
+
+   <div class="mw-ui-check-selector">
+          <div class="mw-ui-label left" style="width: 160px">Downloadable product?</div>
+          <label class="mw-ui-check">
+            <input name="subtype_value" type="radio"  value="normal" <? if( '' == trim($data['subtype_value']) or 'normal' == trim($data['subtype_value'])): ?>   checked="checked"  <? endif; ?> />
+            <span></span><span>No</span></label>
+          <label class="mw-ui-check">
+            <input name="subtype_value" type="radio"  value="downloadable" <? if( 'downloadable' == trim($data['subtype_value'])): ?>   checked="checked"  <? endif; ?> />
+            <span></span><span>Yes</span></label>
+        </div>
+
+
+   <? endif; ?>
+   <? /*  end of PRODUCTS ONLY  */ ?>
+
+
+
+
+
+
+
+
     </div>
     <div class="mw_clear vSpace"></div>
   </div>

@@ -4,14 +4,17 @@
 
 type: layout
 
-name: Default
+name: Tabs
 
-description: Default menu
+description: Tabs menu
 
 */
 
   //$template_file = false; ?>
   <?
+ $menu_filter['ul_class'] = 'nav nav-tabs';
+		$menu_filter['ul_class_deep'] = 'dropdown-menu';
+		$menu_filter['li_class_deep'] = 'dropdown-submenu';
   $mt =  menu_tree($menu_filter);
   if($mt != false){
 			print ($mt);

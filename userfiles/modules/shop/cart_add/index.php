@@ -1,5 +1,5 @@
 <script type="text/javascript">
-mw.require("<?php print( module_url('shop')); ?>shop.js");
+mw.require("shop.js");
 mw.require("events.js");
 
 </script>

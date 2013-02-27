@@ -47,7 +47,11 @@ $v_monthly = get_visits('monthly');
   <thead>
     <tr>
       <th scope="col">Date</th>
+        <? if(function_exists('ip2country')): ?>
+      <th scope="col">Country</th>
+      <? endif; ?>
       <th scope="col">IP</th>
+    
       <th scope="col">Last page</th>
       <th scope="col">Page views</th>
     </tr>
@@ -56,7 +60,11 @@ $v_monthly = get_visits('monthly');
     <? $i=0; foreach($users_last5 as $item) : ?>
       <tr>
         <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
+          <? if(function_exists('ip2country')): ?>
+        <td><? print ip2country($item['user_ip']); ?></td>
+ <? endif; ?>
         <td><? print $item['user_ip'] ?></td>
+       
         <td><? print $item['last_page'] ?></td>
         <td><? print $item['view_count'] ?></td>
       </tr>

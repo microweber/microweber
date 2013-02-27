@@ -158,17 +158,43 @@ function edit_menu_item($data_to_save) {
 		cache_clean_group('menus/' . $data_to_save['id']);
 
 	}
+
+	if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
+		$data_to_save['id'] = intval($data_to_save['link_id']);
+	}
+
 	if (isset($data_to_save['id'])) {
 		$data_to_save['id'] = intval($data_to_save['id']);
 		cache_clean_group('menus/' . $data_to_save['id']);
 	}
+	
+	
+	if(!isset($data_to_save['id']) or intval($data_to_save['id']) == 0){
+		$data_to_save['position'] = 99999;
+	}
 
+	$url_from_content = false;
+	if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) != 0) {
+		$url_from_content = 1;
+	}
+	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) != 0) {
+		$url_from_content = 1;
+	}
 	if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
 		unset($data_to_save['content_id']);
 	}
 
 	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) == 0) {
 		unset($data_to_save['taxonomy_id']);
+		$url_from_content = 1;
+	}
+
+	if (isset($data_to_save['categories'])) {
+		unset($data_to_save['categories']);
+	}
+
+	if ($url_from_content == true and isset($data_to_save['url'])) {
+		$data_to_save['url'] = '';
 	}
 
 	if (isset($data_to_save['parent_id'])) {
@@ -287,9 +313,9 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$menu_params['table'] = $table_menus;
 	$menu_params['orderby'] = "position ASC";
 
-	 //$q = get($menu_params);
+	//$q = get($menu_params);
 	// d($q);
- 	 $q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
 	// $data = $q;
 	if (empty($q)) {
@@ -305,12 +331,35 @@ function menu_tree($menu_id, $maxdepth = false) {
 		$li_class = 'menu_element';
 	}
 
+	if (!isset($depth) or $depth == false) {
+		$depth = 0;
+	}
+	if (isset($ul_class_deep)) {
+		if ($depth == 1) {
+			$ul_class = $ul_class_deep;
+		}
+	}
+
+	if (isset($li_class_deep)) {
+		if ($depth == 1) {
+			$li_class = $li_class_deep;
+		}
+	}
+
+	if (isset($ul_tag) == false) {
+		$ul_tag = 'ul';
+	}
+
+	if (isset($li_tag) == false) {
+		$li_tag = 'li';
+	}
+
 	if (!isset($link) or $link == false) {
-		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes}" href="{url}">{title}</a>';
+		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
 	}
 	//d($link);
 	// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-	$to_print = '<ul class="' . $ul_class . ' menu_' . $menu_id . ' {exteded_classes}" >';
+	$to_print = '<' . $ul_tag . ' role="menu" class="' . $ul_class . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
 	$cur_depth = 0;
 	$res_count = 0;
@@ -347,11 +396,21 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$title = $item['title'];
 		}
 
-		if ($item['content_id'] == CONTENT_ID) {
+		$active_class = '';
+		if ($item['url'] != '' and intval($item['content_id']) == 0 and intval($item['taxonomy_id']) == 0) {
+			$surl = site_url();
+			$cur_url = curent_url(1);
+			$item['url'] = str_replace_once('{SITE_URL}', $surl, $item['url']);
+			if ($item['url'] == $cur_url) {
+				$active_class = 'active';
+			} else {
+				$active_class = '';
+			}
+		} else if (CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
 			$active_class = 'active';
-		} elseif ($item['content_id'] == PAGE_ID) {
+		} elseif (PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
 			$active_class = 'active';
-		} elseif ($item['content_id'] == POST_ID) {
+		} elseif (POST_ID != 0 and $item['content_id'] == POST_ID) {
 			$active_class = 'active';
 		} elseif (CATEGORY_ID != false and intval($item['taxonomy_id']) != 0 and $item['taxonomy_id'] == CATEGORY_ID) {
 			$active_class = 'active';
@@ -362,7 +421,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		if ($title != '') {
 			$item['url'] = $url;
 			//$full_item['the_url'] = page_link($full_item['content_id']);
-			$to_print .= '<li   class="' . $li_class . ' ' . ' ' . $active_class . '" data-item-id="' . $item['id'] . '" >';
+			$to_print .= '<' . $li_tag . '  class="' . $li_class . ' ' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 			$ext_classes = '';
 			if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -395,6 +454,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 			}
 
 			$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+			$to_print = str_ireplace('{nest_level}', 'depth-' . $depth, $to_print);
 
 			if (in_array($item['id'], $passed_ids) == false) {
 
@@ -404,8 +464,32 @@ function menu_tree($menu_id, $maxdepth = false) {
 						//$menu_params = $params;
 						//d($params);
 						$menu_params['menu_id'] = $item['id'];
+						$menu_params['link'] = $link;
+						//	$menu_params['link'] = $link;
 						if (isset($menu_params['item_parent'])) {
 							unset($menu_params['item_parent']);
+						}
+						if (isset($ul_class)) {
+							$menu_params['ul_class'] = $ul_class;
+						}
+						if (isset($li_class)) {
+							$menu_params['li_class'] = $li_class;
+						}
+						if (isset($li_tag)) {
+							$menu_params['li_tag'] = $li_tag;
+						}
+						if (isset($ul_tag)) {
+							$menu_params['ul_tag'] = $ul_tag;
+						}
+						if (isset($ul_class_deep)) {
+							$menu_params['ul_class_deep'] = $ul_class_deep;
+						}
+						if (isset($li_class_deep)) {
+							$menu_params['li_class_deep'] = $li_class_deep;
+						} 
+						//$depth++;
+						if (isset($depth)) {
+							$menu_params['depth'] = $depth + 1;
 						}
 						$test1 = menu_tree($menu_params);
 					} else {
@@ -435,7 +519,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 				}
 			}
 			$res_count++;
-			$to_print .= '</li>';
+			$to_print .= '</' . $li_tag . '>';
 
 		}
 
@@ -446,7 +530,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	}
 
 	// print "[[ $time ]]seconds\n";
-	$to_print .= '</ul>';
+	$to_print .= '</' . $ul_tag . '>';
 	//cache_store_data($to_print, $function_cache_id, $cache_group);
 	return $to_print;
 }

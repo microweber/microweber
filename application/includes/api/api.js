@@ -265,15 +265,21 @@ window.onerror = function(a,b,c){
           var $module_name = refresh_modules_explode[i];
 
           if ($module_name != undefined) {
-			 $module_name = $module_name.replace(/##/g, '#');
+			   $module_name = $module_name.replace(/##/g, '#');
 
 
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
-              $mods = $($module_name);
-            }
-            $mods.each(function() {
+              try {
+                  $mods = $($module_name);
+                } catch(err) {
+                //Handle errors here
+                }
+
+           }
+
+             $mods.each(function() {
               mw._({
                 selector: this,
                 done:done
@@ -282,20 +288,20 @@ window.onerror = function(a,b,c){
           }
         }
       }
-	  
-	  
-	  
-	 
-	  
-	  
-	  
-    }
-	
-		  
 
-	
-	
-	
+
+
+
+
+
+
+    }
+
+
+
+
+
+
   }
 
   mw.clear_cache = function() {
@@ -318,9 +324,12 @@ window.onerror = function(a,b,c){
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
+
+
+
     var attrs = $(obj.selector)[0].attributes;
 
-	
+
 
 
     if (sendSpecific) {
@@ -329,14 +338,13 @@ window.onerror = function(a,b,c){
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
     } else {
       for (var i in attrs) {
-		  if(attrs[i] != undefined){
-            var name = attrs[i].name;
-            var val = attrs[i].nodeValue;
-            to_send[name] = val;
-		  }
+  		  if(attrs[i] != undefined){
+              var name = attrs[i].name;
+              var val = attrs[i].nodeValue;
+              to_send[name] = val;
+  		  }
       }
-	  
-	//  to_send = attrs;
+   //  to_send = attrs;
     }
 
     $.post(url, to_send, function(data) {

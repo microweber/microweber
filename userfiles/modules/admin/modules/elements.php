@@ -30,7 +30,7 @@ if(isset($params['category'])){
 ?>
 <ul>
   <? if(!empty($mods)): foreach($mods as $k=>$item): ?>
-  <li>
+  <li>      
   <module type="admin/modules/edit_element" data-module-id="<? print $item['id'] ?>" />
     <? // d($item); ?>
   </li>

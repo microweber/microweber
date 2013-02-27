@@ -69,13 +69,13 @@ error("Invalid order id");
           <td class="mw-order-item-amount"><? print ($item['price']) ?></td>
           <td class="mw-order-item-count"><? print $item['qty'] ?></td>
           <?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>
-          <td class="mw-order-item-count"><? print  currency_format($item_total, $ord['currency']); ?></td>
+          <td class="mw-order-item-count" width="100"><? print  currency_format($item_total, $ord['currency']); ?></td>
         </tr>
         <? endforeach; ?>
         <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
           <td><?php _e("Subtotal"); ?></td>
-          <td class="mw-o-box-table-green"><? print  currency_format($subtotal, $ord['currency']); ?> </td>
+          <td class="mw-o-box-table-green"><? print  currency_format($subtotal, $ord['currency']); ?></td>
         </tr>
         <?php /* <tr class="mw-o-box-table-footer">
           <td colspan="3">&nbsp;</td>
@@ -107,12 +107,12 @@ error("Invalid order id");
       <?php _e("What is the status of this order"); ?>
       ?</span>
       <label class="mw-ui-check">
-        <input <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="y" />
+        <input <?php if($ord['order_status']=='completed' or $ord['order_status']==''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="completed" />
         <span></span> <span>
         <?php _e("Completed Order"); ?>
         </span> </label>
       <label class="mw-ui-check">
-        <input <?php if($ord['order_status']=='n'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="n"  />
+        <input <?php if($ord['order_status']=='pending'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="pending"  />
         <span></span> <span>
         <?php _e("Pending"); ?>
         </span> </label>
@@ -153,12 +153,12 @@ error("Invalid order id");
   });
 </script>
     <div id="mw_order_status" style="overflow: hidden">
-      <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-warning right <?php if($ord['order_status']=='y' or $ord['order_status']==''): ?>semi_hidden<?php endif; ?>">
+      <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-warning right <?php if($ord['order_status']=='completed'): ?>semi_hidden<?php endif; ?>">
         <div style="height: 55px;">
           <?php _e("Pending"); ?>
         </div>
       </div>
-      <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-success right <?php if($ord['order_status']=='n'): ?>semi_hidden<?php endif; ?>">
+      <div style="margin-right: 10px;width: 238px;" class="mw-notification mw-success right <?php if($ord['order_status']!='completed'): ?>semi_hidden<?php endif; ?>">
         <div style="height: 55px;"> <span class="ico icheck"></span> <span>
           <?php _e("Successfully Completed"); ?>
           </span> </div>
@@ -185,6 +185,13 @@ error("Invalid order id");
         <tr>
           <td><?php _e("Phone Number"); ?></td>
           <td><b><? print $ord['phone']; ?></b></td>
+        </tr>
+        <tr>
+          <td><?php _e("User IP"); ?></td>
+          <td><? print $ord['user_ip']; ?>
+            <? if(function_exists('ip2country')): ?>
+            <? print ip2country($ord['user_ip']); ?>
+            <? endif; ?></td>
         </tr>
       </table>
     </div>
@@ -222,9 +229,7 @@ error("Invalid order id");
       <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
         <col width="150" />
         <tr>
-          <td valign="top"><p><b>
-              <?php _e("Billing Details"); ?>
-              </b></p>
+          <td valign="top"><p><b><?php _e("Billing Details"); ?></b></p>
             <ul class="order-table-info-list">
               <li><? print $ord['payment_name'] ?></li>
               <li><? print $ord['payment_country'] ?></li>
@@ -252,14 +257,36 @@ error("Invalid order id");
               </b></p>
             <ul class="order-table-info-list">
               <li>
-                <?php _e("Payment Method"); ?>
-                : <?php print $ord['payment_gw']; ?></li>
+                <?php _e("Payment Method"); ?>: <?php print $ord['payment_gw']; ?></li>
+
+              <? if(isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?>
+                 <li><?php _e("Is Paid"); ?>: Yes</li>
+              <? else: ?>
+                  <li><?php _e("Is Paid"); ?>: No</li>
+              <? endif; ?>
+
+              <? if(isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
+              <li><?php _e("Transaction ID"); ?>: <?php print $ord['transaction_id']; ?></li>
+              <? endif; ?>
+<? if(isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
               <li>
-                <?php _e("Transaction ID"); ?>
-                : <?php print $ord['transaction_id']; ?></li>
+                <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?></li>
+              <? endif; ?>
+<? if(isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
               <li>
-                <?php _e("Payment Status"); ?>
-                : <?php print $ord['payment_status']; ?></li>
+                <?php _e("Payment currency"); ?>: <?php print $ord['payment_currency']; ?></li>
+              <? endif; ?>
+<? if(isset($ord['payer_id']) and $ord['payer_id'] != ''): ?>
+              <li>
+                <?php _e("Payer ID"); ?>: <?php print $ord['payer_id']; ?></li>
+              <? endif; ?>
+
+<? if(isset($ord['payment_status']) and $ord['payment_status'] != ''): ?>
+              <li>
+                <?php _e("Payment Status"); ?>: <?php print $ord['payment_status']; ?></li>
+              <? endif; ?>
+
+
             </ul></td>
           <td>&nbsp;</td>
         </tr>

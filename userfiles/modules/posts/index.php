@@ -215,11 +215,16 @@ if(isset($curent_page) and intval($curent_page) > 0){
 // $post_params['debug'] = 'posts';
 if(!isset($post_params['content_type'])){
 	$post_params['content_type'] = 'post';
+	 $post_params['subtype'] = 'post';
+
 }
 
 if($post_params['content_type'] == 'product'){
 	$post_params['subtype'] = 'product';
 	$post_params['content_type'] = 'post';
+} else {
+	//$post_params['subtype'] = 'post';
+	//$post_params['content_type'] = 'post';
 }
 
 
@@ -236,9 +241,7 @@ if(!isset($params['order_by'])){
 }
 
 
-
-// d($post_params);
-
+ 
 $content   = get_content($post_params);
 $data = array();
 
@@ -341,6 +344,16 @@ if(!isset( $params['return'])){
 	//d($module_template );
 	if(isset($template_file) and is_file($template_file) != false){
 		include($template_file);
+		
+		?><?  if(isset($params['is_shop'])):  ?>
+		<script type="text/javascript">
+			if(mw.cart == undefined){
+				mw.require("shop.js");
+				
+			}
+		</script>
+<? endif; ?><?
+
 	} else {
 	
 		print 'No default template for '.  $config['module'] .' is found';
@@ -348,4 +361,3 @@ if(!isset( $params['return'])){
 
 
 }
-

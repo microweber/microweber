@@ -1,9 +1,13 @@
 <?
-
-$module = get_modules_from_db('one=1&ui=any&module='.$v_mod);
-
-
+    $module = get_modules_from_db('one=1&ui=any&module='.$v_mod);
  ?>
+
+ <script>
+
+
+ mwd.body.className += ' module-settings-page';
+
+ </script>
 
 
 <div id="mw_toolbar_nav" class="mw-small-toolbar">

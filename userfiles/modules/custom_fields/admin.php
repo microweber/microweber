@@ -12,12 +12,12 @@
 </script>
 <?
  $for = 'module';
- 
+
   $copy_from = false;
  if(isset($params['for'])){
 	$for = $params['for'];
  }
- 
+
  if(isset($params['copy_from'])){
 	$copy_from = $params['copy_from'];
  }
@@ -28,7 +28,7 @@
 
 
 
- 
+
   if(isset($params['for_id'])){
 	$for_id = $params['for_id'];
  } elseif (isset($params['data-id'])){
@@ -43,17 +43,17 @@
 $for_id =$module_id = $params['to_table_id'];
 
  }
- 
- 
- 
- 
+
+
+
+
  if(isset($params['content-id'])){
-	$for_id = $for_module_id = $params['content-id']; 
+	$for_id = $for_module_id = $params['content-id'];
 	 $for = 'table_content';
 }
 $module_id = $for_id;
 //$rand = rand();
- 
+
 ?>
 <script type="text/javascript">
     __sort_fields = function(){
@@ -70,7 +70,7 @@ $module_id = $for_id;
                 $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
                     if(window.parent != undefined && window.parent.mw != undefined){
         				 window.parent.mw.reload_module('custom_fields');
-						 
+
          			 }
                      mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
                      mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
@@ -81,11 +81,7 @@ $module_id = $for_id;
         return sortable_holder;
     }
 
-    $(document).ready(function(){
-       __sort_fields();
-
-       mw.$(".custom_fields_selector strong").click(function(){
-            var el = this.getElementsByTagName('a')[0];
+    createFieldPill = function(el){
             mw.custom_fields.create({
               selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
               type:$(el).dataset('type'),
@@ -96,17 +92,22 @@ $module_id = $for_id;
                 mw.$(".custom-field-edit-title").html('<span class="'+el.querySelector('span').className+'"></span><strong>' + el.textContent + '</strong>');
                 mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
                 mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
-
                 $(mw.tools.firstParentWithClass(el, 'custom_fields_selector')).slideUp('fast');
-
-
                 __save();
-
-
-
               }
             });
+    }
+
+    $(document).ready(function(){
+       __sort_fields();
+
+       mw.$(".custom_fields_selector strong").click(function(){
+            var el = this.getElementsByTagName('a')[0];
+            createFieldPill(el);
        });
+
+
+
 
     });
 
@@ -123,7 +124,7 @@ $module_id = $for_id;
 
       <li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></strong></li>
       <li><strong><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></strong></li>
-      <li><strong><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></strong></li>
+      <li><strong id="field-type-price"><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></strong></li>
       <li><strong><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span>Phone</span></a></strong></li>
       <li><strong><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span>Web Site</span></a></strong></li>
       <li><strong><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span>E-mail</span></a></strong></li>
@@ -147,7 +148,7 @@ $module_id = $for_id;
       <div class="custom-field-edit-title"></div>
     </div>
     <div class="mw-admin-custom-field-edit-item-wrapper">
-      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?>"></div>
+      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
     </div>
   </div>
 

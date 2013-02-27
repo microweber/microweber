@@ -61,38 +61,59 @@ mw.cart = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	   var obj = mw.form.serialize(selector);
-	    alert(obj.payment_gw);
-     $.post(mw.settings.api_url+'checkout', obj ,
-     function(data) {
+	  //  alert(obj.payment_gw);
 		
-		 if(data != undefined){
-			 if(parseInt(data) > 0){
-    		 	 mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
-				  //mw.reload_module('shop/cart');
-    			 mw.reload_module('shop/checkout');
-    			 
-
-			 } else {
-				
-				
+					
+					
+			 
+			$.ajax({
+			  type: "POST",
+			  
+			  url: mw.settings.api_url+'checkout',
+			  data: obj
+			}).done(function( data ) {
+					 if(data != undefined){
+						 if(parseInt(data) > 0){
+							 mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
+							  //mw.reload_module('shop/cart');
+							 mw.reload_module('shop/checkout');
+							 
+			
+						 } else {
+						 					 
+							 if(obj.payment_gw != undefined){
+								 var callback_func = obj.payment_gw+'_checkout';
+								
+								 if(typeof window[callback_func] === 'function'){
+									window[callback_func](data,selector);
+								 }
+								 
+								 
+								 var callback_func = 'checkout_callback';
+								 if(typeof window[callback_func] === 'function'){
+									window[callback_func](data,selector);
+								 }
+							 }
+						 }
+					 }
 				 
-				 if(obj.payment_gw != undefined){
-					 var callback_func = obj.payment_gw+'_checkout';
-					 if(typeof window[callback_func] === 'function'){
-						window[callback_func](data,selector);
-					 }
-					 
-					 
-					 var callback_func = 'checkout_callback';
-					 if(typeof window[callback_func] === 'function'){
-						window[callback_func](data,selector);
-					 }
-				 }
-			 }
-		 }
-     });
+			  
+			  
+				return false;
+			  
+			  
+			  
+			  
+			  
+			});
+
+
+
+ 
+		
+ 
   
-  return false;
+
   
   }
 }

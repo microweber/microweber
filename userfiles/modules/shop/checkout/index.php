@@ -12,12 +12,11 @@ function checkout_callback(data,selector){
 	//
 
 
+ 
 
-
- var z = typeof(data);
+ 						 var z = typeof(data);
 						 if(z != 'object'){
-							
-							
+						
 							var o;
 									try{ o =  $.parseJSON(data);
 									
@@ -60,7 +59,7 @@ function checkout_callback(data,selector){
 
 		//alert(data.error);
 	} else {
-		
+		 
 		$('.mw-checkout-responce').append(data);
 
 	}
@@ -85,7 +84,7 @@ mw.$(".mw-checkout-form .well").height(__max)
 
 <form class="mw-checkout-form" id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" >
   <script type="text/javascript">
-mw.require("<?php print( module_url('shop')); ?>shop.js");
+mw.require("shop.js");
 </script> 
   Checkout module
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
@@ -129,11 +128,8 @@ mw.require("<?php print( module_url('shop')); ?>shop.js");
     <?php endif; ?>
     <div class="clear"></div>
   </div>
-  
-  
 </form>
-  <div class="mw-checkout-responce"></div>
-
+<div class="mw-checkout-responce"></div>
 <? else: ?>
 <h2>Your payment was successfull.</h2>
 <? endif; ?>

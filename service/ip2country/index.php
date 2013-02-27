@@ -43,6 +43,7 @@ function proper_parse_str1($str) {
 
 
 $uip = USER_IP;
+ 
 if(isset($_REQUEST['ip'])){
 $uip = $_REQUEST['ip'];
 
@@ -56,7 +57,7 @@ print file_get_contents($cache_here_now_file);
 } else {
 $geo = 'http://www.geojoe.co.uk/api/batch/?ips='.$uip; 
 $geo1 = url_download($geo);
-
+ 
 $result = proper_parse_str1($geo1);
 $result = json_encode($result);
 print $result;

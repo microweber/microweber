@@ -1,26 +1,26 @@
 <?
 
 if(is_admin() == false){
-return;	
+return;
 }
 
 
 $ord = '';
- 
+
 
 if(isset($params['order'])){
 $data['order_by'] =$params['order'];
 }
- 
+
 
 $kw = '';
- 
+
 
     if(isset($params['keyword'])){
                 $kw   = '&keyword='.$params['keyword'];
-              }
+     }
 $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
- 
+
 ?>
 <? if(isarr($orders)) :?>
 
@@ -54,18 +54,18 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
     </tfoot>
     <tbody>
       <? foreach ($orders as $item) : ?>
-      <tr class="mw-order-item mw-order-item-<? print $item['id'] ?>">
+      <tr class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-status-<? print $item['order_status'] ?>">
         <td class="mw-order-item-id"><a href="#vieworder=<? print ($item['id']) ?>"><span><? print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
           <span class="mw-ord-id">ORD-<? print $item['id'] ?></span></a></td>
         <td class="mw-order-item-status"><?
 		 if($item['order_status'] == false): ?>
           New
-          <? elseif($item['order_status'] == 'y'): ?>
+          <? elseif($item['order_status'] == 'completed'): ?>
           Completed
           <? else : ?>
           Pending
           <? endif; ?></td>
-        <td class="mw-order-item-amount"><? print $item['amount'] ?></td>
+        <td class="mw-order-item-amount"><? print currency_format($item['amount'],$item['currency']) ?></td>
         <td class="mw-order-item-paid"><? if($item['is_paid'] == 'y'): ?>
           Yes
           <? else : ?>

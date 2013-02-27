@@ -19,9 +19,34 @@ h1,h2,h3,h4,h5,h6{
   color: white;
 }
 
-#header .nav a:hover{
+
+
+#header .nav a:hover, #header .navbar .nav a, #header .nav-tabs a.active{
   color:#242B35;
 }
+
+#header .nav li{
+  position: relative;
+}
+
+#header ul.dropdown-menu{
+  margin-top: 0;
+  font-size: 14px;
+
+}
+#header ul.dropdown-menu a{
+  color: #242B35;
+}
+#header ul.dropdown-menu li:hover > a{
+  color: white;
+}
+
+#header .nav li:hover > ul.dropdown-menu{
+    display: block;
+}
+
+
+
 
 #logo{
   float: left;
@@ -88,7 +113,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .module-posts-template-columns h3{
-  width: 300px;
+  max-width: 300px;
 }
 
 .module-posts-template-columns h3.pull-left{

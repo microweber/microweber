@@ -58,10 +58,10 @@ function file_size_nice($size) {
 function character_limiter($str, $length, $minword = 3) {
 	$sub = '';
 	$len = 0;
-	
-	
+
+
 	if(strlen($str) < intval($length)){
-	 	return $str;
+		return $str;
 	}
 
 	foreach (explode(' ', $str) as $word) {
@@ -539,9 +539,9 @@ function decrypt_var($var, $key = false) {
 
 	return $var;
 }
- 
- 
- 
+
+
+
 
 function str_replace_once($needle, $replace, $haystack) {
 	// Looks for the first occurence of $needle in $haystack
@@ -1000,8 +1000,8 @@ function _d($a) {
 
 /***********************************
 * string_format
- * 
- * 
+ *
+ *
  * To Use:
 
 print string_format("(###)###-####", "4015551212");
@@ -1011,133 +1011,150 @@ will print out:
 Hope this helps someone,
 ***********************************/
 function string_format($format, $string, $placeHolder = "#")
-{            
-    $numMatches = preg_match_all("/($placeHolder+)/", $format, $matches);              
-    foreach ($matches[0] as $match)
-    {
-        $matchLen = strlen($match);
-        $format = preg_replace("/$placeHolder+/", substr($string, 0, $matchLen), $format, 1);
-        $string = substr($string, $matchLen);
-    }
-    return $format;
-} 
+{
+	$numMatches = preg_match_all("/($placeHolder+)/", $format, $matches);
+	foreach ($matches[0] as $match)
+	{
+		$matchLen = strlen($match);
+		$format = preg_replace("/$placeHolder+/", substr($string, 0, $matchLen), $format, 1);
+		$string = substr($string, $matchLen);
+	}
+	return $format;
+}
 if(!function_exists('money_format')){
-function money_format($format, $number) 
-{ 
-    $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?'. 
-              '(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/'; 
-    if (setlocale(LC_MONETARY, 0) == 'C') { 
-        setlocale(LC_MONETARY, ''); 
-    } 
-    $locale = localeconv(); 
-    preg_match_all($regex, $format, $matches, PREG_SET_ORDER); 
-    foreach ($matches as $fmatch) { 
-        $value = floatval($number); 
-        $flags = array( 
-            'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? 
-                           $match[1] : ' ', 
-            'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0, 
-            'usesignal' => preg_match('/\+|\(/', $fmatch[1], $match) ? 
-                           $match[0] : '+', 
-            'nosimbol'  => preg_match('/\!/', $fmatch[1]) > 0, 
-            'isleft'    => preg_match('/\-/', $fmatch[1]) > 0 
-        ); 
-        $width      = trim($fmatch[2]) ? (int)$fmatch[2] : 0; 
-        $left       = trim($fmatch[3]) ? (int)$fmatch[3] : 0; 
-        $right      = trim($fmatch[4]) ? (int)$fmatch[4] : $locale['int_frac_digits']; 
-        $conversion = $fmatch[5]; 
+	function money_format($format, $number)
+	{
+		$regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?'.
+			'(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
+			if (setlocale(LC_MONETARY, 0) == 'C') {
+				setlocale(LC_MONETARY, '');
+			}
+			$locale = localeconv();
+			preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
+			foreach ($matches as $fmatch) {
+				$value = floatval($number);
+				$flags = array(
+					'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ?
+					$match[1] : ' ',
+					'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0,
+					'usesignal' => preg_match('/\+|\(/', $fmatch[1], $match) ?
+						$match[0] : '+',
+						'nosimbol'  => preg_match('/\!/', $fmatch[1]) > 0,
+						'isleft'    => preg_match('/\-/', $fmatch[1]) > 0
+						);
+				$width      = trim($fmatch[2]) ? (int)$fmatch[2] : 0;
+				$left       = trim($fmatch[3]) ? (int)$fmatch[3] : 0;
+				$right      = trim($fmatch[4]) ? (int)$fmatch[4] : $locale['int_frac_digits'];
+				$conversion = $fmatch[5];
 
-        $positive = true; 
-        if ($value < 0) { 
-            $positive = false; 
-            $value  *= -1; 
-        } 
-        $letter = $positive ? 'p' : 'n'; 
+				$positive = true;
+				if ($value < 0) {
+					$positive = false;
+					$value  *= -1;
+				}
+				$letter = $positive ? 'p' : 'n';
 
-        $prefix = $suffix = $cprefix = $csuffix = $signal = ''; 
+				$prefix = $suffix = $cprefix = $csuffix = $signal = '';
 
-        $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign']; 
-        switch (true) { 
-            case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+': 
-                $prefix = $signal; 
-                break; 
-            case $locale["{$letter}_sign_posn"] == 2 && $flags['usesignal'] == '+': 
-                $suffix = $signal; 
-                break; 
-            case $locale["{$letter}_sign_posn"] == 3 && $flags['usesignal'] == '+': 
-                $cprefix = $signal; 
-                break; 
-            case $locale["{$letter}_sign_posn"] == 4 && $flags['usesignal'] == '+': 
-                $csuffix = $signal; 
-                break; 
-            case $flags['usesignal'] == '(': 
-            case $locale["{$letter}_sign_posn"] == 0: 
-                $prefix = '('; 
-                $suffix = ')'; 
-                break; 
-        } 
-        if (!$flags['nosimbol']) { 
-            $currency = $cprefix . 
-                        ($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']) . 
-                        $csuffix; 
-        } else { 
-            $currency = ''; 
-        } 
-        $space  = $locale["{$letter}_sep_by_space"] ? ' ' : ''; 
+				$signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
+				switch (true) {
+					case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+':
+					$prefix = $signal;
+					break;
+					case $locale["{$letter}_sign_posn"] == 2 && $flags['usesignal'] == '+':
+					$suffix = $signal;
+					break;
+					case $locale["{$letter}_sign_posn"] == 3 && $flags['usesignal'] == '+':
+					$cprefix = $signal;
+					break;
+					case $locale["{$letter}_sign_posn"] == 4 && $flags['usesignal'] == '+':
+					$csuffix = $signal;
+					break;
+					case $flags['usesignal'] == '(':
+						case $locale["{$letter}_sign_posn"] == 0:
+						$prefix = '(';
+							$suffix = ')';
+break;
+}
+if (!$flags['nosimbol']) {
+	$currency = $cprefix .
+	($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']) .
+	$csuffix;
+} else {
+	$currency = '';
+}
+$space  = $locale["{$letter}_sep_by_space"] ? ' ' : '';
 
-        $value = number_format($value, $right, $locale['mon_decimal_point'], 
-                 $flags['nogroup'] ? '' : $locale['mon_thousands_sep']); 
-        $value = @explode($locale['mon_decimal_point'], $value); 
+$value = number_format($value, $right, $locale['mon_decimal_point'],
+	$flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
+$value = @explode($locale['mon_decimal_point'], $value);
 
-        $n = strlen($prefix) + strlen($currency) + strlen($value[0]); 
-        if ($left > 0 && $left > $n) { 
-            $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0]; 
-        } 
-        $value = implode($locale['mon_decimal_point'], $value); 
-        if ($locale["{$letter}_cs_precedes"]) { 
-            $value = $prefix . $currency . $space . $value . $suffix; 
-        } else { 
-            $value = $prefix . $value . $space . $currency . $suffix; 
-        } 
-        if ($width > 0) { 
-            $value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ? 
-                     STR_PAD_RIGHT : STR_PAD_LEFT); 
-        } 
-
-        $format = str_replace($fmatch[0], $value, $format); 
-    } 
-    return $format; 
-} 
-
+$n = strlen($prefix) + strlen($currency) + strlen($value[0]);
+if ($left > 0 && $left > $n) {
+	$value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];
+}
+$value = implode($locale['mon_decimal_point'], $value);
+if ($locale["{$letter}_cs_precedes"]) {
+	$value = $prefix . $currency . $space . $value . $suffix;
+} else {
+	$value = $prefix . $value . $space . $currency . $suffix;
+}
+if ($width > 0) {
+	$value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ?
+		STR_PAD_RIGHT : STR_PAD_LEFT);
 }
 
-function curency_symbol($curr,$key=3) {
+$format = str_replace($fmatch[0], $value, $format);
+}
+return $format;
+}
+
+}
+function currency_symbol($curr,$key=3) {
+	return curency_symbol($curr,$key);
+}
+function curency_symbol($curr=false,$key=3) {
+
+
+	if($curr == false){
+		$curr = get_option('currency', 'payments');
+	}
+
+
+
 	$all_cur = curencies_list();
 	if(isarr($all_cur)){
 		foreach ($all_cur as $value) {
 			if(in_array($curr, $value)){
-					if($key == false){
-						return $value;
-					} else {
-						return $value[$key];
-					}
+				if($key == false){
+					return $value;
+				} else {
+					return $value[$key];
+				}
 
 			}
 		}
 	}
-	
+
+}
+function currencies_list_paypal() {
+	$curencies = array('USD','EUR','GBP','AUD','CAD','JPY','NZD','CHF','HKD','SGD','SEK','DKK','PLN','NOK','HUF','CZK','ILS','MXN','MYR','BRL','PHP','TWD','THB','TRY');
+
+	return $curencies;
+}
+function currencies_list() {
+	return currencies_list();
 }
 
- 
 function curencies_list() {
-	
-	
-	
+
+
+
 	$curencies_list_memory = mw_var('curencies_list');
 	if($curencies_list_memory != false){
 		return $curencies_list_memory;
 	}
-	
+
 	$row = 1;
 
 	$cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
@@ -1165,37 +1182,50 @@ function curencies_list() {
 		}
 	}
 }
+function currency_online_convert_rate($from, $to){
 
-function currency_format($amount, $curr = false){
-	
-	if($curr == false){
-		
-		$curr = get_option('currency', 'payments'); 
+
+
+	$remote_host = 'http://api.microweber.net';
+	$service = "/service/currency/?from=" . $from."&to=" . $to;
+	$remote_host_s = $remote_host . $service;
+	// d($remote_host_s);
+	$get_remote = url_download($remote_host_s);
+	if ($get_remote != false) {
+		return floatval($get_remote);
 	}
-	
-	
-	
-  $amount = floatval($amount);
-  $sym = curency_symbol($curr); 
-  switch ($curr){
-	  case "EUR":
-	  $ret = "&euro; ".number_format($amount, 2, ",", " ");
-	  break;
-	  case "BGN":
-	  case "RUB":
-	  $ret = number_format($amount, 2, ".", " ").' '.$sym;
-	  break;
-	  case "US":
-	  case "USD":
-	  $ret = "&#36; ".number_format($amount, 2, ".", ",");
-	  break;
-	  default:
+
+}
+function currency_format($amount, $curr = false){
+
+	if($curr == false){
+
+		$curr = get_option('currency', 'payments');
+	}
+
+
+
+	$amount = floatval($amount);
+	$sym = curency_symbol($curr);
+	switch ($curr){
+		case "EUR":
+		$ret = "&euro; ".number_format($amount, 2, ",", " ");
+		break;
+		case "BGN":
+		case "RUB":
+		$ret = number_format($amount, 2, ".", " ").' '.$sym;
+		break;
+		case "US":
+		case "USD":
+		$ret = "&#36; ".number_format($amount, 2, ".", ",");
+		break;
+		default:
 		//  print $sym;
-	  $ret =  $sym.' '.number_format($amount, 2, ".", ",");
-	  break;
-  }
-return $ret;
- 
+		$ret =  $sym.' '.number_format($amount, 2, ".", ",");
+		break;
+	}
+	return $ret;
+
 }
 
 
@@ -1234,143 +1264,143 @@ return $ret;
 //   Added rule for potato -> potatoes
 //   Added rule for *us -> *uses
 function pluralize( $string )
-    {
-         
-        return MWText::pluralize($string);
-    }
+{
+
+	return MWText::pluralize($string);
+}
 class MWText
 {
-    static $plural = array(
-        '/(quiz)$/i'               => "$1zes",
-        '/^(ox)$/i'                => "$1en",
-        '/([m|l])ouse$/i'          => "$1ice",
-        '/(matr|vert|ind)ix|ex$/i' => "$1ices",
-        '/(x|ch|ss|sh)$/i'         => "$1es",
-        '/([^aeiouy]|qu)y$/i'      => "$1ies",
-        '/(hive)$/i'               => "$1s",
-        '/(?:([^f])fe|([lr])f)$/i' => "$1$2ves",
-        '/(shea|lea|loa|thie)f$/i' => "$1ves",
-        '/sis$/i'                  => "ses",
-        '/([ti])um$/i'             => "$1a",
-        '/(tomat|potat|ech|her|vet)o$/i'=> "$1oes",
-        '/(bu)s$/i'                => "$1ses",
-        '/(alias)$/i'              => "$1es",
-        '/(octop)us$/i'            => "$1i",
-        '/(ax|test)is$/i'          => "$1es",
-        '/(us)$/i'                 => "$1es",
-        '/s$/i'                    => "s",
-        '/$/'                      => "s"
-    );
+	static $plural = array(
+		'/(quiz)$/i'               => "$1zes",
+		'/^(ox)$/i'                => "$1en",
+		'/([m|l])ouse$/i'          => "$1ice",
+		'/(matr|vert|ind)ix|ex$/i' => "$1ices",
+		'/(x|ch|ss|sh)$/i'         => "$1es",
+		'/([^aeiouy]|qu)y$/i'      => "$1ies",
+		'/(hive)$/i'               => "$1s",
+		'/(?:([^f])fe|([lr])f)$/i' => "$1$2ves",
+		'/(shea|lea|loa|thie)f$/i' => "$1ves",
+		'/sis$/i'                  => "ses",
+		'/([ti])um$/i'             => "$1a",
+		'/(tomat|potat|ech|her|vet)o$/i'=> "$1oes",
+		'/(bu)s$/i'                => "$1ses",
+		'/(alias)$/i'              => "$1es",
+		'/(octop)us$/i'            => "$1i",
+		'/(ax|test)is$/i'          => "$1es",
+		'/(us)$/i'                 => "$1es",
+		'/s$/i'                    => "s",
+		'/$/'                      => "s"
+		);
 
-    static $singular = array(
-        '/(quiz)zes$/i'             => "$1",
-        '/(matr)ices$/i'            => "$1ix",
-        '/(vert|ind)ices$/i'        => "$1ex",
-        '/^(ox)en$/i'               => "$1",
-        '/(alias)es$/i'             => "$1",
-        '/(octop|vir)i$/i'          => "$1us",
-        '/(cris|ax|test)es$/i'      => "$1is",
-        '/(shoe)s$/i'               => "$1",
-        '/(o)es$/i'                 => "$1",
-        '/(bus)es$/i'               => "$1",
-        '/([m|l])ice$/i'            => "$1ouse",
-        '/(x|ch|ss|sh)es$/i'        => "$1",
-        '/(m)ovies$/i'              => "$1ovie",
-        '/(s)eries$/i'              => "$1eries",
-        '/([^aeiouy]|qu)ies$/i'     => "$1y",
-        '/([lr])ves$/i'             => "$1f",
-        '/(tive)s$/i'               => "$1",
-        '/(hive)s$/i'               => "$1",
-        '/(li|wi|kni)ves$/i'        => "$1fe",
-        '/(shea|loa|lea|thie)ves$/i'=> "$1f",
-        '/(^analy)ses$/i'           => "$1sis",
-        '/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i'  => "$1$2sis",
-        '/([ti])a$/i'               => "$1um",
-        '/(n)ews$/i'                => "$1ews",
-        '/(h|bl)ouses$/i'           => "$1ouse",
-        '/(corpse)s$/i'             => "$1",
-        '/(us)es$/i'                => "$1",
-        '/s$/i'                     => ""
-    );
+	static $singular = array(
+		'/(quiz)zes$/i'             => "$1",
+		'/(matr)ices$/i'            => "$1ix",
+		'/(vert|ind)ices$/i'        => "$1ex",
+		'/^(ox)en$/i'               => "$1",
+		'/(alias)es$/i'             => "$1",
+		'/(octop|vir)i$/i'          => "$1us",
+		'/(cris|ax|test)es$/i'      => "$1is",
+		'/(shoe)s$/i'               => "$1",
+		'/(o)es$/i'                 => "$1",
+		'/(bus)es$/i'               => "$1",
+		'/([m|l])ice$/i'            => "$1ouse",
+		'/(x|ch|ss|sh)es$/i'        => "$1",
+		'/(m)ovies$/i'              => "$1ovie",
+		'/(s)eries$/i'              => "$1eries",
+		'/([^aeiouy]|qu)ies$/i'     => "$1y",
+		'/([lr])ves$/i'             => "$1f",
+		'/(tive)s$/i'               => "$1",
+		'/(hive)s$/i'               => "$1",
+		'/(li|wi|kni)ves$/i'        => "$1fe",
+		'/(shea|loa|lea|thie)ves$/i'=> "$1f",
+		'/(^analy)ses$/i'           => "$1sis",
+		'/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i'  => "$1$2sis",
+		'/([ti])a$/i'               => "$1um",
+		'/(n)ews$/i'                => "$1ews",
+		'/(h|bl)ouses$/i'           => "$1ouse",
+		'/(corpse)s$/i'             => "$1",
+		'/(us)es$/i'                => "$1",
+		'/s$/i'                     => ""
+		);
 
-    static $irregular = array(
-        'move'   => 'moves',
-        'foot'   => 'feet',
-        'goose'  => 'geese',
-        'sex'    => 'sexes',
-        'child'  => 'children',
-        'man'    => 'men',
-        'tooth'  => 'teeth',
-        'person' => 'people'
-    );
+static $irregular = array(
+	'move'   => 'moves',
+	'foot'   => 'feet',
+	'goose'  => 'geese',
+	'sex'    => 'sexes',
+	'child'  => 'children',
+	'man'    => 'men',
+	'tooth'  => 'teeth',
+	'person' => 'people'
+	);
 
-    static $uncountable = array(
-        'sheep',
-        'fish',
-        'deer',
-        'series',
-        'species',
-        'money',
-        'rice',
-        'information',
-        'equipment'
-    );
+static $uncountable = array(
+	'sheep',
+	'fish',
+	'deer',
+	'series',
+	'species',
+	'money',
+	'rice',
+	'information',
+	'equipment'
+	);
 
-    public static function pluralize( $string )
-    {
+public static function pluralize( $string )
+{
         // save some time in the case that singular and plural are the same
-        if ( in_array( strtolower( $string ), self::$uncountable ) )
-            return $string;
+	if ( in_array( strtolower( $string ), self::$uncountable ) )
+		return $string;
 
         // check for irregular singular forms
-        foreach ( self::$irregular as $pattern => $result )
-        {
-            $pattern = '/' . $pattern . '$/i';
+	foreach ( self::$irregular as $pattern => $result )
+	{
+		$pattern = '/' . $pattern . '$/i';
 
-            if ( preg_match( $pattern, $string ) )
-                return preg_replace( $pattern, $result, $string);
-        }
+		if ( preg_match( $pattern, $string ) )
+			return preg_replace( $pattern, $result, $string);
+	}
 
         // check for matches using regular expressions
-        foreach ( self::$plural as $pattern => $result )
-        {
-            if ( preg_match( $pattern, $string ) )
-                return preg_replace( $pattern, $result, $string );
-        }
+	foreach ( self::$plural as $pattern => $result )
+	{
+		if ( preg_match( $pattern, $string ) )
+			return preg_replace( $pattern, $result, $string );
+	}
 
-        return $string;
-    }
+	return $string;
+}
 
-    public static function singularize( $string )
-    {
+public static function singularize( $string )
+{
         // save some time in the case that singular and plural are the same
-        if ( in_array( strtolower( $string ), self::$uncountable ) )
-            return $string;
+	if ( in_array( strtolower( $string ), self::$uncountable ) )
+		return $string;
 
         // check for irregular plural forms
-        foreach ( self::$irregular as $result => $pattern )
-        {
-            $pattern = '/' . $pattern . '$/i';
+	foreach ( self::$irregular as $result => $pattern )
+	{
+		$pattern = '/' . $pattern . '$/i';
 
-            if ( preg_match( $pattern, $string ) )
-                return preg_replace( $pattern, $result, $string);
-        }
+		if ( preg_match( $pattern, $string ) )
+			return preg_replace( $pattern, $result, $string);
+	}
 
         // check for matches using regular expressions
-        foreach ( self::$singular as $pattern => $result )
-        {
-            if ( preg_match( $pattern, $string ) )
-                return preg_replace( $pattern, $result, $string );
-        }
+	foreach ( self::$singular as $pattern => $result )
+	{
+		if ( preg_match( $pattern, $string ) )
+			return preg_replace( $pattern, $result, $string );
+	}
 
-        return $string;
-    }
+	return $string;
+}
 
-    public static function pluralize_if($count, $string)
-    {
-        if ($count == 1)
-            return "1 $string";
-        else
-            return $count . " " . self::pluralize($string);
-    }
+public static function pluralize_if($count, $string)
+{
+	if ($count == 1)
+		return "1 $string";
+	else
+		return $count . " " . self::pluralize($string);
+}
 }

@@ -6,7 +6,7 @@ api_expose('shop/shipping/gateways/country/shipping_to_country/save');
 api_expose('shop/shipping/gateways/country/shipping_to_country/set');
 api_expose('shop/shipping/gateways/country/shipping_to_country/get');
 api_expose('shop/shipping/gateways/country/shipping_to_country/delete');
- 
+ api_expose('shop/shipping/gateways/country/shipping_to_country/reorder');
 
 class shipping_to_country {
 

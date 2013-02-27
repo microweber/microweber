@@ -124,9 +124,47 @@ $myPaypal = new Paypal();
 // Specify your paypal email
 $myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'payments')));
 
+
+
+$currencies_list_paypal = currencies_list_paypal();
+$currencyCode = $place_order['currency'];
+$amount = $place_order['amount'];
+$place_order['payment_amount'] = $amount;
+
+$place_order['payment_shipping'] = $place_order['shipping'];
+if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
+	 $payment_currency = get_option('payment_currency', 'payments');  
+  	$payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
+	if($payment_currency_rate != false){
+	 $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
+	 $payment_currency_rate = floatval( $payment_currency_rate);
+	
+	}
+	
+	if($payment_currency_rate  != 0.00){
+		$currencyCode =$payment_currency;
+		$amount= $amount*$payment_currency_rate;
+		$place_order['payment_shipping']= $place_order['payment_shipping']*$payment_currency_rate;
+		$place_order['payment_amount'] = $amount;
+ 
+	}
+}
+
+
+if (isarr($posted_fields)) {
+	foreach ($posted_fields as $k => $value) {
+		$myPaypal -> addField($k, $value);
+	}
+}
+if (isarr($place_order)) {
+	foreach ($place_order as $k => $value) {
+		$myPaypal -> addField($k, $value);
+	}
+}
+$place_order['payment_currency'] = $currencyCode;
 // Specify the currency
-if (isset($place_order['currency']) and ($place_order['currency']) != false) {
-	$myPaypal -> addField('currency_code', $place_order['currency']);
+if (isset($place_order['payment_currency']) and ($place_order['payment_currency']) != false) {
+	$myPaypal -> addField('currency_code', $place_order['payment_currency']);
 } else {
 	$myPaypal -> addField('currency_code', 'USD');
 }
@@ -139,25 +177,15 @@ $myPaypal -> addField('notify_url', $mw_ipn_url);
 
 // Specify the product information
 $myPaypal -> addField('item_name', $place_order['item_name']);
-$myPaypal -> addField('amount', $place_order['amount']);
-$myPaypal -> addField('shipping', $place_order['shipping']);
+$myPaypal -> addField('amount', $place_order['payment_amount']);
+$myPaypal -> addField('shipping', $place_order['payment_shipping']);
 
 //$myPaypal->addField('item_number', $cart['session_id']);
 
 // Specify any custom value
 $myPaypal -> addField('total_items', $place_order['items_count']);
-if (isarr($posted_fields)) {
-	foreach ($posted_fields as $k => $value) {
-		$myPaypal -> addField($k, $value);
-	}
-}
-if (isarr($place_order)) {
-	foreach ($place_order as $k => $value) {
-		$myPaypal -> addField($k, $value);
-	}
-}
 // Enable test mode if needed
 $myPaypal -> enableTestMode();
 
 // Let's start the train!
-$result = $myPaypal -> submitPayment();
+$result['success'] = $myPaypal -> submitPayment();

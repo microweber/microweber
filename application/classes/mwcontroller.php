@@ -16,7 +16,7 @@ class MwController {
 			$page_url = $this -> render_this_url;
 			$this -> render_this_url = false;
 		}
-		if ($this -> page_url != false){
+		if ($this -> page_url != false) {
 			$page_url = $this -> page_url;
 		}
 		$page = false;
@@ -76,7 +76,7 @@ class MwController {
 			$page_url = url_param_unset('preview_layout', $page_url);
 		}
 
-		if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
+		if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this -> create_new_page == true) {
 
 			if (isset($_GET['content_id']) and intval($_GET['content_id']) != 0) {
 				$page = get_content_by_id($_GET['content_id']);
@@ -107,16 +107,14 @@ class MwController {
 					$page['layout_file'] = $is_layout_file;
 				}
 
-
 				if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
 					$page['parent'] = intval($_GET['inherit_template_from']);
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
-					if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
-						$page['active_site_template']  =  $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file']  =  $inherit_from['layout_file'];;
+					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
+						$page['active_site_template'] = $inherit_from['active_site_template'];
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
 					}
 				}
-
 
 				//$page['active_site_template'] = $page_url_segment_1;
 				//$page['layout_file'] = $the_new_page_file;
@@ -125,7 +123,7 @@ class MwController {
 				template_var('new_page', $page);
 			}
 		}
-		if ($page == false or $this->create_new_page == true) {
+		if ($page == false or $this -> create_new_page == true) {
 			if (trim($page_url) == '') {
 				//
 				$page = get_homepage();
@@ -135,61 +133,58 @@ class MwController {
 
 				if (empty($page)) {
 					$the_new_page_file = false;
-					$page_url_segment_1 = url_segment(0,$page_url);
-					$td = TEMPLATEFILES .  $page_url_segment_1;
+					$page_url_segment_1 = url_segment(0, $page_url);
+					$td = TEMPLATEFILES . $page_url_segment_1;
 					$td_base = $td;
 
-
-					$page_url_segment_2 = url_segment(1,$page_url);
+					$page_url_segment_2 = url_segment(1, $page_url);
 					$directly_to_file = false;
-					$page_url_segment_3 = url_segment(-1,$page_url);
-
+					$page_url_segment_3 = url_segment(-1, $page_url);
 
 					if (!is_dir($td_base)) {
-						$page_url_segment_1 =	$the_active_site_template = get_option('curent_template');
-						$td_base = TEMPLATEFILES .  $the_active_site_template.DS;
+						$page_url_segment_1 = $the_active_site_template = get_option('curent_template');
+						$td_base = TEMPLATEFILES . $the_active_site_template . DS;
 					} else {
 						array_shift($page_url_segment_3);
 						//d($page_url_segment_3);
 					}
 
-
 					$page_url_segment_3_str = implode(DS, $page_url_segment_3);
 
-					if($page_url_segment_3_str != ''){
-						$page_url_segment_3_str = rtrim($page_url_segment_3_str,DS);
-						$page_url_segment_3_str = rtrim($page_url_segment_3_str,'\\');
-						 //d($page_url_segment_3_str);
+					if ($page_url_segment_3_str != '') {
+						$page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
+						$page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
+						//d($page_url_segment_3_str);
 						$page_url_segment_3_str_copy = $page_url_segment_3_str;
 
 						$is_ext = get_file_extension($page_url_segment_3_str);
-						if($is_ext == false or $is_ext != 'php'){
+						if ($is_ext == false or $is_ext != 'php') {
 							$page_url_segment_3_str = $page_url_segment_3_str . '.php';
 						}
 
-						$td_f = $td_base . DS.$page_url_segment_3_str;
-						$td_fd = $td_base  . DS. $page_url_segment_3_str_copy;
-					//  d($td_f);
+						$td_f = $td_base . DS . $page_url_segment_3_str;
+						$td_fd = $td_base . DS . $page_url_segment_3_str_copy;
+						//  d($td_f);
 						if (is_file($td_f)) {
 							$the_new_page_file = $page_url_segment_3_str;
 							$simply_a_file = $directly_to_file = $td_f;
 						} else {
 							if (is_dir($td_fd)) {
-								$td_fd_index = $td_fd .DS. 'index.php';
+								$td_fd_index = $td_fd . DS . 'index.php';
 								if (is_file($td_fd_index)) {
 									$the_new_page_file = $td_fd_index;
 									$simply_a_file = $directly_to_file = $td_fd_index;
 								}
 							} else {
 								$is_ext = get_file_extension($td_fd);
-								if($is_ext == false or $is_ext != 'php'){
+								if ($is_ext == false or $is_ext != 'php') {
 									$td_fd = $td_fd . '.php';
 								}
 								if (is_file($td_fd)) {
 									$the_new_page_file = $td_fd;
 									$simply_a_file = $directly_to_file = $td_fd;
 								} else {
-									$td_basedef = TEMPLATEFILES.'default'.DS.$page_url_segment_3_str;
+									$td_basedef = TEMPLATEFILES . 'default' . DS . $page_url_segment_3_str;
 									if (is_file($td_basedef)) {
 										$the_new_page_file = $td_basedef;
 										$simply_a_file = $directly_to_file = $td_basedef;
@@ -199,14 +194,9 @@ class MwController {
 
 							}
 
-
-
 						}
 
 					}
-
-
-
 
 					$fname1 = 'index.php';
 					$fname2 = $page_url_segment_2 . '.php';
@@ -215,8 +205,6 @@ class MwController {
 					$tf1 = $td . DS . $fname1;
 					$tf2 = $td . DS . $fname2;
 					$tf3 = $td . DS . $fname3;
-
-
 
 					if ($directly_to_file == false and is_dir($td)) {
 						if (is_file($tf1)) {
@@ -284,18 +272,11 @@ class MwController {
 
 		$render_file = get_layout_for_page($content);
 
-
 		$content['render_file'] = $render_file;
 
-
-		if($this->return_data != false){
+		if ($this -> return_data != false) {
 			return $content;
 		}
-
-
-
-
-
 
 		if ($render_file) {
 			$l = new MwView($render_file);
@@ -447,12 +428,34 @@ class MwController {
 			$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
 			$l = str_replace('{DEFAULT_TEMPLATE_URL}', DEFAULT_TEMPLATE_URL, $l);
 
-
 			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 			$l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
 			$l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
 
-
+			if (CONTENT_ID > 0) {
+				$meta = get_content_by_id(CONTENT_ID);
+				if ($meta != false) {
+					if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
+						$meta['title'] = $meta['content_meta_title'];
+					} else if (isset($meta['title']) and $meta['title'] != '') {
+						
+			
+					} else {
+						$meta['title'] = get_option('website_title', 'website');
+					}
+					if (isset($meta['description']) and $meta['description'] != '') {
+					} else {
+						$meta['description'] = get_option('website_description', 'website');
+					}
+					if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
+					} else {
+						$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+					}
+					$l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
+					$l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
+					$l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
+				}
+			}
 			// d(TEMPLATE_URL);
 
 			$l = execute_document_ready($l);
@@ -579,14 +582,13 @@ class MwController {
 		$try_class_func = array_pop($mod_api_class);
 		$mod_api_class = implode(DS, $mod_api_class);
 		$mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
-	 
- 
+
 		$try_class = str_replace('/', '\\', $mod_api_class);
 		if (class_exists($try_class, false)) {
 			$caller_commander = 'class_is_already_here';
 			$mod_class_api_class_exist = true;
 		} else {
-			//	
+			//
 			if (is_file($mod_api_class1)) {
 				$mod_class_api = true;
 				include_once ($mod_api_class1);
@@ -622,155 +624,150 @@ class MwController {
 
 		switch ($caller_commander) {
 			case 'class_is_already_here' :
-			if ($params != false) {
-				$data = $params;
-			} else if (!$_POST and !$_GET) {
+				if ($params != false) {
+					$data = $params;
+				} else if (!$_POST and !$_GET) {
 					//  $data = url(2);
-				$data = url_params(true);
-				if (empty($data)) {
-					$data = url(2);
+					$data = url_params(true);
+					if (empty($data)) {
+						$data = url(2);
+					}
+				} else {
+					$data = $_REQUEST;
 				}
-			} else {
-				$data = $_REQUEST;
-			}
 
-			static $loaded_classes = array();
+				static $loaded_classes = array();
 
 				//$try_class_n = src_
-			if (isset($loaded_classes[$try_class]) == false) {
-				$res = new $try_class($data);
-				$loaded_classes[$try_class] = $res;
-			} else {
-				$res = $loaded_classes[$try_class];
-					//
-			}
-
-			if (method_exists($res, $try_class_func)) {
-				$res = $res -> $try_class_func($data);
-	
-				if (defined('MW_API_RAW')) {
-					$mod_class_api_called = true;
-					return ($res);
-				}
-
-				if (!defined('MW_API_HTML_OUTPUT')) {
-					header('Content-Type: application/json');
-
-					print json_encode($res);
+				if (isset($loaded_classes[$try_class]) == false) {
+					$res = new $try_class($data);
+					$loaded_classes[$try_class] = $res;
 				} else {
-
-					print($res);
+					$res = $loaded_classes[$try_class];
+					//
 				}
-				exit();
-			}
 
-			break;
+				if (method_exists($res, $try_class_func)) {
+					$res = $res -> $try_class_func($data);
+
+					if (defined('MW_API_RAW')) {
+						$mod_class_api_called = true;
+						return ($res);
+					}
+
+					if (!defined('MW_API_HTML_OUTPUT')) {
+						header('Content-Type: application/json');
+
+						print json_encode($res);
+					} else {
+
+						print($res);
+					}
+					exit();
+				}
+
+				break;
 
 			default :
-			if ($mod_class_api == true and $mod_api_class != false) {
+				if ($mod_class_api == true and $mod_api_class != false) {
 
-				$try_class = str_replace('/', '\\', $mod_api_class);
-				$try_class_full = str_replace('/', '\\', $api_function_full);
-				
-				$try_class_full2 = str_replace('\\', '/', $api_function_full);
-				
-				 
-				$mod_api_err = false;
-				if (!defined('MW_API_RAW')) {
-					if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed) ) {
-						$mod_api_err = true;
-						foreach ($api_exposed as $api_exposed_value) {
-							if ($mod_api_err == true) {
-								if ($api_exposed_value == $try_class_full) {
-									$mod_api_err = false;
-								} else if ($api_exposed_value == $try_class_full2) {
-									$mod_api_err = false;
-								} else {
-									$convert_slashes = str_replace('\\', '/', $try_class_full);
+					$try_class = str_replace('/', '\\', $mod_api_class);
+					$try_class_full = str_replace('/', '\\', $api_function_full);
+
+					$try_class_full2 = str_replace('\\', '/', $api_function_full);
+
+					$mod_api_err = false;
+					if (!defined('MW_API_RAW')) {
+						if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)) {
+							$mod_api_err = true;
+
+							foreach ($api_exposed as $api_exposed_value) {
+								//d($api_exposed_value);
+								if ($mod_api_err == true) {
+									if ($api_exposed_value == $try_class_full) {
+										$mod_api_err = false;
+									} else if ($api_exposed_value == $try_class_full2) {
+
+										$mod_api_err = false;
+									} else {
+										$convert_slashes = str_replace('\\', '/', $try_class_full);
 										//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
 										//d($convert_slashes);
-									// d($try_class_full);
-									if ($convert_slashes == $api_exposed_value) {
-										$mod_api_err = false;
+										// d($try_class_full);
+										if ($convert_slashes == $api_exposed_value) {
+											$mod_api_err = false;
+										}
 									}
 								}
 							}
-						}
-					} else {
-						$mod_api_err = false;
-
-					}
-				}
-				 
-				if ($mod_class_api and $mod_api_err == false) {
-
-					if (!class_exists($try_class, false)) {
-						$remove = $url_segs;
-						$last_seg = array_pop($remove);
-						$last_prev_seg = array_pop($remove);
-
-						if (class_exists($last_prev_seg, false)) {
-							$try_class = $last_prev_seg;
-						}
-
-					}
-
-					if (class_exists($try_class, false)) {
-						if ($params != false) {
-							$data = $params;
-						} else if (!$_POST and !$_GET) {
-								//  $data = url(2);
-							$data = url_params(true);
-							if (empty($data)) {
-								$data = url(2);
-							}
 						} else {
-							$data = $_REQUEST;
+							$mod_api_err = false;
+
 						}
- 
-						$res = new $try_class($data);
-						if (method_exists($res, $try_class_func)) {
-							$res = $res -> $try_class_func($data);
-							$mod_class_api_called = true;
-											
-								
-												
-							
-							if (defined('MW_API_RAW')) {
-								return ($res);
+					}
+
+					if ($mod_class_api and $mod_api_err == false) {
+
+						if (!class_exists($try_class, false)) {
+							$remove = $url_segs;
+							$last_seg = array_pop($remove);
+							$last_prev_seg = array_pop($remove);
+
+							if (class_exists($last_prev_seg, false)) {
+								$try_class = $last_prev_seg;
 							}
 
-							if (!defined('MW_API_HTML_OUTPUT')) {
-								header('Content-Type: application/json');
+						}
 
-								print json_encode($res);
+						if (class_exists($try_class, false)) {
+							if ($params != false) {
+								$data = $params;
+							} else if (!$_POST and !$_GET) {
+								//  $data = url(2);
+								$data = url_params(true);
+								if (empty($data)) {
+									$data = url(2);
+								}
 							} else {
-
-								print($res);
+								$data = $_REQUEST;
 							}
-							
-							
-				
-				
-				
-							exit();
-						}
 
-					} else {
-						error('The api class ' . $try_class . '  does not exist');
+							$res = new $try_class($data);
+							if (method_exists($res, $try_class_func)) {
+								$res = $res -> $try_class_func($data);
+								$mod_class_api_called = true;
+
+								if (defined('MW_API_RAW')) {
+									return ($res);
+								}
+
+								if (!defined('MW_API_HTML_OUTPUT')) {
+									header('Content-Type: application/json');
+
+									print json_encode($res);
+								} else {
+
+									print($res);
+								}
+
+								exit();
+							}
+
+						} else {
+							error('The api class ' . $try_class . '  does not exist');
+
+						}
 
 					}
 
 				}
 
-			}
-
-			break;
+				break;
 		}
 
 		if ($api_function) {
- 
+
 		} else {
 			$api_function = 'index';
 		}
@@ -821,7 +818,7 @@ class MwController {
 
 				}
 				$hooks = api_hook(true);
- 
+
 				if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
 					foreach ($hooks[$api_function] as $hook_key => $hook_value) {

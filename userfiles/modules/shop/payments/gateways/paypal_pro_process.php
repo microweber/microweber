@@ -37,9 +37,28 @@ if (isset($place_order['shipping']) and intval($place_order['shipping']) > 0) {
 	$amount = $amount + floatval($place_order['shipping']);
 }
 
+
+
+
+$currencies_list_paypal = currencies_list_paypal();
+$currencyCode = $place_order['currency'];
+
+if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
+	 $payment_currency = get_option('payment_currency', 'payments');  
+  	$payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
+	if($payment_currency_rate != false){
+	 $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
+	 $payment_currency_rate = floatval( $payment_currency_rate);
+	
+	}
+	if($payment_currency_rate  != 0.00){
+		$currencyCode =$payment_currency;
+		$amount= $amount*$payment_currency_rate;
+	}
+}
+
 $amount = urlencode($amount);
 
-$currencyCode = "USD";
 $paymentAction = urlencode("Sale");
 
 $nvpRecurring = '';
@@ -67,21 +86,24 @@ if ($ack != "SUCCESS") {
 	$res['error'] = 'Error: Please check that all provided information is correct!';
 	$res['ack'] = $resArray["ACK"];
 	$res['correlation_id'] = $resArray['CORRELATIONID'];
-
+$place_order = $res;
 } else {
 
-	$res['success'] = 'Your payment was successful! Transaction id: ' . $resArray['TRANSACTIONID'];
-	$res['amount'] = $currencyCode . $resArray['AMT'];
-	$res['transaction_id'] = $resArray['TRANSACTIONID'];
+	$place_order['success'] = 'Your payment was successful! Transaction id: ' . $resArray['TRANSACTIONID'];
+	//$place_order['amount'] = $currencyCode . $resArray['AMT'];
+	$place_order['transaction_id'] = $resArray['TRANSACTIONID'];
 	if (isset($place_order['shipping']) and intval($place_order['shipping']) > 0) {
-		$res['shipping'] = floatval($place_order['shipping']);
+		$place_order['shipping'] = floatval($place_order['shipping']);
 	}
-
+	
+	$place_order['payment_name'] = $firstName . ' ' . $lastName;
+	$place_order['payer_id'] =  substr_replace($creditCardNumber, '*****', 0, strlen($creditCardNumber)-4)  ;
 	$place_order['payment_amount'] = $resArray['AMT'];
 	$place_order['is_paid'] = 'y';
 	$place_order['order_completed'] = 'y';
-	$place_order['curency'] = $currencyCode;
-
+	$place_order['payment_currency'] = $currencyCode;
+ 
 }
-$result = $res;
+ 
+$result =  $place_order;
 //print json_encode($res);

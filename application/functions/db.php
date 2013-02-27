@@ -419,7 +419,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 if (is_admin() == true) {
 	api_expose('get');
 }
-function save($get_params, $save_params = false) {
+function mass_save($get_params, $save_params = false) {
 	if (is_admin() != true) {
 		error('only admin can save');
 	}

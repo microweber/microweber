@@ -1,10 +1,10 @@
 <? if(is_admin() == false) {error('Must be admin');}  ?>
 
 <div id="mw-shop-menu">
-  <? $orders = get_orders('count=1&order_status=[neq]completed&order_completed=y');
+  <? $orders = get_orders('count=1&order_status=pending&order_completed=y');
 
- 
- 
+
+
  ?>
   <a href="<?php print $config['url']; ?>/action:orders" class="new-order-notification"> <strong><?php print intval( $orders); ?></strong>
   <?php _e("New Orders"); ?>
@@ -25,7 +25,7 @@
         </span></a></li>
       <!--      <li <?php if($active_action == 'promo_codes'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:promo_codes"><span class="ico ipromo"></span><span><?php _e("Promo codes"); ?></span></a></li>
 -->
-      
+
       <li <?php if($active_action == 'options'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="ico ioptions"></span><span>
         <?php _e("Options"); ?>
         </span></a></li>
@@ -47,4 +47,4 @@ $(document).ready(function(){
 
 });
 
-</script> 
+</script>

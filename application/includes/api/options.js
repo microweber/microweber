@@ -183,7 +183,7 @@ if(og1 != undefined){
 
 mw.options.form = function($selector, callback){
         var callback = callback || '';
-        var items = mw.$($selector).find("input, select, textarea");
+        var items = $($selector).find("input, select, textarea");
         items.each(function(){
           var item = $(this);
           if(!item.hasClass('mw-options-form-binded')){

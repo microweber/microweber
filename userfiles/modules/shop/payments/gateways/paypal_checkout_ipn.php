@@ -13,7 +13,7 @@
     $update_order['payment_city'] = $data['address_city'];
 	$update_order['payment_state'] = $data['address_state'];
 	$update_order['payment_zip'] = $data['address_zip'];
-	$update_order['currency'] = $data['mc_currency'];
+	$update_order['payment_currency'] = $data['mc_currency'];
 	$update_order['payment_shipping'] = $data['shipping'];
 	$update_order['payment_type'] = $data['payment_type'];
 	$update_order['transaction_id'] = $data['txn_id'];

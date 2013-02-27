@@ -6,21 +6,9 @@ $(document).ready(function(){
  
  $('.mw-payment-gateway-<? print $params['id']; ?>').unbind('change');
   $('.mw-payment-gateway-<? print $params['id']; ?>').bind('change',function() {
-
 	 $v = $(this).val();
-
-	 
 	 mw.$('.mw-payment-gateway-selected-<? print $params['id']; ?> .module:first').attr('data-selected-gw',$v);
-
-
-
-
 	 mw.load_module(''+$v,'#mw-payment-gateway-selected-<? print $params['id']; ?>');
-
-
-
-
-		 
 	 });
  
  

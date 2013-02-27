@@ -99,6 +99,20 @@ function create_mw_default_options() {
 
 	$data['position'] = '2';
 	$datas[] = $data;
+	
+	$data = array();
+	$data['option_group'] = 'website';
+	$data['option_key'] = 'website_keywords';
+	$data['option_value'] = 'My website\'s keywords';
+	$data['name'] = 'Website keywords';
+	$data['help'] = 'Write keywords for your site.';
+	$data['field_type'] = 'textarea';
+	$data['is_system'] = '1';
+
+	$data['position'] = '3';
+	$datas[] = $data;
+	
+	
 
 	$data = array();
 

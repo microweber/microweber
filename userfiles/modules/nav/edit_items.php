@@ -20,9 +20,9 @@
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:mw.menu_items_set_edit({id});">{title}</a> <span class="mw-ui-close" onclick="mw.menu_item_delete({id});">[x]</span></div>';
+	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span onclick="mw.tools.toggle(this.parentNode.parentNode.querySelector(\'ul\'), this);" class="menu_nested_controll_arrow"></span><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a></div>';
 
-$data = menu_tree( $menu_params);
+    $data = menu_tree( $menu_params);
 }
 
 ?>
@@ -31,7 +31,15 @@ $data = menu_tree( $menu_params);
 
 <script  type="text/javascript">
   mw.require('forms.js');
-  mw.require('<? print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js');
+  mw.require('<? print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
+
+  $(document).ready(function(){
+    mw.$(".mw-modules-admin li").each(function(){
+      if(!mw.tools.has(this, 'ul.menu')){
+         this.querySelector('.menu_nested_controll_arrow').style.display = 'none';
+      }
+    });
+  });
  </script>
 
 
@@ -42,41 +50,48 @@ mw.menu_item_delete = function($item_id){
 
 	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
 		 	mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
- if(window.parent != undefined && window.parent.mw != undefined){
-
+            if(self !== parent && typeof parent.mw !== 'undefined'){
 		      window.parent.mw.reload_module('nav');
-
-	 }
-
+	        }
 
 	  });
-
-
 }
 
 
-mw.menu_items_set_edit = function($item_id){
+mw.menu_items_set_edit = function($item_id, node){
+
+if(typeof node === 'object'){
+  var li = mw.tools.firstParentWithTag(node, 'li');
+  var id = $(li).dataset('item-id');
+
+
+  var master = mw.tools.firstParentWithClass(node, 'mw-modules-admin');
+
+  mw.$('li .active', master).removeClass('active');
+
+  $(node.parentNode).addClass('active');
+
+  if(mw.$("#edit-menu_item_edit_wrap-"+id).length>0){
+    return false;
+  }
+  else{
+
+  }
+}
 
 var the_li = mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]');
-var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
+    var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
+    mw.$('.module-nav-edit-item').remove();
+    the_li.find('.module_item').eq(0).after('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
+       $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
+       $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<? print $id?>');
+       mw.load_module('nav/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
+           mw.$('#custom_link_inline_controller').show();
 
- if(edit_wrap.length ==0){
-	// the_li.append('<div id="menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
- }
-
-                mw.$('.module-nav-edit-item').remove();
-                the_li.append('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
-
-                   $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
-
-                   $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<? print $id?>');
-
-                   mw.load_module('nav/edit_item','#edit-menu_item_edit_wrap-'+$item_id);
-
-
-                  $('#ed_menu_holder').hide();
-
-
+           menuSelectorInit("#menu-selector-"+$item_id);
+           mwd.querySelector('#custom_link_inline_controller input[type="text"]').focus();
+       });
+      $('#ed_menu_holder').hide();
 }
 
 
@@ -85,106 +100,48 @@ var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
 
 mw.menu_items_sort_<? print $rand; ?> = function(){
   if(!mw.$("#mw_admin_menu_items_sort_<? print $rand; ?>").hasClass("ui-sortable")){
-
-
-
-
-
-  $("#mw_admin_menu_items_sort_<? print $rand; ?> ul:first").nestedSortable({
+    $("#mw_admin_menu_items_sort_<? print $rand; ?> ul:first").nestedSortable({
        items: 'li',
 	   listType: 'ul',
 	   handle: '.iMove',
 	   attribute : 'data-item-id',
-	 //  toleranceElement: '> li',
-
-     //  handle:'.mw_admin_posts_sortable_handle',
        update:function(){
          var obj = {ids:[], ids_parents:{}}
          $(this).find('.menu_element').each(function(){
             var id = this.attributes['data-item-id'].nodeValue;
             obj.ids.push(id);
-
-
-
-
-
-
-			$has_p =  $(this).parents('.menu_element:first').attr('data-item-id');
+			var $has_p =  $(this).parents('.menu_element:first').attr('data-item-id');
 			if($has_p != undefined){
-	//obj.ids_parents[$has_p] =id;
-
 			  obj.ids_parents[id] = $has_p;
-			} else {
+			}
+            else {
 				var $has_p1 =  $('#ed_menu_holder').find('[name="parent_id"]').first().val();
-
-			if($has_p1 != undefined){
-			 	obj.ids_parents[id] =$has_p1;
+    			if($has_p1 != undefined){
+    			 	obj.ids_parents[id] =$has_p1;
+    			}
 			}
-
-//d($has_p1);
-//obj.ids_parents[0] = id;
-
-			}
-
-
          });
-
-		// obj = $("#mw_admin_menu_items_sort_<? print $rand; ?> ul").nestedSortable('serialize');
-
-         $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj, function(resp){
-
-
-			 });
-
-
-if(window.parent != undefined && window.parent.mw != undefined){
-				   window.parent.mw.reload_module('nav');
-
+         $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj);
+            if(self !== parent && typeof parent.mw !== 'undefined'){
+			    parent.mw.reload_module('nav');
 			 } else {
-				  mw.reload_module('nav');
+			    mw.reload_module('nav');
 			 }
-
-
        },
        start:function(a,ui){
               $(this).height($(this).outerHeight());
               $(ui.placeholder).height($(ui.item).outerHeight())
               $(ui.placeholder).width($(ui.item).outerWidth())
        },
-       scroll:false,
-
        placeholder: "custom-field-main-table-placeholder"
     });
-
   }
 }
 
  $(mwd).ready(function(){
-
-mw.menu_items_sort_<? print $rand; ?>()
+    mw.menu_items_sort_<? print $rand; ?>();
  });
  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -6,15 +6,28 @@
  $shipping_to_country = new shipping_to_country(); 
  
  
- $data = $shipping_to_country->get();
+ $data  =  $data_orig = $shipping_to_country->get();
  if( $data == false){
 	 $data = array();
  }
+ 
+ 
+ 
+ 
   $data[] = array();
  
-     $countries = countries_list();
+     $countries =    countries_list();
      $countries_used = array();
-     $countries[] = 'Worldwide';
+	 array_unshift($countries, "Worldwide");
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+    // $countries[] = 'Worldwide';
     ?>
 <script  type="text/javascript">
 if(mw.shipping_country == undefined){
@@ -32,7 +45,7 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
   
  $(document).ready(function(){
 
-    mw.$("#<? print $rand1 ?>").sortable({
+    mw.$(".<? print $rand1 ?>").sortable({
        items: '.shipping-country-holder',
        axis:'y',
        cancel:".country-id-0",
@@ -55,27 +68,72 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
        scroll:false,
        placeholder: "custom-field-main-table-placeholder"
   });
- 
- 
+  
+  
+  
+  <? if(empty( $data_orig )): ?>
+mw.$('.country-id-0').show()
+ <? endif;?>
 });
  
 
  
 </script>
-
-<div class="vSpace"></div>
-<div class="vSpace"></div>
-<div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-green"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');">
-  <?php _e("Add Country"); ?>
-  </span> </div>
-<? if(isarr($data )): ?>
-<div class="mw-shipping-items" id="<? print $rand1 ?>">
-  <? foreach($data  as $item): ?>
-  <? if(isset($item['shiping_country'])){
+ <? 
+ $data_active = array();
+ $data_disabled = array();
+ foreach($data  as $item): ?>
+  <?
+  
+  if(isset($item['is_active']) and 'n' == trim($item['is_active'])){
+	  $data_disabled[] = $item;
+  } else {
+	  $data_active[] = $item;
+  }
+  
+  
+  
+   if(isset($item['shiping_country'])){
     	 $countries_used[] = ($item['shiping_country']);
     }
     ?>
   <? endforeach ; ?>
+<? 
+
+$datas['data_active'] = $data_active; 
+$datas['data_disabled'] = $data_disabled;
+
+?>
+<div class="vSpace"></div>
+<div class="vSpace"></div>
+
+
+
+
+
+<? 
+ $data_active = array();
+ $data_disabled = array();
+ foreach($datas  as $data_key=> $data): ?>
+ <? if(empty($data)): ?>
+  
+ <? endif; ?>
+<?
+if($data_key == 'data_disabled'){
+ $truck_class = 'red';	
+} else {
+$truck_class = 'green';		
+}
+ ?>
+ 
+ 
+
+<? if(isarr($data ) and !empty($data)): ?>
+<div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<? print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');">
+  <?php _e("Add Country"); ?>
+  </span> </div>
+<div class="mw-shipping-items <? print $rand1 ?>" id="<? print $rand1 ?>">
+ 
   <script type="text/javascript">
 
 SaveShipping = function(form, dataType){
@@ -94,7 +152,7 @@ SaveShipping = function(form, dataType){
 $new = false;
 if(!isset($item['id'])) :?>
   <?  
-
+if($data_key == 'data_active'){
 $item['id']= 0; 
 $item['is_active']= 'y';
 $item['shiping_country']= 'new'; 
@@ -105,11 +163,12 @@ $item['position']= '999';
 
 
 $new = true;
+}
  ?>
   <? endif;?>
   <? //$rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
   <div data-field-id="<? print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<? print $item['id']; ?>">
-    <form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<? print $config['module_api']; ?>/shipping_add_to_country" id="{rand}" data-field-id="<? print $item['id']; ?>">
+    <form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<? print $config['module_api']; ?>/shipping_add_to_country"  data-field-id="<? print $item['id']; ?>">
       <div class="shipping-country-row">
         <div class="shipping-country-label">
           <? if($new == true): ?>
@@ -150,7 +209,7 @@ $new = true;
           </span> </span> <span class="shipping-arrow"></span>
           <label>
             <?php _e("Shipping Price"); ?>
-            <b><? print get_option('currency_sign', 'payments') ?></b></label>
+            <b><? print curency_symbol() ?></b></label>
           <span class="mw-help-field">
           <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"  onblur="mw.form.fixPrice(this);" name="shiping_cost" value="<? print $item['shiping_cost']; ?>" onfocus="if(this.value==='0')this.value='';" />
           <span class="mw-ui-label-help">
@@ -172,14 +231,14 @@ $new = true;
             <label>
               <?php _e("For orders above:"); ?>
             </label>
-            <span class="mw-ui-label-help">example $100</span> </span>
+            <span class="mw-ui-label-help">example <? print currency_format(100) ?></span> </span>
             <input class="mw-ui-field shipping-price-field right" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shiping_cost_above" value="<? print $item['shiping_cost_above']; ?>" onfocus="if(this.value=='0')this.value='';">
-            <label class="right"><b><? print get_option('currency_sign', 'payments') ?></b></label>
+            <label class="right"></label>
           </div>
           <span class="shipping-arrow"></span>
           <label>
             <?php _e("Shipping Price"); ?>
-            <b><? print get_option('currency_sign', 'payments') ?></b></label>
+            <b><? print curency_symbol() ?></b></label>
           <span class="mw-help-field">
           <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shiping_cost_max" value="<? print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';" />
           <span class="mw-ui-label-help">Type the price</span> </span>
@@ -205,5 +264,9 @@ $new = true;
   </div>
   <? endforeach ; ?>
 </div>
+
 <div class="mw_clear"></div>
 <? endif; ?>
+
+ <? endforeach ; ?>
+ 
