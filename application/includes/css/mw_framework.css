@@ -232,6 +232,7 @@
   position: relative;
   cursor: pointer;
   z-index: 10;
+  line-height: normal !important;
 }
 .mw_dropdown.active{
   z-index: 11;
@@ -1431,7 +1432,15 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);border-color: #BAD7F6;border-bottom-color: #89B6D9;}
 .mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
 
-.mw-btn-single-ico{padding: 5px 0px 5px 8px !important;}
+
+.mw-btn-single-ico .ico{
+  float: none;
+  top: 0;
+  margin:0;
+}
+
+.mw-btn-single-ico{padding: 2px 0 2px 8px !important;}
+.mw-btn-single-ico.mw-ui-btn-small{height: 12px;}
 
 .mw-ui-btn-green{
   background: url(../img/grad.php?top=d8ffc3&bot=d0ebb1) no-repeat;
@@ -1455,7 +1464,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-module-live-edit-settings .hr,
 .module-settings-page .hr,
 .module-settings-page hr{
-  margin: 20px 0;
+  margin: 11px 0;
   border: 0;
   border-top: 1px solid #E6E6E6;
   display: block;

@@ -311,7 +311,7 @@ mw.tools = {
         + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="mw-ui-btn-action" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>OK</b></span></td>'
+        + '<td align="center" height="25"><span class="mw-ui-btn-action" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
         + '</tr>'
     + '</table>';
     return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
@@ -555,10 +555,10 @@ mw.tools = {
     },
     recall : function(tree){
       if(tree!==null){
+
       var ids = mw.cookie.ui("tree_"+tree.id);
       if(ids!==''){
         var ids = ids.split(",");
-        mw.log(ids)
         $.each(ids, function(a,b){
           if(tree.querySelector('.item_'+b)){
              tree.querySelector('.item_'+b).className+=' active';

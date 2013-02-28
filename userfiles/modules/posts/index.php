@@ -241,6 +241,11 @@ if(!isset($params['order_by'])){
 }
 
 
+ $date_format = get_option('date_format','website');
+if($date_format == false){
+$date_format = "Y-m-d H:i:s";	
+}
+
  
 $content   = get_content($post_params);
 $data = array();
@@ -259,7 +264,13 @@ if (!empty($content)){
 			}
 			$item['content'] = htmlspecialchars_decode($item['content']);;
 			
+			if(isset( $item['created_on']) and  trim($item['created_on']) != ''){
+				$item['created_on'] =  date($date_format, strtotime($item['created_on']));
+			}
 			
+			if(isset( $item['updated_on']) and  trim($item['updated_on']) != ''){
+				$item['updated_on'] =  date($date_format, strtotime($item['updated_on']) );
+			}
 			
 			$item['link'] = content_link($item['id']);
 			if(!isset( $item['description']) or $item['description'] == ''){
@@ -319,9 +330,6 @@ $read_more_text = get_option('data-read-more-text',$params['id']);
 
 
 
-
-
-
 if(!isset( $params['return'])){
 
 	$module_template = get_option('data-template',$params['id']);
@@ -331,9 +339,14 @@ if(!isset( $params['return'])){
 	
 	
 	
-	
+	 
 	
 	if($module_template != false){
+		if(strtolower($module_template) == 'none'){
+			if(isset($params['template'])){
+				$module_template =$params['template'];
+				}
+			}
 			$template_file = module_templates( $config['module'], $module_template);
 	
 	} else {
@@ -345,14 +358,16 @@ if(!isset( $params['return'])){
 	if(isset($template_file) and is_file($template_file) != false){
 		include($template_file);
 		
-		?><?  if(isset($params['is_shop'])):  ?>
-		<script type="text/javascript">
+		?>
+<?  if(isset($params['is_shop'])):  ?>
+<script type="text/javascript">
 			if(mw.cart == undefined){
 				mw.require("shop.js");
 				
 			}
 		</script>
-<? endif; ?><?
+<? endif; ?>
+<?
 
 	} else {
 	

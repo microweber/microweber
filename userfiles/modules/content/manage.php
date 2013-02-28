@@ -261,9 +261,11 @@ mw.manage_content_sort = function(){
               $(ui.placeholder).height($(ui.item).outerHeight())
               $(ui.placeholder).width($(ui.item).outerWidth())
        },
-       scroll:false,
 
-       placeholder: "custom-field-main-table-placeholder"
+       //placeholder: "custom-field-main-table-placeholder",
+       scroll:false
+
+
     });
 
   }

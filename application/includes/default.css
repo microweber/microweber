@@ -59,11 +59,11 @@ body.mw-preview{
 }
 
 .mw-col-container{
-  padding: 0 10px;
+  padding: 10px;
 }
 
-.mw-row > .mw-col:first-child > .mw-col-container{ padding: 0 10px 0 0; }
-.mw-row > .mw-col:last-child > .mw-col-container{ padding: 0 0 0 10px; }
+.mw-row > .mw-col:first-child > .mw-col-container{ padding: 10px 10px 10px 0; }
+.mw-row > .mw-col:last-child > .mw-col-container{ padding: 10px 0 10px 10px; }
 
 .element {
     display: block;
@@ -80,6 +80,11 @@ body.mw-preview{
  -moz-transform-origin:50% 50%;
  -o-transform-origin:50% 50%;
  transform-origin:50% 50%;
+}
+
+img.element{
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .element-image {
@@ -107,6 +112,12 @@ body.mw-preview{
 .edit .mw-col img{
   height: auto !important;
   max-width: 100%;
+}
+
+.edit .mw-col .img-polaroid{
+  max-width: 98%;
+  max-width: calc(100% - 10px);
+  max-width: -webkit-calc(100% - 10px);
 }
 
 @media (max-width: 767px) {
@@ -214,7 +225,7 @@ body.mw-preview{
 
 .mw-textfx-neon{
   font-size: 20px;
-   text-shadow: 0 0 10px #fff,
+  text-shadow: 0 0 10px #fff,
                    0 0 20px #fff,
                    0 0 30px #fff,
                    0 0 40px #ff00de,

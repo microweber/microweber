@@ -95,16 +95,20 @@ $(document).ready(function(){
 	    
 	 
 	 
-	 
+
 	 
 	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
 
  // set_category_parent_<? print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
 	 
-	 
+
 	 mw.reload_module('[data-type="categories"]');
-	  mw.reload_module('[data-type="pages_menu"]');
+     mw.$('[data-type="pages_menu"]').removeClass("activated");
+	  mw.reload_module('[data-type="pages_menu"]', function(){
+	    mw.treeRenderer.appendUI('[data-type="pages_menu"]');
+        mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
+	  });
 	  <? if(intval($data['id']) == 0): ?>
 	 	mw.url.windowHashParam("action", "editcategory:" + this);
 <? endif; ?>

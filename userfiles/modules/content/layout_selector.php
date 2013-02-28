@@ -406,6 +406,7 @@ $(document).ready(function() {
         <span>Edit Page</span>
       </a>
     </li>
+    <li><a class="mw-ui-btn mw-btn-single-ico" style="width: auto"><span class="ico ilive"></span></a></li>
   </ul>
 </div>
 <?php endif; ?>

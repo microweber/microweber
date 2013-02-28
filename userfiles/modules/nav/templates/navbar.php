@@ -17,9 +17,9 @@ description: Navigation bar
     <div class="container">
       	<?
 
-        $menu_filter['ul_class_deep'] = 'dropdown-menu';
-		$menu_filter['li_class_deep'] = 'dropdown-submenu';
-
+  $menu_filter['ul_class_deep'] = 'dropdown-menu';
+	$menu_filter['li_class_deep'] = 'dropdown-submenu';
+  $menu_filter['li_class_empty'] = ' ';
 
 		$mt =  menu_tree($menu_filter);
 

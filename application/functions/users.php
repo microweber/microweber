@@ -60,6 +60,11 @@ function mw_db_init_users_table() {
 	$fields_to_add[] = array('role', 'TEXT default NULL');
 	$fields_to_add[] = array('medium', 'TEXT default NULL');
 
+	$fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
+	$fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
+	$fields_to_add[] = array('oauth_token', 'TEXT default NULL');
+	$fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
+
 	set_db_table($table_name, $fields_to_add);
 
 	db_add_table_index('username', $table_name, array('username(255)'));
@@ -464,18 +469,17 @@ function has_access($function_name) {
 }
 
 function admin_access() {
-	if(is_admin() == false){
+	if (is_admin() == false) {
 		exit('You must be logged as admin');
 	}
-	
-	
+
 }
+
 function only_admin_access() {
-	if(is_admin() == false){
+	if (is_admin() == false) {
 		exit('You must be logged as admin');
 	}
-	
-	
+
 }
 
 function is_admin() {
@@ -773,7 +777,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                      get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                       get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -788,7 +792,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                      get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                       get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -854,7 +858,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                      get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                       get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -898,7 +902,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                      get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =                       get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -915,6 +919,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                      get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                       get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

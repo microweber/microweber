@@ -1529,7 +1529,7 @@ function load_module($module_name, $attrs = array()) {
 			$attrs = $attrs2;
 		}
 
-		$config['path_to_module'] = $config['mp'] = normalize_path((dirname($try_file1)) . '/', true);
+		$config['path_to_module'] = $config['mp'] = $config['path'] = normalize_path((dirname($try_file1)) . '/', true);
 		$config['the_module'] = $module_name;
 		$config['module'] = $module_name;
 

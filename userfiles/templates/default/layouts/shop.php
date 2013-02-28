@@ -27,7 +27,7 @@ description: shop layout
     <div class="row"> 
       <!-------------- Blog post -------------->
       <div class="span8">
-        <module type="shop/products"   />
+        <module type="shop/products" template="columns"   />
       </div>
       <!------------ Sidebar -------------->
       <div class="span4">

@@ -27,8 +27,10 @@
 
 <script>
 $(window).load(function(){
-   $("body").prepend('<span style="position:fixed;top:50%;right:0;padding:5px 10px;display:block;background:#C8D4EA;box-shadow:0 0 5px #000;">Rendered in '+((new Date().getTime()-START)/1000) + 'sec.</span>');
-});
+   $("body").prepend('<span id="RENDERED" style="position:fixed;top:50%;right:-220px;padding:5px 10px;display:block;background:#C8D4EA;box-shadow:0 0 5px #000;width:180px;">Rendered in '+((new Date().getTime()-START)/1000) + 'sec.</span>');
+   setTimeout(function(){  $("#RENDERED").animate({right:0}, 500, function(){
+     setTimeout(function(){    $("#RENDERED").animate({right:-220}, 500);
+          }, 1000);    });    }, 1000); });
 </script>
 </body>
 </html>

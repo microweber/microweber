@@ -49,5 +49,5 @@ $counter = 3;
 <? $counter++; endforeach; ?>
 <? endif; ?>
 <script>
-    mw.disable_selection("#<?php print $rand; ?> img");
+    mw.disable_selection("#<?php print $rand.$counter; ?> img");
 </script> 

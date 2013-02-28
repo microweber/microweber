@@ -1930,18 +1930,22 @@ __createRow = function(hovered, mw_drag_current, pos){
   var row = mwd.createElement('div');
   row.className = 'mw-row';
   row.id = "row_" + mw.random();
-  row.innerHTML = "<div class='mw-col temp_column' style='width:50%'></div><div class='mw-col' style='width:50%'></div>";
+  row.innerHTML = "<div class='mw-col temp_column' style='width:50%'><div class='mw-col-container'></div></div><div class='mw-col' style='width:50%'><div class='mw-col-container'></div></div>";
   hovered.before(row);
   hovered.addClass("element");
 
   if(pos=='left'){
-      $(row).find(".mw-col").eq(0).append(mw_drag_current).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-      $(row).find(".mw-col").eq(1).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col-container").eq(0).append(mw_drag_current);
+      $(row).find(".mw-col").eq(0).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col-container").eq(1).append(hovered);
+      $(row).find(".mw-col").eq(1).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
 
   }
   else if(pos=='right'){
-      $(row).find(".mw-col").eq(0).append(hovered).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-      $(row).find(".mw-col").eq(1).append(mw_drag_current).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col-container").eq(0).append(hovered);
+      $(row).find(".mw-col").eq(0).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+      $(row).find(".mw-col-container").eq(1).append(mw_drag_current);
+      $(row).find(".mw-col").eq(1).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
   }
 
 

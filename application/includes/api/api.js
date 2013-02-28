@@ -151,7 +151,10 @@ window.onerror = function(a,b,c){
  *
  */
 
-
+  mw.msg = {
+    ok: "<?php _e('OK');  ?>",
+    cancel: "<?php _e('Cancel');  ?>"
+  }
 
   mw.settings = {
     debug: true,

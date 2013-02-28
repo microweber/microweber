@@ -1015,7 +1015,7 @@ function reorder_content()
 		//$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
 		
 		$q = " UPDATE $table set position=$i where id=$id   ";
-         //     var_dump($q);
+       //  var_dump($q);
 		$q = db_q($q);
 		$i++;
 	}
@@ -2535,12 +2535,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	}
 
 	if ($include_first == true) {
-		$sql = "SELECT * from $table where  id=$parent    and content_type='page' $is_shop order by created_on desc limit 0,1";
+		$sql = "SELECT * from $table where  id=$parent    and content_type='page' $is_shop order by position asc  limit 0,1";
 		//
 	} else {
 
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-		$sql = "SELECT * from $table where  $par_q  content_type='page' $is_shop  order by created_on desc limit 0,100";
+		$sql = "SELECT * from $table where  $par_q  content_type='page' $is_shop  order by position asc limit 0,100";
 	}
 
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -2641,7 +2641,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 
 	$params['limit'] = 50;
-	$params['orderby'] = 'created_on desc';
+	$params['orderby'] = 'position asc';
 
 	$params['curent_page'] = 1;
 

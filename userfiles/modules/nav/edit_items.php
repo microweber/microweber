@@ -28,21 +28,34 @@ if( $id != 0){
 ?>
 <?  $rand = uniqid(); ?>
 <? if($data != false): ?>
-
 <script  type="text/javascript">
-  mw.require('forms.js');
+    mw.require('forms.js', true);
+</script>
+<script  type="text/javascript">
+  
   mw.require('<? print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
-
+ </script>
+<script  type="text/javascript">
   $(document).ready(function(){
     mw.$(".mw-modules-admin li").each(function(){
       if(!mw.tools.has(this, 'ul.menu')){
-         this.querySelector('.menu_nested_controll_arrow').style.display = 'none';
+       //  this.querySelector('.menu_nested_controll_arrow').style.display = 'none';
       }
     });
   });
  </script>
-
-
+<script  type="text/javascript">
+    if(typeof mw.menu_save_new_item !== 'function'){
+        mw.menu_save_new_item = function(selector){
+        	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
+        		mw.reload_module('#<? print $params['id'] ?>');
+        		if(window.parent != undefined && window.parent.mw != undefined){
+        			window.parent.mw.reload_module('nav');
+        		}
+        	});
+        }
+    }
+</script>
 <script  type="text/javascript">
 
 mw.menu_item_delete = function($item_id){
@@ -138,26 +151,15 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
   }
 }
 
- $(mwd).ready(function(){
+ $(document).ready(function(){
     mw.menu_items_sort_<? print $rand; ?>();
  });
  </script>
 
-
-
-<div class="mw-modules-admin" id="mw_admin_menu_items_sort_<? print $rand; ?>">
-    <? print $data; ?>
-</div>
-
-
-
+<div class="mw-modules-admin" id="mw_admin_menu_items_sort_<? print $rand; ?>"> <? print $data; ?> </div>
 <? else: ?>
 This menu is empty, please add items.
 <? endif; ?>
-
 <div>
-<module id="ed_menu_holder" data-type="nav/edit_item" item-id="0" menu-id="<? print $id ?>" />
-
-
-
+  <module id="ed_menu_holder" data-type="nav/edit_item" item-id="0" menu-id="<? print $id ?>" />
 </div>

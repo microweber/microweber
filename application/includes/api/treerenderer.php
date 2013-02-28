@@ -54,9 +54,7 @@ mw.treeRenderer = {
                    items: 'li',
 
                    axis:'y',
-				   containment: master,
-				 // containment: '.category_tree',
-            	   //containment: $is_sort,
+
                    handle:'.mw_sort_tree_handle',
                    update:function(){
                      var obj = {ids:[]}
@@ -67,7 +65,20 @@ mw.treeRenderer = {
             			cont_found = true;
                      });
             		 if(cont_found == true){
-            		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){});
+            		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){
+
+                         /*
+
+
+                         mw.reload_module("pages_menu", function(){
+                             mw.treeRenderer.appendUI('#pages_tree_toolbar');
+                         });
+
+
+                         */
+
+
+            		     });
             		 }
             		 var cat_found = false;
             		  var obj = {ids:[]}
@@ -78,11 +89,15 @@ mw.treeRenderer = {
                      });
 
             		 if(cat_found == true){
-            		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){});
+            		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){
+
+
+
+            		    });
             		 }
                    },
                    start:function(a,ui){
-                          $(this).height($(this).outerHeight());
+                          //$(this).height($(this).outerHeight());
                           $(ui.placeholder).height($(ui.item).outerHeight())
                           $(ui.placeholder).width($(ui.item).outerWidth())
                    },

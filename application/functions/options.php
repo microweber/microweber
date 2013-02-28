@@ -80,7 +80,7 @@ function create_mw_default_options() {
 	$data['help'] = 'This is very important for the search engines. Your website will be categorized by many criterias and the name is one of it.';
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_title';
-	$data['option_value'] = 'My website';
+	$data['option_value'] = 'Microweber';
 	$data['field_type'] = 'text';
 
 	$data['position'] = '1';
@@ -93,7 +93,7 @@ function create_mw_default_options() {
 	$data['option_key'] = 'website_description';
 	$data['option_value'] = 'My website\'s description';
 	$data['name'] = 'Website description';
-	$data['help'] = 'Describe what is your website is about.';
+	$data['help'] = 'Create Free Online Shop, Free Website and Free Blog with Microweber (MW)';
 	$data['field_type'] = 'textarea';
 	$data['is_system'] = '1';
 
@@ -103,7 +103,7 @@ function create_mw_default_options() {
 	$data = array();
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_keywords';
-	$data['option_value'] = 'My website\'s keywords';
+	$data['option_value'] = 'free website, free shop, free blog, make web, mw, microweber';
 	$data['name'] = 'Website keywords';
 	$data['help'] = 'Write keywords for your site.';
 	$data['field_type'] = 'textarea';
@@ -123,7 +123,7 @@ function create_mw_default_options() {
 	$data['option_key'] = 'curent_template';
 	$data['option_value'] = 'default';
 	$data['field_type'] = 'website_template';
-	$data['position'] = '3';
+	$data['position'] = '5';
 	$data['is_system'] = '1';
 
 	$datas[] = $data;
@@ -137,7 +137,7 @@ function create_mw_default_options() {
 	$data['option_value'] = '30';
 	$data['field_type'] = 'dropdown';
 	$data['field_values'] = array('10' => '10', '30' => '30', '50' => '50', '100' => '100', '200' => '200');
-	$data['position'] = '4';
+	$data['position'] = '6';
 	$data['is_system'] = '1';
 
 	$datas[] = $data;
@@ -146,7 +146,7 @@ function create_mw_default_options() {
 	$data['option_group'] = 'users';
 	$data['option_key'] = 'enable_user_registration';
 	$data['name'] = 'Enable user registration';
-	$data['help'] = 'You can enable or disable the regitration for new users';
+	$data['help'] = 'You can enable or disable the registration for new users';
 	$data['option_value'] = 'y';
 	$data['position'] = '10';
 	$data['is_system'] = '1';

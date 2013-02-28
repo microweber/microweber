@@ -731,8 +731,9 @@ form.add-edit-page-post textarea{
   top: 0;
 }
 
-.mw-admin-page-preview-page  .mw-quick-links li a {
-  width: 140px;
+.mw-admin-page-preview-page .mw-quick-links li {
+  float: left;
+  margin:0 10px;
 }
 
 .quick-links-case{
@@ -1781,10 +1782,6 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 }
 
 .preview_frame_wrapper .mw-overlay-quick-link a{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin:-10px 0 0 -55px;
   visibility: hidden;
   width: auto;
 }

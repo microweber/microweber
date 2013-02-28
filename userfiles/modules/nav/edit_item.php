@@ -43,21 +43,7 @@ if( $id != 0){
 ?>
 <? if($data != false): ?>
 <? //$rand = uniqid(); ?>
-<script  type="text/javascript">
-    mw.require('forms.js', true);
-</script>
-<script  type="text/javascript">
-    if(typeof mw.menu_save_new_item !== 'function'){
-        mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
-        		mw.reload_module('nav/edit_items');
-        		if(window.parent != undefined && window.parent.mw != undefined){
-        			window.parent.mw.reload_module('nav');
-        		}
-        	});
-        }
-    }
-</script>
+
 
 <div class="vSpace"></div>
 <div class="<? print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?  print $rand ?>">
@@ -65,7 +51,7 @@ if( $id != 0){
   <? $cont = get_content_by_id($data["content_id"]);
 	if(isset($cont['title'])){
 		$data['title'] = $cont['title'];
-		$data['url'] = content_link($cont['id']);
+		$item_url = content_link($cont['id']);
 	}
 	?>
   <? else: ?>
@@ -73,28 +59,32 @@ if( $id != 0){
   <? $cont = get_category_by_id($data["taxonomy_id"]);
     if(isset($cont['title'])){
     	$data['title'] = $cont['title'];
-    	$data['url'] = category_link($cont['id']);
+    	  $item_url = category_link($cont['id']);
     }
 ?>
   <? endif; ?>
   <? endif; ?>
-  <? 
+  <?
   if (isset($data['content_id']) and intval($data['content_id']) != 0) {
-		 		$data['url'] = content_link($data['content_id']);
+		 	$item_url = content_link($data['content_id']);
 
 	}
 
 	if (isset($data['taxonomy_id']) and intval($data['taxonomy_id']) != 0) {
-	 
-		$data['url'] = category_link($data['taxonomy_id']);
+
+	$item_url = category_link($data['taxonomy_id']);
 	}
-  
+
+
+  if ((isset($item_url)  and $item_url != false) and (!isset($data['url']) or trim($data['url']) == '')) {
+    $data['url'] = $item_url ;
+  }
+
+
   ?>
-  <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;">
-  <span onclick="cancel_editing_menu(<?  print $data['id'] ?>);" class="mw-ui-btnclose"></span>
-  <h4>Edit menu item</h4>
-    <div class="custom_link_delete_header">
-        <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?  print $data['id'] ?>);">Delete</span></div>
+  <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;"> <span onclick="cancel_editing_menu(<?  print $data['id'] ?>);" class="mw-ui-btnclose"></span>
+    <h4>Edit menu item</h4>
+    <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?  print $data['id'] ?>);">Delete</span></div>
     <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
     <input type="text" placeholder="<?php _e("Title"); ?>" name="title" value="<?  print $data['title'] ?>" />
     <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?  print $data['id'] ?>').toggle();">
@@ -110,13 +100,17 @@ if( $id != 0){
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?  print $data['id'] ?>'); </script>
     <? endif; ?>
-    <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
+    <?  if(isset($params['menu-id']) and !isset($data['parent_id']) or $data['parent_id'] ==0): ?>
+    <input type="text" name="parent_id" value="<?  print $params['menu-id'] ?>" />
+    <? endif; ?>
   </div>
   <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?  print $data['content_id'] ?>" />
   <input type="hidden" name="taxonomy_id" value="<?  print $data['taxonomy_id'] ?>" />
   <?  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
   <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
+  <?  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>
+  <input type="hidden" name="parent_id" value="<?  print $data['parent_id'] ?>" />
   <?  elseif(isset($params['parent_id'])): ?>
   <input type="hidden" name="parent_id" value="<?  print $params['parent_id'] ?>" />
   <? endif; ?>

@@ -496,3 +496,6 @@ $language["select-the-menu-you-want-to-edit"]= 'Select the Menu you want to edit
 $language["add-new-link"]= 'Add New Link' ; 
 $language["add-custom-link"]= 'Add Custom Link' ; 
 $language["edit-existing-linksbuttons"]= 'Edit existing links/buttons' ; 
+$language["ok"]= 'OK' ; 
+$language["user-settings-updated"]= 'User settings updated' ; 
+$language["template-settings-are-saved"]= 'Template settings are saved' ; 

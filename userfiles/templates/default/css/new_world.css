@@ -98,42 +98,64 @@ h1,h2,h3,h4,h5,h6{
 .module-posts-template-columns .img-polaroid,
 .module-posts-template-columns .img-rounded{
   display: block;
-  max-width: 290px;
   max-height: 210px;
+  height: 210px;
   overflow: hidden;
   text-align: center;
+  display:-moz-box;
+  -moz-box-pack:center;
+  -moz-box-align:center;
+  display:-webkit-box;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+  display:box;
+  box-pack:center;
+  box-align:center;
 }
 
-.cell{
-    display: table-cell;
-    max-width: 100%;
-    width: 100%;
-    vertical-align: middle;
-    *display: block;
+
+@media (max-width: 979px) {
+  .module-posts-template-columns .img-polaroid,
+  .module-posts-template-columns .img-rounded{
+    max-width:290px;
+  }
 }
 
-.module-posts-template-columns h3{
-  max-width: 300px;
+@media (max-width: 768px) {
+  .module-posts-template-columns .img-polaroid,
+  .module-posts-template-columns .img-rounded{
+     height: auto;
+   }
 }
 
-.module-posts-template-columns h3.pull-left{
-    width: 245px;
-    width: 205px;
+
+
+.module-posts-template-columns img{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+.module-posts-template-columns{
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .module-posts-template-columns img{
     max-height: 210px;
-    max-width: 290px;
     vertical-align: middle;
-    width: 100%;
 }
 
 .module-posts-template-columns .price{
-  float: right;
   margin-top:15px;
   font-size: 24px;
   line-height: 30px;
   color: #0088CC;
+  display:table-cell;
+  text-align: right;
+  white-space: nowrap;
+  width: 30%;
 }
 
 .symbol{
@@ -146,8 +168,22 @@ h1,h2,h3,h4,h5,h6{
   font-weight: 300;
 }
 
+.thumbnail, .well{
+  background-color: white;
+}
+
+
+
 .product-title-price{
-  width: 85%;
+    display: table;
+    padding: 7px 0;
+    width: 100%;
+}
+
+.product-title-price h3{
+  display: table-cell;
+  padding-right: 10px;
+  width: 70%;
 }
 
 
@@ -279,6 +315,10 @@ h1,h2,h3,h4,h5,h6{
 }
 
 */
+
+
+
+
 .post-single .lead{
   margin-bottom: 0;
 }

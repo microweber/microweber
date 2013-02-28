@@ -18,12 +18,12 @@ description: Columns
     <div class="span4">
       <? if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
-        <span class="cell"><img src="<? print thumbnail($item['image'], 290); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  /></span>
+        <img src="<? print thumbnail($item['image'], 290); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  />
       </a>
       <? endif; ?>
       <div class="product-title-price clearfix">
         <? if($show_fields == false or in_array('title', $show_fields)): ?>
-        <h3 class="pull-left"><a  class="lead" href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h3>
+        <h3><a  class="lead" href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h3>
         <? endif; ?>
         <? if($show_fields == false or in_array('price', $show_fields)): ?>
 

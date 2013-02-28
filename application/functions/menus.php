@@ -167,9 +167,8 @@ function edit_menu_item($data_to_save) {
 		$data_to_save['id'] = intval($data_to_save['id']);
 		cache_clean_group('menus/' . $data_to_save['id']);
 	}
-	
-	
-	if(!isset($data_to_save['id']) or intval($data_to_save['id']) == 0){
+
+	if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
 		$data_to_save['position'] = 99999;
 	}
 
@@ -186,7 +185,13 @@ function edit_menu_item($data_to_save) {
 
 	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) == 0) {
 		unset($data_to_save['taxonomy_id']);
-		$url_from_content = 1;
+		//$url_from_content = 1;
+	}
+
+	if ($url_from_content != false) {
+		if (isset($data_to_save['title'])) {
+			$data_to_save['title'] = '';
+		}
 	}
 
 	if (isset($data_to_save['categories'])) {
@@ -206,7 +211,7 @@ function edit_menu_item($data_to_save) {
 
 	$data_to_save['table'] = $table;
 	$data_to_save['item_type'] = 'menu_item';
-	//d($data_to_save);
+	// d($data_to_save);
 	$save = save_data($table, $data_to_save);
 
 	cache_clean_group('menus/global');
@@ -335,13 +340,13 @@ function menu_tree($menu_id, $maxdepth = false) {
 		$depth = 0;
 	}
 	if (isset($ul_class_deep)) {
-		if ($depth == 1) {
+		if ($depth > 0) {
 			$ul_class = $ul_class_deep;
 		}
 	}
 
 	if (isset($li_class_deep)) {
-		if ($depth == 1) {
+		if ($depth > 0) {
 			$li_class = $li_class_deep;
 		}
 	}
@@ -359,7 +364,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 	}
 	//d($link);
 	// $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
-	$to_print = '<' . $ul_tag . ' role="menu" class="' . $ul_class . ' menu_' . $menu_id . ' {exteded_classes}" >';
+	$to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
 	$cur_depth = 0;
 	$res_count = 0;
@@ -390,6 +395,11 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$url = $item['url'];
 		}
 
+		if (trim($item['url'] != '')) {
+			$url = $item['url'];
+			//d($url);
+		}
+
 		if ($item['title'] == '') {
 			$item['title'] = $title;
 		} else {
@@ -397,7 +407,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		}
 
 		$active_class = '';
-		if ($item['url'] != '' and intval($item['content_id']) == 0 and intval($item['taxonomy_id']) == 0) {
+		if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['taxonomy_id']) == 0) {
 			$surl = site_url();
 			$cur_url = curent_url(1);
 			$item['url'] = str_replace_once('{SITE_URL}', $surl, $item['url']);
@@ -421,7 +431,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		if ($title != '') {
 			$item['url'] = $url;
 			//$full_item['the_url'] = page_link($full_item['content_id']);
-			$to_print .= '<' . $li_tag . '  class="' . $li_class . ' ' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+			$to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 			$ext_classes = '';
 			if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -453,9 +463,6 @@ function menu_tree($menu_id, $maxdepth = false) {
 				$ext_classes .= ' child-' . $res_count . '';
 			}
 
-			$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
-			$to_print = str_ireplace('{nest_level}', 'depth-' . $depth, $to_print);
-
 			if (in_array($item['id'], $passed_ids) == false) {
 
 				if ($maxdepth == false) {
@@ -484,9 +491,14 @@ function menu_tree($menu_id, $maxdepth = false) {
 						if (isset($ul_class_deep)) {
 							$menu_params['ul_class_deep'] = $ul_class_deep;
 						}
+						if (isset($li_class_empty)) {
+							$menu_params['li_class_empty'] = $li_class_empty;
+						}
+
 						if (isset($li_class_deep)) {
 							$menu_params['li_class_deep'] = $li_class_deep;
-						} 
+						}
+
 						//$depth++;
 						if (isset($depth)) {
 							$menu_params['depth'] = $depth + 1;
@@ -497,9 +509,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 					}
 					//$test1 = menu_tree($item['id']);
-					if (strval($test1) != '') {
-						$to_print .= strval($test1);
-					}
+
 				} else {
 
 					if (($maxdepth != false) and ($cur_depth <= $maxdepth)) {
@@ -512,18 +522,30 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 						}
 
-						if (strval($test1) != '') {
-							$to_print .= strval($test1);
-						}
 					}
 				}
 			}
+			if (isset($li_class_empty) and isset($test1) and trim($test1) == '') {
+				if ($depth > 0) {
+					$li_class = $li_class_empty;
+				}
+			}
+
+			$to_print = str_replace('{ul_class}', $ul_class, $to_print);
+			$to_print = str_replace('{li_class}', $li_class, $to_print);
+			$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+			$to_print = str_replace('{nest_level}', 'depth-' . $depth, $to_print);
+
+			if (isset($test1) and strval($test1) != '') {
+				$to_print .= strval($test1);
+			}
+
 			$res_count++;
 			$to_print .= '</' . $li_tag . '>';
 
 		}
 
-		//	$passed_ids[] = $item['id'];
+		$passed_ids[] = $item['id'];
 		// }
 		// }
 		$cur_depth++;
