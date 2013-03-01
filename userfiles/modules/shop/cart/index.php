@@ -47,25 +47,26 @@ switch ($template_file):
     </h2>
   </div>
   <? if(isarr($data)) :?>
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <thead>
       <tr>
-        <th>Product Name</th>
+        <th class="mw-cart-table-product">Product Name</th>
         <th>QTY</th>
-        <th>Price</th>
         <th>Total</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       <? foreach ($data as $item) : ?>
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
-        <td><? print $item['title'] ?>
+        <td class="mw-cart-table-product"><? print $item['title'] ?>
           <? 	if(isset($item['custom_fields'])): ?>
           <? print $item['custom_fields'] ?>
           <?  endif ?></td>
         <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
-        <td style="text-align: center"><? print currency_format($item['price']); ?></td>
-        <td style="text-align: center"><? print currency_format($item['price']* $item['qty']); ?><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
+        <?php /*<td><? print currency_format($item['price']); ?></td>*/ ?>
+        <td class="mw-cart-table-price"><? print currency_format($item['price']* $item['qty']); ?></td>
+        <td><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
       </tr>
       <? endforeach; ?>
     </tbody>

@@ -1831,9 +1831,13 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 
 	if (isset($orderby) == false) {
 		$orderby = array();
-		$orderby[0] = 'updated_on';
+		//$orderby[0] = 'updated_on';
 
-		$orderby[1] = 'DESC';
+		//$orderby[1] = 'DESC';
+		
+		$orderby[0] = 'position';
+
+		$orderby[1] = 'asc';
 	}
 
 	if (intval($parent_id) == 0) {

@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
-    <div class="menus-index-bar">
+    <div class="menus-index-bar">     
        <? $params['menu_name'] = $item['title'];
 		if(isset($_REQUEST['menu_name'])){
 			$params['menu_name'] =$_REQUEST['menu_name'];

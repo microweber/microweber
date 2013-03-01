@@ -273,7 +273,7 @@ $(document).ready(function(){
 <? else : ?>
 You have no exising menus. Please create one.
 <? endif; ?>
-<div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+<div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
   <microweber module="categories/selector"  for="content" to_table_id="<? print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
 </div>
 <div id="custom_link_controller" class="mw-ui-gbox">

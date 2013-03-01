@@ -3,7 +3,7 @@
 define("FSQL_ASSOC",1,TRUE);
 define("FSQL_NUM",  2,TRUE);
 define("FSQL_BOTH", 3,TRUE);
-
+// http://fsql.sourceforge.net/docs/php_tutorial.html
 define("FSQL_EXTENSION", ".cgi",TRUE);
 
 // This function is in PHP5 but nowhere else so we're making it in case we're on PHP4
@@ -193,9 +193,9 @@ class fSQLTable
 	var $data_load =0;
 	var $uncommited = false;
 
-	function &create($path_to_db, $table_name, $columnDefs)
+	function create($path_to_db, $table_name, $columnDefs)
 	{
-		$table =& new fSQLTable;
+		$table = new fSQLTable;
 		$table->columns = $columnDefs;
 		return $table;
 	}
@@ -216,10 +216,10 @@ class fSQLTable
 		$this->columns = $columns;
 	}
 	
-	function &getCursor()
+	function getCursor()
 	{
 		if($this->cursor == NULL)
-			$this->cursor =& new fSQLTableCursor;
+			$this->cursor = new fSQLTableCursor;
 		
 		$this->cursor->entries =& $this->entries;
 		$this->cursor->num_rows = count($this->entries);
@@ -287,9 +287,9 @@ class fSQLCachedTable
 		$this->dataFile = new fSQLFileLock($this->data_path.'.cgi');
 	}
 	
-	function &create($path_to_db, $table_name, $columnDefs)
+	function create($path_to_db, $table_name, $columnDefs)
 	{
-		$table =& new fSQLCachedTable($path_to_db, $table_name);
+		$table = new fSQLCachedTable($path_to_db, $table_name);
 		$table->columns = $columnDefs;
 		
 		list($msec, $sec) = explode(' ', microtime());
@@ -2755,7 +2755,7 @@ class fSQLEnvironment
 		if($row == NULL)
 			return NULL;
 
-		$obj =& new stdClass();
+		$obj = new stdClass();
 
 		foreach($row as $key => $value)
 			$obj->{$key} = $value;

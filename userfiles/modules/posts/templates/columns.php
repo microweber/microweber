@@ -20,7 +20,7 @@ description: Columns
     <div class="span4">
         <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
-                <span class="cell"><img src="<? print thumbnail($item['image'], 290); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" /></span>
+                <img src="<? print thumbnail($item['image'], 290, 210); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" />
             </a>
         <? endif; ?>
         <div class="module-posts-head">

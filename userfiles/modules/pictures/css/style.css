@@ -5,7 +5,6 @@
 }
 
 .mw-rotator{
-  overflow: hidden;
   min-height: 100px;
   position: relative;
 }
@@ -14,7 +13,6 @@
 .mw-rotator .mw-gallery-item{
   background-repeat: no-repeat;
   background-position: center;
-  background-size:100% auto;
   position: relative;
 
 }
@@ -30,24 +28,37 @@
   width: 100%;
   height: 100%;
   top:0;
-  left: 0;
+  left: -200%;
   opacity:0;
-  transform: scale(1.15);
-  -moz-transform: scale(1.15);
-  -webkit-transform: scale(1.15);
-  -o-transform: scale(1.15);
+  /*
+
   transition: all 0.6s linear;
   -webkit-transition: all 0.6s linear;
   -moz-transition: all 0.6s linear;
   -o-transition: all 0.6s linear;
+
+  */
 }
+
+.mw-rotator-slide img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  display: block;
+}
+
+.mw-module-images img.valign{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
 .mw-rotator  .mw-rotator-slide.active{
   opacity:1;
   z-index: 2;
-  -transform: scale(1);
-  -moz-transform: scale(1);
-  -webkit-transform: scale(1);
-  -o-transform: scale(1);
+  left:0;
 }
 
 .rotator-index-control{
@@ -128,7 +139,7 @@ a.rotator-paging-item-thumbnail img{
   position: absolute;
   z-index: 10;
   top: 50%;
-  right: 25px;
+  right: 0;
   margin-top: -15px;
   display: block;
   width: 27px;
@@ -139,57 +150,53 @@ a.rotator-paging-item-thumbnail img{
 }
 .mw-rotator-template-default .rotator-prev{
   background-position: -27px 0;
-  left: 25px;
+  left: 0;
 }
 .mw-rotator-template-default .rotator-index-control-mode-numbers{
   position: absolute;
   visibility: hidden;
-  bottom: 20px;
-  right: 20px;
+  bottom: 0;
+  right: 0;
   white-space: nowrap;
   cursor: pointer;
 }
 .mw-rotator-template-default .rotator-index-control-mode-thumbnails{
-    bottom: 20px;
+    bottom: -110px;
     cursor: pointer;
     left: 50%;
     margin-left: -40% !important;
     overflow: hidden;
     position: absolute;
     text-align: center;
-    visibility: hidden;
+    /*visibility: hidden;*/
     white-space: nowrap;
     width: 80%;
 }
 .mw-rotator-template-default a.rotator-paging-item-digit{
   display: inline-block;
   cursor: pointer;
-  color: white;
-  text-shadow:0 0 1px #000;
+  color: #A9A9A9;
+  text-shadow:0 0 1px #fff;
   padding: 1px 4px;
   margin: 0 3px;
   border-radius: 3px;
 
 }
 .mw-rotator-template-default a.rotator-paging-item-digit.active{
-  background:white;
   color:#353535;
-  text-shadow:0 0 0px #000;
-  box-shadow:0 0 2px #000;
+  text-decoration: underline;
 }
 .mw-rotator-template-default a.rotator-paging-item-thumbnail{
   display: inline-block;
   position: relative;
   overflow: hidden;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   margin: 6px 4px 6px;
 }
 .mw-rotator-template-default a.rotator-paging-item-thumbnail.active{
-  border:2px solid #2E3448;
-  width: 36px;
-  height: 36px;
-  border-radius:2px;
+  box-shadow:inset 0 0 4px #A9A9A9;
+  border-color:#A9A9A9;
 }
 
 .mw-rotator-template-default:hover .rotator-next,
@@ -308,4 +315,87 @@ a.rotator-paging-item-thumbnail img{
 .mw-image-carousel .carousel-inner .item img{
   margin: 0 auto;
 }
+
+
+
+/*  Default Grid */
+
+.mw-images-template-default-grid{
+  max-width: 100%;
+  margin:0;
+  padding: 0;
+}
+
+.mw-images-template-default-grid li{
+  list-style: none;
+  float: left;
+}
+
+.mw-images-template-default-grid .thumbnail{
+  height: 150px;
+  width: 190px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+
+.mw-images-template-default-grid .thumbnail:hover{
+    transform: perspective(200px) translateZ(20px);
+    -webkit-transform: perspective(200px) translateZ(20px);
+    -o-transform: perspective(200px) translateZ(20px);
+    -moz-transform: perspective(200px) translateZ(20px);
+}
+
+.mw-images-template-default-grid .thumbnail img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.mw-images-template-default-grid  .mw-pictures-item{
+  width: 200px;
+  height: 160px;
+  float: left;
+  margin:10px;
+  position: relative;
+}
+
+.mw-pictures-list{
+  position: relative;
+  z-index: 9;
+}
+
+.zoomed.mw-pictures-list .thumbnail {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: url(blur.svg#blur);
+  filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+}
+.mw-pictures-list .thumbnail.active {
+  filter:none;
+  -webkit-filter: none;
+  -moz-filter: none;
+  -o-filter: none;
+  -ms-filter: none;
+  z-index:9;
+  position: absolute;
+}
+.mw-pictures-list .thumbnail.active:hover{
+   transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -moz-transform: none;
+}
+
+
+
 

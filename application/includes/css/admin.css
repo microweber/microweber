@@ -282,6 +282,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
     float: right;
     display: inline-block;
     padding: 7px 10px;
+    display: none !important;
 }
 
 #PowerdByInfo{

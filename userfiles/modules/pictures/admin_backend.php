@@ -118,7 +118,7 @@ $media = get_pictures("to_table_id={$for_id}&to_table={$for}");
     <div class="mw-post-media-img-edit">
       <input
             placeholder="<?php _e("Image Description"); ?>"
-            type="text" autocomplete="off"
+            <?php /*type="text"*/ ?> autocomplete="off"
             value="<? if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
             onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<? print $item['id'] ?>', this.value);});"
             onfocus="$(this.parentNode).addClass('active');"

@@ -1216,6 +1216,15 @@ mw.tools = {
   },
   has:function(el, what){
     return el.querySelector(what) !== null;
+  },
+  htmlnfo:function(html){
+    if(typeof mw._htmlnfo === 'undefined'){
+         mw._htmlnfo = mwd.createElement('div');
+         mw._htmlnfo.id = 'mw-html-info';
+         mwd.body.appendChild(mw._htmlnfo);
+    }
+    $(mw._htmlnfo).html(html);
+    return mw._htmlnfo;
   }
 }
 

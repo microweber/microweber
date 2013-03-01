@@ -57,7 +57,7 @@ mw.on.hashParam('installed', function(){
       <div style="padding-left: 46px">
         <div class="vSpace"></div>
         <div class="vSpace">&nbsp;</div>
-        <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>
+        <a href="javascript:;" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>
         <?php _e("Add new settings"); ?>
         </span></a> </div>
     </div>

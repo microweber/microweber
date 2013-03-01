@@ -13,11 +13,34 @@ description: Pictures List
   ?>
 <? if(isarr($data )): ?>
 
-<ul class="mw-pictures-list">
+<?php  $rand = uniqid(); ?>
+
+<script>mw.require("tools.js", true); </script>
+<script>mw.require("<?php print $config['url_to_module']; ?>js/api.js", true); </script>
+<script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
+<script>
+
+$(document).ready(function(){
+
+    mw.popupZoom("#mw-gallery-<?php print $rand; ?> .thumbnail");
+
+
+
+});
+
+</script>
+<div class="mw-module-images">
+<div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-<?php print $rand; ?>">
   <? foreach($data  as $item): ?>
-  <li class="mw-pictures-list-item mw-pictures-list-item-<? print $item['id']; ?>"><img src="<? print $item['filename']; ?>" /></li>
+  <div class="mw-pictures-item mw-pictures-item-<? print $item['id']; ?>">
+    <a class="thumbnail">
+        <img src="<? print $item['filename']; ?>" />
+    </a>
+  </div>
   <? endforeach ; ?>
-</ul>
+</div>
+</div>
+
 <? else : ?>
 
 <div class="mw-notification mw-success">

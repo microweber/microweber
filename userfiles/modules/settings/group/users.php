@@ -29,10 +29,10 @@ $(document).ready(function(){
   </select>
   <? if($enable_user_fb_registration == 'y'): ?>
   <br />  fb_app_id
-  <input name="fb_app_id" class="mw_option_field mw-ui-field"   type="text" option-group="users"  value="<? print get_option('fb_app_id','website'); ?>" />
+  <input name="fb_app_id" class="mw_option_field mw-ui-field"   type="text" option-group="users"  value="<? print get_option('fb_app_id','users'); ?>" />
   <br />
   fb_app_secret
-  <input name="fb_app_secret" class="mw_option_field mw-ui-field"   type="text" option-group="users"  value="<? print get_option('fb_app_secret','website'); ?>" />  <br />
+  <input name="fb_app_secret" class="mw_option_field mw-ui-field"   type="text" option-group="users"  value="<? print get_option('fb_app_secret','users'); ?>" />  <br />
   <? endif; ?>
   
   

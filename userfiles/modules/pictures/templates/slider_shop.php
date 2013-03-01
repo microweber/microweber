@@ -18,13 +18,15 @@ description: Product Slider
  <? if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
+
+<div class="well mw-module-images">
 <div class="autoscale mw-rotator mw-rotator-template-default" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
 
         <span class="autoscale mw-slider-zoomholder">
-            <img class="autoscale-x mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
+            <img class="mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
             <img src="<? print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
         </span>
 
@@ -32,6 +34,9 @@ description: Product Slider
     <? endforeach ; ?>
   </div>
 </div>
+
+</div>
+
 
 
 <script type="text/javascript">

@@ -348,7 +348,7 @@ mw.manage_content_sort = function(){
   <input
             onfocus="mw.form.dstatic(event);"
             onblur="mw.form.dstatic(event);"
-             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
+            onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
             value="<?  if(isset($params['keyword']) and $params['keyword'] != false):  ?><? print $params['keyword'] ?><? else: ?><?php _e("Search for posts"); ?><? endif; ?>"
             data-default="<?php _e("Search for posts"); ?>"
             type="text"

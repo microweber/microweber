@@ -232,11 +232,11 @@ $pages_count = intval($pages);
 <div class="mw-no-posts-foot">
   <? if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
   <h2>No Products Here</h2>
-  <!--  <a href="#?action=new:product" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
+  <!--  <a href="#?action=new:product" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
 -->
   <? else: ?>
   <h2>No Posts Here</h2>
-  <!--  <a href="#?action=new:post" class="mw-ui-btn-rect"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
+  <!--  <a href="#?action=new:post" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
 -->
   <? endif; ?>
 </div>

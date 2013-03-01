@@ -19,11 +19,35 @@ $(document).ready(function(){
   date_format
   <? $date_formats = array("Y-m-d H:i:s","m/d/y", "m/d/Y","F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a" );  ?>
   <?   $curent_val = get_option('date_format','website'); ?>
-  <select name="date_format" class="mw_option_field mw-ui-field"   type="text" option-group="website">
+  <select name="date_format" class="mw_option_field mw-ui-field"     option-group="website">
     <? if(isarr($date_formats )): ?>
     <? foreach($date_formats  as $item): ?>
     <option value="<? print $item ?>" <? if($curent_val == $item): ?> selected="selected" <? endif; ?>><? print date($item, time())?> - (<? print $item ?>)</option>
     <? endforeach ; ?>
     <? endif; ?>
   </select>
+  
+  
+  <br />
+<br />
+time_zone
+   <?   $curent_time_zone = get_option('time_zone','website'); ?>
+ <? 
+ 
+ if( $curent_time_zone == false){
+	 $curent_time_zone = date_default_timezone_get(); 
+ }
+ 
+ 
+  $timezones = timezone_identifiers_list(); ?>
+  
+   <select name="time_zone" class="mw_option_field mw-ui-field"     option-group="website">
+   <? foreach ($timezones as $timezone) {
+  echo '<option';
+  if ( $timezone == $curent_time_zone ) echo ' selected="selected"';
+  echo '>' . $timezone . '</option>' . "\n";
+}?>
+   </select>
+  
+
 </div>

@@ -3128,7 +3128,17 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
 	}
 }
 
-
+function format_date($date, $date_format = false){
+	if($date_format == false){
+		 $date_format = get_option('date_format','website');
+		if($date_format == false){
+		$date_format = "Y-m-d H:i:s";	
+		}
+	}
+	
+	$date =  date($date_format, strtotime($date));
+	return $date;
+}
 
 function content_get_inherited_parent($content_id){
 

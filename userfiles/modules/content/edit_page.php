@@ -491,7 +491,7 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
       <div id="mw-editor<? print $rand; ?>" style="height: 310px;width:623px;"></div>
       <textarea name="content"  style="display:none" id="mw-editor<? print $rand; ?>_src"></textarea>
       <div class="mw-postaction-bar">
-        <div class="left"> <a href="javascript:;" id="mw-scaleeditor" class="mw-ui-btn-rect mw-btn-single-ico"><span class="ico ifullscreen"></span></a> </div>
+        <div class="left"> <a href="javascript:;" id="mw-scaleeditor" class="mw-ui-btn mw-btn-single-ico"><span class="ico ifullscreen"></span></a> </div>
         <div class="right">
           <?php /*     <span class="mw-ui-btn">Preview</span>
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
@@ -673,9 +673,10 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
     <div class="vSpace"></div>
     <script type="text/javascript">
 $(mwd).ready(function(){
-  if(!!mw.treeRenderer){
-   mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
- }
+    if(!!mw.treeRenderer){
+       mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
+       d($("#categorories_selector_for_post_<? print $rand; ?>"));
+    }
 });
 </script>
   </div>
@@ -774,7 +775,7 @@ if(intval($data['id']) == 0){
 
 
   <div class="vSpace"></div>
-  <?php /* <a href="javascript:;" class="mw-ui-btn-rect" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
+  <?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div id="custom_fields_for_post_<? print $rand; ?>"  style="<? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<? else: ?>display:none;<? endif; ?>">
     <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
@@ -877,7 +878,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
   <div class="advanced_settings"> <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
     <?php _e('Advanced Settings'); ?>
     </a>
-    <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn-rect">
+    <?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn">
        <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
      </a> */ ?>
     <div class="advanced_settings_holder">
@@ -964,9 +965,14 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
 
 
+ <? if(isset($data['created_on'])): ?>
+ <br />
+    <small>Created on: <? print format_date($data['created_on'])?></small>
+      <? endif; ?>
 
-
-
+<? if(isset($data['created_on'])): ?>
+    <br /><small>Updated on: <? print format_date($data['updated_on'])?></small>
+      <? endif; ?>
 
 
 

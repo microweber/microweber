@@ -6,6 +6,7 @@ set_main_height = function(){
 
 mw.admin = {
   scale:function(obj, to){
+    if(obj === null) return false;
     var css = mw.CSSParser(obj);
     var win = $(window).width();
     var sum = win - css.get.padding(true).left - css.get.padding(true).right - css.get.margin(true).right - css.get.margin(true).left;

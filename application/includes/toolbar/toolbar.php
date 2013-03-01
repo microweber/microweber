@@ -88,7 +88,7 @@
         </li>
       </ul></div>
       <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
-       <a href="#design_bnav" class="mw-ui-btn-rect mw-ui-btn-rect-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
+       <a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
       <div id="mw-toolbar-right">
 
 

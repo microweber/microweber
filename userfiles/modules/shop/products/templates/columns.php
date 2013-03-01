@@ -18,7 +18,7 @@ description: Columns
     <div class="span4">
       <? if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
-        <img src="<? print thumbnail($item['image'], 290); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  />
+        <span class="valign"><img src="<? print thumbnail($item['image'], 290, 210); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  /></span>
       </a>
       <? endif; ?>
       <div class="product-title-price clearfix">

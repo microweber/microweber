@@ -168,7 +168,7 @@ mw.on.hashParam('installed', function(){
               <label>Uninstalled<input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  /></label>
           </div>
           <div class="vSpace">&nbsp;</div>
-          <a href="javascript:;" class="mw-ui-btn-rect" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
+          <a href="javascript:;" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
        </div>
 
 

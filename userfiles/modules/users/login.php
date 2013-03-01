@@ -1,4 +1,4 @@
- 
+
 <? $user = user_id(); ?>
 
 <div class="mw-o-box" id="mw-login">
@@ -21,7 +21,7 @@
       <input  class="mw-ui-field"  name="password" type="password"   />
     </div>
     <div class="vSpace"></div>
-    <input class="mw-ui-btn-rect" type="submit" value="Login"   />
+    <input class="mw-ui-btn" type="submit" value="Login"   />
   </form>
   <? endif;  ?>
 </div>

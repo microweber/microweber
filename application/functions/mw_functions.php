@@ -42,6 +42,17 @@ if (MW_IS_INSTALLED == true) {
 		exec_action('mw_db_init_options');
 		exec_action('mw_db_init_users');
 	}
+	$curent_time_zone = get_option('time_zone', 'website');
+	if ($curent_time_zone != false and $curent_time_zone != '') {
+		$default_time_zone = date_default_timezone_get();
+
+		if ($default_time_zone != $curent_time_zone) {
+
+			date_default_timezone_set($curent_time_zone);
+		}
+
+	}
+	//d($curent_time_zone);
 }
 //	exec_action('mw_db_init_options');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');

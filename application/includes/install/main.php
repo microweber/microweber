@@ -159,6 +159,14 @@ input[type='text'], input[type='password'] {
               <label class="mw-ui-label">Table prefix</label>
               <input type="text" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= ''): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
             </div>
+            
+            <!-- <div class="mw-ui-field-holder">
+              <label class="mw-ui-label">Database type</label>
+              <input type="hidden" class="mw-ui-field" name="DB_TYPE" <? if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<? print $data['db']['type'] ?>" <? endif; ?> />
+            </div>-->
+            
+            
+            
             <h2>Admin user setup</h2>
             <div class="hr"></div>
             <div class="mw-ui-field-holder">

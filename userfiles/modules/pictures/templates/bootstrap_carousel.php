@@ -16,7 +16,7 @@ description: Bootstrap Carousel
 <script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
 
 <?php $rand = uniqid(); $id = 'carousel_'.$rand; ?>
-
+    <div class="mw-module-images">
     <div id="<?php print $id; ?>" class="carousel slide mw-image-carousel">
       <ol class="carousel-indicators">
         <? $count = -1; foreach($data  as $item): ?>
@@ -41,6 +41,7 @@ description: Bootstrap Carousel
     <!-- Carousel nav -->
       <a class="carousel-control left" href="#<?php print $id; ?>" data-slide="prev">&lsaquo;</a>
       <a class="carousel-control right" href="#<?php print $id; ?>" data-slide="next">&rsaquo;</a>
+    </div>
     </div>
 
 <? else : ?>

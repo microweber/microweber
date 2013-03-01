@@ -13,6 +13,7 @@ $config = array(
     'installed' => '{IS_INSTALLED}',
     // Database Settings
     'db' => array(
+		'type' => '{DB_TYPE}',
         'host' => '{DB_HOST}',
         'dbname' => '{dbname}',
         'user' => '{DB_USER}',

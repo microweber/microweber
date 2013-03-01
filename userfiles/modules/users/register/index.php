@@ -1,3 +1,47 @@
+<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
+		if($form_btn_title == false) { 
+		$form_btn_title = 'Register';
+		}
+		
+		
+$enable_user_fb_registration =  get_option('enable_user_fb_registration', $params['id']);
+if($enable_user_fb_registration == 'y') { 
+$enable_user_fb_registration = true;
+} else {
+$enable_user_fb_registration = false;
+}
+
+if($enable_user_fb_registration == true){
+	$enable_user_fb_registration_site =  get_option('enable_user_fb_registration', 'users');
+	if($enable_user_fb_registration_site == 'y') { 
+	$enable_user_fb_registration = true;
+	
+	$fb_app_id  = get_option('fb_app_id','users');
+	$fb_app_secret  = get_option('fb_app_secret','users');
+	
+	if($fb_app_id != false){
+	$fb_app_id = trim($fb_app_id);	
+	}
+	
+	if($fb_app_secret != false){
+	$fb_app_secret = trim($fb_app_secret);	
+	}
+	
+	
+	
+	if($fb_app_id == ''){
+	$enable_user_fb_registration = false;
+	}
+	
+	} else {
+	$enable_user_fb_registration = false;
+	
+	}
+}
+
+
+		
+		 ?>
 <? //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
@@ -22,12 +66,7 @@ $(document).ready(function(){
  
  
  });
-   
  
-
-
- 
-   
 });
 </script>
 
@@ -56,12 +95,42 @@ $(document).ready(function(){
       <!-- <label class="checkbox">
         <input type="checkbox">
         Remember me </label>-->
-      <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
-		if($form_btn_title == false) { 
-		$form_btn_title = 'Register';
-		}
-		 ?>
+      
       <button type="submit" class="btn"><? print $form_btn_title ?></button>
     </div>
   </div>
 </form>
+<? if($enable_user_fb_registration == true): ?>
+
+
+<? print $enable_user_fb_registration ?>
+
+
+  <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: '<?php echo $fb_app_id; ?>',
+        
+          
+          oauth: true
+        });
+        FB.Event.subscribe('auth.login', function(response) {
+          window.location.reload();
+        });
+        FB.Event.subscribe('auth.logout', function(response) {
+          window.location.reload();
+        });
+      };
+      (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+      }());
+    </script>
+
+
+
+ 
+<? endif; ?>

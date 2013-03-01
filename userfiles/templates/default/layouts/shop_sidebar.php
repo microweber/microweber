@@ -1,10 +1,12 @@
-
-
 <div class="edit"  field="shop_sidebar" rel="page">
-  <module type="categories"   />
-  
-  
+<?php /*
+    <div class="well">
+        <module type="categories"   />
+    </div> */ ?>
+
   <module type="shop/cart"  />
+
+
 </div>
  
 

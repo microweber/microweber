@@ -23,7 +23,9 @@ if (isset($_POST['IS_INSTALLED'])) {
 				$to_save['dsn'] = $to_save['custom_dsn'];
 			}
 		}
-
+		if (!isset($to_save['DB_TYPE'])) {
+		$to_save['DB_TYPE'] = 'mysql';
+		}
 		if (isset($to_save['test'])) {
 
 		}
@@ -46,7 +48,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 			$temp_db = array(
 			//'dsn' => 'mysql:host=localhost;port=3306;dbname=mw_install',
 			// 'dsn' => 'sqlite:db/default.db',
-			'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER'], 'pass' => $to_save['DB_PASS']);
+			'type' => $to_save['DB_TYPE'],'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER'], 'pass' => $to_save['DB_PASS']);
 
 			//var_dump(MW_IS_INSTALLED);
 

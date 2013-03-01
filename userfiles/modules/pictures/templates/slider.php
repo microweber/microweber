@@ -16,12 +16,19 @@ description: Pictures slider
  <? if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
+ <div class="well mw-module-images">
 <div class="autoscale mw-rotator mw-rotator-template-default" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>" style="background-image:url(<? print $item['filename']; ?>);"></div>
+    <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
+
+        <img class="valign" src="<? print $item['filename']; ?>" alt="" />
+
+    </div>
     <? endforeach ; ?>
   </div>
+</div>
+
 </div>
 
 

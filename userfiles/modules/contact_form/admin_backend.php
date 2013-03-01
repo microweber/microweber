@@ -18,7 +18,7 @@ $load_list = url_param('load_list');
       <? endforeach ; ?>
       <? endif; ?>
     </ul>
-    <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn-rect" style="width: 144px;margin-left: 12px;"> <span class="ico iplus"></span><span>Manage lists</span> </a></div>
+    <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn" style="width: 144px;margin-left: 12px;"> <span class="ico iplus"></span><span>Manage lists</span> </a></div>
   <div class="right" style="padding: 20px 0 0 20px;width: 657px;">
     <?
 

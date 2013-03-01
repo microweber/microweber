@@ -102,16 +102,9 @@ h1,h2,h3,h4,h5,h6{
   height: 210px;
   overflow: hidden;
   text-align: center;
-  display:-moz-box;
-  -moz-box-pack:center;
-  -moz-box-align:center;
-  display:-webkit-box;
-  -webkit-box-pack:center;
-  -webkit-box-align:center;
-  display:box;
-  box-pack:center;
-  box-align:center;
 }
+
+
 
 
 @media (max-width: 979px) {
@@ -147,14 +140,17 @@ h1,h2,h3,h4,h5,h6{
     vertical-align: middle;
 }
 
-.module-posts-template-columns .price{
-  margin-top:15px;
+.price{
   font-size: 24px;
   line-height: 30px;
   color: #0088CC;
+  white-space: nowrap;
+}
+
+.module-posts-template-columns .price{
+  margin-top:15px;
   display:table-cell;
   text-align: right;
-  white-space: nowrap;
   width: 30%;
 }
 
@@ -378,6 +374,33 @@ h1,h2,h3,h4,h5,h6{
 .icon:hover{
   background-color: #1A1E25;
 }
+
+
+/* Shop */
+
+
+.mw-cart-table td, .mw-cart-table th{
+  vertical-align: middle;
+   text-align: center;
+}
+
+.mw-cart-table-price{
+  white-space: nowrap;
+}
+.mw-cart-table .mw-cart-table-product{
+  text-align: left;
+}
+
+.mw-cart-table th{
+  text-align: center;
+  font-size: 13px;
+}
+
+.mw-cart-table td input{
+  margin: 0;
+}
+
+/* /Shop */
 
 
 

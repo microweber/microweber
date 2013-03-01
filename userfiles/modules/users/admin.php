@@ -208,7 +208,7 @@ mw.on.hashParam('edit-user', function(){
 
   <div class="vSpace"></div>
 
-  <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn-rect" style="width: 144px;margin-left: 12px;">
+  <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn" style="width: 144px;margin-left: 12px;">
         <span class="ico iplus"></span><span>Add new user</span>
   </a>
 
