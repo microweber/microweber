@@ -9,12 +9,7 @@ if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.518);
 }
 
-if (!defined('MW_UPDATE_SERV')) {
-	$test = site_url('update.php');
-	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php');
-	//seperate by whitespace
-	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
-}
+
 set_include_path(MW_APPPATH_FULL .  'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 function mw_autoload($className) {

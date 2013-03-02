@@ -2,10 +2,11 @@
 
 
 
+ C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://api.microweber.net/home
 
 
 
-
+54.243.113.235
 
 
 United States

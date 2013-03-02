@@ -189,6 +189,15 @@ function mw_check_for_update() {
 }
 
 function mw_get_update_serv() {
+	if (!defined('MW_UPDATE_SERV')) {
+	$test = site_url('update.php');
+	define('MW_UPDATE_SERV', 'http://update.microweber.us/update.php');
+	//seperate by whitespace
+	// hyper space advaned multidimentianal tripleflex engine
+	
+	// define('MW_UPDATE_SERV', $test); //seperate by whitespace
+}
+	
     $servs = explode(' ', MW_UPDATE_SERV);
     $servs_return = array();
     if (!empty($servs)) {
