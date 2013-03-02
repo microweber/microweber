@@ -366,6 +366,11 @@ mw.drag = {
                       }
                     }
                } */
+
+               //d(mw.currentDragMouseOver);
+
+
+
            }
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
@@ -427,6 +432,9 @@ mw.drag = {
             }
            }
            }
+
+           $(".currentDragMouseOver").removeClass("currentDragMouseOver");
+           $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
          });
 
 
@@ -851,6 +859,8 @@ mw.drag = {
             }
 
 			if (mw.isDrag) {
+			  mw.isDrag = false;
+              $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
 			  /*  var history_id = 'history_'+mw.random();
 
                 $(mw.dragCurrent).before('<input type="hidden" id="'+history_id+'" />');
@@ -865,7 +875,7 @@ mw.drag = {
                 mw.$(".mw_dropable").hide();
 
 				setTimeout(function () {
-				  mw.isDrag = false;
+
 
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
 
@@ -954,27 +964,8 @@ mw.drag = {
                                      if(hovered.hasClass("edit")){
                                         hovered.append(mw.dragCurrent);
                                      }
-                                     else{
-                                         if(hovered.prev(".mw-sorthandle").length==0){//if is NOT the first child ??
+                                     else{hovered.before(mw.dragCurrent);
 
-                                            hovered.before(mw.dragCurrent);
-                                         }
-                                         else{
-                                           var parent = hovered.parent();
-                                           if(parent.hasClass("edit")){
-                                              parent.append(mw.dragCurrent);
-                                           }
-                                           else{
-                                             if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
-
-                                                parent.before(mw.dragCurrent);
-                                             }
-                                             else{
-                                                parent.prepend(mw.dragCurrent);
-                                             }
-
-                                           }
-                                         }
                                      }
                                   }
                                   else if(position=='bottom'){
@@ -985,22 +976,9 @@ mw.drag = {
                                         hovered.prepend(mw.dragCurrent);
                                      }
                                      else{
-                                         if(hovered.next().length==0){  //if is last child
-                                            var parent = hovered.parent();
-                                            if(parent.hasClass("edit")){
-                                                parent.prepend(mw.dragCurrent);
-                                             }
-                                             else{
-                                                if(!$(mw.dragCurrent).hasClass("mw_pdrag")){
-                                                   parent.after(mw.dragCurrent);
-                                                }
-                                                else{parent.append(mw.dragCurrent); }
 
-                                             }
-                                         }
-                                         else{
                                             hovered.after(mw.dragCurrent);
-                                         }
+
                                      }
                                      $(mw.dragCurrent).addClass("clear");
                                   }
@@ -1043,6 +1021,10 @@ mw.drag = {
 
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                     mw.currentDragMouseOver = null;
+
+
+                    $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
+
 				}, 77);
 			}
 

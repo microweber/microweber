@@ -481,8 +481,11 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 	try {
 
 		if ($cache_file != false) {
+			
+			$is_cleaning_now = mw_var('is_cleaning_now');
+			  
 
-			if (isset($get_file) == true and is_file($cache_file)) {
+			if ($is_cleaning_now == false and isset($get_file) == true and is_file($cache_file)) {
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
@@ -519,7 +522,7 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 		$cache = str_replace($search, $replace, $cache, $count);
 	}
 
-	if (($cache) != '') {
+	if (isset($cache) and $cache != false and ($cache) != '') {
 		/*
 		 if (! defined ( $cache_content )) {
 		 if (strlen ( $cache_content ) < 50) {
@@ -638,9 +641,10 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 				$cache = $mw_cache_get_content_memory[$criteria_id];
 				//$results_map_hits[$criteria_id]++;
 			} else {
+				$is_cleaning_now = mw_var('is_cleaning_now');
 				$cache = cache_get_content_encoded($cache_id, $cache_group, $time);
 				$mw_cache_get_content_memory[$criteria_id] = $cache;
-				if ($cache != false) {
+				if ($cache != false and $is_cleaning_now == false) {
 					//	d($cache);
 					file_put_contents($cache_group_index, $mw_sep_for_index_cache . $criteria_id . $mw_sep_for_cache_id . $cache, FILE_APPEND);
 				}
@@ -772,7 +776,7 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 		$cache_content1 = CACHE_CONTENT_PREPEND;
 
 		if ($cache_content1) {
-
+	
 			if (is_file($cache_index) == false) {
 				file_put_contents($cache_index, $cache_content1);
 			}
@@ -787,8 +791,12 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 			mkdir_recursive($see_if_dir_is_there);
 		}
 		try {
+$is_cleaning_now = mw_var('is_cleaning_now');
+			 
+				if  ( $is_cleaning_now == false) {
+								$cache = file_put_contents($cache_file, $content1);
 
-			$cache = file_put_contents($cache_file, $content1);
+				}
 
 		} catch (Exception $e) {
 			// $this -> cache_storage[$cache_id] = $content;

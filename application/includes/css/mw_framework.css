@@ -600,9 +600,7 @@
 
 
 
-.currentDragMouseOver{
-  outline: dotted 0px #56B2F3;
-}
+
 
 .edit, .mw-col{
   min-height: 50px;

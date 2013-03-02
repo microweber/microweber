@@ -24,7 +24,7 @@ $counter = 3;
         <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
         <img src="<? print thumbnail($item['image'], 290, 150); ?>" alt="">
         <? endif; ?>
-        <div class="caption">
+        <div class="caption edit">
           <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
           <h2 class="element content-item-title"><? print $item['title'] ?></h2>
           <? endif; ?>
@@ -39,6 +39,7 @@ $counter = 3;
           <? $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
           </a>
           <? endif; ?>
+
         </div>
       </div>
     </div>
