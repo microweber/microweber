@@ -1,27 +1,29 @@
 <?php
 
 if ($layout != '') {
+	$mw_found_elems = '';
+	$mw_found_elems_arr = array();
+
+	$mw_to_cache = array('orig', $layout);
+
 	$parser_mem_crc = 'parser_' . crc32($layout);
+	//d($parser_mem_crc);
 
-	$cached = cache_get_content($parser_mem_crc, 'global/parser');
-
-
-if ($cached != false) {
-
-	//print 1;
-	$layout = $cached;
-} else {
+	$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
 
 	$ch = mw_var($parser_mem_crc);
+	if ($cached != false) {
+		$mw_to_cache = $cached;
 
-	if ($ch != false) {
-		print 1;
+	} else if ($ch != false) {
+
 		$layout = $ch;
 	} else {
 		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 		$pq = phpQuery::newDocument($layout);
 		$els = $pq['.edit'];
+		//d($ch);
 		//$els = $pq ['.edit *[rel!=""]'];
 		//d($els);
 		//$els  = $pq ['.edit *[rel]'];
@@ -112,12 +114,21 @@ if ($cached != false) {
 				}
 				$data = get_content_by_id($data_id);
 
-				//d($data);
-				$get_global = false;
-				if ($data == false) {
-					$data = get_page($attr['post']);
-					//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+			} else if ($rel == 'inherit') {
+				if (!isset($data_id) or $data_id == false) {
+					$data_id = CONTENT_ID;
 				}
+				$inh = content_get_inherited_parent($data_id);
+				if ($inh != false) {
+					$data_id = $inh;
+					$rel = 'content';
+					$data = get_content_by_id($data_id);
+				} else {
+					$rel = 'content';
+					$data = get_page($data_id);
+					//d($data );
+				}
+
 			} else if (isset($attr['post'])) {
 				$get_global = false;
 				$data = get_post($attr['post']);
@@ -234,18 +245,41 @@ if ($cached != false) {
 			}
 
 			if ($field_content != false and $field_content != '') {
-				$field_content = htmlspecialchars_decode($field_content);
+				//	$field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 				// pecata d($field_content);
 
 				$parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
+
 				$ch2 = mw_var($parser_mem_crc);
 
-				if ($ch2 == false) {
-					// $field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+				/*
+				 if ($use_apc == true) {
 
-					pq($elem) -> html($field_content);
+				 $cache_id_apc = $parser_mem_crc2;
+
+				 $apc_field_content = apc_fetch($cache_id_apc);
+
+				 if ($apc_field_content != false) {
+				 $ch2 = true;
+				 $field_content = $apc_field_content;
+				 //	d($field_content);
+				 pq($elem) -> html($field_content);
+				 }
+				 }*/
+
+				if ($ch2 == false) {
+					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+
+					$mw_found_elems = ',' . $parser_mem_crc2;
+					$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+					pq($elem) -> html('mw_replace_back_this_editable_' . $parser_mem_crc2);
+
+					/*
+					 if ($use_apc == true) {
+					 @apc_store($cache_id_apc, $field_content, APC_EXPIRES);
+					 }*/
 
 				}
 				mw_var($parser_mem_crc2, 1);
@@ -259,15 +293,58 @@ if ($cached != false) {
 		$pq = null;
 
 		unset($pq);
+		//if(strstr($haystack, $needle))
+		mw_var($parser_mem_crc, $layout);
+		if ($mw_found_elems != '') {
+			$mw_to_cache['new'] = $layout;
+			$mw_to_cache['to_replace'] = $mw_found_elems;
+			$mw_to_cache['elems'] = $mw_found_elems_arr;
 
-		if ($parser_mem_crc != 'parser_0') {
-
-			//if(strstr($haystack, $needle))
-			cache_save($layout, $parser_mem_crc, 'global/parser');
+			//$mw_to_cache = base64_encode(serialize($mw_to_cache));
+			//d($mw_to_cache);
+			cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+		} else {
+			$mw_to_cache['new'] = $layout;
+			cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
 		}
-
-		mw_var($parser_mem_crc, $layout);
 	}
+
 }
-}  
+
+if (isset($mw_to_cache) and !empty($mw_to_cache)) {
+
+	if (isset($mw_to_cache['elems']) and isset($mw_to_cache['to_replace']) and isset($mw_to_cache['new'])) {
+
+		$modified_layout = $mw_to_cache['new'];
+		//d($mw_to_cache);
+		//$parser_mem_crc1 = 'parser_' . crc32($value['orig']);
+
+		//$ch = mw_var($parser_mem_crc1);
+		//$reps = explode(',', $mw_to_cache['to_replace']);
+
+		//if ($ch == false) {
+		$reps = $mw_to_cache['elems'];
+		foreach ($reps as $elk => $value) {
+			if ($value != '') {
+				//$layout = $ch;
+				$val_rep = $value;
+				$val_rep = htmlspecialchars_decode($val_rep);
+				$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+
+				$rep = 'mw_replace_back_this_editable_' . $elk;
+				//$modified_layout = $rep;
+				$modified_layout = str_replace($rep, $val_rep, $modified_layout);
+				//d($elk);
+			}
+		}
+		$layout = $modified_layout;
+		//}
+	} elseif (isset($mw_to_cache['new'])) {
+	//	 d($layout);
+	//	$layout = $mw_to_cache['new'];
+		//d($layout);
+		//$modified_layout = $mw_to_cache['orig'];
+	}
+	//
+}

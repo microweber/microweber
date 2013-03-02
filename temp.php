@@ -4,6 +4,10 @@
 
  C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://api.microweber.net/home
 
+ C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://api.microweber.net/home
+
+ C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://api.microweber.net/temp.php
+
 
 
 54.243.113.235

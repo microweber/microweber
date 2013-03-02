@@ -370,7 +370,7 @@ mw.drag = {
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
 
-            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver) || mw.tools.hasParentsWithClass('nodrop', mw.currentDragMouseOver)){
+            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop')){
               mw.currentDragMouseOver=null;
               return false;
             }
@@ -866,7 +866,12 @@ mw.drag = {
 
 				setTimeout(function () {
 				  mw.isDrag = false;
+
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
+
+                        if(mw.currentDragMouseOver === null){
+                          return false;
+                        };
 
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
@@ -876,6 +881,7 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
+
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
                               if(!$(mw.currentDragMouseOver).prev().hasClass('mw-col-container')){
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -883,6 +889,7 @@ mw.drag = {
                               else{
                                  $(mw.currentDragMouseOver).prev().append(mw.dragCurrent);
                               }
+
                                 return false;
                          }
 

@@ -11,7 +11,7 @@ if (!defined('APC_CACHE')) {
 	if (isset($_POST) and isarr($_POST)) {
 		$apc_exists = false;
 	}
-	 $apc_exists = false;
+	 //$apc_exists = false;
 	//    if (isset($_COOKIE['editmode'])) {
 	//
 	//    }
@@ -258,16 +258,20 @@ mw_var('is_cleaning_now', false);
 function cache_clean_group($cache_group = 'global') {
 	// return true;
 	//mw_notif(__FUNCTION__.$cache_group);
+	$is_cleaning_now = mw_var('is_cleaning_now');
 	$use_apc = false;
 	if (APC_CACHE == true) {
 		$apc_no_clear = mw_var('apc_no_clear');
 
-		if ($apc_no_clear == false) {
+		if ($apc_no_clear == false and $is_cleaning_now == false) {
 			$apc_exists = function_exists('apc_clear_cache');
 			if ($apc_exists == true) {
 				apc_clear_cache('user');
 				//d('apc_clear_cache');
 			}
+		} else {
+			mw_var('is_cleaning_now', false);
+
 		}
 	}
 

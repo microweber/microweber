@@ -6,6 +6,8 @@
 
 	RewriteRule ^userfiles/media - [L,NC]
 	RewriteRule ^userfiles/templates - [L,NC]
+	RewriteRule ^application/includes/ - [L,NC]
+	
 	RewriteRule ^userfiles/ - [L,NC]
 	RewriteRule ^cache/ - [L,NC]
  

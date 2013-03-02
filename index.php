@@ -6,14 +6,14 @@
 $mtime = microtime();
 $mtime = explode(" ", $mtime);
 $mtime = $mtime[1] + $mtime[0];
-
+date_default_timezone_set('UTC');
 // Setup system and load controller
 define('T', $mtime);
 unset($mtime);
 define('M', memory_get_usage());
 define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest');
 
-require ('bootstrap.php');
+require_once ('bootstrap.php');
 $c_file = MW_CONFIG_FILE;
 $go_to_install = false;
 if (!is_file($c_file)) {
@@ -23,7 +23,7 @@ if (!is_file($c_file)) {
 	$go_to_install = true;
 }
 
-require (MW_APPPATH . 'functions.php');
+require_once (MW_APPPATH . 'functions.php');
 $installed = c('installed');
 if (strval($installed) != 'yes') {
 	define('MW_IS_INSTALLED', false);
@@ -33,7 +33,7 @@ if (strval($installed) != 'yes') {
 
 // require ('appication/functions.php');
 
-require (MW_APPPATH_FULL . 'functions' . DS . 'mw_functions.php');
+require_once (MW_APPPATH_FULL . 'functions' . DS . 'mw_functions.php');
 
 //set_error_handler('error');
 
@@ -57,7 +57,7 @@ function error($e, $f = false, $l = false) {
 
 $default_timezone = c('default_timezone');
 if ($default_timezone == false or $default_timezone == '{default_timezone}') {
-	date_default_timezone_set('UTC');
+	
 } else {
 	date_default_timezone_set($default_timezone);
 }

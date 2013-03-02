@@ -493,7 +493,7 @@ function get_layout_for_page($page = array()) {
 	$cache_content = cache_get_content($cache_id, $cache_group);
 
 	if (($cache_content) != false) {
-
+ 
 		return $cache_content;
 	}
 
@@ -788,6 +788,7 @@ function get_layout_for_page($page = array()) {
 
 		}
 	}
+//	$render_file = reduce_double_slashes($render_file);
 	cache_store_data($render_file, $cache_id, $cache_group);
 
 	return $render_file;
@@ -2215,6 +2216,7 @@ function save_content($data, $delete_the_cache = true) {
 	}
 	cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
 	cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
+cache_clean_group('content_fields/global');
 
 	if ($cats_modified != false) {
 
@@ -2321,7 +2323,8 @@ function save_content_field($data, $delete_the_cache = true) {
 		$cache_group = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
 		db_q($del_q);
 		cache_clean_group($cache_group);
-
+		 
+cache_clean_group('content_fields/global');
 
 	}
 	//}

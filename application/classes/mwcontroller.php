@@ -9,7 +9,7 @@ class MwController {
 	public $isolate_by_html_id = false;
 
 	function index() {
-
+ 
 		if ($this -> render_this_url == false and isAjax() == FALSE) {
 			$page_url = url_string();
 		} else {
@@ -346,7 +346,7 @@ class MwController {
 
 			}
 
-			$l = parse_micrwober_tags($l, $options = false);
+			 $l = parse_micrwober_tags($l, $options = false);
 
 			if (isset($_REQUEST['embed_id'])) {
 				$find_embed_id = trim($_REQUEST['embed_id']);

@@ -13,7 +13,7 @@
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 
-<div class="container edit" id="home-top">
+<div class="container edit" id="home-top"  rel="page" field="home_content">
     <div class="mw-row clearfix">
         <div class="mw-col" style="width: 50%">
           <div class="mw-col-container">
@@ -22,7 +22,7 @@
         </div>
         <div class="mw-col" style="width: 50%">
             <div class="mw-col-container" id="mw-welcome">
-                <div class="edit">
+                <div class="edit" rel="page" field="home_text">
                     <h2 class="element">Welcome to Microweber</h2>
                     <p class="element">This is the default theme of (MW). </p> <br>
                     <h4 class="element">You are able to create your own Website, Blog, Online Shop or anything you need, for free.</h4>  <br>
