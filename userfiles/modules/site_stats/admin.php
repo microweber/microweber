@@ -1,84 +1,31 @@
 <?  //$rand = uniqid(); ?>
 <script  type="text/javascript">
     $r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
-    mw.require($r1);
+    mw.require($r1,1);
 
     $r2 = '<? print $config['url_to_module'] ?>morris.min.js';
-    mw.require($r2);
+    mw.require($r2,1);
  </script>
 <? $v = get_visits(); ?>
-
-
 <? $v_weekly = get_visits('weekly');
 $v_monthly = get_visits('monthly');
 //print_r($v_monthly);
  ?>
+
 <div id="stats">
-    <h2>Traffic Statistic</h2>
-    <ul id="stats_nav">
-        <li><a href="javascript:;" data-stat='day' class="active">Daily</a></li>
-        <li><a href="javascript:;" data-stat='week'>Weekly</a></li>
-        <li><a href="javascript:;" data-stat='month'>Monthly</a></li>
-    </ul>
-
-    <div class="dashboard_stats" id="stats_{rand}"></div>
-
+  <h2>Traffic Statistic</h2>
+  <ul id="stats_nav">
+    <li><a href="javascript:;" data-stat='day' class="active">Daily</a></li>
+    <li><a href="javascript:;" data-stat='week'>Weekly</a></li>
+    <li><a href="javascript:;" data-stat='month'>Monthly</a></li>
+  </ul>
+  <div class="dashboard_stats" id="stats_{rand}"></div>
 </div>
-
-
-
 <div class="vSpace">&nbsp;</div>
 
-<div id="users_online">
-
-  <h2>Users Online</h2>
-  <div class="users_online" id="real_users_online"><? $users_online = get_visits('users_online'); print intval($users_online); ?></div>
-
-
-</div>
-<div id="visits_info_table">
-<h2><?php _e("User Info"); ?></h2>
-
-<? $users_last5 = get_visits('last5');
-
-  //d($users_online) ?>
-<? if(!empty($users_last5)): ?>
-<table border="0" cellspacing="0" cellpadding="0" class="stats_table">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-        <? if(function_exists('ip2country')): ?>
-      <th scope="col">Country</th>
-      <? endif; ?>
-      <th scope="col">IP</th>
-    
-      <th scope="col">Last page</th>
-      <th scope="col">Page views</th>
-    </tr>
-  </thead>
-  <tbody>
-    <? $i=0; foreach($users_last5 as $item) : ?>
-      <tr>
-        <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
-          <? if(function_exists('ip2country')): ?>
-        <td><? print ip2country($item['user_ip']); ?></td>
- <? endif; ?>
-        <td><? print $item['user_ip'] ?></td>
-       
-        <td><? print $item['last_page'] ?></td>
-        <td><? print $item['view_count'] ?></td>
-      </tr>
-    <? $i++; endforeach; ?>
-  </tbody>
-</table>
-<? endif; ?>
-
-</div>
-
-
-
-
-
+ 
+ 
+<module="site_stats/dashboard_last" id="stats_dashboard_last" />
 <script  type="text/javascript">
 
 var curr_users = mwd.getElementById('real_users_online');
@@ -149,7 +96,15 @@ mw.statdatas = {
 
 $(document).ready(function(){
 
-
+ $("#users_online").dblclick(function(){
+    
+	   
+	   
+	   TEST = mw.reload_module_interval('#stats_dashboard_last', 1000);
+	   
+	   
+	   
+    });
 
      mw.$("#stats_nav a").click(function(){
       var el = $(this);
@@ -177,4 +132,4 @@ $(document).ready(function(){
 
 
 
-</script>
+</script> 

@@ -3,15 +3,17 @@
 if (!defined('APC_CACHE')) {
 
 	$apc_exists = function_exists('apc_fetch');
-	$is_editmode = session_get('editmode');
-	if ($is_editmode and intval($is_editmode) == 1) {
-		$apc_exists = false;
-	}
 
+	if (isset($_SESSION)) {
+		$is_editmode = session_get('editmode');
+		if ($is_editmode and intval($is_editmode) == 1) {
+			$apc_exists = false;
+		} 
+	}
 	if (isset($_POST) and isarr($_POST)) {
 		$apc_exists = false;
 	}
-	 //$apc_exists = false;
+	// $apc_exists = false;
 	//    if (isset($_COOKIE['editmode'])) {
 	//
 	//    }
@@ -85,7 +87,6 @@ function _old_cache_get_content_from_memory($cache_id, $cache_group = false, $re
 	}
 }
 
-
 //$mw_cache_mem = array();
 function cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
 	global $mw_skip_memory;
@@ -106,12 +107,11 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 	$mode = 2;
 	switch ($mode) {
 		case 0 :
-
+			//experimental
 			//$cache_group = (int) crc32($cache_group);
 			//	$cache_id = 'compiled_caache'.(int) crc32($cache_id);
 
-			$criteria_id = 'compiled_cache' . (int) crc32($cache_id);
-			;
+			$criteria_id = 'compiled_cache' . (int) crc32($cache_id); ;
 
 			$cache_group_index = cache_get_file_path('index', $cache_group);
 
@@ -151,7 +151,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 								if (!empty($compiled_cache)) {
 									if (isset($compiled_cache[0]) and $compiled_cache[0] != '') {
 										if (isset($compiled_cache[1]) and $compiled_cache[1] != false) {
-										//	d($compiled_cache[0]);
+											//	d($compiled_cache[0]);
 											$mw_cache_mem[$cache_group][$compiled_cache[0]] = $compiled_cache[1];
 											$mw_cache_mem_hits[$cache_group][$compiled_cache[0]] = 1;
 										}
@@ -178,6 +178,7 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			break;
 
 		case 1 :
+			//experimental
 			if ($replace_with_new != false) {
 				$mw_cache_mem[$cache_group][$cache_id] = $replace_with_new;
 				//   asort($mw_cache_mem[$cache_group]);
@@ -209,8 +210,6 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			}
 
 			if (isset($mw_cache_mem[$key])) {
-
-
 
 				$mw_cache_mem_hits[$cache_id_o]++;
 				return $mw_cache_mem[$key];
@@ -481,30 +480,27 @@ function cache_get_content_encoded($cache_id, $cache_group = 'global', $time = f
 	try {
 
 		if ($cache_file != false) {
-			
+
 			$is_cleaning_now = mw_var('is_cleaning_now');
-			  
 
 			if ($is_cleaning_now == false and isset($get_file) == true and is_file($cache_file)) {
 
 				// this is slower
 				// $cache = implode('', file($cache_file));
+				$cache = file_get_contents($cache_file);
+				// this is slower
 
+				// this is faster for sigle requests but spawns too much processes for 50req/sec
 				/*
-				 static $ct=0;
-				 $ct++;
-				 d($ct);
-				 */
+				 ob_start();
+				 readfile($cache_file);
 
-				// this is faster
-				ob_start();
-				readfile($cache_file);
+				 $cache = ob_get_contents();
 
-				$cache = ob_get_contents();
+				 ob_end_clean();
+				 *
+				 * */
 
-				ob_end_clean();
-
-				//$cache = file_get_contents($cache_file); // this is slower
 			}
 		}
 	} catch (Exception $e) {
@@ -600,6 +596,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 	switch ($mode) {
 
 		case 1 :
+			//experimental
 			global $mw_cache_get_content_memory;
 
 			$criteria_id = 'cache_id_' . (int) crc32($cache_id . $cache_group);
@@ -653,6 +650,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
 			break;
 
 		case 2 :
+			//experimental
 			global $mw_cache_get_content_memory;
 
 			//	$criteria_id = (int) crc32($cache_id . $cache_group);
@@ -776,9 +774,10 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 		$cache_content1 = CACHE_CONTENT_PREPEND;
 
 		if ($cache_content1) {
-	
+
 			if (is_file($cache_index) == false) {
-				file_put_contents($cache_index, $cache_content1);
+				//file_put_contents($cache_index, $cache_content1);
+				touch($cache_index);
 			}
 
 		}
@@ -791,12 +790,14 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 			mkdir_recursive($see_if_dir_is_there);
 		}
 		try {
-$is_cleaning_now = mw_var('is_cleaning_now');
-			 
-				if  ( $is_cleaning_now == false) {
-								$cache = file_put_contents($cache_file, $content1);
+			$is_cleaning_now = mw_var('is_cleaning_now');
 
-				}
+			if ($is_cleaning_now == false) {
+				$cache_file_temp = $cache_file . '.tmp' . rand() . '.php';
+				$cache = file_put_contents($cache_file_temp, $content1);
+				rename($cache_file_temp, $cache_file);
+
+			}
 
 		} catch (Exception $e) {
 			// $this -> cache_storage[$cache_id] = $content;

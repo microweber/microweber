@@ -6,8 +6,9 @@ function _e($k, $to_return = false) {
 
     //$k = str_replace(' ', '-', $k);
     $k1 = URLify::filter(($k));
- $lang = session_get('lang');
-
+	if (isset($_SESSION)){
+ 	$lang = session_get('lang');
+	}
 //	$k1 = url_title($k);
     if ($c === NULL) {
         if ($lang_file === NULL) {

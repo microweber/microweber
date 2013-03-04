@@ -1001,7 +1001,10 @@ function remove_cart_item($data) {
 
 function get_cart($params) {
 	$params2 = array();
-
+	if (!isset($_SESSION)) {
+		return false;
+	}
+	 
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $params2;

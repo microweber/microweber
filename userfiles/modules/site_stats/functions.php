@@ -106,7 +106,7 @@ function stats_insert() {
 	$function_cache_id = $function_cache_id . $uip . USER_IP;
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
+$few_mins_ago_visit_date = date("Y-m-d H:i:s");
 	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
 	//if (($cache_content) == '--false--') {
 	//return false;
@@ -115,7 +115,7 @@ function stats_insert() {
 	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
 
 	$vc1 = 1;
-	if (isset($_SESSION[$cookie_name])) {
+	 if (isset($_SESSION[$cookie_name])) {
 		$vc1 = intval($_SESSION[$cookie_name]) + 1;
 		$_SESSION[$cookie_name] = $vc1;
 		//	setcookie($cookie_name, $vc1);
@@ -124,10 +124,11 @@ function stats_insert() {
 		//setcookie($cookie_name, $vc1);
 		$_SESSION[$cookie_name] = $vc1;
 		// return true;
-	}
-
+	} 
+	
+	 
 	if (!isset($_COOKIE[$cookie_name_time])) {
-		$few_mins_ago_visit_date = date("Y-m-d H:i:s");
+	
 
 		setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
 
@@ -166,7 +167,101 @@ function stats_insert() {
 		mw_var('FORCE_SAVE', $table);
 		mw_var('apc_no_clear', 1);
 		$save = save_data($table, $data);
-		$_SESSION[$cookie_name] = 0;
+ 	$_SESSION[$cookie_name] = 0;
+		 
+		mw_var('apc_no_clear', 0);
+		//	setcookie($cookie_name, 1);
+
+	} else {
+
+	}
+	return true;
+
+}
+
+
+function stats_insert_cookie_based() {
+
+	$function_cache_id = false;
+	$uip = $_SERVER['REMOTE_ADDR'];
+	$function_cache_id = $function_cache_id . $uip . USER_IP;
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
+	//if (($cache_content) == '--false--') {
+	//return false;
+	//	}
+	$cookie_name = 'mw-stats' . crc32($function_cache_id);
+	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
+
+	$vc1 = 1;
+	/*if (isset($_SESSION[$cookie_name])) {
+		$vc1 = intval($_SESSION[$cookie_name]) + 1;
+		$_SESSION[$cookie_name] = $vc1;
+		//	setcookie($cookie_name, $vc1);
+		//  return true;
+	} elseif (!isset($_SESSION[$cookie_name])) {
+		//setcookie($cookie_name, $vc1);
+		$_SESSION[$cookie_name] = $vc1;
+		// return true;
+	}*/
+	
+		$few_mins_ago_visit_date = date("Y-m-d H:i:s");
+	if (isset($_COOKIE[$cookie_name])) {
+		$vc1 = intval($_COOKIE[$cookie_name]) + 1;
+	//	$_SESSION[$cookie_name] = $vc1;
+		 setcookie($cookie_name, $vc1, time() + 99);
+		//  return true;
+	} elseif (!isset($_COOKIE[$cookie_name])) {
+		 setcookie($cookie_name, $vc1, time() + 99);
+		//$_SESSION[$cookie_name] = $vc1;
+		// return true;
+	}
+
+	if (!isset($_COOKIE[$cookie_name_time])) {
+	
+
+		setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
+
+		$data = array();
+		$data['visit_date'] = date("Y-m-d");
+		$data['visit_time'] = date("H:i:s");
+		//   $data['debug'] = date("H:i:s");
+
+		$table = MODULE_DB_USERS_ONLINE;
+		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
+			$data['id'] = $check['id'];
+			$vc = 0;
+			if (isset($check['view_count'])) {
+				//	d($check);
+				$vc = ($check['view_count']);
+			}
+
+			$vc1 = 0;
+			if (isset($_COOKIE[$cookie_name])) {
+				$vc1 = intval($_COOKIE[$cookie_name]);
+			}
+			$vc = $vc + $vc1;
+			$data['view_count'] = $vc;
+		}
+		//d($data);
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			$lp = $_SERVER['HTTP_REFERER'];
+		} else {
+			$lp = $_SERVER['PHP_SELF'];
+		}
+		$data['last_page'] = $lp;
+		$data['skip_cache'] = 1;
+		//	 $data['debug'] = $lp;
+
+		mw_var('FORCE_SAVE', $table);
+		mw_var('apc_no_clear', 1);
+		$save = save_data($table, $data);
+	//	$_SESSION[$cookie_name] = 0;
+		 setcookie($cookie_name,0, time() + 99);
+
 		mw_var('apc_no_clear', 0);
 		//	setcookie($cookie_name, 1);
 

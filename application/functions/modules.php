@@ -369,7 +369,7 @@ function get_elements_from_db($params = false) {
 	if (!isset($params['ui'])) {
 		//   $params['ui'] = 1;
 	}
-	
+
 	$s = get($params);
 	// d($params); d( $s);
 	return $s;
@@ -1680,8 +1680,8 @@ function load_module($module_name, $attrs = array()) {
 				$module_file = $l1 -> __toString();
 			}
 		}
-		$l1 = null;
-
+		//	$l1 = null;
+		unset($l1);
 		if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
 			$lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
 			$lic_l1 = new MwView($lic_l1_try_file1);
@@ -1691,7 +1691,8 @@ function load_module($module_name, $attrs = array()) {
 
 			$lic_l1e_file = $lic_l1 -> __toString();
 
-			$lic_l1 = null;
+			//$lic_l1 = null;
+			unset($lic_l1);
 			return $lic_l1e_file . $module_file;
 		}
 		return $module_file;

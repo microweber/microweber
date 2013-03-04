@@ -11,12 +11,8 @@ description: Default
 */
 
  ?>
-
 <div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
-  <h1 class="element">My form title</h1>
-</div>
-<div class="edit" data-field="form_desc" rel="module" data-id="<? print $params['id'] ?>">
-  <p class="element">My form description</p>
+  <h3 class="element">Write us a letter</h3>
 </div>
 <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
   <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
@@ -31,3 +27,6 @@ description: Default
   <?  endif;?>
   <input type="submit" class="btn"  value="Submit" />
 </form>
+
+
+

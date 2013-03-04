@@ -1857,8 +1857,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 			}
 		}
 	}
-
-	$user_session = session_get('user_session');
+if (isset($_SESSION)) {
+		$user_session = session_get('user_session');
+	
+} else {
+	$user_session = false;
+}
 	$table = db_get_real_table_name($table);
 	$user_sid = false;
 	if ($user_session == false) {
@@ -1884,10 +1888,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 			$user_sid = session_id();
 		}
 	}
+	if (isset($_SESSION)) {
 	if ($user_sid != false) {
 		$data['session_id'] = $user_sid;
 	} else {
 		$data['session_id'] = session_id();
+	}
 	}
 
 	if (isset($data['cf_temp'])) {
@@ -2068,10 +2074,12 @@ function save_data($table, $data, $data_to_save_options = false) {
 			} else {
 				$user_createdq1 = " id={$data ['id']} ";
 			}
+			if (isset($_SESSION)) {
 			if (isset($data['session_id'])) {
 				if ($user_sid != false) {
 					$user_sidq = " AND session_id='{$user_sid}' ";
 				}
+			}
 			}
 
 		}

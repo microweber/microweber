@@ -9,7 +9,7 @@ class MwController {
 	public $isolate_by_html_id = false;
 
 	function index() {
- 
+
 		if ($this -> render_this_url == false and isAjax() == FALSE) {
 			$page_url = url_string();
 		} else {
@@ -39,7 +39,7 @@ class MwController {
 
 		$is_editmode = url_param('editmode');
 		$is_no_editmode = url_param('no_editmode');
-		if ($is_editmode and $is_no_editmode == false) {
+		if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 			$editmode_sess = session_get('editmode');
 
 			$page_url = url_param_unset('editmode', $page_url);
@@ -53,7 +53,7 @@ class MwController {
 				$is_editmode = false;
 			}
 		}
-		if (!$is_no_editmode) {
+		if (isset($_SESSION) and !$is_no_editmode) {
 			$is_editmode = session_get('editmode');
 		} else {
 			$is_editmode = false;
@@ -346,7 +346,7 @@ class MwController {
 
 			}
 
-			 $l = parse_micrwober_tags($l, $options = false);
+			$l = parse_micrwober_tags($l, $options = false);
 
 			if (isset($_REQUEST['embed_id'])) {
 				$find_embed_id = trim($_REQUEST['embed_id']);
@@ -438,8 +438,7 @@ class MwController {
 					if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
 						$meta['title'] = $meta['content_meta_title'];
 					} else if (isset($meta['title']) and $meta['title'] != '') {
-						
-			
+
 					} else {
 						$meta['title'] = get_option('website_title', 'website');
 					}
@@ -480,12 +479,14 @@ class MwController {
 
 				// return $pq->htmlOuter();
 			}
-
-			if (!headers_sent()) {
-				setcookie('last_page', $page_url);
+			if (isset($_SESSION)) {
+				if (!headers_sent()) {
+					setcookie('last_page', $page_url, time() + 5400);
+				}
 			}
-
 			print $l;
+			unset($l);
+			//unset($content);
 
 			if (isset($_GET['debug'])) {
 				debug_info();

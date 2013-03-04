@@ -1,12 +1,16 @@
  C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://192.168.0.3/1k/apidocs/docs/core/content/get_content.php
 
-
+ C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://192.168.0.3/1k/home
 
  C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://api.microweber.net/home
 
  C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://api.microweber.net/home
 
  C:\xampp\apache\bin\ab.exe -n 1000 -c 50 http://api.microweber.net/temp.php
+
+C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://serv.microweber.net/
+ C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://serv.microweber.net/home
+C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://localhost/wordpress/?p=4
 
 
 
@@ -33,13 +37,37 @@ API Password: 	1352898225
 Signature: 	A3gEt3WXnVKeHHoeh0uLGXFuaRVvAxtzdKdF0t46v02YJBxqmFALdIHJ
 
 
+==================================
+
+memcache 54.243.113.235
+
+vi /etc/sysconfig/memcached
 
 
+  /etc/sysconfig/memcached
+Change
+
+# set ram size to 2048 - 2GiB
+
+    CACHESIZE="4096"
+Type the following command:
+
+memcached-tool IP_ADDRESS:Port
+memcached-tool 127.0.0.1:11211 display
+memcached-tool 127.0.0.1:11211 stats
+54.243.113.235
+
+http://54.243.113.235
 
 
+For blocking the port for all ip's except one you can issue an iptables command like:
 
+iptables -A INPUT -s 2.2.2.2/32 -p tcp --destination-port 11211 -j ALLOW
+iptables -A INPUT -s 0.0.0.0/0 -p tcp --destination-port 11211 -j DROP
+or:
 
-
+iptables -A INPUT -s !2.2.2.2/32 -p tcp --destination-port 11211 -j DROP
+Also as I understand your webserver and memcached server are on the same machine? If so the
 
 
 

@@ -643,12 +643,14 @@ function session_set($name, $val) {
 }
 
 function session_get($name) {
+ 
 	if (!headers_sent()) {
 		if (!isset($_SESSION)) {
 			session_start();
 		}
 	}
-	// d($_SESSION[$name]);
+	
+	// 
 	if (isset($_SESSION[$name])) {
 		return $_SESSION[$name];
 	} else {

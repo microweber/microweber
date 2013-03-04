@@ -209,6 +209,7 @@ body.cross{
 #mw-toolbar-right{
   float: right;
   display: inline-block;
+  position: absolute;
 }
 
 

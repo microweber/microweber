@@ -10,6 +10,11 @@ h1,h2,h3,h4,h5,h6{
   line-height: normal;
 }
 
+.page-post-content{
+  clear: both;
+  padding: 12px 0;
+}
+
 
 #header{
   background: #242B35;
@@ -375,6 +380,12 @@ h1,h2,h3,h4,h5,h6{
   background-color: #1A1E25;
 }
 
+@media (max-width: 767px) {
+    .product-description{
+      clear: both;
+    }
+}
+
 
 /* Shop */
 
@@ -401,6 +412,62 @@ h1,h2,h3,h4,h5,h6{
 }
 
 /* /Shop */
+
+
+/* Contacts */
+
+.contact-form input[type='text'],
+.contact-form input[type='email'],
+.contact-form textarea{
+  width: 318px;
+}
+
+.contact-form input.mw-captcha-input{
+  width: 206px;
+}
+
+.thumbnail > .module-google-maps iframe{
+  border-radius: 4px;
+}
+
+
+.contact-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-list li{
+    margin: 15px 0;
+    clear: both;
+    position: relative;
+    overflow: hidden;
+    zoom:1;
+}
+
+.contact-icon{
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  background: url(../img/contact_icons.png) no-repeat;
+}
+
+.contact-icon.mail{
+  background-position: 0 -47px;
+}
+
+.contact-list .contact-icon{
+  float: left;
+  margin-right: 12px;
+}
+
+.contact-list .contact-icon + span{
+  top: 5px;
+  position: relative;
+}
+
+
+/* /Contacts */
 
 
 

@@ -48,6 +48,8 @@ if($module_template != false and $module_template != 'none'){
   <? if(isarr($data) == true): ?>
   <input type="hidden"  name="for" value="<? print $for ?>" />
   <input type="hidden"  name="for_id" value="<? print $for_id ?>" />
+  
+ 
   <span class="price">
   <?   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);

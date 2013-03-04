@@ -1059,6 +1059,10 @@ ul.depth-3 a{
   margin-left:30px;
 }
 
+.mw-tree ul.depth-2 ul ul{
+  margin-left: 10px;
+}
+
 .mw-tree-selector ul.depth-2{margin-left: 22px;}
 
 .mw-tree ul.depth-2 li{
@@ -2694,6 +2698,12 @@ body.mw-external-loading:after{
 #UITU{
   display: none !important;
 }
+
+
+
+
+
+
 
 
 

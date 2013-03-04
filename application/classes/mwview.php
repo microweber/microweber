@@ -27,8 +27,9 @@ class MwView {
 	//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
 		require ($this -> v);
-		$content = ob_get_contents();
-		ob_end_clean();
+		$content = ob_get_clean();
+		unset($content);
+		//ob_end_clean();
 
 		$defined_vars = array();
 		$var_names = array_keys(get_defined_vars());
@@ -59,9 +60,9 @@ class MwView {
 	//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
 		require ($this -> v);
-		$content = ob_get_contents();
+		$content = ob_get_clean();
 
-		ob_end_clean();
+		//ob_end_clean();
 		//chdir($old_dir);
 		return $content;
 	}

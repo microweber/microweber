@@ -225,13 +225,18 @@ if(typeof mw.rotator === 'undefined'){
           var jqel = $(el);
               if(!jqel.hasClass("active")){
                  if($(selector+".active").length == 0){
-                  var info = mw.tools.htmlnfo($(el.parentNode).html());
+                  var info = mw.tools.html_info($(el.parentNode).html());
                   var w = $(info).find(".thumbnail").outerWidth();
                   var h = $(info).find(".thumbnail").outerHeight();
                   var w = w > 700 ? 700 : w;
                   var h = h > 400 ? 400 : h;
+                 // if(w > $(window).width()){var w = $(window).width()}
+                //  if(h > $(window).height()){var h = $(window).height()}
                   var l =  - w/2 + $(el.parentNode).width()/2;
                   var t = - h/2+ $(el.parentNode).height()/2;
+                  if((jqel.offset().left + l) < 0){
+                        l -= (jqel.offset().left + l);
+                  }
                   jqel.addClass('active');
                   $(mw.tools.firstParentWithClass(el, 'mw-pictures-list')).addClass("zoomed");
                   jqel.css({

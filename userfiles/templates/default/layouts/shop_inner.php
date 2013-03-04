@@ -24,11 +24,12 @@ description: shop layout
               <div class="span5">
                 <module type="pictures" data-content-id="<? print POST_ID ?>" template="slider_shop" />
               </div>
-              <div class="span4">
+              <div class="span4 product-description">
                <div class="edit"  field="content" rel="post">
                 <p class="p0 element">Describe your product</p>
                </div>
-                <module type="shop/cart_add" data-content-id="<? print POST_ID ?>" />
+
+                <module type="shop/cart_add" data-content-id="<? print POST_ID; ?>" />
               </div>
         </div>
       </div>

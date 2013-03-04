@@ -243,12 +243,18 @@ window.onerror = function(a,b,c){
     });
   }
 
-  mw.reload_module_interval = function($module_name, $interval) {
-    if ($interval == undefined) {
-      $interval = 500;
-    }
-    $interval = parseInt($interval);
-    t_reload_module_interval = setInterval("mw.reload_module('" + $module_name + "')", $interval);
+  mw.reload_module_interval = function(module_name, interval) {
+    var interval =  interval || 500;
+    var obj = {pause:false};
+    var int = setInterval(function(){
+        if(!obj.pause){
+            obj.pause = true;
+            mw.reload_module(module_name, function(){
+                obj.pause = false;
+            });
+        }
+    }, interval);
+    return int;
   }
 
   mw.reload_module = function($module_name, callback) {
