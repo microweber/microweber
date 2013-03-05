@@ -15,12 +15,22 @@ var tableToExcel_<? print $params['id'] ?> = function() {
 
  $(document).ready(function () {
 
-tableToExcel_<? print $params['id'] ?>('table_data_<? print $params['id'] ?>','aa')
+tableToExcel_<? print $params['id'] ?>('table_data_<? print $params['id'] ?>','aa');
 
    });
 
 
 <? endif; ?>
+
+
+
+toggle_show_less = function(el){
+    var el = $(el);
+    el.prev().toggleClass('semi_hidden');
+    var html = el.html();
+    el.html(el.dataset("later"));
+    el.dataset("later", html);
+}
 
 
 
@@ -77,8 +87,93 @@ if(isarr($data)){
   }
 }
 ?>
+
+
+<table id="table_data_<? print $params['id'] ?>" cellspacing="0" cellpadding="0" width="745" class="mw-ui-admin-table">
+  <col width="20">
+  <thead>
+    <tr>
+      <th class="mw-ui-admin-table-small">ID</th>
+      <? if(isarr($custom_fields )): ?>
+      <? foreach($custom_fields   as $k=>$item): ?>
+      <th><? print   titlelize($k); ?></th>
+      <? endforeach ; ?>
+      <? endif; ?>
+      <th width="20" class="mw-ui-admin-table-small">Delete</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th class="mw-ui-admin-table-small">ID</th>
+      <? if(isarr($custom_fields )): ?>
+      <? foreach($custom_fields   as $k=>$item): ?>
+      <th><? print   titlelize($k); ?></th>
+      <? endforeach ; ?>
+      <? endif; ?>
+      <th width="20" class="mw-ui-admin-table-small">Delete</th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <? foreach ($data as $item) : ?>
+    <tr class="mw-form-entry-item mw-form-entry-item-<? print $item['id'] ?>">
+      <td class="mw-ui-admin-table-small"><? print $item['id'] ?></td>
+      <? if(isarr($custom_fields )): ?>
+      <? foreach($custom_fields   as $cvk => $custom_field_v): ?>
+      <td>
+        <? if(isset($item['custom_fields'])): ?>
+        <?  foreach ($item['custom_fields'] as $value) :  ?>
+         <? if(($value['custom_field_name']) == $cvk): ?>
+
+
+             <?php
+
+             $max = 150;
+
+             if(strlen($value['custom_field_values_plain']) > $max){
+                $first = substr($value['custom_field_values_plain'], 0, $max);
+                $rest = substr($value['custom_field_values_plain'], $max);
+                print '<div class="bigger-cell">' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...More</a></div>';
+             }
+             else {
+                 print $value['custom_field_values_plain'];
+             }
+
+
+
+
+
+             ?>
+
+
+
+         <?  endif; ?>
+        <? endforeach ; ?>
+        <?  endif; ?></td>
+      <? endforeach ; ?>
+      <? endif; ?>
+      <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<? print $item['id'] ?>','.mw-form-entry-item-<? print $item['id'] ?>');"></a></td>
+    </tr>
+    <? endforeach; ?>
+  </tbody>
+</table>
+
+
+
+
+<script>
+
+
+
+
+</script>
+
+
+
+
+
+
 <? if(isarr($data)) :?>
-<div class="pagination">
+<div class="mw-paging left">
 <? print paging("num=$data_paging"); ?>
 </div>
 
@@ -86,40 +181,6 @@ if(isarr($data)){
 
 <? endif; ?>
 
-<table id="table_data_<? print $params['id'] ?>" class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>id</th>
-      <? if(isarr($custom_fields )): ?>
-      <? foreach($custom_fields   as $k=>$item): ?>
-      <th><? print   titlelize($k); ?></th>
-      <? endforeach ; ?>
-      <? endif; ?>
-    </tr>
-  </thead>
-  <tbody>
-    <? foreach ($data as $item) : ?>
-    <tr class="mw-form-entry-item mw-form-entry-item-<? print $item['id'] ?>">
-      <td><? print $item['id'] ?>
-<a href="javascript:mw.forms_data_manager.delete('<? print $item['id'] ?>','.mw-form-entry-item-<? print $item['id'] ?>');">[x]</a>
-
-      </td>
-      <? if(isarr($custom_fields )): ?>
-      <? foreach($custom_fields   as $cvk => $custom_field_v): ?>
-      <td>
-        <? if(isset($item['custom_fields'])): ?>
-        <?  foreach ($item['custom_fields'] as $value) :  ?>
-         <? if(($value['custom_field_name']) == $cvk): ?>
-        <?   print ($value['custom_field_values_plain']); ?>
-         <?  endif; ?>
-        <? endforeach ; ?>
-        <?  endif; ?></td>
-      <? endforeach ; ?>
-      <? endif; ?>
-    </tr>
-    <? endforeach; ?>
-  </tbody>
-</table>
 
 <? if(isset($params['export_to_excel'])) : ?>
 
@@ -128,3 +189,12 @@ if(isarr($data)){
 
 
 <? endif; ?>
+
+
+
+<div id="start-email-campaign">
+    <span>Get more from your mailing lists, send email to your users</span>
+    <a class="g-btn" href="javascript:;">Start an Email Campaing</a>
+</div>
+<div class="mw_clear"></div>
+<div class="vSpace"></div>

@@ -864,6 +864,8 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
 }
 </script>
+
+<div class="vSpace"></div>
   </div>
   <? if($edit_post_mode == false): ?>
   <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>

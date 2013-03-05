@@ -1,6 +1,6 @@
 .mw-settings-list-website input.mw-ui-field,
 .mw-settings-list-website textarea.mw-ui-field{
-  width: 700px;
+  width: 730px;
 }
 .mw_edit_page_right{
   width: 730px;
@@ -11,11 +11,7 @@
     padding-top: 5px;
 }
 
-.mw-settings-list-website select[name='items_per_page']{
-    display: block;
-    margin-top: 10px;
-    width: 80px;
-}
+
 
 
 .mw-settings-list-website .custom-field-preview{

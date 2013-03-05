@@ -14,8 +14,8 @@ $rand = uniqid();
 
 
  <script>
-    mw.require("{TEMPLATE_URL}css/datepicker.css");
-    typeof $.fn.datepicker !='function' ?  mw.require("{TEMPLATE_URL}js/bootstrap-datepicker.js") : '';
+    mw.require("datepicker.css", true);
+    mw.require("datepicker.js", true);
  </script>
  <script>
     $(document).ready(function(){

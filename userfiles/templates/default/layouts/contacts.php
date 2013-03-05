@@ -19,9 +19,10 @@ description: Contact us layout
 
     <h2 class="section-title"><hr class="left"><span class="edit" field="title" rel="page">Page title</span><hr class="right"></h2>
 
-    <div class="element thumbnail" style="height:350px;">
-        <module type="google_maps" class="autoscale" />
-    </div>
+
+        <module type="google_maps" />
+
+
 
     <div class="element edit page-post-content" field="content" rel="page">Content will appear here.</div>
     <hr>
@@ -39,6 +40,24 @@ description: Contact us layout
               </ul>
             </div>
             <hr>
+            <div class="social-icons">
+              <a href="#"><i class="social tw"></i></a>
+              <a href="#"><i class="social fb"></i></a>
+              <a href="#"><i class="social flickr"></i></a>
+              <a href="#"><i class="social in"></i></a>
+              <a href="#"><i class="social gp"></i></a>
+              <a href="#"><i class="social pin"></i></a>
+              <a href="#"><i class="social tumblr"></i></a>
+              <br>
+              <a href="#"><i class="social wp"></i></a>
+              <a href="#"><i class="social yt"></i></a>
+              <a href="#"><i class="social vim"></i></a>
+              <a href="#"><i class="social picasa"></i></a>
+              <a href="#"><i class="social forrst"></i></a>
+              <a href="#"><i class="social rss"></i></a>
+              <a href="#"><i class="social myspace"></i></a>
+            </div>
+
         </div>
     </div>
 

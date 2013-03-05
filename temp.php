@@ -12,10 +12,46 @@ C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://serv.microweber.net/
  C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://serv.microweber.net/home
 C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://localhost/wordpress/?p=4
 
+ C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://clould.microweber.net/
 
+
+rsync -e ssh  -avz  --exclude '.git' --exclude 'cache'   api@api.microweber.net:/home/api/public_html /home/api/public_html
+
+rsync -avz --delete api@54.243.113.235:/home/api/public_html/ /home/api/public_html/
+
+
+rsync -e ssh  -avzp  api@api.microweber.net:/home/api/.ssh/ /home/api/.ssh/
+
+
+rsync -avz --progress -e "ssh -i /home/api/.ssh/id_dsa.pub" api@54.243.113.235:/home/api/public_html/ /home/api/public_html/
+
+cat .ssh/id_dsa.pub | ssh api@api.microweber.net 'cat >> .ssh/authorized_keys'
+
+scp api@api.microweber.net:/home/api/public_html/ /home/api/public_html/
+
+
+ssh api@api.microweber.net
+cat ~/.ssh/id_dsa.pub.transferred >> ~/.ssh/authorized_keys
+rm ~/.ssh/id_dsa.pub.transferred
+exit
+
+rsync -e ssh  --verbose  --progress --stats --compress  --exclude '.git' --exclude 'cache'   api@api.microweber.net:/home/api/public_html /home/api/public_html
+
+rsync -e ssh  --verbose  --progress --stats --compress  --exclude '.git' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   --exclude '?'   /home/api/master /home/api/public_html
 
 54.243.113.235
 
+rsync --verbose  --progress --stats --avzp   --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
+
+rsync --verbose  --progress --stats --compress --update -r --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
+
+
+ --stats. So
+
+
+=======================================================================================================================
 
 United States
 Business Name: 	  	None

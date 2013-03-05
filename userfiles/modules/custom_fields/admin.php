@@ -106,13 +106,37 @@ $(document).ready(function(){
 
 </script>
 
-<div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn mw-ui-btn-blue" id="smart_field_opener" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;"> <span class="ico iAdd"></span> <span>
-  <?php _e("Add Custom Field"); ?>
-</span> </span>
+<div class="<? print $config['module_class'] ?>-holder">
+
+
 <div class="vSpace"></div>
 
+
+<module data-type="custom_fields/list" <? print $hide_preview  ?>
+  for="<? print $for  ?>"
+  for_module_id="<? print $module_id ?>"
+  <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
+  id="mw_custom_fields_list_<? print $params['id']; ?>"  />
+
+
+
+
+
+
+
+  <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
+    <div  class="custom-field-edit-header">
+      <div class="custom-field-edit-title"></div>
+    </div>
+    <div class="mw-admin-custom-field-edit-item-wrapper">
+      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
+    </div>
+  </div>
+</div>
+
+
 <div class="custom_fields_selector" style="display: none;">
-  <ul class="mw-quick-links mw-quick-links-cols-4">
+  <ul class="mw-quick-links mw-quick-links-cols">
 
 
     <li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></strong></li>
@@ -129,19 +153,11 @@ $(document).ready(function(){
     <li><strong><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span>Multiple choices</span></a></strong></li>
   </ul>
 </div>
-<module data-type="custom_fields/list" <? print $hide_preview  ?>
-  for="<? print $for  ?>"
-  for_module_id="<? print $module_id ?>"
-  <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
-  id="mw_custom_fields_list_<? print $params['id']; ?>"  />
 
 
-  <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
-    <div  class="custom-field-edit-header">
-      <div class="custom-field-edit-title"></div>
-    </div>
-    <div class="mw-admin-custom-field-edit-item-wrapper">
-      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
-    </div>
-  </div>
-</div>
+  <span class="mw-ui-btn mw-ui-btn-blue" id="smart_field_opener" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;">
+    <span class="ico iAdd"></span><span><?php _e("Add Custom Field"); ?></span>
+  </span>
+
+
+

@@ -121,9 +121,8 @@ body.cross{
 }
 
 #mw_toolbar_nav .mw-ui-btn{
-    margin: 10px 0 0 12px;
-    padding: 5px 12px 6px;
-    height: 15px;
+    margin: 4px 6px 0 12px;
+
 }
 
 
@@ -538,21 +537,33 @@ form.add-edit-page-post textarea{
 
 /* paging */
 
+
+.mw-paging {
+  clear: both;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.mw-paging li{
+  list-style: none;
+  float: left;
+}
+
 .mw-paging a{
   display: inline-block;
   padding: 3px 5px;
   min-width:12px;
-  height: 16px;
   font-size: 12px;
   text-align: center;
   border: 1px solid transparent;
-  border-radius:20px;
+  border-radius:2px;
 }
-.mw-paging a.active{
+.mw-paging a.active, .mw-paging a:hover{
   border-top-color:#E2DDDD;
   border-left-color:#BCB9B9;
   border-right-color:#BCB9B9;
   border-bottom-color:#AFAEAE;
+  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 }
 
 
@@ -633,21 +644,27 @@ form.add-edit-page-post textarea{
 
 
 
-.mw-quick-links-cols-4{
+.mw-quick-links-cols{
   columns: 4 auto;
   -webkit-columns: 4 auto;
   -moz-columns: 4 auto;
   -o-columns: 4 auto;
-  padding-right: 10px;
+  padding-right: 0;
 }
 
 
 
-.mw-module-live-edit-settings .mw-quick-links-cols-4{
+.mw-module-live-edit-settings .mw-quick-links-cols{
   columns: 3 auto;
   -webkit-columns: 3 auto;
   -moz-columns: 3 auto;
   -o-columns: 4 auto;
+
+
+   column-gap: 0px;
+   -webkit-column-gap: 0px;
+   -moz-column-gap: 0px;
+   -o-column-gap: 0px;
 }
 
 .mw-quick-links li {
@@ -673,16 +690,18 @@ form.add-edit-page-post textarea{
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-.mw-quick-links.mw-quick-links-cols-4 li a  {
+.mw-quick-links.mw-quick-links-cols li a  {
     display:inline; /* webkit colums bug */
 }
 
-.mw-quick-links.mw-quick-links-cols-4 li > strong{
+.mw-quick-links.mw-quick-links-cols li > strong{
     font-weight: normal;  /* webkit colums bug */
     display:inline-block;  /* webkit colums bug */
-    padding: 0 14px 0 7px;
+    padding: 0 6px 0 1px;
     margin-right: 0;
 }
+
+
 
 
 .custom_fields_selector .mw-quick-links li > a{
@@ -1195,6 +1214,27 @@ body.still-loading:before{
 }
 .mw-ui-admin-table tfoot td{
   border-bottom-width:0px;
+}
+
+.mw-ui-admin-table-small{
+  font-size: 11px;
+  color: #A1A0A0;
+}
+
+.bigger-cell{
+  min-width: 250px;
+  width: 20%;
+}
+
+.mw-ui-admin-table-delete-item{
+  vertical-align: middle;
+  text-align: center;
+}
+
+.mw-ui-admin-table-delete-item .del-row,
+.mw-ui-admin-table-delete-item .mw-close{
+  margin: auto;
+  float: none;
 }
 
 .mw-ui-admin-table tr td:last-child,
@@ -2170,6 +2210,61 @@ ul.mw-menu-selector-list li{
 .view_all_subs.active,
 .hide_all_subs.active{
   font-weight: bold;
+}
+
+.export-label{
+  display: inline-block;
+  float: right;
+  color: #8E8E8E;
+  font-size: 11px;
+  margin: 3px 10px 0;
+}
+
+.export-label span{
+  float: left;
+}
+
+.export-label .ico{
+  top: -3px;
+}
+
+.export-label a{
+  color: #8E8E8E;
+  font-size: 11px;
+
+}
+
+#start-email-campaign{
+  float: right;
+  padding-top: 14px;
+  color: #8C8C8C;
+}
+
+#start-email-campaign .g-btn{
+  margin-left: 10px;
+}
+
+.g-btn{
+  display: inline-block;
+  padding:2px 10px;
+  font-size: 11px;
+  color: white;
+  font-weight: bold;
+  background: #67A54B;
+  border: 1px solid #86A44E;
+  border-top-color: #A4BB7A;
+  text-align: center;
+  border-radius: 2px;
+  box-shadow:0 1px 0 0 #D9E8D2 inset;
+}
+
+.g-btn:hover{
+  background: #5C9442;
+  box-shadow: 0 1px 0 0 #B8D4AB inset;
+}
+
+.g-btn:active{
+  box-shadow: 0 1px 0 0 #B8D4AB inset, inset 0 0 6px #446D31;
 }
 
 

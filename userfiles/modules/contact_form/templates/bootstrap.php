@@ -516,7 +516,10 @@ $template_file = module_templates( $config['module'], 'default');
 
   ?><div class="black"><?
 if(isset($template_file) and is_file($template_file) != false){
- 	include($template_file);
+  include($template_file);
 }
+ 
+ 
+ 
  ?></div>
 

@@ -9,8 +9,7 @@ if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.518);
 }
 
-
-set_include_path(MW_APPPATH_FULL .  'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
+set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 function mw_autoload($className) {
 	$className = ltrim($className, '\\');
@@ -21,9 +20,12 @@ function mw_autoload($className) {
 		$className = substr($className, $lastNsPos + 1);
 		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 	}
-	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+	if ($className != '') {
+		$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-	require $fileName;
+		require  $fileName;
+	}
+
 }
 
 spl_autoload_register('mw_autoload');
@@ -34,7 +36,6 @@ spl_autoload_register('mw_autoload');
  require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
  });
  */
-
 
 // Basic system functions
 function p($f) {

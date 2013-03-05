@@ -1,4 +1,8 @@
 <div id="mw_index_contact_form">
+
+
+<div id="mw_edit_page_left">
+
   <?
   $load_list = 'default';
 if((url_param('load_list') != false)){
@@ -19,7 +23,10 @@ $load_list = url_param('load_list');
       <? endif; ?>
     </ul>
     <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn" style="width: 144px;margin-left: 12px;"> <span class="ico iplus"></span><span>Manage lists</span> </a></div>
-  <div class="right" style="padding: 20px 0 0 20px;width: 657px;">
+
+</div>
+
+ <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;width: auto;">
     <?
 
 
@@ -65,23 +72,31 @@ mw.on.hashParam('search', function(){
         <?php $def =  _e("Search for data", true);  ?>
 
         <input
-        name="forms_data_keyword"
-        id="forms_data_keyword"
-        autocomplete="off"
-        class="mw-ui-searchfield right"
-        type="text"
-        value="<?php print $def; ?>"
-        data-default='<?php print $def; ?>'
-        onfocus='mw.form.dstatic(event);'
-        onblur='mw.form.dstatic(event);'
-        onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+            name="forms_data_keyword"
+            id="forms_data_keyword"
+            autocomplete="off"
+            class="mw-ui-searchfield right"
+            type="text"
+            value="<?php print $def; ?>"
+            placeholder='<?php print $def; ?>'
+            onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
           />
 
-<button onClick="mw_forms_data_to_excel()">excel</button>
+       <div class="export-label">
+          <span>Export data:</span>
+          <a href="javascript:;" onclick="mw_forms_data_to_excel()"><span class="ico iexcell"></span>Excel</a>
+       </div>
 
+
+       <div class="mw_clear"></div>
+       <div class="vSpace"></div>
 
 
     <module type="forms/list" load_list="<? print $load_list ?>"  for_module="<? print $config["the_module"] ?>" id="forms_data_module" />
+
+
+
+
     <? endif; ?>
   </div>
 </div>

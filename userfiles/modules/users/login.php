@@ -13,15 +13,13 @@
   <? else:  ?>
   <form   method="post" id="user_login_{rand}"  action="<? print site_url('api/user_login') ?>"  >
     <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e("Username"); ?></label>
-        <input  class="mw-ui-field"  name="username" type="text" default="Username or email"   />
+        <input  class="mw-ui-field"  name="username" type="text" placeholder="<?php _e("Username"); ?>"   />
     </div>
     <div class="mw-ui-field-holder">
-      <label class="mw-ui-label"><?php _e("Password"); ?></label>
-      <input  class="mw-ui-field"  name="password" type="password"   />
+        <input  class="mw-ui-field"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
     <div class="vSpace"></div>
-    <input class="mw-ui-btn" type="submit" value="Login"   />
+    <input class="mw-ui-btn" type="submit" value="<?php _e("Login"); ?>" />
   </form>
   <? endif;  ?>
 </div>

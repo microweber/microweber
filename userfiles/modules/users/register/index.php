@@ -86,8 +86,16 @@ $(document).ready(function(){
   </div>
   <div class="control-group">
     <label class="control-label" for="captcha" >Captcha</label>
-    <div class="controls"> <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
-      <input type="captcha"   name="captcha" placeholder="?">
+    <div class="controls">
+
+
+    <div class="input-prepend">
+        <span style="width: 100px;background: white" class="add-on">
+            <img class="mw-captcha-img" src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
+        </span>
+        <input type="text" class="mw-captcha-input" name="captcha">
+    </div>
+
     </div>
   </div>
   <div class="control-group">
@@ -95,8 +103,9 @@ $(document).ready(function(){
       <!-- <label class="checkbox">
         <input type="checkbox">
         Remember me </label>-->
-      
-      <button type="submit" class="btn"><? print $form_btn_title ?></button>
+
+      <button type="submit" class="btn pull-left"><? print $form_btn_title ?></button>
+      <p class="already-have-an-account">Already have an account? <a href="signin.html">Sign in</a></p>
     </div>
   </div>
 </form>
@@ -111,7 +120,7 @@ $(document).ready(function(){
       window.fbAsyncInit = function() {
         FB.init({
           appId: '<?php echo $fb_app_id; ?>',
-        
+
           
           oauth: true
         });

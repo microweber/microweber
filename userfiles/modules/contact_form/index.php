@@ -15,7 +15,6 @@ $(document).ready(function(){
   });
 });
 </script>
-
 <? $save_as = get_option('form_name', $params['id']);
 
 if($save_as == false){
@@ -40,6 +39,4 @@ if(isset($template_file) and is_file($template_file) != false){
 	
 	print 'No template for contact form is found';
 }
-
-
-
+?>

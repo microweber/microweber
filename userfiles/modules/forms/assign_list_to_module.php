@@ -14,7 +14,7 @@
 function mw_create_new_list_{rand}(){
 	
 	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>');
-    
+
 	mw.reload_module('<? print $config['module'] ?>');
 	return false;
  
@@ -25,21 +25,24 @@ function mw_create_new_list_{rand}(){
 </script>
 <? $selected_list = get_option('list_id', $params['for-module-id']);
 $data = get_form_lists('module_name='.$params['for-module']);;
- 
+
  ?>
 <? if(isarr($data )): ?>
 
-<strong>Save form entires to existing list</strong>
-<select name="list_id"   class="mw_option_field"  >
-  <? foreach($data  as $item): ?>
-  <option    value="<? print $item['id'] ?>"  <? if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <? endif; ?>><? print $item['title'] ?></option>
-  <? endforeach ; ?>
-</select>
+<label class="mw-ui-label">Save form entires to existing list</label>
+<div class="mw-ui-select" style="width: 290px;">
+  <select name="list_id"   class="mw_option_field"  >
+    <? foreach($data  as $item): ?>
+    <option    value="<? print $item['id'] ?>"  <? if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <? endif; ?>><? print $item['title'] ?></option>
+    <? endforeach ; ?>
+  </select>
+</div>
 <? endif; ?>
+<div class="vSpace"></div>
 <div class="mw_create_new_forms_list{rand}">
-  <legend>Create new list</legend>
-  <input type="text" name="mw_new_forms_list" value="" />
+  <label class="mw-ui-label">Create new list</label>
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
+  <input type="text" name="mw_new_forms_list" value="" style="width: 200px;margin-right: 10px;"  />
   <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
 </div>

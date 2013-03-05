@@ -105,13 +105,14 @@ if (!defined('MW_BARE_BONES')) {
 	if ($m == 'api.js') {
 		$m = 'apijs';
 	}
-
+   
 	if (method_exists($c, $m)) {
 
 		$c -> $m();
 		if ($close_conn == true and $installed == true) {
 			db_query('close');
 		}
+  
 		exit();
 	} else {
 

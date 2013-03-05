@@ -1,7 +1,18 @@
-<? //$rand = uniqid(); ?>
-<?  $iudates =  mw_check_for_update();
+<? 
+ 
+ 
+ $apple = new  updates\api();
+ $apple->index();
+ 
+// Controller Class
 
-//d($iudates);
+
+
+
+
+
+
+
 ?>
 
 <? if(!empty($iudates)): ?>

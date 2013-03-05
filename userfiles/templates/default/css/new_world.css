@@ -335,10 +335,6 @@ h1,h2,h3,h4,h5,h6{
       background-color: white;
     }
 
-    .mw-cooments-form .captcha img{
-      cursor: pointer;
-    }
-
     .mw-cooments-form input[type='text'],
     .mw-cooments-form textarea{
       width: 100%;
@@ -468,6 +464,64 @@ h1,h2,h3,h4,h5,h6{
 
 
 /* /Contacts */
+
+
+img.mw-captcha-img{ width:100px; height: 20px; cursor:pointer;}
+
+
+/* Social Icons */
+
+i.social {
+	background: url('../img/social_icons.png') no-repeat 0 0;
+	width: 33px;
+	height: 33px;
+	display: inline-block;
+}
+i.tw { background-position: 0px 0px; }
+i.fb { background-position: -39px 0; }
+i.flickr { background-position: -78px 0; }
+i.in { background-position: -117px 0; }
+i.gp { background-position: -156px 0; }
+i.pin { background-position: -195px 0; }
+i.tumblr { background-position: -233px 0; }
+i.wp { background-position: 0 -51px; }
+i.yt { background-position: -39px -51px; }
+i.vim { background-position: -78px -51px; }
+i.picasa { background-position: -116px -51px; }
+i.forrst { background-position: -156px -51px; }
+i.rss { background-position: -194px -51px; }
+i.myspace { background-position: -233px -51px; }
+
+.social-icons a{
+  margin: 0 7px 10px 0;
+  display: inline-block;
+}
+
+
+
+
+/* /Social Icons */
+
+
+
+/* Login and Register */
+
+
+.login-register{
+  width:  40%;
+  margin: auto;
+}
+
+.already-have-an-account{
+  float: left;
+  white-space: nowrap;
+  margin:2px 0 0 12px;
+}
+
+
+
+/* /Login and Register */
+
 
 
 

@@ -95,12 +95,13 @@ $module_id = $for_id;
 
 </script>
 
-<div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;"> <span class="ico iAdd"></span> <span>
-  <?php _e("Add New Custom Field"); ?>
-  </span> </span>
+<div class="<? print $config['module_class'] ?>-holder">
+    <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;">
+        <span class="ico iAdd"></span><span><?php _e("Add  New Custom Field"); ?></span>
+    </span>
   <div class="vSpace"></div>
   <div class="custom_fields_selector" style="display: none;">
-    <ul class="mw-quick-links mw-quick-links-cols-4">
+    <ul class="mw-quick-links mw-quick-links-cols">
       <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></li>
       <li><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></li>
       <li><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></li>
@@ -121,9 +122,7 @@ $module_id = $for_id;
         for="<? print $for  ?>"
         for_module_id="<? print $module_id ?>"
         <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
-        id
-
-        ="mw_custom_fields_list_<? print $params['id']; ?>"
+        id="mw_custom_fields_list_<? print $params['id']; ?>"
   />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">

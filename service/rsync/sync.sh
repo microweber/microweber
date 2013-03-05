@@ -1,0 +1,1 @@
+#rsync -e ssh  -avzp --exclude '.git' --exclude 'cache'  --exclude 'backups'  api@api.microweber.net:/home/api/public_html/ /home/api/public_html/

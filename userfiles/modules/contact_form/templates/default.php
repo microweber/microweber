@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 
@@ -10,8 +10,7 @@ description: Default
 
 */
 
- ?>
-<div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
+?><div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
   <h3 class="element">Write us a letter</h3>
 </div>
 <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >

@@ -1777,6 +1777,15 @@ mw.isDragItem = mw.isBlockLevel = function(obj){
 
 
 
+mw.help = function(a){
+
+    return mw.tools.modal.frame({
+        url:"//microweber.com/help/"+a+".php"
+    });
+}
+
+
+
 
 
 
