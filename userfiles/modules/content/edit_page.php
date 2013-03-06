@@ -433,7 +433,7 @@ if(!isset($data['content'])){
 }?>
   <script>
 
-load_iframe_editor = function(){
+load_iframe_editor = function(content){
  var area = mwd.getElementById('mw-editor<? print $rand; ?>');
 
 
@@ -469,7 +469,16 @@ if(!!mw.templatePreview){
 
 <? endif; ?>
 
-mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
+
+if(!!content){
+   mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more, content);
+
+}
+else{
+  mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<? print  $edit_post_mode ?>&content_type=<? print  $data['content_type'] ?>'+ifr_ed_url_more);
+
+}
+
 
 
 
@@ -489,7 +498,7 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
     <div id="mw-main-postpage-editor">
       <div id="mw-main-postpage-editor-drag-handle"><span class="mw-close"></span></div>
       <div id="mw-editor<? print $rand; ?>" style="height: 310px;width:623px;"></div>
-      <textarea name="content"  style="display:none" id="mw-editor<? print $rand; ?>_src"></textarea>
+      <textarea name="content" autocomplete="off"  style="display:none" id="mw-editor<? print $rand; ?>_src"></textarea>
       <div class="mw-postaction-bar">
         <div class="left"> <a href="javascript:;" id="mw-scaleeditor" class="mw-ui-btn mw-btn-single-ico"><span class="ico ifullscreen"></span></a> </div>
         <div class="right">
@@ -604,10 +613,23 @@ mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mo
       itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand; ?>'),
       method:'parse',
       onTag:function(){
-        load_iframe_editor();
+        var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+        if(curr_content != undefined){
+             load_iframe_editor(curr_content);
+        }
+        else{
+           load_iframe_editor();
+        }
+
       },
       onUntag:function(){
-        load_iframe_editor();
+        var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+       if(curr_content != undefined){
+             load_iframe_editor(curr_content);
+        }
+        else{
+           load_iframe_editor();
+        }
       }
     });
 

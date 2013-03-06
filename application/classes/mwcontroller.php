@@ -456,7 +456,7 @@ class MwController {
 				}
 			}
 			// d(TEMPLATE_URL);
-
+//d(crc32($l));
 			$l = execute_document_ready($l);
 
 			exec_action('frontend');
@@ -512,11 +512,7 @@ class MwController {
 
 	function admin() {
 
-		$recycle_bin_f = CACHEDIR . 'db' . DS . 'recycle_bin_clear_' . date("Ymd") . '.php';
-		if (!is_file($recycle_bin_f)) {
-			cache_clear_recycle();
-			@touch($recycle_bin_f);
-		}
+
 
 		if (MW_IS_INSTALLED == true) {
 			//exec_action('mw_db_init');

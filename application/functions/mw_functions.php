@@ -28,7 +28,16 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'url.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'utils.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
+/*
+if (isset($_COOKIE['debug'])) {
+include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache2.php');
+} else {
+	include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
+	
+}*/
+ 
+include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache2.php');
+ 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
@@ -101,7 +110,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 		if (($cache_content_init) == false) {
 			exec_action('mw_db_init');
-			cache_store_data(true, $c_id, 'db');
+			cache_save(true, $c_id, 'db');
 
 		}
 

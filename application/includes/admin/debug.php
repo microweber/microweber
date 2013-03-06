@@ -43,24 +43,9 @@ $mtime = microtime();
 
 <b>
 
-Cache hits <? $ch = cache_get_content_from_memory(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
+Cache hits <? $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
   <pre><?php print_r( $ch) ?></pre>
-
-<? if (defined('APC_CACHE') and APC_CACHE == true) : ?>
-<b>
-
-Cache hits <? $ch = cache_get_content_from_memory(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
-  <pre><?php
-print_r(apc_cache_info('user'));
-?></pre>
-
-
-<? endif; ?>
-<b>Cache memory</b>
-  <pre><?php 
-  global $mw_cache_get_content_memory;
-d($mw_cache_get_content_memory);
-   ?></pre>
+ 
   
 <?
 

@@ -263,11 +263,11 @@ mw.embed = {
       if(id==''){
         var id = id.pop();
       }
-      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
     else{
       var id = mw.url.getUrlParams(url).v;
-      return '<div class="element mw-embed-iframe"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
   },
   vimeo:function(url){
@@ -275,7 +275,7 @@ mw.embed = {
     if(id==''){
       var id = id.pop();
     }
-    return '<div class="element mw-embed-iframe"><iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
+    return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
   }
 }
 

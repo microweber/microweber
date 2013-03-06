@@ -43,7 +43,7 @@ function mw_shop_module_init_shipping_to_country_db() {
 
 	//db_add_table_index('shiping_country', $table_name, array('shiping_country'));
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
 
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';

@@ -52,7 +52,7 @@ function mw_options_init_db() {
 	//db_add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
 	//db_add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
@@ -64,7 +64,7 @@ function create_mw_default_options() {
 
 	$function_cache_id = __FUNCTION__;
 
-	$cache_content = cache_get_content($function_cache_id, $cache_group = 'db');
+	$cache_content = cache_get_content($function_cache_id, $cache_group = 'db','files');
 	if (($cache_content) == '--true--') {
 		return true;
 	}
@@ -99,7 +99,7 @@ function create_mw_default_options() {
 
 	$data['position'] = '2';
 	$datas[] = $data;
-	
+
 	$data = array();
 	$data['option_group'] = 'website';
 	$data['option_key'] = 'website_keywords';
@@ -111,8 +111,6 @@ function create_mw_default_options() {
 
 	$data['position'] = '3';
 	$datas[] = $data;
-	
-	
 
 	$data = array();
 
@@ -191,7 +189,7 @@ function create_mw_default_options() {
 		//var_dump($changes);
 		cache_clean_group('options/global');
 	}
-	cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
+	cache_save('--true--', $function_cache_id, $cache_group = 'db','files');
 
 	return true;
 }
@@ -278,9 +276,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	$function_cache_id_q = __FUNCTION__ . crc32($q . $function_cache_id);
 	//
 	//
+	//d($q);
 	$get = db_query($q, $function_cache_id_q, $cache_group);
 	//
-
+ 
 	if (!empty($get)) {
 
 		if ($return_full == false) {
@@ -299,7 +298,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 			return $get;
 		}
 	} else {
-		//cache_store_data('--false--', $function_cache_id, $cache_group);
+		//cache_save('--false--', $function_cache_id, $cache_group);
 
 		return FALSE;
 	}
@@ -400,6 +399,7 @@ if (is_admin() != false) {
 	api_expose('save_option');
 }
 
+
 function save_option($data) {
 	$is_admin = is_admin();
 
@@ -443,17 +443,25 @@ function save_option($data) {
 			}
 		}
 
+		if (isset($data['option_type']) and trim($data['option_type']) == 'static') {
+
+			return static_option_save($data);
+
+		}
+
 		if (!isset($data['id']) or intval($data['id']) == 0) {
 			if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
 				$option_group = $data['option_group'];
 
-				delete_option_by_key($data['option_key'], $data['option_group']);
+		 delete_option_by_key($data['option_key'], $data['option_group']);
 			}
 		}
+		//d($data);
 		$table = MW_DB_TABLE_OPTIONS;
 		if (isset($data['field_values']) and $data['field_values'] != false) {
 			$data['field_values'] = base64_encode(serialize($data['field_values']));
 		}
+		
 		if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
 			//$m = db_escape_string($data['module']);
 			$opt_gr = db_escape_string($data['option_group']);
@@ -462,9 +470,11 @@ function save_option($data) {
 			db_q($clean);
 			$cache_group = 'options/' . $opt_gr;
 			cache_clean_group($cache_group);
-			//d($data);
+			 
 			//d($clean);
 		}
+		$data['debug'] = 1;
+		
 		//}
 		if (strval($data['option_key']) != '') {
 
@@ -549,8 +559,11 @@ function delete_option_by_key($key, $option_group = false, $module_id = false) {
 
 	// $save = $this->saveData ( $table, $data );
 	$q = "delete from $table where option_key='$key' $option_group_q1 $module_id_q1 ";
+	$q = trim($q);
 
 	db_q($q);
-	cache_clean_group('options');
+	
+	 cache_clean_group('options');
+	 
 	return true;
 }

@@ -160,7 +160,7 @@ if (is_file($config_file_for_site)) {
 }
 
 $dnf = MW_ROOTPATH;
-$md5_conf = 'mw_cache_' . crc32($dnf . SITEURL . MW_CONFIG_FILE);
+$md5_conf = 'mw_cache_' . crc32($config_file_for_site);
 $cache_main_dir = $dnf . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {

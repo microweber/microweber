@@ -522,6 +522,7 @@ editablePurify = function(el){
 
 
 
+PagesFrameSRCSet = false;
 
 
 $(document).ready(function(){
@@ -546,6 +547,10 @@ $(document).ready(function(){
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
       if(tab=='pages'){
         mw.$("html").addClass("mw_pages");
+        if(!PagesFrameSRCSet){
+          PagesFrameSRCSet = true;
+          mw.$("#mw_edit_pages").attr("src", mw.$("#mw_edit_pages").dataset("src"));
+        }
       }
       else{
         mw.$("html").removeClass("mw_pages");

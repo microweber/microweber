@@ -14,6 +14,7 @@ description: Blog layout
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
+<div id="content">
   <div class="container">
     <div class="row">
       <div class="span8">
@@ -30,5 +31,6 @@ description: Blog layout
       </div>
     </div>
   </div>
+</div>
 
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

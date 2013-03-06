@@ -597,9 +597,9 @@ mw.wysiwyg = {
         sel.removeAllRanges();
         sel.addRange(range);
     },
-	iframe_editor:function(textarea, iframe_url){
+	iframe_editor:function(textarea, iframe_url, content_to_set){
+        var content_to_set = content_to_set || false;
 
-	 
 	    var id = $(textarea).attr("id");
 		$("#iframe_editor_"+id).remove();
 	    var url = iframe_url;
@@ -615,16 +615,23 @@ mw.wysiwyg = {
         iframe.onload = function(){
           iframe.className = 'mw-editor-iframe-loaded';
           var b = $(this).contents().find(".edit");
-		  if(b !== undefined  &&  b[0] != undefined){
-          b[0].contentEditable = true;
-          b.bind("blur", function(){
-            textarea.value = $(this).html();
-          });
+          var b =  $(this).contents().find("[field='content']")[0];
+		  if(typeof b != 'undefined' && b !== null){
+              b.contentEditable = true;
+              $(b).bind("blur keyup", function(){
+                textarea.value = $(this).html();
+              });
+              if(!!content_to_set){
+                 $(b).html(content_to_set);
+              }
+             mw.on.DOMChange(b, function(){
+                  textarea.value = $(this).html();
+             });
 		  }
         }
         $(textarea).after(iframe);
         $(textarea).hide();
-		//alert();
+
     },
     iframe_editor_old:function(textarea, id){
         var url = mw.external_tool('wysiwyg?id='+id);

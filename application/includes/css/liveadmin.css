@@ -122,8 +122,11 @@ body.cross{
 
 #mw_toolbar_nav .mw-ui-btn{
     margin: 4px 6px 0 12px;
-
 }
+
+#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 2px;}
+
+#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn.mw-btn-single-ico{ margin-top: 5px; }
 
 
 #mw_tabs{
@@ -206,9 +209,9 @@ body.cross{
 }
 
 #mw-toolbar-right{
-  float: right;
   display: inline-block;
   position: absolute;
+  right: 0;
 }
 
 

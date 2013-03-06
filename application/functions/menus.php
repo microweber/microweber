@@ -555,7 +555,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 	// print "[[ $time ]]seconds\n";
 	$to_print .= '</' . $ul_tag . '>';
-	// cache_store_data($to_print, $function_cache_id, $cache_group);
+	// cache_save($to_print, $function_cache_id, $cache_group);
 	return $to_print;
 }
 

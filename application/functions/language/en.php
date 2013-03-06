@@ -499,3 +499,5 @@ $language["edit-existing-linksbuttons"]= 'Edit existing links/buttons' ;
 $language["ok"]= 'OK' ; 
 $language["user-settings-updated"]= 'User settings updated' ; 
 $language["template-settings-are-saved"]= 'Template settings are saved' ; 
+$language["server-settings-updated"]= 'server settings updated' ; 
+$language["reqs"]= 'req/s' ; 

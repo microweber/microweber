@@ -1225,6 +1225,10 @@ mw.tools = {
     }
     $(mw._html_info).html(html);
     return mw._html_info;
+  },
+  refresh_image:function(node){
+    node.src =  mw.url.set_param('refresh_image', mw.random(), node.src);
+    return node;
   }
 }
 
@@ -1783,6 +1787,31 @@ mw.help = function(a){
         url:"//microweber.com/help/"+a+".php"
     });
 }
+
+
+
+mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
+
+_Prefixtest = false;
+
+
+
+  mw.JSPrefix = function(property){
+    ! _Prefixtest ? _Prefixtest = mwd.body.style : '';
+    if(_Prefixtest[property]!==undefined){
+      return property;
+    }
+    else{
+       var property = property.charAt(0).toUpperCase() + property.slice(1),
+           len = mw._JSPrefixes.length,
+           i = 0;
+       for( ; i<len ;i++){
+         if(_Prefixtest[mw._JSPrefixes[i]+property] !== undefined){
+            return mw._JSPrefixes[i]+property;
+         }
+       }
+    }
+  }
 
 
 

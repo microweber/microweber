@@ -34,7 +34,7 @@ description: Default comments template
     <label> <span>Message *</span>
       <textarea name="comment_body" class="message" rows="15" cols="50"></textarea>
     </label>
-    <label> <span>Verification *</span> <img src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'" />
+    <label> <span>Verification *</span> <img class="mw-captcha-img" src="<? print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
       <input type="text"   name="captcha" class="input_text" placeholder="?">
     </label>
     <input type="submit" class="btn" value="Submit">

@@ -86,7 +86,7 @@ function mw_db_init_users_table() {
 
 	}
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
@@ -636,7 +636,7 @@ function get_users($params = array()) {
 	$get = db_get($table, $criteria = $data, $cache_group);
 	// $get = db_get($table, $criteria = $data, $cache_group);
 	// var_dump($get, $function_cache_id, $cache_group);
-	//  cache_store_data($get, $function_cache_id, $cache_group);
+	//  cache_save($get, $function_cache_id, $cache_group);
 
 	return $get;
 }

@@ -307,11 +307,39 @@ function get_visits($range = 'daily') {
 			break;
 
 		case 'last5' :
-			$q = "SELECT * FROM $table order by visit_date DESC, visit_time DESC limit 5  ";
-			//d($q);
+			 $q = "SELECT * FROM $table order by visit_date DESC, visit_time DESC limit 5  ";
+
+			  
 			$results = db_query($q);
 
 			break;
+
+
+		case 'requests_num' :
+			$ago = date("H:i:s", strtotime("-1 minute"));
+			$ago2 = date("Y-m-d", strtotime("now"));
+			$total = 0;
+			$q = "SELECT SUM(view_count) as total_visits FROM $table  where visit_date='$ago2' and visit_time>'$ago'   ";
+			// d($q);
+			$results = db_query($q);
+			if(isset($results[0]) and isset($results[0]['total_visits'])){
+				
+			
+			
+				$mw_req_sec = session_get('stats_requests_num');
+			
+			
+				
+				$total = $results[0]['total_visits'];
+				session_set('stats_requests_num',$total);
+				
+				$results = intval($total)-intval($mw_req_sec);
+			}  else { 
+				$results = false;
+			}
+		
+			break;
+
 
 		case 'users_online' :
 

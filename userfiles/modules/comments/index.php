@@ -43,7 +43,9 @@ if ($template != false and strtolower($template) != 'none') {
 }
 ?>
 <script type="text/javascript">
-    mw.require("forms.js");
+    mw.require("url.js", true);
+    mw.require("tools.js", true);
+    mw.require("forms.js", true);
 </script>
 <script  type="text/javascript">
     $(document).ready(function(){
@@ -108,7 +110,7 @@ if ($template != false and strtolower($template) != 'none') {
                     <div class="span6">
                       <div class="input-prepend captcha pull-left">
                         <span class="add-on">
-                            <img title="Click to refresh image" alt="Captcha image" src="<? print site_url('api/captcha') ?>" onclick="this.src='<? print site_url('api/captcha') ?>'">
+                            <img title="Click to refresh image" alt="Captcha image" class="mw-captcha-img" src="<? print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);">
                         </span>
                         <input type="text" name="captcha" placeholder="Enter text from the picture">
                       </div>

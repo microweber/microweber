@@ -25,7 +25,7 @@ description: Product Slider
     <? foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
 
-        <span class="autoscale mw-slider-zoomholder">
+        <span class=" mw-slider-zoomholder">
             <img class="mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
             <img src="<? print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
         </span>

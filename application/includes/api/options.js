@@ -25,7 +25,7 @@ mw.options = {
     save:function(el, callback){
 
            //    mw.extend(el);
-
+ 				var orig_el = el;
 				var el = el;
 				mw.extend(el);
 
@@ -33,7 +33,7 @@ mw.options = {
 			  	var also_reload = el.attr('data-also-reload');
  				var opt_id = el.attr('data-id');
                 var refresh_modules11 = el.attr('data-refresh');
-				
+
 				if(og1 == undefined){
 				    var og1 = el.attr('option-group');
 				}
@@ -47,13 +47,13 @@ mw.options = {
 				}
 				//mw.log(modal);
 
- 
+
 				var refresh_modules12 = el.attr('data-reload');
 				 if(refresh_modules12 == undefined){
 				    var refresh_modules12 =  el.attr('data-refresh');
 				}
 
-			 
+
                 var modal = el.getModal().container;
 
 
@@ -77,22 +77,21 @@ mw.options = {
 
 if(og1 != undefined){
  	var og = og1;
-	
-	
-	
+
+
+
 	if(refresh_modules11 == undefined){
-	
+
 		if(refresh_modules12 == undefined){
 			refresh_modules11 = og1;
 			} else {
 				refresh_modules11 = refresh_modules12;
 			}
-			
+
 		}
 
 }
 
- 
 
                 if(el.type==='checkbox'){
                    var val = '';
@@ -131,6 +130,18 @@ if(og1 != undefined){
 				    o_data.id = have_id;
 				}
 
+				var have_option_type = el.attr('data-option-type');
+
+				if(have_option_type != undefined){
+				    o_data.option_type = have_option_type;
+				} else {
+					var have_option_type = el.attr('option-type');
+
+					if(have_option_type != undefined){
+					    o_data.option_type = have_option_type;
+					}
+				}
+
 
 				if(opt_id !== undefined){
 
@@ -148,7 +159,10 @@ if(og1 != undefined){
 							if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
 
-									window.mw.reload_module(also_reload);
+									window.mw.reload_module(also_reload, function(reloaded_el){
+
+										mw.options.form(reloaded_el, callback);
+									});
                                 }
                             }
 
@@ -161,15 +175,24 @@ if(og1 != undefined){
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
 
-									window.mw.reload_module('#'+for_m_id);
+									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
+
+										mw.options.form(reloaded_el, callback);
+									});
                                 }
                             }
                         } else   if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
-                                    window.mw.reload_module(refresh_modules11);
-								 	window.mw.reload_module('#'+refresh_modules11);
+                                    window.mw.reload_module(refresh_modules11, function(reloaded_el){
+
+										mw.options.form(reloaded_el, callback);
+									});
+								 	window.mw.reload_module('#'+refresh_modules11, function(reloaded_el){
+										mw.options.form(reloaded_el, callback);
+									});
+
                                 }
                             }
                         }
@@ -182,14 +205,18 @@ if(og1 != undefined){
 };
 
 mw.options.form = function($selector, callback){
+
+
+
         var callback = callback || '';
         var items = $($selector).find("input, select, textarea");
         items.each(function(){
           var item = $(this);
-          if(!item.hasClass('mw-options-form-binded')){
+          if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
-              item.bind("change", function(){
+              item.bind("change", function(e){
                   mw.options.save(this, callback);
+
               });
           }
         });

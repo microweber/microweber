@@ -130,7 +130,8 @@
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-          src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>/#action=editpage:<? print CONTENT_ID ?><? endif; ?>">
+            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>/#action=editpage:<? print CONTENT_ID ?><? endif; ?>"
+            src="#">
         </iframe>
 
 

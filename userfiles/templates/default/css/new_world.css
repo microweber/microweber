@@ -1,3 +1,5 @@
+/* Global styles */
+
 
 body{
   background: #F3F3F3;
@@ -9,6 +11,23 @@ h1,h2,h3,h4,h5,h6{
   font-weight: 300;
   line-height: normal;
 }
+
+
+.title{
+  border-bottom: 1px solid #BFC0C4;
+  box-shadow: 0 2px 1px 0 white;
+  margin-bottom: 25px;
+  margin-top: 0;
+  padding: 0 0 10px;
+}
+
+
+hr{
+  border-bottom: 1px solid #BFC0C4;
+  box-shadow: 0 2px 1px 0 white;
+}
+
+/* /Global styles */
 
 .page-post-content{
   clear: both;
@@ -346,11 +365,32 @@ h1,h2,h3,h4,h5,h6{
 
     .mw-cooments-form input[type='submit']{
       margin-right: -15px;
+      position: relative;
+      z-index: 1;
     }
 
     .comment-content{
       padding-left: 10px;
     }
+
+
+    .comment{
+      clear: both;
+      overflow: hidden;
+      zoom:1;
+      padding: 20px 0;
+
+    }
+
+    .comment img.pull-left{
+      margin-right: 30px;
+    }
+
+    .comment-author{
+      font-weight: bold;
+      color: #333;
+    }
+
 
     /* /Comments  */
 

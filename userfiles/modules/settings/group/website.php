@@ -88,13 +88,13 @@ $(document).ready(function(){
  <? 
  
  if( $curent_time_zone == false){
-	 $curent_time_zone = date_default_timezone_get(); 
+	 $curent_time_zone = date_default_timezone_get();
  }
  
  
   $timezones = timezone_identifiers_list(); ?>
     <div class="mw-ui-select" style="width: 300px;">
-   <select name="time_zone" class="mw_option_field"     option-group="website">
+   <select name="time_zone" class="mw_option_field" option-group="website">
    <? foreach ($timezones as $timezone) {
   echo '<option';
   if ( $timezone == $curent_time_zone ) echo ' selected="selected"';

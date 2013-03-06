@@ -168,7 +168,7 @@ function upload($data) {
 				if ($item["error"] > 0) {
 					error("Error: " . $item["error"]);
 				} else {
-					$upl = cache_store_data($item, $cache_id, $cache_group);
+					$upl = cache_save($item, $cache_id, $cache_group);
 
 					$f = $target_path . $item['name'];
 					if (is_file($f)) {
@@ -177,7 +177,7 @@ function upload($data) {
 
 					$progress = (array)$item;
 					$progress['f'] = $f;
-					$upl = cache_store_data($progress, $cache_id, $cache_group);
+					$upl = cache_save($progress, $cache_id, $cache_group);
 
 					if (move_uploaded_file($item['tmp_name'], $f)) {
 						$rerturn['src'] = pathToURL($f);

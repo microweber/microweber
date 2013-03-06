@@ -76,7 +76,7 @@ function mw_db_init_forms_table() {
 
 	db_add_table_index('title', $table_name, array('title(55)'));
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
 
 }
@@ -106,7 +106,7 @@ function mw_db_init_countries_table() {
 
 	import_sql_from_file($table_sql);
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
 }
 

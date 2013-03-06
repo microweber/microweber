@@ -270,7 +270,7 @@ $dbtype_file =   MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTO
 	if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
 		if ($cache_id != false) {
 
-			cache_store_data('---empty---', $cache_id, $cache_group);
+			cache_save('---empty---', $cache_id, $cache_group);
 		}
 		return false;
 	}
@@ -281,7 +281,7 @@ $dbtype_file =   MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTO
 
 				cache_save($q, $cache_id, $cache_group);
 			} else {
-				cache_store_data('---empty---', $cache_id, $cache_group);
+				cache_save('---empty---', $cache_id, $cache_group);
 			}
 		}
 	}
@@ -324,9 +324,9 @@ $dbtype_file =   MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTO
 
 	if ($cache_id != false) {
 		if (!empty($result)) {
-			//    cache_store_data($result, $cache_id, $cache_group);
+			//    cache_save($result, $cache_id, $cache_group);
 		} else {
-			cache_store_data('---empty---', $cache_id, $cache_group);
+			cache_save('---empty---', $cache_id, $cache_group);
 		}
 	}
 	print '0000000000000000000000000000000---------------------';
@@ -1572,10 +1572,10 @@ if (!empty($criteria)) {
 
 		if (is_arr($return)) {
 
-			//cache_store_data($return, $original_cache_id, $original_cache_group);
+			//cache_save($return, $original_cache_id, $original_cache_group);
 		} else {
 
-			//  cache_store_data('---empty---', $original_cache_id, $original_cache_group);
+			//  cache_save('---empty---', $original_cache_id, $original_cache_group);
 		}
 	}
 	//
@@ -1745,7 +1745,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db');
+	$cache_content = cache_get_content($function_cache_id, 'db','files');
 
 	if (($cache_content) != false) {
 
@@ -1804,7 +1804,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 		}
 	}
 	$ex_fields_static[$table] = $fields;
-	cache_store_data($fields, $function_cache_id, $cache_group = 'db');
+	cache_save($fields, $function_cache_id, $cache_group = 'db','files');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return $fields;
 }
@@ -2912,7 +2912,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
 	$function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db/' . $table_name);
+	$cache_content = cache_get_content($function_cache_id, 'db/' . $table_name, 'files');
 
 	if (($cache_content) != false) {
 
@@ -2991,7 +2991,7 @@ if ($table_name != 'firecms_sessions') {
 
 }
 
-cache_store_data('--true--', $function_cache_id, $cache_group = 'db/' . $table_name);
+cache_save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, 'files');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 return true;
 	//set_db_tables

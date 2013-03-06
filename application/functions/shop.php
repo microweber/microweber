@@ -150,7 +150,7 @@ function mw_shop_module_init_db() {
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 
 	return true;
 
@@ -220,7 +220,7 @@ function create_mw_shop_default_options() {
 
 		cache_clean_group('options/global');
 	}
-	cache_store_data('--true--', $function_cache_id, $cache_group = 'db');
+	cache_save('--true--', $function_cache_id, $cache_group = 'db');
 
 	return true;
 }

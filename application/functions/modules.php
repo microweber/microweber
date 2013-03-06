@@ -48,7 +48,7 @@ function mw_db_init_modules_table() {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db');
+	$cache_content = cache_get_content($function_cache_id, 'db', 'files');
 
 	if (($cache_content) != false) {
 
@@ -99,7 +99,7 @@ function mw_db_init_modules_table() {
 	db_add_table_index('module', $table_name2, array('module(255)'));
 	db_add_table_index('module_id', $table_name2, array('module_id(255)'));
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db', 'files');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
@@ -341,7 +341,7 @@ function get_all_functions_files_for_modules($options = false) {
 			//}
 		}
 
-		cache_save($configs, $function_cache_id, $cache_group);
+		cache_save($configs, $function_cache_id, $cache_group, 'files');
 
 		return $configs;
 	} else {
@@ -622,7 +622,7 @@ function module_dir($module_name) {
 		}
 	}
 
-	cache_save($checked[$module_name], $function_cache_id, $cache_group);
+	cache_save($checked[$module_name], $function_cache_id, $cache_group, 'files');
 
 	return $checked[$module_name];
 
@@ -1095,7 +1095,7 @@ function scan_for_modules($options = false) {
 
 	if (isset($options['skip_cache']) == false) {
 
-		$cache_content = cache_get_content($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group, 'files');
 
 		if (($cache_content) != false) {
 
@@ -1250,7 +1250,7 @@ function scan_for_modules($options = false) {
 
 		$c2 = array_merge($cfg_ordered, $cfg);
 
-		cache_save($c2, $cache_id, $cache_group);
+		cache_save($c2, $cache_id, $cache_group, 'files');
 
 		return $c2;
 	}
@@ -1281,7 +1281,7 @@ function get_elements($options = array()) {
 
 	$cache_group = 'elements';
 
-	$cache_content = cache_get_content($cache_id, $cache_group);
+	$cache_content = cache_get_content($cache_id, $cache_group, 'files');
 
 	if (($cache_content) != false) {
 
@@ -1294,7 +1294,7 @@ function get_elements($options = array()) {
 	foreach ($dirs as $dir) {
 		$a1[] = basename($dir);
 	}
-	cache_save($a1, $function_cache_id, $cache_group);
+	cache_save($a1, $function_cache_id, $cache_group, 'files');
 
 	return $a1;
 }
@@ -1304,7 +1304,7 @@ function load_all_lic() {
 	$cache_id = __FUNCTION__ . $h;
 	$cache_group = 'updates';
 
-	$cache_content = cache_get_content($cache_id, $cache_group);
+	$cache_content = cache_get_content($cache_id, $cache_group, 'files');
 
 	if (($cache_content) != false) {
 
@@ -1332,9 +1332,10 @@ function load_all_lic() {
 		// return $u1;
 		if (isset($lic_files)) {
 			$u1 = $lic_files;
+			cache_save($u1, $cache_id, $cache_group, 'files');
+
 		}
 	}
-	cache_save($u1, $cache_id, $cache_group);
 
 	return $u1;
 }
@@ -1345,7 +1346,7 @@ function load_module_lic($module_name = false) {
 	if ($u1 == false) {
 		$u1 = array();
 	}
-
+return $u1;
 	if (isset($u1[$module_name]) == false) {
 		$all_lic = load_all_lic();
 		$h = site_hostname();

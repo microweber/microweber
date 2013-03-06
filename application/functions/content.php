@@ -208,7 +208,7 @@ function mw_db_init_content_table() {
 
 
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
 
 }
@@ -789,7 +789,7 @@ function get_layout_for_page($page = array()) {
 		}
 	}
 //	$render_file = reduce_double_slashes($render_file);
-	cache_store_data($render_file, $cache_id, $cache_group);
+	cache_save($render_file, $cache_id, $cache_group);
 
 	return $render_file;
 }
@@ -1150,11 +1150,11 @@ function get_content($params) {
 				$data2[] = $item;
 			}
 			$get = $data2;
-			//  cache_store_data($get, $function_cache_id, $cache_group = 'content/global');
+			//  cache_save($get, $function_cache_id, $cache_group = 'content/global');
 
 			return $get;
 		} else {
-			// cache_store_data('--false--', $function_cache_id, $cache_group = 'content/global');
+			// cache_save('--false--', $function_cache_id, $cache_group = 'content/global');
 
 			return FALSE;
 		}
@@ -2965,7 +2965,7 @@ $params['ul_class'] = false;
 
 	$content = ob_get_contents();
 //	if (!isset($_GET['debug'])) {
-	cache_store_data($content, $function_cache_id, $cache_group);
+	cache_save($content, $function_cache_id, $cache_group);
 	//}
 	ob_end_clean();
 	print $content;

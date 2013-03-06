@@ -78,7 +78,7 @@ function mw_db_init_taxonomy_table() {
 	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
 	db_add_table_index('parent_id', $table_name, array('parent_id'));
 
-	cache_store_data(true, $function_cache_id, $cache_group = 'db');
+	cache_save(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
@@ -299,7 +299,7 @@ function category_tree($params = false) {
 
 	ob_start();
 
-	//  cache_store_data($fields, $function_cache_id, $cache_group = 'db');
+	//  cache_save($fields, $function_cache_id, $cache_group = 'db');
 
 	if ($skip123 == false) {
  
@@ -315,7 +315,7 @@ function category_tree($params = false) {
 
 	$content = ob_get_contents();
 	//if (!isset($_GET['debug'])) {
-	cache_store_data($content, $function_cache_id, $cache_group);
+	cache_save($content, $function_cache_id, $cache_group);
 	//}
 	ob_end_clean();
 	print $content;
@@ -1475,7 +1475,7 @@ function get_categories($params, $data_type = 'categories') {
 		}
 		$results = array_unique($results);
 	}
-	//cache_store_data($results, $function_cache_id, $cache_group);
+	//cache_save($results, $function_cache_id, $cache_group);
 	return $results;
 }
 
@@ -1564,7 +1564,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		}
 		$results = array_unique($results);
 	}
-	cache_store_data($results, $function_cache_id, $cache_group);
+	cache_save($results, $function_cache_id, $cache_group);
 	return $results;
 }
 

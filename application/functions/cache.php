@@ -8,12 +8,12 @@ if (!defined('APC_CACHE')) {
 		$is_editmode = session_get('editmode');
 		if ($is_editmode and intval($is_editmode) == 1) {
 			$apc_exists = false;
-		} 
+		}
 	}
 	if (isset($_POST) and isarr($_POST)) {
 		$apc_exists = false;
 	}
-	// $apc_exists = false;
+	 $apc_exists = false;
 	//    if (isset($_COOKIE['editmode'])) {
 	//
 	//    }
@@ -22,69 +22,15 @@ if (!defined('APC_CACHE')) {
 	define("APC_CACHE", $apc_exists);
 }
 
+ 
+/*
+ // if(isset($_GET['debug'])){
+ // d($enable_server_cache_storage);
+ // }*/
+
 if (!defined('APC_EXPIRES')) {
 
 	define("APC_EXPIRES", 30);
-}
-
-function _old_cache_get_content_from_memory($cache_id, $cache_group = false, $replace_with_new = false) {
-
-	global $mw_cache_get_content_memory;
-	// return false;
-	//static $mem = array();
-	static $mem_hits = array();
-
-	if (is_bool($cache_id) and $cache_id == true) {
-		return $mem_hits;
-	}
-	$cache_id_o = $cache_id;
-	$cache_group = (int) crc32($cache_group);
-	$cache_id = (int) crc32($cache_id);
-
-	//$cache_group = 'gr' . crc32($cache_group);
-	// $cache_id = 'id' . crc32($cache_id);
-	$mode = 2;
-	switch ($mode) {
-		case 1 :
-			if ($replace_with_new != false) {
-				$mw_cache_get_content_memory[$cache_group][$cache_id] = $replace_with_new;
-				//   asort($mem[$cache_group]);
-				$mem_hits[$cache_group][$cache_id] = 1;
-				// asort($mem);
-			}
-
-			if (isset($mw_cache_get_content_memory[$cache_group][$cache_id])) {
-				$mem_hits[$cache_group][$cache_id]++;
-				return $mw_cache_get_content_memory[$cache_group][$cache_id];
-			} else {
-				return false;
-			}
-
-			break;
-
-		case 2 :
-			$key = $cache_group + $cache_id;
-			$key = intval($key);
-			if ($replace_with_new != false) {
-				$mw_cache_get_content_memory[$key] = $replace_with_new;
-
-				$mem_hits[$cache_id_o] = 1;
-				// ksort($mem);
-				// ksort($mem_hits);
-			}
-
-			if (isset($mw_cache_get_content_memory[$key])) {
-				$mem_hits[$cache_id_o]++;
-				return $mw_cache_get_content_memory[$key];
-			} else {
-				return false;
-			}
-
-			break;
-
-		default :
-			break;
-	}
 }
 
 //$mw_cache_mem = array();
@@ -111,7 +57,8 @@ function cache_get_content_from_memory($cache_id, $cache_group = false, $replace
 			//$cache_group = (int) crc32($cache_group);
 			//	$cache_id = 'compiled_caache'.(int) crc32($cache_id);
 
-			$criteria_id = 'compiled_cache' . (int) crc32($cache_id); ;
+			$criteria_id = 'compiled_cache' . (int) crc32($cache_id);
+			;
 
 			$cache_group_index = cache_get_file_path('index', $cache_group);
 
@@ -700,11 +647,8 @@ function cache_get_content($cache_id, $cache_group = 'global', $time = false) {
  * @since Version 1.0
  * @uses cache_write_to_file
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global') {
-	return cache_store_data($data_to_cache, $cache_id, $cache_group);
-}
 
-function cache_store_data($data_to_cache, $cache_id, $cache_group = 'global') {
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global') {
 	if (mw_var('is_cleaning_now') == true) {
 		return false;
 	}
@@ -732,14 +676,14 @@ function cache_write($data_to_cache, $cache_id, $cache_group = 'global') {
  *        	of the cache
  * @param string $content
  *        	content for the file, must be a string, if you want to store
- *        	object or array, please use the cache_store_data() function
+ *        	object or array, please use the cache_save() function
  * @param string $cache_group
  *        	(default is 'global') - this is the subfolder in the cache dir.
  *
  * @return string
  * @author Peter Ivanov
  * @since Version 1.0
- * @see cache_store_data
+ * @see cache_save
  */
 function cache_get_index_file_path($cache_group) {
 	$cache_group_clean = explode("/", $cache_group);
@@ -795,7 +739,7 @@ function cache_write_to_file($cache_id, $content, $cache_group = 'global') {
 			if ($is_cleaning_now == false) {
 				$cache_file_temp = $cache_file . '.tmp' . rand() . '.php';
 				$cache = file_put_contents($cache_file_temp, $content1);
-				rename($cache_file_temp, $cache_file);
+				@rename($cache_file_temp, $cache_file);
 
 			}
 

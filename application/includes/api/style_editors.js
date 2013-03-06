@@ -212,7 +212,7 @@ mw.css3fx = {
     var el = el || ".mwfx";
     $(el).each(function(){
       var elem = this;
-      var json = mw.css3fx.read(el);
+      var json = mw.css3fx.read(el); 
       $.each(json, function(a,b){
          $(elem).css(mw.JSPrefix(a), b);
       });

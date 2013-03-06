@@ -826,9 +826,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		//        }
 
 		if (APC_CACHE == true) {
-			$parse_mode = 1;
+			$parse_mode =1;
 		} else {
-			$parse_mode = 1;
+			$parse_mode = 4;
 		}
 
 		if (isset($_POST)) {

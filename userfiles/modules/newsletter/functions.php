@@ -118,7 +118,7 @@ function mw_newsletter_module_init_db() {
   */
   
   
-  cache_store_data(true, $function_cache_id, $cache_group = 'db');
+  cache_save(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
   

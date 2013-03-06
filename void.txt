@@ -1,0 +1,12 @@
+==
+:::::remove:::::::
+cache_get_content_encoded
+cache_write_to_file
+cache_write
+cache_get_content_encoded
+==
+::::::::to save:::::::::::
+cache_save
+cache_clean_group
+cache_get_content
+clearcache

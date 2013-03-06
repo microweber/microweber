@@ -15,7 +15,7 @@ description: Bootstrap Carousel
 
 <script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
 
-<?php $rand = uniqid(); $id = 'carousel_'.$rand; ?>
+<?php $rand = 'item_carousel_'.$params['id']; $id = 'carousel_'.$params['id']; ?>
     <div class="mw-module-images">
     <div id="<?php print $id; ?>" class="carousel slide mw-image-carousel">
       <ol class="carousel-indicators">

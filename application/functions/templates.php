@@ -21,7 +21,7 @@ function templates_list($options = false) {
 
 	$cache_group = 'templates';
 
-	$cache_content = cache_get_content($cache_id, $cache_group);
+	$cache_content = cache_get_content($cache_id, $cache_group, 'files');
 
 	if (($cache_content) != false) {
 
@@ -80,7 +80,7 @@ function templates_list($options = false) {
 
 		//p($filename);
 	}
-	cache_store_data($to_return, $function_cache_id, $cache_group);
+	cache_save($to_return, $function_cache_id, $cache_group, 'files');
 
 	return $to_return;
 }
@@ -182,7 +182,7 @@ function layouts_list($options = false) {
 
 		$cache_group = 'templates';
 
-		$cache_content = cache_get_content($cache_id, $cache_group);
+		$cache_content = cache_get_content($cache_id, $cache_group, 'files');
 
 		if (($cache_content) != false) {
 
@@ -253,14 +253,14 @@ function layouts_list($options = false) {
 		}
 		if (!empty($configs)) {
 			if (!isset($options['no_cache'])) {
-				cache_store_data($configs, $function_cache_id, $cache_group);
+				cache_save($configs, $function_cache_id, $cache_group, 'files');
 			}
 			return $configs;
 		} else {
-			//cache_store_data(false, $function_cache_id, $cache_group);
+			//cache_save(false, $function_cache_id, $cache_group);
 		}
 	} else {
-		//cache_store_data(false, $function_cache_id, $cache_group);
+		//cache_save(false, $function_cache_id, $cache_group);
 	}
 }
 
