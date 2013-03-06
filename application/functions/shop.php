@@ -433,15 +433,15 @@ function checkout_ipn($data) {
 		if ($ord > 0) {
 
 			$q = " UPDATE $table_cart set
-				order_completed='y', order_id='{$ord}'
-				where order_completed='n'   ";
+			order_completed='y', order_id='{$ord}'
+			where order_completed='n'   ";
 			//d($q);
 			db_q($q);
 
 			$q = " UPDATE $table_orders set
-				order_completed='y'
-				where order_completed='n' and
-				id='{$ord}'  ";
+			order_completed='y'
+			where order_completed='n' and
+			id='{$ord}'  ";
 			//	 d($q);
 			db_q($q);
 			cache_clean_group('cart/global');
@@ -503,16 +503,16 @@ function checkout($data) {
 		$ord = $_SESSION['order_id'];
 		if ($ord > 0) {
 			$q = " UPDATE $table_cart set
-				order_completed='y', order_id='{$ord}'
-				where order_completed='n'   and session_id='{$sid}'  ";
+			order_completed='y', order_id='{$ord}'
+			where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
 			checkout_send_confrimation_email($ord);
 			$q = " UPDATE $table_orders set
-				order_completed='y'
-				where order_completed='n' and
-				id='{$ord}' and
-				session_id='{$sid}'  ";
+			order_completed='y'
+			where order_completed='n' and
+			id='{$ord}' and
+			session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
 
@@ -536,169 +536,169 @@ function checkout($data) {
 
 		} else {		error('Your cart is empty');
 
-		}
-	} else {
+	}
+} else {
 
-		if (!isset($data['payment_gw']) and $mw_process_payment == true) {
+	if (!isset($data['payment_gw']) and $mw_process_payment == true) {
 
-			$data['payment_gw'] = 'none';
+		$data['payment_gw'] = 'none';
 			//error('No payment method is specified');
 			//
-		} else {
-			if ($mw_process_payment == true) {
-				$gw_check = payment_options('payment_gw_' . $data['payment_gw']);
-				if (isarr($gw_check[0])) {
-					$gateway = $gw_check[0];
-				} else {
-					error('No such payment gateway is activated');
-				}
-
+	} else {
+		if ($mw_process_payment == true) {
+			$gw_check = payment_options('payment_gw_' . $data['payment_gw']);
+			if (isarr($gw_check[0])) {
+				$gateway = $gw_check[0];
+			} else {
+				error('No such payment gateway is activated');
 			}
-		}
 
-		$shiping_country = false;
-		$shiping_cost_max = false;
-		$shiping_cost = false;
-		$shiping_cost_above = false;
-		if (isset($_SESSION['shiping_country'])) {
-			$shiping_country = $_SESSION['shiping_country'];
 		}
-		if (isset($_SESSION['shiping_cost_max'])) {
-			$shiping_cost_max = $_SESSION['shiping_cost_max'];
-		}
-		if (isset($_SESSION['shiping_cost'])) {
-			$shiping_cost = $_SESSION['shiping_cost'];
-		}
-		if (isset($_SESSION['shiping_cost_above'])) {
-			$shiping_cost_above = $_SESSION['shiping_cost_above'];
-		}
+	}
+
+	$shiping_country = false;
+	$shiping_cost_max = false;
+	$shiping_cost = false;
+	$shiping_cost_above = false;
+	if (isset($_SESSION['shiping_country'])) {
+		$shiping_country = $_SESSION['shiping_country'];
+	}
+	if (isset($_SESSION['shiping_cost_max'])) {
+		$shiping_cost_max = $_SESSION['shiping_cost_max'];
+	}
+	if (isset($_SESSION['shiping_cost'])) {
+		$shiping_cost = $_SESSION['shiping_cost'];
+	}
+	if (isset($_SESSION['shiping_cost_above'])) {
+		$shiping_cost_above = $_SESSION['shiping_cost_above'];
+	}
 
 		//post any of those on the form
-		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
+	$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
 
-		$posted_fields = array();
-		$place_order = array();
+	$posted_fields = array();
+	$place_order = array();
 		//$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
-		$return_url_after = '';
-		if (isAjax()) {
-			$place_order['url'] = curent_url(true);
-			$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
-		} elseif (isset($_SERVER['HTTP_REFERER'])) {
-			$place_order['url'] = $_SERVER['HTTP_REFERER'];
-			$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
-		} else {
-			$place_order['url'] = curent_url();
+	$return_url_after = '';
+	if (isAjax()) {
+		$place_order['url'] = curent_url(true);
+		$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
+	} elseif (isset($_SERVER['HTTP_REFERER'])) {
+		$place_order['url'] = $_SERVER['HTTP_REFERER'];
+		$return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
+	} else {
+		$place_order['url'] = curent_url();
+
+	}
+
+	$place_order['session_id'] = $sid;
+
+	$place_order['order_completed'] = 'n';
+	$items_count = 0;
+	foreach ($flds_from_data as $value) {
+		if (isset($data[$value]) and ($data[$value]) != false) {
+			$place_order[$value] = $data[$value];
+			$posted_fields[$value] = $data[$value];
 
 		}
+	}
+	$amount = cart_sum();
+	if ($amount == 0) {
+		error('Cart sum is 0?');
+		return;
+	}
+	$place_order['amount'] = $amount;
+	$place_order['currency'] = get_option('currency', 'payments');
 
-		$place_order['session_id'] = $sid;
+	if (isset($data['shipping_gw'])) {
+		$place_order['shipping_service'] = $data['shipping_gw'];
+	}
 
-		$place_order['order_completed'] = 'n';
-		$items_count = 0;
-		foreach ($flds_from_data as $value) {
-			if (isset($data[$value]) and ($data[$value]) != false) {
-				$place_order[$value] = $data[$value];
-				$posted_fields[$value] = $data[$value];
-
-			}
+	if (intval($shiping_cost_above) > 0 and intval($shiping_cost_max) > 0) {
+		if ($amount > $shiping_cost_above) {
+			$shiping_cost = $shiping_cost_max;
 		}
-		$amount = cart_sum();
-		if ($amount == 0) {
-			error('Cart sum is 0?');
-			return;
-		}
-		$place_order['amount'] = $amount;
-		$place_order['currency'] = get_option('currency', 'payments');
+	}
 
-		if (isset($data['shipping_gw'])) {
-			$place_order['shipping_service'] = $data['shipping_gw'];
-		}
+	$place_order['shipping'] = $shiping_cost;
 
-		if (intval($shiping_cost_above) > 0 and intval($shiping_cost_max) > 0) {
-			if ($amount > $shiping_cost_above) {
-				$shiping_cost = $shiping_cost_max;
-			}
-		}
+	$items_count = cart_sum(false);
+	$place_order['items_count'] = $items_count;
 
-		$place_order['shipping'] = $shiping_cost;
+	$cart_checksum = md5($sid . serialize($check_cart));
 
-		$items_count = cart_sum(false);
-		$place_order['items_count'] = $items_count;
+	$place_order['item_name'] = 'Order' . ' ' . $cart_checksum . '' . $amount;
 
-		$cart_checksum = md5($sid . serialize($check_cart));
+	$place_order['payment_verify_token'] = encrypt_var($place_order);
 
-		$place_order['item_name'] = 'Order' . ' ' . $cart_checksum . '' . $amount;
+	if ($mw_process_payment == true) {
+		$shop_dir = module_dir('shop');
+		$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
-		$place_order['payment_verify_token'] = encrypt_var($place_order);
+		if ($data['payment_gw'] != 'none') {
 
-		if ($mw_process_payment == true) {
-			$shop_dir = module_dir('shop');
-			$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+			$gw_process = MODULES_DIR . $data['payment_gw'] . '_process.php';
 
-			if ($data['payment_gw'] != 'none') {
+			$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
+			$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
+			$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
-				$gw_process = MODULES_DIR . $data['payment_gw'] . '_process.php';
-
-				$mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
-				$mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
-				$mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
-
-				if (is_file($gw_process)) {
-					require_once $gw_process;
-				} else {
-					error('Payment gateway\'s process file not found.');
-				}
+			if (is_file($gw_process)) {
+				require_once $gw_process;
 			} else {
-				$place_order['order_completed'] = 'y';
-
+				error('Payment gateway\'s process file not found.');
 			}
+		} else {
+			$place_order['order_completed'] = 'y';
+
+		}
 			// $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
 
 			// db_q($q);
 
-			define('FORCE_SAVE', $table_orders);
-			$ord = save_data($table_orders, $place_order);
+		define('FORCE_SAVE', $table_orders);
+		$ord = save_data($table_orders, $place_order);
 
+		$q = " UPDATE $table_cart set
+		order_id='{$ord}'
+		where order_completed='n'  and session_id='{$sid}'  ";
+
+		db_q($q);
+
+		if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
 			$q = " UPDATE $table_cart set
-				order_id='{$ord}'
-				where order_completed='n'  and session_id='{$sid}'  ";
+			order_completed='y', order_id='{$ord}'
+			where order_completed='n'   ";
 
 			db_q($q);
 
-			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
-				$q = " UPDATE $table_cart set
-				order_completed='y', order_id='{$ord}'
-				where order_completed='n'   ";
+			if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
 
-				db_q($q);
-
-				if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
-
-					$q = " UPDATE $table_orders set
+				$q = " UPDATE $table_orders set
 				order_completed='y'
 				where order_completed='n' and
 				id='{$ord}'  ";
 
-					db_q($q);
+				db_q($q);
 
-				}
-
-				cache_clean_group('cart/global');
-				cache_clean_group('cart_orders/global');
-
-				//$_SESSION['mw_payment_success'] = true;
 			}
 
-			$_SESSION['order_id'] = $ord;
+			cache_clean_group('cart/global');
+			cache_clean_group('cart_orders/global');
+
+				//$_SESSION['mw_payment_success'] = true;
 		}
+
+		$_SESSION['order_id'] = $ord;
+	}
 
 		//	exit();
-		if (isset($result)) {
-			return ($result);
-		}
-
+	if (isset($result)) {
+		return ($result);
 	}
+
+}
 
 	//d($check_cart);
 }
@@ -800,301 +800,305 @@ function update_cart($data) {
 						 }
 						 }
 						 // d($item);
-						 } else {*/
+						} else {*/
 
 						//if($cf['custom_field_type'] != 'price'){
-						if (isarr($cf['custom_field_values'])) {
-							if (in_array($item, $cf['custom_field_values'])) {
-								$found = true;
+							if (isarr($cf['custom_field_values'])) {
+								if (in_array($item, $cf['custom_field_values'])) {
+									$found = true;
+								}
+
 							}
 
-						}
-
-						if ($found == false and $cf['custom_field_value'] != $item) {
-							unset($item);
-						}
+							if ($found == false and $cf['custom_field_value'] != $item) {
+								unset($item);
+							}
 						//}
-					} else {
+						} else {
 						//	$skip_keys[] = $k;
 						//break(1);
 						//	unset($item );
-					}
+						}
 
 					//   d($k);
 					//
 					//}
-				} elseif (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
-					$prices[$cf['custom_field_name']] = $cf['custom_field_value'];
+					} elseif (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
+						if($cf['custom_field_value'] != ''){
+
+							$prices[$cf['custom_field_name']] = $cf['custom_field_value'];
+
+						}
 					//$item[$cf['custom_field_name']] = $cf['custom_field_value'];
 					// unset($item[$k]);
-				} else {
-					unset($item);
-				}
-
-			}
-			if ($found == false) {
-				$skip_keys[] = $k;
-			}
-			if (isarr($prices)) {
-
-				foreach ($prices as $price_key => $price) {
-
-					if (isset($data['price'])) {
-
-						if ($price == $data['price']) {
-							$found = true;
-							$found_price = $price;
-
-						}
-					} else if ($price == $item) {
-						$found = true;
-						if ($found_price == false) {
-							$found_price = $item;
-						}
-						// d($item);
 					} else {
+					//unset($item);
+					}
+
+				}
+				if ($found == false) {
+					$skip_keys[] = $k;
+				}
+				if (isarr($prices)) {
+
+					foreach ($prices as $price_key => $price) {
+
+						if (isset($data['price'])) {
+
+							if ($price == $data['price']) {
+								$found = true;
+								$found_price = $price;
+
+							}
+						} else if ($price == $item) {
+							$found = true;
+							if ($found_price == false) {
+								$found_price = $item;
+							}
+						// d($item);
+						} else {
 						// unset($item);
+						}
+					}
+					if ($found_price == false) {
+						$found_price = $prices[0];
+
+					}
+
+
+				}
+
+				if (isset($item)) {
+					if ($found == true) {
+						if ($k != 'price' and !in_array($k, $skip_keys)) {
+							$add[$k] = ($item);
+						}
 					}
 				}
-				if ($found_price == false) {
-					$found_price = $prices[0];
 
-				}
-
-				// d($prices);
 			}
-
-			if (isset($item)) {
-				if ($found == true) {
-					if ($k != 'price' and !in_array($k, $skip_keys)) {
-						$add[$k] = ($item);
-					}
-				}
-			}
-
-		}
 		// }
-	}
-	if ($found_price == false) {
+		}
+		if ($found_price == false) {
 		// $found_price = 0;
-		error('Invalid data: Please post a "price" field with <input name="price"> ');
-	}
+			error('Invalid data: Please post a "price" field with <input name="price"> ');
+		}
 
-	if (isarr($prices)) {
-		ksort($add);
-		asort($add);
-		$table = MODULE_DB_SHOP;
-		$cart = array();
-		$cart['to_table'] = ($data['for']);
-		$cart['to_table_id'] = intval($data['for_id']);
-		$cart['title'] = ($data['title']);
-		$cart['price'] = floatval($found_price);
-		$cart['custom_fields_data'] = encode_var($add);
-		$cart['order_completed'] = 'n';
-		$cart['session_id'] = session_id();
+		if (isarr($prices)) {
+			ksort($add);
+			asort($add);
+			$table = MODULE_DB_SHOP;
+			$cart = array();
+			$cart['to_table'] = ($data['for']);
+			$cart['to_table_id'] = intval($data['for_id']);
+			$cart['title'] = ($data['title']);
+			$cart['price'] = floatval($found_price);
+			$cart['custom_fields_data'] = encode_var($add);
+			$cart['order_completed'] = 'n';
+			$cart['session_id'] = session_id();
 		//$cart['one'] = 1;
-		$cart['limit'] = 1;
+			$cart['limit'] = 1;
 		//  $cart['no_cache'] = 1;
-		$checkz = get_cart($cart);
+			$checkz = get_cart($cart);
 		// d($checkz);
-		if ($checkz != false and isarr($checkz) and isset($checkz[0])) {
+			if ($checkz != false and isarr($checkz) and isset($checkz[0])) {
 			//    d($check);
-			$cart['id'] = $checkz[0]['id'];
-			if ($update_qty > 0) {
-				$cart['qty'] = $checkz[0]['qty'] + $update_qty;
-			} else {
-				$cart['qty'] = $checkz[0]['qty'] + 1;
-			}
+				$cart['id'] = $checkz[0]['id'];
+				if ($update_qty > 0) {
+					$cart['qty'] = $checkz[0]['qty'] + $update_qty;
+				} else {
+					$cart['qty'] = $checkz[0]['qty'] + 1;
+				}
 
 			//
-		} else {
-
-			if ($update_qty > 0) {
-				$cart['qty'] = $update_qty;
 			} else {
-				$cart['qty'] = 1;
-			}
-		}
-		//
-		mw_var('FORCE_SAVE', $table);
 
-		$cart_s = save_data($table, $cart);
-		return ($cart_s);
-	} else {
-		error('Invalid cart items');
-	}
+				if ($update_qty > 0) {
+					$cart['qty'] = $update_qty;
+				} else {
+					$cart['qty'] = 1;
+				}
+			}
+		//
+			mw_var('FORCE_SAVE', $table);
+
+			$cart_s = save_data($table, $cart);
+			return ($cart_s);
+		} else {
+			error('Invalid cart items');
+		}
 
 	//  d($data);
-	exit ;
-}
-
-api_expose('update_cart_item_qty');
-
-function update_cart_item_qty($data) {
-
-	if (!isset($data['id'])) {
-		error('Invalid data');
+		exit ;
 	}
 
-	if (!isset($data['qty'])) {
-		error('Invalid data');
-	}
-	if (!session_id() and !headers_sent()) {
-		session_start();
-	}
-	$cart = array();
-	$cart['id'] = intval($data['id']);
+	api_expose('update_cart_item_qty');
+
+	function update_cart_item_qty($data) {
+
+		if (!isset($data['id'])) {
+			error('Invalid data');
+		}
+
+		if (!isset($data['qty'])) {
+			error('Invalid data');
+		}
+		if (!session_id() and !headers_sent()) {
+			session_start();
+		}
+		$cart = array();
+		$cart['id'] = intval($data['id']);
 
 	//if (is_admin() == false) {
-	$cart['session_id'] = session_id();
-	//}
-	$cart['order_completed'] = 'n';
-
-	$cart['one'] = 1;
-	$cart['limit'] = 1;
-	$checkz = get_cart($cart);
-
-	if ($checkz != false and isarr($checkz)) {
-		// d($checkz);
-		$cart['qty'] = intval($data['qty']);
-		$table = MODULE_DB_SHOP;
-		mw_var('FORCE_SAVE', $table);
-
-		$cart_s = save_data($table, $cart);
-		return ($cart_s);
-		//   db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
-	} else {
-
-	}
-}
-
-api_expose('remove_cart_item');
-
-function remove_cart_item($data) {
-
-	if (!isset($data['id'])) {
-		error('Invalid data');
-	}
-	if (!session_id() and !headers_sent()) {
-		session_start();
-	}
-	$cart = array();
-	$cart['id'] = intval($data['id']);
-
-	if (is_admin() == false) {
 		$cart['session_id'] = session_id();
-	}
-	$cart['order_completed'] = 'n';
+	//}
+		$cart['order_completed'] = 'n';
 
-	$cart['one'] = 1;
-	$cart['limit'] = 1;
-	$checkz = get_cart($cart);
+		$cart['one'] = 1;
+		$cart['limit'] = 1;
+		$checkz = get_cart($cart);
 
-	if ($checkz != false and isarr($checkz)) {
+		if ($checkz != false and isarr($checkz)) {
 		// d($checkz);
+			$cart['qty'] = intval($data['qty']);
+			$table = MODULE_DB_SHOP;
+			mw_var('FORCE_SAVE', $table);
+
+			$cart_s = save_data($table, $cart);
+			return ($cart_s);
+		//   db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+		} else {
+
+		}
+	}
+
+	api_expose('remove_cart_item');
+
+	function remove_cart_item($data) {
+
+		if (!isset($data['id'])) {
+			error('Invalid data');
+		}
+		if (!session_id() and !headers_sent()) {
+			session_start();
+		}
+		$cart = array();
+		$cart['id'] = intval($data['id']);
+
+		if (is_admin() == false) {
+			$cart['session_id'] = session_id();
+		}
+		$cart['order_completed'] = 'n';
+
+		$cart['one'] = 1;
+		$cart['limit'] = 1;
+		$checkz = get_cart($cart);
+
+		if ($checkz != false and isarr($checkz)) {
+		// d($checkz);
+			$table = MODULE_DB_SHOP;
+			db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+		} else {
+
+		}
+	}
+
+	function get_cart($params) {
+		$params2 = array();
+		if (!isset($_SESSION)) {
+			return false;
+		}
+
+		if (is_string($params)) {
+			$params = parse_str($params, $params2);
+			$params = $params2;
+		}
 		$table = MODULE_DB_SHOP;
-		db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
-	} else {
-
-	}
-}
-
-function get_cart($params) {
-	$params2 = array();
-	if (!isset($_SESSION)) {
-		return false;
-	}
-	 
-	if (is_string($params)) {
-		$params = parse_str($params, $params2);
-		$params = $params2;
-	}
-	$table = MODULE_DB_SHOP;
-	$params['table'] = $table;
-	$params['session_id'] = session_id();
-	if (isset($params['no_session_id']) and is_admin() == true) {
-		unset($params['session_id']);
+		$params['table'] = $table;
+		$params['session_id'] = session_id();
+		if (isset($params['no_session_id']) and is_admin() == true) {
+			unset($params['session_id']);
 		//	$params['session_id'] = session_id();
-	} else {
+		} else {
 
-	}
+		}
 
-	$get = get($params);
+		$get = get($params);
 	//return $get;
 
-	$return = array();
-	if (isarr($get)) {
-		foreach ($get as $item) {
-			if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-				$item['custom_fields_data'] = decode_var($item['custom_fields_data']);
+		$return = array();
+		if (isarr($get)) {
+			foreach ($get as $item) {
+				if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+					$item['custom_fields_data'] = decode_var($item['custom_fields_data']);
 
-				$tmp_val = '';
-				if (isset($item['custom_fields_data']) and isarr($item['custom_fields_data'])) {
-					$tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-					foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-						if (isarr($cfv)) {
-							$tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
-							$tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-							foreach ($cfv as $cfk1 => $cfv1) {
-								$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+					$tmp_val = '';
+					if (isset($item['custom_fields_data']) and isarr($item['custom_fields_data'])) {
+						$tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+						foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+							if (isarr($cfv)) {
+								$tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+								$tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+								foreach ($cfv as $cfk1 => $cfv1) {
+									$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+								}
+								$tmp_val .= '</ul>';
+								$tmp_val .= '</li>';
+							} else {
+								$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
 							}
-							$tmp_val .= '</ul>';
-							$tmp_val .= '</li>';
-						} else {
-							$tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
 						}
+						$tmp_val .= '</ul>';
+						$item['custom_fields'] = $tmp_val;
 					}
-					$tmp_val .= '</ul>';
-					$item['custom_fields'] = $tmp_val;
-				}
 
+				}
+				$return[] = $item;
 			}
-			$return[] = $item;
+
+		}
+		if (empty($return)) {
+			$return = false;
 		}
 
-	}
-	if (empty($return)) {
-		$return = false;
-	}
-
-	return $return;
+		return $return;
 	//  d($params);
 
-}
-
-function payment_options($option_key = false) {
-
-	$option_key_q = '';
-	if (is_string($option_key)) {
-		$option_key_q = "&limit=1&option_key={$option_key}";
-
 	}
 
-	$providers = get_options('option_group=payments' . $option_key_q);
-	$str = 'payment_gw_';
-	$l = strlen($str);
+	function payment_options($option_key = false) {
 
-	$valid = array();
-	foreach ($providers as $value) {
-		if ($value['option_value'] == 'y') {
-			if (substr($value['option_key'], 0, $l) == $str) {
-				$title = substr($value['option_key'], $l);
-				$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
-				$value['gw_file'] = $title;
+		$option_key_q = '';
+		if (is_string($option_key)) {
+			$option_key_q = "&limit=1&option_key={$option_key}";
 
-				$mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
+		}
 
-				if (!empty($mod_infp)) {
-					$value = $mod_infp;
+		$providers = get_options('option_group=payments' . $option_key_q);
+		$str = 'payment_gw_';
+		$l = strlen($str);
+
+		$valid = array();
+		foreach ($providers as $value) {
+			if ($value['option_value'] == 'y') {
+				if (substr($value['option_key'], 0, $l) == $str) {
+					$title = substr($value['option_key'], $l);
+					$string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
 					$value['gw_file'] = $title;
-				} else {
-					$value['name'] = $title;
-				}
-				//
-				$valid[] = $value;
 
+					$mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
+
+					if (!empty($mod_infp)) {
+						$value = $mod_infp;
+						$value['gw_file'] = $title;
+					} else {
+						$value['name'] = $title;
+					}
+				//
+					$valid[] = $value;
+
+				}
 			}
 		}
+		return $valid;
 	}
-	return $valid;
-}

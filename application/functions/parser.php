@@ -151,16 +151,16 @@ class MwDom extends DOMDocument {
 	function output() {
 
 		// thanks to: http://www.php.net/manual/en/domdocument.savehtml.php#85165
- 
+
 		/*
 		 $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this->saveHTML()));
 		 */
-		$output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this -> saveHTML(), $c = 1), 1);
+		 $output = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace(array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $this -> saveHTML(), $c = 1), 1);
 
-		return html_entity_decode($output, false, "UTF-8");
+		 return html_entity_decode($output, false, "UTF-8");
+		}
+
 	}
-
-}
 
 // include_once ('parser/phpQuery.php');
 
@@ -309,57 +309,60 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 		if (isset($_POST)) {
 			$parse_mode = 1;
 		}
-		$parse_mode = 3;
+
+
+
+
 		switch ($parse_mode) {
 			case 1 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
 
-				break;
+			break;
 
 			case 2 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
 
-				break;
+			break;
 			case 3 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
 
-				break;
+			break;
 
 			case 4 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom.php');
 
-				break;
+			break;
 
 			case 5 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_1.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
 
 			case 6 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_simple_html_dom_1.php');
 
-				break;
+			break;
 
 			case 7 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '07_pqlite.php');
 
-				break;
+			break;
 
 			case 8 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '08_fdom.php');
 
-				break;
+			break;
 
 			case 9 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '09_apc.php');
 
-				break;
+			break;
 
 			case 10 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_with_cache.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default_with_cache.php');
 
-				break;
+			break;
 
 			default :
-				break;
+			break;
 		}
 
 		//  echo $dom->output();
@@ -418,79 +421,79 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 		if (!empty($replaced_modules)) {
 
 			$attribute_pattern = '@
-  (?P<name>\w+)# attribute name
-  \s*=\s*
-  (
-(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
-| # or
-(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
-  )
-  @xsi';
+			(?P<name>\w+)# attribute name
+			\s*=\s*
+			(
+				(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
+				| # or
+				(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
+				)
+@xsi';
 
 			// (?P<name>\w+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))
-			$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
 			//$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
-			$attrs = array();
-			foreach ($replaced_modules as $key => $value) {
-				if ($value != '') {
-					$attrs = array();
-					if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
-						foreach ($attrs1 as $item) {
+$attrs = array();
+foreach ($replaced_modules as $key => $value) {
+	if ($value != '') {
+		$attrs = array();
+		if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+			foreach ($attrs1 as $item) {
 							// d($item);
-							$m_tag = trim($item[0], "\x22\x27");
-							$m_tag = trim($m_tag, "\x27\x22");
-							$m_tag = explode('=', $m_tag);
+				$m_tag = trim($item[0], "\x22\x27");
+				$m_tag = trim($m_tag, "\x27\x22");
+				$m_tag = explode('=', $m_tag);
 
-							$a = trim($m_tag[0], "''");
-							$a = trim($a, '""');
+				$a = trim($m_tag[0], "''");
+				$a = trim($a, '""');
 
-							$b = trim($m_tag[1], "''");
-							$b = trim($b, '""');
+				$b = trim($m_tag[1], "''");
+				$b = trim($b, '""');
 
-							$attrs[$a] = $b;
+				$attrs[$a] = $b;
 
 							// $attrs[$item['name']] = $item['value_quoted'];
-						}
-					}
+			}
+		}
 
-					$m_tag = ltrim($value, "<module");
+		$m_tag = ltrim($value, "<module");
 
-					$m_tag = rtrim($m_tag, "/>");
-					$m_tag = rtrim($m_tag);
-					$userclass = '';
-					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
+		$m_tag = rtrim($m_tag, "/>");
+		$m_tag = rtrim($m_tag);
+		$userclass = '';
+		$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";
-					$module_has_class = false;
+		$module_has_class = false;
 
-					if (!empty($attrs)) {
+		if (!empty($attrs)) {
 
-						if (isset($attrs['module']) and $attrs['module']) {
-							$attrs['data-type'] = $attrs['module'];
-							unset($attrs['module']);
-						}
+			if (isset($attrs['module']) and $attrs['module']) {
+				$attrs['data-type'] = $attrs['module'];
+				unset($attrs['module']);
+			}
 
-						if ($coming_from_parent == true) {
-							$attrs['data-parent-module'] = $coming_from_parent;
-						}
-						if ($coming_from_parent_id == true) {
-							$attrs['data-parent-module-id'] = $coming_from_parent_id;
-						}
+			if ($coming_from_parent == true) {
+				$attrs['data-parent-module'] = $coming_from_parent;
+			}
+			if ($coming_from_parent_id == true) {
+				$attrs['data-parent-module-id'] = $coming_from_parent_id;
+			}
 
-						if (isset($attrs['type']) and $attrs['type']) {
-							$attrs['data-type'] = $attrs['type'];
-							unset($attrs['type']);
-						}
+			if (isset($attrs['type']) and $attrs['type']) {
+				$attrs['data-type'] = $attrs['type'];
+				unset($attrs['type']);
+			}
 
-						$z = 0;
-						$mod_as_element = false;
-						$mod_no_wrapper = false;
+			$z = 0;
+			$mod_as_element = false;
+			$mod_no_wrapper = false;
 
-						if (isset($attrs['data-module'])) {
+			if (isset($attrs['data-module'])) {
 
-							$attrs['data-type'] = $attrs['data-module'];
-							unset($attrs['data-module']);
-						}
+				$attrs['data-type'] = $attrs['data-module'];
+				unset($attrs['data-module']);
+			}
 						// if (!isset($attrs['id'])) {
 						//
 						// $attrs1 = crc32(serialize($attrs));
@@ -504,76 +507,76 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 						// $attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
 						//
 						// }
-						foreach ($attrs as $nn => $nv) {
+			foreach ($attrs as $nn => $nv) {
 
-							if ($nn == 'class') {
-								$module_has_class = $userclass = $nv;
+				if ($nn == 'class') {
+					$module_has_class = $userclass = $nv;
 
-								if (strstr($nv, 'module-as-element')) {
-									$mod_as_element = true;
-									$userclass = str_replace('module-as-element', '', $userclass);
-								}
-								$userclass = str_replace('ui-sortable', '', $userclass);
-								$userclass = str_replace('module-item', '', $userclass);
+					if (strstr($nv, 'module-as-element')) {
+						$mod_as_element = true;
+						$userclass = str_replace('module-as-element', '', $userclass);
+					}
+					$userclass = str_replace('ui-sortable', '', $userclass);
+					$userclass = str_replace('module-item', '', $userclass);
 
-							} else {
-								$module_html .= " {$nn}='{$nv}'  ";
-							}
+				} else {
+					$module_html .= " {$nn}='{$nv}'  ";
+				}
 
-							if ($nn == 'module') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'module') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-no-wrap') {
-								$mod_no_wrapper = true;
+				if ($nn == 'data-no-wrap') {
+					$mod_no_wrapper = true;
 								//  $attrs ['data-no-wrap'] = $module_name;
-								unset($attrs[$nn]);
-							}
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-module-name') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'data-module-name') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-module-name-enc') {
+				if ($nn == 'data-module-name-enc') {
 
-								unset($attrs[$nn]);
-							}
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'type') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'type') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-type') {
-								$module_name = $nv;
-							}
+				if ($nn == 'data-type') {
+					$module_name = $nv;
+				}
 
-							if ($nn == 'data-module') {
-								$attrs['data-type'] = $module_name;
-								$module_name = $nv;
-							}
+				if ($nn == 'data-module') {
+					$attrs['data-type'] = $module_name;
+					$module_name = $nv;
+				}
 
-							$z++;
-						}
-						if (isset($module_name)) {
-							$module_class = module_css_class($module_name);
-							if (!isset($attrs['id'])) {
+				$z++;
+			}
+			if (isset($module_name)) {
+				$module_class = module_css_class($module_name);
+				if (!isset($attrs['id'])) {
 
-								global $mw_mod_counter;
-								$mw_mod_counter++;
+					global $mw_mod_counter;
+					$mw_mod_counter++;
 
-								$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter);
-								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+					$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter);
+					$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
-							} else {
-								$module_html = str_replace('__MODULE_ID__', '', $module_html);
-							}
-						}
+				} else {
+					$module_html = str_replace('__MODULE_ID__', '', $module_html);
+				}
+			}
 
 						//                        if (!isset($module_name)) {
 						//                            if (isset($_POST['module'])) {
@@ -581,106 +584,106 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 						//                            }
 						//                        }
 
-						if (isset($module_name)) {
+			if (isset($module_name)) {
 
-							if (strstr($module_name, 'admin')) {
+				if (strstr($module_name, 'admin')) {
 
-								$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
-							} else {
+					$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
+				} else {
 								// $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
-								$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
-							}
-							$module_name_url = url_title($module_name);
+					$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
+				}
+				$module_name_url = url_title($module_name);
 
-							if ($mod_as_element == false) {
-								if (strstr($module_name, 'text')) {
+				if ($mod_as_element == false) {
+					if (strstr($module_name, 'text')) {
 
-									$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
-								} else {
+						$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+					} else {
 
-									$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
-								}
-							} else {
+						$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
+					}
+				} else {
 
-								$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
-							}
+					$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
+				}
 							//
 
-							$userclass = str_replace($module_class, '', $userclass);
-							$userclass = str_replace('module  module', '', $userclass);
-							$userclass = str_replace('module module', 'module', $userclass);
+				$userclass = str_replace($module_class, '', $userclass);
+				$userclass = str_replace('module  module', '', $userclass);
+				$userclass = str_replace('module module', 'module', $userclass);
 
-							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
-							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
+				$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
+				$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
-							$coming_from_parentz = $module_name;
-							$coming_from_parent_str = false;
-							$coming_from_parent_strz1 = false;
-							if ($coming_from_parent == true) {
-								$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
-							}
-							if (isset($attrs['id']) == true) {
+				$coming_from_parentz = $module_name;
+				$coming_from_parent_str = false;
+				$coming_from_parent_strz1 = false;
+				if ($coming_from_parent == true) {
+					$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
+				}
+				if (isset($attrs['id']) == true) {
 
-								$coming_from_parent_strz1 = $attrs['id'];
-							}
-							if ($coming_from_parent_strz1 == true) {
+					$coming_from_parent_strz1 = $attrs['id'];
+				}
+				if ($coming_from_parent_strz1 == true) {
 								//   $attrs['data-parent-module'] = $coming_from_parentz;
-							}
-							$mod_content = load_module($module_name, $attrs);
-							$plain_modules = mw_var('plain_modules');
-							if ($plain_modules != false) {
+				}
+				$mod_content = load_module($module_name, $attrs);
+				$plain_modules = mw_var('plain_modules');
+				if ($plain_modules != false) {
 								//d($plain_modules);
-								$module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
-								$mod_content = '';
-								if (isarr($module_db_data)) {
-									if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+					$module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
+					$mod_content = '';
+					if (isarr($module_db_data)) {
+						if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
 
-									} else {
+						} else {
 										//d($module_db_data);
 
-										$mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
-									}
-								}
+							$mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+						}
+					}
 								//
-							}
+				}
 
-							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+				$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 							//if (trim($mod_content) != '') {
-							if ($mod_no_wrapper == false) {
-								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
-							} else {
-								$module_html = $mod_content;
-							}
+				if ($mod_no_wrapper == false) {
+					$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
+				} else {
+					$module_html = $mod_content;
+				}
 							//} else {
 							//	$module_html = '';
 							//}
 
-							$layout = str_replace($key, $module_html, $layout);
-						}
-					}
-					//
-				}
-				unset($replaced_modules[$key]);
-				// $layout = str_replace($key, $value, $layout);
+				$layout = str_replace($key, $module_html, $layout);
 			}
 		}
+					//
 	}
+	unset($replaced_modules[$key]);
+				// $layout = str_replace($key, $value, $layout);
+}
+}
+}
 	//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
-	$layout = str_replace('{SITE_URL}', site_url(), $layout);
-	$layout = str_replace('{SITEURL}', site_url(), $layout);
-	$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+$layout = str_replace('{SITE_URL}', site_url(), $layout);
+$layout = str_replace('{SITEURL}', site_url(), $layout);
+$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
-	$checker[$d] = 1;
+$checker[$d] = 1;
 
-	if ($use_apc == true) {
+if ($use_apc == true) {
 		//d($function_cache_id);
 		//   apc_delete($function_cache_id);
 		// apc_store($function_cache_id, $layout, 30);
-	}
+}
 
-	return $layout;
-	exit();
+return $layout;
+exit();
 }
 
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
@@ -825,11 +828,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		//            $parse_mode = 1;
 		//        }
 
-		if (APC_CACHE == true) {
-			$parse_mode =1;
-		} else {
-			$parse_mode = 4;
-		}
+
 
 		if (isset($_POST)) {
 			$parse_mode = 1;
@@ -838,28 +837,43 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (isset($options['parse_only_modules'])) {
 			$parse_mode = false;
 		}
+
+
+		$parse_mode = 5;
+		if (isset($options['parse_mode'])) {
+			$parse_mode = intval($options['parse_mode']);
+		}
+
+
+
+
 		switch ($parse_mode) {
 			case 1 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
 
-				break;
+			break;
 
 			case 2 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
 
-				break;
+			break;
 			case 3 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
 
-				break;
+			break;
 
 			case 4 :
-				include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_default.php');
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_default.php');
 
-				break;
+			break;
+
+			case 5:
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+
+			break;
 
 			default :
-				break;
+			break;
 		}
 
 		/*
@@ -890,7 +904,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		 // p($value);
 		 }
 		 }
-		 }*/
+		}*/
 
 		//  echo $dom->output();
 
@@ -948,79 +962,79 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		if (!empty($replaced_modules)) {
 
 			$attribute_pattern = '@
-  (?P<name>\w+)# attribute name
-  \s*=\s*
-  (
-(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
-| # or
-(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
-  )
-  @xsi';
+			(?P<name>\w+)# attribute name
+			\s*=\s*
+			(
+				(?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote) # a quoted value
+				| # or
+				(?P<value_unquoted>[^\s"\']+?)(?:\s+|$)  # an unquoted value (terminated by whitespace or EOF)
+				)
+@xsi';
 
 			// (?P<name>\w+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))
-			$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+$attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
 			//$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
-			$attrs = array();
-			foreach ($replaced_modules as $key => $value) {
-				if ($value != '') {
-					$attrs = array();
-					if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
-						foreach ($attrs1 as $item) {
+$attrs = array();
+foreach ($replaced_modules as $key => $value) {
+	if ($value != '') {
+		$attrs = array();
+		if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+			foreach ($attrs1 as $item) {
 							// d($item);
-							$m_tag = trim($item[0], "\x22\x27");
-							$m_tag = trim($m_tag, "\x27\x22");
-							$m_tag = explode('=', $m_tag);
+				$m_tag = trim($item[0], "\x22\x27");
+				$m_tag = trim($m_tag, "\x27\x22");
+				$m_tag = explode('=', $m_tag);
 
-							$a = trim($m_tag[0], "''");
-							$a = trim($a, '""');
+				$a = trim($m_tag[0], "''");
+				$a = trim($a, '""');
 
-							$b = trim($m_tag[1], "''");
-							$b = trim($b, '""');
+				$b = trim($m_tag[1], "''");
+				$b = trim($b, '""');
 
-							$attrs[$a] = $b;
+				$attrs[$a] = $b;
 
 							// $attrs[$item['name']] = $item['value_quoted'];
-						}
-					}
+			}
+		}
 
-					$m_tag = ltrim($value, "<module");
+		$m_tag = ltrim($value, "<module");
 
-					$m_tag = rtrim($m_tag, "/>");
-					$m_tag = rtrim($m_tag);
-					$userclass = '';
-					$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
+		$m_tag = rtrim($m_tag, "/>");
+		$m_tag = rtrim($m_tag);
+		$userclass = '';
+		$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";
-					$module_has_class = false;
+		$module_has_class = false;
 
-					if (!empty($attrs)) {
+		if (!empty($attrs)) {
 
-						if (isset($attrs['module']) and $attrs['module']) {
-							$attrs['data-type'] = $attrs['module'];
-							unset($attrs['module']);
-						}
+			if (isset($attrs['module']) and $attrs['module']) {
+				$attrs['data-type'] = $attrs['module'];
+				unset($attrs['module']);
+			}
 
-						if ($coming_from_parent == true) {
-							$attrs['data-parent-module'] = $coming_from_parent;
-						}
-						if ($coming_from_parent_id == true) {
-							$attrs['data-parent-module-id'] = $coming_from_parent_id;
-						}
+			if ($coming_from_parent == true) {
+				$attrs['data-parent-module'] = $coming_from_parent;
+			}
+			if ($coming_from_parent_id == true) {
+				$attrs['data-parent-module-id'] = $coming_from_parent_id;
+			}
 
-						if (isset($attrs['type']) and $attrs['type']) {
-							$attrs['data-type'] = $attrs['type'];
-							unset($attrs['type']);
-						}
+			if (isset($attrs['type']) and $attrs['type']) {
+				$attrs['data-type'] = $attrs['type'];
+				unset($attrs['type']);
+			}
 
-						$z = 0;
-						$mod_as_element = false;
-						$mod_no_wrapper = false;
+			$z = 0;
+			$mod_as_element = false;
+			$mod_no_wrapper = false;
 
-						if (isset($attrs['data-module'])) {
+			if (isset($attrs['data-module'])) {
 
-							$attrs['data-type'] = $attrs['data-module'];
-							unset($attrs['data-module']);
-						}
+				$attrs['data-type'] = $attrs['data-module'];
+				unset($attrs['data-module']);
+			}
 						// if (!isset($attrs['id'])) {
 						//
 						// $attrs1 = crc32(serialize($attrs));
@@ -1034,78 +1048,78 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						// $attrs['id'] = ('__MODULE_CLASS_NAME__' . $attrs1);
 						//
 						// }
-						foreach ($attrs as $nn => $nv) {
+			foreach ($attrs as $nn => $nv) {
 
-							if ($nn == 'class') {
-								$module_has_class = $userclass = $nv;
+				if ($nn == 'class') {
+					$module_has_class = $userclass = $nv;
 
-								if (strstr($nv, 'module-as-element')) {
-									$mod_as_element = true;
-									$userclass = str_replace('module-as-element', '', $userclass);
-								}
-								$userclass = str_replace('ui-sortable', '', $userclass);
-								$userclass = str_replace('module-item', '', $userclass);
-								$userclass = str_replace('module module module', 'module', $userclass);
-								$userclass = str_replace('module  module ', 'module ', $userclass);
+					if (strstr($nv, 'module-as-element')) {
+						$mod_as_element = true;
+						$userclass = str_replace('module-as-element', '', $userclass);
+					}
+					$userclass = str_replace('ui-sortable', '', $userclass);
+					$userclass = str_replace('module-item', '', $userclass);
+					$userclass = str_replace('module module module', 'module', $userclass);
+					$userclass = str_replace('module  module ', 'module ', $userclass);
 
-							} else {
-								$module_html .= " {$nn}='{$nv}'  ";
-							}
+				} else {
+					$module_html .= " {$nn}='{$nv}'  ";
+				}
 
-							if ($nn == 'module') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'module') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-no-wrap') {
-								$mod_no_wrapper = true;
+				if ($nn == 'data-no-wrap') {
+					$mod_no_wrapper = true;
 								//  $attrs ['data-no-wrap'] = $module_name;
-								unset($attrs[$nn]);
-							}
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-module-name') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'data-module-name') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-module-name-enc') {
+				if ($nn == 'data-module-name-enc') {
 
-								unset($attrs[$nn]);
-							}
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'type') {
-								$module_name = $nv;
-								$attrs['data-type'] = $module_name;
-								unset($attrs[$nn]);
-							}
+				if ($nn == 'type') {
+					$module_name = $nv;
+					$attrs['data-type'] = $module_name;
+					unset($attrs[$nn]);
+				}
 
-							if ($nn == 'data-type') {
-								$module_name = $nv;
-							}
+				if ($nn == 'data-type') {
+					$module_name = $nv;
+				}
 
-							if ($nn == 'data-module') {
-								$attrs['data-type'] = $module_name;
-								$module_name = $nv;
-							}
+				if ($nn == 'data-module') {
+					$attrs['data-type'] = $module_name;
+					$module_name = $nv;
+				}
 
-							$z++;
-						}
-						if (isset($module_name)) {
-							$module_class = module_css_class($module_name);
-							if (!isset($attrs['id'])) {
+				$z++;
+			}
+			if (isset($module_name)) {
+				$module_class = module_css_class($module_name);
+				if (!isset($attrs['id'])) {
 
-								global $mw_mod_counter;
-								$mw_mod_counter++;
-								$mw_mod_counter1 = crc32(serialize($attrs));
-								$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter1);
-								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+					global $mw_mod_counter;
+					$mw_mod_counter++;
+					$mw_mod_counter1 = crc32(serialize($attrs));
+					$attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter1);
+					$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
-							} else {
-								$module_html = str_replace('__MODULE_ID__', '', $module_html);
-							}
-						}
+				} else {
+					$module_html = str_replace('__MODULE_ID__', '', $module_html);
+				}
+			}
 
 						//                        if (!isset($module_name)) {
 						//                            if (isset($_POST['module'])) {
@@ -1113,117 +1127,117 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						//                            }
 						//                        }
 
-						if (isset($module_name)) {
+			if (isset($module_name)) {
 
-							if (strstr($module_name, 'admin')) {
+				if (strstr($module_name, 'admin')) {
 
-								$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
-							} else {
+					$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
+				} else {
 								// $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
-								$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
-							}
-							$module_name_url = url_title($module_name);
+					$module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
+				}
+				$module_name_url = url_title($module_name);
 
-							if ($mod_as_element == false) {
-								if (strstr($module_name, 'text')) {
+				if ($mod_as_element == false) {
+					if (strstr($module_name, 'text')) {
 
-									$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
-								} else {
+						$module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+					} else {
 
-									$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
-								}
-							} else {
+						$module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
+					}
+				} else {
 
-								$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
-							}
+					$module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
+				}
 							//
 
-							$userclass = str_replace($module_class, '', $userclass);
-							$userclass = str_replace('module  module', '', $userclass);
-							$userclass = str_replace('module module', 'module', $userclass);
+				$userclass = str_replace($module_class, '', $userclass);
+				$userclass = str_replace('module  module', '', $userclass);
+				$userclass = str_replace('module module', 'module', $userclass);
 
-							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
-							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
+				$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
+				$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
-							$coming_from_parentz = $module_name;
-							$coming_from_parent_str = false;
-							$coming_from_parent_strz1 = false;
-							if ($coming_from_parent == true) {
-								$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
-							}
-							if (isset($attrs['id']) == true) {
+				$coming_from_parentz = $module_name;
+				$coming_from_parent_str = false;
+				$coming_from_parent_strz1 = false;
+				if ($coming_from_parent == true) {
+					$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
+				}
+				if (isset($attrs['id']) == true) {
 
-								$coming_from_parent_strz1 = $attrs['id'];
-							}
-							if ($coming_from_parent_strz1 == true) {
+					$coming_from_parent_strz1 = $attrs['id'];
+				}
+				if ($coming_from_parent_strz1 == true) {
 								//   $attrs['data-parent-module'] = $coming_from_parentz;
-							}
-							$mod_content = load_module($module_name, $attrs);
-							$plain_modules = mw_var('plain_modules');
-							if ($plain_modules != false) {
+				}
+				$mod_content = load_module($module_name, $attrs);
+				$plain_modules = mw_var('plain_modules');
+				if ($plain_modules != false) {
 								//d($plain_modules);
-								$module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
-								$mod_content = '';
-								if (isarr($module_db_data)) {
-									if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+					$module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
+					$mod_content = '';
+					if (isarr($module_db_data)) {
+						if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
 
-									} else {
+						} else {
 										//d($module_db_data);
 
-										$mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
-									}
-								}
+							$mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+						}
+					}
 								//
-							}
+				}
 
-							$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+				$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 							//if (trim($mod_content) != '') {
-							if ($mod_no_wrapper == false) {
-								$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
-							} else {
-								$module_html = $mod_content;
-							}
+				if ($mod_no_wrapper == false) {
+					$module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
+				} else {
+					$module_html = $mod_content;
+				}
 							//} else {
 							//	$module_html = '';
 							//}
 
-							$layout = str_replace($key, $module_html, $layout);
-						}
-					}
+				$layout = str_replace($key, $module_html, $layout);
+			}
+		}
 					//
-				}
-				unset($replaced_modules[$key]);
+	}
+	unset($replaced_modules[$key]);
 				// $layout = str_replace($key, $value, $layout);
-			}
-		}
-	}
+}
+}
+}
 
-	if (!empty($replaced_codes)) {
-		foreach ($replaced_codes as $key => $value) {
-			if ($value != '') {
+if (!empty($replaced_codes)) {
+	foreach ($replaced_codes as $key => $value) {
+		if ($value != '') {
 
-				$layout = str_replace($key, $value, $layout);
-			}
-			unset($replaced_codes[$key]);
+			$layout = str_replace($key, $value, $layout);
 		}
+		unset($replaced_codes[$key]);
 	}
-	global $mw_rand;
+}
+global $mw_rand;
 	//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-	$layout = str_replace('{rand}', uniqid(), $layout);
-	$layout = str_replace('{SITE_URL}', site_url(), $layout);
-	$layout = str_replace('{SITEURL}', site_url(), $layout);
-	$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+$layout = str_replace('{rand}', uniqid(), $layout);
+$layout = str_replace('{SITE_URL}', site_url(), $layout);
+$layout = str_replace('{SITEURL}', site_url(), $layout);
+$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
-	$checker[$d] = 1;
+$checker[$d] = 1;
 
-	if ($use_apc == true) {
+if ($use_apc == true) {
 		//d($function_cache_id);
 		//   apc_delete($function_cache_id);
 		// apc_store($function_cache_id, $layout, 30);
-	}
+}
 
-	return $layout;
-	exit();
+return $layout;
+exit();
 }
 
 $mw_rand = rand();
@@ -1304,7 +1318,7 @@ function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongTe
 		while ($iSet < 10) {// If the default limit is 100'000 characters
 			// the highest new limit will be 250'000
 			// characters
-			$sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
+		$sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
 			// Try
 			// to
 			// use
@@ -1414,43 +1428,43 @@ function decodeUnicodeString($chrs) {
 		switch (true) {
 			case preg_match('/\\\u[0-9A-F]{4}/i', substr($chrs, $i, 6)) :
 				// single, escaped unicode character
-				$utf16 = chr(hexdec(substr($chrs, ($i + 2), 2))) . chr(hexdec(substr($chrs, ($i + 4), 2)));
-				$utf8 .= self::_utf162utf8($utf16);
-				$i += 5;
-				break;
+			$utf16 = chr(hexdec(substr($chrs, ($i + 2), 2))) . chr(hexdec(substr($chrs, ($i + 4), 2)));
+			$utf8 .= self::_utf162utf8($utf16);
+			$i += 5;
+			break;
 			case ($ord_chrs_c >= 0x20) && ($ord_chrs_c <= 0x7F) :
-				$utf8 .= $chrs{$i};
-				break;
+			$utf8 .= $chrs{$i};
+			break;
 			case ($ord_chrs_c & 0xE0) == 0xC0 :
 				// characters U-00000080 - U-000007FF, mask 110XXXXX
 				// see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-				$utf8 .= substr($chrs, $i, 2);
-				++$i;
-				break;
+			$utf8 .= substr($chrs, $i, 2);
+			++$i;
+			break;
 			case ($ord_chrs_c & 0xF0) == 0xE0 :
 				// characters U-00000800 - U-0000FFFF, mask 1110XXXX
 				// see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-				$utf8 .= substr($chrs, $i, 3);
-				$i += 2;
-				break;
+			$utf8 .= substr($chrs, $i, 3);
+			$i += 2;
+			break;
 			case ($ord_chrs_c & 0xF8) == 0xF0 :
 				// characters U-00010000 - U-001FFFFF, mask 11110XXX
 				// see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-				$utf8 .= substr($chrs, $i, 4);
-				$i += 3;
-				break;
+			$utf8 .= substr($chrs, $i, 4);
+			$i += 3;
+			break;
 			case ($ord_chrs_c & 0xFC) == 0xF8 :
 				// characters U-00200000 - U-03FFFFFF, mask 111110XX
 				// see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-				$utf8 .= substr($chrs, $i, 5);
-				$i += 4;
-				break;
+			$utf8 .= substr($chrs, $i, 5);
+			$i += 4;
+			break;
 			case ($ord_chrs_c & 0xFE) == 0xFC :
 				// characters U-04000000 - U-7FFFFFFF, mask 1111110X
 				// see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-				$utf8 .= substr($chrs, $i, 6);
-				$i += 5;
-				break;
+			$utf8 .= substr($chrs, $i, 6);
+			$i += 5;
+			break;
 		}
 	}
 
@@ -1483,17 +1497,17 @@ function utf162utf8($utf16) {
 		case ((0x7F & $bytes) == $bytes) :
 			// this case should never be reached, because we are in ASCII range
 			// see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-			return chr(0x7F & $bytes);
+		return chr(0x7F & $bytes);
 
 		case (0x07FF & $bytes) == $bytes :
 			// return a 2-byte UTF-8 character
 			// see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-			return chr(0xC0 | (($bytes>>6) & 0x1F)) . chr(0x80 | ($bytes & 0x3F));
+		return chr(0xC0 | (($bytes>>6) & 0x1F)) . chr(0x80 | ($bytes & 0x3F));
 
 		case (0xFFFF & $bytes) == $bytes :
 			// return a 3-byte UTF-8 character
 			// see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-			return chr(0xE0 | (($bytes>>12) & 0x0F)) . chr(0x80 | (($bytes>>6) & 0x3F)) . chr(0x80 | ($bytes & 0x3F));
+		return chr(0xE0 | (($bytes>>12) & 0x0F)) . chr(0x80 | (($bytes>>6) & 0x3F)) . chr(0x80 | ($bytes & 0x3F));
 	}
 
 	// ignoring UTF-32 for now, sorry
