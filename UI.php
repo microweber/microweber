@@ -13,6 +13,16 @@
    }
 
 </style>
+
+
+
+
+<textarea style="position:absolute;top:10px;left:230px;width:350px;"  onchange="eval(this.value);" placeholder="Console" cols="40" rows="1"></textarea>
+
+
+
+
+
 <div style="position: absolute;top:10px;right: 10px">
 <label class="mw-ui-label left">Rel&nbsp;</label> <input type="text" onkeyup="$('.element-current').attr('rel', this.value);" />  </div>
 

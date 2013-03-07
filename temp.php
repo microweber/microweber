@@ -11,8 +11,45 @@
 C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://serv.microweber.net/
  C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://serv.microweber.net/home
 C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://localhost/wordpress/?p=4
-
+ C:\xampp\apache\bin\ab.exe -n 2000 -c 100 http://54.243.124.15/
  C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://clould.microweber.net/
+
+
+====================================================================
+
+Joyent
+
+sdc-createmachine -a microweber -u https://us-east-1.api.joyentcloud.com -n getting-started
+
+sdc-listmachinesnapshots d8abe9f6-020a-474d-a5ff-8ca3a97b9503
+
+sdc-getmachinesnapshot -m d8abe9f6-020a-474d-a5ff-8ca3a97b9503 20130307141540
+
+StartMachineFromSnapshot
+
+sdc-startmachinefromsnapshot -n just-booted d8abe9f6-020a-474d-a5ff-8ca3a97b9503
+
+sdc-startmachinefromsnapshot -n just-booted d8abe9f6-020a-474d-a5ff-8ca3a97b9503 20130307141540
+
+sdc-getmachinemetadata -c d8abe9f6-020a-474d-a5ff-8ca3a97b9503
+
+
+sm-create-vhost -s apache temp2.microweber.net /home/admin/public
+
+sdc-setup https://us-east-1.api.joyentcloud.com
+
+
+export SDC_CLI_URL=https://us-east-1.api.joyentcloud.com
+export SDC_CLI_ACCOUNT=microweber
+export SDC_CLI_KEY_ID=deployer
+
+
+
+
+
+
+
+==============
 
 
 rsync -e ssh  -avz  --exclude '.git' --exclude 'cache'   api@api.microweber.net:/home/api/public_html /home/api/public_html
@@ -46,6 +83,12 @@ rsync --verbose  --progress --stats --avzp   --exclude '.git' --exclude 'cache' 
 rsync --verbose  --progress --stats --compress -r --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
 
 rsync --verbose  --progress --stats --compress --update -r --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/mw_cache_' --exclude 'history' --exclude 'userfiles/media'   api@54.243.113.235:/home/api/public_html/ /opt/local/share/httpd/htdocs/
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/mw_cache_' --exclude 'history'     api@54.243.113.235:/home/api/public_html/ /opt/local/share/httpd/htdocs/
+
+
 
 
  --stats. So

@@ -452,15 +452,7 @@ hr{
 
 /* Contacts */
 
-.contact-form input[type='text'],
-.contact-form input[type='email'],
-.contact-form textarea{
-  width: 318px;
-}
 
-.contact-form input.mw-captcha-input{
-  width: 206px;
-}
 
 .thumbnail > .module-google-maps iframe{
   border-radius: 4px;

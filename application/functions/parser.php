@@ -686,6 +686,7 @@ return $layout;
 exit();
 }
 
+$passed_reps = array();
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
 	static $checker = array();
 
@@ -1189,7 +1190,7 @@ foreach ($replaced_modules as $key => $value) {
 					}
 								//
 				}
-
+//d($mod_content);
 				$mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
 							//if (trim($mod_content) != '') {
 				if ($mod_no_wrapper == false) {
@@ -1223,10 +1224,10 @@ if (!empty($replaced_codes)) {
 }
 global $mw_rand;
 	//	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-$layout = str_replace('{rand}', uniqid(), $layout);
-$layout = str_replace('{SITE_URL}', site_url(), $layout);
-$layout = str_replace('{SITEURL}', site_url(), $layout);
-$layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+ $layout = str_replace('{rand}', uniqid(), $layout);
+  $layout = str_replace('{SITE_URL}', site_url(), $layout);
+  $layout = str_replace('{SITEURL}', site_url(), $layout);
+  $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
 
 $checker[$d] = 1;
 

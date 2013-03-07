@@ -49,6 +49,9 @@ mw.custom_fields = {
       $(".custom_fields_selector:visible").slideUp('fast');
 
       holder.show();
+
+      mw.$("#which_field").html(curr.textContent);
+
       if(!!event){
         holder.find('.custom-field-edit-title').html('<span class="'+curr.querySelector('span').className+'"></span><strong>' + curr.textContent + '</strong>');
       }
@@ -57,7 +60,7 @@ mw.custom_fields = {
         mw.is.func(callback) ? callback.call(this) : '';
       });
 
-
+     mw.$("#smart_field_opener").hide();
 
   },
 
@@ -82,7 +85,7 @@ mw.custom_fields = {
       data.to_table =$for_table;
       data.to_table_id =$for_id;
 
- 
+
       $.post(mw.settings.api_html+'make_custom_field' , data , function(){
 		  mw.reload_module('custom_fields/list');
 		  mw.is.func(callback) ? callback.call($type) : '';

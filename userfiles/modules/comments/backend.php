@@ -237,6 +237,15 @@ mw.tools.tabGroup({
         mw.$("#receive_email_holder").addClass("deactivated");
      });
 
+     mw.$("[name='avatar_enabled']").commuter(function(){
+        mw.$(".avatars-holder").removeClass("deactivated");
+     }, function(){
+        mw.$(".avatars-holder").addClass("deactivated");
+     });
+
+
+
+
 
 
       mw.$(".avatartype-randomcolor").parent().parent().hover(function(){
@@ -434,7 +443,7 @@ mw.tools.tabGroup({
 
 <label class="mw-ui-label-inline">Avatar Style</label>
 
-<div class="comments-settings-right avatars-holder">
+<div class="comments-settings-right avatars-holder <? if(!$avatar_enabled){ ?>deactivated<?php } ?>">
  <div class="mw-ui-field-holder">
  <label class="mw-ui-check">
  <input

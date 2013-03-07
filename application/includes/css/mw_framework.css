@@ -134,6 +134,9 @@
 .ifullscreen{background-position: -798px -20px;}
 .no-fullscreen{background-position: -820px -20px;}
 
+.ismall_warn{background-position: -929px -86px;}
+
+
 .iMove{
   background-position: -1090px 2px;
   cursor: move !important;
@@ -1697,6 +1700,10 @@ input.mw-title-field{
   color: #6C6C6C;
 }
 
+.mw-ui-label .ico, .mw-ui-label-inline .ico{
+  top:-1px;
+}
+
 .mw-ui-label-small{
   font-size: 10px;
   color: #212121;
@@ -2730,13 +2737,12 @@ body.mw-external-loading:after{
 
 
 #UITU{
-
+    display: none !important;
 }
 
 .deactivated{
   position: relative;
   display:block;
-  pointer-events:none;
 }
 .deactivated *{
   pointer-events:none;

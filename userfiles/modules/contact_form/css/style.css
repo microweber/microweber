@@ -1,0 +1,85 @@
+/* Contact Form Styles */
+
+
+/* Dream Template */
+
+.contact-form-template-dream {
+  padding: 40px;
+  background: white;
+  border:1px solid #D1D1D1;
+}
+
+.contact-form-template-dream textarea,
+.contact-form-template-dream input[type="text"],
+.contact-form-template-dream input[type="password"],
+.contact-form-template-dream input[type="datetime"],
+.contact-form-template-dream input[type="datetime-local"],
+.contact-form-template-dream input[type="date"],
+.contact-form-template-dream input[type="month"],
+.contact-form-template-dream input[type="time"],
+.contact-form-template-dream input[type="week"],
+.contact-form-template-dream input[type="number"],
+.contact-form-template-dream input[type="email"],
+.contact-form-template-dream input[type="url"],
+.contact-form-template-dream input[type="search"],
+.contact-form-template-dream input[type="tel"],
+.contact-form-template-dream input[type="color"]{
+  background-color: #F4F4F4;
+  border: 1px solid #E6E6E6;
+  border-radius: 2px;
+  font-size: 11px;
+  padding: 10px;
+  width: 90%;
+  width: calc(100% - 22px);
+  width: -webkit-calc(100% - 22px);
+}
+
+
+.contact-form-template-dream input.mw-captcha-input{
+  width: 206px;
+}
+
+.contact-form-template-dream textarea:focus,
+.contact-form-template-dream input[type="text"]:focus,
+.contact-form-template-dream input[type="password"]:focus,
+.contact-form-template-dream input[type="datetime"]:focus,
+.contact-form-template-dream input[type="datetime-local"]:focus,
+.contact-form-template-dream input[type="date"]:focus,
+.contact-form-template-dream input[type="month"]:focus,
+.contact-form-template-dream input[type="time"]:focus,
+.contact-form-template-dream input[type="week"]:focus,
+.contact-form-template-dream input[type="number"]:focus,
+.contact-form-template-dream input[type="email"]:focus,
+.contact-form-template-dream input[type="url"]:focus,
+.contact-form-template-dream input[type="search"]:focus,
+.contact-form-template-dream input[type="tel"]:focus,
+.contact-form-template-dream input[type="color"]:focus{
+    box-shadow: inset 0 0 4px #C9C9C9;
+}
+
+.contact-form-template-dream .cft-submit{
+  color:#FFFFFF;
+  display: inline-block;
+  padding: 8px 20px;
+  background:#418CD1;
+  text-align: center;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.contact-form-template-dream .cft-submit:hover{
+    background:#317FC9;
+}
+
+.contact-form-template-dream .cft-submit:active{
+    box-shadow: inset 0 0 6px #1F517F;
+}
+
+.contact-form-template-dream .contact-form-title{
+  border-bottom: 2px solid #418CD1;
+  display: inline-block;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+

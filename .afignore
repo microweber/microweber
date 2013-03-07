@@ -1,5 +1,6 @@
 ﻿cache/
 .git/
+db/
 userfiles/media/
 userfiles/history/
 userfiles/templates/

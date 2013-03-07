@@ -109,7 +109,7 @@ $(document).ready(function(){
 <div class="<? print $config['module_class'] ?>-holder">
 
 
-<div class="vSpace"></div>
+
 
 
 <module data-type="custom_fields/list" <? print $hide_preview  ?>
@@ -124,14 +124,20 @@ $(document).ready(function(){
 
 
 
-  <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
-    <div  class="custom-field-edit-header">
-      <div class="custom-field-edit-title"></div>
-    </div>
-    <div class="mw-admin-custom-field-edit-item-wrapper">
-      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
+  <div id="custom-field-editor" style="display: none">
+    <label class="mw-ui-label"><small>Edit <b id="which_field"></b> Field</small></label>
+    <div class="custom-field-edit">
+      <div  class="custom-field-edit-header">
+        <div class="custom-field-edit-title"></div>
+      </div>
+      <div class="mw-admin-custom-field-edit-item-wrapper">
+        <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
+      </div>
     </div>
   </div>
+
+
+
 </div>
 
 

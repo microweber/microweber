@@ -611,7 +611,7 @@ $(window).load(function(){
 
 
 
-    mw.$("#live_edit_toolbar_holder").height(mw.$("#live_edit_toolbar").height());
+    //mw.$("#live_edit_toolbar_holder").height(mw.$("#live_edit_toolbar").height());
 
     $(window).bind("scrollstop",function(){
       setTimeout(function(){

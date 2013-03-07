@@ -823,7 +823,8 @@ form.add-edit-page-post textarea{
 
 .custom-field-edit-header{
   height: 25px;
-  background: url(../img/grad.php?top=D7EEFA&bot=B8DBF2)
+  background: url(../img/grad.php?top=D7EEFA&bot=B8DBF2);
+  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
 }
 .mw-custom-fields-from-page-title-text{
   display: block;
@@ -904,6 +905,11 @@ div .mw-custom-field-form-controls:last-child{
 .custom-field-edit{
     border: 1px solid #82B6D6;
     margin-bottom: 18px;
+    font-weight: bold;
+
+    box-shadow:0 0 6px #555555;
+    border: 1px solid #EDEDED;
+
 }
 
 .custom-field-edit .mw-ui-check input + span + span{

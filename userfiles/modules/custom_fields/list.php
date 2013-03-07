@@ -3,7 +3,7 @@
 if(typeof __smart_field_opener !== 'function'){
       __smart_field_opener = function(e){
 
-        if(!mw.tools.hasClass(e.target, 'mw-ui-btn') && e.target.querySelector('.mw-ui-btn') === null){
+        if(mw.tools.hasClass(e.target.className, 'mw-ui-field') || mw.tools.hasClass(e.target.className, 'mw-custom-fields-from-page-title-text')){
             mw.tools.toggle('.custom_fields_selector', '#smart_field_opener');
         }
 
@@ -126,6 +126,9 @@ if(isarr( $diff) and isarr($more) ){
     <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
 
     <? print ($field['title']); ?>
+
+
+
   </a>
 
   <? endif; ?>
