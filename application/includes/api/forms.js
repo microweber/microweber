@@ -67,7 +67,7 @@ mw.form = {
       	$.post(url_to_post, obj, function(data){
 			if(mw.is.func(callback)){
 				//callback.call(selector);
-				callback.call(data);
+				callback.call(data, mw.$(selector)[0]);
 
 			} else {
 				//alert(data);

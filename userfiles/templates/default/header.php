@@ -12,10 +12,22 @@
     <meta property="og:url" content="">
     <meta property="og:image" content="">
 
-    <script type="text/javascript">mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js"); </script>
-        <? if(isset($custom_head)): ?>
+    <script type="text/javascript">
+        mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
+    </script>
+    <script type="text/javascript">
+
+
+        mw.require("url.js");
+        mw.require("tools.js");
+        mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
+
+    </script>
+    <? if(isset($custom_head)): ?>
         <? print $custom_head; ?>
     <? else : ?>
+
+
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">

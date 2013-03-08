@@ -1,6 +1,6 @@
 <?   $users_last5 = get_visits('last5');
 $requests_num = get_visits('requests_num');
-?> <div id="users_online"><h2>Users Online</h2>
+?><div id="users_online"><h2>Users Online</h2>
   <div class="users_online" id="real_users_online">
     <? $users_online = get_visits('users_online'); print intval($users_online); ?>
   </div>  </div>

@@ -4,7 +4,7 @@
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
 
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
    <!-- <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:content" />

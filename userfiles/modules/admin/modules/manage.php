@@ -58,9 +58,23 @@ if(isset($params['installed'])){
 }
   
  //d($mod_params);
- 
+ if(isset($params['install_new'])){
+	 $update_api = new \mw\update();
 
- $mods = get_modules_from_db($mod_params); 
+$params = array();
+$params['email'] = 'my@email';
+$params['password'] = 'pass';
+$result = $update_api -> call('get_modules', $params);
+ 
+	 
+	 
+	 $mods = $result; 
+	 
+} else {
+	 $mods = get_modules_from_db($mod_params); 
+}
+
+
  if( $mods == false){
 	 // $mods = modules_list('skip_cache=1'); 
 	//  $mods = get_modules_from_db($mod_params); 
@@ -69,10 +83,19 @@ if(isset($params['installed'])){
 <? if(isarr($mods) == true): ?>
 <ul class="mw-modules-admin">
   <? foreach($mods as $k=>$item): ?>
-  <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >
+  
+   <? if(!isset($item['installed'])): ?>
+    <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<? print $item['id'] ?>" >
+ 
+     <? $data = $item; include($config["path"].'update_module.php'); ?>
+  </li>
+   <? else : ?>
+    <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >
  
     <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
   </li>
+   <? endif; ?>
+ 
   <? endforeach; ?>
 </ul>
 <? else : ?>

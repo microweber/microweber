@@ -232,7 +232,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
  	$dbtype = $db['type'];
  }
  
-$dbtype_file =   MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . $dbtype.'.php';
+$dbtype_file =   MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . $dbtype.'.php';
   
  
  
@@ -243,7 +243,7 @@ $dbtype_file =   MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTO
               break;
      
      default:
-         include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'mysql.php');
+         include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'mysql.php');
          break;
  }
  

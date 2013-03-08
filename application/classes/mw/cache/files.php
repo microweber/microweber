@@ -29,7 +29,7 @@ class files implements \iMwCache {
 
 	}
 
-	public function delete_all() {
+	public function purge() {
 
 		return $this -> clearcache();
 	}

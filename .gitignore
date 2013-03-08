@@ -1367,3 +1367,5 @@ history
 /service/memcache/configure.php
 /service/memcache/index.php
 /service/memcache/stats.php
+
+/application/includes/toolbar/Backup 1 of toolbar.php

@@ -1028,6 +1028,34 @@ function save_module_to_db($data_to_save) {
 	return $save;
 }
 
+
+
+
+/**
+ *
+ * Function modules list from the db or them the disk
+ 
+ 
+ * @return mixed Array with modules or false
+ * @param array $params 
+ *
+ 
+Example:
+$params = array();
+$params['dir_name'] = '/path/'; //get modules in dir
+$params['skip_save'] = true; //if true skips module install
+
+$params['cache_group'] = 'modules/global'; // allows custom cache group
+$params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
+ $params['is_elements'] = true;  //if true will list files from the ELEMENTS_DIR
+
+ 
+ 
+ $data = modules_list($params);
+ 
+ 
+ */
+
 function modules_list($options = false) {
 
 	return scan_for_modules($options);
@@ -1066,6 +1094,12 @@ function scan_for_modules($options = false) {
 
 	if (isset($options['is_elements'])) {
 		$list_as_element = true;
+
+	}
+	
+	$skip_save = false;
+	if (isset($options['skip_save']) and $options['skip_save'] != false) {
+		$skip_save = true;
 
 	}
 
@@ -1110,6 +1144,7 @@ function scan_for_modules($options = false) {
 
 	//clearcache();
 	//clearstatcache();
+	
 	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
@@ -1161,10 +1196,10 @@ function scan_for_modules($options = false) {
 
 				$config['module_base'] = str_replace('admin/', '', $value_fn);
 				if (is_dir($mod_name)) {
-					$t1 = ($mod_name) . $value_fn;
-
-					$try_icon = $t1 . '.png';
-
+					$t1 =   $config['module_base'].DS. $config['module_base'];
+ 
+					 $try_icon = $t1 . '.png';
+ 
 				} else {
 					$try_icon = $mod_name . '.png';
 				}
@@ -1191,11 +1226,12 @@ function scan_for_modules($options = false) {
 				//                        $config ['ui'] = 0;
 				//                    }
 				//                }
-
-				if ($skip_module == false) {
+//d( $config);
+$configs[] = $config;
+				if ($skip_module == false and $skip_save == false) {
 					if (trim($config['module']) != '') {
 
-						$configs[] = $config;
+						
 
 						if ($list_as_element == true) {
 
@@ -1213,6 +1249,13 @@ function scan_for_modules($options = false) {
 				}
 			}
 		}
+		
+		if ($skip_save == true) {
+			 
+			return $configs;
+		}
+		
+		
 		$cfg_ordered = array();
 		$cfg_ordered2 = array();
 		$cfg = $configs;

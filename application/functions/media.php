@@ -458,7 +458,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 		//	exit($src);
 		if (file_exists($src)) {
 
-			$tn = new Thumbnailer($src);
+			$tn = new \mw\Thumbnailer($src);
 			$thumbOptions = array('maxLength' => $height, 'width' => $width);
 			$tn -> createThumb($thumbOptions, $cache_path);
 		}

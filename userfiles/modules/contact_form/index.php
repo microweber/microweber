@@ -5,12 +5,19 @@
 
 <script  type="text/javascript">
 $(document).ready(function(){
-
   $('form[data-form-id="<? print $form_id ?>"]').submit(function() {
- var append_to_form = '<input type="hidden" name="module_name" value="<? print $params['module'] ?>" />';
- 	$(this).append(append_to_form); 
-	
-     mw.form.post('form[data-form-id="<? print $form_id ?>"]');
+    var append_to_form = '<input type="hidden" name="module_name" value="<? print $params['module'] ?>" />';
+ 	$(this).append(append_to_form);
+     mw.form.post('form[data-form-id="<? print $form_id ?>"]', undefined, function(form){
+         $(form).addClass("deactivated");
+         mw.$("#msg<? print $form_id ?>").css("top", "20%");
+         mw.tools.refresh_image($(form).find(".mw-captcha-img")[0]);
+         form.reset();
+         setTimeout(function(){
+          mw.$("#msg<? print $form_id ?>").css("top", "-100%");
+            $(form).removeClass("deactivated");
+         }, 3200);
+     });
     return false;
   });
 });
@@ -18,7 +25,7 @@ $(document).ready(function(){
 <? $save_as = get_option('form_name', $params['id']);
 
 if($save_as == false){
-$save_as = $params['id'];
+    $save_as = $params['id'];
 }
 
  

@@ -132,8 +132,6 @@ mw.tools = {
 
         container.append(html).height(height-padding);
 
-
-
         modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
 
         modal_object.show().draggable({
@@ -1595,7 +1593,9 @@ mw._dump = function(obj){
   return html;
 }
 
+
 mw.dump = function(){
+
     mw.tools.modal.init({
       html: mw._dump(),
       width:800
@@ -1701,6 +1701,9 @@ $(window).load(function(){
     });
 
 
+   var div = mwd.createElement('div');
+   div.id =  'LAYERS';
+
 
 
 
@@ -1718,6 +1721,20 @@ $(window).load(function(){
     */
 
 });
+
+
+
+mw.traverse = function(root, h){
+  var els = root.querySelectorAll('.element, .module');
+  $(els).each(function(){
+    if(this.parentNode===root){
+        var el = mwd.createElement('span');
+        el.className = 'layer';
+        h.appendChild(el);
+    }
+  });
+}
+
 
 
 mw.tools.scrollBar =  {

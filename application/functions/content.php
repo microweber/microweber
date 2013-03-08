@@ -1055,12 +1055,28 @@ function get_content_admin($params) {
  * @return mixed Array with posts or false
  * @param array $params parameters for the DB
  *
+ 
+Example:
+$params = array();
+$params['is_active'] = 'y'; //get only active content
+$params['parent'] = 2; //get by parent id
+$params['created_by'] = 1; //get by author id
+$params['content_type'] = 'post'; //get by content type
+$params['subtype'] = 'product'; //get by subtype
+
+$params['title'] = 'my title'; //get by title
+ 
+ 
+ 
+ $data = get_content($params);
+ 
+ 
  */
 
 
 api_expose('get_content');
 
-function get_content($params) {
+function get_content($params = false) {
 
 	if(defined('MW_API_CALL')){
 		if (isset($_REQUEST['api_key']) and is_admin() == 0) {
@@ -1071,6 +1087,10 @@ function get_content($params) {
 		}
 
 	}
+	
+	if (defined('PAGE_ID') == false) {
+				define_constants();
+			}
 
 
 	$params2 = array();
@@ -1079,8 +1099,17 @@ function get_content($params) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 	}
-
-	$function_cache_id = false;
+	
+	if(!is_array($params)){
+		$params = array();
+		$params['is_active'] = 'y';
+	}
+	
+	
+	
+	
+	
+ 	$function_cache_id = false;
 
 	$args = func_get_args();
 
@@ -1131,7 +1160,7 @@ function get_content($params) {
 
 			$limit[1] = '30';
 		}
-		// $params['debug'] = 1;
+		//  $params['debug'] = 1;
 		// d($table);
 
 

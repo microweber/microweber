@@ -244,7 +244,9 @@ if (defined('NO_MICROWEBER') == false) {
 	//rm(($file));
 	//require_once (MW_APPPATH . 'models/system_loader.php');
 }
+if(!isset($mw_site_url)){
 $mw_site_url = false;
+}
 function site_url($add_string = false) {
 	global $mw_site_url;
 	if ($mw_site_url == false) {

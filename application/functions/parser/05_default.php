@@ -1,7 +1,5 @@
 <?
 
-
-
 if ($layout != '') {
 	$mw_found_elems = '';
 	$mw_found_elems_arr = array();
@@ -199,7 +197,7 @@ if ($layout != '') {
 						 $field_content = $data['custom_fields'][$use_id_as_field];
 						 }
 						 // d($field_content);
-						}*/
+						 }*/
 
 					}
 
@@ -221,7 +219,7 @@ if ($layout != '') {
 						 if ($cont_field != false) {
 						 d($cont_field);
 
-						}*/
+						 }*/
 
 					}
 					//}
@@ -269,7 +267,7 @@ if ($layout != '') {
 				 //	d($field_content);
 				 pq($elem) -> html($field_content);
 				 }
-				}*/
+				 }*/
 
 				if ($ch2 == false) {
 					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
@@ -281,7 +279,7 @@ if ($layout != '') {
 					/*
 					 if ($use_apc == true) {
 					 @apc_store($cache_id_apc, $field_content, APC_EXPIRES);
-					}*/
+					 }*/
 
 				}
 				mw_var($parser_mem_crc2, 1);
@@ -328,32 +326,31 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 
 		//if ($ch == false) {
 		$reps = $mw_to_cache['elems'];
-		global $passed_reps ;
+		global $passed_reps;
 
-		if($passed_reps == NULL){
+		if ($passed_reps == NULL) {
 			$passed_reps = array();
 		}
 		foreach ($reps as $elk => $value) {
 			$elk_crc = crc32($elk);
-			if(!in_array($elk_crc, $passed_reps)){
+			if (!in_array($elk_crc, $passed_reps)) {
 				$passed_reps[] = $elk_crc;
 
 				if ($value != '') {
-				//$layout = $ch;
+					//$layout = $ch;
 					$val_rep = $value;
 
+				//	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
+					$val_rep = htmlspecialchars_decode($val_rep);
+					//$options['parse_mode'] = 1;
+					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
 
-						$val_rep = htmlspecialchars_decode($val_rep);
-				//$options['parse_mode'] = 1;
-						$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+					$rep = 'mw_replace_back_this_editable_' . $elk;
+					//$modified_layout = $rep;
+					$modified_layout = str_replace($rep, $val_rep, $modified_layout);
+					//	mw_var($val_rep_parser_mem_crc, $modified_layout);
 
-						$rep = 'mw_replace_back_this_editable_' . $elk;
-				//$modified_layout = $rep;
-						$modified_layout = str_replace($rep, $val_rep, $modified_layout);
-				//	mw_var($val_rep_parser_mem_crc, $modified_layout);
-
-
-				//d($elk);
+					//d($elk);
 				}
 			}
 		}
@@ -361,8 +358,8 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 		$layout = $modified_layout;
 		//}
 	} elseif (isset($mw_to_cache['new'])) {
-	 	// d($layout);
-	//	$layout = $mw_to_cache['new'];
+		// d($layout);
+		//	$layout = $mw_to_cache['new'];
 		//d($layout);
 		//$modified_layout = $mw_to_cache['orig'];
 	}

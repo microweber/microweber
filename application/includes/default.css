@@ -415,6 +415,10 @@ img.element{
   top: -9999px;
 }
 
+.free-item{
+  position: absolute;
+}
+
 
 
 

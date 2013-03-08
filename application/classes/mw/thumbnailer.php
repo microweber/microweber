@@ -1,7 +1,8 @@
 <?php
+namespace mw;
 
 /*
- *
+ * 
  * from http://www.hardcode.nl/subcategory_4/article_503-thumbnail-class
  */
 

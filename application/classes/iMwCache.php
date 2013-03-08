@@ -7,7 +7,7 @@ interface  iMwCache {
 	public function get($cache_id, $cache_group = 'global', $time = false);
 
 	public function delete($cache_group = 'global');
-	public function delete_all();
+	public function purge();
 	public function debug();
 
 }

@@ -96,7 +96,7 @@ mw.statdatas = {
 
 $(document).ready(function(){
 
-// $("#users_online").dblclick(function(){
+  $("#users_online").dblclick(function(){
     
 	   
 	   
@@ -104,7 +104,7 @@ $(document).ready(function(){
 	   
 	   
 	   
-  //  });
+   });
 
      mw.$("#stats_nav a").click(function(){ 
       var el = $(this);

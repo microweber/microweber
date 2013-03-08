@@ -329,13 +329,15 @@ function replace_site_vars_back($arr) {
 
 
 			$site = site_url();
+		///	$ret = str_replace('userfiles', 'asdasds', $ret);
 
 			$ret = str_replace('{SITE_URL}', $site, $arr);
-			$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
-			$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
+			//$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
+			//$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
 
-			$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
-			$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+			//$ret = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $ret);
+			//$ret = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $ret);
+			//d($ret);
 			mw_var($parser_mem_crc, $ret);
 		}
 		//	$ret = htmlspecialchars_decode($ret);
@@ -352,6 +354,7 @@ function replace_site_vars_back($arr) {
 
 				$v = replace_site_vars_back($v);
 			} else {
+				$v = replace_site_vars_back($v);
 				//$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
 				// $v = str_ireplace($site, '{SITE_URL}', $v);
 				//$v = str_replace('{SITE_URL}', $site, $v);

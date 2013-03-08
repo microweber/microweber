@@ -2,11 +2,11 @@
 
 /*
 
-type: layout
+  type: layout
 
-name: Dream
+  name: Dream
 
-description: Dream
+  description: Dream
 
 */
 
@@ -14,29 +14,39 @@ description: Dream
 
 
 
-<script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);</script>
 
-<div class="contact-form contact-form-template-dream">
+<script>
 
-    <div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
-      <h3 class="element contact-form-title">Leave a Message</h3>
-    </div>
-    <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
-      <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
-      <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
-        <div class="control-group">
-          <label>Security code</label>
-          <div class="input-prepend">
-            <span class="add-on" style="width: 100px;background: white"><img width="100" class="mw-captcha-img" src="<? print api_url('captcha') ?>" /></span>
-            <input name="captcha" type="text"  class="mw-captcha-input"/>
-          </div>
+
+mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
+
+
+</script>
+
+<div class="contact-form-container contact-form-template-dream">
+    <div class="contact-form">
+        <div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
+          <h3 class="element contact-form-title">Leave a Message</h3>
         </div>
-      <?  endif;?>
-      <input type="submit" class="cft-submit"  value="Send Message" />
-    </form>
-
-
+        <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
+          <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
+            <div class="control-group">
+                <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
+                    <label>Enter Security code</label>
+                    <div class="captcha-holder">
+                      <input name="captcha" type="text" required class="mw-captcha-input"/>
+                      <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<? print $form_id; ?>" src="<? print api_url('captcha') ?>" />
+                      <span class="ico irefresh" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<? print $form_id; ?>'));"></span>
+                    </div>
+                    <input type="submit" class="cft-submit pull-right" style="margin-left: 12px;"  value="Send Message" />
+                <? else:  ?>
+                    <input type="submit" class="cft-submit pull-right"  value="Send Message" />
+                <?php endif; ?>
+            </div>
+        </form>
+    </div>
+    <div class="message-sent" id="msg<? print $form_id ?>">
+        <span class="message-sent-icon"></span>
+        <p>Your Email was sent successfully  </p>
+    </div>
 </div>
-
-
-
