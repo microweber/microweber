@@ -1704,9 +1704,18 @@ $(window).load(function(){
    var div = mwd.createElement('div');
    div.id =  'LAYERS';
 
+   mw.traverse(mwd.body, div);
 
+  mwd.body.appendChild(div);
 
+  $(div).sortable({
+      stop:function(e,ui){
+        var f = $(ui.item).data("for");
+        var prev_f = $(ui.item).prev().data("for");
 
+        $(prev_f).after(f);
+      }
+  })
 
   }
 
@@ -1725,13 +1734,27 @@ $(window).load(function(){
 
 
 mw.traverse = function(root, h){
-  var els = root.querySelectorAll('.element, .module');
+  var els = root.querySelectorAll('.edit .element, .edit .module');
+  d(els);
   $(els).each(function(){
-    if(this.parentNode===root){
+        _dis = this;
         var el = mwd.createElement('span');
         el.className = 'layer';
+        $(el).data("for", this);
+        $(el).click(function(){
+            $(".element-current").removeClass("element-current");
+            $($(el).data("for")).addClass("element-current");
+           $(_dis).remove()
+
+        });
+
+        var str = _dis.textContent.slice(0,25);
+        el.innerHTML = $(this).hasClass("module")?'Module':'Element';
+        el.innerHTML += ' - <small>'+str+'...</span>';
         h.appendChild(el);
-    }
+
+
+
   });
 }
 

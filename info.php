@@ -1,5 +1,5 @@
-<? 
-$time_start = microtime(true); 
+<?
+$time_start = microtime(true);
 
 
 echo memory_get_usage() . "\n"; // 36640
@@ -18,5 +18,5 @@ $execution_time = ($time_end - $time_start);
 
 //execution time of the script
 echo '<b>Total Execution Time:</b> '.$execution_time.' ';
-
+phpinfo();
   ?>

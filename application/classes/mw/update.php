@@ -9,7 +9,22 @@ class update {
 	function get_modules() {
 
 	}
+	function install_module($module_name) {
 
+
+$params = array();
+ 
+$params['module'] = $module_name;
+$result = $this -> call('get_download_link', $params);
+ 
+
+
+d($result);
+	}
+	
+	
+	
+	
 	function call($method = false, $post_params = false) {
 		$cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
 		if (!is_dir($cookie)) {

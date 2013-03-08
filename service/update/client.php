@@ -32,7 +32,7 @@ class sample_update_client {
 
 		curl_close($ch);
 		if($result != false){
-		$result = json_decode($result,1);	
+	 
 		}
 		return $result;
 	}
@@ -59,9 +59,9 @@ class sample_update_client {
 $update_api = new sample_update_client();
 
 $params = array();
-$params['email'] = 'my@email';
+$params['module'] = 'ants';
 $params['password'] = 'pass';
-$result = $update_api -> call('get_modules', $params);
+$result = $update_api -> call('get_download_link', $params);
 print_r($result);
 /*
 print('<hr>');

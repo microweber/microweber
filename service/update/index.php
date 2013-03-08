@@ -19,14 +19,91 @@ if (isset($_GET['api_function'])) {
 }
 
 class mw_update_server {
+	private 	$here;
+	private 	$downloads_dir;
+	private 	$modules_dir;
+	function __construct() {
+		$this->here = dirname(__FILE__).DS;
+		
+		
+		$this->downloads_dir = $this->here.'downloads'.DS;
+		if(!is_dir($this->downloads_dir)){
+		 mkdir_recursive($this->downloads_dir);	
+		}
+		
+		
+		$this->modules_dir = $this->here.'modules'.DS;
+	 }
 
 	function debug($method, $params) {
 		print "Called: <b>" . $method . '</b> with params: ';
 		print_r($params);
 	}
-	function download($params = false){
+	function get_download_link($params = false){
+			if($params != false){
+		$params = parse_params($params);
+		} else {
+		$params = array();	
+		}
+		 $to_return = array();
+		if(isset($params['module'])){
+			 $to_return['modules'] = array();
+			$params['module'] = str_replace('..','',$params['module']);
+			$list_recources_params = array();
+						$list_recources_params['dir_name'] = $this->here.'modules'.DS.$params['module'].DS; //get modules in dir
+						$list_recources_params['skip_save'] = 1; //if true skips module install
+						 $list_recources_params['skip_cache'] = 1;  
+ 						
+						 $params = modules_list($list_recources_params);
+						 if(!empty( $params)){
+							foreach( $params as $conf){
+								
+									if(isset($conf['module_base'])){
+										
+										
+										
+										$mod_base =$conf['module_base'];
+										$mod_base = normalize_path($mod_base,1);
+										
+										$zip = new ZipArchive();
+										$zip_name = str_replace($this->modules_dir,'',$mod_base);
+										if(!isset($conf['version'])){
+										$conf['version'] = '0.01';	
+										}
+										$zip_name =  str_replace(DS,'-',$zip_name);
+										$zip_name =  trim($zip_name.$conf['version']).".zip";	
+														 
+									 
+										
+										
+										
+										
+										$filename = $this->downloads_dir.$zip_name;
+										if(!is_file($filename)){
+										if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+											exit("cannot open <$filename>\n");
+										}
+										
+										foreach (glob($mod_base."*") as $file_add) {
+   											 $file_add_rel = str_replace($this->modules_dir,'',$file_add);
+											// d( $file_add_rel);
+   										 	$zip->addFile($file_add,$file_add_rel );
+										//	print '<hr>';
+										}
+
+									
+										//echo "numfiles: " . $zip->numFiles . "\n";
+										//echo "status:" . $zip->status . "\n";
+										$zip->close();
+										}
+										 $to_return['modules'][] = dir2url($filename);
+									}
+								 
+							}
+						 }
+		}
 		
-		
+		return $to_return;
 	}
  
 	function get_content($params = false){
@@ -37,8 +114,8 @@ class mw_update_server {
 		}
 		
 		
-		
-		$here = dirname(__FILE__).DS;
+		$here = $this->here;
+	
 		
 		
 		$params['is_active'] = 'y';

@@ -7,4 +7,4 @@ $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['categories'] = "other"; 
 $config['position'] = "60"; 
-$config['version'] = 0.1; 
+$config['version'] = 0.11; 

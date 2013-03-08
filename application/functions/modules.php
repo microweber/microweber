@@ -1149,9 +1149,10 @@ function scan_for_modules($options = false) {
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
 	$dir_name_mods2 = ELEMENTS_DIR;
-
+ 
 	if (!empty($dir)) {
 		$configs = array();
+		
 		foreach ($dir as $key => $value) {
 			$skip_module = false;
 			if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
@@ -1196,10 +1197,11 @@ function scan_for_modules($options = false) {
 
 				$config['module_base'] = str_replace('admin/', '', $value_fn);
 				if (is_dir($mod_name)) {
-					$t1 =   $config['module_base'].DS. $config['module_base'];
- 
+					$bname = basename($mod_name);
+					$t1 =  $config['module'].DS.$bname;
+
 					 $try_icon = $t1 . '.png';
- 
+  
 				} else {
 					$try_icon = $mod_name . '.png';
 				}
@@ -1228,6 +1230,8 @@ function scan_for_modules($options = false) {
 				//                }
 //d( $config);
 $configs[] = $config;
+
+
 				if ($skip_module == false and $skip_save == false) {
 					if (trim($config['module']) != '') {
 
@@ -1249,7 +1253,7 @@ $configs[] = $config;
 				}
 			}
 		}
-		
+		 
 		if ($skip_save == true) {
 			 
 			return $configs;

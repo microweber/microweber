@@ -2274,13 +2274,20 @@ body.mw-external-loading:after{
   right: 0;
   background: rgba(33, 33, 33, 1);
   color: white;
+  width: 220px;
+  height: 100%;
+  padding: 0 0 0 0;
 }
 
 #LAYERS .layer{
   position: relative;
   display: block;
   padding: 8px 12px;
-  background: rgba(209, 201, 201, 1);
+  background:#2B2B2B;
+  border-bottom: 1px solid #363636;
+  cursor: default;
+  font-size: 12px;
+
 }
 
 
