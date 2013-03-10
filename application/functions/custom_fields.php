@@ -113,7 +113,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		$sidq
 		order by position asc
 		   ";
- 
+
 		if ($debug != false) {
 
 		}
@@ -264,6 +264,37 @@ function custom_field_names_for_table($table) {
 
 	if (isarr($results)) {
 		return $results;
+	}
+
+}
+
+function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
+
+	$id = is_admin();
+	if ($id == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+
+	if (isset($to_table)) {
+		$to_table = guess_table_name($to_table);
+		$to_table_id = db_escape_string($to_table_id);
+
+		$fields_csv_str = explode(',', $fields_csv_str);
+		$fields_csv_str = array_trim($fields_csv_str);
+		//d($fields_csv_str);
+		if (isarr($fields_csv_str)) {
+			foreach ($fields_csv_str as $field_type) {
+				$ex = get_custom_fields($to_table, $to_table_id, $return_full = false, $field_for = false, $debug = false, $field_type);
+				if ($ex == false) {
+ d($field_type);
+				}
+			}
+		}
+
+		//
+
 	}
 
 }

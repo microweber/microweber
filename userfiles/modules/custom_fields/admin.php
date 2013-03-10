@@ -116,7 +116,7 @@ $(document).ready(function(){
   for="<? print $for  ?>"
   for_module_id="<? print $module_id ?>"
   <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
-  id="mw_custom_fields_list_<? print $params['id']; ?>"  />
+  id="mw_custom_fields_list_<? print $params['id']; ?>"  <? if(isset($params['default-fields'])): ?> default-fields="<?  print $params['default-fields'] ?>" <? endif; ?>/>
 
 
 

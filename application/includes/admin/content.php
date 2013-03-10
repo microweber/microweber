@@ -83,7 +83,8 @@ $(document).ready(function(){
 
 
 
-    mw.on.moduleReload("pages_tree_toolbar", function(){
+    mw.on.moduleReload("pages_tree_toolbar", function(e){
+
         mw.treeRenderer.appendUI();
 
     });

@@ -42,7 +42,7 @@ switch ($template_file):
 
 <div class="mw-cart mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<? print $params['id']?>">
-    <h2 style="margin-top: 16px;">
+    <h2 style="margin-top: 16px;" class="edit" rel="module" field="cart-title">
       <?   _e('My cart') ?>
     </h2>
   </div>
@@ -92,7 +92,7 @@ switch ($template_file):
   <a class="btn btn-warning right" href="<? print $checkout_page_link; ?>">Checkout</a>
   <? endif ; ?>
   <? else : ?>
-  <div class="mw-cart-empty mw-cart-<? print $params['id']?>">
+  <div class="edit mw-cart-empty mw-cart-<? print $params['id']?>"   rel="module" field="cart-is-empty">
     <?   _e('Your cart is empty') ?>
   </div>
   <? endif ; ?>

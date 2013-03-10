@@ -166,7 +166,7 @@
   z-index: 5 !important;
 }
 
- 
+
 
 
 .mw_image_resizer{
@@ -234,7 +234,7 @@
 .mw_edit_settings:hover{
 border-color:#2680D3;
 color: white;
-text-decoration:none; 
+text-decoration:none;
 background-image: linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
 background-image: -o-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
 background-image: -moz-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
@@ -475,7 +475,7 @@ body.view-shop .mw_action_post{
   background-repeat: no-repeat;
   background-position: 47px 9px;
 }
- 
+
 
 .mw-tree label{
   color: #212121;
@@ -2269,8 +2269,11 @@ body.mw-external-loading:after{
 }
 
 #LAYERS{
+
+  display: none !important;
   position: fixed;
   top: 0;
+
   right: 0;
   background: rgba(33, 33, 33, 1);
   color: white;

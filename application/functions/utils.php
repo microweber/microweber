@@ -77,8 +77,8 @@ function character_limiter($str, $length,$dots='...', $minword = 3) {
 	return $sub . (($len < strlen($str)) ? $dots : '');
 }
 
-
-
+ 
+ 
 function array_change_key($array, $search, $replace) {
 	$arr = array();
 	if (isset($array[0]) and is_arr($array[0])) {

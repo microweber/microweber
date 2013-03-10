@@ -55,7 +55,12 @@ if(typeof __smart_field_opener !== 'function'){
 <?
 $data = array();
  if(isset($params['for_module_id'])): ?>
-<?	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
+<?
+if(isset($params['default-fields'])){
+	make_default_custom_fields($for,$params['for_module_id'],$params['default-fields']);
+}
+
+	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
 
  //d($more);
  // d($diff);
@@ -97,6 +102,7 @@ if(isarr( $diff) and isarr($more) ){
 	//$more = $data;
  }
 ?>
+ 
 <? if(!empty( $more)):  ?>
 
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">

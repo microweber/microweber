@@ -361,6 +361,7 @@ function mw_after_content_save<? print $rand; ?>($id){
 
    });
 
+
  }
 
 

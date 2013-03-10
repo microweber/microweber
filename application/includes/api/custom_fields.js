@@ -50,9 +50,12 @@ mw.custom_fields = {
 
       holder.show();
 
-      mw.$("#which_field").html(curr.textContent);
 
       if(!!event){
+        if(curr != undefined){
+              mw.$("#which_field").html(curr.textContent);
+              }
+
         holder.find('.custom-field-edit-title').html('<span class="'+curr.querySelector('span').className+'"></span><strong>' + curr.textContent + '</strong>');
       }
 
@@ -201,10 +204,10 @@ mw.custom_fields.save = function(id, callback){
 
 		if(window.parent != undefined && window.parent.mw != undefined){
 				 window.parent.mw.reload_module('custom_fields');
-				 
+
 			 }
 
-		
+
     	mw.reload_module('custom_fields/list', function(){
             if(!!callback) callback.call(data);
             $(window).trigger('customFieldSaved', [id, data]);

@@ -221,33 +221,33 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 		}
 		return false;
 	}
-	
-	
-	
 
- 
- 
+
+
+
+
+
  $dbtype = 'mysql';
  if(isset($db['type']) and trim($db['type']) != ''){
  	$dbtype = $db['type'];
  }
- 
+
 $dbtype_file =   MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . $dbtype.'.php';
-  
- 
- 
+
+
+
  switch ($dbtype) {
      case file_exists($dbtype_file):
 		     include ($dbtype_file);
-		 
+
               break;
-     
+
      default:
          include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'mysql.php');
          break;
  }
- 
-	
+
+
 
 
 
@@ -607,9 +607,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 		return false;
 	}
-	
+
 	if (MW_IS_INSTALLED == true) {
-	 
+
 	if (function_exists('get_option')) {
  				$curent_time_zone = get_option('time_zone', 'website');
 				if ($curent_time_zone != false and $curent_time_zone != '') {
@@ -620,9 +620,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			}
 		 }
 	}
-		
-	
- 
+
+
+
 	$to_search = false;
 	//  $table = db_g($table);
 	$table = db_get_real_table_name($table);
@@ -1859,7 +1859,7 @@ function save_data($table, $data, $data_to_save_options = false) {
 	}
 if (isset($_SESSION)) {
 		$user_session = session_get('user_session');
-	
+
 } else {
 	$user_session = false;
 }
@@ -1939,7 +1939,7 @@ if (isset($_SESSION)) {
 
 
 			$data['custom_field_values'] = base64_encode(serialize($data['custom_field_value']));
-			$data['custom_field_values_plain'] = db_escape_string(implode(', ',array_values($data['custom_field_value'])));
+			$data['custom_field_values_plain'] = db_escape_string(implode(', ',array_values_recursive($data['custom_field_value'])));
 
 			$data['custom_field_value'] = 'Array';
 			//$cfvq = "custom_field_values =\"" . $custom_field_to_save ['custom_field_values'] . "\",";
@@ -2090,7 +2090,7 @@ if (isset($_SESSION)) {
 	}
 
 	if ($dbg != false) {
-
+d($q);
 	}
 
 	db_q($q);
