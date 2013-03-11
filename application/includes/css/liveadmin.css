@@ -323,15 +323,10 @@ body.cross{
 
 
 
-.mw-title-field-label-post{
-  background-position:  15px -32px, 0 0;
-}
-.mw-title-field-label-category{
-  background-position:  15px -69px, 0 0;
-}
-.mw-title-field-label-product{
-  background-position:  15px -106px, 0 0;
-}
+.mw-title-field-label-post{ background-position:  15px -32px, 0 0; }
+.mw-title-field-label-category{ background-position:  15px -69px, 0 0; }
+.mw-title-field-label-product{ background-position:  15px -106px, 0 0; }
+.mw-title-field-label-subpage { background-position:  11px -229px, 0 0;}
 
 
 
@@ -377,6 +372,36 @@ form.add-edit-page-post textarea{
   color: #8F8F8F;
   padding: 0 0 15px;
   overflow: hidden;
+  width: 60%;
+  height: 14px;
+  float: left;
+}
+
+.edit_page_content_parent{
+  float: right;
+  width: 40%;
+  text-align: right;
+}
+
+.edit_page_content_parent span{
+  float: none;
+  font-size: 11px;
+  opacity:.7;
+}
+.edit_page_content_parent span.ico{
+  float: none;
+  height: 20px;
+  top: 2px;
+  margin-left: 5px;
+}
+.edit_page_content_parent span.ipage_arr_up{
+  top: 1px;
+}
+
+.page_parent{
+  display: inline-block;
+  position: relative;
+  top: -8px;
 }
 
 .edit-post-slug{
@@ -754,10 +779,13 @@ form.add-edit-page-post textarea{
   top: 0;
 }
 
-.mw-admin-page-preview-page .mw-quick-links li {
-  float: left;
-  margin:0 10px;
+
+.mw-overlay-quick-link #preview-edit-links {
+  position: absolute;
+  top: 50%;
+  margin: -10px 0 0 53px;
 }
+
 
 .quick-links-case{
   float: left;
@@ -1833,7 +1861,8 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 
 .preview_frame_wrapper .mw-overlay-quick-link a{
   visibility: hidden;
-  width: auto;
+  float: left;
+  margin: 0 5px;
 }
 
 .preview_frame_wrapper .mw-overlay-quick-link:hover a{

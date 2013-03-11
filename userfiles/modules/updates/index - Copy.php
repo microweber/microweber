@@ -1,6 +1,5 @@
 <? 
- only_admin_access();
- api_expose('updates');
+ 
 if(url_param('add_module')){
 
 }
@@ -15,25 +14,21 @@ if(url_param('add_module')){
 
 
 
-?>
+?><pre><?    print_r($iudates); ?></pre>
 
-
-<? d($config["module_view"]); ?>
-
-<pre><?    print_r($iudates); ?>
-</pre>
 <? if(!empty($iudates)): ?>
-<pre id="update_lddog_<? print $params['id']; ?>">
+ <pre id="update_lddog_{rand}">
 <? d($iudates); ?>
 </pre>
+
 <? if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
-<? foreach($iudates["license_check"]["modules"] as  $item): ?>
-<pre id="update_log_<? print $params['id']; ?>">
+ <? foreach($iudates["license_check"]["modules"] as  $item): ?>
+ <pre id="update_log_{rand}">
 <? d($item); ?>
 </pre>
-<? endforeach; ?>
+ <? endforeach; ?>
 <? endif;  ?>
-<script  type="text/javascript">
+ <script  type="text/javascript">
 
 mw.require('forms.js');
  
@@ -42,10 +37,10 @@ $(document).ready(function(){
 	
 	 
 	 
-	 mw.$('#mw_form1_updates<? print $params['id']; ?>').submit(function() { 
+	 mw.$('#mw_form1_updates{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#mw_form1_updates<? print $params['id']; ?>') , '<? print $config["module_view"] ?>/apply_updates', function(){
+ mw.form.post(mw.$('#mw_form1_updates{rand}') , '<? print site_url('api') ?>/mw_apply_updates', function(){
 	 
 var obj =  (this);
 
@@ -53,16 +48,18 @@ var obj =  (this);
 
 
 	 if(mw.is.defined(obj) && obj != null){
-	 mw.$('#update_log_<? print $params['id']; ?>').empty();
+	 mw.$('#update_log_{rand}').empty();
 	 $.each(obj, function(index, value) { 
 	 
  
 	 
 	 
-mw.$('#update_log_<? print $params['id']; ?>').append(value);
+mw.$('#update_log_{rand}').append(value);
 });
 	  }
- 
+	// mw.log(this);
+	// mw.reload_module('[data-type="categories"]');
+	 // mw.reload_module('[data-type="pages_menu"]');
 	 });
 
 
@@ -83,15 +80,21 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
    
 });
 </script>
-<form id="mw_form1_updates<? print $params['id']; ?>" name="form1" method="post">
-  <? if(isset($iudates["version"])): ?>
-  <h3>New Microweber version available</h3>
-  <p>Your version <? print version ?></p>
-  <p>New version <? print $iudates["version"] ?></p>
+
+
+
+
+
+<form id="mw_form1_updates{rand}" name="form1" method="post">
+  <? if(isset($iudates["mw_new_version_download"])): ?>
+  <h3>New Microweber version available</h3> 
+  
+   <p>Your version <? print MW_VERSION ?></p>
+  <p>New version <? print $iudates["mw_version"] ?></p>
   <p>
     <label>
-      <input type="checkbox" name="mw_version" value="<? print $iudates["version"] ?>"  />
-      Install <? print $iudates["version"] ?></label>
+      <input type="checkbox" name="mw_new_version_download" value="<? print $iudates["mw_new_version_download"] ?>"  />
+      Install <? print $iudates["mw_version"] ?></label>
     <br />
   </p>
   <? endif; ?>
@@ -100,7 +103,8 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
   <? foreach($iudates["modules"] as $k => $item): ?>
   <p>
     <label>
-      <input type="checkbox" name="modules[]" value="<? print $item["module"] ?>"  />
+      <input type="checkbox" name="modules['<? print $item["module"] ?>']" value="<? print $item["mw_new_version_download"] ?>"  />
+       
       <? print $item["name"] ?> <? print $item["version"] ?></label>
     <br />
   </p>
@@ -111,7 +115,9 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
   <? foreach($iudates["elements"] as $k => $item): ?>
   <p>
     <label>
-      <input type="checkbox" name="elements[]" value="<? print $item["module"] ?>"  />
+      <input type="checkbox" name="elements['<? print $item["module"] ?>']" value="<? print $item["mw_new_version_download"] ?>"  />
+     
+      
       <? print $item["name"] ?> <? print $item["version"] ?></label>
     <br />
   </p>

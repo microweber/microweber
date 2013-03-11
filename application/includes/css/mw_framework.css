@@ -653,6 +653,7 @@ html.mw_pages, html.mw_pages body{
   padding-bottom: 50px;
   width: 645px;
   float: left;
+  position: relative;
 }
 
 .mw_del_tree_content{
@@ -973,10 +974,14 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
 
 
+.mw-btn-single-ico{
+  text-align: center;
+}
+
 .mw-btn-single-ico .ico{
   float: none;
   top: 0;
-  margin:0;
+  margin:0 !important;
 }
 
 .mw-btn-single-ico{padding: 1px 0 !important;}
@@ -1534,6 +1539,7 @@ select.mw-ui-simple-dropdown:focus{
 #pages_edit_container{
   /*padding: 6px 0 0 30px;*/
   padding-bottom: 300px;
+  position: relative;
 }
 
 

@@ -70,6 +70,8 @@ if($params['page-id'] == 'global'){
 
  ?>
 
+
+
 <div class="mw-admin-page-preview-holder">
 
 <div  class="mw-admin-page-preview-page">

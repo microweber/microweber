@@ -72,6 +72,7 @@
 
 /* icons */
 .ipage{background-position: 5px 2px}
+.ipage2{background-position: -1285px -121px}
 .ieditpage{background-position: -45px 0px}
 .ipost{background-position:4px -39px;}
 .icategory{background-position:3px -78px;}
@@ -137,6 +138,7 @@
 
 .irefresh{background-position:-929px -119px; cursor: pointer;}
 
+.ipage_arr_up{background-position: -1282px -95px}
 
 .iMove{
   background-position: -1090px 2px;

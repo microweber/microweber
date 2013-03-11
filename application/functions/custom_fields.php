@@ -115,7 +115,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		   ";
 
 		if ($debug != false) {
-
+			d($q);
 		}
 
 		// $crc = crc32 ( $q );
@@ -286,9 +286,16 @@ function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
 		//d($fields_csv_str);
 		if (isarr($fields_csv_str)) {
 			foreach ($fields_csv_str as $field_type) {
-				$ex = get_custom_fields($to_table, $to_table_id, $return_full = false, $field_for = false, $debug = false, $field_type);
-				if ($ex == false) {
- d($field_type);
+				$ex = get_custom_fields($to_table, $to_table_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
+
+				if (isarr($ex) == false) {
+					$make_field = array();
+					$make_field['to_table'] = $to_table;
+					$make_field['to_table_id'] = $to_table_id;
+					$make_field['custom_field_name'] = ucfirst($field_type);
+					$make_field['custom_field_type'] = $field_type;
+
+					save_custom_field($make_field);
 				}
 			}
 		}

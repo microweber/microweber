@@ -1240,6 +1240,8 @@ Wait('$', function(){
   $.fn.getDropdownValue = function() {
     return this.dataset("value");
   };
+
+           
   $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
      var isCustom = isCustom || false;
      var isValidOption = false;

@@ -1028,32 +1028,26 @@ function save_module_to_db($data_to_save) {
 	return $save;
 }
 
-
-
-
 /**
  *
  * Function modules list from the db or them the disk
- 
- 
- * @return mixed Array with modules or false
- * @param array $params 
- *
- 
-Example:
-$params = array();
-$params['dir_name'] = '/path/'; //get modules in dir
-$params['skip_save'] = true; //if true skips module install
 
-$params['cache_group'] = 'modules/global'; // allows custom cache group
-$params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
+ * @return mixed Array with modules or false
+ * @param array $params
+ *
+
+ Example:
+ $params = array();
+ $params['dir_name'] = '/path/'; //get modules in dir
+ $params['skip_save'] = true; //if true skips module install
+ $params['skip_cache'] = true; // skip_cache
+
+ $params['cache_group'] = 'modules/global'; // allows custom cache group
+ $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
  $params['is_elements'] = true;  //if true will list files from the ELEMENTS_DIR
 
- 
- 
  $data = modules_list($params);
- 
- 
+
  */
 
 function modules_list($options = false) {
@@ -1096,7 +1090,7 @@ function scan_for_modules($options = false) {
 		$list_as_element = true;
 
 	}
-	
+
 	$skip_save = false;
 	if (isset($options['skip_save']) and $options['skip_save'] != false) {
 		$skip_save = true;
@@ -1144,15 +1138,15 @@ function scan_for_modules($options = false) {
 
 	//clearcache();
 	//clearstatcache();
-	
+
 	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name);
 	$dir_name_mods = MODULES_DIR;
 	$dir_name_mods2 = ELEMENTS_DIR;
- 
+
 	if (!empty($dir)) {
 		$configs = array();
-		
+
 		foreach ($dir as $key => $value) {
 			$skip_module = false;
 			if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
@@ -1198,14 +1192,16 @@ function scan_for_modules($options = false) {
 				$config['module_base'] = str_replace('admin/', '', $value_fn);
 				if (is_dir($mod_name)) {
 					$bname = basename($mod_name);
-					$t1 =  $config['module'].DS.$bname;
+					$t1 = MODULES_DIR . $config['module'] . DS . $bname;
 
-					 $try_icon = $t1 . '.png';
-  
+					$try_icon = $t1 . '.png';
+
 				} else {
 					$try_icon = $mod_name . '.png';
 				}
+
 				$try_icon = normalize_path($try_icon, false);
+
 				if (is_file($try_icon)) {
 
 					$config['icon'] = pathToURL($try_icon);
@@ -1228,14 +1224,11 @@ function scan_for_modules($options = false) {
 				//                        $config ['ui'] = 0;
 				//                    }
 				//                }
-//d( $config);
-$configs[] = $config;
-
+				//d( $config);
+				$configs[] = $config;
 
 				if ($skip_module == false and $skip_save == false) {
 					if (trim($config['module']) != '') {
-
-						
 
 						if ($list_as_element == true) {
 
@@ -1253,13 +1246,12 @@ $configs[] = $config;
 				}
 			}
 		}
-		 
+
 		if ($skip_save == true) {
-			 
+
 			return $configs;
 		}
-		
-		
+
 		$cfg_ordered = array();
 		$cfg_ordered2 = array();
 		$cfg = $configs;
@@ -1393,7 +1385,7 @@ function load_module_lic($module_name = false) {
 	if ($u1 == false) {
 		$u1 = array();
 	}
-return $u1;
+	return $u1;
 	if (isset($u1[$module_name]) == false) {
 		$all_lic = load_all_lic();
 		$h = site_hostname();

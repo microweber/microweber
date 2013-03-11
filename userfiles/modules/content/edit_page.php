@@ -278,15 +278,23 @@ function __set_content_parent_info<? print $rand; ?>(){
     var val = el.val();
     var title = el.attr('title');
     if(title != undefined){
-      mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>').html('<a href="javascript:edit_page_open_page_and_menus<? print $rand; ?>()">Parent: '+ title+'</a>');
-    }
+      mw.$('#admin_edit_page_form_content_parent_info<? print $rand; ?>')
+
+      .html('<a class="page_parent" href="javascript:;" onclick="edit_page_open_page_and_menus<? print $rand; ?>();"><span class="ico ipage_arr_up"></span><span>Parent</span><span class="ico ipage2"></span><span>'+ title+'</span></a>');
+
+      mw.$("#page_title_and_url .mw-title-field-label-page").removeClass("mw-title-field-label-subpage");
+   }
 
     if(val != undefined && val != 0){
       $('#mw-layout-selector-module').attr('inherit_from',val);
 
       $('#mw-layout-selector-module').removeAttr('active-site-template');
       $('#mw-layout-selector-module').removeAttr('data-active-site-template');
-      mw.reload_module('#mw-layout-selector-module')
+      mw.reload_module('#mw-layout-selector-module');
+
+      mw.$("#page_title_and_url .mw-title-field-label-page")
+        .addClass("mw-title-field-label-subpage")
+        .removeClass("mw-title-field-label-page");
 
     }
 
@@ -294,6 +302,13 @@ function __set_content_parent_info<? print $rand; ?>(){
 }
 
 function edit_page_open_page_and_menus<? print $rand; ?>(){
+
+//mw.tools.memoryToggle(this);
+
+
+mw.$("#advanced-settings-toggle").addClass("toggler-active");
+
+
   mw.$('.ed_page_and_menus_opener_link').addClass('active');
   mw.$('.page_and_menus_holder').show();
 
@@ -423,10 +438,13 @@ function mw_after_content_save<? print $rand; ?>($id){
       <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <? if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><? else : ?><?php _e("Name"); ?><? endif ?>" />
       <? endif; ?>
     </div>
-    <div class="edit-post-url"> <span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
+    <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><? print ($data['url'])?></span>
       <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<? print ($data['url'])?>" />
-      <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
-    <div class="admin_edit_page_content_parent" id="admin_edit_page_form_content_parent_info<? print $rand; ?>"></div>
+      <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
+    </div>
+
+    <div class="edit_page_content_parent" id="admin_edit_page_form_content_parent_info<? print $rand; ?>"></div>
+    <div class="mw_clear"></div>
   </div>
   <?
 if(!isset($data['content'])){
@@ -495,6 +513,7 @@ else{
 
 
 </script>
+
   <div class="mw-scaleto-holder">
     <div id="mw-main-postpage-editor">
       <div id="mw-main-postpage-editor-drag-handle"><span class="mw-close"></span></div>
@@ -557,7 +576,7 @@ else{
   </a>
   <div class="page_and_menus_holder" style="display: none;">
     <div class="vSpace"></div>
-    <div class="mw-ui-field-holder mw_parent_page_sel_holder">
+    <div class="mw-ui-field-holder mw_parent_page_sel_holder" style="padding: 10px;margin: 0 -10px;">
       <label class="mw-ui-label">
         <?php _e("Parent page"); ?>
       </label>

@@ -399,15 +399,13 @@ $(document).ready(function() {
   <div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 <?php else: ?>
   <div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<? print $params["edit_page_id"]; ?>')">
-   <ul class="mw-quick-links mw-quick-links-blue">
-    <li class="active">
-      <a style="width: auto;" href="#action=editpage:<? print $params["edit_page_id"]; ?>">
-        <span class="ico ieditpage"></span>
-        <span>Edit Page</span>
-      </a>
-    </li>
-    <li><a class="mw-ui-btn mw-btn-single-ico" style="width: auto"><span class="ico ilive"></span></a></li>
-  </ul>
+
+  <div id="preview-edit-links">
+    <a class="mw-ui-btn mw-ui-btn-blue" href="#action=editpage:<? print $params["edit_page_id"]; ?>">
+        <span class="ico ieditpage"></span><span>Edit Page</span>
+    </a>
+    <a class="mw-ui-btn" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>Go Live Edit</a>
+  </div>
 </div>
 <?php endif; ?>
 </div>

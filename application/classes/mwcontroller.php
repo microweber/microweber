@@ -348,7 +348,6 @@ class MwController {
 
 			$l = parse_micrwober_tags($l, $options = false);
 
-
 			if (isset($_REQUEST['embed_id'])) {
 				$find_embed_id = trim($_REQUEST['embed_id']);
 				$pq = phpQuery::newDocument($l);
@@ -457,8 +456,8 @@ class MwController {
 				}
 			}
 			// d(TEMPLATE_URL);
-//d(crc32($l));
-//
+			//d(crc32($l));
+			//
 
 			$l = execute_document_ready($l);
 
@@ -514,8 +513,6 @@ class MwController {
 	}
 
 	function admin() {
-
-
 
 		if (MW_IS_INSTALLED == true) {
 			//exec_action('mw_db_init');
@@ -624,146 +621,146 @@ class MwController {
 
 		switch ($caller_commander) {
 			case 'class_is_already_here' :
-			if ($params != false) {
-				$data = $params;
-			} else if (!$_POST and !$_GET) {
+				if ($params != false) {
+					$data = $params;
+				} else if (!$_POST and !$_GET) {
 					//  $data = url(2);
-				$data = url_params(true);
-				if (empty($data)) {
-					$data = url(2);
+					$data = url_params(true);
+					if (empty($data)) {
+						$data = url(2);
+					}
+				} else {
+					$data = $_REQUEST;
 				}
-			} else {
-				$data = $_REQUEST;
-			}
 
-			static $loaded_classes = array();
+				static $loaded_classes = array();
 
 				//$try_class_n = src_
-			if (isset($loaded_classes[$try_class]) == false) {
-				$res = new $try_class($data);
-				$loaded_classes[$try_class] = $res;
-			} else {
-				$res = $loaded_classes[$try_class];
-					//
-			}
-
-			if (method_exists($res, $try_class_func)) {
-				$res = $res -> $try_class_func($data);
-
-				if (defined('MW_API_RAW')) {
-					$mod_class_api_called = true;
-					return ($res);
-				}
-
-				if (!defined('MW_API_HTML_OUTPUT')) {
-					header('Content-Type: application/json');
-
-					print json_encode($res);
+				if (isset($loaded_classes[$try_class]) == false) {
+					$res = new $try_class($data);
+					$loaded_classes[$try_class] = $res;
 				} else {
-
-					print($res);
+					$res = $loaded_classes[$try_class];
+					//
 				}
-				exit();
-			}
 
-			break;
+				if (method_exists($res, $try_class_func)) {
+					$res = $res -> $try_class_func($data);
+
+					if (defined('MW_API_RAW')) {
+						$mod_class_api_called = true;
+						return ($res);
+					}
+
+					if (!defined('MW_API_HTML_OUTPUT')) {
+						header('Content-Type: application/json');
+
+						print json_encode($res);
+					} else {
+
+						print($res);
+					}
+					exit();
+				}
+
+				break;
 
 			default :
-			if ($mod_class_api == true and $mod_api_class != false) {
+				if ($mod_class_api == true and $mod_api_class != false) {
 
-				$try_class = str_replace('/', '\\', $mod_api_class);
-				$try_class_full = str_replace('/', '\\', $api_function_full);
+					$try_class = str_replace('/', '\\', $mod_api_class);
+					$try_class_full = str_replace('/', '\\', $api_function_full);
 
-				$try_class_full2 = str_replace('\\', '/', $api_function_full);
+					$try_class_full2 = str_replace('\\', '/', $api_function_full);
 
-				$mod_api_err = false;
-				if (!defined('MW_API_RAW')) {
-					if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)) {
-						$mod_api_err = true;
+					$mod_api_err = false;
+					if (!defined('MW_API_RAW')) {
+						if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)) {
+							$mod_api_err = true;
 
-						foreach ($api_exposed as $api_exposed_value) {
+							foreach ($api_exposed as $api_exposed_value) {
 								//d($api_exposed_value);
-							if ($mod_api_err == true) {
-								if ($api_exposed_value == $try_class_full) {
-									$mod_api_err = false;
-								} else if ($api_exposed_value == $try_class_full2) {
+								if ($mod_api_err == true) {
+									if ($api_exposed_value == $try_class_full) {
+										$mod_api_err = false;
+									} else if ($api_exposed_value == $try_class_full2) {
 
-									$mod_api_err = false;
-								} else {
-									$convert_slashes = str_replace('\\', '/', $try_class_full);
+										$mod_api_err = false;
+									} else {
+										$convert_slashes = str_replace('\\', '/', $try_class_full);
 										//$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
 										//d($convert_slashes);
 										// d($try_class_full);
-									if ($convert_slashes == $api_exposed_value) {
-										$mod_api_err = false;
+										if ($convert_slashes == $api_exposed_value) {
+											$mod_api_err = false;
+										}
 									}
 								}
 							}
-						}
-					} else {
-						$mod_api_err = false;
-
-					}
-				}
-
-				if ($mod_class_api and $mod_api_err == false) {
-
-					if (!class_exists($try_class, false)) {
-						$remove = $url_segs;
-						$last_seg = array_pop($remove);
-						$last_prev_seg = array_pop($remove);
-
-						if (class_exists($last_prev_seg, false)) {
-							$try_class = $last_prev_seg;
-						}
-
-					}
-
-					if (class_exists($try_class, false)) {
-						if ($params != false) {
-							$data = $params;
-						} else if (!$_POST and !$_GET) {
-								//  $data = url(2);
-							$data = url_params(true);
-							if (empty($data)) {
-								$data = url(2);
-							}
 						} else {
-							$data = $_REQUEST;
+							$mod_api_err = false;
+
 						}
+					}
 
-						$res = new $try_class($data);
-						if (method_exists($res, $try_class_func)) {
-							$res = $res -> $try_class_func($data);
-							$mod_class_api_called = true;
+					if ($mod_class_api and $mod_api_err == false) {
 
-							if (defined('MW_API_RAW')) {
-								return ($res);
+						if (!class_exists($try_class, false)) {
+							$remove = $url_segs;
+							$last_seg = array_pop($remove);
+							$last_prev_seg = array_pop($remove);
+
+							if (class_exists($last_prev_seg, false)) {
+								$try_class = $last_prev_seg;
 							}
 
-							if (!defined('MW_API_HTML_OUTPUT')) {
-								header('Content-Type: application/json');
+						}
 
-								print json_encode($res);
+						if (class_exists($try_class, false)) {
+							if ($params != false) {
+								$data = $params;
+							} else if (!$_POST and !$_GET) {
+								//  $data = url(2);
+								$data = url_params(true);
+								if (empty($data)) {
+									$data = url(2);
+								}
 							} else {
-
-								print($res);
+								$data = $_REQUEST;
 							}
 
-							exit();
-						}
+							$res = new $try_class($data);
+							if (method_exists($res, $try_class_func)) {
+								$res = $res -> $try_class_func($data);
+								$mod_class_api_called = true;
 
-					} else {
-						error('The api class ' . $try_class . '  does not exist');
+								if (defined('MW_API_RAW')) {
+									return ($res);
+								}
+
+								if (!defined('MW_API_HTML_OUTPUT')) {
+									header('Content-Type: application/json');
+
+									print json_encode($res);
+								} else {
+
+									print($res);
+								}
+
+								exit();
+							}
+
+						} else {
+							error('The api class ' . $try_class . '  does not exist');
+
+						}
 
 					}
 
 				}
 
-			}
-
-			break;
+				break;
 		}
 
 		if ($api_function) {
@@ -953,10 +950,17 @@ class MwController {
 		}
 		$url_last = false;
 		if (!isset($_REQUEST['module'])) {
-			$url = url_string(1);
+			$url = url_string(0);
 			if ($url == __FUNCTION__) {
-				$url = url_string(2);
+				$url = url_string(0);
 			}
+			/*
+			$is_ajax = isAjax();
+			
+						if ($is_ajax == true) {
+							$url = url_string(true);
+														}*/
+			
 
 			$url = str_replace_once('module/', '', $url);
 			$url = str_replace_once('module_api/', '', $url);
@@ -965,6 +969,7 @@ class MwController {
 			if (is_module($url)) {
 				$_REQUEST['module'] = $url;
 				$mod_from_url = $url;
+
 			} else {
 				$url1 = $url_temp = explode('/', $url);
 				$url_last = array_pop($url_temp);
