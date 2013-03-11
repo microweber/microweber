@@ -9,7 +9,6 @@
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/wysiwyg.css"/>
 <script>
     mwAdmin = true;
-    typeof jQuery != 'object'? mw.require("jquery.js"): '';
 </script>
 <script>mw.require("jquery-ui.js");</script>
 <script>mw.require("tools.js");</script>

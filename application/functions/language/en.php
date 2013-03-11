@@ -503,3 +503,4 @@ $language["server-settings-updated"]= 'server settings updated' ;
 $language["reqs"]= 'req/s' ; 
 $language["free-element"]= 'Free Element' ; 
 $language["ants"]= 'Ants' ; 
+$language["add-to-cart"]= 'Add to cart' ; 

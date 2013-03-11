@@ -230,17 +230,17 @@ window.onerror = function(a,b,c){
   if(attributes == undefined){
     var attributes = {};
    }
-    attributes.module = $module_name;
-    mw._({
-      selector: $update_element,
-      params: attributes,
-      done: function() {
-        mw.settings.sortables_created = false;
-        if (mw.is.func(callback)) {
-          callback.call($($update_element)[0]);
+   attributes.module = $module_name;
+      mw._({
+        selector: $update_element,
+        params: attributes,
+        done: function() {
+          mw.settings.sortables_created = false;
+          if (mw.is.func(callback)) {
+            callback.call($($update_element)[0]);
+          }
         }
-      }
-    });
+      });
   }
 
   mw.reload_module_interval = function(module_name, interval) {
@@ -276,41 +276,25 @@ window.onerror = function(a,b,c){
           if ($module_name != undefined) {
 			   $module_name = $module_name.replace(/##/g, '#');
 
-
             //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
-              try {
-                  $mods = $($module_name);
-                } catch(err) {
-                //Handle errors here
-                }
-
-           }
-
+                try {
+                    $mods = $($module_name);
+                  } catch(err) {
+                  //Handle errors here
+                  }
+             }
              $mods.each(function() {
-              mw._({
-                selector: this,
-                done:done
-              });
+                mw._({
+                  selector: this,
+                  done:done
+                });
             });
           }
         }
       }
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
   }
 
   mw.clear_cache = function() {
@@ -320,15 +304,25 @@ window.onerror = function(a,b,c){
     });
   }
 
-  mw.requestModuleApi = function(folder, inHeader){
-    var inHeader = inHeader || false;
-   //mw.require(mw.settings.site_url + 'userfiles/modules/' + folder + '/css/style.css', true);
-   mw.require(mw.settings.site_url + 'userfiles/modules/' + folder + '/js/api.js', inHeader);
-  };
+
+  mw.reloadModuleData = function(name, callback){
+    attributes.module = $module_name;
+    mw._({
+      selector: $update_element,
+      params: attributes,
+      done: function() {
+        mw.settings.sortables_created = false;
+        if (mw.is.func(callback)) {
+          callback.call($($update_element)[0]);
+        }
+      }
+    });
+  }
 
 
-
-  mw._ = function(obj, sendSpecific) {
+  mw._ = function(obj, sendSpecific, DONOTREPLACE) {
+    var DONOTREPLACE = DONOTREPLACE || false;
+    var sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
@@ -357,6 +351,10 @@ window.onerror = function(a,b,c){
     }
 
     $.post(url, to_send, function(data) {
+      if(DONOTREPLACE){
+          obj.done.call($(selector)[0], data);
+          return false;
+      }
       $(selector).after(data);
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
