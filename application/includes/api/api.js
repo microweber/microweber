@@ -227,9 +227,7 @@ window.onerror = function(a,b,c){
 
   mw.load_module = function($module_name, $update_element, callback, attributes) {
 
-  if(attributes == undefined){
-    var attributes = {};
-   }
+   var attributes = attributes || {};
    attributes.module = $module_name;
       mw._({
         selector: $update_element,
@@ -241,6 +239,18 @@ window.onerror = function(a,b,c){
           }
         }
       });
+  }
+
+  mw.loadModuleData = function(name, update_element, callback, attributes){
+    var attributes = attributes || {};
+    attributes.module = name;
+    mw._({
+      selector: update_element,
+      params: attributes,
+      done: function(data) {
+        callback.call(this, data);
+      }
+    }, false, true);
   }
 
   mw.reload_module_interval = function(module_name, interval) {
@@ -305,19 +315,7 @@ window.onerror = function(a,b,c){
   }
 
 
-  mw.reloadModuleData = function(name, callback){
-    attributes.module = $module_name;
-    mw._({
-      selector: $update_element,
-      params: attributes,
-      done: function() {
-        mw.settings.sortables_created = false;
-        if (mw.is.func(callback)) {
-          callback.call($($update_element)[0]);
-        }
-      }
-    });
-  }
+
 
 
   mw._ = function(obj, sendSpecific, DONOTREPLACE) {

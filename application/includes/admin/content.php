@@ -173,15 +173,20 @@ function mw_select_page_for_editing($p_id){
 
 
 
+    mw.loadModuleData('content/edit_page','#pages_edit_container', function(data){
+        $(this).html(data);
 
-    $("#pages_edit_container").animate({"left": -800}, 320, function(){
+    });
+
+
+    /*$("#pages_edit_container").animate({"left": -800}, 320, function(){
         $(this).replaceWith('<div id="pages_edit_container" style="left:0px;"></div>');
         mw.load_module('content/edit_page','#pages_edit_container', function(){
           $("#pages_edit_container").animate({"left": 0}, 320, function(){
             mw.$(".mw_edit_page_right").css("overflow", "visible");
           })
         });
-    });
+    });  */
 
 }
 
