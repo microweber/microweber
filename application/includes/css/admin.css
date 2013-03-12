@@ -57,9 +57,8 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 */
 
 
-#mw-admin-container{
-
-
+#mw-admin-container, html, body{
+    min-height: 100%;
 }
 
 

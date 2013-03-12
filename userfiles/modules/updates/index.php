@@ -84,9 +84,9 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
 });
 </script>
 <form id="mw_form1_updates<? print $params['id']; ?>" name="form1" method="post">
-  <? if(isset($iudates["version"])): ?>
+  <? if(isset($iudates["core_update"])): ?>
   <h3>New Microweber version available</h3>
-  <p>Your version <? print version ?></p>
+  <p>Your version <? print MW_VERSION ?></p>
   <p>New version <? print $iudates["version"] ?></p>
   <p>
     <label>

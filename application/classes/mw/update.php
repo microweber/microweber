@@ -1,7 +1,7 @@
 <?
 
 namespace mw;
- 
+
 class update {
 
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
@@ -29,6 +29,37 @@ class update {
 		$data['elements'] = $t;
 		$result = $this -> call('check_for_update', $data);
 		return $result;
+	}
+
+	function install_version($new_version) {
+		only_admin_access();
+		$params = array();
+
+		$params['core_update'] = $new_version;
+		$result = $this -> call('get_download_link', $params);
+		//d($result);
+		if (isset($result["core_update"])) {
+
+			$value = trim($result["core_update"]);
+			$fname = basename($value);
+			$dir_c = CACHEDIR . 'downloads' . DS;
+			if (!is_dir($dir_c)) {
+				mkdir_recursive($dir_c);
+			}
+			$dl_file = $dir_c . $fname;
+			if (!is_file($dl_file)) {
+				$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+			}
+			if (is_file($dl_file)) {
+				$unzip = new \mw\utils\unzip();
+				$target_dir = MW_ROOTPATH;
+				$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+				return $result;
+				// skip_cache
+			}
+
+		}
+
 	}
 
 	function apply_updates($updates) {

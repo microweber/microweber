@@ -38,7 +38,7 @@ description: Default comments template
       <input type="text"   name="captcha" class="input_text" placeholder="?">
     </label>
     <input type="submit" class="btn" value="Submit">
-    </label>
+
   </div>
   </form>
 </div>

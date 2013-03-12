@@ -15,13 +15,13 @@ mw.on.hashParam("search", function(){
     }
 
     mw.reload_module('#mw_admin_posts_with_comments', function(){
-          $(".mw-ui-searchfield").removeClass('loading');
+          mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
     });
 
 });
 
 
-mw.on.hashParam("comments_for_content", function(){
+mw.on.hashParam("comments_for_content", function(){  /*
     if(this  !== '' && this  != '0'){
 		$('#mw_comments_admin_dashboard').hide();
 		$('#mw_admin_posts_with_comments_edit').show();
@@ -34,10 +34,10 @@ mw.on.hashParam("comments_for_content", function(){
 
     }
 
+     */
 
 
 
-  //  mw.reload_module('#mw_admin_posts_with_comments');
 
 });
 
@@ -147,68 +147,60 @@ mw.tools.tabGroup({
 
 </style>
 
- 
+
 
 <div id="comments_module">
 
-<div id="mw_edit_page_left" style="width: 195px;">
+<div id="mw_edit_page_left" style="width: 192px;">
 
 
 <div id="comments-nav">
 
-  <a class="mw-ui-btn comments-group active" href="javascript:;">My Comments</a>
+  <a class="mw-ui-btn comments-group mw-ui-btn-blue" href="javascript:;">My Comments</a>
   <a class="mw-ui-btn comments-group" href="javascript:;" >Settings</a>
 </div>
 
 
 </div>
 
-<div id="mw_edit_page_right">
+<div class="mw_edit_page_right" style="padding: 20px; width: 730px;">
+
+
+
 
 <div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
 
     <div class="comments-tab" id="the_comments">
       <div id="comments-admin-side">
-      <div id="comments-admin-side-header">
-      <?php  $count = get_comments('count=1&is_moderated=n'); ?>
+
+          <input
+              style="width: 120px;margin: 20px;"
+              type="search" value="<?php _e("Search for post"); ?>"
+              data-default="<?php _e("Search for post"); ?>"
+              onfocus="mw.form.dstatic(event);"
+              onblur="mw.form.dstatic(event);"
+              onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
+
+          <module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 
 
-      <?php if($count>0): ?>
-      <span class="comments-numb"><?php print $count; ?><span></span></span> <?php endif; ?>
 
-      <div class="comments-numb-info">
-        <span class="comments-numb-info-title">
-        <?php
-          if($count>1){
-              _e("New Comments ");
-          }
-          else if($count==1){
-              _e("New Comment");
-          }
-          else { _e("There are no new comments"); }
-        ?>
-
-        </span>
-
-
-       Manage your comments bellow
-
-       <a class="mw-ui-link" href="javascript:mw.simpletab.set(mwd.getElementById('comments-settings-tab'));">Edit comment settings</a>
-
-
-       </div>
-
-      </div>
-          <input class="mw-ui-searchfield" style="width: 200px;margin: 20px;" type="text" value="<?php _e("Search for post"); ?>" data-default="<?php _e("Search for post"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
-          <div class="mw-admin-side-nav-simple"><module type="comments/search_content" id="mw_admin_posts_with_comments"  /></div>
      </div>
+
+
+
+     <?php  /*
+
           <div class="<? print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">
             <div class="new-comments"><module type="comments/manage" is_moderated="n" /></div>
-            <div class="old-comments"><module type="comments/manage"  is_moderated="y" /> </div>
+            <div class="old-comments"><module type="comments/manage"  is_moderated="y" /></div>
           </div>
           <div class="<? print $config['module_class'] ?> mw_comments_admin_for_post" id="mw_admin_posts_with_comments_edit"> </div>
+
+          */ ?>
+
     </div>
-    <div class="comments-tab">
+    <div class="comments-tab" style="display: none">
 
 
 <script>mw.require("files.js");</script>

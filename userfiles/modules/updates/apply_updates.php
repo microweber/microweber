@@ -10,6 +10,32 @@ only_admin_access();
  d($_POST);
  ?>apply_updates
  
+ 
+ <?  if(isset($_POST['mw_version'])){ ?>
+  
+ <h2>Installing new version of Microweber: <? print  $_POST['mw_version'] ?></h2>
+<textarea>
+<? $iudates = $update_api -> install_version($_POST['mw_version']); 
+d($iudates);
+?>
+</textarea>
+ 
+<? }  ?>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  <? 
  if(isset($_POST['modules'])){ ?>
  <? if(isarr($_POST['modules'])): ?>

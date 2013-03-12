@@ -10,10 +10,49 @@ $data = get_content($comments_data);
 ?>
 <? if(isarr($data )): ?>
 
-<ul>
- <li><a href="#comments_for_content=0">Show all</a></li>
-  <? foreach($data  as $item): ?>
-  <li><a href="#comments_for_content=<? print $item['id'] ?>"><? print $item['title'] ?></a></li>
-  <? endforeach ; ?>
-</ul>
+<div>
+
+  <? foreach($data  as $item){ ?>
+
+
+  <?php
+
+    $data = array(
+        'content-id' => $item['id'];
+    );
+
+    $comments = get_comments($data);
+
+
+
+    ?>
+
+<div class="comment-post">
+
+  <span class="img">
+    <img src="<?php print thumbnail(get_picture($item['id']),67,67); ?>" alt="" />
+    <span class="comments_number">999</span>
+  </span>
+
+  <div class="comment-post-content-side">
+
+    <h3><? print $item['title'] ?></h3>
+    <a class="comment-post-url" href="<? print $item['url'] ?>"> <? print $item['url'] ?></a>
+
+    <a  class="mw-ui-link" href="<? print $item['url'] ?>/editmode:y">Live edit</a>
+
+    <span class="mw-ui-btn">All</span>
+    <span class="mw-ui-btn mw-ui-btn-green">New</span>
+
+
+   </div>
+ </div>
+
+
+    <?php // _d($item);  break;  ?>
+
+
+
+  <? } ; ?>
+</div>
 <? endif; ?>

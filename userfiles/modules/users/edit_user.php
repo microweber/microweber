@@ -79,7 +79,7 @@ $(document).ready(function(){
     });
 
     mw.$("#avatar_holder .mw-close").click(function(){
-      mw.$("#avatar_image").attr("src", Pixum);  +
+      mw.$("#avatar_image").attr("src", Pixum);
       mw.$("#user_thumbnail").val("");
     });
 

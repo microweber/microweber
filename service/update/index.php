@@ -20,6 +20,7 @@ if (isset($_GET['api_function'])) {
 
 class mw_update_server {
 	private $here;
+	 
 	private $repo_dir;
 	private $downloads_dir;
 	private $modules_dir;
@@ -98,6 +99,8 @@ $ver = $this->get_latest_core_version();
 						if ($module['module_base'] == $local_module['module_base']) {
 							if (!isset($module['version'])) {
 								$module['version'] = '0.01';
+							} else {
+								$module['version'] =  trim($module['version']) ;
 							}
 							if (isset($local_module['version']) and floatval($local_module['version']) > floatval($module['version'])) {
 								$dl_params = array();
@@ -117,15 +120,17 @@ $ver = $this->get_latest_core_version();
 		
 		
 				if (isset($params['mw_version'])) {
-		 					$ver = $this->get_latest_core_version();
-						
+		 					$ver = $version_last = $this->get_latest_core_version();
+						$to_return['version'] = trim($ver );
 							if (isset( $ver) and floatval( $ver) > floatval($params['mw_version'])) {
 								$dl_params = array();
 								$dl_params['core_update'] = 1;
 								$module_download_link = $this -> get_download_link($dl_params);
-								$to_return['core_update'] = $module_download_link;
-								 
-							 
+								if(isset($module_download_link['core_update'])){
+									$to_return['core_update'] = $module_download_link['core_update'];
+ 								}
+								
+	
 			}
 			
 		}
@@ -196,50 +201,96 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'application'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/elements'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/templates/default'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules'.DS;
 
+							 // A 
+							 $locations[] = $this -> repo_dir.'userfiles/modules/audio'.DS;
+							 $locations[] = $this -> repo_dir.'userfiles/modules/admin'.DS;
 							 
-						/*	$locations[] = $this -> repo_dir.'userfiles/modules/content'.DS;
+							 // B 
+							 $locations[] = $this -> repo_dir.'userfiles/modules/btn'.DS;
+
+							 // C
+							$locations[] = $this -> repo_dir.'userfiles/modules/content'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/categories'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/comments'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/contact_form'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/custom_fields'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
+							 
+							 // D
+						 	
 							
+							 // E
+							$locations[] = $this -> repo_dir.'userfiles/modules/embed'.DS;
+							 
+							// F
+							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/forms'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/free'.DS;
+							
+							//G
+							$locations[] = $this -> repo_dir.'userfiles/modules/google_maps'.DS;
+						
+							
+							//H
 							$locations[] = $this -> repo_dir.'userfiles/modules/help'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/highlight_code'.DS;
 
+
+							//I
 							$locations[] = $this -> repo_dir.'userfiles/modules/ip2country'.DS;
 							
-							$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
-							
-							$locations[] = $this -> repo_dir.'userfiles/modules/newsletter'.DS;
-							
-							$locations[] = $this -> repo_dir.'userfiles/modules/pictures'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/posts'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/pages_menu'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/users'.DS;
+							//L
 							$locations[] = $this -> repo_dir.'userfiles/modules/layout'.DS;
-							
 							
 							
 							// M 
 							$locations[] = $this -> repo_dir.'userfiles/modules/media'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/mics'.DS;
 							
+							//N
+							$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/newsletter'.DS;
+							
+							
+							//O
+							$locations[] = $this -> repo_dir.'userfiles/modules/options'.DS;
+							
+							
+							//P
+							$locations[] = $this -> repo_dir.'userfiles/modules/pictures'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/posts'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/pages_menu'.DS;
+							
+							
+							//S
+							$locations[] = $this -> repo_dir.'userfiles/modules/settings'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/site_stats'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/subscribe_form'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/survey'.DS;
+							
+							 
+						 
 							
 							// T
 							$locations[] = $this -> repo_dir.'userfiles/modules/text'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/title'.DS; 
 
 
-*/
-
-
+ 
+ 
+							// U
+							$locations[] = $this -> repo_dir.'userfiles/modules/users'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/updates'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/user_profile'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/user_search'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/users_list'.DS;
 							
+							// V
+							$locations[] = $this -> repo_dir.'userfiles/modules/video'.DS;
 							
- 							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/default.php';
+ 							$locations[] = $this -> repo_dir.'userfiles/modules/default.php';
 							$locations[] = $this -> repo_dir.'userfiles/modules/default.png';
 							$locations[] = $this -> repo_dir.'userfiles/modules/non_existing.php';
 

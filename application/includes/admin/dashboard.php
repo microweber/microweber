@@ -14,8 +14,7 @@
     <div class="quick-links-case">
       <h2>Quick Links</h2>
       <ul class="mw-quick-links left">
-       <? exec_action('mw_admin_dashboard_quick_link'); ?>
-      
+        <? exec_action('mw_admin_dashboard_quick_link'); ?>
         <li><a href="<?php print admin_url(); ?>"><span class="ico imanage-website"></span><span>Manage Website</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico imanage-module"></span><span>Manage Modules</span></a></li>
       </ul>
@@ -25,13 +24,20 @@
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupgrade"></span><span>Upgrades</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico inotification"></span><span>Notifications</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupload"></span><span>Upload Files</span></a></li>
-      </ul>
+        <? if(is_module('updates')): ?>
+        <li><a href="<?php print admin_url(); ?>view:updates"><span class="ico iupdate"></span><span>Updates</span></a></li>
+        <? endif; ?>
+        <? exec_action('mw_admin_dashboard_quick_link2'); ?>
+       </ul>
     </div>
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="<?php print admin_url(); ?>"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico isuggest"></span><span>Suggest feature</span></a></li>
-        <li><a href="<?php print admin_url(); ?>"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>
+        <? if(is_module('help')): ?>
+        <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>
+        <? endif; ?>
+         <? exec_action('mw_admin_dashboard_help_link'); ?>
       </ul>
     </div>
   </div>
