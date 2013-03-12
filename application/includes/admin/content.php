@@ -167,26 +167,19 @@ function mw_select_page_for_editing($p_id){
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('data-content-id');
 
-
-
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-
-
-
     mw.loadModuleData('content/edit_page','#pages_edit_container', function(data){
-        $(this).html(data);
-
-    });
-
-
-    /*$("#pages_edit_container").animate({"left": -800}, 320, function(){
-        $(this).replaceWith('<div id="pages_edit_container" style="left:0px;"></div>');
-        mw.load_module('content/edit_page','#pages_edit_container', function(){
-          $("#pages_edit_container").animate({"left": 0}, 320, function(){
-            mw.$(".mw_edit_page_right").css("overflow", "visible");
-          })
+        var div = document.createElement('div');
+        div.id = 'pages_edit_container';
+        div.style.left = '200px';
+        div.innerHTML = data;
+        $(this).animate({"left": -800}, 320, function(){
+             $(this).replaceWith(div);
+             $(div).animate({"left": 0}, 220, function(){
+                   mw.$(".mw_edit_page_right").css("overflow", "visible");
+             });
         });
-    });  */
+    });
 
 }
 
@@ -194,9 +187,25 @@ function mw_select_page_for_editing($p_id){
 
 
 mw.on.hashParam("action", function(){
-
+  mw.$("#pages_edit_container").stop();
+  //mw.$("#pages_edit_container #pages_edit_container").remove();
+  mw.$(".mw_edit_page_right").css("overflow", "hidden");
   if(this==false) {
-    mw.load_module('content/manage','#pages_edit_container');
+    //mw.load_module('content/manage','#pages_edit_container');
+    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+    mw.loadModuleData('content/manage','#pages_edit_container', function(data){
+        var div = document.createElement('div');
+        div.id = 'pages_edit_container';
+        div.style.left = '-800px';
+        div.innerHTML = data;
+        $(this).animate({"left": 800}, 320, function(){
+             $(this).replaceWith(div);
+             $(div).animate({"left": 0}, 220, function(){
+                   mw.$(".mw_edit_page_right").css("overflow", "visible");
+             });
+        });
+    });
+
     return false;
   }
 
@@ -305,7 +314,24 @@ function mw_select_category_for_editing($p_id){
 
 
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
-  	 mw.load_module('categories/edit_category','#pages_edit_container');
+  	// mw.load_module('categories/edit_category','#pages_edit_container');
+
+
+    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+    mw.loadModuleData('categories/edit_category','#pages_edit_container', function(data){
+        var div = document.createElement('div');
+        div.id = 'pages_edit_container';
+        div.style.left = '200px';
+        div.innerHTML = data;
+        $(this).animate({"left": -800}, 320, function(){
+             $(this).replaceWith(div);
+             $(div).animate({"left": 0}, 220, function(){
+                   mw.$(".mw_edit_page_right").css("overflow", "visible");
+             });
+        });
+    });
+
+
 }
 
 
@@ -402,15 +428,26 @@ function mw_select_post_for_editing($p_id, $subtype){
 		mw.$('#pages_edit_container').attr('data-subtype', 'post');
 	 }
 
-     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-     $("#pages_edit_container").animate({"left": -800}, 320, function(){
-        $(this).replaceWith('<div id="pages_edit_container" style="left:0;"></div>');
-        mw.load_module('content/edit_post','#pages_edit_container', function(){
-          $("#pages_edit_container").animate({"left": 0}, 320, function(){
-            mw.$(".mw_edit_page_right").css("overflow", "visible");
-          });
+
+
+
+    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+    mw.loadModuleData('content/edit_post','#pages_edit_container', function(data){
+        var div = document.createElement('div');
+        div.id = 'pages_edit_container';
+        div.style.left = '200px';
+        div.innerHTML = data;
+        $(this).animate({"left": -800}, 320, function(){
+             $(this).replaceWith(div);
+             $(div).animate({"left": 0}, 220, function(){
+                   mw.$(".mw_edit_page_right").css("overflow", "visible");
+             });
         });
     });
+
+
+
+
 
 
   	// mw.load_module('content/edit_post','#pages_edit_container');

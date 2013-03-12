@@ -101,6 +101,7 @@ mw.templatePreview = {
     var wrapper =  mw.$('.preview_frame_wrapper');
     var frame = '<iframe src="'+url+'" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview.set();" frameborder="0"></iframe>';
     holder.html(frame);
+
   },
   next:function(){
     var index = mw.templatePreview.selector.selectedIndex;
@@ -135,8 +136,12 @@ mw.templatePreview = {
         else{
          mw.$('.preview_frame_wrapper').addClass('zoom');
 
+
+
        }
        mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+
+
 
      },
 

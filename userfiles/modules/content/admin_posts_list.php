@@ -203,7 +203,7 @@ $pages_count = intval($pages);
       ?> </div>
         <div class="manage-post-item-links"> <a target="_top"  href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<? print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:mw.delete_single_post('<? print ($item['id']) ?>');;">Delete</a> </div>
       </div>
-      <div class="manage-post-item-author"><? print user_name($item['created_by']) ?></div>
+      <div class="manage-post-item-author" title="<? print user_name($item['created_by']); ?>"><? print user_name($item['created_by'],'username') ?></div>
     </div>
     <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
   </div>

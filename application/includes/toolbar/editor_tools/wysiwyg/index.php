@@ -119,6 +119,16 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
   min-height: 23px;
 }
 
+
+::-webkit-scrollbar {
+    width: 10px;
+    background:#E9E6E6;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #787878;
+}
+
 </style>
 </head>
 <body style="padding: 0;margin: 0;">

@@ -511,6 +511,14 @@ form .shipping-country-row:first-child{
   float: right;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    background:#E9E6E6;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #787878;
+}
 
 
 
