@@ -1,6 +1,6 @@
 <?php
 
-defined('T') or die();
+defined('T') or die("You cannot call this file on its own. Include index.php first.");
 
 if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
