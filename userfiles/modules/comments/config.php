@@ -9,7 +9,7 @@ $config['ui'] = true;
 
 $config['categories'] = "content";
 $config['position'] = 5;
-$config['version'] = 0.3;
+$config['version'] = 0.31;
 
 
 $config['tables'] = array();

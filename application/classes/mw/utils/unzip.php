@@ -55,7 +55,7 @@ class unzip {
      * @return    none
      */
     function __construct() {
-        
+
     }
 
     // --------------------------------------------------------------------
@@ -83,7 +83,42 @@ class unzip {
 
             $folders = explode('/', $dirname);
             $out_dn = $this->_target_dir . '/' . $dirname;
+$out_dn = str_replace('\/', DS,  $out_dn);
+            // Skip stuff in stupid folders
+            if (in_array(current($folders), $this->_skip_dirs)) {
+                continue;
+            }
 
+            // Skip any files that are not allowed
+            if (is_array($this->_allow_extensions) && $extension && !in_array($extension, $this->_allow_extensions)) {
+                continue;
+            }
+
+            if (!is_dir($out_dn) && $preserve_filepath) {
+                $str = "";
+                foreach ($folders as $folder) {
+                    $str = $str ? $str . '/' . $folder : $folder;
+                    if (!is_dir($this->_target_dir . '/' . $str)) {
+                        $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
+
+                        if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
+                            $this->set_error('Desitnation path is not writable.');
+                            return FALSE;
+                        }
+
+                        // Apply chmod if configured to do so
+                        $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                    }
+                }
+            }
+
+            if (substr($file, -1, 1) == '/') {
+                continue;
+            }
+
+            $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+
+            $this->_extract_file($file, $file_location, $this->underscore_case);
             // Skip stuff in stupid folders
             if (in_array(current($folders), $this->_skip_dirs)) {
                 continue;
