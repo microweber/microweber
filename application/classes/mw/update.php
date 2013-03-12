@@ -6,6 +6,14 @@ class update {
 
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
 
+
+	function __construct() {
+		 ini_set("memory_limit", "160M");
+			if (!ini_get('safe_mode')) {
+				set_time_limit(2500);
+			}
+	}
+
 	function get_modules() {
 
 	}
@@ -25,8 +33,9 @@ class update {
 		$t = modules_list();
 		$data['modules'] = $t;
 
-		$t = get_elements();
+		$t = get_elements_from_db();
 		$data['elements'] = $t;
+	//	$data['layouts'] = $t;
 		$result = $this -> call('check_for_update', $data);
 		return $result;
 	}
@@ -196,6 +205,46 @@ class update {
 
 	}
 
+
+
+	function install_element($module_name) {
+
+		$params = array();
+
+		$params['element'] = $module_name;
+		$result = $this -> call('get_download_link', $params);
+		if (isset($result["elements"])) {
+			foreach ($result["elements"] as $mod_k => $value) {
+
+				$fname = basename($value);
+				$dir_c = CACHEDIR . 'downloads' . DS;
+				if (!is_dir($dir_c)) {
+					mkdir_recursive($dir_c);
+				}
+				d($value);
+				$dl_file = $dir_c . $fname;
+				if (!is_file($dl_file)) {
+					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+				}
+				if (is_file($dl_file)) {
+					$unzip = new \mw\utils\unzip();
+					$target_dir = MW_ROOTPATH;
+					 d($dl_file);
+					// $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+					// skip_cache
+				}
+			}
+			$params = array();
+			$params['skip_cache'] = true;
+
+			$data = modules_list($params);
+			//d($data);
+
+		}
+		return $result;
+
+	}
+
 	function call($method = false, $post_params = false) {
 		$cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
 		if (!is_dir($cookie)) {
@@ -226,7 +275,7 @@ class update {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
 		}
 		$result = curl_exec($ch);
-//d($result);
+
 		curl_close($ch);
 		if ($result != false) {
 			$result = json_decode($result, 1);

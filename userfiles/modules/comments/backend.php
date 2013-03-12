@@ -173,12 +173,14 @@ mw.tools.tabGroup({
     <div class="comments-tab" id="the_comments">
       <div id="comments-admin-side">
 
+
+      <h2>My Comments</h2>
+      <small>Read, moderate & public commets</small>
           <input
+              autocomplete="off"
               style="width: 120px;margin: 20px;"
-              type="search" value="<?php _e("Search for post"); ?>"
-              data-default="<?php _e("Search for post"); ?>"
-              onfocus="mw.form.dstatic(event);"
-              onblur="mw.form.dstatic(event);"
+              type="search"
+              placeholder="<?php _e("Search for post"); ?>"
               onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
 
           <module type="comments/search_content" id="mw_admin_posts_with_comments"  />

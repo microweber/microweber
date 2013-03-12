@@ -49,7 +49,23 @@ $data = get_content($comments_data);
     }
 
 
+    $(document).ready(function(){
 
+        $(".comments-show-all").click(function(){
+             var _new = mw.tools.firstParentWithClass(this, 'comment-post').querySelector('.new-comments');
+             var _old = mw.tools.firstParentWithClass(this, 'comment-post').querySelector('.old-comments');
+            $(_new).show();
+            $(_old).show();
+        });
+
+        $(".comments-show-new").click(function(){
+             var _new = mw.tools.firstParentWithClass(this, 'comment-post').querySelector('.new-comments');
+             var _old = mw.tools.firstParentWithClass(this, 'comment-post').querySelector('.old-comments');
+            $(_new).show();
+            $(_old).hide();
+        });
+
+    });
 
 </script>
 
@@ -79,8 +95,9 @@ $data = get_content($comments_data);
     <span class="comments_number"><?php print sizeof($comments); ?></span>
   </span>
   <div class="comment-post-content-side">
-    <h3><? print $item['title'] ?></h3>
+    <h3><a href="javascript:;" class="mw-ui-link"><? print $item['title'] ?></a></h3>
     <a class="comment-post-url" href="<? print $item['url'] ?>"> <? print $item['url'] ?></a>
+    <br>
     <a class="mw-ui-link" href="<? print $item['url'] ?>/editmode:y">Live edit</a>
 
   </div>
@@ -100,16 +117,16 @@ $data = get_content($comments_data);
 
                         <input type="hidden" name="id" value="<? print $comment['id'] ?>">
                         <input type="text" name="action" class="comment_state semi_hidden" />
-                <div class="manage-bar">
+                    <div class="manage-bar">
                      <div class="edit-comment">
                         <textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
+                        <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
                         <div class="mw_clear"></div>
                      </div>
                      <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn" onclick="mw.$('#comment-<?php print $comment['id'];?>').toggleClass('comment-edit-mode');">Edit</span>
                      <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'publish')">Publish</span>
                      <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'delete')">Delete</span>
-                </div>
+                    </div>
 
                 </div>
 
@@ -126,15 +143,14 @@ $data = get_content($comments_data);
             <div class="comment-of-apost" id="comment-<?php print $comment['id']; ?>">
 
                    <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a>
+                   <p class="comment-body"><?php print $comment['comment_body']; ?></p>
 
-                    <textarea name="comment_body" class="semi_hidden"><?php print $comment['comment_body']; ?></textarea>
-                    <input type="hidden" name="id" value="<? print $comment['id'] ?>">
-                    <input type="text" name="action" class="comment_state semi_hidden" />
-
+                   <input type="hidden" name="id" value="<? print $comment['id'] ?>">
+                        <input type="text" name="action" class="comment_state semi_hidden" />
                 <div class="manage-bar">
                    <div class="edit-comment">
                     <textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
+                    <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
                     <div class="mw_clear"></div>
                  </div>
                     <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn" onclick="mw.$('#comment-<?php print $comment['id'];?>').toggleClass('comment-edit-mode');">Edit</span>
@@ -148,10 +164,10 @@ $data = get_content($comments_data);
  </div>
  </div>
 
-
-    <span class="mw-ui-btn"><?php print ($count_old+$count_new); ?> All</span>
-    <span class="mw-ui-btn mw-ui-btn-green"><?php print $count_new; ?> New</span>
-
+    <div class="comments-show-btns">
+      <span class="mw-ui-btn comments-show-all"><?php print ($count_old+$count_new); ?> All</span>
+      <span class="mw-ui-btn mw-ui-btn-green comments-show-new"><?php print $count_new; ?> New</span>
+    </div>
  </div>
 
 

@@ -1,6 +1,8 @@
 .comment-post{
    border-bottom: 1px solid #E2E2E2;
    padding: 10px;
+   position: relative;
+   overflow: hidden;
 }
 .comment-post .img{
   float: left;
@@ -8,6 +10,11 @@
   max-height: 67px;
   position: relative;
   margin-right: 20px;
+}
+
+.comment-post-content-side{
+  float: left;
+  width: 500px;
 }
 
 .comments_number{
@@ -24,9 +31,28 @@
   background: url(img/comments_numb_number.png) no-repeat;
 }
 
+.comment-post h3{
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.comment-post-url{
+  display: inline-block;
+  font-size: 10px;
+  color: #959595;
+  padding: 2px 0 10px;
+}
+.comment-post-url:hover{
+  text-decoration: underline
+}
 
 .new-comments, .old-comments{
   display: none;
+}
+
+.comments-holder{
+  clear: both;
+  padding-top: 20px;
 }
 
 .comment-of-apost{
@@ -47,7 +73,7 @@
 }
 
 .edit-comment textarea{
-  width: 550px;
+  width: 595px;
   height: 50px;
   float: left;
 }
@@ -77,3 +103,13 @@
   border-bottom-color: #D8FFC3;
 
 }
+
+.comments-show-btns{
+  position: absolute;
+  text-align: right;
+  width: 150px;
+  top: 10px;
+  right: 0px;
+}
+
+

@@ -1135,7 +1135,7 @@ function scan_for_modules($options = false) {
 	if (isset($options['glob'])) {
 		$glob_patern = $options['glob'];
 	} else {
-		$glob_patern = 'config.php';
+		$glob_patern = '*config.php';
 	}
 
 	//clearcache();

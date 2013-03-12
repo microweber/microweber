@@ -33,6 +33,7 @@ class mw_update_server {
 		}
 		$this -> repo_dir = $this -> here . 'mw_git/Microweber' . DS;
 		$this -> modules_dir =  $this -> here . 'mw_git/Microweber' . DS. 'userfiles/modules' . DS;
+		$this -> layouts_dir =  $this -> here . 'mw_git/Microweber' . DS. 'userfiles/elements' . DS;
 	}
 
 
@@ -70,14 +71,14 @@ $ver = $this->get_latest_core_version();
 		$list_recources_params['skip_cache'] = true;
 		 $local_res = modules_list($list_recources_params);
 		$to_return = array();
-		$local_modules = array();
+		
 		
 		
 		//$local_res = false;
 		// $to_return['orig_params'] = $params;
 		
 		
-		
+		$local_modules = array();
 		foreach ($local_res as $conf) {
 
 			if (isset($conf['module_base'])) {
@@ -135,6 +136,57 @@ $ver = $this->get_latest_core_version();
 		}
 		
 		
+		
+		
+		$updates_data = array();
+		if (isset($params['elements'])) {
+			
+			
+			
+			$local_modules = array();
+				 
+			$list_recources_params = array();
+		$list_recources_params['dir_name'] = $this -> layouts_dir;
+		$list_recources_params['skip_save'] = true;
+		//$list_recources_params['is_elements'] = false;
+		//if true skips module install
+		$list_recources_params['skip_cache'] = true;
+		 $local_modules = modules_list($list_recources_params);
+			
+			 
+			foreach ($params['elements'] as $module) {
+				foreach ($local_modules as $local_module) {
+					if (isset($module['module']) and isset($local_module['module_base'])) {
+						 	$local_module['module'] = str_replace($this -> layouts_dir, '',$local_module['module_base']); 
+						 	 $local_module['module'] = rtrim($local_module['module'], DS);
+							 
+						 if ($local_module['module'] == $module['module']) {
+							if (!isset($module['version'])) {
+								$module['version'] = '0.01';
+							} else {
+								$module['version'] =  trim($module['version']) ;
+							}
+							  if (isset($local_module['version']) and floatval($local_module['version']) > floatval($module['version'])) {
+								$dl_params = array();
+								$dl_params['module'] =  $local_module['module'];
+								 //$module_download_link = $this -> get_download_link($dl_params);
+
+							 	// $module['download_link'] = $module_download_link;
+								$module['module_orig'] = $module['module'];
+								$module['module_local'] = $local_module['module'];;
+
+	 
+								 $updates_data[] = $module;
+							
+							   }
+						 }
+					}
+				}
+			}
+			  $to_return['elements'] = $updates_data;
+		}
+		
+		
 				if (isset($params['mw_version'])) {
 		 					$ver = $version_last = $this->get_latest_core_version();
 						$to_return['version'] = trim($ver );
@@ -145,9 +197,7 @@ $ver = $this->get_latest_core_version();
 								if(isset($module_download_link['core_update'])){
 									$to_return['core_update'] = $module_download_link['core_update'];
  								}
-								
-	
-			}
+				}
 			
 		}
 		
@@ -170,6 +220,8 @@ $ver = $this->get_latest_core_version();
 		} else {
 			$params = array();
 		}
+		
+		$all_params = $params;
 		$to_return = array();
 		if (isset($params['module'])) {
 			$to_return['modules'] = array();
@@ -228,6 +280,74 @@ $ver = $this->get_latest_core_version();
 				}
 			}
 		}
+		
+		if (isset($all_params['element'])) {
+			$to_return['elements'] = array();
+			$params['element'] = str_replace('..', '', $params['element']);
+			$list_recources_params = array();
+			$list_recources_params['dir_name'] = $this ->layouts_dir;;
+			//get modules in dir
+			$list_recources_params['skip_save'] = 1;
+			//if true skips module install
+			$list_recources_params['skip_cache'] = 1;
+
+			 $params = modules_list($list_recources_params);
+			 
+			if (!empty($params)) {
+				foreach ($params as $conf) {
+					if (isset($conf['element'])) {
+						$mod_base = $this ->layouts_dir.$conf['element'];
+						$mod_base = normalize_path($mod_base, 1);
+						$zip_name = $mod_rel_name = str_replace($this ->layouts_dir, '', $mod_base);
+						if (!isset($conf['version'])) {
+							$conf['version'] = '0.01';
+						}
+						$zip_name = str_replace(DS, '-', $zip_name);
+						$zip_name = trim($zip_name . $conf['version']) . ".zip";
+						$filename = $this -> downloads_dir . $zip_name;
+						
+						
+						d($filename);
+						
+						
+					/*	if(!is_file($filename)){
+						
+							$locations = array();
+							$locations[] = $mod_base;   
+					 		$fileTime = date("D, d M Y H:i:s T"); 
+								
+								$zip = new \mw\utils\zip($filename);
+								
+								$zip->setZipFile($filename); 
+								$zip->setComment("Microweber module update.\nCreated on " . date('l jS \of F Y h:i:s A')); 
+ 						
+							foreach($locations as $location){
+								$rel_d = str_replace($this -> repo_dir, '', $location);
+								if(is_dir($location)){
+									$zip->addDirectoryContent($location,$rel_d,true); 
+								} else if(is_file($location)){
+									 $zip->addFile(file_get_contents($location),$rel_d, filectime($location)); 
+								}
+					  
+						}
+						$zip1 = $zip->finalize(); 
+						
+					
+						
+						
+						
+						} */
+						$to_return['elements'][$mod_rel_name] = dir2url($filename);
+						
+					}
+
+				}
+			}
+		}
+		
+		
+		
+		
 		
 		if (isset($params['core_update'])) {
 				$ver = $this->get_latest_core_version();

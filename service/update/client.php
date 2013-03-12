@@ -64,7 +64,11 @@ $params['password'] = 'pass';
 $result = $update_api -> call('get_download_link', $params);
  //print_r($result);
 
-
+$params = array();
+$params['element'] = '4pics';
+$params['password'] = 'pass';
+$result = $update_api -> call('get_download_link', $params);
+ print_r($result);
 
 $update_api = new sample_update_client();
 

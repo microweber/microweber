@@ -49,3 +49,19 @@ d($iudates);
  <? endforeach ; ?>
 <? endif; ?>
 <? }  ?>
+
+
+
+ <? 
+ if(isset($_POST['elements'])){ ?>
+ <? if(isarr($_POST['elements'])): ?>
+  <? foreach($_POST['elements']  as $item): ?> 
+ <h2>Installing layouts: <? print  $item ?></h2>
+<textarea>
+<? $iudates = $update_api -> install_element($item); 
+d($iudates);
+?>
+</textarea>
+ <? endforeach ; ?>
+<? endif; ?>
+<? }  ?>
