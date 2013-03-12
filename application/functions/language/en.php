@@ -508,3 +508,4 @@ $language["no-thumbnail"]= 'No thumbnail' ;
 $language["no-avatar"]= 'No Avatar.' ; 
 $language["add-image"]= 'Add Image' ; 
 $language["change-image"]= 'Change Image' ; 
+$language["are-you-sure-you-want-to-delete-this-comment"]= 'Are you sure you want to delete this comment' ; 

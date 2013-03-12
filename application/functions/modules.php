@@ -1066,7 +1066,7 @@ function scan_for_modules($options = false) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 	}
-
+ 
 	$args = func_get_args();
 	$function_cache_id = '';
 	foreach ($args as $k => $v) {
@@ -1086,9 +1086,11 @@ function scan_for_modules($options = false) {
 		$cache_group = 'modules/global';
 	}
 
-	if (isset($options['is_elements'])) {
+	if (isset($options['is_elements']) and $options['is_elements'] != false ) {
 		$list_as_element = true;
 
+	} else {
+	$list_as_element = false;	
 	}
 
 	$skip_save = false;
@@ -1133,7 +1135,7 @@ function scan_for_modules($options = false) {
 	if (isset($options['glob'])) {
 		$glob_patern = $options['glob'];
 	} else {
-		$glob_patern = '*config.php';
+		$glob_patern = 'config.php';
 	}
 
 	//clearcache();
@@ -1176,7 +1178,7 @@ function scan_for_modules($options = false) {
 				$def_icon = MODULES_DIR . 'default.png';
 
 				ob_start();
-
+ 
 				include ($value);
 
 				$content = ob_get_contents();
@@ -1227,7 +1229,10 @@ function scan_for_modules($options = false) {
 				//d( $config);
 				$configs[] = $config;
 
-				if ($skip_module == false and $skip_save == false) {
+
+
+
+				if ($skip_save !== true and $skip_module == false ) {
 					if (trim($config['module']) != '') {
 
 						if ($list_as_element == true) {
@@ -1244,11 +1249,14 @@ function scan_for_modules($options = false) {
 						}
 					}
 				}
+				
+				
+				
+				
 			}
 		}
-
+ 
 		if ($skip_save == true) {
-
 			return $configs;
 		}
 

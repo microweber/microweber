@@ -70,7 +70,7 @@ $update_api = new sample_update_client();
 
 $params = array();
 $params['module'] = 'ants';
-$params['mw_version'] = '0.2772';
+$params['mw_version'] = '0.1';
 $result = $update_api -> call('check_for_update', $params);
 print_r($result);
 

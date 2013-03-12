@@ -50,6 +50,9 @@ function post_comment($data) {
 
                     break;
                 case 'unpublish':
+                    $data['is_moderated'] = 'n';
+
+                    break;
                 case 'spam':
                     $data['is_moderated'] = 'n';
 
@@ -114,7 +117,10 @@ function get_comments($params) {
         $params = parse_str($params, $params2);
         $params = $params2;
     }
-
+if (isset($params['content_id'])) {
+            $params['to_table'] = 'table_content';
+			$params['to_table_id'] = db_escape_string($params['content_id']);;
+        }
 
     
   $table = MODULE_DB_COMMENTS;

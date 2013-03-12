@@ -179,8 +179,9 @@ class update {
 				}
 				if (is_file($dl_file)) {
 					$unzip = new \mw\utils\unzip();
-					$target_dir = MODULES_DIR . $mod_k;
-					$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+					$target_dir = MW_ROOTPATH;
+					//d($dl_file);
+					 $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}
 			}
@@ -225,7 +226,7 @@ class update {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
 		}
 		$result = curl_exec($ch);
-
+//d($result);
 		curl_close($ch);
 		if ($result != false) {
 			$result = json_decode($result, 1);

@@ -12,5 +12,5 @@ $(document).ready(function(){
 </script>
 
 <div class="<? print $config['module_class'] ?>">
-<module="admin/server/cache_config" />
+<module="admin/server/cache_setup" />
 </div>

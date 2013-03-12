@@ -23,3 +23,57 @@
   right: -12px;
   background: url(img/comments_numb_number.png) no-repeat;
 }
+
+
+.new-comments, .old-comments{
+  display: none;
+}
+
+.comment-of-apost{
+    padding: 10px;
+    margin:10px 0;
+    position: relative;
+}
+
+.manage-bar{
+  visibility: hidden;
+  text-align: right;
+
+}
+
+.comment-edit-mode > .manage-bar{
+  visibility: visible;
+
+}
+
+.edit-comment textarea{
+  width: 550px;
+  height: 50px;
+  float: left;
+}
+
+.manage-bar .edit-comment{
+  display: none;
+  padding: 10px 0 15px;
+    overflow: hidden;
+  position: relative;
+  min-height: 50px;
+}
+
+.comment-edit-mode > .manage-bar .edit-comment{
+  display: block;
+}
+
+.comment-edit-mode > .comment-body{
+  display: none;
+}
+
+.comment-of-apost:hover > .manage-bar{
+  visibility: visible;
+}
+
+.comment-of-apost.new-comment{
+  background: #D8FFC3;
+  border-bottom-color: #D8FFC3;
+
+}
