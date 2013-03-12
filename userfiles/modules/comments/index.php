@@ -75,11 +75,29 @@ if ($template != false and strtolower($template) != 'none') {
 
 
 
+        <?php
+
+
+       $cur_user = user_id();
+             if($cur_user != false){
+              $cur_user_data = get_user($cur_user);
+             }
+
+
+
+        ?>
+
+
+
+
         <? if (isarr($comments)): ?>
             <div class="comments" id="comments-list-<? print $data['id'] ?>">
             <? foreach ($comments as $comment) : ?>
                     <div class="clearfix comment" id="comment-<? print $comment['id'] ?>">
+                        <?
+                        $comment_author =  get_user($comment['created_by']) ;
 
+                        ?>
                         <?php
 
                         $avatar_style =  get_option('avatar_style', 'comments');
@@ -88,11 +106,18 @@ if ($template != false and strtolower($template) != 'none') {
                         if($avatar_style != '2'){
 
                         ?>
+                        <?php  if (isset($comment_author['thumbnail'])  and isset($comment_author['thumbnail']) != ''){ ?>
+                         <img src="<?php print  thumbnail($comment_author['thumbnail'], 67, 67);  ?>" class="img-polaroid img-rounded pull-left comment-image" alt="" />
 
-                        <?php  if($avatar_style == '4'){ ?>
+                        <?php } else if($avatar_style == '4'){ ?>
 
 
-                            <img src="<?php print  get_option('avatartype_custom', 'comments');  ?>" class="img-polaroid img-rounded pull-left comment-image" alt="" />
+                            <img src="<?php print   thumbnail(get_option('avatartype_custom', 'comments'), 67, 67);;  ?>" class="img-polaroid img-rounded pull-left comment-image" alt="" />
+
+
+                        <?php } else { ?>
+
+                            <img src="<?php print   thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 67, 67);;  ?>" class="img-polaroid img-rounded pull-left comment-image" alt="" />
 
 
                         <?php } ?>
@@ -102,7 +127,7 @@ if ($template != false and strtolower($template) != 'none') {
 
 
                         <span class="img-polaroid img-rounded random-color">
-                            <span style="background-color: <?php print "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)); ?>">
+                            <span style="background-color: <?php print random_color(); ?>">
                             </span>
                         </span>
 

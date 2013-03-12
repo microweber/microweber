@@ -13,16 +13,17 @@ $user_params['id'] =intval($params['edit-user']);
  $user_params['limit'] = 1;
 $data = get_users($user_params);
 if(isset($data[0]) == false){
-$data = array();	
-$data['id'] = 0;
-$data['username'] = '';
-$data['password'] = '';
-$data['email'] = '';
-$data['first_name'] = '';
-$data['last_name'] = '';
-$data['api_key'] = '';
-$data['is_active'] = 'y';
-$data['is_admin'] = 'n';
+  $data = array();
+  $data['id'] = 0;
+  $data['username'] = '';
+  $data['password'] = '';
+  $data['email'] = '';
+  $data['first_name'] = '';
+  $data['last_name'] = '';
+  $data['api_key'] = '';
+  $data['is_active'] = 'y';
+  $data['is_admin'] = 'n';
+  $data['thumbnail'] = '';
 } else {
 $data = $data[0];	
 }
@@ -32,6 +33,7 @@ $data = $data[0];
 
 <script  type="text/javascript">
 mw.require('forms.js');
+mw.require('files.js');
 </script>
 
 
@@ -60,8 +62,73 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 }
 
 
+uploader = mw.files.uploader({
+  filetypes:"images"
+});
+
+
+Pixum =  "<?php print pixum(67,67); ?>";
+
+$(document).ready(function(){
+
+    mw.$("#change_avatar").append(uploader);
+
+    $(uploader).bind("FileUploaded", function(a,b){
+          mw.$("#avatar_image").attr("src", b.src);
+          mw.$("#user_thumbnail").val(b.src);
+    });
+
+    mw.$("#avatar_holder .mw-close").click(function(){
+      mw.$("#avatar_image").attr("src", Pixum);  +
+      mw.$("#user_thumbnail").val("");
+    });
+
+});
+
+
 
 </script>
+
+
+<style>
+
+#change_avatar{
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+   float: left;
+  white-space: nowrap;
+  margin-top: 15px;
+}
+
+#avatar_holder{
+  width: 67px;
+  max-height: 67px;
+  float: left;
+  margin-right: 12px;
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+#avatar_holder img{
+  max-width: 67px;
+  max-height: 67px;
+}
+
+#avatar_holder .mw-close{
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  right: 3px;
+  visibility: hidden;
+}
+#avatar_holder:hover .mw-close{
+  visibility: visible;
+}
+
+
+
+</style>
 
 <div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_{rand}">
 
@@ -83,6 +150,22 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
   <div>
       <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-admin-table mw-edit-user-table" width="100%">
       <col width="150px" />
+
+        <tr>
+          <td><label class="mw-ui-label">Avatar</label></td>
+          <td>
+            <?php if($data['thumbnail'] == ''){    ?>
+
+                <div id="avatar_holder"><img src="<?php print pixum(67,67); ?>" id="avatar_image" alt=""  /><span class="mw-close"></span></div>
+                <span class='mw-ui-link' id="change_avatar"><?php _e("Add Image"); ?></span>
+
+            <?php   } else {   ?>
+              <div id="avatar_holder"><img src="<? print $data['thumbnail']; ?>" id="avatar_image" alt="" /><span class="mw-close"></span></div>
+              <span class='mw-ui-link' id="change_avatar"><?php _e("Change Image"); ?></span>
+            <?php } ?>
+            <input type="hidden" class="mw-ui-field" name="thumbnail" id="user_thumbnail" value="<?  print $data['thumbnail']; ?>">
+          </td>
+        </tr>
         <tr>
           <td><label class="mw-ui-label">Username</label></td>
           <td><input type="text" class="mw-ui-field" name="username" value="<?  print $data['username']; ?>"></td>
@@ -134,7 +217,7 @@ _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
           <td><label class="mw-ui-label">Api key</label></td>
           <td><input type="text" class="mw-ui-field" name="api_key" value="<?  print $data['api_key']; ?>"></td>
         </tr>
-        
+
         
         <tr class="no-hover">
           <td>&nbsp;</td>

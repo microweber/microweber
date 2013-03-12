@@ -504,3 +504,7 @@ $language["reqs"]= 'req/s' ;
 $language["free-element"]= 'Free Element' ; 
 $language["ants"]= 'Ants' ; 
 $language["add-to-cart"]= 'Add to cart' ; 
+$language["no-thumbnail"]= 'No thumbnail' ; 
+$language["no-avatar"]= 'No Avatar.' ; 
+$language["add-image"]= 'Add Image' ; 
+$language["change-image"]= 'Change Image' ; 

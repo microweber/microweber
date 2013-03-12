@@ -1540,3 +1540,8 @@ public static function pluralize_if($count, $string)
 		return $count . " " . self::pluralize($string);
 }
 }
+
+
+function random_color(){
+  return "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+}

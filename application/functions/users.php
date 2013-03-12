@@ -50,6 +50,7 @@ function mw_db_init_users_table() {
 
 	$fields_to_add[] = array('first_name', 'TEXT default NULL');
 	$fields_to_add[] = array('last_name', 'TEXT default NULL');
+	$fields_to_add[] = array('thumbnail', 'TEXT default NULL');
 
 	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
 

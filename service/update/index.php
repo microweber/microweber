@@ -118,11 +118,13 @@ $ver = $this->get_latest_core_version();
 		
 				if (isset($params['mw_version'])) {
 		 					$ver = $this->get_latest_core_version();
+						
 							if (isset( $ver) and floatval( $ver) > floatval($params['mw_version'])) {
 								$dl_params = array();
 								$dl_params['core_update'] = 1;
 								$module_download_link = $this -> get_download_link($dl_params);
 								$to_return['core_update'] = $module_download_link;
+								 
 							 
 			}
 			
@@ -188,35 +190,100 @@ $ver = $this->get_latest_core_version();
  						 
 						$zip_name = trim('microweber-' . $ver) . ".zip";
 						$filename = $this -> downloads_dir . $zip_name;
-						if(!is_file($filename)){
+						//if(!is_file($filename)){
 							
 							$locations = array();
 							$locations[] = $this -> repo_dir.'application'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/admin'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/elements'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/templates/default'.DS;
+
 							 
+							$locations[] = $this -> repo_dir.'userfiles/modules/content'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/categories'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/comments'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/contact_form'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/custom_fields'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
 							
-						 $zip = new \mw\utils\zip();
+							$locations[] = $this -> repo_dir.'userfiles/modules/help'.DS;
+
+							$locations[] = $this -> repo_dir.'userfiles/modules/ip2country'.DS;
+							
+							$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
+							
+							$locations[] = $this -> repo_dir.'userfiles/modules/newsletter'.DS;
+							
+							$locations[] = $this -> repo_dir.'userfiles/modules/pictures'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/posts'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/pages_menu'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/users'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/layout'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/media'.DS;
+
+
+
+
+
+							
+							
+ 							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/site_stats'.DS;
+
+							 
+							$locations[] = $this -> repo_dir.'index.php';
+							$locations[] = $this -> repo_dir.'bootstrap.php';
+							 
+					 		$fileTime = date("D, d M Y H:i:s T"); 
+								
+								$zip = new \mw\utils\zip($filename);
+								
+								$zip->setZipFile($filename); 
+								$zip->setComment("Microweber core version ". $ver .".\nCreated on " . date('l jS \of F Y h:i:s A')); 
+ 
+
+						 // $zip = new \mw\utils\zip();
 						
 						foreach($locations as $location){
+							$rel_d = str_replace($this -> repo_dir, '', $location);
 							
-							$files = rglob($location.'.*');
-							foreach($files as $file){
+							
+							if(is_dir($location)){
+								$zip->addDirectoryContent($location,$rel_d,true); 
+							} else if(is_file($location)){
+								 $zip->addFile(file_get_contents($location),$rel_d, filectime($location)); 
 								
+							}
+							
+							
+						 
+           
+
+							
+							/*$files = rglob($location.'*');
+							
+							foreach($files as $file){
+								// d($file );
 								$fileb=basename($file);
+								  
 								if($fileb != '.' and $fileb != '..'){
-									$result = $zip -> compress($file, $filename);
-									d($result );d($file );
+									
+									
+								//	 $result = $zip -> compress($file, $filename, $this -> repo_dir);
+								//	 d($file );
 								}
 							//	d($fileb);
 								//
-							}
+							}*/
 						
 						//
 						
-						}
+						//}
 						
 						
 						}
+						$zip1 = $zip->finalize() ; 
+						d($zip1);
 						$to_return['core_update']  = dir2url($filename);
 
 			

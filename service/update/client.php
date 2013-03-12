@@ -43,7 +43,7 @@ class sample_update_client {
 			$arrays = get_object_vars($arrays);
 		}
 
-		foreach ($arrays AS $key => $value) {
+		foreach ($arrays as $key => $value) {
 			$k = isset($prefix) ? $prefix . '[' . $key . ']' : $key;
 			if (is_array($value) OR is_object($value)) {
 				$this -> http_build_query_for_curl($value, $new, $k);
@@ -62,7 +62,7 @@ $params = array();
 $params['module'] = 'ants';
 $params['password'] = 'pass';
 $result = $update_api -> call('get_download_link', $params);
-//print_r($result);
+ //print_r($result);
 
 
 
@@ -70,7 +70,7 @@ $update_api = new sample_update_client();
 
 $params = array();
 $params['module'] = 'ants';
-$params['mw_version'] = '0.22';
+$params['mw_version'] = '0.2772';
 $result = $update_api -> call('check_for_update', $params);
 print_r($result);
 
