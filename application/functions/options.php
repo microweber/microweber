@@ -245,8 +245,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
 	$data = array();
 
-	//   $data ['debug'] = 1;
-	if (is_array($key)) {
+ 	if (is_array($key)) {
 		$data = $key;
 	} else {
 		$data['option_key'] = $key;
@@ -473,7 +472,7 @@ function save_option($data) {
 			 
 			//d($clean);
 		}
-		$data['debug'] = 1;
+	//	$data['debug'] = 1;
 		
 		//}
 		if (strval($data['option_key']) != '') {
@@ -483,7 +482,7 @@ function save_option($data) {
 				unset($data['option_group']);
 			}
 
-			//  $data ['debug'] = 1;
+			 
 			$save = save_data($table, $data);
 
 			if ($option_group != false) {

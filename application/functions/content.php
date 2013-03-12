@@ -3079,7 +3079,7 @@ function mw_create_default_content($what) {
 			$add_page['content_type'] = "page";
 			$add_page['subtype'] = 'static';
 			$add_page['is_shop'] = 'n';
-			$add_page['debug'] = 1;
+			//$add_page['debug'] = 1;
 			$add_page['is_home'] = 'y';
 			$add_page['active_site_template'] = 'default';
 			$new_shop = save_content($add_page);

@@ -20,6 +20,7 @@ if (isset($_GET['api_function'])) {
 
 class mw_update_server {
 	private $here;
+	private $repo_dir;
 	private $downloads_dir;
 	private $modules_dir;
 	function __construct() {
@@ -29,8 +30,8 @@ class mw_update_server {
 		if (!is_dir($this -> downloads_dir)) {
 			mkdir_recursive($this -> downloads_dir);
 		}
-
-		$this -> modules_dir = $this -> here . 'modules' . DS;
+		$this -> repo_dir = $this -> here . 'mw_git/Microweber' . DS;
+		$this -> modules_dir = $this -> repo_dir . 'userfiles/modules' . DS;
 	}
 
 	function check_for_update($params) {
@@ -78,7 +79,7 @@ class mw_update_server {
 								$dl_params['module'] = $local_module['module_base'];
 								$module_download_link = $this -> get_download_link($dl_params);
 
-								$module['download_links'] = $module_download_link;
+								$module['download_link'] = $module_download_link;
 
 								$updates_data[] = $module;
 							}

@@ -219,8 +219,24 @@ mw.treeRenderer = {
         else if(type==='selector'){
            mw.treeRenderer.rendSelector(holder);
         }
+/*
+        var has_id = mwd.querySelector(holder).id;
+        if(has_id != undefined){
+         mw.on.moduleReload('#'+has_id, function(e){
+         mw.log('appendUI '+has_id);
+                mw.treeRenderer.appendUI('#'+has_id);
+
+            });
+        }
+
+*/
+
+
+
+
         mw.tools.tree.recall(mwd.querySelector(holder));
-       // mw.log(mwd.querySelector(holder).id);
+
+       //
       //  mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
     }
   }
