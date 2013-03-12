@@ -1161,7 +1161,7 @@ mw.tools = {
     var attrs = mw.tools.getAttrs(from);
     if(mw.tools.is_field(from) && mw.tools.is_field(to)) to.value = from.value;
     for(var x in attrs){
-       ( $.inArray(x, except) == -1 && x != 'undefined')? to.setAttribute(x, attrs[x]): '';
+       ( $.inArray(x, except) == -1 && x != 'undefined') ? to.setAttribute(x, attrs[x]): '';
     }
   },
   isEmptyObject:function(obj){
@@ -1203,11 +1203,12 @@ mw.tools = {
     }
   },
   tabGroup : function(obj){
+    var active = obj.activeNav || "active";
     mw.$(obj.nav).click(function(){
-      if(!$(this).hasClass("active")){
+      if(!$(this).hasClass(active)){
         var i = mw.tools.index(this, this.parentNode.parentNode);
-        mw.$(obj.nav).removeClass("active");
-        $(this).addClass("active");
+        mw.$(obj.nav).removeClass(active);
+        $(this).addClass(active);
         mw.$(obj.tabs).hide().eq(i).show();
       }
     });
@@ -1241,7 +1242,7 @@ Wait('$', function(){
     return this.dataset("value");
   };
 
-           
+
   $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
      var isCustom = isCustom || false;
      var isValidOption = false;

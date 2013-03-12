@@ -207,10 +207,13 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 			}
 		}
 	}
+	
+	 
 	// }
 	db_query_log($q);
 	if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
 		$db = $connection_settigns;
+		 
 	} else {
 		$db = c('db');
 	}

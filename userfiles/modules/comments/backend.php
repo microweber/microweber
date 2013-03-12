@@ -46,7 +46,8 @@ $(document).ready(function(){
 
 mw.tools.tabGroup({
    nav:".comments-group",
-   tabs:".comments-tab"
+   tabs:".comments-tab",
+   activeNav:"mw-ui-btn-blue"
 });
 
 
@@ -150,13 +151,13 @@ mw.tools.tabGroup({
 
 <div id="comments_module">
 
-<div id="mw_edit_page_left">
+<div id="mw_edit_page_left" style="width: 195px;">
 
 
 <div id="comments-nav">
 
   <a class="mw-ui-btn comments-group active" href="javascript:;">My Comments</a>
-  <a class="mw-ui-btn mw-ui-btn-blue comments-group" href="javascript:;" >Settings</a>
+  <a class="mw-ui-btn comments-group" href="javascript:;" >Settings</a>
 </div>
 
 

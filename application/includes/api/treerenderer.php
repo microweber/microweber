@@ -213,6 +213,9 @@ mw.treeRenderer = {
         $(mwd.querySelector(holder)).addClass('activated');
         var type = mw.tools.tree.detectType(mwd.querySelector(holder));
 
+
+
+
         if(type==='controller'){
            mw.treeRenderer.rendController(holder);
         }
@@ -238,6 +241,9 @@ mw.treeRenderer = {
 
        //
       //  mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
+    }
+    else{
+
     }
   }
 }

@@ -524,7 +524,7 @@ else{
         <div class="right">
           <?php /*     <span class="mw-ui-btn">Preview</span>
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
-          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();">Save</span> </div>
+          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');">Save</span> </div>
       </div>
       <div class="iframe_fix"></div>
     </div>

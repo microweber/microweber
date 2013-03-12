@@ -196,9 +196,10 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'application'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/elements'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/templates/default'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules'.DS;
 
 							 
-							$locations[] = $this -> repo_dir.'userfiles/modules/content'.DS;
+						/*	$locations[] = $this -> repo_dir.'userfiles/modules/content'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/categories'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/comments'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/contact_form'.DS;
@@ -219,21 +220,33 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'userfiles/modules/pages_menu'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/users'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/layout'.DS;
+							
+							
+							
+							// M 
 							$locations[] = $this -> repo_dir.'userfiles/modules/media'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/mics'.DS;
+							
+							
+							// T
+							$locations[] = $this -> repo_dir.'userfiles/modules/text'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/title'.DS; 
 
 
-
+*/
 
 
 							
 							
  							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/site_stats'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/default.php';
+							$locations[] = $this -> repo_dir.'userfiles/modules/default.png';
+							$locations[] = $this -> repo_dir.'userfiles/modules/non_existing.php';
 
 							 
 							$locations[] = $this -> repo_dir.'index.php';
 							$locations[] = $this -> repo_dir.'bootstrap.php';
-							 
+							 $locations[] = $this -> repo_dir.'.htaccess';   
 					 		$fileTime = date("D, d M Y H:i:s T"); 
 								
 								$zip = new \mw\utils\zip($filename);
@@ -283,7 +296,7 @@ $ver = $this->get_latest_core_version();
 						
 						}
 						$zip1 = $zip->finalize() ; 
-						d($zip1);
+						
 						$to_return['core_update']  = dir2url($filename);
 
 			

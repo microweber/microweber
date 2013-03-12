@@ -51,7 +51,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 			'type' => $to_save['DB_TYPE'],'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER'], 'pass' => $to_save['DB_PASS']);
 
 			//var_dump(MW_IS_INSTALLED);
-
+ 
 			$qs = "SELECT '' AS empty_col";
 			//var_dump($qs);
 			$qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
@@ -67,12 +67,16 @@ if (isset($_POST['IS_INSTALLED'])) {
 				foreach ($to_save as $k => $v) {
 					$save_config = str_ireplace('{' . $k . '}', $v, $save_config);
 				}
-				// d($save_config);
-				clearstatcache();
-				clearcache();
+				 // d($save_config);
+				
 
 				file_put_contents($cfg, $save_config);
-
+			
+				clearstatcache();
+				clearcache();
+				 _reload_c();
+				
+				
 				include_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 				include_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
 				exec_action('mw_db_init_options');
@@ -89,7 +93,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 				}
 
 				file_put_contents($cfg, $save_config);
-
+ _reload_c();
 				// mw_create_default_content('install');
 				print('done');
 

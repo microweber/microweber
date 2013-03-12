@@ -50,27 +50,39 @@ function load_file($f) {
 function v(&$v, $d = NULL) {
 	return isset($v) ? $v : $d;
 }
+$_mw_config_file_values = array();
+function _reload_c() {
+	
+	if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+		 global $_mw_config_file_values;
+			include (MW_CONFIG_FILE);
+			if (isset($config)) {
+				$_mw_config_file_values = $config;
+			// d($_mw_config_file_values );
+			}
+		}
+}
 
 function c($k, $no_static = false) {
 
 	if ($no_static == false) {
-		static $c;
+		global  $_mw_config_file_values;
 	} else {
-		$c = false;
+		$_mw_config_file_values = false;
 	};
 
-	if (isset($c[$k])) {
-		return $c[$k];
+	if (isset($_mw_config_file_values[$k])) {
+		return $_mw_config_file_values[$k];
 	} else {
 		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 			//d(MW_CONFIG_FILE);
 			//if (is_file(MW_CONFIG_FILE)) {
 			include_once (MW_CONFIG_FILE);
 			if (isset($config)) {
-				$c = $config;
-				if (isset($c[$k])) {
+				$_mw_config_file_values = $config;
+				if (isset($_mw_config_file_values[$k])) {
 
-					return $c[$k];
+					return $_mw_config_file_values[$k];
 				}
 			}
 		}

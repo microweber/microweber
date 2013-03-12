@@ -1,5 +1,15 @@
 
 
+<?php
+
+if(get_option('enable_comments', 'comments')=='y'){
+
+  $login_required = get_option('user_must_be_logged', 'comments')=='y';
+
+
+?>
+
+
 <?
 $data = $params;
 if (!isset($params['to_table'])) {
@@ -149,6 +159,9 @@ if ($template != false and strtolower($template) != 'none') {
 
             <hr>
 
+
+       <?php if(!$login_required){ ?>
+
         <div class="mw-cooments-form" id="comments-<? print $data['id'] ?>">
             <form autocomplete="off" id="comments-form-<? print $data['id'] ?>">
                 <input type="hidden" name="to_table_id" value="<? print $data['to_table_id'] ?>">
@@ -172,8 +185,16 @@ if ($template != false and strtolower($template) != 'none') {
                 </div>
             </form>
         </div>
+
+       <?php } ?>
+
+
         <?php break; ?>
 <?php endswitch; ?>
+
+
+
+<?php  }   ?>
 
 
 
