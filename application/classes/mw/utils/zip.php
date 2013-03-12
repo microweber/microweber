@@ -1,13 +1,17 @@
 <?
 
 namespace mw\utils;
-use ZipArchive;
-use RecursiveIteratorIterator;
+use \ZipArchive;
+use \RecursiveIteratorIterator;
 class zip    {
 	function compress($source, $destination) {
-		if (!extension_loaded('zip') || !file_exists($source)) {
+		if (!extension_loaded('zip')) {
 			error('The PHP Zip extension is required!');
 		}
+		if (!file_exists($source) or !is_dir($source)) {
+			return false;
+		}
+	 
  
 		$zip = new \ZipArchive();
 		if (!$zip -> open($destination, ZIPARCHIVE::CREATE)) {

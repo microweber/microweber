@@ -382,8 +382,24 @@ hr{
 
     }
 
-    .comment img.pull-left{
+    .comment .img-polaroid,
+    .comment .img-rounded{
+      display: block;
+      width: 67px;
+      max-height: 67px;
+      float: left;
       margin-right: 30px;
+      text-align: center;
+    }
+
+    .comment img.pull-left{
+      max-width: 67px;
+    }
+
+    .comment .random-color span{
+      display: block;
+      width: 67px;
+      height: 67px;
     }
 
     .comment-author{

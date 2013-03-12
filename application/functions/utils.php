@@ -181,7 +181,14 @@ function string_nice($var) {
 
 	return $var;
 }
-
+function string_get_between($content,$start,$end){
+    $r = explode($start, $content);
+    if (isset($r[1])){
+        $r = explode($end, $r[1]);
+        return $r[0];
+    }
+    return '';
+}
 
 function string_clean($var) {
 	if (is_array($var)) {

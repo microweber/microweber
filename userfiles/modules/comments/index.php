@@ -79,7 +79,35 @@ if ($template != false and strtolower($template) != 'none') {
             <div class="comments" id="comments-list-<? print $data['id'] ?>">
             <? foreach ($comments as $comment) : ?>
                     <div class="clearfix comment" id="comment-<? print $comment['id'] ?>">
-                       <img src="http://wbpreview.com/previews/WB0D95984/img/pic1.jpg" class="img-polaroid img-rounded pull-left comment-image" alt="" />
+
+                        <?php
+
+                        $avatar_style =  get_option('avatar_style', 'comments');
+                       // print $avatar_style;
+
+                        if($avatar_style != '2'){
+
+                        ?>
+
+                        <?php  if($avatar_style == '4'){ ?>
+
+
+                            <img src="<?php print  get_option('avatartype_custom', 'comments');  ?>" class="img-polaroid img-rounded pull-left comment-image" alt="" />
+
+
+                        <?php } ?>
+
+                        <?php } else { ?>
+
+
+
+                        <span class="img-polaroid img-rounded random-color">
+                            <span style="background-color: <?php print "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)); ?>">
+                            </span>
+                        </span>
+
+                        <?php } ?>
+
                        <div class="comment-content">
                             <div class="comment-author">
                                 <? print $comment['comment_name'] ?>

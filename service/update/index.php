@@ -34,6 +34,31 @@ class mw_update_server {
 		$this -> modules_dir = $this -> repo_dir . 'userfiles/modules' . DS;
 	}
 
+
+function get_latest_core_version() {
+	 $to_return = false;
+		 $core_file_v = $this -> repo_dir.'application/functions.php';
+		 if(is_file($core_file_v)){
+			 $core_file_v = file_get_contents($core_file_v);
+			 $core_v = string_get_between($core_file_v,"define('MW_VERSION',",';');
+			 $to_return = floatval($core_v);
+			 
+			 
+		 }
+	return $to_return;
+}
+
+
+	function get_latest_core_update($params = false) {
+		
+$ver = $this->get_latest_core_version();
+ 
+
+	return $ver;	
+	}
+	
+	
+	
 	function check_for_update($params) {
 
 		$list_recources_params = array();
@@ -89,6 +114,23 @@ class mw_update_server {
 			}
 			$to_return['modules'] = $updates_data;
 		}
+		
+		
+				if (isset($params['mw_version'])) {
+		 					$ver = $this->get_latest_core_version();
+							if (isset( $ver) and floatval( $ver) > floatval($params['mw_version'])) {
+								$dl_params = array();
+								$dl_params['core_update'] = 1;
+								$module_download_link = $this -> get_download_link($dl_params);
+								$to_return['core_update'] = $module_download_link;
+							 
+			}
+			
+		}
+		
+		
+		
+		
 
 		return $to_return;
 	}
@@ -128,14 +170,59 @@ class mw_update_server {
 						$zip_name = str_replace(DS, '-', $zip_name);
 						$zip_name = trim($zip_name . $conf['version']) . ".zip";
 						$filename = $this -> downloads_dir . $zip_name;
-						$unzip = new \mw\utils\zip();
-						$result = $unzip -> compress($mod_base, $filename);
+						if(!is_file($filename)){
+						$zip = new \mw\utils\zip();
+						$result = $zip -> compress($mod_base, $filename);
+						}
 						$to_return['modules'][$mod_rel_name] = dir2url($filename);
+						
 					}
 
 				}
 			}
 		}
+		
+		if (isset($params['core_update'])) {
+				$ver = $this->get_latest_core_version();
+				 
+ 						 
+						$zip_name = trim('microweber-' . $ver) . ".zip";
+						$filename = $this -> downloads_dir . $zip_name;
+						if(!is_file($filename)){
+							
+							$locations = array();
+							$locations[] = $this -> repo_dir.'application'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/admin'.DS;
+							 
+							
+						 $zip = new \mw\utils\zip();
+						
+						foreach($locations as $location){
+							
+							$files = rglob($location.'.*');
+							foreach($files as $file){
+								
+								$fileb=basename($file);
+								if($fileb != '.' and $fileb != '..'){
+									$result = $zip -> compress($file, $filename);
+									d($result );d($file );
+								}
+							//	d($fileb);
+								//
+							}
+						
+						//
+						
+						}
+						
+						
+						}
+						$to_return['core_update']  = dir2url($filename);
+
+			
+		}
+		
+		
 
 		return $to_return;
 	}

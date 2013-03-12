@@ -62,7 +62,22 @@ $params = array();
 $params['module'] = 'ants';
 $params['password'] = 'pass';
 $result = $update_api -> call('get_download_link', $params);
+//print_r($result);
+
+
+
+$update_api = new sample_update_client();
+
+$params = array();
+$params['module'] = 'ants';
+$params['mw_version'] = '0.22';
+$result = $update_api -> call('check_for_update', $params);
 print_r($result);
+
+
+
+
+
 /*
 print('<hr>');
 $params = array();
