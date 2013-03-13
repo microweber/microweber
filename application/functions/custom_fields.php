@@ -1,4 +1,4 @@
-<?
+<?php
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
 	$params = array();
 

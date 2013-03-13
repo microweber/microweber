@@ -965,9 +965,7 @@ a.mw-ui-btn, span.mw-ui-btn{
  background: url(../img/grad.php?top=F5F5F5&bot=EBEBEB) no-repeat;
 }
 
-.mw-ui-btn:active, .mw-ui-btn2:active{
-    box-shadow:inset 0 0 5px #ccc;
-}
+
 
 
 .mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);border-color: #BAD7F6;border-bottom-color: #89B6D9;}
@@ -1010,6 +1008,27 @@ a.mw-ui-btn, span.mw-ui-btn{
   box-shadow:inset 0 1px 0px 0px #fff;
 }
 
+
+.mw-ui-btn-hover{background: none;border-color: transparent;box-shadow: none;}
+
+.mw-ui-btn-hover:hover, .mw-ui-btn-hover.active{
+  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
+  border-color:#d5d1d1 #c2bfbf #A1A0A0;
+  box-shadow: inset 0 1px 0px 0px #fff;
+}
+
+.mw-ui-btn-hover-blue:hover, .mw-ui-btn-hover-blue.active{
+    background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);
+    border-color: #BAD7F6;
+    border-bottom-color: #89B6D9;
+    box-shadow:inset 0 1px 0px 0px #fff;
+}
+
+
+
+.mw-ui-btn:active, .mw-ui-btn2:active{
+    box-shadow:inset 0 0 5px #ccc;
+}
 
 
 .mw-hr,

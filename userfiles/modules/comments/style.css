@@ -1,9 +1,51 @@
 .comment-post{
-   border-bottom: 1px solid #E2E2E2;
-   padding: 10px;
+
+
    position: relative;
    overflow: hidden;
 }
+.comment-info-holder{
+   position: relative;
+   overflow: hidden;
+   padding: 10px;
+   cursor: pointer;
+   border-bottom: 1px solid #E2E2E2;
+}
+
+.comment-info-holder:hover{
+  background-color: #F8F8F8;
+}
+
+.comments-admin-header{
+  padding: 10px 0;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #E2E2E2;
+}
+
+
+
+.comments-admin-header-info{
+  float: left;
+  color: #434343;
+}
+
+.comments-admin-header-info small{
+  color: #747474;
+  font-size: 11px;
+}
+
+.comments-admin-header-info h2{
+  padding-bottom: 0;
+}
+
+.comments-admin-header input[type='search']{
+  width: 120px;
+  margin: 24px 0 0;
+  float: right;
+}
+
+
 .comment-post .img{
   float: left;
   width: 67px;
@@ -48,18 +90,22 @@
 
 .new-comments, .old-comments{
   display: none;
+  padding-left: 89px;
 }
 
 .comments-holder{
   clear: both;
   padding-top: 20px;
+  background: url(img/deeparr.png) no-repeat 37px 39px;
 }
 
 .comment-of-apost{
     padding: 10px;
     margin:10px 0;
     position: relative;
+    border-bottom: 1px solid #E2E2E2;
 }
+
 
 .manage-bar{
   visibility: hidden;
@@ -74,6 +120,7 @@
 
 .edit-comment textarea{
   width: 595px;
+  width: 520px;
   height: 50px;
   float: left;
 }
@@ -109,7 +156,7 @@
   text-align: right;
   width: 150px;
   top: 10px;
-  right: 0px;
+  right: 10px;
 }
 
 

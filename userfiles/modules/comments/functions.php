@@ -102,9 +102,14 @@ function post_comment($data) {
             }
         }
     }
-
-
-
+ if (!isset($data['id']) and isset($data['comment_body'])) {
+		$notif = array();
+			$notif['module'] = "comments";
+			$notif['title'] = "You have new comment";
+			$notif['description'] = "New comment is posted on ".curent_url(1);
+			$notif['content'] = "New comment... ".character_limiter($data['comment_body'],80);
+			post_notification($notif);
+ }
 
     $data = save_data($table, $data);
     return $data;

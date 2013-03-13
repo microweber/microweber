@@ -17,7 +17,6 @@
  if($from_path != ''): ?>
 <? $path .=html_entity_decode($from_path).DS;  ?>
 <? endif; ?>
- 
 <?
  
 $kw = false;  
@@ -31,7 +30,4 @@ if(isset($params['kw'])){
   if(isset($params['ul_class'])){
      $dirs = str_replace("ul class='directory_tree'","ul class='directory_tree ".$params['ul_class']."'", $dirs);
   }
-  
- print $dirs  ;
-   ?>
- 
+    print $dirs;  ?>

@@ -6,10 +6,8 @@ class MwView {
 	var $v;
 
 	function __construct($v) {
-		// d($v);
-		$this -> v = $v;
-		// $this->v = load_file ( "views/$v" );
-	}
+ 		$this -> v = $v;
+ 	}
 
 	function set($a) {
 		foreach ($a as $k => $v)

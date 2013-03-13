@@ -195,5 +195,17 @@ $.fn.bindMultiple = function(event, callback){
 }
 
 
+mw.e = {
+  cancel:function(e, prevent){
+    prevent===true?e.preventDefault():'';
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+    return e;
+  }
+}
+
+
+
+
 
 

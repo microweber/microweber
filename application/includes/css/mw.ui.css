@@ -116,30 +116,20 @@
 
 
 .iSpace{background-position:-1092px -127px;}
-
 .iAdd{background-position:-976px 1px;}
 .iRemove{background-position:-1013px 1px;}
-
 .iAdd2{background-position:-798px 4px;}
 .iRemove2{background-position:-822px 4px;}
-
 .icheck{background-position: -1051px 2px;}
 .iDone{background-position: -929px -57px;}
 .iplus{background-position: -1140px 2px;}
-
 .iset{background-position: -926px 0px;}
-
 .ilaquo{background-position: -927px -30px;}
-
 .ifullscreen{background-position: -798px -20px;}
 .no-fullscreen{background-position: -820px -20px;}
-
 .ismall_warn{background-position: -929px -86px;}
-
 .irefresh{background-position:-929px -119px; cursor: pointer;}
-
 .ipage_arr_up{background-position: -1282px -95px}
-
 .iMove{
   background-position: -1090px 2px;
   cursor: move !important;
@@ -150,8 +140,6 @@
   height: 26px;
   width: 28px;
 }
-
-
 .backico{
   display: inline-block;
   position: relative;
@@ -161,9 +149,9 @@
   background: url(../img/backarr.png) no-repeat;
   margin: 0 7px 0 0;
 }
-
-
 .iexcell{ background-position: -1283px -65px;  }
+
+
 
 
 .hidden{
@@ -534,5 +522,8 @@
     background: white;
     opacity:0.5;
 }
+
+
+
 
 

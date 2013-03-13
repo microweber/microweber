@@ -9,9 +9,13 @@ if(isset($params['edit-user'])){
 $user_params['id'] =intval($params['edit-user']);
 }
  
- 
- $user_params['limit'] = 1;
-$data = get_users($user_params);
+ if($user_params['id'] >  0){
+	  $user_params['limit'] = 1;
+	  $data = get_users($user_params);
+
+ } else {
+	$data = FALSE; 
+ }
 if(isset($data[0]) == false){
   $data = array();
   $data['id'] = 0;

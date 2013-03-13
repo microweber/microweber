@@ -1165,8 +1165,14 @@ function get_content($params = false) {
 
 
 		$table = MW_TABLE_PREFIX . 'content';
-		$get = db_get($table, $params, $cache_group );
-		if (isset($params['count']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+		
+		$params['table'] = $table;
+		$params['cache_group'] = $cache_group;
+		$get = get($params);
+		
+		//$get = db_get($table, $params, $cache_group );
+		if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+				 
 			return $get;
 		}
 		if (!empty($get)) {

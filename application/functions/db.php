@@ -494,7 +494,9 @@ function get($params) {
 			$no_cahce = true;
 		}
 
-		if ($k == 'one') {
+		if ($k == 'single') {
+			$getone = true;
+		} else if ($k == 'one') {
 			$getone = true;
 		} else {
 
@@ -570,11 +572,25 @@ function get($params) {
 	if (empty($ge)) {
 		return false;
 	}
-	//d($ge);
+
 	if ($getone == true) {
-		if (isset($ge[0])) {
-			return $ge[0];
+		
+		if(isarr($ge)){
+			
+			$one = array_shift($ge);
+			 
+			return $one;
 		}
+/*
+		// if (isset($ge[0])) {
+// 			 
+			// return $ge[0];
+		// }*/
+
+		
+		
+		
+		
 	}
 
 	return $ge;
@@ -1830,6 +1846,10 @@ function db_get_table_fields($table, $exclude_fields = false) {
  * @uses map_array_to_database_table()
  *
  */
+ function save($table, $data, $data_to_save_options = false) {
+ 	return save_data($table, $data, $data_to_save_options);
+	
+ }
 function save_data($table, $data, $data_to_save_options = false) {
 
 	if (is_array($data) == false) {

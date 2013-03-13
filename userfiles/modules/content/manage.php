@@ -60,8 +60,15 @@ if(isset($params['data-category-id'])){
  <?
 
 if($params['page-id'] == 'global'){
-
+ if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+ $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
+//d( $page_info1 );
+} else {
  $page_info = get_homepage();
+
+
+}
+
 } else {
 
 

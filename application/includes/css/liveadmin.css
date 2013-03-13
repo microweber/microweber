@@ -1669,12 +1669,12 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   visibility: visible;
 }
 
-.admin-modules-list-image .mw_module_image_holder{
+.mw_module_image_holder{
   margin:0 auto;
   display: inline-block;
   position: relative;
 }
-.admin-modules-list-image .mw_module_image_holder img{
+.mw_module_image_holder img{
   max-height: 32px;
   position: relative;
   z-index: 1;

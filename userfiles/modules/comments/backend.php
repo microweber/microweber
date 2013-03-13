@@ -41,22 +41,6 @@ mw.on.hashParam("comments_for_content", function(){  /*
 
 });
 
-$(document).ready(function(){
-
-
-mw.tools.tabGroup({
-   nav:".comments-group",
-   tabs:".comments-tab",
-   activeNav:"mw-ui-btn-blue"
-});
-
-
-
-});
-
-
-
-
 
 
 
@@ -66,15 +50,19 @@ mw.tools.tabGroup({
 
 <style type="text/css">
 
-#comments-nav{
+.comments-nav{
   clear: both;
   padding: 10px 0;
+  width: 160px;
+  margin: auto;
 }
 
-#comments-nav a{
+.comments-nav a{
   width:135px;
   margin: 5px auto;
   display: block;
+  text-align: center;
+  padding: 8px 10px;
 }
 
 #module-settings .mw-ui-label-inline{
@@ -137,8 +125,13 @@ mw.tools.tabGroup({
   background-image: url(<?php print get_option('avatartype_custom', 'comments'); ?>);
 }
 
-.avatars-holder{
-  padding-top: 3px;
+.avatars-holder{ padding-top: 3px; }
+
+.module-icon-title img{
+  position: relative;
+  z-index: 1;
+  margin-right: 8px;
+  top: 9px;
 }
 
 
@@ -149,18 +142,34 @@ mw.tools.tabGroup({
 
 
 
-<div id="comments_module">
+<div id="mw_edit_pages_content">
 
 <div id="mw_edit_page_left" style="width: 192px;">
 
+<?php $info = module_info($config['module']); ?>
 
-<div id="comments-nav">
 
-  <a class="mw-ui-btn comments-group mw-ui-btn-blue" href="javascript:;">My Comments</a>
-  <a class="mw-ui-btn comments-group" href="javascript:;" >Settings</a>
+
+
+
+<div class="comments-nav">
+
+  <h2 class="module-icon-title" style="padding: 21px 0;"><img src="<?php print $info['icon']; ?>" alt="" /><?php print $info['name']; ?></h2>
+
+  <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="javascript:;">My Comments</a>
+  <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a>
 </div>
 
 
+
+
+<div class="comments-nav">
+
+<h2>Templates</h2>
+  <a href="javascript:;" class="comments-group mw-ui-btn mw-ui-btn-hover">My templates</a>
+  <div class="vSpace"></div>
+  <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
+</div>
 </div>
 
 <div class="mw_edit_page_right" style="padding: 20px; width: 730px;">
@@ -173,19 +182,23 @@ mw.tools.tabGroup({
     <div class="comments-tab" id="the_comments">
       <div id="comments-admin-side">
 
+      <div class="comments-admin-header">
 
-      <h2>My Comments</h2>
-      <small>Read, moderate & public commets</small>
+          <div class="comments-admin-header-info">
+            <h2>My Comments</h2>
+            <small>Read, moderate & public commets</small>
+          </div>
+
           <input
               autocomplete="off"
-              style="width: 120px;margin: 20px;"
               type="search"
               placeholder="<?php _e("Search for post"); ?>"
-              onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
+              onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+          />
+      </div>
 
-          <module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 
-
+      <module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 
      </div>
 
@@ -240,7 +253,10 @@ mw.tools.tabGroup({
 
 
 
-
+      mw.tools.tabGroup({
+         nav:".comments-group",
+         tabs:".comments-tab"
+      });
 
 
       mw.$(".avatartype-randomcolor").parent().parent().hover(function(){
@@ -264,12 +280,12 @@ mw.tools.tabGroup({
     <div id="module-settings">
    <div class="<? print $config['module_class'] ?>">
 
-   <div class="vSpace"></div>
-   <h2>
-    Settings
-    <label class="mw-ui-label"><small>Define comments settings</small></label>
-    </h2>
-    <div class="vSpace"></div>
+   <div class="comments-admin-header">
+     <div class="comments-admin-header-info">
+       <h2>Settings</h2>
+       <small>Define comments settings</small>
+     </div>
+   </div>
 
 
    <label class="mw-ui-label-inline">Default comments settings</label>
@@ -512,6 +528,27 @@ mw.tools.tabGroup({
 
 
 
+
+    </div>
+
+    <div class="comments-tab" style="display: none">
+
+
+
+        <div class="comments-admin-header">
+
+          <div class="comments-admin-header-info">
+            <h2>My templates</h2>
+            <small>Browse your templates</small>
+          </div>
+
+          <input
+              autocomplete="off"
+              type="search"
+              placeholder="<?php _e("Search templates"); ?>"
+          />
+
+      </div>
 
     </div>
 </div>

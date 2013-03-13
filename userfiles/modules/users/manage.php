@@ -53,7 +53,7 @@ $data = get_users($user_params);
           <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none"><?php endif; ?></span></td>
           <td>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
-            <span class="mw-ui-admin-table-show-on-hover del-row"></span>
+            <span class="mw-ui-admin-table-show-on-hover del-row"  onclick="mw_admin_delete_user_by_id('<?  print $item['id']; ?>')"></span>
           </td>
       </tr>
  <? endforeach ; ?>

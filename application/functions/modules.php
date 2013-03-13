@@ -561,6 +561,19 @@ function is_module_installed($module_name) {
 	}
 }
 
+ 
+
+function module_info($module_name) {
+	$params = array();
+	$params['module'] = $module_name;
+	$params['ui'] = 'any';
+	$params['limit'] = 1;
+	$data = get_modules_from_db($params);
+	if (isset($data[0])) {
+		return $data[0];
+	}
+}
+
 function is_module($module_name) {
 	if (!is_string($module_name)) {
 		return false;
@@ -1066,7 +1079,7 @@ function scan_for_modules($options = false) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 	}
- 
+
 	$args = func_get_args();
 	$function_cache_id = '';
 	foreach ($args as $k => $v) {
@@ -1086,11 +1099,11 @@ function scan_for_modules($options = false) {
 		$cache_group = 'modules/global';
 	}
 
-	if (isset($options['is_elements']) and $options['is_elements'] != false ) {
+	if (isset($options['is_elements']) and $options['is_elements'] != false) {
 		$list_as_element = true;
 
 	} else {
-	$list_as_element = false;	
+		$list_as_element = false;
 	}
 
 	$skip_save = false;
@@ -1178,7 +1191,7 @@ function scan_for_modules($options = false) {
 				$def_icon = MODULES_DIR . 'default.png';
 
 				ob_start();
- 
+
 				include ($value);
 
 				$content = ob_get_contents();
@@ -1229,10 +1242,7 @@ function scan_for_modules($options = false) {
 				//d( $config);
 				$configs[] = $config;
 
-
-
-
-				if ($skip_save !== true and $skip_module == false ) {
+				if ($skip_save !== true and $skip_module == false) {
 					if (trim($config['module']) != '') {
 
 						if ($list_as_element == true) {
@@ -1249,13 +1259,10 @@ function scan_for_modules($options = false) {
 						}
 					}
 				}
-				
-				
-				
-				
+
 			}
 		}
- 
+
 		if ($skip_save == true) {
 			return $configs;
 		}

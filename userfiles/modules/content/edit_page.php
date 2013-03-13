@@ -214,7 +214,8 @@ $(document).ready(function(){
   }
   else{mw.$("#mw-main-postpage-editor").draggable("disable");}
 
-  mw.tools.scaleTo('#mw-main-postpage-editor', 950, 600);
+  //mw.tools.scaleTo('#mw-main-postpage-editor', 950, 600);
+  mw.tools.scaleTo('#mw-main-postpage-editor', "80%", "80%");
 
   span.toggleClass('no-fullscreen');
 

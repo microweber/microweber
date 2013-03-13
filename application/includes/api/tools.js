@@ -1173,20 +1173,32 @@ mw.tools = {
   scaleTo:function(selector, w, h){
     var w = w || 800;
     var h = h || 600;
+
+    var is_percent = w.toString().contains("%") ? true:false;
     var item = mw.$(selector);
     if(item.hasClass('mw-scaleto') || w == 'close'){
        item.removeClass('mw-scaleto');
        item.removeAttr('style');
     }
     else{
-       item.parent().height(item.height());
-        item.addClass('mw-scaleto');
-        item.css({
-          width:w,
-          height:h,
-          marginLeft:-w/2,
-          marginTop:-h/2
-        });
+      item.parent().height(item.height());
+      item.addClass('mw-scaleto');
+      if(is_percent){
+          item.css({
+            width:w,
+            height:h,
+            left:((100-parseFloat(w))/2)+"%",
+            top:((100-parseFloat(h))/2)+"%"
+          });
+      }
+      else{
+          item.css({
+            width:w,
+            height:h,
+            marginLeft:-w/2,
+            marginTop:-h/2
+          });
+      }
     }
   },
   getFirstEqualFromTwoArrays:function(a,b){
@@ -1210,6 +1222,9 @@ mw.tools = {
         mw.$(obj.nav).removeClass(active);
         $(this).addClass(active);
         mw.$(obj.tabs).hide().eq(i).show();
+        if(typeof obj.onclick == 'function'){
+                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);
+        }
       }
     });
   },
@@ -1855,6 +1870,10 @@ _Prefixtest = false;
        }
     }
   }
+
+
+
+
 
 
 
