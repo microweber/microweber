@@ -5,7 +5,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="span4" id="footer-social">
+            <div class="span5" id="footer-social">
                  <h3 class="pull-left">Be Social</h3>
                  <a href="http://facebook.com/Microweber" target="_blank" class="icon fb"></a>
                  <a href="http://twitter.com/Microweber" target="_blank" class="icon tw"></a>

@@ -110,11 +110,12 @@ $ver = $this->get_latest_core_version();
 						 	 $local_module['module'] = rtrim($local_module['module'], DS);
 							 
 						 if ($local_module['module'] == $module['module'] or $module['module'] == $local_module['module_base']) {
-							if (!isset($module['version'])) {
+							if (!isset($module['version']) or trim($module['version']) == '') { 
 								$module['version'] = '0.01';
 							} else {
 								$module['version'] =  trim($module['version']) ;
 							}
+							 
 							  if (isset($local_module['version']) and floatval($local_module['version']) > floatval($module['version'])) {
 								$dl_params = array();
 								$dl_params['module'] =  $local_module['module'];

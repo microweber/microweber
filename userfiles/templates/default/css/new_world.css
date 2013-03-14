@@ -386,6 +386,8 @@ hr{
 
     .mw-comments-form textarea{
       height: 100px;
+      min-height: 50px;
+      max-height: 250px;
       resize: vertical;
     }
 
@@ -457,7 +459,7 @@ hr{
    /* Comments Stylish Template  */
 
     .comments-template-stylish .comment .comment-content{
-        background:#E6E6E6;
+        background:#fff;
         box-shadow: inset 0px 1px 1px #CCCCCC;
         padding: 15px 25px;
         position: relative;
@@ -468,7 +470,7 @@ hr{
       display: block;
       position: absolute;
       left: -8px;
-      top: 20px;
+      top: 15px;
       width: 9px;
       height: 19px;
       z-index: 1;
@@ -476,21 +478,15 @@ hr{
     }
 
     .comments-template-stylish form input[type='text'],
+    .comments-template-stylish form input[type='email'],
     .comments-template-stylish form textarea, .comments-template-stylish form .add-on{
       border-radius: 0;
-      background: #E6E6E6;
+      background: #fff;
       padding:10px 8px;
     }
 
-    .comments-template-stylish form .btn{
-      background: #40A965;
-      color: white;
-      padding:10px;
-      border-radius: 0;
-      box-shadow: none;
-      border: none;
-      text-shadow: none;
-      text-transform: uppercase;
+    .comments-template-stylish form input.btn{
+      margin-top: 5px;
     }
 
    /* /Comments Stylish Template  */
@@ -688,7 +684,7 @@ i.myspace { background-position: -233px -51px; }
 
 #footer{
   background: #242B35;
-  padding: 20px 0 0;
+  padding: 20px 20px 0;
   margin-top: 45px;
   color: white;
 }

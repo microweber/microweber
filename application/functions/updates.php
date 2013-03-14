@@ -151,16 +151,18 @@ function mw_check_for_module_update($module = false) {
 
 }
 
+$mw_avail_updates = false;
 function mw_check_for_update() {
- 
-   
- 
-	$update_api = new \mw\update();
+	global $mw_avail_updates;
+	if ($mw_avail_updates == false) {
 
-	$iudates = $update_api -> check();
+		$update_api = new \mw\update();
 
-	return $iudates;
+		$iudates = $update_api -> check();
 
+		$mw_avail_updates = $iudates;
+	}
+	return $mw_avail_updates;
 	/*
 
 	 $a = is_admin();

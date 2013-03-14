@@ -32,9 +32,9 @@ class update {
 			//
 			if (($cache_content) != false) {
 
-				//return $cache_content;
+				 return $cache_content;
 			}
-
+ 
 		}
 
 		$data = array();
@@ -83,6 +83,9 @@ class update {
 				$unzip = new \mw\utils\unzip();
 				$target_dir = MW_ROOTPATH;
 				$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+				cache_clean_group('db');
+				exec_action('mw_db_init_default');
+				exec_action('mw_db_init_modules');
 				return $result;
 				// skip_cache
 			}
@@ -222,6 +225,9 @@ class update {
 			$data = modules_list($params);
 			//d($data);
 			cache_clean_group('update/global');
+			cache_clean_group('db');
+				exec_action('mw_db_init_default');
+				exec_action('mw_db_init_modules');
 
 		}
 		return $result;
@@ -303,7 +309,7 @@ class update {
 			$result = json_decode($result1, 1);
 		}
 		if ($result == false) {
-			$result = $result1;
+			print $result1;
 		}
 		return $result;
 	}

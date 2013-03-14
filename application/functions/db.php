@@ -1795,6 +1795,10 @@ function db_get_table_fields($table, $exclude_fields = false) {
 		$ex_fields_static[$table] = false;
 		return false;
 	}
+	
+	if(!isarr($fields)){
+		return false;
+	}
 	foreach ($fields as $fivesdraft) {
 		if ($fivesdraft != NULL and is_array($fivesdraft)) {
 			$fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);

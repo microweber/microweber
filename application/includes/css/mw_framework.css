@@ -1763,7 +1763,12 @@ border-top-right-radius: 0px;
   list-style: none;
   float: left;
   margin: 0 22px;
+  margin: 0;
 }
+.mw_tabs_layout_simple .mw_simple_tabs_nav li:first-child{
+  margin-left: 10px;
+}
+
 .mw_tabs_layout_simple .mw_simple_tabs_nav li a{
   display: block;
   text-align: center;
@@ -2309,7 +2314,7 @@ body.mw-external-loading:after{
 
 
 #UITU{
-   display: none !important; 
+  /* display: none !important; */
 }
 
 #LAYERS{

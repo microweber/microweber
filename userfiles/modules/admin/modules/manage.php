@@ -70,8 +70,9 @@ $result = $update_api -> call('get_modules', $params);
 } else {
 	 $mods = get_modules_from_db($mod_params); 
 }
+$upds = false;
   $upds = mw_check_for_module_update();
-// d($upds);
+   
  
 ?>
 <? if(isset($mods) and isarr($mods) == true): ?>
