@@ -299,7 +299,11 @@ $out_dn = str_replace('\/', DS,  $out_dn);
 
         if ($underscore_case) {
             $pathinfo = pathinfo($target_file_name);
-            $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
+          //  $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
+          
+            $pathinfo['filename_new'] =  strtolower($pathinfo['filename']);
+          
+          
             $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
         }
 
