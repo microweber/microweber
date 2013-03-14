@@ -119,9 +119,9 @@
 }
 
 .edit-comment textarea{
-  width: 595px;
   width: 520px;
   height: 50px;
+  resize: vertical;
   float: left;
 }
 

@@ -1063,6 +1063,14 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 
+input.mw-ui-field,
+.module-settings-page input[type='search'],
+.mw-module-live-edit-settings input[type='search']{
+  -webkit-appearance:textfield;
+  appearance:textfield;
+}
+
+
 .mw-ui-field::-webkit-input-placeholder {
   color: #AAAAAA;
 }
@@ -1686,9 +1694,9 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   float: none;
 }
 
-.mw-success{background-color:#D8FFC4;}
-.mw-warning{background-color:#FFFD8C;}
-.mw-error{background-color:#FE4B59;}
+.mw-success, table tbody tr.mw-success:nth-child(n){background-color:#D8FFC4;}
+.mw-warning, table tbody tr.mw-warning:nth-child(n){background-color:#FFFD8C;}
+.mw-error, table tbody tr.mw-error:nth-child(n){background-color:#FE4B59;}
 
 #mw-notifications-holder{
   position: relative;
@@ -2183,6 +2191,9 @@ tr.mw-o-box-table-footer td:first-child{
 #mw-main-postpage-editor.mw-scaleto iframe{
   width: 100%;
   height: 535px;
+  height: 85%;
+  height: calc(100% - 70px);
+  height: -webkit-calc(100% - 70px);
 }
 
 #mw-main-postpage-editor-drag-handle{
@@ -2298,7 +2309,7 @@ body.mw-external-loading:after{
 
 
 #UITU{
-   display: none !important;
+   display: none !important; 
 }
 
 #LAYERS{

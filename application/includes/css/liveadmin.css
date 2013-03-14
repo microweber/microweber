@@ -212,6 +212,7 @@ body.cross{
   display: inline-block;
   position: absolute;
   right: 0;
+  top: 4px;
 }
 
 
@@ -1678,7 +1679,11 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   max-height: 32px;
   position: relative;
   z-index: 1;
-  margin-top: 6px;
+
+}
+
+#mw_edit_page_left .mw_module_image_holder img{
+   margin-top: 6px;
 }
 
 .mw_module_image_shadow{

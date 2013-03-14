@@ -161,17 +161,22 @@ _mw_admin_user_edit = function(){
 
 
 mw.on.hashParam('is_admin', function(){
+	mw.url.windowDeleteHashParam('edit-user');
     _mw_admin_users_manage();
     mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
 });
 mw.on.hashParam('search', function(){
+	
+	mw.url.windowDeleteHashParam('edit-user');
     _mw_admin_users_manage();
 });
 mw.on.hashParam('is_active', function(){
+	mw.url.windowDeleteHashParam('edit-user');
     _mw_admin_users_manage();
     mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
 });
 mw.on.hashParam('sortby', function(){
+	mw.url.windowDeleteHashParam('edit-user');
     _mw_admin_users_manage();
 });
 mw.on.hashParam('edit-user', function(){
@@ -201,10 +206,33 @@ function mw_admin_delete_user_by_id($user_id){
 }
 
 
+ 
 
 
 
 </script>
+
+<? $mw_notif =  (url_param('mw_notif'));
+if( $mw_notif != false){
+ $mw_notif = read_notification( $mw_notif);	
+ 
+}
+
+mark_notifications_as_read('users');
+ ?>
+<? if(isarr($mw_notif) and isset($mw_notif['to_table_id'])): ?>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	  var holder = mw.$('#user_edit_admin_panel');
+         holder.attr('edit-user',"<? print $mw_notif['to_table_id'] ?>");
+		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['to_table_id'] ?>');
+ });
+
+
+
+</script>
+<? endif; ?>
 
 <div id="mw_index_users">
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">

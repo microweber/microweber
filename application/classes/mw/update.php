@@ -6,22 +6,35 @@ class update {
 
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
 
-
 	function __construct() {
-		 ini_set("memory_limit", "160M");
-			if (!ini_get('safe_mode')) {
-				set_time_limit(2500);
-			}
+		ini_set("memory_limit", "160M");
+		if (!ini_get('safe_mode')) {
+			set_time_limit(2500);
+		}
 	}
 
 	function get_modules() {
 
 	}
 
-	function check() {
+	function check($skip_cache = false) {
 		$a = is_admin();
 		if ($a == false) {
 			error('Must be admin!');
+		}
+
+		//	$data['layouts'] = $t;
+
+		if ($skip_cache == false) {
+
+			$c_id = __FUNCTION__ . date("ymd");
+			$cache_content = cache_get_content($c_id, 'update/global');
+			//
+			if (($cache_content) != false) {
+
+				//return $cache_content;
+			}
+
 		}
 
 		$data = array();
@@ -30,13 +43,20 @@ class update {
 		$t = templates_list();
 		$data['templates'] = $t;
 
-		$t = modules_list();
+		//	$t = scan_for_modules("cache_group=modules/global");
+		$t = get_modules_from_db("ui=any");
+		//d($t);
 		$data['modules'] = $t;
 
 		$t = get_elements_from_db();
 		$data['elements'] = $t;
-	//	$data['layouts'] = $t;
+
 		$result = $this -> call('check_for_update', $data);
+		if ($skip_cache == false) {
+			if ($result != false) {
+				cache_save($result, $c_id, 'update/global');
+			}
+		}
 		return $result;
 	}
 
@@ -51,7 +71,7 @@ class update {
 
 			$value = trim($result["core_update"]);
 			$fname = basename($value);
-			$dir_c = CACHEDIR . 'downloads' . DS;
+			$dir_c = CACHEDIR . 'update/downloads' . DS;
 			if (!is_dir($dir_c)) {
 				mkdir_recursive($dir_c);
 			}
@@ -164,6 +184,8 @@ class update {
 				}
 			}
 		}
+
+		cache_clean_group('update/global');
 		//clearcache();
 		return $unzipped;
 	}
@@ -190,7 +212,7 @@ class update {
 					$unzip = new \mw\utils\unzip();
 					$target_dir = MW_ROOTPATH;
 					//d($dl_file);
-					 $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+					$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}
 			}
@@ -199,13 +221,12 @@ class update {
 
 			$data = modules_list($params);
 			//d($data);
+			cache_clean_group('update/global');
 
 		}
 		return $result;
 
 	}
-
-
 
 	function install_element($module_name) {
 
@@ -229,7 +250,7 @@ class update {
 				if (is_file($dl_file)) {
 					$unzip = new \mw\utils\unzip();
 					$target_dir = MW_ROOTPATH;
-					 d($dl_file);
+					d($dl_file);
 					// $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}
@@ -274,11 +295,15 @@ class update {
 			curl_setopt($ch, CURLOPT_POST, count($post_params));
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
 		}
-		$result = curl_exec($ch);
+		$result1 = curl_exec($ch);
 
 		curl_close($ch);
-		if ($result != false) {
-			$result = json_decode($result, 1);
+		$result = false;
+		if ($result1 != false) {
+			$result = json_decode($result1, 1);
+		}
+		if ($result == false) {
+			$result = $result1;
 		}
 		return $result;
 	}

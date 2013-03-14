@@ -6,6 +6,15 @@
 
 
  ?>
+ 
+ <?
+	 $notif_html = '';
+	$notif_count = get_notifications('module=shop&to_table=table_cart_orders&is_read=n&count=1');
+ 	if( $notif_count > 0){
+    $notif_html = '<sup class="mw-notif-bubble">'.$notif_count.'</sup>';
+    }
+ 
+  ?>
   <a href="<?php print $config['url']; ?>/action:orders" class="new-order-notification"> <strong><?php print intval( $orders); ?></strong>
   <?php _e("New Orders"); ?>
   </a>
@@ -14,7 +23,7 @@
       <li <?php if($active_action == false): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>"><span class="ico iproduct"></span><span>
         <?php _e("Products"); ?>
         </span></a></li>
-      <li <?php if($active_action == 'orders'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:orders"><span class="ico iorder"></span><span>
+      <li <?php if($active_action == 'orders'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:orders"><span class="ico iorder"><? print $notif_html ?></span><span>
         <?php _e("Orders"); ?>
         </span></a></li>
       <li <?php if($active_action == 'clients'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:clients"><span class="ico iusers"></span><span>

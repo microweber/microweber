@@ -22,10 +22,14 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+
+
 hr{
   border-bottom: 1px solid #BFC0C4;
   box-shadow: 0 2px 1px 0 white;
 }
+
+.mw-captcha-img{ cursor: pointer; }
 
 /* /Global styles */
 
@@ -34,6 +38,26 @@ hr{
   padding: 12px 0;
 }
 
+.small-layout{
+  width:  40%;
+  margin: auto;
+}
+
+
+@media (max-width: 767px){
+  .small-layout{ width: 80%; }
+}
+
+
+.box-head{
+   background-color: #F4F4F4;
+    border-bottom: 1px solid #D6D6D6;
+    border-radius: 4px 4px 1px 0;
+    margin-bottom: 37px;
+    padding: 25px 0;
+    margin: -19px -19px 20px -19px;
+    text-align: center;
+}
 
 #header{
   background: #242B35;
@@ -350,21 +374,22 @@ hr{
 
     /* Comments  */
 
-    .mw-cooments-form .captcha .add-on{
+    .mw-comments-form .captcha .add-on{
       background-color: white;
     }
 
-    .mw-cooments-form input[type='text'],
-    .mw-cooments-form textarea{
-      width: 100%;
+    .mw-comments-form .comment-field input, .mw-comments-form .comment-field textarea{
+      width: 97%;
+      width: calc(100% - 14px);
+      width: -webkit-calc(100% - 14px);
     }
 
-    .mw-cooments-form textarea{
+    .mw-comments-form textarea{
       height: 100px;
+      resize: vertical;
     }
 
-    .mw-cooments-form input[type='submit']{
-      margin-right: -15px;
+    .mw-comments-form input[type='submit']{
       position: relative;
       z-index: 1;
     }
@@ -387,14 +412,11 @@ hr{
       display: block;
       width: 67px;
       max-height: 67px;
-      float: left;
-      margin-right: 30px;
+      margin: 5px 0;
       text-align: center;
     }
 
-    .comment img.pull-left{
-      max-width: 67px;
-    }
+
 
     .comment .random-color span{
       display: block;
@@ -406,6 +428,72 @@ hr{
       font-weight: bold;
       color: #333;
     }
+
+
+
+
+    /* Comments Simple Template  */
+
+
+    .comments-template-simple .comment{
+        padding: 10px;
+        border: 1px solid #D3D3D3;
+        margin: 10px 0;
+        background: white;
+        border-radius: 4px;
+    }
+    .comments-template-simple .comment:nth-child(2n){
+      border-color:transparent;
+      background-color: transparent;
+    }
+
+    /* /Comments Simple Template  */
+
+
+
+
+
+
+   /* Comments Stylish Template  */
+
+    .comments-template-stylish .comment .comment-content{
+        background:#E6E6E6;
+        box-shadow: inset 0px 1px 1px #CCCCCC;
+        padding: 15px 25px;
+        position: relative;
+    }
+
+    .comments-template-stylish .comment .comment-content:before{
+      content: "";
+      display: block;
+      position: absolute;
+      left: -8px;
+      top: 20px;
+      width: 9px;
+      height: 19px;
+      z-index: 1;
+      background: url(../img/comments_stylish_arrow.png) no-repeat;
+    }
+
+    .comments-template-stylish form input[type='text'],
+    .comments-template-stylish form textarea, .comments-template-stylish form .add-on{
+      border-radius: 0;
+      background: #E6E6E6;
+      padding:10px 8px;
+    }
+
+    .comments-template-stylish form .btn{
+      background: #40A965;
+      color: white;
+      padding:10px 8px;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      text-shadow: none;
+      text-transform: uppercase;
+    }
+
+   /* /Comments Stylish Template  */
 
 
     /* /Comments  */
@@ -555,10 +643,7 @@ i.myspace { background-position: -233px -51px; }
 /* Login and Register */
 
 
-.login-register{
-  width:  40%;
-  margin: auto;
-}
+
 
 .already-have-an-account{
   float: left;
@@ -566,6 +651,32 @@ i.myspace { background-position: -233px -51px; }
   margin:2px 0 0 12px;
 }
 
+.facebook-login{
+  display: inline-block;
+  padding: 6px 20px 6px 70px;
+  background: url(../img/facebook_login.jpg) no-repeat;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #39599F;
+  border: 1px solid #3B4868;
+  border-radius:3px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+  max-width: calc(100% - 100px);
+  max-width: -webkit-calc(100% - 90px);
+}
+
+.facebook-login:hover{box-shadow: inset 0 0 2px #39599F;}
+.facebook-login:active{box-shadow:inset 0 0 8px #2E487F;}
+
+.login-register .facebook-login{
+    display: block;
+    margin: auto;
+    width: 160px;
+}
 
 
 /* /Login and Register */

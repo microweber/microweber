@@ -406,7 +406,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 	$media_url = MEDIA_URL;
 	$media_url = trim($media_url);
 	$src = str_replace_once('{SITE_URL}', $surl, $src);
-
+ 
 	/*d($src);
 	 d($media_url);
 	 print '<hr>';
@@ -417,15 +417,16 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 		$src = str_replace($surl . '/', $surl, $src);
 
-		$src = str_replace($media_url, '', $src);
-		$src = str_ireplace($surl, '', $src);
+		//$src = str_replace($media_url, '', $src);
+		$src = str_replace($surl, '', $src);
 		$src = ltrim($src, DS);
 		$src = ltrim($src, '/');
 		$src = rtrim($src, DS);
 		$src = rtrim($src, '/');
-		$src = MEDIAFILES . $src;
+		//$src = MEDIAFILES . $src;
+		$src = MW_ROOTPATH . $src;
 		$src = normalize_path($src, false);
-
+ 
 	} else {
 		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
 		//

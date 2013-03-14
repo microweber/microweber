@@ -510,3 +510,4 @@ $language["add-image"]= 'Add Image' ;
 $language["change-image"]= 'Change Image' ; 
 $language["are-you-sure-you-want-to-delete-this-comment"]= 'Are you sure you want to delete this comment' ; 
 $language["search-templates"]= 'Search templates' ; 
+$language["update"]= 'Update' ; 

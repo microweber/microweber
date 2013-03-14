@@ -56,11 +56,9 @@
 
 .ico{
   display: inline-block;
-  text-indent: -100%;
   float: left;
   width: 25px;
   height: 25px;
-  overflow: hidden;
   position: relative;
   background-color: transparent;
   background-repeat: no-repeat;
@@ -84,7 +82,7 @@
 .imanage-module{background-position:-228px -119px;}
 .iupgrade{background-position:-495px 1px;}
 .inotification{background-position:-495px -42px;}
-.iupload{background-position:-497px -81px;}
+.iupload{background-position:-498px -82px;}
 .itruck{background-position:-497px -114px;width: 28px;}
 .ireport{background-position:-749px 1px;}
 .isuggest{background-position:-749px -43px;}
@@ -94,6 +92,7 @@
 .ilogout{background-position:-880px -24px}
 .ipromo{background-position:-881px -83px}
 .ioptions{background-position:-880px -118px}
+.iupdate{background-position:-588px -79px}
 
 /* Custom fields icons */
 
@@ -522,6 +521,26 @@
     background: white;
     opacity:0.5;
 }
+
+.mw-notif-bubble{
+  display: inline-block;
+  padding: 1px 2px;
+  color: white;
+  font-size: 9px;
+  font-weight: bold;
+  position: relative;
+  top: -1px;
+  background: #EF3D25;
+  box-shadow: 0px 1px 2px #363636;
+  border-radius: 2px;
+}
+
+.ico > .mw-notif-bubble{
+  position: absolute;
+  left: 75%;
+  top: -7px;
+}
+
 
 
 

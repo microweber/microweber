@@ -1134,6 +1134,19 @@ function _d($a) {
 }
 
 
+
+function mw_date($date){
+	 	$date_format = get_option('date_format','website');
+		if($date_format == false){
+		$date_format = "Y-m-d H:i:s";	
+		}
+		
+		if(isset( $date) and  trim($date) != ''){
+			$date=  date($date_format, strtotime($date) );
+			return $date;
+			}
+}
+
 /***********************************
 * string_format
  *
@@ -1157,6 +1170,11 @@ function string_format($format, $string, $placeHolder = "#")
 	}
 	return $format;
 }
+
+
+
+
+
 if(!function_exists('money_format')){
 	function money_format($format, $number)
 	{

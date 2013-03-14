@@ -8,7 +8,7 @@ if(url_param('add_module')){
 	
 	$install = url_param('add_module');
 	
-	 $update_api = new \mw\update();
+	 $update_api = new \mw\update(true);
  
 	$iudates = $update_api -> check();
 

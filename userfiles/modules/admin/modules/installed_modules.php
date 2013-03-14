@@ -1,4 +1,3 @@
- 
 <script  type="text/javascript">
 
 
@@ -67,8 +66,12 @@ _modulesSort = function(){
 
     var hash = mw.url.getHashParams(window.location.hash);
 
-    hash.ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;
-    hash.category === undefined ? mw.url.windowHashParam('category', '0') : '' ;
+    //hash.ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;
+   // hash.category === undefined ? mw.url.windowHashParam('category', '0') : '' ;
+
+
+	
+
 
     var attrs  = mw.url.getHashParams(window.location.hash);
     var holder = mw.$('#modules_admin_<? print $params['id']; ?>');
@@ -80,6 +83,13 @@ _modulesSort = function(){
     for(;i<l;i++){
       holder.removeAttr(arr[i]);
     }
+	
+	if(hash.ui === undefined){
+		 holder.attr('data-show-ui', 'admin');
+	}
+	
+	
+	
     for (var x in attrs){
         if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
@@ -153,51 +163,35 @@ mw.on.hashParam('installed', function(){
 
 <div id="mw_index_modules">
   <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
-
-
-  <h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2>
-
-  <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $params['id']; ?>" >
-
-
-
+    <h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2>
+    <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $params['id']; ?>" >
       <module type="categories" data-for="modules" id="modules_admin_categories_<? print $params['id']; ?>" />
-
-
-
-
-
-       <div style="padding-left: 46px">
-          <div class="vSpace"></div>
-          <label class="mw-ui-label">Show: </label>
-          <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher">
-              <span class="mw-switch-handle"></span>
-              <label>Installed<input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" /></label>
-              <label>Uninstalled<input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  /></label>
-          </div>
-          <div class="vSpace">&nbsp;</div>
-          <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
-       </div>
-
-
-
-
-
+      <div style="padding-left: 46px">
+        <div class="vSpace"></div>
+        <label class="mw-ui-label">Show: </label>
+        <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher"> <span class="mw-switch-handle"></span>
+          <label>Installed
+            <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
+          </label>
+          <label>Uninstalled
+            <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
+          </label>
+        </div>
+        <div class="vSpace">&nbsp;</div>
+        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a> </div>
     </div>
-
-
-
-
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;width: 730px;">
-
-      <div class="modules-index-bar">
-
-        <span class="mw-ui-label-help font-11 left">Sort modules:</span>
-
-        <?php $def =  _e("Search for modules", true);  ?>
-
-        <input
+  
+  
+  
+  
+  
+  
+  
+    <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
+      <?php $def =  _e("Search for modules", true);  ?>
+      <input
         name="module_keyword"
         id="module_keyword"
         autocomplete="off"
@@ -209,35 +203,26 @@ mw.on.hashParam('installed', function(){
         onblur='mw.form.dstatic(event);'
         onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
           />
-
-        <div class="mw_clear"></div>
-
-
-
-        <ul class="mw-ui-inline-selector">
-         
-          <li>
-            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Live edit modules</span></label>
-
-          </li>
-           <li>
-            <label class="mw-ui-check"><input name="module_show" class="mw_modules_filter_show" type="radio" value="admin"   checked="checked"  onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Admin modules</span></label>
-
-          </li>
-          <li>
-            <label class="mw-ui-check"><input name="module_show"  class="mw_modules_filter_show"  type="radio" value="advanced"  onchange="mw.url.windowHashParam('ui', this.value)" /><span></span><span>Advanced</span></label>
-
-          </li>
-        </ul>
-
-
-
-
-
-
-      </div>
-      <div class="vSpace"></div>
- 
+      <div class="mw_clear"></div>
+      <ul class="mw-ui-inline-selector">
+        <li>
+          <label class="mw-ui-check">
+            <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" />
+            <span></span><span>Live edit modules</span></label>
+        </li>
+        <li>
+          <label class="mw-ui-check">
+            <input name="module_show" class="mw_modules_filter_show" type="radio" value="admin"   checked="checked"  onchange="mw.url.windowHashParam('ui', this.value)" />
+            <span></span><span>Admin modules</span></label>
+        </li>
+        <li>
+          <label class="mw-ui-check">
+            <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="advanced"  onchange="mw.url.windowHashParam('ui', this.value)" />
+            <span></span><span>Advanced</span></label>
+        </li>
+      </ul>
+    </div>
+    <div class="vSpace"></div>
     <div id="modules_admin_<? print $params['id']; ?>" ></div>
   </div>
 </div>

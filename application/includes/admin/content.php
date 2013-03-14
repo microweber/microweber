@@ -491,9 +491,18 @@ function mw_add_product(){
         <label>Page</label>
         <button></button>
         </a> <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
-        <label>Post</label>
+
+        <? if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
+
+  <? else :  ?>
+ <label>Post</label>
         <button>&nbsp;</button>
         </a> <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
+<? endif; ?>
+
+
+
+
         <label>Category</label>
         <button>&nbsp;</button>
         </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">

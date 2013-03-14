@@ -13,6 +13,13 @@ description: Clean layout
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
-<module="users/register" />
- <module="users/login" />
+<div id="content">
+    <div class="container">
+        <div class="span12">
+            <div class="well small-layout headed-box">
+                <module="users/login" />
+             </div>
+         </div>
+     </div>
+ </div>
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

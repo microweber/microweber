@@ -1293,9 +1293,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			if ($add_to_seachq_q == true) {
 
-				if ($v != 'id' && $v != 'password') {
-
+				//if ($v != 'id' && $v != 'password') {
+			if ($v != 'username' && $v != 'password') {
 					switch ($v) {
+						
 						case 'title' :
 						case 'description' :
 						case 'name' :
@@ -1305,7 +1306,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 						$where_q .= " $v REGEXP '$to_search' " . $where_post;
 							// $where_q .= " $v LIKE '%$to_search%' " . $where_post;
 						break;
-
+					case 'id' :
+						$to_search1 = intval($to_search);
+						$where_q .= " $v='$to_search1' " . $where_post;
+						break;
 						default :
 
 

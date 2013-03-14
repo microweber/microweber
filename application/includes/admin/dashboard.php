@@ -15,21 +15,32 @@
       <h2>Quick Links</h2>
       <ul class="mw-quick-links left">
         <? exec_action('mw_admin_dashboard_quick_link'); ?>
-        <li><a href="<?php print admin_url(); ?>"><span class="ico imanage-website"></span><span>Manage Website</span></a></li>
-        <li><a href="<?php print admin_url(); ?>"><span class="ico imanage-module"></span><span>Manage Modules</span></a></li>
+        <li><a href="<?php print admin_url('view:content'); ?>"><span class="ico imanage-website"></span><span>Manage Website</span></a></li>
+        <li><a href="<?php print admin_url('view:modules'); ?>"><span class="ico imanage-module"></span><span>Manage Modules</span></a></li>
       </ul>
     </div>
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupgrade"></span><span>Upgrades</span></a></li>
-        <li><a href="<?php print admin_url(); ?>"><span class="ico inotification"></span><span>Notifications</span></a></li>
+        <? $notif_count = get_notifications('is_read=n&count=1'); ?>
+        <li><a href="<?php print admin_url('view:admin__notifications'); ?>"><span class="ico inotification">
+          <? if( $notif_count > 0): ?>
+          <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
+          <? endif; ?>
+          </span><span>Notifications</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupload"></span><span>Upload Files</span></a></li>
         <? if(is_module('updates')): ?>
-        <li><a href="<?php print admin_url(); ?>view:updates"><span class="ico iupdate"></span><span>Updates</span></a></li>
+        <? $notif_count = mw_updates_count() ?>
+        <li><a href="<?php print admin_url(); ?>view:updates"><span class="ico iupdate"> <? if( $notif_count > 0): ?>
+          <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
+          <? endif; ?></span><span>Updates</span></a></li>
         <? endif; ?>
         <? exec_action('mw_admin_dashboard_quick_link2'); ?>
-       </ul>
+      </ul>
     </div>
+    
+   
+    
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="<?php print admin_url(); ?>"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
@@ -37,7 +48,7 @@
         <? if(is_module('help')): ?>
         <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>
         <? endif; ?>
-         <? exec_action('mw_admin_dashboard_help_link'); ?>
+        <? exec_action('mw_admin_dashboard_help_link'); ?>
       </ul>
     </div>
   </div>

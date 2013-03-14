@@ -113,9 +113,9 @@ class files implements \iMwCache {
 		//mw_notif(__FUNCTION__.$cache_group);
 		$is_cleaning_now = mw_var('is_cleaning_now');
 		$use_apc = false;
-		 
-		mw_var('is_cleaning_now', true);
-
+		if ($is_cleaning_now == false) {
+			mw_var('is_cleaning_now', true);
+		}
 		try {
 
 			$cache_group_index = $this -> cache_get_file_path('index', $cache_group);
@@ -123,18 +123,19 @@ class files implements \iMwCache {
 			$dir = $this -> cache_get_dir('global');
 
 			if (is_dir($dir)) {
-				 $this->recursive_remove_from_cache_index($dir);
+				$this -> recursive_remove_from_cache_index($dir);
 			}
 			$dir = $this -> cache_get_dir($cache_group);
 
 			if (is_dir($dir)) {
-				  $this->recursive_remove_from_cache_index($dir);
+				$this -> recursive_remove_from_cache_index($dir);
 			}
 			//d($dir);
 			mw_var('is_cleaning_now', false);
 			// clearstatcache();
 			return true;
 		} catch (Exception $e) {
+			mw_var('is_cleaning_now', false);
 			return false;
 			// $cache = false;
 		}
@@ -397,9 +398,6 @@ class files implements \iMwCache {
 	 */
 
 	function cache_save($data_to_cache, $cache_id, $cache_group = 'global') {
-		if (mw_var('is_cleaning_now') == true) {
-			return false;
-		}
 
 		if ($data_to_cache == false) {
 
@@ -449,7 +447,8 @@ class files implements \iMwCache {
 
 		$is_cleaning = mw_var('is_cleaning_now');
 
-		if (strval(trim($cache_id)) == '' or $is_cleaning == true) {
+		//if (strval(trim($cache_id)) == '' or $is_cleaning == true) {
+		if (strval(trim($cache_id)) == '') {
 
 			return false;
 		}
@@ -484,12 +483,13 @@ class files implements \iMwCache {
 			try {
 				$is_cleaning_now = mw_var('is_cleaning_now');
 
-				if ($is_cleaning_now == false) {
-					$cache_file_temp = $cache_file . '.tmp' . rand() . '.php';
-					$cache = file_put_contents($cache_file_temp, $content1);
-					@rename($cache_file_temp, $cache_file);
-
-				}
+				// if ($is_cleaning_now == false) {
+				$cache_file_temp = $cache_file . '.tmp' . uniqid() . '.php';
+				$cache = file_put_contents($cache_file_temp, $content1);
+				//d($cache_file_temp);
+				@rename($cache_file_temp, $cache_file);
+				//mw_var('is_cleaning_now',false);
+				//}
 
 			} catch (Exception $e) {
 				// $this -> cache_storage[$cache_id] = $content;

@@ -12,7 +12,12 @@ function mw_print_admin_dashboard_comments_btn() {
 	if ($active == 'comments') {
 		$cls = ' class="active" ';
 	}
-	print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment"></span><span>Comments</span></a></li>';
+	$notif_html = '';
+	$notif_count = get_notifications('module=comments&is_read=n&count=1');  
+ 	if( $notif_count > 0){
+    $notif_html = '<sup class="mw-notif-bubble">'.$notif_count.'</sup>';
+    }
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">'. $notif_html.'</span><span>Comments</span></a></li>';
 }
 
 
@@ -103,11 +108,13 @@ function post_comment($data) {
         }
     }
  if (!isset($data['id']) and isset($data['comment_body'])) {
-		$notif = array();
+			$notif = array();
 			$notif['module'] = "comments";
+			$notif['to_table'] = $data['to_table'];
+			$notif['to_table_id'] = $data['to_table_id'];
 			$notif['title'] = "You have new comment";
 			$notif['description'] = "New comment is posted on ".curent_url(1);
-			$notif['content'] = "New comment... ".character_limiter($data['comment_body'],80);
+			$notif['content'] = character_limiter($data['comment_body'],800);
 			post_notification($notif);
  }
 

@@ -1172,7 +1172,9 @@ function get_content($params = false) {
 		
 		//$get = db_get($table, $params, $cache_group );
 		if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-				 
+				 if (isset($get['url'])) {
+ 					$get['url'] = site_url($get['url']);
+				}
 			return $get;
 		}
 		if (!empty($get)) {

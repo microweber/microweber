@@ -175,11 +175,13 @@ VALUES ($next, '$email', '$pass', 'n')";
 
 			$notif = array();
 			$notif['module'] = "users";
+			$notif['to_table'] = 'table_users';
+			$notif['to_table_id'] = $next;
 			$notif['title'] = "New user registration";
-			$notif['description'] = "You have new user registration";
+			$notif['description'] = "You have new user registration"; 
 			$notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
 			post_notification($notif);
-
+	 
 			return array($next);
 		} else {
 			return array('error' => 'This user already exists!');

@@ -105,11 +105,11 @@ $ver = $this->get_latest_core_version();
 		if (isset($params['modules'])) {
 			foreach ($params['modules'] as $module) {
 				foreach ($local_modules as $local_module) {
-					if (isset($module['module_base']) and isset($local_module['module_base'])) {
+					if (isset($module['version']) and isset($module['module']) and isset($local_module['module_base'])) {
 						 	$local_module['module'] = str_replace($this -> modules_dir, '',$local_module['module']); 
 						 	 $local_module['module'] = rtrim($local_module['module'], DS);
 							 
-						 if ($local_module['module'] == $module['module'] or $module['module_base'] == $local_module['module_base']) {
+						 if ($local_module['module'] == $module['module'] or $module['module'] == $local_module['module_base']) {
 							if (!isset($module['version'])) {
 								$module['version'] = '0.01';
 							} else {
@@ -139,7 +139,7 @@ $ver = $this->get_latest_core_version();
 		
 		
 		$updates_data = array();
-		if (isset($params['elements'])) {
+		if (isset($params['elehjjhjhjhjhjhjhjhjhjhjhjhments'])) {
 			
 			
 			

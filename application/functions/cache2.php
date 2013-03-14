@@ -146,6 +146,7 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
 		$local_obj = new $cache_storage_type;
 
 	}
+	// d($data_to_cache);
 	return $local_obj -> save($data_to_cache, $cache_id, $cache_group);
 
 }

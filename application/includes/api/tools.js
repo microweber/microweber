@@ -1246,7 +1246,7 @@ mw.tools = {
   }
 }
 
-
+Alert = mw.tools.alert;
 
 
 
@@ -1830,6 +1830,9 @@ mw.tools.scrollBar =  {
     }, false);
   }
 }
+
+
+
 
 
 mw.isDragItem = mw.isBlockLevel = function(obj){
