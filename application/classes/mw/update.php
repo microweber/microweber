@@ -32,9 +32,9 @@ class update {
 			//
 			if (($cache_content) != false) {
 
-				 return $cache_content;
+				return $cache_content;
 			}
- 
+
 		}
 
 		$data = array();
@@ -60,6 +60,16 @@ class update {
 		return $result;
 	}
 
+	function post_update() {
+		cache_clean_group('db');
+		cache_clean_group('update/global');
+		cache_clean_group('elements/global');
+		cache_clean_group('modules/global');
+		scan_for_modules();
+		exec_action('mw_db_init_default');
+		exec_action('mw_db_init_modules');
+	}
+
 	function install_version($new_version) {
 		only_admin_access();
 		$params = array();
@@ -83,9 +93,7 @@ class update {
 				$unzip = new \mw\utils\unzip();
 				$target_dir = MW_ROOTPATH;
 				$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
-				cache_clean_group('db');
-				exec_action('mw_db_init_default');
-				exec_action('mw_db_init_modules');
+				$this -> post_update();
 				return $result;
 				// skip_cache
 			}
@@ -187,8 +195,8 @@ class update {
 				}
 			}
 		}
-
-		cache_clean_group('update/global');
+		$this -> post_update();
+		//cache_clean_group('update/global');
 		//clearcache();
 		return $unzipped;
 	}
@@ -226,8 +234,8 @@ class update {
 			//d($data);
 			cache_clean_group('update/global');
 			cache_clean_group('db');
-				exec_action('mw_db_init_default');
-				exec_action('mw_db_init_modules');
+			exec_action('mw_db_init_default');
+			exec_action('mw_db_init_modules');
 
 		}
 		return $result;

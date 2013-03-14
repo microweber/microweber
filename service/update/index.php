@@ -116,14 +116,15 @@ $ver = $this->get_latest_core_version();
 								$module['version'] =  trim($module['version']) ;
 							}
 							 
-							  if (isset($local_module['version']) and floatval($local_module['version']) > floatval($module['version'])) {
+							  if (isset($local_module['version']) and ( floatval($local_module['version']) > floatval($module['version']))) {
 								$dl_params = array();
 								$dl_params['module'] =  $local_module['module'];
 								 $module_download_link = $this -> get_download_link($dl_params);
 
 							 	 $module['download_link'] = $module_download_link;
 								$module['module_orig'] = $module['module'];
-								$module['module_local'] = $local_module['module'];;
+								$module['module_remote'] = $local_module['module'];;
+								$module['module_remote_version'] = trim($local_module['version']);;
 
 	 
 								 $updates_data[] = $module;
