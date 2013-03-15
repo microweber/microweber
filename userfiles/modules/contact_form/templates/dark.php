@@ -26,7 +26,7 @@ mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
 
 <div class="contact-form-container contact-form-template-dark">
     <div class="contact-form">
-        <div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
+        <div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<? print $params['id'] ?>">
           <h3 class="element contact-form-title">Leave a Message</h3>
         </div>
         <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >

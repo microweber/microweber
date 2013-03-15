@@ -9,6 +9,20 @@
   position: relative;
 }
 
+.mw-module-images{
+  zoom:1;
+}
+
+.mw-module-images:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+
+}
+
 
 .mw-rotator .mw-gallery-item{
   background-repeat: no-repeat;

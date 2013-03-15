@@ -59,19 +59,7 @@
   width: 500px;
 }
 
-.comments_number{
-  position: absolute;
-  display: block;
-  text-align: center;
-  padding: 1px 0 0;
-  width: 27px;
-  height: 25px;
-  font-size: 11px;
-  color: #434343;
-  top:  -7px;
-  right: -12px;
-  background: url(img/comments_numb_number.png) no-repeat;
-}
+
 
 .comment-post h3{
   font-weight: normal;

@@ -10,11 +10,17 @@ description: Default
 
 */
 
-?><div class="edit" data-field="form_title" rel="module" data-id="<? print $params['id'] ?>">
-  <h3 class="element">Write us a letter</h3>
+?><div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<? print $params['id'] ?>">
+  <h3>Write us a letter</h3>
+  <p>We will contact you soon!</p>
 </div>
 <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
-  <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
+
+ 
+
+
+
+  <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
   <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
     <div class="control-group">
       <label>Security code</label>

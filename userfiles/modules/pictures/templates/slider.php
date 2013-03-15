@@ -56,5 +56,5 @@ description: Pictures slider
  
 
 <? else : ?>
-Please click on settings to upload your pictures.
+<? print mw_notif("Please click on settings to upload your pictures."); ?>
 <? endif; ?>

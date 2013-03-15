@@ -28,7 +28,36 @@ mw.on.hashParam("search", function(){
     });
 
 });
+mw.on.hashParam("content_id", function(){   
+    if(this  !== '' && this  != '0'){
+		$('#mw_comments_admin_dashboard').hide();
+		$('#mw_admin_posts_with_comments').show();
+    	$('#mw_admin_posts_with_comments').attr('content_id',this);
+		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
+		     mw.reload_module('#mw_admin_posts_with_comments', function(){
+ 		  
+		  mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder')); 
+		  
+		  
+		  
+		  
+		  
+    });
+	
+    } else {
+		
+		
+		
+    	$('#mw_admin_posts_with_comments').removeAttr('content_id');
+		  mw.reload_module('#mw_admin_posts_with_comments');
 
+    }
+ 
+
+
+
+
+});
 
 mw.on.hashParam("comments_for_content", function(){  /*
     if(this  !== '' && this  != '0'){
@@ -224,7 +253,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
     <?php $info = module_info($config['module']); ?>
     <div class="comments-nav">
       <h2 class="module-icon-title" style="padding: 21px 0;"><img src="<?php print $info['icon']; ?>" alt="" /><?php print $info['name']; ?></h2>
-      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="javascript:;">My Comments</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a> </div>
+      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">My Comments</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a> </div>
     <div class="comments-nav">
       <h2>Templates</h2>
       <a href="javascript:;" class="comments-group mw-ui-btn mw-ui-btn-hover">My templates</a>

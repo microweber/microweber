@@ -272,7 +272,25 @@ function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
 
 	$id = is_admin();
 	if ($id == false) {
-		error('Error: not logged in as admin.');
+		return false;
+	}
+
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+	$cache_content = cache_get_content($function_cache_id, 'db/custom_fields');
+
+	if (($cache_content) != false) {
+ 
+		return true;
 	}
 
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -303,6 +321,8 @@ function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
 		//
 
 	}
+
+	cache_save($make_field, $function_cache_id, $cache_group = 'db/custom_fields');
 
 }
 
@@ -632,6 +652,15 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	} else {
 		$file = $dir . $field_type . '.php';
 	}
+	if (!is_file($file)) {
+		$field_type = 'text';
+		if ($settings == true or isset($data['settings'])) {
+			$file = $dir . $field_type . '_settings.php';
+		} else {
+			$file = $dir . $field_type . '.php';
+		}
+	}
+
 	if (is_file($file)) {
 		$l = new MwView($file);
 		//

@@ -123,6 +123,7 @@ body.dragStart .empty-element { display: block; }
   min-height: 100% !important;
   position: absolute !important;
   top: 0;
+
 }
 
 
@@ -225,7 +226,7 @@ body .mw-col > .ui-resizable-e *{
 
 
 #mw_toolbar_nav .back_to_admin{
-  margin-right: 120px;
+  margin-right: 150px;
   float: right;
 }
 

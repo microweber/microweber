@@ -4,9 +4,9 @@
 
 type: layout
 content_type: dynamic
-name: Blog layout
+name: Blog
 
-description: Blog layout
+description: Blog
 
 */
 

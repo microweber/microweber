@@ -7,19 +7,19 @@ if(!isset($edit_post_mode)){
 $rand = uniqid();
 
 
-if(isset($params["data-content-id"])){
+if(isset($params["data-content-id"]) and intval($params['data-content-id']) > 0){
 	$params["data-page-id"] = $params["data-content-id"];
 }
 
 if(isset($params["content-id"])){
 	$params["data-page-id"] = $params["content-id"];
 }
-if(isset($params["data-content"])){
-	$params["data-page-id"] = $params["data-content"];
+if(isset($params["data-content"])and intval($params['content-id']) > 0){
+	//$params["data-page-id"] = $params["data-content"];
 }
 
 if(!isset($params["data-page-id"])){
-	$params["data-page-id"] = PAGE_ID;
+	//$params["data-page-id"] = PAGE_ID;
 }
 
 $pid = false;
@@ -27,7 +27,7 @@ $data = false;
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
   $data = get_content_by_id(intval($params["data-page-id"]));
-
+//d($data);
 }
 
 $active_site_template = '';
@@ -94,20 +94,64 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
     if(isset($data['parent']) and  intval($data['parent']) == 0){
       $is_shop_exist = get_content('is_shop=y&limit=1');
       if(isarr($is_shop_exist)){
-        $params['parent-page-id'] = $data['parent_id'] = $is_shop_exist[0]['id'];
+        $params['parent-page-id'] = $data['parent_id'] = $data['parent'] = $is_shop_exist[0]['id'];
       }
     }
 
 
   }
 } else {
+
   if(isset($edit_post_mode) and $edit_post_mode == true){
-    if(isset($data['parent']) and  intval($data['parent']) == 0){
-      $is_shop_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1');
-      //d($is_shop_exist );
-      if(isarr($is_shop_exist)){
-        $params['parent-page-id'] = $data['parent_id'] = $is_shop_exist[0]['id'];
+$is_blog_exist = false;
+if(isset($params['parent-page-id'])){
+$is_blog_exist = get_content("id=".$params['parent-page-id']);
+ if(isarr($is_blog_exist)){
+$data['parent'] = $is_blog_exist[0]['id'];
+
+ }
+
+}
+
+    if(isset($data['parent']) and  intval($data['parent']) == 0 or !isset($data['parent'])){
+
+
+
+
+
+
+ if(isarr($is_blog_exist)){
+
+
+ } else {
+
+
+
+ $is_blog_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1');
+
+      if(isarr($is_blog_exist)){
+  $data['parent'] = $is_blog_exist[0]['id'];
+       } else {
+
+
+ mw_create_default_content('blog');
+ $is_blog_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1&no_cache=1');
+       }
+
+ }
+
+
+
+
+  if(isarr($is_blog_exist)){
+       // $params['parent-page-id'] = $data['parent_id'] = $data['parent'] = $is_blog_exist[0]['id'];
+
+       $data['parent'] = $is_blog_exist[0]['id'];
       }
+
+
+
+
     }
   }
 }
@@ -151,6 +195,8 @@ $(document).ready(function(){
      mw.reload_module('[data-type="pages_menu"]');
  // mw_after_content_save<? print $rand; ?>();
  <? endif; ?>
+
+ mw_on_save_complete<? print $rand; ?>()
 
 
 });
@@ -685,9 +731,8 @@ else{
 
 
 
-
-
   if(isset($include_categories_in_cat_selector)): ?>
+
     <?
   $x = implode(',',$include_categories_in_cat_selector);
   $strz = ' add_ids="'.$x.'" ';   ?>
@@ -704,12 +749,32 @@ else{
 }
 	 //d($categories_active_ids);
 ?>
+
       <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
       <? else: ?>
+
+
+
+
       <? if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
 
  $selected_parent_ategory_id = 'active_ids="'.$params["parent-page-id"].'"';
 } ?>
+
+  <? if(intval($data['parent']) == 0  and isset( $data['parent_id'] ) and intval( $data['parent_id'] ) > 0) {
+
+
+$data['parent'] =  $data['parent_id'] ;
+
+  } else if(intval($data['parent']) == 0  and isset( $params['parent-page-id'] ) and intval( $params['parent-page-id'] ) > 0){
+    $data['parent'] =  $params['parent-page-id'] ;
+  }
+
+if(isset($is_blog_exist) and isarr($is_blog_exist)){
+
+}
+  ?>
+
       <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
       <? endif; ?>
     </div>

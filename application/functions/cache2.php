@@ -36,7 +36,10 @@ if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'd
 	}
 } else {
 
-	if ($_mw_cache_obj == false) {
+	
+}
+
+if ($_mw_cache_obj == false) {
 		/*
 		if ($apc_exists == true) {
 					$_mw_cache_obj = new mw\cache\apc();
@@ -46,7 +49,6 @@ if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'd
 
 	//	}
 	}
-}
 /*
  // if(isset($_GET['debug'])){
  // d($enable_server_cache_storage);
@@ -154,7 +156,7 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
 api_expose('clearcache');
 
 function clearcache($cache_storage_type = false) {
-	if ($cache_storage_type == false) {
+	if ($cache_storage_type == false or trim($cache_storage_type) == '') {
 		global $_mw_cache_obj;
 		$local_obj = $_mw_cache_obj;
 	} else {

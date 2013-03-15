@@ -6,7 +6,10 @@
 	$for = $params['for'];
  }
  
- 
+ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
+	 
+	make_default_custom_fields($for,$params['parent-module-id'],$params['default-fields']);
+}
   if(isset($params['data-skip-type'])){
 	$skip_types = explode(',',$params['data-skip-type']);
 	$skip_types = array_trim($skip_types);
@@ -50,7 +53,7 @@ $for_id =$params['to_table_id'];
 <input type="hidden" name="for_id" value="<? print $for_id?>" />
 <input type="hidden" name="for" value="<? print $for?>" />
 <?
-
+$prined_items_count = 0;
 if(!empty($more )): ?>
 <? $price_fields = array(); ?>
 <? foreach($more  as $field): ?>
@@ -59,6 +62,7 @@ if(!empty($more )): ?>
 if(isset($field['custom_field_type'])  and $field['custom_field_type'] =='price'){
 	$price_fields[] = $field;
 } else {
+	$prined_items_count++;
 print  make_field($field);  
 }
  }
@@ -70,13 +74,20 @@ print  make_field($field);
     <select name="price">
       <? endif; ?>
       <? foreach($price_fields  as $field): ?>
-      <? if($price_fields_c >1){ $field['make_select'] = true; } ?>
-      <? print  make_field($field);   ?>
+       <? 
+	   $prined_items_count++;
+	   if($price_fields_c >1){ $field['make_select'] = true; } ?>
+      <?  print  make_field($field);   ?>
       <? endforeach; ?>
       <? if($price_fields_c >1) : ?>
     </select>
+    <?  else: ?>
     <? endif; ?>
 <? endif; ?>
 <? else: ?>
 <? mw_notif("You don't have any custom fields."); ?>
 <? endif; ?>
+<? if($prined_items_count == 0): ?>
+<? mw_notif("Click on settings to edit your custom fields."); ?>
+<? endif; ?>
+ 

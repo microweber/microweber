@@ -230,7 +230,21 @@ $(document).ready(function(){
 
 });
 
+
+
  </script>
+ <script  type="text/javascript">
+    if(typeof mw.menu_save_new_item !== 'function'){
+        mw.menu_save_new_item = function(selector){
+        	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
+        		mw.reload_module('nav/edit_items');
+        		if(window.parent != undefined && window.parent.mw != undefined){
+        			window.parent.mw.reload_module('nav');
+        		}
+        	});
+        }
+    }
+</script>
 <? $menus = get_menu(); ?>
 <?php
 

@@ -456,12 +456,28 @@ form .shipping-country-row:first-child{
 }
 
 #mw-login{
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  margin-left: -220px;
-  width: 322px;
+  width: 362px;
   padding: 20px;
+  margin: 0 auto;
+  position: relative;
+  top: 100px;
+}
+
+#mw-login .mw-o-box{
+    padding: 20px;
+    clear: both;
+}
+
+.Beta{
+  color: #BBBBBB;
+  font-family: Georgia, Times, "Times New Roman", Times, serif;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#mw-login .Beta{
+  float: right;
+  margin: 3px 0 0;
 }
 
 #mw-login .mw-ui-field{
@@ -469,10 +485,10 @@ form .shipping-country-row:first-child{
 }
 
 .mw-edit-user-table{
- width: 100%;
- border-top: none;
- border-bottom: none;
- border-radius:0;
+   width: 100%;
+   border-top: none;
+   border-bottom: none;
+   border-radius:0;
 }
 
 .mw-edit-user-table td{
@@ -518,6 +534,88 @@ form .shipping-country-row:first-child{
 ::-webkit-scrollbar-thumb{
     background: #787878;
 }
+
+.mw-toolbar-notification{
+    float: right;
+    margin-right: 15px;
+    position: relative;
+    top: 5px;
+    z-index: 9;
+
+
+}
+
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap{
+  visibility: hidden;
+  position: absolute;
+  z-index: 9;
+  width: 250px;
+  font-size: 11px;
+  top: 35px;
+  left: -103px;
+  box-shadow: 0px 0px 8px #ccc;
+}
+
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap time{
+  font-size: 9px;
+  color: #BBBBBB;
+}
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap img{
+  position: relative;
+  top: -4px;
+}
+
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap tr{
+  background: none !important;
+}
+
+.mw-toolbar-notif-items-wrap tr td:first-child{width: 20px;text-align: center;}
+.mw-toolbar-notif-items-wrap tr td a{padding:10px;display: block;text-decoration: none}
+.mw-toolbar-notif-items-wrap tr td a:hover{text-decoration: none}
+.mw-toolbar-notif-items-wrap tr td .ellipsis{max-width:190px;display: block;}
+
+
+.mw-toolbar-notif-items-wrap tr:hover td{background-color: #EEEEEE;}
+
+
+.mw-toolbar-notification .mw-o-box-header{
+  margin-bottom: 0;
+}
+
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap td{
+  padding: 0;
+  text-align: left;
+  background: none;
+}
+
+.sell-all-notifications{
+  display: block;
+  text-align: center;
+  padding: 12px;
+   background: white;
+}
+
+.sell-all-notifications:hover{
+  background-color: #EEEEEE;
+}
+
+
+
+
+
+
+
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap table{
+  border: none;
+  width: 100%;
+  border-radius:0;
+}
+
+#toolbar_notifications{
+  cursor: pointer;
+}
+
+
 
 
 

@@ -1,5 +1,6 @@
 <?
 // d($params);
+$is_momodule_comments = is_module('comments');
 
 $post_params = $params;
 
@@ -78,7 +79,7 @@ if (isset($post_params['data-page-id'])) {
 
 	if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 		$sub_cats = array();
-		
+
 			$str0 = 'table=table_taxonomy&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&to_table_id=' . $cfg_page_id;
 		$page_categories = get($str0);
 		//d($page_categories);
@@ -94,41 +95,41 @@ if (isset($post_params['data-page-id'])) {
 		//	d($more);
 			}
 		}
-		
-				
+
+
 						if(empty($sub_cats)){
-						
+
 						$par_page = get_content_by_id($cfg_page_id);
 						if(isset($par_page['subtype']) and strval($par_page['subtype']) == 'dynamic' and isset($par_page['subtype_value']) and intval(trim($par_page['subtype_value'])) > 0){
 					  $sub_cats = get_category_children($par_page['subtype_value']);
 					  if(!empty($sub_cats)){
 							$sub_cats = implode(',',$sub_cats);
-							 
+
 							$post_params['category'] = $par_page['subtype_value'].','.$sub_cats;
-					 
+
 						} else {
 							$post_params['category'] = $par_page['subtype_value'];
 						}
-					  } 
-					  	
+					  }
+
 						}
-						
-						
-						
-						
-						 $post_params['parent'] = $cfg_page_id;	
-						
-					  
-						 
-					
-		
-		
-	}  
-	
-	
-	
-	
-	
+
+
+
+
+						 $post_params['parent'] = $cfg_page_id;
+
+
+
+
+
+
+	}
+
+
+
+
+
 $tn_size = array('150');
 
 if (isset($post_params['data-thumbnail-size'])) {
@@ -151,7 +152,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
- 
+
 
 // $post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
@@ -166,7 +167,7 @@ $post_params_paging = $post_params;
 
 $post_params_paging['page_count'] = true;
  $pages = get_content($post_params_paging);
- 
+
 $paging_links = false;
 $pages_count = intval($pages);
 ?>
@@ -185,17 +186,17 @@ $pages_count = intval($pages);
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
       <?
     	$pic  = get_picture(  $item['id']);
-	 
-		
+
+
 		 ?>
       <? if($pic == true ): ?>
       <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
       <? else : ?>
       <a class="manage-post-image manage-post-image-no-image left"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
       <? endif; ?>
-      
+
       <? $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
-      
+
       <div class="manage-post-main">
         <h3 class="manage-post-item-title"><a target="_top" href="<? print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"><? print strip_tags($item['title']) ?></a></h3>
         <small><a  class="manage-post-item-link-small" target="_top"  href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
@@ -205,7 +206,33 @@ $pages_count = intval($pages);
       </div>
       <div class="manage-post-item-author" title="<? print user_name($item['created_by']); ?>"><? print user_name($item['created_by'],'username') ?></div>
     </div>
-    <div class="manage-post-item-comments"><? print ($item['created_by']) ?></div>
+
+<? if($is_momodule_comments == true): ?>
+<?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
+<?
+
+if($new > 0){
+  $have_new = 1;
+} else {
+  $have_new = 0;
+  $new = get_comments('count=1&content_id='.$item['id']);
+}
+ ?>
+
+
+
+
+        <? if($have_new): ?>
+
+        <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print $item['id'] ?>" class="comment-notification"><? print($new); ?></a>
+
+        <?php else:  ?>
+
+        <span class="comment-notification comment-notification-silver "><? print($new); ?></span>
+         <? endif;?>
+        <? endif; ?>
+
+
   </div>
   <? endforeach; ?>
 </div>
@@ -214,7 +241,7 @@ $pages_count = intval($pages);
 <?
 
         $numactive = 1;
- 
+
      if(isset($params['data-page-number'])){
                 $numactive   = intval($params['data-page-number']);
               } else if(isset($params['curent_page'])){

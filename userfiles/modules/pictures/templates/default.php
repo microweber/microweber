@@ -42,11 +42,6 @@ $(document).ready(function(){
 </div>
 
 <? else : ?>
-
-<div class="mw-notification mw-success">
-    <div>
-      <span class="ico ioptions"></span>
-      <span>Please click on settings to upload your pictures.</span>
-    </div>
-  </div>
+<? print mw_notif("Please click on settings to upload your pictures."); ?>
+ 
  <? endif; ?>

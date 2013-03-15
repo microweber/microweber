@@ -174,6 +174,8 @@ mw.drag = {
          mw.top_half = false;
 
 
+         mw.$(".edit > p").addClass("element");
+
 
          $(mwd.body).mousemove(function(event){
 

@@ -541,6 +541,13 @@
   top: -7px;
 }
 
+.ellipsis{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
 
 
 

@@ -1,10 +1,10 @@
 <?php $rand = rand(); ?>
 <div class="mw-reset mw-newsletter mw-newsletter-default">
   <div class="well">
-      <div class="edit" field="form_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+      <div class="edit" field="newsletter_form_title"  rel="newsletter_module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
         <h3>Subscribe for our Newsletter</h3>
       </div>
-      <div class="edit" field="form_sub_title"  rel="module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
+      <div class="edit" field="form_sub_title"  rel="newsletter_module" data-option_group="<? print $params['id'] ?>" data-module="<? print $params['type'] ?>">
         <p>To subscribe for out newsletter please fill the form and click subscribe button!</p>
       </div>
       <form method="post" action="#">

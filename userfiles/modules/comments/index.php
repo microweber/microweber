@@ -7,6 +7,13 @@ if(get_option('enable_comments', 'comments')=='y'){
 
 ?>
 <?
+
+if(isset($params['content-id'])){
+	 $data['to_table'] = 'table_content';
+	 $data['to_table_id'] = $params['content-id'];
+}
+
+
 $data = $params;
 if (!isset($params['to_table'])) {
 
@@ -17,16 +24,21 @@ if (!isset($params['to_table'])) {
 
 if (!isset($data['to_table_id'])) {
 
-
+ 
 
     if (defined('POST_ID') == true and intval(POST_ID) != 0) {
-        $data['to_table_id'] = POST_ID;
+       $data['to_table_id'] = POST_ID;
     }
 }
 if (!isset($data['to_table_id'])) {
     if (defined('PAGE_ID') == true) {
-        $data['to_table_id'] = PAGE_ID;
+      $data['to_table_id'] = PAGE_ID;
     }
+}
+if (!isset($data['to_table_id'])) {
+
+ $data['to_table_id'] = $params['id'];
+ 
 }
 ?>
 <?

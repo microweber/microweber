@@ -1575,7 +1575,7 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .mw-modules-admin ul ul:not(.pages_tree){
   padding-left: 40px;
   background: url(../img/deeparr.png) no-repeat 2px 18px;
-  display: none;
+ /* display: none; */
 }
 
 .menu_nested_controll_arrow {

@@ -497,12 +497,12 @@ function mw_add_product(){
   <? else :  ?>
  <label>Post</label>
         <button>&nbsp;</button>
-        </a> <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
+        </a>
 <? endif; ?>
 
 
 
-
+<a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
         <label>Category</label>
         <button>&nbsp;</button>
         </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">

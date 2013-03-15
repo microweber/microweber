@@ -140,6 +140,24 @@ function get_notification($id) {
 	return $get;
 }
 
+api_expose('notifications_reset');
+function notifications_reset() {
+
+	$is_admin = is_admin();
+	if ($is_admin == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	$table = MW_DB_TABLE_NOTIFICATIONS;
+
+	$q = "update $table set is_read='n'";
+	db_q($q);
+	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+
+	return true;
+
+}
+
 api_expose('delete_notification');
 function delete_notification($id) {
 

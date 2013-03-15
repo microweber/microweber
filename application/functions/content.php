@@ -21,7 +21,7 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
  // action_hook('mw_db_init', 'mw_db_init_content_table');
- 
+
 function mw_db_init_content_table() {
 	$function_cache_id = false;
 
@@ -61,7 +61,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('parent', 'int(11) default NULL');
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 	 $fields_to_add[] = array('content_meta_title', 'TEXT default NULL');
-	
+
 	$fields_to_add[] = array('content_meta_keywords', 'TEXT default NULL');
 	$fields_to_add[] = array('position', 'int(11) default 1');
 
@@ -493,7 +493,7 @@ function get_layout_for_page($page = array()) {
 	$cache_content = cache_get_content($cache_id, $cache_group);
 
 	if (($cache_content) != false) {
- 
+
 		return $cache_content;
 	}
 
@@ -1014,7 +1014,7 @@ function reorder_content()
 		//$max_date_str = $max_date_str - $i;
 	//	$nw_date = date('Y-m-d H:i:s', $max_date_str);
 		//$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
-		
+
 		$q = " UPDATE $table set position=$i where id=$id   ";
        //  var_dump($q);
 		$q = db_q($q);
@@ -1055,7 +1055,7 @@ function get_content_admin($params) {
  * @return mixed Array with posts or false
  * @param array $params parameters for the DB
  *
- 
+
 Example:
 $params = array();
 $params['is_active'] = 'y'; //get only active content
@@ -1065,12 +1065,12 @@ $params['content_type'] = 'post'; //get by content type
 $params['subtype'] = 'product'; //get by subtype
 
 $params['title'] = 'my title'; //get by title
- 
- 
- 
+
+
+
  $data = get_content($params);
- 
- 
+
+
  */
 
 
@@ -1087,7 +1087,7 @@ function get_content($params = false) {
 		}
 
 	}
-	
+
 	if (defined('PAGE_ID') == false) {
 				define_constants();
 			}
@@ -1099,16 +1099,16 @@ function get_content($params = false) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 	}
-	
+
 	if(!is_array($params)){
 		$params = array();
 		$params['is_active'] = 'y';
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
  	$function_cache_id = false;
 
 	$args = func_get_args();
@@ -1139,12 +1139,12 @@ function get_content($params = false) {
 			//$orderby[0] = 'created_on';
 
 			//$orderby[1] = 'DESC';
-			
+
 			$orderby[0] = 'position';
 
 			$orderby[1] = 'ASC';
-			
-			
+
+
 		}
 		$cache_group = 'content/global';
 		if (isset($params['cache_group'])) {
@@ -1165,11 +1165,11 @@ function get_content($params = false) {
 
 
 		$table = MW_TABLE_PREFIX . 'content';
-		
+
 		$params['table'] = $table;
 		$params['cache_group'] = $cache_group;
 		$get = get($params);
-		
+
 		//$get = db_get($table, $params, $cache_group );
 		if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
 				 if (isset($get['url'])) {
@@ -1744,7 +1744,7 @@ function save_edit($post_data) {
 						$cont_field['to_table_id'] = 0;
 						if($cont_field['to_table'] != 'global' and isset($the_field_data['attributes']['content-id'])){
 							$cont_field['to_table_id'] = $the_field_data['attributes']['content-id'];
-						}    
+						}
 						$cont_field['value'] = make_microweber_tags($html_to_save);;
 						if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){
 							$the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
@@ -1758,7 +1758,7 @@ function save_edit($post_data) {
 						//if($field != 'content'){
 
 							$cont_field_new = save_content_field($cont_field);
- 
+
 						//}
 
 
@@ -2125,26 +2125,25 @@ function save_content($data, $delete_the_cache = true) {
 		}
 
 
-
-
+ 
 
 
 		if (is_array($par_page)) {
-
+ 
 
 
 			if($par_page['subtype'] == 'static'){
 				$par_page_new = array();
 				$par_page_new['id'] = $par_page['id'];
 				$par_page_new['subtype'] = 'dynamic';
-
+				 
 				$par_page_new = save_data($table, $par_page_new);
 				$cats_modified = true;
 			}
 			if (!isset($data_to_save['categories'])) {
 				$data_to_save['categories'] = '';
 			}
-			if (is_string($data_to_save['categories'])) {
+			if (is_string($data_to_save['categories']) and isset($par_page['subtype_value']) and $par_page['subtype_value'] != '') {
 				$data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
 			}
 		}
@@ -2186,7 +2185,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 	}
 
- //d($data_to_save);
+ 
 	$cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
@@ -2360,12 +2359,12 @@ function save_content_field($data, $delete_the_cache = true) {
 		$cache_group = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
 		db_q($del_q);
 		cache_clean_group($cache_group);
-		 
+
 cache_clean_group('content_fields/global');
 
 	}
 	//}
- 
+
 	$save = save_data($table, $data);
 
 
@@ -2772,19 +2771,19 @@ $res_count = 0;
 				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {$li_class} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
-										
-									
-					$active_parent_class = '';	
-					//if(isset($item['parent']) and intval($item['parent']) != 0){	
+
+
+					$active_parent_class = '';
+					//if(isset($item['parent']) and intval($item['parent']) != 0){
 					if (intval($item['parent']) != 0 and intval($item['parent']) == intval(MAIN_PAGE_ID)) {
 						$active_parent_class = 'active-parent';
 					} 	elseif (intval($item['id']) == intval(MAIN_PAGE_ID)) {
 						$active_parent_class = 'active-parent';
 					}  else {
 						$active_parent_class = '';
-				 } 
-					
-		//}	
+				 }
+
+		//}
 						if ($item['id'] == CONTENT_ID) {
 			$active_class = 'active';
 		} elseif ($item['id'] == PAGE_ID) {
@@ -2796,8 +2795,8 @@ $res_count = 0;
 		} else {
 			$active_class = '';
 		}
-		
-		
+
+
 		$ext_classes = '';
 		if($res_count == 0){
 			$ext_classes .= ' first-child';
@@ -2808,18 +2807,18 @@ $res_count = 0;
 		} else {
 			$ext_classes .= ' child-'.$res_count.'';
 		}
-		
+
 		if(isset($item['parent']) and intval($item['parent']) > 0){
 			$ext_classes .= ' have-parent';
 		}
-		
-		
+
+
 		if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
 			$ext_classes .= ' have-category';
 		}
-		
+
 		$ext_classes = trim($ext_classes);
-				$the_active_class = $active_class;		
+				$the_active_class = $active_class;
 					$to_print = str_replace('{id}', $item['id'], $link);
 					$to_print = str_replace('{active_class}', $active_class, $to_print);
 					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
@@ -2827,7 +2826,7 @@ $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 	$to_pr_2= str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
 				$to_pr_2= str_replace('{active_class}', $active_class, $to_pr_2);
 								$to_pr_2= str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
-				
+
 
 					$to_print = str_ireplace('{title}', $item['title'], $to_print);
 
@@ -2931,7 +2930,7 @@ $params['ul_class'] = false;
 				} else {
 					if( $skip_pages_from_tree  == false){
 					//	$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name);
-					
+
 						$children = pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
 					}
 				}
@@ -3030,9 +3029,6 @@ function mw_create_default_content($what) {
 			$find_layout = layouts_list();
 			if(isarr($find_layout)){
 				foreach ($find_layout as $item) {
-
-//d($item);
-
 					if (isset($item['layout_file']) and isset($item['is_shop']) ) {
 						$add_page['layout_file'] = $item['layout_file'];
 						if (isset($item['name'])) {
@@ -3063,8 +3059,64 @@ function mw_create_default_content($what) {
 			$add_page['subtype'] = "product";
 
 			$new_shop = save_content($add_page);
-			clearcache();
+			 cache_clean_group('content');
+			//clearcache();
 		}
+
+
+		break;
+
+
+
+		case 'blog' :
+		$is_shop = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1');
+			//$is_shop = false;
+		$new_shop = false;
+		if ($is_shop == false) {
+			$add_page = array();
+			$add_page['id'] = 0;
+			$add_page['parent'] = 0;
+
+			$add_page['title'] = "Blog";
+			$add_page['url'] = "blog";
+			$add_page['content_type'] = "page";
+			$add_page['subtype'] = 'dynamic';
+			$add_page['is_shop'] = 'n';
+			$add_page['active_site_template'] = 'default';
+			$find_layout = layouts_list();
+			if(isarr($find_layout)){
+				foreach ($find_layout as $item) {
+					if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) =='dynamic' ) {
+						$add_page['layout_file'] = $item['layout_file'];
+						if (isset($item['name'])) {
+							$add_page['title'] = $item['name'];
+						}
+					}
+				}
+
+				foreach ($find_layout as $item) {
+					if (isset($item['name']) and stristr($item['name'], 'blog') and !isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) =='dynamic' ) {
+						$add_page['layout_file'] = $item['layout_file'];
+						if (isset($item['name'])) {
+							$add_page['title'] = $item['name'];
+						}
+					}
+				}
+
+
+			}
+				//  d($add_page);
+			$new_shop = save_data('table_content',$add_page);
+			 cache_clean_group('content');
+				//
+		} else {
+
+			if(isset($is_shop[0])){
+				$new_shop = $is_shop[0]['id'];
+			}
+		}
+
+
 
 
 		break;
@@ -3172,10 +3224,10 @@ function format_date($date, $date_format = false){
 	if($date_format == false){
 		 $date_format = get_option('date_format','website');
 		if($date_format == false){
-		$date_format = "Y-m-d H:i:s";	
+		$date_format = "Y-m-d H:i:s";
 		}
 	}
-	
+
 	$date =  date($date_format, strtotime($date));
 	return $date;
 }

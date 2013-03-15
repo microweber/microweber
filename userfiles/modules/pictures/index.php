@@ -30,7 +30,12 @@ if(isset($params['content-id'])){
  if(isset($params['to_table_id']) == true): ?>
 <? $data = get_pictures('to_table_id='.$params['to_table_id'].'&for='.$for); 
  
- 
+ if(empty( $data)){
+	 $data = array(); 
+	 $data[0]['id'] = 0;
+	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';
+	  
+ }
  
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){

@@ -2,6 +2,20 @@
 @import url("mw.ui.css");
 
 
+
+
+.mw-logo{
+  position: relative;
+  display: block;
+  width: 135px;
+  height:18px;
+  text-indent: -100%;
+  overflow: hidden;
+  background: url(../img/logo.png) no-repeat;
+}
+
+
+
 /* Horizontal display for radio buttons */
 .mw-ui-inline-selector li {
   list-style: none;
@@ -201,7 +215,6 @@
 
 .mw_edit_btn{
   display: inline-block;
-  box-shadow:0 0 9px -3px #000000;
   position: relative;
   padding: 0 6px;
   font-size: 11px;
@@ -260,6 +273,7 @@ background-image: -webkit-gradient(
   height: 14px;
   width: 21px;
   padding: 0;
+  float: right;
 }
 
 .mw_edit_delete span{
@@ -863,12 +877,8 @@ right: 15px;
   font-size: 11px;
   text-align: center;
   position: relative;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
   box-shadow:inset 0 1px 0px 0px #fff;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 button.mw-ui-btn,
@@ -1925,7 +1935,7 @@ border-top-right-radius: 0px;
   padding: 12px;
   position: relative;
 }
-.mw-o-box-content:after{
+.mw-o-box:after, .mw-o-box-content:after{
   content: ".";
   display: block;
   clear: both;
@@ -2340,6 +2350,31 @@ body.mw-external-loading:after{
   cursor: default;
   font-size: 12px;
 
+}
+
+.comment-notification, .comments_number{
+  display: block;
+  text-align: center;
+  padding: 1px 0 0;
+  width: 27px;
+  height: 25px;
+  font-size: 11px;
+  color: #434343;
+  background: url(../img/comments_numb_number.png) no-repeat;
+}
+
+.manage-post-item .comment-notification{
+  float: right;
+}
+
+.comments_number{
+  top:  -7px;
+  right: -12px;
+  position: absolute;
+}
+
+.comment-notification-silver{
+  background-image: url(../img/cmnts.png);
 }
 
 

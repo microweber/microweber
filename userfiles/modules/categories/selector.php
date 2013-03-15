@@ -62,16 +62,32 @@ if($for == 'conaaaaaaatent' or $for == 'table_content'){
 
 }
 
-$str1 = 'table=table_taxonomy&to_table='.$for.'&data_type=category&limit=1000&parent_id=0&to_table_id=[mt][int]0';
+/*$str1 = 'table=table_taxonomy&to_table='.$for.'&data_type=category&limit=1000&parent_id=0&to_table_id=[mt][int]0';
 $is_ex = get($str1);
 
 if(isarr($is_ex)){
 	foreach ($is_ex as $item) {
 		$cats__parents[] = $item['id'];
 	}
+} else {
+
+
 }
+*/
+
+if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
+  $is_ex = get_content('content_type=page&subtype=dynamic&is_shop=y&limit=100');
+} else {
+  $is_ex = get_content('parent=0&content_type=page&is_shop=n&limit=100');
 
 
+}
+if(isarr($is_ex)){
+	foreach ($is_ex as $item) {
+		$cats__parents[] = $item['id'];
+	}
+}
+//d($cats__parents);
 /*
 //  $cats__parents = $is_ex1;
 if (empty($cats__parents)) {
@@ -200,7 +216,10 @@ $(document).ready(function(){
 
 });
 </script>
-<? if(!empty($cats__parents)): ?>
+<?
+
+
+ if(!empty($cats__parents)): ?>
 <?
 
 $active_cats1 = array();
@@ -291,8 +310,11 @@ $tree['active_code'] = 'checked="checked" ';
 $tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
 $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
 
+if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
+ } else {
+$tree['is_shop'] = 'n';
+}
 
-//d($tree);
 pages_tree($tree);
 ?>
 <? endif; ?>

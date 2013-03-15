@@ -69,6 +69,10 @@
     </script>
 
 <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
+
+<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
+
+
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
@@ -95,8 +99,33 @@
 
 
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
-        <span onclick="mw.preview();" class="mw-ui-btn unselectable">Preview</span>
-        <span class="mw-ui-btn mw-ui-btn-blue">Publish</span>
+
+
+
+
+
+
+
+
+
+
+        <div class="mw_dropdown mw_dropdown_type_navigation">
+            <span class="mw_dropdown_val">Action</span>
+
+            <div class="mw_dropdown_fields">
+            <ul>
+
+                <li><span onclick="mw.preview();" class="mw-ui-btn mw-ui-btn-small">Preview</span></li>
+                <li><span class="mw-ui-btn mw-ui-btn-small">Publish</span></li>
+
+            </ul>
+
+            </div>
+
+        </div>
+
+
+
       </div>
       </div>
 
@@ -142,8 +171,7 @@
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-    <span class="mw_editor_btnz ed_btn" onclick="mw.drag.save()"
-        style="position: fixed;top: 133px;right:30px; z-index: 2000;">Save</span>
+
 
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
