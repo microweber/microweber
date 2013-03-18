@@ -35,18 +35,18 @@ mw.form = {
   },
   dstatic:function(event, d){
     var d = d || $(event.target).dataset('default') || false;
+    var type = event.type;
+    var target = event.target;
     if(!!d){
-        var type = event.type;
-        var target = event.target;
         if(type=='focus'){
            target.value==d?target.value='':'';
         }
         else if(type=='blur'){
            target.value==''?target.value=d:'';
         }
-        else if(type=='keyup'){
-           $(target).addClass('loading');
-        }
+    }
+    if(type=='keyup'){
+        $(target).addClass('loading');
     }
   },
   post:function(selector, url_to_post, callback){

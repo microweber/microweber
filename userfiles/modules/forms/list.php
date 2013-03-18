@@ -114,6 +114,7 @@ if(isarr($data)){
     </tr>
   </tfoot>
   <tbody>
+<?php if(isarr($data)): ?>
     <? foreach ($data as $item) : ?>
     <tr class="mw-form-entry-item mw-form-entry-item-<? print $item['id'] ?>">
       <td class="mw-ui-admin-table-small"><? print $item['id'] ?></td>
@@ -123,12 +124,8 @@ if(isarr($data)){
         <? if(isset($item['custom_fields'])): ?>
         <?  foreach ($item['custom_fields'] as $value) :  ?>
          <? if(($value['custom_field_name']) == $cvk): ?>
-
-
              <?php
-
              $max = 150;
-
              if(strlen($value['custom_field_values_plain']) > $max){
                 $first = substr($value['custom_field_values_plain'], 0, $max);
                 $rest = substr($value['custom_field_values_plain'], $max);
@@ -137,9 +134,6 @@ if(isarr($data)){
              else {
                  print $value['custom_field_values_plain'];
              }
-
-
-
 
 
              ?>
@@ -154,18 +148,12 @@ if(isarr($data)){
       <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<? print $item['id'] ?>','.mw-form-entry-item-<? print $item['id'] ?>');"></a></td>
     </tr>
     <? endforeach; ?>
+    <? else: ?>
+    <tr><td colspan="100" align="center" style="background: #FFFD8C;">No items found</td></tr>
+    <?php endif; ?>
   </tbody>
 </table>
 
-
-
-
-<script>
-
-
-
-
-</script>
 
 
 
@@ -174,7 +162,7 @@ if(isarr($data)){
 
 <? if(isarr($data)) :?>
 <div class="mw-paging left">
-<? print paging("num=$data_paging"); ?>
+    <? print paging("num=$data_paging"); ?>
 </div>
 
 <? if(isset($params['export_to_excel'])) : ?>

@@ -99,12 +99,18 @@ if(isset($params['backend']) == true): ?>
     <module type="admin/modules/templates"  />
   </div>
   <div class="tab semi_hidden">
+  
+  
+  
+ <? $display_comments_from =  get_option('display_comments_from', $params['id']); ?> 
+ <? $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); ?>  
+
 
     <label class="mw-ui-label">Display comments from</label>
 
     <div class="mw-ui-field-holder checkbox-plus-select">
       <label class="mw-ui-check">
-          <input name="display_comments_from" value="post" id="display_from_post" type="radio" />
+          <input name="display_comments_from" value="post" id="display_from_post" type="radio" <? if($display_comments_from == 'post'): ?>  checked="checked" <? endif ?> />
           <span></span>
       </label>
       <div class="mw-ui-select" style="width: 290px;">
@@ -125,14 +131,14 @@ if(isset($params['backend']) == true): ?>
 
     <div class="mw-ui-field-holder">
       <label class="mw-ui-check">
-          <input name="display_comments_from" type="radio" value="recent" />
+          <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <? if($display_comments_from == 'recent'): ?>  checked="checked" <? endif ?> />
           <span></span>
-          <span>Resent comments</span>
+          <span>Recent comments</span>
       </label>
     </div>
     <div class="mw-ui-field-holder">
       <label class="mw-ui-check">
-          <input name="display_comments_from" type="radio" value="popular" />
+          <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <? if($display_comments_from == 'popular'): ?>  checked="checked" <? endif ?> />
           <span></span>
           <span>Most popular comments</span>
       </label>
@@ -150,7 +156,7 @@ if(isset($params['backend']) == true): ?>
     </label>
 
     <div class="mw_clear vSpace"></div>
-    <label class="mw-ui-label-inline">Commets per page</label><input type="text" class="left" placeholder="10" style="width:22px;" />
+    <label class="mw-ui-label-inline">Commets per page</label><input type="text" class="left" placeholder="10" style="width:22px;" class="mw_option_field"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
    <div class="mw_clear vSpace"></div>
   </div>
 </div>

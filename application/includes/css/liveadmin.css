@@ -2157,13 +2157,7 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
     font-weight: bold;
 }
 
-h2.mw-side-main-title{
-  padding: 23px 0 10px 12px;
-}
 
-h2.mw-side-main-title .ico{
-  margin-right: 10px;
-}
 
 
 .mw-order-images{
@@ -2276,7 +2270,11 @@ ul.mw-menu-selector-list li{
   float: right;
   color: #8E8E8E;
   font-size: 11px;
-  margin: 3px 10px 0;
+  margin: 16px 10px 0;
+}
+
+#forms_data_keyword{
+  margin-top: 13px;
 }
 
 .export-label span{
@@ -2324,6 +2322,18 @@ ul.mw-menu-selector-list li{
 
 .g-btn:active{
   box-shadow: 0 1px 0 0 #B8D4AB inset, inset 0 0 6px #446D31;
+}
+
+
+.module-icon-title {
+  padding: 21px 0;
+}
+
+.module-icon-title img {
+	position: relative;
+	z-index: 1;
+	margin-right: 8px;
+	top: 9px;
 }
 
 

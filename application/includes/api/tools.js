@@ -1982,42 +1982,23 @@ mw.storage = {
 
 
     ///  TESTS
-    mw.storage.change("test", function(){
-      d(this.toString());
+    mw.storage.change("reload_module", function(){
+        if( this!= ''){
+            mw.reload_module(this.toString());
+        }
     });
 
 
 
+mw.requestToReload = function(id){
+   mw.storage.set("reload_module", '');
+   mw.storage.set("reload_module", id);
+}
 
 
-    setInterval(function(){
 
 
-                var now = new Date();
-                var hours = now.getHours();
-                var minutes = now.getMinutes();
-                var seconds = now.getSeconds();
-                if (hours < 10) {
-                    var hours = "0" + hours;
-                }
-                if (minutes < 10) {
-                   var minutes = "0" + minutes;
-                }
-                if (seconds < 10) {
-                    var seconds = "0" + seconds;
-                }
-                var elem = document.getElementById('clock');
-                var t = hours + ':' + minutes + ':' + seconds;
 
-       if(self !== top){
-         mw.storage.set("test", "IFRAME - " +window.name  /*+ window.location*/ + " at " + t);
-       }
-        else{
-        mw.storage.set("test", "Binded " /*+ window.location*/ + " at " + t);
-       }
-
-
-    }, 3700);
 
 
 

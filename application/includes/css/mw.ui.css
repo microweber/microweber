@@ -30,7 +30,7 @@
 .faded{
    opacity: 0.3;
 }
-.faded:hover{
+.faded:hover, .faded.active{
    opacity: 1;
 }
 
@@ -243,8 +243,6 @@
       background-size: 100% 6px;
       width: 100%;
       box-shadow:1px 1px 0px #f0f0f0;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
       border-radius: 2px;
     }
       .mw_dropdown_fields li{
@@ -254,7 +252,7 @@
             display: block;
             padding: 5px 6px 5px 13px;
             margin: 0;
-              -webkit-transition: none !important;
+            -webkit-transition: none !important;
             -moz-transition: none !important;
             -o-transition: none !important;
             -ms-transition: none !important;
@@ -381,10 +379,10 @@
   overflow: hidden;
   box-shadow:0 0 27px -20px #111111;
 
-  /*transition: width 0.5s, height 0.5s;
-  -moz-transition: width 0.5s, height 0.5s;
-  -webkit-transition: width 0.5s, height 0.5s;
-  -o-transition: width 0.5, height 0.5s;   */
+  transition: none;
+  -moz-transition:none;
+  -webkit-transition: none;
+  -o-transition: none;
 }
 
 .mw_modal_default .mw_modal_close{

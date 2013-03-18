@@ -202,15 +202,12 @@ mw.custom_fields.save = function(id, callback){
 		   }
         });
 
-		if(window.parent != undefined && window.parent.mw != undefined){
-				 window.parent.mw.reload_module('custom_fields');
-
-			 }
+	  mw.requestToReload("custom_fields/list");
 
 
     	mw.reload_module('custom_fields/list', function(){
-            if(!!callback) callback.call(data);
-            $(window).trigger('customFieldSaved', [id, data]);
+         //   if(!!callback) callback.call(data);
+           // $(window).trigger('customFieldSaved', [id, data]);
     	});
     });
 }

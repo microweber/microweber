@@ -12,13 +12,9 @@
 
 
 function mw_create_new_list_{rand}(){
-	
 	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>');
-
-	mw.reload_module('<? print $config['module'] ?>');
-	return false;
- 
-	
+	  mw.reload_module('<? print $config['module'] ?>');
+	  return false;
 }
 
 

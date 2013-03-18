@@ -36,7 +36,7 @@ mw.on.hashParam("content_id", function(){
 		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
 		     mw.reload_module('#mw_admin_posts_with_comments', function(){
  		  
-		  mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder')); 
+		  mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
 		  
 		  
 		  
@@ -161,7 +161,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			
 			
-			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder')); 
+			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
 	  
 		}); 
 
@@ -179,7 +179,6 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 	margin: auto;
 }
 .comments-nav a {
-	width:135px;
 	margin: 5px auto;
 	display: block;
 	text-align: center;
@@ -240,19 +239,16 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 .avatars-holder {
 	padding-top: 3px;
 }
-.module-icon-title img {
-	position: relative;
-	z-index: 1;
-	margin-right: 8px;
-	top: 9px;
-}
+
 </style>
 
 <div id="mw_edit_pages_content">
   <div id="mw_edit_page_left" style="width: 192px;">
     <?php $info = module_info($config['module']); ?>
     <div class="comments-nav">
-      <h2 class="module-icon-title" style="padding: 21px 0;"><img src="<?php print $info['icon']; ?>" alt="" /><?php print $info['name']; ?></h2>
+      <h2 class="module-icon-title" style="padding: 21px 0;">
+        <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($info['module']); ?>"><img src="<?php print $info['icon']; ?>" alt="" /><?php print $info['name']; ?></a>
+      </h2>
       <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">My Comments</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a> </div>
     <div class="comments-nav">
       <h2>Templates</h2>
@@ -287,7 +283,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 
           */ ?>
       </div>
-      <div class="comments-tab" style="display: none"> 
+      <div class="comments-tab" style="display: none">
         <script>mw.require("files.js");</script> 
         <script  type="text/javascript">
 
