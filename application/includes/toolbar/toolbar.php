@@ -61,6 +61,29 @@
 
 
 
+            $(".mw-ui-dropdown ul .mw-ui-btn").click(function(){
+               var text = $(this).text();
+               mw.$(".mw-ui-dropdown .mw-ui-btn .left").html(text);
+               var first = mw.$(".mw-ui-dropdown .mw-ui-btn:first")[0];
+               var span = mwd.createElement('span');
+               span.innerHTML = $(first).find(".left").html();
+
+            mw.tools.copyAttributes(first,span);
+
+              mw.tools.copyAttributes(this,first);
+
+
+
+              $(this).parents("ul").invisible();
+                  var el = $(this).parents("ul");
+                  $(this).replaceWith(span)
+                setTimeout(function(){
+                    el.visibilityDefault();
+
+                }, 177);
+            });
+
+
         });
 
 
@@ -105,23 +128,12 @@
 
 
 
-
-
-
-
-        <div class="mw_dropdown mw_dropdown_type_navigation">
-            <span class="mw_dropdown_val">Action</span>
-
-            <div class="mw_dropdown_fields">
-            <ul>
-
-                <li><span onclick="mw.preview();" class="mw-ui-btn mw-ui-btn-small">Preview</span></li>
-                <li><span class="mw-ui-btn mw-ui-btn-small">Publish</span></li>
-
-            </ul>
-
-            </div>
-
+        <div class="mw-ui-dropdown right">
+          <a href="javascript:;" class="mw-ui-btn"><span class="left">Unpublished</span><span class="ico idownarr right"></span></a>
+          <ul>
+              <li><span onclick="mw.preview();" class="mw-ui-btn mw-ui-btn-green">Preview</span></li>
+              <li><span class="mw-ui-btn mw-ui-btn-blue">Publish</span></li>
+          </ul>
         </div>
 
 

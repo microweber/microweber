@@ -1,4 +1,24 @@
-<? 
+
+
+
+
+<script>
+
+
+$(document).ready(function(){
+    mw.$("#post_select").bind("focus", function(){
+        mwd.getElementById('display_from_post').checked = true;
+    });
+});
+
+
+</script>
+
+
+
+
+
+<?
 $get_comments_params = array();
  $get_comments_params['to_table'] = 'table_content';
 if(isset($params['content-id'])){
@@ -36,27 +56,102 @@ if(isset($params['backend']) == true): ?>
     <li><a href="javascript:;" class="">Settings</a></li>
   </ul>
   <div class="tab semi_hidden">
+
+    <div class="vSpace"></div>
+    <div class="vSpace"></div>
+
     <?
 		
 		$get_comments_params['count'] = '1';
 		$get_comments_params['is_moderated'] = 'n';
-		
+
 		 ?>
     <?php $new = get_comments($get_comments_params); ?>
     <?php if($new > 0){ ?>
-    <h2>You have new comments <? print $new; ?></h2>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green">See new</a>
+    <?php if($new == 1){ ?>
+
+     <h2 class="relative inline-block left">You have one new comment &nbsp;<span class="comments_number"><? print $new; ?></span></h2>
+
+
+    <?php } else { ?>
+     <h2 class="relative inline-block left">You have <? print $new; ?> new comments &nbsp;<span class="comments_number"><? print $new; ?></span></h2>
+    <?php  } ?>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green right">See new</a>
+
     <?php }  else { ?>
-    <?php 
+    <?php
 	 unset($get_comments_params['is_moderated']);
 		$old = get_comments($get_comments_params); ?>
-    <h2>You don't have new comments <? print $old; ?></h2>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn">all</a>
+    <h2 class="relative inline-block left">You don't have new comments <? print $old; ?></h2>
+
+
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn right">See all</a>
+
+
+
+
     <?php } ?>
+
+    <div class="mw_clear"></div>
+
   </div>
   <div class="tab semi_hidden">
     <module type="admin/modules/templates"  />
   </div>
-  <div class="tab semi_hidden"> 3 </div>
+  <div class="tab semi_hidden">
+
+    <label class="mw-ui-label">Display comments from</label>
+
+    <div class="mw-ui-field-holder checkbox-plus-select">
+      <label class="mw-ui-check">
+          <input name="display_comments_from" value="post" id="display_from_post" type="radio" />
+          <span></span>
+      </label>
+      <div class="mw-ui-select" style="width: 290px;">
+          <select name="display_comments_from_which_post" id="post_select">
+              <option value="current_post">Current Post</option>
+              <?php $posts = get_posts(""); $html = ''; ?>
+              <?php
+                  foreach($posts as $post){
+                      $html.= '<option value="'.$post['id'].'">'.$post['title'].'</option>';
+                  }
+                  print $html;
+              ?>
+
+          </select>
+      </div>
+    </div>
+
+
+    <div class="mw-ui-field-holder">
+      <label class="mw-ui-check">
+          <input name="display_comments_from" type="radio" value="recent" />
+          <span></span>
+          <span>Resent comments</span>
+      </label>
+    </div>
+    <div class="mw-ui-field-holder">
+      <label class="mw-ui-check">
+          <input name="display_comments_from" type="radio" value="popular" />
+          <span></span>
+          <span>Most popular comments</span>
+      </label>
+    </div>
+
+
+   <hr>
+
+
+
+   <label class="mw-ui-check">
+        <input type="checkbox"  />
+        <span></span>
+        <span>Show paging</span>
+    </label>
+
+    <div class="mw_clear vSpace"></div>
+    <label class="mw-ui-label-inline">Commets per page</label><input type="text" class="left" placeholder="10" style="width:22px;" />
+   <div class="mw_clear vSpace"></div>
+  </div>
 </div>
 <? endif; ?>

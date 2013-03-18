@@ -31,9 +31,9 @@
        go_livebtn_admin.click(function(event){
 		   
 		   
-		   
+
 		   var ex = mw.$(".mw_admin_edit_content_form").length;
-		   
+
 		   
         	 if(ex > 0){
 
@@ -109,7 +109,7 @@ $past_page = content_link($past_page[0]['id']);
 
    <div class="mw-toolbar-notification">
         <? $notif_count = get_notifications('is_read=n&count=1'); ?>
-        <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover">
+        <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<? if( $notif_count == 0): ?> faded<? endif; ?>">
           <span class="ico inotification" id="toolbar_notifications">
             <? if( $notif_count > 0): ?>
                 <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>

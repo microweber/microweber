@@ -272,8 +272,26 @@ body .mw-col > .ui-resizable-e *{
   -o-transform:scale(1,1);
 }
 
-.currentDragMouseOver{
-  box-shadow: 0 0 6px #ddd;
+
+
+
+.dragStart .module:hover{
+  cursor: not-allowed;
+  position: relative;
+}
+
+.dragStart .module:hover:after{
+  position: absolute;
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: #62B2DA;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 

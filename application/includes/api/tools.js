@@ -513,7 +513,7 @@ mw.tools = {
       mw.tools.tree.remember(master);
     },
     del : function(id){
-        mw.tools.confirm('Are you sure you want to delete this?', function(){
+        mw.tools.confirm(mw.msg.del, function(){
            $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
               var todelete =  mw.$(".item_" + id);
                todelete.fadeOut(function(){
@@ -1243,7 +1243,21 @@ mw.tools = {
   refresh_image:function(node){
     node.src =  mw.url.set_param('refresh_image', mw.random(), node.src);
     return node;
-  }
+  },
+  getDiff : function(_new,_old){
+        var diff = {}, x, y;
+        for (x in _new){
+            if(!x in _old || _old[x]!=_new[x]){
+              diff[x] = _new[x];
+            }
+        }
+        for (y in _old){
+            if(typeof _new[y] === 'undefined'){
+              diff[y] = "";
+            }
+        }
+        return diff;
+    }
 }
 
 
@@ -1885,14 +1899,125 @@ _Prefixtest = false;
 
 
 
+if (typeof document.hidden !== "undefined") {
+	_mwdochidden = "hidden";
+} else if (typeof document.mozHidden !== "undefined") {
+	_mwdochidden = "mozHidden";
+} else if (typeof document.msHidden !== "undefined") {
+	_mwdochidden = "msHidden";
+} else if (typeof document.webkitHidden !== "undefined") {
+	_mwdochidden = "webkitHidden";
+}
+
+
+document.isHidden = function(){
+  if(typeof _mwdochidden !== 'undefined'){
+    return  document[_mwdochidden];
+  }
+  else{
+    return !document.hasFocus();
+  }
+}
+
+
+mw.storage = {
+        init:function(){
+          var mw = localStorage.getItem("mw");
+          var mw = mw === null ? (localStorage.setItem("mw", "{}")) : mw;
+          this.change("INIT");
+          return mw;
+        },
+        set:function(key, val){
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            curr[key] = val;
+            var a = localStorage.setItem("mw", JSON.stringify(curr))
+            mw.storage.change("CALL", key, val);
+            return a;
+        },
+        get:function(key){
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            return curr[key];
+        },
+        _keys : {},
+        change:function(key, callback, other){
+          if(key ==='INIT' ){
+              window.addEventListener('storage', function(e){
+                  if(e.key==='mw'){
+                     var _new = JSON.parse(e.newValue);
+                     var _old = JSON.parse(e.oldValue);
+                     var diff = mw.tools.getDiff(_new, _old);
+                     for(var t in diff){
+                       if(t in mw.storage._keys){
+                         var i = 0, l = mw.storage._keys[t].length;
+                         for( ; i<l; i++){
+                             mw.storage._keys[t][i].call(diff[t]);
+                         }
+                       }
+                     }
+                  }
+              }, false);
+          }
+          else if(key==='CALL'){
+            if(!document.isHidden() && typeof mw.storage._keys[callback] !== 'undefined'){
+               var i = 0, l = mw.storage._keys[callback].length;
+               for( ; i<l; i++){
+                   mw.storage._keys[callback][i].call(other);
+               }
+            }
+          }
+          else{
+              if(key in mw.storage._keys){
+                  mw.storage._keys[key].push(callback);
+              }
+              else{
+                  mw.storage._keys[key] = [callback];
+              }
+          }
+        }
+    }
+    mw.storage.init();
 
 
 
 
 
+    ///  TESTS
+    mw.storage.change("test", function(){
+      d(this.toString());
+    });
 
 
 
+
+
+    setInterval(function(){
+
+
+                var now = new Date();
+                var hours = now.getHours();
+                var minutes = now.getMinutes();
+                var seconds = now.getSeconds();
+                if (hours < 10) {
+                    var hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                   var minutes = "0" + minutes;
+                }
+                if (seconds < 10) {
+                    var seconds = "0" + seconds;
+                }
+                var elem = document.getElementById('clock');
+                var t = hours + ':' + minutes + ':' + seconds;
+
+       if(self !== top){
+         mw.storage.set("test", "IFRAME - " +window.name  /*+ window.location*/ + " at " + t);
+       }
+        else{
+        mw.storage.set("test", "Binded " /*+ window.location*/ + " at " + t);
+       }
+
+
+    }, 3700);
 
 
 

@@ -556,9 +556,10 @@ form .shipping-country-row:first-child{
   box-shadow: 0px 0px 8px #ccc;
 }
 
-.mw-toolbar-notification .mw-toolbar-notif-items-wrap time{
+.mw-toolbar-notification .mw-toolbar-notif-items-wrap time, #admin_notifications time{
   font-size: 9px;
   color: #BBBBBB;
+  display: block;
 }
 .mw-toolbar-notification .mw-toolbar-notif-items-wrap img{
   position: relative;
@@ -614,6 +615,47 @@ form .shipping-country-row:first-child{
 #toolbar_notifications{
   cursor: pointer;
 }
+
+
+#admin_notifications table{
+  table-layout: fixed;
+  width: 100%;
+}
+
+#admin_notifications{
+  width:80%;
+  max-width:80%;
+  margin: 50px auto 0;
+
+}
+#admin_notifications td{
+ text-align: left;
+
+}
+#admin_notifications .notification_info a{
+ color: #434343;
+}
+
+#admin_notifications tr td:first-child, #admin_notifications tr td:last-child{text-align: center;}
+
+#admin_notifications .ico{
+  margin-right: 10px;
+  top: 2px;
+}
+
+#admin_notifications tbody tr{
+  background: white;
+}
+
+#admin_notifications tbody tr:hover{
+  background: #D8FFC4;
+}
+
+#admin_notifications .ellipsis{
+  max-width: 100%;
+}
+
+
 
 
 

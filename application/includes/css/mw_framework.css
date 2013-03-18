@@ -1368,10 +1368,14 @@ input.mw-title-field{
 
 .mw-ui-check input + span{
   display: inline-block;
+  width: 16px;
+  height: 16px;
   position: relative;
   cursor: pointer;
   background: url(../img/chkrd.png) no-repeat;
 }
+
+
 
 .mw-ui-check input + span + span{
   margin-left: 6px;
@@ -1384,21 +1388,25 @@ input.mw-title-field{
 
 
 .mw-ui-check input[type='checkbox'] + span{
-  width: 16px;
-  height: 17px;
-  background-position: 0 -15px;
+  background-position: 0 -16px;
   top: 3px;
 }
 .mw-ui-check input[type='checkbox']:checked + span{
-  background-position: -16px -15px;
+  background-position: -16px -16px;
 }
 
-.mw-ui-check input[type='radio'] + span{
-  width: 14px;
-  height: 15px;
-}
 .mw-ui-check input[type='radio']:checked + span{
-  background-position: -14px 0;
+  background-position: -16px 0;
+
+}
+.mw-ui-check input[type='radio'] + span{
+  top: 5px;
+}
+
+.checkbox-plus-select > .mw-ui-check{
+  float: left;
+  margin-right: 10px;
+  margin-top: 4px;
 }
 
 .mw-ui-select{
@@ -2324,7 +2332,7 @@ body.mw-external-loading:after{
 
 
 #UITU{
-  /* display: none !important; */
+   display: none !important;
 }
 
 #LAYERS{

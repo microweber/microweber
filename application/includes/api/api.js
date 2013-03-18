@@ -155,7 +155,8 @@ window.onerror = function(a,b,c){
   mw.msg = {
     ok: "<?php _e('OK');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
-    to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>"
+    to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
+    del:"<?php _e('Are you sure you want to delete this?'); ?>"
   }
 
   mw.settings = {

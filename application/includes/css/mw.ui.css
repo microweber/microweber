@@ -27,6 +27,24 @@
   margin-right: auto;
 }
 
+.faded{
+   opacity: 0.3;
+}
+.faded:hover{
+   opacity: 1;
+}
+
+.filter-gray{
+   filter: url(../img/fx/grayscale.svg#grayscale);
+   filter: gray;
+   -webkit-filter: grayscale(100%);
+}
+.filter-sepia{
+   filter: url(../img/fx/sepia.svg#sepia);
+   filter: sepia;
+   -webkit-filter: sepia(100%);
+}
+
 
 
 .font-10{font-size: 10px !important;}
@@ -157,10 +175,6 @@
   display: none;
 }
 
-
-
-
-
 .icotype{
   background-image: url("../img/add_new_labels.png");
   background-repeat: no-repeat;
@@ -188,6 +202,8 @@
 
 .mw-ui-btn .iplus{ width: 10px; background-position: -1147px 2px;}
 
+
+.idownarr{  background-position: -1341px 10px; }
 
 
 
@@ -546,6 +562,43 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+.mw-ui-dropdown {
+  position: relative;
+}
+
+.mw-ui-dropdown  .mw-ui-btn{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.mw-ui-dropdown li{
+  list-style: none;
+}
+.mw-ui-dropdown li .mw-ui-btn{
+  display: block;
+  padding: 2px 0 ;
+}
+
+.mw-ui-dropdown ul{
+ left: 1px;
+    min-width: 100%;
+    padding-top: 10px;
+    position: absolute;
+    top: 34px;
+    visibility: hidden;
+
+}
+
+.mw-ui-dropdown:hover > ul{
+  visibility: visible;
+}
+
+.mw-ui-dropdown .idownarr{
+  float: right;
+  margin:-1px -9px -12px 1px;
 }
 
 

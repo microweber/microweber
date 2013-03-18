@@ -5,10 +5,4 @@
 						   0.08 0.28 0.03 0 0
 						   0 0 0 1 0" />
 	</filter>
-
-    <script>
-        ready = function(){
-          alert(this);
-        }
-    </script>
 </svg>
