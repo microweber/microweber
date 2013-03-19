@@ -562,6 +562,21 @@ function is_module_installed($module_name) {
 	}
 }
 
+function module_ico_title($module_name) {
+	$params = array();
+	$to_print = '';
+	$params['module'] = $module_name;
+	$params['ui'] = 'any';
+	$params['limit'] = 1;
+	$data = get_modules_from_db($params);
+	if (isset($data[0])) {
+		$info = $data[0];
+		$tn_ico = thumbnail($info['icon'], 32,32);
+		 $to_print = '<a style="background-image:url('.$tn_ico.')" class="module-icon-title" href="'.admin_url() .'view:modules/load_module:'.module_name_encode($info['module']).'">'.$info['name'].'</a>';
+	}
+	print $to_print;
+}
+
 function module_info($module_name) {
 	$params = array();
 	$params['module'] = $module_name;

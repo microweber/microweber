@@ -1214,16 +1214,17 @@ mw.tools = {
       }
     }
   },
-  tabGroup : function(obj){
+  tabGroup : function(obj, master){
+    var master = master || mwd.body;
     var active = obj.activeNav || "active";
     mw.$(obj.nav).click(function(){
       if(!$(this).hasClass(active)){
-        var i = mw.tools.index(this, this.parentNode.parentNode);
+        var i = mw.tools.index(this, master, obj.nav);
         mw.$(obj.nav).removeClass(active);
         $(this).addClass(active);
         mw.$(obj.tabs).hide().eq(i).show();
         if(typeof obj.onclick == 'function'){
-                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);
+            obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);
         }
       }
     });

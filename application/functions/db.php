@@ -38,6 +38,17 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
 	//d($q);
 	$q = db_q($q);
+	
+	
+	if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
+		$table_items = MW_DB_TABLE_NOTIFICATIONS;
+		$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
+	 
+	$q = db_q($q);
+	}
+
+
+
 
 	//   cache_clean_group('taxonomy_items');
 	//	d($q);
@@ -1161,7 +1172,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 		$limit = false;
 	}
-
+$orig_criteria = $criteria;
 	$criteria = map_array_to_database_table($table, $criteria);
 	$criteria = add_slashes_to_array($criteria);
 	if ($only_those_fields == false) {
@@ -1544,25 +1555,26 @@ if (!empty($criteria)) {
 	if (isset($result[0]['qty']) == true and $count_only == true) {
 
 		$ret = $result[0]['qty'];
- //d($count_paging);
-		if ($count_paging == true) {
+ 		if ($count_paging == true) {
 			$plimit = false;
-
-			if ($limit == false) {
+ 			if($limit == false and isset($orig_criteria['limit'])){
+				$limit = intval($orig_criteria['limit']);
+			}
+ 			if ($limit == false) {
 				$plimit = $_default_limit;
 			} else {
 				if (is_array($limit)) {
 					$plimit = end($plimit);
 				} else {
-					$plimit = intval($plimit);
+					$plimit = intval($limit);
 				}
 			}
-
-			if ($plimit != false) {
-				return ceil($ret / $plimit);
-				// d($plimit);
-			}
+ 			if ($plimit != false) {
+				$pages_qty = ceil($ret / $plimit);
+ 				return $pages_qty ;
+ 			}
 		} else {
+			
 			return intval($ret);
 		}
 

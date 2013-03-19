@@ -1508,13 +1508,28 @@ tr:hover .mw-ui-admin-table-show-on-hover{
 .mw-ui-arr-blue{border-top-color: #0D5D97;}
 
 
-.mw-admin-side-nav{
+.mw-admin-sidebar{
     padding: 10px;
+}
+.mw-admin-sidebar .mw-ui-btn{
+  	margin: 5px auto;
+	display: block;
+	text-align: center;
+	padding: 8px 10px;
+}
+
+.mw-admin-side-nav{
+  padding: 10px;
+}
+
+.mw-admin-sidebar .mw-admin-side-nav{
+  padding: 0;
 }
 
 .mw-admin-side-nav li{
     list-style: none;
     margin-bottom: 5px;
+    list-style: none;
 }
 
 .mw-admin-side-nav li a, .mw-admin-side-nav li label{
@@ -2325,17 +2340,33 @@ ul.mw-menu-selector-list li{
 }
 
 
-.module-icon-title {
+a.module-icon-title{
+  display: inline-block;
+  padding: 21px 0 21px 42px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size:  32px;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+
+.mw-side-main-title .ico {
+  margin-right: 10px;
+}
+
+/*
+.module-icon-title, .module-icon-title {
   padding: 21px 0;
 }
 
-.module-icon-title img {
+.module-icon-title img, .mw-side-main-title .ico, .module-icon-title .ico, .mw-side-main-title img {
 	position: relative;
 	z-index: 1;
 	margin-right: 8px;
 	top: 9px;
 }
-
+    */
 
 
 

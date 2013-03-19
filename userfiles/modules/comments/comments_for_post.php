@@ -24,6 +24,10 @@
       <a class="mw-ui-link" href="<? print $item['url'] ?>/editmode:y">Live edit</a> </div>
   </div>
   <div class="comments-holder">
+
+
+<? if(!empty($comments)): ?>
+
     <div class="new-comments">
       <?php $count_new = 0;  foreach ($comments as $comment){ ?>
 
@@ -62,7 +66,16 @@
       </div>
       <?php } ?>
       <?php } ?>
+
+
+<? endif; ?>
+
     </div>
   </div>
+
+<? if(!empty($comments)): ?>
   <div class="comments-show-btns"> <span class="mw-ui-btn comments-show-all" onclick="mw.adminComments.display(event,this, 'all');"><?php print ($count_old+$count_new); ?> All</span> <span class="mw-ui-btn mw-ui-btn-green comments-show-new" onclick="mw.adminComments.display(event,this, 'new');"><?php print $count_new; ?> New</span> </div>
+
+<? endif; ?>
+
 </div>

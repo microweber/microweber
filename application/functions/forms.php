@@ -176,11 +176,12 @@ function delete_form_entry($data) {
 		//d($c_id);
 	}
 }
+
 function get_form_entires($params) {
 	$params = parse_params($params);
 	$table = MW_DB_TABLE_FORMS_DATA;
 	$params['table'] = $table;
- //$params['debug'] = $table;
+	//$params['debug'] = $table;
 	$data = get($params);
 	$ret = array();
 	if (isarr($data)) {
@@ -189,11 +190,10 @@ function get_form_entires($params) {
 			//d($item);
 			//
 
-			$fields = get_custom_fields('table_forms_data', $item['id'],1);
-
+			$fields = get_custom_fields('table_forms_data', $item['id'], 1);
 
 			if (isarr($fields)) {
-					ksort($fields);
+				ksort($fields);
 				$item['custom_fields'] = array();
 				foreach ($fields as $key => $value) {
 					$item['custom_fields'][$key] = $value;
@@ -267,7 +267,6 @@ function post_form($params) {
 				$cfn2 = str_replace(' ', '_', $cfn);
 				$fffound = false;
 
-
 				if (isset($params[$cfn2])) {
 					$fields_data[$cfn2] = $params[$cfn2];
 					$item['custom_field_value'] = $params[$cfn2];
@@ -297,25 +296,34 @@ function post_form($params) {
 	}
 
 	$save = save_data($table, $to_save);
+	if (isset($params['module_name'])) {
+		$notif = array(); 
+		$notif['module'] = $params['module_name'];
+		$notif['to_table'] = 'table_forms_lists';
+		$notif['to_table_id'] = $list_id;
+		$notif['title'] = "New form entry";
+		$notif['description'] = "You have new form entry";
+		$notif['content'] = "You have new form entry";
+		post_notification($notif);
+	}
 
-if(!empty($cf_to_save)){
+	if (!empty($cf_to_save)) {
 		$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
-	foreach ($cf_to_save as  $value) {
+		foreach ($cf_to_save as $value) {
 
-		$value['copy_of_field'] = $value['id'];
+			$value['copy_of_field'] = $value['id'];
 
-		$value['id'] = 0;
-		if(isset($value['session_id'])){
-		unset($value['session_id']);
+			$value['id'] = 0;
+			if (isset($value['session_id'])) {
+				unset($value['session_id']);
+			}
+			$value['to_table_id'] = $save;
+			$value['to_table'] = 'table_forms_data';
+
+			$cf_save = save_data($table_custom_field, $value);
 		}
-		$value['to_table_id'] = $save;
-		$value['to_table'] = 'table_forms_data';
-
-		$cf_save = save_data($table_custom_field, $value);
 	}
-}
-
 
 	return ($save);
 

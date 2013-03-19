@@ -1394,7 +1394,8 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  *        	tags. If $display = false, the function will return the paging
  *        	array which is the same as $posts_pages_links in every template
  *
- *
+ * @param $params['paging_param'] = 'current_page'; //the url param used for paging
+ * @param $params['num'] = 5; //the numer of pages
  */
 function paging($params) {
 	$params = parse_params($params);
@@ -1414,16 +1415,24 @@ function paging($params) {
 	if(isset($params['paging_param'])){
 		$paging_param = $params['paging_param'];
 	}
-
+	 $curent_page_from_url = url_param($paging_param);
+ 
 	$data = paging_links($base_url, $pages_count, $paging_param,$keyword_param);
 	if(isarr($data)){
-		$to_print = "<ul>";
+		$to_print = "<div class='pagination'><ul>";
 		foreach ($data as $key => $value) {
-			$to_print .= "<li>";
+			$act_class = '';
+			
+			if( $curent_page_from_url != false){
+				if(intval( $curent_page_from_url) == intval($key)){
+					$act_class = ' class="active" ';
+				}
+			}
+			$to_print .= "<li {$act_class}>";
 			$to_print .= "<a href=\"$value\">$key</a> ";
 			$to_print .= "</li>";
 		}
-		$to_print .= "</ul>";
+		$to_print .= "</ul></div>";
 		return  $to_print;
 	}
 

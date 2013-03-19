@@ -172,18 +172,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 </script>
 <? endif; ?>
 <style type="text/css">
-.comments-nav {
-	clear: both;
-	padding: 10px 0;
-	width: 160px;
-	margin: auto;
-}
-.comments-nav a {
-	margin: 5px auto;
-	display: block;
-	text-align: center;
-	padding: 8px 10px;
-}
+
 #module-settings .mw-ui-label-inline {
 	width: 180px;
 	text-align: right;
@@ -245,16 +234,23 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 <div id="mw_edit_pages_content">
   <div id="mw_edit_page_left" style="width: 192px;">
     <?php $info = module_info($config['module']); ?>
-    <div class="comments-nav">
-      <h2 class="module-icon-title" style="padding: 21px 0;">
-        <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($info['module']); ?>"><img src="<?php print $info['icon']; ?>" alt="" /><?php print $info['name']; ?></a>
-      </h2>
-      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">My Comments</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a> </div>
-    <div class="comments-nav">
+    <div class="mw-admin-sidebar">
+
+
+
+      <?php module_ico_title($info['module']); ?>
+
+      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">My Comments</a>
+      <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a>
+
       <h2>Templates</h2>
       <a href="javascript:;" class="comments-group mw-ui-btn mw-ui-btn-hover">My templates</a>
       <div class="vSpace"></div>
-      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a> </div>
+      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
+
+
+       </div>
+
   </div>
   <div class="mw_edit_page_right" style="padding: 20px; width: 730px;">
     <div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
@@ -399,11 +395,11 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
                   <label class="mw-ui-check">
                     <input
               type="checkbox"
-              name="paging"
+              name="set_paging"
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <? if(get_option('paging', 'comments')=='y'): ?>   checked="checked"  <? endif; ?>
+              <? if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <? endif; ?>
             />
                     <span></span><span>Set paging in the comments</span> </label>
                   <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
@@ -450,7 +446,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
             />
                     <span></span><span>New comment</span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
-                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="Type email here" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
+                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="Type email here" class="mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
                   </div>
                 </div>
               </div>

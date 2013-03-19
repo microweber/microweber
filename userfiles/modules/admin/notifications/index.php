@@ -21,26 +21,24 @@ $data = get_notifications($notif_params);
 
 ?>
 <script  type="text/javascript">
+
+
 mw.notif_item_delete = function($item_id){
-     mw.tools.confirm(function(){
+     mw.tools.confirm(mw.msg.del, function(){
     	  $.get("<?php print site_url('api/delete_notification'); ?>/"+$item_id, function(){
     		 	mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
     	  });
      });
 
-
 }
 
-
 mw.notif_reset_all = function(){
-
-
 	 $.get("<?php print site_url('api/notifications_reset'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
 	  });
-
-
 }
+
+
 </script>
 <? if(isarr($data )): ?>
 

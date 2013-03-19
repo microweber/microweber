@@ -79,11 +79,11 @@ mw.$('.country-id-0').show()
 
  
 </script>
- <? 
+<? 
  $data_active = array();
  $data_disabled = array();
  foreach($data  as $item): ?>
-  <?
+<?
   
   if(isset($item['is_active']) and 'n' == trim($item['is_active'])){
 	  $data_disabled[] = $item;
@@ -97,27 +97,22 @@ mw.$('.country-id-0').show()
     	 $countries_used[] = ($item['shiping_country']);
     }
     ?>
-  <? endforeach ; ?>
+<? endforeach ; ?>
 <? 
 
 $datas['data_active'] = $data_active; 
 $datas['data_disabled'] = $data_disabled;
 
 ?>
+
 <div class="vSpace"></div>
 <div class="vSpace"></div>
-
-
-
-
-
 <? 
  $data_active = array();
  $data_disabled = array();
  foreach($datas  as $data_key=> $data): ?>
- <? if(empty($data)): ?>
-  
- <? endif; ?>
+<? if(empty($data)): ?>
+<? endif; ?>
 <?
 if($data_key == 'data_disabled'){
  $truck_class = 'red';	
@@ -125,15 +120,11 @@ if($data_key == 'data_disabled'){
 $truck_class = 'green';		
 }
  ?>
- 
- 
-
 <? if(isarr($data ) and !empty($data)): ?>
-<div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<? print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');">
+<div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<? print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
   <?php _e("Add Country"); ?>
   </span> </div>
-<div class="mw-shipping-items <? print $rand1 ?>" id="<? print $rand1 ?>">
- 
+<div class="mw-shipping-items <? print $rand1 ?>" id="<? print $rand1 ?>"> 
   <script type="text/javascript">
 
 SaveShipping = function(form, dataType){
@@ -247,6 +238,9 @@ $new = true;
             <div class="left" style=" margin-right: 10px;margin-top: 3px;">
               <?php _e("Is active?"); ?>
             </div>
+            <? if($new != false): ?>
+            <input name="position" type="hidden"  value="<? print $item['position'] ?>"  />
+            <? endif; ?>
             <label class="mw-ui-check">
               <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($item['is_active'])): ?>   checked="checked"  <? endif; ?> />
               <span></span><span>
@@ -264,9 +258,6 @@ $new = true;
   </div>
   <? endforeach ; ?>
 </div>
-
 <div class="mw_clear"></div>
 <? endif; ?>
-
- <? endforeach ; ?>
- 
+<? endforeach ; ?>

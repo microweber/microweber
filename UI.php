@@ -267,6 +267,14 @@
         <span class="ico iset"></span>
         <span class="ico ilaquo"></span>
         <span class="ico iplus"></span>
+
+
+
+        <span class="mw-ui-arr mw-ui-arr-up"></span>
+        <span class="mw-ui-arr mw-ui-arr-down"></span>
+        <span class="mw-ui-arr mw-ui-arr-left"></span>
+        <span class="mw-ui-arr mw-ui-arr-right"></span>
+
     </td>
 
     </tr>

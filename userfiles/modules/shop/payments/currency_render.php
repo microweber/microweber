@@ -9,7 +9,8 @@ $curencies = currencies_list_paypal();
 
 
 $cur = get_option('currency', 'payments');  
-$num = rand(50,1000).'.'.rand(10,100);;
+//$num = rand(50,1000).'.'.rand(10,100);;
+$num = 1.00;
 ?>
 <? if (!in_array(strtoupper($cur), $curencies)): ?>
 <? $payment_currency = get_option('payment_currency', 'payments');  ?>
@@ -40,7 +41,7 @@ if($payment_currency_rate != false){
 <? endif; ?>
 <? endif; ?>
 <div class="vSpace"></div>
-<label class="mw-ui-label">Currency display</label>
+<label class="mw-ui-label">Example of how the price will be diplayed.</label>
 <input  value="<? print ( currency_format($num, $cur)); ?>" disabled  type="text" />
 <? if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies) ): ?>
 <label class="mw-ui-label">Equals to (rate: <? print  $payment_currency_rate ?> or <? print ( currency_format(1, $cur)); ?>=<? print ( currency_format(1*$payment_currency_rate, $payment_currency)); ?> )</label>

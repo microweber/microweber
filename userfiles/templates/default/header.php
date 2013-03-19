@@ -28,13 +28,19 @@
     <? else : ?>
 
 
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
+
+
+
+
 
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
+
+
 
     <? endif; ?>
   </head>
@@ -45,6 +51,9 @@
       <div class="container">
         <a href="<?php print site_hostname(); ?>" class="brand edit" id="logo">New World</a>
         <module type="nav" name="header_menu" id="main-navigation" template="pills"  />
+
+        <module type="shop/cart" template="small" />
+
       </div>
     </div> <!-- /#header -->
 
