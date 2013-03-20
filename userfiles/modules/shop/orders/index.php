@@ -10,6 +10,7 @@ $ord = '';
 
 if(isset($params['order'])){
 $data['order_by'] =$params['order'];
+$ord = 'order_by='.$params['order'];
 }
 
 
@@ -17,7 +18,7 @@ $kw = '';
 
 
     if(isset($params['keyword'])){
-                $kw   = '&keyword='.$params['keyword'];
+                $kw   = '&search_in_fields=email,first_name,last_name,country,created_on,transaction_id,coty,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
      }
 $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
 

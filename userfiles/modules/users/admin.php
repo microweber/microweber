@@ -5,18 +5,13 @@
 
 
 
-mw.require('forms.js');
-
-
-$(document).ready(function(){
-    
-
- 
-
-});
-
+mw.require('forms.js',true);
 
 </script>
+ 
+
+
+
 <script  type="text/javascript">
 
 hash = function(a){
@@ -27,7 +22,9 @@ hash = function(a){
 $(document).ready(function(){
   //mw_show_users_list();
 
-
+ if(typeof UsersRotator === 'undefined') {
+                 UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
+              }
 
 });
 

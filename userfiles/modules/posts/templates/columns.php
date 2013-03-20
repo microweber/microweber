@@ -50,16 +50,8 @@ description: Columns
 
     <? endif; ?>
   </div>
-  <?
-
-
-   if (!empty($paging_links)): ?>
-  <div class="pagination">
-    <ul>
-      <? foreach ($paging_links as $k=>$item): ?>
-      <li><a href="<? print $item ?>"><? print $k ?></a></li>
-      <? endforeach; ?>
-    </ul>
-  </div>
-  <? endif; ?>
+ <? if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
+    <? print paging("num={$pages_count}&paging_param={$paging_param}") ?>
+    
+ <? endif; ?>
 </div>

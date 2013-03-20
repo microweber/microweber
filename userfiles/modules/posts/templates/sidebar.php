@@ -45,16 +45,10 @@ description: sidebar
    </ul> 
   <? endif; ?>
 </div>
-<? if (!empty($paging_links)): ?>
-<div class="pagination indent-1 pagination-right">
-  <ul>
-    <? foreach ($paging_links as $k=>$item): ?>
-    <li><a href="<? print $item ?>"><? print $k ?></a></li>
-    <? endforeach; ?>
-  </ul>
-</div>
-<? endif; ?>
-
+<? if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
+    <? print paging("num={$pages_count}&paging_param={$paging_param}") ?>
+    
+ <? endif; ?>
 
 
 

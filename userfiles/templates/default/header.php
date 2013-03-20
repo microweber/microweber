@@ -50,9 +50,10 @@
     <div id="header" class="clearfix">
       <div class="container">
         <a href="<?php print site_hostname(); ?>" class="brand edit" id="logo">New World</a>
+        <module type="shop/cart" template="small" />
         <module type="nav" name="header_menu" id="main-navigation" template="pills"  />
 
-        <module type="shop/cart" template="small" />
+
 
       </div>
     </div> <!-- /#header -->

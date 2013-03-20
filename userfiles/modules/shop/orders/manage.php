@@ -3,7 +3,31 @@
 
 
 <script>
-    mw.require('forms.js');
+    mw.require('forms.js',true);
+	
+	
+	 mw.on.hashParam('search', function(){
+
+
+  var field = mwd.getElementById('mw-search-field');
+
+  if(!field.focused){ field.value = this; }
+
+  if(this  != ''){
+    $('#mw-admin-manage-orders-list').attr('keyword',this);
+  } else {
+    $('#mw-admin-manage-orders-list').removeAttr('keyword' );
+  }
+
+  $('#mw-admin-manage-orders-list').removeAttr('export_to_excel');
+
+
+ mw.reload_module('#mw-admin-manage-orders-list', function(){
+    mw.$("#mw-search-field").removeClass('loading');
+ });
+
+
+});
 </script>
 
          <? $is_orders = get_orders('count=1');
@@ -28,11 +52,11 @@
   type="text"
   onblur="mw.form.dstatic(event);"
   onfocus="mw.form.dstatic(event);"
-  onkeyup="mw.form.dstatic(event);"
-  id="mw-search-field"
+   id="mw-search-field"
   class="mw-ui-searchfield right"
   value="<?php _e("Search for orders"); ?>"
   data-default="<?php _e("Search for orders"); ?>"
+  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
    />
         <?php  } ?>
 </div>

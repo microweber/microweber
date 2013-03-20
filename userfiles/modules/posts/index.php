@@ -10,7 +10,7 @@ if (isset($post_params['id'])) {
 
 }
 
- $paging_param = 'curent_page';
+ //$paging_param = 'curent_page';
 if (isset($post_params['paging_param'])) {
 	$paging_param = $post_params['paging_param'];
 }
@@ -19,7 +19,7 @@ if (isset($post_params['paging_param'])) {
 if (isset($params['curent_page'])) {
 	$curent_page = $params['curent_page'];
 } else {
- $curent_page_from_url = url_param('curent_page');
+ $curent_page_from_url = url_param($paging_param);
 
  if($curent_page_from_url != false){
 	 	$curent_page = $curent_page_from_url;
@@ -321,9 +321,9 @@ $pages_count = intval($pages_of_posts);
 
 $paging_links  = false;
 if (intval($pages_count) > 1){
-	$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
+	//$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
 
-}
+} 
 
 $read_more_text = get_option('data-read-more-text',$params['id']);
 

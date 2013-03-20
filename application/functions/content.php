@@ -1734,7 +1734,7 @@ function save_edit($post_data) {
 								$to_save[$field] = ($html_to_save);
 							} else {
 
-								$to_save['custom_fields'][$field] = ($html_to_save);
+								//$to_save['custom_fields'][$field] = ($html_to_save);
 							}
 
 

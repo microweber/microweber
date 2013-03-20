@@ -872,6 +872,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
 
 			break;
+			
+			
+				case 345434536:
+			include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '06_default.php');
+
+			break;
 
 			default :
 			break;

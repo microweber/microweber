@@ -92,7 +92,10 @@ class apc implements \iMwCache {
 $mw_cache_get_content_memory[$cache_id_apc] = false;
 		return false;
 	}
+public function purge() {
 
+		return $this -> clearcache();
+	}
 	public function delete_all() {
 
 		return $this -> clearcache();
