@@ -45,6 +45,11 @@
 
 
   <div class="tab">
+  
+    <module type="forms/assign_list_to_module"  data-for-module="<? print $config['module_name'] ?>"  data-for-module-id="<? print $params['id'] ?>" />
+
+  
+  
     <label class="mw-ui-label"><small>Contact Form Fields</small></label>
     <module type="custom_fields"  view="admin" data-for="module" data-id="<? print $params['id'] ?>" />
   </div>
@@ -61,7 +66,6 @@
   
 
 
-  <module type="forms/assign_list_to_module"  data-for-module="<? print $config['module_name'] ?>"  data-for-module-id="<? print $params['id'] ?>" />
 
 
 

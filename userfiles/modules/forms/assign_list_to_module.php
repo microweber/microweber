@@ -7,7 +7,7 @@
 </script>
 <? //$rand = uniqid(); ?>
 <script  type="text/javascript">
- 
+
 
 
 
@@ -26,19 +26,32 @@ $data = get_form_lists('module_name='.$params['for-module']);;
 <? if(isarr($data )): ?>
 
 <label class="mw-ui-label">Save form entires to existing list</label>
-<div class="mw-ui-select" style="width: 290px;">
+<div class="mw-ui-select" style="width: 250px;">
   <select name="list_id"   class="mw_option_field"  >
     <? foreach($data  as $item): ?>
     <option    value="<? print $item['id'] ?>"  <? if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <? endif; ?>><? print $item['title'] ?></option>
     <? endforeach ; ?>
   </select>
 </div>
-<? endif; ?>
-<div class="vSpace"></div>
-<div class="mw_create_new_forms_list{rand}">
-  <label class="mw-ui-label">Create new list</label>
+
+or  <button class="mw-ui-btn" onclick="mw.$('.mw_create_new_forms_list{rand}').toggle()">Create New</button>
+
+<div class="mw_create_new_forms_list{rand}" style="display: none;">
+  <label class="mw-ui-label">Name of the new list</label>
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
   <input type="text" name="mw_new_forms_list" value="" style="width: 200px;margin-right: 10px;"  />
   <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
 </div>
+
+<?php else: ?>
+
+<div class="mw_create_new_forms_list{rand}">
+  <label class="mw-ui-label">Name of the new list</label>
+  <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
+  <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
+  <input type="text" name="mw_new_forms_list" value="" style="width: 200px;margin-right: 10px;"  />
+  <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
+</div>
+
+<? endif; ?>

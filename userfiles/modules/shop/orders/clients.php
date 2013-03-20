@@ -52,10 +52,10 @@
           <?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_completed=y'); ?>
           <?php print $total_ord; ?>
         </td>
-        <td>
+        <td width="85">
 
 
-            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($order['id']) ?>');"></span>
+            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($order['id']) ?>');"></span>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
