@@ -96,13 +96,13 @@ input[type='text'], input[type='password'] {
 .mw-ui-label {
 	display: block;
 	float: left;
-	width: 150px;
+	width: 155px;
 	padding:6px 12px 0 0;
 }
 .mw_install_progress {
  display: none;	
 }
- 
+
 </style>
 </head>
 <body>
@@ -124,14 +124,7 @@ input[type='text'], input[type='password'] {
           
           </div>
           
-         
-          
-          
-          
-          
-          
-          
-          
+
           <div class="mw-install-holder">
           
           
@@ -140,23 +133,24 @@ input[type='text'], input[type='password'] {
             <h2>Database setup</h2>
             <div class="hr"></div>
             <div class="mw-ui-field-holder">
-              <label class="mw-ui-label">Database host</label>
+              <label class="mw-ui-label">Database name <span class="mw-help" data-help="The name of your database.">?</span></label>
+              <input type="text" class="mw-ui-field" name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> />
+            </div>
+            <div class="mw-ui-field-holder">
+              <label class="mw-ui-label">Database host <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
               <input type="text" class="mw-ui-field" autofocus="" name="DB_HOST" <? if(isset($data['db'])== true and isset($data['db']['host'])== true): ?> value="<? print $data['db']['host'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
-              <label class="mw-ui-label">Database username</label>
+              <label class="mw-ui-label">Database username <span class="mw-help" data-help="The username of your database.">?</span></label>
               <input type="text" class="mw-ui-field" name="DB_USER" <? if(isset($data['db'])== true and isset($data['db']['user'])== true): ?> value="<? print $data['db']['user'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database password</label>
               <input type="text" class="mw-ui-field" name="DB_PASS" <? if(isset($data['db'])== true and isset($data['db']['pass'])== true): ?> value="<? print $data['db']['pass'] ?>" <? endif; ?> />
             </div>
+
             <div class="mw-ui-field-holder">
-              <label class="mw-ui-label">Database name</label>
-              <input type="text" class="mw-ui-field" name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> />
-            </div>
-            <div class="mw-ui-field-holder">
-              <label class="mw-ui-label">Table prefix</label>
+              <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
               <input type="text" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= ''): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
             </div>
             

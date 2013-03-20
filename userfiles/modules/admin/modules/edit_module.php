@@ -88,16 +88,16 @@ $(document).ready(function(){
     <? endif; ?>
   </div>
   <div class="admin-modules-list-description">
-    <h2>
+    <h2 title="<? print $data['module'] ?>">
       <? if(isset($data['name'])):  ?>
       <? print $data['name'] ?>
       <? endif; ?>
     </h2>
-    <small><? print $data['module'] ?></small>
+    <small title="<? print character_limiter($data['description'],1200); ?>"><? if(isset($data['description'])):  ?>
+      <? print character_limiter($data['description'],120); ?>
+      <? endif; ?></small>
     <p>
-      <? if(isset($data['description'])):  ?>
-      <? print $data['description'] ?>
-      <? endif; ?>
+      
     </p>
   </div>
   <?php /*   <? if(isset($data['author'])):  ?>

@@ -53,7 +53,10 @@
           <?php print $total_ord; ?>
         </td>
         <td>
-            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
+
+
+            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($order['id']) ?>');"></span>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
       <? endforeach; endif; ?>

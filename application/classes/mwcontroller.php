@@ -269,9 +269,9 @@ class MwController {
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
-
+ 
 		$render_file = get_layout_for_page($content);
-
+ 
 		$content['render_file'] = $render_file;
 
 		if ($this -> return_data != false) {

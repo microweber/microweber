@@ -49,7 +49,7 @@ if((url_param('load_list') != false)){
         <? endif; ?>
       </ul>
       <div class="vSpace"></div>
-      <a href="javascript:mw.url.windowHashParam('edit-user', 0);" class="mw-ui-btn"><span class="ico iplus"></span><span>Manage lists</span></a>
+
 
     </div>
     </div>
@@ -94,7 +94,9 @@ mw.on.hashParam('search', function(){
  </script>
     <?php $def =  _e("Search for data", true);  ?>
     <?php $data = get_form_lists('single=1&id='.$load_list); ?>
-    <h2 class="left"><?php print ($data['title']); ?></h2>
+
+    <h2 class="left to-edit" style="max-width: 360px" onclick="mw.tools.liveEdit(this, false);"><?php print ($data['title']); ?></h2>
+
     <input
         name="forms_data_keyword"
         id="forms_data_keyword"
@@ -109,6 +111,11 @@ mw.on.hashParam('search', function(){
     <div class="mw_clear"></div>
     <div class="vSpace"></div>
     <module type="forms/list" load_list="<? print $load_list ?>"  for_module="<? print $config["the_module"] ?>" id="forms_data_module" />
+
+
+
+    <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list(<?php print $load_list; ?>);">Delete list</span>
+
     <? endif; ?>
   </div>
 </div>

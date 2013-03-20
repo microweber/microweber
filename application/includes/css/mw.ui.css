@@ -600,6 +600,62 @@
 }
 
 
+.mw-help{
+  cursor: default;
+  font-weight: bold;
+  color: #3D89B8;
+
+  position: relative;
+  padding: 0 2px;
+  border: 1px solid transparent;
+  z-index: 9;
+  border-radius:2px;
+}
+
+.mw-help:before{
+  position: absolute;
+  content: attr(data-help);
+  bottom: 100%;
+  margin-bottom: 2px;
+  left: -8px;
+/*  left:100%;
+  top: 0;
+  margin-left: 2px;
+  margin-top: -12px;*/
+  display: table;
+  visibility: hidden;
+  padding: 7px;
+  background: #fff;
+  width: auto;
+  min-width: 150px;
+  max-width: 250px;
+  font-weight: normal;
+  border: 1px solid #E6E6E6;
+  border-radius:2px;
+  box-shadow: 0 0 8px #CCCCCC;
+  box-shadow: 0 0 8px -2px #CCCCCC;
+  color: #212121;
+  z-index: 10;
+ }
+
+.mw-help:hover:before{
+  visibility: visible;
+}
+
+.mw-help:hover{
+  border-color: #E6E6E6;
+}
+
+.to-edit{
+  padding-right: 30px;
+  display: inline-block;
+
+}
+
+.to-edit:hover{
+   background: url(../img/liveedit.png) no-repeat right center;  
+}
+
 
 
 

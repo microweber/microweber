@@ -1191,7 +1191,7 @@ body.still-loading:before{
 #mw-admin-shop-navigation li{
   float: left;
   list-style: none;
-  margin: 0 15px;
+  margin: 0;
 }
 
 

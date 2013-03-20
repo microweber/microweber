@@ -18,7 +18,7 @@ $kw = '';
 
 
     if(isset($params['keyword'])){
-                $kw   = '&search_in_fields=email,first_name,last_name,country,created_on,transaction_id,coty,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
+                $kw   = '&search_in_fields=email,first_name,last_name,country,created_on,transaction_id,city,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
      }
 $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
 
@@ -76,8 +76,8 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>
         <td class="mw-order-item-country"><? print $item['country'] ?></td>
-        <td class="mw-order-item-edit" width="80"><span class="mw-ui-admin-table-show-on-hover del-row" onclick="mw_delete_shop_order('<? print ($item['id']) ?>');"></span>
-          <div class="mw_clear" style="padding: 5px 0;"></div>
+        <td class="mw-order-item-edit" width="80">
+            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($item['id']) ?>');"></span>
           <center>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#vieworder=<? print ($item['id']) ?>">
             <?php _e("View order"); ?>

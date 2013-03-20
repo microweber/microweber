@@ -1611,6 +1611,10 @@ function load_module($module_name, $attrs = array()) {
 			$find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
 		}
 		$config['url'] = $find_base_url;
+		
+		$config['url_main'] = $config['url_base'] =  strtok($find_base_url, '?');
+		
+		
 		$config['module_api'] = site_url('api/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);

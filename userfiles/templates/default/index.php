@@ -26,7 +26,7 @@
                     <h2 class="element">Welcome to Microweber</h2>
                     <p class="element">This is the default theme of (MW). </p> <br>
                     <h4 class="element">You are able to create your own Website, Blog, Online Shop or anything you need, for free.</h4>  <br>
-                    <h4 class="element"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>   <br>
+                    <h4 class="element" style="font-size: 16px;"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>   <br>
                     <p class="element"><a href="javascript:;" class="btn btn-large pull-right">Simple Button</a></p>
                 </div>
             </div>

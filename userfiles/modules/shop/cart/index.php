@@ -6,6 +6,7 @@ mw.require("shop.js", true);
 $template = get_option('data-template', $params['id']);
 $template_css_prefix = '';
 $template_file = false;
+$module_template = false;
 if ($template != false and strtolower($template) != 'none') {
 //
   $template_css_prefix = no_ext($template);
@@ -13,7 +14,15 @@ if ($template != false and strtolower($template) != 'none') {
 
 //d();
 } else {
- 	$template_file = module_templates($params['type'], 'default');
+	
+	if($template == false and isset($params['template'])){
+		$module_template =$params['template'];
+		 $template_file = module_templates($params['type'], $module_template);
+	} else {
+		 	$template_file = module_templates($params['type'], 'default');
+
+		
+	}
 }
 
 

@@ -1,0 +1,34 @@
+
+.numia-register{
+    padding: 12px 20px;
+}
+
+.numia-login{
+    padding: 12px 20px;
+}
+
+
+
+
+.numia-register input[type='text'],
+.numia-register input[type='password']{
+  font-size: 18px;
+  padding: 10px;
+  width: 90%;
+  width: calc(100% - 22px);
+  width: -webkit-calc(100% - 22px);
+}
+
+.numia-login input[type='text'],
+.numia-login input[type='password']{
+  font-size: 18px;
+  padding: 10px;
+  width: 90%;
+  width: calc(100% - 22px);
+  width: -webkit-calc(100% - 22px);
+}
+
+.numia_powered_by{
+  font-size: 12px;
+  text-align: center;
+}

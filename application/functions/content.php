@@ -71,6 +71,9 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('is_home', "char(1) default 'n'");
 	$fields_to_add[] = array('is_pinged', "char(1) default 'n'");
 	$fields_to_add[] = array('is_shop', "char(1) default 'n'");
+	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
+	$fields_to_add[] = array('draft_of', 'int(11) default NULL');
+	
 	$fields_to_add[] = array('require_login', "char(1) default 'n'");
 
 
@@ -494,7 +497,7 @@ function get_layout_for_page($page = array()) {
 
 	if (($cache_content) != false) {
 
-		return $cache_content;
+ 	return $cache_content;
 	}
 
 
@@ -502,11 +505,18 @@ function get_layout_for_page($page = array()) {
 	$look_for_post = false;
 	$template_view_set_inner = false;
 
+	if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
+		$test_file = str_replace('___',DS,$page['layout_file']);
+								$render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file ;
+ 
+						if(is_file($render_file_temp)){
+							$render_file = $render_file_temp;
+						}
+	}
 
 
 
-
-	if (isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
+	if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
 		$inherit_from = get_content_parents($page['id']);
 

@@ -1525,6 +1525,12 @@ module_settings: function() {
 
         },
         success: function(data) {
+
+
+
+
+
+
           mw.history.init();
         }
       });

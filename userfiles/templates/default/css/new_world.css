@@ -67,7 +67,10 @@ hr{
   color: white;
 }
 
-
+#main-navigation{
+  float: right;
+  margin-top: 10px;
+}
 
 #header .nav a:hover, #header .navbar .nav a, #header .nav-tabs a.active{
   color:#242B35;
@@ -75,6 +78,21 @@ hr{
 
 #header .nav li{
   position: relative;
+}
+
+@media (max-width: 480px) {
+  #main-navigation{
+    float: none;
+    clear: both;
+    display: block;
+  }
+
+  #header .nav li{
+    float: none;
+    display: block;
+    margin-left:0;
+    margin-right: 0;
+  }
 }
 
 #header ul.dropdown-menu{
@@ -98,7 +116,7 @@ hr{
 
 #logo{
   float: left;
-  margin-bottom: 10px;
+  margin-top: 22px;
   display: block;
   color: white;
   font-size: 35px;
@@ -106,10 +124,7 @@ hr{
   font-weight: 200;
 }
 
-#main-navigation{
-  float: right;
-  margin-top: 10px;
-}
+
 
 #mw-welcome{
   padding-left: 30px;
@@ -203,7 +218,7 @@ hr{
 }
 
 .symbol{
-  font-size: 35px;
+  font-size: 33px;
   font-weight: 100;
   color: #0088CC;
 }
@@ -697,6 +712,7 @@ i.myspace { background-position: -233px -51px; }
   border-top: 1px solid black;
   border-bottom: 1px solid #363B43;
   margin: 8px 0px 0px 0px;
+  box-shadow: none;
 }
 
 #footer-social h3{

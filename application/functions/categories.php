@@ -48,7 +48,7 @@ function mw_db_init_taxonomy_table() {
 	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
 
 	$fields_to_add[] = array('position', 'int(11) default NULL');
-
+	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
 	$fields_to_add[] = array('users_can_create_subcategories', "char(1) default 'n'");
 	$fields_to_add[] = array('users_can_create_content', "char(1) default 'n'");
 	$fields_to_add[] = array('users_can_create_content_allowed_usergroups', 'TEXT default NULL');
@@ -209,12 +209,12 @@ function category_tree($params = false) {
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	if (isset($params['content_id'])) {
 		$params['for_page'] = $params['content_id'];
-		
+
 	}
 
 	if (isset($params['for_page']) and $params['for_page'] != false) {
 		$page = get_content_by_id($params['for_page']);
-	 	//d($page);
+		//d($page);
 		$parent = $page['subtype_value'];
 	}
 	if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
@@ -283,7 +283,7 @@ function category_tree($params = false) {
 		$add_ids = explode(',', $add_ids);
 	}
 
-	if ( isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
+	if (isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['to_table']);
 		$skip123 = true;
@@ -302,10 +302,10 @@ function category_tree($params = false) {
 	//  cache_save($fields, $function_cache_id, $cache_group = 'db');
 
 	if ($skip123 == false) {
- 
+
 		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
 	} else {
- 
+
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
 				content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
@@ -1834,7 +1834,7 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 		//$orderby[0] = 'updated_on';
 
 		//$orderby[1] = 'DESC';
-		
+
 		$orderby[0] = 'position';
 
 		$orderby[1] = 'asc';

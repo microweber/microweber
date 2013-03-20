@@ -35,6 +35,9 @@
       <!--      <li <?php if($active_action == 'promo_codes'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:promo_codes"><span class="ico ipromo"></span><span><?php _e("Promo codes"); ?></span></a></li>
 -->
 
+         <? exec_action('mw_admin_shop_link'); ?>
+
+
       <li <?php if($active_action == 'options'): ?>class="active"<? endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="ico ioptions"></span><span>
         <?php _e("Options"); ?>
         </span></a></li>

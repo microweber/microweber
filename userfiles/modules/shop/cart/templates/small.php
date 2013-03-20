@@ -17,7 +17,7 @@ description: Small cart template
 .mw-cart-small{
   display: inline-block;
   float: right;
-  margin: 30px 0 0 15px;
+  margin: 37px 0 0 15px;
   border: 1px solid #C5C2C2;
   border-top-color:#E5E1E1;
   border-bottom-color:#A1A0A0;
@@ -44,7 +44,7 @@ description: Small cart template
   display: block;
   width: 30px;
   text-align: center;
-  padding: 6px 0;
+  padding: 4px 0;
   background: white;
   border-right: 1px solid #C5C2C2;
 }
@@ -56,7 +56,7 @@ description: Small cart template
 
 .mw-cart-small .no-items{
   display: inline-block;
-  padding: 5px 5px 0 0;
+  padding: 2px 5px 0 0;
 }
 
 </style>
@@ -69,19 +69,13 @@ description: Small cart template
 
 
       <?php
-
         $total_qty = 0;
         $total_price = 0;
-
-
         foreach ($data as $item) {
             $total_qty += $item['qty'];
             $total_price +=  $item['price']* $item['qty'];
-      }
-
+        }
       ?>
-
-
 
        <span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span> |
 
@@ -95,7 +89,7 @@ description: Small cart template
   <? if($checkout_link_enanbled != 'n') :?>
   <? $checkout_page =get_option('data-checkout-page', $params['id']); ?>
   <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
-	   
+
 	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
 	   $checkout_page_link = site_url().'?view=checkout';;
