@@ -775,3 +775,23 @@ mw.preview = function(){
       height:$(window).height()
     }); */
 }
+
+mw.iphonePreview = function(){
+    var url = mw.url.removeHash(window.location.href);
+    var url = mw.url.set_param('preview', true, url);
+
+
+    mw.tools.modal.frame({
+      url:url,
+      width:382,
+      height:802,
+      width:320, //originalnoto   
+      height:568,//originalnoto
+      height:592,
+      template:'modal-iphone'
+    });
+
+    mw.tools.modal.overlay();
+}
+
+

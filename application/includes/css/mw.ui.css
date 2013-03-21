@@ -653,7 +653,22 @@
 }
 
 .to-edit:hover{
-   background: url(../img/liveedit.png) no-repeat right center;  
+   background: url(../img/liveedit.png) no-repeat right center;
+}
+
+
+.modal-iphone{
+  background: url(../img/iphone.svg) no-repeat;
+  padding: 95px 29px 138px 33px;
+  border: none;
+}
+
+.modal-iphone .mw_modal_container{
+  background: black;
+}
+
+.modal-iphone .mw_modal_toolbar{
+  display: none;
 }
 
 

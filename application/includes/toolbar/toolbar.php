@@ -124,7 +124,7 @@
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
 
 
-
+        <a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>
 
 
 

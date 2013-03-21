@@ -132,7 +132,7 @@ mw.tools = {
 
         container.append(html).height(height-padding);
 
-        modal_object.css({top:($(window).height()/2)-(height/2),left:($(window).width()/2)-(width/2)});
+        modal_object.css({top:($(window).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(window).width()/2)-(width/2)});
 
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
