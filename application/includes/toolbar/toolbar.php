@@ -91,7 +91,7 @@
 
     </script>
 
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Hide</span></span>
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span>
 
 <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
 
@@ -124,7 +124,9 @@
         <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
 
 
-        <a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>
+
+
+        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
 
 
 

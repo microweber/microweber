@@ -1464,6 +1464,8 @@ module_settings: function() {
 
 
 
+
+
   //Clean the code before send
 
   mw.$('.element-current').removeClass('element-current');
@@ -1489,30 +1491,37 @@ module_settings: function() {
     var master = {};
 
     edits.each(function(j) {
-      j++;
-      var el = $(this);
-      content = el.html();
 
-      var attr_obj = {};
-      var attrs = el.get(0).attributes;
-      if(attrs.length>0){
-        for (var i = 0; i < attrs.length; i++) {
-          temp1 = attrs[i].nodeName;
-          temp2 = attrs[i].nodeValue;
-          attr_obj[temp1] = temp2;
+    if($(this).attr("rel")!=undefined || $(this).attr("rel")!=''){
+
+        j++;
+        var el = $(this);
+        content = el.html();
+
+        var attr_obj = {};
+        var attrs = el.get(0).attributes;
+        if(attrs.length>0){
+          for (var i = 0; i < attrs.length; i++) {
+            temp1 = attrs[i].nodeName;
+            temp2 = attrs[i].nodeValue;
+            attr_obj[temp1] = temp2;
+          }
         }
+        var obj = {
+          attributes: attr_obj,
+          html: content
+        }
+        var objX = "field_data_" + j;
+        var arr1 = [{
+          "attributes": attr_obj
+        }, {
+          "html": (content)
+        }];
+        master[objX] = obj;
+
+
       }
-      var obj = {
-        attributes: attr_obj,
-        html: content
-      }
-      var objX = "field_data_" + j;
-      var arr1 = [{
-        "attributes": attr_obj
-      }, {
-        "html": (content)
-      }];
-      master[objX] = obj;
+
     });
 
       $.ajax({

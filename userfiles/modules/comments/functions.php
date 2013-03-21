@@ -24,6 +24,43 @@ function mw_print_admin_dashboard_comments_btn() {
 
 
 /**
+ * mark_comments_as_old
+
+ */
+api_expose('mark_comments_as_old');
+ 
+
+function mark_comments_as_old($data) {
+
+    only_admin_access();
+	
+	
+	if(isset($data['content_id'])){
+	 	$table = MODULE_DB_COMMENTS;
+    	mw_var('FORCE_SAVE', $table);
+		$data['is_new'] = 'y';
+		$get_comm = get_comments($data);
+		if(!empty($get_comm)){
+			foreach($get_comm as $get_com){
+				$upd = array();
+				$upd['is_new'] = 'n';
+			 
+				$upd['id'] = $get_com['id'];
+				$upd['to_table'] = 'table_content';
+				$upd['to_table_id'] = db_escape_string($data['content_id']);
+				save_data($table, $upd);
+			}
+		}
+    return $get_comm;
+	
+	}
+	
+
+}
+
+
+
+/**
  * post_comment
 
  */
@@ -117,6 +154,18 @@ function post_comment($data) {
 			$notif['content'] = character_limiter($data['comment_body'],800);
 			post_notification($notif);
  }
+ 
+  if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
+	  $data['is_moderated'] = 'y';
+  } else {
+	 $require_moderation = get_option('require_moderation','comments');	 
+	 if($require_moderation != 'y'){
+		 $data['is_moderated'] = 'y';
+	 }
+  }
+ 
+// d( $require_moderation);
+// d( $data);
 
     $data = save_data($table, $data);
     return $data;

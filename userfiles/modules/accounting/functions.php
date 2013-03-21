@@ -17,7 +17,7 @@ function mw_admin_accounting_link() {
 	if(isset($mod['icon'])){
 	//$tn = 	thumbnail($mod['icon'], 16,16);
 	//$tn = 	thumbnail($mod['icon'], 24,24);
-	$tn = 	thumbnail($mod['icon'], 28);
+	$tn = 	thumbnail($mod['icon'], 23,20);
 	}
 	$url = admin_url().'view:modules/load_module:'.module_name_encode($mod['module']);
 	$to_pr = "<li><a href='{$url}' target='_blank'><span class='ico' style='background-image:url($tn)'></span><span>Accounting</span></a></li>";

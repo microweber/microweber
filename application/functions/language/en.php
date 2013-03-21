@@ -517,3 +517,4 @@ $language["username"]= 'Username' ;
 $language["password"]= 'Password' ; 
 $language["company"]= 'Company' ; 
 $language["register"]= 'Register' ; 
+$language["email-settings-are-saved"]= 'Email settings are saved' ; 

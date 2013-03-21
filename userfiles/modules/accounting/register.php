@@ -22,12 +22,12 @@
 <? endif; ?>
 
 
+<a class="numia_logo" href="http://numia.biz" target="_blank"></a>
+
+<h2>New Registration </h2>
 
 
-<h2>Register to Numia Accounting</h2>
 
-
-<br>
 
 
 

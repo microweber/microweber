@@ -8,6 +8,20 @@
 }
 
 
+.numia_logo{
+  display: block;
+
+  width: 126px;
+  height: 34px;
+  text-indent: -9999px;
+  background: url(../img/numia_logo.png) no-repeat;
+}
+
+.numia-register .numia_logo, .numia-login .numia_logo{
+  float: right;
+  margin-top: 23px;
+}
+
 
 
 .numia-register input[type='text'],

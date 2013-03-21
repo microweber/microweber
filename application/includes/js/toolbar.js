@@ -718,27 +718,28 @@ windowOnScroll = {
 
 
 mw.toggle_subpanel = function(){
-  this.speed = 200;
+  var _speed = 200;
   var el = mw.$("#show_hide_sub_panel");
   if(el.hasClass("state-off")){
      el.removeClass("state-off");
-     mw.$("#show_hide_sub_panel_slider").animate({left:0}, this.speed);
-     mw.$("#show_hide_sub_panel_info").fadeOut(this.speed, function(){
-       $(this).css({left:'auto'}).html('Hide').fadeIn(this.speed);
+     mw.$("#show_hide_sub_panel_slider").animate({left:0}, _speed);
+     mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
+       $(this).css({left:'auto'}).html('Less').fadeIn(_speed);
      });
-     mw.$(".mw_tab_active").slideDown(this.speed);
-     mw.$("#mw_toolbar_nav").slideDown(this.speed);
+     mw.$(".mw_tab_active").slideDown(_speed);
+     mw.$("#mw_toolbar_nav").slideDown(_speed);
      $(mwd.body).animate({paddingTop:170});
+
   }
   else{
     el.addClass("state-off");
-    mw.$("#show_hide_sub_panel_slider").animate({left:35}, this.speed);
-    mw.$("#show_hide_sub_panel_info").fadeOut(this.speed, function(){
-      $(this).css({left:3}).html('Show').fadeIn(this.speed);
+    mw.$("#show_hide_sub_panel_slider").animate({left:35}, _speed);
+    mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
+      $(this).css({left:3}).html('More').fadeIn(_speed);
     });
 
-    mw.$(".mw_tab_active").slideUp(this.speed);
-    mw.$("#mw_toolbar_nav").slideUp(this.speed);
+    mw.$(".mw_tab_active").slideUp(_speed);
+    mw.$("#mw_toolbar_nav").slideUp(_speed);
     $(mwd.body).animate({paddingTop:0});
   }
 }
@@ -785,7 +786,7 @@ mw.iphonePreview = function(){
       url:url,
       width:382,
       height:802,
-      width:320, //originalnoto   
+      width:320, //originalnoto
       height:568,//originalnoto
       height:592,
       template:'modal-iphone'

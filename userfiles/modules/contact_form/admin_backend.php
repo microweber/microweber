@@ -35,9 +35,10 @@ if((url_param('load_list') != false)){
 
    ?>
     <div class="mw-admin-sidebar">
-    <div class="mw-admin-side-nav">
-      <?php $info = module_info($config['module']);  ?>
+     <?php $info = module_info($config['module']);  ?>
        <?php module_ico_title($info['module']); ?>
+    <div class="mw-admin-side-nav side-nav-max">
+
       <div class="vSpace"></div>
       <ul>
         <li><a   <?php if($load_list == 'default'){ ?> class="active" <?php } ?> href="<? print $config['url']; ?>/load_list:default" >Default list</a></li>
@@ -52,6 +53,14 @@ if((url_param('load_list') != false)){
 
 
     </div>
+
+    <h2>Templates</h2>
+
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-hover">My templates</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
+
+
+
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px; width: 730px;">

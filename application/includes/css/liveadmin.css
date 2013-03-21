@@ -1526,6 +1526,16 @@ tr:hover .mw-ui-admin-table-show-on-hover{
   padding: 0;
 }
 
+.side-nav-max{
+  max-height: 345px;
+  overflow: hidden;
+
+}
+.side-nav-max:hover{  
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .mw-admin-side-nav li{
     list-style: none;
     margin-bottom: 5px;

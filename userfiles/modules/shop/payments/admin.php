@@ -11,8 +11,9 @@ $('.mw-admin-wrap').click(function(){
 
 
     mw.tools.tabGroup({
-       nav:'.mw-admin-side-nav a',
-       tabs:'.mw-set-payment-options .otab'
+       nav:'.payment-tab',
+       tabs:'.otab',
+       master: mwd.querySelector('.mw-admin-side-nav')
     });
 
   });
@@ -79,9 +80,9 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
          <div class="mw-admin-side-nav">
 
              <ul>
-                <li><a class="active" href="javascript:;" style="padding: 6px;">Currency</a></li>
-                <li><a href="javascript:;" style="padding: 6px;">Email confirmations</a></li>
-                <li><a href="javascript:;" style="padding: 6px;">Payment providers</a></li>
+                <li><a class="payment-tab active" href="javascript:;" style="padding: 6px;">Currency</a></li>
+                <li><a class="payment-tab" href="javascript:;" style="padding: 6px;">Email confirmations</a></li>
+                <li><a class="payment-tab" href="javascript:;" style="padding: 6px;">Payment providers</a></li>
              </ul>
 
          </div>

@@ -1,7 +1,7 @@
 <script type="text/javascript">
-    var murl = "<? print $config['url_to_module'] ?>";
 
-    mw.require(murl+'style.css');
+
+    mw.require('<? print $config['url_to_module'] ?>style.css');
     mw.require('color.js');
 </script>
 <script type="text/javascript">
@@ -21,7 +21,7 @@ mw.on.hashParam("search", function(){
 		  
 		  
 		  
-		  
+
 		  
 		  
 		  
@@ -35,7 +35,7 @@ mw.on.hashParam("content_id", function(){
     	$('#mw_admin_posts_with_comments').attr('content_id',this);
 		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
 		     mw.reload_module('#mw_admin_posts_with_comments', function(){
- 		  
+
 		  mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
 		  
 		  
@@ -137,6 +137,37 @@ mw.on.hashParam("comments_for_content", function(){  /*
           else{
               $([_new, _old]).show();
               $(master).addClass("active");
+			  d(master);
+			  
+				var  is_cont = $(master).attr('content-id')
+				
+				if(typeof is_cont != "undefined"){
+					
+					var mark_as_old = {}
+					mark_as_old.content_id = is_cont;
+					$.post('<? print site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
+					   
+					});
+					
+					
+					 //var mark_comments_as_old = master.parentNode.querySelector('.new-comments');
+					 //alert(is_cont);
+				}
+			  
+			  
+			  
+			  
+			 /* var id = form.attr('id');
+              mw.form.post('#'+id, '<? print site_url('api/post_comment'); ?>');
+			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
+				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
+			  });
+			  */
+			  
+			//  alert('here ajax');
+			  
+			  
+			  
           }
       }
     }
@@ -159,11 +190,8 @@ mark_notifications_as_read('comments');
 $(document).ready(function(){
 $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_table_id'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
-			
-			
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
-	  
-		}); 
+	  });
 
 });
 
@@ -222,7 +250,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
 	border: 1px solid #CACACA;
 	background-repeat: no-repeat;
 	background-size: cover;
- background-image: url(<?php print get_option('avatartype_custom', 'comments');
+    background-image: url(<?php print get_option('avatartype_custom', 'comments');
 ?>);
 }
 .avatars-holder {
@@ -265,7 +293,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
               type="search"
               placeholder="<?php _e("Search for post"); ?>"
               onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
-          />
+             />
           </div>
           <module type="comments/search_content" id="mw_admin_posts_with_comments"  />
         </div>
@@ -350,13 +378,13 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
             <label class="mw-ui-check">
               <?php  $are_enabled = get_option('enable_comments', 'comments')=='y';  ?>
               <input
-          type="checkbox"
-          name="enable_comments"
-          value="y"
-          class="mw_option_field"
-          option-group="comments"
-          <? if($are_enabled): ?>   checked="checked"  <? endif; ?>
-        />
+                type="checkbox"
+                name="enable_comments"
+                value="y"
+                class="mw_option_field"
+                option-group="comments"
+                <? if($are_enabled): ?>   checked="checked"  <? endif; ?>
+              />
               <?php
 
 
@@ -384,6 +412,7 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
                     <input
               type="checkbox"
               name="require_moderation"
+               data-reload="comments/comments_for_post"                       
               value="y"
               class="mw_option_field"
               option-group="comments"

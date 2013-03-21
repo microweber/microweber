@@ -191,3 +191,66 @@ function get_notifications($params) {
 	$params = get($params);
 	return $params;
 }
+
+function email_get_transport_object() {
+	$email_advanced = get_option('email_transport', 'email');
+	if ($email_advanced == false or $email_advanced == '') {
+		$email_advanced = 'php';
+	}	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+		$transport_type = "mw\email\\" . trim($email_advanced);
+   
+	try {
+		$_mw_email_obj = new $transport_type;
+		return $_mw_email_obj;
+	} catch (Exception $e) {
+		return ( $e -> getMessage());
+	} 
+
+	return false;
+
+}
+
+api_expose('email_send_test');
+function email_send_test($params) {
+
+	$is_admin = is_admin();
+	if ($is_admin == false) {
+		error('Error: not logged in as admin.');
+	}
+	$res = email_get_transport_object();
+ 	if (is_object($res)) {
+
+		$email_from = get_option('email_from', 'email');
+		if ($email_from == false or $email_from == '') {
+			//return mw_error('You must set your email address first!');
+		} else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
+			//return mw_error("E-mail is not valid");
+		}
+		if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
+			$to = $params['to'];
+			$subject = "Test mail";
+			
+			if (isset($params['subject'])){
+				$subject =$params['subject'];
+			}
+			
+			
+			
+			$message = "Hello! This is a simple email message.";
+			$res -> send($to, $subject, $message);
+		} else {
+			return mw_error("Test E-mail is not valid");
+		}
+
+	}
+
+	return true;
+
+}

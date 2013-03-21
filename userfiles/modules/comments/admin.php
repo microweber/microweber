@@ -52,8 +52,8 @@ if(isset($params['backend']) == true): ?>
     <?
 		
 		$get_comments_params['count'] = '1';
-		$get_comments_params['is_moderated'] = 'n';
-
+		//$get_comments_params['is_moderated'] = 'n';
+$get_comments_params['is_new'] = 'y';
 		 ?>
     <?php $new = get_comments($get_comments_params); ?>
     <?php if($new > 0){ ?>
@@ -67,8 +67,8 @@ if(isset($params['backend']) == true): ?>
     <?php
 	 unset($get_comments_params['is_moderated']);
 		$old = get_comments($get_comments_params); ?>
-    <h2 class="relative inline-block left">You don't have new comments <? print $old; ?></h2>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn right">See all</a>
+    <h2 class="relative inline-block left">You don't have new comments </h2>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn right" style="top:6px;">See all <strong><? print $old; ?></strong></a>
     <?php } ?>
     <div class="mw_clear"></div>
   </div>

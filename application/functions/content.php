@@ -480,10 +480,9 @@ function get_layout_for_page($page = array()) {
 
 	$args = func_get_args();
 	$function_cache_id = '';
-	foreach ($args as $k => $v) {
-
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-	}
+ 
+	$function_cache_id = $function_cache_id . serialize($page).url_string();
+	 
 
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($page['id']) and intval($page['id']) != 0){
@@ -497,7 +496,7 @@ function get_layout_for_page($page = array()) {
 
 	if (($cache_content) != false) {
 
- 	return $cache_content;
+ 	 return $cache_content;
 	}
 
 
@@ -557,7 +556,7 @@ function get_layout_for_page($page = array()) {
 //d($page);
 
 
-	if (isset($page['content_type']) and $page['content_type'] == 'post') {
+	if ($render_file == false and isset($page['content_type']) and $page['content_type'] == 'post') {
 		$look_for_post = $page;
 		if (isset($page['parent'])) {
 
@@ -576,7 +575,7 @@ function get_layout_for_page($page = array()) {
 		}
 	}
 
-	if (isset($page['simply_a_file'])) {
+	if ($render_file == false and isset($page['simply_a_file'])) {
 
 		if (is_file($page['simply_a_file']) == true) {
 			$render_file = $page['simply_a_file'];
@@ -585,7 +584,7 @@ function get_layout_for_page($page = array()) {
 	if (!isset($page['active_site_template'])){
 		$page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 	}
-	if (isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
+	if ($render_file == false and isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
 
 		$use_default_layouts = TEMPLATES_DIR . $page['active_site_template'].DS.'use_default_layouts.php';
 
@@ -593,7 +592,7 @@ function get_layout_for_page($page = array()) {
 			$page['active_site_template']  = 'default';
 		}
 	}
-	if (isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
+	if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
 		$layouts_list  = layouts_list('site_template='.$page['active_site_template']);
 
 		if(isarr($layouts_list)){
@@ -611,7 +610,7 @@ function get_layout_for_page($page = array()) {
 
 	}
 
-	if (isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
+	if ($render_file == false and isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
 		if ($look_for_post != false) {
 			$f1 = $page['layout_file'];
 

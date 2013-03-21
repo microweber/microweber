@@ -1,5 +1,7 @@
-<?php  $rand = uniqid(); ?>
-<?  $option_groups = array('website','users','template'); ?>
+<?php  $rand =  $params['id']; ?>
+<?php
+only_admin_access();?>
+<?  $option_groups = array('website','users','template','email'); ?>
 <script  type="text/javascript">
 
 

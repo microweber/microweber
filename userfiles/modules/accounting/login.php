@@ -8,8 +8,10 @@
 
 <script>mw.require("<? print $config['url_to_module'] ?>numia/style.css", true);</script>
 <div class="numia-login">
-<h2>Login to Numia Accounting</h2>
-<br>
+
+<a class="numia_logo" href="http://numia.biz" target="_blank"></a>
+<h2>Login to </h2>
+
 <div class="well">
 <form  method="post" id="numia_user_login"  action="<? print $config['url_main'] ?>"  >
   <div class="control-group">

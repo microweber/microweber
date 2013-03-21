@@ -37,6 +37,11 @@ mw.wysiwyg = {
 
       }
 
+
+
+
+
+
     },
     removeEditable : function(){
       if(!mw.is.ie){
@@ -60,6 +65,10 @@ mw.wysiwyg = {
     prepareContentEditable:function(){
       $(window).bind("onEditMouseDown", function(e, el, target){
         mw.wysiwyg.removeEditable();
+
+        mw.$(".edit").attr("contentEditable", "false");
+        $(el).attr("contentEditable", "true");
+
         if(!mw.is.ie){ //Non IE browser
           var _el = $(el);
           if(mw.tools.hasParentsWithClass(el, "module")){
@@ -224,7 +233,13 @@ mw.wysiwyg = {
 
             mw.$("element-current").removeClass("element-current");
          }
+
+
       });
+
+
+
+
     },
     applier:function(tag, classname, style_object){
       var range = window.getSelection().getRangeAt(0);
@@ -839,5 +854,9 @@ mw.$(".mw_dropdown_action_font_size li a").each(function(i){
 
 
 });
+
+
+
+
 
 

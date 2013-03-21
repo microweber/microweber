@@ -867,25 +867,27 @@ mw.tools = {
     }
   },
   simpleRotator:function(rotator){
-    if(!$(rotator).hasClass('activated')){
-      $(rotator).addClass('activated')
-      var all = mw.$('> *', rotator);
-      var l = all.length;
-      var w = 2 * (l * ($(all[0]).outerWidth(true)));
-      $(all).addClass('mw-simple-rotator-item');
-      $(rotator).width(w);
-      rotator.go = function(where, callback){
-          $(rotator).dataset('state', where);
-          var item = $(rotator).children()[where];
-          var item_left = $(item).offset().left;
-          var rleft =  $(rotator).offset().left;
-          $(rotator).animate({left:-(item_left-rleft)}, function(){
-            if(typeof callback === 'function'){
-              callback.call(rotator);
-            }
-          });
+    if(typeof rotator !== 'undefined'){
+      if(!$(rotator).hasClass('activated')){
+        $(rotator).addClass('activated')
+        var all = mw.$('> *', rotator);
+        var l = all.length;
+        var w = 2 * (l * ($(all[0]).outerWidth(true)));
+        $(all).addClass('mw-simple-rotator-item');
+        $(rotator).width(w);
+        rotator.go = function(where, callback){
+            $(rotator).dataset('state', where);
+            var item = $(rotator).children()[where];
+            var item_left = $(item).offset().left;
+            var rleft =  $(rotator).offset().left;
+            $(rotator).animate({left:-(item_left-rleft)}, function(){
+              if(typeof callback === 'function'){
+                callback.call(rotator);
+              }
+            });
+        }
+        rotator.state = function(){return parseFloat($(rotator).dataset('state'))}
       }
-      rotator.state = function(){return parseFloat($(rotator).dataset('state'))}
     }
     return rotator;
   },

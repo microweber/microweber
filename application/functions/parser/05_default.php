@@ -10,7 +10,7 @@ if ($layout != '') {
 	// d($parser_mem_crc);
 
 	$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
-$cached = false;
+//$cached = false;
 	$ch = mw_var($parser_mem_crc);
 	if ($cached != false) {
 		$mw_to_cache = $cached;
@@ -245,7 +245,7 @@ $cached = false;
 			}
 
 			if ($field_content != false and $field_content != '') {
-				//	$field_content = htmlspecialchars_decode($field_content);
+				 $field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 				// pecata d($field_content);
@@ -346,6 +346,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 
 					 //	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
 					$val_rep = htmlspecialchars_decode($val_rep);
+					
 					//$options['parse_mode'] = 1;
 					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
 
@@ -360,6 +361,8 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 			} else {
 				$rep = 'mw_replace_back_this_editable_' . $elk . '';
 					//$modified_layout = $rep;
+										$value = htmlspecialchars_decode($value);
+
 					$modified_layout = str_replace($rep, $value, $modified_layout);
 			}
 		}

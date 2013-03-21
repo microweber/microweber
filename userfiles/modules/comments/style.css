@@ -83,15 +83,18 @@
 
 .comments-holder{
   clear: both;
-  padding-top: 20px;
   background: url(img/deeparr.png) no-repeat 37px 39px;
 }
 
 .comment-of-apost{
     padding: 10px;
-    margin:10px 0;
     position: relative;
     border-bottom: 1px solid #E2E2E2;
+}
+
+.comment-unpublished{
+  background: #F8F8F8;
+  color: #bbb;
 }
 
 
@@ -135,7 +138,7 @@
 
 .comment-of-apost.new-comment{
   background: #D8FFC3;
-  border-bottom-color: #D8FFC3;
+  border-bottom-color: #D1EDB3;
 
 }
 
@@ -143,7 +146,7 @@
   position: absolute;
   text-align: right;
   width: 150px;
-  top: 10px;
+  top: 28px;
   right: 10px;
 }
 

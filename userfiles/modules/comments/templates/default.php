@@ -37,7 +37,7 @@ description: Default comments template
     <?php
     $required_moderation = get_option('require_moderation', 'comments')=='y';
 
-    if(!$required_moderation or $comment['is_moderated'] == 'y' or (!empty($_SESSION) and  $comment['session_id'] = session_id())){
+    if(!$required_moderation or $comment['is_moderated'] == 'y' or (!empty($_SESSION) and  $comment['session_id'] == session_id())){
   ?>
     <div class="clearfix comment" id="comment-<? print $comment['id'] ?>">
       <div class="row">
@@ -69,7 +69,7 @@ description: Default comments template
           <div class="comment-content">
             <div class="comment-author"> <? print $comment['comment_name'] ?> </div>
             <div class="comment-body">
-              <? if($required_moderation != false and  $comment['is_moderated'] == 'n'): ?>
+              <? if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>
               <em class="comment-require-moderation">Your comment requires moderation</em><br />
               <? endif; ?>
               <? print $comment['comment_body'] ?> </div>
