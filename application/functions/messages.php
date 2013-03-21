@@ -192,26 +192,29 @@ function get_notifications($params) {
 	return $params;
 }
 
+$_mw_email_transport_object = false;
 function email_get_transport_object() {
+
+	global $_mw_email_transport_object;
+
+	if (is_object($_mw_email_transport_object)) {
+		return $_mw_email_transport_object;
+	}
+
 	$email_advanced = get_option('email_transport', 'email');
 	if ($email_advanced == false or $email_advanced == '') {
 		$email_advanced = 'php';
-	}	
- 
- 
- 
- 
- 
- 
- 
-		$transport_type = "mw\email\\" . trim($email_advanced);
-   
+	}
+
+	$transport_type = trim($email_advanced);
+
 	try {
-		$_mw_email_obj = new $transport_type;
+		$_mw_email_obj = new mw\email\sender($transport_type);
+		$_mw_email_transport_object = $_mw_email_obj;
 		return $_mw_email_obj;
 	} catch (Exception $e) {
-		return ( $e -> getMessage());
-	} 
+		return ($e -> getMessage());
+	}
 
 	return false;
 
@@ -225,7 +228,7 @@ function email_send_test($params) {
 		error('Error: not logged in as admin.');
 	}
 	$res = email_get_transport_object();
- 	if (is_object($res)) {
+	if (is_object($res)) {
 
 		$email_from = get_option('email_from', 'email');
 		if ($email_from == false or $email_from == '') {
@@ -236,14 +239,13 @@ function email_send_test($params) {
 		if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
 			$to = $params['to'];
 			$subject = "Test mail";
-			
-			if (isset($params['subject'])){
-				$subject =$params['subject'];
+
+			if (isset($params['subject'])) {
+				$subject = $params['subject'];
 			}
-			
-			
-			
+
 			$message = "Hello! This is a simple email message.";
+			$res->debug=1;
 			$res -> send($to, $subject, $message);
 		} else {
 			return mw_error("Test E-mail is not valid");
