@@ -1,6 +1,6 @@
 mw.CSSParser = function(el){
     if(el === null ) return false;
-    if(typeof el === 'undefined') return false;
+    if(typeof el !== 'object') return false;
     if(el.nodeName === undefined || el.nodeName === '#text') return false;
     var css = window.getComputedStyle(el, null);
 
@@ -22,9 +22,9 @@ mw.CSSParser = function(el){
       }
     }
     this.alignNormalize = function(){
-      var a = css.textAlign;
-      var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
-      return final;
+        var a = css.textAlign;
+        var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
+        return final;
     }
     this.border = function(){
         return {

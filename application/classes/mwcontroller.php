@@ -112,7 +112,8 @@ class MwController {
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
 					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
 						$page['active_site_template'] = $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
+						;
 					}
 				}
 
@@ -269,9 +270,9 @@ class MwController {
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
- 
+
 		$render_file = get_layout_for_page($content);
- 
+
 		$content['render_file'] = $render_file;
 
 		if ($this -> return_data != false) {
@@ -418,8 +419,8 @@ class MwController {
 					$layout_toolbar = $layout_toolbar -> __toString();
 					if ($layout_toolbar != '') {
 						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
-
-						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c = 1);
+						$c = 1;
+						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
 					}
 				}
 			}
@@ -955,12 +956,11 @@ class MwController {
 				$url = url_string(0);
 			}
 			/*
-			$is_ajax = isAjax();
-			
-						if ($is_ajax == true) {
-							$url = url_string(true);
-														}*/
-			
+			 $is_ajax = isAjax();
+
+			 if ($is_ajax == true) {
+			 $url = url_string(true);
+			 }*/
 
 			$url = str_replace_once('module/', '', $url);
 			$url = str_replace_once('module_api/', '', $url);

@@ -27,7 +27,7 @@ function api_expose($function_name) {
 function exec_action($api_function, $data = false) {
 	global $mw_action_hook_index;
 	$hooks = $mw_action_hook_index;
-	;
+ 
 	//d($hooks);
 	if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 

@@ -201,6 +201,12 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 	if (trim($q) == '') {
 		return false;
 	}
+
+		
+
+
+
+
 	$error['error'] = array();
 	$results = false;
 	// if (MW_IS_INSTALLED != false) {
@@ -209,17 +215,16 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 
 		$cache_id = $cache_id . crc32($q);
 		$results = cache_get_content($cache_id, $cache_group);
-		//d($results);
+	//	 d($results);
 		if ($results != false) {
-			if ($results == '---empty---') {
-				return false;
+			if ($results == '---empty---' or (is_array($results) and empty($results))) {
+				 return false;
 			} else {
 				return $results;
 			}
 		}
 	}
-	
-	 
+
 	// }
 	db_query_log($q);
 	if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
@@ -546,7 +551,7 @@ function get($params) {
 	} else {
 		$cache_group = guess_cache_group($cache_group);
 	}
-	// d($cache_group);
+ 
 	$mode = 1;
 	switch ($mode) {
 		case 1 :
@@ -560,7 +565,7 @@ function get($params) {
 		} else {
 			$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
-
+ 
 				//$results_map_hits[$criteria_id] = 1;
 			$results_map[$criteria_id] = $ge;
 

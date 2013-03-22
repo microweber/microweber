@@ -43,8 +43,8 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
 
 $c_id = 'mw_init_all';
-$cache_content_init = cache_get_content($c_id, 'db');
-
+//$cache_content_init = cache_get_content($c_id, 'db');
+$cache_content_init = MW_IS_INSTALLED;
 if (MW_IS_INSTALLED == true) {
 	if (($cache_content_init) == false) {
 		exec_action('mw_db_init_default');
@@ -111,7 +111,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 		if (($cache_content_init) == false) {
 			exec_action('mw_db_init');
-			cache_save(true, $c_id, 'db');
+			cache_save('true', $c_id, 'db');
 
 		}
 

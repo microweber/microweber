@@ -8,7 +8,7 @@ if (!defined('__DIR__')) {
 if (!defined('MW_VERSION')) {
 	define('MW_VERSION', 0.5196);
 }
-
+//error_reporting(-1);
 
 set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 

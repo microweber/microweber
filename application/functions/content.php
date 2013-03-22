@@ -945,13 +945,15 @@ function get_content_by_id($id) {
 	$params['id'] = $id;
 	$params['limit'] = 1;
 	$params['table'] = $table;
+	//$params['debug'] = 1;
 	$params['cache_group'] = 'content/'.$id;
 
+ 
 
-	$q = get($params);
+	 $q = get($params);
 
 	//  $q = db_get($table, $params, $cache_group = 'content/' . $id);
-	//  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+	 //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
 	if (isset($q[0])) {
 		$content = $q[0];
 	} else {

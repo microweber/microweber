@@ -121,13 +121,10 @@ mw.wysiwyg = {
                 var b = b || false;
                 var c = c || false;
                 if(window.getSelection().rangeCount>0){
-                var cac = window.getSelection().getRangeAt(0).commonAncestorContainer;
-                var isSelectionInEditable = cac.parentElement.isContentEditable || cac.isContentEditable;
-                if(isSelectionInEditable){
                    $.browser.mozilla?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
                    mwd.execCommand(a,b,c);
                    $.browser.mozilla?mwd.designMode = 'off':'';
-                } }
+                 }
             }
         }
         catch(e){}

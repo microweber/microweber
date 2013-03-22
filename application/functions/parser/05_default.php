@@ -6,11 +6,14 @@ if ($layout != '') {
 
 	$mw_to_cache = array('orig', $layout);
 
-	$parser_mem_crc = 'parser_' . crc32($layout);
+	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
+	$cached = false;
+	 $cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+	if (isset($options['no_cache'])) {
 
-	$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
-//$cached = false;
+	}
+	//
 	$ch = mw_var($parser_mem_crc);
 	if ($cached != false) {
 		$mw_to_cache = $cached;
@@ -97,6 +100,10 @@ if ($layout != '') {
 				$get_global = false;
 				$data_id = intval($data_id);
 				$data = get_content_by_id($data_id);
+				
+				 
+				
+				
 				//$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
 			} else if ($rel == 'page') {
@@ -109,24 +116,26 @@ if ($layout != '') {
 				//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
 				$get_global = false;
 			} else if ($rel == 'post') {
+				$get_global = false;
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = POST_ID;
 				}
 				$data = get_content_by_id($data_id);
 
 			} else if ($rel == 'inherit') {
+				$get_global = false;
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = CONTENT_ID;
 				}
 				$inh = content_get_inherited_parent($data_id);
-				if ($inh != false) {
+				if ($inh != false and intval($inh) != 0) {
 					$data_id = $inh;
 					$rel = 'content';
 					$data = get_content_by_id($data_id);
 				} else {
 					$rel = 'content';
 					$data = get_page($data_id);
-					//d($data );
+					//
 				}
 
 			} else if (isset($attr['post'])) {
@@ -156,8 +165,8 @@ if ($layout != '') {
 					$rel = 'table_content';
 				}
 				$cont_field = false;
-				if (isset($data_id)) {
-					//d($data_id);
+				if (isset($data_id) and $data_id != 0) {
+					 //d($data_id);
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}&to_table_id=$data_id");
 					// d($cont_field);
@@ -168,13 +177,12 @@ if ($layout != '') {
 					$field_content = $cont_field;
 				}
 			}
-
+//d($data );
 			if ($field_content == false) {
 				if ($get_global == true) {
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
-					// d($cont_field);
-					if ($cont_field == false) {
+ 					if ($cont_field == false) {
 						if ($option_mod != false) {
 
 							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
@@ -227,7 +235,7 @@ if ($layout != '') {
 
 				if ($field_content == false and isset($rel) and isset($field)) {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
-					 
+
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
@@ -245,11 +253,11 @@ if ($layout != '') {
 			}
 
 			if ($field_content != false and $field_content != '') {
-				 $field_content = htmlspecialchars_decode($field_content);
+				$field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 				// pecata d($field_content);
-//d($field_content);
+				//d($field_content);
 				$parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
 
 				$ch2 = mw_var($parser_mem_crc);
@@ -274,7 +282,7 @@ if ($layout != '') {
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
 						$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-						//d($field_content);
+						 //d($field_content);
 						//pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
 						pq($elem) -> html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 
@@ -302,10 +310,10 @@ if ($layout != '') {
 			$mw_to_cache['new'] = $layout;
 			$mw_to_cache['to_replace'] = $mw_found_elems;
 			$mw_to_cache['elems'] = $mw_found_elems_arr;
-//d($mw_to_cache);
+			//d($mw_to_cache);
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
 
-			cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+			 	cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 		} else {
 			$mw_to_cache['new'] = $layout;
 
@@ -330,24 +338,24 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 		//if ($ch == false) {
 		$reps = $mw_to_cache['elems'];
 		global $passed_reps;
- 
+
 		if ($passed_reps == NULL) {
 			$passed_reps = array();
 
 		}
 		foreach ($reps as $elk => $value) {
 			$elk_crc = crc32($elk);
-			if ( !in_array($elk_crc, $passed_reps)) {
+			if (!in_array($elk_crc, $passed_reps)) {
 				$passed_reps[] = $elk_crc;
 
 				if ($value != '') {
 					//$layout = $ch;
 					$val_rep = $value;
 
-					 //	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
+					//	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
 					$val_rep = htmlspecialchars_decode($val_rep);
-					
-					//$options['parse_mode'] = 1;
+
+					$options['no_cache'] = 1;
 					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
 
 					//$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
@@ -359,11 +367,12 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					//d($elk);
 				}
 			} else {
+				//$passed_reps[] = $elk_crc;
 				$rep = 'mw_replace_back_this_editable_' . $elk . '';
-					//$modified_layout = $rep;
-										$value = htmlspecialchars_decode($value);
-
-					$modified_layout = str_replace($rep, $value, $modified_layout);
+				//$modified_layout = $rep;
+				$value = htmlspecialchars_decode($value);
+//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
+				$modified_layout = str_replace($rep, $value, $modified_layout);
 			}
 		}
 		// d($modified_layout);

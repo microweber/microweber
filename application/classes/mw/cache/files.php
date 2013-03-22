@@ -351,7 +351,7 @@ class files implements \iMwCache {
 
 		$mem_var = $this -> mw_cache_mem;
 		if (isset($mem_var[$cache_group])) {
-			if (isset($mem_var[$cache_group][$cache_id])) {
+			if (isset($mem_var[$cache_group][$cache_id]) and $mem_var[$cache_group][$cache_id] != false) {
 				//		 print $mem_var[$cache_group][$cache_id];
 				return $mem_var[$cache_group][$cache_id];
 			}
@@ -366,9 +366,9 @@ class files implements \iMwCache {
 
 		$cache = $this -> cache_get_content_encoded($cache_id, $cache_group, $time);
 
-		if ($cache == false or $cache == '' or $cache == '---empty---' or $cache == '---false---') {
+		if ($cache == false or $cache == '' or $cache == '---empty---' or $cache == '---false---' or (is_array($cache) and empty($cache))) {
 			$this -> mw_cache_mem[$cache_group][$cache_id] = false;
-			return array();
+			return false;
 		} else {
 			//   $cache = base64_decode($cache);
 			$cache = unserialize($cache);
@@ -403,6 +403,25 @@ class files implements \iMwCache {
 
 			return false;
 		} else {
+
+		
+
+			$mem_var = $this -> mw_cache_mem;
+			if (!isset($mem_var[$cache_group])) {
+				$this -> mw_cache_mem[$cache_group] = array();
+			}
+
+			if ($data_to_cache == '--true--') {
+				$this -> mw_cache_mem[$cache_group][$cache_id] = true;
+			} else {
+				$this -> mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
+
+			}
+			
+			
+			
+				
+
 			$data_to_cache = serialize($data_to_cache);
 
 			$this -> cache_write_to_file($cache_id, $data_to_cache, $cache_group);
