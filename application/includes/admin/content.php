@@ -520,7 +520,7 @@ function mw_add_product(){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }
 	   ?>
-        <module data-type="pages_menu" active_ids="<? print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
+        <module data-type="pages" active_ids="<? print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
         <div class="mw-clear"></div>
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>

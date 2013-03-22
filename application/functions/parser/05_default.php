@@ -253,7 +253,7 @@ if ($layout != '') {
 			}
 
 			if ($field_content != false and $field_content != '') {
-				$field_content = htmlspecialchars_decode($field_content);
+				//$field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
 				// pecata d($field_content);

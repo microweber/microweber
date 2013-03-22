@@ -145,6 +145,18 @@ function post_comment($data) {
         }
     }
  if (!isset($data['id']) and isset($data['comment_body'])) {
+	 
+	 
+	 
+			 if(!isset($data['comment_email']) and user_id() ==0){
+				 return array('error' => 'You must type your email or be logged in order to comment.');
+			 }
+	 
+	 
+	 
+	 
+	 
+	 
 			$notif = array();
 			$notif['module'] = "comments";
 			$notif['to_table'] = $data['to_table'];
@@ -153,7 +165,34 @@ function post_comment($data) {
 			$notif['description'] = "New comment is posted on ".curent_url(1);
 			$notif['content'] = character_limiter($data['comment_body'],800);
 			post_notification($notif);
+			
+			$email_on_new_comment = get_option('email_on_new_comment', 'comments')=='y';
+			$email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
+
+			
+			if($email_on_new_comment == true){
+			$subject = "You have new comment";
+			$data2 = $data;
+			unset($data['to_table']);
+			unset($data['to_table_id']);
+			$message = array_pp($data);
+ 
+			}
+			
+			
+ 
+			
+			
+			
  }
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
  
   if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
 	  $data['is_moderated'] = 'y';

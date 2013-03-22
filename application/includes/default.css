@@ -72,6 +72,7 @@ body.mw-preview{
 
 .mw-col-container{
   padding: 10px;
+  margin: 6px 0;
 }
 
 .mw-row > .mw-col:first-child > .mw-col-container{ padding: 10px 10px 10px 0; }
@@ -136,9 +137,14 @@ img.element{
   .mw-col{
     width: auto !important;
     float: none;
+    margin: 6px;
   }
   .mw-col > .mw-col-container[class]{
     padding: 0;
+  }
+
+  .mw-col > .ui-resizable-e{
+    display: none;
   }
 
 }

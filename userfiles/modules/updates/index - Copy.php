@@ -59,7 +59,7 @@ mw.$('#update_log_{rand}').append(value);
 	  }
 	// mw.log(this);
 	// mw.reload_module('[data-type="categories"]');
-	 // mw.reload_module('[data-type="pages_menu"]');
+	 // mw.reload_module('[data-type="pages"]');
 	 });
 
 

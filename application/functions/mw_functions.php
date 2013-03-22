@@ -44,9 +44,11 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php
 
 $c_id = 'mw_init_all';
 //$cache_content_init = cache_get_content($c_id, 'db');
-$cache_content_init = MW_IS_INSTALLED;
+$cache_content_init = static_option_get('is_installed', 'mw_system');
+ 
+//$cache_content_init = MW_IS_INSTALLED;
 if (MW_IS_INSTALLED == true) {
-	if (($cache_content_init) == false) {
+	if ($cache_content_init != 'yes') {
 		exec_action('mw_db_init_default');
 		exec_action('mw_db_init_options');
 		exec_action('mw_db_init_users');
@@ -79,10 +81,10 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.ph
 
 if (MW_IS_INSTALLED == true) {
 
-	if ($cache_content_init == false) {
+	if ($cache_content_init != 'yes') {
 		exec_action('mw_db_init_modules');
 	}
- 
+
 }
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'shop.php');
 
@@ -111,14 +113,20 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 		if (($cache_content_init) == false) {
 			exec_action('mw_db_init');
-			cache_save('true', $c_id, 'db');
+			//cache_save('true', $c_id, 'db');
+
+			$installed = array();
+			$installed['option_group'] = ('mw_system');
+			$installed['option_key'] = ('is_installed');
+			$installed['option_value'] = 'yes';
+			static_option_save($installed);
 
 		}
 
 		//exec_action('mw_cron');
 	}
 }
-
+//exec_action('mw_db_init');
 /*
  require (MW_APPPATH_FULL. 'classes' . DIRECTORY_SEPARATOR . 'AggregateAutoloader.php');
 

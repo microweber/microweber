@@ -55,7 +55,7 @@ if (!isset($data['to_table_id'])) {
 	  
 	  
 
-
+$hide_comment_form = false;
 $comments_data = array();
 $comments_data['to_table_id'] = $data['to_table_id'];
 $comments_data['to_table'] = $data['to_table'];
@@ -66,8 +66,15 @@ $comments_data['to_table_id'] = $data['to_table_id'] =  $display_comments_from_w
 $comments_data['to_table'] =  $data['to_table'] = 'table_content';
 }
 
-if($display_comments_from  != false and $display_comments_from   == 'recent'){
 
+
+
+
+
+
+
+if($display_comments_from  != false and $display_comments_from   == 'recent'){
+$hide_comment_form = true;
 $comments_data = array();
 $comments_data['order_by'] = "created_on desc";
  	
@@ -121,8 +128,28 @@ if ($template != false and strtolower($template) != 'none') {
     $(document).ready(function(){
         mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
             mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>',
-			function() {
-				mw.reload_module('#<? print $params['id'] ?>');
+			function(msg) {
+				
+				var resp = this;
+			 
+				if(typeof(resp.error) != 'undefined'){
+					var err_hold = "error-comments-form-<? print $data['id'] ?>";
+					
+					if($('#'+err_hold).length == 0){
+						$('#comments-form-<? print $data['id'] ?>').append("<div class=\"alert alert-error\" id='"+err_hold+"'></div>");
+						
+					}
+					 
+						$('#'+err_hold).html(resp.error);
+					 
+					
+					
+				} else {
+					mw.reload_module('#<? print $params['id'] ?>');
+				}
+				
+				
+				
 			});
             return false;
         });

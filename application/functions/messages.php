@@ -220,6 +220,33 @@ function email_get_transport_object() {
 
 }
 
+function mw_mail($to, $subject, $message,$add_hostname_to_subject = false) {
+	$res = email_get_transport_object();
+	if (is_object($res)) {
+
+		$email_from = get_option('email_from', 'email');
+		if ($email_from == false or $email_from == '') {
+			//return mw_error('You must set your email address first!');
+		} else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
+			//return mw_error("E-mail is not valid");
+		}
+		
+		if($add_hostname_to_subject != false){
+		$subject = '['.site_hostname().'] '.$subject;
+		}
+		
+		
+		if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+			//$res -> debug = 1;
+			$res -> send($to, $subject, $message);
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+}
+
 api_expose('email_send_test');
 function email_send_test($params) {
 
@@ -245,7 +272,7 @@ function email_send_test($params) {
 			}
 
 			$message = "Hello! This is a simple email message.";
-			$res->debug=1;
+			$res -> debug = 1;
 			$res -> send($to, $subject, $message);
 		} else {
 			return mw_error("Test E-mail is not valid");

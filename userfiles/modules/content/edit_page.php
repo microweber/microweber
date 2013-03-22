@@ -190,9 +190,9 @@ $(document).ready(function(){
      mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
      mw.url.windowHashParam("new_content", 'true');
-     mw.reload_module('[data-type="pages_menu"]');
+     mw.reload_module('[data-type="pages"]');
      <? else: ?>
-     mw.reload_module('[data-type="pages_menu"]');
+     mw.reload_module('[data-type="pages"]');
  // mw_after_content_save<? print $rand; ?>();
  <? endif; ?>
 
@@ -408,7 +408,7 @@ function mw_before_content_save<? print $rand; ?>(){
 
 function mw_after_content_save<? print $rand; ?>($id){
 
-  mw.reload_module('[data-type="pages_menu"]');
+  mw.reload_module('[data-type="pages"]');
   <? if($edit_post_mode != false): ?>
   mw.reload_module('[data-type="posts"]');
   <? endif; ?>

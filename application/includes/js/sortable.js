@@ -1051,7 +1051,7 @@ mw.drag = {
 		//$(mw.dragCurrent).removeAttr('style');
 		//$(".element", '.edit').removeAttr('style');
         setTimeout(function(){
-		$(".mw-col", '.edit').each(function () {
+		mw.$(".edit .mw-col").each(function () {
 			var el = $(this);
 			if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
 			    el.height('auto');
@@ -1067,6 +1067,12 @@ mw.drag = {
 				el.height('auto');
 				el.parents('.mw-row:first').height('auto')
 			}
+
+            //el.children('.empty-element').height('auto');
+			el.height('auto');
+            mw.tools.firstParentWithClass(this, 'mw-row').style.height = 'auto';
+			//el.parents('.mw-row:first').height('auto')
+
 		}); }, 222);
 	},
     /**
@@ -1116,37 +1122,7 @@ mw.drag = {
 	},
 
 
-    /**
-     * Put onchange for contenteditable
-	 * One call of this function fixes all ContentEditable elements in the page to have onchange event.
-	 *
-	 * @example mw.drag.fix_onChange_editable_elements();
-	 */
-    fix_onChange_editable_elements : function(el)   {
-
-                   //     return false;
-
-    var el = el || '[contenteditable]';
-
-
-      mw.$(el).bind('focus', function() {
-          var $this = $(this);
-          $this.data('before', $this.html());
-          return $this;
-      })
-      .bind('blur keyup paste', function() {
-          var el = $(this);
-          if (el.data('before') !== $this.html()) {
-              el.data('before', $this.html());
-              el.trigger('change');
-          }
-          return $this;
-      });
-    },
-
-
-
-    fancynateLoading:function(module){
+  fancynateLoading:function(module){
         mw.$(module).addClass("module_loading");
         setTimeout(function(){
             $(module).addClass("module_activated");

@@ -104,9 +104,9 @@ $(document).ready(function(){
 	 
 
 	 mw.reload_module('[data-type="categories"]');
-     mw.$('[data-type="pages_menu"]').removeClass("activated");
-	  mw.reload_module('[data-type="pages_menu"]', function(){
-	    mw.treeRenderer.appendUI('[data-type="pages_menu"]');
+     mw.$('[data-type="pages"]').removeClass("activated");
+	  mw.reload_module('[data-type="pages"]', function(){
+	    mw.treeRenderer.appendUI('[data-type="pages"]');
         mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
 	  });
 	  <? if(intval($data['id']) == 0): ?>

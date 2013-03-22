@@ -1681,7 +1681,7 @@ function map_array_to_database_table($table, $array) {
 		$fields = db_get_table_fields($table);
 		$arr_maps[$table] = $fields;
 	}
-
+if(isarr($fields)){
 	foreach ($fields as $field) {
 
 		$field = strtolower($field);
@@ -1700,7 +1700,7 @@ function map_array_to_database_table($table, $array) {
 			}
 		}
 	}
-
+}
 	if (!isset($array_to_return)) {
 		return false;
 	} else {

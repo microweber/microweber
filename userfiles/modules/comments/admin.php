@@ -105,6 +105,17 @@ $get_comments_params['is_new'] = 'y';
         <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <? if($display_comments_from == 'recent'): ?>  checked="checked" <? endif ?> />
         <span></span> <span>Recent comments</span> </label>
     </div>
+    
+     <div class="mw-ui-field-holder">
+      <label class="mw-ui-check left">
+        <input name="display_comments_from" class="mw_option_field"    type="radio" value="custom" <? if($display_comments_from == 'custom'): ?>  checked="checked" <? endif ?> />
+        <span></span> <span>Custom</span></label>
+       
+             <input type="text"  placeholder="What do you think?"  class="mw_option_field"  name="title"   value="<?php print get_option('title', $params['id']) ?>" />
+
+    </div>
+    
+    
     <!--<div class="mw-ui-field-holder">
       <label class="mw-ui-check">
         <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <? if($display_comments_from == 'popular'): ?>  checked="checked" <? endif ?> />

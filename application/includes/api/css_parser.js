@@ -22,9 +22,11 @@ mw.CSSParser = function(el){
       }
     }
     this.alignNormalize = function(){
+        if(!!css){
         var a = css.textAlign;
         var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
         return final;
+      }
     }
     this.border = function(){
         return {
@@ -62,7 +64,6 @@ mw.CSSParser = function(el){
           bottom:parseFloat(css.marginBottom)
         }
       }
-
     }
     this.padding = function(parse){
       if(!parse){

@@ -70,10 +70,4 @@
 
 
 
-
-
-
-
-
-
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

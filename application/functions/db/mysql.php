@@ -46,6 +46,7 @@ if ($is_mysqli != false) {
 		$err = mysql_error();
 		if (strstr($err, "doesn't exist")) {
 			cache_clean_group('db');
+			exec_action('mw_db_init');
 			exec_action('mw_db_init_default');
 			exec_action('mw_db_init_modules');
 			$query = $q;

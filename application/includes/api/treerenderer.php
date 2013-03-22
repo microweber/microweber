@@ -70,7 +70,7 @@ mw.treeRenderer = {
                          /*
 
 
-                         mw.reload_module("pages_menu", function(){
+                         mw.reload_module("pages", function(){
                              mw.treeRenderer.appendUI('#pages_tree_toolbar');
                          });
 

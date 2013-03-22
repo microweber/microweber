@@ -7,7 +7,7 @@
 
 <h4 class="sidebar-title">Pages</h4>
 <div class="sidebar-box">
-  <module type="pages_menu" template="pills" />
+  <module type="pages" template="pills" />
 </div>
 <h4 class="sidebar-title">Blog Categories</h4>
 <div class="sidebar-box">

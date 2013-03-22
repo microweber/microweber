@@ -8,7 +8,7 @@ Adrrsss
 
 
 Pages
-<module type="option" name="asdsadas" field_type="pages_menu">
+<module type="option" name="asdsadas" field_type="pages">
 
 
 <strong>Limit</strong>

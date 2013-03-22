@@ -77,7 +77,24 @@ function character_limiter($str, $length,$dots='...', $minword = 3) {
 	return $sub . (($len < strlen($str)) ? $dots : '');
 }
 
- 
+ function array_pp($arr){
+    $retStr = '<ul>';
+    if (is_array($arr)){
+        foreach ($arr as $key=>$val){
+        	
+			$key = str_replace('_', ' ', $key);
+			$key = ucwords($key);
+			
+            if (is_array($val)){
+                $retStr .= '<li>' . $key . ': ' . array_pp($val) . '</li>';
+            }else{
+                $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+            }
+        }
+    }
+    $retStr .= '</ul>';
+    return $retStr;
+}
  
 function array_change_key($array, $search, $replace) {
 	$arr = array();
