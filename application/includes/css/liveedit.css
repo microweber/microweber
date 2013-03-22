@@ -294,6 +294,16 @@ body .mw-col > .ui-resizable-e *{
   cursor: not-allowed;
 }
 
+span[\_moz_anonclass="mozGrabber"]{
+  background: red;
+  border: 2px solid blue;
+}
+
+span[_moz_anonclass="mozGrabber"]{
+  background: red;
+  border: 2px solid blue;
+}
+
 
 
 

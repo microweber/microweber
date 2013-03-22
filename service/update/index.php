@@ -422,7 +422,7 @@ $ver = $this->get_latest_core_version();
 							//P
 							$locations[] = $this -> repo_dir.'userfiles/modules/pictures'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/posts'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/pages_menu'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/pages'.DS;
 							
 							
 							//S
