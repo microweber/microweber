@@ -234,14 +234,37 @@ mw.wysiwyg = {
                mw.wysiwyg.insert_html("<p class='element'></p>");
                mw.$("element-current").removeClass("element-current");
          }
-         if(event.keyCode == 46 && event.type == 'keydown'){
+         if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
            $(mw.image_resizer).removeClass("active");
+                   d(event.target)
+           if(event.target.tagName === 'IMG'){
+              $(event.target).remove()
+           }
+
+           var sel = window.getSelection();
+
+           var r = sel.getRangeAt(0);
+
+           if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable){
+             mw.e.cancel(event, true);
+             return false;
+           }
+
          }
+
+
 
 
       });
 
+
+
+      $(mwd.body).keyup(function(е){
+        if(mw.tools.isEmpty(е.target)){
+            е.target.innerHTML = '&zwnj;&nbsp;';
+         }
+      })
 
 
 

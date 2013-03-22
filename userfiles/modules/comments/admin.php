@@ -1,4 +1,4 @@
-<script>
+<? only_admin_access(); ?><script>
 
 
 $(document).ready(function(){
@@ -10,6 +10,8 @@ $(document).ready(function(){
 
 </script>
 <?php 
+
+
 $get_comments_params = array();
  $get_comments_params['to_table'] = 'table_content';
 if(isset($params['content-id'])){
@@ -108,12 +110,29 @@ $get_comments_params['is_new'] = 'y';
     
      <div class="mw-ui-field-holder">
       <label class="mw-ui-check left">
-        <input name="display_comments_from" class="mw_option_field"    type="radio" value="custom" <? if($display_comments_from == 'custom'): ?>  checked="checked" <? endif ?> />
-        <span></span> <span>Custom</span></label>
-       
-             <input type="text"  placeholder="What do you think?"  class="mw_option_field"  name="title"   value="<?php print get_option('title', $params['id']) ?>" />
-
+        <input name="display_comments_from" class="mw_option_field"    type="radio" value="module" <? if($display_comments_from == 'module'): ?>  checked="checked" <? endif ?> />
+        <span></span> <span>Custom comments</span></label> <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a>
+  
     </div>
+    
+      <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
+      
+ 
+       
+      
+       <label class="mw-ui-label-inline">Module id:  </label>
+   
+    
+      
+    <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+  
+<br />
+<br />
+<small>default: <? print $params['id'] ?></small>
+   
+   
+    </div>
+    
     
     
     <!--<div class="mw-ui-field-holder">
@@ -121,6 +140,8 @@ $get_comments_params['is_new'] = 'y';
         <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <? if($display_comments_from == 'popular'): ?>  checked="checked" <? endif ?> />
         <span></span> <span>Most popular comments</span> </label>
     </div>-->
+    
+     <div class="mw_clear"></div>
     <hr>
     <label class="mw-ui-check">
       <?php  $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  ?>
@@ -130,6 +151,15 @@ $get_comments_params['is_new'] = 'y';
     <label class="mw-ui-label-inline">Comments per page</label>
     <input type="text"  placeholder="10" style="width:22px;" class="mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
     <div class="mw_clear vSpace"></div>
+    
+    
+     <label class="mw-ui-label-inline">Form title </label>
+   
+    
+      
+    <input type="text"  placeholder="Use default"   class="mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
+    
+    
   </div>
 </div>
 <? endif; ?>

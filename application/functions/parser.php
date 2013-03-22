@@ -1249,12 +1249,66 @@ exit();
 
 $mw_rand = rand();
 
+ 
+	
+function OLD_make_microweber_tags($layout) {
+	if ($layout == '') {
+		return $layout;
+	}
+
+	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+	$pq = phpQuery::newDocument($layout);
+	// print first list outer HTML
+	// $edit_fields = $pq['.edit'];
+	foreach ($pq ['.module'] as $elem) {
+		$name = pq($elem) -> attr('module');
+
+		$attrs = $elem -> attributes;
+
+		$module_html = "<module ";
+		if (!empty($attrs)) {
+			foreach ($attrs as $attribute_name => $attribute_node) {
+				$v = $attribute_node -> nodeValue;
+				$module_html .= " {$attribute_name}='{$v}'  ";
+			}
+		}
+		$module_html .= ' />';
+		pq($elem) -> replaceWith($module_html);
+	}
+
+	return $pq -> htmlOuter();
+
+	return $layout;
+}	
+	
+		
 function make_microweber_tags($layout) {
 	if ($layout == '') {
 		return $layout;
 	}
 
 	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+	
+	
+	$script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
+		$replaced_scripts = array();
+		preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+		if (!empty($mw_script_matches)) {
+			foreach ($mw_script_matches [0] as $key => $value) {
+				if ($value != '') {
+				//	$v1 = crc32($value);
+					$v1 = ' ';
+					$layout = str_replace($value, $v1, $layout);
+					 
+				}
+			}
+		}
+		
+		
+		
+		
 
 	$pq = phpQuery::newDocument($layout);
 	// print first list outer HTML

@@ -1283,6 +1283,14 @@ mw.tools = {
       $(el).empty().append(input);
       $(input).focus();
     }
+  },
+  parseHtml: function(html){
+    var d = document.implementation.createHTMLDocument("");
+    d.body.innerHTML = html;
+   return d.body.childNodes;
+  },
+  isEmpty:function(node){
+    return (node.innerHTML.trim()).length === 0;
   }
 }
 

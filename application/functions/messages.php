@@ -220,7 +220,26 @@ function email_get_transport_object() {
 
 }
 
-function mw_mail($to, $subject, $message,$add_hostname_to_subject = false) {
+function mw_mail($to, $subject, $message, $add_hostname_to_subject = false) {
+
+	$function_cache_id = false;
+
+	$args = func_get_args();
+
+	foreach ($args as $k => $v) {
+
+		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$cache_group = "notifications/email";
+	$cache_content = cache_get_content($function_cache_id, $cache_group);
+
+	if (($cache_content) != false) {
+
+		return $cache_content;
+	}
+
 	$res = email_get_transport_object();
 	if (is_object($res)) {
 
@@ -230,15 +249,15 @@ function mw_mail($to, $subject, $message,$add_hostname_to_subject = false) {
 		} else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
 			//return mw_error("E-mail is not valid");
 		}
-		
-		if($add_hostname_to_subject != false){
-		$subject = '['.site_hostname().'] '.$subject;
+
+		if ($add_hostname_to_subject != false) {
+			$subject = '[' . site_hostname() . '] ' . $subject;
 		}
-		
-		
+
 		if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 			//$res -> debug = 1;
 			$res -> send($to, $subject, $message);
+			cache_save(true, $function_cache_id, $cache_group);
 			return true;
 		} else {
 			return false;

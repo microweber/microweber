@@ -1,4 +1,4 @@
-<script  type="text/javascript">
+<? only_admin_access(); ?><script  type="text/javascript">
 $(document).ready(function(){
 	
   mw.options.form('.<? print $config['module_class'] ?>', function(){

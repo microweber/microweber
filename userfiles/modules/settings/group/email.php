@@ -1,3 +1,4 @@
+<? only_admin_access(); ?>
 <script  type="text/javascript">
 $(document).ready(function(){
 

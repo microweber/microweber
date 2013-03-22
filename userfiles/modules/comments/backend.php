@@ -34,29 +34,32 @@ mw.on.hashParam("content_id", function(){
 		$('#mw_admin_posts_with_comments').show();
     	$('#mw_admin_posts_with_comments').attr('content_id',this);
 		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
-		     mw.reload_module('#mw_admin_posts_with_comments', function(){
-
-		  mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
-		  
-		  
-		  
-		  
-		  
+		 mw.reload_module('#mw_admin_posts_with_comments', function(){
+		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
     });
 	
     } else {
-		
-		
-		
     	$('#mw_admin_posts_with_comments').removeAttr('content_id');
 		  mw.reload_module('#mw_admin_posts_with_comments');
 
     }
- 
+});
 
+mw.on.hashParam("to_table_id", function(){   
+    if(this  !== '' && this  != '0'){
+		$('#mw_comments_admin_dashboard').hide();
+		$('#mw_admin_posts_with_comments').show();
+    	$('#mw_admin_posts_with_comments').attr('to_table_id',this);
+		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
+		 mw.reload_module('#mw_admin_posts_with_comments', function(){
+		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+    });
+	
+    } else {
+    	$('#mw_admin_posts_with_comments').removeAttr('to_table_id');
+		  mw.reload_module('#mw_admin_posts_with_comments');
 
-
-
+    }
 });
 
 mw.on.hashParam("comments_for_content", function(){  /*

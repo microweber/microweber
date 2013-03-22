@@ -509,16 +509,7 @@ $.expr[':'].isVisible = function(obj, index, meta, stack){
 
 
 
-editablePurify = function(el){
-  var dirty = $(el).find("[_moz_dirty]").not("br");
-  dirty.each(function(){
-    var el = $(this);
-    el.removeAttr("id");
-    if(el.html()=="" || el.html()==" "){
-      el.replaceWith('<br />');
-    }
-  });
-}
+
 
 
 
@@ -580,30 +571,6 @@ mw.toolbar = {
 $(window).load(function(){
 
     mw.toolbar.center_icons();
-
-    mw.$(".element").keyup(function(event){
-        editablePurify(this);
-    });
-
-
-    mw.$(".element").mousedown(function(event){
-        mw.$(".mw_editor_btn").removeClass("mw_editor_btn_active");
-
-    });
-
-
-  //  mw.disable_selection();
-
-
-
-
-
-
-
-
-
-
-
 
 
   //mw.image.resize.init(".edit img");

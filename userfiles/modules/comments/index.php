@@ -70,6 +70,12 @@ $comments_data['to_table'] =  $data['to_table'] = 'table_content';
 
 
 
+ 
+$form_title = false;
+$display_form_title_from_module_id =  get_option('form_title', $params['id']); 
+ if($display_form_title_from_module_id != false and trim($display_form_title_from_module_id) != ''){
+	$form_title = $display_form_title_from_module_id;	 
+  }
 
 
 
@@ -79,6 +85,23 @@ $comments_data = array();
 $comments_data['order_by'] = "created_on desc";
  	
 }
+
+
+if($display_comments_from  != false and $display_comments_from   == 'module'){
+ 
+$comments_data['to_table_id'] =   $data['to_table_id'] =  $params['id'];
+$comments_data['to_table'] =  $data['to_table'] = 'table_modules';
+ $display_comments_from_module_id =  get_option('module_id', $params['id']); 
+ if($display_comments_from_module_id != false and trim($display_comments_from_module_id) != ''){
+		$comments_data['to_table_id'] =   $data['to_table_id'] =  $display_comments_from_module_id;
+  }
+ 
+
+}
+ 
+
+
+
  $paging  = false;
 if( $enable_comments_paging != false){
 	 $comments_per_page = get_option('comments_per_page',  $params['id']);  

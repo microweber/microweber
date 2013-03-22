@@ -294,15 +294,28 @@ body .mw-col > .ui-resizable-e *{
   cursor: not-allowed;
 }
 
-span[\_moz_anonclass="mozGrabber"]{
-  background: red;
-  border: 2px solid blue;
+
+.edit[contenteditable=true]{
+  
 }
 
-span[_moz_anonclass="mozGrabber"]{
-  background: red;
-  border: 2px solid blue;
+.edit[contenteditable=true]:before{
+    content:"Type to edit.";
+     background: #62B2DA;
+
+
+    color: white;
+    cursor: move;
+    display: inline-block;
+    font-size: 11px;
+    left: 0;
+    line-height: 15px;
+    padding: 0 4px;
+    position: absolute;
+    text-align: center;
+    bottom: 100%;
 }
+
 
 
 

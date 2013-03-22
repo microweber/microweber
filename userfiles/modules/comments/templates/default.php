@@ -25,7 +25,11 @@ description: Default comments template
 
         ?>
   <? if (isarr($comments)): ?>
-  <? if($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
+  <? if($form_title != false): ?>
+   <h2><? print $form_title ?></h2>
+  
+  
+  <? elseif($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
   <h2>Recent comments</h2>
   <? else : ?>
   <h2>Comments for <strong>
@@ -98,9 +102,15 @@ description: Default comments template
  
   
   <div class="mw-comments-form" id="comments-<? print $data['id'] ?>">
-    <form autocomplete="off" id="comments-form-<? print $data['id'] ?>">
+    <form autocomplete="on" id="comments-form-<? print $data['id'] ?>">
       <input type="hidden" name="to_table_id" value="<? print $data['to_table_id'] ?>">
       <input type="hidden" name="to_table" value="<? print $data['to_table'] ?>">
+      
+    <? if($form_title != false): ?>
+   <input type="hidden" name="comment_subject" value="<? print $form_title ?>">
+ <?php endif; ?>
+      
+      
       <h2>Leave a comment</h2>
       <?php if( $cur_user == false) :  ?>
       <div class="row-fluid">

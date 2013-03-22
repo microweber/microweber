@@ -34,6 +34,7 @@ mw.dropables = {
     });
   },
   display:function(el){
+
     var el = $(el);
     var offset = el.offset();
     var width = el.outerWidth();
@@ -635,7 +636,7 @@ mw.drag = {
             mw.handle_module = mwd.getElementById('mw_handle_module');
             mw.handle_row = mwd.getElementById('mw_handle_row');
             mw.handle_element = mwd.getElementById('mw_handle_element');
-            mw.handle_item = mwd.getElementById('items_handle');
+            mw.handle_item = '';// mwd.getElementById('items_handle');
 
             $(mw.handle_element).mouseenter(function(){
                 var curr = $(this).data("curr");
@@ -1444,6 +1445,8 @@ module_settings: function() {
 
   //Clean the code before send
 
+
+
   mw.$('.element-current').removeClass('element-current');
   mw.$('.element-active').removeClass('element-active');
   mw.$('.disable-resize').removeClass('disable-resize');
@@ -1773,7 +1776,17 @@ $(".mw-row").each(function(){
 
 
 mw.drop_regions = {
-
+  ContainsDisabledSideClass:function(el){
+    var cls = ['edit', 'mw-col', 'mw-row', 'mw-col-container'], i=0, l=cls.length;
+    var elcls = el.className;
+    if(elcls==''){return true}
+    for(; i<l; i++){
+        if(mw.tools.hasClass(elcls, cls[i])){
+          return true;
+        }
+    }
+    return false;
+  },
   dropTimeout:null,
   global_drop_is_in_region:false,
   which : 'none',
@@ -1814,16 +1827,18 @@ mw.drop_regions = {
     else{return 'none'}
   },
   init:function(element, event, callback){
+
     if(mw.drop_regions.dropTimeout==null){
         mw.drop_regions.dropTimeout = setTimeout(function(){
             var regions = mw.drop_regions.create(element);
             var is_in_region = mw.drop_regions.is_in_region(regions, event);
-            if(is_in_region=='left'){
+            if(is_in_region=='left' && !mw.drop_regions.ContainsDisabledSideClass(element)){
+
                callback.call(this, 'left');
                mw.drop_regions.global_drop_is_in_region = true;
                mw.drop_regions.which = 'left';
             }
-            else if(is_in_region=='right'){
+            else if(is_in_region=='right' && !mw.drop_regions.ContainsDisabledSideClass(element)){
                callback.call(this, 'right');
                mw.drop_regions.global_drop_is_in_region = true;
                mw.drop_regions.which = 'right';

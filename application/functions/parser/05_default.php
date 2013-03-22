@@ -355,7 +355,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					//	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
 					$val_rep = htmlspecialchars_decode($val_rep);
 
-					$options['no_cache'] = 1;
+					//$options['no_cache'] = 1;
 					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
 
 					//$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';

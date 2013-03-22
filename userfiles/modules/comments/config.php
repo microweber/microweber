@@ -9,7 +9,7 @@ $config['ui'] = true;
 
 $config['categories'] = "content";
 $config['position'] = 5;
-$config['version'] = 0.33;
+$config['version'] = 0.34;
 
 
 $config['tables'] = array();
@@ -25,6 +25,10 @@ $fields_to_add[] = array('comment_body', 'TEXT default NULL');
 $fields_to_add[] = array('comment_email', 'TEXT default NULL');
 $fields_to_add[] = array('comment_website', 'TEXT default NULL');
 $fields_to_add[] = array('is_moderated', "char(1) default 'n'");
+$fields_to_add[] = array('from_url', 'TEXT default NULL');
+$fields_to_add[] = array('comment_subject', 'TEXT default NULL');
+
+
 $fields_to_add[] = array('is_new', "char(1) default 'y'");
 
 $fields_to_add[] = array('for_newsletter', "char(1) default 'n'");
