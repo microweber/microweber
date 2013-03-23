@@ -94,6 +94,10 @@ $comments_data['to_table'] =  $data['to_table'] = 'table_modules';
  $display_comments_from_module_id =  get_option('module_id', $params['id']); 
  if($display_comments_from_module_id != false and trim($display_comments_from_module_id) != ''){
 		$comments_data['to_table_id'] =   $data['to_table_id'] =  $display_comments_from_module_id;
+		$display_form_title_from_module_id =  get_option('form_title', $display_comments_from_module_id); 
+ if($display_form_title_from_module_id != false and trim($display_form_title_from_module_id) != ''){
+	$form_title = $display_form_title_from_module_id;	 
+  }
   }
  
 

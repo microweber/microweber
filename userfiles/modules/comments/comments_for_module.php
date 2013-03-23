@@ -50,10 +50,10 @@ $comments_data2['is_new'] =  'y';
      <? endif; ?>
      
       <? if(isarr($links )): ?>
-       <small><? print $links[0]['to_table_id'] ?></small>
+     
   <? foreach($links  as $link): ?> 
-  <a class="comment-post-url" href="<? print $link['from_url'] ?>"><? print $link['from_url'] ?></a><br>
-
+  <a class="comment-post-url" href="<? print $link['from_url'] ?>"><? print $link['from_url'] ?></a><br />
+ 
  <? endforeach ; ?>
 <? endif; ?>
         </div>

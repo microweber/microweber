@@ -518,3 +518,5 @@ $language["password"]= 'Password' ;
 $language["company"]= 'Company' ; 
 $language["register"]= 'Register' ; 
 $language["email-settings-are-saved"]= 'Email settings are saved' ; 
+$language["search-for-comment"]= 'Search for comment' ; 
+$language["search-comments"]= 'Search comments' ; 

@@ -120,17 +120,60 @@ $get_comments_params['is_new'] = 'y';
  
        
       
-       <label class="mw-ui-label-inline">Module id:  </label>
-   
-    
-      
-    <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+       <label class="mw-ui-label-inline">From module:  </label>
+   <?
+   	 $comment_modules = array();
+	  $comment_modules['to_table'] =  'table_modules';
+	  	  $comment_modules['to_table_id'] =  '[not_null]';
+  	 $comment_modules['fields'] =  'to_table,to_table_id';
+
+  	 $comment_modules['group_by'] =  'to_table,to_table_id';
+$comment_modules['limit'] =  '200';
+
+
+ // $comment_modules['debug'] =  'table_modules';
+	 $comment_modules = get_comments($comment_modules);
   
-<br />
-<br />
-<small>default: <? print $params['id'] ?></small>
-   
-   
+    ?>
+    <?
+	$comments_module_select = array();
+	
+	
+	 if(isarr($comment_modules )): ?>
+  <? foreach($comment_modules  as $item): ?> 
+<? $comment_module_title =  get_option('form_title', $item['to_table_id']); ?>
+<? // d( $comment_module_title); ?>
+<? if($comment_module_title != false and trim($comment_module_title) != ''){
+	$comments_module_select[$item['to_table_id']] = $comment_module_title ;
+}
+?>
+ <? endforeach ; ?>
+<? endif; ?>
+      
+      
+      <?   $curent_val = get_option('module_id', $params['id']); ?>  
+
+
+  
+ 
+ <? if(isarr($comments_module_select )): ?>
+ 
+ <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
+ <option value="<? print $params['id'] ?>" <? if($curent_val == $params['id']): ?> selected="selected" <? endif; ?>>This module</option>
+
+  <? foreach($comments_module_select  as $key=>$item): ?> 
+<? if($key != $params['id']): ?>
+<option value="<? print $key ?>" <? if($curent_val == $key): ?> selected="selected" <? endif; ?>><? if($key == $params['id']): ?>(This module) <? endif; ?><? print $item ?></option>
+<? endif; ?>
+ <? endforeach ; ?>
+ </select>
+ 
+  
+<? else : ?>
+     <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+
+<? endif; ?>
+ 
     </div>
     
     

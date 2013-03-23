@@ -1443,7 +1443,9 @@ if (!empty($criteria)) {
 				$v = strtotime($v);
 				$v = date("Y-m-d H:i:s", $v);
 			}
-			if (trim($v) == '[null]') {
+			if (trim($v) == '[not_null]') {
+				$where .= "$k IS NOT NULL AND ";
+			} else if (trim($v) == '[null]') {
 				$where .= "$k IS NULL AND ";
 			} else if ($k == 'module') {
 				$module_name = trim($v);

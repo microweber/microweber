@@ -40,6 +40,10 @@ mw.on.hashParam("content_id", function(){
 	
     } else {
     	$('#mw_admin_posts_with_comments').removeAttr('content_id');
+			$('#mw_admin_posts_with_comments').removeAttr('to_table_id');
+
+	$('#mw_admin_posts_with_comments').removeAttr('to_table');
+
 		  mw.reload_module('#mw_admin_posts_with_comments');
 
     }
@@ -191,10 +195,16 @@ mark_notifications_as_read('comments');
 <script type="text/javascript">
 
 $(document).ready(function(){
-$('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_table_id'] ?>");
+/*$('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_table_id'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
-	  });
+ });*/
+ 
+ $('#mw_admin_posts_with_comments').attr('to_table_id',"<? print $mw_notif['to_table_id'] ?>");
+ $('#mw_admin_posts_with_comments').attr('to_table',"<? print $mw_notif['to_table'] ?>");
+	  mw.reload_module('#mw_admin_posts_with_comments', function(){
+			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+ });
 
 });
 
@@ -290,11 +300,11 @@ $('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_tab
           <div class="comments-admin-header">
             <div class="comments-admin-header-info">
               <h2>My Comments</h2>
-              <small>Read, moderate & public commets</small> </div>
+              <small>Read, moderate & publish commets</small> </div>
             <input
               autocomplete="off"
               type="search"
-              placeholder="<?php _e("Search for post"); ?>"
+              placeholder="<?php _e("Search comments"); ?>"
               onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
              />
           </div>
