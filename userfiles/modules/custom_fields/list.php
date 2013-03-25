@@ -118,7 +118,7 @@ if(isarr( $diff) and isarr($more) ){
 
   <? if(isset($params['save_to_content_id'])): ?>
   <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<? print $field['custom_field_type']; ?>" href="javascript:;"
-    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'table_content', '<? print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><? print ($field['title']); ?>
+    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'content', '<? print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><? print ($field['title']); ?>
   </a>
   <? else: ?>
 

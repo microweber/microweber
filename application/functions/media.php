@@ -2,7 +2,7 @@
 
 function get_picture($content_id, $for = 'post', $full = false) {
 	$arr = array();
-	$arr['rel'] = 'table_content';
+	$arr['rel'] = 'content';
 	$arr['limit'] = '1';
 	$arr['rel_id'] = $content_id;
 	$imgages = get_pictures($arr);
@@ -316,7 +316,7 @@ function save_media($data) {
 		$s['media_type'] = $t;
 	}
 
-	// ->'table_content';
+	// ->'content';
 	if (isset($s['rel']) and isset($s['rel_id'])) {
 		$table = MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;

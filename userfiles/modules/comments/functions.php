@@ -40,7 +40,7 @@ function mark_comments_as_old($data) {
 				$upd['is_new'] = 'n';
 
 				$upd['id'] = $get_com['id'];
-				$upd['rel'] = 'table_content';
+				$upd['rel'] = 'content';
 				$upd['rel_id'] = db_escape_string($data['content_id']);
 				save_data($table, $upd);
 			}
@@ -198,7 +198,7 @@ function get_comments($params) {
 		$params = $params2;
 	}
 	if (isset($params['content_id'])) {
-		$params['rel'] = 'table_content';
+		$params['rel'] = 'content';
 		$params['rel_id'] = db_escape_string($params['content_id']);
 		 
 	}

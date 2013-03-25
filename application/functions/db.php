@@ -159,7 +159,9 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			break;
 		}
 		$for = $rel;
-	} else {
+	} if (stristr($for, MW_TABLE_PREFIX) == false) {
+			//$for = MW_TABLE_PREFIX.$for;
+	}	else {
 
 	}
 	if ($guess_cache_group != false) {
@@ -362,7 +364,7 @@ $dbtype_file =   MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DI
  *
  * @param string $table
  *        	-
- *        	the table name ex. table_content
+ *        	the table name ex. content
  * @param array $criteria
  *        	The array of database fields you want to filter
  *        	ex.
@@ -1629,24 +1631,44 @@ function db_get_table_name($assoc_name) {
 	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
 	return $assoc_name;
 }
-
+$_mw_db_get_assoc_table_names = array();
 function db_get_assoc_table_name($assoc_name) {
-
+	
+		global $_mw_db_get_assoc_table_names;
+	
+	if(isset( $_mw_db_get_assoc_table_names[$assoc_name])){
+		  
+		return  $_mw_db_get_assoc_table_names[$assoc_name];
+	}
+	
+	
+$assoc_name_o = $assoc_name;
 	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
 	$is_assoc = substr($assoc_name, 0, 5);
 	if ($is_assoc != 'table_') {
-		$assoc_name = 'table_' . $assoc_name;
+	//	$assoc_name = 'table_' . $assoc_name;
 	}
 	$assoc_name = str_replace('table_table_', 'table_', $assoc_name);
 	//	d($is_assoc);
-
+$_mw_db_get_assoc_table_names[$assoc_name_o] = $assoc_name;
 	return $assoc_name;
 }
-
+$_mw_db_get_real_table_names = array();
 function db_get_real_table_name($assoc_name) {
+	global $_mw_db_get_real_table_names;
+	
+	if(isset( $_mw_db_get_real_table_names[$assoc_name])){
+		 
+		return  $_mw_db_get_real_table_names[$assoc_name];
+	}
 
-	$assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
-	return $assoc_name;
+
+	$assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+	 if (stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
+			$assoc_name_new = MW_TABLE_PREFIX.$assoc_name_new;
+	}
+	 $_mw_db_get_real_table_names[$assoc_name] = $assoc_name_new;
+	return $assoc_name_new;
 }
 
 /**

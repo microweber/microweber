@@ -479,7 +479,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 			if ($only_with_content == true) {
 
-				$check_in_table_content = false;
+				$check_in_content = false;
 
 				if (is_array($only_with_content) and !empty($only_with_content)) {
 
@@ -583,7 +583,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 					$do_not_show = false;
 
-					$check_in_table_content = false;
+					$check_in_content = false;
 					$childern_content = array();
 
 					$do_not_show = false;
@@ -865,7 +865,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 
 			if ($only_with_content == true) {
 
-				$check_in_table_content = false;
+				$check_in_content = false;
 
 				if (is_array($only_with_content) and !empty($only_with_content)) {
 
@@ -969,7 +969,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 
 					$do_not_show = false;
 
-					$check_in_table_content = false;
+					$check_in_content = false;
 					$childern_content = array();
 
 					$do_not_show = false;
@@ -1281,7 +1281,7 @@ function save_category($data, $preserve_cache = false) {
 	$content_ids = false;
 
 	if (isset($data['rel']) and ($data['rel'] == '') or !isset($data['rel'])) {
-		$data['rel'] = 'table_content';
+		$data['rel'] = 'content';
 	}
 	if (isset($data['content_id'])) {
 
@@ -1301,7 +1301,7 @@ function save_category($data, $preserve_cache = false) {
 	//$data['debug'] = '1';
 	//d($data);
 
-	if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'table_content' and intval($data['rel_id']) != 0) {
+	if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
 
 		$cs = array();
 		$cs['id'] = intval($data['rel_id']);
@@ -1335,7 +1335,7 @@ function save_category($data, $preserve_cache = false) {
 
 		$content_ids_all = implode(',', $content_ids);
 
-		$q = "delete from $table where rel='table_content'
+		$q = "delete from $table where rel='content'
 		and content_type='post'
 		and parent_id=$save
 		and  data_type ='{$data_type}' ";
@@ -1348,7 +1348,7 @@ function save_category($data, $preserve_cache = false) {
 
 			$item_save = array();
 
-			$item_save['rel'] = 'table_content';
+			$item_save['rel'] = 'content';
 
 			$item_save['rel_id'] = $id;
 
@@ -1459,7 +1459,7 @@ function get_categories($params, $data_type = 'categories') {
 
 	$data = get($data);
 
-	//$q = "select parent_id from $table_items where  rel='table_content' and rel_id=$content_id $data_type_q ";
+	//$q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id $data_type_q ";
 	// var_dump($q);
 	//
 	//
@@ -1511,7 +1511,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		return false;
 	}
 
-	$get_category = get_taxonomy('data_type=category&rel=table_content&rel_id=' . ($content_id));
+	$get_category = get_taxonomy('data_type=category&rel=content&rel_id=' . ($content_id));
 	return $get_category;
 	$function_cache_id = false;
 
@@ -1538,7 +1538,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 
 	$data = array();
 
-	$data['rel'] = 'table_content';
+	$data['rel'] = 'content';
 
 	$data['rel_id'] = $content_id;
 	$data_type_q = false;
@@ -1552,7 +1552,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		$data_type_q = "and data_type = 'tag_item' ";
 	}
 
-	$q = "select parent_id from $table_items where  rel='table_content' and rel_id=$content_id $data_type_q ";
+	$q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id $data_type_q ";
 	// var_dump($q);
 	$data = db_query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
 	// var_dump ( $data );
@@ -1600,7 +1600,7 @@ function category_link($id) {
 			return;
 		}
 
-		if (trim($c_infp['rel']) != 'table_content') {
+		if (trim($c_infp['rel']) != 'content') {
 			return;
 		}
 
@@ -1620,7 +1620,7 @@ function category_link($id) {
 				}
 			}
 		} else {
-			if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'table_content') {
+			if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
 				db_delete_by_id($table, $id);
 			}
 		}
@@ -1897,7 +1897,7 @@ function get_page_for_category($category_id) {
 	$category = get_category_by_id($category_id);
 	if ($category != false) {
 		if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
-			if ($category["rel"] == 'table_content') {
+			if ($category["rel"] == 'content') {
 				$res = get_content_by_id($category["rel_id"]);
 				if (isarr($res)) {
 					return $res;
@@ -1913,7 +1913,7 @@ function get_page_for_category($category_id) {
 					if (intval($value) != 0) {
 						$category2 = get_category_by_id($value);
 						if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
-							if ($category2["rel"] == 'table_content') {
+							if ($category2["rel"] == 'content') {
 								$res = get_content_by_id($category2["rel_id"]);
 								if (isarr($res)) {
 									return $res;

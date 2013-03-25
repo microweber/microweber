@@ -23,7 +23,7 @@ $pt_opts['link'] = "{title}";
 $pt_opts['list_tag'] = " ";
 $pt_opts['list_item_tag'] = "option";
 $pt_opts['include_categories'] = "true";
-$pt_opts['for'] = "table_content";
+$pt_opts['for'] = "content";
 
  $pt_opts['categories_active_ids'] = $posts_parent_page;
  $pt_opts['remove_ids'] = $params['id'];
@@ -44,7 +44,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 						
 						
 					 
-						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=table_content';
+						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 		$fors = get($str0);
 					//d($fors );
 					
@@ -58,9 +58,9 @@ $pt_opts['list_tag'] = " ";
 $pt_opts['list_item_tag'] = "option";
  
 						$pt_opts['parent'] =$cat['id'];
-						//$cat_params['rel'] = 'table_content';
+						//$cat_params['rel'] = 'content';
 					//	$cat_params['rel_id'] = ' 0 ';
-					// $cat_params['for'] = 'table_content';
+					// $cat_params['for'] = 'content';
 				 $pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;
 					// d($cat_params);

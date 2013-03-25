@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 
 $get_comments_params = array();
- $get_comments_params['rel'] = 'table_content';
+ $get_comments_params['rel'] = 'content';
 if(isset($params['content-id'])){
 	
 	 $get_comments_params['rel_id'] = $params['content-id'];

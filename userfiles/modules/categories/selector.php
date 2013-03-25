@@ -57,7 +57,7 @@ $cats__parents = array();
 $is_ex1 = array();
 $for = db_get_assoc_table_name($for);
 
-if($for == 'conaaaaaaatent' or $for == 'table_content'){
+if($for == 'conaaaaaaatent' or $for == 'content'){
 
 
 }
@@ -323,7 +323,7 @@ pages_tree($tree);
 
 
 
-	$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=table_content';
+	$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 	$fors = get($str0);
 					//d($fors );
 
@@ -336,9 +336,9 @@ pages_tree($tree);
 
 
 			$pt_opts['parent'] =$cat['id'];
-						//$cat_params['rel'] = 'table_content';
+						//$cat_params['rel'] = 'content';
 					//	$cat_params['rel_id'] = ' 0 ';
-					// $cat_params['for'] = 'table_content';
+					// $cat_params['for'] = 'content';
 			$pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;
 					// d($cat_params);

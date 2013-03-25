@@ -58,7 +58,7 @@ $include_categories = false;
 
 
 
-						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=table_content';
+						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 		$fors = get($str0);
 					//d($fors );
 
@@ -67,9 +67,9 @@ $include_categories = false;
 			foreach ($fors as $cat) {
 				$cat_params =$params;
 						$cat_params['parent'] =$cat['id'];
-						//$cat_params['rel'] = 'table_content';
+						//$cat_params['rel'] = 'content';
 					//	$cat_params['rel_id'] = ' 0 ';
-					// $cat_params['for'] = 'table_content';
+					// $cat_params['for'] = 'content';
 				 $cat_params['include_first'] = 1;
 					 //$cat_params['debug'] = 1;
 					// d($cat_params);

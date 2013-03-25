@@ -18,7 +18,7 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
  
 if(isset($params['content-id'])){
 	$for_module_id = $for_id = $params['content-id'];
-	 $for = 'table_content';
+	 $for = 'content';
 } else {
 	$for_module_id = $for_id = $params['id']; 
 	 $for = 'table_modules';

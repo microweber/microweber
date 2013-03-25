@@ -726,12 +726,12 @@ function update_cart($data) {
 	}
 
 	if (isset($data['content_id'])) {
-		$data['for'] = 'table_content';
+		$data['for'] = 'content';
 		$for_id = $data['for_id'] = $data['content_id'];
 	}
 
 	if (!isset($data['for'])) {
-		$data['for'] = 'table_content';
+		$data['for'] = 'content';
 	}
 
 	if (!isset($data['for']) or !isset($data['for_id'])) {
@@ -751,7 +751,7 @@ function update_cart($data) {
 		error('Invalid data');
 	}
 
-	if ($data['for'] == 'table_content') {
+	if ($data['for'] == 'content') {
 		$cont = get_content_by_id($for_id);
 
 		if ($cont == false) {

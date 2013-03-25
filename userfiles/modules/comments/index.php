@@ -10,7 +10,7 @@ if(get_option('enable_comments', 'comments')=='y'){
 $paging_param = $params['id'].'_page';
  $curent_page_from_url = url_param($paging_param);
 if(isset($params['content-id'])){
-	 $data['rel'] = 'table_content';
+	 $data['rel'] = 'content';
 	 $data['rel_id'] = $params['content-id'];
 }
 
@@ -18,7 +18,7 @@ if(isset($params['content-id'])){
 $data = $params;
 if (!isset($params['rel'])) {
 
-    $data['rel'] = 'table_content';
+    $data['rel'] = 'content';
 }
 
 
@@ -63,7 +63,7 @@ $comments_data['rel'] = $data['rel'];
 if($display_comments_from  != false and $display_comments_from   == 'current' and $display_comments_from_which_post != false and $display_comments_from_which_post != 'current_post'){
 	
 $comments_data['rel_id'] = $data['rel_id'] =  $display_comments_from_which_post;
-$comments_data['rel'] =  $data['rel'] = 'table_content';
+$comments_data['rel'] =  $data['rel'] = 'content';
 }
 
 

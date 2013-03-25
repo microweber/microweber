@@ -88,7 +88,7 @@ $history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
 			$history_dir = reduce_double_slashes($history_dir);
 			$hdata= array();
 			if($rel != 'global'){
-			$hdata['table'] = 'table_content';
+			$hdata['table'] = 'content';
 			}
 			$hdata['id'] = $page_id;
 			

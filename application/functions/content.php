@@ -810,7 +810,7 @@ function homepage_link() {
 
 function get_homepage() {
 
-	// ->'table_content';
+	// ->'content';
 	$table = MW_TABLE_PREFIX . 'content';
 
 	$sql = "SELECT * from $table where is_home='y'  order by updated_on desc limit 0,1 ";
@@ -846,7 +846,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	$u1 = ltrim($u1, '/');
 	$url = $u1;
 //d($url);
-	// ->'table_content';
+	// ->'content';
 	$table = MW_TABLE_PREFIX . 'content';
 
 	// $url = strtolower($url);
@@ -931,7 +931,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 function get_content_by_id($id) {
 
 
-	// ->'table_content';
+	// ->'content';
 	$table = MW_TABLE_PREFIX . 'content';
 
 	$id = intval($id);
@@ -1491,7 +1491,7 @@ function custom_fields_content($content_id, $field_type = false, $full = true) {
 
 function get_custom_fields_for_content($content_id, $full = true, $field_type = false) {
 	$more = false;
-	$more = get_custom_fields('table_content', $content_id, $full, false, false, $field_type);
+	$more = get_custom_fields('content', $content_id, $full, false, false, $field_type);
 
 	return $more;
 }
@@ -1716,7 +1716,7 @@ function save_edit($post_data) {
 								}
 							}
 							$history_to_save = array();
-							$history_to_save['table'] = 'table_content';
+							$history_to_save['table'] = 'content';
 							$history_to_save['id'] = $content_id;
 							$history_to_save['value'] = $old;
 							$history_to_save['field'] = $field;
@@ -1725,7 +1725,7 @@ function save_edit($post_data) {
 								save_history($history_to_save);
 							}
 							$cont_field = array();
-							$cont_field['rel'] = 'table_content';
+							$cont_field['rel'] = 'content';
 							$cont_field['rel_id'] = $content_id_for_con_field;
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
@@ -1740,7 +1740,7 @@ function save_edit($post_data) {
 
 							$to_save['page_element_id'] = $page_element_id;
 
-							$is_native_fld = db_get_table_fields('table_content');
+							$is_native_fld = db_get_table_fields('content');
 							if (in_array($field, $is_native_fld)) {
 								$to_save[$field] = ($html_to_save);
 							} else {
@@ -1876,13 +1876,13 @@ function delete_content($data) {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id('table_content', $c_id);
+		db_delete_by_id('content', $c_id);
 	}
 
 	if (isset($data['ids']) and isarr($data['ids'])) {
 		foreach ($data['ids'] as   $value) {
 			$c_id = intval($value);
-			db_delete_by_id('table_content', $c_id);
+			db_delete_by_id('content', $c_id);
 		}
 
 	}
@@ -2054,7 +2054,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 		if ($check_ex == false) {
 			if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-				$test2 = get_taxonomy('data_type=category&rel=table_content&rel_id='.intval(($data_to_save['id'])));
+				$test2 = get_taxonomy('data_type=category&rel=content&rel_id='.intval(($data_to_save['id'])));
 
 				if(isset($test2[0])){
 					$check_ex = $test2[0];
@@ -2093,7 +2093,7 @@ function save_content($data, $delete_the_cache = true) {
 
 				$new_category = array();
 				$new_category["data_type"] = "category";
-				$new_category["rel"] = "table_content";
+				$new_category["rel"] = "content";
 				$new_category["table" ] = $table_cats;
 				//$new_category["debug" ] = $table_cats;
 					if (isset($data_to_save['id']) and intval(($data_to_save['id'])) > 0) {
@@ -2126,7 +2126,7 @@ function save_content($data, $delete_the_cache = true) {
 						$new_scategory = array();
 						$new_scategory["data_type"] = "category";
 						$new_scategory["title"] = $sc;
-						$new_scategory["rel"] = "table_content";
+						$new_scategory["rel"] = "content";
 				$new_scategory["table" ] = $table_cats;
 						$new_scategory["parent_id"] = intval($new_category);
 						$cats_modified = true;
@@ -2216,7 +2216,7 @@ function save_content($data, $delete_the_cache = true) {
 		//$new_category_id = intval($new_category);
 			$new_category = array();
 			$new_category["data_type"] = "category";
-			$new_category["rel"] = 'table_content';
+			$new_category["rel"] = 'content';
 			$new_category["rel_id"] = $save;
 			$new_category["table" ] = $table_cats;
 			$new_category["id" ] = 0;
@@ -2236,11 +2236,11 @@ function save_content($data, $delete_the_cache = true) {
 	$id = $save;
 
 	$clean = " update $custom_field_table set
-	rel =\"table_content\"
+	rel =\"content\"
 	, rel_id =\"{$id}\"
 	where
 	session_id =\"{$sid}\"
-	and (rel_id=0 or rel_id IS NULL) and rel =\"table_content\"
+	and (rel_id=0 or rel_id IS NULL) and rel =\"content\"
 
 	";
 
@@ -2255,7 +2255,7 @@ function save_content($data, $delete_the_cache = true) {
 	rel_id =\"{$id}\"
 	where
 	session_id =\"{$sid}\"
-	and rel =\"table_content\" and (rel_id=0 or rel_id IS NULL)
+	and rel =\"content\" and (rel_id=0 or rel_id IS NULL)
 
 	";
 
@@ -2413,7 +2413,7 @@ function get_content_field($data, $debug = false) {
 	if(!isset($data['rel'])){
 		if(isset($data['rel'])){
 			if($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post'){
-				$data['rel']  = 'table_content';
+				$data['rel']  = 'content';
 			}
 			$data['rel'] = $data['rel'];
 		}
@@ -2989,10 +2989,10 @@ $params['ul_class'] = false;
 
 
 
-						//$cat_params['for'] = 'table_content';
+						//$cat_params['for'] = 'content';
 					$cat_params['list_tag'] = $list_tag;
 					$cat_params['list_item_tag'] = $list_item_tag;
-					$cat_params['rel'] = 'table_content';
+					$cat_params['rel'] = 'content';
 					$cat_params['rel_id'] = $item['id'];
 
 					$cat_params['include_first'] = 1;
@@ -3058,7 +3058,7 @@ function mw_create_default_content($what) {
 				}
 			}
 				//  d($add_page);
-			$new_shop = save_data('table_content',$add_page);
+			$new_shop = save_data('content',$add_page);
 			clearcache();
 				//
 		} else {
@@ -3126,7 +3126,7 @@ function mw_create_default_content($what) {
 
 			}
 				//  d($add_page);
-			$new_shop = save_data('table_content',$add_page);
+			$new_shop = save_data('content',$add_page);
 			 cache_clean_group('content');
 				//
 		} else {

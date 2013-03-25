@@ -162,7 +162,7 @@ if ($layout != '') {
 				}
 			} else {
 				if ($rel == 'content') {
-					$rel = 'table_content';
+					$rel = 'content';
 				}
 				$cont_field = false;
 				if (isset($data_id) and $data_id != 0) {
@@ -220,7 +220,7 @@ if ($layout != '') {
 						 $data_id = 0;
 						 }
 
-						 $cont_field = get_content_field("rel=table_content&rel_id={$data_id}&field={$field}");
+						 $cont_field = get_content_field("rel=content&rel_id={$data_id}&field={$field}");
 						 d($data_id);
 						 d($field);
 						 d($cont_field);

@@ -42,7 +42,7 @@ $for_id =$params['rel_id'];
  
  if(isset($params['content-id'])){
 	$for_id = $params['content-id']; 
-	 $for = 'table_content';
+	 $for = 'content';
 }
 
 

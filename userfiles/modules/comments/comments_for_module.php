@@ -23,7 +23,7 @@ $comments_data['rel_id'] =  $params['rel_id'];
 
 <div class="comment-post">
   <div class="comment-info-holder" content-id="<? print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(($item['icon']),48,48); ?>" alt="" />
-    <?php // $new = get_comments('count=1&is_moderated=n&rel=table_content&rel_id='.$content_id);
+    <?php // $new = get_comments('count=1&is_moderated=n&rel=content&rel_id='.$content_id);
 $comments_data2 = $comments_data;
 $comments_data2['count'] =  1;
 $comments_data2['is_new'] =  'y';

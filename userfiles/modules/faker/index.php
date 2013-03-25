@@ -35,7 +35,7 @@ $faker = Faker\Factory::create();
 for ($i=0; $i < 1000; $i++) { 
 $item_save = array();
 
-			$item_save['rel'] = 'table_content';
+			$item_save['rel'] = 'content';
 
 		 $item_save['title'] =$faker->sentence($nbWords = 3) ; 
 

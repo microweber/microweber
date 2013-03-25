@@ -6,8 +6,8 @@ unset($params['class']);
 if(!isset($params['ul_class'])){
 	 $params['ul_class'] = 'nav nav-list';
  }
-    $params['rel'] = 'table_content';
-	//  $params['rel_id'] = 'table_content';
+    $params['rel'] = 'content';
+	//  $params['rel_id'] = 'content';
 	$category_tree_parent_page =  get_option('data-content-id', $params['id']);
 	
 	if($category_tree_parent_page != false and $category_tree_parent_page != '' and $category_tree_parent_page != 0){

@@ -458,7 +458,7 @@ function save_custom_field($data) {
 	}
 
 	if (!isset($data_to_save['rel'])) {
-		$data_to_save['rel'] = 'table_content';
+		$data_to_save['rel'] = 'content';
 	}
 	$data_to_save['rel'] = db_get_assoc_table_name($data_to_save['rel']);
 	if (!isset($data_to_save['rel_id'])) {
