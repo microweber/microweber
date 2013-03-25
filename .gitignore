@@ -576,8 +576,8 @@ Thumbs.db
 /userfiles/modules/nav2/data/schema/firecms_modules.sql
 /userfiles/modules/nav2/data/schema/firecms_options.sql
 /userfiles/modules/nav2/data/schema/firecms_reports.sql
-/userfiles/modules/nav2/data/schema/firecms_taxonomy.sql
-/userfiles/modules/nav2/data/schema/firecms_taxonomy_items.sql
+/userfiles/modules/nav2/data/schema/firecms_categories.sql
+/userfiles/modules/nav2/data/schema/firecms_categories_items.sql
 /userfiles/modules/nav2/data/schema/firecms_users.sql
 /userfiles/modules/nav2/data/schema/firecms_users_activities.sql
 /userfiles/modules/nav2/data/schema/firecms_users_log.sql

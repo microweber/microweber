@@ -143,7 +143,7 @@ $(document).ready(function(){
 
 <form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" name="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
-  <input name="table" type="hidden" value="table_taxonomy" />
+  <input name="table" type="hidden" value="table_categories" />
   <input name="rel" type="hidden" value="<? print ($data['rel'])?>" />
   <input name="rel_id" type="hidden" value="<? print ($data['rel_id'])?>" id="rel_id_<? print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />

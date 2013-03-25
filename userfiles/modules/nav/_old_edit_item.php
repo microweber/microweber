@@ -23,7 +23,7 @@ $data['is_active'] = 'y';
 $data['position'] = '9999';
  $data['url'] = '';
   $data['title'] = '';
- $data['taxonomy_id'] = '';
+ $data['categories_id'] = '';
  } else {
 	 
 	 $data = get_menu_item($id);
@@ -92,7 +92,7 @@ if( $id != 0){
 		
 		
 		var the_new_page = mw.$('#mw_edit_menu_item_{rand}').find('input[name="content_id"]');
-				var the_new_cat = mw.$('#mw_edit_menu_item_{rand}').find('input[name="taxonomy_id"]');
+				var the_new_cat = mw.$('#mw_edit_menu_item_{rand}').find('input[name="categories_id"]');
 
 		
 		if(is_cat != undefined){
@@ -135,7 +135,7 @@ if( $id != 0){
   <input type="hidden" name="content_id" value="<?  print $data['content_id'] ?>" />
 
 
-  <input type="hidden" name="taxonomy_id" value="<?  print $data['taxonomy_id'] ?>" />
+  <input type="hidden" name="categories_id" value="<?  print $data['categories_id'] ?>" />
   <?  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
   <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
   <?  elseif(isset($params['parent_id'])): ?>

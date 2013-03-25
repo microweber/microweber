@@ -176,15 +176,15 @@ body.module-settings-page #custom_link_controller{
      mw.$(selector + ' input[type="radio"]').commuter(function(){
 
         var content_id =  mw.$(".module-nav-edit-item input[name='content_id']");
-        var taxonomy_id =  mw.$(".module-nav-edit-item input[name='taxonomy_id']");
+        var categories_id =  mw.$(".module-nav-edit-item input[name='categories_id']");
 
         var el = this;
 
         content_id.val('');
-        taxonomy_id.val('');
+        categories_id.val('');
 
         if(mw.tools.hasParentsWithClass(el, 'category_element')){
-           taxonomy_id.val(el.value);
+           categories_id.val(el.value);
         }
         else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
             content_id.val(el.value);

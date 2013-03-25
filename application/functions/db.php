@@ -27,13 +27,13 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	cache_clean_group($cg);
 	$q = db_q($q);
 
-	$table1 = MW_TABLE_PREFIX . 'taxonomy';
-	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
+	$table1 = MW_TABLE_PREFIX . 'categories';
+	$table_items = MW_TABLE_PREFIX . 'categories_items';
 
 	$q = "DELETE from $table1 where rel_id=$id  and  rel='$table'  ";
 
 	$q = db_q($q);
-	//  cache_clean_group('taxonomy');
+	//  cache_clean_group('categories');
 
 	$q = "DELETE from $table_items where rel_id=$id  and  rel='$table'  ";
 	//d($q);
@@ -50,7 +50,7 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 
 
 
-	//   cache_clean_group('taxonomy_items');
+	//   cache_clean_group('categories_items');
 	//	d($q);
 }
 
@@ -137,17 +137,17 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			case 'category' :
 			case 'categories' :
 			case 'cat' :
-			case 'taxonomy' :
+			case 'categories' :
 			case 'tag' :
 			case 'tags' :
-			$rel = 'table_taxonomy';
+			$rel = 'table_categories';
 			break;
 
 			case 'category_items' :
 			case 'cat_items' :
 			case 'tag_items' :
 			case 'tags_items' :
-			$rel = 'table_taxonomy_items';
+			$rel = 'table_categories_items';
 			break;
 
 			case 'post' :
@@ -954,12 +954,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		// no unset xcause f cache
 	}
 
-	if (!empty($criteria['include_taxonomy'])) {
+	if (!empty($criteria['include_categories'])) {
 
-		$include_taxonomy = true;
+		$include_categories = true;
 	} else {
 
-		$include_taxonomy = false;
+		$include_categories = false;
 	}
 
 	if (!empty($criteria['exclude_ids'])) {
@@ -992,7 +992,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			foreach ($search_n_cats as $cat_name_or_id) {
 
 				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
-				$str1 = 'fields=id&limit=10000&table=table_taxonomy&' . 'id=' . $cat_name_or_id;
+				$str1 = 'fields=id&limit=10000&table=table_categories&' . 'id=' . $cat_name_or_id;
 
 				$cat_name_or_id1 = intval($cat_name_or_id);
 				$str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
@@ -2174,26 +2174,26 @@ d($q);
 	// d($q);
 	// p($original_data);
 	/*
-	 * if (!empty ( $original_data ['taxonomy_categories_str'] )) {
-	 * p($original_data ['taxonomy_categories_str'] ,1); foreach (
-	 * $original_data ['taxonomy_categories_str'] as $taxonomy_item ) {
-	 * $test_if_exist_cat = get_category ( $taxonomy_item ); } }
+	 * if (!empty ( $original_data ['categories_categories_str'] )) {
+	 * p($original_data ['categories_categories_str'] ,1); foreach (
+	 * $original_data ['categories_categories_str'] as $categories_item ) {
+	 * $test_if_exist_cat = get_category ( $categories_item ); } }
 	 */
 
 	// p ( $original_data );
 	if (isset($original_data['categories'])) {
-		$table_cats = MW_TABLE_PREFIX . 'taxonomy';
-		$table_cats_items = MW_TABLE_PREFIX . 'taxonomy_items';
-		$taxonomy_table = MW_TABLE_PREFIX . 'taxonomy';
-		$taxonomy_items_table = MW_TABLE_PREFIX . 'taxonomy_items';
+		$table_cats = MW_TABLE_PREFIX . 'categories';
+		$table_cats_items = MW_TABLE_PREFIX . 'categories_items';
+		$categories_table = MW_TABLE_PREFIX . 'categories';
+		$categories_items_table = MW_TABLE_PREFIX . 'categories_items';
 		$is_a = has_access('save_category');
 
-		if ($is_a == true and $table_assoc_name != 'table_taxonomy' and $table_assoc_name != 'table_taxonomy_items') {
+		if ($is_a == true and $table_assoc_name != 'table_categories' and $table_assoc_name != 'table_categories_items') {
 			if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
 				// exit('__EMPTY_CATEGORIES__');
 
 				$clean_q = "delete
-				from $taxonomy_items_table where
+				from $categories_items_table where
 				data_type='category_item' and
 				rel='{$table_assoc_name}' and
 				rel_id={$id_to_return}  ";
@@ -2212,13 +2212,13 @@ d($q);
 						if (intval($cname_check) == 0) {
 							$cname_check = trim($cname_check);
 							$cname_check = db_escape_string($cname_check);
-							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
+							//	$str1 = 'cache_group=false&no_cache=1&table=table_categories&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
 							//	$is_ex = get($str1);
 
 							if ($cname_check != '') {
 
 								$cncheckq = "select id
-								from $taxonomy_table where
+								from $categories_table where
 								data_type='category'
 								and   rel='{$table_assoc_name}'
 								and   title='{$cname_check}'   ";
@@ -2227,7 +2227,7 @@ d($q);
 
 								if (empty($is_ex)) {
 									$clean_q = "INSERT INTO
-									$taxonomy_table set
+									$categories_table set
 									title='{$cname_check}',
 									parent_id=0,
 									position=999,
@@ -2264,7 +2264,7 @@ d($q);
 
 					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
-					from $taxonomy_items_table where                            data_type='category_item' and
+					from $categories_items_table where                            data_type='category_item' and
 					rel='{$table_assoc_name}' and
 					$parnotin
 					rel_id={$id_to_return}  ";
@@ -2290,7 +2290,7 @@ d($q);
 				foreach ($cat_names_or_ids as $cat_name_or_id) {
 					$cat_name_or_id = db_escape_string(trim($cat_name_or_id));
 					if ($cat_name_or_id != '') {
-						$q_cat1 = "INSERT INTO $taxonomy_items_table  set
+						$q_cat1 = "INSERT INTO $categories_items_table  set
 
 						parent_id='{$cat_name_or_id}',
 						rel='{$table_assoc_name}',
@@ -2361,7 +2361,7 @@ d($q);
 					// $new_cat['id'] = $is_expar['id'];
 					// $new_cat['parent_id'] = $parent_id;
 					// // d($new_cat);
-					// $new_c = save_data($taxonomy_table, $new_cat);
+					// $new_c = save_data($categories_table, $new_cat);
 					// $keep_thosecat_items[] = $new_c;
 					// $cats_data_modified = TRUE;
 					// }
@@ -2389,7 +2389,7 @@ d($q);
 					// $keep_thosecat_items[] = $new_c;
 					// $cats_data_modified = TRUE;
 					// $parent_id = $new_c;
-					// // cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
+					// // cache_clean_group('categories' . DIRECTORY_SEPARATOR . 'global');
 					//
 					// $is_ex = get('limit=1&data_type=category&what=categories&id=' . $new_c);
 					// }
@@ -2427,7 +2427,7 @@ d($q);
 				//	d($keep_thosecat_items);
 				$id_in = implode(',', $keep_thosecat_items);
 				$clean_fq = "delete
-				from $taxonomy_items_table where                            data_type='category_item' and
+				from $categories_items_table where                            data_type='category_item' and
 				rel='{$table_assoc_name}' and
 				rel_id='{$id_to_return}' and
 				parent_id NOT IN ($id_in) ";
@@ -2438,37 +2438,37 @@ d($q);
 			}
 
 			if ($cats_data_modified == TRUE) {
-				cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
+				cache_clean_group('categories' . DIRECTORY_SEPARATOR . 'global');
 				if (isset($parent_id)) {
-					cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . $parent_id);
+					cache_clean_group('categories' . DIRECTORY_SEPARATOR . $parent_id);
 				}
-				//cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+				//cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 			}
 			if ($cats_data_items_modified == TRUE) {
-				cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+				cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 			}
 		}
 
 		//
 		//
-		//        $q = " DELETE FROM  $taxonomy_items_table where rel='$table_assoc_name' and rel_id='$id_to_return'  and  data_type= 'category_item'     ";
+		//        $q = " DELETE FROM  $categories_items_table where rel='$table_assoc_name' and rel_id='$id_to_return'  and  data_type= 'category_item'     ";
 		//        // p ( $q );
 		//        db_query($q);
 		//
-		//        foreach ($original_data ['taxonomy_categories'] as $taxonomy_item) {
+		//        foreach ($original_data ['categories_categories'] as $categories_item) {
 		//
-		//            $taxonomy_item = trim($taxonomy_item);
-		//            $parent_cat = get_category($taxonomy_item);
+		//            $categories_item = trim($categories_item);
+		//            $parent_cat = get_category($categories_item);
 		//
 		//            $parent_cat_id = intval($parent_cat ['id']);
 		//
 		//
-		//            $q = " INSERT INTO  $taxonomy_items_table set rel='$table_assoc_name', rel_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  data_type= 'category_item' , parent_id='$parent_cat_id'   ";
+		//            $q = " INSERT INTO  $categories_items_table set rel='$table_assoc_name', rel_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  data_type= 'category_item' , parent_id='$parent_cat_id'   ";
 		//            // p ( $q );
 		//            db_query($q);
-		//            cache_clean_group('taxonomy/' . $parent_cat_id);
+		//            cache_clean_group('categories/' . $parent_cat_id);
 		//        }
-		//        cache_clean_group('taxonomy/global');
+		//        cache_clean_group('categories/global');
 		// exit ();
 	}
 

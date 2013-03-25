@@ -22,16 +22,16 @@ if($id == 0){
 	} else {
 		$data['content_id'] = $params['content_id'];
 	}
-	if(!isset($params['taxonomy_id'])){
-		$data['taxonomy_id'] = '';
+	if(!isset($params['categories_id'])){
+		$data['categories_id'] = '';
 	} else {
-		$data['taxonomy_id'] = $params['taxonomy_id'];
+		$data['categories_id'] = $params['categories_id'];
 	}
 	$data['is_active'] = 'y';
 	$data['position'] = '9999';
 	$data['url'] = '';
 	$data['title'] = '';
-//	$data['taxonomy_id'] = '';
+//	$data['categories_id'] = '';
 } else {
 
 	$data = get_menu_item($id);
@@ -55,8 +55,8 @@ if( $id != 0){
 	}
 	?>
   <? else: ?>
-  <? if((!isset($data['title']) or $data['title']=='' )and isset($data["taxonomy_id"]) and intval($data["taxonomy_id"])>0): ?>
-  <? $cont = get_category_by_id($data["taxonomy_id"]);
+  <? if((!isset($data['title']) or $data['title']=='' )and isset($data["categories_id"]) and intval($data["categories_id"])>0): ?>
+  <? $cont = get_category_by_id($data["categories_id"]);
     if(isset($cont['title'])){
     	$data['title'] = $cont['title'];
     	  $item_url = category_link($cont['id']);
@@ -70,9 +70,9 @@ if( $id != 0){
 
 	}
 
-	if (isset($data['taxonomy_id']) and intval($data['taxonomy_id']) != 0) {
+	if (isset($data['categories_id']) and intval($data['categories_id']) != 0) {
 
-	$item_url = category_link($data['taxonomy_id']);
+	$item_url = category_link($data['categories_id']);
 	}
 
 
@@ -96,7 +96,7 @@ if( $id != 0){
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-      <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['taxonomy_id'] ?>"  for="content" rel_id="<? print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
+      <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['categories_id'] ?>"  for="content" rel_id="<? print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?  print $data['id'] ?>'); </script>
     <? endif; ?>
@@ -106,7 +106,7 @@ if( $id != 0){
   </div>
   <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?  print $data['content_id'] ?>" />
-  <input type="hidden" name="taxonomy_id" value="<?  print $data['taxonomy_id'] ?>" />
+  <input type="hidden" name="categories_id" value="<?  print $data['categories_id'] ?>" />
   <?  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
   <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
   <?  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>

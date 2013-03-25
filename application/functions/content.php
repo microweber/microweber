@@ -1034,7 +1034,7 @@ function reorder_content()
        //
         // var_dump($q);
 	cache_clean_group('content/global');
-	cache_clean_group('taxonomy/global');
+	cache_clean_group('categories/global');
 	exit();
 }
 
@@ -1995,7 +1995,7 @@ function save_content($data, $delete_the_cache = true) {
 	if (isset($data['category']) or isset($data['categories'])) {
 		$cats_modified = true;
 	}
-	$table_cats = MW_TABLE_PREFIX . 'taxonomy';
+	$table_cats = MW_TABLE_PREFIX . 'categories';
 
 	if (isset($data['url']) and $data['url'] != false) {
 		//$data['url'] = url_title($data['url']);
@@ -2054,7 +2054,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 		if ($check_ex == false) {
 			if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-				$test2 = get_taxonomy('data_type=category&rel=content&rel_id='.intval(($data_to_save['id'])));
+				$test2 = get_categories_array('data_type=category&rel=content&rel_id='.intval(($data_to_save['id'])));
 
 				if(isset($test2[0])){
 					$check_ex = $test2[0];
@@ -2110,8 +2110,8 @@ function save_content($data, $delete_the_cache = true) {
 			}
 		}
 
-		if (isset($data_to_save['taxonomy_categories_str']) and !empty($data_to_save['taxonomy_categories_str'])) {
-			$data_to_save['subtype_value_auto_create'] = $data_to_save['taxonomy_categories_str'];
+		if (isset($data_to_save['categories_categories_str']) and !empty($data_to_save['categories_categories_str'])) {
+			$data_to_save['subtype_value_auto_create'] = $data_to_save['categories_categories_str'];
 
 			if ($adm == true) {
 				if (!is_array($original_data['subtype_value_auto_create'])) {
@@ -2276,13 +2276,13 @@ cache_clean_group('content_fields/global');
 
 	if ($cats_modified != false) {
 
-		cache_clean_group('taxonomy/global');
-		cache_clean_group('taxonomy_items/global');
+		cache_clean_group('categories/global');
+		cache_clean_group('categories_items/global');
 		if (isset($c1) and isarr($c1)) {
 			foreach ($c1 as $item) {
 				$item = intval($item);
 				if ($item > 0) {
-					cache_clean_group('taxonomy/' . $item);
+					cache_clean_group('categories/' . $item);
 				}
 			}
 		}
@@ -2325,19 +2325,19 @@ cache_clean_group('content_fields/global');
 	// // cache_clean_group ( 'content' . DIRECTORY_SEPARATOR . '0' );
 	// cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
 	//
-	// if (!empty($data_to_save['taxonomy_categories'])) {
-	// foreach ($data_to_save ['taxonomy_categories'] as $cat) {
+	// if (!empty($data_to_save['categories_categories'])) {
+	// foreach ($data_to_save ['categories_categories'] as $cat) {
 	//
-	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . intval($cat));
+	// cache_clean_group('categories' . DIRECTORY_SEPARATOR . intval($cat));
 	// }
-	// // cache_clean_group ( 'taxonomy' . DIRECTORY_SEPARATOR . '0' );
-	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'global');
-	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . 'items');
+	// // cache_clean_group ( 'categories' . DIRECTORY_SEPARATOR . '0' );
+	// cache_clean_group('categories' . DIRECTORY_SEPARATOR . 'global');
+	// cache_clean_group('categories' . DIRECTORY_SEPARATOR . 'items');
 	// }
 	//
 	// if (!empty($more_categories_to_delete)) {
 	// foreach ($more_categories_to_delete as $cat) {
-	// cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . intval($cat));
+	// cache_clean_group('categories' . DIRECTORY_SEPARATOR . intval($cat));
 	// }
 	// }
 	// }
@@ -2520,7 +2520,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 		$cache_group = 'content/' . $parent;
 	}
 	if (isset($include_categories) and $include_categories == true) {
-		$cache_group = 'taxonomy/global';
+		$cache_group = 'categories/global';
 	}
 
 

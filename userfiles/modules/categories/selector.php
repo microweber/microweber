@@ -62,7 +62,7 @@ if($for == 'conaaaaaaatent' or $for == 'content'){
 
 }
 
-/*$str1 = 'table=table_taxonomy&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
+/*$str1 = 'table=table_categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
 $is_ex = get($str1);
 
 if(isarr($is_ex)){
@@ -323,7 +323,7 @@ pages_tree($tree);
 
 
 
-	$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
+	$str0 = 'table=table_categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 	$fors = get($str0);
 					//d($fors );
 

@@ -176,15 +176,15 @@ function edit_menu_item($data_to_save) {
 	if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) != 0) {
 		$url_from_content = 1;
 	}
-	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) != 0) {
+	if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) != 0) {
 		$url_from_content = 1;
 	}
 	if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
 		unset($data_to_save['content_id']);
 	}
 
-	if (isset($data_to_save['taxonomy_id']) and intval($data_to_save['taxonomy_id']) == 0) {
-		unset($data_to_save['taxonomy_id']);
+	if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
+		unset($data_to_save['categories_id']);
 		//$url_from_content = 1;
 	}
 
@@ -382,8 +382,8 @@ function menu_tree($menu_id, $maxdepth = false) {
 				$title = $cont['title'];
 				$url = content_link($cont['id']);
 			}
-		} else if (intval($item['taxonomy_id']) > 0) {
-			$cont = get_category_by_id($item['taxonomy_id']);
+		} else if (intval($item['categories_id']) > 0) {
+			$cont = get_category_by_id($item['categories_id']);
 			if (isarr($cont)) {
 				$title = $cont['title'];
 				$url = category_link($cont['id']);
@@ -409,7 +409,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		}
 
 		$active_class = '';
-		if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['taxonomy_id']) == 0) {
+		if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
 			$surl = site_url();
 			$cur_url = curent_url(1);
 			$item['url'] = str_replace_once('{SITE_URL}', $surl, $item['url']);
@@ -424,7 +424,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 			$active_class = 'active';
 		} elseif (POST_ID != 0 and $item['content_id'] == POST_ID) {
 			$active_class = 'active';
-		} elseif (CATEGORY_ID != false and intval($item['taxonomy_id']) != 0 and $item['taxonomy_id'] == CATEGORY_ID) {
+		} elseif (CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
 			$active_class = 'active';
 		} else {
 			$active_class = '';

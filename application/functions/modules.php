@@ -474,22 +474,22 @@ function delete_elements_from_db() {
 
 		$table = MW_TABLE_PREFIX . 'elements';
 
-		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
-		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
+		$db_categories = MW_TABLE_PREFIX . 'categories';
+		$db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
 		$q = "delete from $table ";
 		//   d($q);
 		db_q($q);
 
-		$q = "delete from $table_taxonomy where rel='table_elements' and data_type='category' ";
+		$q = "delete from $db_categories where rel='table_elements' and data_type='category' ";
 		// d($q);
 		db_q($q);
 
-		$q = "delete from $table_taxonomy_items where rel='table_elements' and data_type='category_item' ";
+		$q = "delete from $db_categories_items where rel='table_elements' and data_type='category_item' ";
 		// d($q);
 		db_q($q);
-		cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
-		cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+		cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
+		cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 
 		cache_clean_group('elements' . DIRECTORY_SEPARATOR . '');
 	}
@@ -502,16 +502,16 @@ function delete_module_by_id($id) {
 	$id = intval($id);
 
 	$table = MW_TABLE_PREFIX . 'modules';
-	$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
-	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
+	$db_categories = MW_TABLE_PREFIX . 'categories';
+	$db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
 	$q = "delete from $table where id={$id}";
 	db_q($q);
 
-	$q = "delete from $table_taxonomy_items where rel='table_modules' and data_type='category_item' and rel_id={$id}";
+	$q = "delete from $db_categories_items where rel='table_modules' and data_type='category_item' and rel_id={$id}";
 	db_q($q);
-	cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
-	// cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+	cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
+	// cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 
 	cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
 }
@@ -522,19 +522,19 @@ function delete_modules_from_db() {
 	} else {
 
 		$table = MW_TABLE_PREFIX . 'modules';
-		$table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
-		$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
+		$db_categories = MW_TABLE_PREFIX . 'categories';
+		$db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
 		$q = "delete from $table ";
 		db_q($q);
 
-		$q = "delete from $table_taxonomy where rel='table_modules' and data_type='category' ";
+		$q = "delete from $db_categories where rel='table_modules' and data_type='category' ";
 		db_q($q);
 
-		$q = "delete from $table_taxonomy_items where rel='table_modules' and data_type='category_item' ";
+		$q = "delete from $db_categories_items where rel='table_modules' and data_type='category_item' ";
 		db_q($q);
-		cache_clean_group('taxonomy' . DIRECTORY_SEPARATOR . '');
-		cache_clean_group('taxonomy_items' . DIRECTORY_SEPARATOR . '');
+		cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
+		cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 
 		cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
 	}
@@ -1145,8 +1145,8 @@ function scan_for_modules($options = false) {
 				//	delete_elements_from_db();
 			}
 
-			cache_clean_group('taxonomy');
-			cache_clean_group('taxonomy_items');
+			cache_clean_group('categories');
+			cache_clean_group('categories_items');
 		}
 	}
 
