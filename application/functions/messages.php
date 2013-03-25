@@ -62,7 +62,7 @@ function post_notification($params) {
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
-	// $params['rel'] = 'table_modules';
+	// $params['rel'] = 'modules';
 	// $params['rel_id'] = $params['module'];
 	// }
 
@@ -180,7 +180,7 @@ function get_notifications($params) {
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
-	// $params['rel'] = 'table_modules';
+	// $params['rel'] = 'modules';
 	// $params['rel_id'] = $params['module'];
 	// }
 	//

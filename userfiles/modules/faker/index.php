@@ -46,7 +46,7 @@ $item_save = array();
 
 			$item_save['parent_id'] = rand(300,600);
 			
-		 //	$item_save = save_data('table_categories', $item_save);
+		 //	$item_save = save_data('categories', $item_save);
 			
 			
 //d($item_save ); 

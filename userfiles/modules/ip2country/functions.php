@@ -34,17 +34,17 @@ function ip2country($ip = false, $key = 'country_name') {
 		//d($remote_host_s);
 		$get_remote = false;
 		 $get_remote = @url_download($remote_host_s);
-		 	 
+
 		if ($get_remote != false) {
 			$get_remote = json_decode($get_remote, 1);
 			if ($get_remote != false) {
-				 
+
 				$params = $get = $get_remote;
 				$params['ip'] = $ip;
-				$params['debug'] = $ip;
+
 				if(isset($params['country_name']) and $params['country_name'] == '' ){
 					$params['country_name'] = "Unknown";
-				
+
 				} else if(!isset($params['country_name'])) {
 				 $params['country_name'] = "Unknown";
 				}
@@ -53,7 +53,7 @@ function ip2country($ip = false, $key = 'country_name') {
 				$get = $params;
 			}
 		}
-	
+
 
 	} else {
 		$get = $get[0];

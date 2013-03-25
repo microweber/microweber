@@ -21,7 +21,7 @@ if(isset($params['content-id'])){
 	 $for = 'content';
 } else {
 	$for_module_id = $for_id = $params['id']; 
-	 $for = 'table_modules';
+	 $for = 'modules';
 }
   ?>
 

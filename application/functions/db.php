@@ -112,26 +112,26 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 		switch ($for) {
 			case 'user' :
 			case 'users' :
-			$rel = 'table_users';
+			$rel = 'users';
 			break;
 
 			case 'media' :
 			case 'picture' :
 			case 'video' :
 			case 'file' :
-			$rel = 'table_media';
+			$rel = 'media';
 			break;
 
 			case 'comment' :
 			case 'comments' :
-			$rel = 'table_comments';
+			$rel = 'comments';
 			break;
 
 			case 'module' :
 			case 'modules' :
-			case 'table_modules' :
+			case 'modules' :
 			case 'modul' :
-			$rel = 'table_modules';
+			$rel = 'modules';
 			break;
 
 			case 'category' :
@@ -140,14 +140,14 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			case 'categories' :
 			case 'tag' :
 			case 'tags' :
-			$rel = 'table_categories';
+			$rel = 'categories';
 			break;
 
 			case 'category_items' :
 			case 'cat_items' :
 			case 'tag_items' :
 			case 'tags_items' :
-			$rel = 'table_categories_items';
+			$rel = 'categories_items';
 			break;
 
 			case 'post' :
@@ -992,7 +992,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			foreach ($search_n_cats as $cat_name_or_id) {
 
 				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
-				$str1 = 'fields=id&limit=10000&table=table_categories&' . 'id=' . $cat_name_or_id;
+				$str1 = 'fields=id&limit=10000&table=categories&' . 'id=' . $cat_name_or_id;
 
 				$cat_name_or_id1 = intval($cat_name_or_id);
 				$str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
@@ -1644,10 +1644,17 @@ function db_get_assoc_table_name($assoc_name) {
 	
 $assoc_name_o = $assoc_name;
 	$assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+		$assoc_name = str_ireplace('table_', '', $assoc_name);
+	
 	$is_assoc = substr($assoc_name, 0, 5);
 	if ($is_assoc != 'table_') {
 	//	$assoc_name = 'table_' . $assoc_name;
 	}
+	
+	
+	
+	
+	
 	$assoc_name = str_replace('table_table_', 'table_', $assoc_name);
 	//	d($is_assoc);
 $_mw_db_get_assoc_table_names[$assoc_name_o] = $assoc_name;
@@ -2188,7 +2195,7 @@ d($q);
 		$categories_items_table = MW_TABLE_PREFIX . 'categories_items';
 		$is_a = has_access('save_category');
 
-		if ($is_a == true and $table_assoc_name != 'table_categories' and $table_assoc_name != 'table_categories_items') {
+		if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
 			if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
 				// exit('__EMPTY_CATEGORIES__');
 
@@ -2212,7 +2219,7 @@ d($q);
 						if (intval($cname_check) == 0) {
 							$cname_check = trim($cname_check);
 							$cname_check = db_escape_string($cname_check);
-							//	$str1 = 'cache_group=false&no_cache=1&table=table_categories&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
+							//	$str1 = 'cache_group=false&no_cache=1&table=categories&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
 							//	$is_ex = get($str1);
 
 							if ($cname_check != '') {
@@ -2689,9 +2696,9 @@ d($q);
 	 * $users_log_exclude )) { $to_execute_query = true; // be careful } else {
 	 * if (in_array ( $table_assoc_name, $users_log_exclude ) == true) {
 	 * $to_execute_query = false; } else { $to_execute_query = true; } } if
-	 * ($table_assoc_name == 'table_users_notifications') { $to_execute_query =
+	 * ($table_assoc_name == 'users_notifications') { $to_execute_query =
 	 * false; } if ($table_assoc_name == 'table_custom_fields') {
-	 * $to_execute_query = false; } if ($table_assoc_name == 'table_media') {
+	 * $to_execute_query = false; } if ($table_assoc_name == 'media') {
 	 * $to_execute_query = false; } if ($table_assoc_name == 'bb_forums') {
 	 * $to_execute_query = false; } } else { if (in_array ( $table_assoc_name,
 	 * $users_log_include ) == true) { $to_execute_query = true; } else {
@@ -2704,7 +2711,7 @@ d($q);
 	 * $id_to_return; }   $by = intval ( $data
 	 * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
 	 * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
-	 * $users_table = $cms_db_tables ['table_users_log']; $q = " INSERT INTO
+	 * $users_table = $cms_db_tables ['users_log']; $q = " INSERT INTO
 	 * $users_table set "; $q .= " created_on ='{$now}', user_id={$by}, "; $q .=
 	 * " rel_id={$id_to_return}, "; $q .= " rel='{$table_assoc_name}'
 	 * ,"; $q .= " rel_table='{$rel_table}', "; $q .= "

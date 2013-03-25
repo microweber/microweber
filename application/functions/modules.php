@@ -481,11 +481,11 @@ function delete_elements_from_db() {
 		//   d($q);
 		db_q($q);
 
-		$q = "delete from $db_categories where rel='table_elements' and data_type='category' ";
+		$q = "delete from $db_categories where rel='elements' and data_type='category' ";
 		// d($q);
 		db_q($q);
 
-		$q = "delete from $db_categories_items where rel='table_elements' and data_type='category_item' ";
+		$q = "delete from $db_categories_items where rel='elements' and data_type='category_item' ";
 		// d($q);
 		db_q($q);
 		cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
@@ -508,7 +508,7 @@ function delete_module_by_id($id) {
 	$q = "delete from $table where id={$id}";
 	db_q($q);
 
-	$q = "delete from $db_categories_items where rel='table_modules' and data_type='category_item' and rel_id={$id}";
+	$q = "delete from $db_categories_items where rel='modules' and data_type='category_item' and rel_id={$id}";
 	db_q($q);
 	cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
 	// cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
@@ -528,10 +528,10 @@ function delete_modules_from_db() {
 		$q = "delete from $table ";
 		db_q($q);
 
-		$q = "delete from $db_categories where rel='table_modules' and data_type='category' ";
+		$q = "delete from $db_categories where rel='modules' and data_type='category' ";
 		db_q($q);
 
-		$q = "delete from $db_categories_items where rel='table_modules' and data_type='category_item' ";
+		$q = "delete from $db_categories_items where rel='modules' and data_type='category_item' ";
 		db_q($q);
 		cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
 		cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');

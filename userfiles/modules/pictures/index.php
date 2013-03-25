@@ -8,7 +8,7 @@ if(!isset($params['rel_id'])){
 if(isset($params['for'])){
 	 $for = 'content';
 } else {
- $for = 'table_modules';	
+ $for = 'modules';	
 }
 
 

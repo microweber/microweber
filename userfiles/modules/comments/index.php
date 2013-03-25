@@ -90,7 +90,7 @@ $comments_data['order_by'] = "created_on desc";
 if($display_comments_from  != false and $display_comments_from   == 'module'){
  
 $comments_data['rel_id'] =   $data['rel_id'] =  $params['id'];
-$comments_data['rel'] =  $data['rel'] = 'table_modules';
+$comments_data['rel'] =  $data['rel'] = 'modules';
  $display_comments_from_module_id =  get_option('module_id', $params['id']); 
  if($display_comments_from_module_id != false and trim($display_comments_from_module_id) != ''){
 		$comments_data['rel_id'] =   $data['rel_id'] =  $display_comments_from_module_id;

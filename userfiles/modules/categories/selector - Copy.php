@@ -61,7 +61,7 @@ $is_ex1 = array();
 		  
 	  }
 	  
-	$str1 = 'table=table_categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
+	$str1 = 'table=categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
 							$is_ex = get($str1); 
  	
 	if(isarr($is_ex)){
@@ -169,7 +169,7 @@ foreach ($cats__parents as $item1) {
 						
 						
 					 
-						$str0 = 'table=table_categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
+						$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 		$fors = get($str0);
 					//d($fors );
 					

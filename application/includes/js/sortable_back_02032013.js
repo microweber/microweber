@@ -1129,9 +1129,9 @@ mw.drag = {
      * Put onchange for contenteditable
 	 * One call of this function fixes all ContentEditable elements in the page to have onchange event.
 	 *
-	 * @example mw.drag.fix_onChange_editable_elements();
+	 * @example mw.drag.fix_onChange_edielements();
 	 */
-    fix_onChange_editable_elements : function(el)   {
+    fix_onChange_edielements : function(el)   {
 
                    //     return false;
 

@@ -123,7 +123,7 @@ $get_comments_params['is_new'] = 'y';
        <label class="mw-ui-label-inline">From module:  </label>
    <?
    	 $comment_modules = array();
-	  $comment_modules['rel'] =  'table_modules';
+	  $comment_modules['rel'] =  'modules';
 	  	  $comment_modules['rel_id'] =  '[not_null]';
   	 $comment_modules['fields'] =  'rel,rel_id';
 
@@ -131,7 +131,7 @@ $get_comments_params['is_new'] = 'y';
 $comment_modules['limit'] =  '200';
 
 
- // $comment_modules['debug'] =  'table_modules';
+ // $comment_modules['debug'] =  'modules';
 	 $comment_modules = get_comments($comment_modules);
   
     ?>

@@ -137,7 +137,7 @@ function get_log_item($log_id) {
 	//var_dump($log);
 	
 
-	if (($log ['rel'] == 'table_comments') and ($log ['rel_table'] == 'table_users_statuses')) {
+	if (($log ['rel'] == 'comments') and ($log ['rel_table'] == 'users_statuses')) {
 		//$log_item = $CI->notifications_model->logDeleteById ( $log ['id'] );
 		return false;
 	}
@@ -156,7 +156,7 @@ function get_dashboard_action($log_id) {
 	$to_return = array ();
 	
 	switch ($data ['rel']) {
-		case 'table_users_statuses' :
+		case 'users_statuses' :
 			
 			$stat = CI::model('statuses')->statusGetById ( intval ( $data ['rel_id'] ) );
 			
@@ -178,7 +178,7 @@ function get_dashboard_action($log_id) {
 			}
 			break;
 		
-		case 'table_users' :
+		case 'users' :
 			$to_return ['msg'] = "updated profile";
 			$to_return ['allow_comments'] = false;
 			$to_return ['allow_likes'] = false;
@@ -192,7 +192,7 @@ function get_dashboard_action($log_id) {
 			$to_return ['allow_likes'] = false;
 			break;
 		
-		case 'table_comments' :
+		case 'comments' :
 			
 			$to_return ['allow_comments'] = true;
 			$to_return ['allow_likes'] = true;
@@ -230,7 +230,7 @@ function get_dashboard_action($log_id) {
 			
 			}
 			
-			if ($comm ['rel'] == 'table_users_statuses') {
+			if ($comm ['rel'] == 'users_statuses') {
 			
 			}
 			

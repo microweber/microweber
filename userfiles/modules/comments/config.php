@@ -33,7 +33,7 @@ $fields_to_add[] = array('is_new', "char(1) default 'y'");
 
 $fields_to_add[] = array('for_newsletter', "char(1) default 'n'");
 $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-$config['tables']['table_comments'] = $fields_to_add;
+$config['tables']['comments'] = $fields_to_add;
 
 
 

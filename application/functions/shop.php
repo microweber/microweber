@@ -245,7 +245,7 @@ function mw_print_admin_dashboard_orders_btn() {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-	$notif_count = get_notifications('module=shop&rel=table_cart_orders&is_read=n&count=1');
+	$notif_count = get_notifications('module=shop&rel=cart_orders&is_read=n&count=1');
 	if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}
@@ -341,8 +341,8 @@ function cart_sum($return_amount = true) {
 	$sid = session_id();
 	$diferent_items = 0;
 	$amount = floatval(0.00);
-	$table_cart = MODULE_DB_SHOP;
-	$sumq = " SELECT  price, qty FROM $table_cart where order_completed='n'  and session_id='{$sid}'  ";
+	$cart = MODULE_DB_SHOP;
+	$sumq = " SELECT  price, qty FROM $cart where order_completed='n'  and session_id='{$sid}'  ";
 	$sumq = db_query($sumq);
 	if (isarr($sumq)) {
 		foreach ($sumq as $value) {
@@ -414,7 +414,7 @@ function checkout_ipn($data) {
 	if (!isarr($payment_verify_token_data)) {
 		error('Invalid token.');
 	}
-	$table_cart = MODULE_DB_SHOP;
+	$cart = MODULE_DB_SHOP;
 	$table_orders = MODULE_DB_SHOP_ORDERS;
 
 	$shop_dir = module_dir('shop');
@@ -437,7 +437,7 @@ function checkout_ipn($data) {
 
 		if ($ord > 0) {
 
-			$q = " UPDATE $table_cart set
+			$q = " UPDATE $cart set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   ";
 			//d($q);
@@ -492,7 +492,7 @@ function checkout($data) {
 	}
 	$sid = session_id();
 	$cart = array();
-	$table_cart = MODULE_DB_SHOP;
+	$cart = MODULE_DB_SHOP;
 	$table_orders = MODULE_DB_SHOP_ORDERS;
 	$cart['session_id'] = $sid;
 	$cart['order_completed'] = 'n';
@@ -507,7 +507,7 @@ function checkout($data) {
 		$_SESSION['mw_payment_success'] = true;
 		$ord = $_SESSION['order_id'];
 		if ($ord > 0) {
-			$q = " UPDATE $table_cart set
+			$q = " UPDATE $cart set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
@@ -665,14 +665,14 @@ function checkout($data) {
 			define('FORCE_SAVE', $table_orders);
 			$ord = save_data($table_orders, $place_order);
 
-			$q = " UPDATE $table_cart set
+			$q = " UPDATE $cart set
 		order_id='{$ord}'
 		where order_completed='n'  and session_id='{$sid}'  ";
 
 			db_q($q);
 
 			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
-				$q = " UPDATE $table_cart set
+				$q = " UPDATE $cart set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   ";
 
@@ -691,7 +691,7 @@ function checkout($data) {
 
 				$notif = array();
 				$notif['module'] = "shop";
-				$notif['rel'] = 'table_cart_orders';
+				$notif['rel'] = 'cart_orders';
 				$notif['rel_id'] = $ord;
 				$notif['title'] = "You have new order";
 				$notif['description'] = "New order is placed from " . curent_url(1);

@@ -13,7 +13,7 @@ $for_id = 0;
 if(isset($params['for'])){
 	 $for = $params['for'];
 } else {
- $for = 'table_modules';
+ $for = 'modules';
 }
 
 if(!isset($for)){

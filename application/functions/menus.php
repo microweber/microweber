@@ -308,16 +308,16 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$params_order = array();
 	$params_order['position'] = 'ASC';
 
-	$table_menus = MODULE_DB_MENUS;
+	$menus = MODULE_DB_MENUS;
 
-	$sql = "SELECT * from {$table_menus}
+	$sql = "SELECT * from {$menus}
 	where parent_id=$menu_id
 
 	order by position ASC ";
 	//d($sql); and item_type='menu_item'
 	$menu_params = array();
 	$menu_params['parent_id'] = $menu_id;
-	$menu_params['table'] = $table_menus;
+	$menu_params['table'] = $menus;
 	$menu_params['orderby'] = "position ASC";
 
 	//$q = get($menu_params);
@@ -388,7 +388,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 				$title = $cont['title'];
 				$url = category_link($cont['id']);
 			} else {
-				db_delete_by_id($table_menus, $item['id']);
+				db_delete_by_id($menus, $item['id']);
 				$title = false;
 				$item['title'] = false;
 			}
@@ -586,13 +586,13 @@ function add_content_to_menu($content_id) {
 	if ($content_id == 0) {
 		return;
 	}
-	$table_menus = MODULE_DB_MENUS;
+	$menus = MODULE_DB_MENUS;
 	if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
 		$add_to_menus = $_REQUEST['add_content_to_menu'];
 		$add_to_menus_int = array();
 		foreach ($add_to_menus as $value) {
 			if ($value == 'remove_from_all') {
-				$sql = "delete from {$table_menus}
+				$sql = "delete from {$menus}
 				where
 				item_type='menu_item'
 				and content_id={$content_id}
@@ -613,7 +613,7 @@ function add_content_to_menu($content_id) {
 
 	if (isset($add_to_menus_int) and isarr($add_to_menus_int)) {
 		$add_to_menus_int_implode = implode(',', $add_to_menus_int);
-		$sql = "delete from {$table_menus}
+		$sql = "delete from {$menus}
 		where parent_id not in ($add_to_menus_int_implode)
 		and item_type='menu_item'
 		and content_id={$content_id}
@@ -627,11 +627,11 @@ function add_content_to_menu($content_id) {
 			if ($check == 0) {
 				$save = array();
 				$save['item_type'] = 'menu_item';
-				//	$save['debug'] = $table_menus;
+				//	$save['debug'] = $menus;
 				$save['parent_id'] = $value;
 				$save['url'] = '';
 				$save['content_id'] = $content_id;
-				save_data($table_menus, $save);
+				save_data($menus, $save);
 			}
 		}
 		cache_clean_group('menus/global');

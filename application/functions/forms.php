@@ -171,7 +171,7 @@ function delete_form_entry($data) {
 	$table = MW_DB_TABLE_FORMS_LISTS;
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id('table_forms_data', $c_id);
+		db_delete_by_id('forms_data', $c_id);
 
 		//d($c_id);
 	}
@@ -190,7 +190,7 @@ function get_form_entires($params) {
 			//d($item);
 			//
 
-			$fields = get_custom_fields('table_forms_data', $item['id'], 1);
+			$fields = get_custom_fields('forms_data', $item['id'], 1);
 
 			if (isarr($fields)) {
 				ksort($fields);
@@ -299,7 +299,7 @@ function post_form($params) {
 	if (isset($params['module_name'])) {
 		$notif = array(); 
 		$notif['module'] = $params['module_name'];
-		$notif['rel'] = 'table_forms_lists';
+		$notif['rel'] = 'forms_lists';
 		$notif['rel_id'] = $list_id;
 		$notif['title'] = "New form entry";
 		$notif['description'] = "You have new form entry";
@@ -319,7 +319,7 @@ function post_form($params) {
 				unset($value['session_id']);
 			}
 			$value['rel_id'] = $save;
-			$value['rel'] = 'table_forms_data';
+			$value['rel'] = 'forms_data';
 
 			$cf_save = save_data($table_custom_field, $value);
 		}

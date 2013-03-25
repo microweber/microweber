@@ -104,7 +104,7 @@ function delete_user($data) {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id('table_users', $c_id);
+		db_delete_by_id('users', $c_id);
 		return $c_id;
 
 	}
@@ -175,7 +175,7 @@ VALUES ($next, '$email', '$pass', 'n')";
 
 			$notif = array();
 			$notif['module'] = "users";
-			$notif['rel'] = 'table_users';
+			$notif['rel'] = 'users';
 			$notif['rel_id'] = $next;
 			$notif['title'] = "New user registration";
 			$notif['description'] = "You have new user registration";
@@ -895,7 +895,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'table_users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -939,7 +939,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                get_instance() -> core_model -> getCustomFields('table_users', $user_id, true, $field_name);
+	$more =                                get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 

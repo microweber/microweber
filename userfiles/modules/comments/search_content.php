@@ -1,7 +1,7 @@
 <?
 only_admin_access() ;
 $comments_data = array();
-$comments_data['in_table'] =  'table_comments';
+$comments_data['in_table'] =  'comments';
 $comments_data['cache_group'] =  'comments/global';
 if(isset($params['search-keyword'])){
 $comments_data['keyword'] =  $params['search-keyword'];
@@ -26,7 +26,7 @@ $comments_data['rel_id'] =  $params['content_id'];
 	}
 	
 }
-//$comments_data['in_table'] =  'table_comments';
+//$comments_data['in_table'] =  'comments';
 //$comments_data['cache_group'] =  'comments/global';
 if(isset($params['search-keyword'])){
 $comments_data['keyword'] =  $params['search-keyword'];
@@ -52,7 +52,7 @@ $data = get_comments($comments_data);
      <? endif; ?>
      
      
-      <? if(isset($item['rel']) and $item['rel'] == 'table_modules'): ?>
+      <? if(isset($item['rel']) and $item['rel'] == 'modules'): ?>
     <module type="comments/comments_for_module" id="mw_comments_for_post_<? print $item['rel_id'] ?>" rel_id="<? print $item['rel_id'] ?>" rel="<? print $item['rel'] ?>" >
      <? endif; ?>
      

@@ -24,6 +24,6 @@ $fields_to_add[] = array('created_on', 'datetime default NULL');
 $fields_to_add[] = array('is_active', "char(1) default 'y'");
 $fields_to_add[] = array('description', 'TEXT default NULL');
 $fields_to_add[] = array('url', 'TEXT default NULL');
-$config['tables']['table_menus'] = $fields_to_add;
+$config['tables']['menus'] = $fields_to_add;
 
  

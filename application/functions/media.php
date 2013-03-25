@@ -265,7 +265,7 @@ function delete_media($data) {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id('table_media', $c_id);
+		db_delete_by_id('media', $c_id);
 
 		//d($c_id);
 	}

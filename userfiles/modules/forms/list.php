@@ -58,11 +58,11 @@ if(isset($params['keyword'])){
 
 if(isset($data['list_id'])){
 
- //$custom_fields = get_custom_fields('table_forms_data',$data['list_id']);
+ //$custom_fields = get_custom_fields('forms_data',$data['list_id']);
 //d($custom_fields );
 
 } else {
- $custom_fields = get_custom_fields('table_forms_data','all');
+ $custom_fields = get_custom_fields('forms_data','all');
 
 }
 $data_paging = $data;

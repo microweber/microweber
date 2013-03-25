@@ -189,9 +189,9 @@ class files implements \iMwCache {
 			$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
 			$cacheDir = CACHEDIR . $cache_group;
 
-			if (!is_dir($cacheDir)) {
-				mkdir_recursive($cacheDir);
-			}
+			// if (!is_dir($cacheDir)) {
+			// mkdir_recursive($cacheDir);
+			// }
 
 			if (!defined($cache_content)) {
 				define($cache_content, $cacheDir);
@@ -404,8 +404,6 @@ class files implements \iMwCache {
 			return false;
 		} else {
 
-		
-
 			$mem_var = $this -> mw_cache_mem;
 			if (!isset($mem_var[$cache_group])) {
 				$this -> mw_cache_mem[$cache_group] = array();
@@ -417,10 +415,6 @@ class files implements \iMwCache {
 				$this -> mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
 
 			}
-			
-			
-			
-				
 
 			$data_to_cache = serialize($data_to_cache);
 
@@ -501,9 +495,20 @@ class files implements \iMwCache {
 			}
 			try {
 				$is_cleaning_now = mw_var('is_cleaning_now');
+				
+
 
 				// if ($is_cleaning_now == false) {
 				$cache_file_temp = $cache_file . '.tmp' . uniqid() . '.php';
+				
+				
+				$cacheDir_temp = dirname($cache_file_temp);
+				 if (!is_dir($cacheDir_temp)) {
+				  mkdir_recursive($cacheDir_temp);
+				 }
+				
+				
+				
 				$cache = file_put_contents($cache_file_temp, $content1);
 				//d($cache_file_temp);
 				@rename($cache_file_temp, $cache_file);
