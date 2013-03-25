@@ -59,6 +59,7 @@
 
 
 </head>
+
 <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php 
 
 $ui_adm = MW_ROOTPATH. "UI.php";

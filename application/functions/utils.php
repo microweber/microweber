@@ -746,8 +746,10 @@ function static_option_get($key, $option_group = "global") {
 }
 
 function static_option_save($data) {
-	only_admin_access();
-
+	 	
+		if (MW_IS_INSTALLED == true) {
+	 only_admin_access();
+		}
 	$data = parse_params($data);
 
 	if (!isset($data['option_key']) or !isset($data['option_value'])) {

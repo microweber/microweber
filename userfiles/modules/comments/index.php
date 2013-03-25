@@ -10,40 +10,40 @@ if(get_option('enable_comments', 'comments')=='y'){
 $paging_param = $params['id'].'_page';
  $curent_page_from_url = url_param($paging_param);
 if(isset($params['content-id'])){
-	 $data['to_table'] = 'table_content';
-	 $data['to_table_id'] = $params['content-id'];
+	 $data['rel'] = 'table_content';
+	 $data['rel_id'] = $params['content-id'];
 }
 
 
 $data = $params;
-if (!isset($params['to_table'])) {
+if (!isset($params['rel'])) {
 
-    $data['to_table'] = 'table_content';
+    $data['rel'] = 'table_content';
 }
 
 
     $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); 
-if($display_comments_from_which_post == 'current_post' and isset($data['to_table_id'])){
+if($display_comments_from_which_post == 'current_post' and isset($data['rel_id'])){
 	
-unset($data['to_table_id']);
+unset($data['rel_id']);
 
 }
-if (!isset($data['to_table_id']) or $data['to_table_id'] == false) {
+if (!isset($data['rel_id']) or $data['rel_id'] == false) {
 
  
 
     if (defined('POST_ID') == true and intval(POST_ID) != 0) {
-       $data['to_table_id'] = POST_ID;
+       $data['rel_id'] = POST_ID;
     }
 }
-if (!isset($data['to_table_id'])) {
+if (!isset($data['rel_id'])) {
     if (defined('PAGE_ID') == true) {
-      $data['to_table_id'] = PAGE_ID;
+      $data['rel_id'] = PAGE_ID;
     }
 }
-if (!isset($data['to_table_id'])) {
+if (!isset($data['rel_id'])) {
 
- $data['to_table_id'] = $params['id'];
+ $data['rel_id'] = $params['id'];
  
 }
 ?>
@@ -57,13 +57,13 @@ if (!isset($data['to_table_id'])) {
 
 $hide_comment_form = false;
 $comments_data = array();
-$comments_data['to_table_id'] = $data['to_table_id'];
-$comments_data['to_table'] = $data['to_table'];
+$comments_data['rel_id'] = $data['rel_id'];
+$comments_data['rel'] = $data['rel'];
 
 if($display_comments_from  != false and $display_comments_from   == 'current' and $display_comments_from_which_post != false and $display_comments_from_which_post != 'current_post'){
 	
-$comments_data['to_table_id'] = $data['to_table_id'] =  $display_comments_from_which_post;
-$comments_data['to_table'] =  $data['to_table'] = 'table_content';
+$comments_data['rel_id'] = $data['rel_id'] =  $display_comments_from_which_post;
+$comments_data['rel'] =  $data['rel'] = 'table_content';
 }
 
 
@@ -89,11 +89,11 @@ $comments_data['order_by'] = "created_on desc";
 
 if($display_comments_from  != false and $display_comments_from   == 'module'){
  
-$comments_data['to_table_id'] =   $data['to_table_id'] =  $params['id'];
-$comments_data['to_table'] =  $data['to_table'] = 'table_modules';
+$comments_data['rel_id'] =   $data['rel_id'] =  $params['id'];
+$comments_data['rel'] =  $data['rel'] = 'table_modules';
  $display_comments_from_module_id =  get_option('module_id', $params['id']); 
  if($display_comments_from_module_id != false and trim($display_comments_from_module_id) != ''){
-		$comments_data['to_table_id'] =   $data['to_table_id'] =  $display_comments_from_module_id;
+		$comments_data['rel_id'] =   $data['rel_id'] =  $display_comments_from_module_id;
 		$display_form_title_from_module_id =  get_option('form_title', $display_comments_from_module_id); 
  if($display_form_title_from_module_id != false and trim($display_form_title_from_module_id) != ''){
 	$form_title = $display_form_title_from_module_id;	 

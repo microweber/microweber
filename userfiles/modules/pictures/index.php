@@ -1,8 +1,8 @@
 <?
 
  
-if(!isset($params['to_table_id'])){
-	$params['to_table_id'] = $params['id']; 
+if(!isset($params['rel_id'])){
+	$params['rel_id'] = $params['id']; 
 }
 
 if(isset($params['for'])){
@@ -22,13 +22,13 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 }
 
 if(isset($params['content-id'])){
-	$params['to_table_id'] = $params['content-id']; 
+	$params['rel_id'] = $params['content-id']; 
 	 $for = 'content';
 }
 
  
- if(isset($params['to_table_id']) == true): ?>
-<? $data = get_pictures('to_table_id='.$params['to_table_id'].'&for='.$for); 
+ if(isset($params['rel_id']) == true): ?>
+<? $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for); 
  
  if(empty( $data)){
 	 $data = array(); 

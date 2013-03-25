@@ -13,28 +13,28 @@ $(document).ready(function(){
 
 
 $get_comments_params = array();
- $get_comments_params['to_table'] = 'table_content';
+ $get_comments_params['rel'] = 'table_content';
 if(isset($params['content-id'])){
 	
-	 $get_comments_params['to_table_id'] = $params['content-id'];
+	 $get_comments_params['rel_id'] = $params['content-id'];
 }
 
-if (!isset($get_comments_params['to_table_id'])) {
+if (!isset($get_comments_params['rel_id'])) {
 
  
 
     if (defined('POST_ID') == true and intval(POST_ID) != 0) {
-       $get_comments_params['to_table_id'] = POST_ID;
+       $get_comments_params['rel_id'] = POST_ID;
     }
 }
-if (!isset($get_comments_params['to_table_id'])) {
+if (!isset($get_comments_params['rel_id'])) {
     if (defined('PAGE_ID') == true) {
-      $get_comments_params['to_table_id'] = PAGE_ID;
+      $get_comments_params['rel_id'] = PAGE_ID;
     }
 }
-if (!isset($get_comments_params['to_table_id'])) {
+if (!isset($get_comments_params['rel_id'])) {
 
- $get_comments_params['to_table_id'] = $params['id'];
+ $get_comments_params['rel_id'] = $params['id'];
  
 }
  
@@ -64,13 +64,13 @@ $get_comments_params['is_new'] = 'y';
     <?php } else { ?>
     <h2 class="relative inline-block left">You have <? print $new; ?> new comments &nbsp;<span class="comments_number"><? print $new; ?></span></h2>
     <?php  } ?>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green right">See new</a>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green right">See new</a>
     <?php }  else { ?>
     <?php
 	 unset($get_comments_params['is_moderated']);
 		$old = get_comments($get_comments_params); ?>
     <h2 class="relative inline-block left">You don't have new comments </h2>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['to_table_id']; ?>" target="_top" class="mw-ui-btn right" style="top:6px;">See all <strong><? print $old; ?></strong></a>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn right" style="top:6px;">See all <strong><? print $old; ?></strong></a>
     <?php } ?>
     <div class="mw_clear"></div>
   </div>
@@ -123,11 +123,11 @@ $get_comments_params['is_new'] = 'y';
        <label class="mw-ui-label-inline">From module:  </label>
    <?
    	 $comment_modules = array();
-	  $comment_modules['to_table'] =  'table_modules';
-	  	  $comment_modules['to_table_id'] =  '[not_null]';
-  	 $comment_modules['fields'] =  'to_table,to_table_id';
+	  $comment_modules['rel'] =  'table_modules';
+	  	  $comment_modules['rel_id'] =  '[not_null]';
+  	 $comment_modules['fields'] =  'rel,rel_id';
 
-  	 $comment_modules['group_by'] =  'to_table,to_table_id';
+  	 $comment_modules['group_by'] =  'rel,rel_id';
 $comment_modules['limit'] =  '200';
 
 
@@ -141,10 +141,10 @@ $comment_modules['limit'] =  '200';
 	
 	 if(isarr($comment_modules )): ?>
   <? foreach($comment_modules  as $item): ?> 
-<? $comment_module_title =  get_option('form_title', $item['to_table_id']); ?>
+<? $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
 <? // d( $comment_module_title); ?>
 <? if($comment_module_title != false and trim($comment_module_title) != ''){
-	$comments_module_select[$item['to_table_id']] = $comment_module_title ;
+	$comments_module_select[$item['rel_id']] = $comment_module_title ;
 }
 ?>
  <? endforeach ; ?>

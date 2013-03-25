@@ -97,10 +97,10 @@ $(document).ready(function(){
 <?
 
 if(intval($for_id) >0){
-$media = get_pictures("to_table_id={$for_id}&to_table={$for}");
+$media = get_pictures("rel_id={$for_id}&rel={$for}");
 } else {
 	$sid = session_id();
-	$media = get_pictures("to_table_id={$for_id}&to_table={$for}&session_id={$sid}");
+	$media = get_pictures("rel_id={$for_id}&rel={$for}&session_id={$sid}");
 }
 
 

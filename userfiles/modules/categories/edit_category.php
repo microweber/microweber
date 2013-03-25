@@ -32,7 +32,7 @@ mw.require('forms.js');
 	//   is_page = $sel.attr("data-page-id");  
 	    mw.log( $sel);
 	 if(is_cat != undefined){
-	 mw.$('#to_table_id_<? print $form_rand_id ?>').val(0);
+	 mw.$('#rel_id_<? print $form_rand_id ?>').val(0);
 
 		 mw.$('#parent_id_<? print $form_rand_id ?>').val(is_cat);  
 		 
@@ -45,7 +45,7 @@ mw.require('forms.js');
 		 
 		 
 		  if(is_page != undefined){
-		 mw.$('#to_table_id_<? print $form_rand_id ?>').val(is_page);  
+		 mw.$('#rel_id_<? print $form_rand_id ?>').val(is_page);  
 		 
 		  mw.$('#parent_id_<? print $form_rand_id ?>').val(0);
 		 
@@ -61,7 +61,7 @@ mw.require('forms.js');
  
 
   function onload_set_parent_<? print $form_rand_id ?>(){
-	   var tti = mw.$('#to_table_id_<? print $form_rand_id ?>').val();
+	   var tti = mw.$('#rel_id_<? print $form_rand_id ?>').val();
 
 		 var par_cat   = mw.$('#parent_id_<? print $form_rand_id ?>').val();
 		// mw.log(par_cat);
@@ -133,7 +133,7 @@ $(document).ready(function(){
 	  if(isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0){
 		  $data['parent_id'] = intval($params['selected-category-id']);
 	  } elseif(isset($params['page-id'])){
-		  $data['to_table_id'] = intval($params['page-id']);
+		  $data['rel_id'] = intval($params['page-id']);
 	  }
 	  
   }
@@ -144,8 +144,8 @@ $(document).ready(function(){
 <form class="add-edit-page-post" id="admin_edit_category_form_<? print $form_rand_id ?>" name="admin_edit_category_form_<? print $form_rand_id ?>" autocomplete="Off">
   <input name="id" type="hidden" value="<? print ($data['id'])?>" />
   <input name="table" type="hidden" value="table_taxonomy" />
-  <input name="to_table" type="hidden" value="<? print ($data['to_table'])?>" />
-  <input name="to_table_id" type="hidden" value="<? print ($data['to_table_id'])?>" id="to_table_id_<? print $form_rand_id ?>"  />
+  <input name="rel" type="hidden" value="<? print ($data['rel'])?>" />
+  <input name="rel_id" type="hidden" value="<? print ($data['rel_id'])?>" id="rel_id_<? print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<? print ($data['data_type'])?>" />
 
   <div class="mw-ui-field-holder">
@@ -169,7 +169,7 @@ $(document).ready(function(){
        ?>
     <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<? print $form_rand_id ?>">
-      <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['to_table_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
+      <module  type="categories/selector"   categories_active_ids="<? print (intval($data['parent_id']))?>" active_ids="<? print ($data['rel_id'])?>" <? print $is_shop ?> input-name="temp_<? print $form_rand_id ?>" input-name-categories='temp_<? print $form_rand_id ?>' input-type-categories="radio"   />
     </div>
   </div>
   <script type="text/javascript">

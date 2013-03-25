@@ -32,8 +32,8 @@ else  if(isset($params['id'])){
 }
 
   //$for_id =$params['id'];
-if(isset($params['to_table_id'])){
-  $for_id =$module_id = $params['to_table_id'];
+if(isset($params['rel_id'])){
+  $for_id =$module_id = $params['rel_id'];
 
 }
 
@@ -115,7 +115,7 @@ $(document).ready(function(){
 <module data-type="custom_fields/list" <? print $hide_preview  ?>
   for="<? print $for  ?>"
   for_module_id="<? print $module_id ?>"
-  <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?>
+  <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?>
   id="mw_custom_fields_list_<? print $params['id']; ?>"  <? if(isset($params['default-fields'])): ?> default-fields="<?  print $params['default-fields'] ?>" <? endif; ?>/>
 
 

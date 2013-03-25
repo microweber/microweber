@@ -1,4 +1,4 @@
-﻿<?
+<?
 only_admin_access() ;
 $comments_data = array();
 $comments_data['in_table'] =  'table_comments';
@@ -12,17 +12,17 @@ $comments_data['id'] =  $params['content_id'];
 
 $comments_data = array();
 if(isset($params['content_id'])){
-$comments_data['to_table'] =  'table_content';
-$comments_data['to_table_id'] =  $params['content_id'];
+$comments_data['rel'] =  'table_content';
+$comments_data['rel_id'] =  $params['content_id'];
 
 } else {
 	
-	if(isset($params['to_table'])){
-	$comments_data['to_table'] =  $params['to_table'];
+	if(isset($params['rel'])){
+	$comments_data['rel'] =  $params['rel'];
 	}
 	
-	if(isset($params['to_table_id'])){
-	$comments_data['to_table_id'] =  $params['to_table_id'];
+	if(isset($params['rel_id'])){
+	$comments_data['rel_id'] =  $params['rel_id'];
 	}
 	
 }
@@ -34,8 +34,8 @@ $comments_data['search_in_fields'] =  'comment_name,comment_body,comment_email,c
 
  
 }
-$comments_data['group_by'] =  'to_table,to_table_id';
- //$comments_data['debug'] =  'to_table,to_table_id';
+$comments_data['group_by'] =  'rel,rel_id';
+ //$comments_data['debug'] =  'rel,rel_id';
 $data = get_comments($comments_data);
 
  
@@ -47,13 +47,13 @@ $data = get_comments($comments_data);
 
 <div class="mw-admin-comments-search-holder">
   <? foreach($data  as $item){ ?>
-     <? if(isset($item['to_table']) and $item['to_table'] == 'table_content'): ?>
-    <module type="comments/comments_for_post" id="mw_comments_for_post_<? print $item['to_table_id'] ?>" content_id="<? print $item['to_table_id'] ?>" >
+     <? if(isset($item['rel']) and $item['rel'] == 'table_content'): ?>
+    <module type="comments/comments_for_post" id="mw_comments_for_post_<? print $item['rel_id'] ?>" content_id="<? print $item['rel_id'] ?>" >
      <? endif; ?>
      
      
-      <? if(isset($item['to_table']) and $item['to_table'] == 'table_modules'): ?>
-    <module type="comments/comments_for_module" id="mw_comments_for_post_<? print $item['to_table_id'] ?>" to_table_id="<? print $item['to_table_id'] ?>" to_table="<? print $item['to_table'] ?>" >
+      <? if(isset($item['rel']) and $item['rel'] == 'table_modules'): ?>
+    <module type="comments/comments_for_module" id="mw_comments_for_post_<? print $item['rel_id'] ?>" rel_id="<? print $item['rel_id'] ?>" rel="<? print $item['rel'] ?>" >
      <? endif; ?>
      
      

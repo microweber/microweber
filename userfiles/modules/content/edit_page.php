@@ -741,7 +741,7 @@ else{
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<? print $rand; ?>">
       <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<? print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<? print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
       <? if(intval($data['id']) > 0): ?>
-      <? $in_cats = get('from=taxonomy_items&fields=parent_id&to_table=table_content&to_table_id='.$data['id']);
+      <? $in_cats = get('from=taxonomy_items&fields=parent_id&rel=table_content&rel_id='.$data['id']);
   if(isarr($in_cats)){
    foreach($in_cats as $in_cat){
     $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
@@ -750,7 +750,7 @@ else{
 	 //d($categories_active_ids);
 ?>
 
-      <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
+      <microweber module="categories/selector"  categories_active_ids="<? print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<? print $rand; ?>" rel_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" <? print $strz ?> <? print $shopstr ?> />
       <? else: ?>
 
 
@@ -775,7 +775,7 @@ if(isset($is_blog_exist) and isarr($is_blog_exist)){
 }
   ?>
 
-      <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" to_table_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
+      <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" rel_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
       <? endif; ?>
     </div>
     <div class="vSpace"></div>
@@ -886,7 +886,7 @@ if(intval($data['id']) == 0){
   <?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div id="custom_fields_for_post_<? print $rand; ?>"  style="<? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<? else: ?>display:none;<? endif; ?>">
     <div class="vSpace"></div>
-    <module type="custom_fields/admin"    for="table_content" to_table_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
+    <module type="custom_fields/admin"    for="table_content" rel_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
     <div class="custom_fields_from_parent"  id="custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>" ></div>
     <script  type="text/javascript">
 
@@ -953,12 +953,12 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
   holder1.attr('for','table_content');
   holder1.attr('save_to_content_id','<? print $data['id'] ?>');
-  holder1.attr('to_table_id',vals);
+  holder1.attr('rel_id',vals);
 
 
   mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>', function(){
 
-				 // holder1.find('[name="to_table_id"]').val('<? print $data['id'] ?>');
+				 // holder1.find('[name="rel_id"]').val('<? print $data['id'] ?>');
         });
 
 }

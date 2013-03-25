@@ -11,11 +11,11 @@ if (!isset($params['for'])) {
 }
 
 
-if (!isset($params['to_table'])) {
+if (!isset($params['rel'])) {
 	$for = 'content';
 
 } else {
-	$for = $params['to_table'];
+	$for = $params['rel'];
 }
 
 $is_shop = '';
@@ -32,9 +32,9 @@ if (isset($params['is_shop'])) {
 	$is_shop = '&is_shop=' . $params['is_shop'];
 }
 
-if (!isset($params['to_table_id'])) {
-	$to_table_id = '';
-	if (!isset($params['to_table_id'])) {
+if (!isset($params['rel_id'])) {
+	$rel_id = '';
+	if (!isset($params['rel_id'])) {
 
 	}
 
@@ -47,7 +47,7 @@ if (!isset($params['to_table_id'])) {
 
 
 } else {
-	$to_table_id = '&to_table_id=' . $params['to_table_id'];
+	$rel_id = '&rel_id=' . $params['rel_id'];
 }
 ?>
 <?
@@ -62,7 +62,7 @@ if($for == 'conaaaaaaatent' or $for == 'table_content'){
 
 }
 
-/*$str1 = 'table=table_taxonomy&to_table='.$for.'&data_type=category&limit=1000&parent_id=0&to_table_id=[mt][int]0';
+/*$str1 = 'table=table_taxonomy&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
 $is_ex = get($str1);
 
 if(isarr($is_ex)){
@@ -97,9 +97,9 @@ if (empty($cats__parents)) {
 	}
 }
 
-if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
+if (isset($params['rel_id']) and $params['rel_id'] != 0) {
 
-	$is_exs3 = get('limit=1000&what=category_items&to_table=' . $for .'&to_table_id=' . $params['to_table_id']);
+	$is_exs3 = get('limit=1000&what=category_items&rel=' . $for .'&rel_id=' . $params['rel_id']);
 
 
 	if (isset($is_exs3[0])) {
@@ -154,7 +154,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
   holder1.append($new_div);
 		 mw.$('#'+$new_div_id).attr('for','categories');
-		 mw.$('#'+$new_div_id).attr('to_table_id',value);
+		 mw.$('#'+$new_div_id).attr('rel_id',value);
 
   	     mw.load_module('custom_fields/index','#'+$new_div_id, function(){
 			// mw.log(this);
@@ -323,7 +323,7 @@ pages_tree($tree);
 
 
 
-	$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&to_table_id=0&to_table=table_content';
+	$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=table_content';
 	$fors = get($str0);
 					//d($fors );
 
@@ -336,8 +336,8 @@ pages_tree($tree);
 
 
 			$pt_opts['parent'] =$cat['id'];
-						//$cat_params['to_table'] = 'table_content';
-					//	$cat_params['to_table_id'] = ' 0 ';
+						//$cat_params['rel'] = 'table_content';
+					//	$cat_params['rel_id'] = ' 0 ';
 					// $cat_params['for'] = 'table_content';
 			$pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;

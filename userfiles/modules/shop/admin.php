@@ -7,12 +7,12 @@ if( $mw_notif != false){
  
   ?>
  
-<? if(isarr($mw_notif) and isset($mw_notif['to_table_id']) and $mw_notif['to_table_id'] !=0): ?>
+<? if(isarr($mw_notif) and isset($mw_notif['rel_id']) and $mw_notif['rel_id'] !=0): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
 
-window.location.href = '<? print admin_url() ?>view:shop/action:orders/#vieworder=<? print $mw_notif['to_table_id'] ?>'; //Will take you to Google.
+window.location.href = '<? print admin_url() ?>view:shop/action:orders/#vieworder=<? print $mw_notif['rel_id'] ?>'; //Will take you to Google.
 
 
  

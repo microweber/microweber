@@ -105,9 +105,9 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('created_on', 'datetime default NULL');
 	$fields_to_add[] = array('created_by', 'int(11) default NULL');
 	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('field', 'longtext default NULL');
 	$fields_to_add[] = array('value', 'TEXT default NULL');
@@ -117,8 +117,8 @@ function mw_db_init_content_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
 	db_add_table_index('field', $table_name, array('field(55)'));
 
 
@@ -134,9 +134,9 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('created_by', 'int(11) default NULL');
 	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 	$fields_to_add[] = array('media_type', 'TEXT default NULL');
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('title', 'longtext default NULL');
@@ -148,8 +148,8 @@ function mw_db_init_content_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
 	db_add_table_index('media_type', $table_name, array('media_type(55)'));
 
 	 //db_add_table_index('url', $table_name, array('url'));
@@ -162,9 +162,9 @@ function mw_db_init_content_table() {
 	$table_name = MW_DB_TABLE_CUSTOM_FIELDS;
 
 	$fields_to_add = array();
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 
@@ -201,8 +201,8 @@ function mw_db_init_content_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(55)'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
 	db_add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
@@ -1725,8 +1725,8 @@ function save_edit($post_data) {
 								save_history($history_to_save);
 							}
 							$cont_field = array();
-							$cont_field['to_table'] = 'table_content';
-							$cont_field['to_table_id'] = $content_id_for_con_field;
+							$cont_field['rel'] = 'table_content';
+							$cont_field['rel_id'] = $content_id_for_con_field;
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
 							if($field != 'content'){
@@ -1760,10 +1760,10 @@ function save_edit($post_data) {
 					} else {
 
 						$cont_field = array();
-						$cont_field['to_table'] = $the_field_data['attributes']['rel'];
-						$cont_field['to_table_id'] = 0;
-						if($cont_field['to_table'] != 'global' and isset($the_field_data['attributes']['content-id'])){
-							$cont_field['to_table_id'] = $the_field_data['attributes']['content-id'];
+						$cont_field['rel'] = $the_field_data['attributes']['rel'];
+						$cont_field['rel_id'] = 0;
+						if($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])){
+							$cont_field['rel_id'] = $the_field_data['attributes']['content-id'];
 						}
 						$cont_field['value'] = make_microweber_tags($html_to_save);;
 						if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){
@@ -2054,7 +2054,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 		if ($check_ex == false) {
 			if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-				$test2 = get_taxonomy('data_type=category&to_table=table_content&to_table_id='.intval(($data_to_save['id'])));
+				$test2 = get_taxonomy('data_type=category&rel=table_content&rel_id='.intval(($data_to_save['id'])));
 
 				if(isset($test2[0])){
 					$check_ex = $test2[0];
@@ -2093,11 +2093,11 @@ function save_content($data, $delete_the_cache = true) {
 
 				$new_category = array();
 				$new_category["data_type"] = "category";
-				$new_category["to_table"] = "table_content";
+				$new_category["rel"] = "table_content";
 				$new_category["table" ] = $table_cats;
 				//$new_category["debug" ] = $table_cats;
 					if (isset($data_to_save['id']) and intval(($data_to_save['id'])) > 0) {
-					$new_category["to_table_id"] = intval(($data_to_save['id']));
+					$new_category["rel_id"] = intval(($data_to_save['id']));
 				}
 				$new_category["title"] = $data_to_save['subtype_value_new'];
 				$new_category["parent_id"] = "0";
@@ -2126,7 +2126,7 @@ function save_content($data, $delete_the_cache = true) {
 						$new_scategory = array();
 						$new_scategory["data_type"] = "category";
 						$new_scategory["title"] = $sc;
-						$new_scategory["to_table"] = "table_content";
+						$new_scategory["rel"] = "table_content";
 				$new_scategory["table" ] = $table_cats;
 						$new_scategory["parent_id"] = intval($new_category);
 						$cats_modified = true;
@@ -2216,8 +2216,8 @@ function save_content($data, $delete_the_cache = true) {
 		//$new_category_id = intval($new_category);
 			$new_category = array();
 			$new_category["data_type"] = "category";
-			$new_category["to_table"] = 'table_content';
-			$new_category["to_table_id"] = $save;
+			$new_category["rel"] = 'table_content';
+			$new_category["rel_id"] = $save;
 			$new_category["table" ] = $table_cats;
 			$new_category["id" ] = 0;
 			$new_category["title"] = $data_to_save['title'];
@@ -2236,11 +2236,11 @@ function save_content($data, $delete_the_cache = true) {
 	$id = $save;
 
 	$clean = " update $custom_field_table set
-	to_table =\"table_content\"
-	, to_table_id =\"{$id}\"
+	rel =\"table_content\"
+	, rel_id =\"{$id}\"
 	where
 	session_id =\"{$sid}\"
-	and (to_table_id=0 or to_table_id IS NULL) and to_table =\"table_content\"
+	and (rel_id=0 or rel_id IS NULL) and rel =\"table_content\"
 
 	";
 
@@ -2252,10 +2252,10 @@ function save_content($data, $delete_the_cache = true) {
 
 	$clean = " update $media_table set
 
-	to_table_id =\"{$id}\"
+	rel_id =\"{$id}\"
 	where
 	session_id =\"{$sid}\"
-	and to_table =\"table_content\" and (to_table_id=0 or to_table_id IS NULL)
+	and rel =\"table_content\" and (rel_id=0 or rel_id IS NULL)
 
 	";
 
@@ -2361,22 +2361,22 @@ function save_content_field($data, $delete_the_cache = true) {
 	if(!is_array($data)){
 		$data = array();
 	}
-	if(!isset($data['to_table']) or !isset($data['to_table_id'])){
-		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');
+	if(!isset($data['rel']) or !isset($data['rel_id'])){
+		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
-	//if($data['to_table'] == 'global'){
+	//if($data['rel'] == 'global'){
 	if(isset($data['field'])){
 		$fld = db_escape_string($data['field']);
-		$fld_to_table = db_escape_string($data['to_table']);
-		$del_q = "delete from {$table} where to_table='$fld_to_table' and  field='$fld' ";
-		if(isset($data['to_table_id'])){
-			$i = db_escape_string($data['to_table_id']);
-			$del_q .= " and  to_table_id='$i' ";
+		$fld_rel = db_escape_string($data['rel']);
+		$del_q = "delete from {$table} where rel='$fld_rel' and  field='$fld' ";
+		if(isset($data['rel_id'])){
+			$i = db_escape_string($data['rel_id']);
+			$del_q .= " and  rel_id='$i' ";
 
 		} else {
-			$data['to_table_id'] = 0;
+			$data['rel_id'] = 0;
 		}
-		$cache_group = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
+		$cache_group = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
 		db_q($del_q);
 		cache_clean_group($cache_group);
 
@@ -2410,33 +2410,33 @@ function get_content_field($data, $debug = false) {
 
 
 
-	if(!isset($data['to_table'])){
+	if(!isset($data['rel'])){
 		if(isset($data['rel'])){
 			if($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post'){
 				$data['rel']  = 'table_content';
 			}
-			$data['to_table'] = $data['rel'];
+			$data['rel'] = $data['rel'];
 		}
 	}
-	if(!isset($data['to_table_id'])){
+	if(!isset($data['rel_id'])){
 		if(isset($data['data-id'])){
-			$data['to_table_id'] = $data['data-id'];
+			$data['rel_id'] = $data['data-id'];
 		} else {
 
 		}
 	}
-	if(!isset($data['to_table_id'])){
-		$data['to_table_id'] = 0;
+	if(!isset($data['rel_id'])){
+		$data['rel_id'] = 0;
 	}
 
-	if(!isset($data['to_table']) or !isset($data['to_table_id'])){
-		error('Error: '.__FUNCTION__.' to_table and to_table_id is required');
+	if(!isset($data['rel']) or !isset($data['rel_id'])){
+		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
-	//if($data['to_table'] == 'global'){
+	//if($data['rel'] == 'global'){
 	if(isset($data['field'])){
 
 		$data['limit'] = 1;
-		$data['cache_group'] = guess_cache_group('content_fields/'.$data['to_table'].'/'.$data['to_table_id']);
+		$data['cache_group'] = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
 
 		$data['one'] = 1;
 		$data['table'] = $table;
@@ -2969,7 +2969,7 @@ $params['ul_class'] = false;
 					if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
 						//$cat_params['subtype_value'] = $item['subtype_value'];
 					}
-						//$cat_params['try_to_table_id'] = $item['id'];
+						//$cat_params['try_rel_id'] = $item['id'];
 
 					if(isset($categores_link)){
 						$cat_params['link'] = $categores_link;
@@ -2992,8 +2992,8 @@ $params['ul_class'] = false;
 						//$cat_params['for'] = 'table_content';
 					$cat_params['list_tag'] = $list_tag;
 					$cat_params['list_item_tag'] = $list_item_tag;
-					$cat_params['to_table'] = 'table_content';
-					$cat_params['to_table_id'] = $item['id'];
+					$cat_params['rel'] = 'table_content';
+					$cat_params['rel_id'] = $item['id'];
 
 					$cat_params['include_first'] = 1;
 					$cat_params['nest_level'] = $nest_level;

@@ -41,8 +41,8 @@ function mw_db_init_forms_table() {
 	$fields_to_add[] = array('created_on', 'datetime default NULL');
 	$fields_to_add[] = array('created_by', 'int(11) default NULL');
 	//$fields_to_add[] = array('edited_by', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 	//$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('list_id', 'int(11) default 0');
 	$fields_to_add[] = array('form_values', 'TEXT default NULL');
@@ -53,8 +53,8 @@ function mw_db_init_forms_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(255)'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
 	db_add_table_index('list_id', $table_name, array('list_id'));
 
 	$table_name = MW_DB_TABLE_FORMS_LISTS;
@@ -243,8 +243,8 @@ function post_form($params) {
 	}
 
 	//$for_id =$params['id'];
-	if (isset($params['to_table_id'])) {
-		$for_id = $params['to_table_id'];
+	if (isset($params['rel_id'])) {
+		$for_id = $params['rel_id'];
 	}
 
 	if ($for == 'module') {
@@ -283,8 +283,8 @@ function post_form($params) {
 		}
 	}
 	$to_save['list_id'] = $list_id;
-	$to_save['to_table_id'] = $for_id;
-	$to_save['to_table'] = $for;
+	$to_save['rel_id'] = $for_id;
+	$to_save['rel'] = $for;
 	//$to_save['custom_fields'] = $fields_data;
 
 	if (isset($params['module_name'])) {
@@ -299,8 +299,8 @@ function post_form($params) {
 	if (isset($params['module_name'])) {
 		$notif = array(); 
 		$notif['module'] = $params['module_name'];
-		$notif['to_table'] = 'table_forms_lists';
-		$notif['to_table_id'] = $list_id;
+		$notif['rel'] = 'table_forms_lists';
+		$notif['rel_id'] = $list_id;
 		$notif['title'] = "New form entry";
 		$notif['description'] = "You have new form entry";
 		$notif['content'] = "You have new form entry";
@@ -318,8 +318,8 @@ function post_form($params) {
 			if (isset($value['session_id'])) {
 				unset($value['session_id']);
 			}
-			$value['to_table_id'] = $save;
-			$value['to_table'] = 'table_forms_data';
+			$value['rel_id'] = $save;
+			$value['rel'] = 'table_forms_data';
 
 			$cf_save = save_data($table_custom_field, $value);
 		}

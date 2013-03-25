@@ -42,8 +42,8 @@
  }
  
   //$for_id =$params['id'];
- if(isset($params['to_table_id'])){
-$for_id =$module_id = $params['to_table_id'];
+ if(isset($params['rel_id'])){
+$for_id =$module_id = $params['rel_id'];
  
  }
  
@@ -143,7 +143,7 @@ mw.custom_fields.save = function(id){
         }
         else {
 			
-			if(obj.copy_to_table_id === undefined){
+			if(obj.copy_rel_id === undefined){
 				
             $("#"+id).parents('.custom-field-table-tr').first().find('.custom-field-preview-cell').html(data);
 				
@@ -222,5 +222,5 @@ mw.custom_fields.sort_rows = function(){
 
 
 </script>
-  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['to_table_id'])): ?> to_table_id="<? print $params['to_table_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
 </div>

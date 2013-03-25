@@ -170,7 +170,7 @@ if ($layout != '') {
 				if (isset($data_id)) {
 					//d($data_id);
 
-					$cont_field = get_content_field("rel={$rel}&field={$field}&to_table_id=$data_id");
+					$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
 					// d($cont_field);
 				} else {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
@@ -223,7 +223,7 @@ if ($layout != '') {
 						 $data_id = 0;
 						 }
 
-						 $cont_field = get_content_field("rel=table_content&to_table_id={$data_id}&field={$field}");
+						 $cont_field = get_content_field("rel=table_content&rel_id={$data_id}&field={$field}");
 						 d($data_id);
 						 d($field);
 						 d($cont_field);

@@ -96,7 +96,7 @@ if( $id != 0){
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-      <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['taxonomy_id'] ?>"  for="content" to_table_id="<? print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
+      <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['taxonomy_id'] ?>"  for="content" rel_id="<? print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?  print $data['id'] ?>'); </script>
     <? endif; ?>

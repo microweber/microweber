@@ -5,7 +5,7 @@
           <div class="comment-of-apost new-comment" id="comment-<?php print $comment['id']; ?>"> <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a>
             <p class="comment-body"><?php print $comment['comment_body']; ?></p>
             <input type="hidden" name="id" value="<? print $comment['id'] ?>">
-            <input type="hidden" name="connected_id" value="<? print $comment['to_table_id'] ?>">
+            <input type="hidden" name="connected_id" value="<? print $comment['rel_id'] ?>">
             <input type="text" name="action" class="comment_state semi_hidden" />
             <div class="manage-bar">
               <div class="edit-comment">
@@ -34,7 +34,7 @@
           <p class="comment-body"><?php print $comment['comment_body']; ?></p>
           <input type="hidden" name="id" value="<? print $comment['id'] ?>">
           <input type="text" name="action" class="comment_state semi_hidden" />
-          <input type="hidden" name="connected_id" value="<? print $comment['to_table_id'] ?>">
+          <input type="hidden" name="connected_id" value="<? print $comment['rel_id'] ?>">
           <div class="manage-bar">
             <div class="edit-comment">
               <textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>

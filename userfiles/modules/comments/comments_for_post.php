@@ -16,9 +16,9 @@
 
 <div class="comment-post">
   <div class="comment-info-holder" content-id="<? print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />
-    <?php // $new = get_comments('count=1&is_moderated=n&to_table=table_content&to_table_id='.$content_id);
+    <?php // $new = get_comments('count=1&is_moderated=n&rel=table_content&rel_id='.$content_id);
 
-	 $new = get_comments('count=1&is_new=y&to_table=table_content&to_table_id='.$content_id);
+	 $new = get_comments('count=1&is_new=y&rel=table_content&rel_id='.$content_id);
 	 ?>
     <?php if($new > 0){ ?>
     <span class="comments_number"><?php print $new; ?></span>

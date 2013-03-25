@@ -175,8 +175,8 @@ VALUES ($next, '$email', '$pass', 'n')";
 
 			$notif = array();
 			$notif['module'] = "users";
-			$notif['to_table'] = 'table_users';
-			$notif['to_table_id'] = $next;
+			$notif['rel'] = 'table_users';
+			$notif['rel_id'] = $next;
 			$notif['title'] = "New user registration";
 			$notif['description'] = "You have new user registration";
 			$notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
@@ -895,7 +895,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                get_instance() -> core_model -> mediaGetThumbnailForItem($to_table = 'table_users', $to_table_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'table_users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }

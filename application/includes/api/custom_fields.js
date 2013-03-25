@@ -85,8 +85,8 @@ mw.custom_fields = {
       var data = {};
       data.copy_from =$copy;
       data.save_on_copy =1;
-      data.to_table =$for_table;
-      data.to_table_id =$for_id;
+      data.rel =$for_table;
+      data.rel_id =$for_id;
 
 
       $.post(mw.settings.api_html+'make_custom_field' , data , function(){

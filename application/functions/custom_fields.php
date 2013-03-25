@@ -63,9 +63,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 			$qt = '';
 		} else {
-			//$qt = " (to_table='{$table_assoc_name}'  or to_table='{$table_ass}'  ) and";
+			//$qt = " (rel='{$table_assoc_name}'  or rel='{$table_ass}'  ) and";
 
-			$qt = " to_table='{$table_assoc_name}'    and";
+			$qt = " rel='{$table_assoc_name}'    and";
 		}
 
 		if ($return_full == true) {
@@ -99,9 +99,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		}
 
 		if ($id != 'all') {
-			$idq1ttid = " to_table_id='{$id}' ";
+			$idq1ttid = " rel_id='{$id}' ";
 		} else {
-			$idq1ttid = ' to_table_id is not null ';
+			$idq1ttid = ' rel_id is not null ';
 		}
 
 		$q = " SELECT
@@ -254,7 +254,7 @@ function custom_field_names_for_table($table) {
 	$q = false;
 	$results = false;
 
-	$q = "SELECT *, count(id) as qty FROM $table where   custom_field_type IS NOT NULL and to_table='{$table1}' and custom_field_name!='' group by custom_field_name, custom_field_type order by qty desc limit 100";
+	$q = "SELECT *, count(id) as qty FROM $table where   custom_field_type IS NOT NULL and rel='{$table1}' and custom_field_name!='' group by custom_field_name, custom_field_type order by qty desc limit 100";
 	//d($q);
 	$crc = (crc32($q));
 
@@ -268,7 +268,7 @@ function custom_field_names_for_table($table) {
 
 }
 
-function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
+function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
 
 	$id = is_admin();
 	if ($id == false) {
@@ -295,21 +295,21 @@ function make_default_custom_fields($to_table, $to_table_id, $fields_csv_str) {
 
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
-	if (isset($to_table)) {
-		$to_table = guess_table_name($to_table);
-		$to_table_id = db_escape_string($to_table_id);
+	if (isset($rel)) {
+		$rel = guess_table_name($rel);
+		$rel_id = db_escape_string($rel_id);
 
 		$fields_csv_str = explode(',', $fields_csv_str);
 		$fields_csv_str = array_trim($fields_csv_str);
 		//d($fields_csv_str);
 		if (isarr($fields_csv_str)) {
 			foreach ($fields_csv_str as $field_type) {
-				$ex = get_custom_fields($to_table, $to_table_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
+				$ex = get_custom_fields($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
 
 				if (isarr($ex) == false) {
 					$make_field = array();
-					$make_field['to_table'] = $to_table;
-					$make_field['to_table_id'] = $to_table_id;
+					$make_field['rel'] = $rel;
+					$make_field['rel_id'] = $rel_id;
 					$make_field['custom_field_name'] = ucfirst($field_type);
 					$make_field['custom_field_type'] = $field_type;
 
@@ -431,7 +431,7 @@ function save_custom_field($data) {
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
 	if (isset($data_to_save['for'])) {
-		$data_to_save['to_table'] = guess_table_name($data_to_save['for']);
+		$data_to_save['rel'] = guess_table_name($data_to_save['for']);
 	}
 	if (isset($data_to_save['cf_id'])) {
 		$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -439,30 +439,30 @@ function save_custom_field($data) {
 		$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 		$form_data_from_id = db_get_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
 		if (isset($form_data_from_id['id'])) {
-			if (!isset($data_to_save['to_table'])) {
-				$data_to_save['to_table'] = $form_data_from_id['to_table'];
+			if (!isset($data_to_save['rel'])) {
+				$data_to_save['rel'] = $form_data_from_id['rel'];
 			}
-			if (!isset($data_to_save['to_table_id'])) {
-				$data_to_save['to_table_id'] = $form_data_from_id['to_table_id'];
+			if (!isset($data_to_save['rel_id'])) {
+				$data_to_save['rel_id'] = $form_data_from_id['rel_id'];
 			}
 		}
 
-		if (isset($data_to_save['copy_to_table_id'])) {
+		if (isset($data_to_save['copy_rel_id'])) {
 
 			$cp = db_copy_by_id($table_custom_field, $data_to_save['cf_id']);
 			$data_to_save['id'] = $cp;
-			$data_to_save['to_table_id'] = $data_to_save['copy_to_table_id'];
+			$data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
 			//$data_to_save['id'] = intval($data_to_save['cf_id']);
 		}
 
 	}
 
-	if (!isset($data_to_save['to_table'])) {
-		$data_to_save['to_table'] = 'table_content';
+	if (!isset($data_to_save['rel'])) {
+		$data_to_save['rel'] = 'table_content';
 	}
-	$data_to_save['to_table'] = db_get_assoc_table_name($data_to_save['to_table']);
-	if (!isset($data_to_save['to_table_id'])) {
-		$data_to_save['to_table_id'] = '0';
+	$data_to_save['rel'] = db_get_assoc_table_name($data_to_save['rel']);
+	if (!isset($data_to_save['rel_id'])) {
+		$data_to_save['rel_id'] = '0';
 	}
 	if (isset($data['options'])) {
 		$data_to_save['options'] = encode_var($data['options']);
@@ -586,11 +586,11 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 					$cp = $form_data;
 					$cp['id'] = 0;
 					$cp['copy_of_field'] = $copy_from;
-					if (isset($data['to_table'])) {
-						$cp['to_table'] = ($data['to_table']);
+					if (isset($data['rel'])) {
+						$cp['rel'] = ($data['rel']);
 					}
-					if (isset($data['to_table_id'])) {
-						$cp['to_table_id'] = ($data['to_table_id']);
+					if (isset($data['rel_id'])) {
+						$cp['rel_id'] = ($data['rel_id']);
 					}
 					save_custom_field($cp);
 					$data = $cp;

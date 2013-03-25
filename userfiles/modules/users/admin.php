@@ -217,13 +217,13 @@ if( $mw_notif != false){
 
 mark_notifications_as_read('users');
  ?>
-<? if(isarr($mw_notif) and isset($mw_notif['to_table_id'])): ?>
+<? if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
 	  var holder = mw.$('#user_edit_admin_panel');
-         holder.attr('edit-user',"<? print $mw_notif['to_table_id'] ?>");
-		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['to_table_id'] ?>');
+         holder.attr('edit-user',"<? print $mw_notif['rel_id'] ?>");
+		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['rel_id'] ?>');
  });
 
 

@@ -35,8 +35,8 @@
  }
  
   //$for_id =$params['id'];
- if(isset($params['to_table_id'])){
-$for_id =$params['to_table_id'];
+ if(isset($params['rel_id'])){
+$for_id =$params['rel_id'];
  }
  }
  

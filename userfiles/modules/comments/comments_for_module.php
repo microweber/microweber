@@ -1,11 +1,11 @@
 <? only_admin_access() ;
 $comments_data = array();
-if(isset($params['to_table'])){
-$comments_data['to_table'] =  $params['to_table'];
+if(isset($params['rel'])){
+$comments_data['rel'] =  $params['rel'];
 } 
 
-if(isset($params['to_table_id'])){
-$comments_data['to_table_id'] =  $params['to_table_id'];
+if(isset($params['rel_id'])){
+$comments_data['rel_id'] =  $params['rel_id'];
 } 
 
  
@@ -23,7 +23,7 @@ $comments_data['to_table_id'] =  $params['to_table_id'];
 
 <div class="comment-post">
   <div class="comment-info-holder" content-id="<? print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(($item['icon']),48,48); ?>" alt="" />
-    <?php // $new = get_comments('count=1&is_moderated=n&to_table=table_content&to_table_id='.$content_id);
+    <?php // $new = get_comments('count=1&is_moderated=n&rel=table_content&rel_id='.$content_id);
 $comments_data2 = $comments_data;
 $comments_data2['count'] =  1;
 $comments_data2['is_new'] =  'y';
@@ -32,7 +32,7 @@ $comments_data2['is_new'] =  'y';
 	 
 	 
 	 $comments_data3 = $comments_data;
- 		$comments_data3['group_by'] =  'to_table,to_table_id,from_url';
+ 		$comments_data3['group_by'] =  'rel,rel_id,from_url';
 
 	 $links = get_comments($comments_data3);
 	

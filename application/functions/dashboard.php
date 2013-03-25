@@ -50,7 +50,7 @@ function dashboard_items($params) {
 	$query_options ['get_params_from_url'] = true;
 	$query_options ['items_per_page'] = $some_items_per_page;
 	$query_options ['debug'] = false;
-	$query_options ['group_by'] = 'to_table, to_table_id';
+	$query_options ['group_by'] = 'rel, rel_id';
 	
 	//$user_action = get_instance()->core_model->getParamFromURL ( 'action' );
 	
@@ -137,7 +137,7 @@ function get_log_item($log_id) {
 	//var_dump($log);
 	
 
-	if (($log ['to_table'] == 'table_comments') and ($log ['rel_table'] == 'table_users_statuses')) {
+	if (($log ['rel'] == 'table_comments') and ($log ['rel_table'] == 'table_users_statuses')) {
 		//$log_item = $CI->notifications_model->logDeleteById ( $log ['id'] );
 		return false;
 	}
@@ -155,10 +155,10 @@ function get_dashboard_action($log_id) {
 	
 	$to_return = array ();
 	
-	switch ($data ['to_table']) {
+	switch ($data ['rel']) {
 		case 'table_users_statuses' :
 			
-			$stat = CI::model('statuses')->statusGetById ( intval ( $data ['to_table_id'] ) );
+			$stat = CI::model('statuses')->statusGetById ( intval ( $data ['rel_id'] ) );
 			
 			$stat = html_entity_decode ( ($stat ['status']) );
 			if (stristr ( $stat, 'http://' ) == true) {
@@ -187,7 +187,7 @@ function get_dashboard_action($log_id) {
 		
 		case 'table_messages' :
 			
-			$to_return ['msg'] = "send a message to " . $data ['to_table_id'] . ".. must be implemented";
+			$to_return ['msg'] = "send a message to " . $data ['rel_id'] . ".. must be implemented";
 			$to_return ['allow_comments'] = false;
 			$to_return ['allow_likes'] = false;
 			break;
@@ -197,11 +197,11 @@ function get_dashboard_action($log_id) {
 			$to_return ['allow_comments'] = true;
 			$to_return ['allow_likes'] = true;
 			
-			$comm = get_instance()->comments_model->commentGetById ( $data ['to_table_id'] );
+			$comm = get_instance()->comments_model->commentGetById ( $data ['rel_id'] );
 			//p($comm);
-			if ($comm ['to_table'] == 'table_content') {
-				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $comm ['to_table_id'] );
-				$url = get_instance()->content_model->getContentURLByIdAndCache ( $comm ['to_table_id'] );
+			if ($comm ['rel'] == 'table_content') {
+				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $comm ['rel_id'] );
+				$url = get_instance()->content_model->getContentURLByIdAndCache ( $comm ['rel_id'] );
 				$comm_txt = $comm ['comment_body'];
 				$comm_txt = html_entity_decode ( $comm_txt );
 				$comm_txt = auto_link ( $comm_txt );
@@ -230,7 +230,7 @@ function get_dashboard_action($log_id) {
 			
 			}
 			
-			if ($comm ['to_table'] == 'table_users_statuses') {
+			if ($comm ['rel'] == 'table_users_statuses') {
 			
 			}
 			
@@ -240,11 +240,11 @@ function get_dashboard_action($log_id) {
 			$to_return ['allow_comments'] = false;
 			$to_return ['allow_likes'] = false;
 			
-			$vote = get_instance()->votes_model->voteGetById ( $data ['to_table_id'] );
-			if ($vote ['to_table'] == 'table_content') {
-				$more = get_instance()->core_model->getCustomFields ( 'table_content', $vote ['to_table_id'] );
-				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $vote ['to_table_id'] );
-				$url = get_instance()->content_model->getContentURLByIdAndCache ( $vote ['to_table_id'] );
+			$vote = get_instance()->votes_model->voteGetById ( $data ['rel_id'] );
+			if ($vote ['rel'] == 'table_content') {
+				$more = get_instance()->core_model->getCustomFields ( 'table_content', $vote ['rel_id'] );
+				$content_data = get_instance()->content_model->contentGetByIdAndCache ( $vote ['rel_id'] );
+				$url = get_instance()->content_model->getContentURLByIdAndCache ( $vote ['rel_id'] );
 				
 				$to_return ['msg'] = "liked <a href='{$url}'>{$content_data['title']}</a>";
 				
@@ -270,13 +270,13 @@ function get_dashboard_action($log_id) {
 		
 		case 'table_content' :
 			
-			$content_data = get_instance()->content_model->contentGetById ( $data ['to_table_id'] );
+			$content_data = get_instance()->content_model->contentGetById ( $data ['rel_id'] );
 			if (empty ( $content_data )) {
 				$CI->notifications_model->logDeleteById ( $data ['id'] );
 			} else {
 				$more = get_instance()->core_model->getCustomFields ( 'table_content', $content_data ['id'] );
 				
-				$url = post_link ( $data ['to_table_id'] );
+				$url = post_link ( $data ['rel_id'] );
 				$to_return ['allow_comments'] = true;
 				$to_return ['allow_likes'] = true;
 				
@@ -302,7 +302,7 @@ function get_dashboard_action($log_id) {
 		
 		case 'table_followers' :
 			
-			$data = get_instance()->core_model->getById ( $data ['to_table'], $data ['to_table_id'] );
+			$data = get_instance()->core_model->getById ( $data ['rel'], $data ['rel_id'] );
 			//p($data);  
 			if (! empty ( $data )) {
 				$to_return ['allow_comments'] = false;

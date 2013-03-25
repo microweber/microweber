@@ -9,7 +9,7 @@
  
  <?
 	 $notif_html = '';
-	$notif_count = get_notifications('module=shop&to_table=table_cart_orders&is_read=n&count=1');
+	$notif_count = get_notifications('module=shop&rel=table_cart_orders&is_read=n&count=1');
  	if( $notif_count > 0){
     $notif_html = '<sup class="mw-notif-bubble">'.$notif_count.'</sup>';
     }

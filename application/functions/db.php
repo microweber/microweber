@@ -30,19 +30,19 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	$table1 = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
-	$q = "DELETE from $table1 where to_table_id=$id  and  to_table='$table'  ";
+	$q = "DELETE from $table1 where rel_id=$id  and  rel='$table'  ";
 
 	$q = db_q($q);
 	//  cache_clean_group('taxonomy');
 
-	$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
+	$q = "DELETE from $table_items where rel_id=$id  and  rel='$table'  ";
 	//d($q);
 	$q = db_q($q);
 	
 	
 	if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
 		$table_items = MW_DB_TABLE_NOTIFICATIONS;
-		$q = "DELETE from $table_items where to_table_id=$id  and  to_table='$table'  ";
+		$q = "DELETE from $table_items where rel_id=$id  and  rel='$table'  ";
 	 
 	$q = db_q($q);
 	}
@@ -112,26 +112,26 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 		switch ($for) {
 			case 'user' :
 			case 'users' :
-			$to_table = 'table_users';
+			$rel = 'table_users';
 			break;
 
 			case 'media' :
 			case 'picture' :
 			case 'video' :
 			case 'file' :
-			$to_table = 'table_media';
+			$rel = 'table_media';
 			break;
 
 			case 'comment' :
 			case 'comments' :
-			$to_table = 'table_comments';
+			$rel = 'table_comments';
 			break;
 
 			case 'module' :
 			case 'modules' :
 			case 'table_modules' :
 			case 'modul' :
-			$to_table = 'table_modules';
+			$rel = 'table_modules';
 			break;
 
 			case 'category' :
@@ -140,14 +140,14 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			case 'taxonomy' :
 			case 'tag' :
 			case 'tags' :
-			$to_table = 'table_taxonomy';
+			$rel = 'table_taxonomy';
 			break;
 
 			case 'category_items' :
 			case 'cat_items' :
 			case 'tag_items' :
 			case 'tags_items' :
-			$to_table = 'table_taxonomy_items';
+			$rel = 'table_taxonomy_items';
 			break;
 
 			case 'post' :
@@ -155,10 +155,10 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			case 'content' :
 
 			default :
-			$to_table = $for;
+			$rel = $for;
 			break;
 		}
-		$for = $to_table;
+		$for = $rel;
 	} else {
 
 	}
@@ -486,13 +486,13 @@ function get($params) {
 			$table = guess_table_name($v); ;
 		}
 
-		if ($k == 'what' and !isset($params['to_table'])) {
+		if ($k == 'what' and !isset($params['rel'])) {
 			$table = guess_table_name($v);
 		}
 
-		if ($k == 'for' and !isset($params['to_table'])) {
+		if ($k == 'for' and !isset($params['rel'])) {
 			$v = db_get_assoc_table_name($v);
-			$k = 'to_table';
+			$k = 'rel';
 		}
 
 		if ($k == 'debug') {
@@ -844,7 +844,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			$ids_i = implode(',', $ids);
 
-			$ids_q = " and to_table_id in ($ids_i) ";
+			$ids_q = " and rel_id in ($ids_i) ";
 		}
 
 		$only_custom_fieldd_ids = array();
@@ -868,7 +868,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$category_ids_q = implode(',', $category_content_ids);
 
-				$category_ids_q = " and to_table_id in ($category_ids_q) ";
+				$category_ids_q = " and rel_id in ($category_ids_q) ";
 			} else {
 
 				$category_ids_q = false;
@@ -880,7 +880,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				$only_custom_fieldd_ids_i = implode(',', $only_custom_fieldd_ids);
 
-				$only_custom_fieldd_ids_q = " and to_table_id in ($only_custom_fieldd_ids_i) ";
+				$only_custom_fieldd_ids_q = " and rel_id in ($only_custom_fieldd_ids_i) ";
 			}
 
 
@@ -891,9 +891,9 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			}
 			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
-			$q = "SELECT  to_table_id from $table_custom_fields where
+			$q = "SELECT  rel_id from $table_custom_fields where
 
-			to_table = '$table_assoc_name1' and
+			rel = '$table_assoc_name1' and
 
 			(custom_field_name = '$k' or custom_field_name_plain='$k' ) and
 
@@ -919,12 +919,12 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 				foreach ($q as $itm) {
 
-					$only_custom_fieldd_ids[] = $itm['to_table_id'];
+					$only_custom_fieldd_ids[] = $itm['rel_id'];
 
-					// if(in_array($itm ['to_table_id'],$category_ids)==
+					// if(in_array($itm ['rel_id'],$category_ids)==
 					// false){
 
-					$includeIds[] = $itm['to_table_id'];
+					$includeIds[] = $itm['rel_id'];
 
 					// }
 					//
@@ -989,25 +989,25 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 			foreach ($search_n_cats as $cat_name_or_id) {
 
-				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+				$str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
 				$str1 = 'fields=id&limit=10000&table=table_taxonomy&' . 'id=' . $cat_name_or_id;
 
 				$cat_name_or_id1 = intval($cat_name_or_id);
-				$str1_items = 'fields=to_table_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+				$str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
 				$is_in_category_items = get($str1_items);
 
 				if (!empty($is_in_category_items)) {
 
 					foreach ($is_in_category_items as $is_in_category_items_tt) {
 
-						$includeIds[] = $is_in_category_items_tt["to_table_id"];
+						$includeIds[] = $is_in_category_items_tt["rel_id"];
 
 					}
 				}
 
 			}
 		}
-		// $is_in_category = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+		// $is_in_category = get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
 		//  $includeIds;
 		if ($is_in_category_items == false) {
 			return false;
@@ -1348,8 +1348,8 @@ $orig_criteria = $criteria;
 			$table_custom_fields = MW_TABLE_PREFIX . 'custom_fields';
 			$table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
 
-			$where_q1 = " id in (select to_table_id from $table_custom_fields where
-				to_table='$table_assoc_name1' and
+			$where_q1 = " id in (select rel_id from $table_custom_fields where
+				rel='$table_assoc_name1' and
 				custom_field_values_plain REGEXP '$to_search' )  " ;
 $where_q .=		$where_q1 ;
 }
@@ -1481,10 +1481,10 @@ if (!empty($criteria)) {
 		}
 		$v1 = db_get_real_table_name($is_in_table);
 		$check_if_ttid = db_get_table_fields($v1);
-		if(in_array('to_table_id', $check_if_ttid) and in_array('to_table', $check_if_ttid)){
+		if(in_array('rel_id', $check_if_ttid) and in_array('rel', $check_if_ttid)){
 			$aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
 			if ($v1 != false) {
-				$where .= " AND id in (select to_table_id from $v1 where $v1.to_table='{$aTable_assoc1}' and $v1.to_table_id=$table.id ) ";
+				$where .= " AND id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
 			}
 		}
 		// d($where);
@@ -2173,8 +2173,8 @@ d($q);
 				$clean_q = "delete
 				from $taxonomy_items_table where
 				data_type='category_item' and
-				to_table='{$table_assoc_name}' and
-				to_table_id={$id_to_return}  ";
+				rel='{$table_assoc_name}' and
+				rel_id={$id_to_return}  ";
 				$cats_data_items_modified = true;
 				$cats_data_modified = true;
 				db_q($clean_q);
@@ -2190,7 +2190,7 @@ d($q);
 						if (intval($cname_check) == 0) {
 							$cname_check = trim($cname_check);
 							$cname_check = db_escape_string($cname_check);
-							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&to_table=' . $table_assoc_name;
+							//	$str1 = 'cache_group=false&no_cache=1&table=table_taxonomy&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
 							//	$is_ex = get($str1);
 
 							if ($cname_check != '') {
@@ -2198,7 +2198,7 @@ d($q);
 								$cncheckq = "select id
 								from $taxonomy_table where
 								data_type='category'
-								and   to_table='{$table_assoc_name}'
+								and   rel='{$table_assoc_name}'
 								and   title='{$cname_check}'   ";
 								// d($cncheckq);
 								$is_ex = db_query($cncheckq);
@@ -2210,7 +2210,7 @@ d($q);
 									parent_id=0,
 									position=999,
 									data_type='category',
-									to_table='{$table_assoc_name}'
+									rel='{$table_assoc_name}'
 									";
 									$cats_data_items_modified = true;
 									$cats_data_modified = true;
@@ -2243,9 +2243,9 @@ d($q);
 					$original_data['categories'] = implode(',', $cz);
 					$clean_q = "delete
 					from $taxonomy_items_table where                            data_type='category_item' and
-					to_table='{$table_assoc_name}' and
+					rel='{$table_assoc_name}' and
 					$parnotin
-					to_table_id={$id_to_return}  ";
+					rel_id={$id_to_return}  ";
 					$cats_data_items_modified = true;
 					$cats_data_modified = true;
 					// d($clean_q);
@@ -2271,9 +2271,9 @@ d($q);
 						$q_cat1 = "INSERT INTO $taxonomy_items_table  set
 
 						parent_id='{$cat_name_or_id}',
-						to_table='{$table_assoc_name}',
+						rel='{$table_assoc_name}',
 						data_type='category_item',
-						to_table_id='{$id_to_return}'
+						rel_id='{$id_to_return}'
 						";
 						if ($dbg != false) {
 							d($q_cat1);
@@ -2296,8 +2296,8 @@ d($q);
 					// $gc = $ccount - 2;
 					// $prev_cat = $all_cat_name_or_ids[$gc];
 					//
-					// $str0 = 'limit=1&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
-					// $str00 = 'limit=1&data_type=category&what=categories&' . 'title=' . $prev_cat . '&to_table=' . $table_assoc_name;
+					// $str0 = 'limit=1&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
+					// $str00 = 'limit=1&data_type=category&what=categories&' . 'title=' . $prev_cat . '&rel=' . $table_assoc_name;
 					// $is_ex_parent = get($str0);
 					// if ($is_ex_parent == false or empty($is_ex_parent)) {
 					// $is_ex_parent = get($str00);
@@ -2312,13 +2312,13 @@ d($q);
 					// // $cat_name_or_id = implode('/', $all_cat_name_or_ids);
 					// }
 					//
-					// $str1 = 'title=' . $cat_name_or_id . '&data_type=category&to_table=' . $table_assoc_name;
+					// $str1 = 'title=' . $cat_name_or_id . '&data_type=category&rel=' . $table_assoc_name;
 					// $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
 					//
 					// $gotten_by_id = false;
 					// if (empty($is_ex)) {
 					//
-					// $str1 = 'id=' . $cat_name_or_id . '&to_table=' . $table_assoc_name;
+					// $str1 = 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
 					// $is_ex = get('limit=1&data_type=category&what=categories&' . $str1);
 					// $gotten_by_id = true;
 					// } else {
@@ -2353,8 +2353,8 @@ d($q);
 					// // $cat = $is_ex[0];
 					//
 					// $new_cat = array();
-					// $new_cat['to_table'] = $table_assoc_name;
-					// // $new_cat['to_table_id'] = $id_to_return;
+					// $new_cat['rel'] = $table_assoc_name;
+					// // $new_cat['rel_id'] = $id_to_return;
 					// $new_cat['data_type'] = 'category';
 					// $new_cat['parent_id'] = $parent_id;
 					// //  d($table_cats);
@@ -2378,12 +2378,12 @@ d($q);
 					//
 					// $new_cat = array();
 					// $keep_thosecat_items[] = $is_ex['id'];
-					// $new_cat['to_table'] = $table_assoc_name;
-					// $new_cat['to_table_id'] = $id_to_return;
+					// $new_cat['rel'] = $table_assoc_name;
+					// $new_cat['rel_id'] = $id_to_return;
 					// $new_cat['data_type'] = 'category_item';
 					// $new_cat['parent_id'] = $is_ex['id'];
 					//
-					// $is_ex1 = get('limit=1&data_type=category_item&what=category_items&to_table=' . $table_assoc_name . '&to_table_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+					// $is_ex1 = get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
 					// // d($is_ex1);
 					// if (!isset($is_ex1[0])) {
 					// //   d($table_cats_items);
@@ -2406,8 +2406,8 @@ d($q);
 				$id_in = implode(',', $keep_thosecat_items);
 				$clean_fq = "delete
 				from $taxonomy_items_table where                            data_type='category_item' and
-				to_table='{$table_assoc_name}' and
-				to_table_id='{$id_to_return}' and
+				rel='{$table_assoc_name}' and
+				rel_id='{$id_to_return}' and
 				parent_id NOT IN ($id_in) ";
 				$cats_data_items_modified = true;
 				$cats_data_modified = true;
@@ -2429,7 +2429,7 @@ d($q);
 
 		//
 		//
-		//        $q = " DELETE FROM  $taxonomy_items_table where to_table='$table_assoc_name' and to_table_id='$id_to_return'  and  data_type= 'category_item'     ";
+		//        $q = " DELETE FROM  $taxonomy_items_table where rel='$table_assoc_name' and rel_id='$id_to_return'  and  data_type= 'category_item'     ";
 		//        // p ( $q );
 		//        db_query($q);
 		//
@@ -2441,7 +2441,7 @@ d($q);
 		//            $parent_cat_id = intval($parent_cat ['id']);
 		//
 		//
-		//            $q = " INSERT INTO  $taxonomy_items_table set to_table='$table_assoc_name', to_table_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  data_type= 'category_item' , parent_id='$parent_cat_id'   ";
+		//            $q = " INSERT INTO  $taxonomy_items_table set rel='$table_assoc_name', rel_id='$id_to_return' , content_type='{$original_data ['content_type']}' ,  data_type= 'category_item' , parent_id='$parent_cat_id'   ";
 		//            // p ( $q );
 		//            db_query($q);
 		//            cache_clean_group('taxonomy/' . $parent_cat_id);
@@ -2475,8 +2475,8 @@ d($q);
 					position ='1',
 					media_type ='picture',
 					filename ='{$picfn}',
-					to_table ='{$table_assoc_name}',
-					to_table_id ='{$id_to_return}' 	";
+					rel ='{$table_assoc_name}',
+					rel_id ='{$id_to_return}' 	";
 					$media_table_modified = true;
 					db_q($add);
 				}
@@ -2521,9 +2521,9 @@ d($q);
 			$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
 			if ($is_quick == false) {
 
-				$custom_field_to_delete['to_table'] = $table_assoc_name;
+				$custom_field_to_delete['rel'] = $table_assoc_name;
 
-				$custom_field_to_delete['to_table_id'] = $id_to_return;
+				$custom_field_to_delete['rel_id'] = $id_to_return;
 			}
 			// p($original_data);
 			if (isset($original_data['skip_custom_field_save']) == false) {
@@ -2538,9 +2538,9 @@ d($q);
 						//d($cf_v);
 						if ($cf_k != '') {
 							$clean = " delete from $custom_field_table where
-							to_table =\"{$table_assoc_name}\"
+							rel =\"{$table_assoc_name}\"
 							and
-							to_table_id =\"{$id_to_return}\"
+							rel_id =\"{$id_to_return}\"
 							and
 							custom_field_name =\"{$cf_k}\"
 
@@ -2567,9 +2567,9 @@ d($q);
 						}
 						$custom_field_to_save['custom_field_value'] = $cf_v;
 
-						$custom_field_to_save['to_table'] = $table_assoc_name;
+						$custom_field_to_save['rel'] = $table_assoc_name;
 
-						$custom_field_to_save['to_table_id'] = $id_to_return;
+						$custom_field_to_save['rel_id'] = $id_to_return;
 						$custom_field_to_save['skip_custom_field_save'] = true;
 
 						if (DB_IS_SQLITE != false) {
@@ -2585,8 +2585,8 @@ d($q);
 						custom_field_name =\"{$cf_k}\",
 						$cfvq
 						custom_field_value =\"" . $custom_field_to_save['custom_field_value'] . "\",
-						to_table =\"" . $custom_field_to_save['to_table'] . "\",
-						to_table_id =\"" . $custom_field_to_save['to_table_id'] . "\"
+						rel =\"" . $custom_field_to_save['rel'] . "\",
+						rel_id =\"" . $custom_field_to_save['rel_id'] . "\"
 						";
 
 						$add = " insert into $custom_field_table set
@@ -2595,8 +2595,8 @@ d($q);
 						$cfvq
 						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
 						custom_field_type = 'content',
-						to_table ='{$custom_field_to_save ['to_table']}',
-						to_table_id ='{$custom_field_to_save ['to_table_id']}'
+						rel ='{$custom_field_to_save ['rel']}',
+						rel_id ='{$custom_field_to_save ['rel_id']}'
 						";
 
 						$add = " insert into $custom_field_table set
@@ -2605,15 +2605,15 @@ d($q);
 						$cfvq
 						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
 						custom_field_type = 'content',
-						to_table ='{$custom_field_to_save ['to_table']}',
-						to_table_id ='{$custom_field_to_save ['to_table_id']}'
+						rel ='{$custom_field_to_save ['rel']}',
+						rel_id ='{$custom_field_to_save ['rel_id']}'
 						";
 
 						$cf_to_save = array();
 						$cf_to_save['id'] = $next_id;
 						$cf_to_save['custom_field_name'] = $cf_k;
-						$cf_to_save['to_table'] = $custom_field_to_save['to_table'];
-						$cf_to_save['to_table_id'] = $custom_field_to_save['to_table_id'];
+						$cf_to_save['rel'] = $custom_field_to_save['rel'];
+						$cf_to_save['rel_id'] = $custom_field_to_save['rel_id'];
 						$cf_to_save['custom_field_value'] = $custom_field_to_save['custom_field_value'];
 
 						if (isset($custom_field_to_save['custom_field_values'])) {
@@ -2676,15 +2676,15 @@ d($q);
 	 * $to_execute_query = false; } } if ($to_execute_query == true) { // @todo
 	 * later: funtionality and documentation to move the // log in seperate
 	 * database cause of possible load issues on // social networks created witm
-	 * microweber $rel_table = $data ['to_table']; $rel_table_id = $data
-	 * ['to_table_id']; if ($rel_table == false) { $rel_table =
+	 * microweber $rel_table = $data ['rel']; $rel_table_id = $data
+	 * ['rel_id']; if ($rel_table == false) { $rel_table =
 	 * $table_assoc_name; } if ($rel_table_id == false) { $rel_table_id =
 	 * $id_to_return; }   $by = intval ( $data
 	 * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
 	 * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
 	 * $users_table = $cms_db_tables ['table_users_log']; $q = " INSERT INTO
 	 * $users_table set "; $q .= " created_on ='{$now}', user_id={$by}, "; $q .=
-	 * " to_table_id={$id_to_return}, "; $q .= " to_table='{$table_assoc_name}'
+	 * " rel_id={$id_to_return}, "; $q .= " rel='{$table_assoc_name}'
 	 * ,"; $q .= " rel_table='{$rel_table}', "; $q .= "
 	 * rel_table_id={$rel_table_id} ,"; $q .= " edited_by={$by} ,"; $q .= "
 	 * created_by={$by2} ,"; $q .= " session_id='{$session_id}' , "; $q .= "

@@ -10,12 +10,12 @@ if( $mw_notif != false){
 
  
   ?>
-    <? if(isarr($mw_notif) and isset($mw_notif['to_table_id'])): ?>
+    <? if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
     <script type="text/javascript">
 
 $(document).ready(function(){
  
-    window.location= "<? print $config['url']; ?>/load_list:<? print $mw_notif['to_table_id']; ?>";
+    window.location= "<? print $config['url']; ?>/load_list:<? print $mw_notif['rel_id']; ?>";
 
 });
  

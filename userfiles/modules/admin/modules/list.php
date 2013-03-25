@@ -50,7 +50,7 @@ if(isset($params['layout_type'])){
 
   $module2['module'] = rtrim($module2['module'],'/');
   $module2['module'] = rtrim($module2['module'],'\\');
-                 $module2['categories'] =    get('fields=parent_id,id&limit=100&what=category_items&for='.$mod_obj_str.'&to_table_id='.$module2['id']);
+                 $module2['categories'] =    get('fields=parent_id,id&limit=100&what=category_items&for='.$mod_obj_str.'&rel_id='.$module2['id']);
                               //d($module2['categories']);
                $temp = array();
 			   // $temp2 = array();

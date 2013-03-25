@@ -2,9 +2,9 @@
 
 function get_picture($content_id, $for = 'post', $full = false) {
 	$arr = array();
-	$arr['to_table'] = 'table_content';
+	$arr['rel'] = 'table_content';
 	$arr['limit'] = '1';
-	$arr['to_table_id'] = $content_id;
+	$arr['rel_id'] = $content_id;
 	$imgages = get_pictures($arr);
 
 	if ($imgages != false and isset($imgages[0])) {
@@ -279,12 +279,12 @@ function save_media($data) {
 	if (isset($data['for'])) {
 		$t = guess_table_name($data['for']);
 		$t = db_get_assoc_table_name($t);
-		$s['to_table'] = $t;
+		$s['rel'] = $t;
 	}
 
 	if (isset($data['for-id'])) {
 		$t = trim($data['for-id']);
-		$s['to_table_id'] = $t;
+		$s['rel_id'] = $t;
 	}
 
 	if (isset($data['id'])) {
@@ -308,7 +308,7 @@ function save_media($data) {
 
 	if (isset($data['for_id'])) {
 		$t = trim($data['for_id']);
-		$s['to_table_id'] = $t;
+		$s['rel_id'] = $t;
 	}
 
 	if (isset($data['media_type'])) {
@@ -317,7 +317,7 @@ function save_media($data) {
 	}
 
 	// ->'table_content';
-	if (isset($s['to_table']) and isset($s['to_table_id'])) {
+	if (isset($s['rel']) and isset($s['rel_id'])) {
 		$table = MW_TABLE_PREFIX . 'media';
 		//$s['debug'] = $t;
 		$s = save_data($table, $s);
@@ -487,7 +487,7 @@ function get_pictures($params) {
 	 // }*/
 
 	if (isset($params['for'])) {
-		$params['to_table'] = db_get_assoc_table_name($params['for']);
+		$params['rel'] = db_get_assoc_table_name($params['for']);
 	}
 
 	//$params['debug'] = $table;

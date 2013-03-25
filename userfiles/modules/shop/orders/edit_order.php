@@ -29,7 +29,7 @@ error("Invalid order id");
     <? if(isarr($cart_items)) :?>
     <div class="mw-order-images">
       <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
-      <? $p = get_picture($cart_items[$i]['to_table_id']); ?>
+      <? $p = get_picture($cart_items[$i]['rel_id']); ?>
       <? if($p != false): ?>
       <img
             class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
@@ -62,7 +62,7 @@ error("Invalid order id");
         <tr
             data-index = "<?php print $index; ?>"
             class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
-          <td class="mw-order-item-id"><a href="<? print content_link($item['to_table_id']) ?>" target="_blank"><span><? print $item['title'] ?></span></a></td>
+          <td class="mw-order-item-id"><a href="<? print content_link($item['rel_id']) ?>" target="_blank"><span><? print $item['title'] ?></span></a></td>
           <td class="mw-order-item-fields"><? 	if(isset($item['custom_fields'])): ?>
             <? print $item['custom_fields'] ?>
             <?  endif ?></td>

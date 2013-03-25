@@ -2,8 +2,8 @@
 DROP TABLE IF EXISTS firecms_cart;
 CREATE TABLE IF NOT EXISTS firecms_cart (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   updated_on longtext,
   created_on longtext,
   item_name longtext,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS firecms_cart (
   skip_promo_code longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_cart (id, to_table, to_table_id, updated_on, created_on, item_name, price, currency, qty, other_info, sid, sku, order_completed, order_id, added_shipping_price, skip_promo_code) VALUES
+INSERT INTO firecms_cart (id, rel, rel_id, updated_on, created_on, item_name, price, currency, qty, other_info, sid, sku, order_completed, order_id, added_shipping_price, skip_promo_code) VALUES
 (2, 'table_content', 4170, '2012-02-19 22:00:11', '2012-02-19 21:58:01', 'RG6 60% MaxPipe CATV Wht 1000 FT Reel in Box.', '80', NULL, '1', NULL, '72b77d8d645218dacdd045ffbcfada1e', NULL, 'n', NULL, NULL, 'n'),
 (3, 'table_content', 4170, '2012-02-19 22:03:21', '2012-02-19 22:02:56', 'RG6 60% MaxPipe CATV Wht 1000 FT Reel in Box.', '80', NULL, '95', NULL, 'bbfdf1f2857b8fd6de4e748214177c2e', NULL, 'y', 'ORD12021911291325252', NULL, 'n'),
 (4, 'table_content', 4170, '2012-02-19 22:06:15', '2012-02-19 22:05:43', 'RG6 60% MaxPipe CATV Wht 1000 FT Reel in Box.', '80', NULL, '100', NULL, 'bbfdf1f2857b8fd6de4e748214177c2e', NULL, 'y', 'ORD12021911291325252', NULL, 'n'),
@@ -77,8 +77,8 @@ CREATE TABLE IF NOT EXISTS firecms_cart_orders (
   state longtext,
   zip longtext,
   address2 longtext,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   created_by int(11) DEFAULT NULL,
   edited_by int(11) DEFAULT NULL,
   session_id longtext,
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS firecms_cart_orders (
   user_ip longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_cart_orders (id, updated_on, created_on, sid, country, order_id, promo_code, amount, clientid, customercode, transactionid, cardholdernumber, expiresmonth, expiresyear, cvv2, bname, bemailaddress, baddress1, bcity, bstate, bzipcode, bphone, shipping_total_charges, tracking_number, shipping_service, shipping, currency_code, last_name, first_name, email, city, state, zip, address2, to_table, to_table_id, created_by, edited_by, session_id, is_paid, `names`, phone, address, url, user_ip) VALUES
+INSERT INTO firecms_cart_orders (id, updated_on, created_on, sid, country, order_id, promo_code, amount, clientid, customercode, transactionid, cardholdernumber, expiresmonth, expiresyear, cvv2, bname, bemailaddress, baddress1, bcity, bstate, bzipcode, bphone, shipping_total_charges, tracking_number, shipping_service, shipping, currency_code, last_name, first_name, email, city, state, zip, address2, rel, rel_id, created_by, edited_by, session_id, is_paid, `names`, phone, address, url, user_ip) VALUES
 (207, '2012-02-19 21:10:19', '2012-02-19 21:10:19', '72b77d8d645218dacdd045ffbcfada1e', NULL, 'ORD12021911291325252', '5PERCENT', '76.00', NULL, NULL, NULL, NULL, 1, 2000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '', '', '', '', '', '', NULL, NULL, NULL, 12, 12, '72b77d8d645218dacdd045ffbcfada1e', 'n', NULL, '', '', '{SITE_URL}shop/view:cart', '127.0.0.1'),
 (208, '2012-02-19 22:03:38', '2012-02-19 22:03:38', 'bbfdf1f2857b8fd6de4e748214177c2e', NULL, 'ORD12021911291325252', '5PERCENT', '7220.00', NULL, NULL, NULL, NULL, 1, 2000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '', '', '', '', '', '23426', NULL, NULL, NULL, 12, 12, 'bbfdf1f2857b8fd6de4e748214177c2e', 'n', NULL, '', '', '{SITE_URL}shop/view:cart', '127.0.0.1'),
 (209, '2012-02-19 22:13:27', '2012-02-19 22:13:27', 'bbfdf1f2857b8fd6de4e748214177c2e', NULL, 'ORD12021911291325252', '5PERCENT', '8000.00', NULL, NULL, NULL, NULL, 1, 2000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '', '', '', '', '', '54335', NULL, NULL, NULL, 12, 12, 'bbfdf1f2857b8fd6de4e748214177c2e', 'n', NULL, '', '', '{SITE_URL}shop/view:cart', '127.0.0.1'),
@@ -125,8 +125,8 @@ CREATE TABLE IF NOT EXISTS firecms_cart_promo_codes (
 DROP TABLE IF EXISTS firecms_comments;
 CREATE TABLE IF NOT EXISTS firecms_comments (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   updated_on longtext,
   created_on longtext,
   comment_name longtext,
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS firecms_comments (
   session_id longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_comments (id, to_table, to_table_id, updated_on, created_on, comment_name, comment_body, comment_email, comment_website, is_moderated, for_newsletter, created_by, edited_by, session_id) VALUES
+INSERT INTO firecms_comments (id, rel, rel_id, updated_on, created_on, comment_name, comment_body, comment_email, comment_website, is_moderated, for_newsletter, created_by, edited_by, session_id) VALUES
 (265, 'table_users_statuses', 103, '2010-12-23 11:40:55', '2010-12-23 11:40:55', NULL, 'Feelin Gogd right now...', NULL, NULL, 'n', 'n', 1761, 1761, 'a1c03a53b131193827956a0fb19d0007'),
 (242, 'table_users_statuses', 88, '2010-12-21 11:05:12', '2010-12-21 11:05:12', NULL, 'I love this feature....good job pete...  :)', NULL, NULL, 'n', 'n', 1726, 1726, 'bc00cec344d11450d1f44f4cc1ee66a8'),
 (243, 'table_users_statuses', 89, '2010-12-21 11:05:37', '2010-12-21 11:05:37', NULL, 'I love this too...', NULL, NULL, 'n', 'n', 1726, 1726, 'bc00cec344d11450d1f44f4cc1ee66a8'),
@@ -228,8 +228,8 @@ INSERT INTO firecms_content (id, content_type, url, content_filename, parent, ti
 DROP TABLE IF EXISTS firecms_content_custom_fields;
 CREATE TABLE IF NOT EXISTS firecms_content_custom_fields (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id longtext,
+  rel longtext,
+  rel_id longtext,
   custom_field_name longtext,
   custom_field_value longtext,
   field_order int(11) DEFAULT NULL,
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS firecms_content_custom_fields (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_content_custom_fields (id, to_table, to_table_id, custom_field_name, custom_field_value, field_order, custom_field_type, custom_field_required, custom_field_values, field_for, custom_field_field_for, custom_field_is_active, custom_field_help_text, session_id) VALUES
+INSERT INTO firecms_content_custom_fields (id, rel, rel_id, custom_field_name, custom_field_value, field_order, custom_field_type, custom_field_required, custom_field_values, field_for, custom_field_field_for, custom_field_is_active, custom_field_help_text, session_id) VALUES
 (1, 'table_content', '3503', 'test_v15dff112fd221sf', '\n&lt;div style=&quot;height: auto;&quot; class=&quot;element &quot; data-type=&quot;image_cats_left_text&quot; id=&quot;image-cats-left-text-20120929055326&quot;&gt;\n&lt;img style=&quot;height: auto;&quot; id=&quot;row_742665380161&quot; class=&quot;element element-image layout-img layout-wide-img element-current&quot; src=&quot;{SITE_URL}api/pixum_img?width=800&amp;amp;height=120&quot; contenteditable=&quot;true&quot; width=&quot;100%&quot;&gt;&lt;div id=&quot;row_1181337109920&quot; style=&quot;height: auto;&quot; class=&quot;row&quot;&gt;\n  &lt;div data-also-rezise-item=&quot;mw-column-1159969761371&quot; id=&quot;mw-column-1029546833462&quot; class=&quot;column layout-module layout-module-categories&quot; style=&quot;width: 30%; height: auto;&quot;&gt;\n    &lt;module id=&quot;row_740284490980&quot; class=&quot;module  unselectable&quot; unselectable=&quot;on&quot; for=&quot;content&quot; data-parent-module=&quot;image_cats_left_text&quot; data-parent-module-id=&quot;image-cats-left-text-20120929055326&quot; data-type=&quot;categories&quot;&gt;&lt;/module&gt;\n  &lt;div style=&quot;position: relative; height: 362px;&quot; class=&quot;empty-element&quot; id=&quot;mw-placeholder-308419368378&quot; contenteditable=&quot;false&quot;&gt;&lt;a class=&quot;delete_column&quot; href=&quot;javascript:;&quot; onclick=&quot;mw.delete_column(this);&quot;&gt;Delete&lt;/a&gt;&lt;/div&gt;\n&lt;/div&gt;\n  &lt;div id=&quot;mw-column-1159969761371&quot; class=&quot;column&quot; style=&quot;width: 70%; height: auto;&quot;&gt;\n    &lt;h2 id=&quot;row_791715315168&quot; style=&quot;height: auto;&quot; class=&quot;element layout-title lipsum&quot;&gt;Simple Text&lt;/h2&gt;\n    &lt;module class=&quot;module  unselectable&quot; unselectable=&quot;on&quot; for=&quot;content&quot; data-parent-module=&quot;image_cats_left_text&quot; data-parent-module-id=&quot;image-cats-left-text-20120929055326&quot; data-type=&quot;categories&quot; id=&quot;categories-20120929055332&quot;&gt;&lt;/module&gt;\n&lt;module class=&quot;module  unselectable&quot; unselectable=&quot;on&quot; for=&quot;content&quot; data-parent-module=&quot;image_cats_left_text&quot; data-parent-module-id=&quot;image-cats-left-text-20120929055326&quot; data-type=&quot;users/registration&quot; id=&quot;users-registration-20120929055345&quot;&gt;&lt;/module&gt;\n&lt;p id=&quot;row_1232906374668&quot; style=&quot;height: auto;&quot; class=&quot;element layout-paragraph lipsum&quot;&gt;\n        This is the simple text layout design. You can write what you want directly here, easy as never before. You must know that every layout comes with this default text for your better view of your website. Discover all of cool features of Microweber. You are able to make complex layout designs, connect the layouts with modules and categories with one click, and organize the content as you always wanted. Take look around and play with confidence creating your great website.    &lt;/p&gt;\n  &lt;div style=&quot;position: relative; height: 0px;&quot; class=&quot;empty-element&quot; id=&quot;mw-placeholder-1299897189583&quot; contenteditable=&quot;false&quot;&gt;&lt;a class=&quot;delete_column&quot; href=&quot;javascript:;&quot; onclick=&quot;mw.delete_column(this);&quot;&gt;Delete&lt;/a&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;/div&gt;\n&lt;/div&gt;\n&lt;div class=&quot;element&quot; style=&quot;height: auto; background: none repeat scroll 0% 0% rgb(255, 255, 185);&quot;&gt;Emptiness&lt;/div&gt;\n', NULL, 'content', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 DROP TABLE IF EXISTS firecms_countries;
@@ -1117,8 +1117,8 @@ INSERT INTO firecms_followers (id, follower_id, user_id, is_special, updated_on,
 DROP TABLE IF EXISTS firecms_forms;
 CREATE TABLE IF NOT EXISTS firecms_forms (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   updated_on longtext,
   created_on longtext,
   form_title longtext,
@@ -1129,7 +1129,7 @@ CREATE TABLE IF NOT EXISTS firecms_forms (
   edited_by int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_forms (id, to_table, to_table_id, updated_on, created_on, form_title, form_values, original_link, ip_address, created_by, edited_by) VALUES
+INSERT INTO firecms_forms (id, rel, rel_id, updated_on, created_on, form_title, form_values, original_link, ip_address, created_by, edited_by) VALUES
 (1, NULL, NULL, '2012-08-10 11:01:33', '2012-08-10 11:01:33', '????? ?? ??????? ???? ???? ?????? 114 ?? ??? 174 ???? ??? ????? ??????? ??????? ????????? ????? ???? ?? ????? ?????? ?????? ??? ?? ????? ????? ??? ??? ?????? ??? ??? ???????. ??? ??? ?????? ?????? ????? ?????? ????? ?????? ?? ??????? ??????? (', NULL, NULL, NULL, 14, 14),
 (2, NULL, NULL, '2012-08-10 11:06:22', '2012-08-10 11:06:22', '????? ?? ??????? ???? ???? ?????? 114 ?? ??? 174 ???? ??? ????? ??????? ??????? ????????? ????? ???? ?? ????? ?????? ?????? ??? ?? ????? ????? ??? ??? ?????? ??? ??? ???????. ??? ??? ?????? ?????? ????? ?????? ????? ?????? ?? ??????? ??????? (', NULL, NULL, NULL, 14, 14),
 (3, NULL, NULL, '2012-08-10 11:08:33', '2012-08-10 11:08:33', '????? ?? ??????? ???? ???? ?????? 114 ?? ??? 174 ???? ??? ????? ??????? ??????? ????????? ????? ???? ?? ????? ?????? ?????? ??? ?? ????? ????? ??? ??? ?????? ??? ??? ???????. ??? ??? ?????? ?????? ????? ?????? ????? ?????? ?? ??????? ??????? (', NULL, NULL, NULL, 14, 14),
@@ -1143,8 +1143,8 @@ INSERT INTO firecms_forms (id, to_table, to_table_id, updated_on, created_on, fo
 DROP TABLE IF EXISTS firecms_geodata;
 CREATE TABLE IF NOT EXISTS firecms_geodata (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   geodata_country_code longtext,
   geodata_country longtext,
   geodata_area longtext,
@@ -1164,7 +1164,7 @@ CREATE TABLE IF NOT EXISTS firecms_geodata (
   geodata_map_width longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_geodata (id, to_table, to_table_id, geodata_country_code, geodata_country, geodata_area, geodata_address, geodata_lat, geodata_lng, updated_on, created_on, geodata_title, geodata_note, geodata_city, geodata_mapzoom, geodata_maptype, geodata_mapcenter_lat, geodata_mapcenter_lng, geodata_map_height, geodata_map_width) VALUES
+INSERT INTO firecms_geodata (id, rel, rel_id, geodata_country_code, geodata_country, geodata_area, geodata_address, geodata_lat, geodata_lng, updated_on, created_on, geodata_title, geodata_note, geodata_city, geodata_mapzoom, geodata_maptype, geodata_mapcenter_lat, geodata_mapcenter_lng, geodata_map_height, geodata_map_width) VALUES
 (41, 'table_content', 0, 'BG', 'Bulgaria', '?????-???', '3A ?? ????????, Sofia, Bulgaria', '42.659778', '23.341337', '2009-02-10 05:06:13', '2009-02-10 05:06:13', '', '', 'Sofia', NULL, NULL, NULL, NULL, NULL, NULL),
 (50, 'table_taxonomy', 11290, 'BG', 'Bulgaria', '?????-???', '??. ????????????, Sofia, Bulgaria', '42.697619', '23.322324', '2009-02-12 05:48:25', '2009-02-12 05:48:25', 'Sofia', '????? ? ?????', 'Sofia', '12', NULL, NULL, NULL, NULL, NULL),
 (54, 'table_taxonomy', 11291, 'BG', 'Bulgaria', '??????', '8-16 ??. ???. ?????, Plovdiv, Bulgaria', '42.143846', '24.749686', '2009-02-12 06:45:00', '2009-02-12 06:45:00', 'Imoti v Plovdiv', '', 'Plovdiv', '13', NULL, NULL, NULL, NULL, NULL),
@@ -1208,8 +1208,8 @@ DROP TABLE IF EXISTS firecms_groups;
 CREATE TABLE IF NOT EXISTS firecms_groups (
   id int(11) NOT NULL,
   group_name longtext,
-  group_to_table longtext,
-  group_to_table_id int(11) DEFAULT NULL,
+  group_rel longtext,
+  group_rel_id int(11) DEFAULT NULL,
   is_active int(11) DEFAULT NULL,
   updated_on longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1218,8 +1218,8 @@ CREATE TABLE IF NOT EXISTS firecms_groups (
 DROP TABLE IF EXISTS firecms_media;
 CREATE TABLE IF NOT EXISTS firecms_media (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   media_type longtext,
   media_order int(11) DEFAULT NULL,
   filename longtext,
@@ -1237,7 +1237,7 @@ CREATE TABLE IF NOT EXISTS firecms_media (
   collection longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (7602, 'table_content', 3586, 'picture', 1, 'ds5002.jpg', '2012-02-15 17:21:39', '2012-02-15 17:21:39', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7603, 'table_content', 3587, 'picture', 1, 'pvaf90.jpg', '2012-02-15 17:21:40', '2012-02-15 17:21:40', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7604, 'table_content', 3586, 'picture', 2, 'a1aff3a1879c438b5523b6e8ba115ac7ds5002.jpg', '2012-02-15 17:22:13', '2012-02-15 17:22:13', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -1531,7 +1531,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (7959, 'table_content', 3920, 'picture', 1, 'b636b026f3b9871d7d7e0c909fa9a10eglf407.jpg', '2012-02-19 15:23:16', '2012-02-19 15:23:16', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7960, 'table_content', 3921, 'picture', 1, 'ds4061.jpg', '2012-02-19 15:23:19', '2012-02-19 15:23:19', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7961, 'table_content', 3922, 'picture', 1, 'ex6xl.jpg', '2012-02-19 15:23:24', '2012-02-19 15:23:24', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (7962, 'table_content', 3923, 'picture', 1, 'hd7015.jpg', '2012-02-19 15:23:27', '2012-02-19 15:23:27', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7963, 'table_content', 3758, 'picture', 2, 'pvcwp20whthf.jpg', '2012-02-19 15:23:29', '2012-02-19 15:23:29', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (7964, 'table_content', 3924, 'picture', 1, 'superbuddy29.jpg', '2012-02-19 15:23:32', '2012-02-19 15:23:32', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -1832,7 +1832,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (8323, 'table_content', 3773, 'picture', 2, 'pvdp4.jpg', '2012-02-19 16:04:43', '2012-02-19 16:04:43', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8324, 'table_content', 4092, 'picture', 1, 'pvfmrf.jpg', '2012-02-19 16:04:48', '2012-02-19 16:04:48', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8325, 'table_content', 3795, 'picture', 2, 'pvhscv.jpg', '2012-02-19 16:04:50', '2012-02-19 16:04:50', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (8326, 'table_content', 3799, 'picture', 2, 'pvls516.jpg', '2012-02-19 16:04:55', '2012-02-19 16:04:55', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8327, 'table_content', 3803, 'picture', 1, 'pvmsj4ivy.jpg', '2012-02-19 16:04:58', '2012-02-19 16:04:58', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8328, 'table_content', 3823, 'picture', 2, 'pvsc51i.jpg', '2012-02-19 16:05:01', '2012-02-19 16:05:01', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -2125,7 +2125,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (8645, 'table_content', 3702, 'picture', 3, 'b44013ba69ec0b6858dafc1cc9ed7f96mocap.jpg', '2012-02-19 16:30:02', '2012-02-19 16:30:02', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8646, 'table_content', 4295, 'picture', 1, 'npr4.jpg', '2012-02-19 16:30:04', '2012-02-19 16:30:04', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8647, 'table_content', 3705, 'picture', 2, 'nprmat1.jpg', '2012-02-19 16:30:06', '2012-02-19 16:30:06', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (8648, 'table_content', 3704, 'picture', 2, 'bb0380358e9c2eb6943eb05c2d1a2ac3npr5.jpg', '2012-02-19 16:30:08', '2012-02-19 16:30:08', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8649, 'table_content', 3706, 'picture', 3, 'c5c3a37387fd255a5db99c7fea09a990ps11.jpg', '2012-02-19 16:30:09', '2012-02-19 16:30:09', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8650, 'table_content', 3707, 'picture', 2, 'psa596.jpg', '2012-02-19 16:30:11', '2012-02-19 16:30:11', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -2416,7 +2416,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (8935, 'table_content', 3763, 'picture', 3, 'f3f93425872b2233388140ebf2910ff7721189clr.jpg', '2012-02-19 16:56:18', '2012-02-19 16:56:18', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8936, 'table_content', 3774, 'picture', 3, 'e4f0badbe620db12ca56c75f32058bb17916ac.jpg', '2012-02-19 16:56:19', '2012-02-19 16:56:19', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8937, 'table_content', 4408, 'picture', 1, '049551c9fe08571ff96e31de7467b164ap8275.jpg', '2012-02-19 16:56:21', '2012-02-19 16:56:21', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (8938, 'table_content', 3841, 'picture', 3, '9e8470254655b17d879075258a7fd3acasa38.jpg', '2012-02-19 16:56:23', '2012-02-19 16:56:23', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8939, 'table_content', 4409, 'picture', 1, '2aae6dc1c65543bd7809ef4f29dc1ccbasa58.jpg', '2012-02-19 16:56:28', '2012-02-19 16:56:28', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (8940, 'table_content', 3845, 'picture', 4, 'e42f91fab1ed21251e8edba00ce2fb6dawp81drjivy.jpg', '2012-02-19 16:56:29', '2012-02-19 16:56:29', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -2677,7 +2677,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (9217, 'table_content', 4442, 'picture', 1, '3d4736781f4f194f1e7735a19ce1f926s6t60vv-b-r1k.jpg', '2012-02-19 17:17:36', '2012-02-19 17:17:36', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9218, 'table_content', 4443, 'picture', 1, 'f1a65bee810498e754f41f7299ee2e74s6t60vv-b-rib.jpg', '2012-02-19 17:17:38', '2012-02-19 17:17:38', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9219, 'table_content', 4444, 'picture', 1, 'c99e2e5776deb79dc74a3455d6d8cbd9s6t60vv-w-r1k.jpg', '2012-02-19 17:17:39', '2012-02-19 17:17:39', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (9220, 'table_content', 4445, 'picture', 1, '04e8d7167dce909f5d665b99ea500853s6t60vv-w-rib.jpg', '2012-02-19 17:17:40', '2012-02-19 17:17:40', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9221, 'table_content', 4446, 'picture', 1, '363e40741914bbef094a58f716b032a9s6t77pn-o-r1k.jpg', '2012-02-19 17:17:41', '2012-02-19 17:17:41', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9222, 'table_content', 4447, 'picture', 1, 'ab073919f8bebad28133c3f488f4abb1s6t77vv-b-r1k.jpg', '2012-02-19 17:17:42', '2012-02-19 17:17:42', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -2973,7 +2973,7 @@ INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, f
 (9512, 'table_content', 4690, 'picture', 1, 'sd10x114.jpg', '2012-02-19 17:26:07', '2012-02-19 17:26:07', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9513, 'table_content', 4691, 'picture', 1, '300-955bk.jpg', '2012-02-19 17:26:08', '2012-02-19 17:26:08', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9514, 'table_content', 4692, 'picture', 1, '1003bx.jpg', '2012-02-19 17:26:10', '2012-02-19 17:26:10', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL);
-INSERT INTO firecms_media (id, to_table, to_table_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
+INSERT INTO firecms_media (id, rel, rel_id, media_type, media_order, filename, updated_on, created_on, media_name, media_description, created_by, edited_by, queue_id, is_special, is_banner, embed_code, original_link, collection) VALUES
 (9515, 'table_content', 4694, 'picture', 1, '2e62304c18108f5ac6596b540b9bf54acatalog27.jpg', '2012-02-19 17:26:13', '2012-02-19 17:26:13', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9516, 'table_content', 4693, 'picture', 1, 'catalog27.jpg', '2012-02-19 17:26:13', '2012-02-19 17:26:13', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
 (9517, 'table_content', 4695, 'picture', 1, 'pvtp32kit.jpg', '2012-02-19 17:26:15', '2012-02-19 17:26:15', NULL, NULL, 12, 12, NULL, 'n', 'n', NULL, NULL, NULL),
@@ -3354,8 +3354,8 @@ INSERT INTO firecms_options (id, option_key, option_value, updated_on, created_o
 DROP TABLE IF EXISTS firecms_reports;
 CREATE TABLE IF NOT EXISTS firecms_reports (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   created_on longtext,
   user_ip longtext,
   session_id longtext,
@@ -3373,8 +3373,8 @@ CREATE TABLE IF NOT EXISTS firecms_taxonomy (
   content_type longtext,
   updated_on longtext,
   description longtext,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   created_on longtext,
   position int(11) DEFAULT NULL,
   content longtext,
@@ -3387,7 +3387,7 @@ CREATE TABLE IF NOT EXISTS firecms_taxonomy (
   taxonomy_silo_keywords longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_taxonomy (id, data_type, title, parent_id, content_type, updated_on, description, to_table, to_table_id, created_on, position, content, created_by, edited_by, users_can_create_subcategories, users_can_create_content, users_can_create_content_user_, taxonomy_content_type, taxonomy_silo_keywords) VALUES
+INSERT INTO firecms_taxonomy (id, data_type, title, parent_id, content_type, updated_on, description, rel, rel_id, created_on, position, content, created_by, edited_by, users_can_create_subcategories, users_can_create_content, users_can_create_content_user_, taxonomy_content_type, taxonomy_silo_keywords) VALUES
 (14, 'category', 'CP', 0, NULL, '2012-09-20 11:00:47', NULL, 'table_content', NULL, '2012-09-20 11:00:47', NULL, NULL, 14, 14, NULL, NULL, NULL, NULL, NULL),
 (15, 'category', 'asdasdasdas', 14, NULL, '2012-09-20 13:06:09', '', 'table_content', 0, '2012-09-20 13:06:09', 0, NULL, 14, 14, NULL, NULL, NULL, NULL, NULL),
 (21, 'category', 'test_module', 0, NULL, '2012-09-26 15:56:28', NULL, 'table_content', NULL, '2012-09-26 15:56:28', NULL, NULL, 14, 14, NULL, NULL, NULL, NULL, NULL),
@@ -3416,14 +3416,14 @@ DROP TABLE IF EXISTS firecms_taxonomy_items;
 CREATE TABLE IF NOT EXISTS firecms_taxonomy_items (
   id int(11) NOT NULL,
   parent_id int(11) DEFAULT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   content_type longtext,
   data_type longtext,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_taxonomy_items (id, parent_id, to_table, to_table_id, content_type, data_type) VALUES
+INSERT INTO firecms_taxonomy_items (id, parent_id, rel, rel_id, content_type, data_type) VALUES
 (46, 14, 'table_content', 3494, NULL, 'category_item'),
 (47, 14, 'table_content', 23, NULL, 'category_item'),
 (48, 14, 'table_content', 3495, NULL, 'category_item'),
@@ -3562,9 +3562,9 @@ CREATE TABLE IF NOT EXISTS firecms_users_activities (
 DROP TABLE IF EXISTS firecms_users_log;
 CREATE TABLE IF NOT EXISTS firecms_users_log (
   id int(11) NOT NULL,
-  to_table_id int(11) DEFAULT NULL,
+  rel_id int(11) DEFAULT NULL,
   user_id int(11) DEFAULT NULL,
-  to_table longtext,
+  rel longtext,
   session_id longtext,
   user_ip longtext,
   created_on longtext,
@@ -3577,7 +3577,7 @@ CREATE TABLE IF NOT EXISTS firecms_users_log (
   edited_by int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (1, 1, 14, 'table_content', '001ba57178fdb710883d4bc9524e93ba', 'fe80::a96b:e3bc:4abf:6b6e', '2011-08-30 03:52:12', 'n', 'n', 'table_content', 1, NULL, 0, 14),
 (10, 3399, 14, 'table_content', '001ba57178fdb710883d4bc9524e93ba', 'fe80::a96b:e3bc:4abf:6b6e', '2011-08-30 04:12:54', 'n', 'n', 'table_content', 3399, NULL, 0, 14),
 (11, 3399, 14, 'table_content', '001ba57178fdb710883d4bc9524e93ba', 'fe80::a96b:e3bc:4abf:6b6e', '2011-08-30 04:14:34', 'n', 'n', 'table_content', 3399, NULL, 0, 14),
@@ -3905,7 +3905,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (350, 3471, 12, 'table_content', '7cd5d7331bbd88f4d16c7b909e83a4ca', '93.152.147.37', '2011-11-17 07:26:45', 'n', 'n', 'table_content', 3471, NULL, 0, 12),
 (351, 3471, 12, 'table_content', '1727d9d97f5478baa90e8beb757d43a0', '93.152.147.37', '2011-11-17 07:27:18', 'n', 'n', 'table_content', 3471, NULL, 0, 12),
 (352, 3471, 12, 'table_content', '1727d9d97f5478baa90e8beb757d43a0', '93.152.147.37', '2011-11-17 07:27:19', 'n', 'n', 'table_content', 3471, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (353, 3471, 12, 'table_content', '1727d9d97f5478baa90e8beb757d43a0', '93.152.147.37', '2011-11-17 07:27:20', 'n', 'n', 'table_content', 3471, NULL, 0, 12),
 (354, 3471, 12, 'table_content', '1727d9d97f5478baa90e8beb757d43a0', '93.152.147.37', '2011-11-17 07:27:20', 'n', 'n', 'table_content', 3471, NULL, 0, 12),
 (355, 3471, 12, 'table_content', '1727d9d97f5478baa90e8beb757d43a0', '93.152.147.37', '2011-11-17 07:28:09', 'n', 'n', 'table_content', 3471, NULL, 0, 12),
@@ -4236,7 +4236,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (680, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:41', 'n', 'n', 'table_content', 3584, NULL, 0, 12),
 (681, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:50', 'n', 'n', 'table_content', 3584, NULL, 0, 12),
 (682, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:52', 'n', 'n', 'table_content', 3584, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (683, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:53', 'n', 'n', 'table_content', 3584, NULL, 0, 12),
 (684, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:55', 'n', 'n', 'table_content', 3584, NULL, 0, 12),
 (685, 3584, 12, 'table_content', 'effd7c4fbd77013c9f53435d7b54aad9', '::1', '2012-02-15 16:32:57', 'n', 'n', 'table_content', 3584, NULL, 0, 12),
@@ -4581,7 +4581,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (1026, 3764, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:08', 'n', 'n', 'table_content', 3764, NULL, 12, 12),
 (1027, 3765, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:10', 'n', 'n', 'table_content', 3765, NULL, 12, 12),
 (1028, 3766, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:11', 'n', 'n', 'table_content', 3766, NULL, 12, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (1029, 3767, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:13', 'n', 'n', 'table_content', 3767, NULL, 12, 12),
 (1030, 3768, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:15', 'n', 'n', 'table_content', 3768, NULL, 12, 12),
 (1031, 3769, 12, 'table_content', 'eb725d96364e0806c84411dc989cdb94', '::1', '2012-02-15 17:38:17', 'n', 'n', 'table_content', 3769, NULL, 12, 12),
@@ -4916,7 +4916,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (1360, 3976, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:22', 'n', 'n', 'table_content', 3976, NULL, 12, 12),
 (1361, 3977, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:28', 'n', 'n', 'table_content', 3977, NULL, 12, 12),
 (1362, 3695, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:31', 'n', 'n', 'table_content', 3695, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (1363, 3704, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:42', 'n', 'n', 'table_content', 3704, NULL, 0, 12),
 (1364, 3711, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:52', 'n', 'n', 'table_content', 3711, NULL, 0, 12),
 (1365, 3719, 12, 'table_content', '48cbe55b36841e494245f756e821cf91', '127.0.0.1', '2012-02-19 15:47:57', 'n', 'n', 'table_content', 3719, NULL, 0, 12),
@@ -5245,7 +5245,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (1688, 4182, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:15:54', 'n', 'n', 'table_content', 4182, NULL, 12, 12),
 (1689, 4183, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:15:55', 'n', 'n', 'table_content', 4183, NULL, 12, 12),
 (1690, 4184, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:15:58', 'n', 'n', 'table_content', 4184, NULL, 12, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (1691, 4185, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:16:02', 'n', 'n', 'table_content', 4185, NULL, 12, 12),
 (1692, 4186, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:16:05', 'n', 'n', 'table_content', 4186, NULL, 12, 12),
 (1693, 4187, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:16:07', 'n', 'n', 'table_content', 4187, NULL, 12, 12),
@@ -5575,7 +5575,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (2017, 3902, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:15', 'n', 'n', 'table_content', 3902, NULL, 0, 12),
 (2018, 3903, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:16', 'n', 'n', 'table_content', 3903, NULL, 0, 12),
 (2019, 3904, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:17', 'n', 'n', 'table_content', 3904, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (2020, 3905, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:18', 'n', 'n', 'table_content', 3905, NULL, 0, 12),
 (2021, 3906, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:19', 'n', 'n', 'table_content', 3906, NULL, 0, 12),
 (2022, 4302, 12, 'table_content', '22a6f0998fb7b740a00cefdc1a8e71c8', '127.0.0.1', '2012-02-19 16:50:20', 'n', 'n', 'table_content', 4302, NULL, 12, 12),
@@ -5904,7 +5904,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (2345, 4344, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:12', 'n', 'n', 'table_content', 4344, NULL, 0, 12),
 (2346, 4346, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:13', 'n', 'n', 'table_content', 4346, NULL, 0, 12),
 (2347, 4347, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:14', 'n', 'n', 'table_content', 4347, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (2348, 4348, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:15', 'n', 'n', 'table_content', 4348, NULL, 0, 12),
 (2349, 4349, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:16', 'n', 'n', 'table_content', 4349, NULL, 0, 12),
 (2350, 4351, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:15:17', 'n', 'n', 'table_content', 4351, NULL, 0, 12),
@@ -6233,7 +6233,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (2673, 4612, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:28', 'n', 'n', 'table_content', 4612, NULL, 12, 12),
 (2674, 4613, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:30', 'n', 'n', 'table_content', 4613, NULL, 12, 12),
 (2675, 4614, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:32', 'n', 'n', 'table_content', 4614, NULL, 12, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (2676, 4615, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:34', 'n', 'n', 'table_content', 4615, NULL, 12, 12),
 (2677, 4616, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:36', 'n', 'n', 'table_content', 4616, NULL, 12, 12),
 (2678, 4617, 12, 'table_content', '5b898815c9a3f1d2713c6a47ceb0619c', '127.0.0.1', '2012-02-19 17:23:39', 'n', 'n', 'table_content', 4617, NULL, 12, 12),
@@ -6562,7 +6562,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (3001, 3613, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:25', 'n', 'n', 'table_content', 3613, NULL, 0, 12),
 (3002, 3648, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:25', 'n', 'n', 'table_content', 3648, NULL, 0, 12),
 (3003, 3626, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:25', 'n', 'n', 'table_content', 3626, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (3004, 3614, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:26', 'n', 'n', 'table_content', 3614, NULL, 0, 12),
 (3005, 3649, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:26', 'n', 'n', 'table_content', 3649, NULL, 0, 12),
 (3006, 3627, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:12:26', 'n', 'n', 'table_content', 3627, NULL, 0, 12),
@@ -6892,7 +6892,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (3330, 3893, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:31', 'n', 'n', 'table_content', 3893, NULL, 0, 12),
 (3331, 3894, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:32', 'n', 'n', 'table_content', 3894, NULL, 0, 12),
 (3332, 3895, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:32', 'n', 'n', 'table_content', 3895, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (3333, 3896, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:33', 'n', 'n', 'table_content', 3896, NULL, 0, 12),
 (3334, 3897, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:33', 'n', 'n', 'table_content', 3897, NULL, 0, 12),
 (3335, 3898, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:14:33', 'n', 'n', 'table_content', 3898, NULL, 0, 12),
@@ -7222,7 +7222,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (3659, 4222, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:03', 'n', 'n', 'table_content', 4222, NULL, 0, 12),
 (3660, 4223, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:03', 'n', 'n', 'table_content', 4223, NULL, 0, 12),
 (3661, 4224, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:04', 'n', 'n', 'table_content', 4224, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (3662, 4225, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:04', 'n', 'n', 'table_content', 4225, NULL, 0, 12),
 (3663, 4226, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:05', 'n', 'n', 'table_content', 4226, NULL, 0, 12),
 (3664, 4227, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:17:05', 'n', 'n', 'table_content', 4227, NULL, 0, 12),
@@ -7552,7 +7552,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (3988, 4552, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:19:57', 'n', 'n', 'table_content', 4552, NULL, 0, 12),
 (3989, 4553, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:19:57', 'n', 'n', 'table_content', 4553, NULL, 0, 12),
 (3990, 4554, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:19:58', 'n', 'n', 'table_content', 4554, NULL, 0, 12);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (3991, 4555, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:19:59', 'n', 'n', 'table_content', 4555, NULL, 0, 12),
 (3992, 4556, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:19:59', 'n', 'n', 'table_content', 4556, NULL, 0, 12),
 (3993, 4557, 12, 'table_content', '5ffdc25c49a0621af3dcd460fa5fa96a', '127.0.0.1', '2012-02-19 19:20:00', 'n', 'n', 'table_content', 4557, NULL, 0, 12),
@@ -7882,7 +7882,7 @@ INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, u
 (4328, 3484, 14, 'table_content', '0361c379b0e79bfbf5b66f7313810d9b', '127.0.0.1', '2012-03-27 16:18:23', 'n', 'n', 'table_content', 3484, NULL, 0, 14),
 (4329, 3484, 14, 'table_content', '7933d1ce126013f69cdc61d50e6dc53f', '127.0.0.1', '2012-03-28 12:08:33', 'n', 'n', 'table_content', 3484, NULL, 0, 14),
 (4330, 3484, 14, 'table_content', '7933d1ce126013f69cdc61d50e6dc53f', '127.0.0.1', '2012-03-28 12:19:12', 'n', 'n', 'table_content', 3484, NULL, 0, 14);
-INSERT INTO firecms_users_log (id, to_table_id, user_id, to_table, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
+INSERT INTO firecms_users_log (id, rel_id, user_id, rel, session_id, user_ip, created_on, is_read, notifications_parsed, rel_table, rel_table_id, log_parsed, created_by, edited_by) VALUES
 (4331, 4817, 14, 'table_content', '7933d1ce126013f69cdc61d50e6dc53f', '127.0.0.1', '2012-03-28 12:28:57', 'n', 'n', 'table_content', 4817, NULL, 14, 14),
 (4332, 4818, 14, 'table_content', '7933d1ce126013f69cdc61d50e6dc53f', '127.0.0.1', '2012-03-28 12:30:15', 'n', 'n', 'table_content', 4818, NULL, 14, 14),
 (4333, 4819, 14, 'table_content', '7933d1ce126013f69cdc61d50e6dc53f', '127.0.0.1', '2012-03-28 12:38:13', 'n', 'n', 'table_content', 4819, NULL, 14, 14),
@@ -7908,9 +7908,9 @@ CREATE TABLE IF NOT EXISTS firecms_users_notifications (
   subtype longtext,
   subtype_value longtext,
   message longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel_id int(11) DEFAULT NULL,
   is_read longtext,
-  to_table longtext,
+  rel longtext,
   updated_on longtext,
   created_on longtext,
   created_by int(11) DEFAULT NULL,
@@ -7933,15 +7933,15 @@ CREATE TABLE IF NOT EXISTS firecms_users_statuses (
 DROP TABLE IF EXISTS firecms_votes;
 CREATE TABLE IF NOT EXISTS firecms_votes (
   id int(11) NOT NULL,
-  to_table longtext,
-  to_table_id int(11) DEFAULT NULL,
+  rel longtext,
+  rel_id int(11) DEFAULT NULL,
   created_on longtext,
   user_ip longtext,
   session_id longtext,
   created_by int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO firecms_votes (id, to_table, to_table_id, created_on, user_ip, session_id, created_by) VALUES
+INSERT INTO firecms_votes (id, rel, rel_id, created_on, user_ip, session_id, created_by) VALUES
 (126, 'table_content', 258, '2010-12-17 12:28:29', '', '10295c341c7915b5eecd0cbaa970b834', 1761),
 (128, 'table_votes', 126, '2010-12-17 07:48:59', '', '67d72a2002e3e5424e62090a619d9cc2', 1726),
 (129, 'table_users', 1738, '2010-12-18 09:25:27', '', 'e35349466a3a00af47de2b1b8330bd92', 1761),

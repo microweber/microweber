@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 
@@ -33,7 +33,7 @@ description: Default comments template
   <h2>Recent comments</h2>
   <? else : ?>
   <h2>Comments for <strong>
-    <?php  $post = get_content_by_id($data['to_table_id']); print $post['title']; ?>
+    <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
     </strong></h2>
   <? endif; ?>
   <div class="comments" id="comments-list-<? print $data['id'] ?>">
@@ -103,8 +103,8 @@ description: Default comments template
   
   <div class="mw-comments-form" id="comments-<? print $data['id'] ?>">
     <form autocomplete="on" id="comments-form-<? print $data['id'] ?>">
-      <input type="hidden" name="to_table_id" value="<? print $data['to_table_id'] ?>">
-      <input type="hidden" name="to_table" value="<? print $data['to_table'] ?>">
+      <input type="hidden" name="rel_id" value="<? print $data['rel_id'] ?>">
+      <input type="hidden" name="rel" value="<? print $data['rel'] ?>">
       
     <? if($form_title != false): ?>
    <input type="hidden" name="comment_subject" value="<? print $form_title ?>">

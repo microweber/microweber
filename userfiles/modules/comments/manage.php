@@ -15,8 +15,8 @@
  }
  
   if(isset($params['content-id'])){
-	$data['to_table'] = 'table_content';
-	$data['to_table_id'] = intval($params['content-id']);
+	$data['rel'] = 'table_content';
+	$data['rel_id'] = intval($params['content-id']);
   }
 
  $comments = get_comments($data);

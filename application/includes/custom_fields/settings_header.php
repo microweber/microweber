@@ -125,8 +125,8 @@ if (isset($params['for_module_id'])) {
  $for_module_id = false ;	
 }
 
-if (isset($data['to_table'])) {
-  $for = $data['to_table'];
+if (isset($data['rel'])) {
+  $for = $data['rel'];
 	
 }
 
@@ -135,8 +135,8 @@ if (!isset($data['position'])) {
 	
 }
 
-if (isset($data['to_table_id'])) {
-  $for_module_id = $data['to_table_id'];
+if (isset($data['rel_id'])) {
+  $for_module_id = $data['rel_id'];
 	
 }
 
@@ -159,11 +159,11 @@ if (isset($data['save_to_content_id'])) {
 <? endif; ?>
 <? if (isset($data['for']) and $data['for'] != false): ?>
 <? $db_t = $for; ?>
-<input type="hidden" name="to_table" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
-<input type="hidden" name="to_table_id" value="<? print strval($for_module_id) ?>" />
+<input type="hidden" name="rel" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
+<input type="hidden" name="rel_id" value="<? print strval($for_module_id) ?>" />
 <? endif; ?>
 <? if (isset($save_to_content_id)): ?>
-<input type="hidden" name="copy_to_table_id" value="<? print strval($save_to_content_id) ?>" />
+<input type="hidden" name="copy_rel_id" value="<? print strval($save_to_content_id) ?>" />
 <? endif; ?>
 <input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<? print $data['position'] ?>" />

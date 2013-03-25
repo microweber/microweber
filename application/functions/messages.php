@@ -39,16 +39,16 @@ function mw_db_init_notifications_table() {
 	$fields_to_add[] = array('content', 'TEXT default NULL');
 	$fields_to_add[] = array('module', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
-	$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 	$fields_to_add[] = array('notif_count', 'int(11) default 1');
 
 	$fields_to_add[] = array('is_read', "char(1) default 'n'");
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id(55)'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
@@ -61,9 +61,9 @@ function post_notification($params) {
 
 	$params = parse_params($params);
 
-	// if (!isset($params['to_table']) and isset($params['module']) and trim($params['module']) != '') {
-	// $params['to_table'] = 'table_modules';
-	// $params['to_table_id'] = $params['module'];
+	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
+	// $params['rel'] = 'table_modules';
+	// $params['rel_id'] = $params['module'];
 	// }
 
 	//$adm = is_admin();
@@ -71,8 +71,8 @@ function post_notification($params) {
 	$table = MW_DB_TABLE_NOTIFICATIONS;
 	mw_var('FORCE_SAVE', $table);
 
-	if (!isset($params['to_table']) or !isset($params['to_table_id'])) {
-		return ('Error: invalid data you must send to_table and to_table_id as params for post_notification function');
+	if (!isset($params['rel']) or !isset($params['rel_id'])) {
+		return ('Error: invalid data you must send rel and rel_id as params for post_notification function');
 	}
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
@@ -179,9 +179,9 @@ function delete_notification($id) {
 function get_notifications($params) {
 	$params = parse_params($params);
 
-	// if (!isset($params['to_table']) and isset($params['module']) and trim($params['module']) != '') {
-	// $params['to_table'] = 'table_modules';
-	// $params['to_table_id'] = $params['module'];
+	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
+	// $params['rel'] = 'table_modules';
+	// $params['rel_id'] = $params['module'];
 	// }
 	//
 

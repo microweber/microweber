@@ -40,8 +40,8 @@ function mark_comments_as_old($data) {
 				$upd['is_new'] = 'n';
 
 				$upd['id'] = $get_com['id'];
-				$upd['to_table'] = 'table_content';
-				$upd['to_table_id'] = db_escape_string($data['content_id']);
+				$upd['rel'] = 'table_content';
+				$upd['rel_id'] = db_escape_string($data['content_id']);
 				save_data($table, $upd);
 			}
 		}
@@ -103,13 +103,13 @@ function post_comment($data) {
 		}
 	} else {
 
-		if (!isset($data['to_table'])) {
+		if (!isset($data['rel'])) {
 			return array('error' => 'Error: invalid data');
 		}
-		if (!isset($data['to_table_id'])) {
+		if (!isset($data['rel_id'])) {
 			return array('error' => 'Error: invalid data');
 		} else {
-			if (trim($data['to_table_id']) == '') {
+			if (trim($data['rel_id']) == '') {
 				return array('error' => 'Error: invalid data');
 			}
 		}
@@ -161,8 +161,8 @@ function post_comment($data) {
 	
 	$notif = array();
 		$notif['module'] = "comments";
-		$notif['to_table'] = $data['to_table'];
-		$notif['to_table_id'] = $data['to_table_id'];
+		$notif['rel'] = $data['rel'];
+		$notif['rel_id'] = $data['rel_id'];
 		$notif['title'] = "You have new comment";
 		$notif['description'] = "New comment is posted on " . curent_url(1);
 		$notif['content'] = character_limiter($data['comment_body'], 800);
@@ -174,8 +174,8 @@ function post_comment($data) {
 		if ($email_on_new_comment == true) {
 			$subject = "You have new comment";
 			$data2 = $data;
-			unset($data2['to_table']);
-			unset($data2['to_table_id']);
+			unset($data2['rel']);
+			unset($data2['rel_id']);
 			$message = $notif['description'] . ' <br /> ' . array_pp($data);
 			mw_mail($email_on_new_comment_value, $subject, $message, 1);
 		}
@@ -198,8 +198,8 @@ function get_comments($params) {
 		$params = $params2;
 	}
 	if (isset($params['content_id'])) {
-		$params['to_table'] = 'table_content';
-		$params['to_table_id'] = db_escape_string($params['content_id']);
+		$params['rel'] = 'table_content';
+		$params['rel_id'] = db_escape_string($params['content_id']);
 		 
 	}
 

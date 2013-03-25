@@ -40,27 +40,27 @@ mw.on.hashParam("content_id", function(){
 	
     } else {
     	$('#mw_admin_posts_with_comments').removeAttr('content_id');
-			$('#mw_admin_posts_with_comments').removeAttr('to_table_id');
+			$('#mw_admin_posts_with_comments').removeAttr('rel_id');
 
-	$('#mw_admin_posts_with_comments').removeAttr('to_table');
+	$('#mw_admin_posts_with_comments').removeAttr('rel');
 
 		  mw.reload_module('#mw_admin_posts_with_comments');
 
     }
 });
 
-mw.on.hashParam("to_table_id", function(){   
+mw.on.hashParam("rel_id", function(){   
     if(this  !== '' && this  != '0'){
 		$('#mw_comments_admin_dashboard').hide();
 		$('#mw_admin_posts_with_comments').show();
-    	$('#mw_admin_posts_with_comments').attr('to_table_id',this);
+    	$('#mw_admin_posts_with_comments').attr('rel_id',this);
 		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
 		 mw.reload_module('#mw_admin_posts_with_comments', function(){
 		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
     });
 	
     } else {
-    	$('#mw_admin_posts_with_comments').removeAttr('to_table_id');
+    	$('#mw_admin_posts_with_comments').removeAttr('rel_id');
 		  mw.reload_module('#mw_admin_posts_with_comments');
 
     }
@@ -191,17 +191,17 @@ if( $mw_notif != false){
 mark_notifications_as_read('comments');
  ?>
  
-<? if(isarr($mw_notif) and isset($mw_notif['to_table_id'])): ?>
+<? if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
-/*$('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['to_table_id'] ?>");
+/*$('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['rel_id'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
  });*/
  
- $('#mw_admin_posts_with_comments').attr('to_table_id',"<? print $mw_notif['to_table_id'] ?>");
- $('#mw_admin_posts_with_comments').attr('to_table',"<? print $mw_notif['to_table'] ?>");
+ $('#mw_admin_posts_with_comments').attr('rel_id',"<? print $mw_notif['rel_id'] ?>");
+ $('#mw_admin_posts_with_comments').attr('rel',"<? print $mw_notif['rel'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
  });

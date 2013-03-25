@@ -11,11 +11,11 @@ if (!isset($params['for'])) {
 }
 
 
-if (!isset($params['to_table'])) {
+if (!isset($params['rel'])) {
 $for = 'content';
 	 
 } else {
-	$for = $params['to_table'];
+	$for = $params['rel'];
 }
 
 $is_shop = '';
@@ -32,9 +32,9 @@ if (isset($params['is_shop'])) {
 	$is_shop = '&is_shop=' . $params['is_shop'];
 }
 
-if (!isset($params['to_table_id'])) {
-	$to_table_id = '';
-	if (!isset($params['to_table_id'])) {
+if (!isset($params['rel_id'])) {
+	$rel_id = '';
+	if (!isset($params['rel_id'])) {
 		
 	}
 	
@@ -47,7 +47,7 @@ if (!isset($params['to_table_id'])) {
 	
 	
 } else {
-	$to_table_id = '&to_table_id=' . $params['to_table_id'];
+	$rel_id = '&rel_id=' . $params['rel_id'];
 }
 ?>
 <?
@@ -61,7 +61,7 @@ $is_ex1 = array();
 		  
 	  }
 	  
-	$str1 = 'table=table_taxonomy&to_table='.$for.'&data_type=category&limit=1000&parent_id=0&to_table_id=[mt][int]0';
+	$str1 = 'table=table_taxonomy&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
 							$is_ex = get($str1); 
  	
 	if(isarr($is_ex)){
@@ -80,9 +80,9 @@ if (empty($cats__parents)) {
 	}
 }
  
-if (isset($params['to_table_id']) and $params['to_table_id'] != 0) {
+if (isset($params['rel_id']) and $params['rel_id'] != 0) {
 
-	$is_exs3 = get('limit=1000&what=category_items&to_table=' . $for .'&to_table_id=' . $params['to_table_id']);
+	$is_exs3 = get('limit=1000&what=category_items&rel=' . $for .'&rel_id=' . $params['rel_id']);
  
 	 
 	if (isset($is_exs3[0])) {
@@ -135,7 +135,7 @@ foreach ($cats__parents as $item1) {
 	$tree = array();
 	  $tree['include_first'] = 1;
 	$tree['parent'] = $item1;
-//	$tree['to_table_id'] = '[gte]0';
+//	$tree['rel_id'] = '[gte]0';
 	
 	//  $tree['debug'] = 1;
 	if (isset($params['add_ids'])) {
@@ -169,7 +169,7 @@ foreach ($cats__parents as $item1) {
 						
 						
 					 
-						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&to_table_id=0&to_table=table_content';
+						$str0 = 'table=table_taxonomy&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=table_content';
 		$fors = get($str0);
 					//d($fors );
 					
@@ -182,8 +182,8 @@ foreach ($cats__parents as $item1) {
  
  
 						$pt_opts['parent'] =$cat['id'];
-						//$cat_params['to_table'] = 'table_content';
-					//	$cat_params['to_table_id'] = ' 0 ';
+						//$cat_params['rel'] = 'table_content';
+					//	$cat_params['rel_id'] = ' 0 ';
 					// $cat_params['for'] = 'table_content';
 				 $pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;

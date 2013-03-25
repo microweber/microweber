@@ -45,8 +45,8 @@ function mw_shop_module_init_db() {
 	$fields_to_add = array();
 	$fields_to_add[] = array('title', 'TEXT default NULL');
 	$fields_to_add[] = array('is_active', "char(1) default 'y'");
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+	$fields_to_add[] = array('rel_id', 'int(11) default NULL');
+	$fields_to_add[] = array('rel', 'varchar(350)  default NULL ');
 	$fields_to_add[] = array('updated_on', 'datetime default NULL');
 	$fields_to_add[] = array('created_on', 'datetime default NULL');
 	$fields_to_add[] = array('price', 'float default NULL');
@@ -63,8 +63,8 @@ function mw_shop_module_init_db() {
 	set_db_table($table_name, $fields_to_add);
 
 	// db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-	db_add_table_index('to_table', $table_name, array('to_table'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('rel', $table_name, array('rel'));
+	db_add_table_index('rel_id', $table_name, array('rel_id'));
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
@@ -135,8 +135,8 @@ function mw_shop_module_init_db() {
 	$fields_to_add[] = array('payment_shipping', 'float default NULL');
 
 	$fields_to_add[] = array('is_active', "char(1) default 'y'");
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'varchar(350)  default NULL ');
+	$fields_to_add[] = array('rel_id', 'int(11) default NULL');
+	$fields_to_add[] = array('rel', 'varchar(350)  default NULL ');
 	$fields_to_add[] = array('price', 'float default NULL');
 	$fields_to_add[] = array('other_info', 'TEXT default NULL');
 	$fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
@@ -145,8 +145,8 @@ function mw_shop_module_init_db() {
 	set_db_table($table_name, $fields_to_add);
 
 	// db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-	db_add_table_index('to_table', $table_name, array('to_table'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('rel', $table_name, array('rel'));
+	db_add_table_index('rel_id', $table_name, array('rel_id'));
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
 
@@ -245,7 +245,7 @@ function mw_print_admin_dashboard_orders_btn() {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-	$notif_count = get_notifications('module=shop&to_table=table_cart_orders&is_read=n&count=1');
+	$notif_count = get_notifications('module=shop&rel=table_cart_orders&is_read=n&count=1');
 	if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}
@@ -691,8 +691,8 @@ function checkout($data) {
 
 				$notif = array();
 				$notif['module'] = "shop";
-				$notif['to_table'] = 'table_cart_orders';
-				$notif['to_table_id'] = $ord;
+				$notif['rel'] = 'table_cart_orders';
+				$notif['rel_id'] = $ord;
 				$notif['title'] = "You have new order";
 				$notif['description'] = "New order is placed from " . curent_url(1);
 				$notif['content'] = "New order in the online shop. Order id: " . $ord;
@@ -902,8 +902,8 @@ function update_cart($data) {
 		asort($add);
 		$table = MODULE_DB_SHOP;
 		$cart = array();
-		$cart['to_table'] = ($data['for']);
-		$cart['to_table_id'] = intval($data['for_id']);
+		$cart['rel'] = ($data['for']);
+		$cart['rel_id'] = intval($data['for_id']);
 		$cart['title'] = ($data['title']);
 		$cart['price'] = floatval($found_price);
 		$cart['custom_fields_data'] = encode_var($add);

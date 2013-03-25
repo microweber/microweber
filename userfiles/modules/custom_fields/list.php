@@ -26,8 +26,8 @@ if(typeof __smart_field_opener !== 'function'){
 	$live_edit = $params['live_edit'];
  }
 
-  if(isset($params['to_table_id'])){
-	 $params['for_module_id'] = $params['to_table_id'];
+  if(isset($params['rel_id'])){
+	 $params['for_module_id'] = $params['rel_id'];
  }
 
    if(!isset($params['for_module_id'])){
@@ -106,8 +106,8 @@ if(isarr( $diff) and isarr($more) ){
 <? if(!empty( $more)):  ?>
 
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
-  <? if(isset($params['save_to_content_id']) and isset($params["to_table_id"]) and intval(($params["to_table_id"]) > 0)): ?>
-  <? $p = get_content_by_id($params["to_table_id"]); ?>
+  <? if(isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
+  <? $p = get_content_by_id($params["rel_id"]); ?>
   <? if(isset($p['title'])): ?>
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
     <?php _e("From"); ?>

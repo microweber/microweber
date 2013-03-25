@@ -14,8 +14,8 @@ $config['version'] = 0.34;
 
 $config['tables'] = array();
 $fields_to_add = array();
-$fields_to_add[] = array('to_table', 'TEXT default NULL');
-$fields_to_add[] = array('to_table_id', 'TEXT default NULL');
+$fields_to_add[] = array('rel', 'TEXT default NULL');
+$fields_to_add[] = array('rel_id', 'TEXT default NULL');
 $fields_to_add[] = array('updated_on', 'datetime default NULL');
 $fields_to_add[] = array('created_on', 'datetime default NULL');
 $fields_to_add[] = array('created_by', 'int(11) default NULL');

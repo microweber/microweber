@@ -43,9 +43,9 @@ function mw_db_init_taxonomy_table() {
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 	$fields_to_add[] = array('content', 'TEXT default NULL');
 	$fields_to_add[] = array('content_type', 'TEXT default NULL');
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('rel_id', 'int(11) default NULL');
 
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
@@ -58,24 +58,24 @@ function mw_db_init_taxonomy_table() {
 
 	set_db_table($table_name, $fields_to_add);
 
-	db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id'));
 	db_add_table_index('parent_id', $table_name, array('parent_id'));
 
 	$table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
 	$fields_to_add = array();
 	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
-	$fields_to_add[] = array('to_table', 'TEXT default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
-	$fields_to_add[] = array('to_table_id', 'int(11) default NULL');
+	$fields_to_add[] = array('rel_id', 'int(11) default NULL');
 	$fields_to_add[] = array('content_type', 'TEXT default NULL');
 	$fields_to_add[] = array('data_type', 'TEXT default NULL');
 
 	set_db_table($table_name, $fields_to_add);
 
-	//db_add_table_index('to_table', $table_name, array('to_table(55)'));
-	db_add_table_index('to_table_id', $table_name, array('to_table_id'));
+	//db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id'));
 	db_add_table_index('parent_id', $table_name, array('parent_id'));
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
@@ -236,15 +236,15 @@ function category_tree($params = false) {
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
 
-		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&to_table=' . $table_assoc_name;
+		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
 		$fors = get($str0);
 
 	}
 
-	if (!isset($params['content_id']) and isset($params['try_to_table_id']) and intval($params['try_to_table_id']) != 0) {
+	if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
 		$skip123 = true;
 
-		$str1 = 'orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&to_table_id=' . $params['try_to_table_id'];
+		$str1 = 'orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
 		$fors1 = get($str1);
 		if (isarr($fors1)) {
 			$fors = array_merge($fors, $fors1);
@@ -283,12 +283,12 @@ function category_tree($params = false) {
 		$add_ids = explode(',', $add_ids);
 	}
 
-	if (isset($params['to_table']) and $params['to_table'] != false and isset($params['to_table_id'])) {
+	if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
 
-		$table_assoc_name = db_get_assoc_table_name($params['to_table']);
+		$table_assoc_name = db_get_assoc_table_name($params['rel']);
 		$skip123 = true;
 
-		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'to_table_id=' . intval($params['to_table_id']) . '&to_table=' . $table_assoc_name;
+		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
 		$fors = get($str0);
 
 	}
@@ -516,11 +516,11 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 						$children_of_the_next_parent_qty = count($chosen_categories_array);
 
 						$q = "
-						select id , count(to_table_id) as qty from $table_taxonomy where
-						to_table_id in($children_of_the_next_parent_i)
+						select id , count(rel_id) as qty from $table_taxonomy where
+						rel_id in($children_of_the_next_parent_i)
 						and parent_id  IN ($chosen_categories_array_i)
 						and data_type =  'category_item'
-						group by to_table_id
+						group by rel_id
 						$my_limit_q
 						";
 
@@ -607,10 +607,10 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 					if ($li_class_name == false) {
 
-						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'    data-taxonomy-type='{$item['data_type']}'>";
+						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-taxonomy-type='{$item['data_type']}'>";
 					} else {
 
-						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
+						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
 					}
 				}
 
@@ -902,11 +902,11 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 						$children_of_the_next_parent_qty = count($chosen_categories_array);
 
 						$q = "
-						select id , count(to_table_id) as qty from $table_taxonomy where
-						to_table_id in($children_of_the_next_parent_i)
+						select id , count(rel_id) as qty from $table_taxonomy where
+						rel_id in($children_of_the_next_parent_i)
 						and parent_id  IN ($chosen_categories_array_i)
 						and data_type =  'category_item'
-						group by to_table_id
+						group by rel_id
 						$my_limit_q
 						";
 
@@ -993,10 +993,10 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 
 					if ($li_class_name == false) {
 
-						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'    data-taxonomy-type='{$item['data_type']}'>";
+						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-taxonomy-type='{$item['data_type']}'>";
 					} else {
 
-						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['to_table']}'  data-to-table-id='{$item['to_table_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
+						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-taxonomy-type='{$item['data_type']}'   >";
 					}
 				}
 
@@ -1159,7 +1159,7 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
 	$visible_on_frontend_q = '';
 	if ($visible_on_frontend == true) {
 
-		$visible_on_frontend_q = " and to_table_id in (select id from $table_content where visible_on_frontend='y') ";
+		$visible_on_frontend_q = " and rel_id in (select id from $table_content where visible_on_frontend='y') ";
 	}
 
 	// $save = $this->taxonomyGet ( $data = $data, $orderby = $orderby );
@@ -1228,7 +1228,7 @@ function get_category_items_ids($root, $limit = false) {
 		$cache_group = 'taxonomy/global';
 	}
 
-	$q = " SELECT id, parent_id,to_table_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and data_type='category_item'  group by to_table_id   $my_limit_q ";
+	$q = " SELECT id, parent_id,rel_id from $table_taxonomy_items where $root_q $visible_on_frontend_q and data_type='category_item'  group by rel_id   $my_limit_q ";
 
 	// var_dump($q);
 	$taxonomies = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
@@ -1240,9 +1240,9 @@ function get_category_items_ids($root, $limit = false) {
 
 		foreach ($taxonomies as $item) {
 
-			if (intval($item['to_table_id']) != 0) {
+			if (intval($item['rel_id']) != 0) {
 
-				$ids[] = $item['to_table_id'];
+				$ids[] = $item['rel_id'];
 			}
 
 			/*
@@ -1280,8 +1280,8 @@ function save_category($data, $preserve_cache = false) {
 
 	$content_ids = false;
 
-	if (isset($data['to_table']) and ($data['to_table'] == '') or !isset($data['to_table'])) {
-		$data['to_table'] = 'table_content';
+	if (isset($data['rel']) and ($data['rel'] == '') or !isset($data['rel'])) {
+		$data['rel'] = 'table_content';
 	}
 	if (isset($data['content_id'])) {
 
@@ -1290,7 +1290,7 @@ function save_category($data, $preserve_cache = false) {
 		}
 	}
 	$no_position_fix = false;
-	if (isset($data['to_table']) and isset($data['to_table_id']) and trim($data['to_table']) != '' and trim($data['to_table_id']) != '') {
+	if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) != '' and trim($data['rel_id']) != '') {
 
 		$table = $table_items;
 		$no_position_fix = true;
@@ -1301,10 +1301,10 @@ function save_category($data, $preserve_cache = false) {
 	//$data['debug'] = '1';
 	//d($data);
 
-	if (isset($data['to_table']) and isset($data['to_table_id']) and trim($data['to_table']) == 'table_content' and intval($data['to_table_id']) != 0) {
+	if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'table_content' and intval($data['rel_id']) != 0) {
 
 		$cs = array();
-		$cs['id'] = intval($data['to_table_id']);
+		$cs['id'] = intval($data['rel_id']);
 		$cs['subtype'] = 'dynamic';
 		$table_c = MW_TABLE_PREFIX . 'content';
 		$save = save_data($table_c, $cs);
@@ -1335,7 +1335,7 @@ function save_category($data, $preserve_cache = false) {
 
 		$content_ids_all = implode(',', $content_ids);
 
-		$q = "delete from $table where to_table='table_content'
+		$q = "delete from $table where rel='table_content'
 		and content_type='post'
 		and parent_id=$save
 		and  data_type ='{$data_type}' ";
@@ -1348,9 +1348,9 @@ function save_category($data, $preserve_cache = false) {
 
 			$item_save = array();
 
-			$item_save['to_table'] = 'table_content';
+			$item_save['rel'] = 'table_content';
 
-			$item_save['to_table_id'] = $id;
+			$item_save['rel_id'] = $id;
 
 			$item_save['data_type'] = $data_type;
 
@@ -1400,14 +1400,14 @@ function delete_category($data) {
 
 function get_taxonomy($params, $data_type = 'categories') {
 	$params2 = array();
-	$to_table_id = 0;
+	$rel_id = 0;
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
 		extract($params);
 	}
-	if (isset($params['to_table_id'])) {
-		$to_table_id = $params['to_table_id'];
+	if (isset($params['rel_id'])) {
+		$rel_id = $params['rel_id'];
 	}
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
@@ -1432,7 +1432,7 @@ function get_taxonomy($params, $data_type = 'categories') {
 
 function get_categories($params, $data_type = 'categories') {
 
-	$to_table_id = 0;
+	$rel_id = 0;
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $options = $params2;
@@ -1454,12 +1454,12 @@ function get_categories($params, $data_type = 'categories') {
 	}
 	$data['table'] = $table;
 
-	$data['cache_group'] = $cache_group = 'taxonomy/' . $to_table_id;
+	$data['cache_group'] = $cache_group = 'taxonomy/' . $rel_id;
 	$data['only_those_fields'] = array('parent_id');
 
 	$data = get($data);
 
-	//$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
+	//$q = "select parent_id from $table_items where  rel='table_content' and rel_id=$content_id $data_type_q ";
 	// var_dump($q);
 	//
 	//
@@ -1511,7 +1511,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		return false;
 	}
 
-	$get_category = get_taxonomy('data_type=category&to_table=table_content&to_table_id=' . ($content_id));
+	$get_category = get_taxonomy('data_type=category&rel=table_content&rel_id=' . ($content_id));
 	return $get_category;
 	$function_cache_id = false;
 
@@ -1538,9 +1538,9 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 
 	$data = array();
 
-	$data['to_table'] = 'table_content';
+	$data['rel'] = 'table_content';
 
-	$data['to_table_id'] = $content_id;
+	$data['rel_id'] = $content_id;
 	$data_type_q = false;
 	if ($data_type == 'categories') {
 		$data['data_type'] = 'category_item';
@@ -1552,7 +1552,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		$data_type_q = "and data_type = 'tag_item' ";
 	}
 
-	$q = "select parent_id from $table_items where  to_table='table_content' and to_table_id=$content_id $data_type_q ";
+	$q = "select parent_id from $table_items where  rel='table_content' and rel_id=$content_id $data_type_q ";
 	// var_dump($q);
 	$data = db_query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
 	// var_dump ( $data );
@@ -1596,11 +1596,11 @@ function category_link($id) {
 	} else {
 		$table = MW_TABLE_PREFIX . 'taxonomy';
 		$c_infp = get_category_by_id($id);
-		if (!isset($c_infp['to_table'])) {
+		if (!isset($c_infp['rel'])) {
 			return;
 		}
 
-		if (trim($c_infp['to_table']) != 'table_content') {
+		if (trim($c_infp['rel']) != 'table_content') {
 			return;
 		}
 
@@ -1620,7 +1620,7 @@ function category_link($id) {
 				}
 			}
 		} else {
-			if (!empty($c_infp) and isset($c_infp['to_table']) and trim($c_infp['to_table']) == 'table_content') {
+			if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'table_content') {
 				db_delete_by_id($table, $id);
 			}
 		}
@@ -1896,9 +1896,9 @@ function get_page_for_category($category_id) {
 	}
 	$category = get_category_by_id($category_id);
 	if ($category != false) {
-		if (isset($category["to_table_id"]) and intval($category["to_table_id"]) > 0) {
-			if ($category["to_table"] == 'table_content') {
-				$res = get_content_by_id($category["to_table_id"]);
+		if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
+			if ($category["rel"] == 'table_content') {
+				$res = get_content_by_id($category["rel_id"]);
 				if (isarr($res)) {
 					return $res;
 				}
@@ -1906,15 +1906,15 @@ function get_page_for_category($category_id) {
 
 		}
 
-		if (isset($category["to_table_id"]) and intval($category["to_table_id"]) == 0 and intval($category["parent_id"]) > 0) {
+		if (isset($category["rel_id"]) and intval($category["rel_id"]) == 0 and intval($category["parent_id"]) > 0) {
 			$category1 = get_category_parents($category["id"]);
 			if (isarr($category1)) {
 				foreach ($category1 as $value) {
 					if (intval($value) != 0) {
 						$category2 = get_category_by_id($value);
-						if (isset($category2["to_table_id"]) and intval($category2["to_table_id"]) > 0) {
-							if ($category2["to_table"] == 'table_content') {
-								$res = get_content_by_id($category2["to_table_id"]);
+						if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
+							if ($category2["rel"] == 'table_content') {
+								$res = get_content_by_id($category2["rel_id"]);
 								if (isarr($res)) {
 									return $res;
 								}
