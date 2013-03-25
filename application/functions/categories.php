@@ -343,7 +343,7 @@ function category_tree($params = false) {
  */
 function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
 
-	$table_content = MW_TABLE_PREFIX . 'content';
+	$db_t_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 
@@ -736,7 +736,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
 
-	$table_content = MW_TABLE_PREFIX . 'content';
+	$db_t_content = MW_TABLE_PREFIX . 'content';
 
 	$table = $table_taxonomy = MW_TABLE_PREFIX . 'taxonomy';
 
@@ -1111,7 +1111,7 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
-	$table_content = MW_TABLE_PREFIX . 'content';
+	$db_t_content = MW_TABLE_PREFIX . 'content';
 
 	if (isset($orderby) == false) {
 		$orderby = array();
@@ -1159,7 +1159,7 @@ function get_category_items($parent_id, $type = false, $visible_on_frontend = fa
 	$visible_on_frontend_q = '';
 	if ($visible_on_frontend == true) {
 
-		$visible_on_frontend_q = " and rel_id in (select id from $table_content where visible_on_frontend='y') ";
+		$visible_on_frontend_q = " and rel_id in (select id from $db_t_content where visible_on_frontend='y') ";
 	}
 
 	// $save = $this->taxonomyGet ( $data = $data, $orderby = $orderby );
@@ -1202,7 +1202,7 @@ function get_category_items_ids($root, $limit = false) {
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 	$table_taxonomy_items = MW_TABLE_PREFIX . 'taxonomy_items';
 
-	$table_content = MW_TABLE_PREFIX . 'content';
+	$db_t_content = MW_TABLE_PREFIX . 'content';
 
 	$ids = array();
 
@@ -1670,7 +1670,7 @@ function category_link($id) {
 		//$this->load->model ( 'Content_model', 'content_model' );
 
 		$table = MW_TABLE_PREFIX . 'taxonomy';
-		$table_content = MW_TABLE_PREFIX . 'content';
+		$db_t_content = MW_TABLE_PREFIX . 'content';
 
 		$content = array();
 
@@ -1680,7 +1680,7 @@ function category_link($id) {
 
 		//$orderby = array ('id', 'desc' );
 
-		$q = " select * from $table_content where subtype ='dynamic' and subtype_value={$id} limit 0,1";
+		$q = " select * from $db_t_content where subtype ='dynamic' and subtype_value={$id} limit 0,1";
 		//p($q,1);
 		$q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 
@@ -1702,7 +1702,7 @@ function category_link($id) {
 
 			$orderby = array('id', 'desc');
 
-			$q = " select * from $table_content where subtype ='dynamic' and subtype_value={$item} limit 0,1";
+			$q = " select * from $db_t_content where subtype ='dynamic' and subtype_value={$item} limit 0,1";
 			//p($q);
 			$q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
 
@@ -1827,7 +1827,7 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 
 	$table = MW_TABLE_PREFIX . 'taxonomy';
 
-	$table_content = MW_TABLE_PREFIX . 'content';
+	$db_t_content = MW_TABLE_PREFIX . 'content';
 
 	if (isset($orderby) == false) {
 		$orderby = array();
