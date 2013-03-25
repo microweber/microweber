@@ -1,14 +1,35 @@
+<script  type="text/javascript">
+function mw_delete_shop_client($email){
+	 var r=confirm("Are you sure you want to delete this client?")
+if (r==true)
+  {
+ 
+  var r1=confirm("ATTENTION!!!!!! All ORDERS OF THIS CLIENT WILL BE DELETED!")
+if (r1==true)
+  {
+ 
+	 $.post("<? print api_url('delete_client') ?>", { email: $email } ,function(data) {
+		mw.reload_module('shop/orders/clients');
+		
+		
+	});
 
+  }
+ 
+ 
+ 
+   }
+ 
+}
 
-
-
+</script>
 
 
 
 <?php
 
   $clients = array();
-  $orders = get_orders('order_by=created_on desc&group=email&is_completed=y');
+  $orders = get_orders('order_by=created_on desc&group=email&is_completed=y&email=[not_null]');
    $is_orders = get_orders('count=1');
 
 ?>
@@ -55,7 +76,7 @@
         <td width="85">
 
 
-            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($order['id']) ?>');"></span>
+            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<? print ($order['email']) ?>');"></span>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>

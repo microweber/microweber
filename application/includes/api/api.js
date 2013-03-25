@@ -385,11 +385,6 @@ window.onerror = function(a,b,c){
       console.log(what);
     }
   }
-  mw.error = function(what){
-    if (window.console && mw.settings.debug) {
-      console.error(what);
-    }
-  }
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
@@ -440,7 +435,6 @@ window.onerror = function(a,b,c){
     else{
        api('get_content_admin', obj, function(){callback.call(this)});
     }
-
   }
 
 
@@ -465,7 +459,6 @@ mw.serializeFields =  function(id){
               catch(e){
                 data[name] = [val];
               }
-
             }
             else{
               data[name] = val;
@@ -497,6 +490,67 @@ mw.serializeFields =  function(id){
 
 
 
+
+mw.response = function(form, data, messages_at_the_bottom){
+    var messages_at_the_bottom = messages_at_the_bottom || false;
+    var data = mw.tools.toJSON(data);
+
+    if(typeof data.error !== 'undefined'){
+        mw._response.error(form, data, messages_at_the_bottom);
+    }
+    else if(typeof data.success !== 'undefined'){
+        mw._response.success(form, data, messages_at_the_bottom);
+    }
+    else if(typeof data.warning !== 'undefined'){
+        mw._response.warning(form, data, messages_at_the_bottom);
+    }
+    else{
+
+    }
+}
+
+mw._response = {
+  error:function(form, data, _msg){
+    var form = mw.$(form);
+    var err_holder = mw._response.msgHolder(form, 'error');
+    mw._response.createHTML(data.error, err_holder);
+  },
+  success:function(form, data, _msg){
+    var form = mw.$(form);
+    var err_holder = mw._response.msgHolder(form, 'success');
+    mw._response.createHTML(data.success, err_holder);
+  },
+  warning:function(form, data, _msg){
+    var form = mw.$(form);
+    var err_holder = mw._response.msgHolder(form, 'warning');
+    mw._response.createHTML(data.warning, err_holder);
+  },
+  msgHolder : function(form, type, method){
+    var method = method || 'append';
+    var err_holder = form.find(".alert");
+    if(err_holder.length==0){
+        var err_holder = mwd.createElement('div');
+        form[method](err_holder);
+    }
+    $(err_holder).empty().attr("class", 'alert alert-' + type + ' hide');
+    return err_holder;
+  },
+  createHTML:function(data, holder){
+    var i, html = "";
+    if(typeof data === 'string'){
+        html+= data.toString();
+    }
+    else{
+      for( i in data){
+          if(typeof data[i] === 'string'){
+              html+='<li>'+data[i]+'</li>';
+          }
+      }
+    }
+    $(holder).append('<ul class="mw-error-list">'+html+'</ul>');
+    $(holder).show();
+  }
+}
 
 
 

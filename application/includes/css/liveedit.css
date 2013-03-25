@@ -84,7 +84,7 @@ body.mw-live-edit.dragStart .edit:before{
 	height:  15px !important;
 	visibility:hidden;
 	opacity:0.1;
-	 
+
 }
 
 
@@ -296,25 +296,9 @@ body .mw-col > .ui-resizable-e *{
 
 
 .edit[contenteditable=true]{
-  
+
 }
 
-.edit[contenteditable=true]:before{
-    content:"Type to edit.";
-     background: #62B2DA;
-
-
-    color: white;
-    cursor: move;
-    display: inline-block;
-    font-size: 11px;
-    left: 0;
-    line-height: 15px;
-    padding: 0 4px;
-    position: absolute;
-    text-align: center;
-    bottom: 100%;
-}
 
 
 

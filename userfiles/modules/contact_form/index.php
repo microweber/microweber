@@ -1,6 +1,6 @@
 <?php  $form_id = "mw_contact_form_".$params['id'];  ?>
 <script  type="text/javascript">
-  mw.require("forms.js");
+  mw.require("forms.js", true);
 </script>
 
 <script  type="text/javascript">

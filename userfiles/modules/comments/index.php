@@ -158,6 +158,20 @@ if ($template != false and strtolower($template) != 'none') {
 			function(msg) {
 				
 				var resp = this;
+				
+				
+				 var data2 =  (resp);
+						 
+						 if(typeof(data2.error) != 'undefined'){
+
+
+                                mw.response(mw.$('form#comments-form-<? print $data['id'] ?>'),data2);
+
+							
+					    } 
+				
+				
+				
 			 
 				if(typeof(resp.error) != 'undefined'){
 					var err_hold = "error-comments-form-<? print $data['id'] ?>";

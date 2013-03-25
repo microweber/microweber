@@ -36,7 +36,7 @@ $(document).ready(function(){
 
 $(".module").attr("contentEditable", false);
 
-$(".edit:first").attr("contentEditable", true);
+$(".edit").attr("contentEditable", true);
 
 $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
   var el= $(e.target);
@@ -60,26 +60,39 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 
 });
 
- $(".module").each(function(){
+ mw.$(".module").each(function(){
     var curr = this;
     if($(curr).next().length == 0){
       _next = mwd.createElement('div');
       _next.className = 'mw-wysiwyg-module-helper';
       _next.innerHTML = '&nbsp;';
-      $(curr).after(_next)
+      //$(curr).after(_next)
     }
 
     if($(curr).prev().length == 0){
       _prev = mwd.createElement('div');
       _prev.className = 'mw-wysiwyg-module-helper';
       _prev.innerHTML = '&nbsp;';
-      $(curr).before(_prev)
+      //$(curr).before(_prev);
     }
 
+    if(mw.tools.hasParentsWithClass(curr,'edit')){
+        $(curr).append("<span class='mw-close' onclick='delete_module(this);'></span>");
+    }
+    else{
+        $(curr).addClass('disabled');
+    }
  });
 
 
-})
+});
+
+
+delete_module = function(inner_node){
+    mw.tools.confirm(mw.msg.del, function(){
+      $(mw.tools.firstParentWithClass(inner_node, 'module')).remove();
+    });
+}
  
   </script>
   
@@ -101,10 +114,19 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 	font-size: 11px;
     width: auto !important;
     height: auto !important;
-
+    position: relative;
 }
 
+.module .mw-close{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  visibility: hidden;
+}
 
+.module:hover .mw-close{
+  visibility: visible;
+}
 
 .mw-plain-module-name {
 	display: block;

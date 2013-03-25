@@ -10,34 +10,33 @@ $payment_success = true;
 
 function checkout_callback(data,selector){
 	//
-
-
  
+		   var z = typeof(data);
+		   
+		   
+		   if(z != 'object'){
+		  
+			  var o;
+					  try{ o =  $.parseJSON(data);
+					  
+					  
+					  data = o;
+					  
+					   }
+					  catch(e){ 
+					  
+						  $('.mw-checkout-responce').append(data);
+					   
+					  }  
+						  
+					   
+					  
+					  
 
- 						 var z = typeof(data);
-						 if(z != 'object'){
-						
-							var o;
-									try{ o =  $.parseJSON(data);
-									
-									
-									data = o;
-									
-									 }
-									catch(e){ 
-									
-										$('.mw-checkout-responce').append(data);
-									 
-									}  
-										
-									 
-									
-									
-
-						 } else {
-							 $('.mw-checkout-responce').html(data);
-							
- 						 } 
+		   } else {
+			   $('.mw-checkout-responce').html(data);
+			  
+		   } 
 
 
 
@@ -85,8 +84,7 @@ mw.$(".mw-checkout-form .well").height(__max)
 <form class="mw-checkout-form" id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" >
   <script type="text/javascript">
 mw.require("shop.js");
-</script> 
-  Checkout module
+</script>
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
   <?
   
@@ -94,7 +92,7 @@ mw.require("shop.js");
   <module type="shop/cart" id="cart_checkout_<? print $params['id']?>" data-checkout-link-enabled="n" />
   <? endif ;?>
   <div style="margin-left: 0">
-    <div class="row-fluid">
+    <div class="row-fluid mw-cart-data-holder">
       <div class="span4">
         <div class="well">
           <h2 style="margin-top:0 ">Personal Information</h2>
@@ -117,19 +115,26 @@ mw.require("shop.js");
           <input name="phone"  type="text" value="" />
         </div>
       </div>
-      <module type="shop/shipping" />
-      <module type="shop/payments" />
+      <module type="shop/shipping" class="span4" />
+      <module type="shop/payments" class="span4" />
+
+
     </div>
+    <div class="alert hide"></div>
+    <div class="mw-cart-action-holder">
     <hr />
     <? $shop_page = get_content('is_shop=y');      ?>
-    <button class="btn btn-warning right" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
+    <button class="btn btn-warning pull-right" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
     <?php if(isarr($shop_page)): ?>
-    <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn right" type="button" style="margin-right: 10px;">Continue Shopping</a>
+    <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn" type="button">Continue Shopping</a>
     <?php endif; ?>
     <div class="clear"></div>
+    </div>
+    
   </div>
 </form>
 <div class="mw-checkout-responce"></div>
 <? else: ?>
+
 <h2>Your payment was successfull.</h2>
 <? endif; ?>

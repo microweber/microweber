@@ -1291,6 +1291,49 @@ mw.tools = {
   },
   isEmpty:function(node){
     return (node.innerHTML.trim()).length === 0;
+  },
+  isJSON:function(a){
+    if(typeof a === 'object'){
+      if(a.constructor === {}.constructor){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else if(typeof a === 'string'){
+      try {
+          JSON.parse(a);
+      }
+      catch (e) {
+          return false;
+      }
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
+  toJSON:function(whatever){
+    if(typeof whatever === 'object' && mw.tools.isJSON(whatever)){
+      return whatever;
+    }
+    if(typeof whatever === 'string'){
+      try {
+          var r = JSON.parse(whatever);
+      }
+      catch (e) {
+          var r = {"0":whatever};
+      }
+      return r;
+    }
+    if(typeof whatever === 'object' && whatever.constructor === [].constructor){
+        var obj = {}, i=0, l=whatever.length;
+        for( ; i<l; i++){
+          obj[i] = whatever[i];
+        }
+        return obj;
+    }
   }
 }
 

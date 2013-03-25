@@ -7,6 +7,10 @@ body{
   color: #696969;
 }
 
+label, input, button, select, textarea{
+  font-size: 16px;
+}
+
 h1,h2,h3,h4,h5,h6{
   font-weight: 300;
   line-height: normal;
@@ -22,6 +26,9 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+.alert ul{
+  margin-bottom: 0;
+}
 
 
 hr{
@@ -561,6 +568,53 @@ hr{
 .mw-cart-table td input{
   margin: 0;
 }
+
+    /* Checkout */
+
+    .checkout-total-table td{
+      text-align: left;
+    }
+
+    .checkout-total-table td label{
+      display: block;
+      float: left;
+      width: 100px;
+      margin-top: 5px;
+    }
+
+    .checkout-total-table td select{
+      width: 120px;
+      float: left;
+    }
+
+    .checkout-total-table tbody tr > td.cell-shipping-total{
+      background: #DEFBDD;
+      font-weight: bold;
+    }
+
+    .checkout-total-table tbody tr > td.cell-shipping-country,
+    .checkout-total-table tbody tr > td.cell-shipping-price{  background:  #F9F9F9; }
+
+    .checkout-total-table tbody tr td:first-child{
+      background: white;
+
+    }
+
+    .mw-cart-action-holder {
+      text-align: right;
+    }
+
+    .mw-cart-action-holder .btn.pull-right{
+        margin-left: 12px;
+    }
+
+    select.shipping-country-select{
+      margin-bottom: 0;
+    }
+
+
+    /* /Checkout */
+
 
 /* /Shop */
 

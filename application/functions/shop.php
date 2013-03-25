@@ -292,6 +292,27 @@ function update_order($params = false) {
 
 }
 
+api_expose('delete_client');
+
+function delete_client($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+	$table = MODULE_DB_SHOP_ORDERS;
+
+	if (isset($data['email'])) {
+		$c_id = db_escape_string($data['email']);
+			$q = "DELETE from $table where email='$c_id' ";
+			$res = db_q($q);
+		//db_delete_by_id($table, $c_id, 'email');
+		cache_clean_group('cart_orders/global');
+		return $res;
+		//d($c_id);
+	}
+}
+
 api_expose('delete_order');
 
 function delete_order($data) {
@@ -414,7 +435,7 @@ function checkout_ipn($data) {
 	if (!isarr($payment_verify_token_data)) {
 		error('Invalid token.');
 	}
-	$cart = MODULE_DB_SHOP;
+	$cart_table = MODULE_DB_SHOP;
 	$table_orders = MODULE_DB_SHOP_ORDERS;
 
 	$shop_dir = module_dir('shop');
@@ -437,7 +458,7 @@ function checkout_ipn($data) {
 
 		if ($ord > 0) {
 
-			$q = " UPDATE $cart set
+			$q = " UPDATE $cart_table set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   ";
 			//d($q);
@@ -492,7 +513,7 @@ function checkout($data) {
 	}
 	$sid = session_id();
 	$cart = array();
-	$cart = MODULE_DB_SHOP;
+	$cart_table = MODULE_DB_SHOP;
 	$table_orders = MODULE_DB_SHOP_ORDERS;
 	$cart['session_id'] = $sid;
 	$cart['order_completed'] = 'n';
@@ -507,7 +528,7 @@ function checkout($data) {
 		$_SESSION['mw_payment_success'] = true;
 		$ord = $_SESSION['order_id'];
 		if ($ord > 0) {
-			$q = " UPDATE $cart set
+			$q = " UPDATE $cart_table set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
@@ -532,16 +553,17 @@ function checkout($data) {
 			safe_redirect($return_to);
 		}
 	}
-
+	$checkout_errors = array();
 	$check_cart = get_cart($cart);
 	if (!isarr($check_cart)) {
 
 		if (isAjax()) {
-			json_error('Your cart is empty');
+			//json_error('Your cart is empty');
 
-		} else {		error('Your cart is empty');
+		} else {//	error('Your cart is empty');
 
 		}
+		$checkout_errors['cart_empty'] = 'Your cart is empty';
 	} else {
 
 		if (!isset($data['payment_gw']) and $mw_process_payment == true) {
@@ -555,7 +577,8 @@ function checkout($data) {
 				if (isarr($gw_check[0])) {
 					$gateway = $gw_check[0];
 				} else {
-					error('No such payment gateway is activated');
+					//error('No such payment gateway is activated');
+					$checkout_errors['payment_gw'] = 'No such payment gateway is activated';
 				}
 
 			}
@@ -580,6 +603,17 @@ function checkout($data) {
 
 		//post any of those on the form
 		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
+
+		if (!isset($data['email']) or $data['last_name'] == '') {
+			$checkout_errors['email'] = 'Email is required';
+		}
+		if (!isset($data['first_name']) or $data['last_name'] == '') {
+			$checkout_errors['first_name'] = 'First name is required';
+		}
+
+		if (!isset($data['last_name']) or $data['last_name'] == '') {
+			$checkout_errors['last_name'] = 'Last name is required';
+		}
 
 		$posted_fields = array();
 		$place_order = array();
@@ -610,9 +644,14 @@ function checkout($data) {
 		}
 		$amount = cart_sum();
 		if ($amount == 0) {
-			error('Cart sum is 0?');
-			return;
+			$checkout_errors['cart_sum'] = 'Cart sum is 0?';
 		}
+
+		if (!empty($checkout_errors)) {
+
+			return array('error' => $checkout_errors);
+		}
+
 		$place_order['amount'] = $amount;
 		$place_order['currency'] = get_option('currency', 'payments');
 
@@ -652,41 +691,46 @@ function checkout($data) {
 				if (is_file($gw_process)) {
 					require_once $gw_process;
 				} else {
-					error('Payment gateway\'s process file not found.');
+					//error('Payment gateway\'s process file not found.');
+					$checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
+
 				}
 			} else {
 				$place_order['order_completed'] = 'y';
+				$place_order['is_paid'] = 'n';
+
+				$place_order['success'] = "Your order has been placed successfully!";
 
 			}
 			// $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
 
 			// db_q($q);
+			if (!empty($checkout_errors)) {
 
+				return array('error' => $checkout_errors);
+			}
 			define('FORCE_SAVE', $table_orders);
 			$ord = save_data($table_orders, $place_order);
 
-			$q = " UPDATE $cart set
+			$q = " UPDATE $cart_table set
 		order_id='{$ord}'
 		where order_completed='n'  and session_id='{$sid}'  ";
 
 			db_q($q);
 
 			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
-				$q = " UPDATE $cart set
+				$q = " UPDATE $cart_table set
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   ";
 
 				db_q($q);
 
 				if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
-
 					$q = " UPDATE $table_orders set
 				order_completed='y'
 				where order_completed='n' and
 				id='{$ord}'  ";
-
 					db_q($q);
-
 				}
 
 				$notif = array();
@@ -708,10 +752,15 @@ function checkout($data) {
 		}
 
 		//	exit();
-		if (isset($result)) {
-			return ($result);
+		if (isset($place_order)) {
+			return ($place_order);
 		}
 
+	}
+
+	if (!empty($checkout_errors)) {
+
+		return array('error' => $checkout_errors);
 	}
 
 	//d($check_cart);

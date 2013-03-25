@@ -20,10 +20,18 @@ description: Default cart template
   </div>
   <? if(isarr($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
+    <colgroup>
+        <col>
+        <col width="120">
+        <col width="120">
+        <col width="120">
+        <col width="120">
+    </colgroup>
     <thead>
       <tr>
         <th class="mw-cart-table-product">Product Name</th>
         <th>QTY</th>
+        <th>Price</th>
         <th>Total</th>
         <th>Delete</th>
       </tr>
@@ -35,14 +43,50 @@ description: Default cart template
           <? 	if(isset($item['custom_fields'])): ?>
           <? print $item['custom_fields'] ?>
           <?  endif ?></td>
-        <td><input type="text" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
+        <td><input type="number" class="input-mini" value="<? print $item['qty'] ?>" onchange="mw.cart.qty('<? print $item['id'] ?>', this.value)" /></td>
         <?php /*<td><? print currency_format($item['price']); ?></td>*/ ?>
+        <td class="mw-cart-table-price"><? print currency_format($item['price']); ?></td>
         <td class="mw-cart-table-price"><? print currency_format($item['price']* $item['qty']); ?></td>
         <td><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<? print $item['id'] ?>');"></a></td>
       </tr>
       <? endforeach; ?>
     </tbody>
   </table>
+
+
+
+  <div class="">
+
+    <h3>Continue Shopping or Complete Order</h3>
+
+    <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">
+        <colgroup>
+            <col>
+            <col width="120">
+            <col width="120">
+            <col width="120">
+            <col width="120">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2" class="cell-shipping-country"><label class="inline">Shipping to:</label> <module type="shop/shipping/select" /></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2" class="cell-shipping-price">Shipping price:</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2" class="cell-shipping-total">Total Price:</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  
+  
+  
+
   <?  
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
@@ -56,7 +100,7 @@ description: Default cart template
 	   
 	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
-	   $checkout_page_link = site_url().'?view=checkout';;
+	   $checkout_page_link = site_url('checkout');;
 	   
    }
    

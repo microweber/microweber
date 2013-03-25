@@ -1,8 +1,15 @@
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<?php
 
-<div class="container">
-  
-     <module type="shop/checkout" id="cart_checkout" /> 
-   
-</div>
-<? include THIS_TEMPLATE_DIR.  "footer.php"; ?>
+/*
+
+type: layout
+content_type: static
+name: Shop Checkout
+description: Checkout layout
+
+*/
+
+
+?>
+<? include THIS_TEMPLATE_DIR. "checkout.php"; ?>
+ 

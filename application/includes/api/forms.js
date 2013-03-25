@@ -1,6 +1,6 @@
 
 FieldUnify = function(a){
-  return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or DOM node.'));
+  return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : mw.error('Parameter must be string or a DOM node.'));
 }
 
 
@@ -51,7 +51,7 @@ mw.form = {
   },
   post:function(selector, url_to_post, callback){
     var is_form_valid = mw.form.validate.init(selector);
- 
+
 	if(url_to_post == undefined){
 
 		url_to_post = mw.settings.site_url+'api/post_form';

@@ -233,7 +233,7 @@ function define_constants($content = false) {
 			}
 		}
 	}
-
+ //d($content);
 
 
 	$page_data = false;
@@ -870,7 +870,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	$url = rtrim($url, '?');
 	$url = rtrim($url, '#');
 	$sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
-	// d($sql);
+  //d($sql);
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
 	$result = $q;
@@ -913,6 +913,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 		}
 	} else {
 		$content['id'] = ((int)$content['id']);
+	 
 		$get_by_id = get_content_by_id($content['id']);
 
 		return $get_by_id;
@@ -1599,8 +1600,11 @@ function save_edit($post_data) {
 					$field = false;
 					if (isset($the_field_data['attributes']['field'])) {
 						$field = trim($the_field_data['attributes']['field']);
+						//$the_field_data['attributes']['rel'] = $field;
+						
+						
 					}
-
+ 
 					if (isset($the_field_data['attributes']['data-field'])) {
 						$field = $the_field_data['attributes']['field'] = trim($the_field_data['attributes']['data-field']);
 					}
@@ -1614,7 +1618,9 @@ function save_edit($post_data) {
 					if (($field != false)) {
 						$page_element_id = $field;
 					}
-
+if(!isset($the_field_data['attributes']['rel'])){
+					$the_field_data['attributes']['rel'] = 'content';
+					}
 					$save_global = false;
 					if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {
 						$save_global = true;
@@ -1628,6 +1634,10 @@ function save_edit($post_data) {
 					} else {
 						$save_layout = false;
 					}
+					
+					
+					
+					
 					if(!isset($the_field_data['attributes']['data-id'])){
 						$the_field_data['attributes']['data-id'] = $content_id;
 					}
@@ -1760,6 +1770,7 @@ function save_edit($post_data) {
 					} else {
 
 						$cont_field = array();
+						 
 						$cont_field['rel'] = $the_field_data['attributes']['rel'];
 						$cont_field['rel_id'] = 0;
 						if($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])){

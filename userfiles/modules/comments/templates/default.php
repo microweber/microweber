@@ -26,9 +26,7 @@ description: Default comments template
         ?>
   <? if (isarr($comments)): ?>
   <? if($form_title != false): ?>
-   <h2><? print $form_title ?></h2>
-  
-  
+  <h2><? print $form_title ?></h2>
   <? elseif($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
   <h2>Recent comments</h2>
   <? else : ?>
@@ -82,35 +80,22 @@ description: Default comments template
       </div>
     </div>
     <? } endforeach; ?>
-
-
     <? if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
-
     <? print paging("num={$paging}&paging_param={$paging_param}") ?>
-
-
     <? endif; ?>
-
-
-
   </div>
   <? else: ?>
   <h2>No comments</h2>
   <?php endif; ?>
   <hr>
   <?php if(!$login_required or $cur_user != false): ?>
- 
-  
   <div class="mw-comments-form" id="comments-<? print $data['id'] ?>">
     <form autocomplete="on" id="comments-form-<? print $data['id'] ?>">
       <input type="hidden" name="rel_id" value="<? print $data['rel_id'] ?>">
       <input type="hidden" name="rel" value="<? print $data['rel'] ?>">
-      
-    <? if($form_title != false): ?>
-   <input type="hidden" name="comment_subject" value="<? print $form_title ?>">
- <?php endif; ?>
-      
-      
+      <? if($form_title != false): ?>
+      <input type="hidden" name="comment_subject" value="<? print $form_title ?>">
+      <?php endif; ?>
       <h2>Leave a comment</h2>
       <?php if( $cur_user == false) :  ?>
       <div class="row-fluid">
@@ -124,7 +109,7 @@ description: Default comments template
           <input class="input-medium" placeholder="Your email" required type="email"  name="comment_email">
         </div>
       </div>
-       <?php endif; ?>
+      <?php endif; ?>
       <div class="row-fluid">
         <div class="span12 comment-field">
           <textarea required placeholder="Comment" name="comment_body"></textarea>
@@ -140,10 +125,6 @@ description: Default comments template
       </div>
     </form>
   </div>
-  
-  
-   
-  
   <?php else :  ?>
   <div class="alert"> You have to <a href='<?php print site_url(); ?>login'>log in</a> or <a href='<?php print site_url(); ?>register'>register</a> to post a comment. </div>
   <?php endif; ?>

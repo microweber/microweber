@@ -115,7 +115,7 @@ if (!defined('MW_BARE_BONES')) {
   
 		exit();
 	} else {
-
+ 
 		$c -> index();
 		if ($close_conn == true and $installed == true) {
 			db_query('close');

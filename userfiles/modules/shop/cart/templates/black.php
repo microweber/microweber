@@ -34,3 +34,9 @@ $template_file = false; ?>
 }
 </style>
 
+<? $template_file = module_templates($params['type'], 'default');
+
+if(is_file($template_file)){
+ include($template_file);	
+}
+ ?>

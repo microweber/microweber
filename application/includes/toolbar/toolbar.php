@@ -1,5 +1,4 @@
 <?php if(!isset($_GET['preview'])){ ?>
-
 <script type="text/javascript">
   document.body.className+=' loading';
 
@@ -23,12 +22,6 @@
 
 
 </script>
-
-
-
-
-
-
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
@@ -91,58 +84,48 @@
 
     </script>
 
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span>
-
-<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
-
-
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
-      <div id="mw-menu-liquify"><ul id="mw_tabs">
-        <li id="t_modules">
-            <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;"><? _e('Modules'); ?></a>
-        </li>
-        <li id="t_layouts">
-            <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;"><? _e('Layouts'); ?></a>
-        </li>
-        <li id="t_pages">
-            <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;"><? _e('Pages'); ?></a>
-        </li>
-        <li id="t_help">
-          <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;"><? _e('Help'); ?></a>
-        </li>
-      </ul></div>
-      <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);"><div id="menu-dropdown-nav"></div></div>
-       <a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
-      <div id="mw-toolbar-right">
-
-
-
-
-        <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
-
-
-
-
+      <div id="mw-menu-liquify">
+        <ul id="mw_tabs">
+          <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
+            <? _e('Modules'); ?>
+            </a> </li>
+          <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
+            <? _e('Layouts'); ?>
+            </a> </li>
+          <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
+            <? _e('Pages'); ?>
+            </a> </li>
+          <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
+            <? _e('Help'); ?>
+            </a> </li>
+        </ul>
+      </div>
+      <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);">
+        <div id="menu-dropdown-nav"></div>
+      </div>
+      <a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
+      <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-
-
-
-        <div class="mw-ui-dropdown right">
-          <a href="javascript:;" class="mw-ui-btn"><span class="left">Unpublished</span><span class="ico idownarr right"></span></a>
+        <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website<span class="ico idownarr right"></span></a>
           <ul>
-              <li><span onclick="mw.preview();" class="mw-ui-btn mw-ui-btn-green">Preview</span></li>
-              <li><span class="mw-ui-btn mw-ui-btn-blue">Publish</span></li>
+            <li><a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website</a></li>
+            <li><span onclick="mw.preview();void(0);" class="mw-ui-btn mw-ui-btn-green">Preview</span></li>
+            
+            <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
+            <li> <a href="javascript:;" class="mw-ui-btn">Unpublish <? print CONTENT_ID ?></a></li>
+            <li><span class="mw-ui-btn mw-ui-btn-blue">Publish</span></li>
+            <? endif; ?>
+            
+            
           </ul>
         </div>
-
-
-
       </div>
-      </div>
-
+    </div>
     <div id="tab_modules" class="mw_toolbar_tab">
       <microweber module="admin/modules/categories_dropdown" />
       <div class ="modules_bar_slider bar_slider">
@@ -161,57 +144,33 @@
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
     <div id="tab_pages" class="mw_toolbar_tab">
-
-
-
-           <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
-
-        <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
-
-        <iframe
+      <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
+      <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
+      <iframe
             onload="mw.tools.iframeLinksToParent(this);"
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
             data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<? if(defined('CONTENT_ID')) : ?>/#action=editpage:<? print CONTENT_ID ?><? endif; ?>"
-            src="#">
-        </iframe>
-
-
-
+            src="#"> </iframe>
     </div>
     <div id="tab_help" class="mw_toolbar_tab">Help <a href="<?php print site_url('admin'); ?>">Admin</a></div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-
-
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
   </div>
-
-  <!-- /end .mw -->
+  
+  <!-- /end .mw --> 
 </div>
 <!-- /end mw_holder -->
 
-
-
-
-
-
-
-
 <?php   include "design.php"; ?>
-
-
-
 <?php   include "UI.php"; ?>
-
-
 <?php } else { ?>
-
 <script>
 
 
@@ -232,7 +191,6 @@
   }
 
 </script>
-
 <style>
 
 .delete_column{
@@ -240,7 +198,4 @@
 }
 
 </style>
-
-
 <?php } ?>
-

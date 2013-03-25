@@ -40,24 +40,40 @@ class MwController {
 		$is_editmode = url_param('editmode');
 		$is_no_editmode = url_param('no_editmode');
 		if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
-			$editmode_sess = session_get('editmode');
 
-			$page_url = url_param_unset('editmode', $page_url);
-			if ($is_admin == true) {
-				if ($editmode_sess == false) {
-					session_set('editmode', true);
-				}
+			if ($is_editmode == 'n') {
+				$is_editmode = false;
+				$page_url = url_param_unset('editmode', $page_url);
+				session_set('back_to_editmode', true);
+				session_set('editmode', false);
 				safe_redirect(site_url($page_url));
 				exit();
 			} else {
-				$is_editmode = false;
+
+				$editmode_sess = session_get('editmode');
+
+				$page_url = url_param_unset('editmode', $page_url);
+				if ($is_admin == true) {
+					if ($editmode_sess == false) {
+						session_set('editmode', true);
+						session_set('back_to_editmode', false);
+					}
+					safe_redirect(site_url($page_url));
+					exit();
+				} else {
+					$is_editmode = false;
+				}
 			}
+		} else {
+
 		}
+
 		if (isset($_SESSION) and !$is_no_editmode) {
 			$is_editmode = session_get('editmode');
 		} else {
 			$is_editmode = false;
 			$page_url = url_param_unset('no_editmode', $page_url);
+
 		}
 
 		$is_preview_template = url_param('preview_template');
@@ -127,6 +143,7 @@ class MwController {
 		if ($page == false or $this -> create_new_page == true) {
 			if (trim($page_url) == '') {
 				//
+
 				$page = get_homepage();
 			} else {
 
@@ -396,7 +413,7 @@ class MwController {
 			//	mw_var('get_module_template_settings_from_options', 0);
 
 			$apijs_loaded = site_url('apijs');
-
+			$is_admin = is_admin();
 			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
 			// $l = str_ireplace('</head>', $default_css . '</head>', $l);
@@ -410,7 +427,7 @@ class MwController {
 				$l = str_ireplace('<head>', '<head>' . $default_css, $l);
 			}
 			if ($is_editmode == true and $this -> isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
-				$is_admin = is_admin();
+
 				if ($is_admin == true) {
 
 					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
@@ -423,6 +440,21 @@ class MwController {
 						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
 					}
 				}
+			} else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
+
+				$back_to_editmode = session_get('back_to_editmode');
+				if ($back_to_editmode == true) {
+					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
+
+					$layout_toolbar = new MwView($tb);
+					$layout_toolbar = $layout_toolbar -> __toString();
+					if ($layout_toolbar != '') {
+						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+						$c = 1;
+						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
+					}
+				}
+
 			}
 
 			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
@@ -432,30 +464,37 @@ class MwController {
 			$l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
 			$l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
 			$l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
-
+			$meta = array();
 			if (CONTENT_ID > 0) {
 				$meta = get_content_by_id(CONTENT_ID);
-				if ($meta != false) {
-					if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
-						$meta['title'] = $meta['content_meta_title'];
-					} else if (isset($meta['title']) and $meta['title'] != '') {
 
-					} else {
-						$meta['title'] = get_option('website_title', 'website');
-					}
-					if (isset($meta['description']) and $meta['description'] != '') {
-					} else {
-						$meta['description'] = get_option('website_description', 'website');
-					}
-					if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
-					} else {
-						$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
-					}
-					$l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
-					$l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
-					$l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
-				}
+			} else {
+					$meta['title'] = get_option('website_title', 'website');
+					$meta['description'] = get_option('website_description', 'website');
+					$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+
 			}
+			if (!empty($meta)) {
+				if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
+					$meta['title'] = $meta['content_meta_title'];
+				} else if (isset($meta['title']) and $meta['title'] != '') {
+
+				} else {
+					$meta['title'] = get_option('website_title', 'website');
+				}
+				if (isset($meta['description']) and $meta['description'] != '') {
+				} else {
+					$meta['description'] = get_option('website_description', 'website');
+				}
+				if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
+				} else {
+					$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+				}
+				$l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
+				$l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
+				$l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
+			}
+
 			// d(TEMPLATE_URL);
 			//d(crc32($l));
 			//
