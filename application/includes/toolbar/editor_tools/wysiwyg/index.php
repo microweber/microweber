@@ -17,15 +17,26 @@
 <script>mw.require("wysiwyg.js");</script>
 <script>
 
+scaleHeight = function(){
+  var pt = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingTop"));
+  var pb = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingBottom"));
+  var h = $(window).height() - mw.$("#mw-admin-text-editor").outerHeight() - pt - pb - 4;
+
+
+  $("#mw-iframe-editor-area").height(h)
+}
+
 $(window).load(function(){
 
-    $("#mw-iframe-editor-area").height($(window).height()-60);
+scaleHeight()
+
+  //  $("#mw-iframe-editor-area").height($(window).height()-60);
      __area = mwd.getElementById('mw-iframe-editor-area');
 	// $('.edit').attr('contenteditable',true);
 
 
    $(window).resize(function(){
-    $("#mw-iframe-editor-area").height($(window).height()-60);
+   scaleHeight()
 });
 
 });
@@ -85,6 +96,20 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
  });
 
 
+  if(window.name.contains("mweditor")){
+     HOLD = false;
+     mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
+          el = $(this);
+          typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
+               HOLD = setTimeout(function(){
+               parent.mw.$("iframe#"+window.name).trigger("change", el.html());
+          }, 600);
+     });
+  }
+
+
+
+
 });
 
 
@@ -93,6 +118,8 @@ delete_module = function(inner_node){
       $(mw.tools.firstParentWithClass(inner_node, 'module')).remove();
     });
 }
+
+
  
   </script>
   

@@ -143,7 +143,9 @@ a.rotator-paging-item-thumbnail img{
 
 /*  DEFAULT Template */
 
-
+.mw-rotator-template-default{
+  margin-bottom:100px;
+}
 
 .mw-rotator-template-default .rotator-next,
 .mw-rotator-template-default .rotator-prev{

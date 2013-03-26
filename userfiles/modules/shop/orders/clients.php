@@ -4,7 +4,7 @@ function mw_delete_shop_client($email){
 if (r==true)
   {
  
-  var r1=confirm("ATTENTION!!!!!! All ORDERS OF THIS CLIENT WILL BE DELETED!")
+  var r1=confirm("ATTENTION!!!!!!\nALL ORDERS FROM THIS CLIENT WILL BE DELETED!\n\nCLICK CANCEL NOW\nOR\nTHERE IS NO TURNING BACK!")
 if (r1==true)
   {
  

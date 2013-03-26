@@ -16,7 +16,7 @@
 
   <div class="well">
     <div style="display: none">
-      <select onchange="_gateway(this);" name="shipping_gw" class="mw-ui-simple-dropdown mw-shipping-gateway mw-shipping-gateway-<? print $params['id']; ?> <? if(count($shipping_options) == 1): ?> semi_hidden <? endif; ?>" >
+      <select onchange="_gateway(this);" name="shipping_gw" class="field-full mw-shipping-gateway mw-shipping-gateway-<? print $params['id']; ?> <? if(count($shipping_options) == 1): ?> semi_hidden <? endif; ?>" >
         <? foreach ($shipping_options as $item) : ?>
         <option value="<? print  $item['module_base']; ?>"><? print  $item['name']; ?></option>
         <? endforeach; ?>

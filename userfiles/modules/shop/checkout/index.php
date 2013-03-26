@@ -83,8 +83,8 @@ mw.$(".mw-checkout-form .well").height(__max)
 
 <form class="mw-checkout-form" id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" >
   <script type="text/javascript">
-mw.require("shop.js");
-</script>
+    mw.require("shop.js");
+  </script>
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
   <?
   
@@ -100,19 +100,19 @@ mw.require("shop.js");
           <label>
             <?php _e("First Name"); ?>
           </label>
-          <input name="first_name"  type="text" value="" />
+          <input name="first_name" class="field-full"  type="text" value="" />
           <label>
             <?php _e("Last Name"); ?>
           </label>
-          <input name="last_name"  type="text" value="" />
+          <input name="last_name" class="field-full"  type="text" value="" />
           <label>
             <?php _e("Email"); ?>
           </label>
-          <input name="email"  type="text" value="" />
+          <input name="email" class="field-full" type="text" value="" />
           <label>
             <?php _e("Phone"); ?>
           </label>
-          <input name="phone"  type="text" value="" />
+          <input name="phone" class="field-full"  type="text" value="" />
         </div>
       </div>
       <module type="shop/shipping" class="span4" />
@@ -124,9 +124,13 @@ mw.require("shop.js");
     <div class="mw-cart-action-holder">
     <hr />
     <? $shop_page = get_content('is_shop=y');      ?>
-    <button class="btn btn-warning pull-right" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
+
+
+    <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
+
+
     <?php if(isarr($shop_page)): ?>
-    <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn" type="button">Continue Shopping</a>
+    <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
     <?php endif; ?>
     <div class="clear"></div>
     </div>

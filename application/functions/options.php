@@ -64,7 +64,7 @@ function create_mw_default_options() {
 
 	$function_cache_id = __FUNCTION__;
 
-	$cache_content = cache_get_content($function_cache_id, $cache_group = 'db','files');
+	$cache_content = cache_get_content($function_cache_id, $cache_group = 'db', 'files');
 	if (($cache_content) == '--true--') {
 		return true;
 	}
@@ -189,7 +189,7 @@ function create_mw_default_options() {
 		//var_dump($changes);
 		cache_clean_group('options/global');
 	}
-	cache_save('--true--', $function_cache_id, $cache_group = 'db','files');
+	cache_save('--true--', $function_cache_id, $cache_group = 'db', 'files');
 
 	return true;
 }
@@ -245,7 +245,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
 	$data = array();
 
- 	if (is_array($key)) {
+	if (is_array($key)) {
 		$data = $key;
 	} else {
 		$data['option_key'] = $key;
@@ -278,17 +278,25 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	//d($q);
 	$get = db_query($q, $function_cache_id_q, $cache_group);
 	//
- 
+
 	if (!empty($get)) {
 
 		if ($return_full == false) {
 
 			$get = $get[0]['option_value'];
+			
+			if (isset($get['option_value']) and strval($get['option_value']) != '') {
+				$get['option_value'] = replace_site_vars_back($get['option_value']);
+ 			}
 
 			return $get;
 		} else {
 
 			$get = $get[0];
+			
+			if (isset($get['option_value']) and strval($get['option_value']) != '') {
+				$get['option_value'] = replace_site_vars_back($get['option_value']);
+ 			}
 
 			if (isset($get['field_values']) and $get['field_values'] != false) {
 				$get['field_values'] = unserialize(base64_decode($get['field_values']));
@@ -398,7 +406,6 @@ if (is_admin() != false) {
 	api_expose('save_option');
 }
 
-
 function save_option($data) {
 	$is_admin = is_admin();
 
@@ -452,7 +459,7 @@ function save_option($data) {
 			if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
 				$option_group = $data['option_group'];
 
-		 delete_option_by_key($data['option_key'], $data['option_group']);
+				delete_option_by_key($data['option_key'], $data['option_group']);
 			}
 		}
 		//d($data);
@@ -460,7 +467,7 @@ function save_option($data) {
 		if (isset($data['field_values']) and $data['field_values'] != false) {
 			$data['field_values'] = base64_encode(serialize($data['field_values']));
 		}
-		
+
 		if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
 			//$m = db_escape_string($data['module']);
 			$opt_gr = db_escape_string($data['option_group']);
@@ -469,11 +476,11 @@ function save_option($data) {
 			db_q($clean);
 			$cache_group = 'options/' . $opt_gr;
 			cache_clean_group($cache_group);
-			 
+
 			//d($clean);
 		}
-	//	$data['debug'] = 1;
-		
+		//	$data['debug'] = 1;
+
 		//}
 		if (strval($data['option_key']) != '') {
 
@@ -482,7 +489,11 @@ function save_option($data) {
 				unset($data['option_group']);
 			}
 
-			 
+			if (isset($data['option_value']) and strval($data['option_value']) != '') {
+				$data['option_value'] = replace_site_vars($data['option_value']);
+				//d($data['option_value']);
+			}
+
 			$save = save_data($table, $data);
 
 			if ($option_group != false) {
@@ -561,8 +572,8 @@ function delete_option_by_key($key, $option_group = false, $module_id = false) {
 	$q = trim($q);
 
 	db_q($q);
-	
-	 cache_clean_group('options');
-	 
+
+	cache_clean_group('options');
+
 	return true;
 }

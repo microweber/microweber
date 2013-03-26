@@ -209,7 +209,7 @@ function email_get_transport_object() {
 	$transport_type = trim($email_advanced);
 
 	try {
-		$_mw_email_obj = new mw\email\sender($transport_type);
+		$_mw_email_obj = new mw\email\Sender($transport_type);
 		$_mw_email_transport_object = $_mw_email_obj;
 		return $_mw_email_obj;
 	} catch (Exception $e) {
@@ -220,7 +220,7 @@ function email_get_transport_object() {
 
 }
 
-function mw_mail($to, $subject, $message, $add_hostname_to_subject = false) {
+function mw_mail($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false) {
 
 	$function_cache_id = false;
 
@@ -235,7 +235,7 @@ function mw_mail($to, $subject, $message, $add_hostname_to_subject = false) {
 	$cache_group = "notifications/email";
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
 
-	if (($cache_content) != false) {
+	if ($no_cache == false and ($cache_content) != false) {
 
 		return $cache_content;
 	}
@@ -256,6 +256,12 @@ function mw_mail($to, $subject, $message, $add_hostname_to_subject = false) {
 
 		if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 			//$res -> debug = 1;
+					if (isset($cc) and  ($cc) != false  and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
+			$res -> setCc($cc);
+					}
+			
+			
+			
 			$res -> send($to, $subject, $message);
 			cache_save(true, $function_cache_id, $cache_group);
 			return true;

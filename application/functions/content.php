@@ -2815,7 +2815,7 @@ $res_count = 0;
 				 }
 
 		//}
-						if ($item['id'] == CONTENT_ID) {
+		if ($item['id'] == CONTENT_ID) {
 			$active_class = 'active';
 		} elseif ($item['id'] == PAGE_ID) {
 			$active_class = 'active';
@@ -2853,10 +2853,10 @@ $res_count = 0;
 					$to_print = str_replace('{id}', $item['id'], $link);
 					$to_print = str_replace('{active_class}', $active_class, $to_print);
 					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
-$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
-	$to_pr_2= str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
-				$to_pr_2= str_replace('{active_class}', $active_class, $to_pr_2);
-								$to_pr_2= str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
+					$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+					$to_pr_2= str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
+					$to_pr_2= str_replace('{active_class}', $active_class, $to_pr_2);
+					$to_pr_2= str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
 
 
 					$to_print = str_ireplace('{title}', $item['title'], $to_print);
@@ -2879,7 +2879,7 @@ $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 					foreach ($item as $item_k => $item_v) {
 						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);
 					}
-$res_count++;
+					$res_count++;
 					if (is_array($active_ids) == true) {
 
 						$is_there_active_ids = false;
@@ -2952,8 +2952,8 @@ $res_count++;
 
 					//   $nest_level++;
 					$params['nest_level'] = $nest_level;
-$params['ul_class_name'] = false;
-$params['ul_class'] = false;
+					$params['ul_class_name'] = false;
+					$params['ul_class'] = false;
 
 					if( $skip_pages_from_tree  == false){
 						$children = pages_tree($params);

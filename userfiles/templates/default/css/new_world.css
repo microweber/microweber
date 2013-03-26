@@ -9,7 +9,10 @@ body{
 
 label, input, button, select, textarea{
   font-size: 16px;
+
 }
+
+
 
 h1,h2,h3,h4,h5,h6{
   font-weight: 300;
@@ -26,10 +29,17 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
-.alert ul{
-  margin-bottom: 0;
+.alert ul{ margin-bottom: 0; }
+
+.field-full{
+  width: 90%;
+  width: calc(100% - 14px);
+  width: -webkit-calc(100% - 14px);
 }
 
+select.field-full{
+  width: 100%;
+}
 
 hr{
   border-bottom: 1px solid #BFC0C4;
@@ -57,7 +67,7 @@ hr{
 
 
 .box-head{
-   background-color: #F4F4F4;
+    background-color: #F4F4F4;
     border-bottom: 1px solid #D6D6D6;
     border-radius: 4px 4px 1px 0;
     margin-bottom: 37px;
@@ -119,8 +129,6 @@ hr{
 }
 
 
-
-
 #logo{
   float: left;
   margin-top: 22px;
@@ -130,8 +138,6 @@ hr{
   text-decoration: none;
   font-weight: 200;
 }
-
-
 
 #mw-welcome{
   padding-left: 30px;
@@ -146,7 +152,6 @@ hr{
   padding-top: 0;
   padding-bottom: 10px;
   margin-top: 0;
-
 }
 
 #content{
@@ -174,9 +179,6 @@ hr{
   text-align: center;
 }
 
-
-
-
 @media (max-width: 979px) {
   .module-posts-template-columns .img-polaroid,
   .module-posts-template-columns .img-rounded{
@@ -191,14 +193,10 @@ hr{
    }
 }
 
-
-
 .module-posts-template-columns img{
   margin-left: auto;
   margin-right: auto;
 }
-
-
 
 .module-posts-template-columns{
   padding-left: 0;
@@ -237,8 +235,6 @@ hr{
 .thumbnail, .well{
   background-color: white;
 }
-
-
 
 .product-title-price{
     display: table;
@@ -422,7 +418,6 @@ hr{
       padding-left: 10px;
     }
 
-
     .comment{
       clear: both;
       overflow: hidden;
@@ -440,8 +435,6 @@ hr{
       text-align: center;
     }
 
-
-
     .comment .random-color span{
       display: block;
       width: 67px;
@@ -452,8 +445,6 @@ hr{
       font-weight: bold;
       color: #333;
     }
-
-
 
 
     /* Comments Simple Template  */
@@ -472,10 +463,6 @@ hr{
     }
 
     /* /Comments Simple Template  */
-
-
-
-
 
 
    /* Comments Stylish Template  */
@@ -571,16 +558,34 @@ hr{
 
     /* Checkout */
 
+    .checkout-total-table{
+      table-layout: fixed;
+    }
+
     .checkout-total-table td{
       text-align: left;
+      font-size: 14px;
     }
 
     .checkout-total-table td label{
       display: block;
       float: left;
-      width: 100px;
+      width: 110px;
+      padding-right: 12px;
       margin-top: 5px;
+      margin: 0;
+      font-size: 14px;
+      text-align: right;
     }
+
+
+    .checkout-total-table td.cell-shipping-country label{
+      margin-top: 4px;
+    }
+
+    .checkout-total-table td.cell-shipping-total, .checkout-total-table td.cell-shipping-total label{  font-size: 16px;  }
+
+
 
     .checkout-total-table td select{
       width: 120px;

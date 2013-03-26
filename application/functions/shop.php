@@ -304,8 +304,8 @@ function delete_client($data) {
 
 	if (isset($data['email'])) {
 		$c_id = db_escape_string($data['email']);
-			$q = "DELETE from $table where email='$c_id' ";
-			$res = db_q($q);
+		$q = "DELETE from $table where email='$c_id' ";
+		$res = db_q($q);
 		//db_delete_by_id($table, $c_id, 'email');
 		cache_clean_group('cart_orders/global');
 		return $res;
@@ -342,8 +342,9 @@ function get_orders($params = false) {
 		$params = $params2;
 	}
 	if (is_admin() == false) {
-		if (!isset($params['payment_verify_token']))
-			error("You must be admin");
+		if (!isset($params['payment_verify_token'])) {
+			error("get_orders? You must be admin");
+		}
 	}
 
 	$table = MODULE_DB_SHOP_ORDERS;
@@ -604,10 +605,10 @@ function checkout($data) {
 		//post any of those on the form
 		$flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
 
-		if (!isset($data['email']) or $data['last_name'] == '') {
+		if (!isset($data['email']) or $data['email'] == '') {
 			$checkout_errors['email'] = 'Email is required';
 		}
-		if (!isset($data['first_name']) or $data['last_name'] == '') {
+		if (!isset($data['first_name']) or $data['first_name'] == '') {
 			$checkout_errors['first_name'] = 'First name is required';
 		}
 
@@ -733,18 +734,9 @@ function checkout($data) {
 					db_q($q);
 				}
 
-				$notif = array();
-				$notif['module'] = "shop";
-				$notif['rel'] = 'cart_orders';
-				$notif['rel_id'] = $ord;
-				$notif['title'] = "You have new order";
-				$notif['description'] = "New order is placed from " . curent_url(1);
-				$notif['content'] = "New order in the online shop. Order id: " . $ord;
-				post_notification($notif);
-
 				cache_clean_group('cart/global');
 				cache_clean_group('cart_orders/global');
-
+				after_checkout($ord);
 				//$_SESSION['mw_payment_success'] = true;
 			}
 
@@ -764,6 +756,99 @@ function checkout($data) {
 	}
 
 	//d($check_cart);
+}
+
+function after_checkout($order_id, $suppress_output = true) {
+	if ($suppress_output == true) {
+		ob_start();
+	}
+	if ($order_id == false or trim($order_id) == '') {
+		return array('error' => 'Invalid order ID');
+	}
+
+	$ord_data = get_orders('one=1&id=' . $order_id);
+	if (isarr($ord_data)) {
+
+		$ord = $order_id;
+		$notif = array();
+		$notif['module'] = "shop";
+		$notif['rel'] = 'cart_orders';
+		$notif['rel_id'] = $ord;
+		$notif['title'] = "You have new order";
+		$notif['description'] = "New order is placed from " . curent_url(1);
+		$notif['content'] = "New order in the online shop. Order id: " . $ord;
+		post_notification($notif);
+		checkout_confirm_email_send($order_id);
+
+	}
+	if ($suppress_output == true) {
+		ob_end_clean();
+	}
+}
+
+function checkout_confirm_email_send($order_id, $to = false,$no_cache = false) {
+
+	$ord_data = get_orders('one=1&id=' . $order_id);
+	if (isarr($ord_data)) {
+
+		$order_email_enabled = get_option('order_email_enabled', 'orders');
+
+		if ($order_email_enabled == true) {
+			$order_email_subject = get_option('order_email_subject', 'orders');
+			$order_email_content = get_option('order_email_content', 'orders');
+			$order_email_cc = get_option('order_email_cc', 'orders');
+			
+
+			if ($order_email_subject == false or trim($order_email_subject) == '') {
+				$order_email_subject = "Thank you for your order!";
+			}
+
+			if ($to == false) {
+
+				$to = $ord_data['email'];
+			}
+			if ($order_email_content != false and trim($order_email_subject) != '') {
+
+				if (!empty($ord_data)) {
+					foreach ($ord_data as $key => $value) {
+						$order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+					}
+				}
+				$cc = false;
+				if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
+ $cc = $order_email_cc;
+ 				 
+				}
+				if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+ 
+ 					mw_mail($to, $order_email_subject, $order_email_content,true,$no_cache, $cc);
+				}
+				
+
+			}
+		}
+	}
+}
+
+api_expose('checkout_confirm_email_test');
+function checkout_confirm_email_test($params) {
+
+	if (!isset($params['to'])) {
+		$email_from = get_option('email_from', 'email');
+		if ($email_from == false) {
+			return array('error' => 'You must set up your email');
+		}
+	} else {
+		$email_from = $params['to'];
+
+	}
+	$ord_data = get_orders('order_completed=y&limit=50');
+	if (isarr($ord_data[0])) {
+		shuffle($ord_data);
+		$ord_test = $ord_data[0];
+		checkout_confirm_email_send($ord_test['id'], $to = $email_from,true);
+	}
+
 }
 
 api_expose('update_cart');

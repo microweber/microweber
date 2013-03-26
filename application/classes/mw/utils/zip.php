@@ -20,7 +20,7 @@ use DirectoryIterator;
  * @link https://github.com/Grandt/PHPZip
  * @version 1.37
  */
-class zip {
+class Zip {
 	const VERSION = 1.37;
 
 	const ZIP_LOCAL_FILE_HEADER = "\x50\x4b\x03\x04"; // Local file header signature

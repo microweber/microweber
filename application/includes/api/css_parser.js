@@ -12,6 +12,7 @@ mw.CSSParser = function(el){
         }
     }
     this.font = function(){
+      if(css===null) return false;
       return {
         size:css.fontSize,
         weight:css.fontWeight,

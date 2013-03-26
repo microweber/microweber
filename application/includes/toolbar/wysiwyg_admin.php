@@ -18,7 +18,12 @@ $(document).ready(function(){
 
 });
 
+
+
+
 </script>
+
+
 
 <div id="mw-admin-text-editor" class="mw_editor">
         <div class="editor_wrapper">
@@ -121,7 +126,16 @@ $(document).ready(function(){
 
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
 
+                                                      <?php if(is_admin() and isset($_REQUEST['modules'])){
+                                                          $mods = explode(',',$_REQUEST['modules']);
+                                                           $mods = array_trim($mods);
+                                                          if(isarr($mods)){
+                                                            foreach($mods as $mod){
+                                                              print load_module($mod);
+                                                            }
+                                                          }
 
+                                                      } ?>
 
 
 

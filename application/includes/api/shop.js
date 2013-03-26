@@ -45,7 +45,7 @@ mw.cart = {
 	 
      $.post(mw.settings.api_url+'update_cart_item_qty', data ,
      function(data) {
-		 
+		    mw.reload_module('shop/cart');
 		 
 		// mw.$('.mw-cart-item-'+$id).fadeOut().remove();
 		 
@@ -56,18 +56,19 @@ mw.cart = {
   },
   
     checkout : function(selector){
-	   
-	  
-	 //  data = mw.$(selector+' input').serialize();
+       var form = mw.$(selector);
+
+       var state = form.dataset("loading");
+
+       if(state == 'true') return false;
+
+       form.dataset("loading", 'true');
+
+       form.find('.mw-checkout-btn').attr('disabled', 'disabled');
 
 	   var obj = mw.form.serialize(selector);
-	  //  alert(obj.payment_gw);
-		
-		 mw.$(selector+' .mw-cart-data-btn').attr('disabled', 'disabled');
-			
-					
-			 
-			$.ajax({
+
+	  $.ajax({
 			  type: "POST",
 			  
 			  url: mw.settings.api_url+'checkout',
@@ -126,11 +127,18 @@ mw.cart = {
 							 }
 						 }
 					 }
-				 
+
+
+
+
+        form.dataset("loading", 'false');
+
+        form.find('.mw-checkout-btn').remove();
+
 			  
 			  
-				return false;
-			  
+
+
 			  
 			  
 			  

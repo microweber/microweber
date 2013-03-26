@@ -322,7 +322,7 @@ function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
 
 	}
 
-	cache_save($make_field, $function_cache_id, $cache_group = 'db/custom_fields');
+	cache_save($function_cache_id, $function_cache_id, $cache_group = 'db/custom_fields');
 
 }
 

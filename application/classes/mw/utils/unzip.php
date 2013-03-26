@@ -19,7 +19,7 @@ namespace mw\utils;
  * @license        http://www.gnu.org/licenses/lgpl.html
  * @version     1.0.0
  */
-class unzip {
+class Unzip {
 
     private $compressed_list = array();
     // List of files in the ZIP

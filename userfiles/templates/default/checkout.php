@@ -1,17 +1,4 @@
-<?php
-
-/*
-
-type: layout
-content_type: static
-name: Checkout
-description: Checkout layout
-
-*/
-
-
-?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+ <? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container">
   <div  class="edit" field="content"><h2>Complete your order</h2>

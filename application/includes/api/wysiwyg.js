@@ -230,10 +230,7 @@ mw.wysiwyg = {
         }
 
 
-         if(event.keyCode == 13 && event.type == 'keypress') {
-               mw.wysiwyg.insert_html("<p class='element'></p>");
-               mw.$("element-current").removeClass("element-current");
-         }
+
          if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
            $(mw.image_resizer).removeClass("active");
@@ -263,6 +260,9 @@ mw.wysiwyg = {
       $(mwd.body).keyup(function(е){
         if(mw.tools.isEmpty(е.target)){
             е.target.innerHTML = '&zwnj;&nbsp;';
+         }
+         if(е.keyCode == 13) {
+               mw.$(".element-current").removeClass("element-current");
          }
       })
 

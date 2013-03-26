@@ -15,12 +15,11 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="span4">
 <div class="well">
 
 <h2 style="margin-top: 0">Payment method</h2>
 
-<select name="payment_gw" class="mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
+<select name="payment_gw" class="field-full mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
   <? foreach ($payment_options as $item) : ?>
   <option value="<? print  $item['gw_file']; ?>"><? print  $item['name']; ?></option>
   <? endforeach; ?>
@@ -30,5 +29,4 @@ $(document).ready(function(){
 </div>
 <? endif;?>
 
-</div>
 </div>

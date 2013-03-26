@@ -1932,6 +1932,7 @@ border-top-right-radius: 0px;
 
 .mw-o-box-accordion .mw-o-box-header{
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .mw-o-box-header .mw-ui-btn-small{
@@ -1942,7 +1943,7 @@ border-top-right-radius: 0px;
   padding: 0;
 }
 
-.mw-o-box-accordion-content, .mw-o-box-content{
+.mw-o-box-content{
   padding: 12px;
   position: relative;
 }
@@ -1960,11 +1961,11 @@ border-top-right-radius: 0px;
    background: #F7F7F7;
 }
 
-.mw-accordion-active > .mw-o-box-accordion-content{
+.mw-o-box-accordion > .mw-o-box-content{
   display: none;
 }
 
-.mw-accordion-active > .mw-o-box-accordion-content{
+.mw-accordion-active > .mw-o-box-content{
   display: none;
 }
 

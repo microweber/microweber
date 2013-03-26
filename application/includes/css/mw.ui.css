@@ -671,6 +671,12 @@
   display: none;
 }
 
+.mw-iframe-editor{
+  border: none;
+  overflow: hidden;
+  min-height: 150px;
+}
+
 
 
 

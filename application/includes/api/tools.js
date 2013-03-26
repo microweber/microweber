@@ -1,3 +1,7 @@
+
+
+
+
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
@@ -113,15 +117,18 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    _init:function(html, width, height, callback, title, name, template, overlay){
+    _init:function(html, width, height, callback, title, name, template, overlay, doc){
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
 
+
         var modal = mw.tools.modal.source(name, template);
 
-        $(document.body).append(modal.html);
-        var modal_object = $(document.getElementById(modal.id));
+        var doc = doc || document;
+
+        $(doc.body).append(modal.html);
+        var modal_object = $(doc.getElementById(modal.id));
 
         var container = modal_object.find(".mw_modal_container").eq(0);
         modal_object.width(width).height(height);
@@ -132,7 +139,7 @@ mw.tools = {
 
         container.append(html).height(height-padding);
 
-        modal_object.css({top:($(window).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(window).width()/2)-(width/2)});
+        modal_object.css({top:($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(doc.defaultView).width()/2)-(width/2)});
 
         modal_object.show().draggable({
           handle:'.mw_modal_toolbar',
@@ -173,14 +180,14 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
-      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay);
+      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.doc);
     },
-    minimize:function(id){
+    minimize:function(id, doc){
 
-
+        var doc = doc || document;
         var modal = mw.$("#"+id);
-        var window_h = $(window).height();
-        var window_w = $(window).width();
+        var window_h = $(doc.defaultView).height();
+        var window_w = $(doc.defaultView).width();
         var modal_width = modal.width();
         var old_position = {
           width:modal.css("width"),
@@ -243,10 +250,10 @@ mw.tools = {
         $(document.getElementById(id)).remove();
         $("div.mw_overlay[rel='"+id+"']").remove();
     },
-    resize:function(modal, w, h, center){
-
-      var maxh = $(window).height() - 60;
-      var maxw = $(window).width() - 60;
+    resize:function(modal, w, h, center, doc){
+      var doc = doc || document;
+      var maxh = $(doc.defaultView).height() - 60;
+      var maxw = $(doc.defaultView).width() - 60;
 
 
       var w = w<maxw?w:maxw;
@@ -290,12 +297,13 @@ mw.tools = {
         }
 
     },
-    overlay:function(for_who, is_over_modal){
-        var overlay = document.createElement('div');
+    overlay:function(for_who, is_over_modal, doc){
+        var doc = doc || document;
+        var overlay = doc.createElement('div');
         overlay.className = 'mw_overlay';
         var id = for_who ? $(for_who).attr("id") : 'none';
         $(overlay).attr("rel",id);
-        document.body.appendChild(overlay);
+        doc.body.appendChild(overlay);
         if(is_over_modal!=undefined){
 
         }
@@ -844,7 +852,7 @@ mw.tools = {
   },
   accordion:function(el, callback){
     var speed = 200;
-    var container = el.querySelector('.mw-o-box-accordion-content');
+    var container = el.querySelector('.mw-o-box-content');
     if($(el).hasClass('mw-accordion-active')){
         $(container).slideDown(speed, function(){
           $(el).removeClass('mw-accordion-active');
@@ -1334,6 +1342,40 @@ mw.tools = {
         }
         return obj;
     }
+  },
+  iframe_editor:function(area, params){
+    var params = params || {};
+    var params = json2url(params);
+    var area = mw.$(area);
+    var frame = mwd.createElement('iframe');
+    frame.src = mw.external_tool('wysiwyg?'+params);
+    frame.className = 'mw-iframe-editor';
+        frame.scrolling = 'no';
+        var name =  'mweditor'+mw.random();
+        frame.id = name;
+        frame.name = name;
+        frame.style.backgroundColor = "transparent";
+        frame.setAttribute('frameborder', 0);
+        frame.setAttribute('allowtransparency', 'true');
+        area.hide().after(frame);
+    $(frame).load(function(){
+        frame.contentWindow.thisframe = frame;
+        var cont = $(frame).contents().find("#mw-iframe-editor-area");
+        cont[0].contentEditable = true;
+        if(area[0].tagName === 'TEXTAREA'){
+          cont.html(area[0].value);
+        }
+        else{
+          cont.html(area.html())
+        }
+    });
+    $(frame).bind('change', function(e, val){
+       area.val(val);
+       if(area.hasClass("mw_option_field")){
+         area.trigger("change");
+       }
+    });
+    return frame;
   }
 }
 
@@ -1945,14 +1987,18 @@ document.isHidden = function(){
 }
 
 
+
+
 mw.storage = {
         init:function(){
+          if(!('localstorage' in window)) return false;
           var mw = localStorage.getItem("mw");
           var mw = mw === null ? (localStorage.setItem("mw", "{}")) : mw;
           this.change("INIT");
           return mw;
         },
         set:function(key, val){
+            if(!('localstorage' in window)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             curr[key] = val;
             var a = localStorage.setItem("mw", JSON.stringify(curr))
@@ -1960,11 +2006,13 @@ mw.storage = {
             return a;
         },
         get:function(key){
+           if(!('localstorage' in window)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             return curr[key];
         },
         _keys : {},
         change:function(key, callback, other){
+          if(!('localstorage' in window)) return false;
           if(key ==='INIT' ){
               window.addEventListener('storage', function(e){
                   if(e.key==='mw'){
@@ -2000,18 +2048,20 @@ mw.storage = {
           }
         }
     }
-    mw.storage.init();
+
 
 
 
 
 
     ///  TESTS
-    mw.storage.change("reload_module", function(){
-        if( this!= ''){
-            mw.reload_module(this.toString());
-        }
-    });
+      mw.storage.init();
+      mw.storage.change("reload_module", function(){
+          if( this!= ''){
+              mw.reload_module(this.toString());
+          }
+      });
+
 
 
 

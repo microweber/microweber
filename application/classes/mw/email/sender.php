@@ -7,6 +7,8 @@ class Sender {
 	public $debug = false;
 	public $email_from = false;
 	public $email_from_name = false;
+	public $cc = false;
+
 	private $here = false;
 
 	public $smtp_host = false;
@@ -59,6 +61,10 @@ class Sender {
 
 	}
 
+	public function setCc($to) {
+		$this -> cc = $to;
+	}
+
 	public function send($to, $subject, $message) {
 
 		$from_address = $this -> email_from;
@@ -66,9 +72,25 @@ class Sender {
 
 		$m = new \dSendMail2;
 		$m -> setTo($to);
+		if ($this -> cc != false) {
+			 
+			$m -> setCc($this -> cc);
+		}
+
 		$m -> setFrom($from_address);
 		$m -> setSubject($subject);
-		$m -> setMessage($message);
+		$message = htmlspecialchars_decode($message);
+
+		if (stristr($message, '{SITE_URL}')) {
+			//d(MW_ROOTPATH);
+			//$message = replace_site_vars_back($message);
+			//$m -> setMessage($message, true);
+			$m -> importHTML($message, $baseDir = MW_ROOTPATH, $importImages = true);
+		} else {
+			$message = replace_site_vars_back($message);
+			$m -> setMessage($message, true);
+		}
+
 		$m -> setCharset('UTF-8');
 		$m -> headers['Reply-To'] = $from_address;
 
@@ -79,19 +101,18 @@ class Sender {
 				$m -> sendThroughSMTP($this -> smtp_host, $this -> smtp_port, $this -> smtp_username, $this -> smtp_password, $this -> smtp_secure);
 
 				break;
-				
-				case 'gmail' :
+
+			case 'gmail' :
 				$m -> sendThroughGMail($this -> smtp_username, $this -> smtp_password);
 
 				break;
-				
-				case 'yahoo' :
+
+			case 'yahoo' :
 				$m -> sendThroughYahoo($this -> smtp_username, $this -> smtp_password);
 
 				break;
-				
-				
-				case 'hotmail' :
+
+			case 'hotmail' :
 				$m -> sendThroughHotMail($this -> smtp_username, $this -> smtp_password);
 
 				break;
@@ -100,11 +121,10 @@ class Sender {
 				break;
 		}
 
- 
 		$m -> debug = $this -> debug;
- 
+
 		$s = $m -> send();
-unset($m);
+		unset($m);
 		return true;
 
 	}

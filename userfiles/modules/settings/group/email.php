@@ -19,8 +19,13 @@ mw.email_send_test = function(){
 	
 	
 	 $.post("<?php print site_url('api_html/email_send_test'); ?>", email_to, function(msg){
+//Alert("<pre>"+msg+"</pre>")
 
-			 $('#email_send_test_btn_output').html(msg);
+		mw.tools.modal.init({
+			html:"<pre>"+msg+"</pre>",	
+			title:"Email send results..."
+		});
+			// $('#email_send_test_btn_output').html(msg);
 	  });
 }
 </script>
@@ -36,7 +41,7 @@ mw.email_send_test = function(){
       <small>example: Site Admin</small> </label>
     <input name="email_from_name" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<? print get_option('email_from_name','email'); ?>" />
   </div>
-  <label class="mw-ui-label">Send email using <small><a href="javascript:$('#test_eml_toggle').toggle(); void(0);">[test]</a></small></label> 
+  <label class="mw-ui-label">Send email function <small><a class="mw-ui-btn mw-ui-btn-small" href="javascript:$('#test_eml_toggle').toggle(); void(0);">[test]</a></small></label> 
   <?   $email_transport = get_option('email_transport','email');
 
  if($email_transport == false){

@@ -31,12 +31,16 @@ if($payment_currency_rate != false){
     <? endforeach ; ?>
   </select>
 </div>
+<br />
+
+ <small>You must use one of the above currencies to accept payments</small>
+
 <label class="mw-ui-label">Convert rate to from default currency to payment currency</label>
 <input  name="payment_currency_rate" value="<? print $payment_currency_rate; ?>"  id="payment_currency_rate_val_sugg"   type="text" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" />
 <? $sugg  = currency_online_convert_rate($cur,$payment_currency); ?>
 <?  if($sugg  != false): ?>
 <br />
-<small>Suggested: <? print $sugg  ?> <a href="javascript:$('#payment_currency_rate_val_sugg').val(<? print $sugg  ?>).change(); void(0);">[use]</a></small>
+<small>Suggested: <? print $sugg  ?> <a class="mw-ui-link" href="javascript:$('#payment_currency_rate_val_sugg').val(<? print $sugg  ?>).change(); void(0);">[use]</a></small>
 <? endif; ?>
 <? endif; ?>
 <? endif; ?>

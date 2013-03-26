@@ -7,9 +7,7 @@ if (!window.CanvasRenderingContext2D) {
 document.getElementsByTagName('html')[0].className = window.location.href.indexOf('pecata/') !==-1 ?  document.getElementsByTagName('html')[0].className + ' mwoffice' : document.getElementsByTagName('html')[0].className;
 
 
-typeof mw === 'undefined' ?
-
-(function() {
+mw = {}
 
 
 
@@ -17,7 +15,7 @@ window.onerror = function(a,b,c){
   console.log(a + b + c);
 }
 
-  mw = {}
+
 
   if (top === self){
 
@@ -440,7 +438,7 @@ window.onerror = function(a,b,c){
 
 
 
-})() : '';
+
 
 
 mw.serializeFields =  function(id){
@@ -469,24 +467,7 @@ mw.serializeFields =  function(id){
  }
 
 
- mw.supports = {};
 
-
-(function(o){
-
-   var t = mwd.createElement('div');
-   var c = mwd.createElement('canvas');
-   var i = mwd.createElement('input');
-
-   o.mouseenter = t.onmouseenter === null ? true : false;
-   o.localstorage = o.localStorage = 'localStorage' in window;
-   o.canvas = !!c.getContext;
-   o.placeholder = 'placeholder' in i;
-   o.pushstate = 'pushState' in history;
-
-
-
-})(mw.supports);
 
 
 

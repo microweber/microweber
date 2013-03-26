@@ -68,6 +68,7 @@ if($data == false or empty($data )){
 if(isset($edit_post_mode) and $edit_post_mode == true){
  $data['content_type'] = 'post';
 }
+
 if(isset($data['content_type']) and  $data['content_type'] == 'post'){
 	$edit_post_mode = true;
 }
@@ -161,8 +162,8 @@ $data['parent'] = $is_blog_exist[0]['id'];
 //$form_rand_id = //$rand = md5(serialize($data).serialize($params));
 ?>
 <script  type="text/javascript">
-mw.require('forms.js');
-mw.require('url.js');
+mw.require('forms.js',true);
+mw.require('url.js',true);
 </script>
 <script type="text/javascript">
 
@@ -195,6 +196,11 @@ $(document).ready(function(){
      mw.reload_module('[data-type="pages"]');
  // mw_after_content_save<? print $rand; ?>();
  <? endif; ?>
+
+
+ if(window.parent != undefined && window.parent.mw != undefined){
+  window.parent.mw.reload_module('posts');
+ }
 
  mw_on_save_complete<? print $rand; ?>()
 

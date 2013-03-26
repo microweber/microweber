@@ -6,10 +6,6 @@ FieldUnify = function(a){
 
 //Cross-browser placeholder
 
-if(!mw.supports.placeholder){
-
-
-}
 
 
 

@@ -4,7 +4,7 @@
         <module type="categories"   />
     </div> */ ?>
 
-  <module type="shop/cart"  />
+  <module type="shop/cart" template="sidebar"  />
 
 
 </div>

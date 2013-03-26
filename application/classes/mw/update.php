@@ -2,7 +2,7 @@
 
 namespace mw;
 
-class update {
+class Update {
 
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
 

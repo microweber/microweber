@@ -1079,6 +1079,12 @@ foreach ($replaced_modules as $key => $value) {
 					unset($attrs[$nn]);
 				}
 
+
+if ($nn == 'no_wrap') {
+					$mod_no_wrapper = true;
+								//  $attrs ['data-no-wrap'] = $module_name;
+					unset($attrs[$nn]);
+				}
 				if ($nn == 'data-no-wrap') {
 					$mod_no_wrapper = true;
 								//  $attrs ['data-no-wrap'] = $module_name;

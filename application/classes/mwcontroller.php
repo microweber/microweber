@@ -469,9 +469,9 @@ class MwController {
 				$meta = get_content_by_id(CONTENT_ID);
 
 			} else {
-					$meta['title'] = get_option('website_title', 'website');
-					$meta['description'] = get_option('website_description', 'website');
-					$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+				$meta['title'] = get_option('website_title', 'website');
+				$meta['description'] = get_option('website_description', 'website');
+				$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
 
 			}
 			if (!empty($meta)) {
@@ -1380,6 +1380,10 @@ class MwController {
 		$layout = parse_micrwober_tags($layout, $options = false);
 
 		$layout = execute_document_ready($layout);
+
+		$layout = str_replace('{head}', '', $layout);
+
+		$layout = str_replace('{content}', '', $layout);
 
 		print $layout;
 		exit();
