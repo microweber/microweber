@@ -12,7 +12,7 @@ description: Sidebar cart template
 
 ?>
 
-<div class="mw-cart mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>">
+<div class="mw-cart mw-sidebar-cart mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<? print $params['id']?>">
     <h2 style="margin-top: 0;" class="edit" rel="<? print $params['id']?>" field="cart_title">
       <?   _e('My cart') ?>
@@ -25,7 +25,7 @@ description: Sidebar cart template
         <th class="mw-cart-table-product">Product Name</th>
         <th>QTY</th>
         <th>Total</th>
-        <th>Delete</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>

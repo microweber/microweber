@@ -20,7 +20,7 @@ description: Product Slider
  <?php $id = "slider-".uniqid(); ?>
 
 <div class="well mw-module-images">
-<div class="autoscale mw-rotator mw-rotator-template-default" id="<?php print $id; ?>">
+<div class="autoscale mw-rotator mw-rotator-template-shop" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">

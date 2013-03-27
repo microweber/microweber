@@ -82,6 +82,7 @@ if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
 
 
 }
+// $is_ex = get_content('parent=0&content_type=page&limit=100');
 if(isarr($is_ex)){
 	foreach ($is_ex as $item) {
 		$cats__parents[] = $item['id'];
@@ -314,7 +315,10 @@ if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
  } else {
 $tree['is_shop'] = 'n';
 }
+if(isset($tree['is_shop'] )){
 
+	unset($tree['is_shop'] );
+}
 pages_tree($tree);
 ?>
 <? endif; ?>

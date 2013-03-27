@@ -165,13 +165,11 @@ a.rotator-paging-item-thumbnail img{
   background-position: -27px 0;
   left: 0;
 }
-.mw-rotator-template-default .rotator-index-control-mode-numbers{
-  position: absolute;
-  visibility: hidden;
-  bottom: 0;
-  right: 0;
-  white-space: nowrap;
-  cursor: pointer;
+.rotator-index-control-mode-numbers{
+    cursor: pointer;
+    display: block;
+    padding-top: 12px;
+    text-align: right;
 }
 .mw-rotator-template-default .rotator-index-control-mode-thumbnails{
     bottom: -110px;
@@ -185,7 +183,7 @@ a.rotator-paging-item-thumbnail img{
     white-space: nowrap;
     width: 80%;
 }
-.mw-rotator-template-default a.rotator-paging-item-digit{
+a.rotator-paging-item-digit{
   display: inline-block;
   cursor: pointer;
   color: #A9A9A9;
@@ -274,6 +272,7 @@ a.rotator-paging-item-thumbnail img{
     position: absolute;
     bottom: -130px;
     left: 0;
+    width: 100%;
 }
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail{
   display: inline-block;

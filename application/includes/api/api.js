@@ -56,7 +56,7 @@ window.onerror = function(a,b,c){
   }
   mw.onAdmin = function(callback) {
     if (window['mwAdmin']) {
-      callback.call(this)
+      callback.call(this);
     }
   }
 

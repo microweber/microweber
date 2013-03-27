@@ -1370,7 +1370,12 @@ mw.tools = {
         }
     });
     $(frame).bind('change', function(e, val){
+      if(area[0].tagName === 'TEXTAREA'){
        area.val(val);
+      }
+      else{
+        area.html(val);
+      }
        if(area.hasClass("mw_option_field")){
          area.trigger("change");
        }
@@ -1383,6 +1388,7 @@ mw.tools = {
 
 
 Alert = mw.tools.alert;
+
 
 
 

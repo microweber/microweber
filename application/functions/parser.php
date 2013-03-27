@@ -1009,7 +1009,7 @@ foreach ($replaced_modules as $key => $value) {
 		$m_tag = rtrim($m_tag, "/>");
 		$m_tag = rtrim($m_tag);
 		$userclass = '';
-		$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__";
+		$module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__ __MODULE_NAME__";
 
 					// $module_html = "<div class='module __WRAP_NO_WRAP__' ";
 		$module_has_class = false;
@@ -1119,8 +1119,11 @@ if ($nn == 'no_wrap') {
 
 				$z++;
 			}
+$module_title = false;
 			if (isset($module_name)) {
 				$module_class = module_css_class($module_name);
+				$module_title = module_info($module_name);
+			//	d($module_title);
 				if (!isset($attrs['id'])) {
 
 					global $mw_mod_counter;
@@ -1133,6 +1136,16 @@ if ($nn == 'no_wrap') {
 					$module_html = str_replace('__MODULE_ID__', '', $module_html);
 				}
 			}
+			if(isarr($module_title) and isset($module_title["name"])){
+			$module_title["name"] = addslashes($module_title["name"]);
+			$module_html = str_replace('__MODULE_NAME__', ' data-title="'.$module_title["name"].'"', $module_html);
+			} else {
+			$module_html = str_replace('__MODULE_NAME__', '', $module_html);
+				
+			}
+			
+			
+			
 
 						//                        if (!isset($module_name)) {
 						//                            if (isset($_POST['module'])) {

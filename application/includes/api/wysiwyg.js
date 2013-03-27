@@ -11,7 +11,7 @@ mw.wysiwyg = {
     init_editables : function(module){
        if (!window['mwAdmin']) {
 
-        if(mw.is.defined(module)){
+        if(typeof module !== 'undefined'){
             module.contentEditable = false;
             $(module.querySelectorAll(".edit")).each(function(){
                this.contentEditable = true;
@@ -234,7 +234,7 @@ mw.wysiwyg = {
          if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
            $(mw.image_resizer).removeClass("active");
-                   d(event.target)
+                 
            if(event.target.tagName === 'IMG'){
               $(event.target).remove()
            }
@@ -243,7 +243,7 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-           if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable){
+           if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
              mw.e.cancel(event, true);
              return false;
            }
