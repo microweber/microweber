@@ -483,6 +483,8 @@ function get($params) {
 	}*/
 
 	$criteria = array();
+	 ksort($params);
+	
 	foreach ($params as $k => $v) {
 		if ($k == 'table') {
 			$table = guess_table_name($v); ;

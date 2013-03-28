@@ -122,7 +122,10 @@ DOMChange:function(element, callback){
 
 mw.hashHistory = [window.location.hash]
 
-
+mw.prevHash = function(){
+  var prev = mw.hashHistory[mw.hashHistory.length - 2];
+  return prev!==undefined ? prev : '' ;
+}
 
 $(window).bind("hashchange load", function(event){
    mw.on.hashParamEventInit();

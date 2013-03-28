@@ -655,6 +655,16 @@ form .shipping-country-row:first-child{
   max-width: 100%;
 }
 
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{
+
+}
+
 
 
 

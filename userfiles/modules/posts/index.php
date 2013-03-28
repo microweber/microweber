@@ -245,8 +245,11 @@ if(!isset($params['order_by'])){
 if($date_format == false){
 $date_format = "Y-m-d H:i:s";	
 }
-
-  
+if(isset($params['title'])){
+ 
+	unset($post_params['title']);
+}
+  // $post_params['debug'] = 'post';
 $content   = get_content($post_params);
 $data = array();
 

@@ -14,14 +14,19 @@ select{
   width: 250px;
 }
 
-.mw-iframe-editor{
-  width: 100%;
-  height: 200px;
+
+#editor_holder{
   display: none;
 }
 
+
+.mw-iframe-editor{
+  width: 100%;
+  height: 200px;
+}
+
 #btn_url{
-  display: none;
+   width: 230px;
 }
 
 </style>
@@ -38,16 +43,16 @@ var editor = mw.tools.iframe_editor("textarea");
 btn_action = function(){
   var el = mw.$("#action");
   if(el.val()=='url'){
-     $(editor).hide();
-     mw.$("#btn_url").show();
+     $("#editor_holder").hide();
+     mw.$("#btn_url_holder").show();
   }
   else if(el.val()=='popup'){
-     $(editor).show();
-     mw.$("#btn_url").hide();
+     $("#editor_holder").show();
+     mw.$("#btn_url_holder").hide();
   }
   else{
-    $(editor).hide();
-     mw.$("#btn_url").hide();
+    $("#editor_holder").hide();
+     mw.$("#btn_url_holder").hide();
   }
 }
 
@@ -55,15 +60,38 @@ btn_action = function(){
 
 
     btn_action();
-mw.$("#action").change(function(){
-    btn_action();
-});
+    mw.$("#action").change(function(){
+        btn_action();
+    });
 
 })
 
 </script>
 
 <div style="padding: 0 20px 20px;">
+
+
+<div class="mw-ui-field-holder">
+  <label class="mw-ui-label">Action</label>
+  <select type="text"  class="mw-ui-simple-dropdown mw_option_field" id="action"  name="button_action">
+      <option <?php if($action==''){ print 'selected'; } ?> value="">None</option>
+      <option <?php if($action=='url'){ print 'selected'; } ?> value="url">Link</option>
+      <option <?php if($action=='popup'){ print 'selected'; } ?> value="popup">Popup</option>
+  </select>
+</div>
+
+<div id="editor_holder">
+
+<textarea  class="mw_option_field"  name="popupcontent"><?php print $popupcontent; ?></textarea>
+
+</div>
+<div id="btn_url_holder">
+    <input type="text" name="url" id="btn_url" value="<?php print $url; ?>" placeholder="Enter URL"  class="mw_option_field" />
+    <div class="vSpace"></div>
+    <label class="mw-ui-check"><input type="checkbox" name="url_blank" value="y" class="mw_option_field"><span></span><span>Open in new window</span></label>
+
+
+</div>
 
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">Color</label>
@@ -86,17 +114,6 @@ mw.$("#action").change(function(){
   </select>
 </div>
 
-<div class="mw-ui-field-holder">
-  <label class="mw-ui-label">Action</label>
-  <select type="text"  class="mw-ui-simple-dropdown mw_option_field" id="action"  name="button_action">
-      <option <?php if($action==''){ print 'selected'; } ?> value="">None</option>
-      <option <?php if($action=='url'){ print 'selected'; } ?> value="url">Link</option>
-      <option <?php if($action=='popup'){ print 'selected'; } ?> value="popup">Popup</option>
-  </select>
-</div>
 
-<textarea  class="mw_option_field"  name="popupcontent"><?php print $popupcontent; ?></textarea>
-
-<input type="text" name="url" id="btn_url" value="<?php print $url; ?>" placeholder="Enter URL"  class="mw_option_field" />
 
 </div>

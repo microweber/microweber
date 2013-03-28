@@ -41,7 +41,7 @@ mw.require('forms.js');
 	 }
 		 
 		 
-		 
+
 		 
 		 
 		  if(is_page != undefined){
@@ -97,7 +97,7 @@ $(document).ready(function(){
 	 
 
 	 
-	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() { 
+	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() {
 
  // set_category_parent_<? print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
@@ -110,8 +110,9 @@ $(document).ready(function(){
         mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
 	  });
 	  <? if(intval($data['id']) == 0): ?>
+	 	mw.url.windowHashParam("new_content", "true");
 	 	mw.url.windowHashParam("action", "editcategory:" + this);
-<? endif; ?>
+     <? endif; ?>
 	  
 	  
 	  

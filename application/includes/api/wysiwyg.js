@@ -234,17 +234,25 @@ mw.wysiwyg = {
          if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
            $(mw.image_resizer).removeClass("active");
-                 
+
            if(event.target.tagName === 'IMG'){
-              $(event.target).remove()
+              $(event.target).remove();
            }
 
            var sel = window.getSelection();
 
            var r = sel.getRangeAt(0);
 
+           d(event.target)
+
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
+
              mw.e.cancel(event, true);
+
+             if(event.target.tagName === 'DIV'){
+                  mw.e.cancel(event, true);
+             }
+
              return false;
            }
 

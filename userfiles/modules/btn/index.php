@@ -5,7 +5,8 @@
     $size =  get_option('button_size', $params['id']);
     $action =  get_option('button_action', $params['id']);
     $action_content =  get_option('popupcontent', $params['id']);
-
+    $url =  get_option('url', $params['id']);
+    $blank =   get_option('url_blank', $params['id']);
 
 
 ?>
@@ -13,7 +14,7 @@
 
 <?php if($action=='url' or $action==''){ ?>
 
-<a href="<?php $url; ?>" class="btn <?php print $style. ' '. $size; ?>">Button</a>
+<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>">Button</a>
 
 
 <?php } else if($action=='popup') { ?>
@@ -37,7 +38,7 @@ $(document).ready(function(){
         name:'frame<?php print $rand; ?>',
         html:mwd.getElementById('area<?php print $rand; ?>').value,
         template:'mw_modal_simple'
-      })
+      });
   })
 
 });

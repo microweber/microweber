@@ -30,6 +30,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>
+          <th><?php _e("Date"); ?></th>
         <th><?php _e("Status"); ?></th>
         <th><?php _e("Amount"); ?></th>
         <th><?php _e("Paid"); ?></th>
@@ -58,6 +59,8 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
       <tr class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-status-<? print $item['order_status'] ?>">
         <td class="mw-order-item-id"><a href="#vieworder=<? print ($item['id']) ?>"><span><? print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
           <span class="mw-ord-id">ORD-<? print $item['id'] ?></span></a></td>
+                  <td class="mw-order-item-date"><? print $item['created_on']; ?></td>
+
         <td class="mw-order-item-status"><?
 		 if($item['order_status'] == false): ?>
           New

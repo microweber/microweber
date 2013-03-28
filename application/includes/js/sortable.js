@@ -1187,6 +1187,13 @@ module_settings: function() {
   if(data1['data-type'] != undefined){
 	 // alert(1);
 	 data1['data-type'] = data1['data-type']+'/admin';
+
+   }
+
+
+    if(data1['data-module-name'] != undefined){
+
+   delete(data1['data-module-name']);
   }
 
     if(data1['type'] != undefined){

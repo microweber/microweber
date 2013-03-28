@@ -524,3 +524,4 @@ $language["the-cart-is-empty"]= 'The cart is empty' ;
 $language["payment-settings-are-saved"]= 'Payment settings are saved' ; 
 $language["settings-are-saved"]= 'Settings are saved' ; 
 $language["payments-settings-are-saved"]= 'Payments settings are saved' ; 
+$language["date"]= 'Date' ; 

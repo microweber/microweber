@@ -112,7 +112,7 @@ body.cross{
     width: 100%;
     height:52px;
     position: relative;
-    z-index: 2;
+    z-index: 12;
     background: url(../img/navbg.jpg) repeat-x;
 }
 
@@ -216,59 +216,7 @@ body.cross{
 }
 
 
-#mw-menu-liquify{
-  float: left;
-  min-width: 120px;
-}
 
-#menu-dropdown{
-  position: relative;
-  z-index: 10;
-  float: left;
-  width: 21px;
-  height:48px;
-  cursor: pointer;
-  background:  url(../img/quick.icons.png) no-repeat -590px -1px;
-  color: black;
-}
-
-#menu-dropdown.toggler-active{
-  background-position: -612px -2px;
-}
-
-
-#menu-dropdown-nav{
-  position: absolute;
-  top: 100%;
-  right: 0;
-  display: none;
-  border-left:1px solid #D8D8D8;
-  border-right:1px solid #D8D8D8;
-}
-
-#menu-dropdown-nav a{
-  display: block;
-  border-bottom: 1px solid #C2BFBF;
-  box-shadow:0 1px 0 0 #FFFFFF inset;
-  padding: 5px 10px;
-  background:url(../img/grad.php?top=F5F5F5&bot=E0E0E0) repeat-x center;
-  color: #212121;
-  text-decoration: none;
-  text-align: center;
-  text-shadow: 1px 1px 0 white;
-  min-width: 90px;
-  white-space: nowrap;
-}
-
-#menu-dropdown-nav a:hover{
-  box-shadow: 0 3px 3px -4px #6F6F6F inset;
-  background: #F9F9F9;
-}
-
-#menu-dropdown-nav a:active, #menu-dropdown-nav .active a{
-  box-shadow: 0 3px 3px -4px #212121 inset;
-  background: #F9F9F9;
-}
 
 
 .mw_tree_title{

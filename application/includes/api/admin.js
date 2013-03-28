@@ -25,7 +25,6 @@ urlParams = mw.url.mwParams(window.location.href);
 
 $(window).bind('load resize', function(){
 
-    mw.liveadmin.menu.size();
 
 
 
@@ -44,7 +43,6 @@ $(document).ready(function(){
    mw.$('#mw-menu-liquify').hide();
    mw.tools.sidebar();
    mw.$('#mw-menu-liquify').show();
-   mw.liveadmin.menu.size();
    $(window).bind('hashchange', function(){
      mw.tools.sidebar();
    });

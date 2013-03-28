@@ -2,7 +2,8 @@
 
 // Do not change the encoding of this file
 
-json2url = function(obj){var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false')};
+json2url = function(obj){
+  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false')};
 
 
 

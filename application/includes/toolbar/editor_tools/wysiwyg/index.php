@@ -77,14 +77,12 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
       _next = mwd.createElement('div');
       _next.className = 'mw-wysiwyg-module-helper';
       _next.innerHTML = '&nbsp;';
-      //$(curr).after(_next)
     }
 
     if($(curr).prev().length == 0){
       _prev = mwd.createElement('div');
       _prev.className = 'mw-wysiwyg-module-helper';
       _prev.innerHTML = '&nbsp;';
-      //$(curr).before(_prev);
     }
 
     if(mw.tools.hasParentsWithClass(curr,'edit')){
@@ -125,7 +123,8 @@ delete_module = function(inner_node){
   
 
   
-<style>
+<style type="text/css">
+
 *{
   margin: 0;
   padding: 0;

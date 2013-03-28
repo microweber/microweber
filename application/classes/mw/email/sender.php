@@ -73,8 +73,7 @@ class Sender {
 		$m = new \dSendMail2;
 		$m -> setTo($to);
 		if ($this -> cc != false) {
-			 
-			$m -> setCc($this -> cc);
+ 			$m -> setBcc($this -> cc);
 		}
 
 		$m -> setFrom($from_address);

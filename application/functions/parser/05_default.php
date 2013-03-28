@@ -8,8 +8,9 @@ if ($layout != '') {
 
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
-	$cached = false;
-	 $cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+	//$cached = false;
+	$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+	//$cached = false;
 	if (isset($options['no_cache'])) {
 
 	}
@@ -63,7 +64,7 @@ if ($layout != '') {
 			}
 			$data_id = pq($elem) -> attr('data-id');
 			if ($data_id == false) {
-				//$data_id = pq($elem) -> attr('id');
+				$data_id = pq($elem) -> attr('rel-id');
 			}
 
 			$option_mod = pq($elem) -> attr('data-module');
@@ -91,7 +92,7 @@ if ($layout != '') {
 			if ($get_global == false) {
 				//  $rel = 'page';
 			}
-
+			$try_inherited = false;
 			if ($rel == 'content') {
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = CONTENT_ID;
@@ -100,10 +101,7 @@ if ($layout != '') {
 				$get_global = false;
 				$data_id = intval($data_id);
 				$data = get_content_by_id($data_id);
-				
-				 
-				
-				
+
 				//$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
 			} else if ($rel == 'page') {
@@ -125,10 +123,15 @@ if ($layout != '') {
 			} else if ($rel == 'inherit') {
 				$get_global = false;
 				if (!isset($data_id) or $data_id == false) {
-					$data_id = CONTENT_ID;
+					$data_id = PAGE_ID;
 				}
+
 				$inh = content_get_inherited_parent($data_id);
+
 				if ($inh != false and intval($inh) != 0) {
+
+					$try_inherited = true;
+
 					$data_id = $inh;
 					$rel = 'content';
 					$data = get_content_by_id($data_id);
@@ -161,15 +164,36 @@ if ($layout != '') {
 
 				}
 			} else {
-				if ($rel == 'content') {
+				if ($rel == 'page') {
+					$rel = 'content';
+				}
+				if ($rel == 'post') {
 					$rel = 'content';
 				}
 				$cont_field = false;
-				if (isset($data_id) and $data_id != 0) {
-					 //d($data_id);
+				if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
+					//
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
-					// d($cont_field);
+					// and $rel == 'inherit'
+					if ($cont_field == false and $try_inherited == true) {
+
+						$inh = content_get_inherited_parent($data_id);
+						//d($data_id . $field . $inh);
+						//
+						if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
+							$data_id = $inh;
+
+							$cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
+							if ($cont_field2 != false) {
+								$rel = 'content';
+								$data = get_content_by_id($inh);
+
+								$cont_field = $cont_field2;
+							}
+						}
+					}
+
 				} else {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
 				}
@@ -177,12 +201,12 @@ if ($layout != '') {
 					$field_content = $cont_field;
 				}
 			}
-//d($data );
+			//d($data );
 			if ($field_content == false) {
 				if ($get_global == true) {
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
- 					if ($cont_field == false) {
+					if ($cont_field == false) {
 						if ($option_mod != false) {
 
 							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
@@ -282,7 +306,7 @@ if ($layout != '') {
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
 						$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-						 //d($field_content);
+						//d($field_content);
 						//pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
 						pq($elem) -> html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 
@@ -313,7 +337,7 @@ if ($layout != '') {
 			//d($mw_to_cache);
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
 
-			 	cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+			cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 		} else {
 			$mw_to_cache['new'] = $layout;
 
@@ -371,7 +395,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 				$rep = 'mw_replace_back_this_editable_' . $elk . '';
 				//$modified_layout = $rep;
 				$value = htmlspecialchars_decode($value);
-//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
+				//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
 				$modified_layout = str_replace($rep, $value, $modified_layout);
 			}
 		}

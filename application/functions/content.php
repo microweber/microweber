@@ -481,7 +481,8 @@ function get_layout_for_page($page = array()) {
 	$args = func_get_args();
 	$function_cache_id = '';
  
-	$function_cache_id = $function_cache_id . serialize($page).url_string();
+ ksort($page);
+	$function_cache_id = $function_cache_id . serialize($page) ;
 	 
 
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
@@ -1618,7 +1619,7 @@ function save_edit($post_data) {
 					if (($field != false)) {
 						$page_element_id = $field;
 					}
-if(!isset($the_field_data['attributes']['rel'])){
+					if(!isset($the_field_data['attributes']['rel'])){
 					$the_field_data['attributes']['rel'] = 'content';
 					}
 					$save_global = false;
@@ -1654,13 +1655,13 @@ if(!isset($the_field_data['attributes']['rel'])){
 
 							$save_global = false;
 							$save_layout = false;
-							$content_id = $the_field_data['attributes']['data-id'];
+							$content_id_for_con_field = $content_id = $the_field_data['attributes']['data-id'];
 							break;
 							case 'page':
 							case 'post':
 							$save_global = false;
 							$save_layout = false;
-							$content_id = $page_id;
+							$content_id_for_con_field = $content_id = $page_id;
 							break;
 
 
@@ -1683,7 +1684,7 @@ if(!isset($the_field_data['attributes']['rel'])){
 						$inh = content_get_inherited_parent($page_id);
 						if($inh != false){
 							$content_id_for_con_field = $content_id = $inh;
-							//	d($content_id);
+						 	
 						}
 
 					}
@@ -1696,7 +1697,8 @@ if(!isset($the_field_data['attributes']['rel'])){
 
 
 					$save_layout = false;
-					if($inh  == false){
+					if($inh  == false and !isset($content_id_for_con_field)){
+						
 						if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){
 							$content_id_for_con_field = intval($ref_page['parent']);
 						// d($content_id);
@@ -1740,7 +1742,7 @@ if(!isset($the_field_data['attributes']['rel'])){
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
 							if($field != 'content'){
-							//	d($cont_field);
+							 	//d($cont_field);
 								$cont_field1 = save_content_field($cont_field);
 							}
 							$to_save = array();
@@ -2065,7 +2067,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 		if ($check_ex == false) {
 			if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-				$test2 = get_categories_array('data_type=category&rel=content&rel_id='.intval(($data_to_save['id'])));
+				$test2 = get_categories('data_type=category&rel=content&rel_id='.intval(($data_to_save['id'])));
 
 				if(isset($test2[0])){
 					$check_ex = $test2[0];

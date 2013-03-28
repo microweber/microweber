@@ -23,6 +23,8 @@ if (!isset($params['rel'])) {
 
 
     $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); 
+	//d( $display_comments_from_which_post);
+ 
 if($display_comments_from_which_post == 'current_post' and isset($data['rel_id'])){
 	
 unset($data['rel_id']);

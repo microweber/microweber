@@ -109,23 +109,46 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
           <div class="mw_simple_tabs mw_tabs_layout_stylish">
             <? foreach($payment_modules  as $payment_module): ?>
             <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
-              <div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);"> <span class="ico ireport"></span><span><? print $payment_module['name'] ?></span> </div>
+            
+            <? 
+			
+			
+			$module_info = (module_info($payment_module['module']));
+			
+			 
+			 ?>
+            
+            
+              <div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
+              
+              <? print module_ico_title($payment_module['module'],false); ?>
+              
+              
+             <!--  <span class="ico ireport"></span><span><? print $payment_module['name'] ?></span> -->
+             
+        
+            
+            
+            
+            
+            
+            
+            
+          
+             
+             
+             
+             
+             </div>
               <div class="mw-o-box-content mw-o-box-accordion-content">
-                <ul class="mw-ui-inline-selector">
-                  <li>
-                    <label class="mw-ui-label">Enabled:</label>
-                  </li>
-                  <li>
-                    <label class="mw-ui-check">
-                      <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
-                      <span></span><span>Yes</span></label>
-                  </li>
-                  <li>
-                    <label class="mw-ui-check">
-                      <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> >
-                      <span></span><span>No</span></label>
-                  </li>
-                </ul>
+                   <label class="mw-ui-label"> <? print $payment_module['name'] ?> <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<? endif; ?>">
+<span class="mw-switch-handle"></span>
+                <label>Enabled<input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> ></label>
+                <label>Disabled<input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> ></label>
+            </div></label>
+            
+            
+            
                 <div class="mw-set-payment-gw-options" >
                   <module type="<? print $payment_module['module'] ?>" view="admin" />
                 </div>

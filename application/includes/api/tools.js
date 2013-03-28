@@ -845,7 +845,7 @@ mw.tools = {
       $(el).addClass('mw-focus');
     }
   },
-  scrollTo:function(el, callback){
+  scrollTo:function(el, callback, parent){
     mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
         typeof callback === 'function' ? callback.call(el) : '';
     });
@@ -853,7 +853,10 @@ mw.tools = {
   accordion:function(el, callback){
     var speed = 200;
     var container = el.querySelector('.mw-o-box-content');
+
+
     if($(el).hasClass('mw-accordion-active')){
+
         $(container).slideDown(speed, function(){
           $(el).removeClass('mw-accordion-active');
           typeof callback === 'function' ? callback.call(el, 'visible') : '';
@@ -979,6 +982,12 @@ mw.tools = {
         span_holder.className = 'mw-ui-btn mw-ui-btn-small';
         span_holder.id = 'id-'+el.value;
         span_holder.innerHTML = el.parentNode.textContent;
+
+        var icon = mwd.createElement('i');
+        icon.className = mw.tools.firstParentWithTag(el, 'li').className;
+
+        $(span_holder).prepend(icon);
+
         span_holder.onclick = function(e){
 
 

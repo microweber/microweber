@@ -562,28 +562,47 @@ function is_module_installed($module_name) {
 	}
 }
 
-function module_ico_title($module_name) {
+function module_ico_title($module_name, $link = true) {
 	$params = array();
 	$to_print = '';
 	$params['module'] = $module_name;
 	$params['ui'] = 'any';
 	$params['limit'] = 1;
 	$data = get_modules_from_db($params);
+	 $info = false;
+	if (isset($data[0])) {
+		 $info = $data[0];
+	}
+	if ($link == true and  $info != false) {
+		$href = admin_url() . 'view:modules/load_module:' . module_name_encode($info['module']);
+	} else {
+		$href = '#';
+	}
+
 	if (isset($data[0])) {
 		$info = $data[0];
-		$tn_ico = thumbnail($info['icon'], 32,32);
-		 $to_print = '<a style="background-image:url('.$tn_ico.')" class="module-icon-title" href="'.admin_url() .'view:modules/load_module:'.module_name_encode($info['module']).'">'.$info['name'].'</a>';
+		$tn_ico = thumbnail($info['icon'], 32, 32);
+		$to_print = '<a style="background-image:url(' . $tn_ico . ')" class="module-icon-title" href="' . $href . '">' . $info['name'] . '</a>';
 	}
 	print $to_print;
 }
 
+$_mw_modules_info_register = array();
 function module_info($module_name) {
+	global $_mw_modules_info_register;
+	if (isset($_mw_modules_info_register[$module_name])) {
+
+		return $_mw_modules_info_register[$module_name];
+
+	}
+
 	$params = array();
 	$params['module'] = $module_name;
 	$params['ui'] = 'any';
 	$params['limit'] = 1;
 	$data = get_modules_from_db($params);
 	if (isset($data[0])) {
+		$_mw_modules_info_register[$module_name] = $data[0];
 		return $data[0];
 	}
 }
@@ -608,7 +627,9 @@ function is_module($module_name) {
 
 	return $checked[$module_name];
 }
-
+function module_path($module_name) {
+	return module_dir($module_name);
+}
 function module_dir($module_name) {
 	if (!is_string($module_name)) {
 		return false;
@@ -1611,10 +1632,9 @@ function load_module($module_name, $attrs = array()) {
 			$find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
 		}
 		$config['url'] = $find_base_url;
-		
-		$config['url_main'] = $config['url_base'] =  strtok($find_base_url, '?');
-		
-		
+
+		$config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
+
 		$config['module_api'] = site_url('api/' . $module_name);
 		$config['module_view'] = site_url('module/' . $module_name);
 		$config['ns'] = str_replace('/', '\\', $module_name);

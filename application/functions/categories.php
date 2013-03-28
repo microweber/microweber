@@ -1102,7 +1102,7 @@ function OOOOOOLD_content_helpers_getCaregoriesUlTree($parent, $link = false, $a
 	}
 }
 
-function get_category_items($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
+function get_category_items_for_parent_category($parent_id, $type = false, $visible_on_frontend = false, $limit = false) {
 
 	$categories_id = intval($parent_id);
 
@@ -1399,6 +1399,11 @@ function delete_category($data) {
 }
 
 function get_categories_array($params, $data_type = 'categories') {
+
+	return get_categories($params, $data_type);
+}
+
+function get_categories($params, $data_type = 'categories') {
 	$params2 = array();
 	$rel_id = 0;
 	if (is_string($params)) {
@@ -1430,7 +1435,7 @@ function get_categories_array($params, $data_type = 'categories') {
 
 }
 
-function get_categories($params, $data_type = 'categories') {
+function get_category_items($params, $data_type = 'categories') {
 
 	$rel_id = 0;
 	if (is_string($params)) {
@@ -1452,13 +1457,13 @@ function get_categories($params, $data_type = 'categories') {
 		$data['data_type'] = 'tag_item';
 		$data_type_q = "and data_type = 'tag_item' ";
 	}
-	$data['table'] = $table;
-
-	$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
-	$data['only_those_fields'] = array('parent_id');
+	$data['table'] = $table_items;
+	//$data['debug'] = $table;
+	//$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
+	//$data['only_those_fields'] = array('parent_id');
 
 	$data = get($data);
-
+	return $data;
 	//$q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id $data_type_q ";
 	// var_dump($q);
 	//

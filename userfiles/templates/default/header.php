@@ -26,8 +26,13 @@
     <? print $custom_head; ?>
     <? else : ?>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
-    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
+<?php
+/*
+    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap3.css" type="text/css" media="all">    */  ?>
+   <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
+
+
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>

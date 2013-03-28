@@ -46,11 +46,8 @@
             mw.tools.toolbar_slider.init();
 
 
-            mw.liveadmin.menu.size(130);
 
-            $(window).resize(function(){
-                 mw.liveadmin.menu.size(130);
-            });
+
 
 
 
@@ -89,7 +86,7 @@
   <div  id="live_edit_toolbar">
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
-      <div id="mw-menu-liquify">
+
         <ul id="mw_tabs">
           <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
             <? _e('Modules'); ?>
@@ -104,25 +101,40 @@
             <? _e('Help'); ?>
             </a> </li>
         </ul>
-      </div>
-      <div id="menu-dropdown" onclick="mw.tools.toggle('#menu-dropdown-nav', this);">
-        <div id="menu-dropdown-nav"></div>
-      </div>
-      <a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>
+
+       <div class="mw-ui-dropdown media-small" id="mw_tabs_small">
+          <span class="mw-ui-btn">Menu<span class="ico idownarr right"></span></span>
+          <div class="mw-dropdown-content">
+            <ul class="mw-dropdown-list">
+              <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
+                <? _e('Modules'); ?>
+                </a> </li>
+              <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
+                <? _e('Layouts'); ?>
+                </a> </li>
+              <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
+                <? _e('Pages'); ?>
+                </a> </li>
+              <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
+                <? _e('Help'); ?>
+                </a> </li>
+            </ul>
+         </div>
+       </div>
+      <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
       <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
         <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website<span class="ico idownarr right"></span></a>
-          <ul>
-            <li><a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website</a></li>
-            <li><span onclick="mw.preview();void(0);" class="mw-ui-btn mw-ui-btn-green">Preview</span></li>
-            
+        <div class="mw-dropdown-content">
+        <ul class="mw-dropdown-list">
+            <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
+            <li><a href="javascript:;" onclick="mw.preview();void(0);">Preview</a></li>
             <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-            <li> <a href="javascript:;" class="mw-ui-btn">Unpublish <? print CONTENT_ID ?></a></li>
-            <li><span class="mw-ui-btn mw-ui-btn-blue">Publish</span></li>
+              <li><a href="javascript:;">Unpublish<? print CONTENT_ID; ?></a></li>
+              <li><a href="javascript:;">Publish</a></li>
             <? endif; ?>
-            
-            
           </ul>
+          </div>
         </div>
       </div>
     </div>

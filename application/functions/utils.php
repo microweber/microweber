@@ -1039,18 +1039,62 @@ function directory_tree_printFile($file, $path) {
 	$return = '';
 	$file1  = no_ext($file);
 	$file1  = ltrim($file1, '_');
+	
+	
+	
+	
+	if($file1 != 'index'){
+	if(strlen($file1) > 3){
+ 	$pos = strpos($file1, '_', 1);
+ 
+	if ($pos != false) {
+	     $substr = substr($file1, 0, $pos);
+		if(intval($substr) > 0){
+			 $file1 = substr($file1, $pos, strlen($file1));
+			 $file1  = ltrim($file1, '_');
+		}
+		//
+		}
+	}
+	
+	$file1  = str_replace('_', ' ', $file1);
+	
+	//$fp = dirname($file);
 
 	$path = str_replace('\\', '/', $path);
 
 	$return .= "<li class='directory_tree_is_file'><a href=\"?file=" . $path . $file . "\">$file1</a></li>";
+	}
+	
+	
+	
+	
 	return $return;
 }
 
 function directory_tree_printSubDir($dir, $path) {
 	$path = str_replace('\\', '/', $path);
+	
+	$file1 = $dir;
+	$pos = strpos($file1, '_', 1);
+ 
+	if ($pos != false) {
+	     $substr = substr($file1, 0, $pos);
+		if(intval($substr) > 0){
+			 $file1 = substr($file1, $pos, strlen($file1));
+			 $file1  = ltrim($file1, '_');
+		}
+		//
+	}
+		
+	
+	$file1  = str_replace('_', ' ', $file1);
+	
+	
+	
 
 	$return = '';
-	$return .= "<li class='directory_tree_is_folder'><a href=\"?path=" . $path . $dir . "\" class=\"toggle\">$dir</a>";
+	$return .= "<li class='directory_tree_is_folder'><a href=\"?path=" . $path . $dir . "\" class=\"toggle\">$file1</a>";
 	$return .= directory_tree_full_path($path . $dir . DS);
 	$return .= "</li>";
 	return $return;

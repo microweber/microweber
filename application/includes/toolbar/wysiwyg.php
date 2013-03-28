@@ -104,7 +104,7 @@
 
 
             <span class="mw_dlm"></span>
-
+            <div class="wysiwyg-break">
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
@@ -112,6 +112,7 @@
 
 
             <span class="mw_dlm"></span>
+
 
 
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
@@ -124,8 +125,12 @@
 
 
 
-            <span class="mw_editor_btn mw_editor_element" data-command="custom-createelement"><span class="ed-ico"></span></span>
-            
+            <span class="mw_editor_btn mw_editor_element" title="Create Draggable Element from selected text." data-command="custom-createelement"><span class="ed-ico"></span></span>
+
+            <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span></span>
+
+            </div>
+
              <? exec_action('mw_editor_btn'); ?>
             
             

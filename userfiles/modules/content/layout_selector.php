@@ -40,18 +40,29 @@ if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout
 
   if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
 //
-    $inh1 = content_get_inherited_parent($params["inherit_from"]);
-    if($inh1 == false){
-     $inh1 = intval($params["inherit_from"]);
-   }
-   if($inh1 != false){
-     $inherit_from = get_content_by_id($inh1);
-     if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
-      $data['active_site_template']  =  $inherit_from['active_site_template'];
-      $data['layout_file']  = 'inherit';
-    }
-  }
 
+
+  $inherit_from_id = get_content_by_id($params["inherit_from"]);
+ // $inherit_from_id = false;
+ if($inherit_from_id != false and isset($inherit_from_id['active_site_template']) and trim($inherit_from_id['active_site_template']) != 'inherit'){
+$data['active_site_template']  =  $inherit_from_id['active_site_template'];
+          $data['layout_file']  = $inherit_from_id['layout_file'];
+ $inherit_from = $inherit_from_id;
+
+ } else {
+        $inh1 = content_get_inherited_parent($params["inherit_from"]);
+        if($inh1 == false){
+         $inh1 = intval($params["inherit_from"]);
+       }
+       if($inh1 != false){
+         $inherit_from = get_content_by_id($inh1);
+         if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
+          $data['active_site_template']  =  $inherit_from['active_site_template'];
+          $data['layout_file']  = 'inherit';
+        }
+      }
+
+    }
 }
 }
 
