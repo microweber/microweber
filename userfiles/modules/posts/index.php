@@ -303,7 +303,7 @@ $item['prices'] = false;
 	 }
 // }
 } else {
-	mw_notif('Your posts module is empty');	
+	mw_notif_live_edit('Your posts module is empty');	
 }
 
 
@@ -374,7 +374,7 @@ if(!isset( $params['return'])){
 
 	} else {
 	
-		print 'No default template for '.  $config['module'] .' is found';
+		mw_notif_live_edit( 'No default template for '.  $config['module'] .' is found');
 	}
 
 

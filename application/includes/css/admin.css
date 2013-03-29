@@ -1,4 +1,4 @@
-@import url("liveadmin.css");
+﻿@import url("liveadmin.css");
 
 
 *{
@@ -664,6 +664,109 @@ form .shipping-country-row:first-child{
 #edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{
 
 }
+
+
+/* Help */
+
+
+#help-content{
+      width: 78%;
+      width: calc(100% - 221px);
+      width: -webkit-calc(100% - 221px);
+    }
+
+
+    #help-sidebar{
+      float: left;
+      min-height: 100%;
+      width: 260px;
+    }
+
+     .help-nav {
+       text-transform: capitalize;
+     }
+
+    .help-nav li{
+      list-style: none;
+    }
+
+    .help-nav ul{
+      display: none;
+    }
+
+    .help-nav li.active > ul{
+      display: block;
+    }
+
+    .help-nav li > ul > li.active ul{
+      display: block;
+    }
+
+    .help-opener{
+      background: url(../img/grad.php?top=F6F6F6&bot=F0F0F0);
+      border-bottom: 1px solid #E7E7E7;
+      padding: 7px 7px 7px 20px;
+      display: block;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .help-nav li > ul > li > .help-opener{
+      padding-left: 37px;
+    }
+
+    .help-opener * {
+      float: left;
+    }
+
+    .help-opener .help-plus{
+       background: url(../img/treectrls.png);
+       position: relative;
+       display: inline-block;
+       width:8px;
+       height: 8px;
+       margin:6px 7px 0 0;
+    }
+
+    .help-opener img + .help-plus{
+      margin-top: 10px;
+    }
+    .help-opener img + .help-title{
+      margin-top: 6px;
+    }
+
+    .help-nav li.active > .help-opener span{
+        background-position: 0 -42px
+    }
+
+
+
+
+    .help-nav li a{
+     /*background: url(../img/grad.php?top=F6F6F6&bot=F0F0F0);
+      border-bottom: 1px solid #E7E7E7;
+      */
+      background-color: #F0F0F0;
+      background-repeat: no-repeat;
+      background-position: 49px 6px;
+      padding: 7px 7px 7px 75px;
+      display: block;
+      cursor: pointer;
+
+    }
+
+    .help-nav li a:hover{
+      text-decoration: underline
+    }
+
+
+
+    .help-nav img{
+      float: left;
+      margin-right: 7px;
+    }
+
+/* /Help */
 
 
 

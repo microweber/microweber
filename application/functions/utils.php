@@ -340,6 +340,18 @@ function mw_warn($text, $exit = false) {
 function mw_notification($text, $exit = false) {
 	return mw_notif($text, $exit);
 }
+function mw_notif_le($text, $exit = false){
+	return mw_notif_live_edit($text, $exit);
+}
+function mw_notif_live_edit($text, $exit = false){
+	 $editmode_sess = session_get('editmode');
+	
+	 if($editmode_sess == true){
+	 		return mw_notif($text, $exit);
+		
+	 }
+}
+
 function mw_notif($text, $exit = false) {
 	include(ADMIN_VIEWS_PATH . 'mw_notification.php');
 	if ($exit == true) {

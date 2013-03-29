@@ -124,7 +124,7 @@ save:function(){
                             <h2><span style="color: #0D5C98"><? print $item['id'] ?> |</span><span class="font-12 relative" style="top: -2px;left: 6px;"><? print $item['created_on'] ?></span> </h2>
                           </div>
                           <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);">Show Order <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<? print template_var('url'); ?>/../action:orders#?vieworder=<? print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> Go to this order</a> </div>
-                          <div class="mw-o-box-content">
+                          <div class="mw-o-box-content mw-accordion-content">
                             <? $cart_items = get_cart('order_id='.$item['id'].'&no_session_id=1'); 	?>
                             <? if(isarr($cart_items)): ?>
                             <table cellspacing="0" cellpadding="0" class="mw-o-box-table" width="935">

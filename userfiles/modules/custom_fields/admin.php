@@ -1,7 +1,14 @@
-<? //  d($params) ?>
+<? only_admin_access(); ?>
 <script type="text/javascript">
-mw.require("custom_fields.js");
-mw.require("options.js");
+
+
+
+    mw.require("custom_fields.js", true);
+
+    mw.require("options.js", true);
+
+
+
 </script>
 <?
 $for = 'module';
@@ -112,7 +119,7 @@ $(document).ready(function(){
 
 
 
-<module data-type="custom_fields/list" <? print $hide_preview  ?>
+<module data-type="custom_fields/list"  
   for="<? print $for  ?>"
   for_module_id="<? print $module_id ?>"
   <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?>

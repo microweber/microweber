@@ -140,7 +140,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
              
              
              </div>
-              <div class="mw-o-box-content mw-o-box-accordion-content">
+              <div class="mw-o-box-content mw-accordion-content">
                    <label class="mw-ui-label"> <? print $payment_module['name'] ?> <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<? endif; ?>">
 <span class="mw-switch-handle"></span>
                 <label>Enabled<input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> ></label>

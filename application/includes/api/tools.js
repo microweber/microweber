@@ -852,21 +852,23 @@ mw.tools = {
   },
   accordion:function(el, callback){
     var speed = 200;
-    var container = el.querySelector('.mw-o-box-content');
+    var container = el.querySelector('.mw-accordion-content');
+    if(container===null) return false;
+    var is_hidden = mw.CSSParser(container).get.display() == 'none';
 
-
-    if($(el).hasClass('mw-accordion-active')){
-
-        $(container).slideDown(speed, function(){
-          $(el).removeClass('mw-accordion-active');
-          typeof callback === 'function' ? callback.call(el, 'visible') : '';
-        });
-    }
-    else{
-      $(container).slideUp(speed, function(){
-          $(el).addClass('mw-accordion-active');
-          typeof callback === 'function' ? callback.call(el, 'hidden') : '';
-      });
+    if(!$(container).is(":animated")){
+        if(is_hidden){
+            $(container).slideDown(speed, function(){
+              $(el).addClass('active');
+              typeof callback === 'function' ? callback.call(el, 'visible') : '';
+            });
+        }
+        else{
+          $(container).slideUp(speed, function(){
+              $(el).removeClass('active');
+              typeof callback === 'function' ? callback.call(el, 'hidden') : '';
+          });
+        }
     }
   },
   index:function(el, parent, selector){

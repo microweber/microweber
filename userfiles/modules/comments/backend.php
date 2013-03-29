@@ -271,7 +271,7 @@ $(document).ready(function(){
 }
 
 </style>
-
+<? // d($config); ?>
 <div id="mw_edit_pages_content">
   <div id="mw_edit_page_left" style="width: 192px;">
     <?php $info = module_info($config['module']); ?>
@@ -289,7 +289,9 @@ $(document).ready(function(){
       <div class="vSpace"></div>
       <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
 
-
+ <? if(is_module('help')): ?>
+          <a href="<?php print admin_url(); ?>view:help/module:<? print $config['module_name_url_safe'] ?>">Help</a></li>
+         <? endif; ?>
        </div>
 
   </div>

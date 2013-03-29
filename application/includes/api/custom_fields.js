@@ -238,7 +238,28 @@ mw.custom_fields.del = function(id, toremove){
 
 }
 
-
+   __sort_fields = function(){
+        var sortable_holder = mw.$(".mw-custom-fields-tags").eq(0);
+        if(!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('a.mw-ui-btn-small').length>1){
+          sortable_holder.sortable({
+            items:'a.mw-ui-btn-small',
+            update:function(event,ui){
+                var obj = {ids:[]};
+                $(this).find("a.mw-ui-btn-small").each(function(){
+                    var id = $(this).dataset("id");
+                    obj.ids.push(id);
+                });
+                $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
+            if(window.parent != undefined && window.parent.mw != undefined){
+         window.parent.mw.reload_module('custom_fields');
+       }
+                });
+            },
+            containment: "parent"
+          });
+        }
+        return sortable_holder;
+    }
 
 
 __save = function(){

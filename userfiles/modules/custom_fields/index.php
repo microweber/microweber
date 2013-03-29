@@ -68,6 +68,7 @@ print  make_field($field);
  }
  ?>
 <? endforeach; ?>
+ 
 <? if(!in_array('price',$skip_types)  and isarr($price_fields )): ?>
 <? $price_fields_c = count($price_fields); ?>
 	<? if($price_fields_c >1) : ?>
@@ -85,9 +86,8 @@ print  make_field($field);
     <? endif; ?>
 <? endif; ?>
 <? else: ?>
-<? mw_notif("You don't have any custom fields."); ?>
-<? endif; ?>
+ <? endif; ?>
 <? if($prined_items_count == 0): ?>
-<? mw_notif("Click on settings to edit your custom fields."); ?>
+<? mw_notif_live_edit("Click on settings to edit your custom fields."); ?>
 <? endif; ?>
  

@@ -217,7 +217,7 @@ mw.wysiwyg = {
           }
       });
       mw_editor_btns.hover(function(){
-        $(this).addClass("mw_editor_btn_hover");
+        $(this).addClass("mw_editor_btn_hover"); 
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });

@@ -546,7 +546,12 @@ function mw_add_product(){
 
     </script>
       <div style="padding-left: 0;">
-        <div class="top_label"><a href="#">See the tutorials here</a>.</div>
+        <div class="top_label">
+        
+        <? if(is_module('help')): ?>
+        <a href="<?php print admin_url(); ?>view:help">See the tutorials here</a>
+        <? endif; ?>
+       </div>
         <div class="vSpace"></div>
       </div>
       <?

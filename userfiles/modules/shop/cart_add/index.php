@@ -44,7 +44,10 @@ if($module_template != false and $module_template != 'none'){
 
 <div class="mw-add-to-cart-holder mw-add-to-cart-<? print $params['id'] ?>">
   <module type="custom_fields" data-content-id="<? print $for_id ?>" data-skip-type="price"  id="cart_fields_<? print $params['id'] ?>"  />
-  <? $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id); ?>
+  <? $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id);
+  
+ 
+   ?>
   <? if(isarr($data) == true): ?>
   <input type="hidden"  name="for" value="<? print $for ?>" />
   <input type="hidden"  name="for_id" value="<? print $for_id ?>" />
@@ -54,7 +57,7 @@ if($module_template != false and $module_template != 'none'){
   <?   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
-	mw_err( 'No default template for '.$config['module'].' is found');
+	mw_notif_live_edit( 'No default template for '.$config['module'].' is found');
 }  ?>
 </span>
   <? endif; ?>

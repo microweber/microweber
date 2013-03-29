@@ -128,6 +128,7 @@
         <div class="mw-dropdown-content">
         <ul class="mw-dropdown-list">
             <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
+             <li><a href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>">Back to admin</a></li>
             <li><a href="javascript:;" onclick="mw.preview();void(0);">Preview</a></li>
             <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
               <li><a href="javascript:;">Unpublish<? print CONTENT_ID; ?></a></li>
@@ -175,8 +176,8 @@
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
   </div>
-  
-  <!-- /end .mw --> 
+
+  <!-- /end .mw -->
 </div>
 <!-- /end mw_holder -->
 

@@ -36,7 +36,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	if (isset($params['for'])) {
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 	}
-
+	if (isset($params['debug'])) {
+		$debug = $params['debug'];
+	}
 	if (isset($params['for_id'])) {
 		$id = db_escape_string($params['for_id']);
 	}
@@ -115,7 +117,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		   ";
 
 		if ($debug != false) {
-			d($q);
+			// d($q);
 		}
 
 		// $crc = crc32 ( $q );
@@ -125,7 +127,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		$cache_id = __FUNCTION__ . '_' . $crc;
 
 		$q = db_query($q, $cache_id, 'custom_fields/global');
-
+if ($debug != false) {
+											 //d($q);
+										}
 		if (!empty($q)) {
 
 			if ($return_full == true) {
@@ -183,23 +187,33 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 							if (strtolower($cfv) == 'array') {
 
-								if (isset($q2['custom_field_values_plain']) and is_string($q2['custom_field_values_plain']) and ($q2['custom_field_values_plain']) != '') {
+								if (isset($q2['custom_field_values_plain']) and is_string($q2['custom_field_values_plain']) and trim($q2['custom_field_values_plain']) != '') {
 									$cfv = $q2['custom_field_values_plain'];
+								
 								} else if (isset($q2['custom_field_values']) and is_string($q2['custom_field_values'])) {
 									$try = base64_decode($q2['custom_field_values']);
 
 									if ($try != false and strlen($try) > 3) {
 										$cfv = unserialize($try);
+										
 									}
 								}
 
 							}
+							
+								
+									
+							
 
 							$the_val = $cfv;
 						}
 
 						$i++;
 					}
+					
+					
+					
+					
 
 					if ($the_name != false and $the_val != false) {
 
@@ -289,7 +303,7 @@ function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
 	$cache_content = cache_get_content($function_cache_id, 'db/custom_fields');
 
 	if (($cache_content) != false) {
- 
+
 		return true;
 	}
 

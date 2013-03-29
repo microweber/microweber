@@ -4,6 +4,10 @@ mw.CSSParser = function(el){
     if(el.nodeName === undefined || el.nodeName === '#text') return false;
     var css = window.getComputedStyle(el, null);
 
+    this.display = function(){
+      return css.display;
+    }
+
     this.isit = function(){
         return {
           bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',

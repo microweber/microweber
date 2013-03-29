@@ -12,7 +12,14 @@
       <? exec_action('mw_admin_header_menu'); ?>
       <li <?php if($active == 'users'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
       <? //exec_action('mw_admin_header_menu'); ?>
-      <li><a href="#">Help</a></li>
+      
+        <? if(is_module('help')): ?>
+         <li<?php if($active == 'help'): ?>class="active"<? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
+         <? endif; ?>
+        
+        
+        
+     
       <? exec_action('mw_admin_header_menu_end'); ?>
     </ul>
     <script>

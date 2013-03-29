@@ -1,11 +1,11 @@
-<? //  d($params) ?>
+<? only_admin_access(); ?>
 <script type="text/javascript">
 
 
 
-    mw.require("custom_fields.js");
+    mw.require("custom_fields.js", true);
 
-    mw.require("options.js");
+    mw.require("options.js", true);
 
 
 
@@ -49,28 +49,7 @@ $module_id = $for_id;
  
 ?>
 <script type="text/javascript">
-    __sort_fields = function(){
-        var sortable_holder = mw.$(".mw-custom-fields-tags").eq(0);
-        if(!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('a.mw-ui-btn-small').length>1){
-          sortable_holder.sortable({
-            items:'a.mw-ui-btn-small',
-            update:function(event,ui){
-                var obj = {ids:[]};
-                $(this).find("a.mw-ui-btn-small").each(function(){
-                    var id = $(this).dataset("id");
-                    obj.ids.push(id);
-                });
-                $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
-            if(window.parent != undefined && window.parent.mw != undefined){
-				 window.parent.mw.reload_module('custom_fields');
-			 }
-                });
-            },
-            containment: "parent"
-          });
-        }
-        return sortable_holder;
-    }
+ 
 
     $(document).ready(function(){
        __sort_fields();
@@ -117,13 +96,7 @@ $module_id = $for_id;
     </ul>
   </div>
 
-  <module
-        data-type="custom_fields/list" <? print $hide_preview  ?>
-        for="<? print $for  ?>"
-        for_module_id="<? print $module_id ?>"
-        <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?>
-        id="mw_custom_fields_list_<? print $params['id']; ?>"
-  />
+  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
       <div class="custom-field-edit-title"></div>
