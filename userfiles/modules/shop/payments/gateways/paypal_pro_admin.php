@@ -1,5 +1,7 @@
+<div class="mw-notification mw-warning">
+  <div> Unfortunately, Paypal Website Payments Pro will not work for countries other than the United Kingdom, United States and Canada. </div>
+</div>
 <img src="<? print $config['url_to_module'] ?>paypal_pro_inner.png" />
-
 <ul class="mw-ui-inline-selector">
   <li>
     <label class="mw-ui-label">Test mode:</label>

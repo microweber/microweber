@@ -1264,6 +1264,17 @@ mw.tools = {
     $(mw._html_info).html(html);
     return mw._html_info;
   },
+  image_info:function(a, callback){
+    var img = mwd.createElement('img');
+    img.className = 'semi_hidden';
+    img.src = a.src;
+    mwd.body.appendChild(img);
+
+    img.onload = function(){
+        callback.call({width:$(img).width(), height: $(img).height()});
+        $(img).remove();
+    }
+  },
   refresh_image:function(node){
     node.src =  mw.url.set_param('refresh_image', mw.random(), node.src);
     return node;

@@ -7,8 +7,8 @@
   <? print $data["custom_field_value"]; ?>
     <input type="hidden"   <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>  data-custom-field-id="<? print $data["id"]; ?>"  name="<? print $data["custom_field_type"]; ?>" id="custom_field_help_text<? print $rand; ?>" value="<? print $data["custom_field_value"]; ?>">
     
-    
-    
+    <? if(isset($data['options']) == true and isset($data['options']["old_price"]) == true): ?> <span style="text-decoration: line-through"><?php print $data['options']["old_price"][0]; ?></span>  <? endif; ?>
+
   </div>
 </div>
 <? else: ?>

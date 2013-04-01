@@ -31,6 +31,9 @@ mw.on.hashParam('ui', _settingsSort);
 
 mw.on.hashParam('option_group', function(){
   _settingsSort();
+
+    mw.$("#settings_admin_categories_<? print $rand; ?> a").removeClass("active");
+    mw.$("#settings_admin_categories_<? print $rand; ?> a.item-" + this).addClass("active");
 });
 mw.on.hashParam('installed', function(){
 
@@ -52,7 +55,7 @@ mw.on.hashParam('installed', function(){
       <div id="settings_admin_categories_<? print $rand; ?>">
         <ul>
           <? foreach($option_groups as $item): ?>
-          <li><a onclick="mw.url.windowHashParam('option_group', '<? print $item ?>');return false;" href="#option_group=<? print $item ?>"><? print ucwords($item) ?></a></li>
+          <li><a onclick="mw.url.windowHashParam('option_group', '<? print $item ?>');return false;" class="item-<?php print $item; ?>" href="#option_group=<? print $item ?>"><? print ucwords($item) ?></a></li>
           <? endforeach; ?>
         </ul>
       </div>

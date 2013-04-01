@@ -384,6 +384,8 @@ function mw_on_save_complete<? print $rand; ?>(){
 	//alert(1);
   mw.notification.success("<?php _e('All changes are saved'); ?>.");
 
+  mw.askusertostay = false;
+
 }
 
 
@@ -487,7 +489,7 @@ function mw_before_content_save<? print $rand; ?>(){
   ?>
   <? if(intval($data['id']) > 0): ?>
   <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
-  <input name="title" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
+  <input name="title" onkeyup="mw.askusertostay = true;" onpaste="mw.askusertostay = true;" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
 <? else : ?>
 <?
 

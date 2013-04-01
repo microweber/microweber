@@ -90,7 +90,7 @@ class Update {
 				$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
 			}
 			if (is_file($dl_file)) {
-				$unzip = new \mw\utils\unzip();
+				$unzip = new \mw\utils\Unzip();
 				$target_dir = MW_ROOTPATH;
 				$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 				$this -> post_update();
@@ -220,7 +220,7 @@ class Update {
 					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
 				}
 				if (is_file($dl_file)) {
-					$unzip = new \mw\utils\unzip();
+					$unzip = new \mw\utils\Unzip();
 					$target_dir = MW_ROOTPATH;
 					//d($dl_file);
 					$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
@@ -262,7 +262,7 @@ class Update {
 					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
 				}
 				if (is_file($dl_file)) {
-					$unzip = new \mw\utils\unzip();
+					$unzip = new \mw\utils\Unzip();
 					$target_dir = MW_ROOTPATH;
 					d($dl_file);
 					// $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);

@@ -76,19 +76,22 @@ hashParamEventInit:function(){
   }
   mw.on._hashrec = params;
 },
-DOMChange:function(element, callback){
+DOMChange:function(element, callback, attr){
+    var attr = attr || false;
     element.addEventListener("DOMCharacterDataModified", function(){
         callback.call(this);
     }, false);
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
-    element.addEventListener("DOMAttrModified", function(e){
-        var attr = e.attrName;
-        if(attr != "contenteditable"){
-           callback.call(this);
-        }
-    }, false);
+    if(attr){
+      element.addEventListener("DOMAttrModified", function(e){
+          var attr = e.attrName;
+          if(attr != "contenteditable"){
+             callback.call(this);
+          }
+      }, false);
+    }
  },
  _stopWriting:null,
  stopWriting:function(el,callback){
@@ -203,7 +206,6 @@ mw.e = {
     prevent===true?e.preventDefault():'';
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
-    return e;
   }
 }
 

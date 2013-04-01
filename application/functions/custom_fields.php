@@ -46,6 +46,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 	if (isset($params['field_type'])) {
 		$field_type = db_escape_string($params['field_type']);
 	}
+	if (isset($params['return_full'])) {
+		$return_full = $params['return_full'];
+	}
 
 	// ->'table_custom_fields';
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -156,6 +159,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 					$it['type'] = $it['custom_field_type'];
 					$it['position'] = $i;
 					//  $it['baseline'] = "undefined";
+
+					if (isset($it['options'])) {
+						$it['options'] = decode_var($it['options']);
+					}
 
 					$it['title'] = $it['custom_field_name'];
 					$it['required'] = $it['custom_field_required'];

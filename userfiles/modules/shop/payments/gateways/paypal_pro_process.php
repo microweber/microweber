@@ -76,14 +76,24 @@ if (isset($place_order['currency']) and ($place_order['currency']) != false) {
 $paypalpro_apikey = trim(get_option('paypalpro_apikey', 'payments'));
 $paypalpro_apipassword = trim(get_option('paypalpro_apipassword', 'payments'));
 $paypalpro_apisignature = trim(get_option('paypalpro_apisignature', 'payments'));
+$paypalpro_is_test = (get_option('paypalpro_testmode', 'payments')) == 'n';
 
-$paypalPro = new paypal_pro($paypalpro_apikey, $paypalpro_apipassword, $paypalpro_apisignature, '', '', FALSE, FALSE);
+ 
+$paypalPro = new paypal_pro($paypalpro_apikey, $paypalpro_apipassword, $paypalpro_apisignature, '', '', $paypalpro_is_test, FALSE);
 $resArray = $paypalPro -> hash_call($methodToCall, $nvpstr);
 $ack = strtoupper($resArray["ACK"]);
 $res = array();
 if ($ack != "SUCCESS") {
+ 
+ if(isset($resArray["L_LONGMESSAGE0"])){
+	 	$res['error'] = 'Error: '.$resArray["L_LONGMESSAGE0"];
 
-	$res['error'] = 'Error: Please check that all provided information is correct!';
+ } else {
+	 	$res['error'] = 'Error: Please check that all provided information is correct!';
+
+ }
+ 
+ 
 	$res['ack'] = $resArray["ACK"];
 	$res['correlation_id'] = $resArray['CORRELATIONID'];
 $place_order = $res;

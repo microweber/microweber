@@ -32,10 +32,14 @@ class paypal_pro
 		if($IS_ONLINE == FALSE)
 		{
 			$this->PAYPAL_URL = 'https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token=';
+			$this->API_ENDPOINT = 'https://api-3t.sandbox.paypal.com/nvp';
 		}
 		else
 		{
 			$this->PAYPAL_URL = 'https://www.paypal.com/webscr&cmd=_express-checkout&token=';
+			$this->PAYPAL_URL = 'https://www.paypal.com/webscr&cmd=_express-checkout&token=';
+			$this->API_ENDPOINT = 'https://api-3t.paypal.com/nvp';
+			//print $this->PAYPAL_URL;
 		}
 		$this->VERSION = $VERSION;
 	}

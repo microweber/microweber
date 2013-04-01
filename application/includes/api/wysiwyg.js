@@ -679,6 +679,7 @@ mw.wysiwyg = {
               }
              mw.on.DOMChange(b, function(){
                   textarea.value = $(this).html();
+                  mw.askusertostay = true;
              });
 		  }
         }

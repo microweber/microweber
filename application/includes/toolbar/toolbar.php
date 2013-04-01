@@ -58,9 +58,9 @@
                var span = mwd.createElement('span');
                span.innerHTML = $(first).find(".left").html();
 
-            mw.tools.copyAttributes(first,span);
+               mw.tools.copyAttributes(first,span);
 
-              mw.tools.copyAttributes(this,first);
+               mw.tools.copyAttributes(this,first);
 
 
 
@@ -151,10 +151,10 @@
              
              
              <a href="<?php print $back_url; ?>">Back to admin</a></li>
-            <li><a href="javascript:;" onclick="mw.preview();void(0);">Preview</a></li>
+            <li><a href="#" onclick="mw.preview();void(0);">Preview</a></li>
             <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-              <li><a href="javascript:;">Unpublish<? print CONTENT_ID; ?></a></li>
-              <li><a href="javascript:;">Publish</a></li>
+              <li><a href="#">Unpublish<? print CONTENT_ID; ?></a></li>
+              <li><a href="#">Publish</a></li>
             <? endif; ?>
           </ul>
           </div>

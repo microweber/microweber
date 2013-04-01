@@ -56,7 +56,7 @@
 
     </script>   
     
-    
+    <? if(!isset($_REQUEST['no_toolbar'])): ?>
      <script type="text/javascript">
  $(document).ready(function() {
 		window.onhashchange = function() {
@@ -72,6 +72,7 @@
 		 });
 
     </script>
+    <? endif; ?>
 
 </head>
 

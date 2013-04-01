@@ -57,13 +57,8 @@ if (r==true)
   mw.$(".mw_admin_edit_content_form").find('.go-live').click();
 	   event.stopPropagation();
 	   event.preventDefault()
-
 	   return false;
-  }
-else
-  {
-   
-  }
+  } 
  
        
 	  

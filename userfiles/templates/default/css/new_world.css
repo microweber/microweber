@@ -20,7 +20,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
-.title{
+.main-title{
   border-bottom: 1px solid #BFC0C4;
   box-shadow: 0 2px 1px 0 white;
   margin-bottom: 25px;
@@ -211,6 +211,12 @@ ul.dropdown-menu ul.dropdown-menu{
 .module-posts-template-columns img{
     max-height: 210px;
     vertical-align: middle;
+}
+
+.mw-old-price{
+  color: #CC0000;
+  text-decoration: line-through;
+  display: block;
 }
 
 .price{

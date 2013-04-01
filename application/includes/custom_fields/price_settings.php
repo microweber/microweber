@@ -22,6 +22,17 @@
     name="custom_field_value"
     value="<? print ($data['custom_field_value']) ?>" />
 
+
+
+    <label class="mw-ui-label" >Old price</label>
+
+
+
+ <input type="text"  class="mw-custom-field-option" name="options[old_price]"  <? if(isset($data['options']) == true and isset($data['options']["old_price"]) == true): ?> value="<?php print $data['options']["old_price"][0]; ?>"  <? endif; ?>  >
+
+
+
+
   </div> <?php print $savebtn; ?>
 </div>
 <? include('settings_footer.php'); ?>
