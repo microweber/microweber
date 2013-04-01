@@ -28,7 +28,7 @@ $requests_num = false;
       <tr>
         <td><? print $item['visit_date'] ?> <? print $item['visit_time'] ?></td>
         <? if(function_exists('ip2country')): ?>
-        <td><?  //print ip2country($item['user_ip']); ?></td>
+        <td><?   print ip2country($item['user_ip']); ?></td>
         <? endif; ?>
         <td><? print $item['user_ip'] ?></td>
         <td><? print $item['last_page'] ?></td>
