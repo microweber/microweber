@@ -1776,6 +1776,7 @@ mw.dump = function(){
 }
 
 mw.notification = {
+
     build:function(type, text){
         var div = mwd.createElement('div');
         div.className = 'mw-notification mw-'+type;
@@ -1784,7 +1785,12 @@ mw.notification = {
     },
     append:function(type, text){
         var div = mw.notification.build(type, text);
-        mw.$('#mw-notifications-holder').append(div);
+        if(typeof mw.notification._holder === 'undefined'){
+           mw.notification._holder = mwd.createElement('div');
+           mw.notification._holder.id = 'mw-notifications-holder';
+           mwd.body.appendChild(mw.notification._holder);
+        }
+        mw.notification._holder.appendChild(div);
         setTimeout(function(){
            div.style.opacity = 0;
            setTimeout(function(){

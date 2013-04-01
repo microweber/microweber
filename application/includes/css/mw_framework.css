@@ -1691,15 +1691,12 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 }
 
 .mw-notification{
-
-
     border-radius: 2px;
-    -moz-border-radius: 2px;
-    -wbkit-border-radius: 2px;
     display: table;
     min-width: 215px;
     padding: 5px;
     text-align: center;
+    font-size: 12px;
 }
 
 
@@ -1728,12 +1725,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 }
 
 #mw-notifications-holder .mw-notification:first-child{
--webkit-border-top-left-radius: 0px;
--webkit-border-top-right-radius: 0px;
--moz-border-radius-topleft: 0px;
--moz-border-radius-topright: 0px;
-border-top-left-radius: 0px;
-border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 #mw-notifications-holder .mw-notification{
     left: 50%;

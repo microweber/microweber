@@ -156,8 +156,8 @@ function mw_check_for_update() {
 	global $mw_avail_updates;
 	if ($mw_avail_updates == false) {
 
-		$update_api = new \mw\update();
-
+		$update_api = new \mw\Update();
+ 
 		$iudates = $update_api -> check();
 
 		$mw_avail_updates = $iudates;

@@ -32,6 +32,6 @@
 <a href="<? print site_url('api/set_language/bg') ?>">bg</a>  */
 
 ?>
-<div id="mw-notifications-holder"></div>
+
   </body>
 </html>

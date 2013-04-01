@@ -8,7 +8,7 @@ if(url_param('add_module')){
 } else if(isset($_REQUEST['add_module'])){
 		$install = $_REQUEST['add_module'];
 }	
-	 $update_api = new \mw\update();
+	 $update_api = new \mw\Update();
  
 	$result = $update_api -> install_module($install);
  d($result);

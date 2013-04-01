@@ -57,7 +57,7 @@ if(isset($params['installed'])){
   
  //d($mod_params);
  if(isset($params['install_new'])){
-	  $update_api = new \mw\update();
+	  $update_api = new \mw\Update();
 
 $params = array();
  

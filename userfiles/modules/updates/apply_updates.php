@@ -3,7 +3,7 @@
 only_admin_access();
 
  	
-	 $update_api = new \mw\update();
+	 $update_api = new \mw\Update();
  
 	
 
