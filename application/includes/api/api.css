@@ -408,8 +408,7 @@ body.dragStart #items_handle{
 
 
 .element-current, .element-current:hover{
-  outline: 1px solid #3D80AB !important;
-  outline-offset: -2px;
+  outline: 1px outset #3D80AB !important;
 }
 
 

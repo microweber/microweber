@@ -4,6 +4,14 @@ media
 temp
 download
 Thumbs.db
+.DS_Store
+.DS_Store?
+._notes
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 /1k.zip
 /application/includes/admin/catcha.ttf
 /application/includes/admin/catcha/font1.ttf

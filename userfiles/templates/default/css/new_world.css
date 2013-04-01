@@ -128,6 +128,11 @@ hr{
     display: block;
 }
 
+ul.dropdown-menu ul.dropdown-menu{
+  left: 100%;
+  top: 0;
+}
+
 
 #logo{
   float: left;
@@ -216,10 +221,8 @@ hr{
 }
 
 .module-posts-template-columns .price{
-  margin-top:15px;
-  display:table-cell;
-  text-align: right;
-  width: 30%;
+    float: left;
+    white-space: nowrap;
 }
 
 .symbol{
@@ -236,17 +239,17 @@ hr{
   background-color: white;
 }
 
-.product-title-price{
-    display: table;
+.product-price-holder{
     padding: 7px 0;
-    width: 100%;
+    clear: both;
+    overflow: hidden;
 }
 
-.product-title-price h3{
-  display: table-cell;
-  padding-right: 10px;
-  width: 70%;
+.product-price-holder .btn{
+  float: right;
 }
+
+
 
 
 .module-posts-head{

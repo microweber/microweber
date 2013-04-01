@@ -327,6 +327,10 @@ background-image: -webkit-gradient(
   margin-bottom: 5px;
 }
 
+#mw_small_editor .mw_editor_btn, #mw_small_editor .mw_dropdown_type_wysiwyg{
+  margin-bottom: 0;
+}
+
 #mw-admin-text-editor{
   position: relative;
   z-index: 1;

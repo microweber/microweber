@@ -72,7 +72,7 @@ if (isset($place_order['currency']) and ($place_order['currency']) != false) {
 	$nvpstr .= '&CURRENCY_CODE=' . $place_order['currency'].'&CURRENCY=' . $place_order['currency'];
 
 }
-$paypalpro_username = trim(get_option('paypalpro_username', 'payments'));
+//$paypalpro_username = trim(get_option('paypalpro_username', 'payments'));
 $paypalpro_apikey = trim(get_option('paypalpro_apikey', 'payments'));
 $paypalpro_apipassword = trim(get_option('paypalpro_apipassword', 'payments'));
 $paypalpro_apisignature = trim(get_option('paypalpro_apisignature', 'payments'));

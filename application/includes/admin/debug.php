@@ -46,7 +46,7 @@ $mtime = microtime();
 Cache hits <? $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
   <pre><?php print_r( $ch) ?></pre>
  
-  
+   
 <?
 
 /*

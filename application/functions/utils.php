@@ -760,7 +760,7 @@ function static_option_get($key, $option_group = "global") {
 function static_option_save($data) {
 	 	
 		if (MW_IS_INSTALLED == true) {
-	 only_admin_access();
+	// only_admin_access();
 		}
 	$data = parse_params($data);
 

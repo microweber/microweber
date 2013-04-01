@@ -44,11 +44,12 @@ if ($is_mysqli != false) {
 	$result = mysql_query($query);
 	if (!$result) {
 		$err = mysql_error();
-		if (strstr($err, "doesn't exist")) {
+		if (strstr($err, "doesn't exist") or strstr($err, "not exist") ) {
 			cache_clean_group('db');
 			exec_action('mw_db_init');
 			exec_action('mw_db_init_default');
 			exec_action('mw_db_init_modules');
+			re_init_modules_db();
 			$query = $q;
 			$result = mysql_query($query);
 			if (!$result) {

@@ -1969,12 +1969,14 @@ if (isset($_SESSION)) {
 			$user_sid = session_id();
 		}
 	}
-	if (isset($_SESSION)) {
+	if (!isset($data['session_id'] ) and isset($_SESSION)) {
 	if ($user_sid != false) {
 		$data['session_id'] = $user_sid;
 	} else {
 		$data['session_id'] = session_id();
 	}
+	} elseif (isset($data['session_id'] ) ) {
+		//$user_sid = $data['session_id'] ;
 	}
 
 	if (isset($data['cf_temp'])) {
@@ -2132,9 +2134,16 @@ if (isset($_SESSION)) {
 		$q = " UPDATE  $table set ";
 
 		foreach ($data as $k => $v) {
-			if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
+			if(isset($data['session_id'] )){
+				if ($k != 'id' and $k != 'edited_by') {
 				// $v = htmlspecialchars ( $v, ENT_QUOTES );
 				$q .= "$k='$v',";
+				}
+			} else {
+				if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
+					// $v = htmlspecialchars ( $v, ENT_QUOTES );
+					$q .= "$k='$v',";
+				}
 			}
 		}
 		$user_sidq = '';
@@ -2195,8 +2204,8 @@ d($q);
 		$table_cats_items = MW_TABLE_PREFIX . 'categories_items';
 		$categories_table = MW_TABLE_PREFIX . 'categories';
 		$categories_items_table = MW_TABLE_PREFIX . 'categories_items';
-		$is_a = has_access('save_category');
-
+		$is_a = has_access('save_category' );
+		$from_save_cats = $original_data['categories'];
 		if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
 			if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
 				// exit('__EMPTY_CATEGORIES__');
@@ -2258,7 +2267,7 @@ d($q);
 							if (!empty($is_ex) and isarr($is_ex[0])) {
 								$cz[$j] = $is_ex[0]['id'];
 								$cz_int[] = intval($is_ex[0]['id']);
-								//	d($is_ex);
+								 //	d($cz_int);
 							}
 
 						}
@@ -2290,8 +2299,19 @@ d($q);
 				if (!empty($cz_int)) {
 					$cat_names_or_ids = array_trim($cz_int);
 				} else {
-					$cat_names_or_ids = $cz;
-
+					$cat_names_or_ids =  $original_data['categories'];
+					if (is_string($from_save_cats)) {
+ 					$from_save_cats = explode(',', $from_save_cats);
+					}
+					
+					
+					if(isarr($from_save_cats)){
+						$cat_names_or_ids = $from_save_cats;
+					}
+					
+					
+					//d($cat_names_or_ids);
+//d($from_save_cats);
 				}
 				$cats_data_modified = false;
 				$cats_data_items_modified = false;

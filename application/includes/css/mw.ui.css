@@ -47,6 +47,8 @@
 
 
 
+
+
 .font-10{font-size: 10px !important;}
 .font-11{font-size: 11px !important;}
 .font-12{font-size: 12px !important;}
@@ -565,6 +567,7 @@
 .mw-ui-dropdown {
   position: relative;
   z-index: 9;
+  display: inline-block;
 }
 
 .mw-ui-dropdown  .mw-ui-btn{
@@ -613,7 +616,8 @@
 
 .mw-dropdown-list > li a{
   display: block;
-  padding: 3px 5px;
+  font-size: 11px;
+  padding: 3px 10px;
 }
 
 .mw-dropdown-list > li a:hover{

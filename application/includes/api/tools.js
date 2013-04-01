@@ -53,9 +53,9 @@ mw.simpletabs = function(root){
     if(!$(this).hasClass('activated')){
         $(this).addClass('activated')
         if(!$(this).hasClass('by-hash')){
-            var parent = $(this).parents(".mw_simple_tabs").eq(0);
-            parent.find(".tab").addClass("semi_hidden");
-            parent.find(".tab").eq(0).removeClass("semi_hidden");
+            var parent = $(mw.tools.firstParentWithClass(this, 'mw_simple_tabs'));
+            parent.children(".tab").addClass("semi_hidden");
+            parent.children(".tab").eq(0).removeClass("semi_hidden");
             $(this).find("a").eq(0).addClass("active");
             $(this).find("a").click(function(){
                 mw.simpletab.set(this);
@@ -77,8 +77,8 @@ mw.simpletab = {
         $(ul.querySelector('.active')).removeClass('active');
         $(el).addClass('active');
         var index = mw.tools.index(el, ul);
-        $(master.querySelectorAll('.tab')).addClass('semi_hidden');
-        $(master.querySelectorAll('.tab')[index]).removeClass('semi_hidden');
+        $(master).children('.tab').addClass('semi_hidden');
+        $(master).children('.tab').eq(index).removeClass('semi_hidden');
       }
   }
 }
@@ -248,7 +248,8 @@ mw.tools = {
     remove:function(id){
         if(typeof id == 'object') var id = $(id)[0].id;
         $(document.getElementById(id)).remove();
-        $("div.mw_overlay[rel='"+id+"']").remove();
+        //$("div.mw_overlay[rel='"+id+"']").remove();
+        $("div.mw_overlay").remove();
     },
     resize:function(modal, w, h, center, doc){
       var doc = doc || document;
@@ -490,9 +491,10 @@ mw.tools = {
       }
 
   },
-  classNamespaceDelete:function(el_obj, namespace){
+  classNamespaceDelete:function(el_obj, namespace, parent){
+    var parent = parent || mwd;
     if(el_obj ==='all'){
-      var all = mwd.querySelectorAll('.edit *'), i=0, l=all.length;
+      var all = parent.querySelectorAll('.edit *'), i=0, l=all.length;
       for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
       return;
     }
@@ -1306,7 +1308,7 @@ mw.tools = {
   parseHtml: function(html){
     var d = document.implementation.createHTMLDocument("");
     d.body.innerHTML = html;
-   return d.body.childNodes;
+   return d;
   },
   isEmpty:function(node){
     return (node.innerHTML.trim()).length === 0;
@@ -1472,8 +1474,8 @@ $.fn.commuter = function(a,b) {
 
 mw.cookie = {
   get:function(name){
-      var cookies=document.cookie.split(";");
-      for (var i=0; i<cookies.length; i++){
+      var cookies=document.cookie.split(";"), i=0, l = cookies.length;
+      for ( ; i<l; i++){
         var x=cookies[i].substr(0,cookies[i].indexOf("="));
         var y=cookies[i].substr(cookies[i].indexOf("=")+1);
         var x=x.replace(/^\s+|\s+$/g,"");
@@ -1489,7 +1491,7 @@ mw.cookie = {
         var expires = expires * 1000 * 60 * 60 * 24;
     }
     var expires_date = new Date( now.getTime() + (expires) );
-    document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : "" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
+    document.cookie = name + "=" +escape( value ) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) +  ( ( domain ) ? ";domain=" + domain : "" ) +  ( ( secure ) ? ";secure" : "" );
   },
   ui:function(a,b){
     var mwui = mw.cookie.get("mwui");
@@ -1786,7 +1788,7 @@ mw.notification = {
         setTimeout(function(){
            div.style.opacity = 0;
            setTimeout(function(){
-             $(div).remove()
+             $(div).remove();
            }, 1000);
         }, 1000);
     },

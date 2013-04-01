@@ -1288,7 +1288,7 @@ body.still-loading:before{
   visibility: hidden;
 }
 
-tr:hover .mw-ui-admin-table-show-on-hover{
+tr:hover > td > .mw-ui-admin-table-show-on-hover{
   visibility: visible;
 }
 

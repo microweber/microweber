@@ -777,7 +777,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		}
 
 		$script_pattern = "/<module[^>]*>/Uis";
-
 		//$script_pattern = "/<module.*.[^>]*>/is";
 		$replaced_modules = array();
 		preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -798,6 +797,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				}
 			}
 		}
+		
 
 		//        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
 		//        $replaced_head = array();

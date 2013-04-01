@@ -12,6 +12,8 @@ if(typeof __smart_field_opener !== 'function'){
 
 
 </script>
+
+
 <?
 
   $for = 'module';
@@ -44,14 +46,11 @@ if(typeof __smart_field_opener !== 'function'){
 
   if(isset($params['save_to_content_id'])){
 		 //
-			 $diff = get_custom_fields($for,$params['save_to_content_id'],1,false,false, false, true);
+			 $diff = get_custom_fields($for,$params['save_to_content_id'],1,false,false);
 
 		  }
-		  
-		  
-		  
 
-
+// d($params );
 ?>
 <?
 $data = array();
@@ -62,15 +61,12 @@ if(isset($params['default-fields'])){
 }
 
 	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
- if(isset($params['save_to_content_id']) and intval($params['save_to_content_id'] )== 0){
-	  // 	$more = get_custom_fields($for,$params['for_module_id'],1,false,false, false, true);
 
-		   }
-
+ //d($more);
  // d($diff);
  $custom_custom_field_names_for_content = array();
 if(isarr( $diff) and isarr($more) ){
-    $i=0;
+ $i=0;
 	 foreach($more as $item2){
 
 	 foreach($diff as $item1){
@@ -106,8 +102,10 @@ if(isarr( $diff) and isarr($more) ){
 	//$more = $data;
  }
 ?>
+ 
 <? if(!empty( $more)):  ?>
- <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
+
+<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <? if(isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
   <? $p = get_content_by_id($params["rel_id"]); ?>
   <? if(isset($p['title'])): ?>
@@ -117,14 +115,28 @@ if(isarr( $diff) and isarr($more) ){
   <? endif; ?>
   <? endif; ?>
   <? foreach( $more as $field): ?>
+
   <? if(isset($params['save_to_content_id'])): ?>
   <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<? print $field['custom_field_type']; ?>" href="javascript:;"
-    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'content', '<? print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><? print ($field['title']); ?> </a>
+    onmouseup="mw.custom_fields.copy_field_by_id('<? print $field['id'] ?>', 'content', '<? print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><? print ($field['title']); ?>
+  </a>
   <? else: ?>
+
   <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<? print $field['custom_field_type']; ?>" href="javascript:;"
     data-id="<? print $field['id'] ?>"
     id="custom-field-<? print $field['id'] ?>"
-    onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);"> <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span> <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span> <? print ($field['title']); ?> </a>
+    onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<? print $field['id'] ?>', false, event);">
+
+
+    <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span>
+    <span onclick="mw.custom_fields.del(<? print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
+
+    <? print ($field['title']); ?>
+
+
+
+  </a>
+
   <? endif; ?>
   <? endforeach; ?>
 </div>
@@ -132,8 +144,8 @@ if(isarr( $diff) and isarr($more) ){
 <? if(!isset($params['save_to_content_id'])): ?>
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
-    <?php _e("You dont have any custom fields"); ?>
-    . </span> </div>
+    <?php _e("You dont have any custom fields"); ?>.
+    </span> </div>
 </div>
 <? endif; ?>
 <? endif; ?>

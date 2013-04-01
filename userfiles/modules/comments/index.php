@@ -48,12 +48,12 @@ if (!isset($data['rel_id'])) {
  $data['rel_id'] = $params['id'];
  
 }
-?>
-<? 
+
  
- $display_comments_from =  get_option('display_comments_from', $params['id']); 
-      $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  
-	  
+$display_comments_from =  get_option('display_comments_from', $params['id']); 
+$enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  
+$global_per_page = get_option('paging', 'comments');
+$global_set_paging = get_option('set_paging', 'comments') == 'y';
 	  
 	  
 
@@ -108,9 +108,24 @@ $comments_data['rel'] =  $data['rel'] = 'modules';
 
 
 
- $paging  = false;
+$paging  = false;
+$comments_per_page = get_option('comments_per_page',  $params['id']);  
+
+	  
+ $disabled_comments_paging = get_option('enable_comments_paging',  $params['id'])=='n';  
+
+if( $enable_comments_paging == false and $global_set_paging != false and  $disabled_comments_paging == false){
+	 if(intval($global_per_page) > 0){
+		 $enable_comments_paging = 1;
+		 $comments_per_page = $global_per_page;
+	 }
+}
+ 
+ 
+ 
+ 
+ 
 if( $enable_comments_paging != false){
-	 $comments_per_page = get_option('comments_per_page',  $params['id']);  
 	 if(intval( $comments_per_page) != 0) {
 		 
  		 $comments_data['limit'] =   $comments_per_page; 
@@ -123,6 +138,16 @@ if( $enable_comments_paging != false){
 	 }
 	  
 }
+
+
+
+
+
+
+
+
+
+
 if( $curent_page_from_url != false){
 	if( intval( $curent_page_from_url) > 0){
 	$comments_data['curent_page'] = intval( $curent_page_from_url);

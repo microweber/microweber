@@ -54,9 +54,24 @@
 
 
 
+    </script>   
+    
+    
+     <script type="text/javascript">
+ $(document).ready(function() {
+		window.onhashchange = function() {
+			
+			mw.cookie.set('back_to_admin',window.location.href);
+		}
+		
+		mw.cookie.set('back_to_admin',window.location.href);
+		
+		
+		
+		
+		 });
+
     </script>
-
-
 
 </head>
 

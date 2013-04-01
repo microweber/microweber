@@ -49,6 +49,12 @@ if (!isset($params['rel_id'])) {
 } else {
 	$rel_id = '&rel_id=' . $params['rel_id'];
 }
+
+
+
+
+
+
 ?>
 <?
 $cats_str = array();
@@ -265,7 +271,7 @@ if (isset($params['active_ids'])) {
 
 if (isset($params['categories_active_ids'])) {
 	$tree['categories_active_ids'] = $params['categories_active_ids'];
-
+$active_cats[] = $tree['categories_active_ids'];
 } else if (!empty($active_cats1)) {
  	 // $tree['categories_active_ids'] = $active_cats1;
 

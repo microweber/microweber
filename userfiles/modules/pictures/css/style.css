@@ -258,7 +258,8 @@ a.rotator-paging-item-digit{
   left: 0;
 }
 .mw-rotator-template-inner .mw-rotator-ctrls{
-
+    margin-bottom: 130px;
+    float: left;
 }
 
 .mw-rotator-template-inner .rotator-index-control-mode-thumbnails{
@@ -279,7 +280,7 @@ a.rotator-paging-item-digit{
   position: relative;
   overflow: hidden;
   width: 66px;
-  margin: 6px 3px 6px;
+  margin: 6px 9px;
   transition: all  0.2s;
   -webkit-transition: all  0.5s;
 }

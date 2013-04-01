@@ -16,7 +16,9 @@ if (!defined("MW_DB_TABLE_MEDIA")) {
 if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 	define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
 }
-
+if (!defined("MW_DB_TABLE_MENUS")) {
+	define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
+}
 
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
@@ -208,7 +210,22 @@ function mw_db_init_content_table() {
 
 
 
-
+	$table_name = MW_DB_TABLE_MENUS;
+	
+	 $fields_to_add = array();
+	$fields_to_add[] = array('title', 'TEXT default NULL');
+	$fields_to_add[] = array('item_type', 'varchar(33) default NULL');
+	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
+	$fields_to_add[] = array('content_id', 'int(11) default NULL');
+	$fields_to_add[] = array('categories_id', 'int(11) default NULL');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('is_active', "char(1) default 'y'");
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+	$fields_to_add[] = array('url', 'TEXT default NULL');
+	 	set_db_table($table_name, $fields_to_add);
+ 
 
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
@@ -481,7 +498,7 @@ function get_layout_for_page($page = array()) {
 	$args = func_get_args();
 	$function_cache_id = '';
  
- ksort($page);
+ 	ksort($page);
 	$function_cache_id = $function_cache_id . serialize($page) ;
 	 
 
@@ -2212,13 +2229,13 @@ function save_content($data, $delete_the_cache = true) {
 	if (isset($data_to_save['content'])) {
 		if(trim($data_to_save['content']) == '' or $data_to_save['content'] == false){
 			unset($data_to_save['content']);
-	//	 d($data_to_save);
+	//	
 		} else {
 			$data_to_save['content'] = make_microweber_tags($data_to_save['content']);
 		}
 	}
-
  
+ //$data_to_save['debug'] = 1;
 	$cats_modified = true;
 	$save = save_data($table, $data_to_save);
 
@@ -2257,7 +2274,7 @@ function save_content($data, $delete_the_cache = true) {
 
 	";
 
-
+ 
 	db_q($clean);
 	cache_clean_group('custom_fields');
 
@@ -2285,7 +2302,7 @@ function save_content($data, $delete_the_cache = true) {
 	}
 	cache_clean_group('content' . DIRECTORY_SEPARATOR . 'global');
 	cache_clean_group('content' . DIRECTORY_SEPARATOR . '0');
-cache_clean_group('content_fields/global');
+	cache_clean_group('content_fields/global');
 
 	if ($cats_modified != false) {
 

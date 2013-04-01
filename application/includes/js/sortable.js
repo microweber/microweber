@@ -149,8 +149,9 @@ $(document).ready(function(){
 
 
 hasAbilityToDropElementsInside = function(target){
-  var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr)$/i;
+  var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
   var x =  items.test(target.nodeName);
+
   if(x){
     return false;
   }
@@ -166,6 +167,7 @@ hasAbilityToDropElementsInside = function(target){
     else if(mw.tools.hasClass(target, 'module')){
         return false;
     }
+    return true;
   }
 }
 
@@ -895,6 +897,10 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
+
+
+
+
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
                               if(!$(mw.currentDragMouseOver).prev().hasClass('mw-col-container')){
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -906,13 +912,30 @@ mw.drag = {
                                 return false;
                          }
 
+
+                         d(hasAbilityToDropElementsInside(mw.currentDragMouseOver))
+
                         if($(mw.currentDragMouseOver).hasClass("edit")){
+
+                        if(hasAbilityToDropElementsInside(mw.currentDragMouseOver)){
+
                            if(position=='top'){
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                            }
                            else if(position=='bottom'){
                                $(mw.currentDragMouseOver).append(mw.dragCurrent);
                            }
+
+                           }
+
+                        else{
+                             if(position=='top'){
+                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                           }
+                           else if(position=='bottom'){
+                               $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                           }
+                        }
 
                           return false;
                         }
@@ -1450,27 +1473,30 @@ module_settings: function() {
 
 
 
-  //Clean the code before send
+
+
+  var doc = mw.tools.parseHtml(mwd.body.innerHTML);
 
 
 
-  mw.$('.element-current').removeClass('element-current');
-  mw.$('.element-active').removeClass('element-active');
-  mw.$('.disable-resize').removeClass('disable-resize');
-  mw.$('.empty-element').remove();
-  mw.$('.empty-element').remove();
-  mw.$('.edit .ui-resizable-handle').remove();
-  mw.tools.classNamespaceDelete('all', 'ui-');
-  //end cleaning the code
+  mw.$('.element-current', doc).removeClass('element-current');
+  mw.$('.element-active', doc).removeClass('element-active');
+  mw.$('.disable-resize', doc).removeClass('disable-resize');
+  mw.$('.empty-element', doc).remove();
+  mw.$('.empty-element', doc).remove();
+  mw.$('.edit .ui-resizable-handle', doc).remove();
+  mw.tools.classNamespaceDelete('all', 'ui-', doc);
 
-    var edits = mw.$(".edit.changed");
+  mw.$("[contententeditable]", doc).removeAttr("contententeditable");
 
-	// var edits2 = $('.edit *[rel]');
-/*mw.log(edits2);
- 	if(edits2 != undefined){
-		var edits = $.merge(edits, edits2);
 
-	}*/
+
+
+
+
+    var edits = mw.$(".edit.changed", doc);
+
+
 
 
 

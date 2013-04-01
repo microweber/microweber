@@ -1,5 +1,5 @@
 <?php
-function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false) {
+function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
 	$params = array();
 
 	$table_assoc_name = false;
@@ -91,10 +91,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		}
 
 		$sidq = '';
-		if ($id == 0) {
+		if ($id == 0 and $for_session != false) {
 			if (is_admin() != false) {
-				//$sid = session_id();
-				//$sidq = ' and session_id="' . $sid . '"  ';
+				$sid = session_id();
+				$sidq = ' and session_id="' . $sid . '"  ';
 			}
 		} else {
 			$sidq = '';
@@ -127,9 +127,9 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		$cache_id = __FUNCTION__ . '_' . $crc;
 
 		$q = db_query($q, $cache_id, 'custom_fields/global');
-if ($debug != false) {
-											 //d($q);
-										}
+		if ($debug != false) {
+			//d($q);
+		}
 		if (!empty($q)) {
 
 			if ($return_full == true) {
@@ -189,31 +189,23 @@ if ($debug != false) {
 
 								if (isset($q2['custom_field_values_plain']) and is_string($q2['custom_field_values_plain']) and trim($q2['custom_field_values_plain']) != '') {
 									$cfv = $q2['custom_field_values_plain'];
-								
+
 								} else if (isset($q2['custom_field_values']) and is_string($q2['custom_field_values'])) {
 									$try = base64_decode($q2['custom_field_values']);
 
 									if ($try != false and strlen($try) > 3) {
 										$cfv = unserialize($try);
-										
+
 									}
 								}
 
 							}
-							
-								
-									
-							
 
 							$the_val = $cfv;
 						}
 
 						$i++;
 					}
-					
-					
-					
-					
 
 					if ($the_name != false and $the_val != false) {
 
@@ -482,7 +474,9 @@ function save_custom_field($data) {
 		$data_to_save['options'] = encode_var($data['options']);
 	}
 
-	//  $data_to_save['debug'] = 1;
+	$data_to_save['session_id'] = session_id();
+
+	// $data_to_save['debug'] = 1;
 
 	$save = save_data($table_custom_field, $data_to_save);
 

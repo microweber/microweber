@@ -80,7 +80,21 @@
 
 
     </script>
-
+<?
+			 $back_url = site_url().'admin/view:content';
+			 if(defined('CONTENT_ID')){
+				 $back_url .= '#action=editpage:'.CONTENT_ID; 
+			 } 
+			 
+			  if(isset($_COOKIE['back_to_admin'])){
+				  
+				 $back_url = $_COOKIE['back_to_admin'];   
+				 
+			  }
+			 
+			 
+			 
+			  ?>
 <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
@@ -122,13 +136,21 @@
          </div>
        </div>
       <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
-      <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
+      <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print $back_url; ?>"><span class="backico"></span>Back to Admin</a>
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
         <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website<span class="ico idownarr right"></span></a>
         <div class="mw-dropdown-content">
         <ul class="mw-dropdown-list">
             <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
-             <li><a href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>">Back to admin</a></li>
+            
+            
+            
+            
+            
+             <li>
+             
+             
+             <a href="<?php print $back_url; ?>">Back to admin</a></li>
             <li><a href="javascript:;" onclick="mw.preview();void(0);">Preview</a></li>
             <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
               <li><a href="javascript:;">Unpublish<? print CONTENT_ID; ?></a></li>

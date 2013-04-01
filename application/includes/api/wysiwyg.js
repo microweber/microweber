@@ -40,14 +40,7 @@ mw.wysiwyg = {
                   mw.wysiwyg.nceui();
             })
         }
-
       }
-
-
-
-
-
-
     },
     removeEditable : function(){
       if(!mw.is.ie){
@@ -217,7 +210,7 @@ mw.wysiwyg = {
           }
       });
       mw_editor_btns.hover(function(){
-        $(this).addClass("mw_editor_btn_hover"); 
+        $(this).addClass("mw_editor_btn_hover");
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
@@ -243,17 +236,21 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-           d(event.target)
+
 
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
 
-             mw.e.cancel(event, true);
-
-             if(event.target.tagName === 'DIV'){
+             if(event.keyCode == '46' && r.endOffset == 0){
+               if(r.commonAncestorContainer.nextSibling.nodeName === 'DIV'){
                   mw.e.cancel(event, true);
+               }
              }
-
-             return false;
+             if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling !== null){
+               d(r.commonAncestorContainer)
+               if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
+                  mw.e.cancel(event, true);
+               }
+             }
            }
 
          }

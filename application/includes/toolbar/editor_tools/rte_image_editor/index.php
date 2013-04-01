@@ -43,7 +43,12 @@
 
             }
             else{
-             parent.mw.iframecallbacks['insert_image'](url, eventType);
+              if(typeof parent[hash] === 'function'){
+                parent[hash](url, eventType);
+              }
+              else{
+               parent.mw.iframecallbacks['insert_image'](url, eventType);
+              }
             }
           }
           else{
@@ -363,7 +368,7 @@ mw.embed = {
     <li><a href="#" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
     <li><a href="#">Uploaded</a></li>
   </ul>
-  
+
   <div class="tab" id="drag_files_here">
     <center style="padding-top: 25px;">
 

@@ -198,6 +198,9 @@ function module_option($key, $module, $option_group = false, $return_full = fals
 	return get_option($key, $option_group, $return_full, $orderby, $module);
 }
 
+ 
+
+
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
 	if (MW_IS_INSTALLED != true) {
 		return false;

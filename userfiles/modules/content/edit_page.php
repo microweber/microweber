@@ -802,7 +802,7 @@ if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $
 
 
 ?>
-
+<? print $categories_active_ids; ?>
 <microweber module="categories/selector"   categories_active_ids="<? print $categories_active_ids; ?>"  id="categorories_selector_for_post_<? print $rand; ?>" rel_id="<? print $data['id'] ?>"  active_ids="<? print intval($data['parent']) ?>" for="content" <? print $strz ?> <? print $selected_parent_ategory_id ?> <? print $shopstr ?> />
 <? endif; ?>
 </div>

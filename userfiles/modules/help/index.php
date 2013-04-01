@@ -32,22 +32,22 @@ mw_var('mw_help_path',$get_path);
 
 
 <div id="mw_index_help">
-  <div id="help-sidebar">
+  <div id="mw_edit_page_left" class="help-sidebar">
       <?php $info = module_info($config['module']);  ?>
       <?php module_ico_title($info['module']); ?>
       <div class="vSpace"></div>
       <div class="manage-items">
 
+       
 
-      <?
-                      $help_pages = str_replace("directory_tree","mw-accordion-content", $help_pages);
+      <?   $help_pages = str_replace("directory_tree","mw-accordion-content", $help_pages);
 
 
        print $help_pages; ?>
+ 
 
 
-
-
+ 
 
         <? if($show_modules_help_nav == true): ?>
         <? $module_categories = get_categories('rel=modules') ?>
@@ -70,7 +70,7 @@ mw_var('mw_help_path',$get_path);
               <li>
                     <?php $minfo = module_info($item['module']);  ?>
 
-                <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img src="<?  print($minfo['icon']); ?>" alt="" /><span class="help-title"><?  print($item['name']); ?></span></strong>
+                <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img  src="<?  print($minfo['icon']); ?>" alt="" /><span class="help-title"><?  print($item['name']); ?></span></strong>
                 <?
 				  $module_path  = module_path($item['module']);
 

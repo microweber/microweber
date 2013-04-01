@@ -1,31 +1,31 @@
 <? $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
 <?
- 
+
 
   require_once($config['path_to_module'].'shipping_to_country.php');
- $shipping_to_country = new shipping_to_country(); 
- 
- 
+ $shipping_to_country = new shipping_to_country();
+
+
  $data  =  $data_orig = $shipping_to_country->get();
  if( $data == false){
 	 $data = array();
  }
- 
- 
- 
- 
+
+
+
+
   $data[] = array();
- 
+
      $countries =    countries_list();
      $countries_used = array();
 	 array_unshift($countries, "Worldwide");
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+
+
+
+
+
+
+
 
     // $countries[] = 'Worldwide';
     ?>
@@ -42,7 +42,7 @@ if(mw.shipping_country == undefined){
 
 
 mw.shipping_country.url = "<? print $config['module_api']; ?>";
-  
+
  $(document).ready(function(){
 
     mw.$(".<? print $rand1 ?>").sortable({
@@ -68,46 +68,46 @@ mw.shipping_country.url = "<? print $config['module_api']; ?>";
        scroll:false,
        placeholder: "custom-field-main-table-placeholder"
   });
-  
-  
-  
+
+
+
   <? if(empty( $data_orig )): ?>
 mw.$('.country-id-0').show()
  <? endif;?>
 });
- 
 
- 
+
+
 </script>
-<? 
+<?
  $data_active = array();
  $data_disabled = array();
  foreach($data  as $item): ?>
 <?
-  
+
   if(isset($item['is_active']) and 'n' == trim($item['is_active'])){
 	  $data_disabled[] = $item;
   } else {
 	  $data_active[] = $item;
   }
-  
-  
-  
+
+
+
    if(isset($item['shiping_country'])){
     	 $countries_used[] = ($item['shiping_country']);
     }
     ?>
 <? endforeach ; ?>
-<? 
+<?
 
-$datas['data_active'] = $data_active; 
+$datas['data_active'] = $data_active;
 $datas['data_disabled'] = $data_disabled;
 
 ?>
 
 <div class="vSpace"></div>
 <div class="vSpace"></div>
-<? 
+<?
  $data_active = array();
  $data_disabled = array();
  foreach($datas  as $data_key=> $data): ?>
@@ -115,26 +115,37 @@ $datas['data_disabled'] = $data_disabled;
 <? endif; ?>
 <?
 if($data_key == 'data_disabled'){
- $truck_class = 'red';	
+ $truck_class = 'red';
 } else {
-$truck_class = 'green';		
+$truck_class = 'green';
 }
  ?>
 <? if(isarr($data ) and !empty($data)): ?>
 <div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<? print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
   <?php _e("Add Country"); ?>
   </span> </div>
-<div class="mw-shipping-items <? print $rand1 ?>" id="<? print $rand1 ?>"> 
+<div class="mw-shipping-items <? print $rand1 ?>" id="<? print $rand1 ?>">
   <script type="text/javascript">
 
 SaveShipping = function(form, dataType){
-    mw.form.post($(form) , '<? print $config['module_api']; ?>/shipping_to_country/save');
-    if(dataType==='new'){
+    mw.form.post($(form) , '<? print $config['module_api']; ?>/shipping_to_country/save', function(){
+
+
+
+ if(dataType==='new'){
        mw.reload_module('shop/shipping');
     }
     else{
     mw.reload_module(dataType);
     }
+
+    }
+
+
+
+
+      );
+
 }
 
 </script>
@@ -142,15 +153,15 @@ SaveShipping = function(form, dataType){
   <?
 $new = false;
 if(!isset($item['id'])) :?>
-  <?  
+  <?
 if($data_key == 'data_active'){
-$item['id']= 0; 
+$item['id']= 0;
 $item['is_active']= 'y';
-$item['shiping_country']= 'new'; 
-$item['shiping_cost']= '0'; 
+$item['shiping_country']= 'new';
+$item['shiping_cost']= '0';
 $item['shiping_cost_max']= '0';
 $item['shiping_cost_above']= '0';
-$item['position']= '999'; 
+$item['position']= '999';
 
 
 $new = true;

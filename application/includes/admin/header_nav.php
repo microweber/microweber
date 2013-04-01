@@ -12,19 +12,26 @@
       <? exec_action('mw_admin_header_menu'); ?>
       <li <?php if($active == 'users'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
       <? //exec_action('mw_admin_header_menu'); ?>
-      
-        <? if(is_module('help')): ?>
-         <li<?php if($active == 'help'): ?>class="active"<? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
-         <? endif; ?>
-        
-        
-        
-     
+      <? if(is_module('help')): ?>
+      <li<?php if($active == 'help'): ?>class="active"<? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
+      <? endif; ?>
       <? exec_action('mw_admin_header_menu_end'); ?>
     </ul>
     <script>
 
-    $(function(){
+  $(document).ready(function() {
+		
+		
+		//mw.cookie.set('back_to_admin',window.location.href)
+	
+		
+		
+		
+		
+		
+		
+		
+		
        var navli = mw.$("#mw_tabs li");
        navli.click(function(){
          if(!$(this).hasClass('active')){
@@ -92,6 +99,10 @@ else
 	   
 	   
     });
+	
+	
+ 	 
+	
 
     </script> 
   </div>
@@ -110,32 +121,24 @@ $past_page = content_link($past_page[0]['id']);
 
 // d($past_page);
  ?>
-  <div id="mw-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 13px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn right" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span>
+  <div id="mw-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 13px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn right back-to-admin-cookie" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span>
     <?php _e("Go Live Edit"); ?>
     </a>
-
-   <div class="mw-toolbar-notification">
-        <? $notif_count = get_notifications('is_read=n&count=1'); ?>
-        <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<? if( $notif_count == 0): ?> faded<? endif; ?>">
-          <span class="ico inotification" id="toolbar_notifications">
-            <? if( $notif_count > 0): ?>
-                <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
-            <? endif; ?>
-          </span>
-        </span>
-
-        <div class="mw-toolbar-notif-items-wrap mw-o-box">
+    <div class="mw-toolbar-notification">
+      <? $notif_count = get_notifications('is_read=n&count=1'); ?>
+      <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<? if( $notif_count == 0): ?> faded<? endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
+      <? if( $notif_count > 0): ?>
+      <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
+      <? endif; ?>
+      </span> </span>
+      <div class="mw-toolbar-notif-items-wrap mw-o-box">
         <div class="mw-o-box-header">
-            <h5>Latest activity:</h5>
+          <h5>Latest activity:</h5>
         </div>
-            <module type="admin/notifications" view="toolbar" is_read="n" limit="5" />
-
-            <a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>">See all</a>
-        </div>
-   </div>
-   
-   
+        <module type="admin/notifications" view="toolbar" is_read="n" limit="5" />
+        <a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>">See all</a> </div>
     </div>
+  </div>
   <? endif; ?>
 </div>
 <? endif; ?>

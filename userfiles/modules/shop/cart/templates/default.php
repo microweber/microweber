@@ -59,8 +59,9 @@ description: Default cart template
 
 
 
-  <div class="">
-
+   <?  $shipping_options =  api('shop/shipping/shipping_api/get_active');  ?>
+	<? if(isarr($shipping_options)) :?>
+    <div>
     <h3>Continue Shopping or Complete Order</h3>
 
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">
@@ -72,15 +73,16 @@ description: Default cart template
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label>Shipping price:</label> <?php print currency_format(session_get('shiping_cost')); ?></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label>Shipping price:</label> <span class="shiping_cost"><?php print currency_format(session_get('shiping_cost')); ?></span></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label>Total Price:</label> <?php print currency_format($total + intval(session_get('shiping_cost'))); ?></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label>Total Price:</label> <span class="total_cost"><?php print currency_format($total + intval(session_get('shiping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>
   </div>
+  <? endif ; ?>
   
   
 

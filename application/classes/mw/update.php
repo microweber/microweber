@@ -27,7 +27,7 @@ class Update {
 
 		if ($skip_cache == false) {
 
-			$c_id = __FUNCTION__ . date("ymd");
+			$c_id = __FUNCTION__ . date("ymdh");
 			$cache_content = cache_get_content($c_id, 'update/global');
 			//
 			if (($cache_content) != false) {

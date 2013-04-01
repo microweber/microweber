@@ -59,13 +59,24 @@
 <script type="text/javascript">
 
   function mw_shipping_<? print $rand; ?>(){
-    mw.form.post( '#<? print $rand; ?>', '<? print $config['module_api']; ?>/shipping_to_country/set');
+    mw.form.post( '#<? print $rand; ?>', '<? print $config['module_api']; ?>/shipping_to_country/set',function() {
+	 mw.reload_module('shop/cart');
+	 
+	 if(this.shiping_country != undefined){
+		//d(this.shiping_country);
+		mw.$("[name='country']").val(this.shiping_country)
+	 }
+	 
+	 
+	 
+	 
+	});
   }
   
   
 
 $(document).ready(function(){
-	mw_shipping_<? print $rand; ?>();
+	//mw_shipping_<? print $rand; ?>();
 	mw.$('#<? print $rand; ?>').change(function() {
 	 mw_shipping_<? print $rand; ?>();
 	});
@@ -77,27 +88,27 @@ $(document).ready(function(){
 </script>
 <? if(isset($params['template']) and trim($params['template']) == 'select') : ?>
 
-<select name="country" class="shipping-country-select">
-  <? foreach($data  as $item): ?>
-  <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
-  <? endforeach ; ?>
-</select>
-<? else: ?>
 <div class="<? print $config['module_class'] ?>" id="<? print $rand; ?>">
-
-
-
- 
-
-
-  <label>
-    <?php _e("Choose country:"); ?>
-  </label>
-  <select name="country" class="field-full">
+  <select name="country" class="shipping-country-select">
+   <option value="">Choose country</option>
     <? foreach($data  as $item): ?>
     <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
     <? endforeach ; ?>
   </select>
+</div>
+<? else: ?>
+<div class="<? print $config['module_class'] ?>">
+  <div id="<? print $rand; ?>">
+    <label>
+      <?php _e("Choose country:"); ?>
+    </label>
+    <select name="country" class="field-full">
+	 <option value="">Choose country</option>
+      <? foreach($data  as $item): ?>
+      <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
+      <? endforeach ; ?>
+    </select>
+  </div>
   <label>
     <?php _e("City"); ?>
   </label>

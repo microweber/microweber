@@ -569,11 +569,11 @@ function module_ico_title($module_name, $link = true) {
 	$params['ui'] = 'any';
 	$params['limit'] = 1;
 	$data = get_modules_from_db($params);
-	 $info = false;
+	$info = false;
 	if (isset($data[0])) {
-		 $info = $data[0];
+		$info = $data[0];
 	}
-	if ($link == true and  $info != false) {
+	if ($link == true and $info != false) {
 		$href = admin_url() . 'view:modules/load_module:' . module_name_encode($info['module']);
 	} else {
 		$href = '#';
@@ -627,9 +627,11 @@ function is_module($module_name) {
 
 	return $checked[$module_name];
 }
+
 function module_path($module_name) {
 	return module_dir($module_name);
 }
+
 function module_dir($module_name) {
 	if (!is_string($module_name)) {
 		return false;
@@ -891,6 +893,67 @@ function uninstall_module($params) {
 	cache_clean_group('modules' . DIRECTORY_SEPARATOR . '');
 
 	// d($params);
+}
+
+action_hook('mw_db_init_modules', 're_init_modules_db');
+
+function re_init_modules_db() {
+	
+	
+	
+	
+	if (isset($options['glob'])) {
+		$glob_patern = $options['glob'];
+	} else {
+		$glob_patern = 'config.php';
+	}
+
+	//clearcache();
+	//clearstatcache();
+	$dir_name_mods = MODULES_DIR;
+	$modules_remove_old = false;
+	$dir = rglob($glob_patern, 0, $dir_name_mods);
+	
+ 
+	if (!empty($dir)) {
+		$configs = array();
+ 		foreach ($dir as  $value) {
+			$loc_of_config = $value;
+			if ($loc_of_config != false and is_file($loc_of_config)) {
+					include ($loc_of_config);
+					if (isset($config)) {
+						$cfg = $config;
+						if (isset($config['tables']) and is_arr($config['tables'])) {
+							$tabl = $config['tables'];
+							foreach ($tabl as $key => $value) {
+								$table = db_get_real_table_name($key);
+								set_db_table($table, $fields_to_add);
+							}
+						}
+					}
+
+				}
+			//d($value);
+		}
+	}
+	
+	
+	
+	
+/* 	$re_init_modules = get_modules_from_db('ui=any&installed=1');
+	d($re_init_modules);
+	if (isarr($re_init_modules)) {
+		foreach ($re_init_modules as $value) {
+			$module_name = $value['module'];
+			$loc_of_config = locate_module($module_name, 'config', 1);
+			if ($loc_of_config != false) {
+				
+
+			}
+
+		}
+	}*/
+
 }
 
 api_expose('install_module');

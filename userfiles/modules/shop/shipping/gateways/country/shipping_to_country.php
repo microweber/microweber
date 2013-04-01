@@ -102,9 +102,25 @@ class shipping_to_country {
 					foreach($active as $name => $val){
 						 session_set($name, $val);
 					}
+				} else {
+									$active_ww = $this->get('fields=shiping_country,shiping_cost_max,shiping_cost,shiping_cost_above&one=1&is_active=y&shiping_country=Worldwide');
+									if(isarr($active_ww)){
+										
+										$active_ww['shiping_country'] = $params['country'];
+										
+										
+										
+										
+					foreach($active_ww as $name => $val){
+						 session_set($name, $val);
+					}
+					
+					   return $active_ww;
 					
 				}
-  return $active;
+
+				}
+       return $active;
 			}
 			
 

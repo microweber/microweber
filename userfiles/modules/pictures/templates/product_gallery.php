@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Product Slider
+name: Product Gallery
 
-description: Product Slider
+description: Product Gallery
 
 */
 
@@ -19,24 +19,26 @@ description: Product Slider
 
  <?php $id = "slider-".uniqid(); ?>
 
-<div class="well mw-module-images">
-<div class="autoscale mw-rotator mw-rotator-template-shop" id="<?php print $id; ?>">
+
+
+<div class="autoscale mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
     <? foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
 
-        <span class=" mw-slider-zoomholder">
+
+         
+    <span class=" mw-slider-zoomholder">
             <img class="mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
             <img src="<? print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
         </span>
+
+
 
     </div>
     <? endforeach ; ?>
   </div>
 </div>
-
-</div>
-
 
 
 <script type="text/javascript">
@@ -49,19 +51,20 @@ description: Product Slider
   Rotator = null;
   $(document).ready(function(){
     if($('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
-      Rotator = mw.rotator('#<?php print $id; ?>');
+        Rotator = mw.rotator('#<?php print $id; ?>');
         if (!Rotator) return false;
         Rotator.options({
             paging:true,
             pagingMode:"thumbnails",
             next:true,
-            prev:true
+            prev:true,
+            reflection:false
         });
-        Rotator.autoRotate(5000);
-      }
-      mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
+
+        mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
             mw.productZoom(this);
       });
+    }
   });
 
 </script>

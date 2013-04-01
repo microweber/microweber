@@ -5,7 +5,7 @@
 type: layout
 content_type: product
 name: Product inner page
-description: shop layout
+description: shop layout<em></em>
 
 */
 
@@ -22,14 +22,13 @@ description: shop layout
     <div class="span9"> <!-------------- Product -------------->
         <div class="row">
               <div class="span5">
-                <module type="pictures" data-content-id="<? print POST_ID ?>" template="slider_shop" />
+                <module type="pictures" data-content-id="<? print POST_ID ?>" template="product_gallery" id="test1" />
               </div>
               <div class="span4 product-description">
-               <div class="edit"  field="content" rel="post">
-                <p class="p0 element">Describe your product</p>
-               </div>
-
-                <module type="shop/cart_add" data-content-id="<? print POST_ID; ?>" />
+                 <div class="edit"  field="content" rel="post">
+                    <p class="p0 element">Describe your product</p>
+                 </div>
+                 <module type="shop/cart_add" data-content-id="<? print POST_ID; ?>" />
               </div>
         </div>
       </div>
