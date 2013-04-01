@@ -9,7 +9,7 @@ document.getElementsByTagName('html')[0].className = window.location.href.indexO
 
 mw = {}
 
-
+mw.askusertostay = false;
 
 window.onerror = function(a,b,c){
   console.log(a + b + c);
@@ -21,7 +21,8 @@ window.onerror = function(a,b,c){
 
 
     window.onbeforeunload = function() {
-        if(typeof mw.askusertostay != 'undefined'){
+        if(mw.askusertostay){
+            mw.notification.warning("You have unsaved changes!");
             return true;
         }
     }

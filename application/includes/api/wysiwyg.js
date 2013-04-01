@@ -17,6 +17,7 @@ mw.wysiwyg = {
                this.contentEditable = true;
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
+                    mw.askusertostay = true;
                 });
             });
         }
@@ -31,6 +32,7 @@ mw.wysiwyg = {
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
+                    mw.askusertostay = true;
                 });
             });
             mw.$("img, .empty-element, .ui-resizable-handle").each(function(){
