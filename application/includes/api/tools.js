@@ -763,14 +763,15 @@ mw.tools = {
                 });
               }
             }
-
         });
      }
   },
   confirm:function(question, callback){
-    if(confirm(question)){
+    var conf = confirm(question);
+    if(conf && typeof callback === 'function'){
       callback.call(window);
     }
+    return conf;
   },
   el_switch:function(arr, type){
     if(type==='semi'){
@@ -1022,21 +1023,11 @@ mw.tools = {
                       mw.tools.highlight(label);
                       $(label).addClass("highlighted");
                    }, 55);
-
                 }
-
             }
-
-
-
-
-
         }
-
-
         span_x.className = 'mw-ui-btnclose';
         span_x.onclick = function(){
-
             o.untag(this.parentNode, el);
         }
         span_holder.appendChild(span_x);

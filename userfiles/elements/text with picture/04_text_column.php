@@ -1,5 +1,5 @@
-
-<img class="element element-image layout-wide-img" src="<?php print pixum(900, 150); ?>"  />
-<h2 class="element layout-title lipsum">Text with Picture</h2>
-<p class="element layout-paragraph layout-paragraph-wide lipsum"><?php print lipsum(); ?></p>
-
+<img class="element img-polaroid" src="<?php print pixum(800, 150); ?>" width="100%" alt=""  />
+<div class="well">
+    <h2 class="element lipsum">Two Coloms & Picture</h2>
+    <p class="element lipsum"><?php print lipsum(); ?></p>
+</div>

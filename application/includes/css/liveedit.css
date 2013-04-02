@@ -299,6 +299,23 @@ body .mw-col > .ui-resizable-e *{
 
 }
 
+.dragStart .currentDragMouseOver{
+  position: relative;
+}
+
+.dragStart .currentDragMouseOver:before{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFFFB9;
+    content: "";
+    opacity:.8;
+    pointer-events:none;
+}
+
 
 
 

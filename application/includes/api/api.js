@@ -18,21 +18,17 @@ window.onerror = function(a,b,c){
 
 
   if (top === self){
-
-
     window.onbeforeunload = function() {
-
-
-
 
         if(mw.askusertostay){
             mw.notification.warning("You have unsaved changes!");
             return "You have unsaved changes!";
         }
     }
+  }
 
-
-
+  warnOnLeave = function(){
+     mw.tools.confirm("You have unsaved changes! Are you sure?");
   }
 
   mw.module = {} //Global Variable for modules scripts

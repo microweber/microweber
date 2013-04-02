@@ -342,8 +342,9 @@ function get_orders($params = false) {
 		$params = $params2;
 	}
 	if (is_admin() == false) {
+		$params['session_id'] = session_id();
 		if (!isset($params['payment_verify_token'])) {
-			error("get_orders? You must be admin");
+			//error("get_orders? You must be admin");
 		}
 	}
 
@@ -786,7 +787,7 @@ function after_checkout($order_id, $suppress_output = true) {
 	}
 }
 
-function checkout_confirm_email_send($order_id, $to = false,$no_cache = false) {
+function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) {
 
 	$ord_data = get_orders('one=1&id=' . $order_id);
 	if (isarr($ord_data)) {
@@ -797,7 +798,6 @@ function checkout_confirm_email_send($order_id, $to = false,$no_cache = false) {
 			$order_email_subject = get_option('order_email_subject', 'orders');
 			$order_email_content = get_option('order_email_content', 'orders');
 			$order_email_cc = get_option('order_email_cc', 'orders');
-
 
 			if ($order_email_subject == false or trim($order_email_subject) == '') {
 				$order_email_subject = "Thank you for your order!";
@@ -816,14 +816,13 @@ function checkout_confirm_email_send($order_id, $to = false,$no_cache = false) {
 				}
 				$cc = false;
 				if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
-				 $cc = $order_email_cc;
+					$cc = $order_email_cc;
 
 				}
 				if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
- 					mw_mail($to, $order_email_subject, $order_email_content,true,$no_cache, $cc);
+					mw_mail($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 				}
-
 
 			}
 		}
@@ -846,7 +845,7 @@ function checkout_confirm_email_test($params) {
 	if (isarr($ord_data[0])) {
 		shuffle($ord_data);
 		$ord_test = $ord_data[0];
-		checkout_confirm_email_send($ord_test['id'], $to = $email_from,true);
+		checkout_confirm_email_send($ord_test['id'], $to = $email_from, true);
 	}
 
 }

@@ -1,13 +1,19 @@
-<img class="element element-image" src="<?php print pixum(800, 150); ?>" width="100%" alt=""  />
-
-
+<img class="element img-polaroid" src="<?php print pixum(800, 150); ?>" width="100%" alt=""  />
 <div class="mw-row">
   <div class="mw-col" style="width:50%" >
-      <h2 class="element layout-title lipsum">Two Coloms & Picture</h2>
-      <p class="element lipsum layout-paragraph"><?php print lipsum(); ?></p>
+    <div class="mw-col-container" >
+      <div class="well">
+          <h2 class="element lipsum">Two Columns & Picture</h2>
+          <p class="element lipsum"><?php print lipsum(); ?></p>
+      </div>
+    </div>
   </div>
   <div class="mw-col" style="width:50%" >
-      <h2 class="element layout-title lipsum">Two Coloms & Picture</h2>
-      <p class="element lipsum layout-paragraph"><?php print lipsum(); ?></p>
+    <div class="mw-col-container">
+      <div class="well">
+          <h2 class="element lipsum">Two Columns & Picture</h2>
+          <p class="element lipsum"><?php print lipsum(); ?></p>
+      </div>
+    </div>
   </div>
 </div>
