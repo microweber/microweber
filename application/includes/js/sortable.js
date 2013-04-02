@@ -143,9 +143,12 @@ $(document).ready(function(){
        }
      }
    });
-
-
 });
+
+
+
+
+
 
 
 hasAbilityToDropElementsInside = function(target){
@@ -833,7 +836,7 @@ mw.drag = {
             mw.image._dragparent = null;
 
             var sliders = mwd.getElementsByClassName("canvas-slider"), len = sliders.length, i=0;
-            for( ; i<len; i++){sliders[i].isDrag = false;}
+            for( ; i<len; i++){ sliders[i].isDrag = false; }
             if (!mw.isDrag) {
     		    var target = event.target;
 
@@ -898,9 +901,6 @@ mw.drag = {
 
 
 
-
-
-
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
                               if(!$(mw.currentDragMouseOver).prev().hasClass('mw-col-container')){
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -913,7 +913,7 @@ mw.drag = {
                          }
 
 
-                         d(hasAbilityToDropElementsInside(mw.currentDragMouseOver))
+
 
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
@@ -957,8 +957,6 @@ mw.drag = {
                             else if(position=='right'){
                                __createRow(mw.currentDragMouseOver, mw.dragCurrent, position);
                            }
-
-
 
                           return false;
                         }
@@ -1051,6 +1049,11 @@ mw.drag = {
 
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
 
+
+
+
+
+
 				}, 77);
 			}
 
@@ -1067,7 +1070,7 @@ mw.drag = {
 	 * @example mw.drag.fixes()
 	 */
 	fixes: function () {
-		$(".mw-col, .mw-row", '.edit').height('auto');
+		mw.$(".edit .mw-col, .edit .mw-row").height('auto');
         $(mw.dragCurrent).css({
           top:'',
           left:''
@@ -1098,6 +1101,17 @@ mw.drag = {
 			//el.parents('.mw-row:first').height('auto')
 
 		}); }, 222);
+
+        var els = mwd.querySelectorAll('div.element'), l = els.length, i = 0;
+        if(l>0){
+          for(;i<l;i++){
+             if(els[i].querySelector('p,div,li')===null){
+                 els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
+             }
+          }
+        }
+
+
 	},
     /**
 	 * fix_placeholders in the layout
@@ -1471,10 +1485,6 @@ module_settings: function() {
 
 
 
-
-
-
-
   var doc = mw.tools.parseHtml(mwd.body.innerHTML);
 
 
@@ -1487,7 +1497,7 @@ module_settings: function() {
   mw.$('.edit .ui-resizable-handle', doc).remove();
   mw.tools.classNamespaceDelete('all', 'ui-', doc);
 
-  mw.$("[contententeditable]", doc).removeAttr("contententeditable");
+  mw.$("[contenteditable]", doc).removeAttr("contenteditable");
 
 
 

@@ -115,6 +115,7 @@ function mw_shop_module_init_db() {
 	$fields_to_add[] = array('payment_status', 'varchar(255)  default NULL ');
 
 	$fields_to_add[] = array('payment_email', 'TEXT default NULL');
+	$fields_to_add[] = array('payment_receiver_email', 'TEXT default NULL');
 
 	$fields_to_add[] = array('payment_name', 'TEXT default NULL');
 
@@ -386,78 +387,87 @@ function checkout_ipn1() {
 	$cache_gr = 'ipn';
 	$cache_id = '1';
 	$c = cache_get_content($cache_id, $cache_gr);
-	d($c);
+	//d($c);
 	$c = checkout_ipn($c);
-	d($c);
+	//d($c);
 }
 
 api_expose('checkout_ipn');
 
 function checkout_ipn($data) {
 	if (!session_id() and !headers_sent()) {
-		session_start();
+		//	session_start();
 	}
-	$sid = session_id();
+	//$sid = session_id();
 
-	$cache_gr = 'ipn';
-	$cache_id = md5(serialize($data));
-	if (isset($_GET) and !empty($_GET) and !empty($_POST)) {
-		$data = $_REQUEST;
-	}
+	// if (isset($_GET) and !empty($_GET) and !empty($_POST)) {
+	// $data = $_REQUEST;
+	// } else
+
+	//if (isset($_POST) and !empty($_POST)) {
+	//$data = $_POST;
+	//}
 	if (isset($data['payment_verify_token'])) {
-		$payment_verify_token = trim($data['payment_verify_token']);
+		$payment_verify_token = ($data['payment_verify_token']);
 	}
 
-	if (isset($_REQUEST['payment_verify_token'])) {
-		$payment_verify_token = ($_REQUEST['payment_verify_token']);
+	if (!isset($data['payment_gw'])) {
+		return array('error' => 'You must provide a payment gateway parameter!');
 	}
 
-	if (isset($_REQUEST['payment_gw'])) {
-		$data['payment_gw'] = ($_REQUEST['payment_gw']);
-	}
 	$data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
 	$hostname = get_domain_from_str($_SERVER['REMOTE_ADDR']);
+	$cache_gr = 'ipn';
+	$cache_id = $hostname . md5(serialize($data));
 
-	cache_save($_REQUEST, $cache_id, $cache_gr);
+	cache_save($data, $cache_id, $cache_gr);
+
+	//$data = cache_get_content($cache_id, $cache_gr);
+
 	//d($payment_verify_token);
 	$ord_data = get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
-	// d($ord_data);
+	// d($ord_data);.
+	$payment_verify_token = db_escape_string($payment_verify_token);
+	$table = MODULE_DB_SHOP_ORDERS;
+	$q = " SELECT  * FROM $table where payment_verify_token='{$payment_verify_token}'  and transaction_id is NULL  limit 1";
+
+	$ord_data = db_query($q);
 
 	if (!isset($ord_data[0]) or !isarr($ord_data[0])) {
-		error('Order is completed or expired.');
+		return array('error' => 'Order is completed or expired.');
 	} else {
 
 		$ord_data = $ord_data[0];
 		$ord = $ord_data['id'];
 	}
 
-	$payment_verify_token_data = decrypt_var($payment_verify_token);
-
-	if (!isarr($payment_verify_token_data)) {
-		error('Invalid token.');
-	}
 	$cart_table = MODULE_DB_SHOP;
 	$table_orders = MODULE_DB_SHOP_ORDERS;
 
-	$shop_dir = module_dir('shop');
-	$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
-	$gw_process = $shop_dir . $data['payment_gw'] . '_checkout_ipn.php';
+	//$shop_dir = module_dir('shop');
+	//$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+	$gw_process = MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
 	$update_order = array();
 	//$update_order['id'] = $ord;
 	if (is_file($gw_process)) {
 		include $gw_process;
+
+	} else {
+		return array('error' => 'The payment gateway is not found!');
+
 	}
-	if (!empty($update_order)) {
+	if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 'y') {
 		$update_order['id'] = $ord;
-		$update_order['is_paid'] = 'y';
-		//$update_order['debug'] = 'y';
-		$update_order['order_completed'] = 'y';
+
 		$update_order['payment_gw'] = $data['payment_gw'];
 		mw_var('FORCE_SAVE', $table_orders);
 		mw_var('FORCE_ANON_UPDATE', $table_orders);
-		save_data($table_orders, $update_order);
-
+		//$update_order['debug'] = 1;
+		//d($update_order);
+		//d($data);
+		$ord = save_data($table_orders, $update_order);
+checkout_send_confrimation_email($ord);
 		if ($ord > 0) {
 
 			$q = " UPDATE $cart_table set
@@ -674,9 +684,18 @@ function checkout($data) {
 
 		$cart_checksum = md5($sid . serialize($check_cart));
 
-		$place_order['item_name'] = 'Order' . ' ' . $cart_checksum . '' . $amount;
+		$place_order['payment_verify_token'] = $cart_checksum;
 
-		$place_order['payment_verify_token'] = encrypt_var($place_order);
+		define('FORCE_SAVE', $table_orders);
+
+		$temp_order = save_data($table_orders, $place_order);
+		if ($temp_order != false) {
+			$place_order['id'] = $temp_order;
+		} else {
+			$place_order['id'] = 0;
+		}
+
+		$place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
 
 		if ($mw_process_payment == true) {
 			$shop_dir = module_dir('shop');
@@ -711,7 +730,7 @@ function checkout($data) {
 
 				return array('error' => $checkout_errors);
 			}
-			define('FORCE_SAVE', $table_orders);
+
 			$ord = save_data($table_orders, $place_order);
 
 			$q = " UPDATE $cart_table set

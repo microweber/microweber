@@ -1,8 +1,9 @@
 <?php
- 
-	
+
+
 	$update_order = array();
-	if(strtolower($hostname) == 'paypal.com' and ($payment_verify_token_data['item_name'] ==  $data['item_name'] or $payment_verify_token_data['item_name'] ==  $data['transaction_subject'])){
+
+if(strtolower(trim($hostname)) == 'paypal.com'){
 	$update_order['payment_amount'] = $data['payment_gross'];;
 	$update_order['payment_email'] = $data['payer_email'];
 	$update_order['payer_id'] = $data['payer_id'];
@@ -17,7 +18,9 @@
 	$update_order['payment_shipping'] = $data['shipping'];
 	$update_order['payment_type'] = $data['payment_type'];
 	$update_order['transaction_id'] = $data['txn_id'];
-	
-//print_r($update_order);
-	}
-	 
+	$update_order['payment_receiver_email'] = $data['receiver_email'];
+	$update_order['is_paid'] = 'y';
+ 	$update_order['order_completed'] = 'y';
+}
+
+

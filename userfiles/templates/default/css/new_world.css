@@ -281,26 +281,10 @@ ul.dropdown-menu ul.dropdown-menu{
 }
 
 
-.section-title{
-  text-align: center;
-  position: relative;
-  margin: 40px 0;
+.column-hr{
+  margin-top: 30px;
 }
 
-.section-title hr{
-  position: absolute;
-  width: 35%;
-  border-top: 1px solid #BEC0C3;
-  border-bottom: 1px solid white;
-}
-.section-title hr.left{
-  left: 0;
-}
-
-.section-title hr.right{
-  right: 0;
-  top: 0
-}
 
 /* Sidebar */
 

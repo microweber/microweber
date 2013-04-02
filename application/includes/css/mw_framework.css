@@ -225,41 +225,17 @@
   cursor: pointer;
   border: 1px solid #D2D1D1;
   line-height: normal;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
-  background-image: linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-  background-image: -o-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-  background-image: -moz-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-  background-image: -webkit-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
-  background-image: -ms-linear-gradient(bottom, rgb(225,225,225) 9%, rgb(245,245,245) 55%);
+  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 
-  background-image: -webkit-gradient(
-  	linear,
-  	left bottom,
-  	left top,
-  	color-stop(0.09, rgb(225,225,225)),
-  	color-stop(0.55, rgb(245,245,245))
-  );
+
 }
 
 .mw_edit_settings:hover{
-border-color:#2680D3;
-color: white;
-text-decoration:none;
-background-image: linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
-background-image: -o-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
-background-image: -moz-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
-background-image: -webkit-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
-background-image: -ms-linear-gradient(bottom, rgb(42,131,221) 9%, rgb(80,173,240) 55%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.09, rgb(42,131,221)),
-	color-stop(0.55, rgb(80,173,240))
-);
+    border-color:#2680D3;
+    color: white;
+    background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
+    text-decoration: none;
 }
 
 .mw_col_delete{
@@ -273,6 +249,20 @@ background-image: -webkit-gradient(
   width: 21px;
   padding: 0;
   float: right;
+}
+
+.mw_edit_delete_element .mw_edit_delete{
+  background: #3792E3;
+  border-color: #2680D3;
+}
+
+.mw_edit_delete_element .mw_edit_delete:hover{
+  background: #3792E3;
+  border-color: #2680D3;
+}
+
+.mw_edit_delete_element .mw_edit_delete span{
+  background-position: 0 -8px;
 }
 
 .mw_edit_delete span{
@@ -289,25 +279,21 @@ background-image: -webkit-gradient(
 
 .mw_edit_delete:hover{
   border-color:#FF3636;
-background-image: linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
-background-image: -o-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
-background-image: -moz-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
-background-image: -webkit-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
-background-image: -ms-linear-gradient(bottom, rgb(255,19,19) 9%, rgb(255,124,124) 55%);
 
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.09, rgb(255,19,19)),
-	color-stop(0.55, rgb(255,124,124))
-);
+background: url(../img/grad.php?top=FF7C7C&bot=FF1313);
+
+
+
 }
 .mw_edit_delete:hover span{
     background-position: 0 -8px;
 }
 
 
+.mw_edit_delete_element .mw_edit_delete{
+  background-color: #3792E3;
+  border-color: #2680D3;
+}
 
 
 .mw-sorthandle{

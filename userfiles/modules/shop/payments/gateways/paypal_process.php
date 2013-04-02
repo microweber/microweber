@@ -187,7 +187,7 @@ $myPaypal -> addField('total_items', $place_order['items_count']);
 // Enable test mode if needed
 $myPaypal -> enableTestMode();
 
-// Let's start the train!
+// Let's start the train! 
 $place_order['order_completed'] = 'y';
 $place_order['is_paid'] = 'n';
 $place_order['success'] = $myPaypal -> submitPayment();

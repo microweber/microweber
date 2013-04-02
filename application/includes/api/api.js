@@ -217,7 +217,7 @@ window.onerror = function(a,b,c){
       element: "\
         <div contenteditable='false' id='mw_handle_element' class='mw_master_handle mw-sorthandle mw-sorthandle-element'>\
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
-                <a contenteditable='false' class='mw_edit_btn mw_edit_delete' onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
+                <a contenteditable='false' class='mw_edit_btn mw_edit_delete'  onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\
             <span title='Click to select this element.' contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
         </div>",

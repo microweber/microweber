@@ -525,3 +525,7 @@ $language["payment-settings-are-saved"]= 'Payment settings are saved' ;
 $language["settings-are-saved"]= 'Settings are saved' ; 
 $language["payments-settings-are-saved"]= 'Payments settings are saved' ; 
 $language["date"]= 'Date' ; 
+$language["note-your-shopping-cart-will-be-emptied-and-you-will-be-redi"]= 'Note: Your shopping cart will be emptied and you will be redirected to PayPal\'s secure payment site. Fill in the appropriate information and you will receive a confirmation email shortly.' ; 
+$language["thank-you-for-your-order-br-you-will-be-redirected-to-paypal"]= 'Thank you for your order. <br>
+You will be redirected to PayPal\'s secure payment site.<br>
+Your shopping cart will be emptied' ; 
