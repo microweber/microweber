@@ -21,7 +21,40 @@ description: Login default
   <div class="box-head">
     <h2>Login to your account</h2>
   </div>
-  <span class="facebook-login">Sign in with Facebook</span>
+  
+  
+  
+  
+ 
+  
+  <? if(get_option('enable_user_fb_registration','users') =='y'): ?>
+  <a class="facebook-login" href="<? print site_url('api/user_social_login?provider=facebook') ?>" >Sign in with Facebook</a>
+       <? endif; ?>
+ 
+  
+  
+  		<? if(get_option('enable_user_google_registration','users') =='y'): ?>
+        <a href="<? print site_url('api/user_social_login?provider=google') ?>" >Google login</a>
+       <? endif; ?>
+       
+       
+       
+       
+
+ <? if(get_option('enable_user_github_registration','users') =='y'): ?>
+       <a href="<? print site_url('api/user_social_login?provider=github') ?>" >Github login</a>
+       <? endif; ?>
+       
+       
+        <? if(get_option('enable_user_twitter_registration','users') =='y'): ?>
+       <a href="<? print site_url('api/user_social_login?provider=twitter') ?>" >Twitter login</a>
+       <? endif; ?>
+       
+         <? if(get_option('enable_user_windows_live_registration','users') =='y'): ?>
+       <a href="<? print site_url('api/user_social_login?provider=live') ?>" >Windows live</a>
+       <? endif; ?>
+      
+
   <h2 class="section-title">
     <hr class="left visible-desktop">
     <span>or</span>
@@ -37,5 +70,12 @@ description: Login default
     <div class="vSpace"></div>
     <input class="btn" type="submit" value="<?php _e("Login"); ?>" />
   </form>
+  
+  
+  
+  
+
+  
+  
   <? endif;  ?>
 </div>

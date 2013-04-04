@@ -52,6 +52,10 @@ body.module-settings-page #custom_link_controller{
   top: 0;
 }
 
+.order-has-link .module_item .menu_element_link:hover{
+  text-decoration: underline
+}
+
 
 
 .order-has-link .iMove{
@@ -305,7 +309,9 @@ You have no exising menus. Please create one.
     <h2><?php print $menu_name; ?> Links <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label></h2>
 
 
-  <span style="padding: 0;" class="posts-selector right"><span class="view_all_subs" onclick="view_all_subs();"><?php _e("View All"); ?></span>/<span class="hide_all_subs" onclick="hide_all_subs();"><?php _e("Hide All"); ?></span></span>
+  <?php /*<span style="padding: 0;" class="posts-selector right">
+    <span class="view_all_subs" onclick="view_all_subs();"><?php _e("View All"); ?></span>/<span class="hide_all_subs" onclick="hide_all_subs();"><?php _e("Hide All"); ?></span>
+  </span>*/ ?>
 
   <label class="mw-ui-label"><?php _e("Edit existing links/buttons"); ?></label>
 

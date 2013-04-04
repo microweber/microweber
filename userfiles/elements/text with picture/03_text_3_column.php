@@ -19,8 +19,8 @@ $counter = 3;
 <div class="mw-row" id='<?php print $rand.$counter; ?>'>
   <? endif; ?>
    <div class="mw-col" style="width:33.33%" >
-    <div class="mw-col-container element">
-      <div class="">
+    <div class="mw-col-container">
+      <div class="element">
         <div class="thumbnail edit">
           <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
           <img src="<? print thumbnail($item['image'], 290, 150); ?>" alt="">
@@ -50,6 +50,4 @@ $counter = 3;
 <? endif; ?>
 <? $counter++; endforeach; ?>
 <? endif; ?>
-<script>
-    mw.disable_selection("#<?php print $rand.$counter; ?> img");
-</script> 
+

@@ -1050,16 +1050,8 @@ mw.drag = {
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
 
 
-
-
-
-
 				}, 77);
 			}
-
-
-
-
 
 		});
         }//toremove
@@ -1431,7 +1423,8 @@ module_settings: function() {
 			}
 			if ($numcols != $exisintg_num) {
 				if ($numcols > $exisintg_num) {  //more columns
-					for (i = $exisintg_num; i < $numcols; i++) {
+                    var i = $exisintg_num;
+					for ( ; i < $numcols; i++) {
                         var new_col = mwd.createElement('div');
                         new_col.className = 'mw-col';
                         new_col.innerHTML = '<div class="mw-col-container"></div>';
@@ -1443,25 +1436,44 @@ module_settings: function() {
 				else {  //less columns
 					var $cols_to_remove = $exisintg_num - $numcols;
 					if ($cols_to_remove > 0) {
-                        var last_after_remove = mw.$('#' + $el_id).children(".mw-col").eq($numcols-1);
-                        var elements_to_clone = mw.$('#' + $el_id).children(".mw-col:gt("+($numcols-1)+")");
-                        $(elements_to_clone).each(function(){
-                            //var el = $(this).children(".element, .module, .mw-row, .mw-layout-holder");
-                            $(this).find('.empty-element, .ui-resizable-handle').remove();
-                            var el = $(this).html();
-                            if(last_after_remove.find(".mw-col-container").length==0){
-                              last_after_remove.find(".empty-element").before(el);
+
+                        var fragment = document.createDocumentFragment(), last_after_remove;
+
+                         mw.$('#' + $el_id).children(".mw-col").each(function(i){
+                            if(i == ($numcols-1)){
+                                last_after_remove = $(this);
+
                             }
                             else{
-                              last_after_remove.find(".mw-col-container").append(el);
+                              if(i>($numcols-1)){
+                                if(this.querySelector('.mw-col-container') !== null){
+                                    mw.tools.foreachChildren(this, function(){
+                                        if(mw.tools.hasClass(this.className, 'mw-col-container')){
+                                          fragment.appendChild(this);
+                                        }
+                                    });
+                                }
+                                 $(this).remove();
+                              }
                             }
+                         });
 
 
-                           $("#"+this.id).remove();
-                        });
+                        var last_container = last_after_remove.find(".mw-col-container");
+                        d(last_container)
+
+                        var nodes = fragment.childNodes, i=0, l=nodes.length;
+
+                        for( ; i<l; i++){
+                            var node =  nodes[i];
+                            $(node).find('.empty-element, .ui-resizable-handle').remove();
+                            last_container.append(node.innerHTML);
+                        }
+
                         last_after_remove.resizable("destroy");
                         mw.$('#' + $el_id).children(".empty-element").remove();
                         mw.drag.fix_placeholders(true, '#' + $el_id);
+
 					}
 				}
 

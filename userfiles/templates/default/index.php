@@ -34,28 +34,25 @@
       </div>
     </div>
   </div>
-  <div class="container"> <br>
-    <br>
-    <h3 align="center" class="symbol">Powerful &nbsp;&amp;&nbsp; User Friendly &nbsp;Content Management System &nbsp;of &nbsp;New Generation</h3>
-    <h4 align="center">with rich PHP and JavaScript API</h4>
+  <div class="container">
+    <div class="element">
+      <br><br>
+      <h3 align="center" class="symbol">Powerful &nbsp;&amp;&nbsp; User Friendly &nbsp;Content Management System &nbsp;of &nbsp;New Generation</h3>
+      <h4 align="center">with rich PHP and JavaScript API</h4>
+    </div>
   </div>
   <div class="container">
-
-  <div class="mw-row">
-    <div class="mw-col" style="width:33.33%">
-        <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+    <div class="mw-row">
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+      </div>
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><h2 align="center"><?php _e("Latest Posts"); ?></h2></div>
+      </div>
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+      </div>
     </div>
-    <div class="mw-col" style="width:33.33%">
-        <div class="mw-col-container"><h2 align="center"><?php _e("Latest Posts"); ?></h2></div>
-    </div>
-    <div class="mw-col" style="width:33.33%">
-        <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
-    </div>
-  </div>
-
-
-
-
     <module
           data-type="posts"
           data-limit="3"

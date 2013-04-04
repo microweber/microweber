@@ -675,6 +675,23 @@ mw.tools = {
        }
      }
   },
+  foreachChildren:function(el, callback){
+     if(typeof el === 'undefined') return false;
+     if(el === null) return false;
+     var index = mw.random();
+     mw.tools.loop[index]=true;
+     var _curr = el.firstChild;
+     var count = 0;
+     if(_curr !== null && _curr !== undefined){
+       while(_curr.nextSibling !== null){
+           count++;
+           var caller =  callback.call( _curr, index, count);
+           var _curr = _curr.nextSibling;
+           if( caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }
+           var _tag = _curr.tagName;
+       }
+     }
+  },
   parentsOrder:function(node, arr){
     var only_first = [];
     var obj = {}, l = arr.length, i=0;

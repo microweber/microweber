@@ -163,10 +163,11 @@ body.dragStart .empty-element { display: block; }
 body .mw-col > .ui-resizable-e {
 	width: 20px;
 	right: 0;
+	right: -15px;
 	top: 0;
 	height: 100%;
     background-image: url(../img/resize_color.gif);
-    background-position: right center;
+    background-position:  center;
     background-repeat: repeat-y;
     /*cursor: url(http://pecata/1k/application/includes/img/blank.gif), url(http://pecata/1k/application/includes/img/blank.cur), none;*/
     cursor: none;
@@ -180,8 +181,9 @@ body .mw-col > .ui-resizable-e *{
 .resize_arrows{
   display: block;
   position: absolute;
-  left: 3px;
+
   left: 12px;
+  left: 3px;
   top: 0;
   margin-top: -14px;
   background: url(../img/resize_arrows.png) no-repeat;

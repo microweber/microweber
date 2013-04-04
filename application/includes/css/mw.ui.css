@@ -425,8 +425,10 @@
   margin-top: 5px;
   overflow: hidden;
   color: #E4F0F8;
+  color: #404040;
   text-overflow:ellipsis;
   text-shadow:0 1px 0 #255F85;
+  text-shadow:none;
 }
 
 .mw_modal_minimize{
@@ -487,8 +489,12 @@
   left: -1px;
   cursor: move;
   position: relative;
-  border: 1px solid #4584AC;
-  background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8CC7ED&bot=5398C5);
+/*    border: 1px solid #4584AC;
+background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8CC7ED&bot=5398C5);   */
+
+  background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=E0E0E0&bot=D0D0D0);
+  border: 1px solid #C7C7C7;
+
   background-repeat: no-repeat, repeat;
   background-position: center center;
 }

@@ -48,6 +48,12 @@ hr{
 
 .mw-captcha-img{ cursor: pointer; }
 
+.img-polaroid, .mw-col .img-polaroid{
+  max-width: 99%;
+  max-width: calc(100% - 10px);
+  max-width: -webkit-calc(100% - 10px);
+}
+
 /* /Global styles */
 
 .page-post-content{
