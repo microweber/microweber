@@ -30,10 +30,14 @@ $twitter_app_secret = get_option('twitter_app_secret', 'users');
  
  
  
- $enable_user_windows_live_registration = get_option('enable_user_windows_live_registration', 'users') == 'y';
+$enable_user_windows_live_registration = get_option('enable_user_windows_live_registration', 'users') == 'y';
 $windows_live_app_id = get_option('windows_live_app_id', 'users');
 $windows_live_app_secret = get_option('windows_live_app_secret', 'users');
  
+ 
+$enable_user_yahoo_registration = get_option('enable_user_yahoo_registration', 'users') == 'y';
+$yahoo_app_id = get_option('yahoo_app_id', 'users');
+$yahoo_app_secret = get_option('yahoo_app_secret', 'users');
  
  
  
@@ -61,7 +65,11 @@ $providers['Live'] = array();
 $providers['Live']["enabled"] = $enable_user_windows_live_registration;
 $providers['Live']["keys"] = array("id" => $windows_live_app_id, "secret" => $windows_live_app_secret);
 
+$providers['Yahoo'] = array();
+$providers['Yahoo']["enabled"] = $enable_user_yahoo_registration;
+$providers['Yahoo']["keys"] = array("key" => $yahoo_app_id, "secret" => $yahoo_app_secret);
 
+d($providers['Yahoo'] ); 
 
 
 $config = array("base_url" => $base_url_here, "providers" => $providers, "debug_mode" => false, "debug_file" => CACHEDIR_ROOT.'fb.txt');

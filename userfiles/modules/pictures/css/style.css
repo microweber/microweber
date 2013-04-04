@@ -11,6 +11,8 @@
 
 .mw-module-images{
   zoom:1;
+  position: relative;
+  z-index: 20;
 }
 
 .mw-module-images:after{
@@ -369,6 +371,7 @@ a.rotator-paging-item-digit{
   height: auto;
   max-width: 100%;
   max-height: 100%;
+  margin: auto;
 }
 
 .mw-images-template-default-grid  .mw-pictures-item{

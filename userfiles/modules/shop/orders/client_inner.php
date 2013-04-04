@@ -44,12 +44,23 @@ save:function(){
         <div class="mw-o-box-header"> <span class="ico iusers"></span> <span>Client Information</span> </div>
         <div class="mw-client-image left">
           <div class="mw-client-image-holder">
+          
+          
+          <? if(isset( $client['created_by']) and $client['created_by'] > 0): ?>
+          <?
+		  $user_ord = get_user($client['created_by']);
+		   ?>
+          <?php if(isset($user_ord['thumbnail']) and trim($user_ord['thumbnail'])!=''): ?>
+       <img style="vertical-align:middle" src="<? print $user_ord['thumbnail'] ?>"  height="115" width="115" />  
+      <?php endif; ?>
+          <? endif; ?>
+          
             <input type="hidden" name="client_image" id="client_image" />
           </div>
           <center>
-            <span onclick="mw.wysiwyg.request_image('#add_client_image');" class="mw-ui-btn mw-ui-btn-small">
+           <!-- <span onclick="mw.wysiwyg.request_image('#add_client_image');" class="mw-ui-btn mw-ui-btn-small">
               <?php _e("Upload Image"); ?>
-            </span>
+            </span>-->
           </center>
         </div>
         <div class="right" style="width: 805px;padding-right: 12px;">

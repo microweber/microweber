@@ -22,7 +22,7 @@ $data = get_users($user_params);
  
  ?><? if(isarr($data )): ?>
 
-<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table" width="100%">
+<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%">
   <thead>
       <tr>
           <th>Names</th>
@@ -46,13 +46,32 @@ $data = get_users($user_params);
   <tbody>
   <? foreach($data  as $item): ?>
      <tr id="mw-admin-user-<?  print $item['id']; ?>">
-          <td><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?></td>
+          <td >
+          
+           <span class="mw-user-thumb mw-user-thumb-small">
+           <?php if(isset($item['thumbnail']) and trim($item['thumbnail'])!=''): ?>
+           <img style="vertical-align:middle" src="<? print $item['thumbnail'] ?>"  height="24" width="24" />  
+		   
+		   <?php endif; ?>
+            </span>
+           
+           
+		  
+          
+		  <span class="mw-user-names">
+		   <?php if(isset($item['oauth_provider']) and trim($item['oauth_provider'])!=''): ?><span title="<? print ucwords($item['oauth_provider']) ?>" class="mw-social-ico-<? print $item['oauth_provider'] ?>"></span><?php endif; ?><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?>
+          </span>
+
+
+
+
+          </td>
           <td><?  print $item['username']; ?></td>
           <td><?  print $item['email']; ?></td>
           <td align="center"> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
           <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none"><?php endif; ?></span></td>
           <td>
-            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
             <span class="mw-ui-admin-table-show-on-hover del-row"  onclick="mw_admin_delete_user_by_id('<?  print $item['id']; ?>')"></span>
           </td>
       </tr>

@@ -8,9 +8,15 @@
     <meta property="og:title" content="{content_meta_title}">
     <meta name="keywords" content="{content_meta_keywords}">
     <meta name="description" content="{content_meta_description}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
+
+    <meta property="og:type" content="{og_type}">
+    <meta property="og:url" content="{content_url}">
+    <meta property="og:image" content="{content_image}">
+    <meta property="og:description" content="{og_description}">
+    <meta property="og:site_name" content="{og_site_name}">
+   
+    
+
     <script type="text/javascript">
         mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
     </script>

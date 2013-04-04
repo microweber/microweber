@@ -48,6 +48,9 @@ description: Default comments template
   $avatars_enabled = get_option('avatar_enabled', 'comments')=='y';
 
   $comment_author =  get_user($comment['created_by']) ;
+  if(!empty($comment_author)){
+	   $comment['comment_name'] = user_name($comment_author['id']);
+  }
 
 
   ?>
@@ -55,14 +58,16 @@ description: Default comments template
         <div class="span1">
           <?php $avatar_style =  get_option('avatar_style', 'comments'); ?>
           <?php  if (isset($comment_author['thumbnail'])  and isset($comment_author['thumbnail']) != ''){ ?>
-          <img src="<?php print  thumbnail($comment_author['thumbnail'], 67, 67);  ?>" class="img-polaroid comment-image" alt="" />
+          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="67" height="67" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?  }  else  {   ?>
           <?php   if($avatar_style == '4'){ ?>
-          <img src="<?php print thumbnail(get_option('avatartype_custom', 'comments'), 67, 67);  ?>" class="img-polaroid comment-image" alt="" />
+          <img src="<?php print thumbnail(get_option('avatartype_custom', 'comments'), 67, 67);  ?>" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?php } else if($avatar_style == '1' || $avatar_style == '3'){ ?>
-          <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 67, 67);;  ?>" class="img-polaroid comment-image" alt="" />
+          <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 67, 67);;  ?>" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?php } else if($avatar_style == '2'){ ?>
           <span class="img-polaroid  random-color"> <span style="background-color: <?php print random_color(); ?>"> </span> </span>
+          <? } else if(isset( $comment_author['thumbnail'])){ ?>
+          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="67" height="67" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?php } ?>
           <?php } ?>
         </div>
@@ -74,7 +79,7 @@ description: Default comments template
               <? if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>
               <em class="comment-require-moderation">Your comment requires moderation</em><br />
               <? endif; ?>
-              <? print $comment['comment_body'] ?> </div>
+              <? print nl2br($comment['comment_body'] ,1);?> </div>
           </div>
         </div>
       </div>
@@ -109,6 +114,15 @@ description: Default comments template
           <input class="input-medium" placeholder="Your email" required type="email"  name="comment_email">
         </div>
       </div>
+      <?php else: ?>
+      <span class="comments-user-profile">You are commenting as:
+      
+      
+      
+      <?php if(isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail'])!=''): ?>
+      <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<? print $cur_user_data['thumbnail'] ?>"  height="24" width="24" /> </span>
+      <?php endif; ?>
+      <span class="comments-user-profile-username"> <? print user_name($cur_user_data['id']); ?> </span> <small><a href="<? print api_url('logout') ?>">(Logout)</a></small> </span>
       <?php endif; ?>
       <div class="row-fluid">
         <div class="span12 comment-field">
@@ -126,6 +140,6 @@ description: Default comments template
     </form>
   </div>
   <?php else :  ?>
-  <div class="alert"> You have to <a href='<?php print site_url(); ?>login'>log in</a> or <a href='<?php print site_url(); ?>register'>register</a> to post a comment. </div>
+  <div class="alert"> You have to <a href='<?php print site_url(); ?>login' class="comments-login-link">log in</a> or <a class="comments-register-link" href='<?php print site_url(); ?>register'>register</a> to post a comment. </div>
   <?php endif; ?>
 </div>

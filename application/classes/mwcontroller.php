@@ -128,8 +128,7 @@ class MwController {
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
 					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
 						$page['active_site_template'] = $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
-						;
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
 					}
 				}
 
@@ -465,8 +464,26 @@ class MwController {
 			$l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
 			$l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
 			$meta = array();
+			$meta['content_image'] = '';
+			$meta['content_url'] = curent_url(1);
+			$meta['og_description'] = get_option('website_description', 'website');
+			$meta['og_type'] = 'website';
+
 			if (CONTENT_ID > 0) {
 				$meta = get_content_by_id(CONTENT_ID);
+				$meta['content_image'] = get_picture(CONTENT_ID);
+				$meta['content_url'] = content_link(CONTENT_ID);
+				$meta['og_type'] = $meta['content_type'];
+				if($meta['og_type'] != 'page' and trim($meta['subtype']) != ''){
+									$meta['og_type'] = $meta['subtype'];
+					
+				}
+
+				if (isset($meta['description']) and $meta['description'] != '') {
+					$meta['og_description'] = $meta['description'];
+				} else {
+					$meta['og_description'] = trim(character_limiter(string_clean($meta['content']), 300));
+				}
 
 			} else {
 				$meta['title'] = get_option('website_title', 'website');
@@ -474,6 +491,7 @@ class MwController {
 				$meta['content_meta_keywords'] = get_option('website_keywords', 'website');
 
 			}
+			$meta['og_site_name'] = get_option('website_title', 'website');
 			if (!empty($meta)) {
 				if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
 					$meta['title'] = $meta['content_meta_title'];
@@ -493,6 +511,13 @@ class MwController {
 				$l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
 				$l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
 				$l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
+
+				$l = str_replace('{content_image}', ($meta['content_image']), $l);
+				$l = str_replace('{content_url}', $meta['content_url'], $l);
+				$l = str_replace('{og_description}', addslashes($meta['og_description']), $l);
+				$l = str_replace('{og_site_name}', addslashes($meta['og_site_name']), $l);
+				$l = str_replace('{og_type}', addslashes($meta['og_type']), $l);
+
 			}
 
 			// d(TEMPLATE_URL);

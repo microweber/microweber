@@ -902,11 +902,12 @@ mw.drag = {
 
 
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
-                              if(!$(mw.currentDragMouseOver).prev().hasClass('mw-col-container')){
-                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                              if(mw.tools.hasChildrenWithClass(mw.currentDragMouseOver.parentNode, 'mw-col-container')){
+                                $(mw.currentDragMouseOver.parentNode).children('.mw-col-container:last').append(mw.dragCurrent);
                               }
                               else{
-                                 $(mw.currentDragMouseOver).prev().append(mw.dragCurrent);
+
+                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                               }
 
                                 return false;

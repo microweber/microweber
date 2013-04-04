@@ -95,24 +95,26 @@ mw.$(".mw-checkout-form .well").height(__max)
     <div class="row-fluid mw-cart-data-holder">
       <div class="span4">
         <div class="well">
+         <? $user = get_user(); ?>
+         
           <h2 style="margin-top:0 ">Personal Information</h2>
           <hr />
           <label>
             <?php _e("First Name"); ?>
           </label>
-          <input name="first_name" class="field-full"  type="text" value="" />
+          <input name="first_name" class="field-full"  type="text" value="<? if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
           <label>
             <?php _e("Last Name"); ?>
           </label>
-          <input name="last_name" class="field-full"  type="text" value="" />
+          <input name="last_name" class="field-full"  type="text" value="<? if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
           <label>
             <?php _e("Email"); ?>
           </label>
-          <input name="email" class="field-full" type="text" value="" />
+          <input name="email" class="field-full" type="text" value="<? if(isset($user['email'])) { print $user['email']; } ?>" />
           <label>
             <?php _e("Phone"); ?>
           </label>
-          <input name="phone" class="field-full"  type="text" value="" />
+          <input name="phone" class="field-full"  type="text" value="<? if(isset($user['phone'])) { print $user['phone']; } ?>" />
         </div>
       </div>
       <module type="shop/shipping" class="span4" />

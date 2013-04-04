@@ -180,6 +180,39 @@ if ($template != false and strtolower($template) != 'none') {
 </script>
 <script  type="text/javascript">
     $(document).ready(function(){
+		
+		
+		 mw.$('#<? print $data['id'] ?> a.comments-login-link').click(function() {
+			 var login_hold = "login-comments-form-<? print $data['id'] ?>";
+					if($('#'+login_hold).length == 0){
+						$('#<? print $data['id'] ?>').append("<div class=\" \" id='"+login_hold+"'></div>");
+					}
+			 mw.load_module('users/login','#'+login_hold)
+			 
+			 return false;
+		});
+           
+		
+		
+		
+			 mw.$('#<? print $data['id'] ?> a.comments-register-link').click(function() {
+			 var login_hold = "login-comments-form-<? print $data['id'] ?>";
+					if($('#'+login_hold).length == 0){
+						$('#<? print $data['id'] ?>').append("<div class=\" \" id='"+login_hold+"'></div>");
+					}
+			 mw.load_module('users/register','#'+login_hold)
+			 
+			 return false;
+		});
+           
+		
+		
+		
+		
+		
+		
+		
+		
         mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
             mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>',
 			function(msg) {

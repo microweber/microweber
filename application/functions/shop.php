@@ -742,7 +742,8 @@ function checkout($data) {
 			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
 				$q = " UPDATE $cart_table set
 			order_completed='y', order_id='{$ord}'
-			where order_completed='n'   ";
+			
+			where order_completed='n'  and session_id='{$sid}' ";
 
 				db_q($q);
 
@@ -750,7 +751,7 @@ function checkout($data) {
 					$q = " UPDATE $table_orders set
 				order_completed='y'
 				where order_completed='n' and
-				id='{$ord}'  ";
+				id='{$ord}' and session_id='{$sid}' ";
 					db_q($q);
 				}
 

@@ -12,13 +12,16 @@ mw.require('forms.js');
 <script  type="text/javascript">
 _settingsSort = function(){
 
-    var hash = mw.url.getHashParams(window.location.hash);
+    var group = mw.url.windowHashParam('option_group');
 
-if(hash.option_group != undefined){
- mw.$('#settings_admin_<? print $rand; ?>').attr('option_group',hash.option_group);	
+if(group != undefined){
+ mw.$('#settings_admin_<? print $rand; ?>').attr('option_group',group);
  
 }
-mw.$('#settings_admin_<? print $rand; ?>').attr('is_system',1);	
+else{
+ mw.$('#settings_admin_<? print $rand; ?>').attr('option_group','website');
+}
+mw.$('#settings_admin_<? print $rand; ?>').attr('is_system',1);
 
     mw.load_module('settings/system_settings','#settings_admin_<? print $rand; ?>', function(){
     
@@ -30,15 +33,33 @@ mw.$('#settings_admin_<? print $rand; ?>').attr('is_system',1);
 mw.on.hashParam('ui', _settingsSort);
 
 mw.on.hashParam('option_group', function(){
-  _settingsSort();
+
+    if(this!=false){
 
     mw.$("#settings_admin_categories_<? print $rand; ?> a").removeClass("active");
     mw.$("#settings_admin_categories_<? print $rand; ?> a.item-" + this).addClass("active");
+   }
+   else{
+     mw.$(".mw-admin-side-nav a").removeClass("active");
+     mw.$(".mw-admin-side-nav .item-website").addClass("active");
+   }
+
+   _settingsSort()
+
 });
 mw.on.hashParam('installed', function(){
 
    _settingsSort();
 
+});
+
+$(document).ready(function(){
+  var group = mw.url.windowHashParam('option_group');
+
+  if(typeof group == 'undefined'){
+
+    mw.$(".mw-admin-side-nav .item-website").addClass("active");
+  }
 });
 </script>
 <script type="text/javascript">
@@ -54,17 +75,18 @@ mw.on.hashParam('installed', function(){
     <div class="mw-admin-side-nav" id="settings_categories_tree_<? print $rand; ?>" >
       <div id="settings_admin_categories_<? print $rand; ?>">
         <ul>
-          <? foreach($option_groups as $item): ?>
-          <li><a onclick="mw.url.windowHashParam('option_group', '<? print $item ?>');return false;" class="item-<?php print $item; ?>" href="#option_group=<? print $item ?>"><? print ucwords($item) ?></a></li>
-          <? endforeach; ?>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="#option_group=website">Website</a></li>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users">Login & Register</a></li>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template">Template</a></li>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website">Email</a></li>
         </ul>
       </div>
       <div style="padding-left: 46px">
         <div class="vSpace"></div>
-        <div class="vSpace">&nbsp;</div>
+        <!--<div class="vSpace">&nbsp;</div>
         <a href="javascript:;" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>
         <?php _e("Add new settings"); ?>
-        </span></a> </div>
+        </span></a>--> </div>
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">

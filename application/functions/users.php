@@ -33,6 +33,7 @@ function mw_db_init_users_table() {
 	$fields_to_add[] = array('created_on', 'datetime default NULL');
 	$fields_to_add[] = array('expires_on', 'datetime default NULL');
 	$fields_to_add[] = array('last_login', 'datetime default NULL');
+	$fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
 
 	$fields_to_add[] = array('created_by', 'int(11) default NULL');
 
@@ -147,6 +148,9 @@ function register_user($params) {
 		$data = array();
 		$data['email'] = $email;
 		$data['password'] = $pass;
+		$data['oauth_uid'] = '[null]';
+		$data['oauth_provider'] = '[null]';
+
 		// $data ['is_active'] = 'y';
 		$data = get_users($data);
 		if (empty($data)) {
@@ -154,6 +158,9 @@ function register_user($params) {
 			$data = array();
 			$data['username'] = $email;
 			$data['password'] = $pass;
+			$data['oauth_uid'] = '[null]';
+			$data['oauth_provider'] = '[null]';
+
 			// $data ['is_active'] = 'y';
 			$data = get_users($data);
 		}
@@ -343,6 +350,23 @@ function api_login($api_key = false) {
 
 }
 
+function update_user_last_login_time() {
+
+	$uid = user_id();
+	if (intval($uid) > 0) {
+
+		$data_to_save = array();
+		$data_to_save['id'] = $uid;
+		$data_to_save['last_login'] = date("Y-m-d H:i:s");
+		$data_to_save['last_login_ip'] = USER_IP;
+
+		$table = MW_DB_TABLE_USERS;
+		$save = save_data($table, $data_to_save);
+
+	}
+
+}
+
 api_expose('social_login_process');
 function social_login_process() {
 	$api = new \mw\auth\Social();
@@ -393,11 +417,13 @@ function user_social_login($params) {
 					$data_to_save['email'] = $authenticate['emailVerified'];
 					$data_to_save['user_information'] = $authenticate['description'];
 					$data_to_save['is_active'] = 'y';
+					$data_to_save['is_admin'] = 'n';
 
 					$table = MW_DB_TABLE_USERS;
 					mw_var('FORCE_SAVE', $table);
 
 					$save = save_data($table, $data_to_save);
+					cache_clean_group('users/global');
 					if ($save > 0) {
 						$data = array();
 						$data['id'] = $save;
@@ -419,6 +445,7 @@ function user_social_login($params) {
 					session_set('user_session', $user_session);
 					$user_session = session_get('user_session');
 					$return_after_login = session_get('user_after_login');
+					update_user_last_login_time();
 					if ($return_after_login != false) {
 						safe_redirect($return_after_login);
 						exit();
@@ -512,7 +539,7 @@ function user_login($params) {
 
 			session_set('user_session', $user_session);
 			$user_session = session_get('user_session');
-
+update_user_last_login_time();
 			if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
 				if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
 
@@ -742,6 +769,9 @@ function get_users($params = array()) {
 	if (isset($data['username']) and $data['username'] == null) {
 		unset($data['username']);
 	}
+	if (isset($data['username']) and $data['username'] == '') {
+		//return false;
+	}
 	// p ( $data );
 	// .//p($data);
 	// $get = $this->core_model->fetchDbData ( $table, $data );
@@ -786,6 +816,10 @@ function get_users($params = array()) {
 function get_user($id = false) {
 	if ($id == false) {
 		$id = user_id();
+	}
+	
+	if($id == 0){
+		return false;
 	}
 
 	$res = get_user_by_id($id);
@@ -912,7 +946,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                                                  get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                                                    get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -927,7 +961,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                  get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                                                    get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -993,7 +1027,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                                  get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                                    get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -1037,7 +1071,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                                  get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
+	$more =                                                    get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -1054,6 +1088,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                  get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                                                    get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

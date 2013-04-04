@@ -642,7 +642,7 @@ mw.tools = {
    if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
   },
   hasParentsWithClass:function(el, cls){
-    var d = this;
+    var d = {};
     d.toreturn = false;
     mw.tools.foreachParents(el, function(loop){
         if(mw.tools.hasClass(this.className, cls)){
@@ -659,11 +659,10 @@ mw.tools = {
   foreachParents:function(el, callback){
      if(typeof el === 'undefined') return false;
      if(el === null) return false;
-
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.parentNode;
-     var count = 0;
+     var count = -1;
      if(_curr !== null && _curr !== undefined){
        var _tag = _curr.tagName;
        while(_tag !== 'BODY'){
@@ -681,7 +680,7 @@ mw.tools = {
      var index = mw.random();
      mw.tools.loop[index]=true;
      var _curr = el.firstChild;
-     var count = 0;
+     var count = -1;
      if(_curr !== null && _curr !== undefined){
        while(_curr.nextSibling !== null){
            count++;
@@ -691,6 +690,17 @@ mw.tools = {
            var _tag = _curr.tagName;
        }
      }
+  },
+  hasChildrenWithClass:function(node, cls){
+
+    var g = {}
+    g.final = false;
+    mw.tools.foreachChildren(node,function(){
+        if(mw.tools.hasClass(this.className, cls)){
+          g.final = true;
+        }
+    });
+    return g.final;
   },
   parentsOrder:function(node, arr){
     var only_first = [];

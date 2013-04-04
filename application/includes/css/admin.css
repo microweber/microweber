@@ -796,6 +796,33 @@ form .shipping-country-row:first-child{
 /* /Help */
 
 
+.mw-user-thumb{
+  padding: 1px;
+  background: #F7F7F7;
+  border:1px solid #C9C9C9;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.mw-user-thumb-small{
+  width: 24px;
+  height: 24px;
+
+}
+
+.mw-user-thumb img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.users-list-table [class*="mw-social-ico"]{
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+
 
 
 

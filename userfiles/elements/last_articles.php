@@ -1,52 +1,40 @@
-<h3 class="element layout-title">LAST ARTICLES</h3>
+<h3 class="element">LAST ARTICLES</h3>
 
-<div class="row layout-articles">
-    <div class="mw-col" style="width: 33.33%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
+<div class="mw-row ">
+    <div class="mw-col" style="width: 33%">
+      <div class="mw-col-container">
+        <div class="element">
+            <img class="element img-polaroid" width="100%"  src="<?php print pixum(280, 240); ?>" alt="" />
+            <p class="element lipsum">July 11,  2012  Author Name</p>
+            <h3 class="lipsum">Title</h3>
+        </div>
+      </div>
     </div>
-    <div class="mw-col" style="width: 33.33%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
+    <div class="mw-col" style="width: 34%">
+      <div class="mw-col-container">
+        <div class="element">
+            <img class="element img-polaroid" width="100%"  src="<?php print pixum(280, 240); ?>" alt="" />
+            <p class="element lipsum">July 11,  2012  Author Name</p>
+            <h3 class="lipsum">Title</h3>
+        </div>
+      </div>
+    </div>
+    <div class="mw-col" style="width: 33%">
+      <div class="mw-col-container">
+        <div class="element">
+            <img class="element img-polaroid" width="100%"  src="<?php print pixum(280, 240); ?>" alt="" />
+            <p class="element lipsum">July 11,  2012  Author Name</p>
+            <h3 class="lipsum">Title</h3>
+        </div>
+      </div>
     </div>
 
-    <div class="mw-col" style="width: 33.34%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
-    </div>
+
+
+
 
 </div>
 
-<br />
-
-<div class="row layout-articles">
-    <div class="mw-col" style="width: 33.33%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
-    </div>
-    <div class="mw-col" style="width: 33.33%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
-    </div>
-
-    <div class="mw-col" style="width: 33.34%">
-        <a href="javascript:;" class="element" style="width: 90%">
-            <img class="element element-image layout-wide-img" src="<?php print pixum(280, 240); ?>" alt="" />
-            <span class="element layout-articles-title">July 11,  2012  Boris Sokolov</span>
-        </a>
-    </div>
-
-</div>
 
 
 

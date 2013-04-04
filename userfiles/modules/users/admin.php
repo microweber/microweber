@@ -1,6 +1,4 @@
-<?
- if(is_admin() == false) { error("Must be admin"); }
- //$rand = uniqid(); ?>
+<? only_admin_access(); ?>
 <script  type="text/javascript">
 
 
@@ -239,20 +237,24 @@ $(document).ready(function(){
   <?php $info = module_info($config['module']);  ?>
     <?php module_ico_title($info['module']); ?>
     <div class="vSpace"></div>
-    <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn"> <span class="ico iplus"></span><span>Add new user</span> </a>
+    <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn mw-ui-btn-green"> <span class="ico iplus"></span><span>Add new user</span> </a>
     <div class="vSpace"></div>
     <div class="manage-items">
       <label class="mw-side-nav-label">Sort Users by Roles</label>
+      <div class="vSpace"></div>
       <ul class="mw-admin-side-nav">
+        <li> <a class="mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a> </li>
         <li> <a class="mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">User</a> </li>
         <li> <a class="mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">Admin</a> </li>
-        <li> <a class="mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">All</a> </li>
+
       </ul>
       <label class="mw-side-nav-label">Sort Users by Status</label>
+      <div class="vSpace"></div>
       <ul class="mw-admin-side-nav">
+        <li> <a class="mw-users-is-active mw-users-is-active-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">All users</a> </li>
         <li> <a class="mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');">Active users</a> </li>
         <li> <a class="mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');">Disabled users</a> </li>
-        <li> <a class="mw-users-is-active mw-users-is-active-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">All users</a> </li>
+
       </ul>
     </div>
     </div>

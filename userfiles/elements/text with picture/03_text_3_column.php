@@ -43,6 +43,7 @@ $counter = 3;
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <? if ($counter+3 % 3 == 0): ?>

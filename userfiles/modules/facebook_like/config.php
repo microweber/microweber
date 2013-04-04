@@ -1,7 +1,7 @@
 <?
 
 $config = array();
-$config['name'] = "Like Button";
+$config['name'] = "Facebook Like";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
 $config['ui'] = true;

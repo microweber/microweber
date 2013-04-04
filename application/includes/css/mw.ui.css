@@ -713,6 +713,22 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   min-height: 150px;
 }
 
+[class*="mw-social-ico"]{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.mw-social-ico-facebook {background-image: url(../img/mw.soc.fb.png);}
+.mw-social-ico-twitter {background-image: url(../img/mw.soc.tw.png);}
+.mw-social-ico-live {background-image: url(../img/mw.soc.win.png);}
+.mw-social-ico-github {background-image: url(../img/mw.soc.git.png);}
+.mw-social-ico-google {background-image: url(../img/mw.soc.goog.png);}
+
+
+
 
 
 
