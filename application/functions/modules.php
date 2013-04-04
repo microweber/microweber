@@ -898,10 +898,7 @@ function uninstall_module($params) {
 action_hook('mw_db_init_modules', 're_init_modules_db');
 
 function re_init_modules_db() {
-	
-	
-	
-	
+
 	if (isset($options['glob'])) {
 		$glob_patern = $options['glob'];
 	} else {
@@ -913,46 +910,41 @@ function re_init_modules_db() {
 	$dir_name_mods = MODULES_DIR;
 	$modules_remove_old = false;
 	$dir = rglob($glob_patern, 0, $dir_name_mods);
-	
- 
+
 	if (!empty($dir)) {
 		$configs = array();
- 		foreach ($dir as  $value) {
+		foreach ($dir as $value) {
 			$loc_of_config = $value;
 			if ($loc_of_config != false and is_file($loc_of_config)) {
-					include ($loc_of_config);
-					if (isset($config)) {
-						$cfg = $config;
-						if (isset($config['tables']) and is_arr($config['tables'])) {
-							$tabl = $config['tables'];
-							foreach ($tabl as $key => $value) {
-								$table = db_get_real_table_name($key);
-								set_db_table($table, $fields_to_add);
-							}
+				include ($loc_of_config);
+				if (isset($config)) {
+					$cfg = $config;
+					if (isset($config['tables']) and is_arr($config['tables'])) {
+						$tabl = $config['tables'];
+						foreach ($tabl as $key => $value) {
+							$table = db_get_real_table_name($key);
+							set_db_table($table, $fields_to_add);
 						}
 					}
-
 				}
+
+			}
 			//d($value);
 		}
 	}
-	
-	
-	
-	
-/* 	$re_init_modules = get_modules_from_db('ui=any&installed=1');
-	d($re_init_modules);
-	if (isarr($re_init_modules)) {
-		foreach ($re_init_modules as $value) {
-			$module_name = $value['module'];
-			$loc_of_config = locate_module($module_name, 'config', 1);
-			if ($loc_of_config != false) {
-				
 
-			}
+	/* 	$re_init_modules = get_modules_from_db('ui=any&installed=1');
+	 d($re_init_modules);
+	 if (isarr($re_init_modules)) {
+	 foreach ($re_init_modules as $value) {
+	 $module_name = $value['module'];
+	 $loc_of_config = locate_module($module_name, 'config', 1);
+	 if ($loc_of_config != false) {
 
-		}
-	}*/
+	 }
+
+	 }
+	 }*/
 
 }
 
@@ -1493,6 +1485,7 @@ function load_all_lic() {
 }
 
 function load_module_lic($module_name = false) {
+	return true;
 	static $u1;
 
 	if ($u1 == false) {
@@ -1814,6 +1807,12 @@ function load_module($module_name, $attrs = array()) {
 
 		if (!isset($attrs['parent-module-id'])) {
 			$attrs['parent-module-id'] = $attrs['id'];
+		}
+		$mw_restore_get = mw_var('mw_restore_get');
+		if ($mw_restore_get != false and isarr($mw_restore_get)) {
+			//d($mw_restore_get);
+			$l1 -> _GET = $mw_restore_get;
+			$_GET = $mw_restore_get;
 		}
 
 		$l1 -> params = $attrs;

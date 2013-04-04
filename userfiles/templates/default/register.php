@@ -14,17 +14,12 @@
 
 <div id="content">
     <div class="container">
-      <div class="well login-register">
-            <div class="head">
-              <h4>Create your account</h4>
-            </div>
-            <div class="form">
-              <module type="users/register" />
-            </div>
-            <div class="form">
-              <module type="users/login" />
-            </div>
-      </div>
+    <div class="span12">
+            <div class="well small-layout headed-box" id="sign-box">
+                 <module type="users/register" />
+             </div>
+         </div>
+
     </div>
 </div>
 

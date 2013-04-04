@@ -941,9 +941,12 @@ function update_cart($data) {
 			foreach ($cfs as $cf) {
 
 				if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
+ $key1 = str_replace('_',' ', $cf['custom_field_name']);
+$key2 = str_replace('_',' ', $k);
 
-					if (isset($cf['custom_field_name']) and $cf['custom_field_name'] == $k) {
 
+					if (isset($cf['custom_field_name']) and ($cf['custom_field_name'] == $k or $key1 == $key2 )) {
+$k = str_replace('_',' ', $k);
 						$found = true;
 						/*
 						 if ($item== 'ala' and is_array($item)) {

@@ -1,4 +1,37 @@
-<? 
+<? if(isset($_GET['reset_password_link'])): ?>
+<module type="users/forgot_password" />
+<? else:  ?>
+
+
+
+
+<script  type="text/javascript">
+
+mw.require('forms.js', true);
+
+
+$(document).ready(function(){
+	
+
+	 
+	 mw.$('#user_login_<? print $params['id'] ?>').submit(function() {
+
+ 
+ mw.form.post(mw.$('#user_login_<? print $params['id'] ?>') , '<? print site_url('api/user_login') ?>', function(){
+	         mw.response('#user_login_holder_<? print $params['id'] ?>',this);
+
+	// mw.reload_module('[data-type="categories"]');
+	 // mw.reload_module('[data-type="pages"]');
+	 });
+
+ return false;
+ 
+ 
+ });
+ 
+});
+</script>
+<?
 $module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
@@ -26,5 +59,4 @@ $module_template = get_option('data-template',$params['id']);
 					//print 'No default template for '.  $config['module'] .' is found';
 				}
 
-
- 
+?><? endif; ?>

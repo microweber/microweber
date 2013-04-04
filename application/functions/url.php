@@ -9,10 +9,10 @@ function api_url($str = '') {
 	return site_url('api/' . $str);
 }
 
-function url_segment($k = -1,$page_url=false) {
+function url_segment($k = -1, $page_url = false) {
 	//static $u;
 	$u = '';
-	if($page_url == false or $page_url == ''){
+	if ($page_url == false or $page_url == '') {
 		$u1 = curent_url();
 	} else {
 
@@ -20,7 +20,6 @@ function url_segment($k = -1,$page_url=false) {
 	}
 
 	//if ($u == false) {
-
 
 	$u2 = site_url();
 
@@ -77,36 +76,45 @@ function url_string($skip_ajax = false) {
 	}
 	//static $u1;
 	//if ($u1 == false) {
-	$u1 = implode('/', url_segment(-1,$url));
+	$u1 = implode('/', url_segment(-1, $url));
 	//}
 	return $u1;
 }
 
-function curent_url($skip_ajax = false) {
-
+function curent_url($skip_ajax = false, $no_get = false) {
+	$u = false;
 	if ($skip_ajax == true) {
 		$is_ajax = isAjax();
 
 		if ($is_ajax == true) {
 			if ($_SERVER['HTTP_REFERER'] != false) {
-				return $_SERVER['HTTP_REFERER'];
+				$u = $_SERVER['HTTP_REFERER'];
 			} else {
 
 			}
 		}
 	}
 
-	if (!isset($_SERVER['REQUEST_URI'])) {
-		$serverrequri = $_SERVER['PHP_SELF'];
-	} else {
-		$serverrequri = $_SERVER['REQUEST_URI'];
+	if ($u == false) {
+
+		if (!isset($_SERVER['REQUEST_URI'])) {
+			$serverrequri = $_SERVER['PHP_SELF'];
+		} else {
+			$serverrequri = $_SERVER['REQUEST_URI'];
+		}
+
+		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+		$protocol = strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
+		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
+		$u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
 	}
-
-	$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
-	$protocol = strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
-	$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
-	$u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
-
+	
+	if($no_get == true){
+		
+		 $u = strtok($u, '?');
+	}
+	
+	
 	return $u;
 }
 
@@ -315,9 +323,7 @@ function url_title($text) {
 
 function replace_site_vars_back($arr) {
 
-
 	if (is_string($arr)) {
-
 
 		$parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
 
@@ -327,9 +333,8 @@ function replace_site_vars_back($arr) {
 			$ret = $ch;
 		} else {
 
-
 			$site = site_url();
-		///	$ret = str_replace('userfiles', 'asdasds', $ret);
+			///	$ret = str_replace('userfiles', 'asdasds', $ret);
 
 			$ret = str_replace('{SITE_URL}', $site, $arr);
 			//$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
@@ -599,7 +604,7 @@ function esip($ip_addr) {
 		}
 		return TRUE;
 	} else
-	return FALSE;
+		return FALSE;
 	//if format of ip address doesn't matches
 }
 

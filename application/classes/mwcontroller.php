@@ -128,7 +128,8 @@ class MwController {
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
 					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
 						$page['active_site_template'] = $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
+						;
 					}
 				}
 
@@ -474,9 +475,9 @@ class MwController {
 				$meta['content_image'] = get_picture(CONTENT_ID);
 				$meta['content_url'] = content_link(CONTENT_ID);
 				$meta['og_type'] = $meta['content_type'];
-				if($meta['og_type'] != 'page' and trim($meta['subtype']) != ''){
-									$meta['og_type'] = $meta['subtype'];
-					
+				if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
+					$meta['og_type'] = $meta['subtype'];
+
 				}
 
 				if (isset($meta['description']) and $meta['description'] != '') {
@@ -1249,6 +1250,22 @@ class MwController {
 			$opts = $_REQUEST;
 		}
 		$opts['admin'] = $admin;
+
+		if ($_SERVER['HTTP_REFERER'] != false) {
+			$get_arr_from_ref = $_SERVER['HTTP_REFERER'];
+			if (strstr($get_arr_from_ref, site_url())) {
+				$get_arr_from_ref_arr = parse_url($get_arr_from_ref);
+				if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
+					$restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
+					if (isarr($get_array)) {
+						  
+						mw_var('mw_restore_get',$get_array)   ;
+					}
+					//
+
+				}
+			}
+		}
 
 		$res = parse_micrwober_tags($tags, $opts);
 		$res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);

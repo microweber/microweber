@@ -716,7 +716,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 [class*="mw-social-ico"]{
   display: inline-block;
   width: 30px;
-  height: 30px;
+  height: 29px;
   background-repeat: no-repeat;
   background-size: contain;
 }

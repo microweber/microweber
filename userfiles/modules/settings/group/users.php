@@ -78,7 +78,7 @@ mw.tools.tabGroup({
   <div class="vSpace"></div>
   <div class="vSpace"></div>
   <h2>Google</h2>
-  <label class="mw-ui-label">Enable Google Login </label>
+
   <?   $enable_user_google_registration = get_option('enable_user_google_registration','users');
 
  if($enable_user_google_registration == false){
@@ -111,7 +111,7 @@ mw.tools.tabGroup({
   <div class="vSpace"></div>
   <div class="vSpace"></div>
   <h2>Github</h2>
-  <label class="mw-ui-label">Enable Github Login </label>
+
   <?   $enable_user_github_registration = get_option('enable_user_github_registration','users');
 
  if($enable_user_github_registration == false){

@@ -283,7 +283,7 @@ function captcha() {
 	}
 	$x1 = mt_rand(15, 30);
 	$y1 = mt_rand(15, 20);
-	$tsize = rand(11, 13);
+	$tsize = rand(13, 16);
 	imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
 
 	$y21 = mt_rand(5, 20);
@@ -465,6 +465,91 @@ function user_social_login($params) {
 	}
 }
 
+api_expose('user_send_forgot_password');
+function user_send_forgot_password($params) {
+
+	if (!isset($params['captcha'])) {
+		return array('error' => 'Please enter the captcha answer!');
+	} else {
+		$cap = session_get('captcha');
+		if ($cap == false) {
+			return array('error' => 'You must load a captcha first!');
+		}
+		if ($params['captcha'] != $cap) {
+			return array('error' => 'Invalid captcha answer!');
+		}
+	}
+	if (!isset($params['username']) or trim($params['username']) == '') {
+		return array('error' => 'Enter username or email!');
+	}
+
+	if (isset($params) and !empty($params)) {
+
+		$user = isset($params['username']) ? $params['username'] : false;
+
+		if (trim($user != '')) {
+			$data1 = array();
+			$data1['username'] = $user;
+			//$data1['oauth_uid'] = '[null]';
+			//$data1['oauth_provider'] = '[null]';
+			$data = array();
+			$data_res = false;
+			if (trim($user != '')) {
+				$data = get_users($data1);
+			}
+
+			if (isset($data[0])) {
+				$data_res = $data[0];
+
+			} else {
+				$data1 = array();
+				$data1['email'] = $user;
+				//$data1['oauth_uid'] = '[null]';
+				//$data1['oauth_provider'] = '[null]';
+				$data = get_users($data1);
+				if (isset($data[0])) {
+					$data_res = $data[0];
+
+				}
+
+			}
+			if (!isarr($data_res)) {
+				return array('error' => 'Enter right username or email!');
+
+			} else {
+				$to = $data_res['email'];
+				if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+
+					$subject = "Password reset!";
+					$content = "Hello, <br> ";
+					$content .= "You have requested a password reset link from IP, " . USER_IP . "<br><br> ";
+
+					$content .= "on " . curent_url(1) . "<br><br> ";
+
+					$security = array();
+					$security['ip'] = USER_IP;
+					$security['hash'] = encode_var($data_res);
+					$function_cache_id = md5(serialize($security));
+
+					cache_save($security, $function_cache_id, $cache_group = 'password_reset');
+
+					$pass_reset_link = curent_url(1) . '?reset_password_link=' . $function_cache_id;
+					$content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
+
+					//d($data_res);
+					mw_mail($to, $subject, $content, true, $no_cache = true);
+				} else {
+					return array('error' => 'Error: the user doesn\'t have a valid email address!');
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
 function user_login($params) {
 	$params2 = array();
 
@@ -481,13 +566,13 @@ function user_login($params) {
 
 		$api_key = isset($params['api_key']) ? $params['api_key'] : false;
 
+		$data1 = array();
+		$data1['username'] = $user;
+		$data1['password'] = $pass;
 		$data = array();
-		$data['username'] = $user;
-		$data['password'] = $pass;
-
 		// $data ['is_active'] = 'y';
 		if (trim($user != '') and trim($pass != '')) {
-			$data = get_users($data);
+			$data = get_users($data1);
 		}
 		if (isset($data[0])) {
 			$data = $data[0];
@@ -504,8 +589,12 @@ function user_login($params) {
 				if (isset($data[0])) {
 					$data = $data[0];
 				} else {
+					return array('error' => 'Please enter right username and password!');
 
 				}
+			} else {
+				//	return array('error' => 'Please enter username or email!');
+
 			}
 
 			// return false;
@@ -526,7 +615,7 @@ function user_login($params) {
 			}
 		}
 		if (!isarr($data)) {
-
+			return array('error' => 'Please enter the right username and password!');
 			return false;
 		} else {
 
@@ -539,7 +628,7 @@ function user_login($params) {
 
 			session_set('user_session', $user_session);
 			$user_session = session_get('user_session');
-update_user_last_login_time();
+			update_user_last_login_time();
 			if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
 				if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
 
@@ -817,8 +906,8 @@ function get_user($id = false) {
 	if ($id == false) {
 		$id = user_id();
 	}
-	
-	if($id == 0){
+
+	if ($id == 0) {
 		return false;
 	}
 
@@ -946,7 +1035,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                                                    get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                                                                    get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -961,7 +1050,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                    get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                                                                    get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -1027,7 +1116,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                                    get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                                                    get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -1071,7 +1160,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                                    get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
+	$more =                                                                    get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -1088,6 +1177,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                    get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                                                                    get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }
