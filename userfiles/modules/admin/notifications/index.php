@@ -42,6 +42,30 @@ mw.notif_reset_all = function(){
 </script>
 <? if(isarr($data )): ?>
 
+<? $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
+<? $periods_printed = array(); ?>
+   <?
+	/*		foreach($periods as $period){
+				if(!in_array($period ,$periods_printed )){
+					$time1 = strtotime($item['created_on']);
+			
+			
+					$time2 = strtotime($period);
+					
+					if($time1 < $time2){
+					 print 	$period;
+					 $periods_printed[] = $period;
+					}
+					
+				}
+				
+			}*/
+			
+			
+			
+			  ?>
+
+
 <div class="mw-admin-notifications-holder" id="admin_notifications">
 
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
@@ -68,7 +92,12 @@ mw.notif_reset_all = function(){
        ?>
 
       <td>
-            <? if($mod_info != false and isset($mod_info['name'])): ?>
+         
+			
+			
+			
+			
+			<? if($mod_info != false and isset($mod_info['name'])): ?>
                 <img src=" <?   print thumbnail($mod_info['icon'], 16,16) ?>" />
             <?php endif; ?>
       </td>

@@ -206,6 +206,24 @@ function get_comments($params) {
 	$table = MODULE_DB_COMMENTS;
 	$params['table'] = $table;
 
-	$params = get($params);
-	return $params;
+	$comments = get($params);
+	
+	if(isarr($comments)){
+		$i = 0;
+		foreach ($comments as $item) {
+		if(intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
+				 $comments[$i]['comment_name'] = user_name($item['created_by']);
+		}
+		$i++;	
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	return $comments;
 }

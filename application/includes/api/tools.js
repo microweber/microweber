@@ -1268,6 +1268,12 @@ mw.tools = {
             obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);
         }
       }
+      else{
+        if(obj.toggle == true){
+            $(this).removeClass(active);
+            mw.$(obj.tabs).hide();
+        }
+      }
     });
   },
   has:function(el, what){

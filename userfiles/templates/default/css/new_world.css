@@ -750,6 +750,23 @@ i.myspace { background-position: -233px -51px; }
     width: 160px;
 }
 
+.social-login{
+  float: left;
+  white-space: nowrap;
+}
+
+.social-login label{
+  font-size: 11px;
+  display: block;
+  clear: both;
+  padding-bottom: 2px;
+  color: #A5A5A5;
+}
+
+.social-login + .btn-large{
+  margin-top: 11px;
+}
+
 
 /* /Login and Register */
 

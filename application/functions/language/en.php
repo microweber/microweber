@@ -529,3 +529,4 @@ $language["note-your-shopping-cart-will-be-emptied-and-you-will-be-redi"]= 'Note
 $language["thank-you-for-your-order-br-you-will-be-redirected-to-paypal"]= 'Thank you for your order. <br>
 You will be redirected to PayPal\'s secure payment site.<br>
 Your shopping cart will be emptied' ; 
+$language["facebook-like"]= 'Facebook Like' ; 

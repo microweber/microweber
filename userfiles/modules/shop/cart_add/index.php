@@ -10,7 +10,7 @@ mw.require("events.js", true);
     	});
 </script>
 <?
-
+  
 
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
@@ -36,8 +36,11 @@ if($module_template != false and $module_template != 'none'){
  if(isset($params['for'])){
 	 $for = $params['for'];
  }
-//d($module_template );
-
+ 
+ if($for_id == false and defined('CONTENT_ID')){
+	$for_id =  CONTENT_ID;
+	 
+ }
 
 ?>
 <? if($for_id != false): ?>

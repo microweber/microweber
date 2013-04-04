@@ -49,7 +49,7 @@ description: Default comments template
 
   $comment_author =  get_user($comment['created_by']) ;
   if(!empty($comment_author)){
-	   $comment['comment_name'] = user_name($comment_author['id']);
+	  // $comment['comment_name'] = user_name($comment_author['id']);
   }
 
 
