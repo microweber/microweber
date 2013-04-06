@@ -103,11 +103,40 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 #mw_tabs{
   height: 49px;
+
 }
 
 #mw_tabs li a{
   padding: 15px 20px;
 }
+
+/* new */
+#mw_toolbar_nav .mw-v-cell{
+  vertical-align: top;
+}
+
+#mw_tabs{
+  height: 48px;
+  display: table;
+  width: 100%;
+  float: none;
+}
+#mw_tabs li{
+  display: table-cell;
+  float: none;
+  width: 100px;
+}
+
+#mw_tabs li a{
+  padding: 15px 5px;
+}
+
+/* /new */
+
+
+
+
+
 
 #stats{
     background: #F4F4F4;

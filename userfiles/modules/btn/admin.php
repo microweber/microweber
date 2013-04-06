@@ -7,6 +7,7 @@
     $action =  get_option('button_action', $params['id']);
     $url =  get_option('url', $params['id']);
     $popupcontent =  get_option('popupcontent', $params['id']);
+    $text =  get_option('text', $params['id']);
 ?>
 
 <style>
@@ -73,7 +74,7 @@ btn_action = function(){
 
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">Action</label>
-  <select type="text"  class="mw-ui-simple-dropdown mw_option_field" id="action"  name="button_action">
+  <select class="mw-ui-simple-dropdown mw_option_field" id="action"  name="button_action">
       <option <?php if($action==''){ print 'selected'; } ?> value="">None</option>
       <option <?php if($action=='url'){ print 'selected'; } ?> value="url">Link</option>
       <option <?php if($action=='popup'){ print 'selected'; } ?> value="popup">Popup</option>
@@ -95,7 +96,7 @@ btn_action = function(){
 
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">Color</label>
-  <select type="text"  class="mw-ui-simple-dropdown mw_option_field"  name="button_style">
+  <select  class="mw-ui-simple-dropdown mw_option_field"  name="button_style">
       <option <?php if($style==''){ print 'selected'; } ?> value="">Default</option>
       <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn-primary">Dark Blue</option>
       <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn-info">Light Blue</option>
@@ -106,14 +107,14 @@ btn_action = function(){
 </div>
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">Size</label>
-  <select type="text"  class="mw-ui-simple-dropdown mw_option_field"  name="button_size">
+  <select  class="mw-ui-simple-dropdown mw_option_field"  name="button_size">
       <option <?php if($size==''){ print 'selected'; } ?> value="">Default</option>
       <option <?php if($size=='large'){ print 'selected'; } ?> value="btn-large">Large</option>
       <option <?php if($size=='small'){ print 'selected'; } ?> value="btn-small">Small</option>
       <option <?php if($size=='mini'){ print 'selected'; } ?> value="btn-mini">Mini</option>
   </select>
 </div>
-
-
+ <label class="mw-ui-label">Text</label>
+ <input type="text" name="text" class="mw_option_field" value="<?php print $text; ?>" placeholder="Button" />
 
 </div>

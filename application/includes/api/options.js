@@ -78,19 +78,13 @@ mw.options = {
 
 if(og1 != undefined){
  	var og = og1;
-
-
-
 	if(refresh_modules11 == undefined){
-
 		if(refresh_modules12 == undefined){
 			refresh_modules11 = og1;
 			} else {
 				refresh_modules11 = refresh_modules12;
 			}
-
 		}
-
 }
 
 

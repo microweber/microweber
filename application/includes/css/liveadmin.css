@@ -137,7 +137,7 @@ body.cross{
 
 #mw_tabs li{
   float: left;
-  background: url(../img/nav_item_border.jpg) no-repeat right top;
+  border-right: 1px solid #C2C2C2;
 }
 
 #mw_tabs li.dropped{
@@ -146,6 +146,8 @@ body.cross{
 
 #mw_tabs li a{
   display: block;
+  white-space: nowrap;
+  border-right: 1px solid #E6E6E6;
   padding: 15px 20px 12px;
   text-align: center;
   text-decoration: none;
@@ -176,7 +178,16 @@ body.cross{
   background: url(../img/nav_active_left.jpg) no-repeat;
   margin-left: -2px;
   padding-left: 2px;
+  border: none;
+  box-shadow: none;
 }
+
+#mw_tabs li.active-prev{
+  border:none;
+}
+
+
+
 #mw_tabs li.active a:active{
   box-shadow : none;
 }
@@ -210,9 +221,9 @@ body.cross{
 
 #mw-toolbar-right{
   display: inline-block;
-  position: absolute;
-  right: 0;
+  position: relative;
   top: 4px;
+  width: 280px;
 }
 
 
@@ -1495,7 +1506,7 @@ tr:hover > td > .mw-ui-admin-table-show-on-hover{
     text-transform: capitalize;
     border:1px solid transparent;
     padding:6px 6px 6px 45px;
-    border-radius:5px;
+    border-radius:2px;
     overflow: hidden;
     text-overflow: ellipsis;
 }

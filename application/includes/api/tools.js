@@ -1272,6 +1272,10 @@ mw.tools = {
         if(obj.toggle == true){
             $(this).removeClass(active);
             mw.$(obj.tabs).hide();
+            if(typeof obj.onclick == 'function'){
+                var i = mw.tools.index(this, master, obj.nav);
+                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);
+            }
         }
       }
     });

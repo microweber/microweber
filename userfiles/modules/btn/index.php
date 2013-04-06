@@ -7,14 +7,16 @@
     $action_content =  get_option('popupcontent', $params['id']);
     $url =  get_option('url', $params['id']);
     $blank =   get_option('url_blank', $params['id']);
+    $text =  get_option('text', $params['id']);
 
+     if ($text == ''){ $text = 'Button';}
 
 ?>
 
 
 <?php if($action=='url' or $action==''){ ?>
 
-<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>">Button</a>
+<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
 
 
 <?php } else if($action=='popup') { ?>
@@ -28,7 +30,7 @@
   mw.require('mw.ui.css', true);
 </script>
 
-<a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>">Button</a>
+<a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
 <textarea id="area<?php print $rand; ?>" class="hide"><?php print $action_content; ?></textarea>
 <script>
 

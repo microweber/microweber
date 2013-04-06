@@ -545,8 +545,10 @@ mw.drag = {
             mw.$("#mw_handle_module .mw_edit_delete").show();
           }
           var el = $(element);
-          var title = el.dataset("filter");
-          $(mw.handle_module).find(".mw-element-name-handle").html(title);
+          //var title = el.dataset("filter");
+          var title = el.dataset("mw-title");
+          //$(mw.handle_module).find(".mw-element-name-handle").html(title);
+          $(mw.handle_module).find(".mw-element-name-handle").html(title + "&nbsp;-&nbsp;");
           $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
           var o = el.offset();
           var width = el.width();

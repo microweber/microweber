@@ -729,6 +729,16 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 
 
 
+.mw-v-table{
+  display: table;
+}
+.mw-v-cell{
+  display: table-cell;
+  float: none !important;
+}
+
+
+
 
 
 

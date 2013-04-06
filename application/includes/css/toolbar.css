@@ -502,7 +502,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
     display: inline-block;
     white-space: nowrap;
     font-size: 11px;
-    padding: 0 10px;
     text-transform: capitalize;
     float: left;
 }
