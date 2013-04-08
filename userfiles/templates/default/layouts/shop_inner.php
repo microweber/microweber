@@ -4,8 +4,8 @@
 
 type: layout
 content_type: product
-name: Product inner page
-description: shop layout<em></em>
+name: Product inner 
+description: shop layout
 
 */
 

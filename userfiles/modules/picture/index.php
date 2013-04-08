@@ -1,0 +1,1 @@
+<img src="<? print pixum(300,300) ?>" />

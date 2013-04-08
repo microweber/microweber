@@ -2510,6 +2510,8 @@ function get_content_field($data, $debug = false) {
  * $pt_opts['list_item_tag'] = "option";
  * $pt_opts['active_ids'] = $data['parent'];
  * $pt_opts['active_code_tag'] = '   selected="selected"  ';
+ * $pt_opts['ul_class'] = 'nav';
+ * $pt_opts['li_class'] = 'nav-item';
  *  pages_tree($pt_opts);
  *
  * 	Other options
@@ -2574,9 +2576,11 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	$max_level = false;
 	if (isset($params['max_level'])) {
 		$max_level = $params['max_level'];
+	} else if (isset($params['maxdepth'])) {
+		$max_level =  $params['max_level'] = $params['maxdepth'];
 	}
-
-	if ($max_level != false) {
+	
+ 	if ($max_level != false) {
 
 		if (intval($nest_level) >= intval($max_level)) {
 			print '';
@@ -2603,6 +2607,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	if (isset($params['li_class'])) {
 
 		$li_class =   $params['li_class'] ;
+	}
+
+
+if (isset($params['include_categories'])) {
+
+		$include_categories =   $params['include_categories'] ;
 	}
 
 
@@ -2682,6 +2692,8 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	if (isset($params['active_class'])) {
 		$the_active_class = $params['active_class'];
 	}
+	
+ 
 	//	$params['debug'] = $parent;
 	//
 	$params['content_type'] = 'page';
@@ -2761,7 +2773,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 				print "<{$list_tag} class='{$ul_class_name} depth-{$nest_level}'>";
 			}
 		}
-$res_count = 0;
+		$res_count = 0;
 		foreach ($result as $item) {
 			$skip_me_cause_iam_removed = false;
 			if (is_array($remove_ids) == true) {
@@ -2818,7 +2830,7 @@ $res_count = 0;
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
-				$to_pr_2 = "<{$list_item_tag} class='$content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {$li_class} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
+				$to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
 
@@ -2973,6 +2985,21 @@ $res_count = 0;
 					$params['nest_level'] = $nest_level;
 					$params['ul_class_name'] = false;
 					$params['ul_class'] = false;
+					
+					if (isset($params['ul_class_deep'])) {
+						 $params['ul_class']= $params['ul_class_deep'];
+					}
+					
+					if (isset($maxdepth)) {
+							$params['maxdepth'] = $maxdepth;
+						}
+					
+					
+					
+					
+					if (isset($params['li_class_deep'])) {
+						 $params['li_class']= $params['li_class_deep'];
+					}
 
 					if( $skip_pages_from_tree  == false){
 						$children = pages_tree($params);
@@ -2992,7 +3019,7 @@ $res_count = 0;
 
 					}
 
-
+ 
 
 
 					$cat_params = array();
@@ -3030,6 +3057,34 @@ $res_count = 0;
 					if ($max_level != false) {
 						$cat_params['max_level'] = $max_level;
 					}
+					
+					
+					
+					if($nest_level > 1){
+						if (isset($params['ul_class_deep'])) {
+							 $cat_params['ul_class']= $params['ul_class_deep'];
+						}
+			 								
+					
+						if (isset($params['li_class_deep'])) {
+							 $cat_params['li_class']= $params['li_class_deep'];
+						}
+					
+					} else {
+						
+						
+						if (isset($params['ul_class'])) {
+							 $cat_params['ul_class']= $params['ul_class'];
+						}
+			 								
+					
+						if (isset($params['li_class'])) {
+							 $cat_params['li_class']= $params['li_class'];
+						}
+						
+						
+					}
+					
 					if (isset($debug)) {
 
 					}

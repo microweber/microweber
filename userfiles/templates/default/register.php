@@ -2,11 +2,7 @@
 
 /*
 
-  type: layout
-  content_type: static
-  name: Register
-  description: User registration layout
-
+  
 */
 
 ?>

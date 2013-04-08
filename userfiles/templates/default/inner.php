@@ -4,7 +4,7 @@
 
 type: layout
 content_type: post
-name: Post inner layout
+name: Post inner
 
 description: Post inner layout
 

@@ -78,25 +78,25 @@ function post_comment($data) {
 
 			switch ($action) {
 				case 'publish' :
-					$data['is_moderated'] = 'y';
+				$data['is_moderated'] = 'y';
 
-					break;
+				break;
 				case 'unpublish' :
-					$data['is_moderated'] = 'n';
+				$data['is_moderated'] = 'n';
 
-					break;
+				break;
 				case 'spam' :
-					$data['is_moderated'] = 'n';
+				$data['is_moderated'] = 'n';
 
-					break;
+				break;
 
 				case 'delete' :
-					$del = db_delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
-					return $del;
-					break;
+				$del = db_delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+				return $del;
+				break;
 
 				default :
-					break;
+				break;
 			}
 
 			// d();
@@ -152,14 +152,14 @@ function post_comment($data) {
 	// d( $require_moderation);
 
 	$saved_data = save_data($table, $data);
-	
-	
-	
-	
+
+
+
+
 	if (!isset($data['id']) and isset($data['comment_body'])) {
-	
-	
-	$notif = array();
+
+
+		$notif = array();
 		$notif['module'] = "comments";
 		$notif['rel'] = $data['rel'];
 		$notif['rel_id'] = $data['rel_id'];
@@ -176,17 +176,30 @@ function post_comment($data) {
 			$data2 = $data;
 			unset($data2['rel']);
 			unset($data2['rel_id']);
-			$message = $notif['description'] . ' <br /> ' . array_pp($data);
+			$data3 = array();
+			foreach ($data2 as $key => $value) {
+				$key2 = str_ireplace('comment_', ' ', $key);
+				if($key2 == 'body'){
+				$key2 = 'text';
+				}
+
+				$data3[$key2] = nl2br($value);
+			}
+
+
+			$message = "Hi, <br/> You have new comment posted on " . curent_url(1) . ' <br /> ';
+			$message .= "IP:" . USER_IP . ' <br /> ';
+			$message .=array_pp($data3);
 			mw_mail($email_on_new_comment_value, $subject, $message, 1);
 		}
-	
-	
-	
+
+
+
 	}
-	
-	
-	
-	
+
+
+
+
 	return $saved_data;
 }
 
@@ -200,30 +213,30 @@ function get_comments($params) {
 	if (isset($params['content_id'])) {
 		$params['rel'] = 'content';
 		$params['rel_id'] = db_escape_string($params['content_id']);
-		 
+
 	}
 
 	$table = MODULE_DB_COMMENTS;
 	$params['table'] = $table;
 
 	$comments = get($params);
-	
+
 	if(isarr($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
-		if(intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
-				 $comments[$i]['comment_name'] = user_name($item['created_by']);
-		}
-		$i++;	
+			if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
+				$comments[$i]['comment_name'] = user_name($item['created_by']);
+			}
+			$i++;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	return $comments;
 }

@@ -110,6 +110,7 @@ body.cross{
 
 #mw_toolbar_nav{
     width: 100%;
+    min-width: 700px;
     height:52px;
     position: relative;
     z-index: 12;
@@ -221,9 +222,9 @@ body.cross{
 
 #mw-toolbar-right{
   display: inline-block;
+  float: right;
   position: relative;
   top: 4px;
-  width: 280px;
 }
 
 

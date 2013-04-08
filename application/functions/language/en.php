@@ -530,3 +530,6 @@ $language["thank-you-for-your-order-br-you-will-be-redirected-to-paypal"]= 'Than
 You will be redirected to PayPal\'s secure payment site.<br>
 Your shopping cart will be emptied' ; 
 $language["facebook-like"]= 'Facebook Like' ; 
+$language["our-team"]= 'Our Team' ; 
+$language["forgot-password"]= 'Forgot password' ; 
+$language["team"]= 'Team' ; 

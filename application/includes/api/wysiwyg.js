@@ -33,7 +33,7 @@ mw.wysiwyg = {
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
-                    if(this.querySelector('p,div,li') === null) this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
+                    if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
                 });
             });
             mw.$("img, .empty-element, .ui-resizable-handle").each(function(){
@@ -278,6 +278,7 @@ mw.wysiwyg = {
 
     },
     applier:function(tag, classname, style_object){
+
       var range = window.getSelection().getRangeAt(0);
       var selectionContents = range.extractContents();
       var el = document.createElement(tag);

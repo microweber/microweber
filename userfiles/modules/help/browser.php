@@ -1,4 +1,4 @@
-<? 
+<? only_admin_access(); ?><? 
 $mw_help_path = mw_var('mw_help_path');	 
 $mw_help_file = mw_var('mw_help_file');	
 

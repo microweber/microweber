@@ -1,5 +1,5 @@
 /* Global styles */
-
+@import 'new_world2.css';
 
 body{
   background: #F3F3F3;
@@ -341,6 +341,10 @@ ul.dropdown-menu ul.dropdown-menu{
 .sidebar-box .nav li.depth-1 li.active > a{
   text-decoration: underline;
 }
+
+/*Nik Johnson*/
+.pages-nav .nav.nav-pills.nav-stacked li ul{ margin-left: 20px; }
+.pages-nav .nav.nav-pills.nav-stacked li ul{ margin-left: 20px; }
 
 /* /Sidebar */
 
@@ -823,3 +827,5 @@ input.mw-captcha-input{
 #footer .MW{
   color:#6D6E71;
 }
+
+

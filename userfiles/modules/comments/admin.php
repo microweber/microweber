@@ -1,4 +1,5 @@
-<? only_admin_access(); ?><script>
+<? only_admin_access(); ?>
+<script>
 
 
 $(document).ready(function(){
@@ -107,21 +108,14 @@ $get_comments_params['is_new'] = 'y';
         <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <? if($display_comments_from == 'recent'): ?>  checked="checked" <? endif ?> />
         <span></span> <span>Recent comments</span> </label>
     </div>
-    
-     <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder">
       <label class="mw-ui-check left">
         <input name="display_comments_from" class="mw_option_field"    type="radio" value="module" <? if($display_comments_from == 'module'): ?>  checked="checked" <? endif ?> />
-        <span></span> <span>Custom comments</span></label> <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a>
-  
-    </div>
-    
-      <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
-      
- 
-       
-      
-       <label class="mw-ui-label-inline">From module:  </label>
-   <?
+        <span></span> <span>Custom comments</span></label>
+      <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a> </div>
+    <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
+      <label class="mw-ui-label-inline">From module: </label>
+      <?
    	 $comment_modules = array();
 	  $comment_modules['rel'] =  'modules';
 	  	  $comment_modules['rel_id'] =  '[not_null]';
@@ -134,49 +128,37 @@ $comment_modules['limit'] =  '200';
  // $comment_modules['debug'] =  'modules';
 	 $comment_modules = get_comments($comment_modules);
   
-    ?>
-    <?
+     
 	$comments_module_select = array();
 	
 	
 	 if(isarr($comment_modules )): ?>
-  <? foreach($comment_modules  as $item): ?> 
-<? $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
-<? // d( $comment_module_title); ?>
-<? if($comment_module_title != false and trim($comment_module_title) != ''){
+      <? foreach($comment_modules  as $item): ?>
+      <? $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
+      <? // d( $comment_module_title); ?>
+      <? if($comment_module_title != false and trim($comment_module_title) != ''){
 	$comments_module_select[$item['rel_id']] = $comment_module_title ;
 }
-?>
- <? endforeach ; ?>
-<? endif; ?>
-      
-      
-      <?   $curent_val = get_option('module_id', $params['id']); ?>  
-
-
-  
- 
- <? if(isarr($comments_module_select )): ?>
- 
- <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
- <option value="<? print $params['id'] ?>" <? if($curent_val == $params['id']): ?> selected="selected" <? endif; ?>>This module</option>
-
-  <? foreach($comments_module_select  as $key=>$item): ?> 
-<? if($key != $params['id']): ?>
-<option value="<? print $key ?>" <? if($curent_val == $key): ?> selected="selected" <? endif; ?>><? if($key == $params['id']): ?>(This module) <? endif; ?><? print $item ?></option>
-<? endif; ?>
- <? endforeach ; ?>
- </select>
- 
-  
-<? else : ?>
-     <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
-
-<? endif; ?>
- 
+?><? endforeach ; ?>
+      <? endif; ?>
+      <?   $curent_val = get_option('module_id', $params['id']); ?>
+      <? if(isarr($comments_module_select )): ?>
+      <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
+        <option value="<? print $params['id'] ?>" <? if($curent_val == $params['id']): ?> selected="selected" <? endif; ?>>This module</option>
+        <? foreach($comments_module_select  as $key=>$item): ?>
+        <? if($key != $params['id']): ?>
+        <option value="<? print $key ?>" <? if($curent_val == $key): ?> selected="selected" <? endif; ?>>
+        <? if($key == $params['id']): ?>
+        (This module)
+        <? endif; ?>
+        <? print $item ?></option>
+        <? endif; ?>
+        <? endforeach ; ?>
+      </select>
+      <? else : ?>
+      <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+      <? endif; ?>
     </div>
-    
-    
     
     <!--<div class="mw-ui-field-holder">
       <label class="mw-ui-check">
@@ -184,7 +166,7 @@ $comment_modules['limit'] =  '200';
         <span></span> <span>Most popular comments</span> </label>
     </div>-->
     
-     <div class="mw_clear"></div>
+    <div class="mw_clear"></div>
     <hr>
     <label class="mw-ui-check">
       <?php  $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  ?>
@@ -194,15 +176,8 @@ $comment_modules['limit'] =  '200';
     <label class="mw-ui-label-inline">Comments per page</label>
     <input type="text"  placeholder="10" style="width:22px;" class="mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
     <div class="mw_clear vSpace"></div>
-    
-    
-     <label class="mw-ui-label-inline">Form title </label>
-   
-    
-      
+    <label class="mw-ui-label-inline">Form title </label>
     <input type="text"  placeholder="Use default"   class="mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
-    
-    
   </div>
 </div>
 <? endif; ?>

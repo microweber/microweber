@@ -360,6 +360,12 @@ function menu_tree($menu_id, $maxdepth = false) {
 	if (isset($li_tag) == false) {
 		$li_tag = 'li';
 	}
+	
+	
+	 if (isset($params['maxdepth']) != false) {
+		$maxdepth = $params['maxdepth'];
+	}
+	
 
 	if (!isset($link) or $link == false) {
 		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
@@ -484,6 +490,11 @@ function menu_tree($menu_id, $maxdepth = false) {
 						if (isset($li_class)) {
 							$menu_params['li_class'] = $li_class;
 						}
+						
+						if (isset($maxdepth)) {
+							$menu_params['maxdepth'] = $maxdepth;
+						}
+						
 						if (isset($li_tag)) {
 							$menu_params['li_tag'] = $li_tag;
 						}

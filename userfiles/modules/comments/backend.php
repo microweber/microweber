@@ -2,7 +2,7 @@
 
 
     mw.require('<? print $config['url_to_module'] ?>style.css');
-    mw.require('color.js');
+    mw.require('color.js', true);
 </script>
 <script type="text/javascript">
 
@@ -81,17 +81,11 @@ mw.on.hashParam("comments_for_content", function(){  /*
 
      */
 
-
-
-
 });
-
-
-
 
 </script>
 <script type="text/javascript">
-    mw.require("forms.js");
+    mw.require("forms.js", true);
 </script>
 <script type="text/javascript">
 
@@ -448,12 +442,7 @@ $(document).ready(function(){
                     <span></span><span>Set paging in the comments</span> </label>
                   <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
                     <select name="paging" option-group="comments" class="mw_option_field">
-                      <?php
-
-
-
-
-        ?>
+                    
                       <?php
         $per_page = get_option('paging', 'comments');
           $found = false;

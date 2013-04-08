@@ -1588,7 +1588,7 @@ function load_module($module_name, $attrs = array()) {
 
 	//$module_namei = str_ireplace($search, $replace, $subject)e
 
-	$uninstall_lock = get_modules_from_db('one=1&&ui=any&module=' . $module_namei);
+	$uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
 
 	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
 		return '';

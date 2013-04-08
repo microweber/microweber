@@ -129,7 +129,7 @@ function category_tree($params = false) {
 	}
 	//}
 	$p2 = array();
-	// p($params);
+	// d($params);
 	if (!is_array($params)) {
 		if (is_string($params)) {
 			parse_str($params, $p2);
@@ -149,6 +149,9 @@ function category_tree($params = false) {
 	if ($link == false) {
 		$link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
 	}
+	
+	
+	
 
 	$active_ids = isset($params['active_ids']) ? $params['active_ids'] : array(CATEGORY_ID);
 	if (isset($params['active_code'])) {

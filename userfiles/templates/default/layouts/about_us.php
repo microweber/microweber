@@ -13,91 +13,120 @@ description: About us layout
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
- 
-<section id="content">
-  <div class="container edit"  field="content" rel="page"> 
-    <!-- Icons -->
-    <div class="row">
-      <div class="span8">
-        <h2>Our Mission</h2>
-        <p>Suspendisse vitae libero justo. Integer eu dui nulla. Duis in risus elit, ac vulputate purus. Quisque porttitor luctus risus ac pharetra. Donec pharetra, lectus nec dignissim pharetra, leo felis dapibus nunc, eu laoreet lorem nibh quis libero. Nulla facilisi. Sed pulvinar sem nec tortor congue dictum sed non nibh.</p>
-        <p>Nam condimentum ante sed tellus dictum non feugiat purus imperdiet. Proin arcu tellus, placerat facilisis rhoncus eget, mollis ac erat. Donec accumsan erat in elit condimentum dictum pharetra est molestie. Donec eget felis in ligula bibendum gravida consectetur at dolor. Nam condimentum ante sed tellus dictum non feugiat purus imperdiet. Proin arcu tellus, placerat facilisis rhoncus eget, mollis ac erat. Donec accumsan erat in elit condimentum dictum pharetra est molestie. Donec eget felis in ligula bibendum gravida consectetur at dolor. </p>
-      </div>
-      <div class="span4">
-        <div class="hiring">
-          <h2>&mdash; We Are Hiring &mdash;</h2>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
-            smod tincidunt ut laor.</p>
-          <a class="btn btn-large btn-success" href="#"><i class="icon-hand-right icon-white"></i> Apply Now</a> </div>
-      </div>
-    </div>
-  </div>
-  <div class="section-4">
-    <div class="container"> 
-      <!-- Strip with button -->
-      <div class="row">
-        <div class="span12">
-          <h2>Welcome to Decision. We provide <span>Clean</span> and <span>Simple</span> design.</h2>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laor.</p>
-          <a href="#" class="btn btn-large btn-success"><i class="icon-star icon-white"></i> Lets work together!</a> </div>
-      </div>
-    </div>
-  </div>
-  <div class="container edit"  field="content2" rel="page">
-    <div class="row"> 
-      <!-- welcome -->
-      <div class="span12">
-        <h2>Meet The Team</h2>
-        <p class="p0">Nullam egestas nulla rutrum lorem varius nec faucibus est fringilla. Quisque at urna vel leo tincidunt rutrum vitae at enim. Duis ac mi nulla. Sed convallis lobortis vulputate. Etiam feugiat sapien vel felis scelerisque dapibus. Curabitur dictum massa id urna imperdiet eu blandit dolor faucibus. Fusce eu lobortis sem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laor.</p>
-        <ul class="thumbnails p0">
-          <li class="span3">
-            <div class="thumbnail">
-              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img1.jpg" alt="" class="img-circle"></figure>
-              <h2 class="our-team">Alexia Smith<span>Creative Design</span></h2>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
-                smod tincidunt ut laor.</p>
-              <ul class="team-social-icon">
-                <li class="btn-group"><a class="btn" href="#"><i class="team-social-twitter"></i></a> <a class="btn" href="#"><i class="team-social-facebook"></i></a> <a class="btn" href="#"><i class="team-social-skype"></i></a> <a class="btn" href="#"><i class="team-social-youtube"></i></a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="span3">
-            <div class="thumbnail">
-              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img2.jpg" alt="" class="img-circle"></figure>
-              <h2 class="our-team">Sylvia Pete<span>Creative Design</span></h2>
-              <p>Lorem ipsum dolor sit amet, consecteter
-                dipiscing elit, sed diam nonummy nibh euis
-                mod tincidunt ut laore.</p>
-              <ul class="team-social-icon">
-                <li class="btn-group"><a class="btn" href="#"><i class="team-social-twitter"></i></a> <a class="btn" href="#"><i class="team-social-facebook"></i></a> <a class="btn" href="#"><i class="team-social-youtube"></i></a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="span3">
-            <div class="thumbnail">
-              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img3.jpg" alt="" class="img-circle"></figure>
-              <h2 class="our-team">Tanzi Smith<span>Creative Design</span></h2>
-              <p>Lorem ipsum dolor sit amet, consectet
-                er adipiscing elit, sed diam nonummy nibh euismod tincidunt ut lao.</p>
-              <ul class="team-social-icon">
-                <li class="btn-group"><a class="btn" href="#"><i class="team-social-twitter"></i></a> <a class="btn" href="#"><i class="team-social-youtube"></i></a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="span3">
-            <div class="thumbnail">
-              <figure class="img-circle"><img src="{DEFAULT_TEMPLATE_URL}img/page1-img4.jpg" alt="" class="img-circle"></figure>
-              <h2 class="our-team">John Doe<span>Creative Design</span></h2>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui
-                smod tincidunt ut laor.</p>
-              <ul class="team-social-icon">
-                <li class="btn-group"><a class="btn" href="#"><i class="team-social-twitter"></i></a> <a class="btn" href="#"><i class="team-social-facebook"></i></a> <a class="btn" href="#"><i class="team-social-skype"></i></a> <a class="btn" href="#"><i class="team-social-youtube"></i></a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="container edit our-team"  field="content" rel="page"> 
+	<br /><br /><br />
+	<div class="mw-row">
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+		</div>
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><h2 align="center"><?php _e("Latest Posts"); ?></h2></div>
+		</div>
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+		</div>
+	</div><br />
+	<div class="clear"></div>
+	<h3 class="intro element" align="center">
+		<strong style="font-weight: 500;">For a better view of your company, brand or website add some pictures or stories of your team.</strong><br />
+		<strong style="font-weight: 500;">You can also link your social networks by clicking on the following social icons.</strong><br /><br />
+	</h3>
+	<div class="mw-row">
+		<div class="mw-col" style="width:50%">
+			<div class="mw-col-container"><div class="element" style="width:95%">
+				<p align="justify">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+			</div></div>
+		</div>
+		<div class="mw-col" style="width:50%">
+			<div class="mw-col-container"><div class="element" style="width:95%">
+				<p align="justify">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+			</div></div>			
+		</div>
+	</div>
+	<br />
+	<div class="mw-row">
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+		</div>
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><h2 align="center"><?php _e("Our Team"); ?></h2></div>
+		</div>
+		<div class="mw-col" style="width:33.33%">
+			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+		</div>
+	</div><br />
+	<div class="clear"></div>
+	
+	<div class="mw-row">
+		<div class="mw-col" style="width:25%" align="center">
+		<div class="mw-col-container our-team">
+			<div class="element">
+				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<p class="element"><strong>Team Member</strong></p>
+				<p class="element"><em>Current Position</em></p>
+				<div class="element"><hr class="visible-desktop column-hr"></div>
+				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
+				<div class="clear"></div>
+				<span class="element">
+					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
+					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
+					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+				</span>
+			</div>
+		</div>
+		</div>
+		<div class="mw-col" style="width:25%" align="center">
+		<div class="mw-col-container our-team">
+			<div class="element">
+				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<p class="element"><strong>Team Member</strong></p>
+				<p class="element"><em>Current Position</em></p>
+				<div class="element"><hr class="visible-desktop column-hr"></div>
+				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
+				<div class="clear"></div>
+				<span class="element">
+					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
+					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
+					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+				</span>
+			</div>
+		</div>
+		</div>
+		<div class="mw-col" style="width:25%" align="center">
+		<div class="mw-col-container our-team">
+			<div class="element">
+				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<p class="element"><strong>Team Member</strong></p>
+				<p class="element"><em>Current Position</em></p>
+				<div class="element"><hr class="visible-desktop column-hr"></div>
+				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
+				<div class="clear"></div>
+				<span class="element">
+					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
+					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
+					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+				</span>
+			</div>
+		</div>
+		</div>
+		<div class="mw-col" style="width:25%" align="center">
+		<div class="mw-col-container our-team">
+			<div class="element">
+				<img style="margin-bottom: 15px;" class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<p class="element"><strong>Team Member</strong></p>
+				<p class="element"><em>Current Position</em></p>
+				<div class="element"><hr class="visible-desktop column-hr"></div>
+				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
+				<div class="clear"></div>
+				<span class="element">
+					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
+					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
+					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+				</span>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

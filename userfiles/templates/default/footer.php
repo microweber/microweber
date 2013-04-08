@@ -4,13 +4,25 @@
 <div id="footer">
 
     <div class="container">
-          <div class="row edit">
-                <div class="span5" id="footer-social">
+          <div class="edit">
+          <div class="mw-row">
+          <div class="mw-col" style="width: 30%">
+            <div class="mw-col-container">
+               <div class="element" id="footer-social">
                    <h3 class="pull-left">Be Social</h3>
                    <a href="http://facebook.com/Microweber" target="_blank" class="icon fb"></a>
                    <a href="http://twitter.com/Microweber" target="_blank" class="icon tw"></a>
                    <a href="http://youtube.com/Microweber" target="_blank" class="icon yt"></a>
-                </div>
+               </div>
+            </div>
+          </div>
+          <div class="mw-col" style="width: 70%">
+            <div class="mw-col-container">
+
+            </div>
+          </div>
+
+        </div>
         </div>
         <hr>
         <div id="footer-bottom">

@@ -13,6 +13,10 @@
 
 function mw_create_new_list_{rand}(){
 	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>', function(){
+		  
+		  
+		  var mw_new_forms_list = ('#mw_new_form_list_title').val();
+		  
         mw.reload_module('<? print $config['module'] ?>');
     }
 
@@ -51,7 +55,7 @@ $data = get_form_lists('module_name='.$params['for-module']);;
   <label class="mw-ui-label">Name of the new list</label>
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
-  <input type="text" name="mw_new_forms_list" value="" style="width: 200px;margin-right: 10px;"  />
+  <input type="text" name="mw_new_forms_list" id="mw_new_form_list_title" value="" style="width: 200px;margin-right: 10px;"  />
   <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
   &nbsp;<span class="mw-ui-delete" onclick="mw.$('.mw_create_new_forms_list{rand}, #form_dropdown_lists').toggle()">Cancel</span>
 </div>

@@ -11,18 +11,12 @@ description: Default comments template
 */
 
   //$template_file = false; ?>
-
 <div class="comments-template-stylish">
   <?php
-
-
        $cur_user = user_id();
              if($cur_user != false){
               $cur_user_data = get_user($cur_user);
              }
-
-
-
         ?>
   <? if (isarr($comments)): ?>
   <? if($form_title != false): ?>
@@ -52,27 +46,33 @@ description: Default comments template
 	  // $comment['comment_name'] = user_name($comment_author['id']);
   }
 
+  
+  
+  
+  
 
   ?>
         <?php if($avatars_enabled){ ?>
         <div class="span1">
           <?php $avatar_style =  get_option('avatar_style', 'comments'); ?>
           <?php  if (isset($comment_author['thumbnail'])  and isset($comment_author['thumbnail']) != ''){ ?>
-          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="67" height="67" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
+          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?  }  else  {   ?>
           <?php   if($avatar_style == '4'){ ?>
-          <img src="<?php print thumbnail(get_option('avatartype_custom', 'comments'), 67, 67);  ?>" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
+          <img src="<?php print thumbnail(get_option('avatartype_custom', 'comments'), 60, 60);  ?>" class="img-polaroid comment-image"  width="60" height="60"  alt="<? print addslashes($comment['comment_name']) ?>" />
           <?php } else if($avatar_style == '1' || $avatar_style == '3'){ ?>
-          <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 67, 67);;  ?>" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
+          <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 60, 60);  ?>"  width="60" height="60"  class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
           <?php } else if($avatar_style == '2'){ ?>
           <span class="img-polaroid  random-color"> <span style="background-color: <?php print random_color(); ?>"> </span> </span>
           <? } else if(isset( $comment_author['thumbnail'])){ ?>
-          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="67" height="67" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
-          <?php } ?>
+          <img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
+          <?php } else {  ?>
+          <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-1.jpg', 60, 60);   ?>"  width="60" height="60"  class="img-polaroid comment-image" alt="<? print addslashes($comment['comment_name']) ?>" />
+           <?php } ?>
           <?php } ?>
         </div>
         <?php } ?>
-        <div class="span7">
+        <div class="span5">
           <div class="comment-content">
             <div class="comment-author"> <? print $comment['comment_name'] ?> </div>
             <div class="comment-body">
@@ -116,9 +116,9 @@ description: Default comments template
       </div>
       <?php else: ?>
       <span class="comments-user-profile">You are commenting as:
-      
-      
-      
+
+
+
       <?php if(isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail'])!=''): ?>
       <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<? print $cur_user_data['thumbnail'] ?>"  height="24" width="24" /> </span>
       <?php endif; ?>

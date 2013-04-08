@@ -4,7 +4,7 @@
 
   type: layout
   content_type: dynamic
-  name: Homepage layout
+  name: Home
   description: Home layout
 
 */

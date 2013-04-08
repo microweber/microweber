@@ -118,13 +118,12 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 #mw_tabs{
   height: 48px;
   display: table;
-  width: 100%;
   float: none;
 }
 #mw_tabs li{
   display: table-cell;
   float: none;
-  width: 100px;
+  width: 107px;
 }
 
 #mw_tabs li a{
@@ -455,7 +454,7 @@ form .shipping-country-row:first-child{
 }
 
 
-.shipping-arrow{
+.shipping-arrow, .label-arrow{
   display: block;
   float: left;
   width: 28px;
@@ -849,6 +848,10 @@ form .shipping-country-row:first-child{
     height: 16px;
     margin-right: 10px;
     vertical-align: middle;
+}
+
+#mw-toolbar-right{
+  width: 280px;
 }
 
 

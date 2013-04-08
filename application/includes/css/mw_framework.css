@@ -540,12 +540,6 @@ body.view-shop .mw_action_post{
 }
 
 
-ul.depth-3{
-  font-size: 11px;
-}
-ul.depth-3 a{
-  font-size: 11px;
-}
 
 .mw-tree .module a:after, .mw-tree .module label:after{
   content: ".";

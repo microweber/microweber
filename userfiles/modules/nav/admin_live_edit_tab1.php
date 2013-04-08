@@ -175,6 +175,9 @@ body.module-settings-page #custom_link_controller{
  }
 
  menuSelectorInit = function(selector){
+	 
+	 
+	 
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
      mw.$(selector + ' input[type="radio"]').commuter(function(){
@@ -263,13 +266,15 @@ $(document).ready(function(){
 			$menu_name = get_option('menu_name', $params['id']);
 
 	}
-	$active_menu = false;
+	$active_menu = $menu_name;
   $menu_id = false;
   if($menu_name != false){
   $menu_id = get_menu_id('title='.$menu_name);
   }
 
  ?>
+ <? //d($active_menu); ?>
+ 
 <? if(isarr($menus) == true): ?>
 <? if(isarr($menus )): ?>
 

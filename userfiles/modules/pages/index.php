@@ -37,55 +37,26 @@ if (isset($params['data-parent'])) {
 		 $params['parent'] =  $o;
 	 }
 }
-
+$include_categories = false;
 if (isset($params['data-include_categories'])) {
      $params['include_categories'] = intval($params['parent']);
 } else {
 
-	 $o = get_option('data-include_categories', $params['id']);
-	// d($o);
-	 if($o != false and intval($o) >0){
-		 $params['include_categories'] =  $o;
+	 $o = get_option('include_categories', $params['id']);
+ 	 if($o != false and ($o) == 'y'){
+		$include_categories =  $params['include_categories'] =  true;
 	 }
 }
-
-
+	 $o = get_option('maxdepth', $params['id']);
+	// d($o);
+	 if($o != false and intval($o) >0){
+		 $params['maxdepth'] =  $o;
+	 }
+ 
+  
  //
- //pages_tree($params);
-$include_categories = false;
- if(isset($params['include_categories']) and $params['include_categories'] == true  and isset($params['include_global_categories'])){
-
-
-
-
-						$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
-		$fors = get($str0);
-					//d($fors );
-
-
-					if ($fors != false and is_array($fors) and !empty($fors)) {
-			foreach ($fors as $cat) {
-				$cat_params =$params;
-						$cat_params['parent'] =$cat['id'];
-						//$cat_params['rel'] = 'content';
-					//	$cat_params['rel_id'] = ' 0 ';
-					// $cat_params['for'] = 'content';
-				 $cat_params['include_first'] = 1;
-					 //$cat_params['debug'] = 1;
-					// d($cat_params);
-					$include_categories = 1;
-						// category_tree($cat_params);
-			}
-		}
-
-
-
-
-
-
-
-
- }
+ 
+ 
 
 
  $module_template = get_option('data-template',$params['id']);

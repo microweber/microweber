@@ -281,15 +281,14 @@ mw.drag = {
 
 
            if( mw.$mm_target.hasClass("empty-element")){
-            $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit mouseover bug
+                $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit mouseover bug
            }
            else if($(mw.mm_target.parentNode).hasClass("empty-element")){
-            $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
+                $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
 
 
            if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
-
 
              mw.mm_target = mw.drag.noop;
              mw.$mm_target = $(mw.drag.noop);
@@ -317,9 +316,6 @@ mw.drag = {
                  mw.currentDragMouseOver = mw.mm_target;
           }
           else{
-
-
-
              if(   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
@@ -383,7 +379,7 @@ mw.drag = {
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
 
-            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop')){
+            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop') || mw.currentDragMouseOver.attributes['field'] === 'title'){
               mw.currentDragMouseOver=null;
               return false;
             }
@@ -404,7 +400,7 @@ mw.drag = {
             var width = el.width();
 
 
-            if(mw.drop_regions.global_drop_is_in_region && !$(mw.dragCurrent).hasClass("mw-row")/*&& $(mw.dragCurrent).hasClass("element-image")*/){
+            if(mw.drop_regions.global_drop_is_in_region /* && !$(mw.dragCurrent).hasClass("mw-row")&& $(mw.dragCurrent).hasClass("element-image")*/){
 
               mw.dropable.addClass("mw_dropable_vertical");
               if(mw.drop_regions.which=='left'){

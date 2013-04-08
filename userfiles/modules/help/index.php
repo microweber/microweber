@@ -1,4 +1,5 @@
 <?
+only_admin_access();
 $path = $config['path_to_module'].'help'.DS;
 $help_pages = directory_tree( $path);
 $basepath_modules = MODULES_DIR;
@@ -28,7 +29,8 @@ mw_var('mw_help_file',$get_file);
 mw_var('mw_help_path',$get_path);		
 
  ?>
-
+ 
+<link rel="stylesheet" type="text/css" href="<? print $config['url_to_module']; ?>help.css"/>
 
 
 <div id="mw_index_help">

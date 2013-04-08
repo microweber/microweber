@@ -418,13 +418,11 @@
   font-family: Verdana, sans-serif;
   float: left;
   font-size: 11px;
-  line-height: 11px;
-  height: 11px;
+  height: 15px;
   white-space: nowrap;
   margin-left: 6px;
   margin-top: 5px;
   overflow: hidden;
-  color: #E4F0F8;
   color: #404040;
   text-overflow:ellipsis;
   text-shadow:0 1px 0 #255F85;
@@ -726,6 +724,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 .mw-social-ico-live {background-image: url(../img/mw.soc.win.png);}
 .mw-social-ico-github {background-image: url(../img/mw.soc.git.png);}
 .mw-social-ico-google {background-image: url(../img/mw.soc.goog.png);}
+.mw-social-ico-google-plus {background-image: url(../img/mw.soc.googplus.png);}
 
 
 

@@ -18,9 +18,7 @@ description: shop layout
   <div class="container">
     <div class="row">
       <div class="span12 edit"  field="content" rel="page">
-        <div class="page-header1">
-          <h2>Shop page</h2>
-        </div>
+        <h2 class="element">Shop page</h2>
         <p class="p0 element">Nullam egestas nulla rutrum lorem varius nec faucibus est fringilla. Quisque at urna vel leo tincidunt rutrum vitae at enim. Duis ac mi nulla. Sed convallis lobortis vulputate. Etiam feugiat sapien vel felis scelerisque dapibus. Curabitur dictum massa id urna imperdiet eu blandit dolor faucibus. Fusce eu lobortis sem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laor.</p>
       </div>
     </div>

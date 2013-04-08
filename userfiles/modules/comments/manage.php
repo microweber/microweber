@@ -24,7 +24,7 @@
 ?>
 <? if (isarr($comments)): ?>
 <script type="text/javascript">
-    mw.require("forms.js");
+    mw.require("forms.js",true);
 </script>
 <script type="text/javascript">
 
@@ -58,44 +58,41 @@
 
 </script>
 
-
-
 <div class="mw-comments-manage" id="comments-manage-<? print $params['id'] ?>">
-
-
-
   <? foreach ($comments as $comment) : ?>
-
-      <div class="mw-comment-body">
-        <form class="comments-manage-form" id="comments-form-<? print $comment['id'] ?>">
-          <div class="comment-author"><? print $comment['comment_name'] ?></div>
-          <div class="comment-body"><? print $comment['comment_body'] ?> <a href="javascript:;" class="mw-ui-link" onclick="mw.adminComments.edit(mw.tools.firstParentWithClass(this, 'comments-manage-form'))"><?php _e("Edit"); ?></a></div>
-          <div class="comment-body-edit">
-            <textarea name="comment_body"><? print $comment['comment_body'] ?></textarea>
-            <span class="mw-ui-btn"><?php _e("Save"); ?></span>
-          </div>
-
-
-            <input type="hidden" name="id" value="<? print $comment['id'] ?>">
-            <input type="hidden" name="action" id="comment_state" value="<? print $comment['id'] ?>" />
-
-          <div class="comment-controll-bar">
-              <a href="javascript:;" class="mw-ui-btn left" onclick=""><?php _e("Reply"); ?></a>
-
-              <? if($comment['is_moderated'] == 'n'): ?>
-                <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'publish')"><?php _e("Publish"); ?></a>
-              <? endif; ?>
-              <? if($comment['is_moderated'] == 'y'): ?>
-                <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'unpublish')"><?php _e("Unpublish"); ?></a>
-              <? endif; ?>
-              <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'delete')"><?php _e("Delete"); ?></a>
-              <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'spam')"><?php _e("Mark as spam"); ?></a>
-          </div>
-          </form>
-      </div>
-
+  <div class="mw-comment-body">
+    <form class="comments-manage-form" id="comments-form-<? print $comment['id'] ?>">
+      <div class="comment-author"><? print $comment['comment_name'] ?></div>
+      <div class="comment-body"><? print $comment['comment_body'] ?> <a href="javascript:;" class="mw-ui-link" onclick="mw.adminComments.edit(mw.tools.firstParentWithClass(this, 'comments-manage-form'))">
+        <?php _e("Edit"); ?>
+        </a></div>
+      <div class="comment-body-edit">
+        <textarea name="comment_body"><? print $comment['comment_body'] ?></textarea>
+        <span class="mw-ui-btn">
+        <?php _e("Save"); ?>
+        </span> </div>
+      <input type="hidden" name="id" value="<? print $comment['id'] ?>">
+      <input type="hidden" name="action" id="comment_state" value="<? print $comment['id'] ?>" />
+      <div class="comment-controll-bar"> <a href="javascript:;" class="mw-ui-btn left" onclick="">
+        <?php _e("Reply"); ?>
+        </a>
+        <? if($comment['is_moderated'] == 'n'): ?>
+        <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'publish')">
+        <?php _e("Publish"); ?>
+        </a>
+        <? endif; ?>
+        <? if($comment['is_moderated'] == 'y'): ?>
+        <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'unpublish')">
+        <?php _e("Unpublish"); ?>
+        </a>
+        <? endif; ?>
+        <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'delete')">
+        <?php _e("Delete"); ?>
+        </a> <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'spam')">
+        <?php _e("Mark as spam"); ?>
+        </a> </div>
+    </form>
+  </div>
   <? endforeach; ?>
-
-
 </div>
 <? endif; ?>
