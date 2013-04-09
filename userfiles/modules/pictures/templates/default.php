@@ -29,7 +29,7 @@ $(document).ready(function(){
 });
 
 </script>
-<div class="mw-module-images">
+<div class="mw-module-images<?php if($no_img){ ?> no-image<?php } ?>">
 <div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-<?php print $rand; ?>">
   <? foreach($data  as $item): ?>
   <div class="mw-pictures-item mw-pictures-item-<? print $item['id']; ?>">

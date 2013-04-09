@@ -86,7 +86,7 @@
 
 .mw-sorthandle {
     z-index: 9;
-    height: 1px;
+    height: 17px;
 	width:100%;
     /*visibility: hidden;*/
 	position:absolute;
@@ -95,7 +95,7 @@
 	border: none;
 }
 
-.mw-sorthandle-moveit{
+.mw-sorthandle-moveit{   /*
   position: absolute;
   left: 0px;
   top: 3px;
@@ -109,7 +109,25 @@
   padding: 0px 4px;
   border:1px solid #2680D3;
   border-radius: 2px;
-  background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
+  background: url(../img/grad.php?top=50ADF0&bot=2A83DD);    */
+
+
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: block;
+  width: 23px;
+  height: 17px;
+  background: white url(../img/move.png) no-repeat center 2px;
+  border: 1px solid #D8D8D8;
+  text-indent: -9999px;
+  cursor: move;
+
+
+}
+
+.mw-sorthandle-moveit:hover{
+  background: #3792E3 url(../img/move.png) no-repeat center -29px;
 }
 
 
@@ -183,7 +201,7 @@
 	float:left;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
-/*  */	text-decoration: none;
+    text-decoration: none;
     text-align: center;
     line-height: normal;
     cursor: move;
@@ -222,8 +240,7 @@
 }
 
 .list-elements span.mw_module_hold,
-.list-elements span.mw_module_image
-{
+.list-elements span.mw_module_image{
   height: 63px;
   padding: 0;
   min-width: 70px;
@@ -503,8 +520,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
     white-space: nowrap;
     font-size: 11px;
     text-transform: capitalize;
-    float: left;
-}
+ }
 
 .mw_module_helper{
   position: absolute;
@@ -643,10 +659,10 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 }
 
 .dd_search input{
-height: 13px;
-    margin: 9px 0 5px 13px;
-    padding: 4px;
-    width: 110px;
+  height: 13px;
+  margin: 9px 0 5px 13px;
+  padding: 4px;
+  width: 110px;
 }
 
 

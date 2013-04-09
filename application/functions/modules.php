@@ -555,7 +555,7 @@ function is_module_installed($module_name) {
 
 	$uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
 
-	if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
+	if (empty($uninstall_lock) or (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1)) {
 		return false;
 	} else {
 		return true;

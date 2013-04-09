@@ -497,8 +497,9 @@ function get_layout_for_page($page = array()) {
 
 	$args = func_get_args();
 	$function_cache_id = '';
- 
- 	ksort($page);
+	 if(is_array($page)){
+	 	ksort($page);
+	 }
 	$function_cache_id = $function_cache_id . serialize($page) ;
 	 
 
@@ -514,7 +515,7 @@ function get_layout_for_page($page = array()) {
 
 	if (($cache_content) != false) {
 
- 	 return $cache_content;
+	 return $cache_content;
 	}
 
 
@@ -571,7 +572,7 @@ function get_layout_for_page($page = array()) {
 		 //d($inherit_from);
 	}
 
-//d($page);
+
 
 
 	if ($render_file == false and isset($page['content_type']) and $page['content_type'] == 'post') {
@@ -584,10 +585,14 @@ function get_layout_for_page($page = array()) {
 				$page = $par_page;
 			} else {
 				$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+								$template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
+				
 
 			}
 		} else {
 			$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+		   $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
+			
 
 
 		}
@@ -595,9 +600,30 @@ function get_layout_for_page($page = array()) {
 
 	if ($render_file == false and isset($page['simply_a_file'])) {
 
-		if (is_file($page['simply_a_file']) == true) {
+		
+		
+		$simply_a_file2 = ACTIVE_TEMPLATE_DIR . $page['simply_a_file'];
+		$simply_a_file3 = ACTIVE_TEMPLATE_DIR . 'layouts'.DS.$page['simply_a_file'];
+		
+		if ($render_file == false and  is_file($simply_a_file3) == true) {
+			$render_file = $simply_a_file3;
+			
+		}
+		
+		
+		if ($render_file == false and  is_file($simply_a_file2) == true) {
+			$render_file = $simply_a_file2;
+			
+		}
+	 
+		
+		if ($render_file == false and is_file($page['simply_a_file']) == true) {
 			$render_file = $page['simply_a_file'];
 		}
+		// 
+		
+		
+		
 	}
 	if (!isset($page['active_site_template'])){
 		$page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
@@ -627,6 +653,7 @@ function get_layout_for_page($page = array()) {
 
 
 	}
+
 
 	if ($render_file == false and isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
 		if ($look_for_post != false) {
@@ -756,14 +783,25 @@ function get_layout_for_page($page = array()) {
 			$render_file = $template_view;
 		}
 	}
-
-	if($template_view_set_inner != false){
+	
+	if($render_file == false and $template_view_set_inner != false){
+		
+		if(isset($template_view_set_inner2)){
+		$template_view_set_inner2 = normalize_path($template_view_set_inner2, false);
+		if (is_file($template_view_set_inner2) == true) {
+			$render_file = $template_view_set_inner2;
+		}
+		}
+		
 		$template_view_set_inner = normalize_path($template_view_set_inner, false);
-		if (is_file($template_view_set_inner) == true) {
+		if ($render_file == false and is_file($template_view_set_inner) == true) {
 			$render_file = $template_view_set_inner;
 		}
+		
+	
 	//d($template_view_set_inner);
 	}
+	//d($render_file);
 
 	//    if (trim($page['layout_name']) != '') {
 	//        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['layout_name'] . DS . 'index.php';
@@ -1539,8 +1577,20 @@ function save_edit($post_data) {
 	}
 	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
-		$ref_page = $the_ref_page = get_content_by_url($ref_page);
-
+		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
+ 		$ref_page2 = get_content_by_url($ref_page_url, true);
+ 
+ 
+ 		if($ref_page2 == false){
+ 
+ 				$ustr = url_string(1);;
+			 if(is_module_installed($ustr)){
+			 	$ref_page = false;
+			 }
+			
+		}
+ 
+ 
 		if($ref_page == false){
 
 
@@ -1554,6 +1604,7 @@ function save_edit($post_data) {
 				$save_page['url'] = url_string(1);
 				$save_page['title'] = url_title(url_string(1));
 				$page_id = save_content($save_page);
+			//	d($save_page);
 			//	d($save_page);
 			}
 			//d($pd);
@@ -2830,6 +2881,14 @@ if (isset($params['include_categories'])) {
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
+				
+				if(isset($item['is_active']) and $item['is_active'] == 'n'){
+					
+					$li_class =$li_class. ' content-unpublished ';
+				}
+				
+				
+				
 				$to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
@@ -2861,10 +2920,10 @@ if (isset($params['include_categories'])) {
 
 		$ext_classes = '';
 		if($res_count == 0){
-			$ext_classes .= ' first-child';
+			$ext_classes .= ' first-child ';
 			$ext_classes .= ' child-'.$res_count.'';
 		} else if(!isset($result[$res_count +1])){
-			$ext_classes .= ' last-child';
+			$ext_classes .= ' last-child' ;
 			$ext_classes .= ' child-'.$res_count.'';
 		} else {
 			$ext_classes .= ' child-'.$res_count.'';
@@ -3258,7 +3317,45 @@ function mw_create_default_content($what) {
 }
 
 
+api_expose('content_set_published');
+function content_set_published($params){
+	if(!isset($params['id'])){
+	return array('error' => 'You must provide id parameter!');
+	} else {
+		if(is_admin() == false){
+		return array('error' => 'You must be admin!');
+			
+		} else {
+			$save = array();
+			$save['id'] = intval($params['id']);
+			$save['is_active'] = 'y';
+			$save_data = save_content($save);
+			return ($save_data);
+		}
+		
+	}
 
+}
+api_expose('content_set_unpublished');
+
+function content_set_unpublished($params){
+	if(!isset($params['id'])){
+	return array('error' => 'You must provide id parameter!');
+	} else {
+		if(is_admin() == false){
+		return array('error' => 'You must be admin!');
+			
+		} else {
+			$save = array();
+			$save['id'] = intval($params['id']);
+			$save['is_active'] = 'n';
+			$save_data = save_content($save);
+			return ($save_data);
+		}
+		
+	}
+
+}
 
 function get_content_parents($id = 0, $without_main_parrent = false, $data_type = 'category') {
 

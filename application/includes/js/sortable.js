@@ -521,15 +521,16 @@ mw.drag = {
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_element).css({
-            top:o.top,
-            left:o.left+pleft,
-            width:width
+            top:o.top - 17,
+            left:o.left,
+             width:width
           });
           $(mw.handle_element).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
           mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function(a, element){
+
           var order = mw.tools.parentsOrder(element, ['edit', 'module']);
 
           if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
@@ -540,17 +541,19 @@ mw.drag = {
             mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
             mw.$("#mw_handle_module .mw_edit_delete").show();
           }
+
+
           var el = $(element);
           //var title = el.dataset("filter");
           var title = el.dataset("mw-title");
           //$(mw.handle_module).find(".mw-element-name-handle").html(title);
-          $(mw.handle_module).find(".mw-element-name-handle").html(title + "&nbsp;-&nbsp;");
+          $(mw.handle_module).find(".mw-element-name-handle").html(title);
           $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
           var o = el.offset();
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_module).css({
-            top:o.top,
+            top:o.top-17,
             left:o.left+pleft,
             width:width
           });
@@ -563,8 +566,8 @@ mw.drag = {
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_row).css({
-            top:o.top-25,
-            left:o.left+pleft,
+            top:o.top,
+            left:o.left,
             width:width
           });
           $(mw.handle_row).data("curr", element);
@@ -2002,6 +2005,12 @@ __createRow = function(hovered, mw_drag_current, pos){
             mw.resizable_columns();
        }, 200)
 }
+
+
+
+
+
+
 
 
 

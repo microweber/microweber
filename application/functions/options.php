@@ -198,7 +198,7 @@ function module_option($key, $module, $option_group = false, $return_full = fals
 	return get_option($key, $option_group, $return_full, $orderby, $module);
 }
 
- 
+
 
 
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
@@ -285,9 +285,11 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	if (!empty($get)) {
 
 		if ($return_full == false) {
-
+			if(!isarr( $get)){
+			return false;
+			}
 			$get = $get[0]['option_value'];
-			
+
 			if (isset($get['option_value']) and strval($get['option_value']) != '') {
 				$get['option_value'] = replace_site_vars_back($get['option_value']);
  			}
@@ -296,7 +298,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		} else {
 
 			$get = $get[0];
-			
+
 			if (isset($get['option_value']) and strval($get['option_value']) != '') {
 				$get['option_value'] = replace_site_vars_back($get['option_value']);
  			}

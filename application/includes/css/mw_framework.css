@@ -228,14 +228,34 @@
   border-radius: 2px;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 
+}
 
+
+.mw_edit_settings{
+    background: white url(../img/module_setting.png) no-repeat 3px 3px ;
+    display: inline-block;
+    line-break: normal;
+    white-space: nowrap;
+    font-size: 11px;
+    color: #3791E3;
+    padding: 1px 5px 1px 17px;
+    border: 1px solid #D8D8D8;
+    line-height: 13px;
+    border-radius:2px
 }
 
 .mw_edit_settings:hover{
+    background-color: #3792E3;
+    color: white;
+    background-position: 3px -20px;
+    border-color: #2680D3;
+}
+
+.mw_edit_settings:hover{  /*
     border-color:#2680D3;
     color: white;
     background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
-    text-decoration: none;
+    text-decoration: none;  */
 }
 
 .mw_col_delete{
@@ -566,7 +586,14 @@ body.view-shop .mw_action_post{
   margin-left:3px;
 }
 
+.mw-tree li.content-unpublished {
+	opacity: 0.5;
 
+}
+
+.manage-post-item.content-unpublished{
+  opacity:0.5;
+}
 
 .mw-tree .module a:hover, .mw-tree li.active-bg > a{
   background-color: white;

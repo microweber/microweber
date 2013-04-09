@@ -48,6 +48,10 @@ body{
   margin-left: 10px;
 }
 
+#settings-container > .module-custom-fields-admin .module-custom-fields-admin-holder{
+  padding:20px;
+}
+
 
 
 

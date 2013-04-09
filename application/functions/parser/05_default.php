@@ -9,8 +9,14 @@ if ($layout != '') {
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
 	//$cached = false;
-	$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
-	//$cached = false;
+
+	if (template_var('content') != false) {
+
+		$cached = false;
+	} else {
+		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+	}
+	//
 	if (isset($options['no_cache'])) {
 
 	}
@@ -171,6 +177,9 @@ if ($layout != '') {
 					$rel = 'content';
 				}
 				$cont_field = false;
+
+				//template_var
+
 				if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
 					//
 
@@ -202,17 +211,25 @@ if ($layout != '') {
 				}
 			}
 			//d($data );
+
 			if ($field_content == false) {
 				if ($get_global == true) {
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
+
+					//dbg($cont_field);
 					if ($cont_field == false) {
 						if ($option_mod != false) {
+							//$field_content = __FILE__ . __LINE__;
+							//$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+							$field_content = get_content_field("rel={$option_group}&field={$field}");
 
-							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
 							//
 						} else {
-							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+							$field_content = get_content_field("rel={$option_group}&field={$field}");
+
+							//$field_content = __FILE__ . __LINE__;
+							//$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
 						}
 					} else {
 						$field_content = $cont_field;
@@ -255,6 +272,11 @@ if ($layout != '') {
 
 					}
 					//}
+				}
+				//dbg($field);
+				if ($field == 'content' and template_var('content') != false) {
+					$field_content = template_var('content');
+					template_var('content', false);
 				}
 
 				if ($field_content == false and isset($rel) and isset($field)) {
@@ -367,6 +389,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 			$passed_reps = array();
 
 		}
+
 		foreach ($reps as $elk => $value) {
 			$elk_crc = crc32($elk);
 			if (!in_array($elk_crc, $passed_reps)) {

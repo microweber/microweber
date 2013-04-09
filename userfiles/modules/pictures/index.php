@@ -1,6 +1,6 @@
 <?
 
- 
+  $no_img = false;
 if(!isset($params['rel_id'])){
 	$params['rel_id'] = $params['id']; 
 }
@@ -26,15 +26,15 @@ if(isset($params['content-id'])){
 	 $for = 'content';
 }
 
- 
+
  if(isset($params['rel_id']) == true): ?>
-<? $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for); 
+<? $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
  
  if(empty( $data)){
 	 $data = array(); 
 	 $data[0]['id'] = 0;
 	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';
-	  
+         $no_img = true;
  }
  
 $module_template = get_option('data-template',$params['id']);

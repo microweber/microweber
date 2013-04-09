@@ -95,6 +95,7 @@ input.large-field, textarea.large-field{
 #header{
   background: #242B35;
   padding: 10px 20px 0;
+  margin-bottom: 50px;
 }
 #header .nav a, #header .nav a.active:hover{
   color: white;
@@ -176,7 +177,7 @@ ul.dropdown-menu ul.dropdown-menu{
 }
 
 #content{
-  padding-top: 50px;
+  //padding-top: 50px;
 }
 
 #home-top{
@@ -667,7 +668,7 @@ ul.dropdown-menu ul.dropdown-menu{
   display: inline-block;
   width: 34px;
   height: 34px;
-  background: url(../img/contact_icons.png) no-repeat;
+  background: url(../img/contact_icons2.png) no-repeat;
 }
 
 .contact-icon.mail{

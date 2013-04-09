@@ -13,6 +13,8 @@ mw.custom_fields = {
     //mw.tools.confirm(q, function(){
         $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
 
+
+
     //});
   },
 
@@ -216,7 +218,7 @@ mw.custom_fields.save = function(id, callback){
 }
 
 mw.custom_fields.del = function(id, toremove){
-    var q = "Are you sure you want to delete this?";
+    var q = "Are you sure you want to delete this field?";
     mw.tools.confirm(q, function(){
       var obj = {
         id:id
@@ -231,6 +233,12 @@ mw.custom_fields.del = function(id, toremove){
             }
             mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
             $(window).trigger('customFieldSaved', id);
+
+
+                if(window.parent != undefined && window.parent.mw != undefined){
+         window.parent.mw.reload_module('custom_fields');
+
+       }
 
          });
       });

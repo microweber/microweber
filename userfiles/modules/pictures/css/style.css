@@ -424,6 +424,10 @@ a.rotator-paging-item-digit{
   -moz-transform: none;
 }
 
+.mw-module-images.no-image{
+  text-align: center;
+}
+
 
 
 

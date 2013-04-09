@@ -1,20 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<head>
+    <head>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-   <!-- <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
+    <!-- <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:dashboard" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:content" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:shop" />
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:settings" />-->
-
-
-
-
-
 
     <script type="text/javascript">
         mwAdmin = true;
@@ -54,13 +48,12 @@
 
 
 
-    </script>   
-    
+    </script>
     <? if(!isset($_REQUEST['no_toolbar'])): ?>
-     <script type="text/javascript">
- $(document).ready(function() {
+    <script type="text/javascript">
+ 		$(document).ready(function() {
 		window.onhashchange = function() {
-			
+			//alert(window.location.href);
 			mw.cookie.set('back_to_admin',window.location.href);
 		}
 		
@@ -73,10 +66,10 @@
 
     </script>
     <? endif; ?>
+    </head>
 
-</head>
-
-<body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>"> <?php 
+    <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>">
+<?php 
 
 $ui_adm = MW_ROOTPATH. "UI.php";
 if(is_file($ui_adm)){
@@ -85,5 +78,3 @@ include $ui_adm;
 
   ?>
 <div id="mw-admin-container">
-
-

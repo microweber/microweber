@@ -178,7 +178,17 @@ $pages_count = intval($pages);
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? if(isarr($data)): ?>
   <? foreach ($data as $item): ?>
-  <div class="manage-post-item manage-post-item-<? print ($item['id']) ?>">
+  
+  <?
+  $pub_class = '';
+				if(isset($item['is_active']) and $item['is_active'] == 'n'){
+					$pub_class = ' content-unpublished';
+				}
+  
+   ?>
+  
+  
+  <div class="manage-post-item manage-post-item-<? print ($item['id']) ?> <? print $pub_class ?>">
     <div class="manage-post-itemleft">
       <label class="mw-ui-check left">
         <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">

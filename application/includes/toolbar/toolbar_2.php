@@ -15,7 +15,6 @@
   mw.require("style_editors.js");
   mw.require("forms.js");
   mw.require("files.js");
-   mw.require("content.js", true);
   mw.require("lab.js");
 
   //mw.require("keys.js");
@@ -59,9 +58,9 @@
                var span = mwd.createElement('span');
                span.innerHTML = $(first).find(".left").html();
 
-               mw.tools.copyAttributes(first,span);
+            mw.tools.copyAttributes(first,span);
 
-               mw.tools.copyAttributes(this,first);
+              mw.tools.copyAttributes(this,first);
 
 
 
@@ -81,78 +80,61 @@
 
 
     </script>
-<?
 
-
-			 $back_url = site_url().'admin/view:content';
-			 if(defined('CONTENT_ID')){
-				 $back_url .= '#action=editpage:'.CONTENT_ID; 
-			 } 
-			 
-			  if(isset($_COOKIE['back_to_admin'])){
-				  
-				 $back_url = $_COOKIE['back_to_admin'];   
-				 
-			  }
-			 
-			 
-			 
-			  ?>
 <span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
-  
-  <? if(!$basic_mode): ?>
-  
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
-      <ul id="mw_tabs">
-        <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
-          <? _e('Modules'); ?>
-          </a> </li>
-        <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
-          <? _e('Layouts'); ?>
-          </a> </li>
-        <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
-          <? _e('Pages'); ?>
-          </a> </li>
-        <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
-          <? _e('Help'); ?>
-          </a> </li>
-      </ul>
-      <div class="mw-ui-dropdown media-small" id="mw_tabs_small"> <span class="mw-ui-btn">Menu<span class="ico idownarr right"></span></span>
-        <div class="mw-dropdown-content">
-          <ul class="mw-dropdown-list">
-            <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
-              <? _e('Modules');?>
-              </a> </li>
-            <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
-              <? _e('Layouts'); ?>
-              </a> </li>
-            <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
-              <? _e('Pages'); ?>
-              </a> </li>
-            <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
-              <? _e('Help'); ?>
-              </a> </li>
-          </ul>
-        </div>
-      </div>
-      <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
-      <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print $back_url; ?>"><span class="backico"></span>Back to Admin</a>
-        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website<span class="ico idownarr right"></span></a>
+
+        <ul id="mw_tabs">
+          <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
+            <? _e('Modules'); ?>
+            </a> </li>
+          <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
+            <? _e('Layouts'); ?>
+            </a> </li>
+          <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
+            <? _e('Pages'); ?>
+            </a> </li>
+          <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
+            <? _e('Help'); ?>
+            </a> </li>
+        </ul>
+
+       <div class="mw-ui-dropdown media-small" id="mw_tabs_small">
+          <span class="mw-ui-btn">Menu<span class="ico idownarr right"></span></span>
           <div class="mw-dropdown-content">
             <ul class="mw-dropdown-list">
-              <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
-              <li> <a href="<?php print $back_url; ?>">Back to admin</a></li>
-              <li><a href="#" onclick="mw.preview();void(0);">Preview</a></li>
-              <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-              <? $pub_or_inpub  = get_content_by_id(CONTENT_ID); ?>
-              <li class="mw-set-content-unpublish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.unpublish('<? print CONTENT_ID; ?>')">Unpublish</a></li>
-              <li class="mw-set-content-publish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.publish('<? print CONTENT_ID; ?>')">Publish</a></li>
-              <? endif; ?>
+              <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
+                <? _e('Modules'); ?>
+                </a> </li>
+              <li id="t_layouts"> <a href="#tab=layouts" onclick="mw.url.windowHashParam('tab', 'layouts');return false;">
+                <? _e('Layouts'); ?>
+                </a> </li>
+              <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
+                <? _e('Pages'); ?>
+                </a> </li>
+              <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
+                <? _e('Help'); ?>
+                </a> </li>
             </ul>
+         </div>
+       </div>
+      <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
+      <div id="mw-toolbar-right"> <a class="mw-ui-btn back_to_admin" href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>"><span class="backico"></span>Back to Admin</a>
+        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
+        <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn">View Website<span class="ico idownarr right"></span></a>
+        <div class="mw-dropdown-content">
+        <ul class="mw-dropdown-list">
+            <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
+             <li><a href="<?php print site_url(); ?>admin/view:content<? if(defined('CONTENT_ID')) : ?>#action=editpage:<? print CONTENT_ID ?><? endif; ?>">Back to admin</a></li>
+            <li><a href="javascript:;" onclick="mw.preview();void(0);">Preview</a></li>
+            <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
+              <li><a href="javascript:;">Unpublish<? print CONTENT_ID; ?></a></li>
+              <li><a href="javascript:;">Publish</a></li>
+            <? endif; ?>
+          </ul>
           </div>
         </div>
       </div>
@@ -189,19 +171,13 @@
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
-    
-    
-    <? endif; ?>
-    
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
-    
-    
   </div>
-  
-  <!-- /end .mw --> 
+
+  <!-- /end .mw -->
 </div>
 <!-- /end mw_holder -->
 

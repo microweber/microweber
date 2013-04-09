@@ -1040,9 +1040,8 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
        <label class="mw-ui-label">Meta Keywords</label>
        <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?></textarea>
      </div>
-     <? /* PAGES ONLY  */ ?>
-     <? if($edit_post_mode == false): ?>
-     <div class="vSpace"></div>
+          <div class="vSpace"></div>
+
      <div class="mw-ui-check-selector">
       <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
       <label class="mw-ui-check">
@@ -1052,6 +1051,12 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
           <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
         </div>
+        
+        
+     <? /* PAGES ONLY  */ ?>
+     <? if($edit_post_mode == false): ?>
+     <div class="vSpace"></div>
+     
         <div class="mw_clear vSpace"></div>
         <div class="mw-ui-check-selector">
           <div class="mw-ui-label left" style="width: 130px">Is Home?</div>

@@ -22,6 +22,7 @@
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css"/>
 
 
 		   <script type="text/javascript">

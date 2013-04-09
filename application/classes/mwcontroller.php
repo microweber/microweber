@@ -57,6 +57,10 @@ class MwController {
 					if ($editmode_sess == false) {
 						session_set('editmode', true);
 						session_set('back_to_editmode', false);
+
+						//	d($user_data);
+						//exit();
+
 					}
 					safe_redirect(site_url($page_url));
 					exit();
@@ -70,6 +74,7 @@ class MwController {
 
 		if (isset($_SESSION) and !$is_no_editmode) {
 			$is_editmode = session_get('editmode');
+
 		} else {
 			$is_editmode = false;
 			$page_url = url_param_unset('no_editmode', $page_url);
@@ -146,131 +151,178 @@ class MwController {
 
 				$page = get_homepage();
 			} else {
-
+				$found_mod = false;
 				$page = get_page_by_url($page_url);
+				$page_exact = get_page_by_url($page_url, true);
 
-				if (empty($page)) {
-					$the_new_page_file = false;
-					$page_url_segment_1 = url_segment(0, $page_url);
-					$td = TEMPLATEFILES . $page_url_segment_1;
-					$td_base = $td;
+				$the_active_site_template = get_option('curent_template');
+				$page_url_segment_1 = url_segment(0, $page_url);
 
-					$page_url_segment_2 = url_segment(1, $page_url);
-					$directly_to_file = false;
-					$page_url_segment_3 = url_segment(-1, $page_url);
+				if ($page_exact == false and $found_mod == false and is_module_installed($page_url)) {
 
-					if (!is_dir($td_base)) {
-						$page_url_segment_1 = $the_active_site_template = get_option('curent_template');
-						$td_base = TEMPLATEFILES . $the_active_site_template . DS;
-					} else {
-						array_shift($page_url_segment_3);
-						//d($page_url_segment_3);
-					}
+					$found_mod = true;
+					$page['id'] = 0;
+					$page['content_type'] = 'page';
+					$page['parent'] = '0';
+					$page['url'] = url_string();
+					$page['active_site_template'] = $the_active_site_template;
+					$page['content'] = '<module type="' . $page_url . '" />';
+					$page['simply_a_file'] = 'clean.php';
+					$page['layout_file'] = 'clean.php';
+					template_var('content', $page['content']);
+					 	dbg($page);
+					template_var('new_page', $page);
+				}
 
-					$page_url_segment_3_str = implode(DS, $page_url_segment_3);
+				if ($found_mod == false) {
 
-					if ($page_url_segment_3_str != '') {
-						$page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
-						$page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
-						//d($page_url_segment_3_str);
-						$page_url_segment_3_str_copy = $page_url_segment_3_str;
+					if (empty($page)) {
+						$the_new_page_file = false;
+						$page_url_segment_1 = url_segment(0, $page_url);
+						$td = TEMPLATEFILES . $page_url_segment_1;
+						$td_base = $td;
 
-						$is_ext = get_file_extension($page_url_segment_3_str);
-						if ($is_ext == false or $is_ext != 'php') {
-							$page_url_segment_3_str = $page_url_segment_3_str . '.php';
+						$page_url_segment_2 = url_segment(1, $page_url);
+						$directly_to_file = false;
+						$page_url_segment_3 = url_segment(-1, $page_url);
+
+						if (!is_dir($td_base)) {
+							$page_url_segment_1 = $the_active_site_template = get_option('curent_template');
+							$td_base = TEMPLATEFILES . $the_active_site_template . DS;
+						} else {
+							array_shift($page_url_segment_3);
+							//d($page_url_segment_3);
 						}
 
-						$td_f = $td_base . DS . $page_url_segment_3_str;
-						$td_fd = $td_base . DS . $page_url_segment_3_str_copy;
-						//  d($td_f);
-						if (is_file($td_f)) {
-							$the_new_page_file = $page_url_segment_3_str;
-							$simply_a_file = $directly_to_file = $td_f;
-						} else {
-							if (is_dir($td_fd)) {
-								$td_fd_index = $td_fd . DS . 'index.php';
-								if (is_file($td_fd_index)) {
-									$the_new_page_file = $td_fd_index;
-									$simply_a_file = $directly_to_file = $td_fd_index;
-								}
+						$page_url_segment_3_str = implode(DS, $page_url_segment_3);
+
+						if ($page_url_segment_3_str != '') {
+							$page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
+							$page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
+							//d($page_url_segment_3_str);
+							$page_url_segment_3_str_copy = $page_url_segment_3_str;
+
+							$is_ext = get_file_extension($page_url_segment_3_str);
+							if ($is_ext == false or $is_ext != 'php') {
+								$page_url_segment_3_str = $page_url_segment_3_str . '.php';
+							}
+
+							$td_f = $td_base . DS . $page_url_segment_3_str;
+							$td_fd = $td_base . DS . $page_url_segment_3_str_copy;
+							//  d($td_f);
+							if (is_file($td_f)) {
+								$the_new_page_file = $page_url_segment_3_str;
+								$simply_a_file = $directly_to_file = $td_f;
 							} else {
-								$is_ext = get_file_extension($td_fd);
-								if ($is_ext == false or $is_ext != 'php') {
-									$td_fd = $td_fd . '.php';
-								}
-								if (is_file($td_fd)) {
-									$the_new_page_file = $td_fd;
-									$simply_a_file = $directly_to_file = $td_fd;
-								} else {
-									$td_basedef = TEMPLATEFILES . 'default' . DS . $page_url_segment_3_str;
-									if (is_file($td_basedef)) {
-										$the_new_page_file = $td_basedef;
-										$simply_a_file = $directly_to_file = $td_basedef;
+								if (is_dir($td_fd)) {
+									$td_fd_index = $td_fd . DS . 'index.php';
+									if (is_file($td_fd_index)) {
+										$the_new_page_file = $td_fd_index;
+										$simply_a_file = $directly_to_file = $td_fd_index;
 									}
-									// d($simply_a_file);
+								} else {
+									$is_ext = get_file_extension($td_fd);
+									if ($is_ext == false or $is_ext != 'php') {
+										$td_fd = $td_fd . '.php';
+									}
+									if (is_file($td_fd)) {
+										$the_new_page_file = $td_fd;
+										$simply_a_file = $directly_to_file = $td_fd;
+									} else {
+										$td_basedef = TEMPLATEFILES . 'default' . DS . $page_url_segment_3_str;
+										if (is_file($td_basedef)) {
+											$the_new_page_file = $td_basedef;
+											$simply_a_file = $directly_to_file = $td_basedef;
+										}
+										// d($simply_a_file);
+									}
+
 								}
 
 							}
 
 						}
 
+						$fname1 = 'index.php';
+						$fname2 = $page_url_segment_2 . '.php';
+						$fname3 = $page_url_segment_2;
+
+						$tf1 = $td . DS . $fname1;
+						$tf2 = $td . DS . $fname2;
+						$tf3 = $td . DS . $fname3;
+
+						if ($directly_to_file == false and is_dir($td)) {
+							if (is_file($tf1)) {
+								$simply_a_file = $tf1;
+								$the_new_page_file = $fname1;
+							}
+
+							if (is_file($tf2)) {
+								$simply_a_file = $tf2;
+								$the_new_page_file = $fname2;
+							}
+							if (is_file($tf3)) {
+								$simply_a_file = $tf3;
+								$the_new_page_file = $fname3;
+							}
+
+							if (($simply_a_file) != false) {
+								$simply_a_file = str_replace('..', '', $simply_a_file);
+							}
+						}
+
+						if ($simply_a_file == false) {
+							$page = get_homepage();
+							if (isarr($page_url_segment_3)) {
+
+								foreach ($page_url_segment_3 as $mvalue) {
+									if ($found_mod == false and is_module_installed($mvalue)) {
+										//d($mvalue);
+										$found_mod = true;
+										$page['id'] = 0;
+										$page['content_type'] = 'page';
+										$page['parent'] = '0';
+										$page['url'] = url_string();
+										$page['active_site_template'] = $page_url_segment_1;
+										$page['content'] = '<module type="' . $mvalue . '" />';
+										$page['simply_a_file'] = 'clean.php';
+										$page['layout_file'] = 'clean.php';
+										template_var('content', $page['content']);
+
+										template_var('new_page', $page);
+									}
+								}
+							}
+
+						} else {
+							$page['id'] = 0;
+							$page['content_type'] = 'page';
+							$page['parent'] = '0';
+							$page['url'] = url_string();
+							$page['active_site_template'] = $page_url_segment_1;
+							$page['layout_file'] = $the_new_page_file;
+							$page['simply_a_file'] = $simply_a_file;
+
+							template_var('new_page', $page);
+							//template_var('new_page');
+						}
+
 					}
 
-					$fname1 = 'index.php';
-					$fname2 = $page_url_segment_2 . '.php';
-					$fname3 = $page_url_segment_2;
-
-					$tf1 = $td . DS . $fname1;
-					$tf2 = $td . DS . $fname2;
-					$tf3 = $td . DS . $fname3;
-
-					if ($directly_to_file == false and is_dir($td)) {
-						if (is_file($tf1)) {
-							$simply_a_file = $tf1;
-							$the_new_page_file = $fname1;
-						}
-
-						if (is_file($tf2)) {
-							$simply_a_file = $tf2;
-							$the_new_page_file = $fname2;
-						}
-						if (is_file($tf3)) {
-							$simply_a_file = $tf3;
-							$the_new_page_file = $fname3;
-						}
-
-						if (($simply_a_file) != false) {
-							$simply_a_file = str_replace('..', '', $simply_a_file);
-						}
-					}
-					if ($simply_a_file == false) {
-						$page = get_homepage();
-					} else {
-						$page['id'] = 0;
-						$page['content_type'] = 'page';
-						$page['parent'] = '0';
-						$page['url'] = url_string();
-						$page['active_site_template'] = $page_url_segment_1;
-						$page['layout_file'] = $the_new_page_file;
-						$page['simply_a_file'] = $simply_a_file;
-
-						template_var('new_page', $page);
-						//template_var('new_page');
-					}
+					//
 				}
-				//
 			}
 		}
 
 		//
 
-		if ($page['content_type'] == "post") {
+		if ($page['content_type'] == "post" and isset($page['parent'])) {
 			$content = $page;
 			$page = get_content_by_id($page['parent']);
 		} else {
 			$content = $page;
 		}
-		//d($content);
+		//
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
 			$content['active_site_template'] = $is_preview_template;
@@ -284,10 +336,27 @@ class MwController {
 			$content['custom_view'] = $is_custom_view;
 		}
 
+		if (isset($content['is_active']) and $content['is_active'] == 'n') {
+
+			if (is_admin() == false) {
+				$page_non_active = array();
+				$page_non_active['id'] = 0;
+				$page_non_active['content_type'] = 'page';
+				$page_non_active['parent'] = '0';
+				$page_non_active['url'] = url_string();
+				$page_non_active['content'] = 'This page is not published!';
+				$page_non_active['simply_a_file'] = 'clean.php';
+				$page_non_active['layout_file'] = 'clean.php';
+				template_var('content', $page_non_active['content']);
+				$content = $page_non_active;
+			}
+
+		}
+
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
-
+		//dbg($content);
 		$render_file = get_layout_for_page($content);
 
 		$content['render_file'] = $render_file;
@@ -433,6 +502,19 @@ class MwController {
 					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
 
 					$layout_toolbar = new MwView($tb);
+					$is_editmode_basic = false;
+					$user_data = get_user();
+					if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
+						$is_editmode_basic = true;
+					} 
+
+					if (isset($is_editmode_basic) and $is_editmode_basic == true) {
+						$layout_toolbar -> assign('basic_mode', true);
+					} else {
+						$layout_toolbar -> assign('basic_mode', false);
+
+					}
+
 					$layout_toolbar = $layout_toolbar -> __toString();
 					if ($layout_toolbar != '') {
 						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
@@ -1258,8 +1340,8 @@ class MwController {
 				if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
 					$restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
 					if (isarr($get_array)) {
-						  
-						mw_var('mw_restore_get',$get_array)   ;
+
+						mw_var('mw_restore_get', $get_array);
 					}
 					//
 

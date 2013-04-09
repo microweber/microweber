@@ -194,17 +194,12 @@ window.onerror = function(a,b,c){
         <div contenteditable='false' id='mw_handle_module' class='mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;'><span></span></a>\
-                <a class='mw_edit_btn mw_edit_settings right' href='javascript:void(0);' onclick='mw.drag.module_settings(this);return false;'><span class='mw-element-name-handle'></span>Settings</a>\
+                <a class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings(this);return false;'><span class='mw-element-name-handle'></span></a>\
             </div>\
             <span title='Click to select this module.' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
       row: "\
         <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
-            <div contenteditable='false' class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='columns_set'></div>\
-	    	    <div class='mw-sorthandle mw-sorthandle-row'>\
-	    	    <div class='mw_row_delete mw_edit_delete_element'></div>\
-    	    </div>\
             <span title='Click to select this column.' class='column_separator_title'>Columns</span>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\

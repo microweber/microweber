@@ -27,6 +27,7 @@ if(isset($data[0]) == false){
   $data['api_key'] = '';
   $data['is_active'] = 'y';
   $data['is_admin'] = 'n';
+  $data['basic_mode'] = 'n';
   $data['thumbnail'] = '';
 } else {
 $data = $data[0];	
@@ -34,13 +35,10 @@ $data = $data[0];
  
  ?>
 <? if(isarr($data )): ?>
-
 <script  type="text/javascript">
 mw.require('forms.js');
 mw.require('files.js');
 </script>
-
-
 <script  type="text/javascript">
 _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
@@ -92,146 +90,139 @@ $(document).ready(function(){
 
 
 </script>
-
-
 <style>
-
-#change_avatar{
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-   float: left;
-  white-space: nowrap;
-  margin-top: 15px;
+#change_avatar {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	float: left;
+	white-space: nowrap;
+	margin-top: 15px;
 }
-
-#avatar_holder{
-  width: 67px;
-  max-height: 67px;
-  float: left;
-  margin-right: 12px;
-  position: relative;
-  border: 1px solid #ccc;
+#avatar_holder {
+	width: 67px;
+	max-height: 67px;
+	float: left;
+	margin-right: 12px;
+	position: relative;
+	border: 1px solid #ccc;
 }
-
-#avatar_holder img{
-  max-width: 67px;
-  max-height: 67px;
+#avatar_holder img {
+	max-width: 67px;
+	max-height: 67px;
 }
-
-#avatar_holder .mw-close{
-  position: absolute;
-  z-index: 1;
-  top: 3px;
-  right: 3px;
-  visibility: hidden;
+#avatar_holder .mw-close {
+	position: absolute;
+	z-index: 1;
+	top: 3px;
+	right: 3px;
+	visibility: hidden;
 }
-#avatar_holder:hover .mw-close{
-  visibility: visible;
+#avatar_holder:hover .mw-close {
+	visibility: visible;
 }
-
-
-
 </style>
 
 <div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_{rand}">
-
- <div class="mw-o-box-header" style="margin-bottom: 0;">
-    <span class="ico iusers"></span>
+  <div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico iusers"></span>
     <?php if($data['id'] != 0): ?>
-
-    <span><?php _e("Edit user"); ?> &laquo;<?  print $data['username']; ?>&raquo;</span>
-
+    <span>
+    <?php _e("Edit user"); ?>
+    &laquo;
+    <?  print $data['username']; ?>
+    &raquo;</span>
     <?php else: ?>
-
     <span>Add new user</span>
-
     <?php endif; ?>
- </div>
-
-
- <input type="hidden" class="mw-ui-field" name="id" value="<?  print $data['id']; ?>">
-  <div>
-      <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-admin-table mw-edit-user-table" width="100%">
-      <col width="150px" />
-
-        <tr>
-          <td><label class="mw-ui-label">Avatar</label></td>
-          <td>
-            <?php if($data['thumbnail'] == ''){    ?>
-
-                <div id="avatar_holder"><img src="<?php print pixum(67,67); ?>" id="avatar_image" alt=""  /><span class="mw-close"></span></div>
-                <span class='mw-ui-link' id="change_avatar"><?php _e("Add Image"); ?></span>
-
-            <?php   } else {   ?>
-              <div id="avatar_holder"><img src="<? print $data['thumbnail']; ?>" id="avatar_image" alt="" /><span class="mw-close"></span></div>
-              <span class='mw-ui-link' id="change_avatar"><?php _e("Change Image"); ?></span>
-            <?php } ?>
-            <input type="hidden" class="mw-ui-field" name="thumbnail" id="user_thumbnail" value="<?  print $data['thumbnail']; ?>">
-          </td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Username</label></td>
-          <td><input type="text" class="mw-ui-field" name="username" value="<?  print $data['username']; ?>"></td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Password</label></td>
-          <td>
-            <input type="password" class="mw-ui-field" name="password" value="<?  print $data['password']; ?>">
-          </td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Email</label></td>
-          <td><input type="text" class="mw-ui-field" name="email" value="<?  print $data['email']; ?>"></td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">First Name</label></td>
-          <td><input type="text" class="mw-ui-field" name="first_name" value="<?  print $data['first_name']; ?>"></td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Last Name</label></td>
-          <td><input type="text" class="mw-ui-field" name="last_name" value="<?  print $data['last_name']; ?>"></td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Is Active?</label></td>
-          <td>
-            <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<? if($data['is_active'] == 'n'): ?> mw-switcher-off<? endif; ?>">
-                <span class="mw-switch-handle"></span>
-                <label>Yes<input type="radio" value="y" name="is_active" <? if($data['is_active'] == 'y'): ?> checked="checked" <? endif; ?>></label>
-                <label>No<input type="radio" value="n" name="is_active" <? if($data['is_active'] == 'n'): ?> checked="checked" <? endif; ?>></label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label class="mw-ui-label">Is Admin?</label></td>
-          <td>
-
-
-
-           <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<? if($data['is_admin'] == 'n'): ?> mw-switcher-off<? endif; ?>">
-                <span class="mw-switch-handle"></span>
-                <label>Yes<input type="radio" value="y" name="is_admin" <? if($data['is_admin'] == 'y'): ?> checked="checked" <? endif; ?>></label>
-                <label>No<input type="radio" value="n" name="is_admin" <? if($data['is_admin'] == 'n'): ?> checked="checked" <? endif; ?>></label>
-            </div>
-
-          </td>
-        </tr>
-        
-          <tr>
-          <td><label class="mw-ui-label">Api key</label></td>
-          <td><input type="text" class="mw-ui-field" name="api_key" value="<?  print $data['api_key']; ?>"></td>
-        </tr>
-
-        
-        <tr class="no-hover">
-          <td>&nbsp;</td>
-          <td>
-            <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right" onclick="_mw_admin_save_user_form<?  print $data['id']; ?>()"><?php _e("Save"); ?></span>
-            <span class="mw-ui-btn mw-ui-btn-medium right" style="margin-right: 10px;" onclick="mw.url.windowDeleteHashParam('edit-user');"><?php _e("Cancel"); ?></span>
-          </td>
-        </tr>
-      </table>
   </div>
-
+  <input type="hidden" class="mw-ui-field" name="id" value="<?  print $data['id']; ?>">
+  <div>
+    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-admin-table mw-edit-user-table" width="100%">
+      <col width="150px" />
+      <tr>
+        <td><label class="mw-ui-label">Avatar</label></td>
+        <td><?php if($data['thumbnail'] == ''){    ?>
+          <div id="avatar_holder"><img src="<?php print pixum(67,67); ?>" id="avatar_image" alt=""  /><span class="mw-close"></span></div>
+          <span class='mw-ui-link' id="change_avatar">
+          <?php _e("Add Image"); ?>
+          </span>
+          <?php   } else {   ?>
+          <div id="avatar_holder"><img src="<? print $data['thumbnail']; ?>" id="avatar_image" alt="" /><span class="mw-close"></span></div>
+          <span class='mw-ui-link' id="change_avatar">
+          <?php _e("Change Image"); ?>
+          </span>
+          <?php } ?>
+          <input type="hidden" class="mw-ui-field" name="thumbnail" id="user_thumbnail" value="<?  print $data['thumbnail']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Username</label></td>
+        <td><input type="text" class="mw-ui-field" name="username" value="<?  print $data['username']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Password</label></td>
+        <td><input type="password" class="mw-ui-field" name="password" value="<?  print $data['password']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Email</label></td>
+        <td><input type="text" class="mw-ui-field" name="email" value="<?  print $data['email']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">First Name</label></td>
+        <td><input type="text" class="mw-ui-field" name="first_name" value="<?  print $data['first_name']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Last Name</label></td>
+        <td><input type="text" class="mw-ui-field" name="last_name" value="<?  print $data['last_name']; ?>"></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Is Active?</label></td>
+        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<? if($data['is_active'] == 'n'): ?> mw-switcher-off<? endif; ?>"> <span class="mw-switch-handle"></span>
+            <label>Yes
+              <input type="radio" value="y" name="is_active" <? if($data['is_active'] == 'y'): ?> checked="checked" <? endif; ?>>
+            </label>
+            <label>No
+              <input type="radio" value="n" name="is_active" <? if($data['is_active'] == 'n'): ?> checked="checked" <? endif; ?>>
+            </label>
+          </div></td>
+      </tr>
+      <tr>
+        <td><label class="mw-ui-label">Is Admin?</label></td>
+        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<? if($data['is_admin'] == 'n'): ?> mw-switcher-off<? endif; ?>"> <span class="mw-switch-handle"></span>
+            <label>Yes
+              <input type="radio" value="y" name="is_admin" <? if($data['is_admin'] == 'y'): ?> checked="checked" <? endif; ?>>
+            </label>
+            <label>No
+              <input type="radio" value="n" name="is_admin" <? if($data['is_admin'] == 'n'): ?> checked="checked" <? endif; ?>>
+            </label>
+          </div></td>
+      </tr>
+      
+      <tr>
+        <td><label class="mw-ui-label">Basic mode</label></td>
+        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<? if($data['basic_mode'] == 'n'): ?> mw-switcher-off<? endif; ?>"> <span class="mw-switch-handle"></span>
+            <label>Yes
+              <input type="radio" value="y" name="basic_mode" <? if($data['basic_mode'] == 'y'): ?> checked="checked" <? endif; ?>>
+            </label>
+            <label>No
+              <input type="radio" value="n" name="basic_mode" <? if($data['basic_mode'] == 'n'): ?> checked="checked" <? endif; ?>>
+            </label>
+          </div></td>
+      </tr>
+      
+      
+      <tr>
+        <td><label class="mw-ui-label">Api key</label></td>
+        <td><input type="text" class="mw-ui-field" name="api_key" value="<?  print $data['api_key']; ?>"></td>
+      </tr>
+      <tr class="no-hover">
+        <td>&nbsp;</td>
+        <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right" onclick="_mw_admin_save_user_form<?  print $data['id']; ?>()">
+          <?php _e("Save"); ?>
+          </span> <span class="mw-ui-btn mw-ui-btn-medium right" style="margin-right: 10px;" onclick="mw.url.windowDeleteHashParam('edit-user');">
+          <?php _e("Cancel"); ?>
+          </span></td>
+      </tr>
+    </table>
+  </div>
 </div>
 <? endif; ?>
