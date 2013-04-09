@@ -255,7 +255,7 @@ function mw_mail($to, $subject, $message, $add_hostname_to_subject = false, $no_
 		}
 
 		if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-			//$res -> debug = 1;
+			// $res -> debug = 1;
 			if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
 				$res -> setCc($cc);
 			}

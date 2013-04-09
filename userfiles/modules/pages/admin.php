@@ -5,7 +5,7 @@
 <?php $include_categories =  get_option('include_categories', $params['id']); ?>
 
 
-<div id="tabsDEMO" class="mw_simple_tabs mw_tabs_layout_simple">
+<div class="mw_simple_tabs mw_tabs_layout_simple">
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">
 	<li><a class="active" href="javascript:;">Options</a></li>
 		<li><a href="javascript:;">Skin/Template</a></li>
@@ -16,9 +16,29 @@
 		<div class="left mw-ui-select" style="width: 205px;">
 			<select name="data-parent" class="mw_option_field"  >
 				<option  valie="0"   <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
-				<?  foreach($pages as $item):	 ?>
-				<option value="<? print $item['id'] ?>"   <? if(($item['id'] == $posts_parent_page)): ?>   selected="selected"  <? endif; ?>     > <? print $item['title'] ?> </option>
-				<? endforeach; ?>
+
+
+<?
+$pt_opts = array();
+          $pt_opts['link'] = "{empty}{title}";
+          $pt_opts['list_tag'] = " ";
+          $pt_opts['list_item_tag'] = "option";
+
+      $pt_opts['active_ids'] =$posts_parent_page;
+
+
+          $pt_opts['active_code_tag'] = '   selected="selected"  ';
+
+
+
+          pages_tree($pt_opts);
+
+
+          ?>
+
+
+
+
 			</select>
 		</div>
 		<span class="left label-arrow" style="margin-left: 45px;"></span>

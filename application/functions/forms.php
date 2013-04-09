@@ -226,7 +226,7 @@ function post_form($params) {
 
 	if (isset($params['id'])) {
 		if ($adm == false) {
-			error('Error: Only admin can edit forms!');
+			return array('error' => 'Error: Only admin can edit forms!');
 		}
 	}
 	$for = 'module';
@@ -247,9 +247,34 @@ function post_form($params) {
 		$for_id = $params['rel_id'];
 	}
 
+	$dis_cap = get_option('disable_captcha', $for_id) == 'y';
+
+	if ($dis_cap == false) {
+		if (!isset($params['captcha'])) {
+			return array('error' => 'Please enter the captcha answer!');
+		} else {
+			$cap = session_get('captcha');
+
+			if ($cap == false) {
+				return array('error' => 'You must load a captcha first!');
+			}
+			if (intval($params['captcha']) != ($cap)) {
+				//     d($cap);
+				if ($adm == false) {
+					return array('error' => 'Invalid captcha answer!');
+				}
+			}
+		}
+	}
+
 	if ($for == 'module') {
 		$list_id = get_option('list_id', $for_id);
 	}
+	$email_to = get_option('email_to', $for_id);
+	$email_bcc = get_option('email_bcc', $for_id);
+	$email_autorespond = get_option('email_autorespond', $for_id);
+
+	$email_autorespond_subject = get_option('email_autorespond_subject', $for_id);
 
 	if ($list_id == false) {
 		$list_id = 0;
@@ -296,16 +321,6 @@ function post_form($params) {
 	}
 
 	$save = save_data($table, $to_save);
-	if (isset($params['module_name'])) {
-		$notif = array(); 
-		$notif['module'] = $params['module_name'];
-		$notif['rel'] = 'forms_lists';
-		$notif['rel_id'] = $list_id;
-		$notif['title'] = "New form entry";
-		$notif['description'] = "You have new form entry";
-		$notif['content'] = "You have new form entry";
-		post_notification($notif);
-	}
 
 	if (!empty($cf_to_save)) {
 		$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -324,6 +339,95 @@ function post_form($params) {
 			$cf_save = save_data($table_custom_field, $value);
 		}
 	}
+
+	if (isset($params['module_name'])) {
+
+		$pp_arr = $params;
+		$pp_arr['ip'] = USER_IP;
+		unset($pp_arr['module_name']);
+		if (isset($pp_arr['rel'])) {
+			unset($pp_arr['rel']);
+		 }
+
+		 if (isset($pp_arr['rel_id'])) {
+			unset($pp_arr['rel_id']);
+		 }
+
+		if (isset($pp_arr['list_id'])) {
+			unset($pp_arr['list_id']);
+		 }
+
+		  if (isset($pp_arr['for'])) {
+			unset($pp_arr['for']);
+		 }
+
+		if (isset($pp_arr['for_id'])) {
+			unset($pp_arr['for_id']);
+		 }
+
+
+		$notif = array();
+		$notif['module'] = $params['module_name'];
+		$notif['rel'] = 'forms_lists';
+		$notif['rel_id'] = $list_id;
+		$notif['title'] = "New form entry";
+		$notif['description'] = "You have new form entry";
+		$notif['content'] = "You have new form entry from " . curent_url(1). '<br />' .array_pp($pp_arr);
+		post_notification($notif);
+		//	d($cf_to_save);
+		if ($email_to == false) {
+			$email_to = get_option('email_', 'email');
+
+		}
+		if ($email_to != false) {
+			$mail_sj = "Thank you!";
+			$mail_autoresp = "Thank you for your submition! <br/>";
+
+			if ($email_autorespond_subject != false) {
+				$mail_sj = $email_autorespond_subject;
+			}
+			if ($email_autorespond != false) {
+				$mail_autoresp = $email_autorespond;
+			}
+
+			$mail_autoresp   = $mail_autoresp . array_pp($pp_arr);
+
+
+
+
+
+			$user_mails = array();
+			$user_mails [] = $email_to;
+			if (isset($email_bcc ) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
+				$user_mails[] = $email_bcc;
+			}
+
+
+
+			if (isset($cf_to_save) and !empty($cf_to_save)) {
+				foreach ($cf_to_save as $value) {
+				//	d($value);
+					$to = $value['custom_field_value'];
+					if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+					//	d($to);
+						$user_mails[] = $to;
+					}
+				}
+			}
+
+			if(!empty($user_mails)){
+				array_unique($user_mails);
+				foreach ($user_mails as $value) {
+				mw_mail($value,$mail_sj,$mail_autoresp );
+				}
+			}
+
+
+		}
+	}
+
+	$email_to = $email_bcc = get_option('email_bcc', $for_id);
+	$email_autorespond = get_option('email_autorespond', $for_id);
 
 	return ($save);
 

@@ -48,7 +48,7 @@ body{
   margin-left: 10px;
 }
 
-#settings-container > .module-custom-fields-admin .module-custom-fields-admin-holder{
+#settings-container > .mw-module-live-edit-settings > .module-custom-fields-admin{
   padding:20px;
 }
 

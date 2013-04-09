@@ -15,8 +15,8 @@
 
 <div class="custom-field-col-right">
   <div class="mw-custom-field-group">
-    <label class="mw-ui-label" for="custom_field_value<? print $rand; ?>">Value</label>
-    <b><? print curency_symbol($curr=false,$key=3); ?> </b>
+    <label class="mw-ui-label" for="custom_field_value<? print $rand; ?>">Value   <b><? print curency_symbol($curr=false,$key=3); ?> </b></label>
+
     <input type="text"
     class="mw-ui-field"
     name="custom_field_value"
@@ -24,15 +24,11 @@
 
 
 
-    <label class="mw-ui-label" >Old price</label>
+
+<?php print $savebtn; ?>
 
 
 
- <input type="text"  class="mw-custom-field-option" name="options[old_price]"  <? if(isset($data['options']) == true and isset($data['options']["old_price"]) == true): ?> value="<?php print $data['options']["old_price"][0]; ?>"  <? endif; ?>  >
-
-
-
-
-  </div> <?php print $savebtn; ?>
+  </div>
 </div>
 <? include('settings_footer.php'); ?>

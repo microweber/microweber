@@ -152,6 +152,7 @@
               <li class="mw-set-content-unpublish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.unpublish('<? print CONTENT_ID; ?>')">Unpublish</a></li>
               <li class="mw-set-content-publish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.publish('<? print CONTENT_ID; ?>')">Publish</a></li>
               <? endif; ?>
+              <li><a href="<? print api_url('logout'); ?>">Logout</a></li>
             </ul>
           </div>
         </div>

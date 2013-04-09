@@ -68,9 +68,10 @@ description: About us layout
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
-					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
-					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
 				</span>
 			</div>
 		</div>
@@ -85,9 +86,10 @@ description: About us layout
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
-					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
-					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
 				</span>
 			</div>
 		</div>
@@ -102,9 +104,10 @@ description: About us layout
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
-					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
-					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+		        	<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
 				</span>
 			</div>
 		</div>
@@ -119,9 +122,10 @@ description: About us layout
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber" class="mw-social-ico-facebook"></a>
-					<a href="http://www.twitter.com/microweber" class="mw-social-ico-twitter"></a>
-					<a href="http://plux.google.com" class="mw-social-ico-google-plus"></a>				
+					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
 				</span>
 			</div>
 		</div>

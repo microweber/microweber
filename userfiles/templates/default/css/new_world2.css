@@ -5,4 +5,9 @@
 	margin: 0 5px;
 }
 
-.hr-top { margin-top: 0; } 
+.hr-top { margin-top: 0; }
+
+.social-icons2 { 
+	margin: 10px 7px 0 15px;
+	display: inline-block;
+}

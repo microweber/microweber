@@ -515,12 +515,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
     visibility: visible;
 }
 
-.mw-element-name-handle{
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 11px;
-    text-transform: capitalize;
- }
+
 
 .mw_module_helper{
   position: absolute;

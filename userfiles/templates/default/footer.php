@@ -4,15 +4,17 @@
 <div id="footer">
 
     <div class="container">
-          <div class="edit">
+          <div class="edit" rel="global" field="footer">
           <div class="mw-row">
           <div class="mw-col" style="width: 30%">
             <div class="mw-col-container">
                <div class="element" id="footer-social">
                    <h3 class="pull-left">Be Social</h3>
-                   <a href="http://facebook.com/Microweber" target="_blank" class="icon fb"></a>
-                   <a href="http://twitter.com/Microweber" target="_blank" class="icon tw"></a>
-                   <a href="http://youtube.com/Microweber" target="_blank" class="icon yt"></a>
+                   <div class="social-icons2">
+	                   <a href="http://facebook.com/Microweber" target="_blank"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb_b.png", 30, 30); ?>" /></a>
+	                   <a href="http://twitter.com/Microweber" target="_blank"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tt_b.png", 30, 30); ?>" /></a>
+	                   <a href="http://youtube.com/Microweber" target="_blank"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt_b.png", 30, 30); ?>" /></a>
+                   </div>
                </div>
             </div>
           </div>

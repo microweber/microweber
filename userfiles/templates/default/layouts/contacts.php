@@ -39,6 +39,7 @@ description: Contact us layout
       <div class="span5 offset1">
         <div class="edit">
           <h3>Address</h3>
+          <hr>
           <p>
           	10 "Professor Georgi Zlatarski" , bl. B, fl. 3,<br />
           	Sofia 1700,<br />
@@ -51,6 +52,7 @@ description: Contact us layout
             <li><span class="contact-list contact-icon"><img src="<?php print thumbnail(TEMPLATE_URL."img/contact_email_ico.png", 30, 30); ?>" /></span><span>help@microweber.com</span></li>
           </ul>
         </div>
+        <h3>Follow Us</h3>
         <hr>
         <div class="social-icons">
         	<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>

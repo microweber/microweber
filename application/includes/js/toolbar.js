@@ -160,35 +160,35 @@ mw.$(".ts_main_li").mouseleave(function(){
 })
 
 
-mw.$(".ts_main_li .ts_action_item").mouseenter(function(){
-  $(this).parent().find(".ts_action").invisible();
-  $(this).parent().find(".ts_action").css("left", "100%");
-  var toshow = $(this).find(".ts_action:first");
-  var offset = toshow.offset();
-  if(typeof offset === 'object' && offset !== null){
+    mw.$(".ts_main_li .ts_action_item").mouseenter(function(){
+      $(this).parent().find(".ts_action").invisible();
+      $(this).parent().find(".ts_action").css("left", "100%");
+      var toshow = $(this).find(".ts_action:first");
+      var offset = toshow.offset();
+      if(typeof offset === 'object' && offset !== null){
 
-  var width = toshow.outerWidth();
-  var window_w = $(window).width();
-  if((offset.left+width) < window_w){
-    toshow.css({
-       left:"100%",
-       visibility:'visible'
+      var width = toshow.outerWidth();
+      var window_w = $(window).width();
+      if((offset.left+width) < window_w){
+        toshow.css({
+           left:"100%",
+           visibility:'visible'
+        });
+      }
+      else{
+         toshow.css({
+           left:-width,
+           visibility:'visible'
+        });
+      }
+      }
     });
-  }
-  else{
-     toshow.css({
-       left:-width,
-       visibility:'visible'
-    });
-  }
-  }
-});
 
-mw.$(".toolbar_bnav").hover(function(){
-  $(this).addClass("toolbar_bnav_hover");
-}, function(){
-  $(this).removeClass("toolbar_bnav_hover");
-});
+    mw.$(".toolbar_bnav").hover(function(){
+      $(this).addClass("toolbar_bnav_hover");
+    }, function(){
+      $(this).removeClass("toolbar_bnav_hover");
+    });
 
 
 });
@@ -201,17 +201,6 @@ mw.$(".ts_action_item").mouseenter(function(){
        visibility:'visible'
     });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -279,7 +268,7 @@ mw.image = {
                $(mw.image_resizer).resizable( "option", "alsoResize", el);
                $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
                mw.image.currentResizing = el;
-       
+
                mw.wysiwyg.select_element(el[0])
 
         // }

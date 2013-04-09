@@ -329,7 +329,7 @@ ul.dropdown-menu ul.dropdown-menu{
 }
 
 .sidebar-box .nav li.depth-1 ul{
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .sidebar-box .nav li.depth-1 li a{
@@ -342,6 +342,8 @@ ul.dropdown-menu ul.dropdown-menu{
 .sidebar-box .nav li.depth-1 li.active > a{
   text-decoration: underline;
 }
+
+.sidebar-box .nav li.depth-4 ul { margin: 0; font-size: 90%; padding: 0; }
 
 /*Nik Johnson*/
 .pages-nav .nav.nav-pills.nav-stacked li ul{ margin-left: 20px; }

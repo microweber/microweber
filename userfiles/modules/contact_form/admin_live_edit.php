@@ -56,9 +56,18 @@
         <label class="mw-ui-label">BCC Email To</label>
         <input placeholder="Your Email"  name="email_bcc"    value="<? print get_option('email_bcc', $params['id']); ?>"     class="mw_option_field"  type="text" />
       </div>
+      
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Autorespond Subject</label>
+        <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<? print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw_option_field"  type="text" />
+      </div>
+      
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Autorespond Message</label>
-        <textarea  name="email_autorespond"    value="<? print get_option('email_autorespond', $params['id']); ?>"     class="mw_option_field" ></textarea>
+		<textarea id="editorDEMO" name="email_autorespond" class="mw_option_field">
+			<? print get_option('email_autorespond', $params['id']); ?>     
+		</textarea>
+        <script>var editor = mw.tools.iframe_editor(mwd.getElementById('editorDEMO')); editor.style.width = '100%';</script>
         <label class="mw-ui-label"><span class="ico ismall_warn"></span><small>Autorespond e-mail sent back to the user</small></label>
       </div>
     </div>

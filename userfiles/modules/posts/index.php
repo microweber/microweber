@@ -69,7 +69,7 @@ if (isset($post_params['data-show'])) {
 
     $show_fields = $post_params['show'];
 } else {
-    
+
 }
 $show_fields1 = get_option('data-show', $params['id']);
 if ($show_fields1 != false  and is_string($show_fields1)  and trim($show_fields1) != '' ){
@@ -93,7 +93,7 @@ if (!isset($post_params['data-limit'])) {
     	$post_params['limit'] = $lim;
     }
 } else if (!isset($post_params['limit'])) {
-    
+
 }
  $lim = get_option('data-limit', $params['id']);
     if($lim != false){
@@ -192,11 +192,11 @@ if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
 } else if(isset($params['title-length'])){
 	$title_character_limit = intval($params['title-length']);
 }
- 
- 
- 
- 
- 
+
+
+
+
+
 if ($show_fields == false) {
 //$show_fields = array('thumbnail', 'title', 'description', 'read_more');
 }
@@ -232,7 +232,7 @@ if(isset($params['is_shop'])){
 	$post_params['subtype'] = 'product';
 	unset($post_params['is_shop']);
 } else {
-if(!isset($post_params['content_type'])){	
+if(!isset($post_params['content_type'])){
  $post_params['subtype'] = 'post';
 }
 }
@@ -243,10 +243,10 @@ if(!isset($params['order_by'])){
 
  $date_format = get_option('date_format','website');
 if($date_format == false){
-$date_format = "Y-m-d H:i:s";	
+$date_format = "Y-m-d H:i:s";
 }
 if(isset($params['title'])){
- 
+
 	unset($post_params['title']);
 }
   // $post_params['debug'] = 'post';
@@ -259,22 +259,22 @@ if (!empty($content)){
 
 	  foreach ($content as $item){
 		  $iu = get_picture($item['id'], $for = 'post', $full = false);
-		 
+
 			if($iu != false){
 				 $item['image'] = $iu;
 			} else {
 				 $item['image'] = false;
 			}
 			$item['content'] = htmlspecialchars_decode($item['content']);;
-			
+
 			if(isset( $item['created_on']) and  trim($item['created_on']) != ''){
 				$item['created_on'] =  date($date_format, strtotime($item['created_on']));
 			}
-			
+
 			if(isset( $item['updated_on']) and  trim($item['updated_on']) != ''){
 				$item['updated_on'] =  date($date_format, strtotime($item['updated_on']) );
 			}
-			
+
 			$item['link'] = content_link($item['id']);
 			if(!isset( $item['description']) or $item['description'] == ''){
 				if(isset( $item['content']) and $item['content'] != ''){
@@ -286,10 +286,10 @@ if (!empty($content)){
 
 
 	if(isset( $item['title']) and $item['title'] != ''){
-				 
+
 					$item['title'] = character_limiter(( $item['title']),$title_character_limit);
-				 
- 			}  
+
+ 			}
 
 if(isset($post_params['subtype']) and $post_params['subtype'] == 'product'){
 $item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);
@@ -303,7 +303,7 @@ $item['prices'] = false;
 	 }
 // }
 } else {
-	mw_notif_live_edit('Your posts module is empty');	
+	mw_notif_live_edit('Your posts module is empty');
 }
 
 
@@ -311,9 +311,9 @@ $item['prices'] = false;
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
 //$post_params_paging['page_count'] = true;
-//$post_params_paging['data-limit'] = $post_params_paging['limit'] = false; 
+//$post_params_paging['data-limit'] = $post_params_paging['limit'] = false;
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
- 
+
 
 if($cfg_data_hide_paging != 'y'){
 $pages_of_posts = get_content($post_params_paging);
@@ -326,7 +326,7 @@ $paging_links  = false;
 if (intval($pages_count) > 1){
 	//$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
 
-} 
+}
 
 $read_more_text = get_option('data-read-more-text',$params['id']);
 
@@ -339,11 +339,11 @@ if(!isset( $params['return'])){
 	if($module_template == false and isset($params['template'])){
 		$module_template =$params['template'];
 	}
-	
-	
-	
-	 
-	
+
+
+
+
+
 	if($module_template != false){
 		if(strtolower($module_template) == 'none'){
 			if(isset($params['template'])){
@@ -351,29 +351,31 @@ if(!isset( $params['return'])){
 				}
 			}
 			$template_file = module_templates( $config['module'], $module_template);
-	
+
 	} else {
 			$template_file = module_templates( $config['module'], 'default');
-	
+
 	}
-	
-	//d($module_template );
+if($template_file == false){
+	$template_file = module_templates( $config['module'], 'default');
+}
+
 	if(isset($template_file) and is_file($template_file) != false){
 		include($template_file);
-		
+
 		?>
 <?  if(isset($params['is_shop'])):  ?>
 <script type="text/javascript">
 			if(mw.cart == undefined){
 				mw.require("shop.js");
-				
+
 			}
 		</script>
 <? endif; ?>
 <?
 
 	} else {
-	
+
 		mw_notif_live_edit( 'No default template for '.  $config['module'] .' is found');
 	}
 
