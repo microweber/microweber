@@ -94,7 +94,14 @@ $upds = false;
   <? foreach($mods as $k=>$item): ?>
   <? if(!isset($item['installed'])): ?>
   <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<? print $item['id'] ?>" >
-    <? $data = $item; include($config["path"].'update_module.php'); ?>
+  
+  <div class=" module module-admin-modules-edit-module ">
+ <? $data = $item; include($config["path"].'update_module.php'); ?>
+</div>
+
+
+
+   
   </li>
   <? else : ?>
   <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >

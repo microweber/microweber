@@ -51,7 +51,7 @@ if( $id != 0){
         	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
         		mw.reload_module('#<? print $params['id'] ?>');
         		if(window.parent != undefined && window.parent.mw != undefined){
-        			window.parent.mw.reload_module('nav');
+        			window.parent.mw.reload_module('menu');
         		}
         	});
         }
@@ -64,7 +64,7 @@ mw.menu_item_delete = function($item_id){
     	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
     		 	mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
                 if(self !== parent && typeof parent.mw !== 'undefined'){
-    		      window.parent.mw.reload_module('nav');
+    		      window.parent.mw.reload_module('menu');
     	        }
 
     	  });
@@ -95,11 +95,11 @@ if(typeof node === 'object'){
 
 var the_li = mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]');
     var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
-    mw.$('.module-nav-edit-item').remove();
+    mw.$('.module-menu-edit-item').remove();
     the_li.find('.module_item').eq(0).after('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
        $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
        $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<? print $id?>');
-       mw.load_module('nav/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
+       mw.load_module('menu/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
            mw.$('#custom_link_inline_controller').show();
 
            menuSelectorInit("#menu-selector-"+$item_id);
@@ -137,9 +137,9 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
          });
          $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj);
             if(self !== parent && typeof parent.mw !== 'undefined'){
-			    parent.mw.reload_module('nav');
+			    parent.mw.reload_module('menu');
 			 } else {
-			    mw.reload_module('nav');
+			    mw.reload_module('menu');
 			 }
        },
        start:function(a,ui){
@@ -162,5 +162,5 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
 This menu is empty, please add items.
 <? endif; ?>
 <div>
-  <module id="ed_menu_holder" data-type="nav/edit_item" item-id="0" menu-id="<? print $id ?>" />
+  <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<? print $id ?>" />
 </div>

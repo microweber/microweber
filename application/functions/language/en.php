@@ -535,3 +535,7 @@ $language["forgot-password"]= 'Forgot password' ;
 $language["team"]= 'Team' ; 
 $language["page-title"]= 'Page title' ; 
 $language["about-us"]= 'About Us' ; 
+$language["read-more"]= 'Read More' ; 
+$language["read-more"]= 'Read More' ; 
+$language["read-more"]= 'Read More' ; 
+$language["read-more"]= 'Read More' ; 

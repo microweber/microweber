@@ -43,11 +43,11 @@ $(document).ready(function(){
 </script>
 
 <form class="admin-modules-list-form" id="module_admin_settings_form_{rand}">
-  <div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> <span class="mw_module_image_holder">
+  <div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> 
     <? if(isset($data['icon'])):  ?>
     <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
     <? endif; ?>
-    <s class="mw_module_image_shadow"></s> </span> <strong class="mw_module_new">new</strong> </div>
+    <s class="mw_module_image_shadow"></s>  <!--<strong class="mw_module_new">new</strong>--> </div>
   <div class="admin-modules-list-description">
     <h2>
       <? if(isset($data['name'])):  ?>
@@ -55,11 +55,13 @@ $(document).ready(function(){
       <? endif; ?>
     </h2>
     <small><? print $data['module'] ?></small>
-    <p>
+   
       <? if(isset($data['description'])):  ?>
+       <p>
       <? print $data['description'] ?>
+      </p>
       <? endif; ?>
-    </p>
+    
     <a href="<? print admin_url() ?>view:modules/add_module:<? print module_name_encode($data['module']) ?>" class="mw-ui-btn">
     <?php _e("Install"); ?>
     </a></div>

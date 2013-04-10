@@ -480,7 +480,7 @@ function mw_add_product(){
 
 
 
-      <div class="mw_edit_pages_nav" style="height: auto;padding-bottom: 20px;" >
+      <div class="mw_edit_pages_nav">
         <?php
             $view = url_param('view');
             if($view=='shop'){
@@ -500,23 +500,11 @@ function mw_add_product(){
 
 
 
-        <div id="main-nav">
 
 
 
-        <div class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span>ADD NEW</div>
-
-        <div id="main-nav-dropdown">
-             <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span>New Page</span>
-             <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span>New Post</span>
-
-        </div>
-
-    </div>
 
 
-
-      <div style="display: none">
 
 
         <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
@@ -547,7 +535,7 @@ function mw_add_product(){
 
 
 
- </div>
+
 
 
       </div>

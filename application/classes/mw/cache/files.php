@@ -371,7 +371,7 @@ class files implements \iMwCache {
 			return false;
 		} else {
 			//   $cache = base64_decode($cache);
-			$cache = unserialize($cache);
+			$cache = @unserialize($cache);
 			$this -> mw_cache_mem[$cache_group][$cache_id] = $cache;
 			return $cache;
 		}

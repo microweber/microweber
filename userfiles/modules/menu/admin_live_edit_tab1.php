@@ -32,13 +32,13 @@ body.module-settings-page #custom_link_controller{
     max-width: calc(100% - 130px);
 	margin-bottom: 20px;
 }
-.order-has-link .mw-modules-admin li > .module-nav-edit-item {
+.order-has-link .mw-modules-admin li > .module-menu-edit-item {
 	box-shadow: 0 0 17px #555;
 	background: white;
 	padding: 0;
     z-index: 1;
 }
-.order-has-link .mw-modules-admin li > .module-nav-edit-item:hover {
+.order-has-link .mw-modules-admin li > .module-menu-edit-item:hover {
 	background: white;
 }
 
@@ -169,7 +169,7 @@ body.module-settings-page #custom_link_controller{
 
 
   mw.$($selector).attr('menu-name',$menu_id);
-   mw.load_module('nav/edit_items',$selector);
+   mw.load_module('menu/edit_items',$selector);
 
 
  }
@@ -182,8 +182,8 @@ body.module-settings-page #custom_link_controller{
      mw.treeRenderer.appendUI(selector);
      mw.$(selector + ' input[type="radio"]').commuter(function(){
 
-        var content_id =  mw.$(".module-nav-edit-item input[name='content_id']");
-        var categories_id =  mw.$(".module-nav-edit-item input[name='categories_id']");
+        var content_id =  mw.$(".module-menu-edit-item input[name='content_id']");
+        var categories_id =  mw.$(".module-menu-edit-item input[name='categories_id']");
 
         var el = this;
 
@@ -244,9 +244,9 @@ $(document).ready(function(){
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
-        		mw.reload_module('nav/edit_items');
+        		mw.reload_module('menu/edit_items');
         		if(window.parent != undefined && window.parent.mw != undefined){
-        			window.parent.mw.reload_module('nav');
+        			window.parent.mw.reload_module('menu');
         		}
         	});
         }
@@ -321,6 +321,6 @@ You have no exising menus. Please create one.
   <label class="mw-ui-label"><?php _e("Edit existing links/buttons"); ?></label>
 
   <div class="vSpace"></div>
-  <module data-type="nav/edit_items"  menu-name="<?  print $active_menu ?>"  />
+  <module data-type="menu/edit_items"  menu-name="<?  print $active_menu ?>"  />
   <? endif; ?>
 </div>

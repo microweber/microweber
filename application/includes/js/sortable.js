@@ -535,7 +535,15 @@ mw.drag = {
           //var title = el.dataset("filter");
           var title = el.dataset("mw-title");
           //$(mw.handle_module).find(".mw-element-name-handle").html(title);
-          $(mw.handle_module).find(".mw-element-name-handle").html(title);
+
+
+          if(title != ''){
+             $(mw.handle_module).find(".mw-element-name-handle").html(title);
+          }
+          else{
+             $(mw.handle_module).find(".mw-element-name-handle").html("Settings");
+          }
+
           $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
           var o = el.offset();
           var width = el.width();
@@ -554,9 +562,9 @@ mw.drag = {
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_row).css({
-            top:o.top - 35,
-            left:o.left,
-            width:width
+            top: o.top - 35,
+            left: o.left,
+            width: width
           });
           $(mw.handle_row).data("curr", element);
           var size =  $(element).children(".mw-col").length;

@@ -922,10 +922,10 @@ Thumbs.db
 /design/Design/CMS DESIGN/(B) Admin Panel/NEW_DESIGN 2012/Settings/Settings-Theme.psd
 /userfiles/templates/default/blocks11/comments/form_default.php
 /userfiles/templates/default/blocks11/comments/list_default.php
-/userfiles/templates/default/blocks11/nav/breadcrumbs_default.php
-/userfiles/templates/default/blocks11/nav/breadcrumbs_ul.php
-/userfiles/templates/default/blocks11/nav/nav_default.php
-/userfiles/templates/default/blocks11/nav/nav_divs.php
+/userfiles/templates/default/blocks11/menu/breadcrumbs_default.php
+/userfiles/templates/default/blocks11/menu/breadcrumbs_ul.php
+/userfiles/templates/default/blocks11/menu/nav_default.php
+/userfiles/templates/default/blocks11/menu/nav_divs.php
 /userfiles/templates/default/blocks11/users/fb_login.php
 history
 /service/rss/cache

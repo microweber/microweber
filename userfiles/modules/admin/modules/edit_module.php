@@ -81,11 +81,12 @@ $(document).ready(function(){
 <form class="admin-modules-list-form" id="module_admin_settings_form_<? print $params['id']; ?>">
   <div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> <span class="mw_module_image_holder">
     <? if(isset($data['icon'])):  ?>
-    <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." /> <s class="mw_module_image_shadow"></s> </span>
+    <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." /> <s class="mw_module_image_shadow"></s> 
     <? if(mw_check_for_module_update($data['module']) == true): ?>
     <strong class="mw_module_new">new</strong>
     <? endif; ?>
     <? endif; ?>
+    </span>
   </div>
   <div class="admin-modules-list-description">
     <h2 title="<? print $data['module'] ?>">
@@ -93,12 +94,14 @@ $(document).ready(function(){
       <? print $data['name'] ?>
       <? endif; ?>
     </h2>
-    <small title="<? print character_limiter($data['description'],1200); ?>"><? if(isset($data['description'])):  ?>
-      <? print character_limiter($data['description'],120); ?>
-      <? endif; ?></small>
-    <p>
-      
-    </p>
+   
+    <? if(isset($data['description'])):  ?>
+     <small title="<? print addslashes(character_limiter($data['description'],1200)); ?>">
+    <? print character_limiter($data['description'],120); ?>
+     </small>
+    <? endif; ?>
+   
+    <p> </p>
   </div>
   <?php /*   <? if(isset($data['author'])):  ?>
     author : <? print $data['author'] ?><br />
@@ -118,16 +121,15 @@ $(document).ready(function(){
   <input type="hidden" name="position" value="<? print $data['position'] ?>" />
   <span class="admin-modules-list-buttons">
   <? if(mw_check_for_module_update($data['module']) == true): ?>
-     <input class="mw-ui-btn mw-ui-btn-green" name="install" type="button" id="module_update_<? print $params['id']; ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Update"); ?>">
-
-   <? endif; ?>
+  <input class="mw-ui-btn mw-ui-btn-green" name="install" type="button" id="module_update_<? print $params['id']; ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Update"); ?>">
+  <? endif; ?>
   <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($data['module']) ?>" class="mw-ui-btn">
   <?php _e("Settings"); ?>
   </a>
   <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
-  <input class="mw-ui-btn" name="install" type="button" id="module_install_<? print $params['id']; ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Install"); ?>">
+  <input class="mw-ui-btn" name="install" type="button" id="module_install_<? print $params['id']; ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Install"); ?>" />
   <? else : ?>
-  <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<? print $params['id']; ?>" data-module-id="<? print $data['id'] ?>" value="<?php _e("Uninstall"); ?>">
+  <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<? print $params['id']; ?>" data-module-id="<? print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
   <? endif; ?>
   </span>
 </form>

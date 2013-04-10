@@ -62,6 +62,14 @@ if(!isset($tn[1])){
         <? print $item['description']; ?>
       </p>
       <? endif; ?>
+
+      <? if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+        <a href="<? print $item['link'] ?>" class="btn btn-link"><? $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+      <? endif; ?>
+
+
       <div class="product-price-holder clearfix">
         <? if($show_fields == false or in_array('price', $show_fields)): ?>
         <?php if(isset($item['prices']) and isarr($item['prices'])){  ?>

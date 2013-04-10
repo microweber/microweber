@@ -1,7 +1,7 @@
 <?
 
 $config = array();
-$config['name'] = "Menu";
+$config['name'] = "Navigation Menu";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;

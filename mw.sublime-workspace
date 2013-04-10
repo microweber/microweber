@@ -201,13 +201,13 @@
 		"/C/xampp/htdocs/1k/application/functions/parser/04_default.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/pages_menu.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/pictures/admin_backend.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/admin_live_edit.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/admin_live_edit.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/shop/functions.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/custom_fields/admin.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/custom_fields/list.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/edit_item.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/templates/pills.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/templates/navbar.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/edit_item.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/templates/pills.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/templates/navbar.php",
 		"/C/xampp/htdocs/1k/service/sshd_config.txt",
 		"/C/xampp/htdocs/1k/service/rsync/etc_exports.txt",
 		"/C/xampp/htdocs/1k/service/rsync/localmount.txt",
@@ -220,7 +220,7 @@
 		"/C/xampp/htdocs/1k/userfiles/modules/shop/orders/edit_order.php",
 		"/C/xampp/htdocs/1k/application/functions/utils.php",
 		"/C/xampp/htdocs/1k/application/functions/api.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/edit_items.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/edit_items.php",
 		"/C/xampp/htdocs/1k/application/includes/custom_fields/price.php",
 		"/C/xampp/htdocs/1k/application/includes/custom_fields/price_settings.php",
 		"/C/xampp/htdocs/1k/application/includes/api/api.js",
@@ -237,8 +237,8 @@
 		"/C/xampp/htdocs/1k/userfiles/modules/admin/modules/list.php",
 		"/C/xampp/htdocs/1k/application/config_192.168.0.3.php",
 		"/C/xampp/htdocs/1k/userfiles/modules/shop/products/index.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/admin_backend.php",
-		"/C/xampp/htdocs/1k/userfiles/modules/nav/admin.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/admin_backend.php",
+		"/C/xampp/htdocs/1k/userfiles/modules/menu/admin.php",
 		"/C/xampp/htdocs/1k/userfiles/elements/text with picture/03_text_3_column.php"
 	],
 	"find":
@@ -1283,11 +1283,11 @@
 			],
 			[
 				"pills.php",
-				"userfiles/modules/nav/templates/pills.php"
+				"userfiles/modules/menu/templates/pills.php"
 			],
 			[
-				"nav/",
-				"userfiles/modules/nav/edit_item.php"
+				"menu/",
+				"userfiles/modules/menu/edit_item.php"
 			],
 			[
 				"utils.",
@@ -1314,8 +1314,8 @@
 				"userfiles/modules/custom_fields/admin.php"
 			],
 			[
-				"nav/te",
-				"userfiles/modules/nav/templates/pills.php"
+				"menu/te",
+				"userfiles/modules/menu/templates/pills.php"
 			],
 			[
 				"shop/orders",
@@ -1330,16 +1330,16 @@
 				"application/includes/custom_fields/price.php"
 			],
 			[
-				"nav/edit_items",
-				"userfiles/modules/nav/edit_items.php"
+				"menu/edit_items",
+				"userfiles/modules/menu/edit_items.php"
 			],
 			[
-				"nav/ad",
-				"userfiles/modules/nav/admin_live_edit.php"
+				"menu/ad",
+				"userfiles/modules/menu/admin_live_edit.php"
 			],
 			[
-				"nav/admin",
-				"userfiles/modules/nav/admin.php"
+				"menu/admin",
+				"userfiles/modules/menu/admin.php"
 			],
 			[
 				"92",
@@ -1414,8 +1414,8 @@
 				"userfiles/modules/help/helpers/pages_tree.php"
 			],
 			[
-				"nav/fu",
-				"userfiles/modules/nav/functions.php"
+				"menu/fu",
+				"userfiles/modules/menu/functions.php"
 			],
 			[
 				"uti",
