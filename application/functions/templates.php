@@ -84,6 +84,7 @@ function templates_list($options = false) {
 
 	return $to_return;
 }
+
 function layout_link($options = false) {
 	$args = func_get_args();
 	$function_cache_id = '';
@@ -95,31 +96,28 @@ function layout_link($options = false) {
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
 	//get cache from memory
 	$mem = mw_var($cache_id);
-	if($mem !=false){
+	if ($mem != false) {
 
 		return $mem;
 	}
 
-
 	$options = parse_params($options);
 	$fn = false;
 
-	if(isset($options[0])){
+	if (isset($options[0])) {
 		$fn = $options[0];
-	} elseif(isarr($options)) {
+	} elseif (isarr($options)) {
 		$val = current($options);
 		$fn = key($options);
 	}
 
 	$page_url_segment_1 = url_segment(0);
-	$td = TEMPLATEFILES .  $page_url_segment_1;
+	$td = TEMPLATEFILES . $page_url_segment_1;
 	$td_base = $td;
-
 
 	$page_url_segment_2 = url_segment(1);
 	$directly_to_file = false;
 	$page_url_segment_3 = url_segment();
-
 
 	if (!is_dir($td_base)) {
 		array_shift($page_url_segment_3);
@@ -128,13 +126,13 @@ function layout_link($options = false) {
 	} else {
 
 	}
-	if(empty($page_url_segment_3)){
-		$page_url_segment_str =   '';
+	if (empty($page_url_segment_3)) {
+		$page_url_segment_str = '';
 	} else {
-		$page_url_segment_str =$page_url_segment_3[0];
+		$page_url_segment_str = $page_url_segment_3[0];
 	}
 	//$page_url_segment_str = implode('/', $page_url_segment_3);
-	$fn = site_url($page_url_segment_str.'/'.$fn);
+	$fn = site_url($page_url_segment_str . '/' . $fn);
 	//d($page_url_segment_3);
 
 	//set cache in memory
@@ -142,6 +140,7 @@ function layout_link($options = false) {
 
 	return $fn;
 }
+
 function layouts_list($options = false) {
 	$options = parse_params($options);
 	if (!isset($options['path'])) {
@@ -210,16 +209,17 @@ function layouts_list($options = false) {
 			}
 			if ($skip == false) {
 				$fin = file_get_contents($filename);
-
+				$here_dir = dirname($filename) . DS;
 				if (preg_match('/type:.+/', $fin, $regs)) {
 
 					$result = $regs[0];
 					$result = str_ireplace('type:', '', $result);
 					$to_return_temp['type'] = trim($result);
+					$to_return_temp['directory'] = $here_dir;
 
 					if (strtolower($to_return_temp['type']) == 'layout') {
 						$to_return_temp = array();
-
+						$to_return_temp['directory'] = $here_dir;
 						if (preg_match('/is_shop:.+/', $fin, $regs)) {
 							$result = $regs[0];
 							$result = str_ireplace('is_shop:', '', $result);
@@ -230,6 +230,38 @@ function layouts_list($options = false) {
 							$result = $regs[0];
 							$result = str_ireplace('name:', '', $result);
 							$to_return_temp['name'] = trim($result);
+						}
+
+						if (preg_match('/icon:.+/', $fin, $regs)) {
+							$result = $regs[0];
+							$result = str_ireplace('icon:', '', $result);
+							$to_return_temp['icon'] = trim($result);
+							
+							$possible = $here_dir.$to_return_temp['icon'];
+							if(is_file($possible)){
+								$to_return_temp['icon'] = dir2url($possible);
+							} else {
+								unset($to_return_temp['icon']);
+							}
+						}
+
+						if (preg_match('/image:.+/', $fin, $regs)) {
+							$result = $regs[0];
+							$result = str_ireplace('image:', '', $result);
+							$to_return_temp['image'] = trim($result);
+							$possible = $here_dir.$to_return_temp['image'];
+							if(is_file($possible)){
+								$to_return_temp['image'] = dir2url($possible);
+							} else {
+								unset($to_return_temp['image']);
+							}
+
+						}
+
+						if (preg_match('/description:.+/', $fin, $regs)) {
+							$result = $regs[0];
+							$result = str_ireplace('description:', '', $result);
+							$to_return_temp['description'] = trim($result);
 						}
 
 						if (preg_match('/content_type:.+/', $fin, $regs)) {

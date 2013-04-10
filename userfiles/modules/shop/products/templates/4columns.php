@@ -4,9 +4,9 @@
 
 type: layout
 
-name: 3 Columns
+name: 4 Columns
 
-description: 3 Columns
+description: 4 Columns
 
 */
 ?>
@@ -29,7 +29,7 @@ if(!isset($tn[1])){
 
 
 
-<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-3">
+<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-4">
   <? if (!empty($data)): ?>
   <div class="row-fluid">
     <?
@@ -43,8 +43,8 @@ if(!isset($tn[1])){
     ?>
 
 
-    <?php if($count % 3 == 0) { ?><div class="v-space"></div><?php } ?>
-    <div class="span4<?php if($count % 3 == 0) { ?> first <?php } ?>">
+    <?php if($count % 4 == 0) { ?><div class="v-space"></div><?php } ?>
+    <div class="span3<?php if($count % 4 == 0) { ?> first <?php } ?>">
       <? if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
         <span class="valign">
@@ -101,7 +101,7 @@ if(!isset($tn[1])){
         <input type="hidden"  name="content_id" value="<? print $item['id'] ?>" />
       </div>
       <?php break; endforeach ; ?>
-      <?php  endif; ?>
+      <?php endif; ?>
     </div>
     <?  endforeach; ?>
   </div>

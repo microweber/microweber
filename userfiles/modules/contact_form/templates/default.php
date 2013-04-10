@@ -6,7 +6,7 @@ type: layout
 
 name: Default
 
-description: Default
+description: Plain contact form
 
 */
 

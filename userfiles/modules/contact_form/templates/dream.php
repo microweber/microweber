@@ -6,7 +6,11 @@
 
   name: Dream
 
-  description: Dream
+  description: Dream, a modern look
+  
+  icon: dream.png
+  
+  image: dream_big.png
 
 */
 

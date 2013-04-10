@@ -6,7 +6,7 @@
 
   name: Dark
 
-  description: Dark
+  description: Dark theme for your website
 
 */
 

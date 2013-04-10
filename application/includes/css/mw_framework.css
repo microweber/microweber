@@ -232,13 +232,13 @@
 
 
 .mw_edit_settings{
-    background: white url(../img/module_setting.png) no-repeat 3px 3px ;
+    background: white url(../img/module_setting.png) no-repeat 7px 2px ;
     display: inline-block;
     line-break: normal;
     white-space: nowrap;
     font-size: 11px;
     color: #3791E3;
-    padding: 1px 5px 1px 17px;
+    padding: 1px 5px 1px 25px;
     border: 1px solid #D8D8D8;
     line-height: 13px;
     border-radius:2px
@@ -247,7 +247,7 @@
 .mw_edit_settings:hover{
     background-color: #3792E3;
     color: white;
-    background-position: 3px -20px;
+    background-position: 7px -21px;
     border-color: #2680D3;
 }
 

@@ -11,7 +11,19 @@ description: Default
 */
 ?>
 
+<?php
 
+
+$tn = $tn_size;
+if(!isset($tn[0]) or ($tn[0]) == 150){
+     $tn[0] = 250;
+}
+if(!isset($tn[1])){
+     $tn[1] = $tn[0];
+}
+
+
+?>
 
 
 <div class="post-list">
@@ -21,7 +33,7 @@ description: Default
       <div class="row-fluid">
           <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <div class="span4">
-                <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], 270); ?>" class="img-rounded img-polaroid" alt="" ></a>
+                <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
           <? endif; ?>
           <div class="span8">

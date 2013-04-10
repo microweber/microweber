@@ -3,6 +3,8 @@
 if(isset($params['name'])){
 	$params['menu-name'] = $params['name'];
 
+} else {
+$params['menu-name'] = 'header_menu';	
 }
   $menu_name = get_option('menu_name', $params['id']);
 

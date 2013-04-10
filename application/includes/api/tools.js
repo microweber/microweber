@@ -2026,10 +2026,6 @@ _Prefixtest = false;
 
 
 
-
-
-
-
 if (typeof document.hidden !== "undefined") {
 	_mwdochidden = "hidden";
 } else if (typeof document.mozHidden !== "undefined") {

@@ -27,3 +27,8 @@
     <div class="vSpace"></div>
   </div>
 </div>
+
+
+
+    <module type="admin/templates/browse" for="<? print $config["the_module"] ?>"  />
+ <div class="vSpace"></div> <div class="vSpace"></div> <div class="vSpace"></div> <div class="vSpace"></div> <div class="vSpace"></div> <div class="vSpace"></div>
