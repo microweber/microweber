@@ -29,6 +29,8 @@ $(document).ready(function(){
 	        $(form).removeClass("deactivated");
 	         
 	        }, 3200);
+
+            }
      	});
     	return false;
     });

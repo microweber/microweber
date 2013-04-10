@@ -28,7 +28,8 @@ $(document).ready(function(){
 	 mw.$('#user_forgot_password_form{rand}').submit(function() {
 
  
- mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<? print site_url('api') ?>/user_send_forgot_password', function(){
+ mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<? print site_url('api') ?>/user_send_forgot_password', function(a){
+	 
 	         mw.response('#form-holder{rand}',this);
 
 	// mw.reload_module('[data-type="categories"]');
@@ -47,7 +48,7 @@ $(document).ready(function(){
   <h2><a href="javascript:mw.load_module('users/register', '#<? print $params['id'] ?>');">New Registration</a> or <a href="javascript:mw.load_module('users/login', '#<? print $params['id'] ?>');">Login</a></h2>
 </div>
 <div id="form-holder{rand}">
-<h4>Enter your username or email and we will send you password reset link</h4>
+<h4>Enter your username or email</h4>
   <form id="user_forgot_password_form{rand}" method="post" class="clearfix">
    
    

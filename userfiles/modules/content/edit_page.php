@@ -429,6 +429,9 @@ function mw_before_content_save<? print $rand; ?>(){
 
   $id = $id.toString();
 
+
+  mw.cookie.set('back_to_admin','<? print admin_url("view:content#action=editpage:") ?>'+$id);
+
   mw.reload_module('#admin_edit_page_form_<? print $rand; ?> .module[data-type="custom_fields"]');
   if( typeof $id =='string'){
    $id = $id.replace(/"/g, "");
@@ -1051,12 +1054,12 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
           <input name="is_active" type="radio"  value="y" <? if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>Yes</span></label>
         </div>
-        
-        
+
+
      <? /* PAGES ONLY  */ ?>
      <? if($edit_post_mode == false): ?>
      <div class="vSpace"></div>
-     
+
         <div class="mw_clear vSpace"></div>
         <div class="mw-ui-check-selector">
           <div class="mw-ui-label left" style="width: 130px">Is Home?</div>

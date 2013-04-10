@@ -13,9 +13,9 @@
 
 function mw_create_new_list_{rand}(){
 	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>', function(){
-		  
-		  
-	 
+
+
+
         mw.reload_module('<? print $config['module'] ?>');
     }
 
@@ -32,14 +32,16 @@ function mw_create_new_list_{rand}(){
 </script>
 <? $selected_list = get_option('list_id', $params['for-module-id']);
 $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-module']);;
-
- ?>
+  ?>
 <? if(isarr($data )): ?>
 
 <div id="form_dropdown_lists">
   <label class="mw-ui-label">Save form entires to existing list</label>
   <div class="mw-ui-select left" style="width: 250px;">
     <select name="list_id"   class="mw_option_field" option-group="<? print $params['for-module-id'] ?>"  >
+
+<option    value=""  <? if(intval($selected_list) == 0): ?>   selected="selected"  <? endif; ?>>Default list</option>
+
       <? foreach($data  as $item): ?>
       <option    value="<? print $item['id'] ?>"  <? if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <? endif; ?>><? print $item['title'] ?></option>
       <? endforeach ; ?>

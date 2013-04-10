@@ -18,13 +18,13 @@ description: Default
   <? if (!empty($data)): ?>
   <? foreach ($data as $item): ?>
   <div class="well clearfix post-single">
-      <div class="row">
+      <div class="row-fluid">
           <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <div class="span3">
-                <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], 270); ?>" alt="" ></a>
+            <div class="span4">
+                <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], 270); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
           <? endif; ?>
-          <div class="span4">
+          <div class="span8">
               <div class="post-single-title-date">
                   <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                     <h2 class="lead"><a href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h2>

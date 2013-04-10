@@ -469,19 +469,32 @@ mw.serializeFields =  function(id){
 
 mw.response = function(form, data, messages_at_the_bottom){
     var messages_at_the_bottom = messages_at_the_bottom || false;
+
+    if(data == null ||  data == undefined ){
+      return false;
+    }
+
+
     var data = mw.tools.toJSON(data);
+    if(typeof data == 'undefined'){
+
+          return false;
+      }
 
     if(typeof data.error !== 'undefined'){
         mw._response.error(form, data, messages_at_the_bottom);
+        return false;
     }
     else if(typeof data.success !== 'undefined'){
         mw._response.success(form, data, messages_at_the_bottom);
+        return true;
     }
     else if(typeof data.warning !== 'undefined'){
         mw._response.warning(form, data, messages_at_the_bottom);
+        return false;
     }
     else{
-
+return false;
     }
 }
 

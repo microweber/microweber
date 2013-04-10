@@ -71,6 +71,7 @@ function mw_db_init_users_table() {
 
 	$fields_to_add[] = array('profile_url', 'TEXT default NULL');
 	$fields_to_add[] = array('website_url', 'TEXT default NULL');
+	$fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
 	set_db_table($table_name, $fields_to_add);
 
@@ -179,7 +180,7 @@ function register_user($params) {
 			$next = db_last_id($table);
 			$next = intval($next) + 1;
 			$q = "INSERT INTO $table (id,email, password, is_active)
-VALUES ($next, '$email', '$pass', 'n')";
+			VALUES ($next, '$email', '$pass', 'n')";
 			db_q($q);
 			cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
 			//$data = save_user($data);
@@ -371,12 +372,28 @@ function update_user_last_login_time() {
 
 api_expose('social_login_process');
 function social_login_process() {
+	set_exception_handler('social_login_exception_handler');
 	$api = new \mw\auth\Social();
 	$api -> process();
 }
 
+function social_login_exception_handler($exception) {
+ 
+	if (isAjax()) {
+		return array('error' => $exception -> getMessage());
+	}
+	$after_log = session_get('user_after_login');
+	if ($after_log != false) {
+		safe_redirect($after_log);
+	} else {
+		safe_redirect(site_url());
+	}
+ 
+}
+
 api_expose('user_social_login');
 function user_social_login($params) {
+	set_exception_handler('social_login_exception_handler');
 	$params2 = array();
 
 	if (is_string($params)) {
@@ -467,6 +484,60 @@ function user_social_login($params) {
 	}
 }
 
+api_expose('user_reset_password_from_link');
+function user_reset_password_from_link($params) {
+	if (!isset($params['captcha'])) {
+		return array('error' => 'Please enter the captcha answer!');
+	} else {
+		$cap = session_get('captcha');
+		if ($cap == false) {
+			return array('error' => 'You must load a captcha first!');
+		}
+		if ($params['captcha'] != $cap) {
+			return array('error' => 'Invalid captcha answer!');
+		}
+	}
+
+	if (!isset($params['id']) or trim($params['id']) == '') {
+		return array('error' => 'You must send id parameter');
+	}
+
+	if (!isset($params['password_reset_hash']) or trim($params['password_reset_hash']) == '') {
+		return array('error' => 'You must send password_reset_hash parameter');
+	}
+
+	if (!isset($params['pass1']) or trim($params['pass1']) == '') {
+		return array('error' => 'Enter new password!');
+	}
+
+	if (!isset($params['pass2']) or trim($params['pass2']) == '') {
+		return array('error' => 'Enter repeat new password!');
+	}
+
+	if ($params['pass1'] != $params['pass2']) {
+		return array('error' => 'Your passwords does not match!');
+	}
+
+	$data1 = array();
+	$data1['id'] = intval($params['id']);
+	$data1['password_reset_hash'] = db_escape_string($params['password_reset_hash']);
+	$table = MW_DB_TABLE_USERS;
+
+	$check = get_users("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
+	if (!isarr($check)) {
+		return array('error' => 'Invalid data or expired link!');
+	} else {
+		$data1['password'] = $params['pass1'];
+		$data1['password_reset_hash'] = '';
+	}
+
+	mw_var('FORCE_SAVE', $table);
+
+	$save = save_data($table, $data1);
+	return array('success' => 'Your password have been changed!');
+
+}
+
 api_expose('user_send_forgot_password');
 function user_send_forgot_password($params) {
 
@@ -524,22 +595,32 @@ function user_send_forgot_password($params) {
 
 					$subject = "Password reset!";
 					$content = "Hello, <br> ";
-					$content .= "You have requested a password reset link from IP, " . USER_IP . "<br><br> ";
+					$content .= "You have requested a password reset link from IP address: " . USER_IP . "<br><br> ";
 
-					$content .= "on " . curent_url(1) . "<br><br> ";
+					//$content .= "on " . curent_url(1) . "<br><br> ";
 
 					$security = array();
 					$security['ip'] = USER_IP;
 					$security['hash'] = encode_var($data_res);
-					$function_cache_id = md5(serialize($security));
+					$function_cache_id = md5(serialize($security)) . uniqid() . rand();
+					//cache_save($security, $function_cache_id, $cache_group = 'password_reset');
+					if (isset($data_res['id'])) {
+						$data_to_save = array();
+						$data_to_save['id'] = $data_res['id'];
+						$data_to_save['password_reset_hash'] = $function_cache_id;
 
-					cache_save($security, $function_cache_id, $cache_group = 'password_reset');
+						$table = MW_DB_TABLE_USERS;
+						mw_var('FORCE_SAVE', $table);
 
+						$save = save_data($table, $data_to_save);
+					}
 					$pass_reset_link = curent_url(1) . '?reset_password_link=' . $function_cache_id;
 					$content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
 					//d($data_res);
 					mw_mail($to, $subject, $content, true, $no_cache = true);
+
+					return array('success' => 'Your password reset link has been sent to ' . $to);
 				} else {
 					return array('error' => 'Error: the user doesn\'t have a valid email address!');
 				}
@@ -811,13 +892,8 @@ function user_name($user_id = false, $mode = 'full') {
  *        	array();
  * @return array array of users;
  */
-function get_users($params = array()) {
-	$params2 = array();
-
-	if (is_string($params)) {
-		$params = parse_str($params, $params2);
-		$params = $params2;
-	}
+function get_users($params) {
+	$params = parse_params($params);
 
 	$table = MW_TABLE_PREFIX . 'users';
 
@@ -863,27 +939,14 @@ function get_users($params = array()) {
 	if (isset($data['username']) and $data['username'] == '') {
 		//return false;
 	}
-	// p ( $data );
-	// .//p($data);
-	// $get = $this->core_model->fetchDbData ( $table, $data );
-
-	$function_cache_id = false;
-
-	$args = func_get_args();
-	$i = 0;
-	foreach ($args as $k => $v) {
-
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-
-		$i++;
-	}
 
 	// $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-	//  $data ['table'] = $table;
+	$data['table'] = $table;
 	//  $data ['cache_group'] = $cache_group;
-	//  $get = get($data);
 
-	$get = db_get($table, $criteria = $data, $cache_group);
+	$get = get($data);
+
+	//$get = db_get($table, $criteria = $data, $cache_group);
 	// $get = db_get($table, $criteria = $data, $cache_group);
 	// var_dump($get, $function_cache_id, $cache_group);
 	//  cache_save($get, $function_cache_id, $cache_group);
@@ -1037,7 +1100,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                                                                     get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                                                                              get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -1052,7 +1115,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                                     get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                                                                              get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -1118,7 +1181,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                                                     get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                                                              get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -1162,7 +1225,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                                                     get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
+	$more =                                                                              get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -1179,6 +1242,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                                     get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                                                                              get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

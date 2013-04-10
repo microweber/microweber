@@ -52,6 +52,9 @@
     <? if(!isset($_REQUEST['no_toolbar'])): ?>
     <script type="text/javascript">
  		$(document).ready(function() {
+
+        if(self === top){
+
 		window.onhashchange = function() {
 			//alert(window.location.href);
 			mw.cookie.set('back_to_admin',window.location.href);
@@ -60,7 +63,7 @@
 		mw.cookie.set('back_to_admin',window.location.href);
 		
 		
-		
+		}
 		
 		 });
 

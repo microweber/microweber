@@ -4,23 +4,48 @@
 
 type: layout
 
-name: Columns
+name: 3 Columns
 
-description: Columns
+description: 3 Columns
 
 */
 ?>
 
 
+<?php
 
-<div class="clearfix container-fluid module-posts-template-columns">
+
+$tn = $tn_size;
+if(!isset($tn[0]) or ($tn[0]) == 150){
+     $tn[0] = 250;
+}
+if(!isset($tn[1])){
+     $tn[1] = $tn[0];
+}
+
+ ?>
+
+
+
+<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-3">
   <div class="row-fluid">
     <? if (!empty($data)): ?>
-    <? foreach ($data as $item): ?>
-    <div class="span4">
+    <?
+        $count = -1;
+        foreach ($data as $item):
+        $count++;
+    ?>
+
+    <?php if($count % 3 == 0) { ?><div class="v-space"></div><?php } ?>
+
+    <div class="span4<?php if($count % 3 == 0) { ?> first <?php } ?>" >
         <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
-                <img src="<? print thumbnail($item['image'], 290, 210); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" />
+                <span class="valign">
+                    <span class="valign-cell">
+                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<? print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" />
+                    </span>
+                </span>
             </a>
         <? endif; ?>
         <div class="module-posts-head">

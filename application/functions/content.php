@@ -75,7 +75,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('is_shop', "char(1) default 'n'");
 	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
 	$fields_to_add[] = array('draft_of', 'int(11) default NULL');
-	
+
 	$fields_to_add[] = array('require_login', "char(1) default 'n'");
 
 
@@ -211,7 +211,7 @@ function mw_db_init_content_table() {
 
 
 	$table_name = MW_DB_TABLE_MENUS;
-	
+
 	 $fields_to_add = array();
 	$fields_to_add[] = array('title', 'TEXT default NULL');
 	$fields_to_add[] = array('item_type', 'varchar(33) default NULL');
@@ -225,7 +225,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 	$fields_to_add[] = array('url', 'TEXT default NULL');
 	 	set_db_table($table_name, $fields_to_add);
- 
+
 
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
@@ -501,7 +501,7 @@ function get_layout_for_page($page = array()) {
 	 	ksort($page);
 	 }
 	$function_cache_id = $function_cache_id . serialize($page) ;
-	 
+
 
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($page['id']) and intval($page['id']) != 0){
@@ -526,7 +526,7 @@ function get_layout_for_page($page = array()) {
 	if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
 		$test_file = str_replace('___',DS,$page['layout_file']);
 								$render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file ;
- 
+
 						if(is_file($render_file_temp)){
 							$render_file = $render_file_temp;
 						}
@@ -586,13 +586,13 @@ function get_layout_for_page($page = array()) {
 			} else {
 				$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
 								$template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
-				
+
 
 			}
 		} else {
 			$template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
 		   $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
-			
+
 
 
 		}
@@ -600,30 +600,30 @@ function get_layout_for_page($page = array()) {
 
 	if ($render_file == false and isset($page['simply_a_file'])) {
 
-		
-		
+
+
 		$simply_a_file2 = ACTIVE_TEMPLATE_DIR . $page['simply_a_file'];
 		$simply_a_file3 = ACTIVE_TEMPLATE_DIR . 'layouts'.DS.$page['simply_a_file'];
-		
+
 		if ($render_file == false and  is_file($simply_a_file3) == true) {
 			$render_file = $simply_a_file3;
-			
+
 		}
-		
-		
+
+
 		if ($render_file == false and  is_file($simply_a_file2) == true) {
 			$render_file = $simply_a_file2;
-			
+
 		}
-	 
-		
+
+
 		if ($render_file == false and is_file($page['simply_a_file']) == true) {
 			$render_file = $page['simply_a_file'];
 		}
-		// 
-		
-		
-		
+		//
+
+
+
 	}
 	if (!isset($page['active_site_template'])){
 		$page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
@@ -783,22 +783,22 @@ function get_layout_for_page($page = array()) {
 			$render_file = $template_view;
 		}
 	}
-	
+
 	if($render_file == false and $template_view_set_inner != false){
-		
+
 		if(isset($template_view_set_inner2)){
 		$template_view_set_inner2 = normalize_path($template_view_set_inner2, false);
 		if (is_file($template_view_set_inner2) == true) {
 			$render_file = $template_view_set_inner2;
 		}
 		}
-		
+
 		$template_view_set_inner = normalize_path($template_view_set_inner, false);
 		if ($render_file == false and is_file($template_view_set_inner) == true) {
 			$render_file = $template_view_set_inner;
 		}
-		
-	
+
+
 	//d($template_view_set_inner);
 	}
 	//d($render_file);
@@ -969,7 +969,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 		}
 	} else {
 		$content['id'] = ((int)$content['id']);
-	 
+
 		$get_by_id = get_content_by_id($content['id']);
 
 		return $get_by_id;
@@ -1005,7 +1005,7 @@ function get_content_by_id($id) {
 	//$params['debug'] = 1;
 	$params['cache_group'] = 'content/'.$id;
 
- 
+
 
 	 $q = get($params);
 
@@ -1484,13 +1484,13 @@ function paging($params) {
 		$paging_param = $params['paging_param'];
 	}
 	 $curent_page_from_url = url_param($paging_param);
- 
+
 	$data = paging_links($base_url, $pages_count, $paging_param,$keyword_param);
 	if(isarr($data)){
 		$to_print = "<div class='pagination'><ul>";
 		foreach ($data as $key => $value) {
 			$act_class = '';
-			
+
 			if( $curent_page_from_url != false){
 				if(intval( $curent_page_from_url) == intval($key)){
 					$act_class = ' class="active" ';
@@ -1579,18 +1579,18 @@ function save_edit($post_data) {
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
  		$ref_page2 = get_content_by_url($ref_page_url, true);
- 
- 
+
+
  		if($ref_page2 == false){
- 
+
  				$ustr = url_string(1);;
 			 if(is_module_installed($ustr)){
 			 	$ref_page = false;
 			 }
-			
+
 		}
- 
- 
+
+
 		if($ref_page == false){
 
 
@@ -1670,10 +1670,10 @@ function save_edit($post_data) {
 					if (isset($the_field_data['attributes']['field'])) {
 						$field = trim($the_field_data['attributes']['field']);
 						//$the_field_data['attributes']['rel'] = $field;
-						
-						
+
+
 					}
- 
+
 					if (isset($the_field_data['attributes']['data-field'])) {
 						$field = $the_field_data['attributes']['field'] = trim($the_field_data['attributes']['data-field']);
 					}
@@ -1703,10 +1703,10 @@ function save_edit($post_data) {
 					} else {
 						$save_layout = false;
 					}
-					
-					
-					
-					
+
+
+
+
 					if(!isset($the_field_data['attributes']['data-id'])){
 						$the_field_data['attributes']['data-id'] = $content_id;
 					}
@@ -1752,7 +1752,7 @@ function save_edit($post_data) {
 						$inh = content_get_inherited_parent($page_id);
 						if($inh != false){
 							$content_id_for_con_field = $content_id = $inh;
-						 	
+
 						}
 
 					}
@@ -1766,7 +1766,7 @@ function save_edit($post_data) {
 
 					$save_layout = false;
 					if($inh  == false and !isset($content_id_for_con_field)){
-						
+
 						if(isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post'){
 							$content_id_for_con_field = intval($ref_page['parent']);
 						// d($content_id);
@@ -1840,7 +1840,7 @@ function save_edit($post_data) {
 					} else {
 
 						$cont_field = array();
-						 
+
 						$cont_field['rel'] = $the_field_data['attributes']['rel'];
 						$cont_field['rel_id'] = 0;
 						if($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])){
@@ -2226,18 +2226,18 @@ function save_content($data, $delete_the_cache = true) {
 		}
 
 
- 
+
 
 
 		if (is_array($par_page)) {
- 
+
 
 
 			if($par_page['subtype'] == 'static'){
 				$par_page_new = array();
 				$par_page_new['id'] = $par_page['id'];
 				$par_page_new['subtype'] = 'dynamic';
-				 
+
 				$par_page_new = save_data($table, $par_page_new);
 				$cats_modified = true;
 			}
@@ -2280,12 +2280,12 @@ function save_content($data, $delete_the_cache = true) {
 	if (isset($data_to_save['content'])) {
 		if(trim($data_to_save['content']) == '' or $data_to_save['content'] == false){
 			unset($data_to_save['content']);
-	//	
+	//
 		} else {
 			$data_to_save['content'] = make_microweber_tags($data_to_save['content']);
 		}
 	}
- 
+
  //$data_to_save['debug'] = 1;
 	$cats_modified = true;
 	$save = save_data($table, $data_to_save);
@@ -2325,7 +2325,7 @@ function save_content($data, $delete_the_cache = true) {
 
 	";
 
- 
+
 	db_q($clean);
 	cache_clean_group('custom_fields');
 
@@ -2569,6 +2569,14 @@ function get_content_field($data, $debug = false) {
  * $pt_opts['parent'] = "8"; //
  * $pt_opts['include_first'] =  true; //includes the parent in the tree
  * $pt_opts['id_prefix'] = 'my_id';
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false) {
@@ -2630,7 +2638,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	} else if (isset($params['maxdepth'])) {
 		$max_level =  $params['max_level'] = $params['maxdepth'];
 	}
-	
+
  	if ($max_level != false) {
 
 		if (intval($nest_level) >= intval($max_level)) {
@@ -2743,8 +2751,8 @@ if (isset($params['include_categories'])) {
 	if (isset($params['active_class'])) {
 		$the_active_class = $params['active_class'];
 	}
-	
- 
+
+
 	//	$params['debug'] = $parent;
 	//
 	$params['content_type'] = 'page';
@@ -2881,14 +2889,14 @@ if (isset($params['include_categories'])) {
 					$content_type_li_class .= ' is_shop';
 				}
 				$iid = $item['id'];
-				
+
 				if(isset($item['is_active']) and $item['is_active'] == 'n'){
-					
+
 					$li_class =$li_class. ' content-unpublished ';
 				}
-				
-				
-				
+
+
+
 				$to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
 
 				if ($link != false) {
@@ -3044,18 +3052,18 @@ if (isset($params['include_categories'])) {
 					$params['nest_level'] = $nest_level;
 					$params['ul_class_name'] = false;
 					$params['ul_class'] = false;
-					
+
 					if (isset($params['ul_class_deep'])) {
 						 $params['ul_class']= $params['ul_class_deep'];
 					}
-					
+
 					if (isset($maxdepth)) {
 							$params['maxdepth'] = $maxdepth;
 						}
-					
-					
-					
-					
+
+
+
+
 					if (isset($params['li_class_deep'])) {
 						 $params['li_class']= $params['li_class_deep'];
 					}
@@ -3078,7 +3086,7 @@ if (isset($params['include_categories'])) {
 
 					}
 
- 
+
 
 
 					$cat_params = array();
@@ -3116,34 +3124,34 @@ if (isset($params['include_categories'])) {
 					if ($max_level != false) {
 						$cat_params['max_level'] = $max_level;
 					}
-					
-					
-					
+
+
+
 					if($nest_level > 1){
 						if (isset($params['ul_class_deep'])) {
 							 $cat_params['ul_class']= $params['ul_class_deep'];
 						}
-			 								
-					
+
+
 						if (isset($params['li_class_deep'])) {
 							 $cat_params['li_class']= $params['li_class_deep'];
 						}
-					
+
 					} else {
-						
-						
+
+
 						if (isset($params['ul_class'])) {
 							 $cat_params['ul_class']= $params['ul_class'];
 						}
-			 								
-					
+
+
 						if (isset($params['li_class'])) {
 							 $cat_params['li_class']= $params['li_class'];
 						}
-						
-						
+
+
 					}
-					
+
 					if (isset($debug)) {
 
 					}
@@ -3324,7 +3332,7 @@ function content_set_published($params){
 	} else {
 		if(is_admin() == false){
 		return array('error' => 'You must be admin!');
-			
+
 		} else {
 			$save = array();
 			$save['id'] = intval($params['id']);
@@ -3332,7 +3340,7 @@ function content_set_published($params){
 			$save_data = save_content($save);
 			return ($save_data);
 		}
-		
+
 	}
 
 }
@@ -3344,7 +3352,7 @@ function content_set_unpublished($params){
 	} else {
 		if(is_admin() == false){
 		return array('error' => 'You must be admin!');
-			
+
 		} else {
 			$save = array();
 			$save['id'] = intval($params['id']);
@@ -3352,7 +3360,7 @@ function content_set_unpublished($params){
 			$save_data = save_content($save);
 			return ($save_data);
 		}
-		
+
 	}
 
 }

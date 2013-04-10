@@ -61,17 +61,17 @@ description: About us layout
 		<div class="mw-col" style="width:25%" align="center">
 		<div class="mw-col-container our-team">
 			<div class="element">
-				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
 				<p class="element"><strong>Team Member</strong></p>
 				<p class="element"><em>Current Position</em></p>
 				<div class="element"><hr class="visible-desktop column-hr"></div>
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
-					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
+					<a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://youtube.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
 				</span>
 			</div>
 		</div>
@@ -79,17 +79,17 @@ description: About us layout
 		<div class="mw-col" style="width:25%" align="center">
 		<div class="mw-col-container our-team">
 			<div class="element">
-				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<img  class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
 				<p class="element"><strong>Team Member</strong></p>
 				<p class="element"><em>Current Position</em></p>
 				<div class="element"><hr class="visible-desktop column-hr"></div>
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
-					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
+					<a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://youtube.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
 				</span>
 			</div>
 		</div>
@@ -97,17 +97,17 @@ description: About us layout
 		<div class="mw-col" style="width:25%" align="center">
 		<div class="mw-col-container our-team">
 			<div class="element">
-				<img style="margin-bottom: 15px;"  class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<img  class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
 				<p class="element"><strong>Team Member</strong></p>
 				<p class="element"><em>Current Position</em></p>
 				<div class="element"><hr class="visible-desktop column-hr"></div>
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-		        	<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
-					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
+					<a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://youtube.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
 				</span>
 			</div>
 		</div>
@@ -115,17 +115,17 @@ description: About us layout
 		<div class="mw-col" style="width:25%" align="center">
 		<div class="mw-col-container our-team">
 			<div class="element">
-				<img style="margin-bottom: 15px;" class="img-rounded img-polaroid" src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 170, 170); ?>" height="170" />
+				<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
 				<p class="element"><strong>Team Member</strong></p>
 				<p class="element"><em>Current Position</em></p>
 				<div class="element"><hr class="visible-desktop column-hr"></div>
 				<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 				<div class="clear"></div>
 				<span class="element">
-					<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
-					<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
-					<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>			
+					<a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
+					<a target="_blank" href="http://youtube.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
 				</span>
 			</div>
 		</div>

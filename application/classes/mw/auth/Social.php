@@ -18,13 +18,22 @@ class Social {
 
 	}
 
+	public function isUserConnected() {
+		return $this -> api -> isUserConnected();
+	}
+
 	function process() {
 		$class = $this -> here . DS . 'hybridauth' . DS . 'Hybrid/Auth.php';
 		require_once ($class);
 		$class = $this -> here . DS . 'hybridauth' . DS . 'Hybrid/Endpoint.php';
 		require_once ($class);
-
-		Hybrid_Endpoint::process();
+	 
+		 $res = Hybrid_Endpoint::process();
+		 
+		
+		//$err = Hybrid_Auth::isUserConnected();
+		//var_dump($err);
+		exit();
 
 	}
 
