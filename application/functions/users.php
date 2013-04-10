@@ -373,8 +373,16 @@ function update_user_last_login_time() {
 api_expose('social_login_process');
 function social_login_process() {
 	set_exception_handler('social_login_exception_handler');
+	
+	 
 	$api = new \mw\auth\Social();
 	$api -> process();
+	
+	 
+	// d($err);
+	//$err= $api->is_error();
+	 
+	
 }
 
 function social_login_exception_handler($exception) {
@@ -382,6 +390,10 @@ function social_login_exception_handler($exception) {
 	if (isAjax()) {
 		return array('error' => $exception -> getMessage());
 	}
+	
+	
+	
+	
 	$after_log = session_get('user_after_login');
 	if ($after_log != false) {
 		safe_redirect($after_log);

@@ -470,7 +470,17 @@ function mw_add_product(){
 <div id="mw_edit_pages">
   <div id="mw_edit_pages_content">
     <div class="mw_edit_page_left" id="mw_edit_page_left">
-      <div class="mw_edit_pages_nav">
+
+
+
+
+
+
+
+
+
+
+      <div class="mw_edit_pages_nav" style="height: auto;padding-bottom: 20px;" >
         <?php
             $view = url_param('view');
             if($view=='shop'){
@@ -478,11 +488,37 @@ function mw_add_product(){
         <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
         <?php _e("My Online Shop"); ?>
         </a>
+
+
+
+
         <?php } else { ?>
         <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
         <?php _e("Website  Navigation"); ?>
         </a>
         <?php } ?>
+
+
+
+        <div id="main-nav">
+
+
+
+        <div class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span>ADD NEW</div>
+
+        <div id="main-nav-dropdown">
+             <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span>New Page</span>
+             <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span>New Post</span>
+
+        </div>
+
+    </div>
+
+
+
+      <div style="display: none">
+
+
         <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
@@ -508,7 +544,21 @@ function mw_add_product(){
         <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
         <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
  */ ?>
+
+
+
+ </div>
+
+
       </div>
+
+
+
+
+
+
+
+
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?
 	  $is_shop_str = '';

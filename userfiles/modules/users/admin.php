@@ -89,10 +89,12 @@ _mw_admin_users_manage = function(){
 
     var holder = mw.$('#users_admin_panel');
 
-    var arr = ['data-show-ui','data-search-keyword','data-category','data-installed'], i=0, l=arr.length;
+    var arr = ['data-show-ui','data-search-keyword','data-category','data-installed', 'is_admin', 'is_active'], i=0, l=arr.length;
 
-    var sync = ['ui','search','category','installed'];
-
+    var sync = ['ui','search','category','installed', 'mw-users-is-admin', 'mw-users-is-active'];
+ 
+	
+ 
     for( ; i<l; i++){
         holder.removeAttr(arr[i]);
     }
@@ -273,7 +275,7 @@ $(document).ready(function(){
         </li>
         <li>
           <label class="mw-ui-check">
-            <input name="sortby"  class="mw_users_filter_show"  type="radio" value="created_on desc" onchange="mw.url.windowHashParam('sortby', this.value)" />
+            <input name="sortby"  class="mw_users_filter_show"  type="radio" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)" />
             <span></span><span>Last login</span></label>
         </li>
         <li>

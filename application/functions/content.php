@@ -1471,6 +1471,7 @@ function paging($params) {
 	$base_url = false;
 	$paging_param = 'curent_page';
 	$keyword_param = 'keyword_param';
+	$class = 'pagination';
 	if(isset($params['num'])){
 		$pages_count = $params['num'];
 	}
@@ -1480,14 +1481,22 @@ function paging($params) {
 		$pages_count = $params['num'];
 	}
 
+	if(isset($params['class'])){
+		$class = $params['class'];
+	}
+	
 	if(isset($params['paging_param'])){
 		$paging_param = $params['paging_param'];
 	}
 	 $curent_page_from_url = url_param($paging_param);
-
+	 
+	 	if(isset($params['curent_page'])){
+		$curent_page_from_url = $params['curent_page'];
+	}
+ 
 	$data = paging_links($base_url, $pages_count, $paging_param,$keyword_param);
 	if(isarr($data)){
-		$to_print = "<div class='pagination'><ul>";
+		$to_print = "<div class='{$class}'><ul>";
 		foreach ($data as $key => $value) {
 			$act_class = '';
 
@@ -1497,7 +1506,7 @@ function paging($params) {
 				}
 			}
 			$to_print .= "<li {$act_class}>";
-			$to_print .= "<a href=\"$value\">$key</a> ";
+			$to_print .= "<a {$act_class} href=\"$value\">$key</a> ";
 			$to_print .= "</li>";
 		}
 		$to_print .= "</ul></div>";

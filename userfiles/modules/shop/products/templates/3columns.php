@@ -4,28 +4,62 @@
 
 type: layout
 
-name: Default
+name: 3 Columns
 
-description: Default
+description: 3 Columns
 
 */
 ?>
 
-<div class="clearfix container-fluid module-posts-template-columns">
+
+
+<?php
+
+
+$tn = $tn_size;
+if(!isset($tn[0]) or ($tn[0]) == 150){
+     $tn[0] = 250;
+}
+if(!isset($tn[1])){
+     $tn[1] = $tn[0];
+}
+
+
+?>
+
+
+
+<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-3">
   <? if (!empty($data)): ?>
   <div class="row-fluid">
-    <?  $j=1;  foreach ($data as $item): ?>
-    <? $i=1 ; ?>
-    <div class="span4">
+    <?
+
+
+        $count = -1;
+    foreach ($data as $item):
+
+     $count++;
+
+    ?>
+
+
+    <?php if($count % 3 == 0) { ?><div class="v-space"></div><?php } ?>
+    <div class="span4<?php if($count % 3 == 0) { ?> first <?php } ?>">
       <? if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
-      <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>"> <span class="valign"><img src="<? print thumbnail($item['image'], 290, 210); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  /></span> </a>
+      <a class="img-polaroid img-rounded" href="<? print $item['link'] ?>">
+        <span class="valign">
+            <span class="valign-cell">
+                <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<? print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<? print $item['title'] ?>" title="<? print $item['title'] ?>"  />
+            </span>
+        </span>
+      </a>
       <? endif; ?>
       <? if($show_fields == false or in_array('title', $show_fields)): ?>
       <h3><a  class="lead" href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h3>
       <? endif; ?>
       <? if($show_fields != false and ($show_fields != false and  in_array('description', $show_fields))): ?>
       <p class="description">
-        <?  print $item['description'] ?>
+        <? print $item['description']; ?>
       </p>
       <? endif; ?>
       <div class="product-price-holder clearfix">
@@ -33,7 +67,6 @@ description: Default
         <?php if(isset($item['prices']) and isarr($item['prices'])){  ?>
         <span class="price"><? print currency_format(array_shift(array_values($item['prices']))); ?></span>
         <?php } else{ ?>
-
 
         <?php } ?>
         <? endif; ?>
@@ -59,14 +92,11 @@ description: Default
       </div>
       <?
 			break;
-			$i++; endforeach ; ?>
+			 endforeach ; ?>
       <?  endif; ?>
     </div>
-    <?  if($j % 3 == 0):  ?>
-  </div>
-  <div class="row-fluid">
-    <?  endif; ?>
-    <?  $j++; endforeach; ?>
+
+    <?  endforeach; ?>
   </div>
   <? endif; ?>
 </div>

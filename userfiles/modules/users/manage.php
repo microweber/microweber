@@ -15,12 +15,33 @@ $user_params['is_active'] =$params['is_active'];
 if(isset($params['search'])){
 $user_params['search_by_keyword'] =$params['search'];
 }
+$users_per_page = 100;
+ //$user_params['debug'] = 1;
+$paging_param = $params['id'].'_page';
+ $curent_page_from_url = url_param($paging_param);
+ 
+ 
+	if( intval( $curent_page_from_url) > 0){
+	$user_params['curent_page'] = intval( $curent_page_from_url);
 
-//$user_params['debug'] = 1;
+	}
+ 
+$user_params['limit'] =   $users_per_page; 
+ 
 $data = get_users($user_params);
 
+
+		 
+		 $paging_data  = $user_params;
+		 $paging_data['page_count']  = true;
+ 		 $paging = get_comments( $paging_data);
+		 
+		 
  
- ?><? if(isarr($data )): ?>
+ ?>
+
+ 
+ <? if(isarr($data )): ?>
 
 <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%">
   <thead>
@@ -78,6 +99,9 @@ $data = get_users($user_params);
  <? endforeach ; ?>
   </tbody>
 </table>
+ <? if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
+    <? print paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
+    <? endif; ?>
 <? endif; ?>
 
 

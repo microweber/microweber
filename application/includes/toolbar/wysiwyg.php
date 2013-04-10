@@ -127,7 +127,12 @@
 
             <span class="mw_editor_btn mw_editor_element" title="Create Draggable Element from selected text." data-command="custom-createelement"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span></span>
+            <?php /* <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span>Design</span> */ ?>
+
+            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ico"></span>Design</span>
+
+
+
 
             </div>
 

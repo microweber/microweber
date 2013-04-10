@@ -19,6 +19,13 @@ class MwController {
 		if ($this -> page_url != false) {
 			$page_url = $this -> page_url;
 		}
+		
+		
+		 if(strtolower($page_url) == 'index.php'){
+		 	$page_url = '';
+		 }
+		
+		
 		$page = false;
 		$page_url = rtrim($page_url, '/');
 		$is_admin = is_admin();

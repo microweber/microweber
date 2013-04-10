@@ -11,14 +11,16 @@ if(!isset($params["data-page-id"])){
 }
 
 $data = false;
-if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
+if(!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 
  $data = get_content_by_id($params["data-page-id"]);
+} else {
+//	$data = $params;
 }
 
 
-if($data == false or empty($data )){
+if(!isset($params["layout_file"]) and $data == false or empty($data )){
   include('_empty_content_data.php');
 }
 
@@ -32,10 +34,10 @@ if(isset($data['active_site_template']) and $data['active_site_template'] == '')
 if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
   $data['layout_file'] = $params["layout_file"] ;
 }
-
+ 
 $inherit_from = false;
 
-// d($data['layout_file']);
+ 
 if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit')){
 
   if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
@@ -352,7 +354,7 @@ $(document).ready(function() {
 
   <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<? if( isset($params['small'])): ?>display:none;<? endif; ?>">
     <label class="mw-ui-label">
-      <?php _e("Template"); ?>
+      <?php _e("Template");   ?>
     </label>
     <div class="mw-ui-select" style="width: 235px">
       <? if($templates != false and !empty($templates)): ?>
@@ -378,6 +380,8 @@ $(document).ready(function() {
 <? if(('' != trim($data['layout_file']))): ?>
 <? $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
 <? endif; ?>
+
+ 
 
 <div style="display: none">
   <select name="layout_file"     id="active_site_layout_<? print $rand; ?>"

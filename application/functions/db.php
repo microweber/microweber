@@ -1039,6 +1039,8 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		}
 	}
 
+
+if($count_only == false){
 	if (isset($criteria['order_by'])) {
 		$orderby = $criteria['order_by'];
 		if (is_string($orderby)) {
@@ -1052,6 +1054,10 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 			$orderby = db_escape_string($orderby);
 		}
 	}
+	
+	}
+	
+	
 	$is_in_table = false;
 	if (isset($criteria['in_table'])) {
 

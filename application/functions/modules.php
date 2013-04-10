@@ -426,7 +426,7 @@ function save_element_to_db($data_to_save) {
 		return false;
 	}
 	if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-		exit(d($data_to_save));
+		exit(__FILE__.__LINE__.d($data_to_save));
 	}
 
 	$table = MW_TABLE_PREFIX . 'elements';
@@ -447,6 +447,7 @@ function save_element_to_db($data_to_save) {
 				$save = get_elements_from_db('limit=1&module=' . $s["module"]);
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = $save[0]["id"];
+					$save = save_data($table, $s);
 				} else {
 					$save = save_data($table, $s);
 				}
@@ -456,7 +457,7 @@ function save_element_to_db($data_to_save) {
 		}
 
 		//
-		//d($s);
+		// d($s);
 	}
 
 	if ($save != false) {
@@ -1336,7 +1337,7 @@ function scan_for_modules($options = false) {
 					if (trim($config['module']) != '') {
 
 						if ($list_as_element == true) {
-
+ 
 							save_element_to_db($config);
 						} else {
 							//d($config);

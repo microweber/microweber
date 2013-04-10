@@ -855,6 +855,27 @@ form .shipping-country-row:first-child{
 }
 
 
+#main-nav{
+  position: relative;
+  padding:20px 0;
+  text-align: center; /*
+  border-bottom: 1px solid #E2E2E2;
+  box-shadow: 0 1px 0 #fff;     */
+}
+
+
+#main-nav .mw-ui-btn{
+    font-size: 14px;
+    width: 200px;
+    padding: 10px;
+    margin: auto;
+}
+#main-nav .mw-ui-btn .ico{
+  top: 0;
+  float: none;
+}
+
+
 
 
 
