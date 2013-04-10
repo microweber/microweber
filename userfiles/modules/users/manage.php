@@ -11,12 +11,7 @@ $user_params['is_admin'] =$params['is_admin'];
 if(isset($params['is_active'])){
 $user_params['is_active'] =$params['is_active'];
 }
-
-if(isset($params['search'])){
-$user_params['search_by_keyword'] =$params['search'];
-}
 $users_per_page = 100;
- //$user_params['debug'] = 1;
 $paging_param = $params['id'].'_page';
  $curent_page_from_url = url_param($paging_param);
  
@@ -26,6 +21,14 @@ $paging_param = $params['id'].'_page';
 
 	}
  
+if(isset($params['search'])){
+$user_params['search_by_keyword'] =$params['search'];
+$users_per_page = 1000;
+$user_params['curent_page'] = 1;
+}
+
+ //$user_params['debug'] = 1;
+
 $user_params['limit'] =   $users_per_page; 
  
 $data = get_users($user_params);
@@ -34,7 +37,7 @@ $data = get_users($user_params);
 		 
 		 $paging_data  = $user_params;
 		 $paging_data['page_count']  = true;
- 		 $paging = get_comments( $paging_data);
+ 		 $paging = get_users( $paging_data);
 		 
 		 
  
