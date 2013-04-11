@@ -1,4 +1,5 @@
 <?  
+
 only_admin_access();
  
 $set_content_type = 'post';
@@ -31,15 +32,16 @@ $rand = uniqid(); ?>
 <? if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
 
 
-<label class="mw-ui-label">Display <? print pluralize($set_content_type) ?> from</label>
+<label class="mw-ui-label">Display <? print pluralize($set_content_type) ?> from page</label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-page-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"  >
-    <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
+  <select name="data-page-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"   >
+    <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>All pages</option>
     <?
 $pt_opts = array();
-$pt_opts['link'] = "{title}";
+  $pt_opts['link'] = "{empty}{title}";
 $pt_opts['list_tag'] = " ";
 $pt_opts['list_item_tag'] = "option";
+//$pt_opts['include_categories'] = "option";
 $pt_opts['active_ids'] = $posts_parent_page;
 $pt_opts['remove_ids'] = $params['id'];
 $pt_opts['active_code_tag'] = '   selected="selected"  ';
@@ -56,6 +58,38 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   ?>
   </select>
 </div>
+
+
+<? if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
+
+<?php $posts_parent_category =  get_option('data-category-id', $params['id']); ?>
+
+<label class="mw-ui-label">Show only from category</label>
+<div class="mw-ui-select" style="width: 100%;">
+  <select name="data-category-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"   >
+    <option     <? if((0 == intval($posts_parent_category))): ?>   selected="selected"  <? endif; ?>>Select a category</option>
+    <?
+$pt_opts = array();
+  $pt_opts['link'] = "{empty}{title}";
+$pt_opts['list_tag'] = " ";
+$pt_opts['list_item_tag'] = "option";
+ $pt_opts['active_ids'] = $posts_parent_category;
+ $pt_opts['active_code_tag'] = '   selected="selected"  ';
+ 
+$pt_opts['rel'] = 'content';
+$pt_opts['rel_id'] = $posts_parent_page;
+ 
+ category_tree($pt_opts);
+
+  ?>
+  </select>
+</div>
+
+
+
+<? endif; ?>
+
+
 <?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);

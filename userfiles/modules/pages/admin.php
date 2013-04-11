@@ -44,8 +44,8 @@ $pt_opts = array();
 		<span class="left label-arrow" style="margin-left: 45px;"></span>
 		<div class="right mw-ui-select" style="width: 75px; min-width: 0;">
         	<select name="include_categories" class="mw_option_field">
-        		<option value="y"  <? if('y'==  $include_categories): ?>   selected="selected"  <? endif; ?>   selected>Yes</option>
-	        	<option value="n"  <? if ('y'!= $include_categories): ?>   selected="selected"  <? endif; ?>  selected>No</option>
+        		<option value="y"  <? if('y'==  $include_categories): ?>   selected="selected"  <? endif; ?> >Yes</option>
+	        	<option value="n"  <? if ('y'!= $include_categories): ?>   selected="selected"  <? endif; ?> >No</option>
         	</select><br />
 		</div>
 		<div class="mw_clear vSpace"></div>

@@ -36,20 +36,16 @@ if(!isset($tn[1])){
               <? endif; ?>
               </a>
               <div class="media-body extra-wrap">
-              <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-               <strong><a href="<? print $item['link'] ?>" class="media-heading"><? print $item['title'] ?></a></strong>
+               <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
+                    <h5><a class="link media-heading" href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h5>
                <? endif; ?>
-
                 <? if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
                     <small class="date"><? print $item['created_on'] ?></small>
                 <?php endif; ?>
 
                <? if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-               <p><? print $item['description'] ?></p>
+                    <p><? print $item['description'] ?></p>
                <? endif; ?>
-
-
-
 
                 <? if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
                     <a href="<? print $item['link'] ?>" class="btn btn-mini"><? $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?></a>
@@ -62,12 +58,7 @@ if(!isset($tn[1])){
 </div>
 <? if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
     <? print paging("num={$pages_count}&paging_param={$paging_param}") ?>
-
  <? endif; ?>
-
-
-
-
 
 
 

@@ -689,8 +689,8 @@ form .shipping-country-row:first-child{
     height: 15px;
 }
 
-#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{
-
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i.have_category{
+    background: url(../img/tree.cat.png) no-repeat;
 }
 
 

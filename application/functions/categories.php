@@ -149,7 +149,7 @@ function category_tree($params = false) {
 	if ($link == false) {
 		$link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
 	}
-	
+	$link = str_replace('data-page-id', 'data-category-id', $link);
 	
 	
 
@@ -610,10 +610,10 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 					if ($li_class_name == false) {
 
-						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'  data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}'>";
+						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}'>";
 					} else {
 
-						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'   >";
+						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'   >";
 					}
 				}
 
@@ -622,20 +622,46 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 					if ($link != false) {
 
 						$to_print = false;
+						
+						
+							$empty1 =  intval($depth_level_counter);
+					$empty = '';
+					for ($i1=0; $i1 < $empty1; $i1++) {
+						$empty = $empty.'&nbsp;&nbsp;';
+					}
+					
+					$ext_classes = '';
+				
 
 						$to_print = str_ireplace('{id}', $item['id'], $link);
 						$to_print = str_ireplace('{url}', category_link($item['id']), $to_print);
-
+						$to_print= str_replace('{exteded_classes}', $ext_classes, $to_print);
+					
 						$to_print = str_ireplace('{categories_url}', category_link($item['id']), $to_print);
 						$to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
 
 						$to_print = str_ireplace('{title}', $item['title'], $to_print);
+						
+						
+								$active_parent_class = '';
+					//if(isset($item['parent']) and intval($item['parent']) != 0){
+					if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
+						$active_parent_class = 'active-parent';
+					} 	  else {
+						$active_parent_class = '';
+				 	}
+					$active_class = 'active';	
+						
+						$to_print = str_replace('{active_class}', $active_class, $to_print);
+					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
 
 						//$to_print = str_ireplace('{title2}', $item ['title2'], $to_print);
 						// $to_print = str_ireplace('{title3}', $item ['title3'], $to_print);
 
 						$to_print = str_ireplace('{categories_content_type}', trim($item['categories_content_type']), $to_print);
-
+ $to_print = str_replace('{empty}', $empty, $to_print);
+					
+		 
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
 						$active_found = false;
 

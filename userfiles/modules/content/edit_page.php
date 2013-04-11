@@ -691,8 +691,8 @@ if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intv
 </a>
 <div class="vSpace"></div>
 <div id="edit_post_select_category" style="display: block">
-  <div class="mw-ui-field mw-tag-selector" id="mw-post-added-<? print $rand; ?>" style="width: 602px;">
-    <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." style="width:250px;" />
+  <div class="mw-ui-field mw-tag-selector " id="mw-post-added-<? print $rand; ?>">
+    <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." />
   </div>
   <script>
 
@@ -1107,9 +1107,9 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
 
             <? /* PAGES ONLY  */ ?>
-            <div class="mw-ui-field-holder">
+            <div class="mw-ui-field-holder" id="post_pass_field">
               <label class="mw-ui-label">Password <small>(Only the users with the password can have a access)</small></label>
-              <input name="password" style="width: 603px;" class="mw-ui-field" type="password" value="" />
+              <input name="password" class="mw-ui-field" type="password" value="" />
             </div>
 
 

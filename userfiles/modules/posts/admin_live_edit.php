@@ -13,6 +13,12 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 <!--    <a href="<? print admin_url('view:').$params['module']  ?>" class="mw-ui-btn right relative" style="z-index: 2;margin:13px 13px 0 0;" target="_blank">Add post</a>
 -->
+
+<a href="javascript:;"
+    class="mw-ui-btn mw-ui-btn-green"
+    onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));"
+    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico ipost"></span>New Post </a>
+
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;" class="actSive">
       <? if($is_shop): ?>
@@ -22,9 +28,12 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
       <? endif;  ?>
       list</a></li>
     <li><a href="javascript:;">Skin/Template</a></li>
-        <li><a href="javascript:;">Skin/Template</a></li>
+    <li id="add_new_post" style="display: none;"><a href="javascript:;"></a></li>
+
 
   </ul>
+
+
   <div class="tab">
     <? include_once($posts_mod); ?>
   </div>

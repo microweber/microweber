@@ -95,6 +95,11 @@ if (!isset($post_params['data-limit'])) {
 } else if (!isset($post_params['limit'])) {
 
 }
+
+ $posts_parent_category =  get_option('data-category-id', $params['id']);
+
+ $set_category_for_posts = false;
+
  $lim = get_option('data-limit', $params['id']);
     if($lim != false){
     	$post_params['data-limit'] = $post_params['limit'] = $lim;
@@ -107,57 +112,56 @@ if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
 
 }
 
-	if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
-		$sub_cats = array();
-
-			$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
-		$page_categories = get($str0);
-		//d($page_categories);
-		if(isarr($page_categories)){
-			foreach ($page_categories as $item_cat){
-			$sub_cats[] = $item_cat['id'];
-			$more =    get_category_children($item_cat['id']);
-			if(isarr($more)){
-				foreach ($more as $item_more_subcat){
-					$sub_cats[] = $item_more_subcat;
-				}
-			}
-		//	d($more);
-			}
-		}
-
-
-						if(empty($sub_cats)){
-
-						$par_page = get_content_by_id($cfg_page_id);
-						if(isset($par_page['subtype']) and strval($par_page['subtype']) == 'dynamic' and isset($par_page['subtype_value']) and intval(trim($par_page['subtype_value'])) > 0){
-					  $sub_cats = get_category_children($par_page['subtype_value']);
-					  if(!empty($sub_cats)){
-							$sub_cats = implode(',',$sub_cats);
-
-							$post_params['category'] = $par_page['subtype_value'].','.$sub_cats;
-
+if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
+					$sub_cats = array();
+			
+			
+			$page_categories = false;
+			if(intval($cfg_page_id) != 0){
+						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
+					$page_categories = get($str0);
+					// d($page_categories);
+						if(isarr($page_categories)){
+						foreach ($page_categories as $item_cat){
+							//d($item_cat);
+						$sub_cats[] = $item_cat['id'];
+						$more =    get_category_children($item_cat['id']);
+						if($more != false and isarr($more)){
+							foreach ($more as $item_more_subcat){
+								$sub_cats[] = $item_more_subcat;
+							}
+						}
+					 
+						}
+					}
+			} 
+			
+					if($posts_parent_category != false){
+						if(isarr($page_categories)){
+							$sub_cats = array();
+							foreach ($page_categories as $item_cat){
+								if(intval( $item_cat['id'] ) == intval($posts_parent_category) ){
+									$sub_cats = array($posts_parent_category);
+								}
+							}
 						} else {
-							$post_params['category'] = $par_page['subtype_value'];
+								$sub_cats = array($posts_parent_category);
 						}
-					  }
-
+					}
+					
+					
+						if(isarr($sub_cats)){
+						$post_params['category'] = $sub_cats;
 						}
-
-
-
-
 						 $post_params['parent'] = $cfg_page_id;
-
-
-
+			
 
 
 
 	}
 
 
-
+//d( $post_params);
 
 
 $tn_size = array('150');

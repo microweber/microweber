@@ -265,7 +265,10 @@ ul.dropdown-menu ul.dropdown-menu{
 
 .module-posts-template-columns-4, .module-posts-template-sidebar{
   font-size: 14px;
+  line-break: 20px;
 }
+
+.module-posts-template-sidebar
 
 .module-posts-template-columns-4 .lead,  .module-posts-template-sidebar .lead{
   font-weight: 600;
@@ -290,8 +293,6 @@ ul.dropdown-menu ul.dropdown-menu{
   padding-left: 0;
   padding-right: 0;
 }
-
-
 
 .module-posts-template-columns-3 img{
     max-height: 210px;
@@ -323,9 +324,6 @@ ul.dropdown-menu ul.dropdown-menu{
   margin-left: 0;
 }
 
-
-
-
 .module-posts-template-sidebar .date, .module-posts-template-columns .date{
     display: block;
     padding: 2px 0;
@@ -335,19 +333,20 @@ ul.dropdown-menu ul.dropdown-menu{
   list-style: none
 }
 
+.module-posts-template-sidebar h5{
+  margin-top: 0;
+  font-weight: 500;
+}
 
 .product-price-holder{
-    padding: 7px 0;
-    clear: both;
-    overflow: hidden;
+  padding: 7px 0;
+  clear: both;
+  overflow: hidden;
 }
 
 .product-price-holder .btn{
   float: right;
 }
-
-
-
 
 .module-posts-head{
   padding-bottom:12px;
@@ -408,8 +407,11 @@ ul.dropdown-menu ul.dropdown-menu{
   line-height: 25px;
 }
 
-.sidebar-box li a{
+.sidebar-box .nav li a{
   color: #242B35;
+}
+.sidebar-box .nav li a.active{
+  color: #fff;
 }
 
 .sidebar-box .navbar-inner{

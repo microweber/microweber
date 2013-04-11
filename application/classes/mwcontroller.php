@@ -1401,7 +1401,7 @@ class MwController {
 		}
 		$opts['admin'] = $admin;
 
-		if ($_SERVER['HTTP_REFERER'] != false) {
+		if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
 			$get_arr_from_ref = $_SERVER['HTTP_REFERER'];
 			if (strstr($get_arr_from_ref, site_url())) {
 				$get_arr_from_ref_arr = parse_url($get_arr_from_ref);

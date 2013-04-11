@@ -2339,6 +2339,17 @@ a.module-icon-title{
     */
 
 
+    #post_pass_field input.mw-ui-field{
+      width: 602px;
+    }
+    #edit_post_select_category .mw-tag-selector{
+      width: 602px;
+    }
+    #edit_post_select_category .input{
+      width: 250px;
+    }
+
+
 
 
 

@@ -13,7 +13,7 @@ if(!isset($params['ul_class'])){
 	if($category_tree_parent_page != false and $category_tree_parent_page != '' and $category_tree_parent_page != 0){
 	  $params['rel_id'] = 	$params['content_id'] = $category_tree_parent_page	;
 
-	} else {
+	} else{
 
 
 	}

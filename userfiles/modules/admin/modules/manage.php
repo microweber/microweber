@@ -70,9 +70,9 @@ $result = $update_api -> call('get_modules', $params);
 } else {
 	 $mods = get_modules_from_db($mod_params); 
 }
-$upds = false;
-  $upds = mw_check_for_module_update();
-   
+
+ // $upds = mw_check_for_module_update();
+   $upds = false;
  
 ?>
 <? if(isset($mods) and isarr($mods) == true): ?>
@@ -92,7 +92,7 @@ $upds = false;
  <? endforeach; ?>
  <? endif; ?>
   <? foreach($mods as $k=>$item): ?>
-  <? if(!isset($item['installed'])): ?>
+  <? if(!isset($item['id'])): ?>
   <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<? print $item['id'] ?>" >
   
   <div class=" module module-admin-modules-edit-module ">

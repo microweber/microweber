@@ -906,7 +906,7 @@ input.mw-ui-btn{
 
 
 
-.manage-search, .mw-ui-searchfield, .mw-module-live-edit-settings input[type='search'], .module-settings-page input[type='search']{
+.manage-search, .mw-ui-searchfield{
   border-width:1px;
   border-style:solid;
   border-color: #EAE6E6 #C4C1C1 #C4C1C1 #C4C1C1;
@@ -918,11 +918,11 @@ input.mw-ui-btn{
   border-radius:2px;
 }
 
-.mw-ui-searchfield.loading, .mw-module-live-edit-settings input[type='search'].loading, .module-settings-page input[type='search'].loading{
+.mw-ui-searchfield.loading{
   background:url("../img/img_check_loading.gif") no-repeat no-repeat 7px 3px
 }
 
-.manage-search:focus, .mw-ui-searchfield:focus, .mw-module-live-edit-settings input[type='search']:focus, .module-settings-page input[type='search']:focus{
+.manage-search:focus, .mw-ui-searchfield:focus{
     box-shadow:inset  0px 0px  4px 0px #CCCCCC;
     border-color: #D1C9C9 #BAB6B6 #BAB6B6 #BAB6B6;
 }
@@ -1062,30 +1062,17 @@ a.mw-ui-btn, span.mw-ui-btn{
   display: block;
 }
 
-.mw-ui-field,
-.mw-module-live-edit-settings input[type='email'],
-.mw-module-live-edit-settings input[type='number'],
-.mw-module-live-edit-settings input[type='text'],
-.mw-module-live-edit-settings input[type='password'],
-.mw-module-live-edit-settings textarea,
-.module-settings-page input[type='email'],
-.module-settings-page input[type='number'],
-.module-settings-page input[type='text'],
-.module-settings-page input[type='password'],
-.module-settings-page textarea{
-  border: 1px solid #E6E6E6 !important;
-  border-top-color: #C6C6C6 !important;
+.mw-ui-field{
+  border: 1px solid #E6E6E6;
+  border-top-color: #C6C6C6;
   padding:8px 10px;
   background: white;
   outline: none;
   cursor: text;
-
 }
 
 
-input.mw-ui-field,
-.module-settings-page input[type='search'],
-.mw-module-live-edit-settings input[type='search']{
+input.mw-ui-field{
   -webkit-appearance:textfield;
   appearance:textfield;
 }
@@ -1102,26 +1089,14 @@ input.mw-ui-field,
 }
 
 
-input.mw-ui-field,
-.mw-module-live-edit-settings input[type='email'],
-.mw-module-live-edit-settings input[type='number'],
-.mw-module-live-edit-settings input[type='text'],
-.mw-module-live-edit-settings input[type='password'],
-.mw-module-live-edit-settings textarea,
-.module-settings-page input[type='email'],
-.module-settings-page input[type='number'],
-.module-settings-page input[type='text'],
-.module-settings-page input[type='password'],
-.module-settings-page textarea{
+input.mw-ui-field{
     font-family: inherit;
     font-size: 100%;
     line-height: normal;
 }
 
 
-.mw-module-live-edit-settings input[placeholder],
-.mw-module-live-edit-settings textarea[placeholder],
-.mw-ui-field[data-default], .mw-ui-field[placeholder]{
+ .mw-ui-field[placeholder]{
   color: #8C8C8C;
 }
 
@@ -1140,23 +1115,11 @@ input.mw-ui-field,
 
 
 .mw-ui-field[data-default]:focus,
-.mw-ui-field[placeholder]:focus,
-.mw-module-live-edit-settings input[placeholder]:focus,
-.mw-module-live-edit-settings textarea[placeholder]:focus{
+.mw-ui-field[placeholder]:focus{
   color: #212121;
 }
 
-.mw-ui-field:focus,
-.mw-module-live-edit-settings input[type='email']:focus,
-.mw-module-live-edit-settings input[type='number']:focus,
-.mw-module-live-edit-settings input[type='text']:focus,
-.mw-module-live-edit-settings input[type='password']:focus,
-.mw-module-live-edit-settings textarea:focus,
-.module-settings-page input[type='email']:focus,
-.module-settings-page input[type='number']:focus,
-.module-settings-page input[type='text']:focus,
-.module-settings-page input[type='password']:focus,
-.module-settings-page textarea:focus{
+.mw-ui-field:focuss{
   box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset !important;
 }
 

@@ -6,7 +6,6 @@ a, input, textarea, select{
   outline: none;
 }
 html, body{
-  overflow: hidden !important;
   height: 100%;
 }
 
@@ -50,6 +49,40 @@ body{
 
 #settings-container > .mw-module-live-edit-settings > .module-custom-fields-admin{
   padding:20px;
+}
+
+
+#mw_posts_add_live_edit  form.mw_admin_edit_content_form{
+  width: 390px;
+  padding: 0;
+}
+
+
+#mw_posts_add_live_edit  .mw-title-field{
+  width: 320px;
+  padding:
+}
+
+#mw_posts_add_live_edit  iframe.mw-editor-iframe-loaded{
+    width: 390px;
+}
+#mw_posts_add_live_edit  #mw-scaleeditor{
+  display: none;
+}
+
+#mw_posts_add_live_edit form.add-edit-page-post textarea{
+  width: 360px;
+}
+
+#mw_posts_add_live_edit #post_pass_field input.mw-ui-field{
+    width: 360px;
+}
+
+#mw_posts_add_live_edit #edit_post_select_category .mw-tag-selector{
+  width: 360px;
+}
+#mw_posts_add_live_edit #edit_post_select_category .input{
+  width: 110px;
 }
 
 

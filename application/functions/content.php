@@ -3110,6 +3110,8 @@ if (isset($params['include_categories'])) {
 					if(isset($categores_link)){
 						$cat_params['link'] = $categores_link;
 
+					} else {
+						$cat_params['link'] =$link;
 					}
 
 					if(isset($categories_active_ids)){
@@ -3122,7 +3124,7 @@ if (isset($params['include_categories'])) {
 
 					}
 
-
+ 
 
 
 						//$cat_params['for'] = 'content';
@@ -3167,6 +3169,7 @@ if (isset($params['include_categories'])) {
 					if (isset($debug)) {
 
 					}
+					//d($cat_params);
 						 //d($cat_params);
 					category_tree($cat_params);
 

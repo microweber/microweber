@@ -6,7 +6,7 @@
 		  if(isset($params['module'])): ?>
            <? $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
            <? endif; ?>
-       
+
           <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
           
           <script type="text/javascript">
@@ -22,13 +22,13 @@
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css?v=<?php print uniqid(); ?>"/>
 
 
 		   <script type="text/javascript">
   //document.body.className+=' loading';
 
- 
+
   //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
 
 
@@ -89,7 +89,7 @@
             $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name);
             __autoresize = function(){
                 var _old = thismodal.main.height();
-                parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, false);
+                parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, mw.$('#settings-container').height()+25, false);
                 var _new = thismodal.main.height();
                 if(_new>_old) {
                    parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical');
@@ -106,15 +106,20 @@
 
 
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, true);
-                $(mwd.body).bind('mouseup DOMNodeInserted',function(){
+                $(mwd.body).bind('mouseup click DOMNodeInserted',function(){
                   setTimeout(function(){
                      __autoresize();
                   }, 99);
+                  d($("#settings-container").height())
                 }).ajaxStop(function(){
                     setTimeout(function(){
                     __autoresize();
                   }, 99);
                 });
+
+                setInterval(function(){
+                    __autoresize();
+                }, 99);
 
               });
 
