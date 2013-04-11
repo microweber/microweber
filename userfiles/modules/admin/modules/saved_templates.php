@@ -98,7 +98,7 @@ $(document).ready(function(){
         <input  type="hidden" name="module_id" value="<? print  $item['module_id'] ?>">
         <input  type="button" value="Use"   use="<? print  $item['module_id'] ?>" class="module-templates-action-btn"   />
 
-        <input  type="button" value="Update"  class="module-templates-action-btn"   />
+   <!--     <input  type="button" value="Update"  class="module-templates-action-btn"   /> -->
         <input  type="button" value="X"   delete=1 class="module-templates-action-btn"   />
       </div>
     </li>

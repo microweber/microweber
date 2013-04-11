@@ -3,7 +3,7 @@ $config = array();
 $config['name'] = "DB Backup";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
- $config['categories'] = "admin"; 
+$config['categories'] = "admin"; 
 $config['version'] = 0.1;
 
 $config['position'] = 50;
@@ -17,7 +17,7 @@ $option['option_key'] = 'enable_automatic_backups';
 $option['option_key2'] = 'cronjob';
 $option['name'] = 'Enable automatic backups';
 $option['help'] = 'You can enable or disable the automatic backups from here.';
-$option['option_value'] = 'n';
+$option['option_value'] = '1 day';
 $option['position'] = '3';
 $option['field_type'] = 'dropdown';
 $option['field_values'] = array( 'n' => 'No','1 day' => 'Daily','1 week' => 'Weekly','1 month' => 'Monthly');

@@ -575,7 +575,7 @@ mw.wysiwyg = {
       }
     },
     selection_length:function(){
-      return window.getSelection().getRangeAt(0).cloneContents().textContent.length;
+      return window.getSelection().getRangeAt(0).cloneContents().childNodes.length;
     },
     fontFX:function(cls){
        mw.wysiwyg.applier('span', cls);

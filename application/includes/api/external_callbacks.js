@@ -5,9 +5,13 @@ mw.iframecallbacks = {
       var target = target || '_self';
       mw.wysiwyg.restore_selection();
       if(mw.wysiwyg.selection_length()>0){
-         var text = window.getSelection().getRangeAt(0).cloneContents().textContent;
-         var html = "<a href='" + url + "' target='"+target+"'>" + text + "</a>";
-         mw.wysiwyg.insert_html(html);
+         var a = mwd.createElement('a');
+         a.href = url;
+         a.target = target;
+         d(a);
+         var sel = window.getSelection();
+         var range = sel.getRangeAt(0)
+         range.surroundContents(a);
       }
       else{
          var name =  mw.tools.get_filename(url);

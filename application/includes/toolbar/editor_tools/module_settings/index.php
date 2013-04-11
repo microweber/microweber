@@ -110,10 +110,12 @@
 			
 			
 			  <? if(isarr( $module_info)): ?>
-			  
+			  <? $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?> 
 			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			  if(is_module_tml_holder.length > 0 ){
 			  is_module_tml_holder.html("<a>Menu</a><div id='module-modal-settings-menu-items' module_id='<? print $params['id'] ?>' module_name='<? print $module_info['module'] ?>' class='mw-dropdown-content'  ></div>");
+			  is_module_tml_holder.append("<div id='module-modal-settings-menu-holder-2' class='mw-dropdown-content'><a href='<? print $mod_adm  ?>'>Go to admin</a></div>");
+			  d(<? print json_encode($module_info); ?>);
                 parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
 			 }
                                             

@@ -883,6 +883,7 @@ mw.drag = {
                   var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                   if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     $(window).trigger("onImageClick", target);
+                    mw.wysiwyg.select_element(target)
                   }
                 }
                 if(target.tagName=='BODY'){
