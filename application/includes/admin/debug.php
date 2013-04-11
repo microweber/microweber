@@ -47,16 +47,11 @@ Cache hits <? $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b
   <pre><?php print_r( $ch) ?></pre>
  
    
-<?
-
-/*
-	<b>Api exposed functions</b>
-  <pre><?php print d(explode(' ',api_expose(true))); ?></pre>
+ 
   
-*/
-
- ?>
+ 
+		 	<b>Debug</b>
+  <pre><?php print print_r(dbg(true)); ?></pre>
   
-		 
 
 </div>

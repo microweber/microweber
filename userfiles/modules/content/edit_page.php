@@ -32,7 +32,10 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 $active_site_template = '';
 $layout_file = '';
+$layout_from_parent = '';
+if($data == false or empty($data )){
 $layout_from_parent = ' layout_file="layouts/clean.php" ';
+}
 if($data == false or empty($data )){
   include('_empty_content_data.php');
   if(isset($edit_post_mode) and $edit_post_mode == true and !isset($params["parent-page-id"]) or (isset($params["parent-page-id"]) and intval($params["parent-page-id"]) == 0)){

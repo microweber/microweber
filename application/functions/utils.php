@@ -1202,10 +1202,21 @@ api_expose('pixum_img');
 
 function _d($a) {
 	$rand = uniqid();
-	echo "<div style='display:none' id='d-" . $rand . "'>";
-	var_dump($a);
-	print "</div>";
-	print "<script>$(document).ready(function(){var x = mw.$('#d-" . $rand . "').html();var xx = mw.tools.modal.init({html:'<pre>'+x+'</pre>'});$(xx.main).css({left:'auto',right:0})});</script>";
+	//echo "<div style='display:none' id='d-" . $rand . "'>";
+	//var_dump($a);
+	$js = json_encode($a);
+	//print "</div>";
+	print "<script>
+	$(document).ready(function(){
+	window.console && console.log
+ 
+&& console.log(".$js.");
+});
+</script>
+";
+	
+	
+	//print "<script>$(document).ready(function(){var x = mw.$('#d-" . $rand . "').html();var xx = mw.tools.modal.init({html:'<pre>'+x+'</pre>'});$(xx.main).css({left:'auto',right:0})});</script>";
 }
 
 

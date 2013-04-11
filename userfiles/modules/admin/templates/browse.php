@@ -62,7 +62,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
   <? if(isset($item['image'])): ?>
   <img src="<? print $item['image'] ?>" height="30" />
   <? endif; ?>
-  <a onclick="mw.tools.modal.frame({url:this.href});return false;"  href="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i; ?>"  class="mw-ui-btn">Preview</a>
+  <a onclick="mw.tools.modal.frame({url:this.href});return false;"  href="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i.md5($curent_module); ?>"  class="mw-ui-btn">Preview</a>
   
   <? d($item); ?>
   

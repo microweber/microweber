@@ -6,8 +6,30 @@ $mw_skip_memory = array();
 class files implements \iMwCache {
 	public $mw_cache_mem = array();
 	public $mw_cache_mem_hits = array();
+	private $mw_cache_lock_timeout = 3;
+	private $mw_cache_lock_time = false;
+	private $time_now = false;
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {
+
+		$dir_lock = $this -> cache_get_dir('delete_lock');
+		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
+
+		if (is_file($cache_group_lock)) {
+
+			if ($this -> mw_cache_lock_time == false) {
+				$this -> mw_cache_lock_time = filemtime($cache_group_lock);
+			}
+
+			if ($this -> mw_cache_lock_time > time() - $this -> mw_cache_lock_timeout) {
+				//	d($cache_group_lock);
+				//	print 'aaaaa';
+				return false;
+			} else {
+				@unlink($cache_group_lock);
+			}
+		}
+
 		return $this -> cache_save($data_to_cache, $cache_id, $cache_group);
 	}
 
@@ -24,6 +46,22 @@ class files implements \iMwCache {
 	}
 
 	public function get($cache_id, $cache_group = 'global', $time = false) {
+
+		$dir_lock = $this -> cache_get_dir('delete_lock');
+		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
+
+		if (is_file($cache_group_lock)) {
+			if ($this -> mw_cache_lock_time == false) {
+				$this -> mw_cache_lock_time = filemtime($cache_group_lock);
+			}
+			if ($this -> mw_cache_lock_time > time() - $this -> mw_cache_lock_timeout) {
+				dbg($cache_group_lock);
+				// print 'aQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa';
+				return false;
+			} else {
+				@unlink($cache_group_lock);
+			}
+		}
 
 		return $this -> cache_get_content($cache_id, $cache_group, $time);
 
@@ -109,6 +147,13 @@ class files implements \iMwCache {
 
 	function cache_clean_group($cache_group = 'global') {
 
+		$dir_lock = $this -> cache_get_dir('delete_lock');
+		if (!is_dir($dir_lock)) {
+			mkdir_recursive($dir_lock);
+		}
+		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
+		@touch($cache_group_lock);
+		//d($cache_group_lock);
 		// return true;
 		//mw_notif(__FUNCTION__.$cache_group);
 		$is_cleaning_now = mw_var('is_cleaning_now');
@@ -495,20 +540,15 @@ class files implements \iMwCache {
 			}
 			try {
 				$is_cleaning_now = mw_var('is_cleaning_now');
-				
-
 
 				// if ($is_cleaning_now == false) {
 				$cache_file_temp = $cache_file . '.tmp' . uniqid() . '.php';
-				
-				
+
 				$cacheDir_temp = dirname($cache_file_temp);
-				 if (!is_dir($cacheDir_temp)) {
-				  mkdir_recursive($cacheDir_temp);
-				 }
-				
-				
-				
+				if (!is_dir($cacheDir_temp)) {
+					mkdir_recursive($cacheDir_temp);
+				}
+
 				$cache = file_put_contents($cache_file_temp, $content1);
 				//d($cache_file_temp);
 				@rename($cache_file_temp, $cache_file);

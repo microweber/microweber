@@ -9,9 +9,10 @@ if ($layout != '') {
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
 	//$cached = false;
-$do_not_cache = false;
+	$do_not_cache = false;
 	if (template_var('content') != false) {
-$do_not_cache = true;
+
+		$do_not_cache = true;
 		$cached = false;
 	} else {
 		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
@@ -358,8 +359,8 @@ $do_not_cache = true;
 			$mw_to_cache['elems'] = $mw_found_elems_arr;
 			//d($mw_to_cache);
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
-			if($do_not_cache == false){
-				 cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+			if ($do_not_cache == false) {
+				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 			}
 		} else {
 			$mw_to_cache['new'] = $layout;

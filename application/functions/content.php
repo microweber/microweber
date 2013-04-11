@@ -1811,7 +1811,7 @@ function save_edit($post_data) {
 							$history_to_save['field'] = $field;
 							// p ( $history_to_save );
 							if ($is_no_save != true) {
-								save_history($history_to_save);
+							//	save_history($history_to_save);
 							}
 							$cont_field = array();
 							$cont_field['rel'] = 'content';
@@ -1844,7 +1844,7 @@ function save_edit($post_data) {
 								$saved = save_content($to_save);
 							}
 						} else if (isset($category_id)) {
-							print(__FILE__ . __LINE__ . ' category is not implemented not ready yet');
+							print(__FILE__ . __LINE__ . ' category is not implemented ... not ready yet');
 						}
 					} else {
 
@@ -1913,9 +1913,8 @@ function save_edit($post_data) {
 							$history_to_save['page_element_id'] = $page_element_id;
 
 							if ($is_no_save != true) {
-								save_history($history_to_save);
-								//  $this->core_model->saveHistory($history_to_save);
-							}
+							//	save_history($history_to_save);
+ 							}
 						}
 						if ($save_global == false and $save_layout == true) {
 

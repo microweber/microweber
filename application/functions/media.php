@@ -29,6 +29,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 				if (stristr($img, $surl)) {
 					return $img;
 				} else {
+					return $img;
 					return false;
 					// $src = $img;
 					// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
@@ -405,18 +406,19 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 	$media_url = MEDIA_URL;
 	$media_url = trim($media_url);
-	$src = str_replace_once('{SITE_URL}', $surl, $src);
+	$src = str_replace('{SITE_URL}', $surl, $src);
+	$src = str_replace('%7BSITE_URL%7D', $surl, $src);
+	
+// $src = str_replace('%7BSITE_URL%7D', $surl, $src);
  
-	/*d($src);
-	 d($media_url);
-	 print '<hr>';
 
+ 
+	/*
 	 */
 
 	if (strstr($src, $surl) or strpos($src, $surl)) {
 
 		$src = str_replace($surl . '/', $surl, $src);
-
 		//$src = str_replace($media_url, '', $src);
 		$src = str_replace($surl, '', $src);
 		$src = ltrim($src, DS);
@@ -426,8 +428,9 @@ function thumbnail($src, $width = 200, $height = 200) {
 		//$src = MEDIAFILES . $src;
 		$src = MW_ROOTPATH . $src;
 		$src = normalize_path($src, false);
- 
+
 	} else {
+	 
 		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
 		//
 		// if (!file_exists($dl_file)) {
@@ -440,7 +443,9 @@ function thumbnail($src, $width = 200, $height = 200) {
 		// } else {
 		//
 		// }
+		if($src == false){
 		return pixum($width, $height);
+		} 
 	}
 	$cd = CACHEDIR . 'thumbnail' . DS;
 	if (!is_dir($cd)) {
@@ -451,14 +456,15 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 	$cache = str_replace(' ', '_', $cache);
 	$cache_path = $cd . $cache;
-
+ 
 	if (file_exists($cache_path)) {
 
 	} else {
 		//
-		//	exit($src);
-		if (file_exists($src)) {
 
+	 
+		if (file_exists($src)) {
+	 
 			$tn = new \mw\Thumbnailer($src);
 			$thumbOptions = array('maxLength' => $height, 'width' => $width);
 			$tn -> createThumb($thumbOptions, $cache_path);

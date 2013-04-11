@@ -30,7 +30,7 @@ mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
           <h3 class="element contact-form-title">Leave a Message</h3>
         </div>
         <form class="mw_form" data-form-id="<? print $form_id ?>" name="<? print $form_id ?>" method="post" >
-          <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"   />
+  <module type="custom_fields" data-id="<? print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
             <div class="control-group">
                 <? if(get_option('disable_captcha', $params['id']) !='y'): ?>
                     <label>Enter Security code</label>

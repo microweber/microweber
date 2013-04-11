@@ -742,10 +742,13 @@ class MwController {
 
 		print $layout;
 
-		if (isset($_GET['test'])) {
-			debug_info();
+	if (isset($_GET['debug'])) {
+				debug_info();
+				$is_admin = is_admin();
+				if ($is_admin == true) {
 
-		}
+				}
+			}
 		exit();
 	}
 

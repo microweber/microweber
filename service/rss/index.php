@@ -23,7 +23,7 @@
 		 */
 
 		require 'simplepie.php';
-
+mkdir('./cache');
 		// db holder
 		$savedItems = array();
 
@@ -136,11 +136,13 @@
 		set_time_limit(0);
 		$tmp_fname = tempnam("./cache", "COOKIE");
 
-		$rem_image = 'C:/xampp/htdocs/1k/userfiles/media/downloaded/';
+		$rem_image = 'C:/xampp/htdocs/Microweber/userfiles/media/downloaded/';
 		if (!is_dir($rem_image)) {
 			mkdir($rem_image);
 		}
-
+if(!isset($_GET['p'])){
+	die('$_GET[\'p\'] is not int');
+}
 		echo '<h2>SimplePie only</h2>';
 		$count = 1;
 		foreach ($feed->get_items() as $item) {
@@ -181,7 +183,7 @@ $i['content'] = $item -> get_content();
 				//$author = $item -> get_author();
 
 				$i['created_on'] = $item -> get_date('U');
-				
+
 				$i['created_on'] = date("Y-m-d H:i:s");
 				$i['content'] = str_replace($zxzz1, '{SITE_URL}userfiles/media/downloaded/' . $thefn, $i['content']);
 				//	$feed = $item -> get_feed();
@@ -190,7 +192,7 @@ $i['content'] = $item -> get_content();
 
 				//	var_dump($i);
 
-				$is_there = "http://pecata/1k/api/get_content?api_key=aaa&title=" . $i['title'];
+				$is_there = "http://192.168.0.3/Microweber/api/get_content?api_key=aaa&title=" . $i['title'];
 
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $is_there);
@@ -202,7 +204,7 @@ $i['content'] = $item -> get_content();
 				//var_dump($is_there);
 				curl_close($ch);
 				if (is_array($is_there) == false) {
-					$url = 'http://pecata/1k/api/save_content';
+					$url = 'http://192.168.0.3/Microweber/api/save_content';
 					$fields = $i;
 					$fields_string = '';
 					foreach ($fields as $key => $value) { $fields_string .= $key . '=' . $value . '&';

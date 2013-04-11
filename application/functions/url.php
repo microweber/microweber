@@ -108,13 +108,12 @@ function curent_url($skip_ajax = false, $no_get = false) {
 		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
 		$u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
 	}
-	
-	if($no_get == true){
-		
-		 $u = strtok($u, '?');
+
+	if ($no_get == true) {
+
+		$u = strtok($u, '?');
 	}
-	
-	
+
 	return $u;
 }
 
@@ -317,6 +316,8 @@ function url_title($text) {
 
 	// Strip out anything we haven't been able to convert
 	$text = preg_replace('/[^-\w]+/', '', $text);
+
+	$text = str_replace(':', '-', $text);
 
 	return $text;
 }

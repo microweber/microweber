@@ -98,13 +98,22 @@ function d($v) {
 	return dump($v);
 }
 
-function dbg($v) {
+function dbg($q) {
 
-	if (isset($_REQUEST['debug'])) {
-		//if (is_admin()) {
-			return dump($v);
-		//}
+	static $index = array();
+	if (is_bool($q)) {
+		$index = array_unique($index);
+		return $index;
+	} else {
+
+		$index[] = $q;
 	}
+
+	//if (isset($_REQUEST['debug'])) {
+	//if (is_admin()) {
+	//return dump($v);
+	//}
+	//}
 }
 
 function dump($v) {
