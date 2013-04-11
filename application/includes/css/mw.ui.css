@@ -134,6 +134,7 @@
 
 .ico-extools{background-position:-1341px -46px;}
 
+.mw-ui-btn > .ico-extools{margin:0 -5px;}
 .mw-ui-btn.active > .ico-extools{background-position:-1341px -74px;}
 
 .iSpace{background-position:-1092px -127px;}

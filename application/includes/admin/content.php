@@ -58,7 +58,8 @@ if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 
 
 
-<?php include INCLUDES_DIR . 'api/treerenderer.php'; ?>
+<?php   include_once( INCLUDES_DIR . 'api/treerenderer.php');
+ ?>
 
 
 
@@ -585,7 +586,7 @@ function mw_add_product(){
     </script>
       <div style="padding-left: 0;">
         <div class="top_label">
-        
+
         <? if(is_module('help')): ?>
         <a href="<?php print admin_url(); ?>view:help">See the tutorials here</a>
         <? endif; ?>

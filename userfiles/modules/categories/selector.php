@@ -1,3 +1,6 @@
+<script type="text/javascript">
+<? include_once( INCLUDES_DIR . 'api/treerenderer.php'); ?>
+</script>
 <?
 
 $orig_params = ($params);
