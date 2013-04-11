@@ -18,9 +18,10 @@ if ($layout != '') {
 		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
 	}
 	//
-	if (isset($options['no_cache'])) {
-
+	if (isset($_REQUEST['debug'])) {
+		$cached = false;
 	}
+
 	//
 	$ch = mw_var($parser_mem_crc);
 	if ($cached != false) {
@@ -62,7 +63,10 @@ if ($layout != '') {
 
 			$rel = pq($elem) -> attr('rel');
 			if ($rel == false) {
-				$rel = 'page';
+				$rel = pq($elem) -> attr('data-rel');
+				if ($rel == false) {
+					$rel = 'page';
+				}
 			}
 
 			$option_group = pq($elem) -> attr('data-option_group');
@@ -205,13 +209,22 @@ if ($layout != '') {
 					}
 
 				} else {
-					$cont_field = get_content_field("rel={$rel}&field={$field}");
+
+					if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+						$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+ 
+						if ($cont_field != false) {
+							$field_content = $cont_field;
+						}
+					} else {
+
+						$cont_field = get_content_field("rel={$rel}&field={$field}");
+					}
 				}
 				if ($cont_field != false) {
 					$field_content = $cont_field;
 				}
 			}
-			//d($data );
 
 			if ($field_content == false) {
 				if ($get_global == true) {
@@ -274,20 +287,25 @@ if ($layout != '') {
 					}
 					//}
 				}
-				//dbg($field);
+
 				if ($field == 'content' and template_var('content') != false) {
 					$field_content = template_var('content');
 					template_var('content', false);
 				}
 
-				if ($field_content == false and isset($rel) and isset($field)) {
+				if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+					$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+
+					if ($cont_field != false) {
+						$field_content = $cont_field;
+					}
+				} else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
 
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
 				}
-
 				if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
 					foreach ($data ['custom_fields'] as $kf => $vf) {
 
