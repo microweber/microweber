@@ -70,6 +70,7 @@
 
 </style>
 
+
  <script type="text/javascript">
 
         mw_module_settings_info = "";
@@ -96,6 +97,30 @@
                 }
 
             }
+			
+			
+			
+			var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
+			is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
+			if(is_module_tml_holder.length == 0 ){
+					$(toolbar).append("<div id='module-modal-settings-menu-holder' class='mw-ui-dropdown'></div>");
+			}
+			
+			
+			
+			
+			  <? if(isarr( $module_info)): ?>
+			  
+			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
+			  if(is_module_tml_holder.length > 0 ){
+			  is_module_tml_holder.html("<a>Menu</a><div id='module-modal-settings-menu-items' module_id='<? print $params['id'] ?>' module_name='<? print $module_info['module'] ?>' class='mw-dropdown-content'  ></div>");
+                parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
+			 }
+                                            
+          	<? endif; ?>
+			
+			
+		
 
 
 
@@ -110,7 +135,7 @@
                   setTimeout(function(){
                      __autoresize();
                   }, 99);
-                  d($("#settings-container").height())
+                 // d($("#settings-container").height())
                 }).ajaxStop(function(){
                     setTimeout(function(){
                     __autoresize();
@@ -247,5 +272,21 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
             </div>
 
           </div>
+          
+          
+          
+          
+          
+          
+          <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
+<? if(isarr($params )): ?>
+  <? foreach($params  as $k=> $item): ?> 
+<input type="text" name="<? print $k ?>" value="<? print $item ?>" />
+
+ <? endforeach ; ?>
+ <input type="submit" />
+<? endif; ?>
+</form>
+          
 </body>
 </html>

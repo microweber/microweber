@@ -95,10 +95,12 @@
 				 
 			  }
 			 
-			 
+
 			 
 			  ?>
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green" style=" position: fixed; right: 87px;top: 9px;z-index: 999;" onclick="mw.drag.save()"><span>Save</span></span>
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"
+style=" position: fixed; right: 87px;top: 9px;z-index: 999;"
+onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
   

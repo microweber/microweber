@@ -1113,7 +1113,15 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$module_class = module_css_class($module_name);
 							$module_title = module_info($module_name);
 							//	d($module_title);
+							// if (!isset($attrs['id'])) {
+								// if (isset($attrs['module-id'])) {
+										// $attrs['id'] = $attrs['module-id'];
+// 										
+									// }
+							// }
 							if (!isset($attrs['id'])) {
+								
+								
 
 								global $mw_mod_counter;
 								$mw_mod_counter++;

@@ -60,6 +60,10 @@ mw.form = {
 
     if(is_form_valid){
         var obj = mw.form.serialize(selector);
+
+        d(obj);
+
+
       	$.post(url_to_post, obj, function(data){
 			if(mw.is.func(callback)){
 				//callback.call(selector);
@@ -182,7 +186,7 @@ mw.form = {
            $(obj).removeClass("error");
             return true;
         }
-    } 
+    }
   },
   serialize : function(id, all){
     return mw.serializeFields(id, all);

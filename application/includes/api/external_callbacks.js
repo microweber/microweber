@@ -30,6 +30,11 @@ mw.iframecallbacks = {
     },
     add_link_to_menu:function(){
 
+    },
+    editlink:function(a,b){
+      mw.wysiwyg.restore_selection();
+      var link = mw.wysiwyg.findTagAcrossSelection('a');
+      link.href = a;
     }
 
 }

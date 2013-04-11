@@ -344,10 +344,18 @@ mw.tools = {
           }
           else{
               item.show();
+              //d((item.offset().left + item.width()))
+              d(item.find("ul").width())
+              d( item.offset().left)
+              d( $(window).width())
+              if((item.offset().left + item.find("ul").width()) > $(window).width() ){
+                item.css({left:'auto', right:0});
+              }
+              else{
+                item.css({left:0});
+              }
               if(event.target.type!='text'){
-
                  try{this.querySelector("input.dd_search").focus();}catch(e){}
-
               }
           }
         }

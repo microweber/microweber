@@ -1436,6 +1436,7 @@ class MwController {
 			$layout = $l -> __toString();
 			$res = str_replace('{content}', $res, $layout);
 		}
+		$res = parse_micrwober_tags($res, $options = false);
 
 		$res = execute_document_ready($res);
 		if (!defined('MW_NO_OUTPUT')) {
@@ -1560,11 +1561,12 @@ class MwController {
 		$l = new MwView($p_index);
 		$layout = $l -> __toString();
 		// var_dump($l);
-
+ 		
 		if (is_file($p)) {
 			$p = new MwView($p);
 			$layout_tool = $p -> __toString();
 			$layout = str_replace('{content}', $layout_tool, $layout);
+			
 		} else {
 			$layout = str_replace('{content}', 'Not found!', $layout);
 		}

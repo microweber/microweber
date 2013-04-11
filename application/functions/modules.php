@@ -8,6 +8,10 @@ if (!defined("MW_DB_TABLE_ELEMENTS")) {
 	define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
 }
 
+if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
+	define('MW_DB_TABLE_MODULE_TEMPLATES', MW_TABLE_PREFIX . 'module_templates');
+}
+
 api_expose('reorder_modules');
 
 function reorder_modules($data) {
@@ -57,6 +61,7 @@ function mw_db_init_modules_table() {
 
 	$table_name = MW_DB_TABLE_MODULES;
 	$table_name2 = MW_DB_TABLE_ELEMENTS;
+	$table_name3 = MW_DB_TABLE_MODULE_TEMPLATES;
 
 	$fields_to_add = array();
 
@@ -99,6 +104,16 @@ function mw_db_init_modules_table() {
 
 	db_add_table_index('module', $table_name2, array('module(255)'));
 	db_add_table_index('module_id', $table_name2, array('module_id(255)'));
+
+	$fields_to_add = array();
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	$fields_to_add[] = array('module_id', 'TEXT default NULL');
+	$fields_to_add[] = array('name', 'TEXT default NULL');
+	$fields_to_add[] = array('module', 'TEXT default NULL');
+	set_db_table($table_name3, $fields_to_add);
 
 	cache_save(true, $function_cache_id, $cache_group = 'db', 'files');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -426,7 +441,7 @@ function save_element_to_db($data_to_save) {
 		return false;
 	}
 	if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-		exit(__FILE__.__LINE__.d($data_to_save));
+		exit(__FILE__ . __LINE__ . d($data_to_save));
 	}
 
 	$table = MW_TABLE_PREFIX . 'elements';
@@ -1132,6 +1147,70 @@ function save_module_to_db($data_to_save) {
 	return $save;
 }
 
+function get_saved_modules_as_template($params) {
+	$params = parse_params($params);
+
+	if (is_admin() == false) {
+		return false;
+	}
+
+	$table = MW_DB_TABLE_MODULE_TEMPLATES;
+
+	$params['table'] = $table;
+
+	$data = get($params);
+	return $data;
+}
+api_expose('delete_module_as_template');
+function delete_module_as_template($data) {
+
+	if (is_admin() == false) {
+		return false;
+	}
+
+	$table = 'module_templates';
+	$save = false;
+	// d($table);
+
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id($table, $c_id);
+	}
+
+	if (isset($data['ids']) and isarr($data['ids'])) {
+		foreach ($data['ids'] as   $value) {
+			$c_id = intval($value);
+			db_delete_by_id($table, $c_id);
+		}
+
+	}
+
+ 
+}
+api_expose('save_module_as_template');
+function save_module_as_template($data_to_save) {
+
+	if (is_admin() == false) {
+		return false;
+	}
+
+	$table = MW_DB_TABLE_MODULE_TEMPLATES;
+	$save = false;
+	// d($table);
+
+	if (!empty($data_to_save)) {
+		$s = $data_to_save;
+		$save = save_data($table, $s);
+	}
+
+	return $save;
+}
+
 /**
  *
  * Function modules list from the db or them the disk
@@ -1337,7 +1416,7 @@ function scan_for_modules($options = false) {
 					if (trim($config['module']) != '') {
 
 						if ($list_as_element == true) {
- 
+
 							save_element_to_db($config);
 						} else {
 							//d($config);

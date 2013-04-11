@@ -102,12 +102,22 @@ mw.dropables = {
 $(document).ready(function(){
    mw.drag.create();
 
-   mw.$(mwd.body).keyup(function(){
+   $(mwd.body).keyup(function(e){
      mw.$(".mw_master_handle").css({
        left:"",
        top:""
      });
+
+
+
    });
+
+   $(mwd.body).bind("keydown",function(e){
+     if(e.keyCode == 83 && e.ctrlKey){
+        mw.e.cancel(e, true);
+        mw.drag.save(mwd.getElementById('main-save-btn'))
+     }
+   })
 
    mw.edits = mw.$('.edit');
 
@@ -143,6 +153,10 @@ $(document).ready(function(){
        }
      }
    });
+
+
+
+
 });
 
 
@@ -1504,9 +1518,17 @@ module_settings: function() {
    */
 
 
-  save: function() {
+  save: function(el) {
 
 
+
+if(typeof el === 'object'){
+  if($(el).hasClass('disabled')){
+    return false;
+  }
+  var html = el.innerHTML;
+  $(el).addClass('disabled').html('Saving...').dataset("html", html);
+}
 
   var doc = mw.tools.parseHtml(mwd.body.innerHTML);
 
@@ -1583,6 +1605,14 @@ module_settings: function() {
           mw.history.init();
 
           mw.askusertostay = false;
+
+          if(typeof el === 'object'){
+            var html  = $(el).dataset("html");
+            $(el).removeClass('disabled').html(html);
+          }
+
+          mw.notification.success("All changes are saved.");
+
         }
       });
 
