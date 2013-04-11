@@ -1,4 +1,4 @@
-<?  
+<?
 
 only_admin_access();
  
@@ -63,10 +63,10 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 <? if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
 
 <?php $posts_parent_category =  get_option('data-category-id', $params['id']); ?>
-
+ 
 <label class="mw-ui-label">Show only from category</label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-category-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"   >
+  <select name="data-category-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"  data-also-reload="<? print  $config['the_module'] ?>"  >
     <option     <? if((0 == intval($posts_parent_category))): ?>   selected="selected"  <? endif; ?>>Select a category</option>
     <?
 $pt_opts = array();
@@ -86,7 +86,7 @@ $pt_opts['rel_id'] = $posts_parent_page;
 </div>
 
 
-
+ 
 <? endif; ?>
 
 
@@ -143,7 +143,7 @@ $show_fields = array();
       <span></span> <span>Thumbnail</span> </label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Size</label>
-      <input name="data-thumbnail-size" class="mw_option_field"   type="text" style="width:65px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
+      <input name="data-thumbnail-size" class="mw-ui-field mw_option_field"   type="text" style="width:65px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -152,7 +152,7 @@ $show_fields = array();
       <span></span> <span>Title</span></label>
       <div class="right">
       <label class="mw-ui-label-horizontal">Length</label>
-      <input name="data-title-limit" class="mw_option_field"   type="text" placeholder="255" style="width:65px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
+      <input name="data-title-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="255" style="width:65px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -161,7 +161,7 @@ $show_fields = array();
       <span></span> <span>Description</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Length</label>
-      <input name="data-character-limit" class="mw_option_field"   type="text" placeholder="80" style="width:65px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
+      <input name="data-character-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="80" style="width:65px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
     </div>
   </li>
   <? if($is_shop): ?>
@@ -176,7 +176,7 @@ $show_fields = array();
       <span></span> <span>Add to cart</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Title</label>
-      <input name="data-add-to-cart-text" class="mw_option_field" style="width:65px;" placeholder="Buy now"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
+      <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:65px;" placeholder="Buy now"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
     </div>
   </li>
   <? endif; ?>
@@ -186,7 +186,7 @@ $show_fields = array();
       <span></span> <span>Read More Link</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Title</label>
-      <input name="data-read-more-text" class="mw_option_field"   type="text" placeholder="Read more" style="width:65px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
+      <input name="data-read-more-text" class="mw-ui-field mw_option_field"   type="text" placeholder="Read more" style="width:65px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -200,7 +200,7 @@ $show_fields = array();
       <span></span><span>Hide paging</span></label>
     <div class="right">
       <label class="mw-ui-labe-horizontall">Posts per page</label>
-      <input name="data-limit" class="mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
+      <input name="data-limit" class="mw-ui-field mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
     </div>
   </li>
 </ul>

@@ -117,7 +117,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 			
 			
 			$page_categories = false;
-			if(intval($cfg_page_id) != 0){
+			if($posts_parent_category != false and intval($posts_parent_category) > 0 and intval($cfg_page_id) != 0){
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
 					$page_categories = get($str0);
 					// d($page_categories);
@@ -136,7 +136,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					}
 			} 
 			
-					if($posts_parent_category != false){
+					if($posts_parent_category != false and intval($posts_parent_category) > 0){
 						if(isarr($page_categories)){
 							$sub_cats = array();
 							foreach ($page_categories as $item_cat){
@@ -145,23 +145,18 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 								}
 							}
 						} else {
-								$sub_cats = array($posts_parent_category);
+							//	$sub_cats = array($posts_parent_category);
 						}
-					}
-					
-					
 						if(isarr($sub_cats)){
 						$post_params['category'] = $sub_cats;
 						}
+					}
+						
 						 $post_params['parent'] = $cfg_page_id;
-			
-
-
-
 	}
 
 
-//d( $post_params);
+//  d( $post_params);
 
 
 $tn_size = array('150');

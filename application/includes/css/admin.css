@@ -685,13 +685,17 @@ form .shipping-country-row:first-child{
 
 #edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 16px;
+     left: -6px;
+    position: relative;
+    top: 1px;
 }
 
-#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i.have_category{
-    background: url(../img/tree.cat.png) no-repeat;
-}
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i{  background: url(../img/tree.cat.png) no-repeat;  }
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i.have_category{  background: url(../img/tree.dynamic.png) no-repeat;  }
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i.is_page{  background: url(../img/tree.pageico.png) no-repeat;  }
+#edit_post_select_category .mw-tag-selector .mw-ui-btn-small i.is_shop{  background: url(../img/tree.shopico.png) no-repeat;  }
 
 
 /* Help */

@@ -719,7 +719,8 @@ html.mw_pages, html.mw_pages body{
 
 label .mw_toggle_tree{left: 22px;top: 5px;}
 
-.mw-tree .mw-ui-check span span + span{
+.mw-tree .mw-ui-check span span + span,
+.mw-tree .mw-ui-check label span + span{
   margin-left: 58px;
   font-size: 11px;
   position: relative;

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
           <head>
-          
+
           <?  $module_info = false;
 		  if(isset($params['module'])): ?>
            <? $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
@@ -21,7 +21,7 @@
           <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css?v=<?php print uniqid(); ?>"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css?v=<?php print uniqid(); ?>"/>
 
 

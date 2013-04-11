@@ -196,7 +196,6 @@
                    var type = mw.url.type(val);
                    GlobalEmbed = __generateEmbed(type, val);
                    if(type!='link'){
-                     alert(hash)
                        parent.mw.iframecallbacks[hash](GlobalEmbed);
                        parent.mw.tools.modal.remove('mw_rte_image');
                    }
@@ -302,7 +301,7 @@ mw.embed = {
 }
 
 .mw-upload-filetypes li{
-  margin: 0 30px;
+  margin: 0 20px;
   font-size:11px;
   display: inline-block;
   position: relative;

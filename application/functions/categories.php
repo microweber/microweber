@@ -120,7 +120,7 @@ function category_tree($params = false) {
 
 	$cache_group = 'categories/global';
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	// $cache_content = false;
+	$cache_content = false;
 	//if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 		print $cache_content;
@@ -150,8 +150,6 @@ function category_tree($params = false) {
 		$link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
 	}
 	$link = str_replace('data-page-id', 'data-category-id', $link);
-	
-	
 
 	$active_ids = isset($params['active_ids']) ? $params['active_ids'] : array(CATEGORY_ID);
 	if (isset($params['active_code'])) {
@@ -220,6 +218,12 @@ function category_tree($params = false) {
 		//d($page);
 		$parent = $page['subtype_value'];
 	}
+	$active_code_tag = false;
+	if (isset($params['active_code_tag']) and $params['active_code_tag'] != false) {
+
+		$active_code_tag = $params['active_code_tag'];
+	}
+
 	if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
 		$parent = $params['subtype_value'];
 	}
@@ -306,12 +310,12 @@ function category_tree($params = false) {
 
 	if ($skip123 == false) {
 
-		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+		content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 	} else {
 
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
-				content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+				content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 			}
 		}
 	}
@@ -344,7 +348,7 @@ function category_tree($params = false) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false) {
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false) {
 
 	$db_t_content = MW_TABLE_PREFIX . 'content';
 
@@ -610,10 +614,10 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 					if ($li_class_name == false) {
 
-						print "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}'>";
+						$output = "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag}>";
 					} else {
 
-						print "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'   >";
+						$output= "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag}  >";
 					}
 				}
 
@@ -622,46 +626,43 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 					if ($link != false) {
 
 						$to_print = false;
-						
-						
-							$empty1 =  intval($depth_level_counter);
-					$empty = '';
-					for ($i1=0; $i1 < $empty1; $i1++) {
-						$empty = $empty.'&nbsp;&nbsp;';
-					}
-					
-					$ext_classes = '';
-				
 
-						$to_print = str_ireplace('{id}', $item['id'], $link);
+						$empty1 = intval($depth_level_counter);
+						$empty = '';
+						for ($i1 = 0; $i1 < $empty1; $i1++) {
+							$empty = $empty . '&nbsp;&nbsp;';
+						}
+
+						$ext_classes = '';
+
+						$to_print = str_replace('{id}', $item['id'], $link);
+
 						$to_print = str_ireplace('{url}', category_link($item['id']), $to_print);
-						$to_print= str_replace('{exteded_classes}', $ext_classes, $to_print);
-					
+						$to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+
 						$to_print = str_ireplace('{categories_url}', category_link($item['id']), $to_print);
 						$to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
 
 						$to_print = str_ireplace('{title}', $item['title'], $to_print);
-						
-						
-								$active_parent_class = '';
-					//if(isset($item['parent']) and intval($item['parent']) != 0){
-					if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
-						$active_parent_class = 'active-parent';
-					} 	  else {
+
 						$active_parent_class = '';
-				 	}
-					$active_class = 'active';	
-						
+						//if(isset($item['parent']) and intval($item['parent']) != 0){
+						if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
+							$active_parent_class = 'active-parent';
+						} else {
+							$active_parent_class = '';
+						}
+						$active_class = 'active';
+
 						$to_print = str_replace('{active_class}', $active_class, $to_print);
-					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
+						$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
 
 						//$to_print = str_ireplace('{title2}', $item ['title2'], $to_print);
 						// $to_print = str_ireplace('{title3}', $item ['title3'], $to_print);
 
 						$to_print = str_ireplace('{categories_content_type}', trim($item['categories_content_type']), $to_print);
- $to_print = str_replace('{empty}', $empty, $to_print);
-					
-		 
+						$to_print = str_replace('{empty}', $empty, $to_print);
+
 						//   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
 						$active_found = false;
 
@@ -678,22 +679,31 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 									$value_active_cat = intval($value_active_cat);
 									if (intval($item['id']) == $value_active_cat) {
 										$active_found = $value_active_cat;
-										//d($value_active_cat);
+										// d($value_active_cat);
 									}
 								}
 							}
 
 							if ($active_found == true) {
 
-								$to_print = str_ireplace('{active_code}', $active_code, $to_print);
+								$to_print = str_replace('{active_code}', $active_code, $to_print);
+								$to_print = str_replace('{active_class}', $active_class, $to_print);
+								$to_print = str_replace('{active_code_tag}', $active_code_tag, $to_print);
+							 $output = str_replace('{active_code_tag}', $active_code_tag, $output);
+								//d($output);
+
 							} else {
 
-								$to_print = str_ireplace('{active_code}', '', $to_print);
+								$to_print = str_replace('{active_code}', '', $to_print);
 							}
 						} else {
 
 							$to_print = str_ireplace('{active_code}', '', $to_print);
 						}
+						$output = str_replace('{active_code_tag}', '', $output);
+
+						$to_print = str_replace('{active_class}', '', $to_print);
+						$to_print = str_replace('{active_code_tag}', '', $to_print);
 
 						if (is_array($remove_ids) == true) {
 
@@ -714,14 +724,14 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 						if (strval($to_print) == '') {
 
-							print $item['title'];
+							print $output.$item['title'];
 						} else {
 
-							print $to_print;
+							print $output.$to_print;
 						}
 					} else {
 
-						print $item['title'];
+						print $output.$item['title'];
 					}
 
 					// $parent, $link = false, $active_ids = false,
@@ -749,7 +759,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 						}
 					}
 
-					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag);
+					$children = content_helpers_getCaregoriesUlTree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 
 					print "</{$list_item_tag}>";
 				}
