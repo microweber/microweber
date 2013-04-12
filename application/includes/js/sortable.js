@@ -611,11 +611,15 @@ mw.drag = {
            $(this).css({top:'', left:''});
         });
 
+        /*
+
         $(window).bind("onAllLeave", function(e, target){
+
             $("#mw_handle_row,#mw_handle_module,#mw_handle_element").css({
               top:"",
               left:""
             });
+
 
         });
         $(window).bind("onElementLeave", function(e, target){
@@ -625,6 +629,7 @@ mw.drag = {
             })
         });
         $(window).bind("onModuleLeave", function(e, target){
+
             $(mw.handle_module).css({
               top:"",
               left:""
@@ -641,11 +646,9 @@ mw.drag = {
             }
         },222);
 
-
-
-
-
         });
+
+        */
 
         $(window).bind("onItemLeave", function(e, target){
             /*$(mw.handle_item).css({

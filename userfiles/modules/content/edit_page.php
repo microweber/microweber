@@ -1130,7 +1130,10 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
 
 
-
+   <? if(isset($data['id']) and $data['id'] > 0): ?>
+            <br />
+            <small>Id: <? print ($data['id'])?></small>
+          <? endif; ?>
 
             <? if(isset($data['created_on'])): ?>
             <br />

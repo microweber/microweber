@@ -225,11 +225,12 @@ $ver = $this->get_latest_core_version();
 				
 				$options = array();
 			$options['no_cache'] = 1;
-			//$options['for_modules'] = 1;
-			$options['path'] = normalize_path($this -> modules_dir.DS.$k.DS.'templates');
+			 $options['for_modules'] = 1;
+			$p = normalize_path($this -> modules_dir.DS.$k.DS.'templates');
+			$options['path'] = $p ;
 			$module_templates_for_this = layouts_list($options);
-				
-				
+					 
+				  
 				//$module_templates_for_this = module_templates($k);
 							if(isarr($module_templates_for_this)){
 								
@@ -279,7 +280,7 @@ $ver = $this->get_latest_core_version();
 				 
 						
 			}
-			
+		
 			
 			  $to_return['module_templates'] = $updates_data;
 		}

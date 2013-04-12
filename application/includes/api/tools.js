@@ -1080,6 +1080,9 @@ mw.tools = {
               var tag = o.createTag(this);
               html.push(tag);
            }
+           else{
+              $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).removeClass("active");
+           }
         });
         $(tagholder).prepend(html);
       }

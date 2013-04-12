@@ -149,6 +149,7 @@ if ($layout != '') {
 				} else {
 					$rel = 'content';
 					$data = get_page($data_id);
+					//d($data);
 					//
 				}
 

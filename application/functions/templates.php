@@ -168,7 +168,7 @@ function layouts_list($options = false) {
 		}
 
 	}
-
+ 
 	if (!isset($options['no_cache'])) {
 		$args = func_get_args();
 		$function_cache_id = '';
@@ -207,6 +207,7 @@ function layouts_list($options = false) {
 					$skip = true;
 				}
 			}
+			
 			if ($skip == false) {
 				$fin = file_get_contents($filename);
 				$here_dir = dirname($filename) . DS;
@@ -291,6 +292,7 @@ function layouts_list($options = false) {
 				}
 			}
 		}
+		
 		if (!empty($configs)) {
 			if (!isset($options['no_cache'])) {
 				cache_save($configs, $function_cache_id, $cache_group, 'files');

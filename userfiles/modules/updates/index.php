@@ -40,14 +40,8 @@ var obj =  (this);
 
 
 	 if(mw.is.defined(obj) && obj != null){
-	 mw.$('#update_log_<? print $params['id']; ?>').empty();
-	 $.each(obj, function(index, value) { 
-	 
+	 mw.$('#mw-upd-log').val(obj);
  
-	 
-	 
-mw.$('#update_log_<? print $params['id']; ?>').append(value);
-});
 	  }
  
 	 });
@@ -72,7 +66,7 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
 </script>
 <input type="button" value="Check for update" class="mw-check-updates-btn mw-ui-btn" />
 
-
+<textarea id="mw-upd-log"></textarea>
 
 <module type="updates/list" id="mw-updates" />
  

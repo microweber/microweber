@@ -22,12 +22,11 @@ class Update {
 		if ($a == false) {
 			error('Must be admin!');
 		}
-
+		$c_id = __FUNCTION__ . date("ymdh");
 		//	$data['layouts'] = $t;
 
 		if ($skip_cache == false) {
 
-			$c_id = __FUNCTION__ . date("ymdh");
 			$cache_content = cache_get_content($c_id, 'update/global');
 			//
 			if (($cache_content) != false) {
@@ -48,9 +47,9 @@ class Update {
 		// d($t);
 		$data['modules'] = $t;
 		$data['module_templates'] = array();
-		if(isarr($t)){
-			foreach ( $t as $value) {
-				if(isset($value['module'])){
+		if (isarr($t)) {
+			foreach ($t as $value) {
+				if (isset($value['module'])) {
 					$module_templates = module_templates($value['module']);
 					$data['module_templates'][$value['module']] = $module_templates;
 				}
@@ -58,16 +57,15 @@ class Update {
 			}
 		}
 
-
 		$t = get_elements_from_db();
 		$data['elements'] = $t;
 
 		$result = $this -> call('check_for_update', $data);
-		if ($skip_cache == false) {
-			if ($result != false) {
-				cache_save($result, $c_id, 'update/global');
-			}
+		//if ($skip_cache == false) {
+		if ($result != false) {
+			cache_save($result, $c_id, 'update/global');
 		}
+		//}
 		return $result;
 	}
 
@@ -119,7 +117,7 @@ class Update {
 		if ($a == false) {
 			error('Must be admin!');
 		}
-print __FILE__.__LINE__;
+		print __FILE__ . __LINE__;
 		d($updates);
 		print 1;
 		return $updates;
@@ -210,6 +208,10 @@ print __FILE__.__LINE__;
 		//cache_clean_group('update/global');
 		//clearcache();
 		return $unzipped;
+	}
+
+	public function install_module_template($value = '') {
+
 	}
 
 	function install_module($module_name) {
@@ -317,10 +319,9 @@ print __FILE__.__LINE__;
 		if ($post_params != false and is_array($post_params)) {
 
 			//$post_params = $this -> http_build_query_for_curl($post_params);
-			
+
 			$post_paramsbase64 = base64_encode(serialize($post_params));
-			
-			   
+
 			$post_params_to_send = array('base64' => $post_paramsbase64);
 
 			curl_setopt($ch, CURLOPT_POST, count($post_params_to_send));

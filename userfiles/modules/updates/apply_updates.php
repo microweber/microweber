@@ -65,3 +65,19 @@ d($iudates);
  <? endforeach ; ?>
 <? endif; ?>
 <? }  ?>
+
+
+
+ <? 
+ if(isset($_POST['module_templates'])){ ?>
+ <? if(isarr($_POST['module_templates'])): ?>
+  <? foreach($_POST['module_templates']  as $k=> $item): ?> 
+ <h2>Installing module template: <? print  $item ?> (for <em><? print $k ?></em>)</h2>
+<textarea>
+<? $iudates = $update_api -> install_module_template($k,$layout_file); 
+d($iudates);
+?>
+</textarea>
+ <? endforeach ; ?>
+<? endif; ?>
+<? }  ?>
