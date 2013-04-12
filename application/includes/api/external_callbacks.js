@@ -4,6 +4,7 @@ mw.iframecallbacks = {
     insert_link:function(url, target){
       var target = target || '_self';
       mw.wysiwyg.restore_selection();
+         d(mw.wysiwyg.selection_length())
       if(mw.wysiwyg.selection_length()>0){
          var a = mwd.createElement('a');
          a.href = url;

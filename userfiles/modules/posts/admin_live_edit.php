@@ -54,7 +54,13 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
   </div>
    <div class="tab">
    <? 
-   $add_post_q = 'subtype=post ';
+   
+   if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+	    $add_post_q = 'subtype="product" is_shop=y ';
+   } else {
+	    $add_post_q = 'subtype=post ';
+   }
+  
    if(isset($params['page-id'])){
 	    $add_post_q  .=' data-parent-page-id='.$params['page-id'];
    }
@@ -67,6 +73,9 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
   } else  if(isset($params['page-id'])){
 	    $add_post_q  .=' data-parent-page-id='.$params['page-id'];
    } 
+   
+   
+   
   
   if($posts_parent_page != false and $posts_parent_category != false and intval($posts_parent_category) > 0){
 	  
@@ -98,7 +107,7 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
   
    
   
-   ?> 
+   ?>  
     <div  <? print $add_post_q ?> id="mw_posts_add_live_edit"></div>
   </div>
   <div class="mw_clear"></div>

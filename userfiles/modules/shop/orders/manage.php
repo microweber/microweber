@@ -52,7 +52,7 @@
   type="text"
   onblur="mw.form.dstatic(event);"
   onfocus="mw.form.dstatic(event);"
-   id="mw-search-field"
+  id="mw-search-field"
   class="mw-ui-searchfield right"
   value="<?php _e("Search for orders"); ?>"
   data-default="<?php _e("Search for orders"); ?>"

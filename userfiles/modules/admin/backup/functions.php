@@ -63,10 +63,19 @@ function mw_backups_list() {
 }
 
 function mw_backups_restore_tables() {
-	if (!is_admin()) {error("must be admin");
+	if (!is_admin()) {
+		
+		error("must be admin");
 	};
 	// Get the provided arg
 	$id = $_GET['id'];
+	$db = c('db');
+	$table = '*';
+	$host = $DBhost = $db['host'];
+	$user = $DBuser = $db['user'];
+	$pass = $DBpass = $db['pass'];
+	$name = $DBName = $db['dbname'];
+
 
 	// Check if the file has needed args
 	if ($id == NULL) {

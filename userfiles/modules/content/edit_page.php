@@ -33,7 +33,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 $active_site_template = '';
 $layout_file = '';
 $layout_from_parent = '';
-if($data == false or empty($data )){
+if(!isset($edit_post_mode) and $data == false or empty($data ) ){
 $layout_from_parent = ' layout_file="layouts/clean.php" ';
 }
 if($data == false or empty($data )){
@@ -67,16 +67,19 @@ if($data == false or empty($data )){
   $parent_cont = get_content_by_id($params["parent-page-id"]);
       if(isarr($parent_cont) and isset($parent_cont['active_site_template'])){
 
-    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
 
-      //  $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
 
-             //$active_site_template = $parent_cont['active_site_template'];
-            //  $layout_file = 'inherit';
+//    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
+
+
+
+
+
+
+
 
       }
-   //d($parent_cont);
-  }
+   }
 }
 }
 if(isset($edit_post_mode) and $edit_post_mode == true){
@@ -610,6 +613,18 @@ else{
       }
 
     }
+
+     <? if(intval($data['id']) == 0): ?>
+     $(document).ready(function(){
+//$("#layout-selector-toggle").show();
+//$(".mw-layout-selector-holder").show();
+
+mw.tools.toggle(".mw-layout-selector-holder", "#layout-selector-toggle");
+
+//mw.tools.toggle($("#layout-selector-toggle")[0]);
+load_preview();
+    })
+<? endif; ?>
 
 
     </script>

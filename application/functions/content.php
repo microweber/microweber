@@ -2902,10 +2902,7 @@ if (isset($params['include_categories'])) {
 				}
 				$iid = $item['id'];
 
-				if(isset($item['is_active']) and $item['is_active'] == 'n'){
-
-					$li_class =$li_class. ' content-unpublished ';
-				}
+				
 
 
 
@@ -2957,9 +2954,18 @@ if (isset($params['include_categories'])) {
 		if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
 			$ext_classes .= ' have-category';
 		}
+		
+		if(isset($item['is_active']) and $item['is_active'] == 'n'){
+
+					$ext_classes =$ext_classes. ' content-unpublished ';
+				}
 
 		$ext_classes = trim($ext_classes);
 				$the_active_class = $active_class;
+				
+				
+				
+				
 					$to_print = str_replace('{id}', $item['id'], $link);
 					$to_print = str_replace('{active_class}', $active_class, $to_print);
 					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
@@ -2969,11 +2975,11 @@ if (isset($params['include_categories'])) {
 					$to_pr_2= str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
 
 
-					$to_print = str_ireplace('{title}', $item['title'], $to_print);
+					$to_print = str_replace('{title}', $item['title'], $to_print);
 
-					$to_print = str_ireplace('{nest_level}', 'depth-' . $nest_level, $to_print);
+					$to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
 					if (strstr($to_print, '{link}')) {
-						$to_print = str_ireplace('{link}', page_link($item['id']), $to_print);
+						$to_print = str_replace('{link}', page_link($item['id']), $to_print);
 					}
 					$empty1 =  intval($nest_level);
 					$empty = '';
@@ -2984,10 +2990,10 @@ if (isset($params['include_categories'])) {
 
 
 					if (strstr($to_print, '{tn}')) {
-						$to_print = str_ireplace('{tn}', thumbnail($item['id'], 'original'), $to_print);
+						$to_print = str_replace('{tn}', thumbnail($item['id'], 'original'), $to_print);
 					}
 					foreach ($item as $item_k => $item_v) {
-						$to_print = str_ireplace('{' . $item_k . '}', $item_v, $to_print);
+						$to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
 					}
 					$res_count++;
 					if (is_array($active_ids) == true) {

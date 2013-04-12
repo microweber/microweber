@@ -2138,6 +2138,23 @@ mw.requestToReload = function(id){
    mw.storage.set("reload_module", id);
 }
 
+rcss = function(){
+  mw.$("link").each(function(){
+    var href = this.href;
+
+    this.href =  mw.url.set_param('v', mw.random(), href);
+  });
+}
+
+setVisible = function(e){
+    if(e.type == 'focus'){
+      $(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visible()
+    }
+    else if(e.type == 'blur'){
+     $(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visibilityDefault()
+    }
+}
+
 
 
 

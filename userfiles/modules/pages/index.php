@@ -55,11 +55,11 @@ if (isset($params['data-include_categories'])) {
  
   
  //
- 
- 
+	 if(is_admin() == false){
+	  $params['is_active'] = 'y';
+	 }
 
-
- $module_template = get_option('data-template',$params['id']);
+		 $module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
 				}

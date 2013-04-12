@@ -77,7 +77,9 @@
          <? if(isarr( $module_info)): ?>
 
            mw_module_settings_info  = <? print json_encode($module_info); ?>
-
+		   
+		   mw_module_params  = <? print  json_encode($params); ?>
+ 
          <? endif; ?>
 
          if(typeof thismodal == 'undefined' && self !== parent){
@@ -103,20 +105,46 @@
 			var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
 			is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			if(is_module_tml_holder.length == 0 ){
-					$(toolbar).append("<div id='module-modal-settings-menu-holder' class='mw-ui-dropdown'></div>");
+			    var dd =  mwd.createElement('div');
+                dd.id = 'module-modal-settings-menu-holder';
+                dd.className = 'mw-ui-dropdown';
+				$(toolbar).append(dd);
 			}
-			
+
 			
 			
 			
 			  <? if(isarr( $module_info)): ?>
-			  <? $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?> 
+			  <? $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
 			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			  if(is_module_tml_holder.length > 0 ){
-			  is_module_tml_holder.html("<a>Menu</a><div id='module-modal-settings-menu-items' module_id='<? print $params['id'] ?>' module_name='<? print $module_info['module'] ?>' class='mw-dropdown-content'  ></div>");
-			  is_module_tml_holder.append("<div id='module-modal-settings-menu-holder-2' class='mw-dropdown-content'><a href='<? print $mod_adm  ?>'>Go to admin</a></div>");
-			  d(<? print json_encode($module_info); ?>);
-                parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
+
+
+              is_module_tml_holder.empty();
+
+              var holder = mwd.createElement('div');
+              holder.className = 'mw-dropdown-content';
+
+
+
+
+              var html = ""
+              + "<div id='module-modal-settings-menu-items' module_id='<? print $params['id'] ?>' module_name='<? print $module_info['module'] ?>'>"
+              + "</div>"
+              + "<hr>"
+              + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<? print $mod_adm  ?>'>Go to admin</a></div>"
+
+              var btn = "<a class='mw-ui-btn mw-ui-btn-small'><span class='ico idownarr right'></span>Menu</a>";
+
+
+              $(holder).append(html);
+
+              $(dd).prepend(btn);
+
+			  is_module_tml_holder.append(holder);
+
+              parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
+
 			 }
                                             
           	<? endif; ?>

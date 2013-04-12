@@ -1,9 +1,9 @@
 
 <span class="mw_dlm"></span>
-<div style="width: 112px;" data-value="" title="These values will replaced with the actual content" id="dynamic_vals" class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_dynamic_values">
+<div style="width: 112px;" data-value="" title="These values will be replaced with the actual content" id="dynamic_vals" class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_type_wysiwyg_blue mw_dropdown_action_dynamic_values">
     <span class="mw_dropdown_val_holder">
         <span class="dd_rte_arr"></span>
-        <span class="mw_dropdown_val" style="width: 100px;">Dynamic Values</span>
+        <span class="mw_dropdown_val" style="width: 80px;">E-mail Values</span>
     </span>
   <div class="mw_dropdown_fields">
       <ul>

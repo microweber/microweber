@@ -291,15 +291,14 @@ function menu_tree($menu_id, $maxdepth = false) {
 	$cache_group = 'menus/global';
 	$function_cache_id = false;
 
-/*
-	$function_cache_id = __FUNCTION__ . crc32(serialize($menu_id));
-	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	if (($cache_content) != false) {
-		print $cache_content;
-		return;
+	/*
+	 $function_cache_id = __FUNCTION__ . crc32(serialize($menu_id));
+	 $cache_content = cache_get_content($function_cache_id, $cache_group);
+	 if (($cache_content) != false) {
+	 print $cache_content;
+	 return;
 
-	}*/
-
+	 }*/
 
 	$params = array();
 	$params['item_parent'] = $menu_id;
@@ -360,12 +359,10 @@ function menu_tree($menu_id, $maxdepth = false) {
 	if (isset($li_tag) == false) {
 		$li_tag = 'li';
 	}
-	
-	
-	 if (isset($params['maxdepth']) != false) {
+
+	if (isset($params['maxdepth']) != false) {
 		$maxdepth = $params['maxdepth'];
 	}
-	
 
 	if (!isset($link) or $link == false) {
 		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
@@ -381,12 +378,17 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 		$title = '';
 		$url = '';
-
+		$is_active = true;
 		if (intval($item['content_id']) > 0) {
 			$cont = get_content_by_id($item['content_id']);
 			if (isarr($cont)) {
 				$title = $cont['title'];
 				$url = content_link($cont['id']);
+
+				if ($cont['is_active'] != 'y') {
+					$is_active = false;
+				}
+
 			}
 		} else if (intval($item['categories_id']) > 0) {
 			$cont = get_category_by_id($item['categories_id']);
@@ -435,7 +437,9 @@ function menu_tree($menu_id, $maxdepth = false) {
 		} else {
 			$active_class = '';
 		}
-
+		if ($is_active == false) {
+			$title = '';
+		}
 		if ($title != '') {
 			$item['url'] = $url;
 			//$full_item['the_url'] = page_link($full_item['content_id']);
@@ -490,11 +494,11 @@ function menu_tree($menu_id, $maxdepth = false) {
 						if (isset($li_class)) {
 							$menu_params['li_class'] = $li_class;
 						}
-						
+
 						if (isset($maxdepth)) {
 							$menu_params['maxdepth'] = $maxdepth;
 						}
-						
+
 						if (isset($li_tag)) {
 							$menu_params['li_tag'] = $li_tag;
 						}

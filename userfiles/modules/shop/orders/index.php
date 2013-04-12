@@ -58,12 +58,8 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
       <tr class="mw-order-item mw-order-item-<? print $item['id'] ?> mw-order-status-<? print $item['order_status'] ?>">
         <td class="mw-order-item-id"><a href="#vieworder=<? print ($item['id']) ?>"><span><? print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
           <span class="mw-ord-id">ORD-<? print $item['id'] ?></span></a>
-         
-         <br />
- <span class="mw-admin-date" title="<? print ago($item['created_on'],1); ?>"><? print mw_date($item['created_on']);; ?></span>
-          </td>
-                 
-
+          <div class="mw-date" title="<? print ago($item['created_on'],1); ?>"><? print mw_date($item['created_on']);; ?></div>
+        </td>
         <td class="mw-order-item-status"><?
 		 if($item['order_status'] == false): ?>
           New
@@ -82,13 +78,13 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
         <td class="mw-order-item-email"><? print $item['email'] ?></td>
         <td class="mw-order-item-phone"><? print $item['phone'] ?></td>
         <td class="mw-order-item-country"><? print $item['country'] ?></td>
-        <td class="mw-order-item-edit" width="80">
+        <td class="mw-order-item-edit" width="80" align="center">
             <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<? print ($item['id']) ?>');"></span>
-          <center>
+
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#vieworder=<? print ($item['id']) ?>">
             <?php _e("View order"); ?>
             </a>
-          </center></td>
+          </td>
       </tr>
       <? endforeach; ?>
     </tbody>

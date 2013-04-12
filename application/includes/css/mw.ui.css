@@ -577,16 +577,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   display: inline-block;
 }
 
-.mw-ui-dropdown  .mw-ui-btn{
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  margin-bottom: 0 !important;
-}
 
-.mw-ui-dropdown li .mw-ui-btn{
-  display: block;
-  padding: 2px 0 ;
-}
 
 .mw-ui-dropdown .mw-dropdown-content{
     left: 0px;
@@ -604,6 +595,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
     border: 1px solid #C2BFBF;
     box-shadow: 0 2px 3px #888;
     box-shadow: 0 2px 3px -1px #888;
+    cursor: default;
 }
 
 .mw-ui-dropdown:hover > .mw-dropdown-content{
@@ -737,6 +729,16 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 .mw-v-cell{
   display: table-cell;
   float: none !important;
+}
+
+.mw-date{
+  color: #707070;
+  font-size: 10px;
+  font-weight: normal;
+}
+
+div.mw-date{
+  padding: 2px 0;
 }
 
 

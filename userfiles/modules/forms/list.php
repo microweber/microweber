@@ -104,7 +104,7 @@ if(isarr($data)){
   </thead>
   <tfoot>
     <tr>
-      <th class="mw-ui-admin-table-small">ID</th>
+      <th class="mw-ui-admin-table-small">ID & Date</th>
        <? if(isarr($custom_fields )): ?>
       <? foreach($custom_fields   as $k=>$item): ?>
       <th><? print   titlelize($k); ?></th>
@@ -117,12 +117,9 @@ if(isarr($data)){
 <?php if(isarr($data)): ?>
     <? foreach ($data as $item) : ?>
     <tr class="mw-form-entry-item mw-form-entry-item-<? print $item['id'] ?>">
-      <td class="mw-ui-admin-table-small"><? print $item['id'] ?>
-      
-      
-      <br />
+      <td width="50" style="text-align: center"><? print $item['id'] ?>
 
-       <span class="mw-admin-date" title="<? print ago($item['created_on'],1); ?>"><? print mw_date($item['created_on']);; ?></span>
+       <div class="mw-date" title="<? print ago($item['created_on'],1); ?>"><? print mw_date($item['created_on']);; ?></div>
 </td>
        <? if(isarr($custom_fields )): ?>
       <? foreach($custom_fields   as $cvk => $custom_field_v): ?>

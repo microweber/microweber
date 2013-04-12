@@ -185,8 +185,11 @@ $myPaypal -> addField('shipping', $place_order['payment_shipping']);
 // Specify any custom value
 $myPaypal -> addField('total_items', $place_order['items_count']);
 // Enable test mode if needed
-$myPaypal -> enableTestMode();
 
+$paypal_is_test = (get_option('paypal_testmode', 'payments')) == 'n';
+if($paypal_is_test  == true){
+$myPaypal -> enableTestMode();
+}
 // Let's start the train! 
 $place_order['order_completed'] = 'y';
 $place_order['is_paid'] = 'n';

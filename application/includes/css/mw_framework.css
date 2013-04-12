@@ -586,13 +586,23 @@ body.view-shop .mw_action_post{
   margin-left:3px;
 }
 
-.mw-tree li.content-unpublished {
+.mw-tree a.content-unpublished {
 	opacity: 0.5;
 
 }
 
 .manage-post-item.content-unpublished{
   opacity:0.5;
+}
+.manage-post-item.content-unpublished:before{
+  position: absolute;
+  display: block;
+  content: "Unpublished";
+  bottom: 0;
+  right: 0;
+  font-size: 11px;
+  padding: 5px 10px;
+  background: #FFFF66;
 }
 
 .mw-tree .module a:hover, .mw-tree li.active-bg > a{
@@ -936,6 +946,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-small{
   padding: 2px 10px;
   font-size: 10px;
+  line-height:12px;
 }
 .mw-ui-btn-medium{
   padding: 5px 12px 6px;
@@ -2311,6 +2322,30 @@ body.mw-external-loading:after{
 
 .comment-notification-silver{
   background-image: url(../img/cmnts.png);
+}
+
+
+
+#module-modal-settings-menu-holder .mw-dropdown-content{
+  width: 220px;
+  font-size: 11px;
+  padding: 12px;
+}
+
+#module-modal-settings-menu-holder .mw-dropdown-content ul{
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
+
+
+#module-modal-settings-menu-holder .mw-dropdown-content .mw-close{
+  margin-top: 7px;
+}
+
+#module-modal-settings-menu-holder  ul .module-templates-action-btn{
+      float: right;
+      margin-right: 10px;
 }
 
 

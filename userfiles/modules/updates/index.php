@@ -1,3 +1,4 @@
+<img src="<? print $config['url_to_module'];?>update.jpg" />
 <? 
  only_admin_access();
  api_expose('updates');
@@ -16,10 +17,7 @@ if(url_param('add_module')){
 
 
 ?>
-
-
 <? d($config["module_view"]); ?>
-
 <pre><?    print_r($iudates); ?>
 </pre>
 <? if(!empty($iudates)): ?>

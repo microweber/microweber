@@ -248,6 +248,8 @@ if(isset($params['title'])){
 
 	unset($post_params['title']);
 }
+
+	 $post_params['is_active'] = 'y';
   // $post_params['debug'] = 'post';
 $content   = get_content($post_params);
 $data = array();

@@ -226,27 +226,24 @@ border-radius: 3px;
     float: left;
     border:1px solid transparent;
     color: #595959;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
 .mw_dropdown_type_wysiwyg:hover, .mw_dropdown_type_wysiwyg.hovered{
   border-color:#D2D2D2;
-background-image: linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
-background-image: -o-linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
-background-image: -moz-linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
-background-image: -webkit-linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
-background-image: -ms-linear-gradient(bottom, rgb(229,229,229) 1%, rgb(243,243,243) 51%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.01, rgb(229,229,229)),
-	color-stop(0.51, rgb(243,243,243))
-);
+  background: url(../img/grad.php?top=F3F3F3&bot=E5E5E5);
 }
+
+.mw_dropdown_type_wysiwyg_blue{
+  border-color:#8EC4F0;
+  background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);
+  color: #125287;
+}
+
+ .mw_dropdown_type_wysiwyg_blue:hover, .mw_dropdown_type_wysiwyg_blue.hovered{
+  background: url(../img/grad.php?top=CDE1FB&bot=81BDEF);
+  border-color:#8EC4F0;
+ }
 
 .mw_dropdown_type_wysiwyg ul{
   padding: 0;

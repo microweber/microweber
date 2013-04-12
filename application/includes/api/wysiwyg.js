@@ -36,7 +36,7 @@ mw.wysiwyg = {
                     if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
                 });
             });
-            mw.$("img, .empty-element, .ui-resizable-handle").each(function(){
+            mw.$(".empty-element, .ui-resizable-handle").each(function(){
                 this.contentEditable = false;
             });
             mw.on.moduleReload(function(){
@@ -584,13 +584,10 @@ mw.wysiwyg = {
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" class="element element-image" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
-        $("#"+id).attr("contenteditable", false);
+        //$("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
-        mw.disable_selection("#"+id);
-        if(typeof mw.drag==='object'){
-          //mw.drag.init("#"+id);
-          //mw.image.resize.init("#"+ id);
-        }
+       // mw.disable_selection("#"+id);
+
         mw.wysiwyg.set_cursor('after', "#"+ id);
         mw.wysiwyg.save_selection();
         return id;
@@ -623,6 +620,7 @@ mw.wysiwyg = {
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
+
     },
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
