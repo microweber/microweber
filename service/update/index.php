@@ -2,8 +2,19 @@
 $mw_site_url = "http://api.microweber.net/";
 define('MW_BARE_BONES', 1);
 include ('../../index.php');
-if (isset($_GET['api_function'])) {
-	$method_name = trim($_GET['api_function']);
+
+
+if (isset($_REQUEST['base64'])) {
+	
+	$_REQUEST = unserialize(base64_decode($_REQUEST['base64']));
+ 
+}
+
+
+
+
+if (isset($_REQUEST['api_function'])) {
+	$method_name = trim($_REQUEST['api_function']);
 	if (isset($_REQUEST['api_function'])) {
 		unset($_REQUEST['api_function']);
 	}
@@ -137,11 +148,9 @@ $ver = $this->get_latest_core_version();
 			  $to_return['modules'] = $updates_data;
 		}
 		
-		
-		
-		
+	
 		$updates_data = array();
-		if (isset($params['elehjjhjhjhjhjhjhjhjhjhjhjhments'])) {
+		if (isset($params['elements'])) {
 			
 			
 			
@@ -158,6 +167,9 @@ $ver = $this->get_latest_core_version();
 			 
 			foreach ($params['elements'] as $module) {
 				foreach ($local_modules as $local_module) {
+					
+					
+					
 					if (isset($module['module']) and isset($local_module['module_base'])) {
 						 	$local_module['module'] = str_replace($this -> layouts_dir, '',$local_module['module_base']); 
 						 	 $local_module['module'] = rtrim($local_module['module'], DS);
@@ -168,6 +180,7 @@ $ver = $this->get_latest_core_version();
 							} else {
 								$module['version'] =  trim($module['version']) ;
 							}
+						 
 							  if (isset($local_module['version']) and floatval($local_module['version']) > floatval($module['version'])) {
 								$dl_params = array();
 								$dl_params['module'] =  $local_module['module'];
@@ -204,8 +217,77 @@ $ver = $this->get_latest_core_version();
 		}
 		
 		
+		$updates_data = array();
+		if (isset($params['module_templates'])) {
+			$module_templates = $params['module_templates'];
+			
+			foreach($module_templates as $k => $module_templates_all){
+				
+				$options = array();
+			$options['no_cache'] = 1;
+			//$options['for_modules'] = 1;
+			$options['path'] = normalize_path($this -> modules_dir.DS.$k.DS.'templates');
+			$module_templates_for_this = layouts_list($options);
+				
+				
+				//$module_templates_for_this = module_templates($k);
+							if(isarr($module_templates_for_this)){
+								
+								foreach($module_templates_all as $module_template){
+								
+								
+									
+								//$module_templates_for_this_diff = array_diff($module_templates,$module_templates_for_this);
+								foreach($module_templates_for_this as $local_module){
+									
+								if(isset($local_module['layout_file']) and isset($module_template['layout_file']) and isset($local_module['name'])){
+									if(!in_array($local_module['layout_file'],$updates_data)){
+										$loc1 = normalize_path($local_module['layout_file'], false);
+										$loc2 = normalize_path($module_template['layout_file'], false);
+									 
+									
+								 if ((!isset($module_template['version']) and isset($local_module['version'])) or (isset($local_module['version']) and floatval($local_module['version']) > floatval($module_template['version']))) {
+											$dl_params = array();
+											$dl_params['name'] =  $local_module['name'];
+									     	$dl_params['module'] = $k;
+
+											$dl_params['layout_file'] = $local_module['layout_file'];
+											$dl_params['version'] = $local_module['version'];
+										
+											//$dl_params['data'] = $local_module;
+			
+				 
+											 $updates_data[$local_module['layout_file']] = $dl_params;
+										
+										   }
+								
+								}
+								
+							}
+								
+								
+								
+								
+									 
+							}
+							//
+						}
+						
+				 }
+				 
+				 
+				 
+						
+			}
+			
+			
+			  $to_return['module_templates'] = $updates_data;
+		}
 		
 		
+							  
+		
+	 
 
 		return $to_return;
 	}

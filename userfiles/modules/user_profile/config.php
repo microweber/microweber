@@ -8,5 +8,7 @@ $config['ui'] = true;
 $config['categories'] = "users";
 $config['position'] = 30;
 $config['version'] = "users";
+$config['version'] = 0;
+
 
 

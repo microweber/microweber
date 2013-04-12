@@ -401,20 +401,22 @@
   cursor: pointer;
   text-indent: -9999px;
 }
-.mw_modal_simple .mw_modal_close{
+.mw_modal_simple .mw_modal_close, .mw_modal_basic .mw_modal_close{
   position: absolute;
   display: block;
   width: 8px;
   height: 8px;
   background: url(../img/delete_item.png) no-repeat;
-  right: 4px;
-  top: 6px;
+  right: 8px;
+  top: 8px;
   cursor: pointer;
   text-indent: -9999px;
 }
-.mw_modal_simple .mw_modal_close:hover{
+.mw_modal_simple .mw_modal_close:hover, .mw_modal_basic .mw_modal_close:hover{
   background-position: 0 -16px;
 }
+
+
 
 .mw_modal_title{
   display: inline-block;
@@ -507,6 +509,16 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   left: 0px;
   position: relative;
   background: #EEEEEE;
+  cursor: move;
+}
+
+.mw_modal_basic .mw_modal_toolbar{
+  height: 20px;
+  width:100%;
+  top: 0px;
+  left: 0px;
+  position: relative;
+  background: white;
   cursor: move;
 }
 

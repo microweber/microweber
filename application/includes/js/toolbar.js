@@ -225,7 +225,8 @@ mw.image = {
             minHeight: 60,
             start:function(){
               mw.image.isResizing = true;
-                 $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+              $(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+              $(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit')).addClass("changed");
             },
             stop:function(){
               mw.image.isResizing = false;
@@ -538,7 +539,13 @@ $(document).ready(function(){
  });
 
 
+ mw.$("#mw-toolbar-right a").click(function(){
+   return mw.beforeleave(this.href);
+ });
 
+  mw.$(".edit a:not([onclick])").click(function(){
+   return mw.beforeleave(this.href);
+ });
 
 });
 

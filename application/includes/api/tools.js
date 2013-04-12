@@ -2156,6 +2156,43 @@ setVisible = function(e){
 }
 
 
+mw.beforeleave_html = ""
+    + "<div class='mw-before-leave-container'>"
+      + "<p>Leave page by choosing an option</p>"
+      + "<span class='confirm-btn-red'>Leave withot saving</span>"
+      + "<span class='confirm-btn-green' >Save &amp; Continue</span>"
+      + "<div class='vSpace'></div>"
+      + "<span class='mw-cancel' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>Cancel</span>"
+    + "</div>";
+
+mw.beforeleave = function(url){
+    if(mw.askusertostay){
+        var modal = mw.tools.modal.init({
+           html:mw.beforeleave_html,
+           name:'modal_beforeleave',
+           width:430,
+           height:230,
+           template:'mw_modal_basic',
+        });
+
+        var save = modal.container.querySelector('.confirm-btn-green');
+        var go = modal.container.querySelector('.confirm-btn-red');
+
+        $(save).click(function(){
+          mw.drag.save(mwd.getElementById('main-save-btn'), function(){
+            mw.askusertostay = false;
+            window.location.href = url;
+          });
+        });
+        $(go).click(function(){
+          mw.askusertostay = false;
+          window.location.href = url;
+        });
+        return false;
+    }
+}
+
+
 
 
 

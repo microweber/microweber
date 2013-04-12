@@ -231,6 +231,14 @@ function layouts_list($options = false) {
 							$result = str_ireplace('name:', '', $result);
 							$to_return_temp['name'] = trim($result);
 						}
+						
+						
+						if (preg_match('/version:.+/', $fin, $regs)) {
+							$result = $regs[0];
+							$result = str_ireplace('version:', '', $result);
+							$to_return_temp['version'] = trim($result);
+						}
+						
 
 						if (preg_match('/icon:.+/', $fin, $regs)) {
 							$result = $regs[0];

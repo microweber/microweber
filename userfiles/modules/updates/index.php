@@ -1,49 +1,38 @@
-<img src="<? print $config['url_to_module'];?>update.jpg" />
-<? 
- only_admin_access();
+<?  only_admin_access();
  api_expose('updates');
 if(url_param('add_module')){
 
-}
+}  
 
-	
 	$install = url_param('add_module');
 	
-	 $update_api = new \mw\Update(true);
- 
-	$iudates = $update_api -> check();
+	
 
 
 
 
 ?>
-<? d($config["module_view"]); ?>
-<pre><?    print_r($iudates); ?>
-</pre>
-<? if(!empty($iudates)): ?>
-<pre id="update_lddog_<? print $params['id']; ?>">
-<? d($iudates); ?>
-</pre>
-<? if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
-<? foreach($iudates["license_check"]["modules"] as  $item): ?>
-<pre id="update_log_<? print $params['id']; ?>">
-<? d($item); ?>
-</pre>
-<? endforeach; ?>
-<? endif;  ?>
+ 
 <script  type="text/javascript">
 
-mw.require('forms.js');
- 
+mw.require('forms.js', true);
+ </script>
+<script  type="text/javascript">
 
 $(document).ready(function(){
 	
-	 
-	 
-	 mw.$('#mw_form1_updates<? print $params['id']; ?>').submit(function() { 
+	  mw.$('.mw-check-updates-btn').click(function() { 
+	  
+	  $("#mw-updates").attr('force', 'true');
+	  
+	  mw.reload_module("#mw-updates");
+	  
+	  });
+   
+	 mw.$('.mw-select-updates-list').submit(function() { 
 
  
- mw.form.post(mw.$('#mw_form1_updates<? print $params['id']; ?>') , '<? print $config["module_view"] ?>/apply_updates', function(){
+ mw.form.post(mw.$('.mw-select-updates-list') , '<? print $config["module_view"] ?>/apply_updates', function(){
 	 
 var obj =  (this);
 
@@ -81,40 +70,65 @@ mw.$('#update_log_<? print $params['id']; ?>').append(value);
    
 });
 </script>
-<form id="mw_form1_updates<? print $params['id']; ?>" name="form1" method="post">
-  <? if(isset($iudates["core_update"])): ?>
-  <h3>New Microweber version available</h3>
-  <p>Your version <? print MW_VERSION ?></p>
-  <p>New version <? print $iudates["version"] ?></p>
-  <p>
-    <label>
-      <input type="checkbox" name="mw_version" value="<? print $iudates["version"] ?>"  />
-      Install <? print $iudates["version"] ?></label>
-    <br />
-  </p>
-  <? endif; ?>
-  <? if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
-  <h4>New module updates are available</h4>
-  <? foreach($iudates["modules"] as $k => $item): ?>
-  <p>
-    <label>
-      <input type="checkbox" name="modules[]" value="<? print $item["module"] ?>"  />
-      <? print $item["name"] ?> <? print $item["version"] ?></label>
-    <br />
-  </p>
-  <? endforeach; ?>
-  <? endif; ?>
-  <? if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
-  <h4>New layouts updates are available</h4>
-  <? foreach($iudates["elements"] as $k => $item): ?>
-  <p>
-    <label>
-      <input type="checkbox" name="elements[]" value="<? print $item["module"] ?>"  />
-      <? print $item["name"] ?> <? print $item["version"] ?></label>
-    <br />
-  </p>
-  <? endforeach; ?>
-  <? endif; ?>
-  <input type="submit" value="install" />
-</form>
-<? endif; ?>
+<input type="button" value="Check for update" class="mw-check-updates-btn mw-ui-btn" />
+
+
+
+<module type="updates/list" id="mw-updates" />
+ 
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<img src="<? print $config['url_to_module'];?>update.jpg" />

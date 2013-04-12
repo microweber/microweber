@@ -847,7 +847,7 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
 });
 
 
-    mw.wysiwyg.init_editables();
+
 
   mw.wysiwyg.nceui();
 
@@ -905,6 +905,11 @@ mw.$(".mw_dropdown_action_font_size li a").each(function(i){
 
 
 });
+
+
+$(window).load(function(){
+  mw.wysiwyg.init_editables();
+})
 
 
 

@@ -45,8 +45,19 @@ class Update {
 
 		//	$t = scan_for_modules("cache_group=modules/global");
 		$t = get_modules_from_db("ui=any");
-		//d($t);
+		// d($t);
 		$data['modules'] = $t;
+		$data['module_templates'] = array();
+		if(isarr($t)){
+			foreach ( $t as $value) {
+				if(isset($value['module'])){
+					$module_templates = module_templates($value['module']);
+					$data['module_templates'][$value['module']] = $module_templates;
+				}
+				//d($value);
+			}
+		}
+
 
 		$t = get_elements_from_db();
 		$data['elements'] = $t;
@@ -108,7 +119,7 @@ class Update {
 		if ($a == false) {
 			error('Must be admin!');
 		}
-
+print __FILE__.__LINE__;
 		d($updates);
 		print 1;
 		return $updates;
@@ -301,13 +312,19 @@ class Update {
 			$post_params = array();
 		}
 		$post_params['site_url'] = site_url();
+		$post_params['api_function'] = $method;
 
 		if ($post_params != false and is_array($post_params)) {
 
-			$post_params = $this -> http_build_query_for_curl($post_params);
+			//$post_params = $this -> http_build_query_for_curl($post_params);
+			
+			$post_paramsbase64 = base64_encode(serialize($post_params));
+			
+			   
+			$post_params_to_send = array('base64' => $post_paramsbase64);
 
-			curl_setopt($ch, CURLOPT_POST, count($post_params));
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
+			curl_setopt($ch, CURLOPT_POST, count($post_params_to_send));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params_to_send);
 		}
 		$result1 = curl_exec($ch);
 

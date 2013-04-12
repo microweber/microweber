@@ -1519,7 +1519,7 @@ module_settings: function() {
    */
 
 
-  save: function(el) {
+  save: function(el, callback) {
 
 
 
@@ -1613,6 +1613,10 @@ if(typeof el === 'object'){
           }
 
           mw.notification.success("All changes are saved.");
+
+          if(typeof callback === 'function'){
+               callback.call();
+          }
 
         }
       });

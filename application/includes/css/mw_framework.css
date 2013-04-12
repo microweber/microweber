@@ -2348,6 +2348,62 @@ body.mw-external-loading:after{
       margin-right: 10px;
 }
 
+.mw-before-leave-container{
+  text-align: center;
+}
+
+.mw-before-leave-container p{
+  padding: 16px 0;
+}
+
+.mw-cancel{
+  font-size: 11px;
+  color: #188DE7;
+  text-align: center;
+  cursor: pointer;
+  padding:5px 19px;
+  border: 1px solid transparent;
+}
+.mw-cancel:hover{
+  background: #F3F3F3;
+  border-color:#D7D7D7;
+}
+.mw-before-leave-container [class*='confirm-btn']{
+  margin:10px 13px 8px;
+  width: 145px;
+  opacity: 0.6;
+}
+
+.mw-before-leave-container [class*='confirm-btn']:hover{
+  opacity: 1;
+}
+
+
+
+[class*='confirm-btn']{
+  display: inline-block;
+  text-align: center;
+  font-size:12px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  padding:12px;
+  cursor: pointer;
+}
+
+.confirm-btn-red{
+  color: white;
+  border-color: #ED4B12;
+  background: #ED4B12;
+}
+
+.confirm-btn-green{
+  background: #C5FFA8;
+  border-color: #BAC99C;
+  color: #4D7301;
+}
+
+
+
 
 
 
