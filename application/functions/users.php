@@ -7,6 +7,7 @@ if (!defined("MW_DB_TABLE_LOG")) {
 	define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
 }
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
+action_hook('mw_db_init', 'mw_db_init_users_table');
 
 function mw_db_init_users_table() {
 	$function_cache_id = false;
@@ -111,12 +112,15 @@ function mw_db_init_users_table() {
 
 	$fields_to_add[] = array('field', 'longtext default NULL');
 	$fields_to_add[] = array('value', 'TEXT default NULL');
+	$fields_to_add[] = array('module', 'longtext default NULL');
 
 	$fields_to_add[] = array('data_type', 'TEXT default NULL');
 	$fields_to_add[] = array('title', 'longtext default NULL');
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 	$fields_to_add[] = array('content', 'TEXT default NULL');
 	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
+	$fields_to_add[] = array('session_id', 'longtext default NULL');
+	$fields_to_add[] = array('is_system', "char(1) default 'n'");
 
 	set_db_table($table_name, $fields_to_add);
 
@@ -127,21 +131,69 @@ function mw_db_init_users_table() {
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
 }
 
+api_expose('system_log_reset');
+
+function system_log_reset($data) {
+	$adm = is_admin();
+	if ($adm == false) {
+		return array('error' => 'Error: not logged in as admin.');
+	}
+
+	$table = MW_DB_TABLE_LOG;
+
+	$q = "DELETE from $table ";
+
+	$cg = guess_cache_group($table);
+
+	cache_clean_group($cg);
+	$q = db_q($q);
+	return array('success' => 'System log is cleaned up.');
+
+	//return $data;
+}
+
 api_expose('delete_log_entry');
 
 function delete_log_entry($data) {
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		return array('error' => 'Error: not logged in as admin.');
 	}
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		db_delete_by_id('log', $c_id);
+		$table = MW_DB_TABLE_LOG;
+		$old = date("Y-m-d H:i:s", strtotime('-1 month'));
+		$q = "DELETE from $table where created_on < '{$old}'";
+
+		$q = db_q($q);
+
 		return $c_id;
 
 	}
 	return $data;
+}
+
+function delete_log($params) {
+	$params = parse_params($params);
+	$table = MW_DB_TABLE_LOG;
+	$params['table'] = $table;
+
+	if (is_admin() == false) {
+		$params['user_ip'] = USER_IP;
+	}
+
+	$q = get($params);
+	if (isarr($q)) {
+		foreach ($q as $val) {
+			$c_id = intval($val['id']);
+			db_delete_by_id('log', $c_id);
+		}
+
+	}
+	cache_clean_group('log' . DIRECTORY_SEPARATOR . 'global');
+	return true;
 }
 
 function save_log($params) {
@@ -150,11 +202,22 @@ function save_log($params) {
 	$params['user_ip'] = USER_IP;
 	$data_to_save = $params;
 	$table = MW_DB_TABLE_LOG;
- 						mw_var('FORCE_SAVE', $table);
+	mw_var('FORCE_SAVE', $table);
 	$save = save_data($table, $params);
 	$id = $save;
 	cache_clean_group('log' . DIRECTORY_SEPARATOR . 'global');
 	return $id;
+}
+
+function get_log_entry($id) {
+
+	$params = array();
+	$params['id'] = intval($id);
+	$params['one'] = true;
+
+	$get = get_log($params);
+	return $get;
+
 }
 
 function get_log($params) {
@@ -264,6 +327,8 @@ function register_user($params) {
 			$notif['description'] = "You have new user registration";
 			$notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
 			post_notification($notif);
+
+			save_log($notif);
 
 			return array($next);
 		} else {
@@ -436,6 +501,8 @@ function update_user_last_login_time() {
 		$table = MW_DB_TABLE_USERS;
 		$save = save_data($table, $data_to_save);
 
+		delete_log("is_system=y&rel=login_failed&user_ip=" . USER_IP);
+
 	}
 
 }
@@ -509,6 +576,9 @@ function user_social_login($params) {
 					$data_to_save['first_name'] = $authenticate['firstName'];
 					$data_to_save['last_name'] = $authenticate['lastName'];
 					$data_to_save['thumbnail'] = $authenticate['photoURL'];
+					$data_to_save['profile_url'] = $authenticate['profileURL'];
+					$data_to_save['website_url'] = $authenticate['webSiteURL'];
+
 					$data_to_save['email'] = $authenticate['emailVerified'];
 					$data_to_save['user_information'] = $authenticate['description'];
 					$data_to_save['is_active'] = 'y';
@@ -522,6 +592,18 @@ function user_social_login($params) {
 					if ($save > 0) {
 						$data = array();
 						$data['id'] = $save;
+
+						$notif = array();
+						$notif['module'] = "users";
+						$notif['rel'] = 'users';
+						$notif['rel_id'] = $save;
+						$provider1 = ucwords($provider);
+						$notif['title'] = "New user registration with {$provider1}";
+						$notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
+						post_notification($notif);
+
+						save_log($notif);
+
 					}
 					//d($save);
 				}
@@ -541,6 +623,7 @@ function user_social_login($params) {
 					$user_session = session_get('user_session');
 					$return_after_login = session_get('user_after_login');
 					update_user_last_login_time();
+
 					if ($return_after_login != false) {
 						safe_redirect($return_after_login);
 						exit();
@@ -610,6 +693,15 @@ function user_reset_password_from_link($params) {
 	mw_var('FORCE_SAVE', $table);
 
 	$save = save_data($table, $data1);
+
+	$notif = array();
+	$notif['module'] = "users";
+	$notif['rel'] = 'users';
+	$notif['rel_id'] = $data1['id'];
+	$notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
+
+	save_log($notif);
+
 	return array('success' => 'Your password have been changed!');
 
 }
@@ -670,7 +762,7 @@ function user_send_forgot_password($params) {
 				if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
 					$subject = "Password reset!";
-					$content = "Hello, <br> ";
+					$content = "Hello, {$data_res['username']} <br> ";
 					$content .= "You have requested a password reset link from IP address: " . USER_IP . "<br><br> ";
 
 					//$content .= "on " . curent_url(1) . "<br><br> ";
@@ -691,6 +783,16 @@ function user_send_forgot_password($params) {
 						$save = save_data($table, $data_to_save);
 					}
 					$pass_reset_link = curent_url(1) . '?reset_password_link=' . $function_cache_id;
+
+					$notif = array();
+					$notif['module'] = "users";
+					$notif['rel'] = 'users';
+					$notif['rel_id'] = $data_to_save['id'];
+					$notif['title'] = "Password reset link sent";
+					$content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
+					$notif['description'] = $content_notif;
+
+					save_log($notif);
 					$content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
 					//d($data_res);
@@ -711,7 +813,7 @@ function user_send_forgot_password($params) {
 
 function user_login_set_failed_attempt() {
 
-	save_log("title=Failed login&rel=login_failed&user_ip=" . USER_IP);
+	save_log("title=Failed login&is_system=y&rel=login_failed&user_ip=" . USER_IP);
 
 }
 
@@ -733,12 +835,23 @@ function user_login($params) {
 			return array('error' => 'Please enter username and password!');
 
 		}
-
-		$check = get_log("count=1&created_on=[mt]1 min ago&rel=login_failed&user_ip=" . USER_IP);
+$url = curent_url(1);
+			 
+		$check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&rel=login_failed&user_ip=" . USER_IP);
+		if ($check == 5) {
+			
+			$url_href = "<a href='$url' target='_blank'>$url</a>";
+			save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
+		}
 		if ($check > 5) {
+			$check = $check - 1;
 			return array('error' => 'There are ' . $check . ' failed login attempts from your ip in the last minute. Try again in 1 minute!');
 		}
+		$check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&rel=login_failed&user_ip=" . USER_IP);
+		if ($check2 > 25) {
 
+			return array('error' => 'There are ' . $check2 . ' failed login attempts from your ip in the last 10 minutes. Try again in 10 minutes!');
+		}
 		//d($check);
 
 		$api_key = isset($params['api_key']) ? $params['api_key'] : false;
@@ -1213,7 +1326,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                                                                                  get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                                                                                      get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -1228,7 +1341,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                                                  get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                                                                                      get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -1294,7 +1407,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                                                                  get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                                                                      get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -1338,7 +1451,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                                                                  get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
+	$more =                                                                                      get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -1355,6 +1468,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                                                  get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                                                                                      get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

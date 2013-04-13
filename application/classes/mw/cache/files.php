@@ -525,8 +525,7 @@ class files implements \iMwCache {
 			if ($cache_content1) {
 
 				if (is_file($cache_index) == false) {
-					//file_put_contents($cache_index, $cache_content1);
-					touch($cache_index);
+ 					@touch($cache_index);
 				}
 
 			}
@@ -534,8 +533,7 @@ class files implements \iMwCache {
 			$see_if_dir_is_there = dirname($cache_file);
 
 			$content1 = CACHE_CONTENT_PREPEND . $content;
-			// var_dump ( $cache_file, $content );
-			if (is_dir($see_if_dir_is_there) == false) {
+ 			if (is_dir($see_if_dir_is_there) == false) {
 				mkdir_recursive($see_if_dir_is_there);
 			}
 			try {
@@ -550,8 +548,7 @@ class files implements \iMwCache {
 				}
 
 				$cache = file_put_contents($cache_file_temp, $content1);
-				//d($cache_file_temp);
-				@rename($cache_file_temp, $cache_file);
+ 				@rename($cache_file_temp, $cache_file);
 				//mw_var('is_cleaning_now',false);
 				//}
 
@@ -577,20 +574,27 @@ class files implements \iMwCache {
 	}
 
 	function clearcache() {
+		$start = microtime_float(); 
+		
 		if (MW_IS_INSTALLED == false) {
 
 			$this -> recursive_remove_from_cache_index(CACHEDIR, true);
 			return true;
 		}
 		if (is_admin() == false) {
-			error('Error: not logged in as admin.');
+ 			return array('error' => 'Not logged in as admin.');
+			
 		}
 
 		$this -> recursive_remove_from_cache_index(CACHEDIR, true);
 
 		$this -> recursive_remove_from_cache_index(CACHEDIR_ROOT, true);
-		return true;
-	}
+		$end = microtime_float(); 
+
+ 
+  return array('success' => 'Cache is cleared for ' . round($end - $start, 3) . ' seconds');
+		
+ 	}
 
 	function recursive_remove_from_cache_index($directory, $empty = true) {
 		mw_var('is_cleaning_now', true);

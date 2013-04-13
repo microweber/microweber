@@ -83,7 +83,15 @@ $data = get_users($user_params);
 		  
           
 		  <span class="mw-user-names">
-		   <?php if(isset($item['oauth_provider']) and trim($item['oauth_provider'])!=''): ?><span title="<? print ucwords($item['oauth_provider']) ?>" class="mw-social-ico-<? print $item['oauth_provider'] ?>"></span><?php endif; ?><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?>
+          
+          
+          
+		   <?php if(isset($item['oauth_provider']) and trim($item['oauth_provider'])!=''): ?>
+           <a href="<?  print $item['profile_url']; ?>" target="_blank" title="<? print ucwords($item['oauth_provider']) ?>" class="mw-social-ico-<? print $item['oauth_provider'] ?>"></a>
+		   
+		   
+		   
+		   <?php endif; ?><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?>
           </span>
 
 

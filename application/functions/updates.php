@@ -1,7 +1,23 @@
 <?php
 
-api_expose('mw_install_new_from_remote');
+api_expose('mw_post_update');
+function mw_post_update() {
 
+	$a = is_admin();
+	if ($a != false) {
+		cache_clean_group('db');
+		cache_clean_group('update/global');
+		cache_clean_group('elements/global');
+		cache_clean_group('modules/global');
+		scan_for_modules();
+		exec_action('mw_db_init_default');
+		exec_action('mw_db_init_modules');
+		exec_action('mw_db_init');
+
+	}
+
+}
+api_expose('mw_install_new_from_remote');
 function mw_install_new_from_remote($updates) {
 	$a = is_admin();
 	if ($a == false) {
@@ -157,7 +173,7 @@ function mw_check_for_update() {
 	if ($mw_avail_updates == false) {
 
 		$update_api = new \mw\Update();
- 
+
 		$iudates = $update_api -> check();
 
 		$mw_avail_updates = $iudates;

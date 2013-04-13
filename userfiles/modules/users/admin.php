@@ -224,11 +224,13 @@ $(document).ready(function(){
 	  var holder = mw.$('#user_edit_admin_panel');
          holder.attr('edit-user',"<? print $mw_notif['rel_id'] ?>");
 		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['rel_id'] ?>');
+		 _mw_admin_user_edit();
  });
 
 
 
 </script>
+ 
 <? endif; ?>
 
 <div id="mw_index_users">

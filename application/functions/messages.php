@@ -49,14 +49,6 @@ function mw_db_init_notifications_table() {
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
-	
-	
- 
-	
-	
-	
-	
-	
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
@@ -122,12 +114,12 @@ function mark_notifications_as_read($module) {
 
 function read_notification($id) {
 	$params = array();
-	$params['id'] = intval($id);
+	$params['id'] = trim($id);
 	$params['one'] = true;
 
 	$get = get_notifications($params);
 
-	if ($get != false and $get['is_read'] == 'n') {
+	if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
 		$save = array();
 		$save['id'] = $get['id'];
 		$save['is_read'] = 'y';
@@ -135,17 +127,25 @@ function read_notification($id) {
 		mw_var('FORCE_SAVE', $table);
 		$data = save_data($table, $save);
 	}
-
+ 
 	return $get;
 }
 
 function get_notification($id) {
 	$params = array();
-	$params['id'] = intval($id);
-	$params['one'] = true;
 
-	$get = get_notifications($params);
-	return $get;
+	if ($id != false) {
+		if (substr(strtolower($id), 0, 4) == 'log_') {
+
+		}
+
+		$params['id'] = db_escape_string($id);
+		$params['one'] = true;
+
+		$get = get_notifications($params);
+		return $get;
+
+	}
 }
 
 api_expose('notifications_reset');
@@ -192,12 +192,31 @@ function get_notifications($params) {
 	// $params['rel_id'] = $params['module'];
 	// }
 	//
+	$return = array();
+	$is_sys_log = false;
+	if (isset($params['id'])) {
+		$is_log = substr(strtolower($params['id']), 0, 4);
+		if ($is_log == 'log_') {
+			$is_sys_log = 1;
+			$is_log_id = str_ireplace('log_', '', $params['id']);
+		$log_entr = get_log_entry($is_log_id);
+			if($log_entr !=false and isset($params['one'])){
+				return $log_entr;
+				
+			} else if($log_entr !=false ) {
+			$return[] = $log_entr;
+			}
+			// d($is_log_id);
+		}
 
-	$table = MW_DB_TABLE_NOTIFICATIONS;
-	$params['table'] = $table;
+	}
+	if ($is_sys_log == false) {
+		$table = MW_DB_TABLE_NOTIFICATIONS;
+		$params['table'] = $table;
 
-	$params = get($params);
-	return $params;
+		$return = get($params);
+	}
+	return $return;
 }
 
 $_mw_email_transport_object = false;

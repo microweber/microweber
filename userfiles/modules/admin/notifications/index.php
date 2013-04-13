@@ -138,3 +138,4 @@ mw.notif_reset_all = function(){
 <? endif; ?><br />
 
 <a href="javascript:mw.notif_reset_all();" class="mw-ui-btn"><strong>[test] Reset  notifications</strong></a>
+      <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">Show system log</a>

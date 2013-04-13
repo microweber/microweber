@@ -28,6 +28,14 @@ function copy_directory($source, $destination) {
 	}
 }
 
+//Read more: http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
+
+function microtime_float () { 
+    list ($msec, $sec) = explode(' ', microtime()); 
+    $microtime = (float)$msec + (float)$sec; 
+    return $microtime; 
+} 
+
 
 // A much better and accurate version can be found
 // in Aidan's PHP Repository:

@@ -304,9 +304,18 @@ window.onerror = function(a,b,c){
   }
 
   mw.clear_cache = function() {
+
+
+
     $.ajax({
       url: '{SITE_URL}api/clearcache',
-      type: "POST"
+      type: "POST",
+      success: function(data){
+
+      if(mw.notification != undefined){
+      mw.notification.msg(data);
+      }
+    }
     });
   }
 
@@ -411,11 +420,12 @@ window.onerror = function(a,b,c){
         var obj = params;
     }
     else{
-        mw.log('Error: "params" must be string or object');
-        return false;
+      obj = {};
+      //  mw.log('Error: "params" must be string or object');
+       // return false;
     }
     $.post(url, obj)
-        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
+        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;   })
       //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
         .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
   }

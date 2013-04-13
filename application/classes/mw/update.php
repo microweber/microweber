@@ -70,13 +70,7 @@ class Update {
 	}
 
 	function post_update() {
-		cache_clean_group('db');
-		cache_clean_group('update/global');
-		cache_clean_group('elements/global');
-		cache_clean_group('modules/global');
-		scan_for_modules();
-		exec_action('mw_db_init_default');
-		exec_action('mw_db_init_modules');
+		mw_post_update();
 	}
 
 	function install_version($new_version) {

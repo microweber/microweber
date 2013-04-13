@@ -802,11 +802,19 @@ mw.tools = {
      }
   },
   confirm:function(question, callback){
+
+
+
     var conf = confirm(question);
     if(conf && typeof callback === 'function'){
       callback.call(window);
     }
     return conf;
+
+
+
+
+
   },
   el_switch:function(arr, type){
     if(type==='semi'){
@@ -1358,6 +1366,7 @@ mw.tools = {
   parseHtml: function(html){
     var d = document.implementation.createHTMLDocument("");
     d.body.innerHTML = html;
+
    return d;
   },
   isEmpty:function(node){
@@ -1826,6 +1835,25 @@ mw.dump = function(){
 }
 
 mw.notification = {
+
+   msg:function(data){
+
+        if(data != undefined){
+
+
+            if(data.success != undefined ){
+               mw.notification.success(data.success);
+            }
+
+             if(data.error != undefined ){
+               mw.notification.error(data.error);
+            }
+
+              if(data.warning != undefined ){
+                 mw.notification.warning(data.warning);
+              }
+         }
+    },
 
     build:function(type, text){
         var div = mwd.createElement('div');
