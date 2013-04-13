@@ -573,6 +573,26 @@ $ver = $this->get_latest_core_version();
 		}
 		
 		
+		
+		
+		
+		$updates_data = array();
+		if (isset($params['module_template']) and isset($params['layout_file'])) {
+		 
+			$module_template  = $params['module_template'];
+				$module_template_file  = $params['layout_file'];
+			
+		 $options = array();
+		 $options['no_cache'] = 1;
+		 $options['for_modules'] = 1;
+		 $p = normalize_path($this -> modules_dir.DS.$module_template.DS.'templates'.DS.$module_template_file,false);
+		 $options['filename'] = $p ;
+			 
+				$test = layouts_list($options);		
+					d($test);	
+					  
+					
+		}
 
 		return $to_return;
 	}

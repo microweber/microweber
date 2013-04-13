@@ -32,7 +32,7 @@ $(document).ready(function(){
 	 mw.$('.mw-select-updates-list').submit(function() { 
 
  
- mw.form.post(mw.$('.mw-select-updates-list') , '<? print $config["module_view"] ?>/apply_updates', function(){
+ mw.form.post(mw.$('.mw-select-updates-list') , '<? print api_url(); ?>mw_apply_updates', function(){
 	 
 var obj =  (this);
 

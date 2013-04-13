@@ -190,8 +190,13 @@ function layouts_list($options = false) {
 	}
 
 	$glob_patern = "*.php";
-
+if (!isset($options['filename'])) {
 	$dir = rglob($glob_patern, 0, $path);
+} else {
+	$dir = array();
+	$dir[] = $options['filename'];
+}
+	
 	//d($dir);
 	$configs = array();
 	if (!empty($dir)) {

@@ -204,7 +204,26 @@ class Update {
 		return $unzipped;
 	}
 
-	public function install_module_template($value = '') {
+	public function install_module_template($module, $layout) {
+		
+		
+		$params = array();
+
+		$params['module_template'] = $module;
+		$params['layout_file'] = $layout;
+		$result = $this -> call('get_download_link', $params);
+		if (isset($result["module_templates"])) {
+			foreach ($result["module_templates"] as $mod_k => $value) {
+
+				 d($value);
+			}
+			 
+
+		}
+		return $result;
+		
+		
+		
 
 	}
 

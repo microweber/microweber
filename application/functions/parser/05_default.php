@@ -8,7 +8,7 @@ if ($layout != '') {
 
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
-	//$cached = false;
+
 	$do_not_cache = false;
 	if (template_var('content') != false) {
 
@@ -17,9 +17,12 @@ if ($layout != '') {
 	} else {
 		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
 	}
+
+
+	 //$cached = false;
 	//
 	if (isset($_REQUEST['debug'])) {
-		$cached = false;
+		//$cached = false;
 	}
 
 	//
@@ -103,8 +106,11 @@ if ($layout != '') {
 			if ($get_global == false) {
 				//  $rel = 'page';
 			}
+
+
 			$try_inherited = false;
 			if ($rel == 'content') {
+
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = CONTENT_ID;
 				}
@@ -213,14 +219,23 @@ if ($layout != '') {
 
 					if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 						$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
- 
+
 						if ($cont_field != false) {
 							$field_content = $cont_field;
 						}
 					} else {
 
 						$cont_field = get_content_field("rel={$rel}&field={$field}");
+
+
+
+
 					}
+
+
+
+
+
 				}
 				if ($cont_field != false) {
 					$field_content = $cont_field;
@@ -300,12 +315,15 @@ if ($layout != '') {
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
+
+
 				} else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
 
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
+
 				}
 				if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
 					foreach ($data ['custom_fields'] as $kf => $vf) {
