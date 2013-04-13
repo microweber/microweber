@@ -1077,12 +1077,18 @@ if($count_only == false){
 
 	$to_search_in_those_fields = array();
 	if (isset($criteria['search_in_fields'])) {
-		$criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
+		$to_search_in_those_fields = $criteria['search_by_keyword_in_fields'] = $criteria['search_in_fields'];
 	}
 
-	if (isset($criteria['search_by_keyword_in_fields'])) {
+	if (!isset($criteria['search_in_fields']) and isset($criteria['search_by_keyword_in_fields'])) {
 		$to_search_in_those_fields = ($criteria['search_by_keyword_in_fields']);
 	}
+	if(is_string($to_search_in_those_fields)){
+		$to_search_in_those_fields = explode(',', $to_search_in_those_fields);
+		$to_search_in_those_fields = array_trim($to_search_in_those_fields);
+	}
+	
+  
 	$original_cache_id = false;
 	if ($cache_group != false) {
 
@@ -1288,6 +1294,7 @@ $orig_criteria = $criteria;
 		$to_search = str_replace(';', ' ', $to_search);
 
 	}
+	 
 	if ($to_search != false and $to_search != '') {
 		$fieals = db_get_table_fields($table);
 
@@ -1295,7 +1302,7 @@ $orig_criteria = $criteria;
 
 		$where_q = '';
 		if (isset($to_search_in_those_fields) and is_string($to_search_in_those_fields)) {
-			$to_search_in_those_fields = explode(',', $to_search_in_those_fields);
+			//$to_search_in_those_fields = explode(',', $to_search_in_those_fields);
 			//d($to_search_in_those_fields);
 		}
 
@@ -1313,14 +1320,12 @@ $orig_criteria = $criteria;
 
 			}
 
-			if ($debug == true) {
-
-			}
+			
 
 			if ($add_to_seachq_q == true) {
 
 				//if ($v != 'id' && $v != 'password') {
-			if ($v != 'username' && $v != 'password') {
+			if (in_array($v, $to_search_in_those_fields) or ($v != '_username' && $v != '_password')) {
 					switch ($v) {
 						
 						case 'title' :

@@ -542,3 +542,4 @@ $language["read-more"]= 'Read More' ;
 $language["template-settings-updated"]= 'Template settings updated' ; 
 $language["defailt-template-saved"]= 'Defailt template saved' ; 
 $language["default-template-saved"]= 'Default template saved' ; 
+$language["advanced-settings-updated"]= 'Advanced settings updated' ; 

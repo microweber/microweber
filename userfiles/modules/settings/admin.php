@@ -80,6 +80,9 @@ $(document).ready(function(){
           <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template">Template</a></li>
           <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website">Email</a></li>
            <? exec_action('mw_admin_settings_menu'); ?>
+           
+           
+            <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">Advanced</a></li>
         </ul>
       </div>
       <div style="padding-left: 46px">

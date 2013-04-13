@@ -49,6 +49,14 @@ function mw_db_init_notifications_table() {
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
+	
+	
+ 
+	
+	
+	
+	
+	
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;

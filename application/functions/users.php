@@ -3,7 +3,9 @@
 if (!defined("MW_DB_TABLE_USERS")) {
 	define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
 }
-
+if (!defined("MW_DB_TABLE_LOG")) {
+	define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+}
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
 
 function mw_db_init_users_table() {
@@ -94,11 +96,79 @@ function mw_db_init_users_table() {
 
 	}
 
+	$table_name = MW_DB_TABLE_LOG;
+
+	$fields_to_add = array();
+
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_by', 'int(11) default NULL');
+	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+	$fields_to_add[] = array('rel', 'TEXT default NULL');
+
+	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
+	$fields_to_add[] = array('position', 'int(11) default NULL');
+
+	$fields_to_add[] = array('field', 'longtext default NULL');
+	$fields_to_add[] = array('value', 'TEXT default NULL');
+
+	$fields_to_add[] = array('data_type', 'TEXT default NULL');
+	$fields_to_add[] = array('title', 'longtext default NULL');
+	$fields_to_add[] = array('description', 'TEXT default NULL');
+	$fields_to_add[] = array('content', 'TEXT default NULL');
+	$fields_to_add[] = array('user_ip', 'TEXT default NULL');
+
+	set_db_table($table_name, $fields_to_add);
+
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
 	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
+}
+
+api_expose('delete_log_entry');
+
+function delete_log_entry($data) {
+	$adm = is_admin();
+	if ($adm == false) {
+		error('Error: not logged in as admin.');
+	}
+
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id('log', $c_id);
+		return $c_id;
+
+	}
+	return $data;
+}
+
+function save_log($params) {
+	$params = parse_params($params);
+
+	$params['user_ip'] = USER_IP;
+	$data_to_save = $params;
+	$table = MW_DB_TABLE_LOG;
+ 						mw_var('FORCE_SAVE', $table);
+	$save = save_data($table, $params);
+	$id = $save;
+	cache_clean_group('log' . DIRECTORY_SEPARATOR . 'global');
+	return $id;
+}
+
+function get_log($params) {
+	$params = parse_params($params);
+	$table = MW_DB_TABLE_LOG;
+	$params['table'] = $table;
+
+	if (is_admin() == false) {
+		$params['user_ip'] = USER_IP;
+	}
+
+	$q = get($params);
+
+	return $q;
 }
 
 api_expose('delete_user');
@@ -373,34 +443,28 @@ function update_user_last_login_time() {
 api_expose('social_login_process');
 function social_login_process() {
 	set_exception_handler('social_login_exception_handler');
-	
-	 
+
 	$api = new \mw\auth\Social();
 	$api -> process();
-	
-	 
+
 	// d($err);
 	//$err= $api->is_error();
-	 
-	
+
 }
 
 function social_login_exception_handler($exception) {
- 
+
 	if (isAjax()) {
 		return array('error' => $exception -> getMessage());
 	}
-	
-	
-	
-	
+
 	$after_log = session_get('user_after_login');
 	if ($after_log != false) {
 		safe_redirect($after_log);
 	} else {
 		safe_redirect(site_url());
 	}
- 
+
 }
 
 api_expose('user_social_login');
@@ -645,6 +709,12 @@ function user_send_forgot_password($params) {
 
 }
 
+function user_login_set_failed_attempt() {
+
+	save_log("title=Failed login&rel=login_failed&user_ip=" . USER_IP);
+
+}
+
 function user_login($params) {
 	$params2 = array();
 
@@ -659,13 +729,29 @@ function user_login($params) {
 		$pass = isset($params['password']) ? $params['password'] : false;
 		$email = isset($params['email']) ? $params['email'] : false;
 
+		if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
+			return array('error' => 'Please enter username and password!');
+
+		}
+
+		$check = get_log("count=1&created_on=[mt]1 min ago&rel=login_failed&user_ip=" . USER_IP);
+		if ($check > 5) {
+			return array('error' => 'There are ' . $check . ' failed login attempts from your ip in the last minute. Try again in 1 minute!');
+		}
+
+		//d($check);
+
 		$api_key = isset($params['api_key']) ? $params['api_key'] : false;
 
 		$data1 = array();
 		$data1['username'] = $user;
 		$data1['password'] = $pass;
+		//$data1['debug'] = 1;
+		$data1['search_in_fields'] = 'username,password,email';
+		$data1['is_active'] = 'y';
+
 		$data = array();
-		// $data ['is_active'] = 'y';
+
 		if (trim($user != '') and trim($pass != '')) {
 			$data = get_users($data1);
 		}
@@ -676,6 +762,8 @@ function user_login($params) {
 				$data = array();
 				$data['email'] = $email;
 				$data['password'] = $pass;
+				$data['is_active'] = 'y';
+				$data['search_in_fields'] = 'username,password,email';
 				//$data['debug'] = 1;
 				if (trim($user != '') and trim($email != '')) {
 					$data = get_users($data);
@@ -684,6 +772,8 @@ function user_login($params) {
 				if (isset($data[0])) {
 					$data = $data[0];
 				} else {
+
+					user_login_set_failed_attempt();
 					return array('error' => 'Please enter right username and password!');
 
 				}
@@ -700,7 +790,8 @@ function user_login($params) {
 				$data = array();
 				$data['email'] = $user;
 				$data['password'] = $pass;
-				// $data ['debug'] = 1;
+				$data['is_active'] = 'y';
+				//	 $data ['debug'] = 1;
 
 				$data = get_users($data);
 
@@ -710,10 +801,16 @@ function user_login($params) {
 			}
 		}
 		if (!isarr($data)) {
+			user_login_set_failed_attempt();
+
+			$user_session = array();
+			$user_session['is_logged'] = 'no';
+			session_set('user_session', $user_session);
+
 			return array('error' => 'Please enter the right username and password!');
 			return false;
 		} else {
-
+			$user_session = array();
 			$user_session['is_logged'] = 'yes';
 			$user_session['user_id'] = $data['id'];
 
@@ -745,6 +842,8 @@ function user_login($params) {
 					safe_redirect($_SERVER["HTTP_REFERER"]);
 					exit();
 				}
+			} else if ($aj == true) {
+				$user_session['success'] = "You are logged in!";
 			}
 
 			return $user_session;
@@ -917,9 +1016,11 @@ function get_users($params) {
 			$ids = $data['ids'];
 		}
 	}
+	if (!isset($params['search_in_fields'])) {
+		$data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+		// $data ['debug'] = 1;
+	}
 
-	$data['search_by_keyword_in_fields'] = array('first_name', 'last_name', 'username', 'email');
-	// $data ['debug'] = 1;
 	$cache_group = 'users/global';
 	if (isset($data['id']) and intval($data['id']) != 0) {
 		$cache_group = 'users/' . $data['id'];
@@ -1112,7 +1213,7 @@ function get_new_users($period = '7 days', $limit = 20) {
 	$limit = array('0', $limit);
 	// $data['debug']= true;
 	// $data['no_cache']= true;
-	$data =                                                                              get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
+	$data =                                                                                  get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
 	$res = array();
 	if (!empty($data)) {
 		foreach ($data as $item) {
@@ -1127,7 +1228,7 @@ function user_id_from_url() {
 		$usr = url_param('username');
 		// $CI = get_instance ();
 		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                                              get_instance() -> users_model -> getIdByUsername($username = $usr);
+		$res =                                                                                  get_instance() -> users_model -> getIdByUsername($username = $usr);
 		return $res;
 	}
 
@@ -1193,7 +1294,7 @@ function user_thumbnail($params) {
 	// $params ['size'], $size_height );
 	// p($media);
 
-	$thumb =                                                                              get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
+	$thumb =                                                                                  get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
 
 	return $thumb;
 }
@@ -1237,7 +1338,7 @@ function cf_get_user($user_id, $field_name) {
 function get_custom_fields_for_user($user_id, $field_name = false) {
 	// p($content_id);
 	$more = false;
-	$more =                                                                              get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
+	$more =                                                                                  get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
 	return $more;
 }
 
@@ -1254,6 +1355,6 @@ function friends_count($user_id = false) {
 	$query_options['debug'] = false;
 	$query_options['group_by'] = false;
 	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                                              get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
+	$users =                                                                                  get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
 	return intval($users);
 }

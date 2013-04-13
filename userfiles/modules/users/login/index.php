@@ -19,9 +19,15 @@ $(document).ready(function(){
  
  mw.form.post(mw.$('#user_login_<? print $params['id'] ?>') , '<? print site_url('api/user_login') ?>', function(){
 	         mw.response('#user_login_holder_<? print $params['id'] ?>',this);
+			 
+			 if(this != undefined && this.success != undefined){
+				  mw.reload_module('[data-type="<? print $config['module'] ?>"]');
+			 }
+			 
+			 
 
 	// mw.reload_module('[data-type="categories"]');
-	 // mw.reload_module('[data-type="pages"]');
+	 //
 	 });
 
  return false;
