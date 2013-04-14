@@ -1,0 +1,3 @@
+[submodule "user-guide"]
+	path = user-guide
+	url = git@github.com:ooyes/Microweber.wiki.git
