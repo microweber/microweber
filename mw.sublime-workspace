@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"u",
+				"undefined"
+			],
+			[
 				"new",
 				"newhtml"
 			],
@@ -84,14 +88,70 @@
 			}
 		},
 		{
-			"contents": "\n\n\n\n(function() {\n    if(typeof jQuery.browser === 'undefined'){\n        var matched, browser;\n        // Use of jQuery.browser is frowned upon.\n        // More details: http://api.jquery.com/jQuery.browser\n        // jQuery.uaMatch maintained for back-compat\n        jQuery.uaMatch = function( ua ) {\n        	ua = ua.toLowerCase();\n\n        	var match = /(chrome)[ \\/]([\\w.]+)/.exec( ua ) ||\n        		/(webkit)[ \\/]([\\w.]+)/.exec( ua ) ||\n        		/(opera)(?:.*version|)[ \\/]([\\w.]+)/.exec( ua ) ||\n        		/(msie) ([\\w.]+)/.exec( ua ) ||\n        		ua.indexOf(\"compatible\") < 0 && /(mozilla)(?:.*? rv:([\\w.]+)|)/.exec( ua ) ||\n        		[];\n\n        	return {\n        		browser: match[ 1 ] || \"\",\n        		version: match[ 2 ] || \"0\"\n        	};\n        };\n\n        matched = jQuery.uaMatch( navigator.userAgent );\n        browser = {};\n\n        if ( matched.browser ) {\n        	browser[ matched.browser ] = true;\n        	browser.version = matched.version;\n        }\n\n        // Chrome is Webkit, but Webkit is also Safari.\n        if ( browser.chrome ) {\n        	browser.webkit = true;\n        } else if ( browser.webkit ) {\n        	browser.safari = true;\n        }\n\n        jQuery.browser = browser;\n    }\n})();\n\n\nmw.controllers = {}\n\n\nmw.simpletabs = function(root){\n  var root = root || mwd;\n  mw.$(\".mw_simple_tabs_nav\", root).each(function(){\n    if(!$(this).hasClass('activated')){\n        $(this).addClass('activated')\n        if(!$(this).hasClass('by-hash')){\n            var parent = $(mw.tools.firstParentWithClass(this, 'mw_simple_tabs'));\n            parent.children(\".tab\").addClass(\"semi_hidden\");\n            parent.children(\".tab\").eq(0).removeClass(\"semi_hidden\");\n            $(this).find(\"a\").eq(0).addClass(\"active\");\n            $(this).find(\"a\").click(function(){\n                mw.simpletab.set(this);\n                return false;\n            });\n        }\n        else{\n\n        }\n    }\n  });\n}\n\nmw.simpletab = {\n  set:function(el){\n      if(!$(el).hasClass('active')){\n        var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');\n        var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');\n        $(ul.querySelector('.active')).removeClass('active');\n        $(el).addClass('active');\n        var index = mw.tools.index(el, ul);\n        $(master).children('.tab').addClass('semi_hidden');\n        $(master).children('.tab').eq(index).removeClass('semi_hidden');\n      }\n  }\n}\n\n\n\n\n\n\nmw.external_tool = function(url){\n  return !url.contains(\"/\") ? mw.settings.site_url  +  \"editor_tools/\" + url : url;\n}\n\n\n\nmw.tools = {\n\n  modal:{\n    settings:{\n      width:600,\n      height:500\n    },\n    source:function(id, template){\n      var template = template || 'mw_modal_default';\n      var id = id || \"modal_\"+mw.random();\n      var html = ''\n        + '<div class=\"mw_modal mw_modal_maximized '+template+'\" id=\"'+id+'\">'\n          + '<div class=\"mw_modal_toolbar\">'\n            + '<span class=\"mw_modal_title\"></span>'\n            + '<span class=\"mw_modal_close\" onclick=\"mw.tools.modal.remove(\\''+id+'\\')\">Close</span>'\n            //+ '<span class=\"mw_modal_minimize\" onclick=\"mw.tools.modal.minimax(\\''+id+'\\');\"></span>'\n          + '</div>'\n          + '<div class=\"mw_modal_container\">'\n          + '</div>'\n          + '<div class=\"iframe_fix\"></div>'\n        + '</div>';\n        return {html:html, id:id}\n    },\n    _init:function(html, width, height, callback, title, name, template, overlay, doc){\n        if(typeof name==='string' && $(\"#\"+name).length>0){\n            return false;\n        }\n\n\n        var modal = mw.tools.modal.source(name, template);\n\n        var doc = doc || document;\n\n        $(doc.body).append(modal.html);\n        var modal_object = $(doc.getElementById(modal.id));\n\n        var container = modal_object.find(\".mw_modal_container\").eq(0);\n        modal_object.width(width).height(height);\n\n        var padding = parseFloat(container.css(\"paddingTop\")) + parseFloat(container.css(\"paddingBottom\"));\n        var padding = container.offset().top - modal_object.offset().top;\n\n\n        container.append(html).height(height-padding);\n\n        modal_object.css({top:($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(doc.defaultView).width()/2)-(width/2)});\n\n        modal_object.show().draggable({\n          handle:'.mw_modal_toolbar',\n          containment:'window',\n          iframeFix: false,\n          start:function(){\n            $(this).find(\".iframe_fix\").show();\n            if($(\".mw_modal\").length>1){\n              mw_m_max = parseFloat($(this).css(\"zIndex\"));\n              $(\".mw_modal\").not(this).each(function(){\n                   var z = parseFloat($(this).css(\"zIndex\"));\n                   mw_m_max = z>=mw_m_max?z+1:mw_m_max;\n              });\n              $(this).css(\"zIndex\", mw_m_max);\n            }\n          },\n          stop:function(){\n             $(this).find(\".iframe_fix\").hide();\n          }\n        });\n        var modal_return = {main:modal_object, container:modal_object.find(\".mw_modal_container\")[0]}\n        typeof callback==='function'?callback.call(modal_return):'';\n        typeof title==='string'?$(modal_object).find(\".mw_modal_title\").html(title):'';\n        typeof name==='string'?$(modal_object).attr(\"name\", name):'';\n\n        if(overlay==true)mw.tools.modal.overlay(modal.main);\n\n        return modal_return;\n    },\n    get:function(selector){\n      if(mw.$(selector).find(\".mw_modal_container\").length>0){\n        return {\n          main:mw.$(selector),\n          container: mw.$(selector).find(\".mw_modal_container\")[0]\n        }\n      }\n      else{return false;}\n    },\n    init:function(o){\n      var o = $.extend({}, mw.tools.modal.settings, o);\n      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.doc);\n    },\n    minimize:function(id, doc){\n\n        var doc = doc || document;\n        var modal = mw.$(\"#\"+id);\n        var window_h = $(doc.defaultView).height();\n        var window_w = $(doc.defaultView).width();\n        var modal_width = modal.width();\n        var old_position = {\n          width:modal.css(\"width\"),\n          height:modal.css(\"height\"),\n          left:modal.css(\"left\"),\n          top:modal.css(\"top\")\n        }\n        modal.data(\"old_position\", old_position);\n        var margin =  24*($(\".is_minimized\").length);\n        modal.addClass(\"is_minimized\");\n        modal.animate({\n            top:window_h-24-margin,\n            left:window_w-modal_width,\n            height:24\n        });\n        modal.draggable(\"option\", \"disabled\", true);\n    },\n    maximize:function(id){\n       var modal = $(\"#\"+id);\n       modal.removeClass(\"is_minimized\");\n       modal.animate(modal.data(\"old_position\"));\n       modal.draggable(\"option\", \"disabled\", false);\n    },\n    minimax:function(id){\n      //check the state of the modal and toggle it;\n      if($(\"#\"+id).hasClass(\"is_minimized\")){\n         mw.tools.modal.maximize(id);\n      }\n      else{\n         mw.tools.modal.minimize(id);\n      }\n    },\n    settings_window:function(callback){\n        var modal = mw.modal(\"\");\n        return modal;\n    },\n    frame:function(obj){\n        var obj = $.extend({}, mw.tools.modal.settings, obj);\n        var span = \"<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: 0;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>\";\n        var frame = span+\"<iframe name='frame-\"+obj.name+\"' id='frame-\"+obj.name+\"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='\"+obj.width+\"' height='\"+(obj.height-35)+\"' src='\" + mw.external_tool(obj.url) + \"'  frameBorder='0' allowfullscreen></iframe>\";\n        var modal = mw.tools.modal.init({\n          html:frame,\n          width:obj.width,\n          height:obj.height,\n          callback:obj.callback,\n          title:obj.title,\n          name:obj.name,\n          overlay:obj.overlay,\n          template:obj.template\n        });\n        $(modal.main).addClass(\"mw_modal_type_iframe\");\n        $(modal.container).css(\"overflow\", \"hidden\");\n        modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;\n        $(modal.main).find(\"iframe\").eq(0).height($(modal.main).find(\".mw_modal_container\").height())\n        return modal;\n    },\n\n    remove:function(id){\n        if(typeof id == 'object') var id = $(id)[0].id;\n        $(document.getElementById(id)).remove();\n        //$(\"div.mw_overlay[rel='\"+id+\"']\").remove();\n        $(\"div.mw_overlay\").remove();\n    },\n    resize:function(modal, w, h, center, doc){\n      var doc = doc || document;\n      var maxh = $(doc.defaultView).height() - 60;\n      var maxw = $(doc.defaultView).width() - 60;\n\n\n      var w = w<maxw?w:maxw;\n      var h = h<maxh?h:maxh;\n\n      var center = typeof center == 'undefined' ? true : center;\n      var modal = $(modal);\n      var container = modal.find(\".mw_modal_container\").eq(0);\n      var frame = modal.find(\".mw-modal-frame\").eq(0);\n\n\n      var padding = parseFloat(container.css(\"paddingTop\")) + parseFloat(container.css(\"paddingBottom\")) + container.offset().top - modal.offset().top;\n\n\n      if(!!w){\n        modal.width(w);\n        container.width(w);\n        frame.width(w);\n      }\n      if(!!h){\n        modal.height(h);\n        container.height(h-padding);\n        frame.height(h-padding);\n      }\n\n      if(center == true){mw.tools.modal.center(modal)};\n    },\n    center:function(modal, only){\n        var only = only || 'all';\n        var modal = $(modal);\n        var h = modal.height();\n        var w = modal.width();\n        if(only == 'all'){\n          modal.css({top:($(window).height()/2)-(h/2),left:($(window).width()/2)-(w/2)});\n        }\n        else if(only == 'vertical'){\n          modal.css({top:($(window).height()/2)-(h/2)});\n        }\n        else if(only == 'horizontal'){\n          modal.css({left:($(window).width()/2)-(w/2)});\n        }\n\n    },\n    overlay:function(for_who, is_over_modal, doc){\n        var doc = doc || document;\n        var overlay = doc.createElement('div');\n        overlay.className = 'mw_overlay';\n        var id = for_who ? $(for_who).attr(\"id\") : 'none';\n        $(overlay).attr(\"rel\",id);\n        doc.body.appendChild(overlay);\n        if(is_over_modal!=undefined){\n\n        }\n        return overlay;\n    }\n  },\n  alert:function(text){\n    var html = ''\n    + '<table class=\"mw_alert\" width=\"100%\" height=\"140\" cellpadding=\"0\" cellspacing=\"0\">'\n        + '<tr>'\n        + '<td align=\"center\" valign=\"middle\"><div class=\"mw_alert_holder\">'+text+'</div></td>'\n        + '</tr>'\n        + '<tr>'\n        + '<td align=\"center\" height=\"25\"><span class=\"mw-ui-btn-action\" onclick=\"mw.tools.modal.remove(\\'mw_alert\\');\"><b>'+mw.msg.ok+'</b></span></td>'\n        + '</tr>'\n    + '</table>';\n    return  mw.tools.modal._init(html, 400, 200, \"\", \"\", \"mw_alert\");\n  },\n  dropdown:function(root){\n    var root = root || mwd.body;\n\n    mw.$(\".mw_dropdown .other-action\", root).hover(function(){\n      $(this).addClass(\"other-action-hover\");\n    }, function(){\n      $(this).removeClass(\"other-action-hover\");\n    });\n    mw.$(\".mw_dropdown\", root).mouseup(function(event){\n      if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){\n        $(this).toggleClass(\"active\");\n        $(\".mw_dropdown\").not(this).removeClass(\"active\").find(\".mw_dropdown_fields\").hide();\n        if($(this).find(\".other-action-hover\").length==0){\n          var item =  $(this).find(\".mw_dropdown_fields\");\n\n          if(item.is(\":visible\")){\n              item.hide();\n              item.focus();\n          }\n          else{\n              item.show();\n              //d((item.offset().left + item.width()))\n              d(item.find(\"ul\").width())\n              d( item.offset().left)\n              d( $(window).width())\n              if((item.offset().left + item.find(\"ul\").width()) > $(window).width() ){\n                item.css({left:'auto', right:0});\n              }\n              else{\n                item.css({left:0});\n              }\n              if(event.target.type!='text'){\n                 try{this.querySelector(\"input.dd_search\").focus();}catch(e){}\n              }\n          }\n        }\n      }\n    });\n    mw.$(\".mw_dropdown\", root).hover(function(){\n        $(this).addClass(\"hover\");\n    }, function(){\n        $(this).removeClass(\"hover\");\n    });\n    mw.$(\".mw_dropdown a\", root).mousedown(function(event){\n      mw.tools.dd_sub_set(this);\n      return false;\n    });\n\n    if(typeof __dd_activated === 'undefined'){\n      __dd_activated = true;\n      $(mwd.body).mousedown(function(){\n        if(mw.$('.mw_dropdown.hover').length==0){\n           mw.$(\".mw_dropdown\").removeClass(\"active\");\n           mw.$(\".mw_dropdown_fields\").hide();\n        }\n      });\n    }\n\n  },\n  dd_sub_set:function(item){\n      var html = $(item).html();\n      var value = item.parentNode.getAttribute(\"value\");\n      $(mw.tools.firstParentWithClass(item, 'mw_dropdown')).setDropdownValue(value, true);\n  },\n  module_slider:{\n    scale:function(){\n      var window_width = $(window).width();\n      mw.$(\".modules_bar\").each(function(){\n           $(this).width(window_width-204);\n           $(this).find(\".modules_bar_slider\").width(window_width-220);\n      });\n    },\n    prepare:function(){\n      mw.$(\".modules_bar\").each(function(){\n          var module_item_width = 0;\n          $(this).find(\"li\").each(function(){\n            module_item_width += $(this).outerWidth(true);\n          });\n          $(this).find(\"ul\").width(module_item_width);\n      });\n    },\n    init:function(){\n        mw.tools.module_slider.prepare();\n        mw.tools.module_slider.scale();\n    }\n  },\n\n  toolbar_slider:{\n    slide_left:function(item){\n       var item = $(item);\n        mw.tools.toolbar_slider.ctrl_show_hide();\n        var left = item.parent().find(\".modules_bar\").scrollLeft();\n       item.parent().find(\".modules_bar\").stop().animate({scrollLeft:left-120}, function(){\n            mw.tools.toolbar_slider.ctrl_show_hide();\n        });\n    },\n    ctrl_show_hide:function(){\n      $(\".modules_bar\").each(function(){\n          var el = $(this);\n          var parent = el.parent();\n          if(el.scrollLeft()==0){\n            parent.find(\".modules_bar_slide_left\").hide();\n          }\n          else{\n            parent.find(\".modules_bar_slide_left\").show();\n          }\n          var max = el.width() + el.scrollLeft();\n          if(max==this.scrollWidth){\n             parent.find(\".modules_bar_slide_right\").hide();\n          }\n          else{\n             parent.find(\".modules_bar_slide_right\").show();\n          }\n      });\n\n    },\n    ctrl_states:function(){\n       $(\".modules_bar_slide_right,.modules_bar_slide_left\").mousedown(function(){\n         $(this).addClass(\"active\");\n       });\n       $(\".modules_bar_slide_right,.modules_bar_slide_left\").bind(\"mouseup mouseout\",function(){\n         $(this).removeClass(\"active\");\n       });\n    },\n    slide_right:function(item){\n      var item = $(item);\n       mw.tools.toolbar_slider.ctrl_show_hide();\n       var left = item.parent().find(\".modules_bar\").scrollLeft();\n       item.parent().find(\".modules_bar\").stop().animate({scrollLeft:left+120}, function(){\n             mw.tools.toolbar_slider.ctrl_show_hide();\n       });\n    },\n    init:function(){\n        $(\".modules_bar\").scrollLeft(0);\n        mw.tools.toolbar_slider.ctrl_show_hide();\n        $(\".modules_bar_slide_left\").click(function(){\n            mw.tools.toolbar_slider.slide_left(this);\n        }).disableSelection();\n        $(\".modules_bar_slide_right\").click(function(){\n            mw.tools.toolbar_slider.slide_right(this);\n        }).disableSelection();\n        mw.tools.toolbar_slider.ctrl_states();\n    }\n  },\n  toolbar_sorter : function(obj, value_to_search){\n    mw.$(\".modules_bar\").scrollLeft(0);\n    for (var item in obj){\n        var child_object = obj[item];\n        var id = child_object.id;\n        var categories = child_object.category.replace(/\\s/gi,'').split(',');\n        var item = $(document.getElementById(id));\n        if(categories.indexOf(value_to_search)!==-1){\n           item.show();\n        }\n        else{\n            item.hide();\n        }\n    }\n  },\n  toolbar_searh : function(obj, value){\n    var value = value.toLowerCase();\n    mw.$(\".modules_bar\").scrollLeft(0);\n      for (var item in obj){\n          var child_object = obj[item];\n          var id = child_object.id;\n          var title = child_object.title.toLowerCase();\n          var item = $(document.getElementById(id))\n          if (title.contains(value)){\n             item.show();\n          }\n          else{\n            item.hide();\n          }\n      }\n\n  },\n  classNamespaceDelete:function(el_obj, namespace, parent){\n    var parent = parent || mwd;\n    if(el_obj ==='all'){\n      var all = parent.querySelectorAll('.edit *'), i=0, l=all.length;\n      for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}\n      return;\n    }\n    var clas = el_obj.className!==undefined ? el_obj.className.split(\" \") : '';\n    for(var i=0; i<clas.length; i++){\n      if(clas[i].indexOf(namespace)==0){\n           clas[i] = 'MWDeleteNameSpace';\n      }\n    }\n    el_obj.className = clas.join(\" \").replace(/MWDeleteNameSpace/g, \"\").replace(/\\s\\s+/g, ' ');\n  },\n  tree:{\n    toggle : function(el, event){\n      $(el.parentNode).toggleClass('active');\n       var master = mw.tools.firstParentWithClass(el,'mw-tree');\n       mw.tools.tree.remember(master);\n        if(event.type==='click'){\n          event.stopPropagation();\n          event.preventDefault();\n          return false;\n        }\n    },\n    open:function(el, event){\n      $(el.parentNode).addClass('active');\n      var master = mw.tools.firstParentWithClass(el,'mw-tree');\n      mw.tools.tree.remember(master);\n    },\n    del : function(id){\n        mw.tools.confirm(mw.msg.del, function(){\n           $.post(mw.settings.site_url + \"api/delete_content\", {id:id}, function(data) {\n              var todelete =  mw.$(\".item_\" + id);\n               todelete.fadeOut(function(){\n                   todelete.remove();\n               });\n  		    });\n        })\n    },\n	  del_category : function(id){\n      mw.tools.confirm('Are you sure you want to delete this?', function(){\n         $.post(mw.settings.site_url + \"api/delete_category\", {id:id}, function(data) {\n            var todelete =  mw.$(\".item_\" + id);\n             todelete.fadeOut(function(){\n                 todelete.remove();\n             });\n		 });\n      })\n    },\n    detectType:function(tree_object){\n      if(tree_object!==null && typeof tree_object === 'object'){\n        return tree_object.querySelector('li input[type=\"checkbox\"], li input[type=\"radio\"]') !==null ? 'selector' : 'controller';\n      }\n    },\n    remember : function(tree){\n      var type = mw.tools.tree.detectType(tree);\n      if(type==='controller'){\n          _remember = \"\";\n          var lis = tree.querySelectorAll(\"li.active\");\n          var len = lis.length;\n          $.each(lis, function(i){\n            i++;\n            var id = this.attributes['data-item-id'].nodeValue;\n            _remember = i<len ? _remember + id + \",\" : _remember + id;\n          });\n          mw.cookie.ui(\"tree_\"+tree.id, _remember);\n      }\n    },\n    recall : function(tree){\n      if(tree!==null){\n\n      var ids = mw.cookie.ui(\"tree_\"+tree.id);\n      if(ids!==''){\n        var ids = ids.split(\",\");\n        $.each(ids, function(a,b){\n          if(tree.querySelector('.item_'+b)){\n             tree.querySelector('.item_'+b).className+=' active';\n          }\n        });\n      }\n      }\n    },\n    toggleit : function(el, event, pageid){\n       event.stopPropagation();   /*\n       if(el.attributes['data-page-id'] !== undefined){\n          mw.url.windowHashParam('action', 'showposts:'+pageid);\n       }\n       else if(el.attributes['data-category-id'] !== undefined){\n          mw.url.windowHashParam('action', 'showpostscat:'+pageid);\n       }   */\n       mw.tools.tree.toggle(el, event);\n    },\n    openit : function(el, event, pageid){\n       event.stopPropagation();\n       if(el.attributes['data-page-id'] !== undefined){\n          mw.url.windowHashParam('action', 'showposts:'+pageid);\n       }\n       else if(el.attributes['data-category-id'] !== undefined){\n          mw.url.windowHashParam('action', 'showpostscat:'+pageid);\n       }\n       mw.tools.tree.open(el, event);\n    },\n    closeAll : function(tree){\n        $(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');\n        mw.tools.tree.remember(tree);\n    },\n    openAll : function(tree){\n       $(tree.querySelectorAll('li')).addClass('active');\n       mw.tools.tree.remember(tree);\n    },\n    checker:function(el){\n\n		var is_checkbox = el.getElementsByTagName('input')[0];\n		if(is_checkbox.type != 'checkbox'){\n		return false;\n		}\n\n        var state = el.getElementsByTagName('input')[0].checked;\n        if( state === true){\n          mw.tools.foreachParents(el.parentNode, function(loop){\n            this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked=true : '';\n            this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';\n          });\n        }\n        else{\n          var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;\n          for( ; i<len; i++){\n            f[i].checked=false;\n          }\n        }\n    },\n    viewChecked:function(tree){\n        var all = tree.querySelectorAll('li input'), i=0, len=all.length;\n        for ( ; i<len; i++){\n          var curr = all[i];\n          curr.parentNode.parentNode.style.display =  !curr.checked ? 'none' : '';\n        }\n    }\n  },\n  hasClass:function(classname, whattosearch){   //for strings\n    return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;\n  },\n  addClass:function(el, cls){\n   if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);\n  },\n  removeClass:function(el, cls){\n   if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\\s{2,}/g, ' ');\n  },\n  hasParentsWithClass:function(el, cls){\n    var d = {};\n    d.toreturn = false;\n    mw.tools.foreachParents(el, function(loop){\n        if(mw.tools.hasClass(this.className, cls)){\n            d.toreturn = true;\n            mw.tools.stopLoop(loop);\n        }\n    });\n    return d.toreturn;\n  },\n  loop:{/* Global index for MW loops */},\n  stopLoop:function(loop){\n    mw.tools.loop[loop] = false;\n  },\n  foreachParents:function(el, callback){\n     if(typeof el === 'undefined') return false;\n     if(el === null) return false;\n     var index = mw.random();\n     mw.tools.loop[index]=true;\n     var _curr = el.parentNode;\n     var count = -1;\n     if(_curr !== null && _curr !== undefined){\n       var _tag = _curr.tagName;\n       while(_tag !== 'BODY'){\n           count++;\n           var caller =  callback.call( _curr, index, count);\n           var _curr = _curr.parentNode;\n           if( caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }\n           var _tag = _curr.tagName;\n       }\n     }\n  },\n  foreachChildren:function(el, callback){\n     if(typeof el === 'undefined') return false;\n     if(el === null) return false;\n     var index = mw.random();\n     mw.tools.loop[index]=true;\n     var _curr = el.firstChild;\n     var count = -1;\n     if(_curr !== null && _curr !== undefined){\n       while(_curr.nextSibling !== null){\n           count++;\n           var caller =  callback.call( _curr, index, count);\n           var _curr = _curr.nextSibling;\n           if( caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]){ delete mw.tools.loop[index]; break }\n           var _tag = _curr.tagName;\n       }\n     }\n  },\n  hasChildrenWithClass:function(node, cls){\n\n    var g = {}\n    g.final = false;\n    mw.tools.foreachChildren(node,function(){\n        if(mw.tools.hasClass(this.className, cls)){\n          g.final = true;\n        }\n    });\n    return g.final;\n  },\n  parentsOrder:function(node, arr){\n    var only_first = [];\n    var obj = {}, l = arr.length, i=0;\n    for( ; i<l; i++) {obj[arr[i]] = -1;}\n    mw.tools.foreachParents(node, function(loop, count){\n        var cls = this.className;\n        var i=0;\n        for( ; i<l; i++) {\n           if(mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i])==-1){\n                obj[arr[i]] = count;\n                only_first.push(arr[i]);\n           }\n        }\n    });\n    return obj;\n  },\n  firstParentWithClass:function(el,cls){\n      _has = false;\n      mw.tools.foreachParents(el, function(loop){\n         if(mw.tools.hasClass(this.className, cls)){\n           _has = this;\n           mw.tools.stopLoop(loop);\n         }\n      });\n      return _has;\n  },\n  firstParentWithTag:function(el,tag){\n      var tag = typeof tag !== 'string'?tag:[tag];\n      _has = false;\n      mw.tools.foreachParents(el, function(loop){\n         if(tag.indexOf(this.nodeName.toLowerCase()) !== -1){\n           _has = this;\n           mw.tools.stopLoop(loop);\n         }\n      });\n      return _has;\n  },\n  toggle:function(who, toggler, callback){\n    var who = mw.$(who);\n    who.toggle();\n    who.toggleClass('toggle-active');\n    $(toggler).toggleClass('toggler-active');\n\n    mw.is.func(callback) ? callback.call(who) : '';\n  },\n  memoryToggle:function(toggler){\n    if(typeof _MemoryToggleContentID == 'undefined') return false;\n\n    var id = toggler.id;\n    var who = $(toggler).dataset('for');\n\n    mw.tools.toggle(who, \"#\"+id);\n\n    var page =  \"page_\" + _MemoryToggleContentID;\n\n    var is_active = $(toggler).hasClass('toggler-active');\n    if(_MemoryToggleContentID=='0') return false;\n    var curr = mw.cookie.ui(page);\n    if(curr==\"\"){\n        var obj = {}\n        obj[id] = is_active;\n        mw.cookie.ui(page, obj);\n    }\n    else{\n        curr[id] = is_active;\n        mw.cookie.ui(page, curr);\n        mw.log(mw.cookie.ui(page))\n    }\n\n  },\n  memoryToggleRecall:function(){\n     if(typeof _MemoryToggleContentID == 'undefined') return false;\n     var page =  \"page_\" + _MemoryToggleContentID;\n     var curr = mw.cookie.ui(page);\n     if(curr!=\"\"){\n        $.each(curr, function(a,b){\n            if(b==true){\n              var toggler = mw.$(\"#\"+a);\n              toggler.addClass('toggler-active');\n              var who = toggler.dataset(\"for\");\n              $(who).show().addClass('toggle-active');\n              var callback = toggler.dataset(\"callback\");\n              if(callback != \"\"){\n                Wait(callback, function(){\n                    window[callback]();\n                });\n              }\n            }\n        });\n     }\n  },\n  confirm:function(question, callback){\n    var conf = confirm(question);\n    if(conf && typeof callback === 'function'){\n      callback.call(window);\n    }\n    return conf;\n  },\n  el_switch:function(arr, type){\n    if(type==='semi'){\n      $(arr).each(function(){\n        var el = $(this);\n        if(el.hasClass(\"semi_hidden\")){\n          el.removeClass(\"semi_hidden\");\n        }\n        else{el.addClass(\"semi_hidden\");}\n      });\n    }\n    else{\n      $(arr).each(function(){\n        var el = $(this);\n        if(el.css('display')=='none'){\n          el.show();\n        }\n        else{el.hide();}\n      });\n    }\n  },\n  sort:function(obj){\n    var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');\n	// var parent_mod = mw.tools.firstParentWithClass(obj.el, 'module');\n\n    // Tablicata\n    var table = mwd.getElementById(obj.id);\n\n	var parent_mod = mw.tools.firstParentWithClass(table, 'module');\n\n    var others = group.querySelectorAll('li span'), i=0, len = others.length;\n    for( ; i<len; i++ ){\n        var curr = others[i];\n        if(curr !== obj.el){\n           //curr.setAttribute('data-state', 0);\n           $(curr).removeClass('ASC').removeClass('DESC');\n        }\n    }\n    obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';\n    var state = obj.el.attributes['data-state'].nodeValue;\n    var tosend = {}\n    tosend.type = obj.el.attributes['data-sort-type'].nodeValue;\n    if(state === '0'){\n        tosend.state = 'ASC';\n        obj.el.className = 'ASC';\n        obj.el.setAttribute('data-state', 'ASC');\n    }\n    else if(state==='ASC'){\n        tosend.state = 'DESC';\n        obj.el.className = 'DESC';\n        obj.el.setAttribute('data-state', 'DESC');\n    }\n    else if(state==='DESC'){\n         tosend.state = 'ASC';\n         obj.el.className = 'ASC';\n         obj.el.setAttribute('data-state', 'ASC');\n    }\n    else{\n       tosend.state = 'ASC';\n       obj.el.className = 'ASC';\n       obj.el.setAttribute('data-state', 'ASC');\n    }\n\n	if(parent_mod !== undefined){\n		 parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);\n	     mw.reload_module(parent_mod);\n	}\n  },\n  focus_on:function(el){\n    if(!$(el).hasClass('mw-focus')){\n      mw.$(\".mw-focus\").each(function(){\n         this!==el ? $(this).removeClass('mw-focus') : '';\n      });\n      $(el).addClass('mw-focus');\n    }\n  },\n  scrollTo:function(el, callback, parent){\n    mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){\n        typeof callback === 'function' ? callback.call(el) : '';\n    });\n  },\n  accordion:function(el, callback){\n    var speed = 200;\n    var container = el.querySelector('.mw-accordion-content');\n    if(container===null) return false;\n    var is_hidden = mw.CSSParser(container).get.display() == 'none';\n\n    if(!$(container).is(\":animated\")){\n        if(is_hidden){\n            $(container).slideDown(speed, function(){\n              $(el).addClass('active');\n              typeof callback === 'function' ? callback.call(el, 'visible') : '';\n            });\n        }\n        else{\n          $(container).slideUp(speed, function(){\n              $(el).removeClass('active');\n              typeof callback === 'function' ? callback.call(el, 'hidden') : '';\n          });\n        }\n    }\n  },\n  index:function(el, parent, selector){\n    var selector = selector || el.tagName.toLowerCase();\n    var parent = parent || el.parentNode;\n    var all = parent.querySelectorAll(selector), i=0, l=all.length;\n    for ( ; i<l; i++){\n        if( el===all[i] ) return i;\n    }\n  },\n  simpleRotator:function(rotator){\n    if(typeof rotator !== 'undefined'){\n      if(!$(rotator).hasClass('activated')){\n        $(rotator).addClass('activated')\n        var all = mw.$('> *', rotator);\n        var l = all.length;\n        var w = 2 * (l * ($(all[0]).outerWidth(true)));\n        $(all).addClass('mw-simple-rotator-item');\n        $(rotator).width(w);\n        rotator.go = function(where, callback){\n            $(rotator).dataset('state', where);\n            var item = $(rotator).children()[where];\n            var item_left = $(item).offset().left;\n            var rleft =  $(rotator).offset().left;\n            $(rotator).animate({left:-(item_left-rleft)}, function(){\n              if(typeof callback === 'function'){\n                callback.call(rotator);\n              }\n            });\n        }\n        rotator.state = function(){return parseFloat($(rotator).dataset('state'))}\n      }\n    }\n    return rotator;\n  },\n  sidebar:function(){\n    if(mw.$(\"#mw_edit_page_left\").length > 0){\n      if(mw.$(\"#mw-admin-container\").length > 0){\n          $(\"#mw-admin-container\").addClass('has_sidebar');\n          $(\"#mw-admin-container\").css('backgroundPosition',  '-'+(500-$(\"#mw_edit_page_left\").width()) + 'px 0');\n      }\n      else if(mw.$(\"#mw_edit_pages\").length > 0){\n        $(\"#mw_edit_pages_content\").addClass('has_sidebar');\n        $(\"#mw_edit_pages_content\").css('backgroundPosition',  '-'+(500-$(\"#mw_edit_page_left\").width()) + 'px 0');\n      }\n    }\n  },\n  highlight:function(el, color, speed1, speed2){\n    if(typeof el === 'undefined') return false;\n    $(el).stop();\n    var color = color || '#D8FFC4';\n    var speed1 = speed1 || 777;\n    var speed2 = speed2 || 777;\n    var curr = window.getComputedStyle(el, null).backgroundColor;\n    if(curr == 'transparent'){\n      var curr = '#ffffff';\n    }\n    $(el).css('boxShadow', '0 0 10px #ccc');\n    $(el).animate({ backgroundColor: color }, speed1, function(){\n        $(el).animate({ backgroundColor: curr }, speed2, function(){\n          $(el).css('backgroundColor', '');\n          $(el).css('boxShadow', '');\n        })\n    });\n  },\n  highlightStop:function(el){\n     $(el).stop();\n     $(el).css('backgroundColor', '');\n     $(el).css('boxShadow', '');\n  },\n  toCamelCase:function(str){\n     return str.replace(/(\\-[a-z])/g, function(a){return a.toUpperCase().replace('-','');})\n  },\n  multihover:function(){\n    var l = arguments.length, i=1;\n    var type = arguments[0].type;\n    var check =  ( type ==='mouseover' ||  type ==='mouseenter');\n    for( ; i<l; i++) {\n      check  ?  $(arguments[i]).addClass('hovered')  :  $(arguments[i]).removeClass('hovered') ;\n    }\n  },\n  search:function(string, selector, callback){\n    var string = string.toLowerCase();\n\n    if(typeof selector === 'object'){\n       var items = selector;\n    }\n    else{\n       var items = mwd.querySelectorAll(selector)\n    }\n\n    var i=0, l=items.length;\n    for( ; i<l; i++){\n      items[i].textContent.toLowerCase().contains(string) ? callback.call(items[i], true) : callback.call(items[i], false);\n    }\n  },\n  tag:function(obj){\n    var o = this;\n    var itemsWrapper = obj.itemsWrapper;\n\n    if (itemsWrapper == null) return false;\n    var items = obj.itemsWrapper.querySelectorAll(obj.items);\n    var tagMethod = obj.method || 'parse';\n\n    var tagholder = $(obj.tagholder);\n    var field = mw.$('input[type=\"text\"]', tagholder[0]);\n\n    var def =  field.dataset('default');\n    o.createTag = function(el){\n        var span_holder = mwd.createElement('span');\n        var span_x = mwd.createElement('span');\n\n        span_holder.className = 'mw-ui-btn mw-ui-btn-small';\n        span_holder.id = 'id-'+el.value;\n        span_holder.innerHTML = el.parentNode.textContent;\n\n        var icon = mwd.createElement('i');\n        icon.className = mw.tools.firstParentWithTag(el, 'li').className;\n\n        $(span_holder).prepend(icon);\n\n        span_holder.onclick = function(e){\n\n\n            if(e.target.className != 'mw-ui-btnclose'){\n                mw.tools.highlight(mw.$('item_'+el.value)[0],'green');\n\n                var input = itemsWrapper.querySelector(\".item_\"+el.value + \" input\");\n\n                if(input !== null){\n\n                  mw.tools.foreachParents(input, function(loop){\n\n                    if(mw.tools.hasClass(this.className, 'mw-ui-category-selector')){\n                       mw.tools.stopLoop(loop);\n                    }\n                    if(this.tagName=='LI'){\n                      $(this).addClass('active');\n                    }\n                  });\n\n\n\n                  var label = itemsWrapper.querySelector(\".item_\"+el.value + \" label\");\n\n                  setTimeout(function(){\n                      label.scrollIntoView(false);\n                      mw.tools.highlightStop(mw.$(\".highlighted\").removeClass(\"highlighted\"));\n                      mw.tools.highlight(label);\n                      $(label).addClass(\"highlighted\");\n                   }, 55);\n                }\n            }\n        }\n        span_x.className = 'mw-ui-btnclose';\n        span_x.onclick = function(){\n            o.untag(this.parentNode, el);\n        }\n        span_holder.appendChild(span_x);\n        return span_holder;\n    }\n\n    o.rend = function(method, el){ // parse and prepend\n      var method = method || 'parse';\n      if(method === 'parse' || el==='all'){\n        var html = [];\n        var checks = itemsWrapper.querySelectorAll('input[type=\"radio\"], input[type=\"checkbox\"]');\n        $(checks).each(function(){\n           if(this.checked == true){\n              $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).addClass(\"active\");\n              var tag = o.createTag(this);\n              html.push(tag);\n           }\n           else{\n              $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).removeClass(\"active\");\n           }\n        });\n        $(tagholder).prepend(html);\n      }\n      else if(method === 'prepend'){\n        var tag = o.createTag(el);\n        if($('.mw-ui-btn', tagholder).length==0){\n            tagholder.prepend(tag);\n        }\n        else{\n            $('.mw-ui-btn:last', tagholder).after(tag);\n        }\n      }\n    }\n\n    o.untag = function(pill, input){\n      $(pill).remove();\n      if(!!input) { $(input)[0].checked = false; $(mw.tools.firstParentWithClass($(input)[0], 'mw-ui-check')).removeClass(\"active\");}\n      if(typeof obj.onUntag === 'function'){\n           obj.onUntag.call(o);\n      }\n    }\n\n    o.rend(tagMethod, 'all');\n\n    tagholder.click(function(e){\n      if(e.target.tagName != 'INPUT'){ field.focus(); }\n\n        itemsWrapper.style.display = 'block';\n        if(itemsWrapper.querySelector('input').binded != true){\n            itemsWrapper.querySelector('input').binded = true;\n            var checks = itemsWrapper.querySelectorAll('input[type=\"radio\"], input[type=\"checkbox\"]');\n            $(checks).commuter(function(){\n                if(tagMethod === 'prepend'){\n                  o.rend(tagMethod, this);\n                }\n                else{\n                  $('.mw-ui-btn', tagholder).remove();\n                  o.rend(tagMethod);\n                }\n                if(typeof obj.onTag === 'function'){\n                     obj.onTag.call(o);\n                }\n                field.val('');\n            }, function(){\n                 o.untag($(\"#id-\"+this.value, tagholder));\n            });\n\n           tagholder.hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});\n           $(itemsWrapper).hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});\n           $(mwd.body).bindMultiple('mousedown', function(){\n               if(mw.$(\".mw-tagger-hover\").length==0){\n                   itemsWrapper.style.display = 'none';\n                   if(mw.$('.mw-ui-btn', tagholder).length==0){\n                      field.val(def);\n                   }\n                   else{\n                      field.val('');\n                   }\n\n                   $(items).show();\n               }\n           });\n        }\n    });\n    field.keyup(function(){\n      var val = $(this).val();\n      mw.tools.search(val, items, function(found){\n        if(found){\n            $(this).show();\n        }\n        else{\n           $(this).hide();\n        }\n      });\n    });\n    field.focus(function(){\n       this.value === def ? this.value = '' : '';\n    });\n    field.blur(function(){\n       if(this.value === '' && mw.$('.mw-ui-btn', tagholder).length == 0){\n         this.value = def;\n       }\n    });\n\n    return this;\n\n  },\n  iframeLinksToParent:function(iframe){\n    $(iframe).contents().find('a').each(function(){\n       var href = this.href;\n       if(href.contains(mw.settings.site_url)){\n         this.target = '_parent';\n       }\n    });\n  },\n  fullscreen:function(el){\n      if (el.webkitRequestFullScreen) {\n        el.webkitRequestFullScreen();\n      } else if(el.mozRequestFullScreen){\n        el.mozRequestFullScreen();\n      }\n  },\n  get_filename:function(s) {\n    if(s.contains('.')){\n      var d = s.lastIndexOf('.');\n      return s.substring(s.lastIndexOf('/') + 1, d < 0 ? s.length : d);\n    }\n    else{\n      return undefined;\n    }\n  },\n  is_field:function(obj){\n    var t = obj.tagName.toLowerCase();\n    if(t=='input' || t=='textarea' || t=='select') return true;\n    return false;\n  },\n  getAttrs : function(el){\n    var attrs = el.attributes;\n    var obj = {}\n    for(var x in attrs){\n      var dis = attrs[x];\n      obj[dis.nodeName] = dis.nodeValue\n    }\n    return obj;\n  },\n  copyAttributes:function(from, to, except){\n    var except = except || [];\n    var attrs = mw.tools.getAttrs(from);\n    if(mw.tools.is_field(from) && mw.tools.is_field(to)) to.value = from.value;\n    for(var x in attrs){\n       ( $.inArray(x, except) == -1 && x != 'undefined') ? to.setAttribute(x, attrs[x]): '';\n    }\n  },\n  isEmptyObject:function(obj){\n     for (var a in obj) {\n        if(obj.hasOwnProperty(a)) return false;\n     }\n     return true;\n  },\n  scaleTo:function(selector, w, h){\n    var w = w || 800;\n    var h = h || 600;\n\n    var is_percent = w.toString().contains(\"%\") ? true:false;\n    var item = mw.$(selector);\n    if(item.hasClass('mw-scaleto') || w == 'close'){\n       item.removeClass('mw-scaleto');\n       item.removeAttr('style');\n    }\n    else{\n      item.parent().height(item.height());\n      item.addClass('mw-scaleto');\n      if(is_percent){\n          item.css({\n            width:w,\n            height:h,\n            left:((100-parseFloat(w))/2)+\"%\",\n            top:((100-parseFloat(h))/2)+\"%\"\n          });\n      }\n      else{\n          item.css({\n            width:w,\n            height:h,\n            marginLeft:-w/2,\n            marginTop:-h/2\n          });\n      }\n    }\n  },\n  getFirstEqualFromTwoArrays:function(a,b){\n    var ia=0, ib=0, la=a.length, lb=b.length;\n    loop:\n    for( ; ia<la; ia++){\n      var curr = a[ia];\n      for( ; ib<lb; ib++){\n          if(b[ib]==curr){\n            //break loop;\n            return curr;\n          }\n      }\n    }\n  },\n  tabGroup : function(obj, master){\n    var master = master || mwd.body;\n    var active = obj.activeNav || \"active\";\n    mw.$(obj.nav).click(function(){\n      if(!$(this).hasClass(active)){\n        var i = mw.tools.index(this, master, obj.nav);\n        mw.$(obj.nav).removeClass(active);\n        $(this).addClass(active);\n        mw.$(obj.tabs).hide().eq(i).show();\n        if(typeof obj.onclick == 'function'){\n            obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);\n        }\n      }\n      else{\n        if(obj.toggle == true){\n            $(this).removeClass(active);\n            mw.$(obj.tabs).hide();\n            if(typeof obj.onclick == 'function'){\n                var i = mw.tools.index(this, master, obj.nav);\n                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], obj);\n            }\n        }\n      }\n    });\n  },\n  has:function(el, what){\n    return el.querySelector(what) !== null;\n  },\n  html_info:function(html){\n    if(typeof mw._html_info === 'undefined'){\n         mw._html_info = mwd.createElement('div');\n         mw._html_info.id = 'mw-html-info';\n         mwd.body.appendChild(mw._html_info);\n    }\n    $(mw._html_info).html(html);\n    return mw._html_info;\n  },\n  image_info:function(a, callback){\n    var img = mwd.createElement('img');\n    img.className = 'semi_hidden';\n    img.src = a.src;\n    mwd.body.appendChild(img);\n\n    img.onload = function(){\n        callback.call({width:$(img).width(), height: $(img).height()});\n        $(img).remove();\n    }\n  },\n  refresh_image:function(node){\n    node.src =  mw.url.set_param('refresh_image', mw.random(), node.src);\n    return node;\n  },\n  getDiff : function(_new,_old){\n        var diff = {}, x, y;\n        for (x in _new){\n            if(!x in _old || _old[x]!=_new[x]){\n              diff[x] = _new[x];\n            }\n        }\n        for (y in _old){\n            if(typeof _new[y] === 'undefined'){\n              diff[y] = \"\";\n            }\n        }\n        return diff;\n  },\n  liveEdit:function(el, textonly){\n    if(el.getElementsByTagName('input').length===0){\n      var textonly = textonly || true;\n      var input = mwd.createElement('input');\n      input.type = \"text\";\n      input.className = \"mw-ui-field\";\n      input.style.width = $(el).width()+'px';\n      if(textonly===true){\n         input.value = el.textContent;\n         input.onblur = function(){\n            $(el).text(input.value)\n         }\n      }\n      else{\n         input.value = el.innerHTML;\n         input.onblur = function(){\n            el.innerHTML = input.value;\n         }\n      }\n      $(el).empty().append(input);\n      $(input).focus();\n    }\n  },\n  parseHtml: function(html){\n    var d = document.implementation.createHTMLDocument(\"\");\n    d.body.innerHTML = html;\n    \n   return d;\n  },\n  isEmpty:function(node){\n    return (node.innerHTML.trim()).length === 0;\n  },\n  isJSON:function(a){\n    if(typeof a === 'object'){\n      if(a.constructor === {}.constructor){\n        return true;\n      }\n      else{\n        return false;\n      }\n    }\n    else if(typeof a === 'string'){\n      try {\n          JSON.parse(a);\n      }\n      catch (e) {\n          return false;\n      }\n      return true;\n    }\n    else{\n      return false;\n    }\n  },\n  toJSON:function(whatever){\n    if(typeof whatever === 'object' && mw.tools.isJSON(whatever)){\n      return whatever;\n    }\n    if(typeof whatever === 'string'){\n      try {\n          var r = JSON.parse(whatever);\n      }\n      catch (e) {\n          var r = {\"0\":whatever};\n      }\n      return r;\n    }\n    if(typeof whatever === 'object' && whatever.constructor === [].constructor){\n        var obj = {}, i=0, l=whatever.length;\n        for( ; i<l; i++){\n          obj[i] = whatever[i];\n        }\n        return obj;\n    }\n  },\n  iframe_editor:function(area, params){\n    var params = params || {};\n    var params = json2url(params);\n    var area = mw.$(area);\n    var frame = mwd.createElement('iframe');\n    frame.src = mw.external_tool('wysiwyg?'+params);\n    frame.className = 'mw-iframe-editor';\n        frame.scrolling = 'no';\n        var name =  'mweditor'+mw.random();\n        frame.id = name;\n        frame.name = name;\n        frame.style.backgroundColor = \"transparent\";\n        frame.setAttribute('frameborder', 0);\n        frame.setAttribute('allowtransparency', 'true');\n        area.hide().after(frame);\n    $(frame).load(function(){\n        frame.contentWindow.thisframe = frame;\n        var cont = $(frame).contents().find(\"#mw-iframe-editor-area\");\n        cont[0].contentEditable = true;\n        if(area[0].tagName === 'TEXTAREA'){\n          cont.html(area[0].value);\n        }\n        else{\n          cont.html(area.html())\n        }\n    });\n    $(frame).bind('change', function(e, val){\n      if(area[0].tagName === 'TEXTAREA'){\n       area.val(val);\n      }\n      else{\n        area.html(val);\n      }\n       if(area.hasClass(\"mw_option_field\")){\n         area.trigger(\"change\");\n       }\n    });\n    return frame;\n  }\n}\n\n\n\n\nAlert = mw.tools.alert;\n\n\n\n\n\nWait('$', function(){\n\n  $.fn.getDropdownValue = function() {\n    return this.dataset(\"value\");\n  };\n\n\n  $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {\n     var isCustom = isCustom || false;\n     var isValidOption = false;\n     var el = this;\n     if(isCustom){\n        var isValidOption = true;\n        el.dataset(\"value\", val);\n        triggerChange?el.trigger(\"change\"):'';\n        if(customValueToDisplay!=false){\n           el.find(\".mw_dropdown_val\").html(customValueToDisplay);\n        }\n     }\n     else{\n       el.find(\"li\").each(function(){\n           if(this.getAttribute('value')==val){\n                el.dataset(\"value\", val);\n                var isValidOption = true;\n                el.find(\".mw_dropdown_val\").html(this.getElementsByTagName('a')[0].innerHTML);\n                triggerChange?el.trigger(\"change\"):'';\n                return false;\n           }\n       });\n     }\n     this.dataset(\"value\", val);\n  };\n\n\nmw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;\n\n$.fn.dataset = function(dataset, val){\n  var el = this[0];\n  if(el === undefined) return false;\n  var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);\n  if(!val){\n     var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr(\"data-\"+dataset);\n     return dataset !== undefined ? dataset : \"\";\n  }\n  else{\n    mw.datassetSupport ? el.dataset[_dataset] = val :  $(el).attr(\"data-\"+dataset, val);\n    return $(el);\n  }\n}\n\n\n$.fn.commuter = function(a,b) {\n  if(a===undefined){return false}\n  var b = b || function(){};\n  return this.each(function(){\n    if(this.type==='checkbox'  || this.type==='radio' ){\n      $(this).bindMultiple(\"change\", function(){\n        this.checked === true ? a.call(this) : b.call(this);\n      });\n    }\n  });\n};\n\n});\n\n\nmw.cookie = {\n  get:function(name){\n      var cookies=document.cookie.split(\";\"), i=0, l = cookies.length;\n      for ( ; i<l; i++){\n        var x=cookies[i].substr(0,cookies[i].indexOf(\"=\"));\n        var y=cookies[i].substr(cookies[i].indexOf(\"=\")+1);\n        var x=x.replace(/^\\s+|\\s+$/g,\"\");\n        if (x==name){\n          return unescape(y);\n        }\n      }\n  },\n  set:function( name, value, expires, path, domain, secure ){\n    var now = new Date();\n    now.setTime( now.getTime() );\n    if ( expires ){\n        var expires = expires * 1000 * 60 * 60 * 24;\n    }\n    var expires_date = new Date( now.getTime() + (expires) );\n    document.cookie = name + \"=\" +escape( value ) + ( ( expires ) ? \";expires=\" + expires_date.toGMTString() : \"\" ) + ( ( path ) ? \";path=\" + path : \";path=/\" ) +  ( ( domain ) ? \";domain=\" + domain : \"\" ) +  ( ( secure ) ? \";secure\" : \"\" );\n  },\n  ui:function(a,b){\n    var mwui = mw.cookie.get(\"mwui\");\n    var mwui = (!mwui || mwui=='') ? {} : $.parseJSON(mwui);\n    if(a===undefined){return mwui}\n    if(b===undefined){return mwui[a]!==undefined?mwui[a]:\"\"}\n    else{\n        mwui[a] = b;\n        var tostring = JSON.stringify(mwui);\n        mw.cookie.set(\"mwui\", tostring, false, \"/\");\n    }\n  }\n}\n\nmw.recommend = {\n  get:function(){\n    var cookie = mw.cookie.get(\"recommend\");\n    if(!cookie){return {}}\n    else{\n      return $.parseJSON(cookie);\n    }\n  },\n  increase:function(item_name){\n    var json  =  mw.recommend.get();\n    var curr =  parseFloat(json[item_name]);\n    if(isNaN(curr)){\n       json[item_name] = 1;\n    }\n    else{\n        json[item_name] += 1;\n    }\n    var tostring = JSON.stringify(json);\n    mw.cookie.set(\"recommend\", tostring, false, \"/\");\n  }\n}\n\nString.prototype._exec = function(a,b,c){\n\n  var a = a || \"\";\n  var b = b || \"\";\n  var c = c || \"\";\n  if(!this.contains(\".\")){\n    return window[this](a,b,c);\n  }\n  else{\n    var arr = this.split(\".\");\n    var temp = window[arr[0]];\n\n    var len = arr.length-1, i=1;\n    for( ; i<=len; i++){\n        var temp = temp[arr[i]];\n    }\n    return (typeof temp === 'function') ? temp(a,b,c) : temp;\n  }\n}\n\n\nString.prototype.toCamelCase = function() {\n    return  mw.tools.toCamelCase(this);\n};\n\nmw.exec = function(str, a,b,c){\n    return str._exec(a,b,c);\n}\n\n\n\n\n\n\n\n/*\n\n$(document).ready(function(){\n  $(\".modules-list.list-elements img\").each(function(){\n    var file = mw.extras.get_filename(this.src);\n    $(this).after(\"<div><textarea onfocus='this.select()' style='padding:5px;background:#B8CDE2;white-space:nowrap;box-shadow:inset 0 0 2px #000;height:14px;border:0;width:120px;font:11px Arial;resize:none'>\"+file+\"</textarea></div>\");\n  });\n\n  $(\".mw_module_image, .mw_module_hold\").css({\n    minWidth:0,\n    maxWidth:'none',\n    width:'auto'\n  })\n});\n\n*/\n\n\n$.fn.datas = function(){\n    var attrs = this[0].attributes;\n    var toreturn = {}\n    for(var item in attrs){\n        var attr = attrs[item];\n        if(attr.nodeName!==undefined){\n            if(attr.nodeName.contains(\"data-\")){\n                toreturn[attr.nodeName] = attr.nodeValue;\n            }\n        }\n    }\n    return toreturn;\n}\n\nmw.switcher = {\n  _switch:function(el, callback){\n    if($(el).hasClass(\"mw-switcher-off\")){\n       mw.switcher.on(el);\n       var checked = el.getElementsByTagName('input')[0];\n    }\n    else{\n       mw.switcher.off(el);\n       var checked = el.getElementsByTagName('input')[1];\n    }\n    $(checked).trigger('change', checked);\n    if(typeof callback==='function'){\n      callback.call(checked);\n    }\n  },\n  on:function(el){\n    if(el){\n     var _el = $(el);\n     _el.removeClass('mw-switcher-off');\n     _el.addClass('mw-switcher-on');\n     el.getElementsByTagName('input')[0].checked = true;\n    }\n  },\n  off:function(el){\n     if(el){\n     var _el = $(el);\n     _el.addClass('mw-switcher-off');\n     _el.removeClass('mw-switcher-on');\n     el.getElementsByTagName('input')[1].checked = true;\n     }\n  }\n}\n\n\n\n\n mw.check = {\n   all:function(selector){\n    mw.$(selector).find(\"input[type='checkbox']\").each(function(){\n       this.checked = true;\n    });\n   },\n   none:function(selector){\n      mw.$(selector).find(\"input[type='checkbox']\").each(function(){\n       this.checked = false;\n    });\n   },\n   collectChecked:function(parent){\n     var arr = [];\n     var all = parent.querySelectorAll('input[type=\"checkbox\"]'), i=0, l=all.length;\n     for( ; i<l; i++){\n        var el = all[i];\n        el.checked ? arr.push(el.value) : '';\n     }\n     return arr;\n   }\n }\n\n\n\n\nmw.walker = function(context, callback){   //todo\n  var context = mw.is.obj(context) ? context : mwd.body;\n  var callback = mw.is.func(context) ? context :  callback;\n  var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);\n  while (walker.nextNode()){\n    callback.call(walker.currentNode);\n  }\n}\nArray.prototype.remove = function(what){\n  var i=0, l=this.length;\n  for( ; i<l; i++){\n    this[i] === what ? this.splice(i, 1) : '';\n  }\n}\n\n\n\n\n\n\n\n__mwextend = function(el){\n      if(el.attributes['data-extended']===undefined){\n          el.setAttribute('data-extended', true);\n          el.getModal = function(){\n              var modal = mw.tools.firstParentWithClass(el, 'mw_modal');\n              if(!!modal){\n                  return  {\n                       main:modal,\n                       container:modal.querySelector(\".mw_modal_container\")\n                  }\n              }\n              else {return false};\n          }\n          el.attr = function(name, value){\n            if(value===undefined){\n              return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;\n            }\n            else{\n              el.setAttribute(name, value);\n              return el;\n            }\n          }\n          el.addClass = function(cls){\n            return mw.tools.addClass(el, cls)\n          }\n          el.removeClass = function(cls){\n            return mw.tools.removeClass(el, cls)\n          }\n      }\n    return el;\n}\n\n\nmw.extend = function(el){\n    return __mwextend(el);\n}\n\n$(window).load(function(){\n  mw.loaded = true;\n  mwd.body.className+=' loaded';\n  mw.tools.removeClass(mwd.body, 'loading');\n\n\n  mw.$('div.mw-ui-field').click(function(e){\n    if(e.target.type!= 'text'){\n       try{this.querySelector('input[type=\"text\"]').focus();}\n       catch(e){}\n    }\n });\n\n\n});\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmw._dump = function(obj){\n  var obj = obj || mw;\n  var html = '<ol class=\"mw-dump-list\">'\n  $.each(obj, function(a,b){\n    if(typeof b==='function'){\n      var c = ''+b+'';\n      var c = c.split(')')[0];\n      var c = '<i>' + c + ')</i>';\n    }\n    else if(typeof b==='object'){\n       var c = '<a href=\"javascript:;\" onclick=\"mw.tools.modal.init({html: \\'<h2>mw.'+a+'</h2>\\' + mw._dump(mw.'+a+')});\"> + Object</a>';\n    }\n    else{\n      var c = b.toString()\n    }\n    html=html+'<li>' + a + ' : ' + c + '</li>';\n  });\n  html=html+ '</ol>';\n  return html;\n}\n\n\nmw.dump = function(){\n\n    mw.tools.modal.init({\n      html: mw._dump(),\n      width:800\n    });\n}\n\nmw.notification = {\n\n    build:function(type, text){\n        var div = mwd.createElement('div');\n        div.className = 'mw-notification mw-'+type;\n        div.innerHTML = '<div>'+text+'</div>'\n        return div;\n    },\n    append:function(type, text){\n        var div = mw.notification.build(type, text);\n        if(typeof mw.notification._holder === 'undefined'){\n           mw.notification._holder = mwd.createElement('div');\n           mw.notification._holder.id = 'mw-notifications-holder';\n           mwd.body.appendChild(mw.notification._holder);\n        }\n        mw.notification._holder.appendChild(div);\n        setTimeout(function(){\n           div.style.opacity = 0;\n           setTimeout(function(){\n             $(div).remove();\n           }, 1000);\n        }, 1000);\n    },\n    success:function(text){\n      mw.notification.append('success', text);\n    },\n    error:function(text){\n      mw.notification.append('error', text);\n    },\n    warning:function(text){\n      mw.notification.append('warning', text);\n    }\n}\n\n\n\n\n\n\n  $.fn.visible = function() {\n    return this.css(\"visibility\", \"visible\");\n  };\n  $.fn.visibilityDefault = function() {\n    return this.css(\"visibility\", \"\");\n  };\n\n  $.fn.invisible = function() {\n    return this.css(\"visibility\", \"hidden\");\n  };\n\n\n  mw.which = function(str, arr_obj, func){\n     if(arr_obj instanceof Array){\n       var l = arr_obj.length, i = 0;\n       for( ; i<l; i++){\n         if(arr_obj[i] === str){\n            func.call(arr_obj[i]);\n            return arr_obj[i];\n         }\n       }\n     }\n     else{\n       for(var i in arr_obj){\n         if(i===str){\n            func.call(arr_obj[i]);\n            return arr_obj[i];\n         }\n       }\n     }\n  }\n\n\n\n\n\n\nmw.googleFonts = {\n  params:'?key=AIzaSyApMgI8vW2EfAFAeVa4hDvaLoaW9A3WY94&subsets=latin&sort=alpha',\n  url:'https://www.googleapis.com/webfonts/v1/webfonts/',\n  get:function(format, callback){  return false;\n    var format = format || 'list';\n\n    jQuery.getJSON(mw.googleFonts.url + mw.googleFonts.params, function(data){\n\n        if(format==='list'){\n            var html = '<li><h2>Google Fonts:</h2></li>';\n            $.each(data.items, function(a,b){\n                html+='<li>' + b.family + '</li>';\n            });\n            html+='';\n\n            callback.call(html);\n        }\n    });\n  }\n}\n\n$(window).load(function(){\n  if(!window['mwAdmin']){\n    mw.googleFonts.get('list', function(){\n       var ul = $(\"#font_family_selector_main ul\")[0];\n       ul.innerHTML += this\n    });\n\n        /*\n         var div = mwd.createElement('div');\n         div.id =  'LAYERS';\n\n         mw.traverse(mwd.body, div);\n\n        mwd.body.appendChild(div);\n\n        $(div).sortable({\n            stop:function(e,ui){\n              var f = $(ui.item).data(\"for\");\n              var prev_f = $(ui.item).prev().data(\"for\");\n\n              $(prev_f).after(f);\n            }\n        })\n       */\n  }\n\n\n/*\n\n    $(\"#mw-admin-container\").height($(window).height())\n\n    mw.tools.scrollBar.init(mwd.getElementById('mw-admin-container'));\n\n\n    */\n\n});\n\n\n\nmw.traverse = function(root, h){\n  var els = root.querySelectorAll('.edit .element, .edit .module');\n  d(els);\n  $(els).each(function(){\n        _dis = this;\n        var el = mwd.createElement('span');\n        el.className = 'layer';\n        $(el).data(\"for\", this);\n        $(el).click(function(){\n            $(\".element-current\").removeClass(\"element-current\");\n            $($(el).data(\"for\")).addClass(\"element-current\");\n           $(_dis).remove()\n\n        });\n\n        var str = _dis.textContent.slice(0,25);\n        el.innerHTML = $(this).hasClass(\"module\")?'Module':'Element';\n        el.innerHTML += ' - <small>'+str+'...</span>';\n        h.appendChild(el);\n\n\n\n  });\n}\n\n\n\n\n\n\n\n\nmw.isDragItem = mw.isBlockLevel = function(obj){\n  var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table|div)$/i;\n  return items.test(obj.nodeName);\n}\n\n\n\nmw.help = function(a){\n\n    return mw.tools.modal.frame({\n        url:\"//microweber.com/help/\"+a+\".php\"\n    });\n}\n\n\n\nmw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];\n\n_Prefixtest = false;\n\n\n\n  mw.JSPrefix = function(property){\n    ! _Prefixtest ? _Prefixtest = mwd.body.style : '';\n    if(_Prefixtest[property]!==undefined){\n      return property;\n    }\n    else{\n       var property = property.charAt(0).toUpperCase() + property.slice(1),\n           len = mw._JSPrefixes.length,\n           i = 0;\n       for( ; i<len ;i++){\n         if(_Prefixtest[mw._JSPrefixes[i]+property] !== undefined){\n            return mw._JSPrefixes[i]+property;\n         }\n       }\n    }\n  }\n\n\n\n\n\nif (typeof document.hidden !== \"undefined\") {\n	_mwdochidden = \"hidden\";\n} else if (typeof document.mozHidden !== \"undefined\") {\n	_mwdochidden = \"mozHidden\";\n} else if (typeof document.msHidden !== \"undefined\") {\n	_mwdochidden = \"msHidden\";\n} else if (typeof document.webkitHidden !== \"undefined\") {\n	_mwdochidden = \"webkitHidden\";\n}\n\n\ndocument.isHidden = function(){\n  if(typeof _mwdochidden !== 'undefined'){\n    return  document[_mwdochidden];\n  }\n  else{\n    return !document.hasFocus();\n  }\n}\n\n\n\n\nmw.storage = {\n        init:function(){\n          if(!('localstorage' in window)) return false;\n          var mw = localStorage.getItem(\"mw\");\n          var mw = mw === null ? (localStorage.setItem(\"mw\", \"{}\")) : mw;\n          this.change(\"INIT\");\n          return mw;\n        },\n        set:function(key, val){\n            if(!('localstorage' in window)) return false;\n            var curr = JSON.parse(localStorage.getItem(\"mw\"));\n            curr[key] = val;\n            var a = localStorage.setItem(\"mw\", JSON.stringify(curr))\n            mw.storage.change(\"CALL\", key, val);\n            return a;\n        },\n        get:function(key){\n           if(!('localstorage' in window)) return false;\n            var curr = JSON.parse(localStorage.getItem(\"mw\"));\n            return curr[key];\n        },\n        _keys : {},\n        change:function(key, callback, other){\n          if(!('localstorage' in window)) return false;\n          if(key ==='INIT' ){\n              window.addEventListener('storage', function(e){\n                  if(e.key==='mw'){\n                     var _new = JSON.parse(e.newValue);\n                     var _old = JSON.parse(e.oldValue);\n                     var diff = mw.tools.getDiff(_new, _old);\n                     for(var t in diff){\n                       if(t in mw.storage._keys){\n                         var i = 0, l = mw.storage._keys[t].length;\n                         for( ; i<l; i++){\n                             mw.storage._keys[t][i].call(diff[t]);\n                         }\n                       }\n                     }\n                  }\n              }, false);\n          }\n          else if(key==='CALL'){\n            if(!document.isHidden() && typeof mw.storage._keys[callback] !== 'undefined'){\n               var i = 0, l = mw.storage._keys[callback].length;\n               for( ; i<l; i++){\n                   mw.storage._keys[callback][i].call(other);\n               }\n            }\n          }\n          else{\n              if(key in mw.storage._keys){\n                  mw.storage._keys[key].push(callback);\n              }\n              else{\n                  mw.storage._keys[key] = [callback];\n              }\n          }\n        }\n    }\n\n\n\n\n\n\n    ///  TESTS\n      mw.storage.init();\n      mw.storage.change(\"reload_module\", function(){\n          if( this!= ''){\n              mw.reload_module(this.toString());\n          }\n      });\n\n\n\n\nmw.requestToReload = function(id){\n   mw.storage.set(\"reload_module\", '');\n   mw.storage.set(\"reload_module\", id);\n}\n\nrcss = function(){\n  mw.$(\"link\").each(function(){\n    var href = this.href;\n\n    this.href =  mw.url.set_param('v', mw.random(), href);\n  });\n}\n\nsetVisible = function(e){\n    if(e.type == 'focus'){\n      $(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visible()\n    }\n    else if(e.type == 'blur'){\n     $(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visibilityDefault()\n    }\n}\n\n\nmw.beforeleave_html = \"\"\n    + \"<div class='mw-before-leave-container'>\"\n      + \"<p>Leave page by choosing an option</p>\"\n      + \"<span class='confirm-btn-red'>Leave withot saving</span>\"\n      + \"<span class='confirm-btn-green' >Save &amp; Continue</span>\"\n      + \"<div class='vSpace'></div>\"\n      + \"<span class='mw-cancel' onclick='mw.tools.modal.remove(\\\"modal_beforeleave\\\")'>Cancel</span>\"\n    + \"</div>\";\n\nmw.beforeleave = function(url){\n    if(mw.askusertostay){\n        var modal = mw.tools.modal.init({\n           html:mw.beforeleave_html,\n           name:'modal_beforeleave',\n           width:430,\n           height:230,\n           template:'mw_modal_basic',\n        });\n\n        var save = modal.container.querySelector('.confirm-btn-green');\n        var go = modal.container.querySelector('.confirm-btn-red');\n\n        $(save).click(function(){\n          mw.drag.save(mwd.getElementById('main-save-btn'), function(){\n            mw.askusertostay = false;\n            window.location.href = url;\n          });\n        });\n        $(go).click(function(){\n          mw.askusertostay = false;\n          window.location.href = url;\n        });\n        return false;\n    }\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
 			"file": "application/includes/api/tools.js",
-			"file_size": 66770,
-			"file_write_time": 130102582949924954,
 			"settings":
 			{
-				"buffer_size": 64557,
+				"buffer_size": 64976,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/functions/parser/05_default.php",
+			"settings":
+			{
+				"buffer_size": 12110,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/admin/modules/edit_module.php",
+			"settings":
+			{
+				"buffer_size": 4265,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/includes/api/api.js",
+			"settings":
+			{
+				"buffer_size": 15712,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "userfiles/modules/help/help/UI_Api.php",
+			"settings":
+			{
+				"buffer_size": 22591,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "gh-pages/params.json",
+			"settings":
+			{
+				"buffer_size": 2031,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "##Introduction\n\nMODX is a powerful and complex CMS (Content Management System). Actually, the developers like to refer to it as a CMF (Content Management Framework) because you can actually build your own CMS using MODX as a platform.\n\nThis article will only scratch the surface of MODX and stick to its CMS aspect. My intention here is to give you a taste of the features of MODX that are most attractive to PHP developers.\n\n##MODX Architecture\n\n    MODX Revolution is completely based on xPDO (more on that below). A great comfort to PHP developers is the fact that virtually everything in MODX is a well-crafted PHP class of objects.\n\nThe documents themselves (called \"resources\" in MODX) are objects, but so are the templates, users, user groups, categories, resource groups, code snippets, plugins, chunks of reusable HTML, and just about everything else.\n\nAll of these object classes are derived from the xPDO class, which means that you can use the xPDO public methods to create, retrieve, modify, save, and delete them. Once you learn the relatively intuitive xPDO methods, you can work with any piece of the web site in your PHP code. This creates endless opportunities to craft dynamic Web pages that are easy to maintain.\n\nThe PHP-friendly architecture of MODX means that it is relatively easy to convert external PHP classes for use with MODX. Many contributions by PHP Classes site members are currently in use on MODX sites around the world.\n\nHow MODX Works\n\nAlthough MODX has many powerful features, its basic operation is quite simple. When a browser requests a MODX page, the MODX core determines the template used by the requested page. After it has been determined that the current user has the right to view the page, the MODX parser retrieves the template from the database, replaces any MODX tags in the template, and delivers the page to the browser.\n\nThe most attractive result of this simplicity is that it is your template that is delivered to the browser, not MODX's. There are \"themes\" that you can download for MODX pages, but they are not often used because it is so easy to create your own template.\n\nThe template is standard (X)HTML and there are almost no restrictions on what it can contain. The only significant restriction is that templates cannot contain raw PHP code. In MODX, the PHP code is placed in code \"snippets.\" This makes the site more secure since any uploaded file with PHP code in it will not execute. It also enforces the separation of code and content, which makes the site much easier to maintain.\n\nIf you need PHP to perform some operation on your page, you just move the code into a snippet and place a snippet tag in the template (or in the page content). The tag will be replaced with the return value of the snippet. If your snippet produces no output for the page, you simply have your snippet return an empty string and the tag will be replaced with nothing.\n\nSnippets automatically have access to the current resource object (the document being displayed) and the current user object (the user viewing the page, if one is logged in). This makes it almost trivial to use any fields of the resource (pagetitle, longtitle, createdon, publishedon, editedby, publishedby, etc.) and any fields of the user or user profile objects (username, fullname, email, phone, address, zip, etc.).\n\nIn addition, you can put arguments (called properties) in the snippet tag and these will also be available in the snippet. The properties can use MODX tags for the argument values so you can send other MODX objects along in the snippet call and make to make them available in the snippet.\n\nHere is a simple MODX template. The MODX tags are all enclosed with [[tag]] The tag types are as follows:\n\nSnippet tag: [[SnippetName]]\nChunk tag: [[$ChunkName]]\nSystem Setting Tag: [[++SettingName]]\nResource Field/Template Variable tag: [[*fieldName/TvName]]\nLink tag: [[~PageId]]\nPlaceholder tag: [[+PlaceholderName]]\nTags can be nested and if any tag begins with the \"!\" token, the tag content will be uncached.\n\nExample MODX Template\n\n\n     <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0\n        Transitional//EN\"\n        \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-\n        transitional.dtd\">\n     <html xmlns=\"http://www.w3.org/1999/xhtml\">\n     <head>\n     <meta http-equiv=\"Content-Type\" content=\"text/html;\n        charset=[[++modx_charset]]\" />\n     <meta name=\"copyright\" content=\"2011, MODX\" />\n     <title>[[++site_name]] | [[*pagetitle]]</title>\n     <link href=\"[[++base_url]]assets/site/simple.css\" rel=\"stylesheet\"\n        type=\"text/css\" />\n     </head>\n     <body>\n        <div id=\"header\">\n            <div id=\"logo\">\n                [[*longtitle]]\n            </div>\n        </div>\n        <div id=\"main\">\n            [[*content]]\n        </div>\n        <div id=\"sidebar\">\n            [[$SideBar]]\n        </div>\n        <div id=\"navigation\">\n            [[Wayfinder? &startId=`0`]]\n        </div>\n        <div id=\"news\">\n            [[!getResources? &parents=`22` &tpl=`MyGrTpl`]]\n        </div>\n        <p><a href=\"[[~[[*id]]]]#\" >Back to Top</a></p>\n        <p><a href=\"[[~[[++site_start]]]]\" >MODX Home\n            Page</a></p>\n        <div id=\"footer\">\n            [[$Footer]]\n        </div>\n     </body>\n     </html>\n",
+			"file": "user-guide/01. Basics/01. How it works.md",
+			"file_size": 5344,
+			"file_write_time": 130103955370204180,
+			"settings":
+			{
+				"buffer_size": 5270,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp/htdocs/sublime_php/Data/Packages/User/Default (OSX).sublime-keymap",
+			"settings":
+			{
+				"buffer_size": 4,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -106,7 +166,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 536.0
+		"width": 528.0
 	},
 	"console":
 	{
@@ -268,6 +328,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"confirm(",
+			"confirm",
+			"confirm =",
+			"confirm",
+			".confirm",
+			"clear_c",
 			"layout_from_parent",
 			"layout_selector",
 			"treeren",
@@ -382,7 +448,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -854,15 +920,15 @@
 					"file": "application/includes/api/tools.js",
 					"settings":
 					{
-						"buffer_size": 64557,
+						"buffer_size": 64976,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								44174,
-								44174
+								26660,
+								26660
 							]
 						],
 						"settings":
@@ -960,7 +1026,122 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 26710.0,
+						"translation.y": 15710.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "application/functions/parser/05_default.php",
+					"settings":
+					{
+						"buffer_size": 12110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7240,
+								7240
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 58062.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -968,9 +1149,356 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 7,
 			"sheets":
 			[
+				{
+					"buffer": 5,
+					"file": "application/functions/parser/05_default.php",
+					"settings":
+					{
+						"buffer_size": 12110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								474,
+								474
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "userfiles/modules/admin/modules/edit_module.php",
+					"settings":
+					{
+						"buffer_size": 4265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3590,
+								3590
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2033.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "application/includes/api/tools.js",
+					"settings":
+					{
+						"buffer_size": 64976,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1378,
+								1380
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 610.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
 				{
 					"buffer": 3,
 					"file": "application/includes/api/wysiwyg.js",
@@ -1086,6 +1614,582 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "application/includes/api/api.js",
+					"settings":
+					{
+						"buffer_size": 15712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11869,
+								11877
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8050.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "userfiles/modules/help/help/UI_Api.php",
+					"settings":
+					{
+						"buffer_size": 22591,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								22591
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "gh-pages/params.json",
+					"settings":
+					{
+						"buffer_size": 2031,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2031,
+								2031
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "user-guide/01. Basics/01. How it works.md",
+					"settings":
+					{
+						"buffer_size": 5270,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								737,
+								737
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/C/xampp/htdocs/sublime_php/Data/Packages/User/Default (OSX).sublime-keymap",
+					"settings":
+					{
+						"buffer_size": 4,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1118,7 +2222,7 @@
 		"cols":
 		[
 			0.0,
-			0.608421180775,
+			0.0962182827965,
 			1.0
 		],
 		"rows":
@@ -1138,6 +2242,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"05_de",
+				"application/functions/parser/05_default.php"
+			],
 			[
 				"tools",
 				"application/includes/api/tools.js"
@@ -1500,7 +2608,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 337.0,
 	"status_bar_visible": true
 }
