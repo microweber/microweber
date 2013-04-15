@@ -88,6 +88,9 @@ _mw_admin_users_manage = function(){
     var attrs = mw.url.getHashParams(window.location.hash);
 
     var holder = mw.$('#users_admin_panel');
+	
+	    //	mw.$('#users_admin_panel').removeAttr('edit-user');
+
 
     var arr = ['data-show-ui','data-search-keyword','data-category','data-installed', 'is_admin', 'is_active'], i=0, l=arr.length;
 
@@ -221,10 +224,10 @@ mark_notifications_as_read('users');
 <script type="text/javascript">
 
 $(document).ready(function(){
-	  var holder = mw.$('#user_edit_admin_panel');
-         holder.attr('edit-user',"<? print $mw_notif['rel_id'] ?>");
+	//  var holder = mw.$('#user_edit_admin_panel');
+        // holder.attr('edit-user',"<? print $mw_notif['rel_id'] ?>");
 		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['rel_id'] ?>');
-		 _mw_admin_user_edit();
+		  _mw_admin_user_edit();
  });
 
 

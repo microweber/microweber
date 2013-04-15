@@ -109,6 +109,11 @@ input.large-field, textarea.large-field{
     text-align: center;
 }
 
+#content{
+  min-height: 300px;
+}
+
+
 #header{
   position: relative;
   z-index: 9;
@@ -223,9 +228,6 @@ ul.dropdown-menu ul.dropdown-menu{
   padding-bottom: 25px;
 }
 
-.module-posts-template-columns .description{
-  width: 85%;
-}
 
 .module-posts-template-columns .img-polaroid,
 .module-posts-template-columns .img-rounded{
