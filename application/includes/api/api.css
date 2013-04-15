@@ -230,7 +230,7 @@ body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
   z-index: 996;
 }
 #mw_handle_module{
-  z-index: 996;
+  z-index: 998;
 }
 
 
@@ -408,7 +408,8 @@ body.dragStart #items_handle{
 
 
 .element-current, .element-current:hover{
-  outline: 1px outset #3D80AB !important;
+  outline: 1px solid  #429BD5 !important;
+  outline: 1px solid  #9FCCEA !important;
 }
 
 

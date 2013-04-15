@@ -55,6 +55,8 @@ function mw_db_init_categories_table() {
 
 	$fields_to_add[] = array('categories_content_type', 'TEXT default NULL');
 	$fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
+		$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
+	
 
 	set_db_table($table_name, $fields_to_add);
 
@@ -242,8 +244,8 @@ function category_tree($params = false) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
-
-		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
+ 
+		$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
 		$fors = get($str0);
 
 	}
@@ -251,7 +253,7 @@ function category_tree($params = false) {
 	if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
 		$skip123 = true;
 
-		$str1 = 'orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
+		$str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
 		$fors1 = get($str1);
 		if (isarr($fors1)) {
 			$fors = array_merge($fors, $fors1);
@@ -295,7 +297,7 @@ function category_tree($params = false) {
 		$table_assoc_name = db_get_assoc_table_name($params['rel']);
 		$skip123 = true;
 
-		$str0 = 'orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+		$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
 		$fors = get($str0);
 
 	}
@@ -424,22 +426,22 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 
 		if ($include_first == true) {
 
-			$sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+			$sql = "SELECT * from $table where id=$parent  and data_type='category'   and is_deleted='n'  $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 
 			// $sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q    $inf_loop_fix group by id   ";
 
 		} else {
 
-			$sql = "SELECT * from $table where parent_id=$parent and data_type='category'   $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+			$sql = "SELECT * from $table where parent_id=$parent and data_type='category' and is_deleted='n'  $remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 		}
 	} else {
 
 		if ($include_first == true) {
 
-			$sql = "SELECT * from $table where id=$parent   $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+			$sql = "SELECT * from $table where id=$parent  and is_deleted='n' $remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 		} else {
 
-			$sql = "SELECT * from $table where parent_id=$parent and data_type='category' and (categories_content_type='$content_type' or categories_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+			$sql = "SELECT * from $table where parent_id=$parent and is_deleted='n' and data_type='category' and (categories_content_type='$content_type' or categories_content_type='inherit' )   $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 		}
 	}
 
@@ -690,6 +692,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 								$to_print = str_replace('{active_class}', $active_class, $to_print);
 								$to_print = str_replace('{active_code_tag}', $active_code_tag, $to_print);
 							 $output = str_replace('{active_code_tag}', $active_code_tag, $output);
+							 
 								//d($output);
 
 							} else {
@@ -701,6 +704,8 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 							$to_print = str_ireplace('{active_code}', '', $to_print);
 						}
 						$output = str_replace('{active_code_tag}', '', $output);
+					$output = str_replace('{exteded_classes}', $ext_classes, $output);
+						
 
 						$to_print = str_replace('{active_class}', '', $to_print);
 						$to_print = str_replace('{active_code_tag}', '', $to_print);

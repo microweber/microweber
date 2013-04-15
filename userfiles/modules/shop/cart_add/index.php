@@ -10,7 +10,7 @@ mw.require("events.js", true);
     	});
 </script>
 <?
-  
+
 
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
@@ -48,14 +48,16 @@ if($module_template != false and $module_template != 'none'){
 <div class="mw-add-to-cart-holder mw-add-to-cart-<? print $params['id'] ?>">
   <module type="custom_fields" data-content-id="<? print $for_id ?>" data-skip-type="price"  id="cart_fields_<? print $params['id'] ?>"  />
   <? $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id."");
-   
- 
+
+
    ?>
   <? if(isarr($data) == true): ?>
+
+
   <input type="hidden"  name="for" value="<? print $for ?>" />
   <input type="hidden"  name="for_id" value="<? print $for_id ?>" />
   
- 
+
   <span class="price">
   <?   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);

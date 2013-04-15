@@ -49,6 +49,16 @@ description: Small cart template
 	display: inline-block;
 	padding: 2px 5px 0 0;
 }
+
+.mw-cart-small-fixed .mw-cart-small{
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  box-shadow: 0 0 10px #ccc;
+  margin: 0;
+  border-color: transparent
+}
+
 </style>
 <div class="mw-cart-small  mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
   <div class="mw-cart-small-content">

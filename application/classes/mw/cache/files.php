@@ -311,7 +311,8 @@ class files implements \iMwCache {
 
 				if (isset($get_file) == true and is_file($get_file)) {
 
-					$cache = file_get_contents($cache_file);
+					$cache = @file_get_contents($cache_file);
+					
 
 				} else {
 					//d($cache_file);

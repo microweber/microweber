@@ -99,20 +99,22 @@
                 }
 
             }
+
 			
-			
-			
+
 			var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
 			is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			if(is_module_tml_holder.length == 0 ){
 			    var dd =  mwd.createElement('div');
                 dd.id = 'module-modal-settings-menu-holder';
-                dd.className = 'mw-ui-dropdown';
+                dd.className = 'mw-ui-dropdown mw-ui-dropdown-click';
+
+
 				$(toolbar).append(dd);
 			}
 
 			
-			
+
 			
 			  <? if(isarr( $module_info)): ?>
 			  <? $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
@@ -134,7 +136,7 @@
               + "<hr>"
               + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<? print $mod_adm  ?>'>Go to admin</a></div>"
 
-              var btn = "<a class='mw-ui-btn mw-ui-btn-small'><span class='ico idownarr right'></span>Menu</a>";
+              var btn = "<a class='mw-ui-btn mw-ui-btn-small' onclick='$(this).toggleClass(\"active\")'><span class='ico idownarr right'></span>Menu</a>";
 
 
               $(holder).append(html);
@@ -143,7 +145,7 @@
 
 			  is_module_tml_holder.append(holder);
 
-              parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
+                parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items' );
 
 			 }
                                             
@@ -161,11 +163,11 @@
 
 
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, true);
+
                 $(mwd.body).bind('mouseup click DOMNodeInserted',function(){
                   setTimeout(function(){
                      __autoresize();
                   }, 99);
-                 // d($("#settings-container").height())
                 }).ajaxStop(function(){
                     setTimeout(function(){
                     __autoresize();

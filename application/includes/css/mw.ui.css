@@ -615,6 +615,13 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 }
+.mw-ui-dropdown-click:hover > .mw-dropdown-content{
+  visibility: hidden;
+}
+
+.mw-ui-dropdown-click .mw-ui-btn.active + .mw-dropdown-content{
+  visibility: visible;
+}
 
 .mw-ui-dropdown .idownarr{
   float: right;

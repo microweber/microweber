@@ -43,7 +43,7 @@
   <? foreach($iudates["module_templates"] as $k => $item): ?>
   <p>
     <label>
-      <input type="checkbox" name="module_templates[<? print $item["module"] ?>]" value="<? print $item["layout_file"] ?>"  />
+      <input type="checkbox" name="module_templates[<? print $item["module"] ?>][]" value="<? print $item["layout_file"] ?>"  />
       <? print $item["name"] ?> <? print $item["version"] ?> <em>(<? print $item["module"] ?>)</em> </label>
     <br />
   </p>

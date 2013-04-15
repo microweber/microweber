@@ -8,8 +8,11 @@ function mw_post_update() {
 		cache_clean_group('db');
 		cache_clean_group('update/global');
 		cache_clean_group('elements/global');
+		 
+		cache_clean_group('templates');
 		cache_clean_group('modules/global');
 		scan_for_modules();
+		get_elements();
 		exec_action('mw_db_init_default');
 		exec_action('mw_db_init_modules');
 		exec_action('mw_db_init');
@@ -25,25 +28,24 @@ function mw_apply_updates($params) {
 	$params = parse_params($params);
 	$update_api = new \mw\Update();
 	$res = array();
-	
+
 	if (isarr($params)) {
 		foreach ($params as $param_k => $param) {
- 			if($param_k == 'mw_version'){
+			if ($param_k == 'mw_version') {
 				$param['mw_version'] = $param_k;
 			}
-			
-			if($param_k == 'elements'){
+
+			if ($param_k == 'elements') {
 				$param['elements'] = $param;
 			}
-			
-			
-			if($param_k == 'modules'){
+
+			if ($param_k == 'modules') {
 				$param['modules'] = $param;
 			}
-			if($param_k == 'module_templates'){
+			if ($param_k == 'module_templates') {
 				$param['module_templates'] = $param;
 			}
-			
+
 			if (isset($param['mw_version'])) {
 				$res[] = $update_api -> install_version($param['mw_version']);
 			}
@@ -59,10 +61,22 @@ function mw_apply_updates($params) {
 			}
 			if (isset($param['module_templates']) and isarr($param['module_templates'])) {
 				foreach ($param['module_templates'] as $k => $item) {
-					$res[] = $update_api -> install_module_template($k, $item);
+					if (isarr($item)) {
+						foreach ($item as $layout_file) {
+							$res[] = $update_api -> install_module_template($k, $layout_file);
+
+						}
+
+					} elseif (is_string($item)) {
+						$res[] = $update_api -> install_module_template($k, $item);
+					}
 				}
 			}
 
+		}
+
+		if (isarr($res)) {
+			mw_post_update();
 		}
 	}
 	return $res;

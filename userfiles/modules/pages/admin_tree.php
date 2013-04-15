@@ -1,5 +1,5 @@
 <?
-
+only_admin_access();
 /**
  * Print the site pages as tree
  *
@@ -65,29 +65,24 @@ if (isset($params['data-include_categories'])) {
 	  $params['is_active'] = 'y';
 	 }
 
-		 $module_template = get_option('data-template',$params['id']);
-				if($module_template == false and isset($params['template'])){
-					$module_template =$params['template'];
-				}
+ ?><?
+   
+	$params['return_data'] = true;
+ 
+?>
+<? $pages_tree= pages_tree($params);  ?>
+ 
+<? if($pages_tree != ''): ?>
+<div class="pages-nav">
+	<div class="well" style="padding: 0;">
+		<? print $pages_tree ?>
+	</div>
+</div>
+<? endif; ?>
+<? $is_del = get_content('count=1&is_deleted=y'); ?>
+ 
 
-
-
-
-
-				if($module_template != false){
-						$template_file = module_templates( $config['module'], $module_template);
-
-				} else {
-						$template_file = module_templates( $config['module'], 'default');
-
-				}
-
-				//d($module_template );
-				if(isset($template_file) and is_file($template_file) != false){
-					include($template_file);
-				} else {
-
-						$template_file = module_templates( $config['module'], 'default');
-				include($template_file);
-					//print 'No default template for '.  $config['module'] .' is found';
-				}
+<ul class="pages_tree pages_trash_holder depth-1">
+ <li class="pages_trash pages_tree_item  depth-1" title="Trash"><a data-page-id="deleted" class="pages_trash_link pages_tree_link depth-1" onclick="mw.url.windowHashParam('action', 'trash');"   href="javascript: return false;"><span class="pages_tree_link_text pages_trash_text">Trash</span></a></li> 
+</ul>
+  

@@ -226,8 +226,8 @@ mw.tools = {
     },
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
-        var span = "<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: 0;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>";
-        var frame = span+"<iframe name='frame-"+obj.name+"' id='frame-"+obj.name+"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
+        var span = "<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: -30px;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>";
+        var frame = "<iframe name='frame-"+obj.name+"' id='frame-"+obj.name+"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
@@ -318,10 +318,17 @@ mw.tools = {
         + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="mw-ui-btn-action" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
+        + '<td align="center" height="25"><span class="mw-cancel" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
         + '</tr>'
     + '</table>';
-    return  mw.tools.modal._init(html, 400, 200, "", "", "mw_alert");
+    return  mw.tools.modal.init({
+      html:html,
+      width:400,
+      height:200,
+      overlay:false,
+      name:"mw_alert",
+      template:"mw_modal_basic"
+    });
   },
   dropdown:function(root){
     var root = root || mwd.body;
@@ -1785,6 +1792,8 @@ $(window).load(function(){
        catch(e){}
     }
  });
+
+
 
 
 });

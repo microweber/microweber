@@ -1,7 +1,7 @@
 <div class="mw-row our-team">
-      <div class="mw-col" style="width:25%" align="center">
+      <div class="mw-col" style="width:25%">
         <div class="mw-col-container">
-        	<div class="element">
+        	<div class="element" align="center">
         		<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
         		<p class="element"><strong>Team Member</strong></p>
         		<p class="element"><em>Current Position</em></p>
@@ -17,9 +17,9 @@
         	</div>
         </div>
       </div>
-      <div class="mw-col" style="width:25%" align="center">
+      <div class="mw-col" style="width:25%">
         <div class="mw-col-container">
-        	<div class="element">
+        	<div class="element" align="center">
         		<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
         		<p class="element"><strong>Team Member</strong></p>
         		<p class="element"><em>Current Position</em></p>
@@ -35,9 +35,9 @@
         	</div>
         </div>
       </div>
-      <div class="mw-col" style="width:25%" align="center">
+      <div class="mw-col" style="width:25%">
         <div class="mw-col-container">
-        	<div class="element">
+        	<div class="element" align="center">
         		<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
         		<p class="element"><strong>Team Member</strong></p>
         		<p class="element"><em>Current Position</em></p>
@@ -53,9 +53,9 @@
         	</div>
         </div>
       </div>
-      <div class="mw-col" style="width:25%" align="center">
+      <div class="mw-col" style="width:25%">
         <div class="mw-col-container">
-        	<div class="element">
+        	<div class="element" align="center">
         		<img class="img-rounded img-polaroid" src="<?php print pixum(170, 170); ?>" height="170" />
         		<p class="element"><strong>Team Member</strong></p>
         		<p class="element"><em>Current Position</em></p>

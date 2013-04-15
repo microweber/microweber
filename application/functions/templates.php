@@ -222,6 +222,8 @@ if (!isset($options['filename'])) {
 					$result = str_ireplace('type:', '', $result);
 					$to_return_temp['type'] = trim($result);
 					$to_return_temp['directory'] = $here_dir;
+									
+
 
 					if (strtolower($to_return_temp['type']) == 'layout') {
 						$to_return_temp = array();
@@ -286,7 +288,7 @@ if (!isset($options['filename'])) {
 
 						$layout_file = str_replace($path, '', $filename);
 						$to_return_temp['layout_file'] = $layout_file;
-
+	$to_return_temp['filename'] = $filename;
 						$screen = str_ireplace('.php', '.png', $filename);
 						if (is_file($screen)) {
 							$to_return_temp['screenshot'] = $screen;

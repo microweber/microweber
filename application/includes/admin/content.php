@@ -181,6 +181,13 @@ function mw_select_page_for_editing($p_id){
 
 mw.on.hashParam("action", function(){
   mw.$("#pages_edit_container").stop();
+
+
+  mw.$('#pages_edit_container').removeAttr('mw_select_trash');
+
+
+
+
   //mw.$("#pages_edit_container #pages_edit_container").remove();
   mw.$(".mw_edit_page_right").css("overflow", "hidden");
 
@@ -240,6 +247,13 @@ mw.on.hashParam("action", function(){
       if(arr[0]==='editpage'){
         mw_select_page_for_editing(arr[1])
       }
+
+
+     if(arr[0]==='trash'){
+        mw_select_trash(arr[0])
+      }
+
+
       else if(arr[0]==='showposts'){
         mw_set_edit_posts(arr[1])
       }
@@ -380,7 +394,20 @@ if($in_page != undefined && $is_cat != undefined){
 }
 
 
+function mw_select_trash(){
+  mw.$('#pages_edit_container').removeAttr('data-content-id');
+   mw.$('#pages_edit_container').removeAttr('data-page-id');
+      mw.$('#pages_edit_container').removeAttr('data-category-id');
+     mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
+          mw.$('#pages_edit_container').removeAttr('data-keyword');
 
+   mw.load_module('content/trash','#pages_edit_container', function(){
+
+
+
+
+   });
+}
 
 function mw_select_post_for_editing($p_id, $subtype){
 
@@ -555,7 +582,7 @@ function mw_add_product(){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }
 	   ?>
-        <module data-type="pages" active_ids="<? print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>    />
+        <module data-type="pages" template="admin" active_ids="<? print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>  view="admin_tree"   />
         <div class="mw-clear"></div>
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>

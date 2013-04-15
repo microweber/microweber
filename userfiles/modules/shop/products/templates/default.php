@@ -57,10 +57,10 @@ if(!isset($tn[1])){
       <? if($show_fields == false or in_array('title', $show_fields)): ?>
       <h3><a  class="lead" href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h3>
       <? endif; ?>
-      <? if($show_fields == false or in_array('created_on', $show_fields)): ?>
+      <? if($show_fields != false and in_array('created_on', $show_fields)): ?>
       <span class="date"><? print $item['created_on'] ?></span>
       <? endif; ?>
-      <? if($show_fields != false and ($show_fields != false and  in_array('description', $show_fields))): ?>
+      <? if($show_fields == false or ($show_fields != false and  is_array($show_fields) and  in_array('description', $show_fields))): ?>
       <p class="description">
         <? print $item['description']; ?>
       </p>

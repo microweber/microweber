@@ -19,13 +19,13 @@ description: shop layout
     <div class="row">
       <div class="span12 edit"  field="content" rel="page">
         <h2 class="element">Shop page</h2>
-        <p class="p0 element">Nullam egestas nulla rutrum lorem varius nec faucibus est fringilla. Quisque at urna vel leo tincidunt rutrum vitae at enim. Duis ac mi nulla. Sed convallis lobortis vulputate. Etiam feugiat sapien vel felis scelerisque dapibus. Curabitur dictum massa id urna imperdiet eu blandit dolor faucibus. Fusce eu lobortis sem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laor.</p>
+        <p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative & Make Web.</p>
       </div>
     </div>
     <div class="row"> 
       <!-------------- Blog post -------------->
       <div class="span8">
-        <module type="shop/products" template="columns"   />
+        <module type="shop/products" template="columns" limit="18" description-length="70" hide-paging="n"   />
       </div>
       <!------------ Sidebar -------------->
       <div class="span4">

@@ -27,8 +27,14 @@ mw.cart = {
      $.post(mw.settings.api_url+'remove_cart_item', data ,
      function(data) {
 
+         var parent = mw.$('.mw-cart-item-'+$id).parent();
+		 mw.$('.mw-cart-item-'+$id).fadeOut(function(){
+            $(this).remove();
+            if(parent.find(".mw-cart-item").length==0){
 
-		 mw.$('.mw-cart-item-'+$id).fadeOut().remove();
+              mw.reload_module("shop/cart");
+            }
+		 })
 
 
 		// mw.reload_module('shop/cart');

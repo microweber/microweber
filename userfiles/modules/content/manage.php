@@ -228,6 +228,13 @@ mw.post = {
 
 
 delete_selected_posts = function(){
+	
+	
+	  var r=confirm("Are you sure you want to delete the selected posts?")
+  if (r==true) {
+	  
+	  
+	  
   var master = mwd.getElementById('pages_edit_container');
   var arr = mw.check.collectChecked(master);
   mw.post.del(arr, function(){
@@ -235,6 +242,9 @@ delete_selected_posts = function(){
      toggle_cats_and_pages()
    });
  });
+ 
+ }
+ 
 }
 
 

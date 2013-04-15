@@ -81,6 +81,18 @@ mw.require('forms.js');
 
   }
 
+  save_cat = function(){
+
+    if(mwd.querySelector('.mw-ui-category-selector input:checked') !== null){
+       $(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();
+    }
+
+    else{
+      Alert('Please choose Page or Category.');
+    }
+
+  }
+
 
 $(document).ready(function(){
 	//
@@ -190,9 +202,9 @@ $(document).ready(function(){
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />
 <div class="post-save-bottom">
   <input type="submit" name="save" class="semi_hidden"  value="Save" />
-  <a href="javascript:;" style="min-width: 66px;" onclick="$(document.forms['admin_edit_category_form_<? print $form_rand_id ?>']).submit();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+  <span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
   <?php _e("Save"); ?>
-  </a> </div>
+  </span> </div>
 
   </form>
 

@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Stacked Pills
+name: Simple
 
-description: List Navigation
+description: Simple Navigation
 
 */
 
@@ -17,6 +17,6 @@ description: List Navigation
 	$params['ul_class_deep'] = 'nav nav-pills nav-stacked';
 ?>
 
-<div class="pages-nav">
+<div class="category-nav category-nav-stacked">
 	<? category_tree($params);   ?>
 </div>

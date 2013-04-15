@@ -33,7 +33,10 @@ mw.wysiwyg = {
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
-                    if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
+                    if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) {
+                        m
+                       this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
+                    }
                 });
             });
             mw.$(".empty-element, .ui-resizable-handle").each(function(){
@@ -252,6 +255,8 @@ mw.wysiwyg = {
            }
 
            var sel = window.getSelection();
+
+           d(sel);
 
            var r = sel.getRangeAt(0);
 

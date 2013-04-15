@@ -98,7 +98,7 @@ class MwController {
 		$preview_module_template = false;
 		$preview_module_id = false;
 		$is_preview_module = url_param('preview_module');
-		
+
 		if ($is_preview_module != false) {
 			if (is_admin()) {
 				$is_preview_module = module_name_decode($is_preview_module);
@@ -159,7 +159,8 @@ class MwController {
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
 					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
 						$page['active_site_template'] = $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
+						;
 					}
 				}
 
@@ -196,13 +197,13 @@ class MwController {
 					$page['url'] = url_string();
 					$page['active_site_template'] = $the_active_site_template;
 					$mod_params = '';
-					if($preview_module_template != false){
-						$mod_params = $mod_params. " template='{$preview_module_template}' " ;
+					if ($preview_module_template != false) {
+						$mod_params = $mod_params . " template='{$preview_module_template}' ";
 					}
-					if($preview_module_id != false){
-						$mod_params = $mod_params. " id='{$preview_module_id}' " ;
+					if ($preview_module_id != false) {
+						$mod_params = $mod_params . " id='{$preview_module_id}' ";
 					}
-					
+
 					$page['content'] = '<module type="' . $page_url . '" ' . $mod_params . '  />';
 					$page['simply_a_file'] = 'clean.php';
 					$page['layout_file'] = 'clean.php';
@@ -388,6 +389,19 @@ class MwController {
 				$content = $page_non_active;
 			}
 
+		} else if (isset($content['is_active']) and $content['is_active'] == 'n') {
+			if (is_admin() == false) {
+				$page_non_active = array();
+				$page_non_active['id'] = 0;
+				$page_non_active['content_type'] = 'page';
+				$page_non_active['parent'] = '0';
+				$page_non_active['url'] = url_string();
+				$page_non_active['content'] = 'This page is deleted!';
+				$page_non_active['simply_a_file'] = 'clean.php';
+				$page_non_active['layout_file'] = 'clean.php';
+				template_var('content', $page_non_active['content']);
+				$content = $page_non_active;
+			}
 		}
 
 		define_constants($content);
@@ -471,38 +485,32 @@ class MwController {
 			}
 
 			$l = parse_micrwober_tags($l, $options = false);
-			if($preview_module_id != false){
+			if ($preview_module_id != false) {
 				$_REQUEST['embed_id'] = $preview_module_id;
 			}
 			if (isset($_REQUEST['embed_id'])) {
 				$find_embed_id = trim($_REQUEST['embed_id']);
 				$pq = phpQuery::newDocument($l);
- 			//	$isolated_head = pq('head') -> eq(0) -> html();
- 			//	$isolated_body = pq('body') -> eq(0) -> html();
+				//	$isolated_head = pq('head') -> eq(0) -> html();
+				//	$isolated_body = pq('body') -> eq(0) -> html();
 
 				foreach ($pq ['#' . $find_embed_id] as $elem) {
 
 					$isolated_el = pq($elem) -> htmlOuter();
-				 	$isolated_body = pq('body') -> eq(0) -> html($isolated_el);
-					$body_new = $isolated_body-> htmlOuter();;
-					$l = pq(0) -> htmlOuter();;
-					
+					$isolated_body = pq('body') -> eq(0) -> html($isolated_el);
+					$body_new = $isolated_body -> htmlOuter();
+					;
+					$l = pq(0) -> htmlOuter();
+					;
+
 					// $body_new = pq('body') ->  eq(0) -> replaceWith('asdasd');
 					//$l = $isolated_head.$body_new;
-					 
+
 					//$l= $isolated_head.$l;
 				}
-			
-				
-				
+
 				//
-				
-				
-				
-				
-				
-				
-				
+
 				//$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
 				if (isset($iaaaasolated_el) and $isolated_el != false) {
 
@@ -513,10 +521,10 @@ class MwController {
 					if ($layout_toolbar != '') {
 
 						// if (strstr($layout_toolbar, '{head}')) {
-							// if ($isolated_head != false) {
-								// //	d($isolated_head);
-								// $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
-							// }
+						// if ($isolated_head != false) {
+						// //	d($isolated_head);
+						// $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
+						// }
 						// }
 
 						if (strpos($layout_toolbar, '{content}')) {
@@ -535,10 +543,6 @@ class MwController {
 				//$isolated_el = $pq -> find($find_embed_id) ->  eq(0) ->  htmlOuter();
 
 			}
-
-
-
-
 
 			//mw_var('get_module_template_settings_from_options', 1);
 
@@ -679,8 +683,6 @@ class MwController {
 			if ($is_embed != false) {
 				$this -> isolate_by_html_id = $is_embed;
 			}
-			
-			
 
 			if ($this -> isolate_by_html_id != false) {
 				$id_sel = $this -> isolate_by_html_id;
@@ -742,13 +744,13 @@ class MwController {
 
 		print $layout;
 
-	if (isset($_GET['debug'])) {
-				debug_info();
-				$is_admin = is_admin();
-				if ($is_admin == true) {
+		if (isset($_GET['debug'])) {
+			debug_info();
+			$is_admin = is_admin();
+			if ($is_admin == true) {
 
-				}
 			}
+		}
 		exit();
 	}
 
@@ -1561,12 +1563,12 @@ class MwController {
 		$l = new MwView($p_index);
 		$layout = $l -> __toString();
 		// var_dump($l);
- 		
+
 		if (is_file($p)) {
 			$p = new MwView($p);
 			$layout_tool = $p -> __toString();
 			$layout = str_replace('{content}', $layout_tool, $layout);
-			
+
 		} else {
 			$layout = str_replace('{content}', 'Not found!', $layout);
 		}

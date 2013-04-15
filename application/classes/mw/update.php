@@ -51,7 +51,32 @@ class Update {
 			foreach ($t as $value) {
 				if (isset($value['module'])) {
 					$module_templates = module_templates($value['module']);
-					$data['module_templates'][$value['module']] = $module_templates;
+					$mod_tpls = array();
+					if(isarr($module_templates)){
+						foreach ($module_templates as $key1 => $value1) {
+							 
+							if(isset($value1['filename'])){
+							 $options = array();
+							$options['no_cache'] = 1;
+							 $options['for_modules'] = 1;
+				 			$options['filename'] = $value1['filename'] ;
+							$module_templates_for_this = layouts_list($options);
+ 							if(isset($module_templates_for_this[0]) and isarr($module_templates_for_this[0])){
+								$mod_tpls[$key1] = $module_templates_for_this[0];
+							}
+							
+							}
+						}
+						if(!empty($mod_tpls)){
+						
+			        $data['module_templates'][$value['module']] = $mod_tpls;
+						}
+					}
+					//d($module_templates);
+					
+			 
+					
+					
 				}
 				//d($value);
 			}
@@ -205,25 +230,51 @@ class Update {
 	}
 
 	public function install_module_template($module, $layout) {
-		
-		
+
 		$params = array();
 
-		$params['module_template'] = $module;
-		$params['layout_file'] = $layout;
-		$result = $this -> call('get_download_link', $params);
-		if (isset($result["module_templates"])) {
-			foreach ($result["module_templates"] as $mod_k => $value) {
+		$skin_file = module_templates($module, $layout);
 
-				 d($value);
+		if (is_file($skin_file)) {
+			
+			 $options = array();
+		 $options['no_cache'] = 1;
+		 $options['for_modules'] = 1;
+ 		 $options['filename'] = $skin_file ;
+				$skin_data = layouts_list($options);		
+		 
+			if($skin_data != false){		
+			$skin_data['module_template'] = $module;
+			$skin_data['layout_file'] = $layout;
+			$result = $this -> call('get_download_link', $skin_data);
+			if (isset($result["module_templates"])) {
+				foreach ($result["module_templates"] as $mod_k => $value) {
+
+				 
+				 $fname = basename($value);
+				$dir_c = CACHEDIR . 'downloads' . DS;
+				if (!is_dir($dir_c)) {
+					mkdir_recursive($dir_c);
+				}
+				$dl_file = $dir_c . $fname;
+				if (!is_file($dl_file)) {
+					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+				}
+				if (is_file($dl_file)) {
+					$unzip = new \mw\utils\Unzip();
+					$target_dir = MW_ROOTPATH;
+					//d($dl_file);
+					$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+					// skip_cache
+				}
+				 
+				 
+				}
+
 			}
-			 
-
+			}
 		}
 		return $result;
-		
-		
-		
 
 	}
 

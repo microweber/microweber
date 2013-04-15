@@ -131,9 +131,11 @@ $(document).ready(function(){
          mw.currentDragMouseOver = this;
          if(off.top+h<e.pageY){
             mw.dropables.set("top", off, h, w);
+            mw.dropable.show()
          }
          else{
            mw.dropables.set("bottom", off, h, w);
+           mw.dropable.show()
          }
        }
        mw.dropable.addClass("mw_dropable_onleaveedit");
@@ -195,6 +197,8 @@ mw.drag = {
 
 
          mw.$(".edit > p").addClass("element");
+         mw.$(".edit .mw-row").addClass("element");
+         mw.$(".edit .module").addClass("element");
 
 
          $(mwd.body).mousemove(function(event){
@@ -230,7 +234,7 @@ mw.drag = {
                if(mw.mouse.x % 2 === 0 ){ //not on every pixel
                    //trigger on element
 
-                   if(mw.$mm_target.hasClass("element")){
+                   if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module")){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
                    else if(mw.$mm_target.parents(".element").length>0){
@@ -319,7 +323,7 @@ mw.drag = {
                 mw.mm_target = mw.drag.noop;
                 mw.$mm_target = $(mw.drag.noop);
 
-                mw.dropable.removeClass("mw_dropable_onleaveedit");
+               // mw.dropable.removeClass("mw_dropable_onleaveedit");
              }
            }
 
@@ -433,7 +437,7 @@ mw.drag = {
 
 
 
-            if(el.hasClass("element") || el.hasClass("mw-row") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
+            if(el.hasClass("element") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
                 }
@@ -611,7 +615,7 @@ mw.drag = {
            $(this).css({top:'', left:''});
         });
 
-        /*
+
 
         $(window).bind("onAllLeave", function(e, target){
 
@@ -648,13 +652,13 @@ mw.drag = {
 
         });
 
-        */
+
 
         $(window).bind("onItemLeave", function(e, target){
-            /*$(mw.handle_item).css({
+            $(mw.handle_item).css({
               top:"",
               left:""
-            });*/
+            });
         });
 
 	},

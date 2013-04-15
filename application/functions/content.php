@@ -77,6 +77,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('draft_of', 'int(11) default NULL');
 
 	$fields_to_add[] = array('require_login', "char(1) default 'n'");
+	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
 
 
 
@@ -1233,7 +1234,9 @@ function get_content($params = false) {
 
 
 		$table = MW_TABLE_PREFIX . 'content';
-
+		if(!isset($params['is_deleted'])){
+			$params['is_deleted'] = 'n';
+		}
 		$params['table'] = $table;
 		$params['cache_group'] = $cache_group;
 		$get = get($params);
@@ -1966,19 +1969,77 @@ function delete_content($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-
+	
+	$to_trash = true;
+	$to_untrash = false;
+	if (isset($data['forever']) or isset($data['delete_forever'])) {
+		
+			$to_trash = false;
+	}
+	if (isset($data['undelete'])) {
+		
+			$to_trash = true;
+			$to_untrash = true;
+		
+	}
+	
+$del_ids =array();
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
+		$del_ids[] = $c_id;
+		if ($to_trash == false) {
 		db_delete_by_id('content', $c_id);
+		}
 	}
 
 	if (isset($data['ids']) and isarr($data['ids'])) {
 		foreach ($data['ids'] as   $value) {
 			$c_id = intval($value);
+			$del_ids[] = $c_id;
+			if ($to_trash == false) {
 			db_delete_by_id('content', $c_id);
+			}
 		}
 
 	}
+	
+	
+	
+	if(!empty($del_ids)){
+			$table = MW_DB_TABLE_CONTENT;
+		
+			foreach ($del_ids as   $value) {
+			$c_id = intval($value);
+				//$q = "update $table set parent=0 where parent=$c_id ";
+				
+				if($to_untrash == true){
+					$q = "update $table set is_deleted='n' where id=$c_id ";
+					$q = db_query($q);
+					$q = "update $table set is_deleted='n' where parent=$c_id ";
+					$q = db_query($q);
+					
+				}	else if ($to_trash == false) {
+					$q = "update $table set parent=0 where parent=$c_id ";
+					$q = db_query($q);
+				} else {
+					$q = "update $table set is_deleted='y' where id=$c_id ";
+					$q = db_query($q);
+					$q = "update $table set is_deleted='y' where parent=$c_id ";
+					$q = db_query($q);
+					
+				}
+				 
+				
+				cache_clean_group('content/'.$c_id);
+			}
+			
+			
+				cache_clean_group('content/global');
+			
+
+		
+	}
+		return($del_ids);
 }
 
 /**
@@ -2004,7 +2065,7 @@ api_expose('save_content');
 function save_content($data, $delete_the_cache = true) {
 
 	$adm = is_admin();
-	$table = MW_TABLE_PREFIX . 'content';
+	$table = MW_DB_TABLE_CONTENT;
 	$checks = mw_var('FORCE_SAVE_CONTENT');
 
 	if($checks != $table){
@@ -2634,7 +2695,13 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
+		
+			if (isset($params['return_data'])) {
+			return $cache_content; 
+	}  else {
 		print $cache_content;
+	}
+		
 		return;
 			//  return $cache_content;
 	}
@@ -2705,12 +2772,12 @@ if (isset($params['include_categories'])) {
 	}
 
 	if ($include_first == true) {
-		$sql = "SELECT * from $table where  id=$parent    and content_type='page' $is_shop order by position asc  limit 0,1";
+		$sql = "SELECT * from $table where  id=$parent    and   is_deleted='n' and content_type='page' $is_shop order by position asc  limit 0,1";
 		//
 	} else {
 
 		//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-		$sql = "SELECT * from $table where  $par_q  content_type='page' $is_shop  order by position asc limit 0,100";
+		$sql = "SELECT * from $table where  $par_q  content_type='page' and   is_deleted='n' $is_shop  order by position asc limit 0,100";
 	}
 
 	//$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -2816,7 +2883,8 @@ if (isset($params['include_categories'])) {
 	$params['orderby'] = 'position asc';
 
 	$params['curent_page'] = 1;
-
+	
+ 
  //$params['debug'] = 1;
 
 	$skip_pages_from_tree = false;
@@ -3026,7 +3094,8 @@ if (isset($params['include_categories'])) {
 						$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
 						$to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
 					}
-
+					$to_print = str_replace('{exteded_classes}', '', $to_print);
+					
 					if (is_array($remove_ids) == true) {
 
 						if (in_array($item['id'], $remove_ids)) {
@@ -3045,13 +3114,18 @@ if (isset($params['include_categories'])) {
 							//$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);
 						}
 					}
-					$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
+					$to_pr_2 = str_replace('{active_class}', '', $to_pr_2);
+$to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 
 					print $to_pr_2;
 					$to_pr_2 = false;
 					print $to_print;
 				} else {
 					$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
+					$to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
+					$to_pr_2= str_replace('{active_parent_class}', '', $to_pr_2);
+					
+					
 					print $to_pr_2;
 					$to_pr_2 = false;
 					print $item['title'];
@@ -3085,8 +3159,13 @@ if (isset($params['include_categories'])) {
 					if (isset($params['li_class_deep'])) {
 						 $params['li_class']= $params['li_class_deep'];
 					}
+					
+						if (isset($params['return_data'])) {
+						unset( $params['return_data']);
+					}
 
 					if( $skip_pages_from_tree  == false){
+					
 						$children = pages_tree($params);
 					}
 				} else {
@@ -3197,7 +3276,16 @@ if (isset($params['include_categories'])) {
 	cache_save($content, $function_cache_id, $cache_group);
 	//}
 	ob_end_clean();
-	print $content;
+	
+	if (isset($params['return_data'])) {
+			return $content; 
+	}  else {
+		print $content;
+	}
+	
+	
+	
+	 
 	return;
 }
 

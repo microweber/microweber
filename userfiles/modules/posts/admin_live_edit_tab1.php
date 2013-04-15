@@ -173,10 +173,10 @@ $show_fields = array();
   <li>
     <label class="mw-ui-check">
       <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field"  <? if(in_array('add_to_cart',$show_fields)): ?>   checked="checked"  <? endif; ?> />
-      <span></span> <span>Add to cart</span></label>
+      <span></span> <span>Add to cart button</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Title</label>
-      <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:65px;" placeholder="Buy now"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
+      <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:65px;" placeholder="Add to cart"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
     </div>
   </li>
   <? endif; ?>

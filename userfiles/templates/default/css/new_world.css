@@ -110,6 +110,8 @@ input.large-field, textarea.large-field{
 }
 
 #header{
+  position: relative;
+  z-index: 9;
   background: #242B35;
   padding: 10px 20px 0;
   margin-bottom: 50px;
@@ -264,17 +266,27 @@ ul.dropdown-menu ul.dropdown-menu{
 }
 
 .module-posts-template-columns-4, .module-posts-template-sidebar{
-  font-size: 14px;
-  line-break: 20px;
+  font-size: 12px;
+  line-height: 20px;
 }
-
-.module-posts-template-sidebar
 
 .module-posts-template-columns-4 .lead,  .module-posts-template-sidebar .lead{
   font-weight: 600;
   font-size:15px;
 }
 
+.module-posts-template-sidebar ul{
+  margin-bottom: 0;
+}
+
+.module-posts-template-sidebar li{
+  min-height: 76px;
+  padding: 12px;
+}
+
+.module-posts-template-sidebar li:hover{
+  background-color: white;
+}
 
 
 
@@ -308,7 +320,8 @@ ul.dropdown-menu ul.dropdown-menu{
 }
 
 .price{
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 30px;
   color: #0088CC;
   white-space: nowrap;
@@ -366,6 +379,59 @@ ul.dropdown-menu ul.dropdown-menu{
   color: #0088CC;
 }
 
+
+/* Catergory list */
+
+.category-nav-default .well{
+    padding-left: 0;
+    padding-right: 0;
+}
+.category-nav-default ul{
+  padding: 0;
+  margin:0;
+}
+.category-nav-default li a{
+    padding: 3px 20px;
+    margin:0;
+    font-size: 14px;
+}
+.category-nav-default li li a{
+  font-size: 12px;
+  padding: 5px 20px 5px 40px;
+  color: #696969;
+}
+.category-nav-default li li li a{
+  font-size: 11px;
+  padding: 5px 20px 5px 55px;
+  color: #999999;
+}
+
+.category-nav-stacked ul{
+  padding: 0;
+  margin:0;
+}
+
+.category-nav-stacked li a{
+    padding: 3px 20px;
+    margin:0;
+
+}
+.category-nav-stacked li li a{
+  font-size: 14px;
+  padding: 5px 20px 5px 40px;
+  color: #333333;
+}
+.category-nav-stacked li li li a{
+  font-size: 13px;
+  padding: 5px 20px 5px 55px;
+}
+
+
+/* /Catergory list */
+
+
+/* / Modules */
+
 .lead{
   font-weight: 300;
 }
@@ -399,6 +465,10 @@ ul.dropdown-menu ul.dropdown-menu{
   box-shadow: 0px 2px 1px 0px white;
 }
 
+.sidebar-title{
+  padding: 23px 0 24px;
+}
+
 .sidebar-box ul,
 .sidebar-box ol{
   list-style: none;
@@ -407,20 +477,10 @@ ul.dropdown-menu ul.dropdown-menu{
   line-height: 25px;
 }
 
-.sidebar-box .nav li a{
-  color: #242B35;
-}
-.sidebar-box .nav li a.active{
-  color: #fff;
-}
 
 .sidebar-box .navbar-inner{
   padding-top: 20px;
   padding-bottom: 20px;
-}
-
-.sidebar-box .nav li.depth-1 ul{
-  margin-left: 10px;
 }
 
 .sidebar-box .nav li.depth-1 li a{
@@ -434,11 +494,12 @@ ul.dropdown-menu ul.dropdown-menu{
   text-decoration: underline;
 }
 
-.sidebar-box .nav li.depth-4 ul { margin: 0; font-size: 90%; padding: 0; }
+.shop-sidebar-inner h4:first-child{
+    padding-bottom: 23px;
+    padding-top: 24px;
+}
 
-/*Nik Johnson*/
-.pages-nav .nav.nav-pills.nav-stacked li ul{ margin-left: 20px; }
-.pages-nav .nav.nav-pills.nav-stacked li ul{ margin-left: 20px; }
+
 
 /* /Sidebar */
 
@@ -727,6 +788,11 @@ ul.dropdown-menu ul.dropdown-menu{
 
     .mw-sidebar-cart{
       font-size: 12px;
+    }
+
+    .continue-shopping{
+      float: right;
+      margin-right:12px;
     }
 
     /* /Checkout */

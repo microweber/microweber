@@ -223,24 +223,32 @@ $ver = $this->get_latest_core_version();
 			
 			foreach($module_templates as $k => $module_templates_all){
 				
+				
+				 
+				
 				$options = array();
 			$options['no_cache'] = 1;
 			 $options['for_modules'] = 1;
 			$p = normalize_path($this -> modules_dir.DS.$k.DS.'templates');
 			$options['path'] = $p ;
 			$module_templates_for_this = layouts_list($options);
-					 
-				  
+					
+				 
 				//$module_templates_for_this = module_templates($k);
 							if(isarr($module_templates_for_this)){
 								
 								foreach($module_templates_all as $module_template){
 								
-								
-									
+								$module_template_file_version = 0;
+								if(isset($module_template['version'])){
+									$module_template_file_version = floatval($module_template['version']);
+								}
+							 		
 								//$module_templates_for_this_diff = array_diff($module_templates,$module_templates_for_this);
 								foreach($module_templates_for_this as $local_module){
 									
+									if(isset($local_module['version']) and $module_template_file_version <  floatval($local_module['version'])){
+									 
 								if(isset($local_module['layout_file']) and isset($module_template['layout_file']) and isset($local_module['name'])){
 									if(!in_array($local_module['layout_file'],$updates_data)){
 										$loc1 = normalize_path($local_module['layout_file'], false);
@@ -265,6 +273,7 @@ $ver = $this->get_latest_core_version();
 								}
 								
 							}
+									}
 								
 								
 								
@@ -581,6 +590,10 @@ $ver = $this->get_latest_core_version();
 		 
 			$module_template  = $params['module_template'];
 				$module_template_file  = $params['layout_file'];
+				$module_template_file_version  = 0;
+				if(isset($params['version'])){
+					$module_template_file_version  = floatval($params['version']);
+				}
 			
 		 $options = array();
 		 $options['no_cache'] = 1;
@@ -589,7 +602,85 @@ $ver = $this->get_latest_core_version();
 		 $options['filename'] = $p ;
 			 
 				$test = layouts_list($options);		
-					d($test);	
+			 
+				 if(isarr($test)){
+					 
+					 
+					 
+					 
+					 foreach($test as $module_template){
+								
+								if(isset($module_template['version']) and isset($module_template['layout_file'])){
+								 
+								  if($module_template_file_version <  floatval($module_template['version'])){
+									//d($module_template);
+									
+									
+									$module_template_url= url_title($module_template['name']);
+									$module_template_url2= url_title($module_template['layout_file']);
+									
+									$ver = floatval($module_template['version']);
+									 $zn = strtolower($module_template_url).crc32($module_template_url2);
+											 
+									$zip_name = trim('module-template-'.$zn.'-' . $ver) . ".zip";
+									$filename = $this -> downloads_dir . $zip_name;
+												
+							$locations = array();
+							
+							$is_index = basename($module_template['layout_file']);
+							$layout_file_form_this_module = $module_template['layout_file'];
+							
+							if($is_index == 'index.php'){
+								//$locations[] = $is_index;
+						 		$locations[] = dirname($layout_file_form_this_module).DS;
+							} else {
+								$locations[] = $layout_file_form_this_module;
+							}
+							
+							//$locations[] = $this -> repo_dir.'application'.DS;
+							  
+					 		$fileTime = date("D, d M Y H:i:s T"); 
+							
+							
+							
+							
+							
+							
+							
+							
+								
+			 			$zip = new \mw\utils\zip($filename);
+								
+								$zip->setZipFile($filename); 
+								$zip->setComment("Microweber module template update ". $ver .".\nCreated on " . date('l jS \of F Y h:i:s A')); 
+ 
+						foreach($locations as $location){
+							$rel_d = str_replace($this -> repo_dir, '', $location);
+							if(is_dir($location)){
+								$zip->addDirectoryContent($location,$rel_d,true); 
+							} else if(is_file($location)){
+								 $zip->addFile(file_get_contents($location),$rel_d, filectime($location)); 
+								
+							}
+					  
+						}
+						$zip1 = $zip->finalize() ; 
+						
+						$to_return['module_templates'][]  = dir2url($filename);
+						
+					 
+						
+						
+						
+						
+						
+						 
+					 				}
+								}
+			
+						}
+					 
+				 }
 					  
 					
 		}

@@ -326,6 +326,21 @@ body .mw-col > .ui-resizable-e *{
 }
 
 
+#module-modal-settings-menu-holder{
+  float: right;
+  margin-right: 37px;
+  margin-top: -3px;
+}
+
+#module-modal-settings-menu-holder .mw-ui-btn-small{
+  padding: 3px 10px;
+}
+
+#module-modal-settings-menu-holder .mw-dropdown-content{
+  left: auto;
+  right: 0;
+}
+
 
 
 

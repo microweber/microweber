@@ -17,8 +17,8 @@ description: List Navigation
 	$params['ul_class_deep'] = 'nav nav-list';
 ?>
 
-<div class="pages-nav">
-	<div class="well" style="padding: 0;">
+<div class="category-nav category-nav-default">
+	<div class="well">
 		<?  category_tree($params);  ?>
 	</div>
 </div>

@@ -107,15 +107,29 @@ if (!isset($post_params['data-limit'])) {
 $cfg_page_id = get_option('data-page-id', $params['id']);
 if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
+} else if($cfg_page_id == false and isset($post_params['content_id'])) {
+     $cfg_page_id =   intval($post_params['content_id']);
 } else {
    // $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
 
+if($posts_parent_category == false and isset($post_params['category_id'])){
+	$posts_parent_category = $post_params['category_id'];
+}
+
+if($posts_parent_category == false and isset($post_params['related'])){
+	if(defined('CATEGORY_ID') and CATEGORY_ID > 0){
+	$posts_parent_category = CATEGORY_ID;
+	}
+}
+
+ 
+
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
-			
-			
+
+
 			$page_categories = false;
 			if($posts_parent_category != false and intval($posts_parent_category) > 0 and intval($cfg_page_id) != 0){
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
@@ -131,11 +145,11 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 								$sub_cats[] = $item_more_subcat;
 							}
 						}
-					 
+
 						}
 					}
-			} 
-			
+			}
+
 					if($posts_parent_category != false and intval($posts_parent_category) > 0){
 						if(isarr($page_categories)){
 							$sub_cats = array();
@@ -151,7 +165,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 						$post_params['category'] = $sub_cats;
 						}
 					}
-						
+
 						 $post_params['parent'] = $cfg_page_id;
 	}
 
