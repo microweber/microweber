@@ -7,6 +7,6 @@ $config['description'] = "Header Image with text, newsletter, banners and catego
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "custom";
-$config['version'] = 0.5;
+$config['version'] = 0.1;
 $config['position'] = 4;
 $config['as_element'] = true;

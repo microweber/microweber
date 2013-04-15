@@ -860,6 +860,22 @@ form .shipping-country-row:first-child{
 
 
 
+.mw-table-head > td{
+  background-color: #EEEEEE;
+  box-shadow: 0 1px 0 #fff, inset 0 1px 0 #fff;
+  font-size:15px;
+  color: #6E6E6E;
+}
+
+
+.mw-table-head > tbody > tr.mw-table-head:first-child > td{
+  box-shadow: none;
+}
+
+
+#mw-update-table tr td:last-child{
+    text-align: left;
+}
 
 
 
