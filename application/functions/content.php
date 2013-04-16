@@ -2012,9 +2012,9 @@ $del_ids =array();
 				//$q = "update $table set parent=0 where parent=$c_id ";
 
 				if($to_untrash == true){
-					$q = "update $table set is_deleted='n' where id=$c_id ";
+					$q = "update $table set is_deleted='n' where id=$c_id and  is_deleted='y' ";
 					$q = db_query($q);
-					$q = "update $table set is_deleted='n' where parent=$c_id ";
+					$q = "update $table set is_deleted='n' where parent=$c_id   and  is_deleted='y' ";
 					$q = db_query($q);
 
 				}	else if ($to_trash == false) {

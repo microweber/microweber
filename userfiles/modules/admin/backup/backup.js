@@ -10,20 +10,23 @@ mw.admin_backup = {
 	  $.post(mw.settings.api_url+'admin/backup/api/create', false ,
      function(msg) {
 		mw.reload_module('admin/backup/manage');
-		 mw.notification.success("Backup is created");
+		 mw.notification.msg(msg);
      });
-	 
-	 
-	
-
-	 
-	// var ifr = "<iframe src='"+	 mw.settings.api_url+'admin/backup/api/create'+"'></iframe>"
-	 
-	//  mw.$(selector).append(ifr);
-	 
-	 
-	 
+ 
   },
+  
+  
+  create_full : function(selector){
+	  mw.notification.success("FULL Backup is started...");
+	  $.post(mw.settings.api_url+'admin/backup/api/create_full', false ,
+     function(msg) {
+		mw.reload_module('admin/backup/manage');
+		  mw.notification.msg(msg);
+     });
+ 	
+  },
+  
+  
   
    remove : function($id, $selector_to_hide){
 	  

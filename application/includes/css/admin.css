@@ -887,6 +887,10 @@ form .shipping-country-row:first-child{
     text-align: left;
 }
 
+#mw-update-table tr.update-items td .mw-ui-btn{
+  float: right;
+}
+
 
 
 

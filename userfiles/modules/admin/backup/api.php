@@ -6,6 +6,8 @@ api_expose('admin_backup_db_tables');
 api_expose('admin\backup\api\delete');
 api_expose('admin\backup\api\create');
 api_expose('admin\backup\api\download');
+api_expose('admin\backup\api\create_full');
+
 //api_expose('admin\backup\api\restore');
 //api_expose('admin\backup\api\get_bakup_location');
 class api {
@@ -19,14 +21,15 @@ class api {
 
 	function api() {
 
- 	}
+	}
 
 	function get_bakup_location() {
 
 		if (defined('MW_CRON_EXEC')) {
 
 		} else if (!is_admin()) {error("must be admin");
-		};
+		}
+		;
 		static $loc;
 
 		if ($loc != false) {
@@ -58,14 +61,14 @@ class api {
 	public function get() {
 		if (!is_admin()) {error("must be admin");
 		};
-		$here = $this->get_bakup_location();
+		$here = $this -> get_bakup_location();
 
 		$dir = opendir($here);
 		$backups = array();
 		while (false !== ($file = readdir($dir))) {
 
 			// Print the filenames that have .sql extension
-			if (strpos($file, '.sql', 1)) {
+			if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
 
 				// Get time and date from filename
 				$date = substr($file, 9, 10);
@@ -100,7 +103,7 @@ class api {
 			die();
 		}
 
-		$here = $this->get_bakup_location();
+		$here = $this -> get_bakup_location();
 		$filename = $here . $id . '.sql';
 		if (is_file($filename)) {
 			unlink($filename);
@@ -128,7 +131,7 @@ class api {
 			die();
 		}
 
-		$here = $this->get_bakup_location();
+		$here = $this -> get_bakup_location();
 		// Generate filename and set error variables
 
 		$filename = $here . $id . '.sql';
@@ -166,6 +169,7 @@ class api {
 			$id = $params['filename'];
 		} else if (isset($_GET['file'])) {
 			$id = $params['file'];
+
 		}
 
 		// Check if the file has needed args
@@ -175,7 +179,7 @@ class api {
 			die();
 		}
 
-		$here = $this->get_bakup_location();
+		$here = $this -> get_bakup_location();
 		// Generate filename and set error variables
 
 		$filename = $here . $id . '.sql';
@@ -201,7 +205,7 @@ class api {
 		//	$con = mysql_connect($DBhost, $DBuser, $DBpass);
 		//if ($con !== false) {
 		// Load and explode the sql file
-	//	mysql_select_db("$DBName");
+		//	mysql_select_db("$DBName");
 		$f = fopen($filename, "r+");
 		$sqlFile = fread($f, filesize($filename));
 		$sqlArray = explode($this -> file_q_sep, $sqlFile);
@@ -250,12 +254,62 @@ class api {
 
 	}
 
+	function create_full() {
+		$start = microtime_float();
+		if (defined('MW_CRON_EXEC')) {
+
+		} else {
+			only_admin_access();
+
+		}
+
+		ignore_user_abort(true);
+
+		ini_set('memory_limit', '512M');
+		set_time_limit(0);
+		$here = $this -> get_bakup_location();
+		$filename = $here . 'full_backup_' . date("d.m.Y_H_i_s") . uniqid() . '' . '.zip';
+
+		$userfiles_folder = MW_USERFILES;
+
+		$db_file = $this -> create();
+
+		if (isset($db_file['filename'])) {
+			$filename2 = $here . $db_file['filename'];
+			if (is_file($filename2)) {
+				$locations = array();
+				$locations[] = MW_USERFILES;
+				$locations[] = $filename2;
+				$fileTime = date("D, d M Y H:i:s T");
+
+				$zip = new \mw\utils\zip($filename);
+
+				$zip -> setZipFile($filename);
+				$zip -> setComment("Microweber backup of the userfiles folder and db.
+								\n The Microweber version at the time of backup was {MW_VERSION}
+								\nCreated on " . date('l jS \of F Y h:i:s A'));
+				$zip -> addDirectoryContent(MW_USERFILES, '', true);
+				$zip -> addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+
+				$zip1 = $zip -> finalize();
+				$filename_to_return = $filename;
+				$end = microtime_float();
+				$end = round($end - $start, 3);
+				return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
+
+			}
+		}
+
+	}
+
 	function create() {
+
+		$start = microtime_float();
 
 		if (defined('MW_CRON_EXEC')) {
 
 		} else {
- 			only_admin_access();
+			only_admin_access();
 
 		}
 		$db = c('db');
@@ -275,7 +329,7 @@ class api {
 			$extname = str_replace(" ", "_", $extname);
 		}
 
-		$here = $this->get_bakup_location();
+		$here = $this -> get_bakup_location();
 
 		if (!is_dir($here)) {
 			if (!mkdir($here)) {
@@ -286,7 +340,9 @@ class api {
 		set_time_limit(0);
 		// Generate the filename for the backup file
 		$index1 = $here . 'index.php';
-		$filess = $here . 'dbbackup_' . date("d.m.Y_H_i_s") . uniqid() . '_' . $extname . '.sql';
+
+		$filename_to_return = 'dbbackup_' . date("d.m.Y_H_i_s") . uniqid() . '_' . $extname . '.sql';
+		$filess = $here . $filename_to_return;
 		touch($filess);
 		touch($index1);
 
@@ -327,7 +383,15 @@ class api {
 			$return .= 'DROP TABLE ' . $table . $this -> file_q_sep . "\n\n\n";
 
 			// Second part of the output - create table
-			$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
+			$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
+			if ($res_ch == false) {
+				$err = mysql_error();
+				if ($err != false) {
+					return array('error' => 'Query failed: ' . $err);
+				}
+
+			}
+			$row2 = mysql_fetch_row($res_ch);
 			$return .= "\n\n" . $row2[1] . $this -> file_q_sep . "\n\n\n";
 
 			// Third part of the output - insert values into new table
@@ -356,7 +420,9 @@ class api {
 		$handle = fopen($filess, 'w+');
 		fwrite($handle, $return);
 		fclose($handle);
-
+		$end = microtime_float();
+		$end = round($end - $start, 3);
+		return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
 		// Close MySQL Connection
 		//	mysql_close($link);
 	}

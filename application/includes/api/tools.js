@@ -1461,15 +1461,36 @@ mw.tools = {
     });
     return frame;
   },
-  disable : function(el, text){
+  disable : function(el, text, global){
+    var text = text || 'Loading...';
+    var global = global || false;
     var _el = $(el);
     if(!_el.hasClass("disabled")){
       _el.addClass('disabled');
+      if(el.tagName != 'INPUT'){
+        _el.dataset("text", _el.html());
+        _el.html(text);
+      }
+      else{
+        _el.dataset("text", _el.val());
+        _el.val(text);
+      }
+     if(global) $(mwd.body).addClass("loading");
     }
-  }
+    return el;
+  },
   enable:function(el){
-    var text = $(el).dataset("text");
-    $(el).html(text);
+    var _el = $(el);
+    var text = _el.dataset("text");
+    _el.removeClass("disabled");
+    if(el.tagName != 'INPUT'){
+        _el.html(text);
+      }
+      else{
+        _el.val(text);
+      }
+    $(mwd.body).removeClass("loading");
+    return el;
   }
 }
 

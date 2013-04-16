@@ -24,9 +24,8 @@ $(document).ready(function(){
   }, function(){
      mw.check.none('#mw-update-table');
   });
-
   mw.$(".update-items input:checkbox").commuter(function(){
-
+    //
   }, function(){
      mw.$("#select_all")[0].checked = false;
   });
@@ -53,7 +52,7 @@ $(document).ready(function(){
         <span class="posts-selector">
             <span onclick="mw.check.all('#mw-update-table')">Select All</span>/<span onclick="mw.check.none('#mw-update-table')">Unselect All</span>
         </span>
-        <input type="submit" value="Install" class="mw-ui-btn mw-ui-btn-blue" />
+        <input type="submit" value="Install" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" />
      </td>
   </tr>
 
@@ -66,7 +65,8 @@ $(document).ready(function(){
   <tr class="update-items">
     <td><label class="mw-ui-check"><input type="checkbox" name="mw_version" value="<? print $iudates["version"] ?>"  /><span></span></label></td>
     <td>
-        Microweber
+
+        <img src="<?php print INCLUDES_URL; ?>img/mw_system.png" alt="Microweber" /><br>
         <? print MW_VERSION ?>
     </td>
     <td>
