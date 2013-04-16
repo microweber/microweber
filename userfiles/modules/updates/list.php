@@ -9,6 +9,8 @@
 	$iudates = $update_api -> check($forced);
 
 
+
+
 ?>
 
 
@@ -54,6 +56,9 @@
       <label>
        <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
+
+      <?php else: ?>
+            <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
         <? print $item["name"] ?> <? print $item["version"] ?>
       </label>
@@ -80,6 +85,8 @@
       <label>
          <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
+                <?php else: ?>
+            <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
 
         <? print $item["name"] ?> <? print $item["version"] ?> <em>(<? print $item["module"] ?>)</em>
@@ -108,6 +115,8 @@
     <td><label class="mw-ui-check"><input type="checkbox" name="elements[]" value="<? print $item["module"] ?>"  /><span></span></label></td>
     <td>   <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
+                <?php else: ?>
+            <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
         <label><? print $item["name"] ?> <? print $item["version"] ?></label>
     </td>
@@ -119,7 +128,7 @@
   </tr>
   <? endforeach; ?>
   <? endif; ?>
-  <input type="submit" value="install" />
+  <input type="submit" value="Install" class="mw-ui-btn mw-ui-btn-blue" />
 
 
 

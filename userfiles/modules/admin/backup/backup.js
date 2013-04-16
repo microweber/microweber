@@ -6,9 +6,18 @@ mw.admin_backup = {
   create : function(selector){
 	 //  data = mw.$(selector+' input').serialize();
 	 
-	 var ifr = "<iframe src='"+	 mw.settings.api_url+'admin/backup/api/create'+"'></iframe>"
 	 
-	  mw.$(selector).append(ifr);
+	  $.post(mw.settings.api_url+'admin/backup/api/create', false ,
+     function(msg) {
+		mw.reload_module('admin/backup/manage');
+     });
+	 
+	 
+	 
+	 
+	// var ifr = "<iframe src='"+	 mw.settings.api_url+'admin/backup/api/create'+"'></iframe>"
+	 
+	//  mw.$(selector).append(ifr);
 	 
 	 
 	 
@@ -18,14 +27,21 @@ mw.admin_backup = {
 	  
 	  data = {}
 	  data.id=$id;
-	 
-     $.post(mw.settings.api_url+'admin/backup/api/delete', data ,
-     function(data) {
-		 if($selector_to_hide != undefined){
-		 mw.$($selector_to_hide).fadeOut().remove();
+	  
+	  if($selector_to_hide != undefined){
+		  $($selector_to_hide).fadeOut().remove();
 		 }
+		 
+		 
+		 
+     $.post(mw.settings.api_url+'admin/backup/api/delete', data ,
+     function(msg) {
+		 
+		
      });
   },
+  
+ 
 
  
 }

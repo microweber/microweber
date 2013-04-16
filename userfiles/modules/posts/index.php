@@ -124,7 +124,7 @@ if($posts_parent_category == false and isset($post_params['related'])){
 	}
 }
 
- 
+
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
@@ -263,8 +263,9 @@ if(isset($params['title'])){
 	unset($post_params['title']);
 }
 
-	 $post_params['is_active'] = 'y';
-  // $post_params['debug'] = 'post';
+$post_params['is_active'] = 'y';
+$post_params['is_deleted'] = 'n';
+
 $content   = get_content($post_params);
 $data = array();
 

@@ -8,7 +8,7 @@ function mw_post_update() {
 		cache_clean_group('db');
 		cache_clean_group('update/global');
 		cache_clean_group('elements/global');
-		 
+
 		cache_clean_group('templates');
 		cache_clean_group('modules/global');
 		scan_for_modules();
@@ -90,6 +90,16 @@ function mw_updates_count() {
 	if (isset($upd_count['modules'])) {
 		$count = $count + sizeof($upd_count['modules']);
 	}
+	if (isset($upd_count['module_templates'])) {
+		$count = $count + sizeof($upd_count['module_templates']);
+	}
+	if (isset($upd_count['mw_version'])) {
+		$count = $count + 1;
+	}
+	if (isset($upd_count['elements'])) {
+		$count = $count + sizeof($upd_count['elements']);
+	}
+
 	return $count;
 }
 
@@ -107,3 +117,8 @@ function mw_check_for_update() {
 	return $mw_avail_updates;
 
 }
+ 
+
+
+ 
+ 

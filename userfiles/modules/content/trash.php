@@ -180,12 +180,31 @@ $pages_count = intval($pages);
 <? if (intval($pages_count) > 1): ?>
 <? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <? endif; ?>
- <h2 class="left" style="padding-left: 20px;width: 430px;">Deleted content</h2>
+ <h2 class="left" style="padding-left: 20px;width: 430px;padding-bottom:16px; ">Deleted content</h2>
+
+
+
+
+
 
 
 <div class="mw_clear"></div>
+
+
+
+<div class="manage-toobar manage-toolbar-top">
+    <span class="mn-tb-arr-top left"></span>
+    <span class="posts-selector left">
+        <span onclick="mw.check.all('#pages_delete_container')">Select All</span>/<span onclick="mw.check.none('#pages_delete_container')">Unselect All</span></span>
+        <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Delete forever</span>
+<span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Restore selected</span>
+  <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
+</div>
+
+
+
 <div class="manage-posts-holder" id="pages_delete_container">
- 
+
   <? if(isarr($data)): ?>
   <? foreach ($data as $item): ?>
   
@@ -256,7 +275,12 @@ if($new > 0){
   </div>
   <? endforeach; ?>
 </div>
-<div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_delete_container')">Select All</span>/<span onclick="mw.check.none('#pages_delete_container')">Unselect All</span> </span> <a href="javascript:delete_selected_posts_forever();" class="mw-ui-btn">Delete forever</a> <a href="javascript:delete_selected_posts_forever();" class="mw-ui-btn">Restore selected</a></div>
+<div class="manage-toobar manage-toolbar-bottom">
+<span class="mn-tb-arr-bottom"></span> <span class="posts-selector">
+<span onclick="mw.check.all('#pages_delete_container')">Select All</span>/<span onclick="mw.check.none('#pages_delete_container')">Unselect All</span>
+</span>
+<span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Delete forever</span>
+<span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Restore selected</span></div>
 
 
 
@@ -388,6 +412,9 @@ restore_single_post_from_deletion = function(id){
 <a  class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" href="#<? print $paging_param ?>=<? print $i ?>" onClick="mw.url.windowHashParam('<? print $paging_param ?>','<? print $i ?>');return false;"><? print $i; ?></a>
 <? $i++; endforeach; ?>
 <? endif; ?>
+
+</div>
+
 <? else: ?>
 <div class="mw-no-posts-foot">
   <? if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>

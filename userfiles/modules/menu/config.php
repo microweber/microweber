@@ -1,7 +1,8 @@
 <?
 
 $config = array();
-$config['name'] = "Navigation Menu";
+$config['name'] = "Menu";
+$config['description'] = "Navigation Menu";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;
@@ -26,4 +27,3 @@ $fields_to_add[] = array('description', 'TEXT default NULL');
 $fields_to_add[] = array('url', 'TEXT default NULL');
 $config['tables']['menus'] = $fields_to_add;
 
- 

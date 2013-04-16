@@ -20,8 +20,8 @@
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
     <? if(isset($_GET['backup_action'])): ?>
-    <? include($_GET['backup_action'].'.php'); ?>
-    <? else :?>
+    <module type="admin/backup/<? print $_GET['backup_action'] ?>" />
+     <? else :?>
     <? include('manage.php'); ?>
     <? endif ;?>
   </div>

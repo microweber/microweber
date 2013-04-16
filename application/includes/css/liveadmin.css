@@ -287,7 +287,8 @@ body.cross{
 .mw-title-field-label-post{ background-position:  15px -32px, 0 0; }
 .mw-title-field-label-category{ background-position:  15px -69px, 0 0; }
 .mw-title-field-label-product{ background-position:  15px -106px, 0 0; }
-.mw-title-field-label-subpage { background-position:  11px -229px, 0 0;}
+.mw-title-field-label-sub-page { background-position:  11px -229px, 0 0;}
+.mw-title-field-label-subcat { background-position:  10px -276px, 0 0;}
 
 
 
@@ -593,7 +594,7 @@ form.add-edit-page-post textarea{
 }
 
 .manage-toolbar-top .mw-ui-btn{
-  margin-right: 30px;
+  margin-right: 4px;
   float: left;
 }
 
@@ -633,6 +634,10 @@ form.add-edit-page-post textarea{
 
 .mw-paging{
   padding-top: 12px;
+}
+
+#mw_admin_posts_manage .mw-paging{
+  padding-left: 20px;
 }
 
 
@@ -2349,7 +2354,7 @@ a.module-icon-title{
       width: 250px;
     }
 
-    
+
 
 
 

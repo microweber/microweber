@@ -3,17 +3,17 @@ $form_rand_id  = uniqid();;
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;
 }
- 
- 
-$data = get_category_by_id($params["data-category-id"]); 
- 
+
+
+$data = get_category_by_id($params["data-category-id"]);
+
 if($data == false or empty($data )){
-include('_empty_category_data.php');	
+    include('_empty_category_data.php');
 }
 
 
 
- 
+
 ?>
 <script  type="text/javascript">
 
@@ -22,43 +22,43 @@ mw.require('forms.js');
 </script>
 <script  type="text/javascript">
  function set_category_parent_<? print $form_rand_id ?>(){
-	 
+
 	 $sel = mw.$('#edit_category_set_par_<? print $form_rand_id ?> input:checked').parents('li').first();
 
-	 
-	
+
+
 	 is_cat = $sel.attr("data-category-id");
 	  is_page = $sel.attr("data-page-id");
-	//   is_page = $sel.attr("data-page-id");  
+	//   is_page = $sel.attr("data-page-id");
 	    mw.log( $sel);
 	 if(is_cat != undefined){
 	 mw.$('#rel_id_<? print $form_rand_id ?>').val(0);
 
-		 mw.$('#parent_id_<? print $form_rand_id ?>').val(is_cat);  
-		 
-		 
-		
-	 }
-		 
-		 
+		 mw.$('#parent_id_<? print $form_rand_id ?>').val(is_cat);
 
-		 
-		 
-		  if(is_page != undefined){
-		 mw.$('#rel_id_<? print $form_rand_id ?>').val(is_page);  
-		 
-		  mw.$('#parent_id_<? print $form_rand_id ?>').val(0);
-		 
-		 
+
+
 	 }
-	 
-	 
-	 
-	 
- 
-	 
+
+
+
+
+
+		  if(is_page != undefined){
+		 mw.$('#rel_id_<? print $form_rand_id ?>').val(is_page);
+
+		  mw.$('#parent_id_<? print $form_rand_id ?>').val(0);
+
+
+	 }
+
+
+
+
+
+
  }
- 
+
 
   function onload_set_parent_<? print $form_rand_id ?>(){
 	   var tti = mw.$('#rel_id_<? print $form_rand_id ?>').val();
@@ -100,20 +100,20 @@ $(document).ready(function(){
 	// onload_set_parent_<? print $form_rand_id ?>();
 	// set_category_parent_<? print $form_rand_id ?>()
 	 <? endif; ?>
-	  mw.$('#edit_category_set_par_<? print $form_rand_id ?> input').change(function() { 
+	  mw.$('#edit_category_set_par_<? print $form_rand_id ?> input').change(function() {
 	//  alert(1);
 	     set_category_parent_<? print $form_rand_id ?>();
 	   });
-	    
-	 
-	 
 
-	 
+
+
+
+
 	 mw.$('#admin_edit_category_form_<? print $form_rand_id ?>').submit(function() {
 
  // set_category_parent_<? print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<? print $form_rand_id ?>') , '<? print site_url('api/save_category') ?>', function(){
-	 
+
 
 	 mw.reload_module('[data-type="categories"]');
      mw.$('[data-type="pages"]').removeClass("activated");
@@ -125,20 +125,20 @@ $(document).ready(function(){
 	 	mw.url.windowHashParam("new_content", "true");
 	 	mw.url.windowHashParam("action", "editcategory:" + this);
      <? endif; ?>
-	  
-	  
-	  
+
+
+
 	 });
 
  return false;
- 
+
 
  });
-   
- 
 
 
- 
+
+
+
 
 });
 </script>
@@ -148,7 +148,7 @@ $(document).ready(function(){
 	  } elseif(isset($params['page-id'])){
 		  $data['rel_id'] = intval($params['page-id']);
 	  }
-	  
+
   }
 
   ?>
@@ -164,8 +164,23 @@ $(document).ready(function(){
   <div class="mw-ui-field-holder">
 
 
-    <span class="mw-title-field-label mw-title-field-label-category"></span>
+
+<? if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
+
+    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="Sub-category Name" />
+<? else: ?>
+
+<? if(isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
+
+<? else: ?>
+   <span class="mw-title-field-label mw-title-field-label-category"></span>
+<? else: ?>
     <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<? print ($data['title'])?>" />
+<? endif; ?>
+
+
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -176,8 +191,8 @@ $(document).ready(function(){
     if (isset($params['is_shop'])) {
     	//$is_shop = '&is_shop=' . $params['is_shop'];
     }
-	
-	 
+
+
 
        ?>
     <input name="parent_id" type="hidden" value="<? print ($data['parent_id'])?>" id="parent_id_<? print $form_rand_id ?>" />
@@ -202,6 +217,7 @@ $(document).ready(function(){
 <microweber module="custom_fields" view="admin" for="categories" id="<? print ($data['id'])?>" />
 <div class="post-save-bottom">
   <input type="submit" name="save" class="semi_hidden"  value="Save" />
+  <div class="vSpace"></div>
   <span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
   <?php _e("Save"); ?>
   </span> </div>

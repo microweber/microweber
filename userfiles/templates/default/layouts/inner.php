@@ -23,10 +23,12 @@ description: Post inner layout
 					<p align="justify">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
 				</div></div>
 				<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
-				<div class="clearfix post-comments">
+			</div>
+            <div class="edit" rel="content" field="content-comments">
+                <div class="clearfix post-comments">
 		            <module data-type="comments" data-template="default" data-content-id="<? print CONTENT_ID; ?>"  />
 		        </div>
-			</div>
+            </div>
 		</div>
 		<div class="span3 offset1">
 			<? include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; ?>

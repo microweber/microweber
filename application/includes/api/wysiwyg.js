@@ -34,13 +34,21 @@ mw.wysiwyg = {
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
                     if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) {
-                        m
-                       this.innerHTML = '<p class="element">'+this.innerHTML+'</p>';
+                       //mw.wysiwyg.save_selection();
+
+                       this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
+                       mw.wysiwyg.restore_selection();
                     }
                 });
+                $(this).mouseenter(function(){
+                   if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) {
+                       this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'&nbsp;</p>';
+                    }
+                })
             });
             mw.$(".empty-element, .ui-resizable-handle").each(function(){
                 this.contentEditable = false;
+
             });
             mw.on.moduleReload(function(){
                   mw.wysiwyg.nceui();
@@ -256,7 +264,7 @@ mw.wysiwyg = {
 
            var sel = window.getSelection();
 
-           d(sel);
+
 
            var r = sel.getRangeAt(0);
 
@@ -293,7 +301,7 @@ mw.wysiwyg = {
          if(е.keyCode == 13) {
                mw.$(".element-current").removeClass("element-current");
          }
-      })
+      });
 
 
 

@@ -66,12 +66,12 @@ if (isset($params['data-include_categories'])) {
 	 }
 
  ?><?
-   
+
 	$params['return_data'] = true;
- 
+
 ?>
 <? $pages_tree= pages_tree($params);  ?>
- 
+
 <? if($pages_tree != ''): ?>
 <div class="pages-nav">
 	<div class="well" style="padding: 0;">
@@ -80,9 +80,8 @@ if (isset($params['data-include_categories'])) {
 </div>
 <? endif; ?>
 <? $is_del = get_content('count=1&is_deleted=y'); ?>
- 
+
 
 <ul class="pages_tree pages_trash_holder depth-1">
- <li class="pages_trash pages_tree_item  depth-1" title="Trash"><a data-page-id="deleted" class="pages_trash_link pages_tree_link depth-1" onclick="mw.url.windowHashParam('action', 'trash');"   href="javascript: return false;"><span class="pages_tree_link_text pages_trash_text">Trash</span></a></li> 
+ <li class="pages_trash pages_tree_item  depth-1" title="Trash"><a data-page-id="deleted" class="pages_trash_link pages_tree_link depth-1" onclick="mw.url.windowHashParam('action', 'trash');"   href="javascript: return false;"><span class="pages_tree_link_text pages_trash_text">Trash</span></a></li>
 </ul>
-  

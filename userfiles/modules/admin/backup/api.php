@@ -10,7 +10,7 @@ api_expose('admin\backup\api\download');
 //api_expose('admin\backup\api\get_bakup_location');
 class api {
 
-	private $file_q_sep = '; /* MW_TABLE_SEP */';
+	private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 
 	function __construct() {
 		//var_dump($_SERVER);
@@ -27,7 +27,7 @@ class api {
 	}
 
 	function get_bakup_location() {
-		
+
 		if (defined('MW_CRON_EXEC')) {
 
 		} else if (!is_admin()) {error("must be admin");
@@ -260,9 +260,7 @@ class api {
 		if (defined('MW_CRON_EXEC')) {
 
 		} else {
-
-			if (!is_admin()) {error("must be admin");
-			};
+ 			only_admin_access();
 
 		}
 		$db = c('db');

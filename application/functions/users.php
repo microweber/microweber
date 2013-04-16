@@ -125,10 +125,8 @@ function mw_db_init_users_table() {
 	set_db_table($table_name, $fields_to_add);
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
-	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return true;
 
-	//print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
 }
 
 api_expose('system_log_reset');
@@ -836,10 +834,10 @@ function user_login($params) {
 
 		}
 $url = curent_url(1);
-			 
+
 		$check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&rel=login_failed&user_ip=" . USER_IP);
 		if ($check == 5) {
-			
+
 			$url_href = "<a href='$url' target='_blank'>$url</a>";
 			save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
 		}
@@ -1303,115 +1301,6 @@ function nice_user_name($id, $mode = 'full') {
 	exit();
 }
 
-/**
- * get_new_users
- *
- * get_new_users
- *
- * @access public
- * @category users
- * @author Microweber
- * @link http://microweber.com
- * @param $period =
- *        	7 days;
- * @return array $ids - array of user ids;
- */
-function get_new_users($period = '7 days', $limit = 20) {
-
-	// $CI = get_instance ();
-	get_instance() -> load -> model('Users_model', 'users_model');
-	$data = array();
-	$data['created_on'] = '[mt]-' . $period;
-	$data['fields'] = array('id');
-	$limit = array('0', $limit);
-	// $data['debug']= true;
-	// $data['no_cache']= true;
-	$data =                                                                                      get_instance() -> users_model -> getUsers($data, $limit, $count_only = false);
-	$res = array();
-	if (!empty($data)) {
-		foreach ($data as $item) {
-			$res[] = $item['id'];
-		}
-	}
-	return $res;
-}
-
-function user_id_from_url() {
-	if (url_param('username')) {
-		$usr = url_param('username');
-		// $CI = get_instance ();
-		get_instance() -> load -> model('Users_model', 'users_model');
-		$res =                                                                                      get_instance() -> users_model -> getIdByUsername($username = $usr);
-		return $res;
-	}
-
-	if (url_param('user_id')) {
-		$usr = url_param('user_id');
-		return $usr;
-	}
-	return user_id();
-}
-
-/**
- * user_thumbnail
- *
- * get the user_thumbnail of the user
- *
- * @access public
- * @category general
- * @author Microweber
- * @link http://microweber.com
- * @param $params =
- *        	array();
- *        	$params['id'] = 15; //the user id
- *        	$params['size'] = 200; //the thumbnail size
- * @return string - The thumbnail link.
- * @usage Use
- *          user_thumbnail
- *
- *          get the user_thumbnail of the user
- *
- * @access public
- * @category general
- * @author Microweber
- * @link http://microweber.com
- * @param $params =
- *        	array();
- *        	$params['id'] = 15; //the user id
- *        	$params['size'] = 200; //the thumbnail size
- * @return string - The thumbnail link.
- * @usage Use print post_thumbnail($post['id']);
- */
-function user_picture($params) {
-	return user_thumbnail($params);
-}
-
-function user_thumbnail($params) {
-	$params2 = array();
-
-	if (is_string($params)) {
-		$params = parse_str($params, $params2);
-		$params = $params2;
-	}
-
-	//
-	// $CI = get_instance ();
-
-	if (!$params['size']) {
-		$params['size'] = 200;
-	}
-
-	// $pic = get_picture($params ['id'], $for = 'user');
-	// $media = get_instance()->core_model->mediaGetThumbnailForMediaId (
-	// $pic['id'],
-	// $params ['size'], $size_height );
-	// p($media);
-
-	$thumb =                                                                                      get_instance() -> core_model -> mediaGetThumbnailForItem($rel = 'users', $rel_id = $params['id'], $params['size'], 'DESC');
-
-	return $thumb;
-}
-
 function users_count() {
 	$options = array();
 	$options['get_count'] = true;
@@ -1448,26 +1337,4 @@ function cf_get_user($user_id, $field_name) {
 	}
 }
 
-function get_custom_fields_for_user($user_id, $field_name = false) {
-	// p($content_id);
-	$more = false;
-	$more =                                                                                      get_instance() -> core_model -> getCustomFields('users', $user_id, true, $field_name);
-	return $more;
-}
 
-function friends_count($user_id = false) {
-
-	// $CI = get_instance ();
-	if ($user_id == false) {
-		$user_id = user_id();
-	}
-
-	$query_options = array();
-
-	$query_options['get_count'] = true;
-	$query_options['debug'] = false;
-	$query_options['group_by'] = false;
-	get_instance() -> load -> model('Users_model', 'users_model');
-	$users =                                                                                      get_instance() -> users_model -> realtionsGetFollowedIdsForUser($aUserId = $user_id, $special = false, $query_options);
-	return intval($users);
-}

@@ -213,7 +213,7 @@ function mw_db_init_content_table() {
 
 	$table_name = MW_DB_TABLE_MENUS;
 
-	 $fields_to_add = array();
+	$fields_to_add = array();
 	$fields_to_add[] = array('title', 'TEXT default NULL');
 	$fields_to_add[] = array('item_type', 'varchar(33) default NULL');
 	$fields_to_add[] = array('parent_id', 'int(11) default NULL');
@@ -225,7 +225,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('is_active', "char(1) default 'y'");
 	$fields_to_add[] = array('description', 'TEXT default NULL');
 	$fields_to_add[] = array('url', 'TEXT default NULL');
-	 	set_db_table($table_name, $fields_to_add);
+	set_db_table($table_name, $fields_to_add);
 
 
 
@@ -1487,16 +1487,16 @@ function paging($params) {
 	if(isset($params['class'])){
 		$class = $params['class'];
 	}
-	
+
 	if(isset($params['paging_param'])){
 		$paging_param = $params['paging_param'];
 	}
 	 $curent_page_from_url = url_param($paging_param);
-	 
+
 	 	if(isset($params['curent_page'])){
 		$curent_page_from_url = $params['curent_page'];
 	}
- 
+
 	$data = paging_links($base_url, $pages_count, $paging_param,$keyword_param);
 	if(isarr($data)){
 		$to_print = "<div class='{$class}'><ul>";
@@ -1822,7 +1822,7 @@ function save_edit($post_data) {
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
 							if($field != 'content'){
-							 	
+
 								$cont_field1 = save_content_field($cont_field);
 							}
 							$to_save = array();
@@ -1860,8 +1860,8 @@ function save_edit($post_data) {
 						} else 	if($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['data-id'])){
 							$cont_field['rel_id'] = $the_field_data['attributes']['data-id'];
 						}
-						
-						
+
+
 						$cont_field['value'] = make_microweber_tags($html_to_save);;
 						if((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '' )and isset($the_field_data['attributes']['data-field'])){
 							$the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
@@ -1871,7 +1871,7 @@ function save_edit($post_data) {
 
 							 	 // d($cont_field);
 
- 
+
 						//if($field != 'content'){
 
 							$cont_field_new = save_content_field($cont_field);
@@ -1969,20 +1969,20 @@ function delete_content($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
-	
+
 	$to_trash = true;
 	$to_untrash = false;
 	if (isset($data['forever']) or isset($data['delete_forever'])) {
-		
+
 			$to_trash = false;
 	}
 	if (isset($data['undelete'])) {
-		
+
 			$to_trash = true;
 			$to_untrash = true;
-		
+
 	}
-	
+
 $del_ids =array();
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
@@ -2002,22 +2002,22 @@ $del_ids =array();
 		}
 
 	}
-	
-	
-	
+
+
+
 	if(!empty($del_ids)){
 			$table = MW_DB_TABLE_CONTENT;
-		
+
 			foreach ($del_ids as   $value) {
 			$c_id = intval($value);
 				//$q = "update $table set parent=0 where parent=$c_id ";
-				
+
 				if($to_untrash == true){
 					$q = "update $table set is_deleted='n' where id=$c_id ";
 					$q = db_query($q);
 					$q = "update $table set is_deleted='n' where parent=$c_id ";
 					$q = db_query($q);
-					
+
 				}	else if ($to_trash == false) {
 					$q = "update $table set parent=0 where parent=$c_id ";
 					$q = db_query($q);
@@ -2026,18 +2026,18 @@ $del_ids =array();
 					$q = db_query($q);
 					$q = "update $table set is_deleted='y' where parent=$c_id ";
 					$q = db_query($q);
-					
+
 				}
-				 
-				
+
+
 				cache_clean_group('content/'.$c_id);
 			}
-			
-			
-				cache_clean_group('content/global');
-			
 
-		
+
+				cache_clean_group('content/global');
+
+
+
 	}
 		return($del_ids);
 }
@@ -2189,6 +2189,11 @@ function save_content($data, $delete_the_cache = true) {
 			$data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));
 		}
 
+
+		if (trim($data_to_save['url']) != '') {
+
+			$data_to_save['url'] = url_title($data_to_save['title']);
+		}
 		// $data_to_save ['url_md5'] = md5 ( $data_to_save
 		// ['url'] );
 	}
@@ -2695,13 +2700,13 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
-		
+
 			if (isset($params['return_data'])) {
-			return $cache_content; 
+			return $cache_content;
 	}  else {
 		print $cache_content;
 	}
-		
+
 		return;
 			//  return $cache_content;
 	}
@@ -2883,8 +2888,8 @@ if (isset($params['include_categories'])) {
 	$params['orderby'] = 'position asc';
 
 	$params['curent_page'] = 1;
-	
- 
+
+
  //$params['debug'] = 1;
 
 	$skip_pages_from_tree = false;
@@ -2970,7 +2975,7 @@ if (isset($params['include_categories'])) {
 				}
 				$iid = $item['id'];
 
-				
+
 
 
 
@@ -3022,7 +3027,7 @@ if (isset($params['include_categories'])) {
 		if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
 			$ext_classes .= ' have-category';
 		}
-		
+
 		if(isset($item['is_active']) and $item['is_active'] == 'n'){
 
 					$ext_classes =$ext_classes. ' content-unpublished ';
@@ -3030,10 +3035,10 @@ if (isset($params['include_categories'])) {
 
 		$ext_classes = trim($ext_classes);
 				$the_active_class = $active_class;
-				
-				
-				
-				
+
+
+
+
 					$to_print = str_replace('{id}', $item['id'], $link);
 					$to_print = str_replace('{active_class}', $active_class, $to_print);
 					$to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
@@ -3095,7 +3100,7 @@ if (isset($params['include_categories'])) {
 						$to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
 					}
 					$to_print = str_replace('{exteded_classes}', '', $to_print);
-					
+
 					if (is_array($remove_ids) == true) {
 
 						if (in_array($item['id'], $remove_ids)) {
@@ -3124,8 +3129,8 @@ $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 					$to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
 					$to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 					$to_pr_2= str_replace('{active_parent_class}', '', $to_pr_2);
-					
-					
+
+
 					print $to_pr_2;
 					$to_pr_2 = false;
 					print $item['title'];
@@ -3159,13 +3164,13 @@ $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 					if (isset($params['li_class_deep'])) {
 						 $params['li_class']= $params['li_class_deep'];
 					}
-					
+
 						if (isset($params['return_data'])) {
 						unset( $params['return_data']);
 					}
 
 					if( $skip_pages_from_tree  == false){
-					
+
 						$children = pages_tree($params);
 					}
 				} else {
@@ -3209,7 +3214,7 @@ $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 
 					}
 
- 
+
 
 
 						//$cat_params['for'] = 'content';
@@ -3276,16 +3281,16 @@ $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 	cache_save($content, $function_cache_id, $cache_group);
 	//}
 	ob_end_clean();
-	
+
 	if (isset($params['return_data'])) {
-			return $content; 
+			return $content;
 	}  else {
 		print $content;
 	}
-	
-	
-	
-	 
+
+
+
+
 	return;
 }
 

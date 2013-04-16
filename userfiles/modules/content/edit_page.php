@@ -490,6 +490,10 @@ function mw_before_content_save<? print $rand; ?>(){
 
      //   $data['subtype'] = 'post';
     $t =      $data['subtype'];
+  } if($data['content_type'] == 'page' and $data['parent'] >0){
+          $t = "Sub-page";
+     //   $data['subtype'] = 'post';
+  // $data['title'] =     "Sub ". $data['content_type'];
   } else {
     $t =      $data['content_type'];
   }
@@ -497,7 +501,7 @@ function mw_before_content_save<? print $rand; ?>(){
 
   ?>
   <? if(intval($data['id']) > 0): ?>
-  <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
+  <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(( $t)); ?>"></span>
   <input name="title" onkeyup="mw.askusertostay = true;" onpaste="mw.askusertostay = true;" class="mw-ui-field mw-title-field"  type="text" value="<? print ($data['title'])?>" />
 <? else : ?>
 <?

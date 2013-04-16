@@ -180,7 +180,7 @@ if ($template != false and strtolower($template) != 'none') {
 </script>
 <script  type="text/javascript">
     $(document).ready(function(){
-		
+
 		
 		 mw.$('#<? print $data['id'] ?> a.comments-login-link').click(function() {
 			 var login_hold = "login-comments-form-<? print $data['id'] ?>";
@@ -209,11 +209,12 @@ if ($template != false and strtolower($template) != 'none') {
 		
 		
 		
-		
+
 		
 		
 		
         mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
+
             mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>',
 			function(msg) {
 				
@@ -230,7 +231,7 @@ if ($template != false and strtolower($template) != 'none') {
 							
 					    } 
 				
-				
+
 				
 			 
 				if(typeof(resp.error) != 'undefined'){
