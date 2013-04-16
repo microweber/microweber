@@ -176,7 +176,7 @@ $(document).ready(function(){
 
 <? else: ?>
    <span class="mw-title-field-label mw-title-field-label-category"></span>
-<? else: ?>
+<? endif; ?>
     <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<? print ($data['title'])?>" />
 <? endif; ?>
 

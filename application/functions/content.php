@@ -77,7 +77,6 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('draft_of', 'int(11) default NULL');
 
 	$fields_to_add[] = array('require_login', "char(1) default 'n'");
-	$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
 
 
 

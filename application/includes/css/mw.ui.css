@@ -761,6 +761,19 @@ div.mw-date{
   padding: 2px 0;
 }
 
+.mw-sided{
+  overflow: hidden;
+  zoom:1;
+}
+
+.mw-side-left{
+  float: left;
+}
+
+.mw-sided > .mw-side-left:first-child{
+  margin-right: 20px;
+}
+
 
 
 
