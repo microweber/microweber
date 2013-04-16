@@ -17,14 +17,9 @@ class api {
 		//	print 1;
 	}
 
-	/**
-	 * @param ContainerBuilder $container
-	 */
 	function api() {
 
-		//$container->addCompilerPass(new AddSpreadCompilerPass());
-		// $container->addCompilerPass(new AddFilterCompilerPass());
-	}
+ 	}
 
 	function get_bakup_location() {
 

@@ -70,7 +70,7 @@ _modulesSort = function(){
    // hash.category === undefined ? mw.url.windowHashParam('category', '0') : '' ;
 
 
-	
+
 
 
     var attrs  = mw.url.getHashParams(window.location.hash);
@@ -83,20 +83,20 @@ _modulesSort = function(){
     for(;i<l;i++){
       holder.removeAttr(arr[i]);
     }
-	
+
 	if(hash.ui === undefined){
 		 holder.attr('data-show-ui', 'admin');
 	}
-	
-	
-	
+
+
+
     for (var x in attrs){
         if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
     mw.load_module('admin/modules/manage','#modules_admin_<? print $params['id']; ?>', function(){
       $('#module_keyword').removeClass('loading');
-	  
+
 	  var el = $( "#modules_admin_<? print $params['id']; ?> .mw-modules-admin" );
  // $( "#modules_admin_<? print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
         el.sortable({
@@ -110,16 +110,16 @@ _modulesSort = function(){
             type:"post",
             data:serial
           })
-		  
+
         }
-	 
- 
-        
+
+
+
     });
- 
-	  
-	  
-	  
+
+
+
+
     });
 
 }
@@ -139,9 +139,9 @@ mw.on.hashParam('search', function(){
 });
 
 mw.on.hashParam('install_new', function(){
- 
+
   _modulesSort();
- 
+
 });
 
 
@@ -178,17 +178,25 @@ mw.on.hashParam('installed', function(){
           </label>
         </div>
         <div class="vSpace">&nbsp;</div>
-        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a> </div>
+        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
+   <div class="vSpace">&nbsp;</div>
+
+<small  onclick="mw_reload_all_modules()" class="mw-ui-link-small">Reload modules</small>
+
+
+
+
+         </div>
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;width: 730px;">
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
     <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
       <?php $def =  _e("Search for modules", true);  ?>
       <input
@@ -226,4 +234,4 @@ mw.on.hashParam('installed', function(){
     <div id="modules_admin_<? print $params['id']; ?>" ></div>
   </div>
 </div>
-<button onclick="mw_reload_all_modules()">Reload modules</button>
+

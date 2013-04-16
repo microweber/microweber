@@ -39,6 +39,7 @@ description: shop layout
                  <p class="element">&nbsp;</p>
 
               </div>
+        </div>
 
              <!-------------- Related Products -------------->
 
@@ -49,7 +50,6 @@ description: shop layout
 
               <p class="element">&nbsp;</p>
 
-        </div>
       </div>
       <!------------ Sidebar -------------->
       <div class="span3">

@@ -76,6 +76,11 @@ $(document).ready(function(){
    
 });
 </script>
+
+
+<span class="ico iupdate_big"></span>
+
+
 <span type="button" class="mw-check-updates-btn mw-ui-btn">Check for updates</span>
 
 <textarea id="mw-upd-log" style="display: none;"></textarea>
@@ -85,4 +90,3 @@ $(document).ready(function(){
 
 
 
-<img src="<? print $config['url_to_module'];?>update.jpg" />

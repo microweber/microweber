@@ -20,7 +20,7 @@ description: Clean layout
   <div class="mw-row">
     <div class="mw-col" style="width: 100%">
         <div class="mw-col-container">
-            <div class="element">Edit your content</div>
+            <p class="element">Edit your content</p>
         </div>
     </div>
   </div>

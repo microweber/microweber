@@ -56,7 +56,7 @@ $past_page = content_link($past_page[0]['id']);
         <div class="mw-o-box-header">
           <h5>Latest activity:</h5>
         </div>
-        <module type="admin/notifications" view="toolbar" is_read="n" limit="5" />
+        <module type="admin/notifications" view="toolbar"  limit="5" />
         <a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>">See all</a> </div>
     </div>
   </div>
@@ -77,35 +77,35 @@ $past_page = content_link($past_page[0]['id']);
 
 
   $(document).ready(function() {
-		
-		
+
+
 		//mw.cookie.set('back_to_admin',window.location.href)
-	
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
        var navli = mw.$("#mw_tabs li");
        navli.click(function(){
          if(!$(this).hasClass('active')){
          navli.removeClass('active');
          $(this).addClass('active');}
        });
-	   
-	   
-	   
+
+
+
 	    var go_livebtn_admin = mw.$("#mw-go_livebtn_admin");
        go_livebtn_admin.click(function(event){
-		   
-		   
+
+
 
 		   var ex = mw.$(".mw_admin_edit_content_form").length;
 
-		   
+
         	 if(ex > 0){
 
 				 var r=confirm("Do you want to save the changes?")
@@ -115,16 +115,16 @@ if (r==true)
 	   event.stopPropagation();
 	   event.preventDefault()
 	   return false;
-  } 
- 
-       
-	  
-	   
-	   
+  }
+
+
+
+
+
 	   		}
        });
 
-	   
+
   mw.$("#toolbar_notifications").click(function(){
      var el = $(this.parentNode);
     if(el.hasClass("active")){
@@ -148,15 +148,15 @@ if (r==true)
     });
 
   });
-	   
-	   
-    });
-	
-	
- 	 
-	
 
-    </script> 
+
+    });
+
+
+
+
+
+    </script>
 
 
   <? endif; ?>

@@ -28,7 +28,7 @@ if(isset($params['for'])){
 	$params['parent-module-id'] =  $params['for'];
 }
 if(!isset($params['parent-module'])){
-error('parent-module is required');	
+error('parent-module is required');
 	
 }
 
@@ -66,7 +66,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
   <h4><? print $item['description'] ?></h4>
   <? endif; ?>
   
-  
+
   
   <? if(isset($item['icon'])): ?>
   <img src="<? print $item['icon'] ?>" height="30" />

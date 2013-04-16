@@ -13,7 +13,7 @@ mw.treeRenderer = {
           ";
 
 		  if(sort_button != undefined && sort_button == true){
-			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'></span>";
 		     $str = $str+$str2;
 		  }
 
@@ -31,7 +31,7 @@ mw.treeRenderer = {
 
 
 		   if(sort_button != undefined && sort_button == true){
-			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'><?php _e("Soft"); ?></span>";
+			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Soft"); ?>'></span>";
 		  $str = $str+$str2;
 		  }
 		  return  $str;
