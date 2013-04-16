@@ -868,14 +868,26 @@ form .shipping-country-row:first-child{
 }
 
 
+#mw-update-table tr.update-items td{
+ background-color: #f7f7f7;
+}
+
+#mw-update-table tr.update-items:hover td{
+  background-color: white;
+}
+
 .mw-table-head > tbody > tr.mw-table-head:first-child > td{
   box-shadow: none;
 }
 
 
+
+
 #mw-update-table tr td:last-child{
     text-align: left;
 }
+
+
 
 
 

@@ -55,8 +55,7 @@ function mw_db_init_categories_table() {
 
 	$fields_to_add[] = array('categories_content_type', 'TEXT default NULL');
 	$fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
-		$fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-	
+
 
 	set_db_table($table_name, $fields_to_add);
 
@@ -244,7 +243,7 @@ function category_tree($params = false) {
 
 		$table_assoc_name = db_get_assoc_table_name($params['for']);
 		$skip123 = true;
- 
+
 		$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
 		$fors = get($str0);
 
@@ -692,7 +691,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 								$to_print = str_replace('{active_class}', $active_class, $to_print);
 								$to_print = str_replace('{active_code_tag}', $active_code_tag, $to_print);
 							 $output = str_replace('{active_code_tag}', $active_code_tag, $output);
-							 
+
 								//d($output);
 
 							} else {
@@ -705,7 +704,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 						}
 						$output = str_replace('{active_code_tag}', '', $output);
 					$output = str_replace('{exteded_classes}', $ext_classes, $output);
-						
+
 
 						$to_print = str_replace('{active_class}', '', $to_print);
 						$to_print = str_replace('{active_code_tag}', '', $to_print);
