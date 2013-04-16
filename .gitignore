@@ -1491,3 +1491,9 @@ history
 /userfiles/modules/menu/_old_edit_item.php
 /userfiles/modules/shop/cart_add/templates/default - Copy.php
 /userfiles/modules/updates/update.jpg
+
+/application/includes/install/config.base - Copy.php
+/application/includes/js/sortable_back.js_14.04
+/config_127.0.0.1.php
+/userfiles/modules/admin/backup/OLD_unctions.php
+/userfiles/modules/admin/backup/functions.php
