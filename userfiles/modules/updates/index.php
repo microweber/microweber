@@ -26,7 +26,6 @@ $(document).ready(function(){
             var el = $(this);
             el.addClass("disabled").html("Checking...");
 
-
       	  $("#mw-updates").attr('force', 'true');
 
           $(mwd.body).addClass("loading")
@@ -34,8 +33,6 @@ $(document).ready(function(){
       	  mw.reload_module("#mw-updates", function(a,b){
                  $(mwd.body).removeClass("loading");
                  el.removeClass("disabled").html("Check for updates");
-
-
                  mw.notification.warning("<b>" + this.querySelectorAll("tr:not(.mw-table-head)").length + " new updates.</b>");
       	  });
 
@@ -94,13 +91,10 @@ $(document).ready(function(){
 <div class="vSpace"></div>
 <div class="vSpace"></div>
 
-
-
-
 <textarea id="mw-upd-log" style="display: none;"></textarea>
 
 <module type="updates/list" id="mw-updates" />
- 
+
 
 
 

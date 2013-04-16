@@ -1460,6 +1460,16 @@ mw.tools = {
        }
     });
     return frame;
+  },
+  disable : function(el, text){
+    var _el = $(el);
+    if(!_el.hasClass("disabled")){
+      _el.addClass('disabled');
+    }
+  }
+  enable:function(el){
+    var text = $(el).dataset("text");
+    $(el).html(text);
   }
 }
 
