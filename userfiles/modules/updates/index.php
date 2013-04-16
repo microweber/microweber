@@ -84,14 +84,15 @@ $(document).ready(function(){
         <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span>Updates</span></h2>
         <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium">Check for updates</span>
     </div>
-    <div class="mw-side-left" style="width: 540px">
+    <div class="mw-side-left" style="width: 540px;font-size: 12px;">
         <strong><?php print user_name(); ?></strong>, we are constantly trying to improve Microweber. <br>
         Our team and many people around the world are working hard every day to provide you with stable system and new updates.
         Please excuse us if you find some mistakes and <a href="javascript:;" class="mw-ui-link">write us a message</a> for the things you need to see in MW or in some <a href="javascript:;" class="mw-ui-link">Module</a>.
     </div>
 </div>
 
-
+<div class="vSpace"></div>
+<div class="vSpace"></div>
 
 
 
