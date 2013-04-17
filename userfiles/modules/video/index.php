@@ -1,10 +1,17 @@
 
 
+
 <?php
 
-
 $code = get_option('title', $params['id']);
- $code = html_entity_decode($code);
+
+if($code !=''){
+
+
+
+
+$code = html_entity_decode($code);
+
 function video_module_is_embed($str){
      $s = strtolower($str);
      if(stristr($s,'<iframe') != false or stristr($s,'<object') != false or stristr($s,'<embed') != false){
@@ -48,12 +55,14 @@ if(video_module_is_embed($code) == true){
 }
 else{
     print video_module_url2embed($code);
-?>
+}
 
 
-<?php }
+}
 
-
-?>
-
+else{ ?>
+<div class="mw-notification mw-warning">
+  <div>Add video URL or Embed Code</div>
+</div>
+<?php }  ?>
 

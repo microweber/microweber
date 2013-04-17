@@ -17,7 +17,7 @@
 		
 		'git branch origin/master',
 		'git checkout origin/master',
- 		'git pull',
+ 		'git pull origin master',
 		'git status',
 		'git fetch --all',
 		'git sync',
@@ -36,7 +36,7 @@
 		'whoami',
 		'git fetch --all',
 		'git branch master',
-		'git pull',
+		'git pull origin master',
 		'git status',
 		 
 		'git reset --hard HEAD ',
