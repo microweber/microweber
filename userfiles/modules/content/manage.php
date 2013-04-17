@@ -32,7 +32,7 @@ if(isset($params['category-id']) and $params['category-id']!='global'){
   if(isarr($check_if_excist)){
     if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
      $posts_mod['subtype'] = 'product';
-   }
+   }  
  }
 }
 $posts_mod['wrap'] =1;
@@ -55,7 +55,6 @@ $posts = array();
 //print $posts ;
   //d($params);
 ?>
-<?  //d($params['page-id']); ?>
 <?  if(isset($params['page-id'])):  ?>
 <?
 
@@ -126,7 +125,7 @@ if($params['page-id'] == 'global'){
 
 <? endif; ?>
 
-<h2 class="hr" style="padding-top: 19px;">Add new</h2>
+<h2 class="hr" style="padding-top: 19px;">Add New</h2>
 <ul class="mw-quick-links mw-quick-links-green" >
   <li>
     <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>">

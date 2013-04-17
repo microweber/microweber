@@ -37,6 +37,19 @@ class api {
 			return $loc;
 		}
 		$here = MW_ROOTPATH . "backup" . DS;
+
+		if (!is_dir($here)) {
+			mkdir_recursive($here);
+			$hta = $here . '.htaccess';
+			if (!is_file($hta)) {
+				touch($hta);
+				file_put_contents($hta, 'Deny from all');
+			}
+		}
+
+		$here = MW_ROOTPATH . "backup" . DS.MW_TABLE_PREFIX.DS;
+
+
 		$here2 = module_option('backup_location', 'admin/backup');
 		if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
 			$here2 = normalize_path($here2, true);
@@ -240,6 +253,12 @@ class api {
 
 		$sql_file = false;
 
+		if (!is_file($filename)) {
+			return array('error' => "You have not provided a existing backup to restore.");
+			die();
+		}
+
+$temp_dir_restore = false;
 		switch ($ext) {
 			case 'zip' :
 				$exract_folder = md5(basename($filename));
@@ -248,16 +267,25 @@ class api {
 				if(!is_dir($target_dir)){
 					mkdir_recursive($target_dir);
 				}
-				
-				
-				
-				
+
+
+
+
 				$result = $unzip -> extract($filename, $target_dir, $preserve_filepath = TRUE);
-				
-				return $result;
+
+
+
+				$temp_dir_restore = $target_dir;
+
+				$sql_restore = $target_dir.'mw_sql_restore.sql';
+				if(is_file($sql_restore)){
+				$sql_file = $sql_restore;
+				}
+				//return $result;
 				break;
 
 			case 'sql' :
+				$sql_file = $filename;
 				break;
 
 			default :
@@ -270,10 +298,7 @@ class api {
 			die();
 		}
 
-		if (!is_file($filename)) {
-			return array('error' => "You have not provided a existising backup to restore.");
-			die();
-		}
+
 
 		if ($sql_file != false) {
 			$db = c('db');
@@ -338,9 +363,48 @@ class api {
 			// Files restored successfully
 			print("Files restored successfully!<br>\n");
 			print("Backup used: " . $filename . "<br>\n");
-			clearcache();
+			//clearcache();
 
 		}
+
+
+		if($temp_dir_restore != false and is_dir($temp_dir_restore)){
+
+
+			 $srcDir = $temp_dir_restore;
+			 $destDir = MW_USERFILES;
+
+				if (file_exists($destDir)) {
+				  if (is_dir($destDir)) {
+				    if (is_writable($destDir)) {
+				      if ($handle = opendir($srcDir)) {
+				        while (false !== ($file = readdir($handle))) {
+				          if (is_file($srcDir . '/' . $file)) {
+				            rename($srcDir . '/' . $file, $destDir . '/' . $file);
+				          }
+				        }
+				        closedir($handle);
+				      } else {
+				        echo "$srcDir could not be opened.\n";
+				      }
+				    } else {
+				      echo "$destDir is not writable!\n";
+				    }
+				  } else {
+				    echo "$destDir is not a directory!\n";
+				  }
+				} else {
+				  echo "$destDir does not exist\n";
+				}
+
+
+
+		}
+
+
+
+
+
 
 	}
 

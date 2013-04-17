@@ -291,6 +291,10 @@ mw.on.hashParam("action", function(){
 
 
 
+
+
+
+
 });
 
 
@@ -554,11 +558,17 @@ function mw_add_product(){
 
 
 
-        <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
-        <label>Page</label>
-        <button></button>
+        <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
+          <label>Page</label>
+          <button></button>
         </a>
 
+        <a href="#action=new:page" class="mw_action_nav mw_action_sub_page"  id="action_new_sub_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
+          <label>Sub Page</label>
+          <button></button>
+        </a>
+        
+   
         <? if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
 
   <? else :  ?>

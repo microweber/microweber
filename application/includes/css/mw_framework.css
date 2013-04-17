@@ -429,8 +429,15 @@ body.not-allowed{
 }
 
 .mw_action_post button{background-position: -64px 0}
+.mw_action_sub_page button{background-position: -262px 0}
 .mw_action_category button{background-position: -130px 0}
 .mw_action_product button{background-position: -196px 0;/*box-shadow:0px 1px 2px -2px #434343; */}
+
+
+#action_new_sub_page{
+  display: none;
+}
+
 
 body.view-shop .mw_action_post{
   display: none;
