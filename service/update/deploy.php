@@ -34,11 +34,11 @@
 		//'cd ~/public_html/service/update/mw_git/Microweber/', 
 		'echo $PWD',
 		'whoami',
+		'git fetch --all',
+		'git branch master',
 		'git pull',
 		'git status',
-		'git submodule sync',
-		'git submodule update',
-		'git submodule status',
+		 
 		'git reset --hard HEAD ',
 		'git clean -f -d',
 		'git pull'
