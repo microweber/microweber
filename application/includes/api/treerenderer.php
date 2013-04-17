@@ -136,7 +136,7 @@ mw.treeRenderer = {
           var toggle ='';
 
 
-          var sub_page = '<span title="Add Sub-page" class="ico iplus mw_tree_sub_page" onclick="mw.url.windowHashParam(\'action\', \'new:page\');mw.e.cancel(event);"></span>';
+          var sub_page = '<span title="Add Sub-page" class="ico iplus mw_tree_sub_page" onclick="mw.url.windowHashParam(\'action\', \'new:page\');mw.url.windowHashParam(\'parent-page\', $(this.parentNode).dataset(\'page-id\'));mw.e.cancel(event);"></span>';
 
           // type: page or category
           if(attr['data-page-id']!==undefined){
@@ -169,7 +169,7 @@ mw.treeRenderer = {
 
 
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit."); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts + sub_page;
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
 

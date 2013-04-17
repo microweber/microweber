@@ -126,10 +126,14 @@ function mw_select_page_for_editing($p_id){
 
 
 
- 	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
-	 var active_item_is_page = active_item.attr('data-page-id');
+  	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 
 
+
+
+  //  var active_item_is_page = active_item.attr('data-page-id');
+       var active_item_is_page  = $p_id;
+     var  active_item_is_parent = mw.url.windowHashParam("parent-page");
 
 	  var active_item_is_category = active_item.attr('data-category-id');
 	 if(active_item_is_category != undefined){
@@ -153,8 +157,17 @@ function mw_select_page_for_editing($p_id){
 
 	 }
 
-	  if(active_item_is_page != undefined){
-		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
+	  if(active_item_is_parent != undefined){
+	       mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg') ;
+	     mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+
+
+	   // d(".pages_tree_item.item_"+active_item_is_parent)  ;
+	    mw.$(".pages_tree_item.item_"+active_item_is_parent).addClass('active-bg')
+         mw.$(".pages_tree_item.item_"+active_item_is_parent).children().first().addClass('active')
+            //mw.$(".pages_tree_item.item_"+active_item_is_parent).parents("li").addClass('active-bg');
+
+		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_parent);
 
 	 } else {
 		mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
@@ -176,7 +189,15 @@ function mw_select_page_for_editing($p_id){
 
 }
 
+mw.on.hashParam("parent-page", function(){
+    var act = mw.url.windowHashParam("action");
+    if(act == 'new:page'){
+       mw_select_page_for_editing(0);
 
+
+
+    }
+});
 
 
 mw.on.hashParam("action", function(){
@@ -558,7 +579,7 @@ function mw_add_product(){
 
 
 
-        <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
+        <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
           <label>Page</label>
           <button></button>
         </a>

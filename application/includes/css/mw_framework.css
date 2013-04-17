@@ -602,6 +602,10 @@ li li li .pages_tree_link_text{
   max-width: 42%;
 }
 
+li li li li .pages_tree_link_text{
+  max-width: 35%;
+}
+
 .mw-tree a.content-unpublished {
 	opacity: 0.5;
 

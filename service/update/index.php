@@ -501,6 +501,8 @@ $ver = $this->get_latest_core_version();
 							// M 
 							$locations[] = $this -> repo_dir.'userfiles/modules/media'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/mics'.DS;
+														$locations[] = $this -> repo_dir.'userfiles/modules/menu'.DS;
+
 							
 							//N
 							$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
