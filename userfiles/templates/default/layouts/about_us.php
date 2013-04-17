@@ -13,7 +13,8 @@ description: About us layout
 
 ?>
 <? include THIS_TEMPLATE_DIR. "header.php"; ?>
-<div class="container edit our-team"  field="content" rel="page"> 
+<div class="container edit our-team"  field="content" rel="page">
+    <p class="element">&nbsp;</p>
 	<div class="mw-row">
 		<div class="mw-col" style="width:33.33%">
 			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
@@ -24,12 +25,14 @@ description: About us layout
 		<div class="mw-col" style="width:33.33%">
 			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
 		</div>
-	</div><br />
+	</div> <div class="clear"></div>
+    <p class="element">&nbsp;</p>
 	<div class="clear"></div>
 	<h3 class="intro element" align="center">
 		<strong style="font-weight: 500;">For a better view of your company, brand or website add some pictures or stories of your team.</strong><br />
 		<strong style="font-weight: 500;">You can also link your social networks by clicking on the following social icons.</strong><br /><br />
 	</h3>
+    <p class="element">&nbsp;</p>
 	<div class="mw-row">
 		<div class="mw-col" style="width:50%">
 			<div class="mw-col-container"><div class="element" style="width:95%">
@@ -42,7 +45,7 @@ description: About us layout
 			</div></div>			
 		</div>
 	</div>
-	<br />
+    <p class="element">&nbsp;</p>
 	<div class="mw-row">
 		<div class="mw-col" style="width:33.33%">
 			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
@@ -53,8 +56,10 @@ description: About us layout
 		<div class="mw-col" style="width:33.33%">
 			<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
 		</div>
-	</div><br />
+	</div>
+
 	<div class="clear"></div>
+     <p class="element">&nbsp;</p>
 
 	<div class="mw-row our-team">
 		<div class="mw-col" style="width:25%" align="center">
@@ -130,6 +135,7 @@ description: About us layout
     		</div>
 		</div>
 	</div>
+    <p class="element">&nbsp;</p>
 	<div class="clear"></div>
 </div>
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

@@ -68,8 +68,10 @@ $(document).ready(function(){
 	</script>
 
 <div id="mw_index_settings">
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
-    <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;
+  <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
+    <div class="mw-admin-sidebar">
+
+    <h2><span class="ico imanage-module"></span>&nbsp;
       <?php _e("Settings"); ?>
     </h2>
     <div class="mw-admin-side-nav" id="settings_categories_tree_<? print $rand; ?>" >
@@ -91,6 +93,7 @@ $(document).ready(function(){
         <a href="javascript:;" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>
         <?php _e("Add new settings"); ?>
         </span></a>--> </div>
+    </div>
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">

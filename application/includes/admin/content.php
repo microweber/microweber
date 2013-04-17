@@ -209,12 +209,19 @@ mw.on.hashParam("action", function(){
    // mw.$('#pages_edit_container').removeAttr('data-page-number');
 	//mw.$('#pages_edit_container').removeAttr('data-paging-param');
 
-   // mw.$('#pages_edit_container').attr('data-active-item',active_item);
+   //
 
 
 
 
 
+ var cat_id = mw.url.windowHashParam("category_id");
+ if(typeof cat_id != 'undefined'){
+     mw.$('#pages_edit_container').attr('category_id',cat_id);
+ }
+ else{
+     mw.$('#pages_edit_container').removeAttr('data-active-item');
+ }
 
 
 
@@ -230,6 +237,7 @@ mw.on.hashParam("action", function(){
         mw_select_category_for_editing(0);
       }
       else if(arr[1]==='product'){
+
         mw_add_product(0);
       }
 
@@ -240,7 +248,19 @@ mw.on.hashParam("action", function(){
         //mw.url.windowHashParam("pg", 1);
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
+
+
       var active_item = mw.$(".item_"+arr[1]);
+
+
+
+      if(arr[0] == 'showposts'){
+            var active_item =  mw.$(".pages_tree_item.item_"+arr[1]);
+      }
+      else if(arr[0] == 'showpostscat'){
+           var active_item =  mw.$(".category_element.item_"+arr[1]);
+      }
+
 
       active_item.addClass('active-bg');
       active_item.parents("li").addClass('active');
@@ -478,8 +498,7 @@ function mw_select_post_for_editing($p_id, $subtype){
 }
 
 function mw_add_product(){
-
-
+ 
 	 mw_select_post_for_editing(0,   'product')
 
 
@@ -538,11 +557,12 @@ function mw_add_product(){
         <a href="#action=new:page" class="mw_action_nav mw_action_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
         <label>Page</label>
         <button></button>
-        </a> <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
+        </a>
 
         <? if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
 
   <? else :  ?>
+   <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
  <label>Post</label>
         <button>&nbsp;</button>
         </a>

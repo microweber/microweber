@@ -105,13 +105,17 @@
 
 
   <div class="container">
-    <h2 class="section-title">
-      <hr class="left visible-desktop">
-      <span>
-      <?php _e("Latest Products"); ?>
-      </span>
-      <hr class="right visible-desktop">
-    </h2>
+    <div class="mw-row">
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+      </div>
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><h2 align="center"><?php _e("Latest Posts"); ?></h2></div>
+      </div>
+      <div class="mw-col" style="width:33.33%">
+          <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+      </div>
+    </div>
 
  <?php
 

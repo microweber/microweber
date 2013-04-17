@@ -2412,6 +2412,79 @@ body.mw-external-loading:after{
   font-size: 17px;
 }
 
+  /*
+body.dragStart .edit .element:before{
+  content: "Drop here.";
+  display: block;
+  position: absolute;
+  padding: 5px 0;
+  text-align: center;
+  background: #FFFD8C;
+  font-size: 11px;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  color: #188DE7 !important;
+}
+
+body.dragStart .edit .element:after{
+  content: "Drop here.";
+  display: block;
+  position: absolute;
+  padding: 5px 0;
+  text-align: center;
+  background: #FFFD8C;
+  font-size: 11px;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+  color: #188DE7 !important;
+}    */
+
+
+
+body.dragStart .edit{
+ /* outline: 6px solid #FFFEB8; */
+}
+
+body.dragStart .mw_dropable_arr:before{
+  position: absolute;
+  display: block;
+  width: 120px;
+  text-align: center;
+  content: "Drop Here";
+  color:#188DE7;
+  font-size: 11px;
+  bottom: -19px;
+  left: -55px;
+}
+body.dragStart .mw_dropable_arr_up .mw_dropable_arr:before{
+  position: absolute;
+  display: block;
+  width: 120px;
+  text-align: center;
+  content: "Drop Here";
+  color:#188DE7;
+  font-size: 11px;
+  top: -19px;
+  left: -55px;
+}
+
+
+body.dragStart .empty-element.currentDragMouseOver:before{
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "Drop Here";
+  color:#188DE7;
+  font-size: 11px;
+  line-height:100%;
+  top: 0;
+  left: 0;
+}
+
 
 
 

@@ -37,7 +37,7 @@ mw.wysiwyg = {
                        //mw.wysiwyg.save_selection();
 
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
-                       mw.wysiwyg.restore_selection();
+                      // mw.wysiwyg.restore_selection();
                     }
                 });
                 $(this).mouseenter(function(){

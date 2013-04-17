@@ -715,7 +715,7 @@ form.add-edit-page-post textarea{
   border-bottom-color: #A1A0A0;
 }
 
-.mw-quick-links-green li > a:hover{
+.mw-quick-links-green li > a:hover, .mw-quick-links-green li.active > a{
     background:#DEFFB8;
     border: 1px solid #9BCB61;
 }
@@ -1211,7 +1211,7 @@ body.still-loading:before{
 .mw-ui-admin-table{
   border: 1px solid #F0ECEC;
   background: #f7f7f7;
-  border-radius:7px;
+  border-radius:2px;
 }
 
 
@@ -1478,7 +1478,7 @@ tr:hover > td > .mw-ui-admin-table-show-on-hover{
 
 
 .mw-admin-sidebar{
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
 }
 .mw-admin-sidebar .mw-ui-btn{
   	margin: 5px auto;

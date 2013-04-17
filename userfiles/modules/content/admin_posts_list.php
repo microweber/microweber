@@ -275,13 +275,61 @@ if($new > 0){
 <? else: ?>
 <div class="mw-no-posts-foot">
   <? if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
-  <h2>No Products Here</h2>
+  <h2 class="left">No Products Here</h2>
+
+ <ul class="mw-quick-links mw-quick-links-green left">
+
+  <li class="active">
+    <?php
+        if(isset($post_params['category-id'])) {
+         $url = "#action=new:product&amp;category_id=".$post_params['category-id'];
+
+        } else if(isset($post_params['parent'])){
+          $url = "#action=new:product&amp;parent_page=".$post_params['parent'];
+        }
+     ?>
+    <a href="<? print   $url ; ?>">
+      <span class="mw-ui-btn-plus">&nbsp;</span>
+      <span class="ico iproduct"></span>
+      <span>Add New Product</span>
+    </a>
+  </li>
+</ul>
+
   <!--  <a href="#?action=new:product" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
 -->
   <? else: ?>
-  <h2>No Posts Here</h2>
-  <!--  <a href="#?action=new:post" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><? print $cat_name ?></b></a> </div>
--->
+  <h2 class="left">No Posts Here</h2>
+
+
+<ul class="mw-quick-links mw-quick-links-green left">
+
+  <li class="active">
+    <?php
+
+
+    if(isset($post_params['category-id'])) {
+     $url = "#action=new:post&amp;category_id=".$post_params['category-id'];
+
+    } else if(isset($post_params['parent'])){
+      $url = "#action=new:post&amp;parent_page=".$post_params['parent'];
+
+    }
+
+     ?>
+    <a href="<? print   $url ; ?>">
+
+
+
+      <span class="mw-ui-btn-plus">&nbsp;</span>
+      <span class="ico ipost"></span>
+      <span>Add New Post</span>
+    </a>
+  </li>
+</ul>
+
+
+
   <? endif; ?>
 </div>
 <? endif; ?>

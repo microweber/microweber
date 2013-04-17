@@ -173,11 +173,13 @@ if(typeof mw.rotator === 'undefined'){
     }
     mw.productZoom = function(parent){
             var img =  mw.$('.mw-slider-zoomimg', parent)[0];
+            var img_base =  mw.$('.mw-slider-zoomimg-base', parent)[0];
             var el = $(parent);
             el.mouseenter(function(){
               $(img).css({
                  visibility:'visible'
               });
+              $(img_base).css('visibility', 'hidden');
             });
             el.mousemove(function(event){
                 var img_width = $(img).width();
@@ -199,6 +201,7 @@ if(typeof mw.rotator === 'undefined'){
             });
             el.mouseleave(function(){
               img.style.visibility = 'hidden';
+              $(img_base).css('visibility', 'visible');
             });
        return img;
     }

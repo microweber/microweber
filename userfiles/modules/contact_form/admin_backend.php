@@ -1,6 +1,6 @@
 <div id="mw_edit_pages_content">
   <div id="mw_index_contact_form">
-    <div id="mw_edit_page_left" style="width: 192px;">
+    <div id="mw_edit_page_left" class="mw_edit_page_default">
       <? $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = read_notification( $mw_notif);	
@@ -64,7 +64,7 @@ if((url_param('templates') != false)){
         <h2>Templates</h2>
         <a href="<? print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<? print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a> </div>
     </div>
-    <div class="mw_edit_page_right" style="padding: 20px; width: 730px;">
+    <div class="mw_edit_page_right" style="padding: 20px;">
       <?
 
 
@@ -109,7 +109,7 @@ mw.on.hashParam('search', function(){
         name="forms_data_keyword"
         id="forms_data_keyword"
         autocomplete="off"
-        class="right"
+        class="right mw-ui-searchfield"
         type="search"
         value="<?php print $def; ?>"
         placeholder='<?php print $def; ?>'

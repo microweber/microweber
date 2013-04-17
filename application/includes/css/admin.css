@@ -701,20 +701,16 @@ form .shipping-country-row:first-child{
 /* Help */
 
 
-#help-content{
-      width: 72%;
-      width: calc(100% - 260px);
-      width: -webkit-calc(100% - 260px);
-    }
 
 
-    #mw_edit_page_left.help-sidebar{
-      width: 260px;
+
+    #mw_edit_page_left.mw_edit_page_default{
+      width: 224px;
     }
 
      .help-nav {
        text-transform: capitalize;
-       width: 258px;
+       width: 222px;
      }
 
     .help-nav li{
@@ -733,7 +729,7 @@ form .shipping-country-row:first-child{
       display: block;
     }
 
-    .help-opener{
+    .help-opener, .help-nav li > a{
       background: url(../img/grad.php?top=F6F6F6&bot=F0F0F0);
       border-bottom: 1px solid #E7E7E7;
       padding: 10px 7px 10px 20px;
@@ -795,13 +791,13 @@ form .shipping-country-row:first-child{
     }
 
 
-    .help-nav li a{
+    .help-nav li a{ /*
       background-color: #FBFBFB;
       background-repeat: no-repeat;
       background-position: 49px 6px;
       padding: 7px 7px 7px 75px;
       display: block;
-      cursor: pointer;
+      cursor: pointer;  */
     }
 
     .help-nav li a:hover{
@@ -889,7 +885,7 @@ form .shipping-country-row:first-child{
 
 #mw-update-table tr.update-items td .mw-ui-btn{
   float: right;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 
@@ -904,6 +900,33 @@ form .shipping-country-row:first-child{
 #mw-update-table h2 a{
   font-weight: lighter;
   color: #235F99;
+}
+
+#mw-update-table tr:first-child td:first-child{
+  border-top-left-radius: 2px;
+}
+#mw-update-table tr:first-child td:last-child{
+  border-top-right-radius: 2px;
+}
+#mw-update-table tr:last-child td:first-child{
+  border-bottom-left-radius: 2px;
+}
+#mw-update-table tr:last-child td:last-child{
+  border-bottom-right-radius: 2px;
+}
+
+.update-version{
+  display: block;
+  font-size:11px;
+  color: #5D5D5D;
+  padding-top: 5px;
+}
+
+.update-description{
+    display: block;
+  font-size:11px;
+  color: #5D5D5D;
+
 }
 
 

@@ -1,7 +1,7 @@
 <?  //$rand = $params['id']; ?>
 
 <div id="mw_index_menus">
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
+  <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
     <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;
       <?php _e("Menus"); ?>
     </h2>

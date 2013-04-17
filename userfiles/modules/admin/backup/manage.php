@@ -3,20 +3,20 @@
 /*
 $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);
- 
+
 $backs = new \admin\backup\api();
 $backs = $backs->get_bakup_location();
 d($backs);
 
 
 
- 
+
  $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);
- 
+
  $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);
- 
+
  $var3 = api('admin/backup/api/get_bakup_location');
  d($var3);*/
 
@@ -60,8 +60,8 @@ d($backs);
         <td><? print file_size_nice( $item['size'])  ?></td>
         <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" target="_blank" href="<? print api_url('admin/backup/api/download'); ?>?file=<? print $item['filename']  ?>">Download</a></td>
         <td>
-         
-        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="<? print $config['url_base']; ?>?backup_action=restore&file=<? print $item['filename']  ?>">Restore</a></td>
+
+        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="javascript:mw.admin_backup.restore('<? print $item['filename']  ?>')">Restore</a></td>
         <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="javascript:mw.admin_backup.remove('<? print $item['filename']  ?>', '.mw_admin_backup_item_<? print $i ?>')">Delete</a></td>
       </tr>
       <? $i++; endforeach ; ?>

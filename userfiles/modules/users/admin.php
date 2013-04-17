@@ -237,7 +237,7 @@ $(document).ready(function(){
 <? endif; ?>
 
 <div id="mw_index_users">
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
+  <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
 
   <div class="mw-admin-sidebar">
 

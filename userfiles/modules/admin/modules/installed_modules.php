@@ -162,7 +162,7 @@ mw.on.hashParam('installed', function(){
 </script>
 
 <div id="mw_index_modules">
-  <div class="mw_edit_page_left" id="mw_edit_page_left" style="width: 195px;">
+  <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
     <h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2>
     <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $params['id']; ?>" >
       <module type="categories" data-for="modules" id="modules_admin_categories_<? print $params['id']; ?>" />

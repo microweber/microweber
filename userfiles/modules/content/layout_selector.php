@@ -432,7 +432,7 @@ $(document).ready(function() {
 </div>
 <div class="layouts_box_holder <? if( isset($params['small'])): ?> semi_hidden  <? endif; ?>" style="margin-top: 10px;">
   <label class="mw-ui-label">
-    <?php _e("Page Layout"); ?>
+    <?php _e("Choose Page Layout"); ?>
   </label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector<? print $rand; ?>">

@@ -60,11 +60,12 @@ description: Product Gallery
             prev:true,
             reflection:false
         });
-
-        mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
-            mw.productZoom(this);
-      });
     }
+
+    mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
+            mw.productZoom(this);
+        });
+
   });
 
 </script>

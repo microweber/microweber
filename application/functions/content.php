@@ -2127,6 +2127,11 @@ function save_content($data, $delete_the_cache = true) {
 		$cats_modified = true;
 	}
 	$table_cats = MW_TABLE_PREFIX . 'categories';
+	
+	if (trim($data['url']) == '') {
+
+			$data['url'] = url_title($data_to_save['title']);
+		}
 
 	if (isset($data['url']) and $data['url'] != false) {
 		//$data['url'] = url_title($data['url']);
@@ -2138,10 +2143,10 @@ function save_content($data, $delete_the_cache = true) {
 
 		$date123 = date("YmdHis");
 
-		$q = "select id, url from $table where url LIKE '{$data ['url']}'";
+		$q = "select id, url from $table where url LIKE '{$data['url']}'";
 
 		$q = db_query($q);
-
+ 
 		if (!empty($q)) {
 
 			$q = $q[0];
@@ -2150,6 +2155,7 @@ function save_content($data, $delete_the_cache = true) {
 
 				$data['url'] = $data['url'] . '-' . $date123;
 				$data_to_save['url'] = $data['url'];
+				 
 			}
 		}
 
@@ -2167,10 +2173,7 @@ function save_content($data, $delete_the_cache = true) {
 		}
 
 
-		if (trim($data_to_save['url']) != '') {
-
-			$data_to_save['url'] = url_title($data_to_save['title']);
-		}
+		
 		// $data_to_save ['url_md5'] = md5 ( $data_to_save
 		// ['url'] );
 	}

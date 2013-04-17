@@ -30,34 +30,42 @@ mw_var('mw_help_path',$get_path);
 
  ?>
  
-<link rel="stylesheet" type="text/css" href="<? print $config['url_to_module']; ?>help.css"/>
+<script>mw.require('<? print $config['url_to_module']; ?>help.css', true);</script>
 
 
 <div id="mw_index_help">
-  <div id="mw_edit_page_left" class="help-sidebar">
+  <div id="mw_edit_page_left" class="mw_edit_page_default">
+
+      <div class="mw-admin-sidebar">
+
       <?php $info = module_info($config['module']);  ?>
-      <?php module_ico_title($info['module']); ?>
-      <div class="vSpace"></div>
+      <?php module_ico_title($info['module']); ?> </div>
+
       <div class="manage-items">
 
-       
-
-      <?   $help_pages = str_replace("directory_tree","mw-accordion-content", $help_pages);
-
-
-       print $help_pages; ?>
- 
+      <?php
+        $help_pages = str_replace("directory_tree","help-nav", $help_pages);
+        print $help_pages;
+      ?>
 
 
- 
+      </div>
+
+
 
         <? if($show_modules_help_nav == true): ?>
         <? $module_categories = get_categories('rel=modules') ?>
         <? //d($module_categories); ?>
         <? $modules = get_modules_from_db('ui=any&parent_id=0') ?>
+
+
+
+
+
+
         <? if(isarr($module_categories  )): ?>
 
-        <h3>Modules</h3>
+        <div class="mw-admin-sidebar"><h2>Modules</h2></div>
         <ul class="help-nav">
           <? foreach($module_categories  as $module_category): ?>
           <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span><?  print($module_category['title']); ?></strong>

@@ -425,7 +425,6 @@ function remove_slashes_from_array($arr) {
 		return $ret;
 	}
 }
-
 if (!function_exists('pathToURL')) {
 	function pathToURL($path) {
 		// var_dump($path);
@@ -437,12 +436,40 @@ if (!function_exists('pathToURL')) {
 	}
 
 }
+if (!function_exists('pathToURL')) {
+	function pathToURL($path) {
+		// var_dump($path);
+		$path = str_ireplace(MW_ROOTPATH, '', $path);
+		$path = str_replace('\\', '/', $path);
+		$path = str_replace('//', '/', $path);
+		//var_dump($path);
+		return site_url($path);
+	}
+
+}
+if (!function_exists('url2dir')) {
+function url2dir($path) {
+		if(trim($path) == ''){
+			return false;
+		}
+		  
+		$path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+		$path = str_replace('\\', '/', $path);
+		$path = str_replace('//', '/', $path);
+		 
+		return normalize_path($path,false);
+	}
+
+}
 if (!function_exists('dir2url')) {
 	function dir2url($path) {
 		return pathToURL($path);
 	}
 
 }
+
+
+
 if (!function_exists('dirToURL')) {
 	function dirToURL($path) {
 		return pathToURL($path);
@@ -609,7 +636,7 @@ function no_ext($filename) {
 	array_pop($filebroken);
 
 	return implode('.', $filebroken);
-	;
+	 
 }
 
 function encode_var($var) {

@@ -10,6 +10,7 @@
 
   .helptable{
      border-collapse: collapse;
+     table-layout: fixed;
    }
 
    .helptable > tbody > tr:nth-child(2n+1) > td{
@@ -43,8 +44,8 @@
   <div class="tab">
 
      <table width="100%" class="helptable" cellspacing="0">
-   <col width="60%" />
-   <col width="40%" />
+   <col width="70%" />
+   <col width="30%" />
    <tbody>
 
 
@@ -516,6 +517,8 @@
   <div class="tab">
 
     <table width="100%" cellpadding="0" cellspacing="0" class="helptable">
+    <col width="70%" />
+   <col width="30%" />
       <tr>
         <td>
            <h2>Accordion applied to a box</h2>
@@ -684,10 +687,10 @@ $(".my-dropdown").bind("change", function(){
   <div class="tab">
 
    <table width="100%" cellpadding="0" cellspacing="0" class="helptable">
-
+      <col width="70%" />
+      <col width="30%" />
    <tr>
       <td>
-
       <textarea id="editorDEMO">Editor</textarea>
       <script>
         var editor = mw.tools.iframe_editor(mwd.getElementById('editorDEMO'));

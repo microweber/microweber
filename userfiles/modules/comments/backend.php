@@ -15,7 +15,7 @@ mw.on.hashParam("search", function(){
     	$('#mw_admin_posts_with_comments').removeAttr('data-search-keyword');
     }
 	$('#mw_admin_posts_with_comments').removeAttr('content_id');
-	
+
 
     mw.reload_module('#mw_admin_posts_with_comments', function(){
           mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
@@ -210,7 +210,7 @@ $(document).ready(function(){
 
 <? // d($config); ?>
 <div id="mw_edit_pages_content">
-  <div id="mw_edit_page_left" style="width: 192px;">
+  <div id="mw_edit_page_left" class="mw_edit_page_default">
     <?php $info = module_info($config['module']); ?>
     <div class="mw-admin-sidebar">
 
@@ -232,7 +232,7 @@ $(document).ready(function(){
        </div>
 
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px; width: 730px;">
+  <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
       <div class="comments-tab" id="the_comments">
         <div id="comments-admin-side">
@@ -243,6 +243,7 @@ $(document).ready(function(){
             <input
               autocomplete="off"
               type="search"
+              class="mw-ui-searchfield"
               placeholder="<?php _e("Search comments"); ?>"
               onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
              />

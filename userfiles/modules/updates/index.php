@@ -57,11 +57,6 @@ $(document).ready(function(){
                mw.tools.disable(mwd.getElementById('installsubmit'), 'Installing...', true);
 
                mw.form.post(mw.$('.mw-select-updates-list') , '<? print api_url(); ?>mw_apply_updates', function(){
-                      d(this)
-                var obj =  (this);
-              	 if(mw.is.defined(obj) && obj != null){
-              	    mw.$('#mw-upd-log').val(obj);
-              	 }
 
                  mw.tools.enable(mwd.getElementById('installsubmit'));
                  //mw.notification.success("All updates are successfully installed.")
@@ -99,7 +94,7 @@ $(document).ready(function(){
 <div class="vSpace"></div>
 <div class="vSpace"></div>
 
-<textarea id="mw-upd-log" style="display: none;"></textarea>
+
 
 <module type="updates/list" id="mw-updates" />
 

@@ -74,10 +74,18 @@ $(document).ready(function(){
     <td>
 
         <img src="<?php print INCLUDES_URL; ?>img/mw_system.png" alt="Microweber" /><br>
-        <? print MW_VERSION ?>
+        <span class="update-version"><? print MW_VERSION ?></span>
     </td>
     <td>
-       <h2>New version <? print $iudates["version"] ?></h2>
+       <h2>
+        New version <? print $iudates["version"] ?>
+
+         <? if(isset($item["description"])) : ?>
+                <span class="update-description"><? print $item["description"] ?></span>
+            <? endif ?>
+
+
+       </h2>
        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
     </td>
   </tr>
@@ -102,11 +110,16 @@ $(document).ready(function(){
       <?php else: ?>
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
-         <? print $item["version"] ?>
+         <span class="update-version"><? print $item["version"] ?></span>
 
     </td>
     <td>
-        <h2><? print $item["name"] ?></h2>
+        <h2>
+            <? print $item["name"] ?>
+            <? if(isset($item["description"])) : ?>
+                <span class="update-description"><? print $item["description"] ?></span>
+            <? endif ?>
+        </h2>
         <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
@@ -131,11 +144,20 @@ $(document).ready(function(){
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
 
-
+        <span class="update-version"><? print $item["version"] ?></span>
 
     </td>
     <td>
-     <h2><strong>"<? print $item["name"]; ?>"</strong> template of "<? print $item["module"] ?>". <div>Version <? print $item["version"] ?></div></h2>
+     <h2>
+        <strong>"<? print $item["name"]; ?>"</strong> template of "<? print $item["module"] ?>".
+     <? if(isset($item["description"])) : ?>
+            <span class="update-description"><? print $item["description"] ?></span>
+        <? endif ?>
+     </h2>
+
+
+
+
     <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
@@ -157,13 +179,21 @@ $(document).ready(function(){
     <td><label class="mw-ui-check"><input type="checkbox" name="elements[]" value="<? print $item["module"] ?>"  /><span></span></label></td>
     <td>   <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
-                <?php else: ?>
+        <?php else: ?>
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
-        <? print $item["version"] ?>
+
+        <span class="update-version"><? print $item["version"] ?></span>
     </td>
     <td>
-    <h2><? print $item["name"] ?></h2>
+    <h2>
+        <? print $item["name"] ?>
+        <? if(isset($item["description"])) : ?>
+            <span class="update-description"><? print $item["description"] ?></span>
+        <? endif ?>
+    </h2>
+
+
     <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
