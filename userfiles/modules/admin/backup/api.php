@@ -258,7 +258,7 @@ class api {
 			die();
 		}
 
-$temp_dir_restore = false;
+		$temp_dir_restore = false;
 		switch ($ext) {
 			case 'zip' :
 				$exract_folder = md5(basename($filename));
@@ -326,6 +326,8 @@ $temp_dir_restore = false;
 			// Process the sql file by statements
 			foreach ($sqlArray as $stmt) {
 				$stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
+				$stmt = str_ireplace("MW_TABLE_PREFIX___", MW_TABLE_PREFIX, $stmt);
+
 				if (strlen($stmt) > 3) {
 					try {
 						//$result = mysql_query($stmt);
@@ -380,7 +382,8 @@ $temp_dir_restore = false;
 				      if ($handle = opendir($srcDir)) {
 				        while (false !== ($file = readdir($handle))) {
 				          if (is_file($srcDir . '/' . $file)) {
-				            rename($srcDir . '/' . $file, $destDir . '/' . $file);
+				          	echo "Will move file $file\n";
+				          //  rename($srcDir . '/' . $file, $destDir . '/' . $file);
 				          }
 				        }
 				        closedir($handle);
@@ -534,9 +537,10 @@ $temp_dir_restore = false;
 
 				$result = mysql_query('SELECT * FROM ' . $table);
 				$num_fields = mysql_num_fields($result);
+$table_without_prefix = 'MW_TABLE_PREFIX___'. str_ireplace("MW_TABLE_PREFIX", "", $table);
 
 				// First part of the output - remove the table
-				$return .= 'DROP TABLE ' . $table . $this -> file_q_sep . "\n\n\n";
+				$return .= 'DROP TABLE ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
 
 				// Second part of the output - create table
 				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
@@ -548,12 +552,17 @@ $temp_dir_restore = false;
 
 				}
 				$row2 = mysql_fetch_row($res_ch);
-				$return .= "\n\n" . $row2[1] . $this -> file_q_sep . "\n\n\n";
+
+
+				$create_table_without_prefix = 'MW_TABLE_PREFIX___'. str_ireplace("MW_TABLE_PREFIX", "", $row2[1]);
+
+
+				$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
 
 				// Third part of the output - insert values into new table
 				for ($i = 0; $i < $num_fields; $i++) {
 					while ($row = mysql_fetch_row($result)) {
-						$return .= 'INSERT INTO ' . $table . ' VALUES(';
+						$return .= 'INSERT INTO ' . $table_without_prefix . ' VALUES(';
 						for ($j = 0; $j < $num_fields; $j++) {
 							$row[$j] = addslashes($row[$j]);
 							$row[$j] = str_replace("\n", "\\n", $row[$j]);

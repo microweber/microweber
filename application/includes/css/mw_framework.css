@@ -768,6 +768,7 @@ a.depth-1 .mw_toggle_tree{
 
 .mw_ed_tree_show_posts,
 .mw_ed_tree_content,
+.mw_tree_sub_page,
 .mw_del_tree_content{
   opacity:0.3;
   display: block;
@@ -780,8 +781,12 @@ a.depth-1 .mw_toggle_tree{
   margin: 0 1px;
 }
 .mw_ed_tree_show_posts:hover,
+.mw_tree_sub_page:hover,
 .mw_ed_tree_content:hover,
 .mw_del_tree_content:hover{opacity:1}
+
+
+
 
 a:hover .mw_del_tree_content,
 a:hover .mw_ed_tree_show_posts,

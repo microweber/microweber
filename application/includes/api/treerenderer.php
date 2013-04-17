@@ -135,6 +135,9 @@ mw.treeRenderer = {
 
           var toggle ='';
 
+
+          var sub_page = '<span class="mw_tree_sub_page" onclick=""></span>';
+
           // type: page or category
           if(attr['data-page-id']!==undefined){
               var pageid = attr['data-page-id'].nodeValue;
@@ -148,7 +151,7 @@ mw.treeRenderer = {
 			if($is_sort != undefined){
 		    var sort_content = true;
 	  		}
-			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts;
+			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts + sub_page;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
 
 
@@ -161,12 +164,12 @@ mw.treeRenderer = {
 			  	 var  sort_content = false;
 
 			if($is_sort != undefined){
-		    var sort_content = true;
+		        var sort_content = true;
 	  		}
 
 
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit"); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
-              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
+              el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts + sub_page;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
 
