@@ -31,6 +31,13 @@ $(document).ready(function(){
   });
 
 
+  mw.$(".single-update-install").click(function(){
+     mw.check.none('#mw-update-table');
+     mw.tools.firstParentWithTag(this, 'tr').querySelector('input').checked = true;
+     $(document.forms['form1']).submit();
+  });
+
+
 });
 
 </script>
@@ -52,7 +59,7 @@ $(document).ready(function(){
         <span class="posts-selector">
             <span onclick="mw.check.all('#mw-update-table')">Select All</span>/<span onclick="mw.check.none('#mw-update-table')">Unselect All</span>
         </span>
-        <input type="submit" value="Install" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" />
+        <input type="submit" value="Install Selected Updates" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" />
      </td>
   </tr>
 
@@ -70,8 +77,8 @@ $(document).ready(function(){
         <? print MW_VERSION ?>
     </td>
     <td>
-       <? print $iudates["version"] ?>
-       <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover">Inslall Update</span>
+       <h2>New version <? print $iudates["version"] ?></h2>
+       <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
     </td>
   </tr>
 
@@ -88,19 +95,19 @@ $(document).ready(function(){
   <tr class="update-items">
     <td><label class="mw-ui-check"><input type="checkbox" name="modules[]" value="<? print $item["module"] ?>"  /><span></span></label></td>
     <td>
-      <label>
+
        <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
 
       <?php else: ?>
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
-        <? print $item["name"] ?> <? print $item["version"] ?>
-      </label>
+         <? print $item["version"] ?>
+
     </td>
     <td>
-
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover">Inslall Update</span>
+        <h2><? print $item["name"] ?></h2>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
   </tr>
@@ -117,19 +124,19 @@ $(document).ready(function(){
   <tr class="update-items">
     <td><label class="mw-ui-check"><input type="checkbox" name="module_templates[<? print $item["module"] ?>][]" value="<? print $item["layout_file"] ?>"  /><span></span></label></td>
     <td>
-      <label>
+
          <? if(isset($item["icon"])) : ?>
                 <img src="<? print $item["icon"] ?>" alt="" /> <br>
                 <?php else: ?>
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
 
-        <? print $item["name"] ?> <? print $item["version"] ?> <em>(<? print $item["module"] ?>)</em>
-      </label>
+
+
     </td>
     <td>
-
-    <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover">Inslall Update</span>
+     <h2><strong>"<? print $item["name"]; ?>"</strong> template of "<? print $item["module"] ?>". <div>Version <? print $item["version"] ?></div></h2>
+    <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
   </tr>
@@ -153,11 +160,11 @@ $(document).ready(function(){
                 <?php else: ?>
             <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
        <? endif ?>
-        <label><? print $item["name"] ?> <? print $item["version"] ?></label>
+        <? print $item["version"] ?>
     </td>
     <td>
-
-    <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover">Inslall Update</span>
+    <h2><? print $item["name"] ?></h2>
+    <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span>
 
     </td>
   </tr>

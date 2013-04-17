@@ -29,7 +29,7 @@ class api {
 
 		} else if (!is_admin()) {error("must be admin");
 		}
-		;
+
 		static $loc;
 
 		if ($loc != false) {
@@ -63,28 +63,37 @@ class api {
 		};
 		$here = $this -> get_bakup_location();
 
-		$dir = opendir($here);
+		$files = glob("$here{*.sql,*.zip}", GLOB_BRACE);
+
+		usort($files, function($a, $b) {
+			return filemtime($a) < filemtime($b);
+		});
+
 		$backups = array();
-		while (false !== ($file = readdir($dir))) {
+		if (!empty($files)) {
+			foreach ($files as $file) {
 
-			// Print the filenames that have .sql extension
-			if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+				if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+					$mtime = filemtime($file);
+					// Get time and date from filename
+					$date = date("F d Y", $mtime);
+					$time = date("H:i:s", $mtime);
+					// Remove the sql extension part in the filename
+					//	$filenameboth = str_replace('.sql', '', $file);
+					$bak = array();
+					$bak['filename'] = basename($file);
+					$bak['date'] = $date;
+					$bak['time'] = str_replace('_', ':', $time);
+					;
+					$bak['size'] = filesize($file);
 
-				// Get time and date from filename
-				$date = substr($file, 9, 10);
-				$time = substr($file, 20, 8);
+					$backups[] = $bak;
+				}
 
-				// Remove the sql extension part in the filename
-				$filenameboth = str_replace('.sql', '', $file);
-				$bak = array();
-				$bak['filename'] = $filenameboth;
-				$bak['date'] = $date;
-				$bak['time'] = str_replace('_', ':', $time); ;
-				$bak['size'] = filesize($here . $file);
-
-				$backups[] = $bak;
 			}
+
 		}
+
 		return $backups;
 
 	}
@@ -99,23 +108,35 @@ class api {
 		// Check if the file has needed args
 		if ($id == NULL) {
 
-			print("You have not provided a backup to restore.");
-			die();
+			return array('error' => "You have not provided filename to be deleted.");
+
 		}
 
 		$here = $this -> get_bakup_location();
-		$filename = $here . $id . '.sql';
+		$filename = $here . $id;
+
 		if (is_file($filename)) {
+
 			unlink($filename);
+			return array('success' => "$id was deleted!");
+		} else {
+
+			$filename = $here . $id . '.sql';
+			if (is_file($filename)) {
+				unlink($filename);
+				return array('success' => "$id was deleted!");
+			}
 		}
-		print 'done';
+
 		//d($filename);
 	}
 
 	function download($params) {
 		if (!is_admin()) {error("must be admin");
 		};
-
+ini_set('memory_limit', '512M');
+		set_time_limit(0);
+		
 		if (isset($params['id'])) {
 			$id = $params['id'];
 		} else if (isset($_GET['filename'])) {
@@ -126,18 +147,19 @@ class api {
 
 		// Check if the file has needed args
 		if ($id == NULL) {
+			return array('error' => "You have not provided filename to download.");
 
-			print("You have not provided a backup to restore.");
-			die();
+ 			die();
 		}
 
 		$here = $this -> get_bakup_location();
 		// Generate filename and set error variables
 
-		$filename = $here . $id . '.sql';
+		$filename = $here . $id;
 		if (!is_file($filename)) {
-			print("You have not provided a existising backup to restore.");
-			die();
+			return array('error' => "You have not provided a existising filename to download.");
+			
+ 			die();
 		}
 		// Check if the file exist.
 		if (file_exists($filename)) {
@@ -189,7 +211,7 @@ class api {
 		}
 
 		$db = c('db');
-
+ 
 		// Settings
 		$table = '*';
 		$host = $DBhost = $db['host'];
@@ -268,7 +290,7 @@ class api {
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
 		$here = $this -> get_bakup_location();
-		$filename = $here . 'full_backup_' . date("d.m.Y_H_i_s") . uniqid() . '' . '.zip';
+		$filename = $here . 'full_backup_' . date("Y-M-d-His") . '_' . uniqid() . '' . '.zip';
 
 		$userfiles_folder = MW_USERFILES;
 
@@ -286,8 +308,8 @@ class api {
 
 				$zip -> setZipFile($filename);
 				$zip -> setComment("Microweber backup of the userfiles folder and db.
-								\n The Microweber version at the time of backup was {MW_VERSION}
-								\nCreated on " . date('l jS \of F Y h:i:s A'));
+				\n The Microweber version at the time of backup was {MW_VERSION}
+				\nCreated on " . date('l jS \of F Y h:i:s A'));
 				$zip -> addDirectoryContent(MW_USERFILES, '', true);
 				$zip -> addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
 
@@ -303,7 +325,7 @@ class api {
 	}
 
 	function create() {
-
+		ignore_user_abort(true);
 		$start = microtime_float();
 
 		if (defined('MW_CRON_EXEC')) {
@@ -341,7 +363,7 @@ class api {
 		// Generate the filename for the backup file
 		$index1 = $here . 'index.php';
 
-		$filename_to_return = 'dbbackup_' . date("d.m.Y_H_i_s") . uniqid() . '_' . $extname . '.sql';
+		$filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
 		$filess = $here . $filename_to_return;
 		touch($filess);
 		touch($index1);
@@ -410,7 +432,8 @@ class api {
 							$return .= ',';
 						}
 					}
-					$return .= ")" . $this -> file_q_sep . "\n\n\n"; ;
+					$return .= ")" . $this -> file_q_sep . "\n\n\n";
+					;
 				}
 			}
 			$return .= "\n\n\n";

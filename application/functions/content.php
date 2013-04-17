@@ -1201,19 +1201,11 @@ function get_content($params = false) {
 		// $params['orderby'];
 		if (isset($params['orderby'])) {
 			$orderby = $params['orderby'];
+		} else {
+			 //$params['orderby'] = 'position asc, id desc';
+			
 		}
-		if (isset($orderby) == false) {
-			$orderby = array();
-			//$orderby[0] = 'created_on';
-
-			//$orderby[1] = 'DESC';
-
-			$orderby[0] = 'position';
-
-			$orderby[1] = 'ASC';
-
-
-		}
+	 
 		$cache_group = 'content/global';
 		if (isset($params['cache_group'])) {
 			$cache_group = $params['cache_group'];
@@ -1228,9 +1220,6 @@ function get_content($params = false) {
 
 			$limit[1] = '30';
 		}
-		//  $params['debug'] = 1;
-		// d($table);
-
 
 		$table = MW_TABLE_PREFIX . 'content';
 		if(!isset($params['is_deleted'])){
@@ -1240,7 +1229,7 @@ function get_content($params = false) {
 		$params['cache_group'] = $cache_group;
 		$get = get($params);
 
-		//$get = db_get($table, $params, $cache_group );
+
 		if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
 				 if (isset($get['url'])) {
  					$get['url'] = site_url($get['url']);
@@ -1350,8 +1339,7 @@ function get_posts($params = false) {
 		$params = $params2;
 	}
 
-	// $params
-	return get_content($params);
+ 	return get_content($params);
 }
 
 function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword') {
@@ -1381,35 +1369,25 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
 
 	}
 
-	// print $base_url;
-
 	$page_links = array();
 
-// $the_url = parse_url($base_url, PHP_URL_QUERY);
 
-	//$the_url = parse_url($base_url);
-	$the_url = $base_url;
+ 	$the_url = $base_url;
 
 	$append_to_links  = '';
 	if (strpos($the_url, '?')) {
 		$the_url= substr($the_url, 0, strpos($the_url, '?'));
-//$append_to_links = str_replace($the_url, '', $base_url);
 
 
 	}
 
-	//
-	//
-	//
-	//
+
 	if(isset($_GET) and !empty($_GET)){
-		 // $append_to_links  = '?'.  http_build_query($_GET);
-	}
+ 	}
 
 
 	$the_url = explode('/', $the_url);
 
-	// var_dump ( $the_url );
 
 	for ($x = 1; $x <= $pages_count; $x++) {
 
@@ -2696,7 +2674,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	//
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	$cache_content = false;
+	//$cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 

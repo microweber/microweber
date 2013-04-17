@@ -34,7 +34,7 @@
 		$(document).ready(function(){
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
-					alert(data.src);	
+					mw.admin_backup.after_upload(data.src)
 				});			
 		});
 

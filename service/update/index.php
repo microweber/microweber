@@ -346,7 +346,7 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $mod_base;   
 					 		$fileTime = date("D, d M Y H:i:s T"); 
 								
-								$zip = new \mw\utils\zip($filename);
+								$zip = new \mw\utils\Zip($filename);
 								
 								$zip->setZipFile($filename); 
 								$zip->setComment("Microweber module update.\nCreated on " . date('l jS \of F Y h:i:s A')); 
@@ -410,7 +410,7 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $mod_base;   
 					 		$fileTime = date("D, d M Y H:i:s T"); 
 								
-								$zip = new \mw\utils\zip($filename);
+								$zip = new \mw\utils\Zip($filename);
 								
 								$zip->setZipFile($filename); 
 								$zip->setComment("Microweber module update.\nCreated on " . date('l jS \of F Y h:i:s A')); 
@@ -554,13 +554,13 @@ $ver = $this->get_latest_core_version();
 							 $locations[] = $this -> repo_dir.'.htaccess';   
 					 		$fileTime = date("D, d M Y H:i:s T"); 
 								
-								$zip = new \mw\utils\zip($filename);
+								$zip = new \mw\utils\Zip($filename);
 								
 								$zip->setZipFile($filename); 
 								$zip->setComment("Microweber core version ". $ver .".\nCreated on " . date('l jS \of F Y h:i:s A')); 
  
 
-						 // $zip = new \mw\utils\zip();
+						 // $zip = new \mw\utils\Zip();
 						
 						foreach($locations as $location){
 							$rel_d = str_replace($this -> repo_dir, '', $location);
@@ -649,7 +649,7 @@ $ver = $this->get_latest_core_version();
 							
 							
 								
-			 			$zip = new \mw\utils\zip($filename);
+			 			$zip = new \mw\utils\Zip($filename);
 								
 								$zip->setZipFile($filename); 
 								$zip->setComment("Microweber module template update ". $ver .".\nCreated on " . date('l jS \of F Y h:i:s A')); 

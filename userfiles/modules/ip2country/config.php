@@ -7,7 +7,7 @@ $config['ui'] = false;
 $config['ui_admin'] = false;
 $config['categories'] = "advanced";
 $config['position'] = 60;
-$config['version'] = 0.3;
+$config['version'] = 0.2;
 
 
 
@@ -22,7 +22,6 @@ $fields_to_add[] = array('city', 'TEXT default NULL');
 $fields_to_add[] = array('latitude', 'TEXT default NULL');
 $fields_to_add[] = array('longitude', 'TEXT default NULL');
 
- 
+
 $config['tables']['table_ip2country'] = $fields_to_add;
 
- 

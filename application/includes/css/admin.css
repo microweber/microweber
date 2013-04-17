@@ -889,7 +889,24 @@ form .shipping-country-row:first-child{
 
 #mw-update-table tr.update-items td .mw-ui-btn{
   float: right;
+  margin-top: 15px;
 }
+
+
+#mw-update-table h2{
+  font-weight: lighter;
+  font-size: 17px;
+  color: #235F99;
+  float: left;
+  width: 450px;
+  display: inline-block;
+}
+#mw-update-table h2 a{
+  font-weight: lighter;
+  color: #235F99;
+}
+
+
 
 
 

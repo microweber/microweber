@@ -4,12 +4,12 @@ $config = array();
 $config['name'] = "Comments";
 $config['author'] = "Microweber";
 $config['ui_admin'] = true;
-$config['ui'] = true;                                 
+$config['ui'] = true;
 
 
 $config['categories'] = "content";
 $config['position'] = 5;
-$config['version'] = 0.34;
+$config['version'] = 0.33;
 
 
 $config['tables'] = array();
@@ -63,9 +63,8 @@ $option['position'] = '5';
 $option['field_type'] = 'dropdown';
 $option['field_values'] = array('y' => 'yes', 'n' => 'no');
 $config['options'][] = $option;
- 
 
- 
- 
 
- 
+
+
+
