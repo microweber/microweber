@@ -15,6 +15,8 @@ class api {
 
 	private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 
+	private $prefix_placeholder = '/* MW_PREFIX_PLACEHOLDER */';
+
 	function __construct() {
 		//var_dump($_SERVER);
 		//	print 1;
@@ -326,14 +328,14 @@ class api {
 			// Process the sql file by statements
 			foreach ($sqlArray as $stmt) {
 				$stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
-				$stmt = str_ireplace("MW_TABLE_PREFIX___", MW_TABLE_PREFIX, $stmt);
+				$stmt = str_ireplace($this->prefix_placeholder, MW_TABLE_PREFIX, $stmt);
 
 				if (strlen($stmt) > 3) {
 					try {
 						//$result = mysql_query($stmt);
 
 						db_q($stmt);
-						print $stmt;
+					//	print $stmt;
 					} catch (Exception $e) {
 						print 'Caught exception: ' . $e -> getMessage() . "\n";
 						$sqlErrorCode = 1;
@@ -382,8 +384,8 @@ class api {
 				      if ($handle = opendir($srcDir)) {
 				        while (false !== ($file = readdir($handle))) {
 				          if (is_file($srcDir . '/' . $file)) {
-				          	echo "Will move file $file\n";
-				          //  rename($srcDir . '/' . $file, $destDir . '/' . $file);
+				          //	echo "Will move file $file\n";
+				             rename($srcDir . '/' . $file, $destDir . '/' . $file);
 				          }
 				        }
 				        closedir($handle);
@@ -537,7 +539,7 @@ class api {
 
 				$result = mysql_query('SELECT * FROM ' . $table);
 				$num_fields = mysql_num_fields($result);
-$table_without_prefix = 'MW_TABLE_PREFIX___'. str_ireplace("MW_TABLE_PREFIX", "", $table);
+				$table_without_prefix = $this->prefix_placeholder. str_ireplace(MW_TABLE_PREFIX, "", $table);
 
 				// First part of the output - remove the table
 				$return .= 'DROP TABLE ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
@@ -554,7 +556,7 @@ $table_without_prefix = 'MW_TABLE_PREFIX___'. str_ireplace("MW_TABLE_PREFIX", ""
 				$row2 = mysql_fetch_row($res_ch);
 
 
-				$create_table_without_prefix = 'MW_TABLE_PREFIX___'. str_ireplace("MW_TABLE_PREFIX", "", $row2[1]);
+				$create_table_without_prefix =  str_ireplace(MW_TABLE_PREFIX, $this->prefix_placeholder, $row2[1]);
 
 
 				$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";

@@ -598,6 +598,10 @@ body.view-shop .mw_action_post{
   margin-left:3px;
 }
 
+li li li .pages_tree_link_text{
+  max-width: 42%;
+}
+
 .mw-tree a.content-unpublished {
 	opacity: 0.5;
 
@@ -790,8 +794,13 @@ a.depth-1 .mw_toggle_tree{
 
 a:hover .mw_del_tree_content,
 a:hover .mw_ed_tree_show_posts,
+a:hover .mw_tree_sub_page,
 a:hover .mw_ed_tree_content{
   visibility: visible;
+}
+
+.mw_tree_sub_page{
+  background-position: -1143px -1px;
 }
 
 
