@@ -254,6 +254,7 @@ class api {
 	function restore($params) {
 		if (!is_admin()) {error("must be admin");
 		};
+		ignore_user_abort(true);
 
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
@@ -542,7 +543,7 @@ if(function_exists('mw_post_update')){
 				$table_without_prefix = $this -> prefix_placeholder . str_ireplace(MW_TABLE_PREFIX, "", $table);
 
 				// First part of the output - remove the table
-				$return .= 'DROP TABLE ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
+				$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
 
 				// Second part of the output - create table
 				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);

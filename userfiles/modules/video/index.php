@@ -60,9 +60,9 @@ else{
 
 }
 
-else{ ?>
-<div class="mw-notification mw-warning">
-  <div>Add video URL or Embed Code</div>
-</div>
-<?php }  ?>
+else{
+
+ print mw_notif("Add video URL or Embed Code.");   
+
+ }  ?>
 

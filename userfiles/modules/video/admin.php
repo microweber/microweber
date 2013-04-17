@@ -1,4 +1,4 @@
-
+<div class="vSpace" style="height: 20px;"></div>
 <div class="module-live-edit">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">Paste video URL or Embed Code</label>
