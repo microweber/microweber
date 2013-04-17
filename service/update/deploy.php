@@ -13,22 +13,14 @@
 		//'cd ~/public_html/service/update/mw_git/Microweber/', 
 		'echo $PWD',
 		'whoami',
-	 
-		//'git clean -f',
-		'git clean -df',
-		'git fetch --all',
-		'git git reset --hard origin/master',
-		
-	
-		'git status',
-		//'git submodule sync',
-		//'git submodule update',
-		//'git submodule status',
-		'git reset --hard origin/master ',
-		'git clean -f -d',
-		'git checkout origin/master',
 		'git pull',
-		'git status'
+		'git status',
+		'git submodule sync',
+		'git submodule update',
+		'git submodule status',
+		'git reset --hard HEAD ',
+		'git clean -f -d',
+		'git pull'
 	);
 
   

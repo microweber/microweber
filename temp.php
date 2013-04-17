@@ -165,6 +165,7 @@ apigen --source ~/nella/Nella --source ~/doctrine2/lib/Doctrine --source ~/doctr
 
 
 
+rsync --progress -r --perms --chmod=777 --stats --exclude '.git' --exclude 'cache' --exclude '?' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'  --exclude '/backup/'  --exclude '/config.php'  /cygdrive/c/xampp/htdocs/Microweber /cygdrive/c/xampp/htdocs/mw2
 
 apigen --source  C:\xampp\htdocs\1k\application --skip-doc-path "~/cache/*" --skip-doc-prefix Nette --exclude "*/tests/*" --destination C:\xampp\htdocs\1k\apigen --title "MW Framework"
 

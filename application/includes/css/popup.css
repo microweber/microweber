@@ -85,6 +85,11 @@ body{
   max-width: 100%;
 }
 
+.module-live-edit{
+  padding: 20px;
+  overflow: hidden;
+}
+
 
 
 

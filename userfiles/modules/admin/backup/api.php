@@ -9,7 +9,7 @@ api_expose('admin\backup\api\download');
 api_expose('admin\backup\api\create_full');
 api_expose('admin\backup\api\move_uploaded_file_to_backup');
 
- api_expose('admin\backup\api\restore');
+api_expose('admin\backup\api\restore');
 //api_expose('admin\backup\api\get_bakup_location');
 class api {
 
@@ -49,8 +49,7 @@ class api {
 			}
 		}
 
-		$here = MW_ROOTPATH . "backup" . DS.MW_TABLE_PREFIX.DS;
-
+		$here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
 
 		$here2 = module_option('backup_location', 'admin/backup');
 		if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
@@ -99,7 +98,8 @@ class api {
 					$bak = array();
 					$bak['filename'] = basename($file);
 					$bak['date'] = $date;
-					$bak['time'] = str_replace('_', ':', $time); ;
+					$bak['time'] = str_replace('_', ':', $time);
+					;
 					$bak['size'] = filesize($file);
 
 					$backups[] = $bak;
@@ -221,6 +221,36 @@ class api {
 
 	}
 
+	function copyr($source, $dest) {
+		// Simple copy for a file
+		if (is_file($source)) {
+			return copy($source, $dest);
+		}
+
+		// Make destination directory
+		if (!is_dir($dest)) {
+			mkdir_recursive($dest);
+		}
+
+		// Loop through the folder
+		$dir = dir($source);
+		while (false !== $entry = $dir -> read()) {
+			// Skip pointers
+			if ($entry == '.' || $entry == '..') {
+				continue;
+			}
+
+			// Deep copy directories
+			if ($dest !== "$source/$entry") {
+				$this -> copyr("$source/$entry", "$dest/$entry");
+			}
+		}
+
+		// Clean up
+		$dir -> close();
+		return true;
+	}
+
 	function restore($params) {
 		if (!is_admin()) {error("must be admin");
 		};
@@ -265,23 +295,18 @@ class api {
 			case 'zip' :
 				$exract_folder = md5(basename($filename));
 				$unzip = new \mw\utils\Unzip();
-				$target_dir = CACHEDIR.'backup_restore'.DS.$exract_folder.DS;
-				if(!is_dir($target_dir)){
+				$target_dir = CACHEDIR . 'backup_restore' . DS . $exract_folder . DS;
+				if (!is_dir($target_dir)) {
 					mkdir_recursive($target_dir);
 				}
 
-
-
-
 				$result = $unzip -> extract($filename, $target_dir, $preserve_filepath = TRUE);
-
-
 
 				$temp_dir_restore = $target_dir;
 
-				$sql_restore = $target_dir.'mw_sql_restore.sql';
-				if(is_file($sql_restore)){
-				$sql_file = $sql_restore;
+				$sql_restore = $target_dir . 'mw_sql_restore.sql';
+				if (is_file($sql_restore)) {
+					$sql_file = $sql_restore;
 				}
 				//return $result;
 				break;
@@ -299,8 +324,6 @@ class api {
 			return array('error' => "Invalid file extension. The restore file must be .sql or .zip");
 			die();
 		}
-
-
 
 		if ($sql_file != false) {
 			$db = c('db');
@@ -328,14 +351,14 @@ class api {
 			// Process the sql file by statements
 			foreach ($sqlArray as $stmt) {
 				$stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
-				$stmt = str_ireplace($this->prefix_placeholder, MW_TABLE_PREFIX, $stmt);
+				$stmt = str_ireplace($this -> prefix_placeholder, MW_TABLE_PREFIX, $stmt);
 
 				if (strlen($stmt) > 3) {
 					try {
 						//$result = mysql_query($stmt);
 
 						db_q($stmt);
-					//	print $stmt;
+						//	print $stmt;
 					} catch (Exception $e) {
 						print 'Caught exception: ' . $e -> getMessage() . "\n";
 						$sqlErrorCode = 1;
@@ -367,49 +390,26 @@ class api {
 			// Files restored successfully
 			print("Files restored successfully!<br>\n");
 			print("Backup used: " . $filename . "<br>\n");
-			//clearcache();
+			fclose($f);
+			if ($temp_dir_restore != false ){
+				unlink($filename);
+			}
 
 		}
 
+		if ($temp_dir_restore != false and is_dir($temp_dir_restore)) {
 
-		if($temp_dir_restore != false and is_dir($temp_dir_restore)){
+			$srcDir = $temp_dir_restore;
+			$destDir = MW_USERFILES;
 
-
-			 $srcDir = $temp_dir_restore;
-			 $destDir = MW_USERFILES;
-
-				if (file_exists($destDir)) {
-				  if (is_dir($destDir)) {
-				    if (is_writable($destDir)) {
-				      if ($handle = opendir($srcDir)) {
-				        while (false !== ($file = readdir($handle))) {
-				          if (is_file($srcDir . '/' . $file)) {
-				          //	echo "Will move file $file\n";
-				             rename($srcDir . '/' . $file, $destDir . '/' . $file);
-				          }
-				        }
-				        closedir($handle);
-				      } else {
-				        echo "$srcDir could not be opened.\n";
-				      }
-				    } else {
-				      echo "$destDir is not writable!\n";
-				    }
-				  } else {
-				    echo "$destDir is not a directory!\n";
-				  }
-				} else {
-				  echo "$destDir does not exist\n";
-				}
-
-
+			$this -> copyr($srcDir, $destDir);
 
 		}
 
-
-
-
-
+if(function_exists('mw_post_update')){
+	mw_post_update();
+}
+		clearcache();
 
 	}
 
@@ -441,7 +441,7 @@ class api {
 				$locations[] = $filename2;
 				$fileTime = date("D, d M Y H:i:s T");
 
-				$zip = new \mw\utils\zip($filename);
+				$zip = new \mw\utils\Zip($filename);
 
 				$zip -> setZipFile($filename);
 				$zip -> setComment("Microweber backup of the userfiles folder and db.
@@ -539,7 +539,7 @@ class api {
 
 				$result = mysql_query('SELECT * FROM ' . $table);
 				$num_fields = mysql_num_fields($result);
-				$table_without_prefix = $this->prefix_placeholder. str_ireplace(MW_TABLE_PREFIX, "", $table);
+				$table_without_prefix = $this -> prefix_placeholder . str_ireplace(MW_TABLE_PREFIX, "", $table);
 
 				// First part of the output - remove the table
 				$return .= 'DROP TABLE ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
@@ -555,9 +555,7 @@ class api {
 				}
 				$row2 = mysql_fetch_row($res_ch);
 
-
-				$create_table_without_prefix =  str_ireplace(MW_TABLE_PREFIX, $this->prefix_placeholder, $row2[1]);
-
+				$create_table_without_prefix = str_ireplace(MW_TABLE_PREFIX, $this -> prefix_placeholder, $row2[1]);
 
 				$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
 
@@ -577,7 +575,8 @@ class api {
 								$return .= ',';
 							}
 						}
-						$return .= ")" . $this -> file_q_sep . "\n\n\n"; ;
+						$return .= ")" . $this -> file_q_sep . "\n\n\n";
+						;
 					}
 				}
 				$return .= "\n\n\n";

@@ -1228,8 +1228,9 @@ mw.drag = {
 
 
 
-module_settings: function() {
-    var curr = $("#mw_handle_module").data("curr");
+module_settings: function(a) {
+
+    var curr = a || $("#mw_handle_module").data("curr");
     var attributes = {};
 
     if(mw.$('#module-settings-'+curr.id).length>0){

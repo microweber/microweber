@@ -61,6 +61,16 @@ function get_latest_core_version() {
 	return $to_return;
 }
 
+function latest($params = false) {
+	$params = array();
+		$params['core_update'] = true;
+$ver = $this->get_download_link($params);
+ 
+
+	return $ver;	
+	}
+	
+
 
 	function get_latest_core_update($params = false) {
 		

@@ -41,7 +41,9 @@ $target_path = normalize_path($target_path, 0);
 
 
 $targetDir = $target_path;
-
+if(!is_dir($targetDir )){
+	mkdir_recursive($targetDir );
+}
 //$targetDir = 'uploads';
 
 $cleanupTargetDir = true; // Remove old files

@@ -194,7 +194,7 @@ window.onerror = function(a,b,c){
         <div contenteditable='false' id='mw_handle_module' class='mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;'><span></span></a>\
-                <a class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings(this);return false;'><span class='mw-element-name-handle'></span></a>\
+                <a class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings();return false;'><span class='mw-element-name-handle'></span></a>\
             </div>\
             <span title='Click to select this module.' class='mw-sorthandle-moveit'>Move</span>\
         </div>",
