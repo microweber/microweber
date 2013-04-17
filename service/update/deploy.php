@@ -13,6 +13,27 @@
 		//'cd ~/public_html/service/update/mw_git/Microweber/', 
 		'echo $PWD',
 		'whoami',
+		
+		
+		'git branch origin/master',
+		'git checkout origin/master',
+ 		'git pull',
+		'git status',
+		'git fetch --all',
+		'git sync',
+/*		
+		'git submodule sync',
+		'git submodule update',
+		'git submodule status',
+		'git reset --hard HEAD ',
+		'git clean -f -d',
+		'git pull'*/
+	);
+	
+	$commands = array(
+		//'cd ~/public_html/service/update/mw_git/Microweber/', 
+		'echo $PWD',
+		'whoami',
 		'git pull',
 		'git status',
 		'git submodule sync',
