@@ -186,7 +186,7 @@ $myPaypal -> addField('shipping', $place_order['payment_shipping']);
 $myPaypal -> addField('total_items', $place_order['items_count']);
 // Enable test mode if needed
 
-$paypal_is_test = (get_option('paypal_testmode', 'payments')) == 'n';
+$paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 if($paypal_is_test  == true){
 $myPaypal -> enableTestMode();
 }

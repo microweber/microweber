@@ -1227,7 +1227,7 @@ function get_content($params = false) {
 		}
 		$params['table'] = $table;
 		$params['cache_group'] = $cache_group;
-		$get = get($params);
+ 		$get = get($params);
 
 
 		if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -1960,7 +1960,7 @@ function delete_content($data) {
 
 	}
 
-$del_ids =array();
+	$del_ids =array();
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		$del_ids[] = $c_id;
@@ -1981,7 +1981,7 @@ $del_ids =array();
 	}
 
 
-
+ 
 	if(!empty($del_ids)){
 			$table = MW_DB_TABLE_CONTENT;
 
@@ -1994,14 +1994,36 @@ $del_ids =array();
 					$q = db_query($q);
 					$q = "update $table set is_deleted='n' where parent=$c_id   and  is_deleted='y' ";
 					$q = db_query($q);
+					if (defined("MW_DB_TABLE_TAXONOMY")) {
+						$table1 = MW_DB_TABLE_TAXONOMY;
+						$q = "update $table1 set is_deleted='n' where rel_id=$c_id  and  rel='content' and  is_deleted='y' ";
+						$q = db_query($q);
+ 					}
 
 				}	else if ($to_trash == false) {
 					$q = "update $table set parent=0 where parent=$c_id ";
 					$q = db_query($q);
 				} else {
 					$q = "update $table set is_deleted='y' where id=$c_id ";
+					 
 					$q = db_query($q);
 					$q = "update $table set is_deleted='y' where parent=$c_id ";
+					
+					if (defined("MW_DB_TABLE_TAXONOMY")) {
+						$table1 = MW_DB_TABLE_TAXONOMY;
+						$q = "update $table1 set is_deleted='y' where rel_id=$c_id  and  rel='content' and  is_deleted='n' ";
+						 
+						$q = db_query($q);
+ 					}
+					
+ 				
+				
+					 
+	 
+	
+	
+	
+					 
 					$q = db_query($q);
 
 				}
@@ -2010,13 +2032,15 @@ $del_ids =array();
 				cache_clean_group('content/'.$c_id);
 			}
 
-
-				cache_clean_group('content/global');
+		cache_clean_group('content/global');
+		cache_clean_group('categories/global');
+		
+ 
 
 
 
 	}
-		return($del_ids);
+	return($del_ids);
 }
 
 /**
@@ -2128,10 +2152,9 @@ function save_content($data, $delete_the_cache = true) {
 	}
 	$table_cats = MW_TABLE_PREFIX . 'categories';
 	
-	if (trim($data['url']) == '') {
-
+	if (isset($data_to_save['title']) and (!isset($data['url']) or trim($data['url']) == '') ) {
 			$data['url'] = url_title($data_to_save['title']);
-		}
+	}
 
 	if (isset($data['url']) and $data['url'] != false) {
 		//$data['url'] = url_title($data['url']);
@@ -2869,11 +2892,11 @@ if (isset($params['include_categories'])) {
 
 	$params['curent_page'] = 1;
 
-
- //$params['debug'] = 1;
-
+ $params['is_deleted'] = 'n';
+  
 	$skip_pages_from_tree = false;
 	$params2 = $params;
+	
 	if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 
  //$max_level = $params2['max_level'] =2;

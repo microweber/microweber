@@ -11,9 +11,9 @@ include('empty_field_vals.php');
 
 //print $data["custom_field_value"]; ?>
 <? if(!empty($data['custom_field_values'])) : ?>
+<div class="custom-field-title"><? print $data["custom_field_name"]; ?></div>
+<div class="control-group custom-fields-type-radio">
 
-<div class="control-group">
-  <label><? print $data["custom_field_name"]; ?></label>
   <? foreach($data['custom_field_values'] as $k => $v): ?>
   <? if(is_string( $k)){
 	$kv =  $k;

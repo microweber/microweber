@@ -10,6 +10,9 @@
           <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
           
           <script type="text/javascript">
+
+            liveEditSettings = true;
+
             mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
   		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
@@ -204,6 +207,14 @@
         $(document).ready(function () {
 mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
  mw.$(".mw_option_field").bind("change", function () {
+
+
+                if(typeof liveEditSettings === 'boolean'){
+                  if(liveEditSettings){
+                    $(mwd.body).addClass('loading');
+                  }
+                }
+
  var refresh_modules11 = $(this).attr('data-refresh');
 
 				if(refresh_modules11 == undefined){
@@ -283,6 +294,12 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
                             }
 
                         }
+
+                        if(typeof liveEditSettings === 'boolean'){
+                  if(liveEditSettings){
+                    $(mwd.body).removeClass('loading');
+                  }
+                }
 
                         //  $(this).addClass("done");
                     }

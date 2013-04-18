@@ -80,10 +80,10 @@ $posts_parent_category = false;
 if(isset($post_params['category'])){
 	$posts_parent_category = $post_params['category'];
 }
- 
+
 	if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
-			
+
 			if($posts_parent_category != false ){
 			$page_categories = false;
 			if(intval($cfg_page_id) != 0){
@@ -100,11 +100,11 @@ if(isset($post_params['category'])){
 								$sub_cats[] = $item_more_subcat;
 							}
 						}
-					 
+
 						}
 					}
-			} 
-			
+			}
+
 					if($posts_parent_category != false){
 						if(isarr($page_categories)){
 							$sub_cats = array();
@@ -117,16 +117,16 @@ if(isset($post_params['category'])){
 								$sub_cats = array($posts_parent_category);
 						}
 					}
-					
-					
+
+
 						if(isarr($sub_cats)){
 						$post_params['category'] = $sub_cats;
 						}
-						
-						
+
+
 			}
 						 $post_params['parent'] = $cfg_page_id;
-			
+
 
 
 
@@ -161,7 +161,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
     $post_params['is_deleted'] = 'y';
- 
+
 $content   =$data = get_content($post_params);
 ?>
 <?
@@ -207,16 +207,16 @@ $pages_count = intval($pages);
 
   <? if(isarr($data)): ?>
   <? foreach ($data as $item): ?>
-  
+
   <?
   $pub_class = '';
 				if(isset($item['is_active']) and $item['is_active'] == 'n'){
 					$pub_class = ' content-unpublished';
 				}
-  
+
    ?>
-  
-  
+
+
   <div class="manage-post-item manage-post-item-<? print ($item['id']) ?> <? print $pub_class ?>">
     <div class="manage-post-itemleft">
       <label class="mw-ui-check left">
@@ -314,10 +314,10 @@ mw.post_undelete = function(a, callback){
 
 <script type="text/javascript">
 delete_selected_posts_forever = function(){
-	
+
 	  var r=confirm("Are you sure you want to delete those pages forever?")
-  if (r==true) {
-	
+  if (r) {
+
   var master = mwd.getElementById('pages_delete_container');
   var arr = mw.check.collectChecked(master);
   arr.forever = true;
@@ -326,9 +326,9 @@ delete_selected_posts_forever = function(){
      toggle_cats_and_pages()
    });
  });
- 
+
   }
- 
+
 }
 
 
@@ -339,6 +339,8 @@ delete_single_post_forever = function(id){
    arr.forever = true;
    mw.post_del_forever(arr, function(){
     mw.$(".manage-post-item-"+id).fadeOut();
+      mw.notification.success("<?php _e('Content is deleted!'); ?>");
+
   });
 	   //return false;
    }	else {
@@ -348,21 +350,46 @@ delete_single_post_forever = function(id){
 }
 
 restore_selected_posts = function(){
-	
+
 	  var r=confirm("Are you sure you want restore the selected content")
   if (r==true) {
-	
+
   var master = mwd.getElementById('pages_delete_container');
   var arr = mw.check.collectChecked(master);
   arr.forever = true;
   mw.post_undelete(arr, function(){
-   mw.reload_module('#<? print $params['id'] ?>', function(){
-     toggle_cats_and_pages()
+
+
+
+ mw.reload_module("pages", function(){
+        if(!!mw.treeRenderer){
+
+        var isel = $('#pages_tree_toolbar');
+        if(isel.length > 0){
+         mw.treeRenderer.appendUI('#pages_tree_toolbar');
+         mw.tools.tree.recall(mwd.querySelector('#pages_tree_toolbar').parentNode);
+        }
+
+
+
+
+
+
+
+                     mw.reload_module('#<? print $params['id'] ?>', function(){
+  mw.notification.success("<?php _e('Content is restored!'); ?>");
    });
+
+                           }
+                        });
+
+
+
+
  });
- 
+
   }
- 
+
 }
 
 restore_single_post_from_deletion = function(id){
@@ -372,14 +399,35 @@ restore_single_post_from_deletion = function(id){
    arr.forever = true;
    mw.post_undelete(arr, function(){
     mw.$(".manage-post-item-"+id).fadeOut();
-	
-	
-	 mw.reload_module('#<? print $params['id'] ?>', function(){
-     toggle_cats_and_pages()
+
+ mw.reload_module("pages", function(){
+           mw.$(".mw_pages_posts_tree").removeClass("activated");
+
+        if(!!mw.treeRenderer){
+          var isel = $('#pages_tree_toolbar');
+
+        if(isel.length > 0){
+         mw.treeRenderer.appendUI('.mw_pages_posts_tree');
+
+         mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+        }
+
+
+     mw.notification.success("<?php _e('Content is restored!'); ?>");
+
+   mw.reload_module('#<? print $params['id'] ?>', function(){
+
    });
-	
-	
-	
+
+
+                           }
+                        });
+
+
+
+
+
+
   });
 	   //return false;
    }	else {

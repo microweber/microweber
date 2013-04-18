@@ -1,10 +1,6 @@
 <? include('settings_header.php'); ?>
 
-<script>
 
-
-
-</script>
 
 
  <div class="custom-field-col-left">
@@ -29,19 +25,19 @@
 
 
 
-      <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('images',$data['options']['file_types'])) : ?> checked <? endif; ?> value="images"  />
+      <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and isset($data['options']['file_types']) and in_array('images',$data['options']['file_types'])) : ?> checked <? endif; ?> value="images"  />
           <span></span>
           <span>Images Files</span>
       </label>
       <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('documents',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="documents" />
+          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and isset($data['options']['file_types']) and in_array('documents',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="documents" />
           <span></span>
           <span>Document Files</span>
       </label>
        <div class="vSpace"></div>
       <label class="mw-ui-check">
-          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and $data['options']['file_types'] and in_array('archives',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="archives" />
+          <input type="checkbox"  name="options[file_types]" <? if(isset($data['options']) and isset($data['options']['file_types']) and in_array('archives',$data['options']['file_types'])) : ?> checked <? endif; ?>  value="archives" />
           <span></span>
           <span>Archive Files</span>
       </label>
@@ -51,11 +47,11 @@
 
       <label class="mw-ui-label">Custom File Types</label>
 
-      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<? if(isset($data['options']) and $data['options']['file_types'] and is_array($data['options']['file_types'])) : ?><?
+      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<? if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?
 
       $array2 = array("images", "documents", "archives");
 $oresult = array_diff($data['options']['file_types'], $array2);
-       print implode(',',$oresult); ?><? endif; ?>" data-default='psd,html,css' onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" />
+       print implode(',',$oresult); ?><? endif; ?>" placeholder='psd,html,css' />
 
     </div>
 
@@ -65,7 +61,7 @@ $oresult = array_diff($data['options']['file_types'], $array2);
 
 
 
-    
+
    <?php print $savebtn; ?>
 
 </div>

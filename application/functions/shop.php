@@ -322,14 +322,19 @@ function delete_order($data) {
 	if ($adm == false) {
 		error('Error: not logged in as admin.');
 	}
+
 	$table = MODULE_DB_SHOP_ORDERS;
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		db_delete_by_id($table, $c_id);
+		$table2 = MODULE_DB_SHOP;
+		$q = "DELETE from $table2 where order_id=$c_id ";
+		$res = db_q($q);
 		return $c_id;
 		//d($c_id);
 	}
+
 }
 
 function get_orders($params = false) {
@@ -467,7 +472,7 @@ function checkout_ipn($data) {
 		//d($update_order);
 		//d($data);
 		$ord = save_data($table_orders, $update_order);
-checkout_send_confrimation_email($ord);
+		checkout_send_confrimation_email($ord);
 		if ($ord > 0) {
 
 			$q = " UPDATE $cart_table set
@@ -941,12 +946,11 @@ function update_cart($data) {
 			foreach ($cfs as $cf) {
 
 				if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
- $key1 = str_replace('_',' ', $cf['custom_field_name']);
-$key2 = str_replace('_',' ', $k);
+					$key1 = str_replace('_', ' ', $cf['custom_field_name']);
+					$key2 = str_replace('_', ' ', $k);
 
-
-					if (isset($cf['custom_field_name']) and ($cf['custom_field_name'] == $k or $key1 == $key2 )) {
-$k = str_replace('_',' ', $k);
+					if (isset($cf['custom_field_name']) and ($cf['custom_field_name'] == $k or $key1 == $key2)) {
+						$k = str_replace('_', ' ', $k);
 						$found = true;
 						/*
 						 if ($item== 'ala' and is_array($item)) {
@@ -1184,7 +1188,18 @@ function get_cart($params) {
 	}
 	$table = MODULE_DB_SHOP;
 	$params['table'] = $table;
-	$params['session_id'] = session_id();
+
+	if (is_admin() == false) {
+		$params['session_id'] = session_id();
+	} else {
+		if (isset($params['session_id']) and is_admin() == true) {
+
+		} else {
+			$params['session_id'] = session_id();
+
+		}
+	}
+
 	if (isset($params['no_session_id']) and is_admin() == true) {
 		unset($params['session_id']);
 		//	$params['session_id'] = session_id();

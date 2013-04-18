@@ -11,7 +11,7 @@ include('empty_field_vals.php');
 <?php $rand = uniqid(); ?>
 
 <div class="control-group">
- <label><? print $data["custom_field_name"]; ?></label>
+ <label class="custom-field-title"><? print $data["custom_field_name"]; ?></label>
  <div class="input-prepend input-append relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <span class="add-on">
         <i class="icon-file"></i>

@@ -1436,6 +1436,10 @@ function delete_category($data) {
 		db_delete_by_id('categories', $c_id);
 		db_delete_by_id('categories', $c_id, 'parent_id');
 		db_delete_by_id('categories_items', $c_id, 'parent_id');
+		if (defined("MODULE_DB_MENUS")) {
+			db_delete_by_id('menus', $c_id, 'categories_id');
+ 		} 
+		
 
 		//d($c_id);
 	}

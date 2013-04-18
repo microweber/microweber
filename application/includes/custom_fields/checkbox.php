@@ -10,9 +10,9 @@ include('empty_field_vals.php');
 
   ?>
 <? if(!empty($data['custom_field_values'])) : ?>
+ <div class="custom-field-title"><? print $data["custom_field_name"]; ?></div>
+<div class="control-group custom-fields-type-checkbox">
 
-<div class="control-group">
-  <label><? print $data["custom_field_name"]; ?></label>
   <div class="mw-customfields-checkboxes">
 
   <? foreach($data['custom_field_values'] as $v): ?>

@@ -83,6 +83,53 @@ input.large-field, textarea.large-field{
 
 /* /Global styles */
 
+
+
+/* Custom Fields */
+
+
+.custom-field-title{
+  font-weight: 600;
+  font-size: 14px;
+  padding: 3px 10px;
+  padding: 4px 0;
+}
+
+
+ /* Radios */
+
+
+.custom-fields-type-radio {  border: 1px solid #D9D9D9; background-color: #EDEDED; }
+
+.custom-fields-type-radio label.radio{
+  display: block;
+  padding: 6px 10px;
+  margin-bottom: 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.custom-fields-type-radio label.radio:hover{  background-color: white;  }
+.custom-fields-type-radio label.radio input{ margin: 4px 10px 0 0; }
+
+ /* Checkboxes */
+.custom-fields-type-checkbox {  border: 1px solid #D9D9D9; background-color: #EDEDED; }
+
+.custom-fields-type-checkbox label.checkbox{
+  display: block;
+  padding: 6px 10px;
+  margin-bottom: 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+.custom-fields-type-checkbox label.checkbox:hover{  background-color: white;  }
+.custom-fields-type-checkbox label.checkbox input{ margin: 4px 10px 0 0; }
+
+
+
+
+/* /Custom Fields */
+
 .page-post-content{
   clear: both;
   padding: 12px 0;

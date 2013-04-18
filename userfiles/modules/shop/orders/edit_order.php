@@ -1,13 +1,12 @@
 <?
-
-
+only_admin_access();
 
 $ord = get_orders('id='.$params['order-id']);
 
 $cart_items = array();
 if(isarr($ord[0])){
 	$ord = $ord[0];
-	$cart_items = get_cart('order_id='.$ord['id'].'&no_session_id=1');
+	$cart_items = get_cart('order_completed=y&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
 
 
 } else {
@@ -253,8 +252,8 @@ error("Invalid order id");
       <table cellspacing="0" cellpadding="0">
         <tr>
           <td><p><b>
-              <?php _e("Payment Information"); ?>
-              </b></p>
+              <?php _e("Payment Information"); ?> 
+              </b><span class="mw-help" data-help="Payment Information that we have from the payment provider">(?)</span></p>
             <ul class="order-table-info-list">
               <li>
                 <?php _e("Payment Method"); ?>: <?php print $ord['payment_gw']; ?></li>
@@ -270,8 +269,17 @@ error("Invalid order id");
               <? endif; ?>
 <? if(isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
               <li>
-                <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?></li>
+                <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?><? if(isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?> <span>+ <?php print $ord['payment_shipping']; ?> <?php _e("for shipping"); ?></span><? endif; ?> <span class="mw-help" data-help="Amount paid by the user">(?)</span></li>
               <? endif; ?>
+              
+             
+               
+             
+              
+              
+              
+              
+              
 <? if(isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
               <li>
                 <?php _e("Payment currency"); ?>: <?php print $ord['payment_currency']; ?></li>

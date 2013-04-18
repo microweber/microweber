@@ -12,7 +12,7 @@ mw.files = {
           return mw.files.settings.filetypes;
           break;
         case 'videos':
-          return 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov';
+          return 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
           break;
         case 'files':
           return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';

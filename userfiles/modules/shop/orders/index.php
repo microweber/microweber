@@ -1,8 +1,5 @@
 <?
-
-if(is_admin() == false){
-return;
-}
+only_admin_access();
 
 
 $ord = '';

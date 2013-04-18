@@ -833,9 +833,10 @@ function user_login($params) {
 			return array('error' => 'Please enter username and password!');
 
 		}
-$url = curent_url(1);
+		$url = curent_url(1);
 
-		$check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&rel=login_failed&user_ip=" . USER_IP);
+		$check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
+			 
 		if ($check == 5) {
 
 			$url_href = "<a href='$url' target='_blank'>$url</a>";
@@ -845,7 +846,7 @@ $url = curent_url(1);
 			$check = $check - 1;
 			return array('error' => 'There are ' . $check . ' failed login attempts from your ip in the last minute. Try again in 1 minute!');
 		}
-		$check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&rel=login_failed&user_ip=" . USER_IP);
+		$check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
 		if ($check2 > 25) {
 
 			return array('error' => 'There are ' . $check2 . ' failed login attempts from your ip in the last 10 minutes. Try again in 10 minutes!');
@@ -1336,5 +1337,3 @@ function cf_get_user($user_id, $field_name) {
 		}
 	}
 }
-
-

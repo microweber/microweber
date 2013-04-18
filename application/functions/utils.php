@@ -653,6 +653,11 @@ function decode_var($var) {
 	if ($var == '') {
 		return '';
 	}
+	
+	if(is_array($var)){
+		return $var;
+	}
+	
 	$var = base64_decode($var);
 
 	try {

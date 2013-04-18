@@ -543,6 +543,7 @@ mw.tools = {
               var todelete =  mw.$(".item_" + id);
                todelete.fadeOut(function(){
                    todelete.remove();
+                   mw.reload_module('content/trash');
                });
   		    });
         })

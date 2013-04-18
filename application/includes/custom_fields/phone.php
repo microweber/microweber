@@ -11,7 +11,7 @@ include('empty_field_vals.php');
 
 //print $data["custom_field_value"]; ?>
 <div class="control-group">
-<label>
+<label class="custom-field-title">
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print ucwords(str_replace('_', ' ', $data['name'])); ?>
     <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>

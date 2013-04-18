@@ -654,11 +654,11 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 			}
 		}
 	}
-	if (isset($data['options']) and $data['options'] != '' and is_string($data['custom_field_values'])) {
+	if (isset($data['options']) and is_string($data['options'])) {
 		$data['options'] = decode_var($data['options']);
-		//	d($data['options'] );
+	  
 	}
-
+ 
 	$dir = INCLUDES_DIR;
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);

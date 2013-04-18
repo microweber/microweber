@@ -11,10 +11,7 @@ include('empty_field_vals.php');
 //print $data["custom_field_value"]; ?>
 <? if(!empty($data['custom_field_values'])) : ?>
 
-
-
-<div class="control-group">
-  <label>
+<label class="custom-field-title">
     <? if(isset($data['name']) == true and $data['name'] != ''): ?>
     <? print $data['name'] ?>
     <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
@@ -22,6 +19,9 @@ include('empty_field_vals.php');
     <? else : ?>
     <? endif; ?>
   </label>
+
+<div class="control-group">
+
   <? if(isset($data['help']) == true and $data['help'] != ''): ?>
   <small  class="mw-custom-field-help"><? print $data['help'] ?></small>
   <? endif; ?>

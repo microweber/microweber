@@ -19,7 +19,7 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 		return false;
 	}
 
-	$q = "DELETE from $table_real where {$field_name}=$id ";
+	$q = "DELETE from $table_real where {$field_name}='$id' ";
 
 	$cg = guess_cache_group($table);
 	//
@@ -30,19 +30,19 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 	$table1 = MW_TABLE_PREFIX . 'categories';
 	$table_items = MW_TABLE_PREFIX . 'categories_items';
 
-	$q = "DELETE from $table1 where rel_id=$id  and  rel='$table'  ";
+	$q = "DELETE from $table1 where rel_id='$id'  and  rel='$table'  ";
 
 	$q = db_q($q);
 	//  cache_clean_group('categories');
 
-	$q = "DELETE from $table_items where rel_id=$id  and  rel='$table'  ";
+	$q = "DELETE from $table_items where rel_id='$id'  and  rel='$table'  ";
 	//d($q);
 	$q = db_q($q);
 	
 	
 	if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
 		$table_items = MW_DB_TABLE_NOTIFICATIONS;
-		$q = "DELETE from $table_items where rel_id=$id  and  rel='$table'  ";
+		$q = "DELETE from $table_items where rel_id='$id'  and  rel='$table'  ";
 	 
 	$q = db_q($q);
 	}
@@ -1323,7 +1323,7 @@ $orig_criteria = $criteria;
 			
 
 			if ($add_to_seachq_q == true) {
-
+$to_search = db_escape_string($to_search);
 				//if ($v != 'id' && $v != 'password') {
 			if (in_array($v, $to_search_in_those_fields) or ($v != '_username' && $v != '_password')) {
 					switch ($v) {
