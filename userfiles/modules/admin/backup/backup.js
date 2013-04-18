@@ -56,6 +56,7 @@ mw.admin_backup = {
 
 	create_full : function(selector){
 		mw.notification.success("FULL Backup is started...");
+	 
 		$.post(mw.settings.api_url+'admin/backup/api/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');

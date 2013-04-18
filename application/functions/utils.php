@@ -721,15 +721,16 @@ function session_set($name, $val) {
 }
 
 function session_get($name) {
- 
+ if(!defined('MW_NO_SESSION')){
 	if (!headers_sent()) {
 		if (!isset($_SESSION)) {
 			session_start();
 		}
 	}
-	
+	// probable timout here?!
+ }
 	// 
-	if (isset($_SESSION[$name])) {
+	if (isset($_SESSION) and isset($_SESSION[$name])) {
 		return $_SESSION[$name];
 	} else {
 		return false;

@@ -482,7 +482,7 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'userfiles/modules/custom_fields'.DS;
 							 
 							 // D
-						 	
+						 	 
 							
 							 // E
 							$locations[] = $this -> repo_dir.'userfiles/modules/embed'.DS;
@@ -490,7 +490,7 @@ $ver = $this->get_latest_core_version();
 							// F
 							$locations[] = $this -> repo_dir.'userfiles/modules/files'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/forms'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/free'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules/free'.DS;
 							
 							//G
 							$locations[] = $this -> repo_dir.'userfiles/modules/google_maps'.DS;
@@ -515,8 +515,8 @@ $ver = $this->get_latest_core_version();
 
 							
 							//N
-							$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/newsletter'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules/nav'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules/newsletter'.DS;
 							
 							
 							//O
@@ -533,8 +533,8 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'userfiles/modules/settings'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/site_stats'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/subscribe_form'.DS;
-							$locations[] = $this -> repo_dir.'userfiles/modules/survey'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules/subscribe_form'.DS;
+							//$locations[] = $this -> repo_dir.'userfiles/modules/survey'.DS;
 							
 							 
 						 

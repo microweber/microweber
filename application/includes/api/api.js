@@ -250,7 +250,7 @@ window.onerror = function(a,b,c){
   }
 
   mw.reload_module_interval = function(module_name, interval) {
-    var interval =  interval || 500;
+    var interval =  interval || 1000;
     var obj = {pause:false};
     var int = setInterval(function(){
         if(!obj.pause){

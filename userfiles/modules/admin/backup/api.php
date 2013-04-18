@@ -10,6 +10,12 @@ api_expose('admin\backup\api\create_full');
 api_expose('admin\backup\api\move_uploaded_file_to_backup');
 
 api_expose('admin\backup\api\restore');
+
+function mw_process_backup_in_background($a = '', $b = '') {
+
+	
+}
+
 //api_expose('admin\backup\api\get_bakup_location');
 class api {
 
@@ -98,8 +104,7 @@ class api {
 					$bak = array();
 					$bak['filename'] = basename($file);
 					$bak['date'] = $date;
-					$bak['time'] = str_replace('_', ':', $time);
-					;
+					$bak['time'] = str_replace('_', ':', $time); ;
 					$bak['size'] = filesize($file);
 
 					$backups[] = $bak;
@@ -392,7 +397,7 @@ class api {
 			print("Files restored successfully!<br>\n");
 			print("Backup used: " . $filename . "<br>\n");
 			fclose($f);
-			if ($temp_dir_restore != false ){
+			if ($temp_dir_restore != false) {
 				unlink($filename);
 			}
 
@@ -407,14 +412,49 @@ class api {
 
 		}
 
-if(function_exists('mw_post_update')){
-	mw_post_update();
-}
+		if (function_exists('mw_post_update')) {
+			mw_post_update();
+		}
 		clearcache();
 
 	}
 
+	static function bgworker() {
+if(!defined('MW_NO_SESSION')){
+					define('MW_NO_SESSION',1);
+				}
+		$back_log_action = "Full generation started";
+		self::log_bg_action($back_log_action);
+		 $api = new \admin\backup\api();
+	 $api -> exec_create_full();
+
+	}
+
 	function create_full() {
+				if(!defined('MW_NO_SESSION')){
+					define('MW_NO_SESSION',1);
+				}
+			ignore_user_abort(true);
+		
+			ob_end_clean();
+ header("Connection: close");
+ $response = "some response";
+		 
+		  header("Content-Length: " . strlen($response));
+  ob_start();
+			 flush();
+
+		$scheduler = new \mw\utils\Events();
+
+		// schedule a global scope function:
+		$scheduler -> registerShutdownEvent("\admin\backup\api::bgworker");
+
+
+	 
+	exit();
+	}
+
+	function exec_create_full() {
 		$start = microtime_float();
 		if (defined('MW_CRON_EXEC')) {
 
@@ -422,8 +462,11 @@ if(function_exists('mw_post_update')){
 			only_admin_access();
 
 		}
+		$back_log_action = "Full backup is started";
+		$this -> log_action($back_log_action);
+		@ob_end_clean();
 
-		ignore_user_abort(true);
+			ignore_user_abort(true);
 
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
@@ -432,31 +475,66 @@ if(function_exists('mw_post_update')){
 
 		$userfiles_folder = MW_USERFILES;
 
-		$db_file = $this -> create();
+		$locations = array();
+		$locations[] = MW_USERFILES;
+		//$locations[] = $filename2;
+		$fileTime = date("D, d M Y H:i:s T");
 
+		$back_log_action = "Adding userfiles to zip";
+		$this -> log_action($back_log_action);
+		$zip = new \mw\utils\Zip($filename);
+		$zip -> setZipFile($filename);
+		$zip -> setComment("Microweber backup of the userfiles folder and db.
+				\n The Microweber version at the time of backup was {MW_VERSION}
+				\nCreated on " . date('l jS \of F Y h:i:s A'));
+		$zip -> addDirectoryContent(MW_USERFILES, '', true);
+
+		$db_file = $this -> create();
 		if (isset($db_file['filename'])) {
 			$filename2 = $here . $db_file['filename'];
 			if (is_file($filename2)) {
-				$locations = array();
-				$locations[] = MW_USERFILES;
-				$locations[] = $filename2;
-				$fileTime = date("D, d M Y H:i:s T");
 
-				$zip = new \mw\utils\Zip($filename);
-
-				$zip -> setZipFile($filename);
-				$zip -> setComment("Microweber backup of the userfiles folder and db.
-				\n The Microweber version at the time of backup was {MW_VERSION}
-				\nCreated on " . date('l jS \of F Y h:i:s A'));
-				$zip -> addDirectoryContent(MW_USERFILES, '', true);
 				$zip -> addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
 
-				$zip1 = $zip -> finalize();
-				$filename_to_return = $filename;
-				$end = microtime_float();
-				$end = round($end - $start, 3);
-				return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
+			}
 
+			$zip1 = $zip -> finalize();
+			$filename_to_return = $filename;
+			$end = microtime_float();
+			$end = round($end - $start, 3);
+			return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
+
+		}
+
+	}
+
+	static function log_bg_action($back_log_action) {
+
+		if ($back_log_action == false) {
+			delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+		} else {
+			$check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+			if (isarr($check) and isset($check['id'])) {
+				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+			} else {
+				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+			}
+		}
+
+	}
+
+	function log_action($back_log_action) {
+
+		if ($back_log_action == false) {
+			delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+		} else {
+			$check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+			if (isarr($check) and isset($check['id'])) {
+				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+			} else {
+				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
 			}
 		}
 
@@ -512,11 +590,11 @@ if(function_exists('mw_post_update')){
 			file_put_contents($hta, 'Deny from all');
 		}
 
-		static $link;
-		if ($link == false) {
-			$link = mysql_connect($host, $user, $pass);
-			mysql_select_db($name, $link);
-		}
+		//static $link;
+		//if ($link == false) {
+		$link = mysql_connect($host, $user, $pass);
+		mysql_select_db($name, $link);
+		//}
 
 		$return = "";
 		$tables = '*';
@@ -533,10 +611,15 @@ if(function_exists('mw_post_update')){
 			}
 		}
 
+		$back_log_action = "Starting database backup";
+		$this -> log_action($back_log_action);
 		// Cycle through each provided table
 		foreach ($tables as $table) {
 
 			if (stristr($table, MW_TABLE_PREFIX)) {
+
+				$back_log_action = "Backing up database table $table";
+				$this -> log_action($back_log_action);
 
 				$result = mysql_query('SELECT * FROM ' . $table);
 				$num_fields = mysql_num_fields($result);
@@ -576,13 +659,14 @@ if(function_exists('mw_post_update')){
 								$return .= ',';
 							}
 						}
-						$return .= ")" . $this -> file_q_sep . "\n\n\n";
-						;
+						$return .= ")" . $this -> file_q_sep . "\n\n\n"; ;
 					}
 				}
 				$return .= "\n\n\n";
 			}
 		}
+		$back_log_action = "Saving to file " . basename($filess);
+		$this -> log_action($back_log_action);
 		// Save the sql file
 		$handle = fopen($filess, 'w+');
 		$head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
@@ -593,9 +677,13 @@ if(function_exists('mw_post_update')){
 		fclose($handle);
 		$end = microtime_float();
 		$end = round($end - $start, 3);
+		$this -> log_action(false);
+
+		mysql_close($link);
+
 		return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
 		// Close MySQL Connection
-		//	mysql_close($link);
+		//
 	}
 
 }
