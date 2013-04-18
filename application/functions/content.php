@@ -2700,7 +2700,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	//
 
 	$cache_content = cache_get_content($function_cache_id, $cache_group);
-	//$cache_content = false;
+	// $cache_content = false;
 //	if (!isset($_GET['debug'])) {
 	if (($cache_content) != false) {
 
@@ -2733,7 +2733,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 			return;
 		}
 	}
-
+ 
 
 
 	$is_shop = '';
@@ -2797,9 +2797,7 @@ if (isset($params['include_categories'])) {
 	if (!isarr($params)) {
 		$params = array();
 	}
-	if (isset($params['id'])) {
-		unset($params['id']);
-	}
+	
 	if (isset($append_to_link) == false) {
 		$append_to_link = '';
 	}
@@ -2848,7 +2846,7 @@ if (isset($params['include_categories'])) {
 	if ($include_first == true) {
 		$include_first_set = 1;
 		$include_first = false;
-		$params['id'] = $parent;
+		$include_first_set = $parent;
 		if (isset($params['include_first'])) {
 			unset($params['include_first']);
 		}
@@ -2906,9 +2904,21 @@ if (isset($params['include_categories'])) {
 
 
 	}
-
-	$q = get_content($params2);
-
+ if (isset($params2['id'])) {
+		unset($params2['id']);
+	}
+  if (isset($params2['link'])) {
+		unset($params2['link']);
+	}
+	
+ if($include_first_set != false){
+ 	$q = get_content("id=".$include_first_set);
+ 
+ } else {
+ 	$q = get_content($params2);
+ 
+ }
+ 
 	$result = $q;
 
 	if (is_array($result) and !empty($result)) {

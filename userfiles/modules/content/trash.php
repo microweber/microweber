@@ -364,12 +364,13 @@ restore_selected_posts = function(){
  mw.reload_module("pages", function(){
         if(!!mw.treeRenderer){
 
-        var isel = $('#pages_tree_toolbar');
-        if(isel.length > 0){
-         mw.treeRenderer.appendUI('#pages_tree_toolbar');
-         mw.tools.tree.recall(mwd.querySelector('#pages_tree_toolbar').parentNode);
-        }
+             var isel = $('#pages_tree_toolbar');
 
+        if(isel.length > 0){
+         mw.treeRenderer.appendUI('.mw_pages_posts_tree');
+
+         mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+        }
 
 
 

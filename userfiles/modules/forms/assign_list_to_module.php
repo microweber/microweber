@@ -9,14 +9,20 @@
 <script  type="text/javascript">
 
 
+isCreating = false;
 
 
 function mw_create_new_list_{rand}(){
+  if(!isCreating){
+
+      isCreating = true;
 	  mw.form.post('.mw_create_new_forms_list{rand}', '<? print api_url('save_form_list'); ?>', function(){
 
 
 
-        mw.reload_module('<? print $config['module'] ?>');
+        mw.reload_module('<? print $config['module'] ?>', function(){
+          isCreating = false;
+        });
     }
 
 
@@ -24,7 +30,7 @@ function mw_create_new_list_{rand}(){
 
 
       );
-
+   }
 	  return false;
 }
 
@@ -56,16 +62,16 @@ $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-modu
   <label class="mw-ui-label">Name of the new list</label>
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
-  <input type="text" name="mw_new_forms_list" id="mw_new_form_list_title" value="" style="width: 200px;margin-right: 10px;"  />
+  <input type="text" name="mw_new_forms_list" class="mw-ui-field" id="mw_new_form_list_title" value="" style="width: 200px;margin-right: 10px;"  />
   <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
   &nbsp;<span class="mw-ui-delete" onclick="mw.$('.mw_create_new_forms_list{rand}, #form_dropdown_lists').toggle()">Cancel</span> </div>
 <div class="vSpace"></div>
 <?php else: ?>
-<div class="mw_create_new_forms_list{rand}">
+<div class="mw_create_new_forms_list{rand}" style="padding-bottom: 12px;">
   <label class="mw-ui-label">Name of the new list</label>
   <input type="hidden" name="for_module" value="<? print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<? print $params['for-module-id'] ?>"  />
-  <input type="text" name="mw_new_forms_list" value="" style="width: 200px;margin-right: 10px;"  />
+  <input type="text" name="mw_new_forms_list" value="" class="mw-ui-field" style="width: 200px;margin-right: 10px;"  />
   <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()">Create</button>
 </div>
 <? endif; ?>

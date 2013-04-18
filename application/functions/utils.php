@@ -650,13 +650,15 @@ function encode_var($var) {
 }
 
 function decode_var($var) {
-	if ($var == '') {
-		return '';
-	}
-	
 	if(is_array($var)){
 		return $var;
 	}
+	
+	if ($var == '') {
+		return false;
+	}
+	
+	
 	
 	$var = base64_decode($var);
 

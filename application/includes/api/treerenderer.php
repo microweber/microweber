@@ -4,7 +4,7 @@ mw.treeRenderer = {
   edit_buttons:function(type, id, sort_button){
       if(type==='page'){
         var $str  = "\
-        <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
+        <span class='mw_del_tree_content'  onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
               <?php _e("Delete"); ?>\
           </span>\
         <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editpage:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
@@ -48,7 +48,7 @@ mw.treeRenderer = {
 
     		  if(!master.hasClass("ui-sortable")){
 
-
+         _mw_ui_will_init_tree = false;
 
                master.sortable({
                    items: 'li',
@@ -66,6 +66,9 @@ mw.treeRenderer = {
                      });
             		 if(cont_found == true){
             		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){
+                    _mw_ui_will_init_tree = true;
+
+
 
                          /*
 
@@ -92,9 +95,56 @@ mw.treeRenderer = {
             		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){
 
 
+                _mw_ui_will_init_tree = true;
+
 
             		    });
             		 }
+
+
+
+
+                  if(_mw_ui_will_init_tree != false){
+
+                    _mw_ui_will_init_tree = false;
+
+
+
+                      mw.reload_module("pages", function(){
+                       if(!!mw.treeRenderer){
+                                  mw.$(".mw_pages_posts_tree").removeClass("activated");
+
+
+                                      var isel = $('#pages_tree_toolbar');
+
+                                    if(isel.length > 0){
+                                     mw.treeRenderer.appendUI('.mw_pages_posts_tree');
+
+                                     mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+                                    }
+                              }
+                         });
+                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                    },
                    start:function(a,ui){
                           //$(this).height($(this).outerHeight());

@@ -228,37 +228,36 @@ function category_tree($params = false) {
 	if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
 		$parent = $params['subtype_value'];
 	}
-
-	if (isset($params['parent']) and $params['parent'] != false) {
-		//	$parent = $params['parent'];
-	}
-
-	$skip123 = false;
+$skip123 = false;
 	$fors = array();
+	if (isset($params['parent']) and $params['parent'] != false) {
+		 	$parent = intval($params['parent']);
+	}  else {
 
-	if (!isset($params['for'])) {
-		$params['for'] = 'content';
-	}
-	if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
-
-		$table_assoc_name = db_get_assoc_table_name($params['for']);
-		$skip123 = true;
-
-		$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
-		$fors = get($str0);
-
-	}
-
-	if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
-		$skip123 = true;
-
-		$str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-		$fors1 = get($str1);
-		if (isarr($fors1)) {
-			$fors = array_merge($fors, $fors1);
-
+		if (!isset($params['for'])) {
+			$params['for'] = 'content';
 		}
-
+		if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
+	
+			$table_assoc_name = db_get_assoc_table_name($params['for']);
+			$skip123 = true;
+	
+			$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
+			$fors = get($str0);
+	
+		}
+	
+		if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
+			$skip123 = true;
+	
+			$str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
+			$fors1 = get($str1);
+			if (isarr($fors1)) {
+				$fors = array_merge($fors, $fors1);
+	
+			}
+	
+		}
 	}
 
 	if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
@@ -301,9 +300,9 @@ function category_tree($params = false) {
 
 	}
 
-	//if (isset($params['debug'])) {
-	//	d($params);
-	//}
+	 if (isset($params['debug'])) {
+	 	 
+	 }
 
 	ob_start();
 
@@ -1406,15 +1405,11 @@ function save_category($data, $preserve_cache = false) {
 			cache_clean_group('content' . DIRECTORY_SEPARATOR . $id);
 		}
 	}
-	if ($no_position_fix == false) {
-		//$this->categoriesFixPositionsForId($save);
-	}
-	// $this->core_model->cleanCacheGroup ( 'categories' );
-
+	 
+ 
 	if ($preserve_cache == false) {
 
-		// $this->core_model->cleanCacheGroup ( 'categories' );
-		cache_clean_group('categories' . DIRECTORY_SEPARATOR . $save);
+ 		cache_clean_group('categories' . DIRECTORY_SEPARATOR . $save);
 		cache_clean_group('categories' . DIRECTORY_SEPARATOR . '0');
 		cache_clean_group('categories' . DIRECTORY_SEPARATOR . 'global');
 	}

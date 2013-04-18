@@ -971,8 +971,11 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 		// unset($criteria['only_those_fields']);
 		// no unset xcause f cache
 	}
+	if (isset($criteria['ids']) and is_string($criteria['ids'])) {
+		$criteria['ids'] = explode(',', $criteria['ids']);
+	}
 
-	if (!empty($criteria['ids'])) {
+	if (isset($criteria['ids']) and !empty($criteria['ids'])) {
 		foreach ($criteria ['ids'] as $itm) {
 
 			$includeIds[] = $itm;

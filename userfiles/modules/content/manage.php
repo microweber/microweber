@@ -144,7 +144,7 @@ if($params['page-id'] == 'global'){
 <?php endif; ?>
 <div class="mw_clear"></div>
 <script  type="text/javascript">
-mw.require('forms.js');
+mw.require('forms.js', true);
 
 mw.post = {
   del:function(a, callback){
@@ -229,6 +229,7 @@ mw.manage_content_sort = function(){
 
 </script>
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
+
   <?  if(isset($params['page-id'])):  ?>
   <?
 
@@ -261,6 +262,7 @@ if($params['page-id'] == '0'){
  $pt_opts['max_level'] = 1;
 } else {
   $pt_opts['include_first'] = 'yes';
+  
 }
 
 
@@ -271,14 +273,15 @@ if($params['page-id'] == '0'){
   //
 $pt_opts['include_categories'] = 'yes';
 
- //$pt_opts['debug'] = 2;
+// $pt_opts['debug'] = 2;
 if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
- //d($pt_opts);
+  
 pages_tree($pt_opts);
-?>
+?> 
   <? else : ?>
+  
   <?  if(isset($params['category-id'])):  ?>
   <?
 $pt_opts = array();
@@ -286,13 +289,14 @@ $pt_opts['parent'] = $params['category-id'];
  //  $pt_opts['id'] = "pgs_tree";
  //	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
 
-$pt_opts['include_first'] = 'yes';
-$pt_opts['include_categories'] = 'yes';
+//$pt_opts['include_first'] = 'yes';
+//$pt_opts['include_categories'] = 'yes';
 $pt_opts['max_level'] = 2;
 
 if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
+ 
 category_tree($pt_opts);
 ?>
   <? endif; ?>

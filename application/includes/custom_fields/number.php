@@ -8,7 +8,7 @@
 <script>mw.require('forms.js');</script>
 
 <div class="control-group">
-  <label ><? print $data["custom_field_name"]; ?></label>
+  <label class="custom-field-title"><? print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
     <input type="number"
         onkeyup="mw.form.typeNumber(this);"

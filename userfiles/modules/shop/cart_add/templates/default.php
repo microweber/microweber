@@ -15,9 +15,9 @@ description: Add to cart default
 
 <div class="mw-price-item">
   
-  <span class="mw-price"><? print  $key ?>: <? print currency_format($v); ?></span>
-  <div class="v-space"></div>
-  <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<? print $params['id'] ?>','<? print $v ?>');"><i class="icon-shopping-cart"></i> Add to cart</button>
+  <span class="mw-price pull-left"><? print  $key ?>: <? print currency_format($v); ?></span>
+
+  <button class="btn pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<? print $params['id'] ?>','<? print $v ?>');"><i class="icon-shopping-cart"></i> Add to cart</button>
 </div>
 <? $i++; endforeach ; ?>
 <? endif; ?>

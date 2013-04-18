@@ -50,16 +50,16 @@
       <label class="mw-ui-label" style="padding-bottom: 0;"><span class="ico ismall_warn"></span><small>Type your e-mail where you will receive the email from this form</small></label>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Email To</label>
-        <input placeholder="Your Email"  name="email_to"    value="<? print get_option('email_to', $params['id']); ?>"     class="mw_option_field" type="text" />
+        <input placeholder="Your Email"  name="email_to"     value="<? print get_option('email_to', $params['id']); ?>"     class="mw-ui-field mw_option_field" type="text" />
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">BCC Email To</label>
-        <input placeholder="Your Email"  name="email_bcc"    value="<? print get_option('email_bcc', $params['id']); ?>"     class="mw_option_field"  type="text" />
+        <input placeholder="Your Email"  name="email_bcc"    value="<? print get_option('email_bcc', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
       </div>
       
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Autorespond Subject</label>
-        <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<? print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw_option_field"  type="text" />
+        <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<? print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
       </div>
       
       <div class="mw-ui-field-holder">

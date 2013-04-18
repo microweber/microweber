@@ -33,7 +33,10 @@ if($code !=''){
 
 
 $code = html_entity_decode($code);
-
+if(stristr($code,'<iframe') !== false){
+$code = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i',
+                        '<iframe$1 src="$2?wmode=transparent"$3>', $code);
+}
 function video_module_is_embed($str){
      $s = strtolower($str);
      if(stristr($s,'<iframe') != false or stristr($s,'<object') != false or stristr($s,'<embed') != false){
