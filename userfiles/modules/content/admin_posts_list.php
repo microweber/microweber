@@ -1,5 +1,5 @@
 <?
-// d($params);
+
 $is_momodule_comments = is_module('comments');
 
 $post_params = $params;
@@ -80,10 +80,10 @@ $posts_parent_category = false;
 if(isset($post_params['category'])){
 	$posts_parent_category = $post_params['category'];
 }
- 
+
 	if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
-			
+
 			if($posts_parent_category != false ){
 			$page_categories = false;
 			if(intval($cfg_page_id) != 0){
@@ -100,11 +100,11 @@ if(isset($post_params['category'])){
 								$sub_cats[] = $item_more_subcat;
 							}
 						}
-					 
+
 						}
 					}
-			} 
-			
+			}
+
 					if($posts_parent_category != false){
 						if(isarr($page_categories)){
 							$sub_cats = array();
@@ -117,16 +117,16 @@ if(isset($post_params['category'])){
 								$sub_cats = array($posts_parent_category);
 						}
 					}
-					
-					
+
+
 						if(isarr($sub_cats)){
 						$post_params['category'] = $sub_cats;
 						}
-						
-						
+
+
 			}
 						 $post_params['parent'] = $cfg_page_id;
-			
+
 
 
 
@@ -159,10 +159,9 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
-
  // $post_params['debug'] = 'posts';
 $post_params['content_type'] = 'post';
- 
+
 $content   =$data = get_content($post_params);
 ?>
 <?
@@ -185,16 +184,16 @@ $pages_count = intval($pages);
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <? if(isarr($data)): ?>
   <? foreach ($data as $item): ?>
-  
+
   <?
   $pub_class = '';
 				if(isset($item['is_active']) and $item['is_active'] == 'n'){
 					$pub_class = ' content-unpublished';
 				}
-  
+
    ?>
-  
-  
+
+
   <div class="manage-post-item manage-post-item-<? print ($item['id']) ?> <? print $pub_class ?>">
     <div class="manage-post-itemleft">
       <label class="mw-ui-check left">
