@@ -928,6 +928,23 @@ form .shipping-country-row:first-child{
 }
 
 
+.alert{
+  padding: 10px 0;
+}
+
+.alert-error{
+  color: #CC0000;
+}
+
+.alert-success{
+  color: #1BB12A;
+}
+
+.alert-warning{
+  color: #ECE518;
+}
+
+
 
 
 

@@ -38,7 +38,7 @@ if(isset($params['category-id']) and $params['category-id']!='global'){
 }
 $posts_mod['wrap'] =1;
 $posts_mod['paging_param'] ='pg';
-$posts_mod['orderby'] ='position asc';
+$posts_mod['orderby'] ='position desc';
 
 if(isset($params['pg'])){
  $posts_mod['curent_page'] =$params['pg'];

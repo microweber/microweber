@@ -80,6 +80,7 @@
 
             uploader.bind('FilesAdded', function(up, files) {
                 uploader.start();
+                $(this_frame).addClass("loading");
             });
 
             uploader.bind('UploadProgress', function(up, file) {
@@ -107,12 +108,14 @@
               }
               else{
                 this_frame.trigger("responseError", json);
+                $(this_frame).removeClass("loading");
               }
 
             });
 
             uploader.bind('UploadComplete', function(up, files){
               this_frame.trigger("done", files);
+               $(this_frame).removeClass("loading");
             });
 
             uploader.bind('FilesAdded', function(up, files){
@@ -121,6 +124,7 @@
 
             uploader.bind('Error', function(up, err){
              this_frame.trigger("error", err.file);
+             $(this_frame).removeClass("loading");
 	        });
 
 

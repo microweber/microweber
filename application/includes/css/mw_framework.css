@@ -1146,6 +1146,16 @@ input.mw-ui-field{
   color: #AAAAAA;
 }
 
+.mw-ui-invisible-field::-webkit-input-placeholder {
+  color: #AAAAAA;
+}
+.mw-ui-invisible-field:-moz-placeholder {
+  color: #AAAAAA;
+}
+.mw-ui-invisible-field::-moz-placeholder {
+  color: #AAAAAA;
+}
+
 
 input.mw-ui-field{
     font-family: inherit;
@@ -1390,8 +1400,19 @@ input.mw-title-field{
   overflow: hidden;
   cursor: pointer;
 }
+
+
 .post-thumb-uploader:hover{
   border-color: #C1C1C1;
+}
+
+
+.post-thumb-uploader iframe.loading:before{
+    background: red url(../img/load.gif) no-repeat center top;
+    content:"loading";
+    display: block;
+    padding: 10px;
+    position: relative;
 }
 
 

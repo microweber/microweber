@@ -7,7 +7,7 @@
   <form id="user_forgot_password_form{rand}" method="post" class="clearfix">
     <div class="mw-ui-field-holder">
 
-        <input type="text" class="mw-ui-field"  name="username" placeholder="Email or Username">
+        <input type="text" class="mw-ui-field"  name="username" placeholder="Enter Email or Username">
 
     </div>
 

@@ -250,7 +250,7 @@ if(!isset($post_params['content_type'])){
 }
 }
 if(!isset($params['order_by'])){
-	  $post_params['orderby'] ='position asc';
+	  $post_params['orderby'] ='position desc';
 }
 
 
