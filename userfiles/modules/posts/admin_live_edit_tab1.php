@@ -9,7 +9,6 @@ if(isset($params['global']) and $params['global'] != false){
 $rand = uniqid(); ?>
 <? if(!isset($is_shop) or $is_shop == false): ?>
 <? $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
- 
 <? else:  ?>
 <? $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
 <? endif; ?>
@@ -18,6 +17,7 @@ $rand = uniqid(); ?>
 <? if($set_content_type =='product'):  ?>
 <? $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
 <? endif; ?>
+
 <label class="mw-ui-label">Content type</label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-content-type" id="the_post_data-content-type<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"  >
@@ -28,10 +28,7 @@ $rand = uniqid(); ?>
   </select>
 </div>
 <? endif; ?>
-
 <? if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
-
-
 <label class="mw-ui-label">Display <? print pluralize($set_content_type) ?> from page</label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-page-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"   >
@@ -58,12 +55,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   ?>
   </select>
 </div>
-
-
 <? if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
-
 <?php $posts_parent_category =  get_option('data-category-id', $params['id']); ?>
- 
 <label class="mw-ui-label">Show only from category</label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-category-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"  data-also-reload="<? print  $config['the_module'] ?>"  >
@@ -84,12 +77,7 @@ $pt_opts['rel_id'] = $posts_parent_page;
   ?>
   </select>
 </div>
-
-
- 
 <? endif; ?>
-
-
 <?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);
@@ -150,7 +138,7 @@ $show_fields = array();
     <label class="mw-ui-check">
       <input type="checkbox" name="data-show" value="title" class="mw_option_field" <? if(in_array('title',$show_fields)): ?>   checked="checked"  <? endif; ?> />
       <span></span> <span>Title</span></label>
-      <div class="right">
+    <div class="right">
       <label class="mw-ui-label-horizontal">Length</label>
       <input name="data-title-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="255" style="width:65px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
     </div>
@@ -201,6 +189,23 @@ $show_fields = array();
     <div class="right">
       <label class="mw-ui-labe-horizontall">Posts per page</label>
       <input name="data-limit" class="mw-ui-field mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
+    </div>
+  </li>
+  <li>
+    <label class="mw-ui-check left">
+      <? $ord_by =  get_option('data-order-by', $params['id']); ?>
+      <span></span><span>Order by</span></label>
+    <div class="right">
+      <div class="mw-ui-select" >
+        <select name="data-order-by"   class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"   >
+          <option  value=""    <? if((0 == intval($ord_by))): ?>   selected="selected"  <? endif; ?>>Position &uarr;</option>
+          <option  value="position asc"    <? if(('position asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Position &darr;</option>
+          <option  value="created_on desc"    <? if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Date &uarr;</option>
+          <option  value="created_on asc"    <? if(('created_on asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Date &darr;</option>
+          <option  value="title asc"    <? if(('title asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Title &uarr;</option>
+          <option  value="title desc"    <? if(('title desc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Title &darr;</option>
+        </select>
+      </div>
     </div>
   </li>
 </ul>

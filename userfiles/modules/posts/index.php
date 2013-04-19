@@ -250,9 +250,13 @@ if(!isset($post_params['content_type'])){
 }
 }
 if(!isset($params['order_by'])){
-	  $post_params['orderby'] ='position desc';
+$post_params['orderby'] ='position desc';
 }
 
+$ord_by =  get_option('data-order-by', $params['id']);
+if($ord_by != false and trim($ord_by) != ''){
+	$post_params['orderby'] =$ord_by;
+}
 
  $date_format = get_option('date_format','website');
 if($date_format == false){
@@ -265,6 +269,13 @@ if(isset($params['title'])){
 
 $post_params['is_active'] = 'y';
 $post_params['is_deleted'] = 'n';
+
+$cat_from_url = url_param('category');
+
+if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat_from_url != false and trim($cat_from_url) != ''){
+	$post_params['category'] = db_escape_string($cat_from_url);
+}
+  
 
 $content   = get_content($post_params);
 $data = array();

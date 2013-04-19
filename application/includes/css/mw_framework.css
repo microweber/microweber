@@ -1407,14 +1407,6 @@ input.mw-title-field{
 }
 
 
-.post-thumb-uploader iframe.loading:before{
-    background: red url(../img/load.gif) no-repeat center top;
-    content:"loading";
-    display: block;
-    padding: 10px;
-    position: relative;
-}
-
 
 
 
@@ -1567,6 +1559,8 @@ select.mw-ui-simple-dropdown:focus{
   width: 133px;
   margin: 0 10px 20px;
 }
+
+
 .admin-thumbs-holder .admin-thumb-item:first-child{
   margin-left: 0;
 }
@@ -1587,6 +1581,12 @@ select.mw-ui-simple-dropdown:focus{
   float: right;
   margin-top: 3px;
   opacity:0.6;
+}
+
+
+
+.admin-thumb-item-loading .mw-post-media-img{
+  background: #F7F7F7 url(../img/img_check_loading.gif) no-repeat center center;
 }
 
 .mw-ui-x:hover, .mw-ui-x.active{background-position: 2px -14px;}
