@@ -160,6 +160,11 @@ $rerturn = array();
 $rerturn['src'] = pathToURL($filePath);
 $rerturn['name'] = end($f_name);
 
+if(isset($upl_size_log) and $upl_size_log >0){
+$rerturn['bytes_uploaded'] = $upl_size_log;	
+}
+
+
 print json_encode($rerturn);
 exit ;
 

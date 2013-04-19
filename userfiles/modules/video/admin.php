@@ -27,7 +27,19 @@
   <div class="tab">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Paste video URL or Embed Code</label>
-        <input name="embed_url" class="mw-ui-field mw_option_field" onchange="setprior(1);"  type="text" data-reload="<? print $params['data-type'] ?>" value="<?php print get_option('embed_url', $params['id']) ?>" style="width:370px;" />
+        <div class="mw-ui-field mw-ico-field" style="width:370px;">
+            <span class="ico iplay"></span>
+            <input
+                  name="embed_url"
+                  style="width: 340px;"
+                   class="mw-ui-invisible-field mw_option_field"
+                  onchange="setprior(1);"
+                  type="text"
+                  data-reload="<? print $params['data-type'] ?>"
+                  value="<?php print get_option('embed_url', $params['id']) ?>"
+            />
+        </div>
+
       </div>
   </div>
   <div class="tab semi_hidden">

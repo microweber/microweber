@@ -1113,6 +1113,22 @@ a.mw-ui-btn, span.mw-ui-btn{
   cursor: text;
 }
 
+.mw-ico-field{
+    display: inline-block;
+    padding: 3px 4px;
+}
+
+.mw-ico-field > .ico,
+.mw-ico-field > img:first-child{
+  float: left;
+}
+
+.mw-ico-field > .mw-ui-invisible-field{
+  float: left;
+  padding: 5px 0;
+
+}
+
 
 input.mw-ui-field{
   -webkit-appearance:textfield;
@@ -1224,14 +1240,21 @@ div.mw-custom-fields-tags{
 }
 
 
+.mw-captcha-img{
+  cursor: pointer;
+}
 
 
 .mw-ui-invisible-field{
   background: transparent;
   border: none;
-  color: #868686;
-  font-size: 11px;
 }
+
+.mw-tag-selector .mw-ui-invisible-field{
+   color: #868686;
+   font-size: 11px;
+}
+
 select.mw-ui-invisible-field{
   opacity:0;
 }

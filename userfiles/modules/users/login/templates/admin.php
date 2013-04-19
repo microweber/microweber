@@ -27,7 +27,7 @@ description: Admin login style
       <div class="mw-ui-field-holder">
         <input  class="mw-ui-field"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
       </div>
-      <div class="mw-ui-field-holder"> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login');" class="mw-ui-link left" style="margin-top:4px; ">Forgot my password?</a>
+      <div class="mw-ui-field-holder"> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link left" style="margin-top:4px; ">Forgot my password?</a>
         <input class="mw-ui-btn right" type="submit" value="<?php _e("Login"); ?>" />
       </div>
     </form>

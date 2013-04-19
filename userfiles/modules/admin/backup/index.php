@@ -68,12 +68,8 @@
         <div class="vSpace">&nbsp;</div>
         <div id="mw_uploader" class="mw-ui-btn"><span class="ico iplus"></span><span>Upload backup</span></div>
         <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">Uploading files</div>
-        
         <div class="vSpace">&nbsp;</div>
-        
-                <module id="mw_backup_log" type="admin/backup/log"/>
-        
-        
+        <module id="mw_backup_log" type="admin/backup/log"/>
       </div>
     </div>
   </div>

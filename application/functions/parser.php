@@ -563,11 +563,11 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 						if (isset($module_name)) {
 							$module_class = module_css_class($module_name);
 							if (!isset($attrs['id'])) {
- 
+
 								global $mw_mod_counter;
 								$mw_mod_counter++;
 
-								$attrs['id'] = $module_class . '-' . uniqid()+$mw_mod_counter;
+								$attrs['id'] = $module_class . '-' . uniqid() + $mw_mod_counter;
 								$module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
 							} else {
@@ -797,7 +797,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				}
 			}
 		}
-		
 
 		//        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
 		//        $replaced_head = array();
@@ -1114,14 +1113,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							$module_title = module_info($module_name);
 							//	d($module_title);
 							// if (!isset($attrs['id'])) {
-								// if (isset($attrs['module-id'])) {
-										// $attrs['id'] = $attrs['module-id'];
-// 										
-									// }
+							// if (isset($attrs['module-id'])) {
+							// $attrs['id'] = $attrs['module-id'];
+							//
+							// }
 							// }
 							if (!isset($attrs['id'])) {
-								
-								
 
 								global $mw_mod_counter;
 								$mw_mod_counter++;
@@ -1135,12 +1132,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 						}
 						if (isarr($module_title) and isset($module_title["name"])) {
 							$module_title["name"] = addslashes($module_title["name"]);
-						    $module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title["name"] . '"', $module_html);
+							$module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title["name"] . '"', $module_html);
 						} else {
-							 $module_html = str_replace('__MODULE_NAME__', '', $module_html);
+							$module_html = str_replace('__MODULE_NAME__', '', $module_html);
 
 						}
-							//$module_html = str_replace('__MODULE_NAME__', '', $module_html);
+						//$module_html = str_replace('__MODULE_NAME__', '', $module_html);
 
 						//                        if (!isset($module_name)) {
 						//                            if (isset($_POST['module'])) {
@@ -1173,9 +1170,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							}
 							//
 
-							$userclass = str_replace($module_class, '', $userclass);
-							$userclass = str_replace('module  module', '', $userclass);
-							$userclass = str_replace('module module', 'module', $userclass);
+							$userclass = str_replace(trim($module_class), '', $userclass);
+							$userclass = trim(str_replace(' module ', '', $userclass));
+							//	$userclass = str_replace('module  module', '', $userclass);
+							//$userclass = str_replace('module module', 'module', $userclass);
 
 							$module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
 							$module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
@@ -1186,6 +1184,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 							if ($coming_from_parent == true) {
 								$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
 							}
+
+						 
 							if (isset($attrs['id']) == true) {
 
 								$coming_from_parent_strz1 = $attrs['id'];

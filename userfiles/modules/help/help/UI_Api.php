@@ -356,6 +356,42 @@
     </td>
 
     </tr>
+
+
+    <tr>
+
+        <td>
+            <h2>Combining fields and icons</h2>
+
+            <div class="mw-ui-field mw-ico-field">
+                <span class="ico iplay"></span>
+                <input type="text"  class="mw-ui-invisible-field" />
+            </div>
+
+            <div class="mw-ui-field mw-ico-field">
+                <span class="ico ireport"></span>
+                <input type="text"  class="mw-ui-invisible-field" />
+            </div>
+
+            <div class="mw-ui-field mw-ico-field">
+                <span class="ico iWebsite"></span>
+                <input type="text"  class="mw-ui-invisible-field" />
+            </div>
+
+            <div class="mw-ui-field mw-ico-field">
+                <span class="ico iorder"></span>
+                <input type="text"  class="mw-ui-invisible-field" />
+            </div>
+
+
+
+
+
+        </td>
+        <td></td>
+    </tr>
+
+
     <tr>
     <td colspan="2">
 
