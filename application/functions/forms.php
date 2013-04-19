@@ -347,24 +347,23 @@ function post_form($params) {
 		unset($pp_arr['module_name']);
 		if (isset($pp_arr['rel'])) {
 			unset($pp_arr['rel']);
-		 }
+		}
 
-		 if (isset($pp_arr['rel_id'])) {
+		if (isset($pp_arr['rel_id'])) {
 			unset($pp_arr['rel_id']);
-		 }
+		}
 
 		if (isset($pp_arr['list_id'])) {
 			unset($pp_arr['list_id']);
-		 }
+		}
 
-		  if (isset($pp_arr['for'])) {
+		if (isset($pp_arr['for'])) {
 			unset($pp_arr['for']);
-		 }
+		}
 
 		if (isset($pp_arr['for_id'])) {
 			unset($pp_arr['for_id']);
-		 }
-
+		}
 
 		$notif = array();
 		$notif['module'] = $params['module_name'];
@@ -372,11 +371,11 @@ function post_form($params) {
 		$notif['rel_id'] = $list_id;
 		$notif['title'] = "New form entry";
 		$notif['description'] = "You have new form entry";
-		$notif['content'] = "You have new form entry from " . curent_url(1). '<br />' .array_pp($pp_arr);
+		$notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
 		post_notification($notif);
 		//	d($cf_to_save);
 		if ($email_to == false) {
-			$email_to = get_option('email_', 'email');
+			$email_to = get_option('email_from', 'email');
 
 		}
 		if ($email_to != false) {
@@ -390,38 +389,35 @@ function post_form($params) {
 				$mail_autoresp = $email_autorespond;
 			}
 
-			$mail_autoresp   = $mail_autoresp . array_pp($pp_arr);
-
-
-
-
+			$mail_autoresp = $mail_autoresp . array_pp($pp_arr);
 
 			$user_mails = array();
-			$user_mails [] = $email_to;
-			if (isset($email_bcc ) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
+			$user_mails[] = $email_to;
+			if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
 				$user_mails[] = $email_bcc;
 			}
 
-
-
 			if (isset($cf_to_save) and !empty($cf_to_save)) {
 				foreach ($cf_to_save as $value) {
-				//	d($value);
+					//	d($value);
 					$to = $value['custom_field_value'];
 					if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-					//	d($to);
+						//	d($to);
 						$user_mails[] = $to;
 					}
 				}
 			}
+			$scheduler = new \mw\utils\Events();
+			// schedule a global scope function:
 
-			if(!empty($user_mails)){
+			if (!empty($user_mails)) {
 				array_unique($user_mails);
 				foreach ($user_mails as $value) {
-				mw_mail($value,$mail_sj,$mail_autoresp );
+					//mw_mail($value,$mail_sj,$mail_autoresp );
+					$scheduler -> registerShutdownEvent("mw_mail", $value, $mail_sj, $mail_autoresp);
+
 				}
 			}
-
 
 		}
 	}

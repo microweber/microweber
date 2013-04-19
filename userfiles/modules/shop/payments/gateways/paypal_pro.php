@@ -1,11 +1,14 @@
 
+    <h5 class="alert alert-success">Your card payments are secured by PayPal</h5>
+
+
     <label><?php _e("First Name"); ?> </label>
     <input name="cc_first_name"  type="text" value="" />
 
   
     <label><?php _e("Last Name"); ?></label>
     <input name="cc_last_name"  type="text" value="" />
-  
+
 
     <label><?php _e("Credit Card"); ?></label>
     <select name="cc_type">
