@@ -15,9 +15,6 @@ $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 ?>
 <p><b>Thank you for your order.</b>  </p>
 
-<p><img src="<?php  print $config['url_to_module'] ?>img/paypal.jpg" alt=""> </p>
-
-
 <p>You will be redirected to PayPal's website. </p>
 
 

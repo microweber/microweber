@@ -472,7 +472,7 @@ function checkout_ipn($data) {
 		//d($update_order);
 		//d($data);
 		$ord = save_data($table_orders, $update_order);
-		checkout_send_confrimation_email($ord);
+		checkout_confirm_email_send($ord);
 		if ($ord > 0) {
 
 			$q = " UPDATE $cart_table set
@@ -494,32 +494,6 @@ function checkout_ipn($data) {
 	}
 	//
 	return false;
-}
-
-api_expose('checkout_send_confrimation_email');
-function checkout_send_confrimation_email($ord_id) {
-
-	if (intval($ord_id) == 0) {
-		return false;
-	} else {
-
-		if (get_option('order_email_enabled', 'orders') == 'y') {
-
-			$ord_get = get_orders('limit=1&id=' . $ord_id);
-			if (isset($ord_get[0]) and isarr($ord_get)) {
-				$ord = $ord_get[0];
-
-				$from = get_option('order_email_from', 'orders');
-				$from_name = get_option('order_email_name', 'orders');
-				$sj = get_option('order_email_subject', 'orders');
-				$mail_cont = get_option('order_email_content', 'orders');
-
-			}
-		}
-
-		//d($ord_get);
-	}
-
 }
 
 api_expose('checkout');
@@ -550,7 +524,7 @@ function checkout($data) {
 			where order_completed='n'   and session_id='{$sid}'  ";
 			//d($q);
 			db_q($q);
-			checkout_send_confrimation_email($ord);
+			checkout_confirm_email_send($ord);
 			$q = " UPDATE $table_orders set
 			order_completed='y'
 			where order_completed='n' and
@@ -559,7 +533,7 @@ function checkout($data) {
 			//d($q);
 			db_q($q);
 
-			checkout_send_confrimation_email($ord);
+			checkout_confirm_email_send($ord);
 
 		}
 
@@ -835,10 +809,21 @@ function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) 
 			if ($order_email_content != false and trim($order_email_subject) != '') {
 
 				if (!empty($ord_data)) {
+					$cart_items = get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
+				$order_items_html = array_pp($cart_items);
+
+				$order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
+ 
+
 					foreach ($ord_data as $key => $value) {
 						$order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+
 					}
 				}
+				if (!defined('MW_ORDERS_SKIP_SID')) {
+			//		define('MW_ORDERS_SKIP_SID', 1);
+				}
+				
 				$cc = false;
 				if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
 					$cc = $order_email_cc;
@@ -846,7 +831,11 @@ function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) 
 				}
 				if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-					mw_mail($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+					$scheduler = new \mw\utils\Events();
+					// schedule a global scope function:
+					$scheduler -> registerShutdownEvent("mw_mail", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+
+					//mw_mail($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 				}
 
 			}
@@ -1177,6 +1166,7 @@ function remove_cart_item($data) {
 }
 
 function get_cart($params) {
+
 	$params2 = array();
 	if (!isset($_SESSION)) {
 		return false;
@@ -1189,22 +1179,25 @@ function get_cart($params) {
 	$table = MODULE_DB_SHOP;
 	$params['table'] = $table;
 
-	if (is_admin() == false) {
-		$params['session_id'] = session_id();
-	} else {
-		if (isset($params['session_id']) and is_admin() == true) {
+	if (!defined('MW_ORDERS_SKIP_SID')) {
 
-		} else {
+		if (is_admin() == false) {
 			$params['session_id'] = session_id();
+		} else {
+			if (isset($params['session_id']) and is_admin() == true) {
+
+			} else {
+				$params['session_id'] = session_id();
+
+			}
+		}
+
+		if (isset($params['no_session_id']) and is_admin() == true) {
+			unset($params['session_id']);
+			//	$params['session_id'] = session_id();
+		} else {
 
 		}
-	}
-
-	if (isset($params['no_session_id']) and is_admin() == true) {
-		unset($params['session_id']);
-		//	$params['session_id'] = session_id();
-	} else {
-
 	}
 
 	$get = get($params);

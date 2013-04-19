@@ -907,7 +907,7 @@ ul.dropdown-menu ul.dropdown-menu{
 
     .gateway-selector {
       margin: 0;
-      padding: 0;
+      padding: 0 0 20px 0;
     }
 
     .gateway-selector li{
@@ -917,14 +917,17 @@ ul.dropdown-menu ul.dropdown-menu{
     .gateway-selector label{
       display: block;
       cursor: pointer;
-      padding: 10px 5px;
+      padding: 10px;
 
     }
     .gateway-selector label:hover{
       background-color: #F4F4F4;
     }
 
-
+    .gateway-selector img{
+      max-height: 40px;
+      margin: 0 12px;
+    }
 
     /* /Checkout */
 

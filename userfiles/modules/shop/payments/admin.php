@@ -2,6 +2,16 @@
  mw.require('options.js');
  </script>
 <script  type="text/javascript">
+
+
+setActiveProvider = function(el){
+  if(el.checked == true){
+    el.value == 'y'? $(el.parentNode.parentNode).addClass("active") : $(el.parentNode.parentNode).removeClass("active");
+  }
+
+}
+
+
   $(document).ready(function(){
  
 	
@@ -33,9 +43,29 @@ $(email_ed).css('height',"450px");
 
 
 
-mw.$(".payment-state-status input").commuter(function(){
-    this.value == 'y'? $(this.parentNode.parentNode).addClass("active") : $(this.parentNode.parentNode).removeClass("active")
-});
+
+
+
+mw.$("#available_providers").sortable({
+  items:".mw-o-box",
+  handle:".iMove",
+  axis:"y",
+  placeholder: "available_providers_placeholder",
+  start:function(a,b){
+
+    $(this).find(".mw-o-box").each(function(){
+      $(this).height("auto");
+      $(this).removeClass("mw-accordion-active");
+      $(this).removeClass("active");
+      $(this).find(".mw-o-box-content").hide();
+    });
+    $(this).sortable("refreshPositions");
+
+  },
+  stop:function(){
+    Alert("Saving ... ");
+  }
+})
 
 
   });
@@ -105,6 +135,41 @@ mw.$(".payment-state-status input").commuter(function(){
     margin-right: 12px;
 }
 
+.gateway-icon-title {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.gateway-icon-title img{
+  margin: 10px 22px 0 0;
+  max-height: 40px;
+  max-width: 130px;
+  float: left;
+}
+.gateway-icon-title .gateway-title{
+  display: block;
+  float: right;
+  width: 560px;
+  padding-top: 10px;
+
+}
+
+.mw-o-box-header .iMove{
+  visibility: hidden;
+}
+.mw-o-box-header:hover .iMove{
+  visibility: visible;
+}
+
+.available_providers_placeholder{
+  border: 2px dashed #ccc;
+  background:transparent;
+  height: 70px;
+  margin: 10px 0;
+  position: relative;
+}
+
+
 </style>
 <?
 $here = dirname(__FILE__).DS.'gateways'.DS;
@@ -135,19 +200,23 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
         <div class="otab" style="display: block">
           <h2>Payment providers </h2>
           <? if(isarr($payment_modules )): ?>
-          <div class="mw_simple_tabs mw_tabs_layout_stylish">
+          <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
             <? foreach($payment_modules  as $payment_module): ?>
             <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
               <? 
 			
 			
-			$module_info = (module_info($payment_module['module']));
-			
+			        $module_info = (module_info($payment_module['module']));
+
 			 
 			 ?>
-              <div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);"> <? print module_ico_title($payment_module['module'],false); ?> 
-                
-                <!--  <span class="ico ireport"></span><span><? print $payment_module['name'] ?></span> --> 
+              <div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
+                   <div class="gateway-icon-title">
+                      <span class="ico iMove"></span>
+                      <img src="<?php print $payment_module['icon']; ?>" alt="" />
+                      <span class="gateway-title"><? print $payment_module['name'] ?></span>
+                   </div>
+                <!--  <span class="ico ireport"></span><span><? print $payment_module['name'] ?></span> -->
                 
               </div>
               <div class="mw-o-box-content mw-accordion-content">
@@ -157,12 +226,12 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 
                 <div class="mw-o-box payment-state-status <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
                     <label class="mw-ui-check">
-                        <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
+                        <input onchange="setActiveProvider(this);" name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
                         <span></span>
                         <span class="first">Enabled</span>
                     </label>
                     <label class="mw-ui-check">
-                      <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> >
+                      <input onchange="setActiveProvider(this);" name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> >
                       <span></span>
                       <span class="second">Disabled</span>
                     </label>
@@ -170,7 +239,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
                 <div class="mw_clear"></div>
                 <div class="vSpace"></div>
                <!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<? endif; ?>"> <span class="mw-switch-handle"></span>
-                  
+
                 </div>-->
                 </label>
                 <div class="mw-set-payment-gw-options" >

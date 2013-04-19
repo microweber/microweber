@@ -16,25 +16,17 @@ $(document).ready(function(){
   <? if(count($payment_options) > 1): ?>
   <h2 style="margin-top: 0">Payment method</h2>
   <ul name="payment_gw" class="gateway-selector field-full mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
-    <? foreach ($payment_options as $item) : ?>
-        <? $mod_info = $item['module']; ?>
+    <? $count = 0; foreach ($payment_options as $item) : $count ++; ?>
      <li>
-        <label>
-          <img src="<? print  $item['icon']; ?>" alt="" />
-          <input type="radio" value="<? print  $item['gw_file']; ?>" name="p" />
-          <? print  $item['name']; ?>
-        </label>
+         <label title="<? print  $item['name']; ?>">
+            <input type="radio" <?php if($count == 1){  ?> checked="checked" <?php } ?> value="<? print  $item['gw_file']; ?>" name="payment" />
+            <img src="<? print  $item['icon']; ?>" alt="" />
+         </label>
      </li>
     <? endforeach; ?>
   </ul>
-
-
-
-
   <? endif; ?>
   <div id="mw-payment-gateway-selected-<? print $params['id']; ?>">
-
-
      <module type="<? print $payment_options[0]['gw_file'] ?>"  />
   </div>
   <? endif;?>

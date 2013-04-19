@@ -1560,7 +1560,7 @@ $.fn.commuter = function(a,b) {
   var b = b || function(){};
   return this.each(function(){
     if(this.type==='checkbox'  || this.type==='radio' ){
-      $(this).bindMultiple("change", function(){
+      $(this).bind("change", function(){
         this.checked === true ? a.call(this) : b.call(this);
       });
     }

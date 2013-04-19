@@ -7,14 +7,17 @@
     </span>
   <div class="mw_dropdown_fields">
       <ul>
-        <li value="{id}"><a href="javascript:;">ID</a></li>
+        <li value="{id}"><a href="javascript:;">Order ID</a></li>
+         <li value="{cart_items}"><a href="javascript:;">Cart items</a></li>
         <li value="{amount}"><a href="javascript:;">Amount</a></li>
         <li value="{order_status}"><a href="javascript:;">Order Status</a></li>
         <li value="{email}"><a href="javascript:;">Email</a></li>
-        <li value="{currency_code}"><a href="javascript:;">Currency Code</a></li>
+        <li value="{currency}"><a href="javascript:;">Currency Code</a></li>
         <li value="{first_name}"><a href="javascript:;">First Name</a></li>
         <li value="{last_name}"><a href="javascript:;">Last Name</a></li>
         <li value="{email}"><a href="javascript:;">Email</a></li>
+          <li value="{country}"><a href="javascript:;">Country</a></li>
+
         <li value="{city}"><a href="javascript:;">City</a></li>
         <li value="{state}"><a href="javascript:;">State</a></li>
         <li value="{zip}"><a href="javascript:;">ZIP/Post Code</a></li>
