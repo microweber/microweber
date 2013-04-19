@@ -73,7 +73,7 @@ mw.$(".mw-checkout-form .well").each(function(){
       __max = h;
     }
 });
-mw.$(".mw-checkout-form .well").height(__max)
+mw.$(".mw-checkout-form .well").css("minHeight",__max);
 
 });
 

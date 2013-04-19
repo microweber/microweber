@@ -13,9 +13,15 @@ function paypal_checkout_callback(data,selector){
 $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
  
 ?>
-<small><b>Thank you for your order.</b> <br>
-You will be redirected to PayPal's website.<br>
-Your shopping cart will be emptied</small>
+<p><b>Thank you for your order.</b>  </p>
+
+<p><img src="<?php  print $config['url_to_module'] ?>img/paypal.jpg" alt=""> </p>
+
+
+<p>You will be redirected to PayPal's website. </p>
+
+
+Your shopping cart will be emptied
 <? if($paypal_is_test == true and is_admin()): ?>
 <small><? print mw_warn("You are using Paypal Express in test mode!"); ?></small>
 <? endif; ?>

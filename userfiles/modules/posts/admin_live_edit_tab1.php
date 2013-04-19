@@ -158,7 +158,7 @@ $show_fields = array();
       <input type="checkbox" name="data-show" value="price" class="mw_option_field" <? if(in_array('price',$show_fields)): ?>   checked="checked"  <? endif; ?> />
       <span></span> <span>Show price</span></label>
   </li>
-  <li>
+  <li>  
     <label class="mw-ui-check">
       <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field"  <? if(in_array('add_to_cart',$show_fields)): ?>   checked="checked"  <? endif; ?> />
       <span></span> <span>Add to cart button</span></label>

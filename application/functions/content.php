@@ -1466,6 +1466,7 @@ function paging($params) {
 	if(isset($params['num'])){
 		$pages_count = $params['num'];
 	}
+ 
 
 	if(isset($params['class'])){
 		$class = $params['class'];
@@ -1491,8 +1492,8 @@ function paging($params) {
 					$act_class = ' class="active" ';
 				}
 			}
-			$to_print .= "<li {$act_class}>";
-			$to_print .= "<a {$act_class} href=\"$value\">$key</a> ";
+			$to_print .= "<li {$act_class} data-page-number=\"$key\">";
+			$to_print .= "<a {$act_class} href=\"$value\" data-page-number=\"$key\">$key</a> ";
 			$to_print .= "</li>";
 		}
 		$to_print .= "</ul></div>";

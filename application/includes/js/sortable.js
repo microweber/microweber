@@ -197,8 +197,8 @@ mw.drag = {
 
 
          mw.$(".edit > p").addClass("element");
-         mw.$(".edit .mw-row").addClass("element");
-         mw.$(".edit .module").addClass("element");
+         //mw.$(".edit .mw-row").addClass("element");
+         //mw.$(".edit .module").addClass("element");
 
 
          $(mwd.body).mousemove(function(event){
@@ -1421,7 +1421,9 @@ module_settings: function(a) {
       if (id == "") {
         id = mw.settings.element_id;
       }
-      id.contains("#") ? $(id).remove() : mw.$('#' + id).remove();
+
+      $(mw.tools.firstParentWithClass(mw.$('#' + id)[0], 'edit')).addClass("changed");
+      mw.$('#' + id).remove();
       $(mw.handle_module).css({left:'', top:''});
 	  mw.drag.fix_placeholders(true);
     }

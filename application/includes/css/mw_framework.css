@@ -2105,6 +2105,26 @@ tr.mw-o-box-table-footer td:first-child{
   box-shadow:inset 1px 1px 0px #fff, inset -1px -1px 0px #fff;
 }
 
+.mw-custom-fields-cart-item  li{
+  list-style: none;
+  border-bottom: 1px solid #ECECEC;
+  padding: 3px 0px;
+}
+
+.mw-custom-fields-cart-item  li:last-child{
+  border: none;
+}
+
+.mw-custom-fields-cart-item  .mw-custom-fields-cart-item-key{
+       color: #666666;
+    font-size: 11px;
+}
+
+.mw-custom-fields-cart-item-value{
+  color: #0D5C98;
+  font-size: 11px;
+}
+
 .mw-o-box-hr{
   height: 8px;
   border-top: 1px solid #ECECEC;

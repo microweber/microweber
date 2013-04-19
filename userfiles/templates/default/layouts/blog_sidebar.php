@@ -1,7 +1,5 @@
 <div class="edit"  field="blog_sidebar" rel="inherit">
-  <form action="#">
-      <input type="text" class="input-large search-query" placeholder="<?php _e("Search"); ?>">
-  </form>
+<module type="search" />
 
   <h4 class="element sidebar-title">Recent posts</h4>
   <div class="sidebar-box">

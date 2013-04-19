@@ -905,6 +905,27 @@ ul.dropdown-menu ul.dropdown-menu{
       margin-right:12px;
     }
 
+    .gateway-selector {
+      margin: 0;
+      padding: 0;
+    }
+
+    .gateway-selector li{
+      list-style: none;
+    }
+
+    .gateway-selector label{
+      display: block;
+      cursor: pointer;
+      padding: 10px 5px;
+
+    }
+    .gateway-selector label:hover{
+      background-color: #F4F4F4;
+    }
+
+
+
     /* /Checkout */
 
 

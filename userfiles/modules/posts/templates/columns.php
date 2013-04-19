@@ -51,7 +51,7 @@ description: Columns
     <? endif; ?>
   </div>
  <? if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-    <? print paging("num={$pages_count}&paging_param={$paging_param}") ?>
+    <? print paging("num={$pages_count}&paging_param={$paging_param}&curent_page={$curent_page}") ?>
     
  <? endif; ?>
 </div>

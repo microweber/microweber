@@ -1,5 +1,5 @@
 <?
-
+$curent_page = 1;
 
 $post_params = $params;
 
@@ -10,10 +10,8 @@ if (isset($post_params['id'])) {
 
 }
 
- //$paging_param = 'curent_page';
-if (isset($post_params['paging_param'])) {
-	$paging_param = $post_params['paging_param'];
-}
+ //$paging_param = 'curent_page';  
+
 
 
 if (isset($params['curent_page'])) {
@@ -24,6 +22,10 @@ if (isset($params['curent_page'])) {
  if($curent_page_from_url != false){
 	 	$curent_page = $curent_page_from_url;
  }
+}
+
+if (isset($params['curent_page'])) {
+	$curent_page = $params['curent_page'];
 }
 
 if (isset($post_params['data-page-number'])) {
@@ -56,7 +58,7 @@ if (isset($params['data-paging-param'])) {
 }
 
 
-
+ 
 
 
 $show_fields = false;
@@ -275,8 +277,12 @@ $cat_from_url = url_param('category');
 if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat_from_url != false and trim($cat_from_url) != ''){
 	$post_params['category'] = db_escape_string($cat_from_url);
 }
+  if(isset($params['content_type']) and $params['content_type'] == 'all'){
+	unset($post_params['content_type']);
+	unset($post_params['subtype']);
+ 	
+}
   
-
 $content   = get_content($post_params);
 $data = array();
 
@@ -397,6 +403,34 @@ if($template_file == false){
 		include($template_file);
 
 		?>
+<?  if(isset($params['ajax_paging'])):  ?>
+<script type="text/javascript">
+			 
+			 
+			 
+ 
+    $(document).ready(function(){
+
+		 mw.$('#<? print $params['id'] ?>').find('a[data-page-number]').unbind('click');
+		 mw.$('#<? print $params['id'] ?>').find('a[data-page-number]').click(function(e) {
+			 var pn = $(this).attr('data-page-number');
+		 
+			 mw.$('#<? print $params['id'] ?>').attr('paging_param','curent_page')
+			 mw.$('#<? print $params['id'] ?>').attr('curent_page',pn)
+			 mw.reload_module('#<? print $params['id'] ?>');
+			 
+			 
+			 return false;
+		});
+           
+			 
+	});		 
+			 
+			 
+			 
+			 
+		</script>
+<? endif; ?>
 <?  if(isset($params['is_shop'])):  ?>
 <script type="text/javascript">
 			if(mw.cart == undefined){

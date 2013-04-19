@@ -8,7 +8,7 @@
 	 mw.options.form('.mw-set-payment-options', function(){
       mw.notification.success("<?php _e("Settings are saved"); ?>.");
     });
-	
+
 	
 	
 
@@ -30,6 +30,12 @@ $('.mw-admin-wrap').click(function(){
 var email_ed =  mw.tools.iframe_editor("#order_email_content" , {modules:'shop/orders/editor_dynamic_values'})
 $(email_ed).css('width',"100%");
 $(email_ed).css('height',"450px");
+
+
+
+mw.$(".payment-state-status input").commuter(function(){
+    this.value == 'y'? $(this.parentNode.parentNode).addClass("active") : $(this.parentNode.parentNode).removeClass("active")
+});
 
 
   });
@@ -76,6 +82,29 @@ $(email_ed).css('height',"450px");
 	width: 75px;
 	padding: 5px 0;
 }
+
+.payment-state-status{
+  padding: 12px;
+  display: inline-block;
+  margin-top: 12px;
+  transition: all 200ms;
+}
+
+.payment-state-status {
+  background: #F27E54;
+  color: white;
+
+}
+
+.payment-state-status.active {
+  background: #D7FFC3;
+  color: #6C6C6C;
+}
+
+.payment-state-status .mw-ui-check:first-child{
+    margin-right: 12px;
+}
+
 </style>
 <?
 $here = dirname(__FILE__).DS.'gateways'.DS;
@@ -123,17 +152,23 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
               </div>
               <div class="mw-o-box-content mw-accordion-content">
                 <label class="mw-ui-label">
-                <h3><? print $payment_module['name'] ?>:</h3>                 
+                <h3><? print $payment_module['name'] ?>:</h3>
 
-                <label>Enabled
-                    <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
-                  </label>
-                  <label>Disabled
-                    <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> >
-                  </label>
-                
-                
-                
+
+                <div class="mw-o-box payment-state-status <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
+                    <label class="mw-ui-check">
+                        <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <? endif; ?> >
+                        <span></span>
+                        <span class="first">Enabled</span>
+                    </label>
+                    <label class="mw-ui-check">
+                      <input name="payment_gw_<? print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <? endif; ?> >
+                      <span></span>
+                      <span class="second">Disabled</span>
+                    </label>
+                </div>
+                <div class="mw_clear"></div>
+                <div class="vSpace"></div>
                <!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <? if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<? endif; ?>"> <span class="mw-switch-handle"></span>
                   
                 </div>-->

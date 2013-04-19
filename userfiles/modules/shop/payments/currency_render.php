@@ -1,4 +1,4 @@
-<? 
+<?
 
 $curencies = currencies_list_paypal();
 //the  $currencies array now have a list of supported currencies supported by pal
@@ -46,9 +46,9 @@ if($payment_currency_rate != false){
 <? endif; ?>
 <div class="vSpace"></div>
 <label class="mw-ui-label">Example of how the price will be diplayed.</label>
-<input  value="<? print ( currency_format($num, $cur)); ?>" disabled  type="text" />
+<input  value="<? print ( currency_format($num, $cur)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <? if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies) ): ?>
 <label class="mw-ui-label">Equals to (rate: <? print  $payment_currency_rate ?> or <? print ( currency_format(1, $cur)); ?>=<? print ( currency_format(1*$payment_currency_rate, $payment_currency)); ?> )</label>
-<input  value="<? print ( currency_format($num*$payment_currency_rate, $payment_currency)); ?>" disabled  type="text" />
+<input  value="<? print ( currency_format($num*$payment_currency_rate, $payment_currency)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <? endif; ?>
 <div class="vSpace"></div>
