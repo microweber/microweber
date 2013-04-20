@@ -13,7 +13,7 @@ $(document).ready(function(){
 </script>
 
 <div class="well">
-  <? if(count($payment_options) > 1): ?>
+  <? if(count($payment_options) > 0): ?>
   <h2 style="margin-top: 0">Payment method</h2>
   <ul name="payment_gw" class="gateway-selector field-full mw-payment-gateway mw-payment-gateway-<? print $params['id']; ?>">
     <? $count = 0; foreach ($payment_options as $item) : $count ++; ?>
