@@ -2532,8 +2532,38 @@ body.dragStart .edit .element:after{
 
 
 
-body.dragStart .edit{
- /* outline: 6px solid #FFFEB8; */
+body.dragStart .edit:hover:before{
+    display: block;
+    padding:20px 0;
+    width: 100%;
+    top: -40px;
+    left: 0;
+    background:#FFFFB9;
+    text-align: center;
+    content: "Drop Here";
+    color:#188DE7;
+    position: absolute;
+    font-size: 11px;
+}
+
+body.dragStart .edit:hover:after{
+    display: block;
+    visibility: visible;
+    padding:20px 0;
+    width: 100%;
+    bottom: -40px;
+    left: 0;
+    background:#FFFFB9;
+    text-align: center;
+    content: "Drop Here";
+    color:#188DE7;
+    position: absolute;
+    font-size: 11px;
+}
+
+body.dragStart .module .edit:hover:before,
+body.dragStart .module .edit:hover:after{
+  display: none;
 }
 
 body.dragStart .mw_dropable_arr:before{

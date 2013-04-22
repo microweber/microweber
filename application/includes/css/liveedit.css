@@ -264,29 +264,6 @@ body .mw-col > .ui-resizable-e *{
 
 
 
-.dragStart .module:hover{
-  cursor: not-allowed;
-  position: relative;
-}
-
-.dragStart .module:hover:after{
-  position: absolute;
-  content: "";
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background-color: #62B2DA;
-  opacity: 0.8;
-  cursor: not-allowed;
-}
-
-
-.edit[contenteditable=true]{
-
-}
 
 
 

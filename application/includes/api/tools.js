@@ -744,6 +744,15 @@ mw.tools = {
       });
       return _has;
   },
+  lastParentWithClass:function(el,cls){
+      _has = false;
+      mw.tools.foreachParents(el, function(loop){
+         if(mw.tools.hasClass(this.className, cls)){
+           _has = this;
+         }
+      });
+      return _has;
+  },
   firstParentWithTag:function(el,tag){
       var tag = typeof tag !== 'string'?tag:[tag];
       _has = false;

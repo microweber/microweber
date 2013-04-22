@@ -421,10 +421,7 @@ function post_form($params) {
 
 		}
 	}
-
-	$email_to = $email_bcc = get_option('email_bcc', $for_id);
-	$email_autorespond = get_option('email_autorespond', $for_id);
-
+ 
 	return ($save);
 
 }

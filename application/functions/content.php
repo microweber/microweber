@@ -1466,7 +1466,7 @@ function paging($params) {
 	if(isset($params['num'])){
 		$pages_count = $params['num'];
 	}
- 
+
 
 	if(isset($params['class'])){
 		$class = $params['class'];
@@ -3616,5 +3616,153 @@ function content_get_inherited_parent($content_id){
 			}
 		}
 	}
+
+}
+
+
+
+/**
+ * static_pages_tree
+ *
+ * @desc generates static pages navigation from direcotry
+ * @access      public
+ * @category    static pages
+ * @author      Microweber
+ * @param $params = array();
+ * @param $params['dir_name'] = your dir; //path to the directory root
+
+ */
+
+
+function static_pages_tree($params = false){
+	$params = parse_params($params);
+	@extract($params);
+
+	if(!isset($dir_name)){
+		return 'Error: You must set $dir_name for the function '.__FUNCTION__;
+	}
+	if(!empty($params)){
+	 ksort($params);
+	}
+
+	$function_cache_id = __FUNCTION__ . crc32(serialize($params));
+$cache_content = false;
+	//$cache_content = cache_get_content($function_cache_id, 'content/static');
+
+	if (($cache_content) != false) {
+
+		$tree =  $cache_content;
+	} else {
+
+		//cache_save($tree, $function_cache_id, $cache_group = 'content/static');
+	}
+
+$tree = directory_tree($dir_name);
+
+
+	if($tree != false){
+
+		if(!isset($url)){
+		$url = curent_url(true,true);
+		}
+		$url = url_param_unset('loc', $url) ;
+		$url = url_param_unset('page', $url) ;
+		$url = reduce_double_slashes(site_url($url).'/');
+
+
+
+
+		$tree = str_replace("/","--", $tree);
+	    $tree = str_replace("path=","page:", $tree);
+		$tree = str_replace("file=","page:", $tree);
+		$tree = str_replace('?',$url, $tree);
+
+
+
+		$page_url = url_param('page');
+		if($page_url != false and $page_url != ''){
+			$page_url = urldecode($page_url);
+			//$page_url  = no_ext($page_url);
+			$class_path = str_replace(' ', '_', 'page_'.$page_url);
+			$class_path = str_replace('.', '_', $class_path);
+
+ 			//$tree = strtr($tree, array('page_'.$page_url , "active "));
+			 $tree = str_ireplace($class_path,' active ', $tree);
+
+			//{$class_path}
+
+		}
+
+
+		if(isset($class)){
+			$tree = str_replace("directory_tree",$class, $tree);
+		}
+
+
+		//$tree = str_replace("//","/", $tree);
+	}
+	return $tree;
+
+
+}
+
+
+function static_page_get($params = false){
+
+	$params = parse_params($params);
+	@extract($params);
+	if(!isset($dir_name)){
+		return 'Error: You must set $dir_name for the function '.__FUNCTION__;
+	}
+
+
+	$load_file = false;
+	$url = curent_url(true,true);
+	$page_url = url_param('page');
+	if($page_url != false and $page_url != ''){
+		$page_url = urldecode($page_url);
+		$page_url = str_replace("--", "/", $page_url);
+		if($page_url != false and $page_url != ''){
+			$path = str_replace('..','',$dir_name);
+			$file = str_replace('..','',$page_url);
+
+			if($path  != false and trim($path  != '') and $file  != false){
+				$try_file = $path.$file;
+				if(is_file($try_file)){
+					$try_file = normalize_path($try_file, false);
+				 $load_file= ($try_file);
+				}
+
+
+			} else if($path  != false and trim($path  != '') and $file  == false){
+				$try_file = $path.DS.'index.php';
+				if(is_file($try_file)){
+					$try_file = 	normalize_path($try_file, false);
+				 $load_file= ($try_file);
+				}
+			}
+		}
+
+
+
+		if($load_file != false){
+
+			$static_page = new MwView($load_file);
+			$config = array();
+			$config['dir_name'] = $dir_name;
+			$config['filename'] = $load_file;
+			$static_page -> config = $config;
+			$static_page -> params = $params;
+
+			$static_page = $static_page -> __toString();
+
+
+			return $static_page;
+
+
+		}
+
+
+ 	}
 
 }

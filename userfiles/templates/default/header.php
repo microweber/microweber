@@ -46,9 +46,10 @@
     </head>
     <body>
 <div id="header" class="clearfix">
-      <div class="container"> <a href="<?php print site_url(); ?>" class="brand edit" id="logo" rel="global" field="logo">New World</a>
+      <div class="container">
+        <div class="brand edit" id="logo" rel="global" field="logo"><a href="<?php print site_url(); ?>">New World</a></div>
       <module type="shop/cart" template="small" />
-    <module type="menu" name="header_menu" id="main-navigation" template="pills"  />
+     <module type="menu" name="header_menu" id="main-navigation" template="pills"  />
   </div>
     </div>
 <!-- /#header --> 

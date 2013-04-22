@@ -319,29 +319,59 @@ mw.drag = {
              var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
              if((order.module > -1 && order.edit > order.module)){
-
+               /*
                 mw.mm_target = mw.drag.noop;
-                mw.$mm_target = $(mw.drag.noop);
+                mw.$mm_target = $(mw.drag.noop);   */
 
-               // mw.dropable.removeClass("mw_dropable_onleaveedit");
+
              }
            }
 
-          if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
-              mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
+
+
+          if(mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')){
+              mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
+                d('inside MODULE '+mw.currentDragMouseOver)
+
           }
-          else if(mw.tools.hasClass(mw.mm_target, 'module')){
+          else if(mw.tools.hasClass(mw.mm_target.className, 'module')){
                  mw.currentDragMouseOver = mw.mm_target;
-          }
-          else{
-             if(   mw.$mm_target.hasClass("element")
+
+
+          }   else{
+
+             if(   // The Core
+                   mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
+                || mw.$mm_target.hasClass("mw-row")
+                || mw.$mm_target.hasClass("module")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
+                || mw.tools.hasParentsWithClass(mw.mm_target, "module")
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
-               if(!mw.mm_target.className.contains("ui-") && !mw.mm_target.className.contains("mw-col") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
+
+                d('OUTSIDE MODULE '+mw.mm_target)
+                if(mw.$mm_target.hasClass("module")){
+                     mw.currentDragMouseOver = mw.mm_target;
+                    d(1 + " - " + mw.random())
+                }
+                else if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
+                    mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
+                     d(2 + " - " + mw.random())
+                }
+
+               else if(!mw.mm_target.className.contains("ui-") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
                     if(mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'no-drop') && !mw.$mm_target.hasClass('no-drop')){
-                       mw.currentDragMouseOver = mw.mm_target;
+
+                        if(mw.tools.hasClass(mw.mm_target.className, 'mw-col') || mw.tools.hasClass(mw.mm_target.className, 'mw-col-container') ){
+                           mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'mw-row');
+                        }
+                        else{
+                         mw.currentDragMouseOver = mw.mm_target;
+                        }
+
+
+
                        if(mw.$mm_target.hasClass("empty-element")){
                           mw.dropable.removeClass("mw_dropable_onleaveedit");
                        }
@@ -437,7 +467,9 @@ mw.drag = {
 
 
 
-            if(el.hasClass("element") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
+            if(el.hasClass("element") ||
+            mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') ||
+            mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element")){
                     mw.dropable.hide();
                 }
@@ -1875,6 +1907,7 @@ $(".mw-row").each(function(){
 
                         mw.px2pc($(this).parents(".mw-row")[0]);
 
+                        $(mw.tools.firstParentWithClass(this, 'edit')).addClass("changed");
                        //mw.scale_cols();
 					}
 				});
