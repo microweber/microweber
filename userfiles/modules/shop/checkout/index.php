@@ -89,7 +89,7 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
   <?
   
    if($cart_show_enanbled != 'n'): ?>
-  <module type="shop/cart" id="cart_checkout_<? print $params['id']?>" data-checkout-link-enabled="n" />
+  <module type="shop/cart" template="big" id="cart_checkout_<? print $params['id']?>" data-checkout-link-enabled="n" />
   <? endif ;?>
   <div style="margin-left: 0">
     <div class="row-fluid mw-cart-data-holder">

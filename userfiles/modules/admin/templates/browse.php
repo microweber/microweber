@@ -43,7 +43,7 @@ modulePreview = function(el){
    });
 
    if(!modal){
-     mw.tools.highlight(mwd.getElementById("preview_" + el.id), "#FF0000");
+     mw.tools.highlight(mwd.getElementById("preview_" + el.id).querySelector(".tpl_previe_overlay"), "#FF0000");
    }
    else{
      $(modal.container).css("position", "relative").append("<div class='tpl_previe_overlay'></div>");
