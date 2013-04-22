@@ -108,7 +108,7 @@ $get_comments_params['is_new'] = 'y';
         <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <? if($display_comments_from == 'recent'): ?>  checked="checked" <? endif ?> />
         <span></span> <span>Recent comments</span> </label>
     </div>
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
       <label class="mw-ui-check left">
         <input name="display_comments_from" class="mw_option_field"    type="radio" value="module" <? if($display_comments_from == 'module'): ?>  checked="checked" <? endif ?> />
         <span></span> <span>Custom comments</span></label>
@@ -156,7 +156,7 @@ $comment_modules['limit'] =  '200';
         <? endforeach ; ?>
       </select>
       <? else : ?>
-      <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+      <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
       <? endif; ?>
     </div>
     
@@ -174,10 +174,10 @@ $comment_modules['limit'] =  '200';
       <span></span> <span>Show paging</span> </label>
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline">Comments per page</label>
-    <input type="text"  placeholder="10" style="width:22px;" class="mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
+    <input type="text"  placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline">Form title </label>
-    <input type="text"  placeholder="Use default"   class="mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
+    <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
   </div>
 </div>
 <? endif; ?>

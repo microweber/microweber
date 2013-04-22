@@ -1,4 +1,5 @@
-<?php only_admin_access();?>
+<?php only_admin_access(); ?>
+
       <style type="text/css">
 
 #module-settings .mw-ui-label-inline {
@@ -58,7 +59,7 @@
 }
 
 </style>
-      
+
       
       
         <script>mw.require("files.js");</script>
@@ -231,7 +232,7 @@
             />
                     <span></span><span>New comment</span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
-                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="Type email here" class="mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
+                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="Type email here" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
                   </div>
                 </div>
               </div>

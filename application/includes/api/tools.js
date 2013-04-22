@@ -238,10 +238,13 @@ mw.tools = {
           overlay:obj.overlay,
           template:obj.template
         });
-        $(modal.main).addClass("mw_modal_type_iframe");
-        $(modal.container).css("overflow", "hidden");
-        modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
-        $(modal.main).find("iframe").eq(0).height($(modal.main).find(".mw_modal_container").height())
+        if(!!modal){
+            $(modal.main).addClass("mw_modal_type_iframe");
+            $(modal.container).css("overflow", "hidden");
+            modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
+            $(modal.main).find("iframe").eq(0).height($(modal.main).find(".mw_modal_container").height())
+        }
+
         return modal;
     },
 

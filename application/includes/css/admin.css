@@ -945,6 +945,25 @@ form .shipping-country-row:first-child{
 }
 
 
+.module-users-forgot-password-reset-password{
+  width:500px;
+  margin:20px auto;
+  padding-top: 50px;
+}
+
+.module-users-forgot-password-reset-password  input.mw-ui-field{
+  width: 453px;
+}
+
+.module-users-forgot-password-reset-password  div.mw-ui-field{
+  width: 465px;
+}
+
+.module-users-forgot-password-reset-password  button.mw-ui-btn{
+  float: right;
+}
+
+
 
 
 

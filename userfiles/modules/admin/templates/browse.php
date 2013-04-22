@@ -1,4 +1,23 @@
 <? only_admin_access(); ?>
+
+
+<style>
+
+.tpl_previe_overlay{
+   background: none repeat scroll 0 0 transparent;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 995;
+}
+
+</style>
+
+
+
 <script  type="text/javascript">
 $(document).ready(function(){
 
@@ -6,18 +25,30 @@ $(document).ready(function(){
       mw.notification.success("<?php _e("Default template saved"); ?>.");
     });
 
- 
+
 
 });
 
 
 
 modulePreview = function(el){
-   mw.tools.modal.frame({
-     url:el.href,
-     name:el.id,
-     title: 'Preview - ' + el.title
+   var url = el.tagName == 'A' ? el.href : el.src;
+
+   var modal = mw.tools.modal.frame({
+     url:url,
+     name:"preview_" + el.id,
+     title: 'Preview Template - <b>' + el.title + "</b>",
+     height:600,
+     template:'mw_modal_simple'
    });
+
+   if(!modal){
+     mw.tools.highlight(mwd.getElementById("preview_" + el.id), "#FF0000");
+   }
+   else{
+     $(modal.container).css("position", "relative").append("<div class='tpl_previe_overlay'></div>");
+   }
+
 }
 
 
@@ -67,15 +98,27 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
   <? endif; ?>
   
 
-  
-  <? if(isset($item['icon'])): ?>
-  <img src="<? print $item['icon'] ?>" height="30" />
-  <? endif; ?>
-  <? if(isset($item['image'])): ?>
-  <img src="<? print $item['image'] ?>" height="30" />
-  <? endif; ?>
+  <div class="templatePreviewHolder" onclick="modulePreview(mwd.getElementById('skin_num_<? print $i.md5($curent_module); ?>')); return false;">
+
+  <? if(isset($item['icon'])){ ?>
+        <img src="<? print $item['icon'] ?>" width="365" height="365" />
+  <? } else if(isset($item['image'])){ ?>
+        <img src="<? print $item['image'] ?>" width="365" height="365" />
+  <? } else {; ?>
+       <iframe
+              src="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i.md5($curent_module); ?>"
+              width="365"
+              height="365"
+              frameborder="0"
+              scrolling="no"
+              >
+       </iframe>
+  <?php } ?>
+
+  </div>
+
   <a onclick="modulePreview(this); return false;" title="<? print $item['name'] ?>" id="skin_num_<? print $i.md5($curent_module); ?>" href="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i.md5($curent_module); ?>"  class="mw-ui-btn">Preview</a>
-  
+
   <? //d($item); ?>
 
   

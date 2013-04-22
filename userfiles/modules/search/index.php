@@ -8,79 +8,65 @@ mw.require('events.js', true);
     mw.require("forms.js", true);
 </script>
 <script  type="text/javascript">
- $(document).ready(function(){
-            mw.url.windowDeleteHashParam("keyword<? print $seach_prefix ?>");
-			mw.on.hashParam("keyword<? print $seach_prefix ?>", function(){
 
-             mw.$("#search_box_holder_<?  print $params['id'] ?>").addClass("loading");
+mw.search_settings = {
+  content_type: 'all',
+  limit:5,
+  ajax_paging:true,
+  template:'default',
+  done:false
+}
 
-			 var dis = this;
-			
-			 if(dis!==''){
+mw.search = function(key, holder, obj){
+    if(typeof key === 'undefined' || typeof holder === 'undefined') return false;
+    var opt = $.extend(mw.search_settings, obj, {});
 
-                 var holder =  mw.$('#search_results_holder_<?  print $params['id'] ?>');
-                 holder
-                      .attr('keyword', dis)
-                      .attr('content_type', 'all')
-                      .attr('limit', '5')
-                      .attr('ajax_paging', 'true')
-                      .attr('template', 'search')
+    var holder = $(holder);
+    holder
+          .attr('keyword', key)
+          .attr('content_type', opt.content_type)
+          .attr('limit', opt.limit)
+          .attr('ajax_paging', opt.ajax_paging)
+          .attr('template', opt.template)
+          .show();
 
-                      .show();
+    mw.load_module('posts', holder, function(){
 
+         if(typeof opt.done === 'function'){
 
-				 mw.load_module('posts', '#search_results_holder_<?  print $params['id'] ?>',function(){
-                    mw.$("#search_box_holder_<?  print $params['id'] ?>").removeClass("loading");
-  				});
-
-			} else {
-
-				 mw.$('#search_results_holder_<?  print $params['id'] ?>').hide();
-			}
-
-			}); 	
-        mw.$("#search_field_<?  print $params['id'] ?>").bind("keyup paste", function(e){
-          mw.$("#search_box_holder_<?  print $params['id'] ?>").addClass("loading");
-          if(e.type == 'paste'){
-              mw.url.windowHashParam('keyword<? print $seach_prefix; ?>', this.value);
-
-          }
-          else{
-            if(e.keyCode ==38){ //up
-                var lis = '';
-            }
-            else if(e.keyCode == 40){ //down
-
-            }
+           opt.done.call(this);
+         }
+  	});
+}
 
 
-
-
-
-          }
-        });
-
-
-
-
-
- });
  </script>
 
-<div class="mw-search" id="search_box_holder_<?  print $params['id'] ?>">
 
-  <div class="input-append">
-
-
-  <input type="text"
-         id="search_field_<?  print $params['id'] ?>"
-         class="input-large mw-search-field"
-         placeholder="<?php _e("Search"); ?>"
-         onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('keyword<? print $seach_prefix ?>',this.value)})" />
-
-<span class="add-on"><i class="icon-search"></i></span>
-                </div>
+<?php 
 
 
-  <div class="mw-search-results" id="search_results_holder_<?  print $params['id'] ?>"> </div>
-</div>
+$module_template = get_option('data-template',$params['id']);
+if($module_template == false and isset($params['template'])){
+	$module_template =$params['template'];
+} 
+
+
+
+
+
+if($module_template != false){
+		$template_file = module_templates( $config['module'], $module_template);
+
+} else {
+		$template_file = module_templates( $config['module'], 'default');
+
+}
+
+//d($module_template );
+if(isset($template_file) and is_file($template_file) != false){
+ 	include($template_file);
+}
+
+
+?>

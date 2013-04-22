@@ -435,6 +435,9 @@
   text-shadow:0 1px 0 #255F85;
   text-shadow:none;
 }
+.mw_modal_simple .mw_modal_title{
+  margin-top: 2px;
+}
 
 .mw_modal_minimize{
   position: absolute;

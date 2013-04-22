@@ -232,7 +232,7 @@ $(document).ready(function(){
        </div>
 
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;">
+  <div class="mw_edit_page_right" style="padding: 20px;width: 710px;">
     <div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
       <div class="comments-tab" id="the_comments">
         <div id="comments-admin-side">
@@ -268,13 +268,9 @@ $(document).ready(function(){
       <div class="comments-tab" style="display: none">
         <div class="comments-admin-header">
           <div class="comments-admin-header-info">
-            <h2>My templates</h2>
-            <small>Browse your templates</small> </div>
-          <input
-              autocomplete="off"
-              type="search"
-              placeholder="<?php _e("Search templates"); ?>"
-          />
+           
+    <module type="admin/templates/browse" for="<? print $config["the_module"] ?>"  />
+ 
         </div>
       </div>
     </div>

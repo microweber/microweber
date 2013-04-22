@@ -155,6 +155,9 @@ if( $curent_page_from_url != false){
 	}
 }
  
+
+ 
+ 
  
  
  $comments = get_comments($comments_data);
@@ -168,10 +171,13 @@ if ($template != false and strtolower($template) != 'none') {
 //
     $template_file = module_templates($params['type'], $template);
 
-//d();
+//
 } else {
   $template_file = module_templates($params['type'], 'default');	
 }
+ 
+
+
 ?>
 <script type="text/javascript">
     mw.require("url.js", true);
@@ -182,40 +188,32 @@ if ($template != false and strtolower($template) != 'none') {
     $(document).ready(function(){
 
 		
-		 mw.$('#<? print $data['id'] ?> a.comments-login-link').click(function() {
-			 var login_hold = "login-comments-form-<? print $data['id'] ?>";
-					if($('#'+login_hold).length == 0){
-						$('#<? print $data['id'] ?>').append("<div class=\" \" id='"+login_hold+"'></div>");
-					}
+		 mw.$('#<? print $params['id'] ?> a.comments-login-link').click(function() {
+			 var login_hold = "login-comments-form-<? print $params['id'] ?>";
+			if($('#'+login_hold).length == 0){
+						$('#<? print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
+			}
 			 mw.load_module('users/login','#'+login_hold)
-			 
 			 return false;
 		});
            
-		
-		
-		
-			 mw.$('#<? print $data['id'] ?> a.comments-register-link').click(function() {
-			 var login_hold = "login-comments-form-<? print $data['id'] ?>";
+	 
+			 mw.$('#<? print $params['id'] ?> a.comments-register-link').click(function() {
+			 var login_hold = "login-comments-form-<? print $params['id'] ?>";
 					if($('#'+login_hold).length == 0){
-						$('#<? print $data['id'] ?>').append("<div class=\" \" id='"+login_hold+"'></div>");
+						$('#<? print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
 					}
 			 mw.load_module('users/register','#'+login_hold)
-			 
 			 return false;
 		});
            
-		
-		
-		
-		
 
+ 
 		
 		
-		
-        mw.$('form#comments-form-<? print $data['id'] ?>').submit(function() {
+        mw.$('form#comments-form-<? print $params['id'] ?>').submit(function() {
 
-            mw.form.post('form#comments-form-<? print $data['id'] ?>', '<? print site_url('api/post_comment'); ?>',
+            mw.form.post('form#comments-form-<? print $params['id'] ?>', '<? print site_url('api/post_comment'); ?>',
 			function(msg) {
 				
 				var resp = this;
@@ -226,7 +224,7 @@ if ($template != false and strtolower($template) != 'none') {
 						 if(typeof(data2.error) != 'undefined'){
 
 
-                                mw.response(mw.$('form#comments-form-<? print $data['id'] ?>'),data2);
+                                mw.response(mw.$('form#comments-form-<? print $params['id'] ?>'),data2);
 
 							
 					    } 
@@ -235,10 +233,10 @@ if ($template != false and strtolower($template) != 'none') {
 				
 			 
 				if(typeof(resp.error) != 'undefined'){
-					var err_hold = "error-comments-form-<? print $data['id'] ?>";
+					var err_hold = "error-comments-form-<? print $params['id'] ?>";
 					
 					if($('#'+err_hold).length == 0){
-						$('#comments-form-<? print $data['id'] ?>').append("<div class=\"alert alert-error\" id='"+err_hold+"'></div>");
+						$('#comments-form-<? print $params['id'] ?>').append("<div class=\"alert alert-error\" id='"+err_hold+"'></div>");
 						
 					}
 					 
@@ -257,8 +255,10 @@ if ($template != false and strtolower($template) != 'none') {
         });
     });
 </script>
-<?php  switch ($template_file):  case true:  ?>
-<? include($template_file); ?>
+<?php  
+ include($template_file); 
+switch ($template_file):  case true:  ?>
+
 <?
           if ($template_file != false) {
               break;

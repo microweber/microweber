@@ -10,7 +10,11 @@ description: Default comments template
 
 */
 
-  //$template_file = false; ?>
+  //$template_file = false;
+  
+
+  
+   ?>
 <div class="comments-template-stylish">
   <?php
        $cur_user = user_id();
