@@ -148,6 +148,7 @@ mw.cart = {
     var w = $(n).width();
     n.style.marginLeft = -(w/2)+'px';
     n.className += ' gooff';
+    setTimeout(function(){$(n).remove()}, 5000);
     return n;
   }
 }

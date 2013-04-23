@@ -43,7 +43,17 @@ description: Full width cart template
        $total += $item['price']* $item['qty'];
        ?>
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
-        <td class="mw-cart-table-product"><? print $item['title'] ?>
+        <td class="mw-cart-table-product">
+		
+		 <? $p = get_picture($item['rel_id']); ?>
+      <? if($p != false): ?>
+      <img height="70" class="mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
+      <? endif; ?>
+      
+      
+      
+      
+		<? print $item['title'] ?>
           <? 	if(isset($item['custom_fields'])): ?>
           <? print $item['custom_fields'] ?>
           <?  endif ?></td>
