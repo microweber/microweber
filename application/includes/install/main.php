@@ -155,7 +155,7 @@ input[type='text'], input[type='password'] {
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
-              <input type="text" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= ''): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
             </div>
 
             <!-- <div class="mw-ui-field-holder">
