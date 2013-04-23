@@ -932,6 +932,21 @@ ul.dropdown-menu ul.dropdown-menu{
     /* /Checkout */
 
 
+    /* Notifications */
+
+    .mw-shop-notification{
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      z-index: 99;
+      transition: all 2s ease-in;
+    }
+    .mw-shop-notification .alert{
+      box-shadow: 0 0 3px #ccc;
+    }
+
+    /* /Notifications */
+
 /* /Shop */
 
 

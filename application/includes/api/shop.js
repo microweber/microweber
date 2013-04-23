@@ -71,7 +71,7 @@ mw.cart = {
        form.dataset("loading", 'true');
 
        form.find('.mw-checkout-btn').attr('disabled', 'disabled');
-form.find('.mw-checkout-btn').hide();
+       form.find('.mw-checkout-btn').hide();
 	   var obj = mw.form.serialize(selector);
 
 	  $.ajax({
@@ -87,22 +87,18 @@ form.find('.mw-checkout-btn').hide();
 
 						 	 mw.$('[data-type="shop/cart"]').removeAttr('hide-cart');
 
-						 var data2 =  (data);
+						     var data2 =  (data);
 
 						 if(typeof(data2.error) != 'undefined'){
 
+                                mw.$(selector+' .mw-cart-data-holder').show();
 
-
-
- mw.$(selector+' .mw-cart-data-holder').show();
-
-                                mw.response(selector,data2);
-
+                                mw.response(selector, data2);
 
 					    } else if(typeof(data2.success) != 'undefined'){
-	 mw.$('[data-type="shop/cart"]').attr('hide-cart', 'completed');
-	  mw.reload_module('shop/cart');
- mw.$(selector+' .mw-cart-data-holder').hide();
+                                mw.$('[data-type="shop/cart"]').attr('hide-cart', 'completed');
+                                mw.reload_module('shop/cart');
+                                mw.$(selector+' .mw-cart-data-holder').hide();
                                 mw.response(selector,data2);
 
 								//mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
@@ -134,32 +130,24 @@ form.find('.mw-checkout-btn').hide();
 						 }
 					 }
 
-
-
-
-        form.dataset("loading", 'false');
-       form.find('.mw-checkout-btn').removeAttr('disabled');
-
-        form.find('.mw-checkout-btn').show();
-
-
-
-
-
-
-
-
-
+                  form.dataset("loading", 'false');
+                  form.find('.mw-checkout-btn').removeAttr('disabled');
+                  form.find('.mw-checkout-btn').show();
 			});
 
 
-
-
-
-
-
-
-
+  },
+  notification:function(type, msg){
+    var n = mwd.createElement('div');
+    n.className = 'mw-shop-notification';
+    n.innerHTML = ''
+    + '<div class="alert alert-'+type+'">'
+    + '<button class="close" type="button" onclick="$(this.parentNode.parentNode).remove()">x</button>'
+    + msg + '</div>';
+    mwd.body.appendChild(n);
+    var w = $(n).width();
+    n.style.marginLeft = -(w/2)+'px';
+    return n;
   }
 }
 

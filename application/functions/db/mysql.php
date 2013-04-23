@@ -44,12 +44,21 @@ if ($is_mysqli != false) {
 	$result = mysql_query($query);
 	if (!$result) {
 		$err = mysql_error();
-		if (strstr($err, "doesn't exist") or strstr($err, "not exist") ) {
-			cache_clean_group('db');
-			exec_action('mw_db_init');
-			exec_action('mw_db_init_default');
-			exec_action('mw_db_init_modules');
-			re_init_modules_db();
+		if (strstr($err, "doesn't exist") or strstr($err, "not exist")) {
+			if (function_exists('cache_clean_group')) {
+				cache_clean_group('db');
+
+			}
+
+			if (function_exists('exec_action')) {
+				exec_action('mw_db_init');
+				exec_action('mw_db_init_default');
+				exec_action('mw_db_init_modules');
+			}
+
+			if (function_exists('re_init_modules_db')) {
+				re_init_modules_db();
+			}
 			$query = $q;
 			$result = mysql_query($query);
 			if (!$result) {

@@ -95,8 +95,7 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
     <div class="row-fluid mw-cart-data-holder">
       <div class="span4">
         <div class="well">
-         <? $user = get_user(); ?>
-         
+          <? $user = get_user(); ?>
           <h2 style="margin-top:0 ">Personal Information</h2>
           <hr />
           <label>
@@ -119,28 +118,20 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
       </div>
       <module type="shop/shipping" class="span4" />
       <module type="shop/payments" class="span4" />
-
-
     </div>
     <div class="alert hide"></div>
     <div class="mw-cart-action-holder">
-    <hr />
-    <? $shop_page = get_content('is_shop=y');      ?>
-
-
-    <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
-
-
-    <?php if(isarr($shop_page)): ?>
-    <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
-    <?php endif; ?>
-    <div class="clear"></div>
+      <hr />
+      <? $shop_page = get_content('is_shop=y');      ?>
+      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
+      <?php if(isarr($shop_page)): ?>
+      <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
+      <?php endif; ?>
+      <div class="clear"></div>
     </div>
-    
   </div>
 </form>
 <div class="mw-checkout-responce"></div>
 <? else: ?>
-
 <h2>Your payment was successfull.</h2>
 <? endif; ?>
