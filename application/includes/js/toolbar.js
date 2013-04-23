@@ -520,8 +520,10 @@ $(document).ready(function(){
       var tab = this;
       if(tab==false){
         mw.url.windowHashParam('tab', 'modules');
+        mw.$("#mw_small_menu_text").html('Modules');
         return false;
       }
+      mw.$("#mw_small_menu_text").html(this);
       mw.$(".mw_toolbar_tab").removeClass("mw_tab_active");
       mw.$("#tab_"+tab).addClass("mw_tab_active");
       mw.$("#mw_tabs li").removeClass("active");

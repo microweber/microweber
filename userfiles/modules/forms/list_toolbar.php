@@ -1,0 +1,43 @@
+<? if(is_admin()==false) { mw_error('You must be logged as admin', 1); }
+
+
+if(!isset($params['load_list'])){
+ return 'Error: Provide load_list parameter!'; 	
+}
+
+ ?>
+ <script  type="text/javascript">
+  mw.require('<? print $config['url_to_module']; ?>forms_data_manager.js');
+
+  </script>
+<?php $def =  _e("Search for data", true); 
+
+$load_list = $params['load_list'];
+ ?>
+ 
+ 
+<?php 
+if(trim($load_list) == 'default'){
+	$data = array();
+	$data['title'] = "Default list";
+	$data['id'] = "default";
+} else {
+	$data = get_form_lists('single=1&id='.$load_list); 
+
+}
+
+?>
+
+<h2 class="left to-edit"  <?  if(trim($load_list) != 'default'): ?>id="form_field_title" <? endif; ?> style="max-width: 360px" ><?php print ($data['title']); ?></h2>
+<input
+        name="forms_data_keyword"
+        id="forms_data_keyword"
+        autocomplete="off"
+        class="right mw-ui-searchfield"
+        type="search"
+        value="<?php print $def; ?>"
+        placeholder='<?php print $def; ?>'
+        onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+      />
+<div class="export-label"> <span>Export data:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<? print $data['id'] ?>');"><span class="ico iexcell"></span>Excel</a> </div>
+<div class="mw_clear"></div>

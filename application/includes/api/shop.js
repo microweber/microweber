@@ -16,6 +16,7 @@ mw.cart = {
      $.post(mw.settings.api_url+'update_cart', data ,
      function(data) {
 		 mw.reload_module('shop/cart');
+         mw.cart.notification('success', "Successfully added to cart.");
      });
   },
 
@@ -128,11 +129,16 @@ mw.cart = {
 								 }
 							 }
 						 }
+
 					 }
 
                   form.dataset("loading", 'false');
                   form.find('.mw-checkout-btn').removeAttr('disabled');
                   form.find('.mw-checkout-btn').show();
+
+
+
+
 			});
 
 
@@ -142,13 +148,13 @@ mw.cart = {
     n.className = 'mw-shop-notification';
     n.innerHTML = ''
     + '<div class="alert alert-'+type+'">'
-    + '<button class="close" type="button" onclick="$(this.parentNode.parentNode).remove()">x</button>'
+    + '<span class="mw-shop-notification-icon mw-shop-notification-'+type+'"></span>'
     + msg + '</div>';
     mwd.body.appendChild(n);
     var w = $(n).width();
     n.style.marginLeft = -(w/2)+'px';
     n.className += ' gooff';
-    setTimeout(function(){$(n).remove()}, 5000);
+    setTimeout(function(){$(n).remove()}, 3000);
     return n;
   }
 }

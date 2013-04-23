@@ -939,17 +939,33 @@ ul.dropdown-menu ul.dropdown-menu{
       top: 10px;
       left: 50%;
       z-index: 99;
-      transition: opacity 5s ease-in;
+      transition: opacity 3s ease-in;
+      text-align: center;
     }
     .mw-shop-notification .alert{
       box-shadow: 0 0 3px #ccc;
+      padding-right: 14px;
     }
 
     .mw-shop-notification.gooff{
       opacity: 0;
     }
+    .mw-shop-notification-icon{
+      display: block;
+      width:27px;
+      height: 27px;
+      float: left;
+      margin-right: 12px;
+    }
+
+    .mw-shop-notification-success{background:url(../img/shop-success.png) no-repeat;}
 
     /* /Notifications */
+
+    .mw-custom-fields-cart-item{
+      font-size: 11px;
+      padding: 10px 0;
+    }
 
 /* /Shop */
 

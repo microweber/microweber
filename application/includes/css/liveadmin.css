@@ -1,4 +1,4 @@
- 
+
 
 /*
     Styles that are in both "Admin" and "Live edit"
@@ -224,11 +224,27 @@ body.cross{
 
 #mw-toolbar-right{
   display: inline-block;
-  float: right;
-  position: relative;
+  position: fixed;
   top: 4px;
+  right: 80px;
+  z-index: 999;
+}
+#mw-toolbar-right .mw-ui-btn{
+  margin: 4px 10px 0 0 ;
 }
 
+html.mw_pages #show_hide_sub_panel,
+html.mw_pages #mw-toolbar-right{
+  display: none;
+}
+
+html.mw_pages #mw_toolbar_nav{
+  height: 49px;
+}
+
+html.mw_pages #mw_tabs li.active a{
+  padding: 15px 20px 11px;
+}
 
 
 

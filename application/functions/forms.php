@@ -157,7 +157,30 @@ function save_form_list($params) {
 		$data['option_value'] = $id;
 		save_option($data);
 	}
+
+	return array('success' => 'List is updated', $params);
+
+
+
 	return $params;
+}
+
+
+api_expose('delete_forms_list');
+
+function delete_forms_list($data) {
+
+	$adm = is_admin();
+	if ($adm == false) {
+		return array('error' =>'Error: not logged in as admin.');
+	}
+	$table = MW_DB_TABLE_FORMS_LISTS;
+	if (isset($data['id'])) {
+		$c_id = intval($data['id']);
+		db_delete_by_id('forms_lists', $c_id);
+		db_delete_by_id('forms_data', $c_id, 'list_id');
+
+	}
 }
 
 api_expose('delete_form_entry');
@@ -166,16 +189,89 @@ function delete_form_entry($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		return array('error' =>'Error: not logged in as admin.');
 	}
 	$table = MW_DB_TABLE_FORMS_LISTS;
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
 		db_delete_by_id('forms_data', $c_id);
-
-		//d($c_id);
 	}
 }
+
+api_expose('forms_list_export_to_excel');
+function forms_list_export_to_excel($params){
+
+	set_time_limit(0);
+
+	$adm = is_admin();
+	if ($adm == false) {
+		return array('error' =>'Error: not logged in as admin.');
+	}
+	if (!isset($params['id'])) {
+		return array('error' =>'Please specify list id! By posting field id=the list id ');
+
+	} else {
+		$lid = intval($params['id']);
+		$data = get_form_entires('limit=100000&list_id=' .$lid);
+		if(isarr($data)){
+			  foreach ($data as $item) {
+			   if(isset($item['custom_fields'])){
+			   	 $custom_fields = array();
+			    foreach ($item['custom_fields'] as $value) {
+			     $custom_fields[$value['custom_field_name']] =$value;
+			    }
+			   }
+			  }
+			}
+
+
+
+		  $csv_output = '';
+	      if(isset($custom_fields) and isarr($custom_fields )){
+	      	$csv_output = 'id,';
+	      	$csv_output .= 'created_on,';
+	      	$csv_output .= 'user_ip,';
+		   	foreach($custom_fields   as $k=>$item){
+			$csv_output .= titlelize($k).",";
+			$csv_output .= "\t";
+		   	}
+		   	$csv_output .= "\n";
+
+
+			   	 foreach ($data as $item){
+
+				   	if(isset($item['custom_fields'])){
+				   	$csv_output .= $item['id'].",";
+					$csv_output .= "\t";
+					$csv_output .= $item['created_on'].",";
+					$csv_output .= "\t";
+					$csv_output .= $item['user_ip'].",";
+					$csv_output .= "\t";
+
+					foreach($item['custom_fields']   as $item1){
+					$csv_output .= $item1['custom_field_values_plain'].",";
+					$csv_output .= "\t";
+					}
+					$csv_output .= "\n";
+					}
+			   }
+		   }
+		   $filename ='export'."_".date("Y-m-d_H-i",time()).uniqid().'.csv';
+		   $filename_path = CACHEDIR.'forms_data'.DS.'global'.DS;
+		   if(!is_dir( $filename_path)){
+				 mkdir_recursive( $filename_path);
+			}
+			$filename_path_full = $filename_path.$filename;
+ 			file_put_contents($filename_path_full , $csv_output );
+			$download = dir2url($filename_path_full);
+ 			return array('success' =>'Your file has been exported!', 'download' =>$download);
+
+	}
+
+
+
+}
+
 
 function get_form_entires($params) {
 	$params = parse_params($params);
@@ -421,7 +517,7 @@ function post_form($params) {
 
 		}
 	}
- 
+
 	return ($save);
 
 }

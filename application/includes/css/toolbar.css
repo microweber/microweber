@@ -404,7 +404,7 @@ padding:0px !important;
   position: relative;
   top: 0;
   left: 0;
-  z-index: 15;
+  z-index: 11;
   padding: 22px;
 }
 
@@ -419,6 +419,10 @@ padding:0px !important;
   top: -3px;
   overflow-x:hidden;
   overflow-y:auto;
+}
+
+#mw_small_menu_text{
+  text-transform: capitalize;
 }
 
 

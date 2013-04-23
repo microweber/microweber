@@ -656,8 +656,8 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 }
 
 .mw-dropdown-list > li a:hover{
-  background-color: #3D89B8;
-  color: white;
+  background-color: #ACACAC;
+  color: #fff;
 }
 
 .mw-dropdown-list > li:last-child a{

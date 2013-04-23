@@ -91,16 +91,50 @@
 			 
 			  if(isset($_COOKIE['back_to_admin'])){
 				  
-				 $back_url = $_COOKIE['back_to_admin'];   
+				 $back_url = $_COOKIE['back_to_admin'];
 				 
 			  }
 			 
 
-			 
+
 			  ?>
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span> <span class="mw-ui-btn mw-ui-btn-green mw-ui-btn-medium"
-style=" position: fixed; right: 87px;top: 9px;z-index: 999;"
-onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span>
+
+
+<div id="mw-toolbar-right" class="mw-defaults">
+
+
+      <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
+
+
+        <a title="Back to Admin" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>">Back to Admin</a>
+
+
+
+        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
+        <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;">Actions<span class="ico idownarr right"></span></a>
+          <div class="mw-dropdown-content" style="width: 155px;">
+            <ul class="mw-dropdown-list">
+              <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
+
+              <li><a href="#" onclick="mw.preview();void(0);">Preview</a></li>
+              <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
+              <? $pub_or_inpub  = get_content_by_id(CONTENT_ID); ?>
+              <li class="mw-set-content-unpublish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.unpublish('<? print CONTENT_ID; ?>')">Unpublish</a></li>
+              <li class="mw-set-content-publish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.publish('<? print CONTENT_ID; ?>')">Publish</a></li>
+              <? endif; ?>
+              <li><a href="<? print api_url('logout'); ?>">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
   
@@ -123,7 +157,7 @@ onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
           </a> </li>
       </ul>
       <div class="mw-ui-dropdown media-small" id="mw_tabs_small">
-        <span class="mw-ui-btn"><span class="ico icomobilemenu"></span>Menu<span class="ico idownarr right"></span></span>
+        <span class="mw-ui-btn"><span class="ico icomobilemenu"></span><span id="mw_small_menu_text">Menu</span><span class="ico idownarr right"></span></span>
         <div class="mw-dropdown-content">
           <ul class="mw-dropdown-list">
             <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
@@ -142,27 +176,7 @@ onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
         </div>
       </div>
       <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
-      <div id="mw-toolbar-right">
-        <a title="Back to Admin" class="mw-ui-btn mw-ui-btn-blue mw-btn-single-ico back_to_admin" href="<?php print $back_url; ?>">
-        <span class="ico i-back-arr"></span><span class="ico iadmin"></span>
-        </a>
-        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn" style="margin-left: 0;">Actions<span class="ico idownarr right"></span></a>
-          <div class="mw-dropdown-content" style="width: 155px;">
-            <ul class="mw-dropdown-list">
-              <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
-              <li> <a href="<?php print $back_url; ?>"><span class="ico i-back-arr" style="margin-left:-9px;"></span><span class="ico iadmin"></span>Back to admin</a></li>
-              <li><a href="#" onclick="mw.preview();void(0);">Preview</a></li>
-              <? if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-              <? $pub_or_inpub  = get_content_by_id(CONTENT_ID); ?>
-              <li class="mw-set-content-unpublish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.unpublish('<? print CONTENT_ID; ?>')">Unpublish</a></li>
-              <li class="mw-set-content-publish" <? if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <? endif; ?>><a href="javascript:mw.content.publish('<? print CONTENT_ID; ?>')">Publish</a></li>
-              <? endif; ?>
-              <li><a href="<? print api_url('logout'); ?>">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
       <microweber module="admin/modules/categories_dropdown" />

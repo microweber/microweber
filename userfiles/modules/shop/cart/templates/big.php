@@ -21,14 +21,16 @@ description: Full width cart template
   <? if(isarr($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <colgroup>
-        <col>
-        <col width="120">
+
+        <col width="60">
+        <col width="620">
         <col width="120">
         <col width="140">
         <col width="140">
     </colgroup>
     <thead>
       <tr>
+        <th>Image</th>
         <th class="mw-cart-table-product">Product Name</th>
         <th>QTY</th>
         <th>Price</th>
@@ -43,16 +45,19 @@ description: Full width cart template
        $total += $item['price']* $item['qty'];
        ?>
       <tr class="mw-cart-item mw-cart-item-<? print $item['id'] ?>">
+      	 <? $p = get_picture($item['rel_id']); ?>
+         <td>
+      <? if($p != false): ?>
+      <img height="70" class="img-polaroid img-rounded mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
+      <? endif; ?>
+      </td>
         <td class="mw-cart-table-product">
 		
-		 <? $p = get_picture($item['rel_id']); ?>
-      <? if($p != false): ?>
-      <img height="70" class="mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
-      <? endif; ?>
+
       
+
       
-      
-      
+
 		<? print $item['title'] ?>
           <? 	if(isset($item['custom_fields'])): ?>
           <? print $item['custom_fields'] ?>

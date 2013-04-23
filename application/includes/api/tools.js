@@ -1360,7 +1360,7 @@ mw.tools = {
         }
         return diff;
   },
-  liveEdit:function(el, textonly){
+  liveEdit:function(el, textonly, callback){
     if(el.getElementsByTagName('input').length===0){
       var textonly = textonly || true;
       var input = mwd.createElement('input');
@@ -1381,6 +1381,12 @@ mw.tools = {
       }
       $(el).empty().append(input);
       $(input).focus();
+      if(typeof callback === 'function'){
+        $(input).change(function(){
+            callback.call(this.value);
+        });
+      }
+
     }
   },
   parseHtml: function(html){
