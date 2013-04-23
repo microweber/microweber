@@ -6,35 +6,45 @@
 
 
 <script  type="text/javascript">
+    mw.require('forms.js', true);
+</script>
+<script  type="text/javascript">
 
-mw.require('forms.js', true);
+
 
 
 $(document).ready(function(){
-	
 
-	 
+
+
 	 mw.$('#user_login_<? print $params['id'] ?>').submit(function() {
 
- 
- mw.form.post(mw.$('#user_login_<? print $params['id'] ?>') , '<? print site_url('api/user_login') ?>', function(){
-	         mw.response('#user_login_holder_<? print $params['id'] ?>',this);
-			 
-			 if(this != undefined && this.success != undefined){
+
+ mw.form.post(mw.$('#user_login_<? print $params['id'] ?>') , '<? print site_url('api/user_login') ?>', function(a, b){
+	        
+			
+			
+
+			// mw.response('#user_login_holder_<? print $params['id'] ?>',this);
+
+
+			 if(typeof this.success === 'string'){
 				  mw.reload_module('[data-type="<? print $config['module'] ?>"]');
+				  window.location.href = window.location.href;
+                  return false;
 			 }
-			 
-			 
+             mw.notification.msg(this, 5000);
 
 	// mw.reload_module('[data-type="categories"]');
 	 //
 	 });
 
+
  return false;
  
  
  });
- 
+
 });
 </script>
 <?

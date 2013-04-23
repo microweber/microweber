@@ -42,7 +42,7 @@ $past_page = content_link($past_page[0]['id']);
 
 // d($past_page);
  ?>
-  <div id="mw-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout right" style="margin: 13px 20px 0 5px;" <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn right back-to-admin-cookie" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span>
+  <div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  <?php /* class="mw-ui-btn right" */ ?> href="<?php print api_url('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>/editmode:y"><span class="ico ilive"></span>
     <?php _e("Go Live Edit"); ?>
     </a>
     <div class="mw-toolbar-notification">

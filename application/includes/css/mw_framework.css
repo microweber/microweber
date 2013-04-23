@@ -701,9 +701,16 @@ html.mw_pages, html.mw_pages body{
 
 .mw_edit_page_right{
   padding-bottom: 50px;
-  width: 645px;
+
+  width: 696px;
+  padding: 20px;
   float: left;
   position: relative;
+}
+
+#mw_edit_page_left + .mw_edit_page_right{
+  width: 645px;
+  padding: 0;
 }
 
 .mw_del_tree_content{
@@ -1774,7 +1781,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 
 .mw-success, table tbody tr.mw-success:nth-child(n){background-color:#D8FFC4;}
 .mw-warning, table tbody tr.mw-warning:nth-child(n){background-color:#FFFD8C;}
-.mw-error, table tbody tr.mw-error:nth-child(n){background-color:#FE4B59;}
+.mw-error, table tbody tr.mw-error:nth-child(n){background-color:#FE4B59;color: white; }
 
 #mw-notifications-holder{
   position: relative;
@@ -1790,10 +1797,10 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
     margin-left: -175px;
     position: fixed;
     top: 0;
-    transition: all 2s;
-    -moz-transition: all 2s;
-    -webkit-transition: all 2s;
-    -o-transition: all 2s;
+    transition: opacity 2s;
+    -moz-transition: opacity 2s;
+    -webkit-transition: opacity 2s;
+    -o-transition: opacity 2s;
 
 }
 #mw-notifications-holder .mw-notification + .mw-notification { top:40px; }
@@ -2533,7 +2540,7 @@ body.dragStart .edit .element:after{
 
 
 
-body.dragStart .edit:hover:before{
+body.dragStart div.edit:hover:before{
     display: block;
     padding:20px 0;
     width: 100%;
@@ -2547,7 +2554,7 @@ body.dragStart .edit:hover:before{
     font-size: 11px;
 }
 
-body.dragStart .edit:hover:after{
+body.dragStart div.edit:hover:after{
     display: block;
     visibility: visible;
     padding:20px 0;

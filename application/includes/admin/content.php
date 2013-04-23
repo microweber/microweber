@@ -459,9 +459,14 @@ function mw_select_post_for_editing($p_id, $subtype){
 	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 	 var active_item_is_page = active_item.attr('data-page-id');
 
+        mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+        mw.$('#pages_edit_container').removeAttr('data-category-id');
+        mw.$('#pages_edit_container').removeAttr('category_id');
+
 
 
 	  var active_item_is_category = active_item.attr('data-category-id');
+
 	 if(active_item_is_category != undefined){
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
 			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
@@ -523,7 +528,7 @@ function mw_select_post_for_editing($p_id, $subtype){
 }
 
 function mw_add_product(){
- 
+
 	 mw_select_post_for_editing(0,   'product')
 
 
@@ -588,8 +593,8 @@ function mw_add_product(){
           <label>Sub Page</label>
           <button></button>
         </a>
-        
-   
+
+
         <? if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
 
   <? else :  ?>

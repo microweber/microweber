@@ -699,18 +699,18 @@ function user_reset_password_from_link($params) {
 	} else {
 		$data1['password'] = $params['pass1'];
 		$data1['password_reset_hash'] = '';
-		
-		
+
+
 		$data1['password'] = hash_user_pass($data1['password']);
-		
-		
-		
-		
+
+
+
+
 	}
-	
-	
-	
-	
+
+
+
+
 
 	mw_var('FORCE_SAVE', $table);
 
@@ -875,14 +875,13 @@ function user_login($params) {
 		}
 		if ($check > 5) {
 			$check = $check - 1;
-			return array('error' => 'There are ' . $check . ' failed login attempts from your ip in the last minute. Try again in 1 minute!');
+			return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
 		}
 		$check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
 		if ($check2 > 25) {
 
-			return array('error' => 'There are ' . $check2 . ' failed login attempts from your ip in the last 10 minutes. Try again in 10 minutes!');
+			return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
 		}
-		//d($check);
 
 		$api_key = isset($params['api_key']) ? $params['api_key'] : false;
 

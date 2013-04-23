@@ -199,32 +199,71 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 }*/
 </script>
+ <script>
+
+  $(document).ready(function(){
+
+
+    mw.tools.tag({
+      tagholder:'#mw-post-added-<? print $rand; ?>',
+      items: ".mw-ui-check",
+      itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand; ?>'),
+      method:'parse',
+      onTag:function(){
+        var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+        if(curr_content != undefined){
+         load_iframe_editor(curr_content);
+       }
+       else{
+         load_iframe_editor();
+       }
+
+     },
+     onUntag:function(){
+
+
+
+      var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+      if(curr_content != undefined){
+       load_iframe_editor(curr_content);
+     }
+     else{
+       load_iframe_editor();
+     }
+
+
+
+
+
+
+
+   }
+ });
+
+
+
+
+
+  });
+
+  </script>
+
+
 <script  type="text/javascript">
 
 $(document).ready(function(){
 
 	mw.$('#<? print $params['id'] ?> .mw-ui-check').bind('click', function(e){
-	// e.preventDefault(); //stop the default form action
-	var names = [];
-	mw.$('#<? print $params['id'] ?> .mw-ui-check-input-sel:checked').each(function() {
-		names.push($(this).val());
-	});
-
-	if(names.length > 0){
-		mw.$('#mw_cat_selected_<? print $rand; ?>').val(names.join(',')).change();
-	} else {
-		mw.$('#mw_cat_selected_<? print $rand; ?>').val('__EMPTY_CATEGORIES__').change();
-	}
-
-	//mw.log(names);
-
-});
+		 mw_set_categories_from_tree()
+  	});
 
 
 
    // mw_append_pages_tree_controlls(mwd.querySelector('.mw-ui-category-selector'));
 
 });
+
+
 </script>
 <?
 
@@ -236,7 +275,7 @@ $active_cats1 = array();
 foreach ($cats__parents as $item1) {
 
 	$active_cats1[] = $item1;
-	$active_cats[] = $item1;
+//	$active_cats[] = $item1;
 }
 $tree = array();
 $tree['include_categories'] = 1;
@@ -372,4 +411,4 @@ pages_tree($tree);
 ?>
 <? $cats_str = implode(',', $active_cats); ?>
 
-<input type="hidden" name="categories" id="mw_cat_selected_<? print $rand; ?>" value="<? print $cats_str ?>" />
+<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<? print $cats_str ?>" />

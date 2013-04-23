@@ -34,7 +34,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
   }
 //d($data);
 }
- 
+
 
 $active_site_template = '';
 $layout_file = '';
@@ -63,7 +63,7 @@ if($data == false or empty($data )){
   if(intval($data['id']) == 0){
 	 if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
 	   $data['parent'] = $params["parent-page-id"];
-	
+
 	 }
 }
 
@@ -96,7 +96,7 @@ if(isset($data['content_type']) and  $data['content_type'] == 'post'){
 	$edit_post_mode = true;
 }
 
- 
+
 if(isset($params["data-is-shop"])){
 	$data["is_shop"] = $params["data-is-shop"];
 
@@ -174,7 +174,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
  }
 }
 }
-//d($params);
+
 //
 
 //$form_rand_id = //$rand = md5(serialize($data).serialize($params));
@@ -209,9 +209,17 @@ $(document).ready(function(){
      mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
      mw.url.windowHashParam("new_content", 'true');
-     mw.reload_module('[data-type="pages"]');
+     mw.reload_module('[data-type="pages"]', function(){
+        mw.$("#pages_tree_toolbar").removeClass("activated");
+        mw.treeRenderer.appendUI('#pages_tree_toolbar');
+        mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+     });
      <? else: ?>
-     mw.reload_module('[data-type="pages"]');
+     mw.reload_module('[data-type="pages"]', function(){
+        mw.$("#pages_tree_toolbar").removeClass("activated");
+        mw.treeRenderer.appendUI('#pages_tree_toolbar');
+        mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+     });
  // mw_after_content_save<? print $rand; ?>();
  <? endif; ?>
 
@@ -386,7 +394,7 @@ mw.$('.page_and_menus_holder').show();
 var sel_hl = mw.$('.mw_parent_page_sel_holder')[0];
 
 mw.tools.scrollTo(sel_hl)
-mw.tools.highlight(sel_hl, '#d8ffc3',300,5000)
+mw.tools.highlight(sel_hl, '#d8ffc3', 300,5000)
 
 
 
@@ -397,6 +405,7 @@ function mw_on_save_complete<? print $rand; ?>(){
   mw.notification.success("<?php _e('All changes are saved'); ?>.");
 
   mw.askusertostay = false;
+
 
 }
 
@@ -434,9 +443,20 @@ function mw_before_content_save<? print $rand; ?>(){
 
  function mw_after_content_save<? print $rand; ?>($id){
 
-  mw.reload_module('[data-type="pages"]');
+  mw.reload_module('[data-type="pages"]',  function(){
+
+
+
+
+  });
   <? if($edit_post_mode != false): ?>
-  mw.reload_module('[data-type="posts"]');
+  mw.reload_module('[data-type="posts"]',  function(){
+
+
+
+
+
+  });
   <? endif; ?>
 
   $id = $id.toString();
@@ -494,14 +514,14 @@ function mw_before_content_save<? print $rand; ?>(){
     $data['subtype'] = $params['subtype'];
     $t =      $data['subtype'];
   } elseif(isset($data['content_type']) and $data['content_type'] == 'post'  and isset($data['subtype']) and $data['subtype'] != ''){
- 
+
     $t =      $data['subtype'];
   } elseif($data['content_type'] == 'page' and $data['parent'] >0){
     $t = "Sub-page";
      //   $data['subtype'] = 'post';
      // $data['title'] =     "Sub ". $data['content_type'];
   } else {
- 
+
   }
 
 
@@ -634,7 +654,7 @@ load_preview();
 <? endif; ?>
 
 
-    </script> 
+    </script>
   <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">Template</a>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module id="mw-layout-selector-module" data-type="content/layout_selector" <? print
@@ -681,9 +701,9 @@ load_preview();
           if(isset($params['is_shop'])){
       //$pt_opts['is_shop'] = $params['is_shop'];
           }
-if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
-      $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
-    }
+			if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
+			 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
+			 }
 
 
           $pt_opts['active_code_tag'] = '   selected="selected"  ';
@@ -724,6 +744,12 @@ if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intv
       itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand; ?>'),
       method:'parse',
       onTag:function(){
+
+        mw_set_categories_from_tree()
+
+
+
+
         var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
         if(curr_content != undefined){
          load_iframe_editor(curr_content);
@@ -732,8 +758,15 @@ if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intv
          load_iframe_editor();
        }
 
+
+
+
      },
      onUntag:function(){
+
+    mw_set_categories_from_tree();
+
+
       var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
       if(curr_content != undefined){
        load_iframe_editor(curr_content);
@@ -741,11 +774,49 @@ if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intv
      else{
        load_iframe_editor();
      }
+
+
+
+
+
+
+
    }
  });
 
 
+
+
+
   });
+
+
+
+  function mw_set_categories_from_tree(){
+    var names = [];
+
+
+    /*
+    mw.$('#mw-category-selector-<? print $rand; ?> .category_element .mw-ui-check-input-sel:checked').each(function() {
+      names.push($(this).val());
+    });       */
+
+    var inputs = mwd.getElementById('mw-category-selector-<? print $rand; ?>').querySelectorAll('input[type="checkbox"]'), i=0, l = inputs.length;
+
+    for( ; i<l; i++){
+      if(inputs[i].checked === true){
+         names.push(inputs[i].value)
+      }
+    }
+
+
+
+    if(names.length > 0){
+      mw.$('#mw_cat_selected_for_post').val(names.join(',')).trigger("change");
+    } else {
+      mw.$('#mw_cat_selected_for_post').val('__EMPTY_CATEGORIES__').trigger("change");
+    }
+}
 
   </script>
     <?
@@ -832,10 +903,9 @@ if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $
 $(mwd).ready(function(){
   if(!!mw.treeRenderer){
    mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
-   //d($("#categorories_selector_for_post_<? print $rand; ?>"));
- }
+  }
 });
-</script> 
+</script>
   </div>
   <? endif; ?>
   <? /* ONLY FOR POSTS  */ ?>
@@ -923,7 +993,9 @@ if(intval($data['id']) == 0){
   <div id="custom_fields_for_post_<? print $rand; ?>"  style="<? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<? else: ?>display:none;<? endif; ?>">
     <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="content" rel_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
-    <div class="custom_fields_from_parent"  id="custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>" ></div>
+    <div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<? print $rand; ?>" ></div>
+        <div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<? print $rand; ?>" ></div>
+
     <script  type="text/javascript">
 
 
@@ -982,22 +1054,18 @@ if(intval($data['id']) == 0){
 }*/
 
 function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
- var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[name="parent"]:checked').val();
- var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>');
- if(vals != undefined){
-  i = 1;
+     var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[name="parent"]:checked').val();
+     var holder1 = mw.$('#custom_fields_from_pages_selector_for_post_1<? print $rand; ?>');
+     if(vals != undefined){
+      i = 1;
 
-  holder1.attr('for','content');
-  holder1.attr('save_to_content_id','<? print $data['id'] ?>');
-  holder1.attr('rel_id',vals);
+      holder1.attr('for','content');
+      holder1.attr('save_to_content_id','<? print $data['id'] ?>');
+      holder1.attr('rel_id',vals);
+      mw.load_module('custom_fields/list','#custom_fields_from_pages_selector_for_post_1<? print $rand; ?>', function(){
+          });
 
-
-  mw.load_module('custom_fields/list','#custom_fields_from_categorories_selector_for_post_1<? print $rand; ?>', function(){
-
-				 // holder1.find('[name="rel_id"]').val('<? print $data['id'] ?>');
-        });
-
-}
+    }
 
 
 

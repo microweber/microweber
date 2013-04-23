@@ -6,7 +6,7 @@ if(!isset($params['load_list'])){
 }
 
  ?>
- <script  type="text/javascript">
+<script  type="text/javascript">
   mw.require('<? print $config['url_to_module']; ?>forms_data_manager.js');
 
   </script>
@@ -14,8 +14,6 @@ if(!isset($params['load_list'])){
 
 $load_list = $params['load_list'];
  ?>
- 
- 
 <?php 
 if(trim($load_list) == 'default'){
 	$data = array();
@@ -35,7 +33,7 @@ if(trim($load_list) == 'default'){
         autocomplete="off"
         class="right mw-ui-searchfield"
         type="search"
-        value="<?php print $def; ?>"
+         
         placeholder='<?php print $def; ?>'
         onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
       />

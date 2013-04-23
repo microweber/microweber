@@ -168,9 +168,7 @@ body.cross{
 
 #mw_tabs li a:active{box-shadow: inset 0 0 5px #888;}
 
-#mw_tabs li a:first-child{
-  min-width: 70px;
-}
+
 
 #mw_tabs li:first-child a{
   background-image: url(../img/nav_item_border.jpg);
@@ -228,9 +226,11 @@ body.cross{
   top: 4px;
   right: 80px;
   z-index: 999;
+  width: 320px;
 }
 #mw-toolbar-right .mw-ui-btn{
   margin: 4px 10px 0 0 ;
+  float: right;
 }
 
 html.mw_pages #show_hide_sub_panel,

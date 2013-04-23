@@ -1895,21 +1895,21 @@ mw.dump = function(){
 
 mw.notification = {
 
-   msg:function(data){
-
+   msg:function(data, timeout){
+        var timeout = timeout || 1000;
         if(data != undefined){
 
 
             if(data.success != undefined ){
-               mw.notification.success(data.success);
+               mw.notification.success(data.success, timeout);
             }
 
              if(data.error != undefined ){
-               mw.notification.error(data.error);
+               mw.notification.error(data.error, timeout);
             }
 
               if(data.warning != undefined ){
-                 mw.notification.warning(data.warning);
+                 mw.notification.warning(data.warning, timeout);
               }
          }
     },
@@ -1920,7 +1920,9 @@ mw.notification = {
         div.innerHTML = '<div>'+text+'</div>'
         return div;
     },
-    append:function(type, text){
+    append:function(type, text, timeout){
+        var timeout = timeout || 1000;
+
         var div = mw.notification.build(type, text);
         if(typeof mw.notification._holder === 'undefined'){
            mw.notification._holder = mwd.createElement('div');
@@ -1928,21 +1930,26 @@ mw.notification = {
            mwd.body.appendChild(mw.notification._holder);
         }
         mw.notification._holder.appendChild(div);
+        var w = $(div).outerWidth();
+        $(div).css("marginLeft", -(w/2));
         setTimeout(function(){
            div.style.opacity = 0;
            setTimeout(function(){
              $(div).remove();
            }, 1000);
-        }, 1000);
+        }, timeout);
     },
-    success:function(text){
-      mw.notification.append('success', text);
+    success:function(text, timeout){
+      var timeout = timeout || 1000;
+      mw.notification.append('success', text, timeout);
     },
-    error:function(text){
-      mw.notification.append('error', text);
+    error:function(text, timeout){
+      var timeout = timeout || 1000;
+      mw.notification.append('error', text, timeout);
     },
-    warning:function(text){
-      mw.notification.append('warning', text);
+    warning:function(text, timeout){
+      var timeout = timeout || 1000;
+      mw.notification.append('warning', text, timeout);
     }
 }
 

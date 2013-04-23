@@ -268,7 +268,7 @@ $(document).ready(function(){
 
 
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;width: 757px;">
+  <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;">
     <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
       <input name="module_keyword" class="mw-ui-searchfield right" type="search" placeholder="Search for users"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
@@ -291,7 +291,7 @@ $(document).ready(function(){
       </ul>
     </div>
     <div class="vSpace"></div>
-    <div class="mw-simple-rotator" style="width: 757px">
+    <div class="mw-simple-rotator">
       <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
         <div id="users_admin_panel" ></div>
         <div id="user_edit_admin_panel"></div>

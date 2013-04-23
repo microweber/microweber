@@ -563,7 +563,7 @@ form .shipping-country-row:first-child{
 
 .mw-toolbar-notification{
     float: right;
-    margin-right: 15px;
+    margin-right: 0px;
     position: relative;
     top: 5px;
     z-index: 9;
@@ -962,6 +962,24 @@ form .shipping-country-row:first-child{
 .module-users-forgot-password-reset-password  button.mw-ui-btn{
   float: right;
 }
+
+
+#mw-admin-toolbar-right{
+  float: right;
+  width: 226px;
+}
+
+#mw-admin-toolbar-right .ilogout,
+#mw-admin-toolbar-right #mw-go_livebtn_admin,
+#mw-admin-toolbar-right .mw-toolbar-notification{
+  float: right;
+}
+
+#mw-admin-toolbar-right .ilogout{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
 
 
 
