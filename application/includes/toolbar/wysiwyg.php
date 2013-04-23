@@ -1,8 +1,14 @@
 <div id="mw-text-editor" class="mw-defaults mw_editor">
         <div class="editor_wrapper">
+
+        <div class="low-res-hider">
+
             <span class="mw_editor_btn mw_editor_undo" data-command="undo" title="Undo"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_redo" data-command="redo" title="Redo"><span class="ed-ico"></span></span>
             <span class="mw_dlm"></span>
+
+
+        </div>
 
             <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
 
@@ -91,7 +97,7 @@
             </div>
 
 
-
+            <div class="wysiwyg-lower-res-hider">
             <span class="mw_dlm"></span>
 
 
@@ -101,10 +107,10 @@
             <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ed-ico"></span></span>
 
-
+            </div>
 
             <span class="mw_dlm"></span>
-            <div class="wysiwyg-break">
+            <div class="wysiwyg-small-res-hider">
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>

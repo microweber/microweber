@@ -115,6 +115,18 @@
 .iplay{background-position:-1341px -104px}
 .iupdate{background-position:-588px -79px}
 .iupdate_big{background-position:-629px -76px;width: 30px;height: 30px;}
+.iadmin{background-position:-788px -82px;}
+.mw-ui-btn .iadmin{opacity:0.6;}
+.mw-ui-btn:hover .iadmin{opacity:1;}
+
+.i-back-arr{ background-position:-951px -31px; }
+.mw-ui-btn .i-back-arr{ opacity:0.6; }
+.mw-ui-btn:hover .i-back-arr{ opacity:1; }
+
+
+.icomobilemenu{
+  background-position: -1341px -132px;
+}
 
 /* Custom fields icons */
 

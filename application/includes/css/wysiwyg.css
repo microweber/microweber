@@ -373,11 +373,11 @@ border-radius: 3px;
 
 .wysiwyg-break:after{
   content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 
@@ -396,6 +396,23 @@ border-radius: 3px;
 .mw_dropdown_action_format p{
   margin: 0 !important;
   padding: 5px 0 !important;
+}
+
+@media (max-width: 1140px) {
+  .wysiwyg-low-res-hider{
+        display: none;
+  }
+}
+@media (max-width: 1030px) {
+  .wysiwyg-lower-res-hider{
+        display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .wysiwyg-small-res-hider{
+        display: none;
+  }
 }
 
 
