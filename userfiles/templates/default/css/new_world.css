@@ -939,10 +939,14 @@ ul.dropdown-menu ul.dropdown-menu{
       top: 10px;
       left: 50%;
       z-index: 99;
-      transition: all 2s ease-in;
+      transition: opacity 5s ease-in;
     }
     .mw-shop-notification .alert{
       box-shadow: 0 0 3px #ccc;
+    }
+
+    .mw-shop-notification.gooff{
+      opacity: 0;
     }
 
     /* /Notifications */

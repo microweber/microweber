@@ -147,6 +147,7 @@ mw.cart = {
     mwd.body.appendChild(n);
     var w = $(n).width();
     n.style.marginLeft = -(w/2)+'px';
+    n.className += ' gooff';
     return n;
   }
 }
