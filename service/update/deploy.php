@@ -35,12 +35,14 @@
 		'echo $PWD',
 		'whoami',
 		'git fetch --all',
-		'git branch master',
+		'git checkout -b master origin/master',
+		'git checkout origin master',
 		'git pull origin master',
 		'git status',
 		 
 		'git reset --hard HEAD ',
 		'git clean -f -d',
+		'git sync',
 		'git pull'
 	);
 

@@ -268,12 +268,12 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null){
+           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null && mw.wysiwyg.selection_length() > 0 ){
              mw.e.cancel(event, true);
-             window.getSelection().getRangeAt(0).deleteContents()
+             window.getSelection().getRangeAt(0).deleteContents();
            }
 
-           if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null){
+           if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){
              mw.e.cancel(event, true);
              window.getSelection().getRangeAt(0).deleteContents()
            }
