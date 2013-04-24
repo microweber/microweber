@@ -1,5 +1,6 @@
 <?php
 ini_set("memory_limit", "160M");
+date_default_timezone_set('America/Los_Angeles');
 
 function getfile($requestUrl, $save_to_file = false) {
 

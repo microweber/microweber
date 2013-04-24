@@ -269,8 +269,8 @@ mw.wysiwyg = {
            var r = sel.getRangeAt(0);
 
            if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null ){
-             //mw.e.cancel(event, true);
-             /*
+             mw.e.cancel(event, true);
+
              if(mw.wysiwyg.selection_length() > 0){
                window.getSelection().getRangeAt(0).deleteContents();
              }
@@ -278,20 +278,13 @@ mw.wysiwyg = {
 
                var c = r.endContainer;
 
+                 var k = window.getSelection();
+                 k.modify("extend", "backward", "character");
+                 k.getRangeAt(0).deleteContents();
 
-               if(c.nodeType === 3){
-                 d(r.endContainer.nodeValue)
-                 r.setStart(c, c.nodeValue.length-1);
-                 r.setEnd(c, c.nodeValue.length);
 
-               }
-               else{
-                 r.setStart(c, c.innerHTML.length);
-               }
-               window.getSelection().addRange(r);
-               r.deleteContents()
 
-             }     */
+             }
 
            }
 
