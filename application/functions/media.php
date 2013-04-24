@@ -266,9 +266,14 @@ function delete_media($data) {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
+		$pic_data = get_pictures("one=1&id=".$c_id);
+		 if(isset($pic_data['filename'])){
+		 	$fn_remove = url2dir($pic_data['filename']);
+			if(is_file($fn_remove)){
+				@unlink($fn_remove);
+			}
+		 }
 		db_delete_by_id('media', $c_id);
-
-		//d($c_id);
 	}
 }
 
@@ -288,6 +293,11 @@ function save_media($data) {
 		$s['rel_id'] = $t;
 	}
 
+	if (isset($data['for_id'])) {
+		$t = trim($data['for_id']);
+		$s['rel_id'] = $t;
+	}
+
 	if (isset($data['id'])) {
 		$t = intval($data['id']);
 		$s['id'] = $t;
@@ -302,7 +312,7 @@ function save_media($data) {
 
 		$url2dir = url2dir($data['src']);
 		$uploaded_files_dir = MEDIAFILES . DS . 'uploaded';
-/*
+
 		if (isset($s['rel']) and isset($s['rel_id'])) {
 			$move_uploaded_files_dir = MEDIAFILES . DS . $s['rel'] . DS;
 			$move_uploaded_files_dir_index = MEDIAFILES . DS . $s['rel'] . DS . 'index.php';
@@ -311,23 +321,37 @@ function save_media($data) {
 			if (!is_dir($move_uploaded_files_dir)) {
 				mkdir_recursive($move_uploaded_files_dir);
 				@touch($move_uploaded_files_dir_index);
-				
-				
-				$url2dir = normalize_path($url2dir, false);
-				
-				 if(strstr($url2dir,$uploaded_files_dir)){
-					 if (!copy($file, $newfile)) {
-			
-					 } else {
-			
-					 }
-				 }
-				
+
+
 			}
-			
-			
-			
-			
+
+
+					$url2dir = normalize_path($url2dir, false);
+					$newfile =  basename($url2dir);
+
+
+
+
+					$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+					$newfile  = $move_uploaded_files_dir.$newfile;
+
+if(is_file($newfile)){
+
+	$newfile =  date('YmdHis').basename($url2dir);
+	$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+	$newfile  = $move_uploaded_files_dir.$newfile;
+}
+
+
+					 if (rename($url2dir, $newfile)) {
+						$data['src'] = dir2url($newfile);
+					 } else {
+
+					 }
+
+
+
+
 
 		}
 

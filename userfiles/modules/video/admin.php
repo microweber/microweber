@@ -68,7 +68,7 @@
        <input
             name="width"
             style="width:50px;"
-            placeholder="315"
+            placeholder="450"
             class="mw-ui-field mw_option_field"
             type="text" data-reload="<? print $params['data-type'] ?>"
             value="<?php print get_option('width', $params['id']) ?>"
@@ -78,7 +78,7 @@
        <label class="mw-ui-label-inline">Height</label>
        <input
             name="height"
-            placeholder="560"
+            placeholder="350"
             style="width:50px;"
             class="mw-ui-field mw_option_field"
             type="text" data-reload="<? print $params['data-type'] ?>"

@@ -16,8 +16,8 @@ $h = get_option('height', $params['id']);
 $autoplay = get_option('autoplay', $params['id']) == 'y';
 
 
-if($w == '') {$w = '315';}
-if($h == '') {$w = '560';}
+if($w == '') {$w = '450';}
+if($h == '') {$h = '350';}
 if($autoplay == '') {$autoplay = '0';}
 
 
@@ -34,6 +34,8 @@ if($code !=''){
 
 $code = html_entity_decode($code);
 if(stristr($code,'<iframe') !== false){
+
+
 $code = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i',
                         '<iframe$1 src="$2?wmode=transparent"$3>', $code);
 }
@@ -104,13 +106,11 @@ else if($prior == '2'){
        print '<embed width="'.$w.'" height="'.$h.'" autoplay="'.$autoplay.'" wmode="transparent" src="' . $upload . '"></embed>';
     }
     else{
-       print mw_notif("Upload Video or paste URL or Embed Code.");
+       print mw_notif_le("Upload Video or paste URL or Embed Code.");
     }
 }
 else{
-  print mw_notif("Upload Video or paste URL or Embed Code.");
+  print mw_notif_le("Upload Video or paste URL or Embed Code.");
 }
 
-
-?>
-
+ 

@@ -342,9 +342,14 @@ body .mw-col > .ui-resizable-e *{
   content: "Drop here";
 }
 
-body.dragStart .mw-col-container .mw-empty:hover{
+body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-container .mw-empty.currentDragMouseOver{
   background: #DBFFDB;
   outline: 2px dashed #65D769;
+}
+
+
+.mw-open-module-settings{
+  cursor: pointer;
 }
 
 

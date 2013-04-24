@@ -517,6 +517,10 @@ $(document).ready(function(){
 
     mw.on.hashParam("tab", function(){
       mw.tools.sidebar();
+      mw.$("#mw_tabs_small .mw-dropdown-list").hide();
+      setTimeout(function(){
+        mw.$("#mw_tabs_small .mw-dropdown-list").show();
+      }, 222);
       var tab = this;
       if(tab==false){
         mw.url.windowHashParam('tab', 'modules');

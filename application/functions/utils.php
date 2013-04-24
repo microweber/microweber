@@ -356,7 +356,13 @@ function mw_notif_live_edit($text, $exit = false){
 	$editmode_sess = session_get('editmode');
 
 	if($editmode_sess == true){
-		return mw_notif($text, $exit);
+	 $to_print = '<div class="mw-notification mw-success ">
+			    <div class="mw-notification-text mw-open-module-settings">'.$text.'</div>
+			  </div>';
+
+
+
+	print $to_print;
 
 	}
 }
