@@ -268,25 +268,26 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-                alert(event.keyCode===8)
+           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null){
+             mw.e.cancel(event, true);
+             window.getSelection().getRangeAt(0).deleteContents()
+           }
+
+           if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null){
+             mw.e.cancel(event, true);
+             window.getSelection().getRangeAt(0).deleteContents()
+           }
 
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
 
-             if(event.keyCode == '46' && r.endOffset == 0){
+             if(event.keyCode == 46 && r.endOffset == 0){
                if(r.commonAncestorContainer.nextSibling.nodeName === 'DIV'){
                   mw.e.cancel(event, true);
                }
              }
-             if(event.keyCode == 8){
-               d(r.commonAncestorContainer.previousSibling)
-               if(r.commonAncestorContainer.previousSibling === null){
-                 alert('aaaaaaaaaaaaaa')
-                   mw.e.cancel(event, true);
-               }
-               else {
-                   if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
-                      mw.e.cancel(event, true);
-                   }
+             if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling !== null){
+               if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
+                  mw.e.cancel(event, true);
                }
              }
            }
