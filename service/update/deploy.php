@@ -34,14 +34,26 @@
 		//'cd ~/public_html/service/update/mw_git/Microweber/', 
 		'echo $PWD',
 		'whoami',
-		'git fetch --all',
-		'git checkout -b master origin/master',
-		'git checkout origin master',
-		'git pull origin master',
+		
+		'git stash',
+		'git fetch origin',
+		'git reset --hard origin/master',
+ 
+		
+		
+		
+		/*'git fetch --all',
+		'git fetch origin/master',
+		'git merge FETCH_HEAD',
+		'git fetch origin +refs/heads/*:refs/remotes/origin/*',*/
+
+		//'git checkout -b master origin/master',
+		//'git checkout origin master',
+		//'git fetch origin master',
 		'git status',
 		 
-		'git reset --hard HEAD ',
-		'git clean -f -d',
+		// 'git reset --hard HEAD ',
+		//'git clean -f -d',
 		'git sync',
 		'git pull'
 	);

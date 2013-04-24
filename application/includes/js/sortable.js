@@ -234,10 +234,10 @@ mw.drag = {
                if(mw.mouse.x % 2 === 0 ){ //not on every pixel
                    //trigger on element
 
-                   if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module")){
+                   if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
-                   else if(mw.$mm_target.parents(".element").length>0){
+                   else if(mw.$mm_target.parents(".element").length>0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.$mm_target.parents(".element:first")[0]);
                    }
                    else if(mw.mm_target.id!='mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length==0){
