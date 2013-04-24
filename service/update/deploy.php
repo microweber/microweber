@@ -36,24 +36,26 @@
 		'whoami',
 		
 		'git stash',
-		'git fetch origin',
-		'git reset --hard origin/master',
+		 
+		//'git reset --hard origin/master',
  
 		
 		
 		
-		/*'git fetch --all',
-		'git fetch origin/master',
-		'git merge FETCH_HEAD',
-		'git fetch origin +refs/heads/*:refs/remotes/origin/*',*/
-
+		 'git fetch --all',
+		/*'git fetch origin/master',
+		'git merge FETCH_HEAD',*/
+		'git fetch master',
+		'git checkout -b --force master ',
+		
+	 //'git checkout-index -u --force',
 		//'git checkout -b master origin/master',
 		//'git checkout origin master',
 		//'git fetch origin master',
 		'git status',
-		 
-		// 'git reset --hard HEAD ',
-		//'git clean -f -d',
+		'git reset --hard origin/HEAD ', 
+		   //'git reset --hard HEAD ',
+		'git clean -f -d',
 		'git sync',
 		'git pull'
 	);

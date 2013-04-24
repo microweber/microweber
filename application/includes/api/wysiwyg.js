@@ -268,9 +268,19 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null && mw.wysiwyg.selection_length() > 0 ){
+           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null ){
              mw.e.cancel(event, true);
-             window.getSelection().getRangeAt(0).deleteContents();
+             if(mw.wysiwyg.selection_length() > 0){
+               window.getSelection().getRangeAt(0).deleteContents();
+             }
+             else{
+
+               d(r.endContainer)
+               r.setStart(r.endContainer, r.endContainer.innerHTML.length);
+               window.getSelection().addRange(r);
+               r.deleteContents()
+             }
+
            }
 
            if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){
