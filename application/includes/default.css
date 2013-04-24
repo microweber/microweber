@@ -24,6 +24,10 @@ body.mw-preview{
   -webkit-transform-origin: 0 0;
 }
 
+.mw-empty{
+  display: none;
+}
+
 
 .autoscale{
   min-width: 100%;

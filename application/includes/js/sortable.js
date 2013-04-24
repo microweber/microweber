@@ -331,7 +331,7 @@ mw.drag = {
 
           if(mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')){
               mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
-                d('inside MODULE '+mw.currentDragMouseOver)
+
 
           }
           else if(mw.tools.hasClass(mw.mm_target.className, 'module')){
@@ -343,6 +343,7 @@ mw.drag = {
              if(   // The Core
                    mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
+                || mw.$mm_target.hasClass("mw-empty")
                 || mw.$mm_target.hasClass("mw-row")
                 || mw.$mm_target.hasClass("module")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
@@ -350,14 +351,14 @@ mw.drag = {
                 || mw.isDragItem(mw.mm_target)
                 || mw.mm_target.tagName=='IMG'){
 
-                d('OUTSIDE MODULE '+mw.mm_target)
+
                 if(mw.$mm_target.hasClass("module")){
                      mw.currentDragMouseOver = mw.mm_target;
-                    d(1 + " - " + mw.random())
+
                 }
                 else if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                     mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
-                     d(2 + " - " + mw.random())
+
                 }
 
                else if(!mw.mm_target.className.contains("ui-") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
@@ -370,9 +371,7 @@ mw.drag = {
                          mw.currentDragMouseOver = mw.mm_target;
                         }
 
-
-
-                       if(mw.$mm_target.hasClass("empty-element")){
+                       if(mw.$mm_target.hasClass("empty-element") || mw.$mm_target.hasClass("mw-empty")){
                           mw.dropable.removeClass("mw_dropable_onleaveedit");
                        }
                     }
@@ -470,7 +469,7 @@ mw.drag = {
             if(el.hasClass("element") ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
-                if(el.hasClass("empty-element")){
+                if(el.hasClass("empty-element") || el.hasClass("mw-empty")){
                     mw.dropable.hide();
                 }
                 else{
@@ -964,6 +963,12 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
+                        if($(mw.currentDragMouseOver).hasClass("mw-empty")){
+
+                            $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                            return false;
+                        }
+
 
                          if($(mw.currentDragMouseOver).hasClass("empty-element")){
                               if(mw.tools.hasChildrenWithClass(mw.currentDragMouseOver.parentNode, 'mw-col-container')){
@@ -974,7 +979,7 @@ mw.drag = {
                                  $(mw.currentDragMouseOver).before(mw.dragCurrent);
                               }
 
-                                return false;
+                              return false;
                          }
 
 
@@ -1528,7 +1533,7 @@ module_settings: function(a) {
 
 
                         var last_container = last_after_remove.find(".mw-col-container");
-                        d(last_container)
+
 
                         var nodes = fragment.childNodes, i=0, l=nodes.length;
 

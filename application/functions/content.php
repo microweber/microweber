@@ -3656,52 +3656,17 @@ $cache_content = false;
 
 		//cache_save($tree, $function_cache_id, $cache_group = 'content/static');
 	}
-
-$tree = directory_tree($dir_name);
-
-
-	if($tree != false){
-
 		if(!isset($url)){
 		$url = curent_url(true,true);
 		}
-		$url = url_param_unset('loc', $url) ;
-		$url = url_param_unset('page', $url) ;
-		$url = reduce_double_slashes(site_url($url).'/');
+		$params['url'] = $url;
+		$params['url_param'] = 'page';
 
 
 
-
-		$tree = str_replace("/","--", $tree);
-	    $tree = str_replace("path=","page:", $tree);
-		$tree = str_replace("file=","page:", $tree);
-		$tree = str_replace('?',$url, $tree);
+		  directory_tree($dir_name, $params);
 
 
-
-		$page_url = url_param('page');
-		if($page_url != false and $page_url != ''){
-			$page_url = urldecode($page_url);
-			//$page_url  = no_ext($page_url);
-			$class_path = str_replace(' ', '_', 'page_'.$page_url);
-			$class_path = str_replace('.', '_', $class_path);
-
- 			//$tree = strtr($tree, array('page_'.$page_url , "active "));
-			 $tree = str_ireplace($class_path,' active ', $tree);
-
-			//{$class_path}
-
-		}
-
-
-		if(isset($class)){
-			$tree = str_replace("directory_tree",$class, $tree);
-		}
-
-
-		//$tree = str_replace("//","/", $tree);
-	}
-	return $tree;
 
 
 }

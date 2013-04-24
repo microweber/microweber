@@ -301,25 +301,44 @@ function save_media($data) {
 	if (isset($data['src'])) {
 
 		$url2dir = url2dir($data['src']);
-		$uploaded_files_dir = MEDIAFILES.DS.'uploaded';
-		$move_uploaded_files_dir = MEDIAFILES.DS.'pictures';
+		$uploaded_files_dir = MEDIAFILES . DS . 'uploaded';
+/*
+		if (isset($s['rel']) and isset($s['rel_id'])) {
+			$move_uploaded_files_dir = MEDIAFILES . DS . $s['rel'] . DS;
+			$move_uploaded_files_dir_index = MEDIAFILES . DS . $s['rel'] . DS . 'index.php';
 
-		$uploaded_files_dir = normalize_path($uploaded_files_dir);
-		$url2dir = normalize_path($url2dir);
-
-
-
-	/*
-		if(strstr($url2dir,$uploaded_files_dir)){
-			if (!copy($file, $newfile)) {
-
-			} else {
-
+			$uploaded_files_dir = normalize_path($uploaded_files_dir);
+			if (!is_dir($move_uploaded_files_dir)) {
+				mkdir_recursive($move_uploaded_files_dir);
+				@touch($move_uploaded_files_dir_index);
+				
+				
+				$url2dir = normalize_path($url2dir, false);
+				
+				 if(strstr($url2dir,$uploaded_files_dir)){
+					 if (!copy($file, $newfile)) {
+			
+					 } else {
+			
+					 }
+				 }
+				
 			}
-		}*/
+			
+			
+			
+			
 
+		}
 
+		/*
+		 if(strstr($url2dir,$uploaded_files_dir)){
+		 if (!copy($file, $newfile)) {
 
+		 } else {
+
+		 }
+		 }*/
 
 		$s['filename'] = $data['src'];
 	}
@@ -430,9 +449,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 	$src = str_replace('{SITE_URL}', $surl, $src);
 	$src = str_replace('%7BSITE_URL%7D', $surl, $src);
 
-// $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-
-
+	// $src = str_replace('%7BSITE_URL%7D', $surl, $src);
 
 	/*
 	 */
@@ -464,8 +481,8 @@ function thumbnail($src, $width = 200, $height = 200) {
 		// } else {
 		//
 		// }
-		if($src == false){
-		return pixum($width, $height);
+		if ($src == false) {
+			return pixum($width, $height);
 		}
 	}
 	$cd = CACHEDIR . 'thumbnail' . DS;
@@ -482,7 +499,6 @@ function thumbnail($src, $width = 200, $height = 200) {
 
 	} else {
 		//
-
 
 		if (file_exists($src)) {
 

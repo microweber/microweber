@@ -2,10 +2,6 @@
 
 only_admin_access();
 $path = $path_here = $config['path_to_module'].'help'.DS;
-$help_pages = static_pages_tree('class=hedddlp-nav&dir_name='.$path.'&url='.$config['url_base']);
-
-
-
 
 
 
@@ -40,34 +36,100 @@ mw_var('mw_help_path',$get_path);
  ?>
 <script>mw.require('<? print $config['url_to_module']; ?>help.css', true);</script>
 
+<script>
+
+$(document).ready(function(){
+    var mainhelp = mwd.getElementById('main-help');
+    var titles = mainhelp.querySelectorAll("h2,h3,h4,h5"), i=0, l=titles.length;
+
+
+    for( ; i<l; i++){
+        var item = titles[i];
+        item.innerHTML = '<span class="help-plus"></span>' + item.innerHTML;
+        item.nextElementSibling.className += ' mw-accordion-content'; 
+        item.onclick = function(){
+
+          mw.tools.accordion(item.parentNode);
+        }
+    }
+
+
+});
+
+
+</script>
+
 <div id="mw_index_help">
   <div id="mw_edit_page_left" class="mw_edit_page_default">
     <div class="mw-admin-sidebar">
       <?php $info = module_info($config['module']);  ?>
       <?php module_ico_title($info['module']); ?>
     </div>
-    <div class="manage-items">
+    <div class="manage-items" id="main-help">
       <?php
       // .. $help_pages = str_replace("directory_tree","ssshelp-nav", $help_pages);
-        print $help_pages;
+         static_pages_tree('title_class=help-opener&class=help-nav&dir_name='.$path.'&url='.$config['url_base']);
+
+
+
+
       ?>
     </div>
     <? if($show_modules_help_nav == true): ?>
     <? $module_categories = get_categories('rel=modules') ?>
-    <? //d($module_categories); ?>
-    <? $modules = get_modules_from_db('ui=any&parent_id=0') ?>
+      
+    <? $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
+	$module_categories_ids = array();
+ if(isarr($modules  )){
+	 foreach($modules  as $item){
+		 
+		 
+		$module_path  = module_path($item['module']);
+
+		$module_path_help = $module_path.'help'.DS;
+		 
+		if(is_dir($module_path_help)){ 
+			  $cats_for_this_module = get_category_items('rel=modules&rel_id='.$item['id']);
+				if(isarr($cats_for_this_module  )){
+					 foreach($cats_for_this_module  as $module_categories_id){
+						$module_categories_ids[] = $module_categories_id['parent_id'];
+					 }
+				}
+			 }
+	 }
+	 
+	 
+	 
+	 
+ }
+	 if(isarr($module_categories_ids  )){
+		 $module_categories_ids = array_unique($module_categories_ids);
+		 if(isarr($module_categories_ids  )){
+			 $module_categories = array();
+			 foreach($module_categories_ids  as $module_categories_id){
+				$module_categories[] = get_category_by_id($module_categories_id);
+			 }
+		 }
+		    
+	 }
+	 
+	
+	 ?>
     <? if(isarr($module_categories  )): ?>
     <div class="mw-admin-sidebar">
       <h2>Modules</h2>
     </div>
     <ul class="help-nav">
       <? foreach($module_categories  as $module_category): ?>
-      <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span>
+      
+        <? if(isarr($modules  )): ?>
+        <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span>
         <?  print($module_category['title']); ?>
         </strong>
-        <? if(isarr($modules  )): ?>
         <ul class="mw-accordion-content">
           <? foreach($modules  as $item): ?>
+          
+          <? if(strtolower($item['module'])  != 'help'): ?>
           <? $cats_for_this_module = get_category_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
           <?  // d( $cats_for_this_module ); ?>
           <? if($cats_for_this_module >0): ?>
@@ -85,15 +147,16 @@ mw_var('mw_help_path',$get_path);
             </span></strong>
             <? // $module_help_pages = directory_tree( $module_path_help);
 
-			$module_help_pages = static_pages_tree('dir_name='.$module_path_help.'&url='.$config['url_base']);
+			  static_pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
 
 
-                $module_help_pages = str_replace("directory_tree","mw-accordion-content", $module_help_pages);
+                //$module_help_pages = str_replace("directory_tree","mw-accordion-content", $module_help_pages);
 
 					// $module_help_pages = str_replace("?file=","?basepath=". $basepath_this_module."&file=", $module_help_pages);
-					print $module_help_pages;
+					//print $module_help_pages;
 					 ?>
           </li>
+          <? endif; ?>
           <? endif; ?>
           <? endif; ?>
           <? endforeach ; ?>
@@ -107,6 +170,20 @@ mw_var('mw_help_path',$get_path);
   </div>
 </div>
 <div class="mw_edit_page_right" id="help-content">
-  <?  print static_page_get('dir_name='.$path_here); ?>
+
+<?
+
+$page_path = $path_here;
+$module_help_url = url_param('module_help');
+if($module_help_url != false and $module_help_url != ''){
+$module_help_url = module_name_decode($module_help_url);	
+ $module_path  = module_path($module_help_url);
+ $page_path = $module_path.'help'.DS;
+}
+ 
+
+
+ ?>
+  <?  print static_page_get('dir_name='.$page_path); ?>
 </div>
 </div>

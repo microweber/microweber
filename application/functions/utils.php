@@ -14,6 +14,7 @@ function copy_directory($source, $destination) {
 			if ($readdirectory == '.' || $readdirectory == '..') {
 				continue;
 			}
+
 			$PathDir = $source . '/' . $readdirectory;
 			if (is_dir($PathDir)) {
 				copy_directory($PathDir, $destination . '/' . $readdirectory);
@@ -1015,35 +1016,9 @@ function array_values_recursive($ary) {
 	return $lst;
 }
 $_mw_directory_tree_iterate_directory_depth = 0;
-function directory_tree_iterate_directory($it)
-{
+function directory_tree_iterate_directory($it){
 	global $_mw_directory_tree_iterate_directory_depth;
-$to_print = '';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	$to_print = '';
 
 
 
@@ -1078,10 +1053,10 @@ $to_print = '';
 		$class_path = str_replace('.', '_', $class_path);
 
 
-$link_href = $file1;
-if($link != false){
-	$link_href = "<a class='page_{$class_path}' href='?file={$link}'>{$file1}</a>";
-}
+		$link_href = $file1;
+		if($link != false){
+			$link_href = "<a class='page_{$class_path} ' href='?file={$link}'>{$file1}</a>";
+		}
 
 
 // $it->getSize()
@@ -1089,17 +1064,14 @@ if($link != false){
 
 
 			if($it->hasChildren()) {
-				// $to_print .=('<li class="directory_tree is_sub_folder is_folder_holder '.$class_path.'">'.$link_href."</li>\n");.
-				//
-				//
-				//
-				//
-				//
-				 $to_print .=sprintf('<li class="dir">%s</li>',$it->getSubPathname());
+			 	$_mw_directory_tree_iterate_directory_depth++;
+
+
+				 $to_print .=sprintf('<li class="directory_tree is_sub_folder depth_'.$_mw_directory_tree_iterate_directory_depth.'">%s</li>',$it->getFilename());
 
 
 				$bleh = $it->getChildren();
-				$_mw_directory_tree_iterate_directory_depth++;
+
 				$to_print .=   directory_tree_iterate_directory($bleh)  ;
 
 
@@ -1168,60 +1140,171 @@ if($link != false){
 	return  $to_print;
 }
 
-function directory_tree($path = '.', $search = false) {
+function directory_tree($path = '.', $params = false) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$params = parse_params($params);
 
 	$dir = $path;
-//	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-	$iterator = new RecursiveDirectoryIterator($dir) ;
 
-	$dir_cont = directory_tree_iterate_directory($iterator);
-	//
+	 return directory_tree_build($dir, $params);
 
 
-	$return = str_replace($path, '', $dir_cont);
-	return $return;
 
-	/*$return = '';
-	if ($search == false) {
-		$return = directory_tree_full_path($path);
-	} else {
-		$res = directory_tree_grep($search, $path);
-		if (!empty($res)) {
-			$res1 = array_values_recursive($res);
-			foreach ($res1 as $value) {
-				$return .= directory_tree_full_path($value);
-			}
-		}
+
+
+
+}
+
+
+function directory_tree_build($dir, $params = false){
+
+$params = parse_params($params);
+$class = 'directory_tree';
+	if(isset($params['class'])){
+		$class = $params['class'];
 	}
 
-$return = str_replace('dir_path_replace--', 'page_', $return);
 
-	$return = str_replace($path, '', $return);
-	$path   = str_replace('\\', '/', $path);
-	$return = str_replace($path, '', $return);
-	return $return;*/
+	$title_class = 'is_folder';
+	if(isset($params['title_class'])){
+		$title_class = $params['title_class'];
+	}
+
+
+	$basedir = '';
+	if(isset($params['dir_name'])){
+		$basedir = $params['dir_name'];
+	}
+
+	$url_param = 'file';
+	if(isset($params['url_param'])){
+		$url_param = $params['url_param'];
+	}
+
+	if(isset($params['url'])){
+		$url = $params['url'];
+	} else {
+		$url = curent_url(true,true);
+	}
+
+
+  static $level = 0;
+  $level++;
+  $ffs = scandir($dir);
+  echo '<ul class="'.$class.' depth_'.$level.'">';
+  foreach($ffs as $ff){
+		$is_hidden = substr($ff, 0, 1);
+		if ($is_hidden == '_') {
+
+		} else {
+
+
+
+
+		  	$file1 =  $ff;
+
+
+				if(strlen($file1) > 3){
+							$pos = strpos($file1, '_', 1);
+
+							if ($pos != false) {
+								$substr = substr($file1, 0, $pos);
+								if(intval($substr) > 0){
+									$file1 = substr($file1, $pos, strlen($file1));
+									$file1  = ltrim($file1, '_');
+								}
+						//
+							}
+				 }
+
+			 $file1  = str_replace('_', ' ', $file1);
+
+
+
+
+
+
+		    if($ff != '.' && $ff != '..'){
+		      echo '<li class="'.$class.' depth_'.$level.'">';
+		      if(is_dir($dir.'/'.$ff)) {
+
+		      	$is_index = $dir.DS.$ff.DS.'index.php';
+		      	$link_href = '';
+
+		      	if(is_file($is_index)){
+					$link = $dir.'/'.$ff.'/index.php';
+					if(trim($basedir) != ''){
+					$link =  normalize_path($link, false);
+					$basedir =  normalize_path($basedir, false);
+					$link = str_replace($basedir.DS,'',  $link );
+					$link = str_replace('\\', '/', $link);
+					$link = urlencode($link);
+
+
+
+					}
+					$active_class = '';
+
+					if(isset($_REQUEST[$url_param]) and  urldecode($_REQUEST[$url_param]) == $link){
+					$active_class = ' active ';
+					}
+
+
+				$file1 = "<a class='{$active_class}' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
+
+		      	}
+
+
+
+
+
+
+		        $h_start = ($level == 1) ? '<h2 class="'.$title_class. '">' : '<h3 class="'.$title_class.'">';
+		        $h_close = ($level == 1) ? '</h2>' : '</h3>';
+		        echo $h_start.$file1.$h_close;
+		        directory_tree_build($dir.'/'.$ff, $params);
+		      } else {
+		      	$file1  = no_ext($file1);
+
+		      	 $link = $dir.'/'.$ff;
+
+				if(trim($basedir) != ''){
+					$link =  normalize_path($link, false);
+					$basedir =  normalize_path($basedir, false);
+					$link = str_replace($basedir.DS,'',  $link );
+
+				}
+
+
+				$link = str_replace('\\', '/', $link);
+				$class_path = str_replace('/', '--',  $link );
+				$class_path = str_replace(' ', '_', $class_path);
+				$class_path = str_replace('.', '_', $class_path);
+				$active_class = '';
+				if(isset($_REQUEST[$url_param]) and urldecode($_REQUEST[$url_param]) == $link){
+				$active_class = ' active ';
+				}
+
+
+				$link_href = $file1;
+				if($link != false){
+					$link = urlencode($link);
+				$link_href = "<a class='{$active_class} page_{$class_path} ' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
+				}
+
+
+
+		        echo $link_href;
+		      }
+		      echo '</li>';
+		    }
+
+	    }
+  }
+  echo '</ul>';
+  $level--;
 }
+
 
 
 function directory_tree_full_path($path = '.') {
@@ -1405,6 +1488,34 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
 
 	return FALSE;
 }
+
+
+/**
+ * PHP5 - Fast, recursive, directory profiler
+ * @param string $dir Path to a readable directory path
+ * @version 1.0
+ */
+function directory_profile( $dir ) {
+  static $info = array();
+  if( is_dir( $dir = rtrim( $dir, "/\\" ) ) ) {
+    foreach( scandir( $dir) as $item ) {
+      if( $item != "." && $item != ".." ) {
+        $info['all'][] = $absPath = $dir . DIRECTORY_SEPARATOR . $item;
+        $stat = stat( $absPath );
+        switch( $stat['mode'] & 0170000 ) {
+        case 0010000: $info['files'][]       = $absPath; break;
+        case 0040000: $info['directories'][] = $absPath; profile( $absPath ); break;
+        case 0120000: $info['links'][]       = $absPath; break;
+        case 0140000: $info['sockets'][]     = $absPath; break;
+        case 0010000: $info['pipes'][]       = $absPath; break;
+        }
+      }
+    }
+  }
+  //clearstatcache();
+  return $info;
+}
+
 
 
 function percent($num_amount, $num_total) {

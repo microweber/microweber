@@ -17,14 +17,14 @@
   <?   $active = url_param('view'); ?>
     <ul id="mw_tabs">
       <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
-      <li <?php if($active == 'content'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
+      <li <?php if($active == 'content'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
       <? exec_action('mw_admin_header_menu_start'); ?>
-      <li <?php if($active == 'modules'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
+      <li <?php if($active == 'modules'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
       <? exec_action('mw_admin_header_menu'); ?>
-      <li <?php if($active == 'users'): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
+      <li <?php if($active == 'users'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
       <? //exec_action('mw_admin_header_menu'); ?>
       <? if(is_module('help')): ?>
-      <li<?php if($active == 'help'): ?>class="active"<? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
+      <li <?php if($active == 'help'): ?> class="active" <? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
       <? endif; ?>
       <? exec_action('mw_admin_header_menu_end'); ?>
     </ul>

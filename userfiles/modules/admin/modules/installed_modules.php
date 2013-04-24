@@ -189,7 +189,7 @@ mw.on.hashParam('installed', function(){
          </div>
     </div>
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;width: 730px;">
+  <div class="mw_edit_page_right" style="padding: 20px;">
 
 
 
