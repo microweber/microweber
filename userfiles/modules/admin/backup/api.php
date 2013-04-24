@@ -3,19 +3,19 @@
 namespace admin\backup;
 
 api_expose('admin_backup_db_tables');
-api_expose('admin\backup\api\delete');
-api_expose('admin\backup\api\create');
-api_expose('admin\backup\api\download');
-api_expose('admin\backup\api\create_full');
-api_expose('admin\backup\api\move_uploaded_file_to_backup');
+api_expose('mw/utils/Backup/delete');
+api_expose('mw/utils/Backup/create');
+api_expose('mw/utils/Backup/download');
+api_expose('mw/utils/Backup/create_full');
+api_expose('mw/utils/Backup/move_uploaded_file_to_backup');
 
-api_expose('admin\backup\api\restore');
+api_expose('mw/utils/Backup/restore');
 
 function mw_process_backup_in_background($a = '', $b = '') {
 
 }
 
-//api_expose('admin\backup\api\get_bakup_location');
+//api_expose('mw/utils/Backup/get_bakup_location');
 class api {
 
 	private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';

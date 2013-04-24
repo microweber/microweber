@@ -7,7 +7,7 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
-	 $.post(mw.settings.api_url+'admin/backup/api/create', false ,
+	 $.post(mw.settings.api_url+'mw/utils/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -19,7 +19,7 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
-	 $.post(mw.settings.api_url+'admin/backup/api/create', false ,
+	 $.post(mw.settings.api_url+'mw/utils/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -32,7 +32,7 @@ mw.admin_backup = {
 
 		data = {}
 		data.id=src;
-		$.post(mw.settings.api_url+'admin/backup/api/restore', data ,
+		$.post(mw.settings.api_url+'mw/utils/Backup/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -44,7 +44,7 @@ mw.admin_backup = {
 
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'admin/backup/api/move_uploaded_file_to_backup', data ,
+		$.post(mw.settings.api_url+'mw/utils/Backup/move_uploaded_file_to_backup', data ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -57,7 +57,7 @@ mw.admin_backup = {
 	create_full : function(selector){
 		mw.notification.success("FULL Backup is started...");
 	 
-		$.post(mw.settings.api_url+'admin/backup/api/create_full', false ,
+		$.post(mw.settings.api_url+'mw/utils/Backup/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -73,7 +73,7 @@ mw.admin_backup = {
 		data.id=$id;
 
 
-		$.post(mw.settings.api_url+'admin/backup/api/delete', data ,
+		$.post(mw.settings.api_url+'mw/utils/Backup/delete', data ,
 			function(resp) {
 			 //mw.reload_module('admin/backup/manage');
 			 mw.notification.msg(resp);

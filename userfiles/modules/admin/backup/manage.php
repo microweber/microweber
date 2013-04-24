@@ -1,7 +1,7 @@
 <? if(!is_admin()){error("must be admin");}; ?>
 <?
 /*
-$var3 = api('admin/backup/api/get_bakup_location');
+$var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);
 
 $backs = new \admin\backup\api();
@@ -11,13 +11,13 @@ d($backs);
 
 
 
- $var3 = api('admin/backup/api/get_bakup_location');
+ $var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);
 
- $var3 = api('admin/backup/api/get_bakup_location');
+ $var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);
 
- $var3 = api('admin/backup/api/get_bakup_location');
+ $var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);*/
 
  ?>
@@ -48,7 +48,7 @@ d($backs);
       </tr>
     </tfoot>
     <tbody>
-      <? $backups = api('admin/backup/api/get');
+      <? $backups = api('mw/utils/Backup/get');
 		  if(isarr($backups )): ?>
       <?
 	  $i = 1;
@@ -58,7 +58,7 @@ d($backs);
         <td><? print $item['date']  ?></td>
         <td><? print $item['time']  ?></td>
         <td><? print file_size_nice( $item['size'])  ?></td>
-        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" target="_blank" href="<? print api_url('admin/backup/api/download'); ?>?file=<? print $item['filename']  ?>">Download</a></td>
+        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" target="_blank" href="<? print api_url('mw/utils/Backup/download'); ?>?file=<? print $item['filename']  ?>">Download</a></td>
         <td>
 
         <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="javascript:mw.admin_backup.restore('<? print $item['filename']  ?>')">Restore</a></td>

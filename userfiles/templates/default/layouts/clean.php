@@ -16,20 +16,13 @@ description: Clean layout
 
 <section id="content"> 
   <div class="container edit"  field="content" rel="content">
-
-
-  <p class="element"></p>
-
-  <div class="mw-row">
-    <div class="mw-col" style="width: 100%">
-        <div class="mw-col-container">
-            <p class="element">Edit your content</p>
+      <div class="mw-row">
+        <div class="mw-col" style="width: 100%">
+            <div class="mw-col-container">
+                <div class="mw-empty"></div>
+            </div>
         </div>
-    </div>
-  </div>
-
- <p class="element"></p>
-
+      </div>
   </div>
 </section>
 

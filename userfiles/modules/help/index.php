@@ -46,10 +46,9 @@ $(document).ready(function(){
     for( ; i<l; i++){
         var item = titles[i];
         item.innerHTML = '<span class="help-plus"></span>' + item.innerHTML;
-        item.nextElementSibling.className += ' mw-accordion-content'; 
+        item.nextElementSibling.className += ' mw-accordion-content';
         item.onclick = function(){
-
-          mw.tools.accordion(item.parentNode);
+            mw.tools.accordion(item.parentNode);
         }
     }
 

@@ -1,3 +1,3 @@
 <? if(!is_admin()){error("must be admin");}; ?>
 
- <? api('admin\backup\api\download'); ?>
+ <? api('mw/utils/Backup/download'); ?>

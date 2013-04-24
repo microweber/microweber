@@ -16,6 +16,9 @@ description: Contact us layout
 
 <div id="content">
 	<div class="container">
+        <div class="edit">
+            <div class="mw-empty"></div>
+        </div>
 		<h2 class="section-title">
     	<div class="mw-row">
 			<div class="mw-col" style="width:40%">

@@ -1,5 +1,5 @@
 <? if(!is_admin()){error("must be admin");}; ?>
  <? 
-$backups = api('admin/backup/api/create');
+$backups = api('mw/utils/Backup/create');
  
  ?>
