@@ -12,7 +12,7 @@ function mw_print_admin_menu_selector($params = false) {
 	if (isset($params['id'])) {
 		$add = '&content_id=' . $params['id'];
 	}
-	print module('view=edit_page_menus&type=nav' . $add);
+	print module('view=edit_page_menus&type=menu' . $add);
 }
 
 function get_menu_items($params = false) {

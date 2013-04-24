@@ -268,7 +268,7 @@ mw.wysiwyg = {
 
            var r = sel.getRangeAt(0);
 
-
+                alert(event.keyCode===8)
 
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
 
@@ -277,10 +277,16 @@ mw.wysiwyg = {
                   mw.e.cancel(event, true);
                }
              }
-             if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling !== null){
-               d(r.commonAncestorContainer)
-               if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
-                  mw.e.cancel(event, true);
+             if(event.keyCode == 8){
+               d(r.commonAncestorContainer.previousSibling)
+               if(r.commonAncestorContainer.previousSibling === null){
+                 alert('aaaaaaaaaaaaaa')
+                   mw.e.cancel(event, true);
+               }
+               else {
+                   if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
+                      mw.e.cancel(event, true);
+                   }
                }
              }
            }
@@ -909,6 +915,8 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
   $(window).bind("onElementClick", function(e, el){
     if($(el).hasClass("lipsum")){
        $(el).removeClass("lipsum");
+
+       mw.wysiwyg.select_all(el);
        mw.wysiwyg.select_all(el);
     }
   });

@@ -1402,8 +1402,8 @@ input.mw-title-field{
 .post-thumb-uploader{
   width: 129px;
   height: 129px;
-  border: 2px dashed #ddd;
-  background:white url(../img/add_post_thumbnail.png) no-repeat center center;
+  border: 2px dashed #8DBF2D;
+  background:#EBFFE0 url(../img/add_img_thumbnail.png) no-repeat center center;
   text-indent: -100%;
   overflow: hidden;
   cursor: pointer;
@@ -1411,7 +1411,8 @@ input.mw-title-field{
 
 
 .post-thumb-uploader:hover{
-  border-color: #C1C1C1;
+  border-color: #618D0D;
+  background-color: #D8FFC4;
 }
 
 

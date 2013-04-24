@@ -87,7 +87,10 @@ function mw_db_init_users_table() {
 
 			$new_admin = array();
 			$new_admin['username'] = $_POST['admin_username'];
-			$new_admin['password'] = $_POST['admin_password'];
+			$new_admin['password'] = hash_user_pass($_POST['admin_password']);
+			if (isset($_POST['admin_email'])) {
+			$new_admin['email'] = $_POST['admin_email'];
+			}
 			$new_admin['is_active'] = 'y';
 			$new_admin['is_admin'] = 'y';
 			mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
@@ -250,8 +253,11 @@ function delete_user($data) {
 }
 
 function hash_user_pass($pass) {
-	$hash = password_hash($pass, PASSWORD_BCRYPT);
+	//$hash = password_hash($pass, PASSWORD_BCRYPT);
+	//
+	$hash = md5($pass);
 	if ($hash == false) {
+		$hash = db_escape_string($hash);
 		return $pass;
 	}
 	return $hash;
@@ -888,7 +894,7 @@ function user_login($params) {
 		$data1 = array();
 		$data1['username'] = $user;
 		$data1['password'] = $pass;
-		// $data1['debug'] = 1;
+
 		$data1['search_in_fields'] = 'username,password,email';
 		$data1['is_active'] = 'y';
 

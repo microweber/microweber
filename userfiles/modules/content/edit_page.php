@@ -708,9 +708,9 @@ load_preview();
           if(isset($params['is_shop'])){
       //$pt_opts['is_shop'] = $params['is_shop'];
           }
-			if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
-			 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
-			 }
+  			if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
+  			 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
+  			 }
 
 
           $pt_opts['active_code_tag'] = '   selected="selected"  ';

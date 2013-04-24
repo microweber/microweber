@@ -127,7 +127,7 @@ function read_notification($id) {
 		mw_var('FORCE_SAVE', $table);
 		$data = save_data($table, $save);
 	}
- 
+
 	return $get;
 }
 
@@ -202,7 +202,7 @@ function get_notifications($params) {
 		$log_entr = get_log_entry($is_log_id);
 			if($log_entr !=false and isset($params['one'])){
 				return $log_entr;
-				
+
 			} else if($log_entr !=false ) {
 			$return[] = $log_entr;
 			}
@@ -282,7 +282,7 @@ function mw_mail($to, $subject, $message, $add_hostname_to_subject = false, $no_
 		}
 
 		if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-			// $res -> debug = 1;
+			//  $res -> debug = 1;
 			if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
 				$res -> setCc($cc);
 			}

@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 
 
-	 $('#form_<? print $rand; ?>').submit(function() {
+   $('#form_<? print $rand; ?>').submit(function() {
 
 
   mw_start_progress();
@@ -33,23 +33,23 @@ $(document).ready(function(){
   $.post("<? print url_string() ?>", $data,
    function(data) {
 
-	    $('.mw_log').html('');
-	   if(data != undefined){
-		 if(data == 'done'){
-			 window.location.href= '<? print site_url('admin') ?>'
-		 } else {
-		  $('.mw_log').html(data);
-		  $('.mw-install-holder').fadeIn();
-		 }
+      $('.mw_log').html('');
+     if(data != undefined){
+     if(data == 'done'){
+       window.location.href= '<? print site_url('admin') ?>'
+     } else {
+      $('.mw_log').html(data);
+      $('.mw-install-holder').fadeIn();
+     }
 
-	   }
+     }
  $('.mw_install_progress').fadeOut();
    });
 
 
    return false;
 
-	 });
+   });
 
 
 
@@ -60,7 +60,7 @@ $(document).ready(function(){
 function mw_start_progress(){
 
 
-	$('.mw_install_progress').fadeIn();
+  $('.mw_install_progress').fadeIn();
 
  var interval = 2, //How much to increase the progressbar per frame
         updatesPerSecond = 1000/60, //Set the nr of updates per second (fps)
@@ -84,20 +84,20 @@ function mw_start_progress(){
 </script>
 <style>
 body {
-	background: #f4f4f4;
+  background: #f4f4f4;
 }
 .mw-o-box {
-	background: white;
-	box-shadow:0px 20px 14px -23px #CCCCCC;
+  background: white;
+  box-shadow:0px 20px 14px -23px #CCCCCC;
 }
 input[type='text'], input[type='password'] {
-	width: 200px;
+  width: 200px;
 }
 .mw-ui-label {
-	display: block;
-	float: left;
-	width: 155px;
-	padding:6px 12px 0 0;
+  display: block;
+  float: left;
+  width: 155px;
+  padding:6px 12px 0 0;
 }
 .mw_install_progress {
  display: none;
@@ -131,31 +131,31 @@ input[type='text'], input[type='password'] {
 
 
           <? if ($done == false): ?>
-          <form method="post" id="form_<? print $rand; ?>">
+          <form method="post" id="form_<? print $rand; ?>" autocomplete="true">
             <h2>Database setup</h2>
             <div class="hr"></div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
-              <input type="text" class="mw-ui-field" autofocus="" name="DB_HOST" <? if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<? print $data['db']['host'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <? if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<? print $data['db']['host'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL username <span class="mw-help" data-help="The username of your database.">?</span></label>
-              <input type="text" class="mw-ui-field" name="DB_USER" <? if(isset($data['db'])== true and isset($data['db']['user'])== true and $data['db']['user'] != '{DB_USER}'): ?> value="<? print $data['db']['user'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="DB_USER" <? if(isset($data['db'])== true and isset($data['db']['user'])== true and $data['db']['user'] != '{DB_USER}'): ?> value="<? print $data['db']['user'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL password</label>
-              <input type="text" class="mw-ui-field" name="DB_PASS" <? if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<? print $data['db']['pass'] ?>" <? endif; ?> />
+              <input type="text" required="true" class="mw-ui-field" name="DB_PASS" <? if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<? print $data['db']['pass'] ?>" <? endif; ?> />
             </div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database name <span class="mw-help" data-help="The name of your database.">?</span></label>
-              <input type="text" class="mw-ui-field" name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true   and $data['db']['dbname'] != '{dbname}'): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true   and $data['db']['dbname'] != '{dbname}'): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> />
             </div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
-              <input type="text" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
+              <input type="text" required="true" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
             </div>
 
             <!-- <div class="mw-ui-field-holder">
@@ -169,11 +169,15 @@ input[type='text'], input[type='password'] {
             <div class="hr"></div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Admin username</label>
-              <input type="text" class="mw-ui-field" name="admin_username" <? if(isset($data['admin_username'])== true and isset($data['admin_username'])!= ''): ?> value="<? print $data['admin_username'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="admin_username" <? if(isset($data['admin_username'])== true and isset($data['admin_username'])!= ''): ?> value="<? print $data['admin_username'] ?>" <? endif; ?> />
+            </div>
+             <div class="mw-ui-field-holder">
+              <label class="mw-ui-label">Admin email</label>
+              <input type="text" class="mw-ui-field" required="true" name="admin_email" <? if(isset($data['admin_email'])== true and isset($data['admin_email'])!= ''): ?> value="<? print $data['admin_email'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Admin password</label>
-              <input type="password" class="mw-ui-field" name="admin_password" <? if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<? print $data['admin_password'] ?>" <? endif; ?> />
+              <input type="password" required="true" class="mw-ui-field" name="admin_password" <? if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<? print $data['admin_password'] ?>" <? endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
