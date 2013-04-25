@@ -754,7 +754,7 @@ load_preview();
 
         mw_set_categories_from_tree()
 
-
+mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
 
 
         var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
@@ -772,7 +772,7 @@ load_preview();
      onUntag:function(){
 
     mw_set_categories_from_tree();
-
+mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
 
       var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
       if(curr_content != undefined){
@@ -1071,9 +1071,20 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
       holder1.attr('rel_id',vals);
       mw.load_module('custom_fields/list','#custom_fields_from_pages_selector_for_post_1<? print $rand; ?>', function(){
           });
-
     }
 
+
+        var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[type="checkbox"]:checked').val();
+     var holder1 = mw.$('#custom_fields_from_pages_selector_for_post_1<? print $rand; ?>');
+     if(vals != undefined){
+      i = 1;
+
+      holder1.attr('for','categories');
+      holder1.attr('save_to_content_id','<? print $data['id'] ?>');
+      holder1.attr('rel_id',vals);
+      mw.load_module('custom_fields/list','#custom_fields_from_cats_selector_for_post_1<? print $rand; ?>', function(){
+          });
+    }
 
 
 

@@ -269,23 +269,18 @@ mw.wysiwyg = {
            var r = sel.getRangeAt(0);
 
            if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null ){
-             mw.e.cancel(event, true);
-
              if(mw.wysiwyg.selection_length() > 0){
+               mw.e.cancel(event, true);
                window.getSelection().getRangeAt(0).deleteContents();
              }
              else{
-
-               var c = r.endContainer;
-
                  var k = window.getSelection();
-                 k.modify("extend", "backward", "character");
-                 k.getRangeAt(0).deleteContents();
-
-
-
+                 if(typeof k.modify === 'function'){     // for chrome
+                   mw.e.cancel(event, true);
+                   k.modify("extend", "backward", "character");
+                   k.getRangeAt(0).deleteContents();
+                 }
              }
-
            }
 
            if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){

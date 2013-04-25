@@ -1181,6 +1181,12 @@ $class = 'directory_tree';
 	if(isset($params['dir_name'])){
 		$basedir = $params['dir_name'];
 	}
+	
+	
+	$max_depth = 100;
+	if(isset($params['max_depth'])){
+		$max_depth = $params['max_depth'];
+	}
 
 	$url_param = 'file';
 	if(isset($params['url_param'])){
@@ -1195,6 +1201,9 @@ $class = 'directory_tree';
 
 
   static $level = 0;
+  
+  if($max_depth > $level){
+  
   $level++;
   $ffs = scandir($dir);
   echo '<ul class="'.$class.' depth_'.$level.'">';
@@ -1308,6 +1317,15 @@ $class = 'directory_tree';
 	    }
   }
   echo '</ul>';
+  
+  
+  } else {
+  	
+   
+  }
+  
+  
+  
   $level--;
 }
 

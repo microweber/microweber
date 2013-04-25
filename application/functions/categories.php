@@ -1366,6 +1366,44 @@ function save_category($data, $preserve_cache = false) {
 
 		return false;
 	}
+	
+	$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
+
+	$sid = session_id();
+
+	 $id = $save;
+
+	$clean = " update $custom_field_table set
+	rel =\"categories\"
+	, rel_id =\"{$id}\"
+	where
+	session_id =\"{$sid}\"
+	and (rel_id=0 or rel_id IS NULL) and rel =\"categories\"
+
+	";
+
+
+	db_q($clean);
+	cache_clean_group('custom_fields');
+
+	$media_table =  MW_TABLE_PREFIX . 'media';
+
+	$clean = " update $media_table set
+
+	rel_id =\"{$id}\"
+	where
+	session_id =\"{$sid}\"
+	and rel =\"categories\" and (rel_id=0 or rel_id IS NULL)
+
+	";
+
+
+	cache_clean_group('media');
+
+	db_q($clean);
+	
+	
+	
 
 	if (isset($content_ids) and !empty($content_ids)) {
 
@@ -1405,6 +1443,13 @@ function save_category($data, $preserve_cache = false) {
 			cache_clean_group('content' . DIRECTORY_SEPARATOR . $id);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 	 
  
 	if ($preserve_cache == false) {

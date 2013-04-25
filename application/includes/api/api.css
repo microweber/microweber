@@ -416,11 +416,15 @@ body.dragStart #items_handle{
 
 
 li.module-item.ui-draggable-dragging{
-  border-radius: 6px;
-  box-shadow: 0 0 3px #000;
+  border-radius: 2px;
+  box-shadow: 0 0 3px #7A7A7A;
   background: white;
-  padding: 10px !important;
-  border: 2px soid #429BD5;
+  padding: 5px !important;
+  border: 1px solid #429BD5;
+}
+
+li.module-item.ui-draggable-dragging .mw_module_hold{
+  max-width: 60px;
 }
 
 .mw_image_txt{

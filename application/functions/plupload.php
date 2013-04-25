@@ -28,6 +28,24 @@ header("Pragma: no-cache");
 $target_path = MEDIAFILES . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
 
+$path_restirct   =   MEDIAFILES; // the path the script should access
+if(isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST["path"]) != 'false'){
+ 	$path = urldecode($_REQUEST["path"]);
+	$path = normalize_path($path, 0);
+	$path = str_replace('..','',$path);
+	$path = str_replace($path_restirct,'',$path);
+	$target_path = MEDIAFILES.DS.$path;
+	$target_path = normalize_path($target_path, 0);
+	
+  
+}
+
+ 
+ 
+ 
+ 
+ 
+
 $targetDir = $target_path;
 if (!is_dir($targetDir)) {
 	mkdir_recursive($targetDir);
@@ -163,6 +181,8 @@ $rerturn['name'] = end($f_name);
 if(isset($upl_size_log) and $upl_size_log >0){
 $rerturn['bytes_uploaded'] = $upl_size_log;	
 }
+$rerturn['ORIG_REQUEST'] = $_POST;
+
 
 
 print json_encode($rerturn);

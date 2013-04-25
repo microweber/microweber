@@ -12,6 +12,7 @@
 
         <script>mw.require('tools.js');</script>
         <script>mw.require('url.js');</script>
+        <script>mw.require('events.js');</script>
         <style type="text/css">
         html,body,#container,#pickfiles_<? print $uid  ?>{
           position: absolute;
@@ -45,6 +46,12 @@
         </script>
         <script type="text/javascript">
 
+
+        receiveMessage = function(event){
+               alert(event)
+             }
+
+
             Name = this.name;
 
             mwd.body.className +=' ' + Name;
@@ -53,7 +60,9 @@
 
            $(document).ready(function(){
 
-            var multi = Params.multiple.contains('true');
+             window.addEventListener("message", receiveMessage, true);    
+
+            var multi = Params.multiple === true;
 
 
             var filters = [ {title:"", extensions : Params.filters} ]
@@ -74,6 +83,31 @@
                 filters:filters,
                 multi_selection:multi
             });
+
+
+            /*
+            mw.on.hashParam("params", function(){
+               if(this != undefined){
+                var arr = this.split("|"), i=0, l=arr.length;
+                __U = mw.url.strip(uploader.settings.url);
+                for(; i<l; i++){
+                    var xa = arr[i].split(":");
+                    __U =  mw.url.set_param(xa[0], xa[1], __U);
+                }
+                uploader.settings.url = __U;
+
+               }
+            })   */
+
+
+
+
+
+
+
+
+
+
 
             uploader.init();
 

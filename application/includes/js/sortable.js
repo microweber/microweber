@@ -872,8 +872,12 @@ mw.drag = {
         var items = selector || ".modules-list li";
         $(items).draggable({
             revert: true,
+            cursorAt:{
+                 top:-30
+            },
             revertDuration: 0,
-            start:function(){
+            start:function(a,b){
+
                 mw.isDrag = true;
                 mw.dragCurrent = mw.GlobalModuleListHelper;
                 $(mwd.body).addClass("dragStart");
@@ -885,9 +889,7 @@ mw.drag = {
               $(mwd.body).removeClass("dragStart");
               setTimeout(function(){
                 mw.drag.load_new_modules();
-
                 mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"))
-
                 mw.drag.toolbar_modules(el);
               }, 200);
            }
@@ -895,6 +897,7 @@ mw.drag = {
         $(items).mouseenter(function(){
             $(this).draggable("option", "helper", function(){
               var clone = $(this).clone(true);
+              clone.appendTo(mwd.body)
               mw.GlobalModuleListHelper = clone[0];
               return clone[0];
             });

@@ -2181,7 +2181,8 @@ tr.mw-o-box-table-footer td:first-child{
 }
 
 .mw-browser-list ul, .mw-browser-list li{
-  display: inline;
+  display: inline-block;
+  padding: 8px;
   list-style: none;
 }
 
@@ -2204,12 +2205,13 @@ tr.mw-o-box-table-footer td:first-child{
   float: none;
 }
 
-.mw-browser-list a span + span{
+.mw-browser-list a img + span, .mw-browser-list a .mw-fileico + span{
   display: block;
   clear: both;
-  height: 30px;
   overflow: hidden;
   text-overflow:ellipsis;
+  text-align: right;
+  white-space: nowrap;
 }
 
 
@@ -2612,6 +2614,30 @@ body.dragStart .empty-element.currentDragMouseOver:before{
   top: 0;
   left: 0;
 }
+
+
+
+/* fileicoS  */
+
+
+
+.mw-fileico{
+  display: inline-block;
+  width: 48px;
+  height: 36px;
+  padding-top:12px;
+  border-radius: 7px;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+
 
 
 

@@ -70,9 +70,15 @@ function get_files($params) {
 		$arrayItems_d = array();
 		foreach ($arrayItems_search as $file) {
 			if (is_file($file)) {
-				$arrayItems_f[] = normalize_path($file, false);
+				$df  = normalize_path($file, false);
+				if(!in_array($df,$arrayItems_f)){
+				$arrayItems_f[] = $df;
+				}
 			} else {
-				$arrayItems_d[] = normalize_path($file, 1);
+				$df  = normalize_path($file, 1);
+				if(!in_array($df,$arrayItems_d)){
+				$arrayItems_d[] = $df; 
+				}
 			}
 		}
 		$arrayItems['files'] = $arrayItems_f;
@@ -110,6 +116,7 @@ function get_files($params) {
 		}
 		closedir($handle);
 	}
+	array_unique($arrayItems);
 	return $arrayItems;
 }
 

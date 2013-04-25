@@ -201,11 +201,11 @@ window.onerror = function(a,b,c){
       row: "\
         <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
             <span title='Click to select this column.' class='column_separator_title'>Columns</span>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,4);' class='mw-make-cols mw-make-cols-4' >4</a>\
-            <a href='javascript:;' onclick='mw.drag.create_columns(this,5);' class='mw-make-cols mw-make-cols-5' >5</a>\
+            <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
+            <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
+            <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
+            <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,4);' class='mw-make-cols mw-make-cols-4' >4</a>\
+            <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,5);' class='mw-make-cols mw-make-cols-5' >5</a>\
             <a class='mw_edit_delete mw_edit_btn right' onclick='mw.drag.delete_element(mw.handle_row);' href='javascript:;'><span></span></a>\
         </div>",
       element: "\

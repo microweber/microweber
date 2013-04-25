@@ -549,8 +549,18 @@ $(document).ready(function(){
    return mw.beforeleave(this.href);
  });
 
-  mw.$(".edit a:not([onclick])").click(function(){
-   return mw.beforeleave(this.href);
+
+
+
+ mw.$(".edit a").click(function(){
+  var el = this;
+  if(el.onclick === null){
+    return mw.beforeleave(this.href);
+  }
+  if(!(el.href.indexOf("javascript:") === 0 || el.href == '#')){
+       return mw.beforeleave(this.href);
+  }
+
  });
 
 });

@@ -71,7 +71,7 @@ $(document).ready(function(){
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
     <div class="mw-admin-sidebar">
 
-    <h2><span class="ico imanage-module"></span>&nbsp;
+    <h2><span class="ico imanage-website"></span>&nbsp;
       <?php _e("Settings"); ?>
     </h2>
     <div class="mw-admin-side-nav" id="settings_categories_tree_<? print $rand; ?>" >
