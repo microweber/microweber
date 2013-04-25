@@ -2184,6 +2184,18 @@ tr.mw-o-box-table-footer td:first-child{
   display: inline-block;
   padding: 8px;
   list-style: none;
+  position: relative;
+}
+
+.mw-browser-list li .mw-close{
+  visibility: hidden;
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 1;
+}
+.mw-browser-list li:hover .mw-close{
+  visibility: visible;
 }
 
 .mw-browser-list a{
@@ -2204,13 +2216,17 @@ tr.mw-o-box-table-footer td:first-child{
 .mw-browser-list a span.ico{
   float: none;
 }
+.mw-browser-list a input[type='text']{
+  font-size: 11px;
+  width: 95%;
+}
 
-.mw-browser-list a img + span, .mw-browser-list a .mw-fileico + span{
+.mw-browser-list a img + span, .mw-browser-list a .mw-fileico + span, .mw-browser-list a .ico + span{
   display: block;
   clear: both;
   overflow: hidden;
   text-overflow:ellipsis;
-  text-align: right;
+  text-align: center;
   white-space: nowrap;
 }
 

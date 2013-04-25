@@ -18,7 +18,7 @@ only_admin_access();
  if(isset($params['path']) and trim($params['path']) != '' and trim($params['path']) != 'false'){
 
 	  $path   =   $params['path']; // the path the script should access
-	  
+
  }
 
  $path = urldecode($path);
@@ -90,7 +90,10 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     <ul class="mw-browser-list">
       <? foreach($data['dirs']  as $item): ?>
       <?  $dir_link = str_replace($path_restirct,'',$item); ?>
-      <li> <a title="<? print basename($item).'&#10;'.dirname($item); ?>" href="#path=<? print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><? print basename($item); ?></span></a> </li>
+      <li>
+        <a title="<? print basename($item).'&#10;'.dirname($item); ?>" href="#path=<? print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><? print basename($item); ?></span></a>
+        <span class="mw-close"></span>
+      </li>
       <? endforeach ; ?>
     </ul>
     <? else: ?>

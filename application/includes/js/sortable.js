@@ -1582,7 +1582,7 @@ module_settings: function(a) {
    */
 
 
-  save: function(el, callback) {
+  save: function(el, callback, is_draft) {
 
 
 
@@ -1655,34 +1655,49 @@ if(typeof el === 'object'){
 
     });
 
-      $.ajax({
-        type: 'POST',
-        url: mw.settings.site_url + 'api/save_edit',
-        data: master,
-        datatype: "json",
-        async: true,
-        beforeSend: function() {
-
-        },
-        success: function(data) {
-
-          mw.history.init();
-
-          mw.askusertostay = false;
-
-          if(typeof el === 'object'){
-            var html  = $(el).dataset("html");
-            $(el).removeClass('disabled').html(html);
-          }
-
-          mw.notification.success("All changes are saved.");
-
-          if(typeof callback === 'function'){
-               callback.call();
-          }
-
+    if(mw.tools.isEmptyObject(master) == false ){
+        if(is_draft != undefined && is_draft != false){
+         master['is_draft']  = true;
         }
-      });
+
+
+          $.ajax({
+            type: 'POST',
+            url: mw.settings.site_url + 'api/save_edit',
+            data: master,
+            datatype: "json",
+            async: true,
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+
+              mw.history.init();
+
+              mw.askusertostay = false;
+
+              if(typeof el === 'object'){
+                var html  = $(el).dataset("html");
+                $(el).removeClass('disabled').html(html);
+
+              }
+              if(is_draft != undefined && is_draft != false){
+
+
+              } else {
+                 mw.notification.success("All changes are saved.");
+
+              }
+              mw.$(".edit.changed").removeClass("changed");
+              if(typeof callback === 'function'){
+                   callback.call();
+              }
+
+            }
+          });
+    }
+
+
 
   }
 }

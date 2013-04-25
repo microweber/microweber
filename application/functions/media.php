@@ -556,11 +556,45 @@ function get_pictures($params) {
 	return $data;
 }
 
+api_expose('create_media_dir');
+
+function create_media_dir($params) {
+	only_admin_access();
+	$resp = array();
+	$target_path = MEDIAFILES . 'uploaded' . DS;
+	$fn_path = MEDIAFILES;
+	if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '') {
+		//$string = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $_REQUEST["path"]);
+		$fn_path = MW_USERFILES . DS . $_REQUEST["path"].DS;
+		$fn_path = normalize_path($fn_path, false);
+	}
+	if (!isset($_REQUEST["name"])) {
+		$resp = array('error' => 'You must send new_folder parameter');
+	} else {
+		$fn_new_folder_path = $_REQUEST["name"]; 
+		$fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
+		$fn_path = normalize_path($fn_new_folder_path_new, false);
+		// d($fn_path);
+		if (!is_dir($fn_path)) {
+			mkdir_recursive($fn_path);
+			$resp = array('success' => "Folder ".$fn_path. ' is created');
+
+		} else {
+			$resp = array('error' => "Folder ".$fn_new_folder_path. ' already exists');
+
+		}
+
+	}
+
+	return $resp;
+
+}
+
 api_expose('delete_media_file');
 
 function delete_media_file($params) {
 	only_admin_access();
- 
+
 	$target_path = MEDIAFILES . 'uploaded' . DS;
 	$target_path = normalize_path($target_path, 0);
 	$path_restirct = MW_USERFILES;
@@ -577,14 +611,22 @@ function delete_media_file($params) {
 				$path = str_replace($path_restirct, '', $path);
 				$target_path = MW_USERFILES . DS . $path;
 				$target_path = normalize_path($target_path, false);
-				if (is_dir($target_path)) {
-					recursive_remove_directory($target_path, false);
-					$resp[] = array('success' => 'Directory ' . $target_path . ' is deleted');
-				} else 	if (is_file($target_path)) {
-					unlink($target_path);
-					$resp[] = array('success' => 'File ' . $target_path . ' is deleted');
+
+				if (stristr($target_path, MEDIAFILES)) {
+
+					if (is_dir($target_path)) {
+						recursive_remove_directory($target_path, false);
+						$resp = array('success' => 'Directory ' . $target_path . ' is deleted');
+					} else if (is_file($target_path)) {
+						unlink($target_path);
+						$resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
+					} else {
+						$resp = array('error' => 'Not valid file or folder ' . $target_path . ' ');
+					}
+
 				} else {
-					$resp[] = array('error' => 'Not valid file or folder ' . $target_path . ' ');
+					$resp = array('error' => 'Not allowed to delete on ' . $target_path . ' ');
+
 				}
 			}
 

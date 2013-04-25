@@ -27,18 +27,26 @@
   text-align: center;
 }
 
+.browser-ctrl-bar{
+  float: left;
+}
+
+.browser-ctrl-bar .mw-ui-btn{
+  float: left;
+  margin-right: 12px;
+}
+
 </style>
 <script  type="text/javascript">
 
 
  gchecked = function(){
    var l = mwd.querySelectorAll(".mw-browser-list input:checked").length;
-   d(l)
    if( l > 0 ){
-     mw.$("#delete_item").removeClass("disabled");
+     mw.$(".delete_item").removeClass("disabled");
    }
    else{
-     mw.$("#delete_item").addClass("disabled");
+     mw.$(".delete_item").addClass("disabled");
    }
  }
 
@@ -126,9 +134,11 @@ deleteItem = function(url){
   }
 
   mw.tools.confirm(msg, function(){ $(mwd.body).addClass("loading");
-      $.post(mw.settings.api_url + "delete_media_file", obj, function(){
+      $.post(mw.settings.api_url + "delete_media_file", obj, function(a){
            $(mwd.body).removeClass("loading");
            _mw_admin_files_manage('all');
+
+           mw.notification.msg(a);
       });
   })
 
@@ -163,8 +173,8 @@ mw.on.hashParam('select-file', function(){
   }
   else{
     if(mw.$("#prfile").length > 0){
-               mw.$("#prfile").remove();
-          }
+             mw.$("#prfile").remove();
+        }
   }
 
 
@@ -172,8 +182,25 @@ mw.on.hashParam('select-file', function(){
 
 });
 
+saveNewFolder = function(a){
+    if(a!=''){
+          var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
+          var obj = {
+            path:path,
+            name:a
+          }
+          $.post(mw.settings.api_url + "create_media_dir", obj, function(data){
+                mw.notification.msg(data);
+                 _mw_admin_files_manage('all');
+          });
+    }
+}
 
 
+createFolder = function(){
+  var html = '<li><a href="javascript:;"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="New Folder" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
+  $(mwd.querySelector(".mw-browser-list")).prepend(html);
+}
 
 
 mw.on.hashParam('search', function(){
@@ -207,7 +234,7 @@ $(document).ready(function(){
          _mw_admin_files_manage('all');
     });
 
-    mw.$("#delete_item").click(function(){
+    mw.$(".delete_item").click(function(){
       if(!$(this).hasClass("disabled")){
         var arr = [], c = mwd.querySelectorAll(".mw-browser-list input:checked"), i=0, l=c.length;
         for( ; i<l; i++){
@@ -252,7 +279,14 @@ $(document).ready(function(){
 
     
     <div class="modules-index-bar">
-    <div id="mw_uploader" class="mw-ui-btn left">Upload File</div>
+    <div class="browser-ctrl-bar">
+        <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left">Upload File</div>
+        <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">Delete selected files</span>
+        <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">Create folder</span>
+    </div>
+
+
+
       <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
       <div class="mw_clear"></div>
     </div>
@@ -262,7 +296,7 @@ $(document).ready(function(){
   <div id="user_edit_admin_{rand}" ></div>
   <div class="vSpace"></div>
 
-  <span class="mw-ui-btn right disabled" id="delete_item">Delete Selected</span>
+  <span class="mw-ui-btn right disabled delete_item">Delete Selected</span>
 
   <div class="mw_clear"></div>
   <div class="vSpace"></div>

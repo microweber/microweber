@@ -1572,10 +1572,18 @@ function save_edit($post_data) {
 			unset($the_field_data_all['mw_preview_only']);
 		}
 		$is_no_save = false;
+		$is_draft = false;
+		if(isset($post_data['is_draft'])){
+			 unset($post_data['is_draft']);
+			 $is_draft = 1;
+		}
 		$the_field_data_all = $post_data;
 	} else {
 		exit('Error: no POST?');
 	}
+	
+	
+	
 	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
@@ -1616,7 +1624,13 @@ function save_edit($post_data) {
 			$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
 		}
 	}
-
+	$save_as_draft = false;
+	if (isset($post_data['save_draft'])) {
+		$save_as_draft = true;
+		unset($post_data['save_draft']);
+	}
+	
+	
 	$json_print = array();
 	foreach ($the_field_data_all as $the_field_data) {
 		$save_global = false;
@@ -1665,7 +1679,7 @@ function save_edit($post_data) {
 			 * ['id']; $content_id = $page_id; } }
 			 */
 			$some_mods = array();
-			if (($the_field_data['attributes'])) {
+			if (isset($the_field_data['attributes'])) { 
 				if (($the_field_data['html']) != '') {
 					$field = false;
 					if (isset($the_field_data['attributes']['field'])) {
@@ -1810,9 +1824,19 @@ function save_edit($post_data) {
 							$cont_field['rel_id'] = $content_id_for_con_field;
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
-							if($field != 'content'){
-
+							
+							
+							if($is_draft != false){
+								$cont_field['is_draft'] = 1;
+								
+								
 								$cont_field1 = save_content_field($cont_field);
+								
+							} else {
+								if($field != 'content'){
+	
+									$cont_field1 = save_content_field($cont_field);
+								}
 							}
 							$to_save = array();
 							$to_save['id'] = $content_id;
@@ -1830,7 +1854,7 @@ function save_edit($post_data) {
 							}
 
 
-							if ($is_no_save != true) {
+							if ($is_no_save != true and $is_draft == false) {
 								$json_print[] = $to_save;
 
 								$saved = save_content($to_save);
@@ -2539,6 +2563,8 @@ function save_content_field($data, $delete_the_cache = true) {
 
 	$adm = is_admin();
 	$table = MW_DB_TABLE_CONTENT_FIELDS;
+	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+	
 	//$checks = mw_var('FORCE_SAVE_CONTENT');
 
 
@@ -2549,11 +2575,18 @@ function save_content_field($data, $delete_the_cache = true) {
 	if(!is_array($data)){
 		$data = array();
 	}
+	
+	if(isset($data['is_draft'])){
+		$table = $table_drafts;
+	}
+	
+	
+	
 	if(!isset($data['rel']) or !isset($data['rel_id'])){
 		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
 	//if($data['rel'] == 'global'){
-	if(isset($data['field'])){
+	if(isset($data['field']) and !isset($data['is_draft'])){
 		$fld = db_escape_string($data['field']);
 		$fld_rel = db_escape_string($data['rel']);
 		$del_q = "delete from {$table} where rel='$fld_rel' and  field='$fld' ";
@@ -2586,7 +2619,8 @@ function get_content_field($data, $debug = false) {
 
 	$table = MW_DB_TABLE_CONTENT_FIELDS;
 
-
+	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+	
 	if(is_string($data)){
 		$data = parse_params($data);
 	}
@@ -2596,7 +2630,10 @@ function get_content_field($data, $debug = false) {
 	}
 	// d($data);
 
-
+	
+	if(isset($data['is_draft'])){
+		$table = $table_drafts;
+	}
 
 	if(!isset($data['rel'])){
 		if(isset($data['rel'])){
@@ -2625,7 +2662,7 @@ function get_content_field($data, $debug = false) {
 
 		$data['limit'] = 1;
 		$data['cache_group'] = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
-
+		$data['order_by'] = 'id desc';
 		$data['one'] = 1;
 		$data['table'] = $table;
 		if($debug!=false){

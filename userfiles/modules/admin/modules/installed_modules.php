@@ -8,6 +8,8 @@ mw.require('forms.js');
 $(document).ready(function(){
     window.addEventListener('message', receiveMessage, false);
 
+
+
     function receiveMessage(evt){
         alert("got message: "+evt.data);
     }

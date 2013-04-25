@@ -79,6 +79,14 @@
 
 
 
+mw_save_draft_int = self.setInterval(function(){
+
+   mw.drag.save(false,false,true)
+
+},3000);
+
+
+
 
     </script>
 <?
@@ -86,15 +94,15 @@
 
 			 $back_url = site_url().'admin/view:content';
 			 if(defined('CONTENT_ID')){
-				 $back_url .= '#action=editpage:'.CONTENT_ID; 
-			 } 
-			 
+				 $back_url .= '#action=editpage:'.CONTENT_ID;
+			 }
+
 			  if(isset($_COOKIE['back_to_admin'])){
-				  
+
 				 $back_url = $_COOKIE['back_to_admin'];
-				 
+
 			  }
-			 
+
 
 
 			  ?>
@@ -137,9 +145,9 @@
 
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
-  
+
   <? if(!$basic_mode): ?>
-  
+
     <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
       <ul id="mw_tabs">
@@ -210,19 +218,19 @@
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <? //include( 'toolbar_tag_editor.php') ; ?>
     </div>
-    
-    
+
+
     <? endif; ?>
-    
+
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-history-panel"></div>
     <div id="mw-saving-loader"></div>
-    
+
 
   </div>
-  
-  <!-- /end .mw --> 
+
+  <!-- /end .mw -->
 </div>
 <!-- /end mw_holder -->
 

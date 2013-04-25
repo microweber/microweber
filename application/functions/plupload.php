@@ -25,7 +25,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 // Settings
-$target_path = MEDIAFILES . 'uploaded' . DS;
+$target_path = MEDIAFILES . DS;
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct   =   MW_USERFILES; // the path the script should access
