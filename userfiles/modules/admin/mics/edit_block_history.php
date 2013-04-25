@@ -1,134 +1,40 @@
 <? 
+ only_admin_access();
+
  
-
-
-
-		if($params['for_url']){
-			
-			
-			$history_to_get = array ();
-		$history_to_get ['table'] = 'edit';
-		$history_to_get ['id'] = ( parse_url(strtolower($params['for_url']), PHP_URL_PATH) );
-		$history_to_get ['value'] = $params;
-		$history_to_get ['field'] = 'html_content';
-		
+$cont_id = false;
+if(isset($params['post_id']) and intval($params['post_id']) != 0){
+	$cont_id = intval($params['post_id']);
+} else if(isset($params['page_id']) and intval($params['page_id']) != 0){
+	$cont_id = intval($params['page_id']);
+}
  
-			
-			
-			$history_files = get_history_files($history_to_get);
+	$history_files = false;
+	
+	if($cont_id != false){
 		 
-		} else {
-		
- /*
-$the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
- $id = $params['id'];
- $page_id = $params['page_id'];
- $rel = $params['rel'];
- $field = $params['field'];
- 
- if($rel == 'global'){
-	 $page_id = false;
- }
- 
-  if($rel == 'page'){
-	 $ref_page = $_SERVER ['HTTP_REFERER'];
-				$ref_page = $_SERVER ['HTTP_REFERER'] . '/json:true';
-				$ref_page = file_get_contents ( $ref_page );
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_page = json_decode ( $ref_page );
-					$page_id = $ref_page->page->id;
-					 
-				}
- }
- 
- if($rel == 'post'){
-	 $ref_page = $_SERVER ['HTTP_REFERER'];
-				$ref_page = $_SERVER ['HTTP_REFERER'] . '/json:true';
-				$ref_page = file_get_contents ( $ref_page );
-				if ($ref_page != '') {
-					$save_global = false;
-					$ref_page = json_decode ( $ref_page );
-					$page_id = $ref_page->post->id;
-					 
-				}
- }
- 
- if ($page_id == true) {
-			$the_dir = TEMPLATE_DIR . 'blocks/' . $page_id;
-			$the_dir = normalize_path ( $the_dir );
-			$try_file = $the_dir . $id . '.php';
-			if (is_file ( $try_file )) {
-			} else {
-					$the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' ); 
-			}
-		} else {
-			$the_dir = normalize_path ( TEMPLATE_DIR . 'blocks/' );
-		}
-		
-		
-		if($params['tag'] != 'edit'){
- 
-$history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
-			$history_dir = normalize_path ( $history_dir );
-			$history_dir = reduce_double_slashes($history_dir);
-			$history_files = array();
-					foreach (glob($history_dir."*.php") as $filename) {
-						$history_files [] = $filename;
-					}
-			
-		} else {
-			
-			if(intval($page_id) == 0){
-		//	$page_id = 'global';	
-			}
-			
-			$history_dir = MW_APPPATH . '/history/blocks/' . $id . '/';
-			$history_dir = normalize_path ( $history_dir );
-			$history_dir = reduce_double_slashes($history_dir);
-			$hdata= array();
-			if($rel != 'global'){
-			$hdata['table'] = 'content';
-			}
-			$hdata['id'] = $page_id;
-			
-			
-			$hdata['field'] = $field;
-			
-			$history_files = get_instance()->core_model->getHistoryFiles($hdata);
-			// p($params);
- 
-		}
-			//p($history_dir);
-			
-*/				
-}	
-
+		$history_files = get_content_field('order_by=id desc&fields=id,created_on&is_draft=1&all=1&rel=content&rel_id='.$cont_id);
+		 
+	}
+	
 	
 			?>
-
-<!--      <a class="mw_history_prev " href="javascript:mw_click_on_history_prev()"><</a>
-<a class="mw_history_next " href="javascript:mw_click_on_history_next()">></a>    
-            -->
+ 
 
 <? print count($history_files);?>
 
 history files <br />
 <? // p($history_files); ?>
 <ul id="mw_history_files">
-  <? 		foreach ($history_files as $filename) : ?>
-  <li rel="<? print base64_encode($filename) ?>">
+  <? 		foreach ($history_files as $item) : ?>
+  <li rel="load-draft-<? print ($item['id']) ?>">
     <? //$mtime= filemtime($filename ); ?>
     <?
-	if (file_exists($filename)) {
-   $mtime=  date ("F d Y H:i:s.", filemtime($filename));
-}
-	
-	 
+
 	//$content_of_file = file_get_contents($filename);	?>
-    <a href="javascript: mw.history.load('<? print base64_encode($filename) ?>')">
-    <? $fn1= rtrim(basename($filename ), '.php'); ?>
-    <?  print $fn1  ?>
-    (<? print ago($mtime, $granularity = 1); ?>) </a> </li>
+    <a href="javascript: mw.history.load('<? print ($item['id']) ?>')">
+    
+    <?  print $item['id']  ?>
+    (<? print ago($item['created_on'], $granularity = 1); ?>) </a> </li>
   <? 		endforeach; ?>
 </ul>

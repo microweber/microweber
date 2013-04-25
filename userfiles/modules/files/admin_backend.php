@@ -53,7 +53,7 @@
 
 
 
-_mw_admin_files_manage = function(param, value){
+_mw_admin_files_manage = function(param, value, callback){
     var holder = mw.$('#files_admin_{rand}');
     holder.removeAttr('search');
     holder.attr('sort_by', 'filemtime DESC');
@@ -83,6 +83,7 @@ _mw_admin_files_manage = function(param, value){
     mw.load_module('files/browser','#files_admin_{rand}', function(){
        $(mwd.body).removeClass("loading");
        $(".mw-ui-searchfield").removeClass("loading");
+       if(typeof callback === 'function'){callback.call()}
     });
 
 }
@@ -191,15 +192,29 @@ saveNewFolder = function(a){
           }
           $.post(mw.settings.api_url + "create_media_dir", obj, function(data){
                 mw.notification.msg(data);
-                 _mw_admin_files_manage('all');
+                _mw_admin_files_manage('all', false, function(){
+                  mw.$(".mw-browser-list span").each(function(){
+                     if(this.innerHTML == a){
+                       mw.tools.highlight(this.parentNode, "#CDE1FB");
+                       return false;
+                     }
+                  });
+                });
           });
     }
 }
 
 
 createFolder = function(){
-  var html = '<li><a href="javascript:;"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="New Folder" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
-  $(mwd.querySelector(".mw-browser-list")).prepend(html);
+  var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="New Folder" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
+  if(mwd.querySelector(".mw-browser-list") !== null){
+    $(mwd.querySelector(".mw-browser-list")).prepend(html).find("input:first").focus();
+  }
+  else{
+    var html = "<ul class='mw-browser-list'>"+html+"</ul>";
+    mw.$("#mw-browser-list-holder").prepend(html).find("input:first").focus()
+  }
+
 }
 
 

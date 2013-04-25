@@ -51,7 +51,7 @@
   line-height: 0;
   height: 0;
 }
- 
+
 .ui-state-highlight2, .also-resize {
 	background-color: #990099 !important;
 }
@@ -158,7 +158,7 @@
 
 
 
- 
+
 .mw_delete_element {
 	float:right;
 }
@@ -181,7 +181,7 @@
 	border: 2px dotted #00F;
 }
 
-        
+
 .modules-list {
 	list-style-position: inside;
 	list-style-image: none;
@@ -298,36 +298,36 @@
 	width: 75%;
 }
 #mw_css_editor .css_editor_tab_float {
-	 
+
 	float: left;
-	 
+
 }
 
 
 
 #mw_css_editor .ui-tabs .ui-tabs-nav li a {
-	
-padding:0px !important;	
+
+padding:0px !important;
 }
 
 .mw-styles-list ul {
 	width:100% !important;
 	list-style:none !important;
-	list-style-type:none !important;	
+	list-style-type:none !important;
 }
 
 .mw-styles-list ul li{
 	width:48px !important;
-	float:left !important;	
-	list-style:none !important;	
-	list-style-type:none !important;	
+	float:left !important;
+	list-style:none !important;
+	list-style-type:none !important;
 }
 
 .style-item {
- 	float:left !important;	
+ 	float:left !important;
 	margin-left:10px;
-	list-style:none !important;	
-	list-style-type:none !important;	
+	list-style:none !important;
+	list-style-type:none !important;
 }
 
 .box_content {
@@ -479,8 +479,9 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 
 
 #mw-history-panel{
-  float: right;
-  display:none;
+
+
+
 }
 
 

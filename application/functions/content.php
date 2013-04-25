@@ -124,6 +124,7 @@ function mw_db_init_content_table() {
 
 	$table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+	$fields_to_add[] = array('is_temp', "char(1) default 'y'");
 
     set_db_table($table_name, $fields_to_add);
 
@@ -1967,7 +1968,7 @@ function save_edit($post_data) {
 	$history_to_save['id'] = (parse_url(strtolower($_SERVER['HTTP_REFERER']), PHP_URL_PATH));
 	$history_to_save['value'] = $json_print;
 	$history_to_save['field'] = 'html_content';
-	save_history($history_to_save);
+	 //save_history($history_to_save);
 	// }
 	print $json_print;
 	//cache_clean_group('global/blocks');
@@ -2614,6 +2615,19 @@ function save_content_field($data, $delete_the_cache = true) {
 
 
 }
+api_expose('get_content_field_draft');
+function get_content_field_draft($data) {
+	only_admin_access();
+	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+	
+	$data = parse_params($data);
+	$data['is_draft'] = 1;
+	
+	$ret = get_content_field($data);
+	return $ret;
+	
+	
+}
 function get_content_field($data, $debug = false) {
 
 
@@ -2650,31 +2664,46 @@ function get_content_field($data, $debug = false) {
 
 		}
 	}
+	
+
+	if((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])){
 	if(!isset($data['rel_id'])){
 		$data['rel_id'] = 0;
 	}
-
-	if(!isset($data['rel']) or !isset($data['rel_id'])){
+	
 		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
 	//if($data['rel'] == 'global'){
-	if(isset($data['field'])){
+	//if(isset($data['field'])){
 
-		$data['limit'] = 1;
+		if((isset($data['rel']) and isset($data['rel_id']))){
+	
 		$data['cache_group'] = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
-		$data['order_by'] = 'id desc';
-		$data['one'] = 1;
-		$data['table'] = $table;
-		if($debug!=false){
-			$data['debug'] = 1;
+		} else {
+					$data['cache_group'] = guess_cache_group('content_fields/global');
+			
 		}
+		//$data['order_by'] = 'id desc';
+		if(!isset($data['all'])){
+				$data['one'] = 1;
+				$data['limit'] = 1;
+		}
+		
+		
+		//$data['one'] = 1;
+		$data['table'] = $table;
+		//if($debug!=false){
+			 $data['debug'] = 1;
+		 
 		//
 		$get = get($data);
 //	d($get);
 		if(isset($get['value'])){
 			return $get['value'];
+		} else {
+			return $get;
 		}
-	}
+	//}
 	//}
 
 	return false;

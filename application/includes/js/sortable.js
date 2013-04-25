@@ -2071,25 +2071,29 @@ mw.history = {
 	 *
 	 * @method mw.history.load()
 	 */
-	load: function ($base64fle) {
-		if ($base64fle != undefined) {
+	load: function ($id) {
+		if ($id != undefined) {
 			$.ajax({
 				type: 'POST',
-				url: mw.settings.site_url + "api/load_history_file",
+				url: mw.settings.site_url + "api/get_content_field_draft",
 				data: {
-					history_file: $base64fle
+					id: $id
 				},
 				dataType: "json",
 				success: function (data) {
+
+d(data);
+
+
 					$.each(data, function (i, d) {
 						var $what_is_the_content = ''
 						//if(this.page_element_id != un
 
 
-						if (window.console && window.console.log) {
-							window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);
-						}
-						$("#" + this.page_element_id).html(this.page_element_content);
+						//if (window.console && window.console.log) {
+						//	window.console.log('  Replacing from history - element id: ' + this.page_element_id + '  - Content: ' + this.page_element_content);
+					//	}
+						//$("#" + this.page_element_id).html(this.page_element_content);
 					});
 				}
 			})

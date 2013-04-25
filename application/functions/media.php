@@ -603,15 +603,20 @@ function delete_media_file($params) {
 	$resp = array();
 	if ($fn_remove_path != false and isarr($fn_remove_path)) {
 		foreach ($fn_remove_path as $key => $value) {
+			
+			
+			
 			$fn_remove = url2dir($value);
-			if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false' and stristr($fn_remove, MW_USERFILES)) {
+			
+			
+			if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
 				$path = urldecode($fn_remove);
 				$path = normalize_path($path, 0);
 				$path = str_replace('..', '', $path);
 				$path = str_replace($path_restirct, '', $path);
 				$target_path = MW_USERFILES . DS . $path;
 				$target_path = normalize_path($target_path, false);
-
+ 
 				if (stristr($target_path, MEDIAFILES)) {
 
 					if (is_dir($target_path)) {

@@ -74,7 +74,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 }
  if(strlen($item)>0):
  ?>
-    <script>PreviousFolder.push('<? print urlencode($path_nav_pop) ?>');</script> 
+    <script>PreviousFolder.push('<? print urlencode($path_nav_pop) ?>');</script>
     <a href="#path=<? print urlencode($path_nav_pop) ?>"><span class="<? print $config['module_class']; ?> path-item"><? print ($item) ?></span></a>&raquo;
     <? endif; endforeach ; ?>
     <? endif; ?>
@@ -84,7 +84,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder.length > 1 ? PreviousFolder.pop() : '';
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
-  <div class="mw-o-box-content">
+  <div class="mw-o-box-content" id="mw-browser-list-holder">
 
     <? if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">
@@ -92,7 +92,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
       <?  $dir_link = str_replace($path_restirct,'',$item); ?>
       <li>
         <a title="<? print basename($item).'&#10;'.dirname($item); ?>" href="#path=<? print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><? print basename($item); ?></span></a>
-        <span class="mw-close"></span>
+        <span class="mw-close" onclick="deleteItem('<? print urlencode($dir_link); ?>');"></span>
       </li>
       <? endforeach ; ?>
     </ul>

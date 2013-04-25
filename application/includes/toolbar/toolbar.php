@@ -122,6 +122,7 @@ mw_save_draft_int = self.setInterval(function(){
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
         <div class="mw-ui-dropdown right"> <a href="<? print curent_url(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;">Actions<span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
+            <div id="mw-history-panel"></div>
             <ul class="mw-dropdown-list">
               <li><a href="<? print curent_url(); ?>/editmode:n">View Website</a></li>
 
@@ -224,7 +225,7 @@ mw_save_draft_int = self.setInterval(function(){
 
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
-    <div id="mw-history-panel"></div>
+
     <div id="mw-saving-loader"></div>
 
 
@@ -236,6 +237,7 @@ mw_save_draft_int = self.setInterval(function(){
 
 <?php   include "design.php"; ?>
 <?php   include "UI.php"; ?>
+
 <?php } else { ?>
 <script>
 
