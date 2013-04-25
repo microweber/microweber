@@ -266,13 +266,13 @@ function delete_media($data) {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		$pic_data = get_pictures("one=1&id=".$c_id);
-		 if(isset($pic_data['filename'])){
-		 	$fn_remove = url2dir($pic_data['filename']);
-			if(is_file($fn_remove)){
+		$pic_data = get_pictures("one=1&id=" . $c_id);
+		if (isset($pic_data['filename'])) {
+			$fn_remove = url2dir($pic_data['filename']);
+			if (is_file($fn_remove)) {
 				@unlink($fn_remove);
 			}
-		 }
+		}
 		db_delete_by_id('media', $c_id);
 	}
 }
@@ -322,36 +322,26 @@ function save_media($data) {
 				mkdir_recursive($move_uploaded_files_dir);
 				@touch($move_uploaded_files_dir_index);
 
-
 			}
 
+			$url2dir = normalize_path($url2dir, false);
+			$newfile = basename($url2dir);
 
-					$url2dir = normalize_path($url2dir, false);
-					$newfile =  basename($url2dir);
+			$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+			$newfile = $move_uploaded_files_dir . $newfile;
 
+			if (is_file($newfile)) {
 
+				$newfile = date('YmdHis') . basename($url2dir);
+				$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+				$newfile = $move_uploaded_files_dir . $newfile;
+			}
 
+			if (rename($url2dir, $newfile)) {
+				$data['src'] = dir2url($newfile);
+			} else {
 
-					$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-					$newfile  = $move_uploaded_files_dir.$newfile;
-
-if(is_file($newfile)){
-
-	$newfile =  date('YmdHis').basename($url2dir);
-	$newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-	$newfile  = $move_uploaded_files_dir.$newfile;
-}
-
-
-					 if (rename($url2dir, $newfile)) {
-						$data['src'] = dir2url($newfile);
-					 } else {
-
-					 }
-
-
-
-
+			}
 
 		}
 
@@ -564,4 +554,42 @@ function get_pictures($params) {
 	$data = get($params);
 
 	return $data;
+}
+
+api_expose('delete_media_file');
+
+function delete_media_file($params) {
+	only_admin_access();
+ 
+	$target_path = MEDIAFILES . 'uploaded' . DS;
+	$target_path = normalize_path($target_path, 0);
+	$path_restirct = MW_USERFILES;
+
+	$fn_remove_path = $_REQUEST["path"];
+	$resp = array();
+	if ($fn_remove_path != false and isarr($fn_remove_path)) {
+		foreach ($fn_remove_path as $key => $value) {
+			$fn_remove = url2dir($value);
+			if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false' and stristr($fn_remove, MW_USERFILES)) {
+				$path = urldecode($fn_remove);
+				$path = normalize_path($path, 0);
+				$path = str_replace('..', '', $path);
+				$path = str_replace($path_restirct, '', $path);
+				$target_path = MW_USERFILES . DS . $path;
+				$target_path = normalize_path($target_path, false);
+				if (is_dir($target_path)) {
+					recursive_remove_directory($target_path, false);
+					$resp[] = array('success' => 'Directory ' . $target_path . ' is deleted');
+				} else 	if (is_file($target_path)) {
+					unlink($target_path);
+					$resp[] = array('success' => 'File ' . $target_path . ' is deleted');
+				} else {
+					$resp[] = array('error' => 'Not valid file or folder ' . $target_path . ' ');
+				}
+			}
+
+		}
+	}
+	return $resp;
+
 }

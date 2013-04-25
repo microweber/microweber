@@ -2214,6 +2214,12 @@ tr.mw-o-box-table-footer td:first-child{
   white-space: nowrap;
 }
 
+.mw-file-item-check{
+  clear: both;
+  text-align: center;
+  padding: 5px 0;
+}
+
 
 
 

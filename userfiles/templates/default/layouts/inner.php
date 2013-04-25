@@ -9,7 +9,7 @@ description: Post inner layout
 
 */
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?> 
 
 <div class="container">
   <div class="row">

@@ -1,5 +1,5 @@
 <? if(isset($_GET['reset_password_link'])): ?>
-<module type="users/forgot_password" />
+<module type="users/forgot_password" /> 
 <? else:  ?>
 
 

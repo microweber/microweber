@@ -23,7 +23,7 @@ if($from_path != ''): ?>
 $kw = false;
 if(isset($params['kw'])){
 	$kw = $params['kw'];
-}
+} 
 
 
 $dirs =  directory_tree($path,$kw);

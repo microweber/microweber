@@ -39,15 +39,36 @@ function get_files($params) {
 	} else {
 		$directory = $params['directory'];
 	}
+	$from_search = 0;
 	$arrayItems = array();
 	if (isset($params['search']) and strval($params['search']) != '') {
+		$from_search = 1;
 		$arrayItems_search = rglob($pattern = DS . '*' . $params['search'] . '*', $flags = 0, $directory);
 
 	} else {
 
-		$paths = glob($directory . DS . '*', GLOB_ONLYDIR | GLOB_NOSORT);
-		$files = glob($directory . DS . '*', 0);
-		$arrayItems_search = array_merge($paths, $files);
+		//$paths = glob($directory . DS . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+		//$files = glob($directory . DS . '*', 0);
+		//$arrayItems_search = array_merge($paths, $files);
+		  
+		if(!is_dir($directory . DS)){
+		 return false;	
+		}
+		
+		$arrayItems_search = array();
+		$myDirectory = opendir($directory . DS);
+// get each entry
+while($entryName = readdir($myDirectory)) {
+	if($entryName != '..' and $entryName != '.'){
+		 $arrayItems_search[] = $entryName;
+	}
+   
+}
+// close directory
+closedir($myDirectory);
+
+
+
 
 	}
 
@@ -69,6 +90,9 @@ function get_files($params) {
 		$arrayItems_f = array();
 		$arrayItems_d = array();
 		foreach ($arrayItems_search as $file) {
+				if($from_search ==0){
+				 $file = $directory. DS.$file;
+				}
 			if (is_file($file)) {
 				$df  = normalize_path($file, false);
 				if(!in_array($df,$arrayItems_f)){

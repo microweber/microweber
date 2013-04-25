@@ -4,7 +4,7 @@
   <div class="quick-lists">
     <div class="quick-links-case left">
       <h2>Quick Add</h2>
-      <ul class="mw-quick-links">
+      <ul class="mw-quick-links"> 
         <li><a href="<?php print admin_url('view:content'); ?>#action=new:page"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico ipage"></span><span>New Page</span></a></li>
         <li><a href="<?php print admin_url('view:content'); ?>#action=new:post"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico ipost"></span><span>New Post</span></a></li>
         <li><a href="<?php print admin_url('view:content'); ?>#action=new:category"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico icategory"></span><span>New Category</span></a></li>

@@ -47,9 +47,11 @@
         <script type="text/javascript">
 
 
-        receiveMessage = function(event){
-               alert(event)
-             }
+
+
+
+
+
 
 
             Name = this.name;
@@ -60,7 +62,7 @@
 
            $(document).ready(function(){
 
-             window.addEventListener("message", receiveMessage, true);    
+
 
             var multi = Params.multiple === true;
 
@@ -85,20 +87,16 @@
             });
 
 
-            /*
-            mw.on.hashParam("params", function(){
-               if(this != undefined){
-                var arr = this.split("|"), i=0, l=arr.length;
-                __U = mw.url.strip(uploader.settings.url);
-                for(; i<l; i++){
-                    var xa = arr[i].split(":");
-                    __U =  mw.url.set_param(xa[0], xa[1], __U);
-                }
-                uploader.settings.url = __U;
 
-               }
-            })   */
+        window.onmessage = function(event){
 
+             var data = JSON.parse(event.data);
+
+             var base = mw.url.strip(uploader.settings.url);
+
+             uploader.settings.url = base + "?" + json2url(data);
+
+         }
 
 
 

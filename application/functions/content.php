@@ -9,6 +9,10 @@ if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
 	define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
 }
 
+if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
+	define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', MW_TABLE_PREFIX . 'content_fields_drafts');
+}
+
 if (!defined("MW_DB_TABLE_MEDIA")) {
 	define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
 }
@@ -110,21 +114,22 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
 	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
-	$fields_to_add[] = array('position', 'int(11) default NULL');
-	$fields_to_add[] = array('field', 'longtext default NULL');
+ 	$fields_to_add[] = array('field', 'longtext default NULL');
 	$fields_to_add[] = array('value', 'TEXT default NULL');
-
-
-
-
 	set_db_table($table_name, $fields_to_add);
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
 	db_add_table_index('field', $table_name, array('field(55)'));
 
+	$table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
 
+    set_db_table($table_name, $fields_to_add);
 
+	db_add_table_index('rel', $table_name, array('rel(55)'));
+	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
+	db_add_table_index('field', $table_name, array('field(55)'));
 
 
 	$table_name = MW_DB_TABLE_MEDIA;

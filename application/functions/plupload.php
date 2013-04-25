@@ -28,24 +28,15 @@ header("Pragma: no-cache");
 $target_path = MEDIAFILES . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
 
-$path_restirct   =   MEDIAFILES; // the path the script should access
+$path_restirct   =   MW_USERFILES; // the path the script should access
 if(isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST["path"]) != 'false'){
  	$path = urldecode($_REQUEST["path"]);
 	$path = normalize_path($path, 0);
 	$path = str_replace('..','',$path);
 	$path = str_replace($path_restirct,'',$path);
-	$target_path = MEDIAFILES.DS.$path;
-	$target_path = normalize_path($target_path, 0);
-	
-  
+	$target_path = MW_USERFILES.DS.$path;
+	$target_path = normalize_path($target_path, 1);
 }
-
- 
- 
- 
- 
- 
-
 $targetDir = $target_path;
 if (!is_dir($targetDir)) {
 	mkdir_recursive($targetDir);
@@ -170,7 +161,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 	rename("{$filePath}.part", $filePath);
 	delete_log("is_system=y&rel=uploader&created_on=[lt]30 min ago");
 		delete_log("is_system=y&rel=uploader&session_id=" . session_id());
-	
+
 }
 $f_name = explode(DS, $filePath);
 
@@ -179,9 +170,9 @@ $rerturn['src'] = pathToURL($filePath);
 $rerturn['name'] = end($f_name);
 
 if(isset($upl_size_log) and $upl_size_log >0){
-$rerturn['bytes_uploaded'] = $upl_size_log;	
+$rerturn['bytes_uploaded'] = $upl_size_log;
 }
-$rerturn['ORIG_REQUEST'] = $_POST;
+//$rerturn['ORIG_REQUEST'] = $_GET;
 
 
 

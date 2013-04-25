@@ -734,7 +734,8 @@ load_preview();
   <? if($edit_post_mode != false): ?>
   <a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
   <?php _e("Add to Page &amp; Category"); ?>
-  </a>
+  </a> 
+  <small class="right mw-help" data-help="Please choose parent page and categories for this <? print $data['content_type'] ?>.">(?)</small>
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">
     <div class="mw-ui-field mw-tag-selector " id="mw-post-added-<? print $rand; ?>">
@@ -753,8 +754,8 @@ load_preview();
       onTag:function(){
 
         mw_set_categories_from_tree()
-
 mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
+
 
 
         var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
@@ -772,8 +773,8 @@ mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
      onUntag:function(){
 
     mw_set_categories_from_tree();
-mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
 
+mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
       var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
       if(curr_content != undefined){
        load_iframe_editor(curr_content);
@@ -995,13 +996,28 @@ if(intval($data['id']) == 0){
   <?php _e("Custom Fields"); ?>
   </a>
   <? endif; ?>
+
+
+
   <div class="vSpace"></div>
   <?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div id="custom_fields_for_post_<? print $rand; ?>"  style="<? if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<? else: ?>display:none;<? endif; ?>">
+    <small class="right mw-help" data-help="You can set custom properties for this <? print $data['content_type'] ?>. ">(?)</small>
     <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="content" rel_id="<? print $data['id'] ?>" id="fields_for_post_<? print $rand; ?>" content-subtype="<? print $data['subtype'] ?>" />
+
+
+
+
+
+ <div class="vSpace"></div>
+ <small>Custom fields you may like to use <span class="" data-help="Those custom fields are from the page or categories you chose for this <? print $data['subtype'] ?>.">(?)</span></small>
     <div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<? print $rand; ?>" ></div>
-        <div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<? print $rand; ?>" ></div>
+    <div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<? print $rand; ?>" ></div>
+
+
+
+
 
     <script  type="text/javascript">
 
@@ -1075,11 +1091,11 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
 
 
         var vals = mw.$('#categorories_selector_for_post_<? print $rand; ?> input[type="checkbox"]:checked').val();
-     var holder1 = mw.$('#custom_fields_from_pages_selector_for_post_1<? print $rand; ?>');
+     var holder1 = mw.$('#custom_fields_from_cats_selector_for_post_1<? print $rand; ?>');
      if(vals != undefined){
       i = 1;
 
-      holder1.attr('for','categories');
+      holder1.attr('rel','categories');
       holder1.attr('save_to_content_id','<? print $data['id'] ?>');
       holder1.attr('rel_id',vals);
       mw.load_module('custom_fields/list','#custom_fields_from_cats_selector_for_post_1<? print $rand; ?>', function(){
@@ -1115,24 +1131,24 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
     <div class="advanced_settings_holder">
       <div class="vSpace"></div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Description</label>
+        <label class="mw-ui-label">Description <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
         <textarea
         class="mw-ui-field" name="description"   placeholder="Describe your page in short"><?php if($data['description']!='') print ($data['description'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Meta Title</label>
+        <label class="mw-ui-label">Meta Title <small class="mw-help" data-help="Title for this <? print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
         <textarea class="mw-ui-field" name="content_meta_title"  placeholder="Title to appear on the search engines results page."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Meta Keywords</label>
-        <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords describing your content best - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
+        <label class="mw-ui-label">Meta Keywords <small class="mw-help" data-help="Keywords for this <? print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
+        <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
 </textarea>
       </div>
       <div class="vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Active?</div>
+        <div class="mw-ui-label left" style="width: 130px">Is Active <small class="mw-help" data-help="If yes your content will be visible on the site">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_active" type="radio"  value="n" <? if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>No</span></label>
@@ -1155,7 +1171,7 @@ function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
       </div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Shop?</div>
+        <div class="mw-ui-label left" style="width: 130px">Is Shop <small class="mw-help" data-help="If yes this page will accept products to be added to it">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"  value="n" <? if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <? endif; ?> />
           <span></span><span>No</span></label>

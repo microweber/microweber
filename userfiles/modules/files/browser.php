@@ -41,7 +41,7 @@ only_admin_access();
 		   $params_get_files['sort_order']  =  $params['sort_order'];
 	}
 
-  //  $params['keyword']  
+  //  $params['keyword']   
  $data = get_files($params_get_files);
 
  $path_nav = explode(DS,$path);
@@ -85,7 +85,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
   <div class="mw-o-box-content">
-   
+
     <? if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">
       <? foreach($data['dirs']  as $item): ?>
@@ -101,17 +101,34 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     <? if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
       <? foreach($data['files']  as $item): ?>
-      <li> <a title="<? print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<? print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<? print dir2url($item) ?>'); return false;">
+      <li>
+
+
+
+      <a title="<? print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<? print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<? print dir2url($item) ?>'); return false;">
         <? $ext = strtolower(get_file_extension($item)); ?>
+
         <?
-  
-   
+
+
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
         <img src="<? print thumbnail(dir2url($item), 48,48); ?>" />
         <? else: ?>
         <span class="mw-fileico mw-fileico-<? print $ext ; ?>"><? print $ext ; ?></span>
         <? endif; ?>
-        <span><? print basename($item) ?></span> </a> </li>
+        <span><? print basename($item) ?></span> </a>
+
+
+
+         <div class="mw-file-item-check">
+            <label class="mw-ui-check">
+                <input type="checkbox" onchange="gchecked()" name="fileitem" value="<?php print $item;  ?>" /><span></span>
+            </label>
+         </div>
+
+
+
+        </li>
       <? endforeach ; ?>
     </ul>
     <? endif; ?>

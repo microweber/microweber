@@ -1577,7 +1577,8 @@ $.fn.commuter = function(a,b) {
   if(a===undefined){return false}
   var b = b || function(){};
   return this.each(function(){
-    if(this.type==='checkbox'  || this.type==='radio' ){
+    if((this.type==='checkbox'  || this.type==='radio') && !$(this).hasClass("cmactivated") ){
+      $(this).addClass("cmactivated");
       $(this).bind("change", function(){
         this.checked === true ? a.call(this) : b.call(this);
       });
@@ -2287,6 +2288,11 @@ mw.beforeleave = function(url){
         });
         return false;
     }
+}
+
+
+mw.postMsg = function(w, obj){
+  w.postMessage(JSON.stringify(obj), window.location.href);
 }
 
 
