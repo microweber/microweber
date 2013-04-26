@@ -1870,7 +1870,7 @@ function save_edit($post_data) {
 
 							if ($is_no_save != true and $is_draft == false) {
 								$json_print[] = $to_save;
-
+								//d($to_save);
 								$saved = save_content($to_save);
 
 
@@ -2623,11 +2623,11 @@ function save_content_field($data, $delete_the_cache = true) {
 	if(isset($data['is_draft']) and isset($data['url'])){
 		$fld_remove = db_escape_string($data['url']);
 
-		$history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit50&curent_page=3&url='.$fld_remove);
+		$history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit100&curent_page=3&url='.$fld_remove);
 		if(isarr($history_files )){
 			$history_files_ids = array_values_recursive($history_files );
 		}
-		if(isarr($history_files_ids )){
+		if(isset($history_files_ids) and isarr($history_files_ids )){
 			$history_files_ids_impopl = implode(',', $history_files_ids);
 			$del_q = "delete from {$table} where id IN ($history_files_ids_impopl) ";
 			db_q($del_q);

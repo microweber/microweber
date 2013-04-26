@@ -91,6 +91,7 @@ $(document).ready(function(){
 			  $cats_for_this_module = get_category_items('rel=modules&rel_id='.$item['id']);
 				if(isarr($cats_for_this_module  )){
 					 foreach($cats_for_this_module  as $module_categories_id){
+						//  d($module_categories_id);
 						$module_categories_ids[] = $module_categories_id['parent_id'];
 					 }
 				}
@@ -106,6 +107,7 @@ $(document).ready(function(){
 		 if(isarr($module_categories_ids  )){
 			 $module_categories = array();
 			 foreach($module_categories_ids  as $module_categories_id){
+				
 				$module_categories[] = get_category_by_id($module_categories_id);
 			 }
 		 }
@@ -119,6 +121,7 @@ $(document).ready(function(){
       <h2>Modules</h2>
     </div>
     <ul class="help-nav">
+    <? // d($module_categories); ?>
       <? foreach($module_categories  as $module_category): ?>
       
         <? if(isarr($modules  )): ?>

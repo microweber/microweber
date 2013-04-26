@@ -2149,8 +2149,8 @@ if (isset($_SESSION)) {
 		$q = " UPDATE  $table set ";
 
 		foreach ($data as $k => $v) {
-			$v = db_escape_string($v);
-			$k = db_escape_string($k);
+			//$v = db_escape_string($v);
+			//$k = db_escape_string($k);
 			if(isset($data['session_id'] )){
 				if ($k != 'id' and $k != 'edited_by') {
 				// $v = htmlspecialchars ( $v, ENT_QUOTES );

@@ -92,9 +92,12 @@
 
 
            if(typeof thismodal != 'undefined' && thismodal != false){
+
             $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name);
+            thismodal.main.scrollTop(0);
             __autoresize = function(){
                 var _old = thismodal.main.height();
+                thismodal.main.scrollTop(0);
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, mw.$('#settings-container').height()+25, false);
                 var _new = thismodal.main.height();
                 if(_new>_old) {
@@ -170,9 +173,11 @@
                 $(mwd.body).bind('mouseup click DOMNodeInserted',function(){
                   setTimeout(function(){
                      __autoresize();
+
                   }, 99);
                 }).ajaxStop(function(){
                     setTimeout(function(){
+
                     __autoresize();
                   }, 99);
                 });
@@ -192,10 +197,12 @@
 
 
             $(window).load(function () {
+
                    $(mwd.body).removeClass('mw-external-loading');
                 $(mwd.body).ajaxStop(function(){
                  $(mwd.body).removeClass('mw-external-loading');
                 });
+
              });
 
 

@@ -51,8 +51,8 @@
   <div class="sidebar-box">
   	<module type="categories" />
   </div>
-  <h4 class="element sidebar-title">Recent Posts</h4>
+  <h4 class="element sidebar-title">Other pages</h4>
   <div class="sidebar-box">
-  	<module type="pages" template="pills" />
+  	<module type="pages" template="pills"  />
   </div>
 </div>

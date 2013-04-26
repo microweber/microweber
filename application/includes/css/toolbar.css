@@ -486,9 +486,20 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 
 
 #mw_history_files {
-  height:50px;
-  overflow:scroll;
+  max-height:250px;
+  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
   display:block;
+}
+#mw_history_files li{
+  list-style: none;
+}
+
+#mw_history_files li a:hover{
+  background-image: url(../img/restore.png);
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 
 

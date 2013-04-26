@@ -31,10 +31,12 @@
             <span class="ico iplay"></span>
             <input
                   name="embed_url"
+                  id="emebed_video_field"
                   style="width: 340px;"
                    class="mw-ui-invisible-field mw_option_field"
                   onchange="setprior(1);"
-                  onpaste="setprior(1);"
+                  onpaste="setprior(1, this);"
+
                   type="text"
                   data-reload="<? print $params['data-type'] ?>"
                   value="<?php print get_option('embed_url', $params['id']) ?>"
@@ -112,9 +114,15 @@
 <script>
 
 
-setprior = function(v){
+setprior = function(v,t){
+  var t = t || false;
       mwd.getElementById('prior').value = v;
       $(mwd.getElementById('prior')).trigger('change');
+      if(!!t) {
+        setTimeout(function(){
+          $(t).trigger('change');
+        }, 70);
+      }
 }
 
 $(document).ready(function(){
@@ -149,7 +157,7 @@ $(document).ready(function(){
 
     $(btn).append(up);
 
-
+   mw.$("#emebed_video_field").focus();
 })
 
 </script>

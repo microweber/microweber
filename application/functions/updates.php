@@ -1,5 +1,46 @@
 <?php
 
+
+
+
+ action_hook('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
+
+function mw_print_admin_backup_settings_link() {
+	
+	if(is_module_installed('admin/backup')){
+	
+	$active = url_param('view');
+	$cls = '';
+	$mname = module_name_encode('admin/backup');
+	if ($active == $mname ) {
+		$cls = ' class="active" ';
+	}
+	$notif_html = '';
+	$url = admin_url('view:modules/load_module:'.$mname);
+	
+	print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
+	}
+	//$notif_count = get_notifications('module=comments&is_read=n&count=1');
+	/*if ($notif_count > 0) {
+		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
+	}*/
+	//print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">' . $notif_html . '</span><span>Comments</span></a></li>';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 api_expose('mw_post_update');
 function mw_post_update() {
 

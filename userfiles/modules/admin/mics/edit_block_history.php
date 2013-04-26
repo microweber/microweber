@@ -22,9 +22,7 @@ $url = url_string(true);
 			?>
 
 <? if(isarr($history_files)): ?>
-<? print count($history_files);?>
 
-history files <br />
 <? // p($history_files); ?>
 <ul id="mw_history_files">
   <? 		foreach ($history_files as $item) : ?>
@@ -33,10 +31,10 @@ history files <br />
     <?
 
 	//$content_of_file = file_get_contents($filename);	?>
-    <a href="javascript: mw.history.load('<? print ($item['id']) ?>')">
+    <a title="Click to Restore" href="javascript: mw.history.load('<? print ($item['id']) ?>')">
 
-    <?  print $item['id']  ?>
-    (<? print ago($item['created_on'], $granularity = 1); ?>) </a> </li>
+
+    <? print ago($item['created_on'], $granularity = 1); ?> </a> </li>
   <? 		endforeach; ?>
 </ul>
 <? endif; ?>

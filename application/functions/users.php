@@ -134,7 +134,7 @@ function mw_db_init_users_table() {
 
 api_expose('system_log_reset');
 
-function system_log_reset($data) {
+function system_log_reset($data = false) {
 	$adm = is_admin();
 	if ($adm == false) {
 		return array('error' => 'Error: not logged in as admin.');

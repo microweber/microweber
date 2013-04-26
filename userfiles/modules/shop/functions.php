@@ -1,17 +1,18 @@
 <?
 
 
-//action_hook('mw_admin_settings_menu', 'mw_print_admin_shop_settings_link');
+action_hook('mw_admin_settings_menu', 'mw_print_admin_shop_settings_link');
 
 function mw_print_admin_shop_settings_link() {
 	$active = url_param('view');
 	$cls = '';
-	if ($active == 'comments') {
+	$mname = module_name_encode('shop/payments/admin');
+	if ($active == $mname ) {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-$mname = module_name_encode('shop/payments/admin');
-	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Online Shop</a></li>";
+	
+	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Payments</a></li>";
 
 	//$notif_count = get_notifications('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {

@@ -564,23 +564,26 @@ function create_media_dir($params) {
 	$target_path = MEDIAFILES . 'uploaded' . DS;
 	$fn_path = MEDIAFILES;
 	if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '') {
+		$_REQUEST["path"] = urldecode($_REQUEST["path"]);
+
 		//$string = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $_REQUEST["path"]);
-		$fn_path = MW_USERFILES . DS . $_REQUEST["path"].DS;
+		$fn_path = MW_USERFILES . DS . $_REQUEST["path"] . DS;
 		$fn_path = normalize_path($fn_path, false);
 	}
 	if (!isset($_REQUEST["name"])) {
 		$resp = array('error' => 'You must send new_folder parameter');
 	} else {
-		$fn_new_folder_path = $_REQUEST["name"]; 
+		$fn_new_folder_path = $_REQUEST["name"];
+		$fn_new_folder_path = urldecode($fn_new_folder_path);
 		$fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
 		$fn_path = normalize_path($fn_new_folder_path_new, false);
 		// d($fn_path);
 		if (!is_dir($fn_path)) {
 			mkdir_recursive($fn_path);
-			$resp = array('success' => "Folder ".$fn_path. ' is created');
+			$resp = array('success' => "Folder " . $fn_path . ' is created');
 
 		} else {
-			$resp = array('error' => "Folder ".$fn_new_folder_path. ' already exists');
+			$resp = array('error' => "Folder " . $fn_new_folder_path . ' already exists');
 
 		}
 
@@ -603,12 +606,9 @@ function delete_media_file($params) {
 	$resp = array();
 	if ($fn_remove_path != false and isarr($fn_remove_path)) {
 		foreach ($fn_remove_path as $key => $value) {
-			
-			
-			
+
 			$fn_remove = url2dir($value);
-			
-			
+
 			if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
 				$path = urldecode($fn_remove);
 				$path = normalize_path($path, 0);
@@ -616,7 +616,7 @@ function delete_media_file($params) {
 				$path = str_replace($path_restirct, '', $path);
 				$target_path = MW_USERFILES . DS . $path;
 				$target_path = normalize_path($target_path, false);
- 
+
 				if (stristr($target_path, MEDIAFILES)) {
 
 					if (is_dir($target_path)) {

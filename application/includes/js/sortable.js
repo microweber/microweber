@@ -1613,12 +1613,25 @@ if(typeof el === 'object'){
 
 
 
+    if(is_draft !== undefined  ){
+          $(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
 
-    var edits = mw.$(".edit.changed", doc);
+          $(".edit.changed").removeClass("changed");
+
+         var edits = $(".edit.changed_draft", doc);
+
+    } else {
+
+        $(".edit.orig_changed", doc).addClass('changed').removeClass('orig_changed');
+        var edits = $(".edit.changed", doc);
 
 
 
 
+
+    }
+
+//d(edits);
 
     var master = {};
 
@@ -1657,8 +1670,10 @@ if(typeof el === 'object'){
     });
 
     if(mw.tools.isEmptyObject(master) == false ){
-        if(is_draft != undefined && is_draft != false){
+        if(is_draft !== undefined  ){
          master['is_draft']  = true;
+
+         //d(is_draft);
         }
 
 
@@ -1682,14 +1697,15 @@ if(typeof el === 'object'){
                 $(el).removeClass('disabled').html(html);
 
               }
-              if(is_draft != undefined && is_draft != false){
-
+              if(is_draft !== undefined){
+                $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
 
               } else {
                  mw.notification.success("All changes are saved.");
+                 $(".edit.changed").removeClass("changed");
 
               }
-              mw.$(".edit.changed").removeClass("changed");
+
               if(typeof callback === 'function'){
                    callback.call();
               }
@@ -2064,6 +2080,7 @@ mw.history = {
 		data.module = 'admin/mics/edit_block_history';
 		data.page_id = mw.settings.page_id;
 		data.post_id = mw.settings.post_id;
+    data.no_wrap = '1';
 		data.category_id = mw.settings.category_id;
 		data.for_url = document.location.href;
 		mw.$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
