@@ -2,8 +2,6 @@
 
 namespace mw\utils;
 
-
-
 api_expose('mw\utils\Backup\delete');
 api_expose('mw\utils\Backup\create');
 api_expose('mw\utils\Backup\download');
@@ -12,27 +10,75 @@ api_expose('mw\utils\Backup\move_uploaded_file_to_backup');
 
 api_expose('mw\utils\Backup\restore');
 
-
-
 class Backup {
 
-private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
+	private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 
 	private $prefix_placeholder = '/* MW_PREFIX_PLACEHOLDER */';
+	public $backups_folder = false;
+	public $backup_file = false;
 
 	function __construct() {
 		//var_dump($_SERVER);
 		//	print 1;
 	}
 
-	function exec_restore($params) {
+	function get_bakup_location() {
+
+		if (defined('MW_CRON_EXEC')) {
+
+		} else if (!is_admin()) {error("must be admin");
+		}
+
+		$loc = $this->backups_folder;
+
+		if ($loc != false) {
+			return $loc;
+		}
+		$here = MW_ROOTPATH . "backup" . DS;
+
+		if (!is_dir($here)) {
+			mkdir_recursive($here);
+			$hta = $here . '.htaccess';
+			if (!is_file($hta)) {
+				touch($hta);
+				file_put_contents($hta, 'Deny from all');
+			}
+		}
+
+		$here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+		$here2 = module_option('backup_location', 'admin/backup');
+		if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
+			$here2 = normalize_path($here2, true);
+
+			if (!is_dir($here2)) {
+				mkdir_recursive($here2);
+			}
+
+			if (is_dir($here2)) {
+				$here = $here2;
+			}
+		}
+
+		if (!is_dir($here)) {
+			if (!mkdir($here)) {
+				return false;
+			}
+		}
+		$loc = $here;
+		$this->backups_folder = $loc;
+		return $here;
+	}
+
+	function exec_restore($params = false) {
 		if (!is_admin()) {error("must be admin");
 		};
 		ignore_user_abort(true);
 
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
-
+		$loc = $this->backup_file;
 		// Get the provided arg
 		if (isset($params['id'])) {
 			$id = $params['id'];
@@ -40,6 +86,9 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 			$id = $params['filename'];
 		} else if (isset($_GET['file'])) {
 			$id = $params['file'];
+
+		}else if ($loc != false) {
+			$id = $loc ;
 
 		}
 
@@ -199,9 +248,8 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 		$this -> log_action($back_log_action);
 		clearcache();
 
-
 		sleep(5);
- 		$this -> log_action(false);
+		$this -> log_action(false);
 
 	}
 
@@ -533,7 +581,8 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 								$return .= ',';
 							}
 						}
-						$return .= ")" . $this -> file_q_sep . "\n\n\n"; ;
+						$return .= ")" . $this -> file_q_sep . "\n\n\n";
+						;
 					}
 				}
 				$return .= "\n\n\n";
@@ -619,53 +668,6 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 		return true;
 	}
 
-	function get_bakup_location() {
-
-		if (defined('MW_CRON_EXEC')) {
-
-		} else if (!is_admin()) {error("must be admin");
-		}
-
-		static $loc;
-
-		if ($loc != false) {
-			return $loc;
-		}
-		$here = MW_ROOTPATH . "backup" . DS;
-
-		if (!is_dir($here)) {
-			mkdir_recursive($here);
-			$hta = $here . '.htaccess';
-			if (!is_file($hta)) {
-				touch($hta);
-				file_put_contents($hta, 'Deny from all');
-			}
-		}
-
-		$here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-		$here2 = module_option('backup_location', 'admin/backup');
-		if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
-			$here2 = normalize_path($here2, true);
-
-			if (!is_dir($here2)) {
-				mkdir_recursive($here2);
-			}
-
-			if (is_dir($here2)) {
-				$here = $here2;
-			}
-		}
-
-		if (!is_dir($here)) {
-			if (!mkdir($here)) {
-				return false;
-			}
-		}
-		$loc = $here;
-		return $here;
-	}
-
 	public function get() {
 		if (!is_admin()) {error("must be admin");
 		};
@@ -691,7 +693,8 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 					$bak = array();
 					$bak['filename'] = basename($file);
 					$bak['date'] = $date;
-					$bak['time'] = str_replace('_', ':', $time); ;
+					$bak['time'] = str_replace('_', ':', $time);
+					;
 					$bak['size'] = filesize($file);
 
 					$backups[] = $bak;
@@ -815,7 +818,5 @@ private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 		}
 
 	}
-
-
 
 }

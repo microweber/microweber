@@ -3,8 +3,8 @@
 
         <div class="low-res-hider">
 
-            <span class="mw_editor_btn mw_editor_undo" title="Undo"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo" title="Redo"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="Undo"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_redo" data-command="custom-historyRedo" title="Redo"><span class="ed-ico"></span></span>
 
 
             <span class="mw_dlm"></span>

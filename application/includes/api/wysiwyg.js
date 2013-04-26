@@ -671,6 +671,13 @@ mw.wysiwyg = {
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
+    historyUndo:function(){
+
+       // mw.history.load('<? print ($item['id']) ?>')
+    },
+    historyRedo:function(){
+
+    },
     set_cursor : function(before_after, element){     //return false;      //Currently disabled - gives errors
 
         var el = $(element)[0];

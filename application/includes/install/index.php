@@ -93,7 +93,29 @@ if (isset($_POST['IS_INSTALLED'])) {
 				}
 
 				file_put_contents($cfg, $save_config);
- _reload_c();
+ 				_reload_c();
+				
+				
+				
+				if (isset($to_save['with_default_content'])) {
+						$default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
+						$default_content_file = $default_content_folder . 'mw_default_content.zip';  
+          				if(is_file($default_content_file)){
+							$restore = new \mw\utils\Backup;
+							$restore->backups_folder =$default_content_folder;
+							$restore->backup_file ='mw_default_content.zip';
+							ob_start();
+							$rest = $restore->exec_restore();
+						    ob_get_clean();
+						//d($to_save['with_default_content']);
+						}
+					
+				}
+			 
+				
+				
+				
+				
 				// mw_create_default_content('install');
 				print('done');
 

@@ -1690,7 +1690,7 @@ if(typeof el === 'object'){
 
               mw.history.init();
               if(!is_draft){
-                mw.askusertostay = false;
+                mw.askusertostay = true;
               }
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
@@ -1712,8 +1712,10 @@ if(typeof el === 'object'){
 
             }
           });
-    }
-    else{
+    }  else{
+
+       mw.askusertostay = false;
+
       if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);
@@ -2123,7 +2125,7 @@ mw.history = {
 
 
           }
-
+             mw.$(".hasdraft").remove()
 
 				}
 			})

@@ -179,6 +179,16 @@ input[type='text'], input[type='password'] {
               <label class="mw-ui-label">Admin password</label>
               <input type="password" required="true" class="mw-ui-field" name="admin_password" <? if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<? print $data['admin_password'] ?>" <? endif; ?> />
             </div>
+            
+            
+            
+            <? 		$default_content_file = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+            <? if(is_file($default_content_file)): ?>
+            <div class="mw-ui-field-holder">
+            <label class="mw-ui-check"><input name="with_default_content" type="checkbox" value="1"><span></span>&nbsp; Install default content</label>
+            </div>
+            <? endif; ?>
+            
             <div class="mw-ui-field-holder">
               <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
             </div>

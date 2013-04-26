@@ -223,7 +223,7 @@ body.cross{
 #mw-toolbar-right{
   display: inline-block;
   position: fixed;
-  top: 4px;
+  top: 6px;
   right: 80px;
   z-index: 999;
   width: 365px;

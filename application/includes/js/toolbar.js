@@ -681,13 +681,15 @@ if(typeof mw.hasDraft === 'object'){
    var html = ""
    + "<div class='hasdraft'>"
       + "<p>Load last Draft?</p>"
-      + "<span class='mw-ui-btn mw-ui-btn-small mw-ui-btn-green'>Yes</span>"
-      + "<span class='mw-close'></span>"
+      + "<span class='mw-ui-btn mw-ui-btn-small mw-ui-btn-green' onclick='mw.history.load(\""+mw.hasDraft.draft+"\")'>Yes</span>"
+      + "<span class='mw-ui-btn mw-ui-btn-small mw-ui-btn-red' onclick='$(this.parentNode).remove();'>No</span>"
    +"</div>";
 
-   mw.$("#mw_tabs").after(html);
+   mw.$("#mw_tabs_small").after(html);
 
-
+   setTimeout(function(){
+         mw.$(".hasdraft").addClass("active");
+   }, 10000);
 
  }
 
@@ -729,7 +731,7 @@ mw.toggle_subpanel = function(){
      });
      mw.$(".mw_tab_active").slideDown(_speed);
      mw.$("#mw_toolbar_nav").slideDown(_speed, function(){
-        mw.$("#mw-toolbar-right").css("top", 4);
+        mw.$("#mw-toolbar-right").css("top", 6);
         mw.$("#show_hide_sub_panel").css("top", 16);
      });
      $(mwd.body).animate({paddingTop:170});
