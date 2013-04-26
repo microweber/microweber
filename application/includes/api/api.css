@@ -420,11 +420,15 @@ li.module-item.ui-draggable-dragging{
   box-shadow: 0 0 3px #7A7A7A;
   background: white;
   padding: 5px !important;
-  border: 1px solid #429BD5;
+  border: 1px solid #C7C7C7;
 }
 
-li.module-item.ui-draggable-dragging .mw_module_hold{
-  max-width: 60px;
+li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggable-dragging .module_name, li.module-item.ui-draggable-dragging .mw_module_image{
+  margin: auto;
+  text-align: center;
+  min-width: 0;
+  display: block;
+  width: 90px;
 }
 
 .mw_image_txt{

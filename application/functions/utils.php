@@ -1181,8 +1181,8 @@ $class = 'directory_tree';
 	if(isset($params['dir_name'])){
 		$basedir = $params['dir_name'];
 	}
-	
-	
+
+
 	$max_depth = 100;
 	if(isset($params['max_depth'])){
 		$max_depth = $params['max_depth'];
@@ -1201,9 +1201,9 @@ $class = 'directory_tree';
 
 
   static $level = 0;
-  
+
   if($max_depth > $level){
-  
+
   $level++;
   $ffs = scandir($dir);
   echo '<ul class="'.$class.' depth_'.$level.'">';
@@ -1317,15 +1317,15 @@ $class = 'directory_tree';
 	    }
   }
   echo '</ul>';
-  
-  
+
+
   } else {
-  	
-   
+
+
   }
-  
-  
-  
+
+
+
   $level--;
 }
 
@@ -2027,4 +2027,10 @@ public static function pluralize_if($count, $string)
 
 function random_color(){
 	return "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+}
+function decode_entities($text) {
+    $text= html_entity_decode($text,ENT_QUOTES,"ISO-8859-1"); #NOTE: UTF-8 does not work!
+    $text= preg_replace('/&#(\d+);/me',"chr(\\1)",$text); #decimal notation
+    $text= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$text);  #hex notation
+    return $text;
 }

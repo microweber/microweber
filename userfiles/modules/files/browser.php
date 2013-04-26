@@ -92,7 +92,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
       <?  $dir_link = str_replace($path_restirct,'',$item); ?>
       <li>
         <a title="<? print basename($item).'&#10;'.dirname($item); ?>" href="#path=<? print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><? print basename($item); ?></span></a>
-        <span class="mw-close" onclick="deleteItem('<? print urlencode($dir_link); ?>');"></span>
+        <span class="mw-close" onclick="deleteItem('<? print urlencode($dir_link); ?>', '<? print basename($item); ?>');"></span>
       </li>
       <? endforeach ; ?>
     </ul>
@@ -121,12 +121,15 @@ $path_nav_pop = $path_nav_pop.DS.$item;
         <? endif; ?>
         <span><? print basename($item) ?></span> </a>
 
-
+        <?php $rand = uniqid(); ?>
 
          <div class="mw-file-item-check">
-            <label class="mw-ui-check">
-                <input type="checkbox" onchange="gchecked()" name="fileitem" value="<?php print $item;  ?>" /><span></span>
+            <label class="mw-ui-check left">
+                <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" /><span></span>
             </label>
+
+            <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
+
          </div>
 
 

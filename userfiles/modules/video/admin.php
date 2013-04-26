@@ -34,6 +34,7 @@
                   style="width: 340px;"
                    class="mw-ui-invisible-field mw_option_field"
                   onchange="setprior(1);"
+                  onpaste="setprior(1);"
                   type="text"
                   data-reload="<? print $params['data-type'] ?>"
                   value="<?php print get_option('embed_url', $params['id']) ?>"

@@ -512,6 +512,7 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 
 div.mw_drag_started, li.module-item.ui-draggable-dragging{
   padding:20px;
+  width: 100px;
   background:white;
   list-style: none;
 }

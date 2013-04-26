@@ -40,6 +40,9 @@
 <script  type="text/javascript">
 
 
+
+
+
  gchecked = function(){
    var l = mwd.querySelectorAll(".mw-browser-list input:checked").length;
    if( l > 0 ){
@@ -120,11 +123,12 @@ createPopHTML = function(img){
   return h;
 }
 
-deleteItem = function(url){
+deleteItem = function(url, name){
 
   if(typeof url === 'string'){
     var obj = {path:[url]};
-    var msg = "Are you sure you want to delete this file?";
+    var name = name || 'this';
+    var msg = "Are you sure you want to delete "+name+"?";
   }
   else if(url.constructor === [].constructor){
      var obj = {path:url}

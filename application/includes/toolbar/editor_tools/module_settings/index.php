@@ -206,7 +206,7 @@
 
         $(document).ready(function () {
 mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
- mw.$(".mw_option_field").bind("change", function () {
+ mw.$(".mw_option_field").bind("change", function (e) {
 
 
                 if(typeof liveEditSettings === 'boolean'){

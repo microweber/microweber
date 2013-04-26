@@ -2194,6 +2194,12 @@ tr.mw-o-box-table-footer td:first-child{
   right: 11px;
   z-index: 1;
 }
+
+.mw-browser-list li .mw-ui-check + .mw-close{
+  top: auto;
+  bottom: 8px;
+}
+
 .mw-browser-list li:hover .mw-close{
   visibility: visible;
 }

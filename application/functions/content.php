@@ -114,7 +114,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('rel', 'TEXT default NULL');
 
 	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
- 	$fields_to_add[] = array('field', 'longtext default NULL');
+	$fields_to_add[] = array('field', 'longtext default NULL');
 	$fields_to_add[] = array('value', 'TEXT default NULL');
 	set_db_table($table_name, $fields_to_add);
 
@@ -125,8 +125,10 @@ function mw_db_init_content_table() {
 	$table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
 	$fields_to_add[] = array('is_temp', "char(1) default 'y'");
+	$fields_to_add[] = array('url', 'TEXT default NULL');
 
-    set_db_table($table_name, $fields_to_add);
+
+	set_db_table($table_name, $fields_to_add);
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
@@ -1087,24 +1089,24 @@ function reorder_content()
 	// $q = db_query($q);
 	// $max_date = $q[0]['created_on'];
 	// $max_date_str = strtotime($max_date);
-$i = 1;
-foreach ($ids as $id) {
-	$id = intval($id);
-	cache_clean_group('content/'.$id);
+	$i = 1;
+	foreach ($ids as $id) {
+		$id = intval($id);
+		cache_clean_group('content/'.$id);
 		//$max_date_str = $max_date_str - $i;
 	//	$nw_date = date('Y-m-d H:i:s', $max_date_str);
 		//$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
-$pox = $maxpos - $i;
-	$q = " UPDATE $table set position=$pox where id=$id   ";
+		$pox = $maxpos - $i;
+		$q = " UPDATE $table set position=$pox where id=$id   ";
     //    var_dump($q);
-	$q = db_q($q);
-	$i++;
-}
+		$q = db_q($q);
+		$i++;
+	}
        //
         // var_dump($q);
-cache_clean_group('content/global');
-cache_clean_group('categories/global');
-exit();
+	cache_clean_group('content/global');
+	cache_clean_group('categories/global');
+	exit();
 }
 
 api_expose('get_content_admin');
@@ -1575,16 +1577,16 @@ function save_edit($post_data) {
 		$is_no_save = false;
 		$is_draft = false;
 		if(isset($post_data['is_draft'])){
-			 unset($post_data['is_draft']);
-			 $is_draft = 1;
+			unset($post_data['is_draft']);
+			$is_draft = 1;
 		}
 		$the_field_data_all = $post_data;
 	} else {
 		exit('Error: no POST?');
 	}
-	
-	
-	
+
+
+
 	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
@@ -1630,8 +1632,8 @@ function save_edit($post_data) {
 		$save_as_draft = true;
 		unset($post_data['save_draft']);
 	}
-	
-	
+
+
 	$json_print = array();
 	foreach ($the_field_data_all as $the_field_data) {
 		$save_global = false;
@@ -1679,8 +1681,9 @@ function save_edit($post_data) {
 			 * $ref_page = $the_ref_page = get_ref_page (); $page_id = $ref_page
 			 * ['id']; $content_id = $page_id; } }
 			 */
+			$url = url_string(true);
 			$some_mods = array();
-			if (isset($the_field_data['attributes'])) { 
+			if (isset($the_field_data['attributes'])) {
 				if (($the_field_data['html']) != '') {
 					$field = false;
 					if (isset($the_field_data['attributes']['field'])) {
@@ -1825,20 +1828,30 @@ function save_edit($post_data) {
 							$cont_field['rel_id'] = $content_id_for_con_field;
 							$cont_field['value'] = $html_to_save;
 							$cont_field['field'] = $field;
-							
-							
+
+
 							if($is_draft != false){
 								$cont_field['is_draft'] = 1;
-								
-								
+								$cont_field['rel'] = $rel_ch;
+								$cont_field['url'] =$url;
+
 								$cont_field1 = save_content_field($cont_field);
-								
+
 							} else {
 								if($field != 'content'){
-	
+
 									$cont_field1 = save_content_field($cont_field);
 								}
 							}
+
+
+
+
+
+
+
+
+
 							$to_save = array();
 							$to_save['id'] = $content_id;
 
@@ -1859,7 +1872,15 @@ function save_edit($post_data) {
 								$json_print[] = $to_save;
 
 								$saved = save_content($to_save);
+
+
 							}
+
+
+
+
+
+
 						} else if (isset($category_id)) {
 							print(__FILE__ . __LINE__ . ' category is not implemented ... not ready yet');
 						}
@@ -1887,8 +1908,25 @@ function save_edit($post_data) {
 
 
 						//if($field != 'content'){
+						//
+						//
+						//
+						//
 
-						$cont_field_new = save_content_field($cont_field);
+						if($is_draft != false){
+							$cont_field['is_draft'] = 1;
+							$cont_field['url'] = url_string(true);
+								//$cont_field['rel'] = $rel_ch;
+							$cont_field_new = save_content_field($cont_field);
+						} else {
+							$cont_field_new = save_content_field($cont_field);
+
+						}
+
+
+
+
+
 
 						//}
 
@@ -2565,7 +2603,7 @@ function save_content_field($data, $delete_the_cache = true) {
 	$adm = is_admin();
 	$table = MW_DB_TABLE_CONTENT_FIELDS;
 	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
-	
+
 	//$checks = mw_var('FORCE_SAVE_CONTENT');
 
 
@@ -2576,14 +2614,34 @@ function save_content_field($data, $delete_the_cache = true) {
 	if(!is_array($data)){
 		$data = array();
 	}
-	
+
 	if(isset($data['is_draft'])){
 		$table = $table_drafts;
+
+
 	}
-	
-	
-	
-	if(!isset($data['rel']) or !isset($data['rel_id'])){
+	if(isset($data['is_draft']) and isset($data['url'])){
+		$fld_remove = db_escape_string($data['url']);
+
+		$history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit50&curent_page=3&url='.$fld_remove);
+		if(isarr($history_files )){
+			$history_files_ids = array_values_recursive($history_files );
+		}
+		if(isarr($history_files_ids )){
+			$history_files_ids_impopl = implode(',', $history_files_ids);
+			$del_q = "delete from {$table} where id IN ($history_files_ids_impopl) ";
+			db_q($del_q);
+		}
+		//d($history_files_ids);
+
+ 
+//d($del_q );
+	//	db_q($del_q);
+	}
+
+
+
+	if(!isset($data['rel']) or !isset($data['rel_id']) ){
 		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
 	//if($data['rel'] == 'global'){
@@ -2600,11 +2658,17 @@ function save_content_field($data, $delete_the_cache = true) {
 		}
 		$cache_group = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
 		db_q($del_q);
+		//cache_clean_group($cache_group);
+
+		//cache_clean_group('content_fields/global');
+
+	} 
+	if(isset($data['rel']) or isset($data['rel_id']) ){
+		$cache_group = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
 		cache_clean_group($cache_group);
-
 		cache_clean_group('content_fields/global');
-
 	}
+
 	//}
 
 	$save = save_data($table, $data);
@@ -2618,15 +2682,49 @@ function save_content_field($data, $delete_the_cache = true) {
 api_expose('get_content_field_draft');
 function get_content_field_draft($data) {
 	only_admin_access();
+
+	$page = false;
+	if (isset($_SERVER["HTTP_REFERER"])) {
+		$url = $_SERVER["HTTP_REFERER"];
+		$url = explode('?', $url);
+		$url = $url[0];
+
+		if (trim($url) == '' or trim($url) == site_url()) {
+				//$page = get_content_by_url($url);
+			$page = get_homepage();
+				// var_dump($page);
+		} else {
+
+			$page = get_content_by_url($url);
+		}
+	} else {
+		$url = url_string();
+	}
+
+	define_constants($page);
+
+
+
 	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
-	
+
 	$data = parse_params($data);
 	$data['is_draft'] = 1;
-	
+	$data['full'] = 1;
+
+
 	$ret = get_content_field($data);
+
+	if(isset($ret['value'])){
+		$field_content = htmlspecialchars_decode($ret['value']);
+$field_content =decode_entities($field_content);
+		$ret['value'] = parse_micrwober_tags($field_content, $options = false);
+
+	}
+
+
 	return $ret;
-	
-	
+
+
 }
 function get_content_field($data, $debug = false) {
 
@@ -2634,7 +2732,7 @@ function get_content_field($data, $debug = false) {
 	$table = MW_DB_TABLE_CONTENT_FIELDS;
 
 	$table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
-	
+
 	if(is_string($data)){
 		$data = parse_params($data);
 	}
@@ -2642,9 +2740,9 @@ function get_content_field($data, $debug = false) {
 	if(!is_array($data)){
 		$data = array();
 	}
-	// d($data);
+		// d($data);
 
-	
+
 	if(isset($data['is_draft'])){
 		$table = $table_drafts;
 	}
@@ -2664,47 +2762,38 @@ function get_content_field($data, $debug = false) {
 
 		}
 	}
-	
 
-	if((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])){
-	if(!isset($data['rel_id'])){
+	if(!isset($data['rel_id']) and !isset($data['is_draft'])){
 		$data['rel_id'] = 0;
 	}
-	
+
+	if((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])){
 		error('Error: '.__FUNCTION__.' rel and rel_id is required');
 	}
-	//if($data['rel'] == 'global'){
-	//if(isset($data['field'])){
 
-		if((isset($data['rel']) and isset($data['rel_id']))){
-	
+	if((isset($data['rel']) and isset($data['rel_id']))){
+
 		$data['cache_group'] = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
-		} else {
-					$data['cache_group'] = guess_cache_group('content_fields/global');
-			
-		}
-		//$data['order_by'] = 'id desc';
-		if(!isset($data['all'])){
-				$data['one'] = 1;
-				$data['limit'] = 1;
-		}
-		
-		
-		//$data['one'] = 1;
-		$data['table'] = $table;
-		//if($debug!=false){
-			 $data['debug'] = 1;
-		 
-		//
-		$get = get($data);
-//	d($get);
-		if(isset($get['value'])){
-			return $get['value'];
-		} else {
-			return $get;
-		}
-	//}
-	//}
+	} else {
+		$data['cache_group'] = guess_cache_group('content_fields/global');
+
+	}
+	if(!isset($data['all'])){
+		$data['one'] = 1;
+		$data['limit'] = 1;
+	}
+	$data['table'] = $table;
+ 		 // $data['debug'] = 1;
+	$get = get($data);
+
+
+
+	if(!isset($data['full']) and isset($get['value'])){
+		return $get['value'];
+	} else {
+		return $get;
+	}
+
 
 	return false;
 
@@ -3713,11 +3802,11 @@ function static_pages_tree($params = false){
 		return 'Error: You must set $dir_name for the function '.__FUNCTION__;
 	}
 	if(!empty($params)){
-	 ksort($params);
+		ksort($params);
 	}
 
 	$function_cache_id = __FUNCTION__ . crc32(serialize($params));
-$cache_content = false;
+	$cache_content = false;
 	//$cache_content = cache_get_content($function_cache_id, 'content/static');
 
 	if (($cache_content) != false) {
@@ -3727,15 +3816,15 @@ $cache_content = false;
 
 		//cache_save($tree, $function_cache_id, $cache_group = 'content/static');
 	}
-		if(!isset($url)){
+	if(!isset($url)){
 		$url = curent_url(true,true);
-		}
-		$params['url'] = $url;
-		$params['url_param'] = 'page';
+	}
+	$params['url'] = $url;
+	$params['url_param'] = 'page';
 
 
 
-		  directory_tree($dir_name, $params);
+	directory_tree($dir_name, $params);
 
 
 
@@ -3766,7 +3855,7 @@ function static_page_get($params = false){
 				$try_file = $path.$file;
 				if(is_file($try_file)){
 					$try_file = normalize_path($try_file, false);
-				 $load_file= ($try_file);
+					$load_file= ($try_file);
 				}
 
 
@@ -3774,7 +3863,7 @@ function static_page_get($params = false){
 				$try_file = $path.DS.'index.php';
 				if(is_file($try_file)){
 					$try_file = 	normalize_path($try_file, false);
-				 $load_file= ($try_file);
+					$load_file= ($try_file);
 				}
 			}
 		}
@@ -3799,6 +3888,6 @@ function static_page_get($params = false){
 		}
 
 
- 	}
+	}
 
 }
