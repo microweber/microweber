@@ -694,7 +694,7 @@ if(typeof mw.hasDraft === 'object'){
      }
      else{
         clearInterval(_Timer);
-        Timer.parent().parent()remove();
+        Timer.parent().parent().remove();
      }
    }, 1000);
 
