@@ -39,7 +39,7 @@ if(isset($latest_drafs) and isarr($latest_drafs)){
         
    		 
 			mw.hasDraft = {
-				has:true,
+				
 				draft:"<? print implode(',',$latest_drafs_vals); ?>"	
 			}
 			

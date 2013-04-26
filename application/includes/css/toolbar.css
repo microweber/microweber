@@ -1081,6 +1081,26 @@ li .ts_action_item:last-child{
   /*display: none !important;*/
 }
 
+.hasdraft{
+  float: left;
+  display: inline-block;
+  white-space: nowrap;
+  margin: 11px 17px;
+  font-size: 11px;
+}
+
+.hasdraft p{
+  color: #5A5A5A;
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+
+#load_draft_timer{
+  font-weight: bold;
+  color: #329A4F;
+}
+
 
 
 

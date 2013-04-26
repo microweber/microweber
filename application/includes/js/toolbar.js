@@ -563,6 +563,11 @@ $(document).ready(function(){
 
  });
 
+
+
+
+
+
 });
 
 mw.toolbar = {
@@ -668,6 +673,32 @@ $(window).load(function(){
 
 
    mw.tools.sidebar();
+
+
+
+
+if(typeof mw.hasDraft === 'object'){
+   var html = ""
+   + "<div class='hasdraft'>"
+      //+ "<p>Load last Draft?</p>"
+      + "<span class='mw-ui-btn mw-ui-btn-green'>Load last Draft ... <span id='load_draft_timer'>12</span></span>"
+   +"</div>";
+
+   mw.$("#mw_tabs").after(html);
+
+   var Timer = $("#load_draft_timer");
+   _Timer = setInterval(function(){
+     var curr = parseFloat(Timer.html());
+     if(curr > 0){
+          Timer.html(curr - 1);
+     }
+     else{
+        clearInterval(_Timer);
+        Timer.parent().parent()remove();
+     }
+   }, 1000);
+
+ }
 
 });
 
