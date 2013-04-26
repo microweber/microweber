@@ -120,21 +120,17 @@ $(document).ready(function(){
     <div class="mw-admin-sidebar">
       <h2>Modules</h2>
     </div>
-    <ul class="help-nav">
+  
     <? // d($module_categories); ?>
-      <? foreach($module_categories  as $module_category): ?>
+      
       
         <? if(isarr($modules  )): ?>
-        <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span>
-        <?  print($module_category['title']); ?>
-        </strong>
-        <ul class="mw-accordion-content">
+        
+        <ul class="help-nav">
           <? foreach($modules  as $item): ?>
           
           <? if(strtolower($item['module'])  != 'help'): ?>
-          <? $cats_for_this_module = get_category_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
-          <?  // d( $cats_for_this_module ); ?>
-          <? if($cats_for_this_module >0): ?>
+         
           <?php $minfo = module_info($item['module']);  ?>
           <?
 				  $module_path  = module_path($item['module']);
@@ -158,15 +154,15 @@ $(document).ready(function(){
 					//print $module_help_pages;
 					 ?>
           </li>
-          <? endif; ?>
+          
           <? endif; ?>
           <? endif; ?>
           <? endforeach ; ?>
         </ul>
         <? endif; ?>
-      </li>
-      <? endforeach ; ?>
-    </ul>
+     
+      
+  
     <? endif; ?>
     <? endif; ?>
   </div>

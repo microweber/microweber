@@ -64,7 +64,10 @@
 
 
 
-            var multi = Params.multiple === true;
+            var multi =  (Params.multiple == 'true' || Params.multiple == true);
+
+
+
 
 
             var filters = [ {title:"", extensions : Params.filters} ]

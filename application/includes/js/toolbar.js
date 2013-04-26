@@ -706,8 +706,12 @@ mw.toggle_subpanel = function(){
        $(this).css({left:'auto'}).html('Less').fadeIn(_speed);
      });
      mw.$(".mw_tab_active").slideDown(_speed);
-     mw.$("#mw_toolbar_nav").slideDown(_speed);
+     mw.$("#mw_toolbar_nav").slideDown(_speed, function(){
+        mw.$("#mw-toolbar-right").css("top", 4);
+        mw.$("#show_hide_sub_panel").css("top", 16);
+     });
      $(mwd.body).animate({paddingTop:170});
+
 
   }
   else{
@@ -718,8 +722,12 @@ mw.toggle_subpanel = function(){
     });
 
     mw.$(".mw_tab_active").slideUp(_speed);
-    mw.$("#mw_toolbar_nav").slideUp(_speed);
+    mw.$("#mw_toolbar_nav").slideUp(_speed, function(){
+       mw.$("#mw-toolbar-right").css("top", 0);
+       mw.$("#show_hide_sub_panel").css("top", 10);
+    });
     $(mwd.body).animate({paddingTop:0});
+
   }
 }
 

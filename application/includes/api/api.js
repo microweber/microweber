@@ -9,6 +9,8 @@ document.getElementsByTagName('html')[0].className = window.location.href.indexO
 
 mw = {}
 
+mw.pauseSave = false;
+
 mw.askusertostay = false;
 
 window.onerror = function(a,b,c){

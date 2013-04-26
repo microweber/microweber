@@ -334,6 +334,11 @@ function ago($time, $granularity = 2) {
 			break;
 		}
 	}
+	
+	if($retval == ''){
+		return '1 second ago';
+	}
+	
 	return '' . $retval . ' ago';
 }
 function mw_warning($text, $exit = false) {

@@ -15,7 +15,7 @@ class MwView {
 	}
 
 	function assign($var, $val) {
- 			$this -> $var = $val;
+		$this -> $var = $val;
 	}
 
 	function __get_vars() {
@@ -28,7 +28,11 @@ class MwView {
 		$file_dir = dirname($this -> v) . DS;
 		//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
+
+		// $ext = strtolower(get_file_extension($this -> v));
+
 		require ($this -> v);
+
 		$content = ob_get_clean();
 		unset($content);
 		//ob_end_clean();
@@ -59,10 +63,46 @@ class MwView {
 		//	set_include_path(dirname($this -> v) . DS . PATH_SEPARATOR . get_include_path());
 		//$old_dir = getcwd();
 		$file_dir = dirname($this -> v) . DS;
+
+		$ext = strtolower(get_file_extension($this -> v));
+
 		//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
-		require ($this -> v);
-		$content = ob_get_clean();
+
+		if ($ext == 'md') {
+			$content = file_get_contents($this -> v);
+			$rel_url = dir2url(dirname($this -> v)) . '/';
+			//$content = \mw\content\Markdown::defaultTransform($content);
+			$parser = new \mw\content\MarkdownExtra;
+
+			$parser -> no_markup = true;
+			 $parser -> no_entities = true;
+
+			$content = $parser -> transform($content);
+
+			$content = preg_replace("#(<\s*a\s+[^>]*href\s*=\s*[\"'])(?!http)([^\"'>]+)([\"'>]+)#", '$1' . $rel_url . '$2$3', $content);
+			//$content = preg_replace("#(<\s*a\s+[^>]*src\s*=\s*[\"'])(?!src)([^\"'>]+)([\"'>]+)#", '$1'.$rel_url.'$2$3', $content);
+
+			$dom_md = new DOMDocument;
+			$dom_md -> loadHTML($content);
+
+			$imgs = $dom_md -> getElementsByTagName('img');
+			foreach ($imgs as $img) {
+				$src = $img -> getAttribute('src');
+				if (strpos($src, site_url()) !== 0) {
+					$img -> setAttribute('src', $rel_url . $src);
+				}
+			}
+
+			$content = $dom_md -> saveHTML();
+
+			unset($dom_md);
+			unset($parser);
+
+		} else {
+			require ($this -> v);
+			$content = ob_get_clean();
+		}
 
 		//ob_end_clean();
 		//chdir($old_dir);

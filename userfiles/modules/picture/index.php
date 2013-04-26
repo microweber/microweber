@@ -1,1 +1,1 @@
-<img src="<? print pixum(300,300) ?>" />
+<img class="img-rounded img-polaroid" src="<? print pixum(300,300) ?>" />

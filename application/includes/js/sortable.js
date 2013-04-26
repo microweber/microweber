@@ -113,6 +113,7 @@ $(document).ready(function(){
    });
 
    $(mwd.body).bind("keydown",function(e){
+
      if(e.keyCode == 83 && e.ctrlKey){
         mw.e.cancel(e, true);
         mw.drag.save(mwd.getElementById('main-save-btn'))
@@ -886,12 +887,14 @@ mw.drag = {
             },
            stop:function(){
               mw.isDrag = false;
+              mw.pauseSave = true;
               var el = this;
               $(mwd.body).removeClass("dragStart");
               setTimeout(function(){
                 mw.drag.load_new_modules();
                 mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"))
                 mw.drag.toolbar_modules(el);
+
               }, 200);
            }
         });
@@ -1256,6 +1259,7 @@ mw.drag = {
 	 * @return void
 	 */
 	load_new_modules: function (callback) {
+	    mw.pauseSave = true;
         var need_re_init = false;
 		$(".module-item", '.edit').each(function (c) {
 
@@ -1263,6 +1267,7 @@ mw.drag = {
                   selector:this,
                   done:function(module){
                     mw.drag.fancynateLoading(module);
+                     mw.pauseSave = false;
                   }
                 }, true);
 			need_re_init = true;
@@ -1584,8 +1589,8 @@ module_settings: function(a) {
 
 
   save: function(el, callback, is_draft) {
-
-
+  var is_draft = is_draft || false;
+  if( mw.isDrag || mw.pauseSave ) return false;
 
 if(typeof el === 'object'){
   if($(el).hasClass('disabled')){
@@ -1613,7 +1618,7 @@ if(typeof el === 'object'){
 
 
 
-    if(is_draft !== undefined  ){
+    if(is_draft){
           $(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
 
           $(".edit.changed").removeClass("changed");
@@ -1624,10 +1629,6 @@ if(typeof el === 'object'){
 
         $(".edit.orig_changed", doc).addClass('changed').removeClass('orig_changed');
         var edits = $(".edit.changed", doc);
-
-
-
-
 
     }
 
@@ -1669,12 +1670,11 @@ if(typeof el === 'object'){
 
     });
 
-    if(mw.tools.isEmptyObject(master) == false ){
-        if(is_draft !== undefined  ){
-         master['is_draft']  = true;
 
-         //d(is_draft);
-        }
+    if(mw.tools.isEmptyObject(master) == false ){
+            if(is_draft){
+             master['is_draft']  = true;
+            }
 
 
           $.ajax({
@@ -1689,15 +1689,15 @@ if(typeof el === 'object'){
             success: function(data) {
 
               mw.history.init();
-
-              mw.askusertostay = false;
-
+              if(!is_draft){
+                mw.askusertostay = false;
+              }
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);
 
               }
-              if(is_draft !== undefined){
+              if(is_draft){
                 $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
 
               } else {
@@ -1712,6 +1712,13 @@ if(typeof el === 'object'){
 
             }
           });
+    }
+    else{
+      if(typeof el === 'object'){
+                var html  = $(el).dataset("html");
+                $(el).removeClass('disabled').html(html);
+
+              }
     }
 
 

@@ -81,7 +81,7 @@
 
 mw_save_draft_int = self.setInterval(function(){
 
-   mw.drag.save(false,false,true)
+   mw.drag.save(mwd.getElementById('main-save-btn'),false,true)
 
 },3000);
 
@@ -112,6 +112,17 @@ mw_save_draft_int = self.setInterval(function(){
 <div id="mw-toolbar-right" class="mw-defaults">
 
 
+<div class="mw-ui-dropdown right">
+          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" title="History"><span class="ico ihistory" style="height: 22px;"></span></a>
+          <div class="mw-dropdown-content"style="width: 150px;right: -50px;left: auto;">
+            <ul class="mw-dropdown-list">
+                <li>
+                    <div id="mw-history-panel"></div>
+                </li>
+            </ul>
+          </div>
+        </div>
+
       <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
 
 
@@ -139,16 +150,7 @@ mw_save_draft_int = self.setInterval(function(){
 
 
 
-        <div class="mw-ui-dropdown">
-          <a class="mw-ui-btn mw-btn-single-ico" title="History"><span class="ico ihistory" style="height: 22px;"></span></a>
-          <div class="mw-dropdown-content">
-            <ul class="mw-dropdown-list" style="width: 200px;">
-                <li>
-                    <div id="mw-history-panel"></div>
-                </li>
-            </ul>
-          </div>
-        </div>
+
 
 
       </div>

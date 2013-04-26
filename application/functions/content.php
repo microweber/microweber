@@ -2458,6 +2458,7 @@ function save_content($data, $delete_the_cache = true) {
 
  //$data_to_save['debug'] = 1;
 	$cats_modified = true;
+	$data_to_save['updated_on'] = date("Y-m-d H:i:s");
 	$save = save_data($table, $data_to_save);
 
 	if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
