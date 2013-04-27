@@ -223,7 +223,7 @@ mw.wysiwyg = {
       var mw_editor_btns = mw.$(selector);
       mw_editor_btns.bind("mousedown mouseup click", function(event){
           event.preventDefault();
-          if(event.type=='mouseup'){
+          if(event.type=='mouseup' && !$(this).hasClass('disabled')){
              var command = $(this).dataset('command');
               if(!command.contains('custom-')){
                  mw.wysiwyg._do(command);
@@ -235,7 +235,7 @@ mw.wysiwyg = {
               $(this).removeClass("mw_editor_btn_mousedown");
               $(this).addClass("mw_editor_btn_active");
           }
-          if(event.type=='mousedown'){
+          if(event.type=='mousedown' && !$(this).hasClass('disabled')){
               $(this).addClass("mw_editor_btn_mousedown");
           }
       });
@@ -671,15 +671,46 @@ mw.wysiwyg = {
     format:function(command){
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
-    historyUndo:function(){
+    _undo:true,
+    _redo:false,
+    undoRedoFixes:function(){
+        var curr = mw.historyActive;
+        var len  = mw.tools.objLenght(mw.undoHistory);
+        if(typeof mw.undoHistory[curr] === 'undefined' && curr > 0){
+            mw.$(".mw_editor_undo").addClass("disabled");
+            mw.$(".mw_editor_redo").removeClass("disabled");
+        }
+        if(typeof mw.undoHistory[curr] === 'undefined' && curr < 0){
+            mw.$(".mw_editor_undo").removeClass("disabled");
+            mw.$(".mw_editor_redo").addClass("disabled");
+        }
 
-       // mw.history.load('<? print ($item['id']) ?>')
+        if(typeof mw.undoHistory[curr] !== 'undefined' && curr > 0 && curr < len){
+            mw.$(".mw_editor_undo").removeClass("disabled");
+            mw.$(".mw_editor_redo").removeClass("disabled");
+        }
+    },
+    historyUndo:function(){
+      if(typeof mw.undoHistory === 'object'){
+        var len = mw.tools.objLenght(mw.undoHistory);
+         if( len > 0 ){
+            var active = mw.historyActive ++;
+         }
+         mw.history.load(mw.undoHistory[active]);
+         mw.wysiwyg.undoRedoFixes()
+        }
     },
     historyRedo:function(){
-
+      if(typeof mw.undoHistory === 'object'){
+        var len = mw.tools.objLenght(mw.undoHistory);
+         if( len > 0 ){
+            var active = mw.historyActive --;
+         }
+         mw.history.load(mw.undoHistory[active]);
+         mw.wysiwyg.undoRedoFixes()
+      }
     },
     set_cursor : function(before_after, element){     //return false;      //Currently disabled - gives errors
-
         var el = $(element)[0];
         var range = document.createRange();
         if(before_after=='after'){

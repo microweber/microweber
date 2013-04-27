@@ -717,9 +717,15 @@ function safe_redirect($url) {
 }
 
 function session_set($name, $val) {
+	
+	
+	
 	if (!headers_sent()) {
 		if (!isset($_SESSION)) {
+			session_set_cookie_params(86400);
+			ini_set('session.gc_maxlifetime', 86400);
 			session_start();
+			$_SESSION['ip']=USER_IP;
 		}
 		if ($val == false) {
 			session_del($name);
@@ -727,6 +733,7 @@ function session_set($name, $val) {
 			$is_the_same = session_get($name);
 			if ($is_the_same != $val) {
 				$_SESSION[$name] = $val;
+				//$_SESSION['ip']=USER_IP;
 			}
 		}
 	}
@@ -736,13 +743,28 @@ function session_get($name) {
 	if(!defined('MW_NO_SESSION')){
 		if (!headers_sent()) {
 			if (!isset($_SESSION)) {
+				//return false;
 				session_start();
+				  //d($_SESSION);
+				//$_SESSION['ip']=USER_IP;
 			}
 		}
 	// probable timout here?!
 	}
 	//
 	if (isset($_SESSION) and isset($_SESSION[$name])) {
+		
+		
+		if(!isset($_SESSION['ip'])){
+			  $_SESSION['ip']=USER_IP;
+		} else if($_SESSION['ip'] != USER_IP){
+			
+			session_end();
+			return false;
+		}
+		
+		
+		
 		return $_SESSION[$name];
 	} else {
 		return false;
@@ -756,8 +778,15 @@ function session_del($name) {
 }
 
 function session_end() {
+	setcookie (session_id(), "", time() - 3600);
+ 
+
+
 	$_SESSION = array();
 	session_destroy();
+	session_write_close();
+	unset($_SESSION);
+	
 }
 
 

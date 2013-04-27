@@ -61,13 +61,14 @@ foreach ($history_files as $value) {
 
     <script  type="text/javascript">
 
+     mw.historyActive = typeof mw.historyActive === 'number' ? mw.historyActive : 0; 
 
 			mw.undoHistory = {
 
 				<?  $i = 0 ; foreach ($history_files as $value) :  ?>
 				<? print $i ?>:<? print intval($value['id']) ?>,
 				<? $i++; endforeach; ?>
-				active:0
+
 
 			}
 

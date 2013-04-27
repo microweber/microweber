@@ -1250,6 +1250,15 @@ mw.tools = {
      }
      return true;
   },
+  objLenght:function(obj){
+    var len = 0, x;
+    if(obj.constructor === {}.constructor){
+        for (var x in obj) {
+            len++;
+        }
+    }
+    return len;
+  },
   scaleTo:function(selector, w, h){
     var w = w || 800;
     var h = h || 600;
