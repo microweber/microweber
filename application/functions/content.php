@@ -3892,3 +3892,29 @@ function static_page_get($params = false){
 	}
 
 }
+
+
+
+function get_ref_page() {
+	$ref_page = $_SERVER ['HTTP_REFERER'];
+	
+	if ($ref_page != '') {
+		$page = get_page_by_url($ref_page);
+		return $page;
+	}
+	return false;
+
+}
+
+function get_ref_post() {
+	$ref_page = $_SERVER ['HTTP_REFERER'];
+	//p($ref_page);
+	 // $CI = get_instance ();
+	if ($ref_page != '') {
+$page = get_content_by_url($ref_page);
+		
+				return $page;
+	}
+	return false;
+
+}

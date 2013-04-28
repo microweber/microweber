@@ -24,11 +24,11 @@ description: shop layout
         <div class="edit"  field="content" rel="post">
           <div class="row">
             <div class="span5">
-              <module type="pictures" data-content-id="<? print POST_ID ?>" template="product_gallery" id="test1" />
+              <module type="pictures" rel="post" template="product_gallery" id="test1" />
             </div>
             <div class="span4 product-description">
               <p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative &amp; <strong style="font-weight: 600">Make Web</strong>.</p>
-              <module type="shop/cart_add" data-content-id="<? print POST_ID; ?>" />
+              <module type="shop/cart_add" rel="post" />
             </div>
             <p class="element">&nbsp;</p>
             

@@ -159,8 +159,7 @@ class MwController {
 					$inherit_from = get_content_by_id($_GET["inherit_template_from"]);
 					if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
 						$page['active_site_template'] = $inherit_from['active_site_template'];
-						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
-						;
+						$is_layout_file = $page['layout_file'] = $inherit_from['layout_file']; ;
 					}
 				}
 
@@ -498,10 +497,8 @@ class MwController {
 
 					$isolated_el = pq($elem) -> htmlOuter();
 					$isolated_body = pq('body') -> eq(0) -> html($isolated_el);
-					$body_new = $isolated_body -> htmlOuter();
-					;
-					$l = pq(0) -> htmlOuter();
-					;
+					$body_new = $isolated_body -> htmlOuter(); ;
+					$l = pq(0) -> htmlOuter(); ;
 
 					// $body_new = pq('body') ->  eq(0) -> replaceWith('asdasd');
 					//$l = $isolated_head.$body_new;
@@ -797,8 +794,8 @@ class MwController {
 		$try_class_func = array_pop($mod_api_class);
 		$mod_api_class = implode(DS, $mod_api_class);
 		$mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
-		$mod_api_class_native = normalize_path(MW_APPPATH_FULL .'classes'.DS. $mod_api_class, false) . '.php';
-//d($mod_api_class1);
+		$mod_api_class_native = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class, false) . '.php';
+		//d($mod_api_class1);
 		$try_class = str_replace('/', '\\', $mod_api_class);
 		if (class_exists($try_class, false)) {
 			$caller_commander = 'class_is_already_here';
@@ -810,7 +807,7 @@ class MwController {
 				include_once ($mod_api_class1);
 			} else if (is_file($mod_api_class_native)) {
 				$mod_class_api = true;
- 				include_once ($mod_api_class_native);
+				include_once ($mod_api_class_native);
 			}
 		}
 		$api_exposed = '';
@@ -888,9 +885,6 @@ class MwController {
 				break;
 
 			default :
-
-
-
 				if ($mod_class_api == true and $mod_api_class != false) {
 
 					$try_class = str_replace('/', '\\', $mod_api_class);
@@ -957,8 +951,8 @@ class MwController {
 
 							$res = new $try_class($data);
 							if (method_exists($res, $try_class_func)) {
-							//	d($res);
-//exit();
+								//	d($res);
+								//exit();
 								$res = $res -> $try_class_func($data);
 								$mod_class_api_called = true;
 
@@ -1306,9 +1300,7 @@ class MwController {
 			if ($is_rel == 'page') {
 				$test = get_ref_page();
 				if (!empty($test)) {
-					if ($data['page_id'] == false) {
-						//   $data['page_id'] = $test['id'];
-					}
+					//$data['data-content-id'] = $test['id'];
 				}
 
 			}
@@ -1317,9 +1309,8 @@ class MwController {
 				// $refpage = get_ref_page ();
 				$refpost = get_ref_post();
 				if (!empty($refpost)) {
-					if ($data['post_id'] == false) {
-						// $data['post_id'] = $refpost['id'];
-					}
+					//$data['data-content-id'] = $refpost['id'];
+
 				}
 			}
 
@@ -1327,9 +1318,7 @@ class MwController {
 				// $refpage = get_ref_page ();
 				$refpost = get_ref_post();
 				if (!empty($refpost)) {
-					if ($data['post_id'] == false) {
-						//  $data['post_id'] = $refpost['id'];
-					}
+
 				}
 			}
 		}

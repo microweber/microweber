@@ -6,7 +6,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 	$arr['limit'] = '1';
 	$arr['rel_id'] = $content_id;
 	$imgages = get_pictures($arr);
-
+ 
 	if ($imgages != false and isset($imgages[0])) {
 		if (isset($imgages[0]['filename']) and $full == false) {
 			return $imgages[0]['filename'];

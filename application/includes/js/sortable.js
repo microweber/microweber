@@ -1618,21 +1618,21 @@ if(typeof el === 'object'){
 
 
 
-    if(is_draft){
-          $(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
-
-          $(".edit.changed").removeClass("changed");
-
-         var edits = $(".edit.changed_draft", doc);
+    if(is_draft != undefined && is_draft != false){
+          //$(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
+          //$(".edit.changed").removeClass("changed");
+          $(".edit.changed", doc).addClass('changed_draft');
+          var edits = $(".edit.changed_draft", doc);
 
     } else {
 
-        $(".edit.orig_changed", doc).addClass('changed').removeClass('orig_changed');
+        //$(".edit.orig_changed", doc).addClass('changed').removeClass('orig_changed');
         var edits = $(".edit.changed", doc);
+
 
     }
 
-//d(edits);
+//
 
     var master = {};
 
@@ -1672,7 +1672,7 @@ if(typeof el === 'object'){
 
 
     if(mw.tools.isEmptyObject(master) == false ){
-            if(is_draft){
+            if(is_draft && is_draft != false){
              master['is_draft']  = true;
             }
 
@@ -1697,7 +1697,7 @@ if(typeof el === 'object'){
                 $(el).removeClass('disabled').html(html);
 
               }
-              if(is_draft){
+              if(is_draft && is_draft != false){
                 $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
 
               } else {
