@@ -1,6 +1,6 @@
 <?
 
-if (!defined('APC_CACHE')) {
+/*if (!defined('APC_CACHE')) {
 
 	$apc_exists = function_exists('apc_fetch');
 
@@ -20,12 +20,12 @@ if (!defined('APC_CACHE')) {
 	//$apc_exists = isset($_GET['test_cookie']);
 	//d($apc_exists);
 	define("APC_CACHE", $apc_exists);
-}
+}*/
   $_mw_cache_obj = false;
 $enable_server_cache_storage = static_option_get('enable_server_cache_storage', 'server');
 if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'default') {
 	if ($enable_server_cache_storage != 'default') {
-		$cache_storage_type = "mw\cache\\" . trim($enable_server_cache_storage);
+		$cache_storage_type = "\mw\cache\\" . trim($enable_server_cache_storage);
 
 		try {
 			$_mw_cache_obj = new $cache_storage_type;
@@ -36,7 +36,7 @@ if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'd
 	}
 } else {
 
-	
+
 }
 
 if ($_mw_cache_obj == false) {
@@ -44,8 +44,8 @@ if ($_mw_cache_obj == false) {
 		if ($apc_exists == true) {
 					$_mw_cache_obj = new mw\cache\apc();
 				} else {*/
-		
-			$_mw_cache_obj = new mw\cache\files();
+
+			$_mw_cache_obj = new mw\cache\Files();
 
 	//	}
 	}

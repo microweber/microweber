@@ -3,7 +3,7 @@ namespace mw\cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
-class apc implements \iMwCache {
+class Apc   {
 	public $mw_cache_mem = array();
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {

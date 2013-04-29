@@ -1,14 +1,45 @@
 <?
+
 namespace mw\cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
-class files implements \iMwCache {
+
+
+
+if (!defined('APC_CACHE')) {
+
+	$apc_exists = function_exists('apc_fetch');
+  	if (isset($_POST) and isarr($_POST)) {
+		$apc_exists = false;
+	}
+	// $apc_exists = false;
+
+	define("APC_CACHE", $apc_exists);
+
+	if (!defined('APC_EXPIRES')) {
+
+	define("APC_EXPIRES", 30);
+	}
+if (defined('APC_CACHE') and APC_CACHE == true) {
+
+
+		}
+
+
+}
+
+
+
+class Files    {
 	public $mw_cache_mem = array();
 	public $mw_cache_mem_hits = array();
 	private $mw_cache_lock_timeout = 3;
 	private $mw_cache_lock_time = false;
 	private $time_now = false;
+
+
+
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {
 
@@ -34,6 +65,13 @@ class files implements \iMwCache {
 	}
 
 	public function delete($cache_group = 'global') {
+		$apc_obj = false;
+		if (defined('APC_CACHE') and APC_CACHE == true) {
+			 $apc_obj = new \mw\cache\Apc();
+			 $apc_obj_gt = $apc_obj->delete($cache_group );
+		}
+
+
 
 		$this -> cache_clean_group($cache_group);
 
@@ -46,6 +84,20 @@ class files implements \iMwCache {
 	}
 
 	public function get($cache_id, $cache_group = 'global', $time = false) {
+
+		$apc_obj = false;
+		if (defined('APC_CACHE') and APC_CACHE == true) {
+			 $apc_obj = new \mw\cache\Apc();
+
+			 $apc_obj_gt = $apc_obj->get($cache_id, $cache_group, $time);
+			 if($apc_obj_gt != false){
+			 	return $apc_obj_gt;
+			 }
+		 }
+
+
+
+
 
 		$dir_lock = $this -> cache_get_dir('delete_lock');
 		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
@@ -62,12 +114,22 @@ class files implements \iMwCache {
 				@unlink($cache_group_lock);
 			}
 		}
+		$ret=$this -> cache_get_content($cache_id, $cache_group, $time);
 
-		return $this -> cache_get_content($cache_id, $cache_group, $time);
+		if($apc_obj != false){
+			$apc_obj->save($ret, $cache_id, $cache_group);
+		}
+
+		return $ret;
 
 	}
 
 	public function purge() {
+		$apc_obj = false;
+		if (defined('APC_CACHE') and APC_CACHE == true) {
+			 $apc_obj = new \mw\cache\Apc();
+			 $apc_obj_gt = $apc_obj->purge();
+		}
 
 		return $this -> clearcache();
 	}
@@ -312,7 +374,7 @@ class files implements \iMwCache {
 				if (isset($get_file) == true and is_file($get_file)) {
 
 					$cache = @file_get_contents($cache_file);
-					
+
 
 				} else {
 					//d($cache_file);
@@ -575,8 +637,8 @@ class files implements \iMwCache {
 	}
 
 	function clearcache() {
-		$start = microtime_float(); 
-		
+		$start = microtime_float();
+
 		if (MW_IS_INSTALLED == false) {
 
 			$this -> recursive_remove_from_cache_index(CACHEDIR, true);
@@ -584,17 +646,17 @@ class files implements \iMwCache {
 		}
 		if (is_admin() == false) {
  			return array('error' => 'Not logged in as admin.');
-			
+
 		}
 
 		$this -> recursive_remove_from_cache_index(CACHEDIR, true);
 
 		$this -> recursive_remove_from_cache_index(CACHEDIR_ROOT, true);
-		$end = microtime_float(); 
+		$end = microtime_float();
 
- 
+
   return array('success' => 'Cache is cleared for ' . round($end - $start, 3) . ' seconds');
-		
+
  	}
 
 	function recursive_remove_from_cache_index($directory, $empty = true) {
