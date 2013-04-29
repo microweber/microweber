@@ -73,8 +73,6 @@ if($data == false or empty($data )){
   $parent_cont = get_content_by_id($params["parent-page-id"]);
       if(isarr($parent_cont) and isset($parent_cont['active_site_template'])){
 
-
-
 //    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
 
 
@@ -106,12 +104,12 @@ if(isset($params["data-is-shop"])){
 if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
 
   $is_shop_exist = get_content('is_shop=y&count=1');
-  if($is_shop_exist == 0){
+  if($is_shop_exist != 0){
    // $is_shop_exist = get_content('is_shop=y&count=1');
     mw_create_default_content('shop');
     $is_shop_exist = get_content('is_shop=y&limit=1');
     if(isarr($is_shop_exist)){
-      $params['parent-page-id'] = $data['parent_id'] = $is_shop_exist[0]['id'];
+      $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
   } else {
 
@@ -124,6 +122,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
 
 
   }
+
 } else {
 
   if(isset($edit_post_mode) and $edit_post_mode == true){
@@ -163,10 +162,6 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
      }
 
    }
-
-
-
-
    if(isarr($is_blog_exist)){
        // $params['parent-page-id'] = $data['parent_id'] = $data['parent'] = $is_blog_exist[0]['id'];
      $data['parent'] = $is_blog_exist[0]['id'];
@@ -734,7 +729,7 @@ load_preview();
   <? if($edit_post_mode != false): ?>
   <a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
   <?php _e("Add to Page &amp; Category"); ?>
-  </a> 
+  </a>
   <small class="right mw-help" data-help="Please choose parent page and categories for this <? print $data['content_type'] ?>.">(?)</small>
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">

@@ -1,6 +1,20 @@
 <?
 
   $no_img = false;
+  
+  
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')){
+	$params['rel'] = POST_ID; 
+	$params['for'] = 'content';
+}
+
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')){
+	$params['rel'] = PAGE_ID; 
+	$params['for'] = 'content';
+}
+
+
+
 if(!isset($params['rel_id'])){
 	$params['rel_id'] = $params['id']; 
 }
@@ -10,6 +24,8 @@ if(isset($params['for'])){
 } else {
  $for = 'modules';	
 }
+
+
 
 
 if(get_option('data-use-from-post', $params['id']) =='y'){

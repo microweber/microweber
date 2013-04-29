@@ -1,5 +1,6 @@
 <?php
 ini_set("memory_limit", "160M");
+ini_set("set_time_limit",0);
 date_default_timezone_set('America/Los_Angeles');
 
 function getfile($requestUrl, $save_to_file = false) {
@@ -18,42 +19,61 @@ function getfile($requestUrl, $save_to_file = false) {
 
 	//..file_put_contents($dir . substr($url, strrpos($url, '/'), strlen($url)), file_get_contents($url));
 }
+ 
+$y = site_url();
 
+$y = str_replace(basename(__FILE__), '', $y);
+$y = str_replace('?/', '', $y);
+
+ //$y = str_replace('//', '/', $y);
+ 
 $do = false;
 $done = false;
 if (isset($_REQUEST['action'])) {
 	$do = $_REQUEST['action'];
 }
+$dir = dirname(__FILE__);
 switch ($do) {
+	 
 	case 'download' :
-		$dir = dirname(__FILE__);
+	case 'download_and_unzip' :
 
-		$latest_url = "http://api.microweber.net/service/update/?api_function=latest";
-		$latest_url = getfile($latest_url);
-		if ($latest_url != false) {
-			$latest_url = json_decode($latest_url, 1);
-		}
-		if ($latest_url != false and isset($latest_url['core_update'])) {
-			$url = $latest_url['core_update'];
+	$latest_url = "http://api.microweber.net/service/update/?api_function=latest";
+	$latest_url = getfile($latest_url);
+	if ($latest_url != false) {
+		$latest_url = json_decode($latest_url, 1);
+	}
+	if ($latest_url != false and isset($latest_url['core_update'])) {
+		$url = $latest_url['core_update'];
 
-			$fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
-			getfile($url, $fn);
-		}
-		break;
+		$fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
+		getfile($url, $fn);
+		
+	}
+	
+	if($do == 'download_and_unzip'){
+	 header('Location: '.$y.basename(__FILE__).'?action=unzip');
+	exit();
+		
+	}
+	
+	
+	
+	break;
 
 	case 'unzip' :
-		set_time_limit(0);
-		$dir = dirname(__FILE__);
-		$fn = ('mw-latest.zip');
+	set_time_limit(0);
+	$dir = dirname(__FILE__);
+	$fn = ('mw-latest.zip');
 
-		$zip_dir = basename('mw-latest.zip');
+	$zip_dir = basename('mw-latest.zip');
 		//get filename without extension fpr directory creation
 
-		$unzip = new Unzip();
+	$unzip = new Unzip();
 
-		$unzip -> extract($dir . DIRECTORY_SEPARATOR . $fn);
+	$unzip -> extract($dir . DIRECTORY_SEPARATOR . $fn);
 
-		$done = true;
+	$done = true;
 		///   unlink($upload_dir . '/' . $filename); //delete uploaded file
 		//        $zip = new ZipArchive;
 		//        $res = $zip->open('mw-latest.zip');
@@ -64,38 +84,92 @@ switch ($do) {
 		//        } else {
 		//              echo 'failed';
 		//        }
-		break;
+	break;
+	
 
 	default :
-		break;
+	
+	
+	break;
 }
-?>
 
+
+
+
+?>
 <?
 if ($done == false):
+
+$check_pass = true;
+$server_check_errors = array();
+
+if (version_compare(phpversion(), "5.3.0", "<=")) {
+	$check_pass = false;
+	$server_check_errors['php_version'] = 'You must run PHP 5.3 or greater';
+}
+if (!ini_get('allow_url_fopen')) {
+	$check_pass = false;
+
+	$server_check_errors['allow_url_fopen'] =  'You must enable allow_url_fopen from php.ini';
+}
+$here = dirname(__FILE__).DIRECTORY_SEPARATOR.uniqid();
+if (is_writable($here)) {
+	$check_pass = false;
+
+	$server_check_errors['not_wrtiable'] =  'The current directory is not writable';
+}
+if (!ini_get('short_open_tag')) {
+	$check_pass = false;
+
+	$server_check_errors['short_open_tag'] =  'You must enable short_open_tag from php.ini';
+}
+
+if(function_exists('apache_get_modules') ){
+	$check_pass = false;
+
+	 if(!in_array('mod_rewrite',apache_get_modules())){
+		$server_check_errors['mod_rewrite'] =  'mod_rewrite is not enabled on your server';
+	 }
+}
+
+
+
+
 ?>
 
 <form>
-	<input type="radio" name="action" value="download">
-	download
-
-	<input type="radio" name="action" value="unzip">
-	unzip
-	<input type="submit" name="submit" value="submit">
-
+  <? if($check_pass == false): ?>
+  <? if(!empty($server_check_errors)): ?>
+  <h3>Server check</h3>
+  <h4>There are some errors on your server that will prevent Microweber from working properly</h4>
+  <table border=1>
+    <? foreach($server_check_errors as $server_check_error): ?>
+    <tr>
+      <td><? print $server_check_error; ?></td>
+    </tr>
+    <? endforeach ?>
+  </table>
+  <?  endif; ?>
+  <? else: ?>
+  <h2>Welcome to Microweber web install</h2>
+  <p>This file will download the latest version and redirect you to the install page</p>
+  <p> By downloading and installing Microweber you agree to the<br>
+    <a href="http://microweber.com/license.txt">License Agreement</a> </p>
+  
+  <!--    
+  <input type="radio" name="action" value="download">
+   
+  <input type="radio" name="action" value="unzip">
+     <input type="radio" name="action"  value="download_and_unzip">-->
+  
+  <input type="hidden" name="action"  value="download_and_unzip">
+  <input type="submit" name="submit" value="Download and install Microweber">
+  <?  endif; ?>
 </form>
 <? else: ?>
-<?
-$y = site_url();
-
-$y = str_replace(basename(__FILE__), '', $y);
-$y = str_replace('?/', '', $y);
-//$y = str_replace('//', '/install', $y);
-?>
 
 <h2>Done, <a href="<? print $y ?>/install">click here to continue</a></h2>
 <? unlink(__FILE__); ?>
-
 <? endif; ?>
 <?php
 
@@ -474,40 +548,40 @@ class Unzip {
 	private function _uncompress($content, $mode, $uncompressed_size, $target_file_name = FALSE) {
 		switch ($mode) {
 			case 0 :
-				return $target_file_name ? file_put_contents($target_file_name, $content) : $content;
+			return $target_file_name ? file_put_contents($target_file_name, $content) : $content;
 			case 1 :
-				$this -> set_error('Shrunk mode is not supported... yet?');
-				return FALSE;
+			$this -> set_error('Shrunk mode is not supported... yet?');
+			return FALSE;
 			case 2 :
 			case 3 :
 			case 4 :
 			case 5 :
-				$this -> set_error('Compression factor ' . ($mode - 1) . ' is not supported... yet?');
-				return FALSE;
+			$this -> set_error('Compression factor ' . ($mode - 1) . ' is not supported... yet?');
+			return FALSE;
 			case 6 :
-				$this -> set_error('Implode is not supported... yet?');
-				return FALSE;
+			$this -> set_error('Implode is not supported... yet?');
+			return FALSE;
 			case 7 :
-				$this -> set_error('Tokenizing compression algorithm is not supported... yet?');
-				return FALSE;
+			$this -> set_error('Tokenizing compression algorithm is not supported... yet?');
+			return FALSE;
 			case 8 :
 				// Deflate
-				return $target_file_name ? file_put_contents($target_file_name, gzinflate($content, $uncompressed_size)) : gzinflate($content, $uncompressed_size);
+			return $target_file_name ? file_put_contents($target_file_name, gzinflate($content, $uncompressed_size)) : gzinflate($content, $uncompressed_size);
 			case 9 :
-				$this -> set_error('Enhanced Deflating is not supported... yet?');
-				return FALSE;
+			$this -> set_error('Enhanced Deflating is not supported... yet?');
+			return FALSE;
 			case 10 :
-				$this -> set_error('PKWARE Date Compression Library Impoloding is not supported... yet?');
-				return FALSE;
+			$this -> set_error('PKWARE Date Compression Library Impoloding is not supported... yet?');
+			return FALSE;
 			case 12 :
 				// Bzip2
-				return $target_file_name ? file_put_contents($target_file_name, bzdecompress($content)) : bzdecompress($content);
+			return $target_file_name ? file_put_contents($target_file_name, bzdecompress($content)) : bzdecompress($content);
 			case 18 :
-				$this -> set_error('IBM TERSE is not supported... yet?');
-				return FALSE;
+			$this -> set_error('IBM TERSE is not supported... yet?');
+			return FALSE;
 			default :
-				$this -> set_error('Unknown uncompress method: $mode');
-				return FALSE;
+			$this -> set_error('Unknown uncompress method: $mode');
+			return FALSE;
 		}
 	}
 

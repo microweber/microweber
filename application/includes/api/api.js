@@ -161,6 +161,7 @@ window.onerror = function(a,b,c){
   }
 
   mw.settings = {
+    user:"<?php print user_name(); ?>",
     debug: true,
     site_url: '<?php print site_url(); ?>',
     //mw.settings.site_url

@@ -39,11 +39,9 @@
       </ul>
     </div>
 
-   
-    
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
-        <li><a href="<?php print admin_url(); ?>"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
+        <li><a href="<?php print site_url(); ?>service/frames/report.php" onclick="mw.contact.report(this.href);return false;"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
         <li><a href="<?php print admin_url(); ?>"><span class="ico isuggest"></span><span>Suggest feature</span></a></li>
         <? if(is_module('help')): ?>
         <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>

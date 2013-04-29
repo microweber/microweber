@@ -1,0 +1,38 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body, textarea, input, select {
+    color: #212121;
+    font: 12px/1.5 Verdana,Arial,Helvetica,sans-serif;
+}
+
+
+.left{
+  float: left !important;
+}
+
+.right{
+  float: right !important;
+}
+
+
+.frame{
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mw-ui-field-holder {
+    padding: 10px 0;
+    position: relative;
+}
+
+#bug-form input[type='text'], #bug-form textarea{
+  width: 440px;
+}
+
+#bug-form textarea{
+   height: 130px;
+}

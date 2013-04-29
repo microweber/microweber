@@ -236,10 +236,6 @@ mw.drag = {
                if(mw.mouse.x % 2 === 0 ){ //not on every pixel
                    //trigger on element
 
-                   if(mw.mm_target.tagName === 'IMG' && !mw.tools.hasParentsWithClass(mw.mm_target, 'module') && !mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
-                     $(window).trigger("onImageOver", mw.mm_target);
-                   }
-
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -945,7 +941,7 @@ mw.drag = {
                   var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                   if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     $(window).trigger("onImageClick", target);
-                   // mw.wysiwyg.select_element(target)
+                    mw.wysiwyg.select_element(target)
                   }
                 }
                 if(target.tagName=='BODY'){
@@ -1623,16 +1619,22 @@ if(typeof el === 'object'){
 
 
     if(is_draft != undefined && is_draft != false){
-          //$(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
+           $(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
           //$(".edit.changed").removeClass("changed");
-          $(".edit.changed", doc).addClass('changed_draft');
+
+
+
+         // $(".edit.changed", doc).addClass('changed_draft');
           var edits = $(".edit.changed_draft", doc);
 
     } else {
+         // $(".edit.orig_changed").removeClass("orig_changed").addClass('changed');
+         // $(".edit.changed_draft").removeClass("changed_draft").addClass('changed');;
+         var edits = $(".edit.orig_changed", doc);
+         if(edits.size() == 0){
+           var edits = $(".edit.changed", doc);
 
-        //$(".edit.orig_changed", doc).addClass('changed').removeClass('orig_changed');
-        var edits = $(".edit.changed", doc);
-
+         }
 
     }
 
@@ -1702,8 +1704,10 @@ if(typeof el === 'object'){
 
               }
               if(is_draft && is_draft != false){
-                $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
-
+                 $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
+                // $(".edit.changed").removeClass("changed_draft");
+                //
+                $(".edit.changed").removeClass("changed").addClass('orig_changed');;
               } else {
                  mw.notification.success("All changes are saved.");
                  $(".edit.changed").removeClass("changed");

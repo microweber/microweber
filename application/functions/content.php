@@ -1857,7 +1857,7 @@ function save_edit($post_data) {
 
 						// $to_save['debug'] = $content_id;
 
-							$to_save['page_element_id'] = $page_element_id;
+							//$to_save['page_element_id'] = $page_element_id;
 
 							$is_native_fld = db_get_table_fields('content');
 							if (in_array($field, $is_native_fld)) {

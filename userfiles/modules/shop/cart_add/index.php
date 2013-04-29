@@ -10,7 +10,17 @@ mw.require("events.js", true);
     	});
 </script>
 <?
+$for_id = false;
+$for = 'content';
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')){
+	$params['content-id'] = POST_ID; 
+	$for = 'content';
+}
 
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')){
+	$params['content-id'] = PAGE_ID; 
+	$for = 'content';
+}
 
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
@@ -18,8 +28,7 @@ if($module_template == false and isset($params['template'])){
 } 
 
 
-$for_id = false;
-$for = 'content';
+
 
 if($module_template != false and $module_template != 'none'){
 		$template_file = module_templates( $config['module'], $module_template);

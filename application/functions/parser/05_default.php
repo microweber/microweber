@@ -18,8 +18,7 @@ if ($layout != '') {
 		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
 	}
 
-
-	 //$cached = false;
+	//$cached = false;
 	//
 	if (isset($_REQUEST['debug'])) {
 		//$cached = false;
@@ -35,6 +34,9 @@ if ($layout != '') {
 		$layout = $ch;
 	} else {
 		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+		$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+		$layout = htmlspecialchars_decode($layout);
 
 		$pq = phpQuery::newDocument($layout);
 		$els = $pq['.edit'];
@@ -106,7 +108,6 @@ if ($layout != '') {
 			if ($get_global == false) {
 				//  $rel = 'page';
 			}
-
 
 			$try_inherited = false;
 			if ($rel == 'content') {
@@ -227,14 +228,7 @@ if ($layout != '') {
 
 						$cont_field = get_content_field("rel={$rel}&field={$field}");
 
-
-
-
 					}
-
-
-
-
 
 				}
 				if ($cont_field != false) {
@@ -315,7 +309,6 @@ if ($layout != '') {
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
-
 
 				} else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
@@ -438,7 +431,6 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					//$layout = $ch;
 					$val_rep = $value;
 
-					//	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
 					$val_rep = htmlspecialchars_decode($val_rep);
 
 					//$options['no_cache'] = 1;
@@ -447,6 +439,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					//$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
 					$rep = 'mw_replace_back_this_editable_' . $elk . '';
 					//$modified_layout = $rep;
+					//d($val_rep);
 					$modified_layout = str_replace($rep, $val_rep, $modified_layout);
 					//	mw_var($val_rep_parser_mem_crc, $modified_layout);
 
@@ -456,13 +449,17 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 				//$passed_reps[] = $elk_crc;
 				$rep = 'mw_replace_back_this_editable_' . $elk . '';
 				//$modified_layout = $rep;
+
 				$value = htmlspecialchars_decode($value);
+
 				//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
 				$modified_layout = str_replace($rep, $value, $modified_layout);
 			}
 		}
 		// d($modified_layout);
 		$layout = $modified_layout;
+		$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+		$layout = htmlspecialchars_decode($layout);
 		//}
 	} elseif (isset($mw_to_cache['new'])) {
 		//d($layout);

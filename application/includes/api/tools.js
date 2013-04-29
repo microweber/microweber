@@ -232,7 +232,6 @@ mw.tools = {
           html:frame,
           width:obj.width,
           height:obj.height,
-          callback:obj.callback,
           title:obj.title,
           name:obj.name,
           overlay:obj.overlay,
@@ -242,7 +241,10 @@ mw.tools = {
             $(modal.main).addClass("mw_modal_type_iframe");
             $(modal.container).css("overflow", "hidden");
             modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
-            $(modal.main).find("iframe").eq(0).height($(modal.main).find(".mw_modal_container").height())
+            $(modal.main).find("iframe").eq(0).height($(modal.main).find(".mw_modal_container").height());
+            modal.main[0].querySelector('iframe').onload = function(){
+                typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';
+            }
         }
 
         return modal;
@@ -2313,6 +2315,23 @@ mw.beforeleave = function(url){
 
 mw.postMsg = function(w, obj){
   w.postMessage(JSON.stringify(obj), window.location.href);
+}
+
+
+mw.contact = {
+    report:function(url){
+      mw.tools.modal.frame({
+            url:url,
+            overlay:true,
+            template:'mw_modal_basic',
+            width:500,
+            height:410,
+            callback:function(){
+               d(this.container.getElementsByTagName('iframe')[0].contentWindow)
+                mw.postMsg(this.container.getElementsByTagName('iframe')[0].contentWindow, {user:mw.settings.user});
+            }
+      })
+    }
 }
 
 
