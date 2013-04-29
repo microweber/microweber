@@ -373,6 +373,9 @@ function save_user($params) {
 
 	$data_to_save = $params;
 
+			if (isset($data_to_save['password'])) {
+				 $data_to_save['password'] = hash_user_pass($data_to_save['password']);
+			}
 	$table = MW_DB_TABLE_USERS;
 	$save = save_data($table, $data_to_save);
 	$id = $save;

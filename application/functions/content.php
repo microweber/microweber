@@ -255,6 +255,7 @@ function define_constants($content = false) {
 				$ref_page = get_content_by_url($ref_page);
 				if(!empty($ref_page)){
 					$content = $ref_page;
+					
 				}
 			}
 		}
@@ -265,8 +266,9 @@ function define_constants($content = false) {
 	$page_data = false;
 	if (is_array($content)) {
 		if (isset($content['id'])) {
-
+$content = get_content_by_id($content['id']);
 			$page = $content;
+			
 		}
 	}
 
@@ -944,9 +946,9 @@ function get_page_by_url($url = '', $no_recursive = false) {
 
 	if (!empty($content)) {
 
-		$get_by_id = get_content_by_id($content['id']);
+		//$get_by_id = $content;
 
-		return $get_by_id;
+		return $content;
 	}
 
 	if ($no_recursive == false) {
@@ -979,9 +981,9 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	} else {
 		$content['id'] = ((int)$content['id']);
 
-		$get_by_id = get_content_by_id($content['id']);
+		//$get_by_id = get_content_by_id($content['id']);
 
-		return $get_by_id;
+		return $content;
 	}
 }
 

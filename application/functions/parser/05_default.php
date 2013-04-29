@@ -11,7 +11,7 @@ if ($layout != '') {
 
 	$do_not_cache = false;
 	if (template_var('content') != false) {
-
+ 
 		$do_not_cache = true;
 		$cached = false;
 	} else {
@@ -390,12 +390,13 @@ if ($layout != '') {
 			//d($mw_to_cache);
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
 			if ($do_not_cache == false) {
+				
 				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 			}
 		} else {
 			$mw_to_cache['new'] = $layout;
-
-			//..cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+ //as of beta
+		 cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
 		}
 	}

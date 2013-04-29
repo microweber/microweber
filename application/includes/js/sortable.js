@@ -1638,7 +1638,7 @@ if(typeof el === 'object'){
            var edits = $(".edit.orig_changed", doc);
 
          }
-		 d(edits);
+		 //d(edits);
         /* var edits = $(".edit.orig_changed", doc);
          */
 
@@ -1660,7 +1660,7 @@ if(typeof el === 'object'){
 		if(partId != undefined){
 			// d(partId);
 			 el = partId;
-			//  d(el);
+			   d(el);
 		}
 		 
 		}
@@ -1743,7 +1743,7 @@ if(typeof el === 'object'){
                 //
                // $(".edit.changed").removeClass("changed").addClass('orig_changed');;
 			 //  $(".edit.changed", doc).addClass('orig_changed');
-			    $(".edit.changed").addClass('orig_changed').removeClass("changed", doc);
+			    $(".edit.changed").addClass('orig_changed').removeClass("changed");
 				
               } else {
                  mw.notification.success("All changes are saved.");

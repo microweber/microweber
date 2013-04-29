@@ -1240,10 +1240,7 @@ function modules_list($options = false) {
 
 action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false) {
-	ini_set("memory_limit", "160M");
-	if (!ini_get('safe_mode')) {
-		set_time_limit(250);
-	}
+	
 	$params = $options;
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
@@ -1320,7 +1317,10 @@ function scan_for_modules($options = false) {
 	} else {
 		$glob_patern = '*config.php';
 	}
-
+ini_set("memory_limit", "160M");
+	if (!ini_get('safe_mode')) {
+		set_time_limit(250);
+	}
 	//clearcache();
 	//clearstatcache();
 

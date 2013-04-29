@@ -14,6 +14,9 @@ C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://localhost/wordpress/?p=4
  C:\xampp\apache\bin\ab.exe -n 2000 -c 100 http://54.243.124.15/
  C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://clould.microweber.net/
 
+ C:\xampp\apache\bin\ab.exe -n 2000 -c 500 http://help.microweber.net/how-to-install-mw
+
+ C:\xampp\apache\bin\ab.exe -n 200 -c 50  http://pecata/Microweber/how-to-install-mw?debug=1
 
 ====================================================================
 

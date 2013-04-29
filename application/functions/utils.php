@@ -733,6 +733,7 @@ function session_set($name, $val) {
 			$is_the_same = session_get($name);
 			if ($is_the_same != $val) {
 				$_SESSION[$name] = $val;
+				session_write_close();
 				//$_SESSION['ip']=USER_IP;
 			}
 		}

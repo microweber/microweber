@@ -352,7 +352,7 @@ class MwController {
 		}
 
 		//
-
+$page = get_content_by_id($page['id']);
 		if ($page['content_type'] == "post" and isset($page['parent'])) {
 			$content = $page;
 			$page = get_content_by_id($page['parent']);
@@ -1298,28 +1298,18 @@ class MwController {
 			//   $data['rel'] = $is_rel;
 
 			if ($is_rel == 'page') {
-				$test = get_ref_page();
-				if (!empty($test)) {
-					//$data['data-content-id'] = $test['id'];
-				}
+				 
 
 			}
 
 			if ($is_rel == 'post') {
 				// $refpage = get_ref_page ();
-				$refpost = get_ref_post();
-				if (!empty($refpost)) {
-					//$data['data-content-id'] = $refpost['id'];
-
-				}
+				 
 			}
 
 			if ($is_rel == 'category') {
 				// $refpage = get_ref_page ();
-				$refpost = get_ref_post();
-				if (!empty($refpost)) {
-
-				}
+				 
 			}
 		}
 

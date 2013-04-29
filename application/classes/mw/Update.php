@@ -7,10 +7,8 @@ class Update {
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
 
 	function __construct() {
-		ini_set("memory_limit", "160M");
-		if (!ini_get('safe_mode')) {
-			set_time_limit(0);
-		}
+		
+		
 	}
 
 	function get_modules() {
@@ -21,6 +19,9 @@ class Update {
 		$a = is_admin();
 		if ($a == false) {
 			error('Must be admin!');
+		}
+		if (!ini_get('safe_mode')) {
+			set_time_limit(0);
 		}
 		$c_id = __FUNCTION__ . date("ymdh");
 		//	$data['layouts'] = $t;
@@ -35,7 +36,7 @@ class Update {
 			}
 
 		}
-
+ini_set("memory_limit", "160M");
 		$data = array();
 		$data['mw_version'] = MW_VERSION;
 
@@ -150,6 +151,9 @@ class Update {
 	}
 
 	function post_update() {
+		if (!ini_get('safe_mode')) {
+			set_time_limit(0);
+		}
 		mw_post_update();
 	}
 
