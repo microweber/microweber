@@ -19,19 +19,19 @@ description: Contact us layout
         <div class="edit">
             <div class="mw-empty"></div>
         </div>
-		<h2 class="section-title">
-    	<div class="mw-row">
-			<div class="mw-col" style="width:40%">
-				<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
-			</div>
-			<div class="mw-col" style="width:20%">
-				<div class="mw-col-container"><h2 align="center" class="edit element" field="title" rel="content">Page Title</h2></div>
-			</div>
-			<div class="mw-col" style="width:40%">
-				<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
-			</div>
-		</div>
-    </h2>
+		<h2 class="edit element section-title">
+        	<div class="mw-row">
+    			<div class="mw-col" style="width:40%">
+    				<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+    			</div>
+    			<div class="mw-col" style="width:20%">
+    				<div class="mw-col-container"><h2 align="center" class="edit element" field="title" rel="content">Page Title</h2></div>
+    			</div>
+    			<div class="mw-col" style="width:40%">
+    				<div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
+    			</div>
+    		</div>
+        </h2>
   <div class="edit" field="content" rel="page">
     <module type="google_maps" />
     <div class="element page-post-content">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</div>

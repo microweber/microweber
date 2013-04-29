@@ -253,6 +253,12 @@ mw.wysiwyg = {
         }
 
 
+      /*
+        if(event.keyCode === 46 && mwd.querySelector('.element-current') !== null && mwd.querySelector('.element-current').tagName === 'IMG'){
+          $(mw.image_resizer).removeClass("active");
+          $(mwd.querySelector('.element-current')).remove();
+          return false;
+        }    */
 
          if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
@@ -516,30 +522,19 @@ mw.wysiwyg = {
     },
 
     link:function(){
-        if(mw.$(".mw_editor_link.mw_editor_btn_active").length>0){
-           mw.wysiwyg.save_selection();
-           mw.tools.modal.frame({
-              url:"rte_link_editor#editlink",
-              title:"",
-              name:"mw_rte_link",
-              template:'mw_modal_simple',
-              width:430,
-              height:300
-           });
-        }
-        else{
-          if(mw.wysiwyg.isThereEditableContent()){
-             mw.wysiwyg.save_selection();
-             mw.tools.modal.frame({
-              url:"rte_link_editor",
-              title:"",
-              name:"mw_rte_link",
-              template:'mw_modal_simple',
-              width:430,
-              height:300
-            });
-         }
-      }
+
+
+         mw.wysiwyg.save_selection();
+         mw.tools.modal.frame({
+          url:"rte_link_editor",
+          title:"",
+          name:"mw_rte_link",
+          template:'mw_modal_simple',
+          width:430,
+          height:300
+        });
+
+
     },
     unlink:function(){
         if(mw.wysiwyg.selection_length()>0){
@@ -559,14 +554,23 @@ mw.wysiwyg = {
           var selection = window.getSelection();
           var range = selection.getRangeAt(0);
           var common = range.commonAncestorContainer;
-          var children = range.cloneContents().childNodes, i=0, l=children.length;
-          if(l>0){
-            for(; i<l;i++){
-               if(children[i].nodeName.toLowerCase()==tag){return children[i]}
-            }
-          }
           var parent = mw.tools.firstParentWithTag(common, [tag]);
           if(!!parent){return parent}
+          if(typeof common.querySelectorAll !== 'undefined'){
+              var items = common.querySelectorAll(tag), l = items.length, i = 0, arr = [];
+              if(l > 0){
+                for( ; i<l; i++){
+                  if( selection.containsNode(items[i], true)) {
+                    arr.push(items[i])
+                  }
+                }
+                if(arr.length > 0){
+                  return arr.length === 1 ? arr[0] : arr;
+                }
+              }
+          }
+
+
           return false;
     },
     image_link:function(url){
@@ -628,13 +632,13 @@ mw.wysiwyg = {
     },
     insert_image:function(url){
         var id = 'image_' + mw.random();
-        var img = '<img id="'+id+'" class="element element-image" src="' + url + '" />';
+        var img = '<img id="'+id+'" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
         //$("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
        // mw.disable_selection("#"+id);
 
-        mw.wysiwyg.set_cursor('after', "#"+ id);
+        //mw.wysiwyg.set_cursor('after', "#"+ id);
         mw.wysiwyg.save_selection();
         return id;
     },

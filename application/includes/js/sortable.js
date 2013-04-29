@@ -236,6 +236,10 @@ mw.drag = {
                if(mw.mouse.x % 2 === 0 ){ //not on every pixel
                    //trigger on element
 
+                   if(mw.mm_target.tagName === 'IMG' && !mw.tools.hasParentsWithClass(mw.mm_target, 'module') && !mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
+                     $(window).trigger("onImageOver", mw.mm_target);
+                   }
+
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -941,7 +945,7 @@ mw.drag = {
                   var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                   if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     $(window).trigger("onImageClick", target);
-                    mw.wysiwyg.select_element(target)
+                   // mw.wysiwyg.select_element(target)
                   }
                 }
                 if(target.tagName=='BODY'){

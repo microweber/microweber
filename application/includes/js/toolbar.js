@@ -214,7 +214,7 @@ mw.image = {
           resizer.className = 'mw_image_resizer';
           resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
-          mw.image_resizer = resizer;
+          mw.image_resizer = resizer
         }
       },
       prepare:function(){
@@ -269,8 +269,15 @@ mw.image = {
                $(mw.image_resizer).resizable( "option", "alsoResize", el);
                $(mw.image_resizer).resizable( "option", "aspectRatio", width/height);
                mw.image.currentResizing = el;
+               el[0].contentEditable = true ;
 
-               mw.wysiwyg.select_element(el[0])
+               if(el[0].parentNode.tagName !== 'A'){
+                  mw.wysiwyg.select_element(el[0]);
+               }
+               else{
+                  mw.wysiwyg.select_all(el[0].parentNode);
+               }
+
 
         // }
          }

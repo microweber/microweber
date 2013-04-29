@@ -671,6 +671,17 @@ mw.tools = {
     });
     return d.toreturn;
   },
+  hasParentsWithTag:function(el, tag){
+    var d = {};
+    d.toreturn = false;
+    mw.tools.foreachParents(el, function(loop){
+        if(this.nodeName === tag){
+            d.toreturn = true;
+            mw.tools.stopLoop(loop);
+        }
+    });
+    return d.toreturn;
+  },
   loop:{/* Global index for MW loops */},
   stopLoop:function(loop){
     mw.tools.loop[loop] = false;
