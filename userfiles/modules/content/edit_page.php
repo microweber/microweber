@@ -112,6 +112,11 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
   } else {
+     mw_create_default_content('shop');
+     $is_shop_exist = get_content('is_shop=y&limit=1');
+    if(isarr($is_shop_exist)){
+      $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
+    }
 
     if(isset($data['parent']) and  intval($data['parent']) == 0){
       $is_shop_exist = get_content('is_shop=y&limit=1');

@@ -78,6 +78,21 @@ $(document).ready(function(){
 </script>
 
 
+<style type="text/css">
+
+#mw-updates-holder{
+  padding: 20px;
+}
+
+#mw-update-table{
+  max-width: 970px;
+}
+
+
+</style>
+
+
+<div id="mw-updates-holder">
 
 <div class="mw-sided">
     <div class="mw-side-left" style="width: 150px;">
@@ -97,6 +112,9 @@ $(document).ready(function(){
 
 
 <module type="updates/list" id="mw-updates" />
+
+
+</div>
 
 
 

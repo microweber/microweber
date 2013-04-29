@@ -262,7 +262,7 @@ if($params['page-id'] == '0'){
  $pt_opts['max_level'] = 1;
 } else {
   $pt_opts['include_first'] = 'yes';
-  
+
 }
 
 
@@ -277,11 +277,11 @@ $pt_opts['include_categories'] = 'yes';
 if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
-  
+
 pages_tree($pt_opts);
-?> 
+?>
   <? else : ?>
-  
+
   <?  if(isset($params['category-id'])):  ?>
   <?
 $pt_opts = array();
@@ -296,7 +296,7 @@ $pt_opts['max_level'] = 2;
 if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
- 
+
 category_tree($pt_opts);
 ?>
   <? endif; ?>

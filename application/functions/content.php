@@ -243,6 +243,7 @@ function mw_db_init_content_table() {
 action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
 function create_mw_default_pages_in_not_exist() {
 	mw_create_default_content('default');
+	//mw_create_default_content('shop');
 
 }
 function define_constants($content = false) {

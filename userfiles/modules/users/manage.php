@@ -70,12 +70,11 @@ $data = get_users($user_params);
   <tbody>
   <? foreach($data  as $item): ?>
      <tr id="mw-admin-user-<?  print $item['id']; ?>">
-          <td >
+          <td width="170">
           
            <span class="mw-user-thumb mw-user-thumb-small">
            <?php if(isset($item['thumbnail']) and trim($item['thumbnail'])!=''): ?>
-           <img style="vertical-align:middle" src="<? print $item['thumbnail'] ?>"  height="24" width="24" />  
-		   
+            <img style="vertical-align:middle" src="<? print $item['thumbnail'] ?>"  height="24" width="24" />
 		   <?php endif; ?>
             </span>
            
@@ -101,10 +100,11 @@ $data = get_users($user_params);
           <td><?  print $item['username']; ?></td>
           <td><?  print $item['email']; ?></td>
           <td align="center"> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
-          <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none"><?php endif; ?></span></td>
+          <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none; "><?php endif; ?></span></td>
           <td>
-            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
             <span class="mw-ui-admin-table-show-on-hover del-row"  onclick="mw_admin_delete_user_by_id('<?  print $item['id']; ?>')"></span>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
+
           </td>
       </tr>
  <? endforeach ; ?>

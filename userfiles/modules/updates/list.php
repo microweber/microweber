@@ -1,4 +1,4 @@
-<?php 
+<?php
 
  only_admin_access();
  $update_api = new \mw\Update();
@@ -12,6 +12,10 @@
 
 
 ?>
+
+
+
+
 <script>
 
 
