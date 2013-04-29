@@ -249,8 +249,8 @@ mw_save_draft_int = self.setInterval(function(){
 </div>
 <!-- /end mw_holder -->
 
-<?php   include "design.php"; ?>
-<?php   include "UI.php"; ?>
+<?php   include INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
+<?php   //include "UI.php"; ?>
 
 <?php } else { ?>
 <script>
