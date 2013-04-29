@@ -1,5 +1,5 @@
 /* Global styles */
-@import 'new_world2.css';
+
 
 body{
   background: #F3F3F3;
@@ -1261,4 +1261,17 @@ input.mw-captcha-input{
 
 .temp_red {
  background-color:red;	
+}
+
+
+.our-team img.img-rounded,
+.our-team img.img-polaroid{
+  margin-bottom: 12px;
+}
+
+.hr-top { margin-top: 0; }
+
+.social-icons2 { 
+	margin: 10px 7px 0 15px;
+	display: inline-block;
 }

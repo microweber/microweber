@@ -3532,7 +3532,10 @@ function mw_create_default_content($what) {
 			}
 				//  d($add_page);
 			$new_shop = save_data('content',$add_page);
-			clearcache();
+		cache_clean_group('content');
+		cache_clean_group('categories');
+				cache_clean_group('custom_fields');
+
 				//
 		} else {
 

@@ -1,15 +1,10 @@
+ 
 
 
  RewriteEngine On
 
 
-
-	RewriteRule ^userfiles/media - [L,NC]
-	RewriteRule ^userfiles/templates - [L,NC]
-	RewriteRule ^application/includes/ - [L,NC]
-
-	RewriteRule ^userfiles/ - [L,NC]
-	RewriteRule ^cache/ - [L,NC]
+ 
 
     #prevents the db from being downloaded
     RewriteCond %{REQUEST_URI} (.*).db [NC]

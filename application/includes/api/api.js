@@ -83,7 +83,7 @@ window.onerror = function(a,b,c){
 (function() {
     mw.required = [];
     mw.require = function(url, inHead) {
-      var inHead = inHead || false;
+      var inHead = inHead || true;
       var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
