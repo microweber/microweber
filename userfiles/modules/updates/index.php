@@ -20,7 +20,16 @@ if(url_param('add_module')){
 
 $(document).ready(function(){
 
-	  mw.$('.mw-check-updates-btn').click(function() {
+	
+
+mw.bind_update_click_btns();
+
+	  });
+	  
+	  
+	  mw.bind_update_click_btns = function(){
+		  
+		  mw.$('.mw-check-updates-btn').click(function() {
       if(!$(this).hasClass("disabled")){
 
           var el = this;
@@ -38,11 +47,8 @@ $(document).ready(function(){
       	  });
 
 
-      }
-
-
-
-	  });
+      }  
+	  }
    
 	 mw.$('.mw-select-updates-list').submit(function() {
 
@@ -63,7 +69,10 @@ $(document).ready(function(){
                  Alert("Updates are successfully installed.")
 				 
 				 $('#number_of_updates').fadeOut();
-				 mw.reload_module('#mw-updates');
+				 mw.reload_module('#mw-updates',function() { 
+				 mw.bind_update_click_btns();
+				 } 
+				 );
 
               });
          }
