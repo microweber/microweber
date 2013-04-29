@@ -4,21 +4,21 @@
 
 
  action_hook('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
-
+ 
 function mw_print_admin_backup_settings_link() {
 
 	if(is_module_installed('admin/backup')){
 
 	$active = url_param('view');
 	$cls = '';
-	$mname = module_name_encode('admin/backup');
+	$mname = module_name_encode('admin/backup/small');
 	if ($active == $mname ) {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
 	$url = admin_url('view:modules/load_module:'.$mname);
-
-	print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
+	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Backup</a></li>";
+	//print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
 	}
 	//$notif_count = get_notifications('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
@@ -127,6 +127,8 @@ function mw_apply_updates($params) {
 function mw_updates_count() {
 	$count = 0;
 	$upd_count = mw_check_for_update();
+	 
+ 
 
 	if (isset($upd_count['modules'])) {
 		$count = $count + sizeof($upd_count['modules']);

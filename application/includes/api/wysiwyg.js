@@ -33,22 +33,19 @@ mw.wysiwyg = {
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
-                    if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) {
-                       //mw.wysiwyg.save_selection();
+                    if(this.querySelector('*') === null && hasAbilityToDropElementsInside(this)) {
 
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
-                      // mw.wysiwyg.restore_selection();
                     }
                 });
                 $(this).mouseenter(function(){
-                   if(this.querySelector('p,div,li') === null && hasAbilityToDropElementsInside(this)) {
+                   if(this.querySelector('*') === null && hasAbilityToDropElementsInside(this)) {
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'&nbsp;</p>';
                     }
                 })
             });
             mw.$(".empty-element, .ui-resizable-handle").each(function(){
                 this.contentEditable = false;
-
             });
             mw.on.moduleReload(function(){
                   mw.wysiwyg.nceui();

@@ -1707,7 +1707,8 @@ if(typeof el === 'object'){
                  $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
                 // $(".edit.changed").removeClass("changed_draft");
                 //
-                $(".edit.changed").removeClass("changed").addClass('orig_changed');;
+               // $(".edit.changed").removeClass("changed").addClass('orig_changed');;
+			    $(".edit.changed").removeClass("changed");
               } else {
                  mw.notification.success("All changes are saved.");
                  $(".edit.changed").removeClass("changed");

@@ -359,8 +359,8 @@ class Backup {
 		//Yes... flush again.
 		session_write_close();
 
-		$back_log_action = "Creating full backup";
-		self::log_bg_action($back_log_action);
+		//$back_log_action = "Creating full backup";
+		//self::log_bg_action($back_log_action);
 		$api = new \mw\utils\Backup();
 		$api -> exec_create_full();
 
@@ -408,7 +408,7 @@ class Backup {
 			only_admin_access();
 
 		}
-		$back_log_action = "Adding userfiles to zip";
+		$back_log_action = "Adding files to zip";
 		$this -> log_action($back_log_action);
 		@ob_end_clean();
 
@@ -432,12 +432,14 @@ class Backup {
 				\n The Microweber version at the time of backup was {MW_VERSION}
 				\nCreated on " . date('l jS \of F Y h:i:s A'));
 		$zip -> addDirectoryContent(MW_USERFILES, '', true);
-
+	$back_log_action = "Adding userfiles to zip";
+		$this -> log_action($back_log_action);
 		$db_file = $this -> create();
 		if (isset($db_file['filename'])) {
 			$filename2 = $here . $db_file['filename'];
 			if (is_file($filename2)) {
-
+	$back_log_action = "Adding sql restore to zip";
+		$this -> log_action($back_log_action);
 				$zip -> addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
 
 			}

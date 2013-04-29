@@ -47,7 +47,7 @@
 			
 			if(_mw_log_reload_int == false){
 						_mw_log_reload_int = true;
-					     mw.reload_module_interval("#mw_backup_log", 3000);
+					     mw.reload_module_interval("#mw_backup_log", 5000);
 					}
 			
 			

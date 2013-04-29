@@ -61,6 +61,9 @@ $(document).ready(function(){
                  mw.tools.enable(mwd.getElementById('installsubmit'));
                  //mw.notification.success("All updates are successfully installed.")
                  Alert("Updates are successfully installed.")
+				 
+				 $('#number_of_updates').fadeOut();
+				 mw.reload_module('#mw-updates');
 
               });
          }

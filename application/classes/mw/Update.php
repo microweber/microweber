@@ -156,6 +156,7 @@ class Update {
 	function install_version($new_version) {
 		only_admin_access();
 		$params = array();
+		set_time_limit(0);
 
 		$params['core_update'] = $new_version;
 		$result = $this -> call('get_download_link', $params);
@@ -186,6 +187,7 @@ class Update {
 	}
 
 	function apply_updates($updates) {
+				set_time_limit(0);
 		$to_be_unzipped = array();
 		$a = is_admin();
 		if ($a == false) {

@@ -47,7 +47,7 @@
     <body>
 <div id="header" class="clearfix">
       <div class="container">
-      <div class="edit" rel="global" field="header">
+      <div class="edit" rel="global" field="header1">
         <div class="mw-row">
             <div class="mw-col" style="width: 20%">
                 <div class="mw-col-container">
