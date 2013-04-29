@@ -170,6 +170,13 @@ input.large-field, textarea.large-field{
 }
 
 
+#header-cart  {
+  float: right;
+  width: auto;
+  display: inline-block; 
+}
+
+
 .nav{
   color: #0088CC;
 }
@@ -815,6 +822,9 @@ ul.dropdown-menu ul.dropdown-menu{
 
 
 /* Shop */
+
+
+
 
 
 .mw-cart-table td, .mw-cart-table th{

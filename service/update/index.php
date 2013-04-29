@@ -563,7 +563,9 @@ $ver = $this->get_latest_core_version();
 							 
 							$locations[] = $this -> repo_dir.'index.php';
 							$locations[] = $this -> repo_dir.'bootstrap.php';
-							 $locations[] = $this -> repo_dir.'.htaccess';   
+							$locations[] = $this -> repo_dir.'.htaccess';  
+							$locations[] = $this -> repo_dir.'license.txt';   
+ 
 					 		$fileTime = date("D, d M Y H:i:s T"); 
 								
 								$zip = new \mw\utils\Zip($filename);

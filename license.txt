@@ -15,9 +15,9 @@ Under the following conditions:
 **With the understanding that:**
 
 * Waiver — Any of the above conditions can be waived if you get permission from the copyright holder.
-*
+
 * Public Domain — Where the work or any of its elements is in the public domain under applicable law, that status is in no way affected by the license.
-*
+
 * Other Rights — In no way are any of the following rights affected by the license:
 Your fair dealing or fair use rights, or other applicable copyright exceptions and limitations;
 
@@ -42,3 +42,13 @@ Notice — For any reuse or distribution, you must make clear to others the lice
 ---
 
 For more information for this license agreement, please write us an email to info[@]microweber.com
+
+
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

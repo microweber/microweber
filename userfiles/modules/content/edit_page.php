@@ -233,6 +233,8 @@ $(document).ready(function(){
 
  if(window.parent != undefined && window.parent.mw != undefined){
   window.parent.mw.reload_module('posts');
+    window.parent.mw.reload_module('shop/products');
+
 }
 
 mw_on_save_complete<? print $rand; ?>()

@@ -14,7 +14,7 @@ description: Small cart template
 .mw-cart-small {
 	display: inline-block;
 	float: right;
-	margin: 37px 0 0 15px;
+	margin: 0;
 	border: 1px solid #C5C2C2;
 	border-top-color:#E5E1E1;
 	border-bottom-color:#A1A0A0;
