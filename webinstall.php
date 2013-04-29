@@ -52,7 +52,7 @@ switch ($do) {
 	}
 	
 	if($do == 'download_and_unzip'){
-	 header('Location: '.$y.basename(__FILE__).'?action=unzip');
+	header('Location: '.$y.basename(__FILE__).'?action=unzip');
 	exit();
 		
 	}

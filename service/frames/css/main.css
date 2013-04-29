@@ -19,9 +19,14 @@ body, textarea, input, select {
 
 
 .frame{
-  padding: 20px;
+  padding: 0 20px 20px;
   overflow: hidden;
   position: relative;
+}
+
+#username{
+  font-size: 18px;
+  color: #535353;
 }
 
 .mw-ui-field-holder {
@@ -29,8 +34,15 @@ body, textarea, input, select {
     position: relative;
 }
 
-#bug-form input[type='text'], #bug-form textarea{
-  width: 440px;
+#bug-form {
+  padding-left: 75px;
+  width: 360px;
+}
+
+#bug-form input[type='text'],
+#bug-form input[type='email'],
+#bug-form textarea{
+  width: 338px;
 }
 
 #bug-form textarea{
