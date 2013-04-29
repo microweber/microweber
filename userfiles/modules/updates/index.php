@@ -20,35 +20,7 @@ if(url_param('add_module')){
 
 $(document).ready(function(){
 
-	
-
-mw.bind_update_click_btns();
-
-	  });
-	  
-	  
-	  mw.bind_update_click_btns = function(){
-		  
-		  mw.$('.mw-check-updates-btn').click(function() {
-      if(!$(this).hasClass("disabled")){
-
-          var el = this;
-
-          mw.tools.disable(el, 'Checking...', true);
-
-      	  $("#mw-updates").attr('force', 'true');
-
-          $(mwd.body).addClass("loading")
-
-      	  mw.reload_module("#mw-updates", function(a,b){
-             $(mwd.body).removeClass("loading");
-             mw.tools.enable(el);
-             mw.notification.warning("<b>" + this.querySelectorAll("tr.update-items").length + " new updates.</b>");
-      	  });
-
-
-      }  
-	  }
+	mw.bind_update_btns();
    
 	 mw.$('.mw-select-updates-list').submit(function() {
 
@@ -69,10 +41,9 @@ mw.bind_update_click_btns();
                  Alert("Updates are successfully installed.")
 				 
 				 $('#number_of_updates').fadeOut();
-				 mw.reload_module('#mw-updates',function() { 
-				 mw.bind_update_click_btns();
-				 } 
-				 );
+				 mw.reload_module('#mw-updates', function(){
+					mw.bind_update_btns(); 
+				 });
 
               });
          }
@@ -87,6 +58,36 @@ mw.bind_update_click_btns();
  
    
 });
+
+
+mw.bind_update_btns = function() {
+
+
+  mw.$('.mw-check-updates-btn').click(function() {
+      if(!$(this).hasClass("disabled")){
+
+          var el = this;
+
+          mw.tools.disable(el, 'Checking...', true);
+
+      	  $("#mw-updates").attr('force', 'true');
+
+          $(mwd.body).addClass("loading")
+
+      	  mw.reload_module("#mw-updates", function(a,b){
+             $(mwd.body).removeClass("loading");
+             mw.tools.enable(el);
+             mw.notification.warning("<b>" + this.querySelectorAll("tr.update-items").length + " new updates.</b>");
+      	  });
+
+
+      }
+
+
+
+	  });	
+	
+}
 </script>
 
 
@@ -116,7 +117,7 @@ mw.bind_update_click_btns();
 <div class="mw-sided">
     <div class="mw-side-left" style="width: 150px;">
         <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span>Updates</span><? if($notif_count !=0) : ?>&nbsp;<sup class="mw-notif-bubble" id="number_of_updates"><? print $notif_count  ?></sup><? endif; ?></h2>
-        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium">Check for updates</span>
+        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="Current version <? print MW_VERSION ?>">Check for updates</span>
     </div>
     <div class="mw-side-left" id="updates-list-info" style="font-size: 12px;">
         <span style="font-size: 18px;"><?php print user_name(); ?></span>, we are constantly trying to improve Microweber. <br>
