@@ -14,11 +14,11 @@ $headers1 .= "Reply-To:{$email}\r\n";
 
     foreach($_POST as $key => $val){
        if($key !='Subject'){
-          $msg . = $key . ": " . $val . "\n";
+          $msg .= $key . ": " . $val . "\n";
        }
     }
 
-    var_dump($msg)
+    var_dump($msg);
 
     mail('alexander.raikov@gmail.com', $_POST['Subject'], $msg, $headers1);
 
