@@ -1474,6 +1474,7 @@ class MwController {
 			}
 
 		}
+		session_write_close();
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
 

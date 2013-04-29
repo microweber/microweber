@@ -9,7 +9,7 @@ class Update {
 	function __construct() {
 		ini_set("memory_limit", "160M");
 		if (!ini_get('safe_mode')) {
-			set_time_limit(2500);
+			set_time_limit(0);
 		}
 	}
 

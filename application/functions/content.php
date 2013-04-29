@@ -1602,6 +1602,9 @@ function save_edit($post_data) {
 			}
 
 		}
+		if(isset($ustr) and trim($ustr) == 'favicon.ico'){
+			return false;
+		}
 
 
 		if($ref_page == false){
@@ -2625,7 +2628,7 @@ function save_content_field($data, $delete_the_cache = true) {
 	if(isset($data['is_draft']) and isset($data['url'])){
 		$fld_remove = db_escape_string($data['url']);
 
-		$history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit100&curent_page=3&url='.$fld_remove);
+		$history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url='.$fld_remove);
 		if(isarr($history_files )){
 			$history_files_ids = array_values_recursive($history_files );
 		}
@@ -2636,7 +2639,7 @@ function save_content_field($data, $delete_the_cache = true) {
 		}
 		//d($history_files_ids);
 
- 
+
 //d($del_q );
 	//	db_q($del_q);
 	}
@@ -2664,7 +2667,7 @@ function save_content_field($data, $delete_the_cache = true) {
 
 		//cache_clean_group('content_fields/global');
 
-	} 
+	}
 	if(isset($data['rel']) or isset($data['rel_id']) ){
 		$cache_group = guess_cache_group('content_fields/'.$data['rel'].'/'.$data['rel_id']);
 		cache_clean_group($cache_group);
@@ -3898,7 +3901,7 @@ function static_page_get($params = false){
 
 function get_ref_page() {
 	$ref_page = $_SERVER ['HTTP_REFERER'];
-	
+
 	if ($ref_page != '') {
 		$page = get_page_by_url($ref_page);
 		return $page;
@@ -3913,7 +3916,7 @@ function get_ref_post() {
 	 // $CI = get_instance ();
 	if ($ref_page != '') {
 $page = get_content_by_url($ref_page);
-		
+
 				return $page;
 	}
 	return false;

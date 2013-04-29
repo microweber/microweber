@@ -21,7 +21,17 @@ if(url_param('add_module')){
 $(document).ready(function(){
 
 	mw.bind_update_btns();
+   	mw.bind_update_form_submit();
+
    
+
+
+
+ 
+   
+});
+
+mw.bind_update_form_submit = function(){
 	 mw.$('.mw-select-updates-list').submit(function() {
 
          if(mw.$(".update-items input:checked").length === 0){
@@ -50,16 +60,9 @@ $(document).ready(function(){
 
          return false;
 
-    });
-   
-
-
-
- 
-   
-});
-
-
+    });	
+	
+}
 mw.bind_update_btns = function() {
 
 
@@ -77,6 +80,7 @@ mw.bind_update_btns = function() {
       	  mw.reload_module("#mw-updates", function(a,b){
              $(mwd.body).removeClass("loading");
              mw.tools.enable(el);
+			 mw.bind_update_form_submit();
              mw.notification.warning("<b>" + this.querySelectorAll("tr.update-items").length + " new updates.</b>");
       	  });
 

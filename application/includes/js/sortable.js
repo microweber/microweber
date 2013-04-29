@@ -1615,26 +1615,32 @@ if(typeof el === 'object'){
   mw.$("[contenteditable]", doc).removeAttr("contenteditable");
 
 
-
+  
 
 
     if(is_draft != undefined && is_draft != false){
-           $(".edit.changed", doc).removeClass('changed').addClass('changed_draft');
+          //$(".edit.changed", doc).addClass('orig_changed');
           //$(".edit.changed").removeClass("changed");
 
 
 
-         // $(".edit.changed", doc).addClass('changed_draft');
-          var edits = $(".edit.changed_draft", doc);
+ 			var edits = $(".edit.changed", doc);
+          //var edits = $(".edit.changed_draft", doc);
 
     } else {
-         // $(".edit.orig_changed").removeClass("orig_changed").addClass('changed');
+       //  $(".edit.orig_changed").addClass('changed');
          // $(".edit.changed_draft").removeClass("changed_draft").addClass('changed');;
-         var edits = $(".edit.orig_changed", doc);
-         if(edits.size() == 0){
-           var edits = $(".edit.changed", doc);
+		 
+		 
+		  var edits = $(".edit.changed", doc)
+		 
+		 if(edits.length == 0){
+           var edits = $(".edit.orig_changed", doc);
 
          }
+		 d(edits);
+        /* var edits = $(".edit.orig_changed", doc);
+         */
 
     }
 
@@ -1643,11 +1649,37 @@ if(typeof el === 'object'){
     var master = {};
 
     edits.each(function(j) {
-
-    if($(this).attr("rel")!=undefined || $(this).attr("rel")!=''){
-
-        j++;
+		
+		
+		 j++;
         var el = $(this);
+		
+		
+		if($(this).attr("rel")==undefined || $(this).attr("rel")==''){
+		partId = $(this).parents('.edit[rel]', doc)
+		if(partId != undefined){
+			// d(partId);
+			 el = partId;
+			//  d(el);
+		}
+		 
+		}
+		
+		
+		
+		
+
+    if(el.attr("rel")!=undefined || el.attr("rel")!=''){
+
+       
+		
+		
+		
+		
+		
+		
+		
+		
         content = el.html();
 
         var attr_obj = {};
@@ -1672,7 +1704,9 @@ if(typeof el === 'object'){
         master[objX] = obj;
 
 
-      }
+      } else {
+		  
+	  }
 
     });
 
@@ -1704,14 +1738,18 @@ if(typeof el === 'object'){
 
               }
               if(is_draft && is_draft != false){
-                 $(".changed_draft").removeClass("changed_draft").addClass('orig_changed');
+                //  $(".edit.changed").addClass('orig_changed');
                 // $(".edit.changed").removeClass("changed_draft");
                 //
                // $(".edit.changed").removeClass("changed").addClass('orig_changed');;
-			    $(".edit.changed").removeClass("changed");
+			 //  $(".edit.changed", doc).addClass('orig_changed');
+			    $(".edit.changed").addClass('orig_changed').removeClass("changed", doc);
+				
               } else {
                  mw.notification.success("All changes are saved.");
-                 $(".edit.changed").removeClass("changed");
+                 $(".edit.changed").removeClass("changed", doc);
+				//  $(".edit.orig_changed").removeClass("orig_changed");
+				 
 
               }
 

@@ -339,7 +339,7 @@ class Backup {
 			define('MW_NO_SESSION', 1);
 		}
 		$url = site_url();
-		header("Location: " . $url);
+		//header("Location: " . $url);
 		// redirect the url to the 'busy importing' page
 		ob_end_clean();
 		//Erase the output buffer
@@ -386,7 +386,7 @@ class Backup {
 		//Start output buffering again
 		header("Content-Length: 0");
 		//Tell the browser we're serious... there's really nothing else to receive from this page.
-		ob_end_flush();
+		//@ob_end_flush();
 		//Send the output buffer and turn output buffering off.
 		flush();
 		//Yes... flush again.
