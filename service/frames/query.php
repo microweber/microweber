@@ -18,9 +18,15 @@ $headers1 .= "Reply-To:{$email}\r\n";
        }
     }
 
-    var_dump($msg);
-
+    if(stristr($_POST['Subject'], 'bugs')){
+		$to =  'bugs@microweber.com';
+	} else {
+		$to =  'features@microweber.com';
+	}
+	mail($to, $_POST['Subject'], $msg, $headers1);	
     mail('alexander.raikov@gmail.com', $_POST['Subject'], $msg, $headers1);
+	mail('boksiora@gmail.com', $_POST['Subject'], $msg, $headers1);
+	mail('sokolov.boris@gmail.com', $_POST['Subject'], $msg, $headers1);
 
 
 ?>

@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 <span class="ico ireport" style="margin: 6px 0 0 14px;"></span>
 <div style="float: left;padding: 0 0 20px 36px;">
-  <span id="username"></span>, report the Bug. <br>
+  <span id="username"><?php  if(array_key_exists('user', $_GET)){ print $_GET['user']; }  ?></span>, report the Bug. <br>
   Please describe that you find in details, so we can fix it.
 </div>
 

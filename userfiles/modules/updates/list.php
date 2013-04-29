@@ -39,6 +39,7 @@ $(document).ready(function(){
 });
 
 </script>
+<? $is_up_to_date = true; ?>
 
 <form class="mw-select-updates-list" name="form1" method="post">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table mw-ui-admin-table-large" id="mw-update-table"  width="100%">
@@ -55,6 +56,7 @@ $(document).ready(function(){
         <input type="submit" value="Install Selected Updates" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" /></td>
     </tr>
     <? if(isset($iudates["core_update"])): ?>
+    <? $is_up_to_date = false; ?>
     <tr class="mw-table-head">
       <td colspan="3">New Microweber version available</td>
     </tr>
@@ -69,7 +71,7 @@ $(document).ready(function(){
           <span class="update-description"><? print $item["description"] ?></span>
           <? endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
     </tr>
     <? endif; ?>
     <? if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
@@ -77,6 +79,7 @@ $(document).ready(function(){
       <td colspan="3">New module updates are available</td>
     </tr>
     <? foreach($iudates["modules"] as $k => $item): ?>
+    <? $is_up_to_date = false; ?>
     <tr class="update-items">
       <td><label class="mw-ui-check">
           <input type="checkbox" name="modules[]" value="<? print $item["module"] ?>"  />
@@ -92,11 +95,12 @@ $(document).ready(function(){
           <span class="update-description"><? print $item["description"] ?></span>
           <? endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
     </tr>
     <? endforeach; ?>
     <? endif; ?>
     <? if(isset($iudates["module_templates"]) and !empty($iudates["module_templates"])): ?>
+    <? $is_up_to_date = false; ?>
     <tr class="mw-table-head">
       <td colspan="3">New module templates</td>
     </tr>
@@ -116,7 +120,7 @@ $(document).ready(function(){
           <span class="update-description"><? print $item["description"] ?></span>
           <? endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
     </tr>
     <? endforeach; ?>
     <? endif; ?>
@@ -125,6 +129,7 @@ $(document).ready(function(){
       <td colspan="3">New layouts updates are available</td>
     </tr>
     <? foreach($iudates["elements"] as $k => $item): ?>
+    <? $is_up_to_date = false; ?>
     <tr class="update-items">
       <td><label class="mw-ui-check">
           <input type="checkbox" name="elements[]" value="<? print $item["module"] ?>"  />
@@ -140,9 +145,14 @@ $(document).ready(function(){
           <span class="update-description"><? print $item["description"] ?></span>
           <? endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Inslall Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
     </tr>
     <? endforeach; ?>
+    <? endif; ?>
+    <? if($is_up_to_date == true) : ?>
+    <tr class="mw-table-head">
+      <td colspan="3"><? print mw_notif('Everything is up to date') ?></td>
+    </tr>
     <? endif; ?>
   </table>
 </form>

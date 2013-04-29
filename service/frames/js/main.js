@@ -3,7 +3,7 @@ mwd = document;
 
 mw.qsas = mwd.querySelector;
 
-d = function(a){return console.log(a)}
+d = function(a){ return console.log(a) }
 
 
 
@@ -65,7 +65,7 @@ mw.post = function(form, callback){
     var data = mw.serializeFields(form);
     $.post("query.php", data, function(a){
         if(typeof callback === 'function'){
-            callback.call(a);  
+            callback.call(a);
         }
     })
 
