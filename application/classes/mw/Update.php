@@ -54,7 +54,7 @@ class Update {
 					$mod_tpls = array();
 					if(isarr($module_templates)){
 						foreach ($module_templates as $key1 => $value1) {
-							 
+
 							if(isset($value1['filename'])){
 							 $options = array();
 							$options['no_cache'] = 1;
@@ -64,19 +64,19 @@ class Update {
  							if(isset($module_templates_for_this[0]) and isarr($module_templates_for_this[0])){
 								$mod_tpls[$key1] = $module_templates_for_this[0];
 							}
-							
+
 							}
 						}
 						if(!empty($mod_tpls)){
-						
+
 			        $data['module_templates'][$value['module']] = $mod_tpls;
 						}
 					}
 					//d($module_templates);
-					
-			 
-					
-					
+
+
+
+
 				}
 				//d($value);
 			}
@@ -90,6 +90,61 @@ class Update {
 		if ($result != false) {
 			cache_save($result, $c_id, 'update/global');
 		}
+
+
+
+
+
+
+
+
+ 		if(function_exists('post_notification')){
+
+
+				$count = 0;
+		 		if (isset($result['modules'])) {
+				$count = $count + sizeof($result['modules']);
+				}
+				if (isset($result['module_templates'])) {
+					$count = $count + sizeof($result['module_templates']);
+				}
+				if (isset($result['core_update'])) {
+					$count = $count + 1;
+				}
+				if (isset($result['elements'])) {
+					$count = $count + sizeof($result['elements']);
+				}
+
+			if($count > 0){
+			$notif = array();
+			$notif['module'] = "updates";
+			$notif['rel'] = "updates";
+			$notif['title'] = "New updates are avaiable";
+			$notif['description'] = "There are $count new updates are available";
+			// d($notif);
+			//post_notification($notif);
+			}
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		//}
 		return $result;
 	}
@@ -236,21 +291,21 @@ class Update {
 		$skin_file = module_templates($module, $layout);
 
 		if (is_file($skin_file)) {
-			
+
 			 $options = array();
 		 $options['no_cache'] = 1;
 		 $options['for_modules'] = 1;
  		 $options['filename'] = $skin_file ;
-				$skin_data = layouts_list($options);		
-		 
-			if($skin_data != false){		
+				$skin_data = layouts_list($options);
+
+			if($skin_data != false){
 			$skin_data['module_template'] = $module;
 			$skin_data['layout_file'] = $layout;
 			$result = $this -> call('get_download_link', $skin_data);
 			if (isset($result["module_templates"])) {
 				foreach ($result["module_templates"] as $mod_k => $value) {
 
-				 
+
 				 $fname = basename($value);
 				$dir_c = CACHEDIR . 'downloads' . DS;
 				if (!is_dir($dir_c)) {
@@ -267,8 +322,8 @@ class Update {
 					$result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}
-				 
-				 
+
+
 				}
 
 			}

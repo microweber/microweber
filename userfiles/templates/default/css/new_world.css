@@ -191,7 +191,6 @@ input.large-field, textarea.large-field{
 
 #main-navigation{
   float: right;
-  margin-top: 10px;
 }
 
 #header .nav a:hover, #header .navbar .nav a, #header .nav-tabs a.active{
@@ -292,7 +291,6 @@ ul.dropdown-menu ul.dropdown-menu{
 
 #logo  {
   float: left;
-  margin-top: 22px;
   display: block;
   color: white;
   font-size: 35px;
