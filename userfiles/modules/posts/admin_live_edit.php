@@ -9,7 +9,16 @@ if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 		$dir_name = normalize_path(MODULES_DIR);
 $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
  ?>
+ <script type="text/javascript">
  
+ mw.add_new_content_live_edit = function(){
+	   $('#mw_posts_add_live_edit').removeAttr('data-content-id');
+	 
+      mw.load_module('content/edit_post', '#mw_posts_add_live_edit')
+ } 
+ 
+ 
+ </script>
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 <!--    <a href="<? print admin_url('view:').$params['module']  ?>" class="mw-ui-btn right relative" style="z-index: 2;margin:13px 13px 0 0;" target="_blank">Add post</a>
 -->
@@ -19,14 +28,14 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
  
 <a href="javascript:;"
     class="mw-ui-btn mw-ui-btn-green"
-    onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.load_module('content/edit_post', '#mw_posts_add_live_edit');"
+    onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit();"
     style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico iproduct"></span>New Product</a>
 
 <?php } else{ ?>
 
 <a href="javascript:;"
     class="mw-ui-btn mw-ui-btn-green"
-    onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.load_module('content/edit_post', '#mw_posts_add_live_edit');"
+    onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit();"
     style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico ipost"></span>New Post</a>
 
 <?php } ?>

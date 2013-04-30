@@ -209,6 +209,12 @@ $(document).ready(function(){
 
      mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
+    if(window.parent != undefined && window.parent.mw != undefined){
+      mw.$("#<? print $params['id'] ?>").attr('data-content-id',this);
+       mw.reload_module('#<? print $params['id'] ?>');
+    }
+
+
      mw.url.windowHashParam("new_content", 'true');
      mw.reload_module('[data-type="pages"]', function(){
 
@@ -233,8 +239,9 @@ $(document).ready(function(){
 
 
  if(window.parent != undefined && window.parent.mw != undefined){
-  window.parent.mw.reload_module('posts');
-    window.parent.mw.reload_module('shop/products');
+   window.parent.mw.reload_module('posts');
+   window.parent.mw.reload_module('shop/products');
+
 
 }
 

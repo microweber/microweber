@@ -29,7 +29,8 @@
           <br>
           <h4 class="element" style="font-size: 16px;"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>
           <br>
-          <p class="element"><a href="javascript:;" class="btn btn-large pull-right">Simple Button</a></p>
+
+          <module type="btn" button_size="large" class="pull-right">
          
       </div>
     </div>
