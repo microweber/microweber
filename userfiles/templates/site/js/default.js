@@ -6,6 +6,16 @@ mw.site = {
     var frame = '<iframe width="880" height="355" src="http://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&wmode=transparent&vq=large" frameborder="0" allowfullscreen></iframe>';
     return frame;
   },
+  modal_video:function(id, t){
+    var t = t || '&nbsp;';
+    var frame = '<iframe width="100%" height="355" src="http://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&wmode=transparent&vq=large" frameborder="0" allowfullscreen></iframe>';
+    mw.$("#mwmodal-content").html(frame);
+    mw.$("#mwmodal-header-title").html(t);
+    mw.$("#mwmodal").modal();
+    $('#mwmodal').on('hidden', function () {
+        mw.$("#mwmodal-content").html('');
+    })
+  },
   show_subscribe:function(){
     mw.$('#subscribe_form')
                             .height(80)

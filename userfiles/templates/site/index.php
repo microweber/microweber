@@ -60,24 +60,24 @@
 
 <div id="like-box">
     <iframe
-    src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FMicroweber&amp;send=false&amp;layout=standard&amp;width=500&amp;show_faces=true&amp;font=tahoma&amp;colorscheme=light&amp;action=like&amp;height=80"
+    src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FMicroweber&amp;send=false&amp;layout=standard&amp;width=500&amp;show_faces=true&amp;font=tahoma&amp;colorscheme=light&amp;action=like&amp;height=61"
     scrolling="no"
     frameborder="0"
-    style="border:none; overflow:hidden; width:500px; height:80px;max-width: 100%"
+    style="border:none; overflow:hidden; width:500px; height:61px;max-width: 100%"
     allowTransparency="true">
 </iframe></div>
 
 
 
-<h2 class="w-title">How to use?</h2>
+<h2 class="z-title">How to use?</h2>
 
-<h3 class="z-title">Watch the videos below. We are comming very soon with many tutorials and lessons. </h3>
+<h3 class="w-title" style="padding-top: 0;padding-bottom: 30px;">Watch the videos below. We are comming very soon with many tutorials and lessons. </h3>
 
 
 <div class="row">
 
     <div class="span4">
-        <div class="h-video" data-id='iNRAh96YEwY'>
+        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Quick Demo of Microweber')">
             <div class="h-video-shot">
                 <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
             </div>
@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="span4">
-        <div class="h-video" data-id='iNRAh96YEwY'>
+        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Quick Demo of Microweber')">
             <div class="h-video-shot">
                 <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
             </div>
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div class="span4">
-        <div class="h-video" data-id='iNRAh96YEwY'>
+        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Quick Demo of Microweber')">
             <div class="h-video-shot">
                 <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
             </div>

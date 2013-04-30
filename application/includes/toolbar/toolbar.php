@@ -1,6 +1,6 @@
 <?php if(!isset($_GET['preview'])){ ?>
 <script type="text/javascript">
-  document.body.className+=' loading';
+  //document.body.className+=' loading';
 
   //mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
 
@@ -75,7 +75,6 @@
             });
 
 
-        });
 
 
 
@@ -84,7 +83,16 @@ mw_save_draft_int = self.setInterval(function(){
 
    mw.drag.save(mwd.getElementById('main-save-btn'),false,true)
 
-},5000);
+},7000);
+
+
+
+
+        });
+
+
+
+
 
 
 

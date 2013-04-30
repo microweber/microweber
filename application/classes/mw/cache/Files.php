@@ -21,7 +21,7 @@ if (!defined('APC_CACHE')) {
 
 	define("APC_EXPIRES", 300);
 	}
-if (defined('APC_CACHE') and APC_CACHE == true) {
+	if (defined('APC_CACHE') and APC_CACHE == true) {
 
 
 		}
