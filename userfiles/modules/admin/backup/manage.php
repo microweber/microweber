@@ -23,7 +23,7 @@ d($backs);
  ?>
 
 <div id="backups_list" >
-  <h2>Available Database Backups</h2>
+  <h2>Available Backups</h2>
   <table   cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
     <thead>
       <tr>
@@ -55,14 +55,14 @@ d($backs);
 	   foreach($backups  as $item): ?>
       <tr class="mw_admin_backup_item_<? print $i ?>">
         <td><? print $item['filename']  ?></td>
-        <td><? print $item['date']  ?></td>
-        <td><? print $item['time']  ?></td>
-        <td><? print file_size_nice( $item['size'])  ?></td>
-        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" target="_blank" href="<? print api_url('mw/utils/Backup/download'); ?>?file=<? print $item['filename']  ?>">Download</a></td>
+        <td ><span class="mw-date"><? print $item['date']  ?></span></td>
+        <td><span class="mw-date"><? print $item['time']  ?></span></td>
+        <td><span class="mw-date"><? print file_size_nice( $item['size'])  ?></span></td>
+        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<? print api_url('mw/utils/Backup/download'); ?>?file=<? print $item['filename']  ?>">Download</a></td>
         <td>
 
-        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="javascript:mw.admin_backup.restore('<? print $item['filename']  ?>')">Restore</a></td>
-        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn" href="javascript:mw.admin_backup.remove('<? print $item['filename']  ?>', '.mw_admin_backup_item_<? print $i ?>')">Delete</a></td>
+        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_backup.restore('<? print $item['filename']  ?>')">Restore</a></td>
+        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_backup.remove('<? print $item['filename']  ?>', '.mw_admin_backup_item_<? print $i ?>')">Delete</a></td>
       </tr>
       <? $i++; endforeach ; ?>
       <? endif; ?>

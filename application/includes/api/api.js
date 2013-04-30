@@ -454,7 +454,7 @@ mw.serializeFields =  function(id){
       fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {}
       $(fields, el).each(function(){
-          if(!$(this).hasClass('no-post')){
+          if(!$(this).hasClass('no-post') && !this.disabled){
             var el = this, _el = $(el);
             var val = _el.val();
             var name = el.name;

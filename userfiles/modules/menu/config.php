@@ -8,7 +8,7 @@ $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['categories'] = "navigation";
 $config['position'] = 6;
-$config['version'] = 0.3;
+$config['version'] = 0.5;
 
 
 

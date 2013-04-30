@@ -1122,14 +1122,26 @@ function save_module_to_db($data_to_save) {
 				//  d($s);
 				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
-					$s["id"] = $save[0]["id"];
-
+					$s["id"] = intval($save[0]["id"]);
+ 
 					$save = save_data($table, $s);
+					$mname_clen = 	 str_replace('\\', '/',$s["module"]);
+					$mname_clen = db_escape_string($mname_clen);
+					if($s["id"] > 0){
+						$delid = $s["id"];
+					$del="delete from {$table} where module='{$mname_clen}' and id!={$delid} ";
+				 db_q($del);
+					}
 				} else {
+					
 					$save = save_data($table, $s);
 				}
+			} else {
+		
 			}
+			
 		} else {
+				
 			$save = save_data($table, $s);
 		}
 

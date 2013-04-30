@@ -18,21 +18,16 @@ if(url_param('add_module')){
 </script>
 <script  type="text/javascript">
 
-$(document).ready(function(){
-
-	mw.bind_update_btns();
-   	mw.bind_update_form_submit();
-
-   
-
-
-
- 
-   
-});
-
 mw.bind_update_form_submit = function(){
+
+
+
 	 mw.$('.mw-select-updates-list').submit(function() {
+
+        Alert("aaaaaaaaaaaa");
+
+
+        return false;
 
          if(mw.$(".update-items input:checked").length === 0){
            Alert("Please select at least one item to update.")
@@ -92,6 +87,19 @@ mw.bind_update_btns = function() {
 	  });	
 	
 }
+$(document).ready(function(){
+
+	mw.bind_update_btns();
+   	mw.bind_update_form_submit();
+
+   
+
+
+
+ 
+   
+});
+
 </script>
 
 

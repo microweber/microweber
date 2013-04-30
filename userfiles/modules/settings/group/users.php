@@ -1,5 +1,12 @@
 <? only_admin_access(); ?>
 <script  type="text/javascript">
+
+
+
+mw.require('forms.js', true);
+mw.require('options.js', true);
+</script>
+<script  type="text/javascript">
 $(document).ready(function(){
 
   mw.options.form('.<? print $config['module_class'] ?>', function(){
@@ -73,6 +80,10 @@ mw.tools.tabGroup({
           white-space: nowrap;
       }
 
+      .group-logins .mw-title-field{
+        width: 380px;
+      }
+
  </style>
 <div class="<? print $config['module_class'] ?>">
   <?  $curent_val = get_option('enable_user_registration','users'); ?>
@@ -123,9 +134,9 @@ mw.tools.tabGroup({
 
 
 <ul class="social-providers-list">
-    <li>
+    <li class="active">
       <label class="mw-ui-check"><input type="checkbox" value="y" <? if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users" <?php /*data-refresh="settings/group/users"*/ ?>><span></span></label>
-      <span class="mw-social-ico-facebook login-tab-group"></span>
+      <span class="mw-social-ico-facebook login-tab-group active"></span>
     </li>
     <li>
       <label class="mw-ui-check"><input type="checkbox" value="y" <? if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users"><span></span></label>
@@ -148,17 +159,17 @@ mw.tools.tabGroup({
 
 
 
-<div class="group-logins">
+<div class="group-logins" style="display: block">
   <ul class="mw-small-help">
     <li>Api access <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
     <li>In <em>Website with Facebook Login</em> please enter <em><? print site_url(); ?></em></li>
     <li>If asked for callback url - use <em><? print api_url('social_login_process?hauth.done=Facebook') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">App ID/API Key</label>
-  <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<? print get_option('fb_app_id','users'); ?>" />
+  <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<? print get_option('fb_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">App Secret</label>
-  <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<? print get_option('fb_app_secret','users'); ?>" />
+  <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<? print get_option('fb_app_secret','users'); ?>" />
 </div>
 
 
@@ -175,10 +186,10 @@ mw.tools.tabGroup({
     <li>In redirect URI  please enter <em><? print api_url('social_login_process?hauth.done=Google') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Client ID</label>
-  <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<? print get_option('google_app_id','users'); ?>" />
+  <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<? print get_option('google_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">Client secret</label>
-  <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<? print get_option('google_app_secret','users'); ?>" />
+  <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<? print get_option('google_app_secret','users'); ?>" />
 
  </div>
 
@@ -197,10 +208,10 @@ mw.tools.tabGroup({
     <li>In <em>Callback URL</em> enter <em><? print api_url('social_login_process?hauth.done=Github') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Client ID</label>
-  <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<? print get_option('github_app_id','users'); ?>" />
+  <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<? print get_option('github_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">Client secret</label>
-  <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<? print get_option('github_app_secret','users'); ?>" />
+  <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<? print get_option('github_app_secret','users'); ?>" />
 
   </div>
 
@@ -216,10 +227,10 @@ mw.tools.tabGroup({
     <li>In <em>Callback URL</em> enter <em><? print api_url('social_login_process?hauth.done=Twitter') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Consumer key</label>
-  <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<? print get_option('twitter_app_id','users'); ?>" />
+  <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<? print get_option('twitter_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">Consumer secret</label>
-  <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<? print get_option('twitter_app_secret','users'); ?>" />
+  <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<? print get_option('twitter_app_secret','users'); ?>" />
 
  </div>
 
@@ -237,10 +248,10 @@ mw.tools.tabGroup({
     <li>In <em>Callback URL</em> enter <em><? print api_url('social_login_process?hauth.done=Live') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Client ID</label>
-  <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<? print get_option('windows_live_app_id','users'); ?>" />
+  <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<? print get_option('windows_live_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">Client secret</label>
-  <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<? print get_option('windows_live_app_secret','users'); ?>" />
+  <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<? print get_option('windows_live_app_secret','users'); ?>" />
  </div>
 
 

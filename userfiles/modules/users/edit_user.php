@@ -42,6 +42,9 @@ mw.require('files.js');
 <script  type="text/javascript">
 _mw_admin_save_user_form<?  print $data['id']; ?> = function(){
 
+    if(mwd.getElementById("reset_password").value == ''){
+        mwd.getElementById("reset_password").disabled = true;
+    }
 
  mw.form.post(mw.$('#users_edit_{rand}') , '<? print site_url('api/save_user') ?>', function(){
 	 
@@ -87,7 +90,20 @@ $(document).ready(function(){
 
 });
 
+reset_password = function(y){
+    var y = y || false;
+    var field = mw.$("#reset_password");
+    if(field.hasClass("semi_hidden") && !y){
+        field.removeClass("semi_hidden");
+        field[0].disabled = false;
+        field.focus();
+    }
+    else{
+        field.addClass("semi_hidden");
+        field[0].disabled = true;
+    }
 
+}
 
 </script>
 <style>
@@ -121,6 +137,10 @@ $(document).ready(function(){
 #avatar_holder:hover .mw-close {
 	visibility: visible;
 }
+#reset_password{
+  margin-left: 12px;
+}
+
 </style>
 
 <div class="mw-o-box <? print $config['module_class'] ?> user-id-<?  print $data['id']; ?>" id="users_edit_{rand}">
@@ -159,8 +179,12 @@ $(document).ready(function(){
         <td><input type="text" class="mw-ui-field" name="username" value="<?  print $data['username']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label">Password</label></td>
-        <td><input type="password" class="mw-ui-field" name="password" value="<?  print $data['password']; ?>"></td>
+        <td><label class="mw-ui-label" style="padding-bottom: 0;">Password</label></td>
+        <td>
+            <span class="mw-ui-link" onclick="reset_password();">Change Password</span>
+
+            <input type="password" disabled="disabled" name="password" class="mw-ui-field semi_hidden" id="reset_password" />
+      </td>
       </tr>
       <tr>
         <td><label class="mw-ui-label">Email</label></td>

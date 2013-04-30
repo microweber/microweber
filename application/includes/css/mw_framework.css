@@ -1939,6 +1939,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 
 .mw-ui-link{
   color:#488BCD;
+  cursor: pointer;
 }
 .mw-ui-link:hover{
   text-decoration: underline;

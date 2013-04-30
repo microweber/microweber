@@ -273,7 +273,7 @@ $(document).ready(function(){
   }
 
  ?>
- <? //d($active_menu); ?>
+  
  
 <? if(isarr($menus) == true): ?>
 <? if(isarr($menus )): ?>
@@ -283,6 +283,11 @@ $(document).ready(function(){
   <div class="mw-ui-select" style="width:100%">
     <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?  print $rand ?>');" >
       <? foreach($menus  as $item): ?>
+      <? if($active_menu == false){
+		$active_menu =   $item['title'];
+	  }?>
+      
+      
       <option <?  if($menu_name == $item['title']): ?> <?  $active_menu = $item['title'] ?> selected="selected" <? endif; ?> value="<? print $item['title'] ?>"><? print $item['title'] ?></option>
       <? endforeach ; ?>
     </select>

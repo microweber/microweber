@@ -25,7 +25,7 @@ if( $id != 0){
 
     $data = menu_tree( $menu_params);
 }
-
+ 
 ?>
 <?  $rand = uniqid(); ?>
 <? if($data != false): ?>
@@ -49,7 +49,12 @@ if( $id != 0){
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
+				
+				
         		mw.reload_module('#<? print $params['id'] ?>');
+				
+				
+				
         		if(window.parent != undefined && window.parent.mw != undefined){
         			window.parent.mw.reload_module('menu');
         		}
@@ -63,6 +68,14 @@ mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
     	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
     		 	mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
+				
+				
+				<? if(isset($params['parent-module-id']) and trim($params['parent-module-id']) != ''): ?>
+        		mw.reload_module('#<? print $params['id'] ?>');
+				<? else: ?>
+				mw.reload_module('#<? print $params['parent-module-id'] ?>');
+				<? endif; ?>
+				
                 if(self !== parent && typeof parent.mw !== 'undefined'){
     		      window.parent.mw.reload_module('menu');
     	        }

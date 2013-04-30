@@ -7,8 +7,8 @@ class Update {
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
 
 	function __construct() {
-		
-		
+
+
 	}
 
 	function get_modules() {
@@ -35,8 +35,10 @@ class Update {
 				return $cache_content;
 			}
 
+		} else {
+			cache_clean_group('update/global');
 		}
-ini_set("memory_limit", "160M");
+		ini_set("memory_limit", "160M");
 		$data = array();
 		$data['mw_version'] = MW_VERSION;
 

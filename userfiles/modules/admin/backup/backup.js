@@ -69,20 +69,23 @@ mw.admin_backup = {
 
 	remove : function($id, $selector_to_hide){
 
-		data = {}
-		data.id=$id;
+        mw.tools.confirm(mw.msg.del, function(){
+      		data = {}
+      		data.id=$id;
 
 
-		$.post(mw.settings.api_url+'mw/utils/Backup/delete', data ,
-			function(resp) {
-			 //mw.reload_module('admin/backup/manage');
-			 mw.notification.msg(resp);
-			 if($selector_to_hide != undefined){
-			 	$($selector_to_hide).fadeOut().remove();
+      		$.post(mw.settings.api_url+'mw/utils/Backup/delete', data ,
+      			function(resp) {
+      			 //mw.reload_module('admin/backup/manage');
+      			 mw.notification.msg(resp);
+      			 if($selector_to_hide != undefined){
+      			 	$($selector_to_hide).fadeOut().remove();
 
-			 }
-			}
-			);
+      			 }                <u></u>
+      			}
+      			);
+        })
+
 
 
 

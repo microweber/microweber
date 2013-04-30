@@ -2327,7 +2327,7 @@ mw.contact = {
             width:500,
             height:410,
             callback:function(){
-               d(this.container.getElementsByTagName('iframe')[0].contentWindow)
+
                 mw.postMsg(this.container.getElementsByTagName('iframe')[0].contentWindow, {user:mw.settings.user});
             }
       })
