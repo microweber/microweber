@@ -1804,9 +1804,10 @@ function db_table_exist($table) {
  * @version 1.0
  * @since Version 1.0
  */
+$ex_fields_static = array();
 function db_get_table_fields($table, $exclude_fields = false) {
 
-	static $ex_fields_static = array();
+	global $ex_fields_static; 
 	if (isset($ex_fields_static[$table])) {
 		return $ex_fields_static[$table];
 
@@ -1833,10 +1834,10 @@ function db_get_table_fields($table, $exclude_fields = false) {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db','files');
+	$cache_content = cache_get_content($function_cache_id, 'db');
 
 	if (($cache_content) != false) {
-
+ $ex_fields_static[$table] = $cache_content;
 		return $cache_content;
 	}
 
@@ -1896,7 +1897,7 @@ function db_get_table_fields($table, $exclude_fields = false) {
 		}
 	}
 	$ex_fields_static[$table] = $fields;
-	cache_save($fields, $function_cache_id, $cache_group = 'db','files');
+	cache_save($fields, $function_cache_id, $cache_group = 'db');
 	// $fields = (array_change_key_case ( $fields, CASE_LOWER ));
 	return $fields;
 }

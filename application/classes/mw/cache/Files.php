@@ -19,7 +19,7 @@ if (!defined('APC_CACHE')) {
 
 	if (!defined('APC_EXPIRES')) {
 
-	define("APC_EXPIRES", 30);
+	define("APC_EXPIRES", 300);
 	}
 if (defined('APC_CACHE') and APC_CACHE == true) {
 
@@ -37,7 +37,7 @@ class Files    {
 	private $mw_cache_lock_timeout = 3;
 	private $mw_cache_lock_time = false;
 	private $time_now = false;
-
+	public $apc = false;
 
 
 
@@ -71,15 +71,25 @@ class Files    {
 			 $apc_obj_gt = $apc_obj->delete($cache_group );
 		}
 
-
+ 
 
 		$this -> cache_clean_group($cache_group);
 
 	}
 
 	public function debug() {
+		
+		$debug = array();
+		$debug['files_cache'] = $this -> cache_get_content_from_memory(true);
+		if (defined('APC_CACHE') and APC_CACHE == true) {
+			
+			if($this->apc != false){
+						$debug['apc_cache'] = $this->apc -> debug();
 
-		return $this -> cache_get_content_from_memory(true);
+			}
+		}
+
+		return $debug;
 
 	}
 
@@ -87,9 +97,18 @@ class Files    {
 
 		$apc_obj = false;
 		if (defined('APC_CACHE') and APC_CACHE == true) {
-			 $apc_obj = new \mw\cache\Apc();
+			
+			if($this->apc == false){
+				 $apc_obj = new \mw\cache\Apc();
+				 $this->apc =  $apc_obj;
+			} else {
+				 $apc_obj = $this->apc;
+			}
+			
+			
 
 			 $apc_obj_gt = $apc_obj->get($cache_id, $cache_group, $time);
+			 //unset( $apc_obj );
 			 if($apc_obj_gt != false){
 			 	return $apc_obj_gt;
 			 }

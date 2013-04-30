@@ -408,7 +408,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 	if (isset($mw_to_cache['elems']) and isset($mw_to_cache['to_replace']) and isset($mw_to_cache['new'])) {
 
 		$modified_layout = $mw_to_cache['new'];
-		//d($mw_to_cache);
+		 
 		//$parser_mem_crc1 = 'parser_' . crc32($value['orig']);
 
 		//$ch = mw_var($parser_mem_crc1);
@@ -427,7 +427,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 			$elk_crc = crc32($elk);
 			if (!in_array($elk_crc, $passed_reps)) {
 				$passed_reps[] = $elk_crc;
-
+ 
 				if ($value != '') {
 					//$layout = $ch;
 					$val_rep = $value;

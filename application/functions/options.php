@@ -200,7 +200,7 @@ function module_option($key, $module, $option_group = false, $return_full = fals
 
 
 
-
+$_mw_global_options_mem = array();
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
 	if (MW_IS_INSTALLED != true) {
 		return false;
@@ -213,6 +213,16 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 		$cache_group = 'options/global';
 	}
 
+
+		global $_mw_global_options_mem;
+
+		if ($_mw_global_options_mem == NULL) {
+			$_mw_global_options_mem = array();
+
+		}
+
+
+
 	//d($key);
 	$function_cache_id = false;
 
@@ -224,6 +234,9 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 	}
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	if(isset($_mw_global_options_mem[$function_cache_id])){
+		return $_mw_global_options_mem[$function_cache_id];
+	}
 
 	/*
 	 $cache_content = cache_get_content($function_cache_id, $cache_group);
@@ -293,7 +306,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 			if (isset($get['option_value']) and strval($get['option_value']) != '') {
 				$get['option_value'] = replace_site_vars_back($get['option_value']);
  			}
-
+$_mw_global_options_mem[$function_cache_id] = $get;
 			return $get;
 		} else {
 
@@ -306,12 +319,12 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 			if (isset($get['field_values']) and $get['field_values'] != false) {
 				$get['field_values'] = unserialize(base64_decode($get['field_values']));
 			}
-
+$_mw_global_options_mem[$function_cache_id] = $get;
 			return $get;
 		}
 	} else {
 		//cache_save('--false--', $function_cache_id, $cache_group);
-
+$_mw_global_options_mem[$function_cache_id] = false;
 		return FALSE;
 	}
 }
