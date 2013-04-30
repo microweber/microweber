@@ -101,7 +101,7 @@ class Update {
 
 
 
- 		if(function_exists('post_notification')){
+ 		/*if(function_exists('post_notification')){
 
 
 				$count = 0;
@@ -128,7 +128,7 @@ class Update {
 			//post_notification($notif);
 			}
 
-		}
+		}*/
 
 
 
@@ -200,7 +200,7 @@ class Update {
 			error('Must be admin!');
 		}
 		print __FILE__ . __LINE__;
-		d($updates);
+		 
 		print 1;
 		return $updates;
 		$down_dir = CACHEDIR_ROOT . 'downloads' . DS;
@@ -216,7 +216,7 @@ class Update {
 			if (is_file($loc_fn_d)) {
 				$to_be_unzipped['root'][] = $loc_fn_d;
 			}
-			// d($loc_fn_d);
+			 
 		}
 
 		$what_next = array('modules', 'elements');
@@ -396,7 +396,7 @@ class Update {
 				if (!is_dir($dir_c)) {
 					mkdir_recursive($dir_c);
 				}
-				d($value);
+				 
 				$dl_file = $dir_c . $fname;
 				if (!is_file($dl_file)) {
 					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
@@ -404,7 +404,7 @@ class Update {
 				if (is_file($dl_file)) {
 					$unzip = new \mw\utils\Unzip();
 					$target_dir = MW_ROOTPATH;
-					d($dl_file);
+			 
 					// $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}

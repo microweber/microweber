@@ -33,9 +33,13 @@ $(document).ready(function(){
 <div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-<?php print $rand; ?>">
   <? foreach($data  as $item): ?>
   <div class="mw-pictures-item mw-pictures-item-<? print $item['id']; ?>">
-    <a class="thumbnail">
+    <div class="thumbnail">
+    <span class="valign">
+                    <span class="valign-cell">
         <img src="<? print $item['filename']; ?>" />
-    </a>
+        </span>
+        </span>
+    </div>
   </div>
   <? endforeach ; ?>
 </div>

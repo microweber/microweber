@@ -93,6 +93,10 @@ class Apc   {
 $mw_cache_get_content_memory[$cache_id_apc] = false;
 		return false;
 	}
+	public function clearcache($gr = false) {
+
+		return $this -> delete($gr);
+	}
 public function purge() {
 
 		return $this -> clearcache();
