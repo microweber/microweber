@@ -336,7 +336,13 @@ $item['prices'] = false;
 	 }
 // }
 } else {
-	mw_notif_live_edit('Your posts module is empty');
+	 if(isset($params['is_shop'])){
+		 	mw_notif_live_edit('Your products module is empty');
+
+	 } else {
+		 	mw_notif_live_edit('Your posts module is empty');
+
+	 }
 }
 
 
