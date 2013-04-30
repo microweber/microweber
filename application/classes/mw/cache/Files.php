@@ -11,7 +11,7 @@ if (!defined('APC_CACHE')) {
 
 	$apc_exists = function_exists('apc_fetch');
   	if (isset($_POST) and isarr($_POST)) {
-		$apc_exists = false;
+		//$apc_exists = false;
 	}
 	// $apc_exists = false;
 
@@ -67,8 +67,10 @@ class Files    {
 	public function delete($cache_group = 'global') {
 		$apc_obj = false;
 		if (defined('APC_CACHE') and APC_CACHE == true) {
-			 $apc_obj = new \mw\cache\Apc();
-			 $apc_obj_gt = $apc_obj->delete($cache_group );
+			if($this->apc != false){
+				 
+			 $this->apc->delete($cache_group );
+			}
 		}
 
  

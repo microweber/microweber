@@ -502,7 +502,12 @@ $content = get_content_by_id($content['id']);
 function get_layout_for_page($page = array()) {
 
 
-
+	if($page == false){
+		
+		 
+		
+	//$page = get_content_by_url(url_string(1,1));	
+	}
 
 
 
@@ -517,17 +522,19 @@ function get_layout_for_page($page = array()) {
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($page['id']) and intval($page['id']) != 0){
 		$cache_group = 'content/'.$page['id'];
+		
+		$cache_content = cache_get_content($cache_id, $cache_group);
+
+		if (($cache_content) != false) {
+	 
+			//return $cache_content;
+		}
 	} else {
 		$cache_group = 'content/global';
 	}
 
-
-	$cache_content = cache_get_content($cache_id, $cache_group);
-
-	if (($cache_content) != false) {
-
-		return $cache_content;
-	}
+ 
+	
 
 
 	$render_file = false;

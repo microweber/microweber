@@ -202,6 +202,7 @@ $(document).ready(function(){
 
 
    mw_before_content_save<? print $rand; ?>();
+
    mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
      <? if(intval($data['id']) == 0): ?>
 
@@ -211,7 +212,7 @@ $(document).ready(function(){
      mw.url.windowHashParam("new_content", 'true');
      mw.reload_module('[data-type="pages"]', function(){
 
-        if( mw.$("#pages_tree_toolbar .ico").length === 0 ){
+        if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
             mw.$("#pages_tree_toolbar").removeClass("activated");
             mw.treeRenderer.appendUI('#pages_tree_toolbar');
             mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
@@ -221,7 +222,7 @@ $(document).ready(function(){
      <? else: ?>
 
      mw.reload_module('[data-type="pages"]', function(){
-        if( mw.$("#pages_tree_toolbar .ico").length === 0 ){
+        if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
           mw.$("#pages_tree_toolbar").removeClass("activated");
           mw.treeRenderer.appendUI('#pages_tree_toolbar');
           mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
@@ -911,7 +912,8 @@ if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $
     <div class="vSpace"></div>
     <script type="text/javascript">
 $(mwd).ready(function(){
-  if(!!mw.treeRenderer && mw.$("#categorories_selector_for_post_<? print $rand; ?> .ico").length === 0){
+  if(!!mw.treeRenderer && mw.$("#categorories_selector_for_post_<? print $rand; ?> .mw_del_tree_content").length === 0){
+
    mw.treeRenderer.appendUI('#categorories_selector_for_post_<? print $rand; ?>');
   }
 });

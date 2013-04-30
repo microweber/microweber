@@ -30,24 +30,25 @@ class Apc   {
 
 		$apc_no_clear = mw_var('apc_no_clear');
 
-		if ($apc_no_clear == false and $is_cleaning_now == false) {
+		if ($apc_no_clear == false) {
 			$apc_exists = function_exists('apc_clear_cache');
 			if ($apc_exists == true) {
 				//apc_clear_cache('user');
-				//d('apc_clear_cache');
-				$hits = apc_cache_info('user');
+				// d('apc_clear_cache');
+				//apc_clear_cache('user');
+				 $hits = apc_cache_info('user');
 				if (isset($hits["cache_list"]) and isarr($hits["cache_list"])) {
 
 					foreach ($hits["cache_list"] as $cache_list_value) {
 						if (isset($cache_list_value['info'])) {
-							if (strstr($cache_group, $cache_group)) {
-								//d($cache_list_value['info']);
+						 	if (strstr($cache_group, $cache_group)) {
+								// d($cache_list_value['info']);
 								apc_delete($cache_list_value['info']);
-							}
+							 }
 							//d($cache_list_value['info']);
 						}
 					}
-				}
+				} 
 
 			}
 		} else {
@@ -96,6 +97,29 @@ public function purge() {
 
 		return $this -> clearcache();
 	}
+	public function OLD_clearcache($group) {
+	 
+		$hits = apc_cache_info('user');
+				if (isset($hits["cache_list"]) and isarr($hits["cache_list"])) {
+
+					foreach ($hits["cache_list"] as $cache_list_value) {
+						if (isset($cache_list_value['info'])) {
+						 	//if (strstr($cache_group, $cache_group)) {
+							 d($cache_list_value['info']);
+								apc_delete($cache_list_value['info']);
+							//}
+							   
+						}
+					}
+				} 
+				
+				
+				
+
+		return apc_clear_cache('user');
+	}
+	
+	
 	public function delete_all() {
 
 		return $this -> clearcache();

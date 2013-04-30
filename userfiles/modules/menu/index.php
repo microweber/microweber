@@ -61,12 +61,12 @@ if(isset($params['menu-name'])){
 		
 	} else {
 		//pages_tree($params);
-		   mw_notif("Click on settings to edit this menu");
+		   mw_notif_live_edit("Click on settings to edit this menu");
 	}
 
 } else {
 	//pages_tree($params);
-	 mw_notif("Click on settings to edit this menu");
+	 mw_notif_live_edit("Click on settings to edit this menu");
 }
 
 

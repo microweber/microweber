@@ -594,6 +594,16 @@ mw.toolbar = {
 
 $(window).load(function(){
 
+
+
+ mw.$("#history_dd").hover(function(){
+      $(this).addClass("hover");
+    }, function(){
+       $(this).removeClass("hover");
+    });
+
+
+
     mw.toolbar.center_icons();
 
 
@@ -616,12 +626,19 @@ $(window).load(function(){
         });
       }  }, 100);
     });
+
+
+
     $(document.body).mousedown(function(event){
 
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
 
         $(mwd.body).removeClass('hide_selection');
+      }
+
+      if(!mw.$("#history_dd").hasClass("hover")){
+        $("#historycontainer").hide()
       }
 
     });

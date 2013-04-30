@@ -113,9 +113,9 @@ mw_save_draft_int = self.setInterval(function(){
 <div id="mw-toolbar-right" class="mw-defaults">
 
 
-<div class="mw-ui-dropdown right">
-          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" title="History"><span class="ico ihistory" style="height: 22px;"></span></a>
-          <div class="mw-dropdown-content"style="width: 150px;right: -50px;left: auto;">
+<div class="mw-ui-dropdown right" id="history_dd">
+          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="History"><span class="ico ihistory" style="height: 22px;"></span></a>
+          <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
             <ul class="mw-dropdown-list">
                 <li>
                     <div id="mw-history-panel"></div>

@@ -352,13 +352,20 @@ class MwController {
 		}
 
 		//
-$page = get_content_by_id($page['id']);
+		   
+
+		  if($page['id'] != 0){
+			  $page = get_content_by_id($page['id']);
 		if ($page['content_type'] == "post" and isset($page['parent'])) {
 			$content = $page;
 			$page = get_content_by_id($page['parent']);
 		} else {
 			$content = $page;
 		}
+		  } else {
+			  $content = $page;
+		  }
+		 
 		//
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
@@ -406,7 +413,7 @@ $page = get_content_by_id($page['id']);
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
-		// d($content);
+
 		$render_file = get_layout_for_page($content);
 
 		$content['render_file'] = $render_file;
@@ -489,6 +496,8 @@ $page = get_content_by_id($page['id']);
 			}
 			if (isset($_REQUEST['embed_id'])) {
 				$find_embed_id = trim($_REQUEST['embed_id']);
+		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
 				$pq = phpQuery::newDocument($l);
 				//	$isolated_head = pq('head') -> eq(0) -> html();
 				//	$isolated_body = pq('body') -> eq(0) -> html();
@@ -587,7 +596,7 @@ $page = get_content_by_id($page['id']);
 					}
 				}
 			} else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
-				if(!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])){
+				if(!isset($_GET['isolate_content_field']) and !isset($_GET['content_id'])){
 					//d($_REQUEST);
 					$back_to_editmode = session_get('back_to_editmode');
 					if ($back_to_editmode == true) {

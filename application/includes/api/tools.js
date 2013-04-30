@@ -2287,27 +2287,30 @@ mw.beforeleave_html = ""
 
 mw.beforeleave = function(url){
     if(mw.askusertostay){
-        var modal = mw.tools.modal.init({
-           html:mw.beforeleave_html,
-           name:'modal_beforeleave',
-           width:430,
-           height:230,
-           template:'mw_modal_basic',
-        });
+        if(mwd.getElementById('modal_beforeleave') === null){
+            var modal = mw.tools.modal.init({
+               html:mw.beforeleave_html,
+               name:'modal_beforeleave',
+               width:430,
+               height:230,
+               template:'mw_modal_basic',
+            });
 
-        var save = modal.container.querySelector('.confirm-btn-green');
-        var go = modal.container.querySelector('.confirm-btn-red');
+            var save = modal.container.querySelector('.confirm-btn-green');
+            var go = modal.container.querySelector('.confirm-btn-red');
 
-        $(save).click(function(){
-          mw.drag.save(mwd.getElementById('main-save-btn'), function(){
-            mw.askusertostay = false;
-            window.location.href = url;
-          });
-        });
-        $(go).click(function(){
-          mw.askusertostay = false;
-          window.location.href = url;
-        });
+            $(save).click(function(){
+              mw.drag.save(mwd.getElementById('main-save-btn'), function(){
+                mw.askusertostay = false;
+                window.location.href = url;
+              });
+            });
+            $(go).click(function(){
+              mw.askusertostay = false;
+              window.location.href = url;
+            });
+        }
+
         return false;
     }
 }
