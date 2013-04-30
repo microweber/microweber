@@ -587,21 +587,22 @@ $page = get_content_by_id($page['id']);
 					}
 				}
 			} else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
-
-				$back_to_editmode = session_get('back_to_editmode');
-				if ($back_to_editmode == true) {
-					$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
-
-					$layout_toolbar = new MwView($tb);
-					$layout_toolbar = $layout_toolbar -> __toString();
-					if ($layout_toolbar != '') {
-						$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
-						$c = 1;
-						$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
+				if(!isset($_REQUEST['isolate_content_field']) and url_param('preview_template') == false){
+					$back_to_editmode = session_get('back_to_editmode');
+					if ($back_to_editmode == true) {
+						$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
+	
+						$layout_toolbar = new MwView($tb);
+						$layout_toolbar = $layout_toolbar -> __toString();
+						if ($layout_toolbar != '') {
+							$layout_toolbar = parse_micrwober_tags($layout_toolbar, $options = array('no_apc' => 1));
+							$c = 1;
+							$l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
+						}
 					}
 				}
-
 			}
+			
 
 			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 			$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);

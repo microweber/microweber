@@ -24,15 +24,19 @@ mw.bind_update_form_submit = function(){
 
 	 mw.$('.mw-select-updates-list').submit(function() {
 
-        Alert("aaaaaaaaaaaa");
 
-
-        return false;
 
          if(mw.$(".update-items input:checked").length === 0){
            Alert("Please select at least one item to update.")
            return false;
          }
+
+
+
+
+
+      
+
 
          if(!mw.$("#installsubmit").hasClass("disabled")){
 
