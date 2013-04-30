@@ -3,7 +3,7 @@
 
 body{
   background: #F3F3F3;
-  font: 600 16px/1.5 'Open Sans', Arial, sans-serif;
+  font: 400 16px/1.5 'Open Sans', Arial, sans-serif;
   color: #696969;
 }
 
@@ -79,17 +79,81 @@ input.large-field, textarea.large-field{
   width: -webkit-calc(100% - 22px);
 }
 
+#cm{
+display: inline-block;
+  position: absolute;
+  color: white;
+  text-transform: uppercase;
+  font-size: 17px;
+  text-align: center;
+  padding: 0;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #EB5723;
+  width: 100%;
+  height: 34px;
+padding-top: 11px;
+  top: -100%;
+  left: 0;
+  -webkit-transition:top 0.2s ease-in;
+   -moz-transition:top 0.2s ease-in;
+   -o-transition:top 0.2ss ease-in;
+   transition:top 0.2s ease-in;
+}
+
+#subscribe_form{
+  height: 0;
+  width: 90%;
+  margin: 20px auto 0;
+  background: rgba(255, 255, 191, 0.8);
+  overflow: hidden;
+  position: relative;
+  -webkit-transition:height 0.2s ease-in, background-color 5s ease-in;
+   -moz-transition:height 0.2s ease-in, background-color 5s ease-in;
+   -o-transition:height 0.2ss ease-in, background-color 5s ease-in;
+   transition:height 0.2s ease-in, background-color 5s ease-in;
+}
+
+.subscribe{
+  clear: both;
+  padding: 20px 0 0;
+  width: 465px;
+  margin: auto;
+}
+
+.subscribe .main-subscribe input[type='email']{
+  padding: 11px !important;
+  font-size: 18px;
+  height: auto !important;
+  margin-right: 12px;
+  width: 305px;
+}
+
+@media (max-width:600px){
+  .subscribe{
+    width: auto;
+  }
+
+}
+
+
+
 
 .obtn{
   display: inline-block;
+  position: relative;
   color: white;
   text-transform: uppercase;
   font-size: 17px;
   text-align: center;
   padding: 10px;
-  font-weight: 100;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+}
+.obtn:hover #cm{
+  top: 0;
 }
 
 .obtn:hover{
@@ -117,8 +181,9 @@ input.large-field, textarea.large-field{
 /* /Global styles */
 
 
-.welcome-title{
+.w-title{
   font-size: 20px;
+  font-weight: 600;
   text-align: center;
   color: #4793C5;
   padding: 20px 10px 10px;
@@ -127,7 +192,7 @@ input.large-field, textarea.large-field{
 
 /* Home */
 
-.home-video-title{
+.z-title{
   font-size: 24px;
   text-align: center;
   color: #757575;
@@ -155,18 +220,81 @@ input.large-field, textarea.large-field{
   text-align: center;
 }
 
+#get-started-btns{
+  width: 463px;
+  margin: auto;
+  padding-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
 #get-started .obtn{
   width: 190px;
+  float: left;
 }
 #get-started .or{
-  margin: 0 10px;
+  padding: 10px;
+  font-size: 17px;
+  float: left;
+  font-weight: bold;
+}
+
+
+@media (max-width:600px){
+    #get-started .obtn,
+    #get-started .or{
+      float: none;
+      display: block;
+      margin: auto;
+      text-align: center;
+    }
+    #get-started-btns{
+      max-width: 100%;
+    }
 }
 
 #like-box{
   width:500px;
+  max-width: 100%;
   height:80px;
   margin: auto;
   padding: 30px 0;
+}
+
+.h-video{
+  padding: 5px;
+  background: #111111;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.h-video-title{
+  font-size: 14px;
+  padding: 15px 5px 10px;
+}
+
+.h-video-shot{
+  position: relative;
+  height:190px;
+  overflow: hidden;
+  text-align: center;
+
+}
+
+.h-video-shot img{
+
+}
+
+.h-video-shot:after{
+  content:"";
+  display: block;
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height:100%;
+  background: rgba(51, 51, 51, 0.4) url(../img/play.png) no-repeat center;
 }
 
 
@@ -180,8 +308,17 @@ input.large-field, textarea.large-field{
 /* mw-nav */
 
 .mw-nav {
-  float: left;
-  margin:10px 0 0 20px;
+  float: right;
+  margin:14px 0 0 20px;
+}
+
+@media (max-width:600px){
+
+  .mw-nav {
+    float: none;
+    clear: both;
+    padding: 20px 0 10px;
+  }
 }
 
 
@@ -277,7 +414,7 @@ input.large-field, textarea.large-field{
   z-index: 9;
   background: #242B35;
   padding: 10px 20px 0;
-  height: 70px;
+  min-height: 70px;
 }
 
 
@@ -409,6 +546,7 @@ ul.dropdown-menu ul.dropdown-menu{
   font-weight: 200;
   width: 143px;
   height: 37px;
+  margin-top: 12px;
   text-indent: -9999px;
   background: url(../img/logo.png) no-repeat;
 }

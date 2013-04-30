@@ -33,6 +33,7 @@ class Apc   {
 		if ($apc_no_clear == false) {
 			$apc_exists = function_exists('apc_clear_cache');
 			if ($apc_exists == true) {
+				return apc_clear_cache('user');;
 				//apc_clear_cache('user');
 				// d('apc_clear_cache');
 				//apc_clear_cache('user');
@@ -109,7 +110,7 @@ public function purge() {
 					foreach ($hits["cache_list"] as $cache_list_value) {
 						if (isset($cache_list_value['info'])) {
 						 	//if (strstr($cache_group, $cache_group)) {
-							 d($cache_list_value['info']);
+							 //d($cache_list_value['info']);
 								apc_delete($cache_list_value['info']);
 							//}
 							   

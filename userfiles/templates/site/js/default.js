@@ -3,8 +3,18 @@
 mw.site = {
   hvideo:function(id){
     var id = id || 'eajCiD0ha2s';
-    var frame = '<iframe width="880" height="455" src="http://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&wmode=transparent&vq=large" frameborder="0" allowfullscreen></iframe>';
+    var frame = '<iframe width="880" height="355" src="http://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&wmode=transparent&vq=large" frameborder="0" allowfullscreen></iframe>';
     return frame;
+  },
+  show_subscribe:function(){
+    mw.$('#subscribe_form')
+                            .height(80)
+                            .find('input:first')
+                            .focus();
+    setTimeout(function(){
+           mw.$('#subscribe_form').css("background-color", 'transparent');
+    }, 222);
+
   }
 }
 

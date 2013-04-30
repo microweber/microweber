@@ -1615,7 +1615,7 @@ if(typeof el === 'object'){
   mw.$("[contenteditable]", doc).removeAttr("contenteditable");
 
 
-  
+
 
 
     if(is_draft != undefined && is_draft != false){
@@ -1630,10 +1630,10 @@ if(typeof el === 'object'){
     } else {
        //  $(".edit.orig_changed").addClass('changed');
          // $(".edit.changed_draft").removeClass("changed_draft").addClass('changed');;
-		 
-		 
+
+
 		  var edits = $(".edit.changed", doc)
-		 
+
 		 if(edits.length == 0){
            var edits = $(".edit.orig_changed", doc);
 
@@ -1649,37 +1649,31 @@ if(typeof el === 'object'){
     var master = {};
 
     edits.each(function(j) {
-		
-		
+
+
 		 j++;
         var el = $(this);
-		
-		
+
+
 		if($(this).attr("rel")==undefined || $(this).attr("rel")==''){
-		partId = $(this).parents('.edit[rel]', doc)
+		partId = $(this, doc).parents('.edit.changed[rel]').first();
 		if(partId != undefined){
 			// d(partId);
 			 el = partId;
-			   d(el);
+
 		}
-		 
+
 		}
-		
-		
-		
-		
+
+
+
+
 
     if(el.attr("rel")!=undefined || el.attr("rel")!=''){
 
-       
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
         content = el.html();
 
         var attr_obj = {};
@@ -1705,7 +1699,7 @@ if(typeof el === 'object'){
 
 
       } else {
-		  
+
 	  }
 
     });
@@ -1731,6 +1725,8 @@ if(typeof el === 'object'){
               mw.history.init();
               if(!is_draft){
                 mw.askusertostay = true;
+              } else {
+                 //mw.askusertostay = false;
               }
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
@@ -1738,18 +1734,27 @@ if(typeof el === 'object'){
 
               }
               if(is_draft && is_draft != false){
+
+              $(".edit.changed").addClass('orig_changed');
+                $(".edit.changed").removeClass("changed");
+
                 //  $(".edit.changed").addClass('orig_changed');
                 // $(".edit.changed").removeClass("changed_draft");
                 //
                // $(".edit.changed").removeClass("changed").addClass('orig_changed');;
 			 //  $(".edit.changed", doc).addClass('orig_changed');
-			    $(".edit.changed").addClass('orig_changed').removeClass("changed");
-				
+
+
+
+           //   edits.addClass('orig_changed').removeClass("changed");
+			        // $(".edit.changed").addClass('orig_changed').removeClass("changed");
+
               } else {
                  mw.notification.success("All changes are saved.");
-                 $(".edit.changed").removeClass("changed", doc);
+                // $(".edit.changed", doc).removeClass("changed");
+                 $(".edit.changed").removeClass("changed");
 				//  $(".edit.orig_changed").removeClass("orig_changed");
-				 
+
 
               }
 

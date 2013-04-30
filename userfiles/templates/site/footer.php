@@ -17,5 +17,6 @@ window.onload = function(){
   $(document.body).append((new Date().getTime())-START);
 }
 </script>
+<div id="mwmodal" style="display: none"></div>
 </body>
 </html>

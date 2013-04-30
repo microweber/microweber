@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
- 
+
 {head}
 
 <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
@@ -57,8 +57,6 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
   //  var curr =  mw.tools.hasClass(e.target.className, 'module') ? e.target : mw.tools.firstParentWithClass(e.target, 'module');
 
  }
-
-
 
 
   if(el.hasClass('edit')){
@@ -118,11 +116,11 @@ delete_module = function(inner_node){
 }
 
 
- 
-  </script>
-  
 
-  
+  </script>
+
+
+
 <style type="text/css">
 
 *{

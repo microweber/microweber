@@ -915,7 +915,7 @@ function user_login($params) {
 				$data['password'] = $pass;
 				$data['is_active'] = 'y';
 				$data['search_in_fields'] = 'username,password,email';
-				//$data['debug'] = 1;
+				 
 				if (trim($user != '') and trim($email != '')) {
 					$data = get_users($data);
 				}
@@ -942,7 +942,7 @@ function user_login($params) {
 				$data['email'] = $user;
 				$data['password'] = $pass;
 				$data['is_active'] = 'y';
-				//	 $data ['debug'] = 1;
+				  
 
 				$data = get_users($data);
 

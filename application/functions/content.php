@@ -1084,6 +1084,7 @@ function reorder_content()
 		exit();
 	}
 	$ids = array_unique($ids);
+	 
 	$ids_implode = implode(',', $ids);
 	$ids_implode = db_escape_string($ids_implode);
 
@@ -2095,28 +2096,43 @@ function delete_content($data) {
 			}	else if ($to_trash == false) {
 				$q = "update $table set parent=0 where parent=$c_id ";
 				$q = db_query($q);
+				
+				 db_delete_by_id('menus', $c_id, 'content_id');
+				 
+				if (defined("MW_DB_TABLE_MEDIA")) {
+					$table1 = MW_DB_TABLE_MEDIA;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+					$q = db_query($q);
+				}
+				
+				if (defined("MW_DB_TABLE_TAXONOMY")) {
+					$table1 = MW_DB_TABLE_TAXONOMY;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+					$q = db_query($q);
+				}
+				
+				
+				if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+					$table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+					$q = db_query($q);
+				}
+
+			  
+				
 			} else {
 				$q = "update $table set is_deleted='y' where id=$c_id ";
 
 				$q = db_query($q);
 				$q = "update $table set is_deleted='y' where parent=$c_id ";
-
+				$q = db_query($q);
 				if (defined("MW_DB_TABLE_TAXONOMY")) {
 					$table1 = MW_DB_TABLE_TAXONOMY;
 					$q = "update $table1 set is_deleted='y' where rel_id=$c_id  and  rel='content' and  is_deleted='n' ";
 
 					$q = db_query($q);
 				}
-
-
-
-
-
-
-
-
-
-				$q = db_query($q);
+		
 
 			}
 
