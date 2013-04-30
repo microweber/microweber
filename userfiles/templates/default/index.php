@@ -30,7 +30,7 @@
           <h4 class="element" style="font-size: 16px;"><strong>Discover more by using drag and drop technology and Make Web!</strong></h4>
           <br>
 
-          <module type="btn" button_size="large" class="pull-right">
+          <module type="btn" button_size="btn-large" class="pull-right">
          
       </div>
     </div>
