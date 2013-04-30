@@ -240,9 +240,9 @@ function mw_db_init_content_table() {
 	return true;
 
 }
-action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
+//action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
 function create_mw_default_pages_in_not_exist() {
-	mw_create_default_content('default');
+	//mw_create_default_content('default');
 	//mw_create_default_content('shop');
 
 }
@@ -3574,7 +3574,7 @@ function mw_create_default_content($what) {
 
 
 		case 'blog' :
-		$is_shop = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1');
+		$is_shop = get_content('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
 			//$is_shop = false;
 		$new_shop = false;
 		if ($is_shop == false) {
@@ -3613,6 +3613,10 @@ function mw_create_default_content($what) {
 				//  d($add_page);
 			$new_shop = save_data('content',$add_page);
 			cache_clean_group('content');
+						cache_clean_group('categories');
+												cache_clean_group('content_fields');
+
+
 				//
 		} else {
 

@@ -112,7 +112,36 @@ function add_new_menu($data_to_save) {
 	return $save;
 
 }
+api_expose('menu_delete');
+function menu_delete($id = false) {
+	$params = parse_params($id);
+	
 
+ 
+	$is_admin = is_admin();
+	if ($is_admin == false) {
+		error('Error: not logged in as admin.');
+	}
+	
+	
+	
+	if(!isset($params['id'])){
+		error('Error: id param is required.');
+	}
+	
+	$id = $params['id'];
+	
+	$id = db_escape_string($id);
+	$id = htmlspecialchars_decode($id);
+	$table = MODULE_DB_MENUS;
+
+	db_delete_by_id($table, trim($id), $field_name = 'id'); 
+
+	cache_clean_group('menus/global');
+
+	return true;
+
+}
 api_expose('delete_menu_item');
 function delete_menu_item($id) {
 

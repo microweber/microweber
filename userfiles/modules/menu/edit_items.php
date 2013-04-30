@@ -28,7 +28,7 @@ if( $id != 0){
  
 ?>
 <?  $rand = uniqid(); ?>
-<? if($data != false): ?>
+<? if(isset($data) and $data != false): ?>
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script>
@@ -177,3 +177,17 @@ This menu is empty, please add items.
 <div>
   <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<? print $id ?>" />
 </div>
+<div class="vSpace"></div>
+
+<?
+if(isset($params['menu-name'])): ?>
+ <? $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
+	if(isset($menu['id'])) : ?>
+  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<? print $menu['id']; ?>');">Delete <? print $menu['title']; ?></a></small>
+
+	<? endif ?>
+ 
+ 
+	<? endif ?>
+
+

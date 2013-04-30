@@ -5,79 +5,63 @@
 .mw-ui-category-selector {
 	width: auto;
 }
-body.module-settings-page .mw-ui-category-selector{
-  width: 330px;
+body.module-settings-page .mw-ui-category-selector {
+	width: 330px;
 }
-
-.mw-ui-category-selector .mw-ui-check:hover{
-  background-color: white;
+.mw-ui-category-selector .mw-ui-check:hover {
+	background-color: white;
 }
-
 #custom_link_controller {
 	width: auto;
 	display: none;
 	padding-bottom: 0;
 }
-
-
-body.module-settings-page #custom_link_controller{
-  width: 330px;
+body.module-settings-page #custom_link_controller {
+	width: 330px;
 }
-
 #custom_link_controller input[type='text'] {
 	width: 100%;
-    max-width: 60%;
+	max-width: 60%;
 	max-width: -o-calc(100% - 130px);
-    max-width: -webkit-calc(100% - 130px);
-    max-width: calc(100% - 130px);
+	max-width: -webkit-calc(100% - 130px);
+	max-width: calc(100% - 130px);
 	margin-bottom: 20px;
 }
 .order-has-link .mw-modules-admin li > .module-menu-edit-item {
 	box-shadow: 0 0 17px #555;
 	background: white;
 	padding: 0;
-    z-index: 1;
+	z-index: 1;
 }
 .order-has-link .mw-modules-admin li > .module-menu-edit-item:hover {
 	background: white;
 }
-
-.order-has-link .module_item{
-  padding: 0;
+.order-has-link .module_item {
+	padding: 0;
 }
-
 .order-has-link .module_item .menu_element_link {
-  display: block;
-  padding: 12px 20px 12px 40px;
-  top: 0;
+	display: block;
+	padding: 12px 20px 12px 40px;
+	top: 0;
 }
-
-.order-has-link .module_item .menu_element_link:hover{
-  text-decoration: underline
+.order-has-link .module_item .menu_element_link:hover {
+	text-decoration: underline
 }
-
-
-
-.order-has-link .iMove{
-  position: absolute;
-  top: 9px;
-  left: 7px;
-  margin:0;
-  z-index: 2;
+.order-has-link .iMove {
+	position: absolute;
+	top: 9px;
+	left: 7px;
+	margin:0;
+	z-index: 2;
 }
-
-
-
 #custom_link_inline_controller {
 	background: white;
 	border:none;
 	padding-top: 0;
 }
-
-#custom_link_inline_controller .pages_tree{
-  background: none;
+#custom_link_inline_controller .pages_tree {
+	background: none;
 }
-
 #custom_link_inline_controller .pages_tree.depth-1 {
 	padding-left: 0;
 }
@@ -90,8 +74,8 @@ body.module-settings-page #custom_link_controller{
 	margin-right:15px;
 	max-width: 60%;
 	max-width: -o-calc(100% - 110px);
-    max-width: -webkit-calc(100% - 110px);
-    max-width: calc(100% - 110px);
+	max-width: -webkit-calc(100% - 110px);
+	max-width: calc(100% - 110px);
 }
 .menu_element_link {
 	position: relative;
@@ -164,6 +148,18 @@ body.module-settings-page #custom_link_controller{
 
  }
 
+ mw.menu_delete = function($id){
+var data = {}
+data.id = $id
+
+ 
+      $.post("<? print site_url('api/menu_delete') ?>",  data, function(resp){
+	   		  mw.reload_module('#<? print $params['id'] ?>');
+      });
+
+ }
+ 
+ 
 
   mw.menu_edit_items = function($menu_id, $selector){
 
@@ -240,7 +236,7 @@ $(document).ready(function(){
 
 
  </script>
- <script  type="text/javascript">
+<script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
@@ -273,28 +269,30 @@ $(document).ready(function(){
   }
 
  ?>
-  
- 
 <? if(isarr($menus) == true): ?>
 <? if(isarr($menus )): ?>
 
 <div class="control-group">
-  <label class="mw-ui-label"><?php _e("Select the Menu you want to edit"); ?></label>
+  <label class="mw-ui-label">
+    <?php _e("Select the Menu you want to edit"); ?>
+  </label>
   <div class="mw-ui-select" style="width:100%">
     <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?  print $rand ?>');" >
       <? foreach($menus  as $item): ?>
       <? if($active_menu == false){
 		$active_menu =   $item['title'];
 	  }?>
-      
-      
       <option <?  if($menu_name == $item['title']): ?> <?  $active_menu = $item['title'] ?> selected="selected" <? endif; ?> value="<? print $item['title'] ?>"><? print $item['title'] ?></option>
       <? endforeach ; ?>
     </select>
   </div>
- <hr>
+  <hr>
   <label class="mw-ui-label">Select from:</label>
-  <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span><?php _e("Add New Link"); ?></span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span><?php _e("Add Custom Link"); ?></span></a>
+  <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
+  <?php _e("Add New Link"); ?>
+  </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
+  <?php _e("Add Custom Link"); ?>
+  </span></a>
   <hr>
 </div>
 <? endif; ?>
@@ -316,16 +314,18 @@ You have no exising menus. Please create one.
 <? //.. d( $params); ?>
 <div class="<? print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?  print $rand ?>">
   <? if($active_menu != false): ?>
-    <h2><?php print $menu_name; ?> Links <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label></h2>
-
-
+  <h2><?php print $menu_name; ?> Links
+    <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label>
+  </h2>
   <?php /*<span style="padding: 0;" class="posts-selector right">
     <span class="view_all_subs" onclick="view_all_subs();"><?php _e("View All"); ?></span>/<span class="hide_all_subs" onclick="hide_all_subs();"><?php _e("Hide All"); ?></span>
   </span>*/ ?>
-
-  <label class="mw-ui-label"><?php _e("Edit existing links/buttons"); ?></label>
-
+  <label class="mw-ui-label">
+    <?php _e("Edit existing links/buttons"); ?>
+  </label>
   <div class="vSpace"></div>
   <module data-type="menu/edit_items"  menu-name="<?  print $active_menu ?>"  />
   <? endif; ?>
 </div>
+
+<div class="vSpace"></div>
