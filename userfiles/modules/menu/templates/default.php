@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Navbar
+name: Default
 
-description: Navigation bar
+description: Default bar
 
 */
 

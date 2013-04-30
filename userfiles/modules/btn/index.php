@@ -39,7 +39,8 @@ $(document).ready(function(){
       mw.tools.modal.init({
         name:'frame<?php print $rand; ?>',
         html:mwd.getElementById('area<?php print $rand; ?>').value,
-        template:'mw_modal_simple'
+        template:'mw_modal_simple',
+        title:"<?php print $text; ?>"
       });
   })
 

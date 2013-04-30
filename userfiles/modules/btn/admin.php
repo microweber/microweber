@@ -83,11 +83,11 @@ btn_action = function(){
 
 <div id="editor_holder">
 
-<textarea  class="mw_option_field"  name="popupcontent"><?php print $popupcontent; ?></textarea>
+<textarea  class="mw_option_field"  name="popupcontent" style="height: 400px;"><?php print $popupcontent; ?></textarea>
 
 </div>
 <div id="btn_url_holder">
-    <input type="text" name="url" id="btn_url" value="<?php print $url; ?>" placeholder="Enter URL"  class="mw_option_field" />
+    <input type="text" name="url" id="btn_url" value="<?php print $url; ?>" placeholder="Enter URL"  class="mw_option_field mw-ui-field" />
     <div class="vSpace"></div>
     <label class="mw-ui-check"><input type="checkbox" name="url_blank" value="y" class="mw_option_field"><span></span><span>Open in new window</span></label>
 
@@ -115,6 +115,6 @@ btn_action = function(){
   </select>
 </div>
  <label class="mw-ui-label">Text</label>
- <input type="text" name="text" class="mw_option_field" value="<?php print $text; ?>" placeholder="Button" />
+ <input type="text" name="text" class="mw_option_field mw-ui-field" style="width:228px;" value="<?php print $text; ?>" placeholder="Button" />
 
 </div>

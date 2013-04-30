@@ -587,7 +587,8 @@ $page = get_content_by_id($page['id']);
 					}
 				}
 			} else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
-				if(!isset($_REQUEST['isolate_content_field']) and url_param('preview_template') == false){
+				if(!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])){
+					//d($_REQUEST);
 					$back_to_editmode = session_get('back_to_editmode');
 					if ($back_to_editmode == true) {
 						$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
