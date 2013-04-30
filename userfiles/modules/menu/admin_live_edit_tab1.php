@@ -251,23 +251,36 @@ $(document).ready(function(){
 <? $menus = get_menu(); ?>
 <?php
 
+$menu_name = get_option('menu_name', $params['id']);
 
-	if(isset( $params['menu_name'])){
-
-		$menu_name =  $params['menu_name'];
-	}elseif(isset( $params['name'])){
+	if($menu_name  == false and isset( $params['menu_name'])){
+ 		$menu_name =  $params['menu_name'];
+	}elseif($menu_name  == false and isset( $params['name'])){
 
 		$menu_name =  $params['name'];
 	} else {
-			$menu_name = get_option('menu_name', $params['id']);
+			
 
 	}
+	
+	
+	
+	 
+	
 	$active_menu = $menu_name;
   $menu_id = false;
   if($menu_name != false){
-  $menu_id = get_menu_id('title='.$menu_name);
+  $menu_id = get_menu('one=1&title='.$menu_name);
+	  if($menu_id == false){
+	  add_new_menu('id=0&title=' . $params['title']);
+	    $menu_id = get_menu('one=1&title='.$menu_name);
+	  }
+ 
   }
-
+ if(isset($menu_id['title'])){
+	 $active_menu =   $menu_id['title'];
+ }
+  
  ?>
 <? if(isarr($menus) == true): ?>
 <? if(isarr($menus )): ?>

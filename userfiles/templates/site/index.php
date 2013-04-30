@@ -15,12 +15,12 @@
 <div class="gray-container">
     <div class="container">
 
-          <h3>Make Web by Drag & Drop with Microweber</h3>
+          <h2 class="welcome-title">Make Web by Drag &amp; Drop with Microweber</h2>
 
 
           <div id="home-video">
             <iframe width="880" height="335"
-                    src="http://www.youtube.com/embed/iNRAh96YEwY?rel=0&autoplay=1&wmode=transparent&vq=large"
+                    src="http://www.youtube.com/embed/eajCiD0ha2s?rel=0&autoplay=0&wmode=transparent&vq=large"
                     frameborder="0" allowfullscreen></iframe>
           </div>
 

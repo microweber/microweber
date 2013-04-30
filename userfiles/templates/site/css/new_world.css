@@ -81,8 +81,20 @@ input.large-field, textarea.large-field{
 
 
 
+
+
 /* /Global styles */
 
+
+.welcome-title{
+  font-size: 20px;
+  text-align: center;
+  color: #4793C5;
+}
+
+#home-video iframe{
+  max-width: 100%;
+}
 
 .gray-container{
   background: #E4E4E4;
