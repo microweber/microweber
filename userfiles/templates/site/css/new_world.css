@@ -3,7 +3,7 @@
 
 body{
   background: #F3F3F3;
-  font: 16px/1.5 'Open Sans', Arial, sans-serif;
+  font: 600 16px/1.5 'Open Sans', Arial, sans-serif;
   color: #696969;
 }
 
@@ -15,7 +15,7 @@ label, input, button, select, textarea{
 
 
 h1,h2,h3,h4,h5,h6{
-  font-weight: 300;
+  font-weight: 500;
   line-height: normal;
 }
 
@@ -80,6 +80,37 @@ input.large-field, textarea.large-field{
 }
 
 
+.obtn{
+  display: inline-block;
+  color: white;
+  text-transform: uppercase;
+  font-size: 17px;
+  text-align: center;
+  padding: 10px;
+  font-weight: 100;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.obtn:hover{
+  color: white;
+  text-decoration: none;
+  box-shadow: inset 0px 0px 2px rgba(36, 43, 53, 0.7);
+}
+
+.obtn:active{
+  color: white;
+  text-decoration: none;
+  box-shadow:inset 0px 0px 8px rgba(36, 43, 53, 0.7);
+}
+
+.obtn-blue{
+  background-color: #4793C5
+}
+
+.obtn-orange{
+  background-color: #EB5723
+}
 
 
 
@@ -90,11 +121,56 @@ input.large-field, textarea.large-field{
   font-size: 20px;
   text-align: center;
   color: #4793C5;
+  padding: 20px 10px 10px;
+  text-shadow: 0px 1px white;
+}
+
+/* Home */
+
+.home-video-title{
+  font-size: 24px;
+  text-align: center;
+  color: #757575;
+  padding: 20px 10px 10px;
+  text-shadow: 0px 1px white;
+}
+
+#home-video {
+  width: 90%;
+  margin: 0 auto;
+  height: 355px;
+  background:#000 url(../img/video_default.png) no-repeat center;
+  cursor: pointer;
+
 }
 
 #home-video iframe{
+  width: 100%;
   max-width: 100%;
+  margin:auto;
 }
+
+#get-started{
+  padding:10px 0 30px;
+  text-align: center;
+}
+
+#get-started .obtn{
+  width: 190px;
+}
+#get-started .or{
+  margin: 0 10px;
+}
+
+#like-box{
+  width:500px;
+  height:80px;
+  margin: auto;
+  padding: 30px 0;
+}
+
+
+/* /Home */
 
 .gray-container{
   background: #E4E4E4;
@@ -111,8 +187,9 @@ input.large-field, textarea.large-field{
 
 .mw-nav > li > a{
   border-radius:0;
-  font-size: 12px;
+  font-size: 14px;
   color: #AAAAAA;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -200,6 +277,7 @@ input.large-field, textarea.large-field{
   z-index: 9;
   background: #242B35;
   padding: 10px 20px 0;
+  height: 70px;
 }
 
 

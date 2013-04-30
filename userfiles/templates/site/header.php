@@ -14,7 +14,7 @@
     <meta property="og:image" content="{content_image}">
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
-   
+
     
 
     <script type="text/javascript">
@@ -32,16 +32,13 @@
     <? print $custom_head; ?>
     <? else : ?>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
-<?php
-/*
-    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap3.css" type="text/css" media="all">    */  ?>
-   <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
-    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
+    <link rel="stylesheet" href="{TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
+    <link rel="stylesheet" href="{TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
 
 
     <link rel="stylesheet" href="{TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
-    <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
-    <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
+    <script type="text/javascript" src="{TEMPLATE_URL}js/bootstrap.js"></script>
+    <script type="text/javascript" src="{TEMPLATE_URL}js/default.js"></script>
     <? endif; ?>
     </head>
     <body>
@@ -50,12 +47,9 @@
         <a href="javascript:;" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
         <ul id="main-menu" class="nav nav-pills mw-nav">
             <li><a href="javascript:;">Get Started</a></li>
-            <li><a href="javascript:;">Features</a></li>
-            <li><a href="javascript:;">Marketplace</a></li>
-            <li><a href="javascript:;">Developers</a></li>
-            <li><a href="javascript:;">Hosting</a></li>
-            <li><a href="javascript:;">Support</a></li>
-            <li><a href="javascript:;">Blog</a></li>
+            <li><a href="javascript:;">How to use</a></li>
+            <li><a href="javascript:;">Documentation</a></li>
+            <li><a href="javascript:;">Contacts</a></li>
         </ul>
       </div>
     </div>

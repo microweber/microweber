@@ -1,7 +1,23 @@
 
 
+mw.site = {
+  hvideo:function(id){
+    var id = id || 'eajCiD0ha2s';
+    var frame = '<iframe width="880" height="455" src="http://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&wmode=transparent&vq=large" frameborder="0" allowfullscreen></iframe>';
+    return frame;
+  }
+}
 
 
+$(document).ready(function(){
+
+    mw.$("#home-video").click(function(){
+      if(this.getElementsByTagName('iframe').length === 0){
+        this.innerHTML = mw.site.hvideo();
+      }
+    });
+
+});
 
 
 

@@ -19,26 +19,31 @@
 
 
           <div id="home-video">
-            <iframe width="880" height="335"
-                    src="http://www.youtube.com/embed/eajCiD0ha2s?rel=0&autoplay=0&wmode=transparent&vq=large"
-                    frameborder="0" allowfullscreen></iframe>
+
           </div>
 
-          Start with your own website, blog or online shop for free.
+          <h3 class="home-video-title">Start with your own <strong>website</strong>, <strong>blog</strong> or <strong>online shop</strong> for <strong>free</strong>.</h3>
 
+          <div id="get-started">
 
-          <a href="javascript:;" class="mw-blue">Download</a>
+            <a href="javascript:;" class="obtn obtn-orange">Get Started for Free</a>
+
+            <span class="or">or</span>
+
+            <a href="javascript:;" class="obtn obtn-blue">Download</a>
+
+          </div>
 
     </div>
 </div>
  <div class="container">
 
-<iframe
+<div id="like-box"><iframe
     src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FMicroweber&amp;send=false&amp;layout=standard&amp;width=500&amp;show_faces=true&amp;font=tahoma&amp;colorscheme=light&amp;action=like&amp;height=80"
     scrolling="no"
     frameborder="0"
     style="border:none; overflow:hidden; width:500px; height:80px;"
     allowTransparency="true">
-</iframe>
+</iframe></div>
 </div>
 <? include THIS_TEMPLATE_DIR. "footer.php"; ?>

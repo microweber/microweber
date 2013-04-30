@@ -13,7 +13,8 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
  
  mw.add_new_content_live_edit = function(){
 	   $('#mw_posts_add_live_edit').removeAttr('data-content-id');
-	 
+	 	   $('#mw_posts_add_live_edit').attr('from_live_edit',1);
+
       mw.load_module('content/edit_post', '#mw_posts_add_live_edit')
  } 
  

@@ -409,7 +409,7 @@ class MwController {
 				$content = $page_non_active;
 			}
 		}
-
+ 
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);

@@ -4,12 +4,12 @@
   
   
 if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')){
-	$params['rel'] = POST_ID; 
+	$params['rel_id'] = POST_ID; 
 	$params['for'] = 'content';
 }
 
 if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')){
-	$params['rel'] = PAGE_ID; 
+	$params['rel_id'] = PAGE_ID; 
 	$params['for'] = 'content';
 }
 
@@ -26,7 +26,7 @@ if(isset($params['for'])){
 }
 
 
-
+ 
 
 if(get_option('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){

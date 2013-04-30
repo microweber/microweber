@@ -210,9 +210,12 @@ $(document).ready(function(){
      mw.url.windowHashParam("action", "edit<? print $data['content_type'] ?>:" + this);
 
     if(window.parent != undefined && window.parent.mw != undefined){
-      mw.$("#<? print $params['id'] ?>").attr('data-content-id',this);
-       mw.reload_module('#<? print $params['id'] ?>');
-    }
+		//d(this);
+		<? if(isset($params['from_live_edit'])): ?>
+ 		  mw.$("#<? print $params['id'] ?>").attr('data-content-id',this);
+		  mw.reload_module('#<? print $params['id'] ?>');
+	  <? endif; ?>
+    } 
 
 
      mw.url.windowHashParam("new_content", 'true');
@@ -638,7 +641,12 @@ else{
         <div class="right">
           <?php /*     <span class="mw-ui-btn">Preview</span>
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
-          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');">Save</span> </div>
+          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');" id="mw-save-content-btn" >Save</span>
+          
+           
+          
+          
+           </div>
       </div>
       <div class="iframe_fix"></div>
     </div>

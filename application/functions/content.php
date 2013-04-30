@@ -502,13 +502,6 @@ $content = get_content_by_id($content['id']);
 function get_layout_for_page($page = array()) {
 
 
-	if($page == false){
-		
-		 
-		
-	//$page = get_content_by_url(url_string(1,1));	
-	}
-
 
 
 	$args = func_get_args();
@@ -527,11 +520,12 @@ function get_layout_for_page($page = array()) {
 
 		if (($cache_content) != false) {
 	 
-			//return $cache_content;
+			 return $cache_content;
 		}
 	} else {
 		$cache_group = 'content/global';
 	}
+
 
  
 	
@@ -549,7 +543,14 @@ function get_layout_for_page($page = array()) {
 			$render_file = $render_file_temp;
 		}
 	}
-
+	if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
+		$url_file = url_string(1,1);
+		$test_file = str_replace('___',DS,$url_file );
+		$render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $url_file .'.php' ;
+		if(is_file($render_file_temp)){
+			$render_file = $render_file_temp;
+		}
+	}
 
 
 	if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
@@ -943,16 +944,17 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	}
 	$url = rtrim($url, '?');
 	$url = rtrim($url, '#');
-	$sql = "SELECT id,url from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
+	$sql = "SELECT id from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
   //d($sql);
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
 	$result = $q;
 
 	$content = $result[0];
-
+ 
 	if (!empty($content)) {
-
+		
+		 
 		//$get_by_id = $content;
 
 		return $content;
@@ -986,8 +988,10 @@ function get_page_by_url($url = '', $no_recursive = false) {
 			}
 		}
 	} else {
+		
+		if(isset($content['id']) and intval( $content['id']) != 0){
 		$content['id'] = ((int)$content['id']);
-
+		}
 		//$get_by_id = get_content_by_id($content['id']);
 
 		return $content;
@@ -1601,8 +1605,8 @@ function save_edit($post_data) {
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
 		$ref_page2 = get_content_by_url($ref_page_url, true);
-
-
+ 
+ 
 		if($ref_page2 == false){
 
 			$ustr = url_string(1);;
@@ -3563,8 +3567,8 @@ function mw_create_default_content($what) {
 			$add_page['content_type'] = "post";
 			$add_page['subtype'] = "product";
 
-			$new_shop = save_content($add_page);
-			cache_clean_group('content');
+			//$new_shop = save_content($add_page);
+			//cache_clean_group('content');
 			//clearcache();
 		}
 
