@@ -375,6 +375,11 @@ a.rotator-paging-item-digit{
   margin: auto;
 }
 
+.mw-images-template-default-grid .thumbnail.active img{
+  max-height: 100%;
+  max-width:100%;
+}
+
 .mw-images-template-default-grid  .mw-pictures-item{
   width: 200px;
   height: 160px;
