@@ -33,7 +33,7 @@ class Apc   {
 		if ($apc_no_clear == false) {
 			$apc_exists = function_exists('apc_clear_cache');
 			if ($apc_exists == true) {
-				//return apc_clear_cache('user');;
+				 return apc_clear_cache('user');;
 				//apc_clear_cache('user');
 				// d('apc_clear_cache');
 				//apc_clear_cache('user');

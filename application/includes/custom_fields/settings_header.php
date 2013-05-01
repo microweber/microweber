@@ -32,8 +32,7 @@ if (!empty($params)) {
         $field_type = $params['custom_field_type'];
     }
 }
-?>
-<?php
+?><?php
 if (!isset($data['id'])) {
     $data['id'] = 0;
 	
@@ -167,4 +166,22 @@ if (isset($data['save_to_content_id'])) {
 <? endif; ?>
 <input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<? print $data['position'] ?>" />
+
+
+
+<script>
+
+
+$(document).ready(function(){
+
+var master = mwd.getElementById('custom_fields_edit<? print $rand; ?>');
+
+var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
+
+//$(fields).attr("onchange", "__save()");
+
+
+});
+
+</script>
 

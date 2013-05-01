@@ -65,7 +65,11 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
           <? else : ?>
           Pending
           <? endif; ?></td>
-        <td class="mw-order-item-amount"><? print currency_format($item['amount'],$item['currency']) ?></td>
+        <td class="mw-order-item-amount"><?
+		 
+		
+		
+		 print currency_format(floatval($item['amount'])+floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><? if($item['is_paid'] == 'y'): ?>
           Yes
           <? else : ?>

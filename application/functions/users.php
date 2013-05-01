@@ -420,7 +420,7 @@ function captcha() {
 	// $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
 	$black = imagecolorallocate($image, 0, 0, 0);
 	session_set('captcha', $answ);
-
+session_write_close(); 
 	$col1z = rand(200, 242);
 	$col1z1 = rand(150, 242);
 	$col1z11 = rand(150, 242);

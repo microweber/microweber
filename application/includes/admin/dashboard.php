@@ -42,7 +42,7 @@
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="http://api.microweber.net/service/frames/report.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
-        <li><a href="<?php print admin_url(); ?>"><span class="ico isuggest"></span><span>Suggest feature</span></a></li>
+        <li><a href="http://api.microweber.net/service/frames/suggest.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico isuggest"></span><span>Suggest a feature</span></a></li>
         <? if(is_module('help')): ?>
         <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>
         <? endif; ?>

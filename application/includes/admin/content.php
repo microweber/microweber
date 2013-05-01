@@ -126,6 +126,8 @@ function mw_select_page_for_editing($p_id){
 
 
 
+ 
+
   	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 
 
@@ -174,8 +176,6 @@ function mw_select_page_for_editing($p_id){
 
 	 }
 
-
-
     mw.$('#pages_edit_container').attr('data-page-id',$p_id);
     mw.$('#pages_edit_container').attr('data-type','content/edit_page');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
@@ -193,9 +193,7 @@ mw.on.hashParam("parent-page", function(){
     var act = mw.url.windowHashParam("action");
     if(act == 'new:page'){
        mw_select_page_for_editing(0);
-
-
-
+ 
     }
 });
 

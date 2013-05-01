@@ -31,6 +31,9 @@
 </div>
 <div class="modal-body" id="mwmodal-content">
 </div>
+    <div class="modal-footer">
+                <a href="javascript:;" class="btn pull-left" style="margin-top: 7px;" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                <a href="javascript:;" class="btn btn-large btn-info pull-right">Download</a>  </div>
 
 
     </div>

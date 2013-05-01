@@ -39,6 +39,9 @@
 
 
 
+
+
+
 </style>
 
 
@@ -77,8 +80,17 @@
         for(var x in document_colors){
             var span = mwd.createElement('span');
             var color = mw.color.rgbToHex(document_colors[x]);
-            span.style.background = color;
-            span.setAttribute('onclick', '_do("'+color.replace(/#/g, '')+'");');
+            if(color != 'transparent'){
+              span.style.background = color;
+              span.setAttribute('onclick', '_do("'+color.replace(/#/g, '')+'");');
+            }
+            else{
+              span.style.background = color;
+              $(span).addClass("transparent");
+              span.setAttribute('onclick', '_do("'+'none'+'");');
+            }
+
+
             color_holder.appendChild(span);
 
         }

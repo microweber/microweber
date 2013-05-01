@@ -358,6 +358,10 @@ mw.embed = {
   max-width:100%;
   max-height: 100%;
 }
+#media_search{
+  float: left;
+  margin-right: 10px;
+}
 
 </style>
 
@@ -365,7 +369,7 @@ mw.embed = {
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
     <li><a href="javascript:;" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
-    <li><a href="javascript:;">Uploaded</a></li>
+    <li><?php /*<a href="javascript:;">Uploaded</a>*/ ?></li>
   </ul>
 
   <div class="tab" id="drag_files_here">
@@ -397,7 +401,7 @@ mw.embed = {
     <div id="media-search-holder">
     <div class="mw-ui-field left" style="width: 230px;" id="media_search">
         <span id="image_status"></span>
-        <input type="text" id="media_search_field" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);" data-default="URL" value="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
+        <input type="text" id="media_search_field" placeholder="URL" value="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
      </div>
     <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;">Insert</button>
 
@@ -405,9 +409,9 @@ mw.embed = {
    </div>
 
   </div>
-  <div class="tab">
+  <div class="Xtab" style="display: none">
 
-    <? exec_action('rte_image_editor_image_search'); ?>
+    <? //exec_action('rte_image_editor_image_search'); ?>
 
   </div>
 

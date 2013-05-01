@@ -46,6 +46,33 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 
 	$q = db_q($q);
 	}
+	
+	
+				if (defined("MW_DB_TABLE_MEDIA")) {
+					$table1 = MW_DB_TABLE_MEDIA;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='$table'  ";
+					$q = db_query($q);
+				}
+
+				if (defined("MW_DB_TABLE_TAXONOMY")) {
+					$table1 = MW_DB_TABLE_TAXONOMY;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='$table'  ";
+					$q = db_query($q);
+				}
+
+
+				if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+					$table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='$table'  ";
+					$q = db_query($q);
+				}
+
+
+				if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+					$table1 = MW_DB_TABLE_CUSTOM_FIELDS;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='$table'  ";
+					$q = db_query($q);
+				}
 
 
 

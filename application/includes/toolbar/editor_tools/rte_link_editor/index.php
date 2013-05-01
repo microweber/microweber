@@ -201,7 +201,8 @@
 <style type="text/css">
 
 #insert_link_list{
-
+  float: left;
+  margin-right: 10px;
 
 }
 #insert_link_list .mw_dropdown_val{
@@ -297,7 +298,7 @@ ul li.mw-dd-list-result:last-child a{
         <div class="tab">
 
             <div class="media-search-holder">
-              <div class="mw-ui-field left" style="width: 260px;">
+              <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
                   <span id="" class="image_status link"></span>
                   <input type="text" style="width: 220px;" class="mw-ui-invisible-field" />
               </div>
@@ -345,7 +346,7 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 4 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div class="mw-ui-field left" style="width: 260px;">
+                <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
                     <span id="" class="image_status link"></span>
                     <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="email_field" />
                 </div>

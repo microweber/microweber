@@ -255,7 +255,7 @@ function define_constants($content = false) {
 				$ref_page = get_content_by_url($ref_page);
 				if(!empty($ref_page)){
 					$content = $ref_page;
-					
+
 				}
 			}
 		}
@@ -268,7 +268,7 @@ function define_constants($content = false) {
 		if (isset($content['id'])) {
 $content = get_content_by_id($content['id']);
 			$page = $content;
-			
+
 		}
 	}
 
@@ -515,11 +515,11 @@ function get_layout_for_page($page = array()) {
 	$cache_id = __FUNCTION__ . crc32($function_cache_id);
 	if (isset($page['id']) and intval($page['id']) != 0){
 		$cache_group = 'content/'.$page['id'];
-		
+
 		$cache_content = cache_get_content($cache_id, $cache_group);
 
 		if (($cache_content) != false) {
-	 
+
 			 return $cache_content;
 		}
 	} else {
@@ -527,8 +527,8 @@ function get_layout_for_page($page = array()) {
 	}
 
 
- 
-	
+
+
 
 
 	$render_file = false;
@@ -951,10 +951,10 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	$result = $q;
 
 	$content = $result[0];
- 
+
 	if (!empty($content)) {
-		
-		 
+
+
 		//$get_by_id = $content;
 
 		return $content;
@@ -988,7 +988,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 			}
 		}
 	} else {
-		
+
 		if(isset($content['id']) and intval( $content['id']) != 0){
 		$content['id'] = ((int)$content['id']);
 		}
@@ -1084,7 +1084,7 @@ function reorder_content()
 		exit();
 	}
 	$ids = array_unique($ids);
-	 
+
 	$ids_implode = implode(',', $ids);
 	$ids_implode = db_escape_string($ids_implode);
 
@@ -1606,8 +1606,8 @@ function save_edit($post_data) {
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
 		$ref_page2 = get_content_by_url($ref_page_url, true);
- 
- 
+
+
 		if($ref_page2 == false){
 
 			$ustr = url_string(1);;
@@ -2096,30 +2096,40 @@ function delete_content($data) {
 			}	else if ($to_trash == false) {
 				$q = "update $table set parent=0 where parent=$c_id ";
 				$q = db_query($q);
-				
+
 				 db_delete_by_id('menus', $c_id, 'content_id');
-				 
+
 				if (defined("MW_DB_TABLE_MEDIA")) {
 					$table1 = MW_DB_TABLE_MEDIA;
 					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
 					$q = db_query($q);
 				}
-				
+
 				if (defined("MW_DB_TABLE_TAXONOMY")) {
 					$table1 = MW_DB_TABLE_TAXONOMY;
 					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
 					$q = db_query($q);
 				}
-				
-				
+
+
 				if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
 					$table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
 					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
 					$q = db_query($q);
 				}
 
-			  
-				
+
+				if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+					$table1 = MW_DB_TABLE_CUSTOM_FIELDS;
+					$q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+					$q = db_query($q);
+				}
+
+
+
+
+
+
 			} else {
 				$q = "update $table set is_deleted='y' where id=$c_id ";
 
@@ -2132,7 +2142,7 @@ function delete_content($data) {
 
 					$q = db_query($q);
 				}
-		
+
 
 			}
 
@@ -2172,6 +2182,8 @@ function delete_content($data) {
 api_expose('save_content');
 
 function save_content($data, $delete_the_cache = true) {
+
+
 
 	$adm = is_admin();
 	$table = MW_DB_TABLE_CONTENT;

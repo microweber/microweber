@@ -424,6 +424,8 @@ function mw_on_save_complete<? print $rand; ?>(){
 	//alert(1);
   mw.notification.success("<?php _e('All changes are saved'); ?>.");
 
+ mw.tools.enable(mwd.getElementById("mw-save-content-btn"));
+ mw.tools.enable(mwd.querySelector(".go-live"));
   mw.askusertostay = false;
 
 
@@ -625,7 +627,30 @@ else{
 }
 
 
+post_save_btn = function(btn){
 
+
+  if(!$(btn).hasClass("disabled")){
+
+    if(typeof __save === 'function' && typeof __save__global_id !=='undefined'){
+      __save(function(){
+          mw.tools.disable(btn, 'Saving...');
+          $(btn).parents('form').submit();
+          mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
+
+      });
+    }
+    else{
+
+      mw.tools.disable(btn, 'Saving...');
+      $(btn).parents('form').submit();
+      mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
+    }
+
+
+  }
+
+}
 
 
 
@@ -641,8 +666,13 @@ else{
         <div class="right">
           <?php /*     <span class="mw-ui-btn">Preview</span>
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
-          <span class="mw-ui-btn go-live">Go Live Edit</span> <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="$(this).parents('form').submit();mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');" id="mw-save-content-btn" >Save</span>
-          
+
+
+          <span class="mw-ui-btn go-live" onclick="post_save_btn(this);" data-text="Go Live Edit">Go Live Edit</span>
+
+
+          <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="post_save_btn(this);" data-text="Save" id="mw-save-content-btn" >Save</span>
+
            
           
           

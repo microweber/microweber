@@ -295,8 +295,7 @@ if($new > 0){
   </li>
 </ul>
 
-  <!--  <a href="#?action=new:product" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><? print $cat_name ?></b></a>
--->
+
   <? else: ?>
   <h2 class="left">No Posts Here</h2>
 
@@ -316,8 +315,9 @@ if($new > 0){
     }
 
      ?>
+     <? if(isset($url )): ?>
     <a href="<? print   $url ; ?>">
-
+      <? endif; ?>
 
 
       <span class="mw-ui-btn-plus">&nbsp;</span>

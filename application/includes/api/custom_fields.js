@@ -270,19 +270,25 @@ mw.custom_fields.del = function(id, toremove){
     }
 
 
-__save = function(){
-             mw.custom_fields.save(__save__global_id, function(){
-               if(mw.$("#custom-field-editor").hasClass('mw-custom-field-created')){
+__save = function(c){
 
-                    mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
-                        __sort_fields();
-                    });
-                    mw.$("#custom-field-editor").removeClass('mw-custom-field-created')
-               }
-               else{
-                  __sort_fields();
-               }
-             });
+               mw.custom_fields.save(__save__global_id, function(){
+                 if(mw.$("#custom-field-editor").hasClass('mw-custom-field-created')){
+
+                      mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
+                          __sort_fields();
+                      });
+                      mw.$("#custom-field-editor").removeClass('mw-custom-field-created')
+                 }
+                 else{
+                    __sort_fields();
+                 }
+                 if(typeof c === 'function'){
+                   c.call()
+                 }
+               });
+ 
+
          }
 
 

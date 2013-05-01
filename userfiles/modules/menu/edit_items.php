@@ -45,13 +45,20 @@ if( $id != 0){
     });
   });
  </script>
+ 
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
-				
-				
-        		mw.reload_module('#<? print $params['id'] ?>');
+				 
+				 
+				 <? if(isset($params['data-parent-module-id'])): ?>
+				 mw.reload_module('#<? print $params['data-parent-module-id'] ?>');
+				 <? else: ?>
+				 
+				 mw.reload_module('#<? print $params['id'] ?>');
+				 <? endif; ?>
+				 //mw.reload_module('#<? print $params['id'] ?>');
 				
 				
 				
