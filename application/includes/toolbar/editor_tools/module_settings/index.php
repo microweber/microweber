@@ -13,8 +13,8 @@
 
             liveEditSettings = true;
 
-            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js", true);
-  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js", true);
+            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
+  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
 
 
@@ -38,7 +38,7 @@
 
     mw.require("events.js", true);
     mw.require("url.js", true);
-    mw.require("tools.js, true");
+    mw.require("tools.js", true);
     mw.require("forms.js", true);
     mw.require('wysiwyg.js', true);
 

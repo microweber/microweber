@@ -60,7 +60,7 @@ function after_upld_<? print $rand; ?>(a, eventType){
 			 data.for_id = '<? print $for_id ?>';
 			 mw.module_pictures.after_upload(data);
 			  if(window.parent != undefined && window.parent.mw != undefined){
-            window.parent.mw.reload_module('pictures');
+            //window.parent.mw.reload_module('pictures');
         }
 			 
 	}
@@ -74,7 +74,7 @@ function after_upld_<? print $rand; ?>(a, eventType){
 
        //
 	    //mw.reload_module('pictures/admin');
-	   	    mw.reload_module('#<? print $params['id'] ?>');
+	   	  mw.reload_module('#<? print $params['id'] ?>');   
 
 	   
 	   
