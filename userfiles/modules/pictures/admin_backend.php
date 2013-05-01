@@ -157,7 +157,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
 
   $(document).ready(function(){
-
+ 
      mw.$("#backend_image_uploader").append(uploader);
 
 
