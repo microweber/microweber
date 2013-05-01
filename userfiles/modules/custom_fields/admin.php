@@ -82,6 +82,7 @@ __sort_fields = function(){
 }
 
 createFieldPill = function(el){
+	
   mw.custom_fields.create({
     selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
     type:$(el).dataset('type'),

@@ -264,11 +264,24 @@ mw_on_save_complete<? print $rand; ?>()
    });
 
 
-  mw.$('#admin_edit_page_form_<? print $rand; ?>  .go-live').click(function() {
+
+ mw.$('#mw-save-content-btn').click(function() {
+	    mw.$('#admin_edit_page_form_<? print $rand; ?>').submit()
+	 
+
+    return false;
+
+
+  });
+
+  mw.$('#admin_edit_page_form_<? print $rand; ?> .go-live').click(function() {
 
 
     mw_before_content_save<? print $rand; ?>()
 
+
+
+ 
 
     mw.form.post(mw.$('#admin_edit_page_form_<? print $rand; ?>') , '<? print site_url('api/save_content') ?>', function(){
 
@@ -427,13 +440,31 @@ function mw_on_save_complete<? print $rand; ?>(){
  mw.tools.enable(mwd.getElementById("mw-save-content-btn"));
  mw.tools.enable(mwd.querySelector(".go-live"));
   mw.askusertostay = false;
-
+mw.is_saving_content = 0;
 
 }
 
 
 
 function mw_before_content_save<? print $rand; ?>(){
+	
+	
+	
+	if(typeof __save === 'function' && typeof __save__global_id !=='undefined'){
+					  __save(function(){
+					 
+						  mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
+				
+					  });
+					}
+	
+	
+	
+	
+	
+	
+	
+	
 
   var ed_area = $('#iframe_editor_mw-editor<? print $rand; ?>');
   var ed_area_src = mw.$('#mw-editor<? print $rand; ?>_src');
@@ -626,32 +657,43 @@ else{
 
 }
 
+ 
+mw.is_saving_content = 0;
 
-post_save_btn = function(btn){
+if(typeof mw.content_save_btn ==='undefined'){
+	mw.content_save_btn = function(btn){
+		if(mw.is_saving_content  == 0){
+			mw.is_saving_content = 1;
+			  if(!$(btn).hasClass("disabled")){
+				  
+				    mw.tools.disable(btn, 'Saving...');
+				     mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
 
-
-  if(!$(btn).hasClass("disabled")){
-
-    if(typeof __save === 'function' && typeof __save__global_id !=='undefined'){
-      __save(function(){
-          mw.tools.disable(btn, 'Saving...');
-          $(btn).parents('form').submit();
-          mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
-
-      });
-    }
-    else{
-
-      mw.tools.disable(btn, 'Saving...');
-      $(btn).parents('form').submit();
-      mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
-    }
-
-
-  }
-
+				  
+			/*
+					if(typeof __save === 'function' && typeof __save__global_id !=='undefined'){
+					  __save(function(){
+						  mw.tools.disable(btn, 'Saving...');
+						  $(btn).parents('form').submit();
+						 //d(mw.is_saving_content);
+						  mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
+				
+					  });
+					}
+					else{
+				
+					  mw.tools.disable(btn, 'Saving...');
+					  $(btn).parents('form').submit();
+					  mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
+					}
+				*/
+				
+				  }
+	  
+		}
+	
+	}
 }
-
 
 
 
@@ -668,10 +710,10 @@ post_save_btn = function(btn){
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
 
 
-          <span class="mw-ui-btn go-live" onclick="post_save_btn(this);" data-text="Go Live Edit">Go Live Edit</span>
+          <span class="mw-ui-btn go-live" onclick="mw.content_save_btn(this);" data-text="Go Live Edit">Go Live Edit</span>
 
 
-          <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="post_save_btn(this);" data-text="Save" id="mw-save-content-btn" >Save</span>
+          <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="mw.content_save_btn(this);" data-text="Save" id="mw-save-content-btn" >Save</span>
 
            
           

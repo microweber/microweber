@@ -19,7 +19,7 @@ mw.custom_fields = {
   },
 
   edit: function($selector, $id, callback, event){
-
+ 
     if(!!event){
         var curr = event.target;
 

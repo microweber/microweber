@@ -240,9 +240,9 @@ function mw_db_init_content_table() {
 	return true;
 
 }
-//action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
+action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
 function create_mw_default_pages_in_not_exist() {
-	//mw_create_default_content('default');
+	mw_create_default_content('default'); 
 	//mw_create_default_content('shop');
 
 }
@@ -1600,8 +1600,10 @@ function save_edit($post_data) {
 		exit('Error: no POST?');
 	}
 
-
-
+$ustr2 = url_string(1,1);;
+if(isset($ustr2) and trim($ustr2) == 'favicon.ico'){
+			return false;
+		}
 	$ref_page = $ref_page_url= $_SERVER['HTTP_REFERER'];
 	if ($ref_page != '') {
 		$ref_page = $the_ref_page = get_content_by_url($ref_page_url);
@@ -1618,6 +1620,9 @@ function save_edit($post_data) {
 		}
 		if(isset($ustr) and trim($ustr) == 'favicon.ico'){
 			return false;
+		} elseif($ustr2 == '' or $ustr2 == '/'){
+			
+		 $ref_page = get_homepage();
 		}
 
 
@@ -1634,8 +1639,8 @@ function save_edit($post_data) {
 				$save_page['url'] = url_string(1);
 				$save_page['title'] = url_title(url_string(1));
 				$page_id = save_content($save_page);
-			//	d($save_page);
-			//	d($save_page);
+			  
+			  
 			}
 			//d($pd);
 
@@ -1656,7 +1661,7 @@ function save_edit($post_data) {
 	foreach ($the_field_data_all as $the_field_data) {
 		$save_global = false;
 		$save_layout = false;
-		if (!empty($the_field_data)) {
+		if (isset($page_id) and $page_id !=0 and !empty($the_field_data)) {
 			$save_global = false;
 			if ($the_field_data['attributes']) {
 				// $the_field_data ['attributes'] = json_decode($the_field_data

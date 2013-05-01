@@ -269,4 +269,7 @@ switch ($template_file):  case true:  ?>
         ?>
 <?php break; ?>
 <?php endswitch; ?>
-<?php  }   ?>
+<?php  }  else {
+	
+	mw_notif_live_edit('Comments posting is disabled from the admin panel');
+} ?>
