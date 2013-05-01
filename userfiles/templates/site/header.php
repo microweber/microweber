@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html prefix="og: http://ogp.me/ns#">
     <head>
-    
+
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,11 +46,17 @@
       <div class="container">
         <a href="javascript:;" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
         <ul id="main-menu" class="nav nav-pills mw-nav">
-            <li><a href="javascript:;">Get Started</a></li>
-            <li><a href="javascript:;">How to use</a></li>
-            <li><a href="javascript:;">Documentation</a></li>
-            <li><a href="javascript:;">Contacts</a></li>
+            <li><a href="/">Get Started</a></li>
+            <li><a href="#how-to-use">How to use</a></li>
+            <li><a href="javascript:;" id="doc-popup">Documentation</a></li>
+            <li><a href="#contact-us">Contacts</a></li>
         </ul>
+        <div id="doc-modal" class="hide">
+            <div align="center">
+              <h4>We are currently writing our documentation.</h4>
+              <p>Please try again after a few days.</p>
+            </div>
+        </div>
       </div>
     </div>
 <!-- /#header --> 

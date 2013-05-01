@@ -132,7 +132,7 @@ THE SOFTWARE.</p>
 
 
 
-<h2 class="z-title" style="padding-top: 0;">How to use?</h2>
+<h2 class="z-title" style="padding-top: 0;" id="how-to-use">How to use?</h2>
 
 <h3 class="w-title" style="padding-top: 0;padding-bottom: 30px;">Watch the videos below. We are comming very soon with many tutorials, lessons and documentation. </h3>
 
@@ -156,15 +156,33 @@ THE SOFTWARE.</p>
         </div>
     </div>
     <div class="span4">
-        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Quick Demo of Microweber')">
+        <div class="h-video" onclick="mw.site.modal_video('eajCiD0ha2s', 'Drag &amp; Drop the Modules')">
             <div class="h-video-shot">
-                <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
+                <img src="http://img.youtube.com/vi/eajCiD0ha2s/0.jpg" alt="" />
             </div>
-            <div class="h-video-title">Quick Demo of Microweber</div>
+            <div class="h-video-title">Drag &amp; Drop the Modules</div>
         </div>
 
     </div>
 
+
+</div>
+
+<h2 class="z-title"  id="contact-us">Did you tried Microweber already?</h2>
+    <br>
+
+ <div class="row">
+
+    <div class="span6">
+        <module type="contact_form">
+    </div>
+
+    <div class="span6" >
+    <div class="well">
+        <h4 style="font-size: 17px">Write us a message if you have any suggestion or problems. <br>We will answer you after 7th May. </h4>
+
+        </div>
+    </div>
 
 </div>
 

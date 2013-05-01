@@ -55,7 +55,14 @@ $(document).ready(function(){
     mw.$("#download").click(function(){
         mw.site.modal('#download_modal', 'Download', true);
         return false;
-    })
+    });
+    mw.$("#doc-popup").click(function(){
+        mw.site.modal('#doc-modal', 'Sorry', false);
+        return false;
+    });
+
+
+
 
 });
 

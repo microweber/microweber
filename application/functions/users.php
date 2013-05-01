@@ -87,7 +87,7 @@ function mw_db_init_users_table() {
 
 			$new_admin = array();
 			$new_admin['username'] = $_POST['admin_username'];
-			$new_admin['password'] = hash_user_pass($_POST['admin_password']);
+			$new_admin['password'] = ($_POST['admin_password']);
 			if (isset($_POST['admin_email'])) {
 			$new_admin['email'] = $_POST['admin_email'];
 			}
@@ -420,7 +420,7 @@ function captcha() {
 	// $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
 	$black = imagecolorallocate($image, 0, 0, 0);
 	session_set('captcha', $answ);
-session_write_close(); 
+session_write_close();
 	$col1z = rand(200, 242);
 	$col1z1 = rand(150, 242);
 	$col1z11 = rand(150, 242);
@@ -915,7 +915,7 @@ function user_login($params) {
 				$data['password'] = $pass;
 				$data['is_active'] = 'y';
 				$data['search_in_fields'] = 'username,password,email';
-				 
+
 				if (trim($user != '') and trim($email != '')) {
 					$data = get_users($data);
 				}
@@ -942,7 +942,7 @@ function user_login($params) {
 				$data['email'] = $user;
 				$data['password'] = $pass;
 				$data['is_active'] = 'y';
-				  
+
 
 				$data = get_users($data);
 
