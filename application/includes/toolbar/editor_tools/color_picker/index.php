@@ -87,7 +87,7 @@
             else{
               span.style.background = color;
               $(span).addClass("transparent");
-              span.setAttribute('onclick', '_do("'+'none'+'");');
+              span.setAttribute('onclick', '_do("'+'transparent'+'");');
             }
 
 
