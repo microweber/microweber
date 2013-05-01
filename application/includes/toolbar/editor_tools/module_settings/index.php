@@ -13,8 +13,8 @@
 
             liveEditSettings = true;
 
-            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
-  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
+            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js", true);
+  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js", true);
           </script>
 
 
@@ -36,11 +36,11 @@
 
 
 
-    mw.require("events.js");
-    mw.require("url.js");
-    mw.require("tools.js");
-    mw.require("forms.js");
-    mw.require('wysiwyg.js');
+    mw.require("events.js", true);
+    mw.require("url.js", true);
+    mw.require("tools.js, true");
+    mw.require("forms.js", true);
+    mw.require('wysiwyg.js', true);
 
 </script>
 
@@ -75,6 +75,10 @@
 
 
  <script type="text/javascript">
+
+ window.onbeforeunload = function(){
+   $(mwd.body).addClass("mw-external-loading")
+ }
 
         mw_module_settings_info = "";
          <? if(isarr( $module_info)): ?>
@@ -185,6 +189,10 @@
                 setInterval(function(){
                     __autoresize();
                 }, 99);
+
+
+
+
 
               });
 
@@ -316,7 +324,7 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
             });
           </script>
           </head>
-          <body class="mw-external-loading">
+          <body class="mw-external-loading loading">
 
           <div id="settings-main">
             <div id="settings-container">

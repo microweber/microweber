@@ -1,6 +1,6 @@
  
 <script  type="text/javascript">
-    mw.require('<? print $config['url_to_module'] ?>pictures.js');
+    mw.require('<? print $config['url_to_module'] ?>pictures.js', true);
 
 </script>
 <?
@@ -51,7 +51,7 @@ if(isset($params['content-id'])){
 
 
 function after_upld_<? print $rand; ?>(a, eventType){
-
+ 
 	if(eventType != undefined && eventType != 'done' ){
 			 var data = {};
 			 data.for = '<? print $for ?>';
@@ -59,6 +59,10 @@ function after_upld_<? print $rand; ?>(a, eventType){
 			 data.media_type = 'picture';
 			 data.for_id = '<? print $for_id ?>';
 			 mw.module_pictures.after_upload(data);
+			  if(window.parent != undefined && window.parent.mw != undefined){
+            window.parent.mw.reload_module('pictures');
+        }
+			 
 	}
 	if(eventType != undefined && eventType == 'done' ){
 
@@ -68,7 +72,12 @@ function after_upld_<? print $rand; ?>(a, eventType){
     	}
 
 
-        mw.reload_module('pictures/admin');
+       //
+	    //mw.reload_module('pictures/admin');
+	   	    mw.reload_module('#<? print $params['id'] ?>');
+
+	   
+	   
         if(window.parent != undefined && window.parent.mw != undefined){
             window.parent.mw.reload_module('pictures');
         } else {
@@ -134,7 +143,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
 
 
-  <script>mw.require("files.js");</script>
+  <script>mw.require("files.js", true);</script>
   <script>
 
 

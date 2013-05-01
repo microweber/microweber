@@ -36,11 +36,12 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 
 	 }
 }
-
+ 
 if(isset($params['content-id'])){
 	$params['rel_id'] = $params['content-id']; 
 	 $for = 'content';
 }
+
 
 
  if(isset($params['rel_id']) == true): ?>
