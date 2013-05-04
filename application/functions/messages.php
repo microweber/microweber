@@ -153,7 +153,7 @@ function notifications_reset() {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MW_DB_TABLE_NOTIFICATIONS;
@@ -171,7 +171,7 @@ function delete_notification($id) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MW_DB_TABLE_NOTIFICATIONS;
@@ -302,7 +302,7 @@ function email_send_test($params) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$res = email_get_transport_object();
 	if (is_object($res)) {

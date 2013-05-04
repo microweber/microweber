@@ -94,8 +94,8 @@ function add_new_menu($data_to_save) {
 
 	$id = is_admin();
 	if ($id == false) {
-		error('Error: not logged in as admin.');
-	}
+		//error('Error: not logged in as admin.'.__FILE__.__LINE__);
+	} else {
 
 	if (isset($data_to_save['menu_id'])) {
 		$data_to_save['id'] = intval($data_to_save['menu_id']);
@@ -110,32 +110,33 @@ function add_new_menu($data_to_save) {
 	cache_clean_group('menus/global');
 
 	return $save;
+	}
 
 }
 api_expose('menu_delete');
 function menu_delete($id = false) {
 	$params = parse_params($id);
-	
 
- 
+
+
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
-	
-	
-	
+
+
+
 	if(!isset($params['id'])){
 		error('Error: id param is required.');
 	}
-	
+
 	$id = $params['id'];
-	
+
 	$id = db_escape_string($id);
 	$id = htmlspecialchars_decode($id);
 	$table = MODULE_DB_MENUS;
 
-	db_delete_by_id($table, trim($id), $field_name = 'id'); 
+	db_delete_by_id($table, trim($id), $field_name = 'id');
 
 	cache_clean_group('menus/global');
 
@@ -147,7 +148,7 @@ function delete_menu_item($id) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MODULE_DB_MENUS;
@@ -164,7 +165,7 @@ function get_menu_item($id) {
 
 	$is_admin = is_admin();
 	if ($is_admin == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$id = intval($id);
 
@@ -179,7 +180,7 @@ function edit_menu_item($data_to_save) {
 
 	$id = is_admin();
 	if ($id == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	if (isset($data_to_save['menu_id'])) {
@@ -255,7 +256,7 @@ function reorder_menu_items($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$table = MODULE_DB_MENUS;
 
@@ -624,7 +625,7 @@ api_hook('save_content', 'add_content_to_menu');
 function add_content_to_menu($content_id) {
 	$id = is_admin();
 	if ($id == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$content_id = intval($content_id);
 	if ($content_id == 0) {

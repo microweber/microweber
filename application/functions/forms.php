@@ -172,7 +172,7 @@ function delete_forms_list($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		return array('error' =>'Error: not logged in as admin.');
+		return array('error' =>'Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$table = MW_DB_TABLE_FORMS_LISTS;
 	if (isset($data['id'])) {
@@ -189,7 +189,7 @@ function delete_form_entry($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		return array('error' =>'Error: not logged in as admin.');
+		return array('error' =>'Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$table = MW_DB_TABLE_FORMS_LISTS;
 	if (isset($data['id'])) {
@@ -205,7 +205,7 @@ function forms_list_export_to_excel($params){
 
 	$adm = is_admin();
 	if ($adm == false) {
-		return array('error' =>'Error: not logged in as admin.');
+		return array('error' =>'Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	if (!isset($params['id'])) {
 		return array('error' =>'Please specify list id! By posting field id=the list id ');

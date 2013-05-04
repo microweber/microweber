@@ -299,7 +299,7 @@ function delete_client($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$table = MODULE_DB_SHOP_ORDERS;
 
@@ -320,7 +320,7 @@ function delete_order($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MODULE_DB_SHOP_ORDERS;

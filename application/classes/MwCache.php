@@ -743,7 +743,7 @@ class MwCache {
 			return true;
 		}
 		if (is_admin() == false) {
-			error('Error: not logged in as admin.');
+			error('Error: not logged in as admin.'.__FILE__.__LINE__);
 		}
 
 		recursive_remove_from_cache_index(CACHEDIR, true);

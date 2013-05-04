@@ -18,7 +18,7 @@ function reorder_modules($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MW_TABLE_PREFIX . 'modules';
@@ -1186,7 +1186,7 @@ function delete_module_as_template($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	if (isset($data['id'])) {

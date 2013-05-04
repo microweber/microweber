@@ -437,7 +437,7 @@ function save_custom_field($data) {
 	}
 	$id = is_admin();
 	if ($id == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$data_to_save = ($data);
 
@@ -500,7 +500,7 @@ function reorder_custom_fields($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MW_TABLE_PREFIX . 'custom_fields';
@@ -530,7 +530,7 @@ function remove_field($id) {
 	}
 	$uid = is_admin();
 	if ($uid == false) {
-		exit('Error: not logged in as admin.');
+		exit('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	if (is_array($id)) {
 		extract($id);

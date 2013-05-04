@@ -1074,7 +1074,7 @@ function reorder_content()
 {
 	$id = is_admin();
 	if ($id == false) {
-		exit('Error: not logged in as admin.');
+		exit('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	$ids = $_POST['ids'];
 	if (empty($ids)) {
@@ -1577,7 +1577,7 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 function save_edit($post_data) {
 	$id = is_admin();
 	if ($id == false) {
-		exit('Error: not logged in as admin.');
+		exit('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 	if ($post_data) {
 		if (isset($post_data['json_obj'])) {
@@ -2042,7 +2042,7 @@ function delete_content($data) {
 
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$to_trash = true;
@@ -2196,7 +2196,7 @@ function save_content($data, $delete_the_cache = true) {
 
 	if($checks != $table){
 		if ($adm == false) {
-			error('Error: not logged in as admin.');
+			error('Error: not logged in as admin.'.__FILE__.__LINE__);
 		}
 	}
 	$cats_modified = false;
@@ -2659,7 +2659,7 @@ function save_content_field($data, $delete_the_cache = true) {
 
 
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	if(!is_array($data)){

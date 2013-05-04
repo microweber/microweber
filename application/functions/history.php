@@ -5,7 +5,7 @@ function load_history_file() {
 		//	p ( $_POST );
 		$id = is_admin();
 		if ($id == false) {
-			exit('Error: not logged in as admin.');
+			exit('Error: not logged in as admin.'.__FILE__.__LINE__);
 		} else {
 			$history_file = base64_decode($_POST['history_file']);
 			//p($history_file);

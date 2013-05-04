@@ -137,7 +137,7 @@ api_expose('system_log_reset');
 function system_log_reset($data = false) {
 	$adm = is_admin();
 	if ($adm == false) {
-		return array('error' => 'Error: not logged in as admin.');
+		return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	$table = MW_DB_TABLE_LOG;
@@ -158,7 +158,7 @@ api_expose('delete_log_entry');
 function delete_log_entry($data) {
 	$adm = is_admin();
 	if ($adm == false) {
-		return array('error' => 'Error: not logged in as admin.');
+		return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	if (isset($data['id'])) {
@@ -240,7 +240,7 @@ api_expose('delete_user');
 function delete_user($data) {
 	$adm = is_admin();
 	if ($adm == false) {
-		error('Error: not logged in as admin.');
+		error('Error: not logged in as admin.'.__FILE__.__LINE__);
 	}
 
 	if (isset($data['id'])) {
@@ -363,7 +363,7 @@ function save_user($params) {
 
 		$adm = is_admin();
 		if ($adm == false) {
-			error('Error: not logged in as admin.');
+			error('Error: not logged in as admin.'.__FILE__.__LINE__);
 		}
 	} else {
 		if (MW_IS_INSTALLED == true) {
