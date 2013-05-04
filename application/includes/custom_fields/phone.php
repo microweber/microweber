@@ -12,17 +12,17 @@ include('empty_field_vals.php');
 //print $data["custom_field_value"]; ?>
 <div class="control-group">
 <label class="custom-field-title">
-    <? if(isset($data['name']) == true and $data['name'] != ''): ?>
-    <? print ucwords(str_replace('_', ' ', $data['name'])); ?>
-    <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <? print $data['custom_field_name'] ?>
-    <? else : ?>
-    <? endif; ?>
+    <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <?php print ucwords(str_replace('_', ' ', $data['name'])); ?>
+    <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
+    <?php print $data['custom_field_name'] ?>
+    <?php else : ?>
+    <?php endif; ?>
   </label>
 <input type="text"
-        <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
-        <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>
-        data-custom-field-id="<? print $data["id"]; ?>"
-        name="<? print $data["custom_field_name"]; ?>"
-        placeholder="<? print $data["custom_field_value"]; ?>" />
+        <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?>
+        <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
+        data-custom-field-id="<?php print $data["id"]; ?>"
+        name="<?php print $data["custom_field_name"]; ?>"
+        placeholder="<?php print $data["custom_field_value"]; ?>" />
         </div>

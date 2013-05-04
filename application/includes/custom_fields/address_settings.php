@@ -1,4 +1,4 @@
-<? include('settings_header.php'); ?>
+<?php include('settings_header.php'); ?>
   <script>
 if(!!mw.custom_fields.address_settings){
     mw.custom_fields.address_settings = {
@@ -41,10 +41,10 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 </style>
   <div class="custom-field-col-left">
     <div class="mw-custom-field-group ">
-      <label class="mw-ui-label" for="input_field_label<? print $rand; ?>">
+      <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
         <?php _e('Define Title'); ?>
       </label>
-      <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand; ?>">
+      <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
       <div class="vSpace"></div>
       <?php
 
@@ -63,7 +63,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
         <?php if(isarr($opt)) { foreach($opt as $key => $val){ ?>
         <div>
           <label class="mw-ui-check">
-            <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <? if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <? endif; ?>  />
+            <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <?php if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <?php endif; ?>  />
             <span></span><span><?php print $val; ?></span></label>
         </div>
         <?php
@@ -77,9 +77,9 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
       <?php foreach($opt as $key => $val){ ?>
       <div id="mw-custom-fields-address-fields-<?php print $key; ?>">
         <label class="mw-ui-label"><?php print $val; ?></label>
-        <input type="text" class="mw-ui-field" name="custom_field_value[<?php print $key; ?>]" <? if(isset($data['custom_field_values'][$key]) and isset($data['custom_field_values'][$key][0])) : ?> value="<? print $data['custom_field_values'][$key][0] ?>"  <? endif; ?> />
+        <input type="text" class="mw-ui-field" name="custom_field_value[<?php print $key; ?>]" <?php if(isset($data['custom_field_values'][$key]) and isset($data['custom_field_values'][$key][0])) : ?> value="<?php print $data['custom_field_values'][$key][0] ?>"  <?php endif; ?> />
       </div>
       <?php } ?>
     </div>
     <?php print $savebtn; ?> </div>
-  <? include('settings_footer.php'); ?>
+  <?php include('settings_footer.php'); ?>

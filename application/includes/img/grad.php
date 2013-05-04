@@ -21,4 +21,4 @@ header('Last-Modified:'. gmdate('D, d M Y H:i:s', time() - $expires) . ' GMT');
 	</defs>
 	<rect x="0" y="0" width="100%" height="100%" style="fill:url(#round-gradient-box)"/>
 </svg>
-<? exit(); ?>
+<?php exit(); ?>

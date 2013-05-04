@@ -6,14 +6,14 @@
 
 
 
-<script>mw.require("<? print $config['url_to_module'] ?>numia/style.css", true);</script>
+<script>mw.require("<?php print $config['url_to_module'] ?>numia/style.css", true);</script>
 <div class="numia-login">
 
 <a class="numia_logo" href="http://numia.biz" target="_blank"></a>
 <h2>Login to </h2>
 
 <div class="well">
-<form  method="post" id="numia_user_login"  action="<? print $config['url_main'] ?>"  >
+<form  method="post" id="numia_user_login"  action="<?php print $config['url_main'] ?>"  >
   <div class="control-group">
     <label><?php _e("Username"); ?></label>
     <input  class="mw-ui-field"  name="numia_username" type="text"   />
@@ -25,7 +25,7 @@
   <div class="vSpace"></div>
   <input class="btn btn-large" type="submit" value="<?php _e("Login"); ?>" />
  &nbsp;
-  Or &nbsp;<a href="<? print $config['url_main'] ?>?register">Register new user</a>
+  Or &nbsp;<a href="<?php print $config['url_main'] ?>?register">Register new user</a>
 </form>
 
 </div>

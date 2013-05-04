@@ -29,10 +29,10 @@ if(isset($params['category'])){
  
 ?>
 <ul>
-  <? if(!empty($mods)): foreach($mods as $k=>$item): ?>
+  <?php if(!empty($mods)): foreach($mods as $k=>$item): ?>
   <li>      
-  <module type="admin/modules/edit_element" data-module-id="<? print $item['id'] ?>" />
-    <? // d($item); ?>
+  <module type="admin/modules/edit_element" data-module-id="<?php print $item['id'] ?>" />
+    <?php // d($item); ?>
   </li>
-  <? endforeach; endif; ?>
+  <?php endforeach; endif; ?>
 </ul>

@@ -1,4 +1,4 @@
-<? only_admin_access() ;
+<?php only_admin_access() ;
 $comments_data = array();
 if(isset($params['rel'])){
 $comments_data['rel'] =  $params['rel'];
@@ -22,7 +22,7 @@ $comments_data['rel_id'] =  $params['rel_id'];
 ?>
 
 <div class="comment-post">
-  <div class="comment-info-holder" content-id="<? print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(($item['icon']),48,48); ?>" alt="" />
+  <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(($item['icon']),48,48); ?>" alt="" />
     <?php // $new = get_comments('count=1&is_moderated=n&rel=content&rel_id='.$content_id);
 $comments_data2 = $comments_data;
 $comments_data2['count'] =  1;
@@ -42,27 +42,27 @@ $comments_data2['is_new'] =  'y';
     <?php } ?>
     </span>
     <div class="comment-post-content-side">
-     <? if(isset( $comments[0]) and isset( $comments[0]['comment_subject'] ) and trim($comments[0]['comment_subject']) != ''): ?>
-       <h3><a href="javascript:;" class="mw-ui-link"><? print $comments[0]['comment_subject'] ?></a></h3>
+     <?php if(isset( $comments[0]) and isset( $comments[0]['comment_subject'] ) and trim($comments[0]['comment_subject']) != ''): ?>
+       <h3><a href="javascript:;" class="mw-ui-link"><?php print $comments[0]['comment_subject'] ?></a></h3>
    
-     <? else: ?>
-      <h3><a href="javascript:;" class="mw-ui-link"><? print $item['name'] ?></a></h3>
-     <? endif; ?>
+     <?php else: ?>
+      <h3><a href="javascript:;" class="mw-ui-link"><?php print $item['name'] ?></a></h3>
+     <?php endif; ?>
      
-      <? if(isarr($links )): ?>
+      <?php if(isarr($links )): ?>
      
-  <? foreach($links  as $link): ?> 
-  <a class="comment-post-url" href="<? print $link['from_url'] ?>"><? print $link['from_url'] ?></a><br />
+  <?php foreach($links  as $link): ?> 
+  <a class="comment-post-url" href="<?php print $link['from_url'] ?>"><?php print $link['from_url'] ?></a><br />
  
- <? endforeach ; ?>
-<? endif; ?>
+ <?php endforeach ; ?>
+<?php endif; ?>
         </div>
   </div>
   <div class="comments-holder">
-    <? include($config["path_to_module"].'admin_items.php'); ?>
+    <?php include($config["path_to_module"].'admin_items.php'); ?>
   </div>
 </div>
-<? if(!empty($comments)): ?>
+<?php if(!empty($comments)): ?>
 <div class="comments-show-btns"> <span class="mw-ui-btn comments-show-all" onclick="mw.adminComments.display(event,this, 'all');"><?php print ($count_old+$count_new); ?> All</span> <span class="mw-ui-btn mw-ui-btn-green comments-show-new" onclick="mw.adminComments.display(event,this, 'new');"><?php print $count_new; ?> New</span> </div>
-<? endif; ?>
+<?php endif; ?>
 </div>

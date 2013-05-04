@@ -1,5 +1,5 @@
 <div class="mw-notification mw-success">
     <div>
-    <? print $text; ?>
+    <?php print $text; ?>
     </div>
   </div>

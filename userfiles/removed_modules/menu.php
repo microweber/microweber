@@ -1,4 +1,4 @@
-<? 
+<?php 
 
  
 if(isset($params['id']) != false){

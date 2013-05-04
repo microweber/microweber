@@ -7,11 +7,11 @@ include('empty_field_vals.php');
 }
 ?>
 
-<? if(!empty($data['custom_field_name'])) : ?>
+<?php if(!empty($data['custom_field_name'])) : ?>
 <?php $rand = uniqid(); ?>
 
 <div class="control-group">
- <label class="custom-field-title"><? print $data["custom_field_name"]; ?></label>
+ <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
  <div class="input-prepend input-append relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <span class="add-on">
         <i class="icon-file"></i>
@@ -42,7 +42,7 @@ include('empty_field_vals.php');
 <script>
 var uploader = mw.files.uploader({
     multiple:false,
-    filetypes:'<? if(isarr($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <? endif ?>'
+    filetypes:'<?php if(isarr($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <?php endif ?>'
 });
 
 var local_id = '<?php print($rand); ?>';
@@ -82,4 +82,4 @@ $(document).ready(function(){
 
 
 </script>
-<? endif; ?>
+<?php endif; ?>

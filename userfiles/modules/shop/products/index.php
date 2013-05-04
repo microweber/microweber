@@ -1,4 +1,4 @@
-<div class="<? print $config['module_class']; ?>">
+<div class="<?php print $config['module_class']; ?>">
 <?
 
 $params['is_shop'] = 'y';

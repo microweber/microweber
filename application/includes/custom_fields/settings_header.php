@@ -152,20 +152,20 @@ if (isset($data['save_to_content_id'])) {
 }
 ?>
 
-<div class="mw-field-type-<? print trim($field_type) ?>" id="custom_fields_edit<? print $rand; ?>" >
-<? if (isset($data['id']) and intval($data['id']) != 0): ?>
-<input type="hidden" name="cf_id" value="<? print intval($data['id']) ?>" />
-<? endif; ?>
-<? if (isset($data['for']) and $data['for'] != false): ?>
-<? $db_t = $for; ?>
-<input type="hidden" name="rel" value="<? print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
-<input type="hidden" name="rel_id" value="<? print strval($for_module_id) ?>" />
-<? endif; ?>
-<? if (isset($save_to_content_id)): ?>
-<input type="hidden" name="copy_rel_id" value="<? print strval($save_to_content_id) ?>" />
-<? endif; ?>
-<input type="hidden" name="custom_field_type" value="<? print trim($field_type) ?>" />
-<input type="hidden" name="position" value="<? print $data['position'] ?>" />
+<div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>" >
+<?php if (isset($data['id']) and intval($data['id']) != 0): ?>
+<input type="hidden" name="cf_id" value="<?php print intval($data['id']) ?>" />
+<?php endif; ?>
+<?php if (isset($data['for']) and $data['for'] != false): ?>
+<?php $db_t = $for; ?>
+<input type="hidden" name="rel" value="<?php print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
+<input type="hidden" name="rel_id" value="<?php print strval($for_module_id) ?>" />
+<?php endif; ?>
+<?php if (isset($save_to_content_id)): ?>
+<input type="hidden" name="copy_rel_id" value="<?php print strval($save_to_content_id) ?>" />
+<?php endif; ?>
+<input type="hidden" name="custom_field_type" value="<?php print trim($field_type) ?>" />
+<input type="hidden" name="position" value="<?php print $data['position'] ?>" />
 
 
 
@@ -174,7 +174,7 @@ if (isset($data['save_to_content_id'])) {
 
 $(document).ready(function(){
 
-var master = mwd.getElementById('custom_fields_edit<? print $rand; ?>');
+var master = mwd.getElementById('custom_fields_edit<?php print $rand; ?>');
 
 var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
 

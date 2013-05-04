@@ -56,7 +56,7 @@ $posts = array();
 //print $posts ;
   //d($params);
 ?>
-<?  if(isset($params['page-id'])):  ?>
+<?php  if(isset($params['page-id'])):  ?>
 <?
 
 if($params['page-id'] == 'global'){
@@ -80,14 +80,14 @@ if($params['page-id'] == 'global'){
 <div class="mw-admin-page-preview-holder">
   <div  class="mw-admin-page-preview-page">
     <div style="width: 370px;margin-left: 30px;" class="left">
-      <? if(isarr($page_info) and isset($page_info['title'])): ?>
+      <?php if(isarr($page_info) and isset($page_info['title'])): ?>
       <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-      <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><? print ($page_info['title']) ?></h2>
+      <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
       <?php endif; ?>
-      <module data-type="content/layout_selector" data-page-id="<? print ($page_info['id'])?>" autoload="1" inherit_from="<? print ($page_info['id'])?>" data-small=1 edit_page_id="<? print ($page_info['id'])?>"  />
+      <module data-type="content/layout_selector" data-page-id="<?php print ($page_info['id'])?>" autoload="1" inherit_from="<?php print ($page_info['id'])?>" data-small=1 edit_page_id="<?php print ($page_info['id'])?>"  />
     </div>
     <div class="right" style="width: 210px;">
-      <? if(isset($page_info) and isset($page_info['title'])): ?>
+      <?php if(isset($page_info) and isset($page_info['title'])): ?>
       <?php  /*   <ul class="mw-quick-links mw-quick-links-blue">
     <li>
 
@@ -98,32 +98,32 @@ if($params['page-id'] == 'global'){
         </a>
     </li>
   </ul>  */  ?>
-      <? endif; ?>
+      <?php endif; ?>
       <h2 class="hr" style="padding-top: 19px;">Add New</h2>
       <ul class="mw-quick-links mw-quick-links-green" >
-        <li> <a href="#action=new:page&parent_page=<? print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipage"></span> <span>New Page</span> </a> </li>
-        <li> <a href="#action=new:category&parent_page=<? print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico icategory"></span> <span>New Category</span> </a> </li>
-        <? if(isset($params['is_shop']) and $params['is_shop'] == 'y'): ?>
-        <? else :  ?>
-        <li> <a href="#action=new:post&parent_page=<? print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipost"></span> <span>New Post</span> </a> </li>
-        <? endif; ?>
-        <li> <a href="#action=new:product&parent_page=<? print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico iproduct"></span> <span>New Product</span> </a> </li>
+        <li> <a href="#action=new:page&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipage"></span> <span>New Page</span> </a> </li>
+        <li> <a href="#action=new:category&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico icategory"></span> <span>New Category</span> </a> </li>
+        <?php if(isset($params['is_shop']) and $params['is_shop'] == 'y'): ?>
+        <?php else :  ?>
+        <li> <a href="#action=new:post&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipost"></span> <span>New Post</span> </a> </li>
+        <?php endif; ?>
+        <li> <a href="#action=new:product&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico iproduct"></span> <span>New Product</span> </a> </li>
       </ul>
     </div>
     <div class="mw_clear"></div>
   </div>
   <div class="mw-admin-page-preview-page-info"> </div>
 </div>
-<? elseif(isset($params["data-category-id"])):?>
-<?  $cat_info = get_category_by_id($params["data-category-id"]);
+<?php elseif(isset($params["data-category-id"])):?>
+<?php  $cat_info = get_category_by_id($params["data-category-id"]);
 //d($cat_info );
 ?>
-    <? if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
+    <?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
       <div style="width: 370px;margin-left: 30px;" class="left">
-<h2   style="padding-top: 16px;"><span class="ico icategory"></span>&nbsp;Category <small style="opacity:0.4">&raquo;</small> <? print ($cat_info ['title']) ?></h2>
+<h2   style="padding-top: 16px;"><span class="ico icategory"></span>&nbsp;Category <small style="opacity:0.4">&raquo;</small> <?php print ($cat_info ['title']) ?></h2>
 </div>
-<? endif; ?>
-<? endif; ?>
+<?php endif; ?>
+<?php endif; ?>
 <div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>Yes
@@ -135,11 +135,11 @@ if($params['page-id'] == 'global'){
   </div>
   <label class="mw-ui-label-small right" style="margin-right: 10px;">Show Pages?</label>
 </div>
-<? if(isset($page_info) and isset($page_info['title'])): ?>
+<?php if(isset($page_info) and isset($page_info['title'])): ?>
 <?php if($page_info['is_shop'] == 'y'){ ?>
-<h2 class="left" style="padding-left: 20px;width: 430px;">Products from <? print ($page_info['title']) ?></h2>
+<h2 class="left" style="padding-left: 20px;width: 430px;">Products from <?php print ($page_info['title']) ?></h2>
 <?php } else{  ?>
-<h2 class="left" style="padding-left: 20px;width: 430px;">Posts from <? print ($page_info['title']) ?></h2>
+<h2 class="left" style="padding-left: 20px;width: 430px;">Posts from <?php print ($page_info['title']) ?></h2>
 <?php } ?>
 <?php endif; ?>
 <div class="mw_clear"></div>
@@ -168,7 +168,7 @@ delete_selected_posts = function(){
   var master = mwd.getElementById('pages_edit_container');
   var arr = mw.check.collectChecked(master);
   mw.post.del(arr, function(){
-   mw.reload_module('#<? print $params['id'] ?>', function(){
+   mw.reload_module('#<?php print $params['id'] ?>', function(){
      toggle_cats_and_pages()
    });
  });
@@ -230,7 +230,7 @@ mw.manage_content_sort = function(){
 </script>
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
 
-  <?  if(isset($params['page-id'])):  ?>
+  <?php  if(isset($params['page-id'])):  ?>
   <?
 
 
@@ -280,9 +280,9 @@ if(isset($params['keyword'])){
 
 pages_tree($pt_opts);
 ?>
-  <? else : ?>
+  <?php else : ?>
 
-  <?  if(isset($params['category-id'])):  ?>
+  <?php  if(isset($params['category-id'])):  ?>
   <?
 $pt_opts = array();
 $pt_opts['parent'] = $params['category-id'];
@@ -299,22 +299,22 @@ if(isset($params['keyword'])){
 
 category_tree($pt_opts);
 ?>
-  <? endif; ?>
-  <? endif; ?>
+  <?php endif; ?>
+  <?php endif; ?>
 </div>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')">Select All</span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">Unselect All</span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();">Delete</span>
   <input
   onfocus="mw.form.dstatic(event);"
   onblur="mw.form.dstatic(event);"
   onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
-  value="<?  if(isset($params['keyword']) and $params['keyword'] != false):  ?><? print $params['keyword'] ?><? else: ?><?php _e("Search for posts"); ?><? endif; ?>"
+  value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php else: ?><?php _e("Search for posts"); ?><?php endif; ?>"
   data-default="<?php _e("Search for posts"); ?>"
   type="text"
   class="manage-search"
   id="mw-search-field"   />
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
-<?    print $posts = module( $posts_mod);  ?>
+<?php    print $posts = module( $posts_mod);  ?>
 </div>
 <script  type="text/javascript">
 
@@ -362,8 +362,8 @@ mw.on.hashParam("search", function(){
  var dis = this;
  if(dis!==''){
    mw.$('#mw_admin_posts_manage').attr("data-keyword", dis);
-   mw.url.windowDeleteHashParam('<? print $posts_mod['paging_param'] ?>')
-	//   mw.$('#mw_admin_posts_manage').removeAttr("<? print $posts_mod['paging_param'] ?>");
+   mw.url.windowDeleteHashParam('<?php print $posts_mod['paging_param'] ?>')
+	//   mw.$('#mw_admin_posts_manage').removeAttr("<?php print $posts_mod['paging_param'] ?>");
  mw.$('#mw_admin_posts_manage').attr("data-page-number", 1);
 			//    mw.$('#mw_admin_posts_manage').attr("data-page-number", 1);
 
@@ -375,7 +375,7 @@ mw.on.hashParam("search", function(){
   mw.reload_module('#mw_admin_posts_manage');
 });
 
-mw.on.moduleReload('#<? print $params['id'] ?>', function(){
+mw.on.moduleReload('#<?php print $params['id'] ?>', function(){
 
 
     //    var page = mw.url.getHashParams(window.location.hash).pg;

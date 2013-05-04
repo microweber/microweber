@@ -1,14 +1,14 @@
-<? only_admin_access(); ?><script  type="text/javascript">
+<?php only_admin_access(); ?><script  type="text/javascript">
 $(document).ready(function(){
 	
-  mw.options.form('.<? print $config['module_class'] ?>', function(){
+  mw.options.form('.<?php print $config['module_class'] ?>', function(){
       mw.notification.success("<?php _e("All changes are saved"); ?>.");
     });
 });
 </script>
 
-<div class="<? print $config['module_class'] ?>">
-<? $data = get_option('curent_template', 'template',1);
+<div class="<?php print $config['module_class'] ?>">
+<?php $data = get_option('curent_template', 'template',1);
 
  
  ?>
@@ -19,7 +19,7 @@ function mw_set_default_template(){
 
 
 
-			 var el1 =  mw.$('.mw-site-theme-selector').find("[name='<? print  $data['option_key']; ?>']")[0];
+			 var el1 =  mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>']")[0];
 
 
 
@@ -57,13 +57,13 @@ $(document).ready(function(){
  });
 
 </script>
-<?  //d($data); ?>
+<?php  //d($data); ?>
 
 <div class="mw-site-theme-selector">
   <label class="control-label-title"> Website template </label>
  
-  <input id="mw_curr_theme_val" name="<? print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<? print  $data['option_group']; ?>"  value="<? print  $data['option_value']; ?>" data-id="<? print  $data['id']; ?>" />
-  <module type="content/layout_selector" data-active-site-template="<? print $data['option_value'] ?>" autoload="1"  />
+  <input id="mw_curr_theme_val" name="<?php print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<?php print  $data['option_group']; ?>"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
+  <module type="content/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1"  />
   <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()">Apply Template</button>
 </div>
 </div>

@@ -79,9 +79,9 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
 
 
 </script>
-<? if($payment_success == false): ?>
+<?php if($payment_success == false): ?>
 
-<form class="mw-checkout-form" id="checkout_form_<? print $params['id'] ?>" method="post" action="<? print api_url('checkout') ?>" >
+<form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_url('checkout') ?>" >
   <script type="text/javascript">
     mw.require("shop.js");
   </script>
@@ -89,31 +89,31 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
   <?
   
    if($cart_show_enanbled != 'n'): ?>
-  <module type="shop/cart" template="big" id="cart_checkout_<? print $params['id']?>" data-checkout-link-enabled="n" />
-  <? endif ;?>
+  <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />
+  <?php endif ;?>
   <div style="margin-left: 0">
     <div class="row-fluid mw-cart-data-holder">
       <div class="span4">
         <div class="well">
-          <? $user = get_user(); ?>
+          <?php $user = get_user(); ?>
           <h2 style="margin-top:0 ">Personal Information</h2>
           <hr />
           <label>
             <?php _e("First Name"); ?>
           </label>
-          <input name="first_name" class="field-full"  type="text" value="<? if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
+          <input name="first_name" class="field-full"  type="text" value="<?php if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
           <label>
             <?php _e("Last Name"); ?>
           </label>
-          <input name="last_name" class="field-full"  type="text" value="<? if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
+          <input name="last_name" class="field-full"  type="text" value="<?php if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
           <label>
             <?php _e("Email"); ?>
           </label>
-          <input name="email" class="field-full" type="text" value="<? if(isset($user['email'])) { print $user['email']; } ?>" />
+          <input name="email" class="field-full" type="text" value="<?php if(isset($user['email'])) { print $user['email']; } ?>" />
           <label>
             <?php _e("Phone"); ?>
           </label>
-          <input name="phone" class="field-full"  type="text" value="<? if(isset($user['phone'])) { print $user['phone']; } ?>" />
+          <input name="phone" class="field-full"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
         </div>
       </div>
       <module type="shop/shipping" class="span4" />
@@ -122,16 +122,16 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
     <div class="alert hide"></div>
     <div class="mw-cart-action-holder">
       <hr />
-      <? $shop_page = get_content('is_shop=y');      ?>
-      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<? print $params['id'] ?>');" type="button">Complete order</button>
+      <?php $shop_page = get_content('is_shop=y');      ?>
+      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button">Complete order</button>
       <?php if(isarr($shop_page)): ?>
-      <a href="<? print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
+      <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
       <?php endif; ?>
       <div class="clear"></div>
     </div>
   </div>
 </form>
 <div class="mw-checkout-responce"></div>
-<? else: ?>
+<?php else: ?>
 <h2>Your payment was successfull.</h2>
-<? endif; ?>
+<?php endif; ?>

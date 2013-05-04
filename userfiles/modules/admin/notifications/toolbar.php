@@ -30,18 +30,18 @@ mw.notif_item_delete = function($item_id){
 	  });
 }
 </script>
-<? if(isarr($data )): ?>
+<?php if(isarr($data )): ?>
 
 <div class="mw-admin-notifications-holder">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
 
     <tbody>
-      <? foreach($data  as $item): ?>
+      <?php foreach($data  as $item): ?>
 
 
 
 
-      <tr class="mw-ui-admin-notif-item-<? print $item['id'] ?> <? if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?><? endif; ?>">
+      <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?><?php endif; ?>">
 
         <?
 	 $mod_info = false;
@@ -50,11 +50,11 @@ mw.notif_item_delete = function($item_id){
 		}
 ?>
       <td>
-        <? if($mod_info != false and isset($mod_info['name'])): ?>
-            <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_notif:<? print $item['id'] ?>">
+        <?php if($mod_info != false and isset($mod_info['name'])): ?>
+            <a href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>">
         <?php endif; ?>
-            <img src=" <?   print thumbnail($mod_info['icon'], 16,16) ?>" />
-          <? if($mod_info != false and isset($mod_info['name'])): ?>
+            <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
+          <?php if($mod_info != false and isset($mod_info['name'])): ?>
         </a>
           <?php endif; ?>
         </td>
@@ -63,24 +63,24 @@ mw.notif_item_delete = function($item_id){
 
 
 
-          <? if($mod_info != false and isset($mod_info['name'])): ?>
+          <?php if($mod_info != false and isset($mod_info['name'])): ?>
 
-          <a class="mw-ui-link" href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_notif:<? print $item['id'] ?>" title="<? print $mod_info['name'] ?>">
+          <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>">
 
 
 
-          <span class="ellipsis"><? print $item['title'] ?></span>
+          <span class="ellipsis"><?php print $item['title'] ?></span>
 
-          <? else : ?>
+          <?php else : ?>
           <span >
-          <? print $item['title'] ?></span>
-          <? endif; ?>
+          <?php print $item['title'] ?></span>
+          <?php endif; ?>
           <div class="mw_clear"></div>
-          <time title="<? print mw_date($item['created_on']); ?>"><? print ago($item['created_on'],1); ?></time>
-          <? if($mod_info != false and isset($mod_info['name'])): ?>
+          <time title="<?php print mw_date($item['created_on']); ?>"><?php print ago($item['created_on'],1); ?></time>
+          <?php if($mod_info != false and isset($mod_info['name'])): ?>
            </a>
 
-          <? endif; ?>
+          <?php endif; ?>
 
           </td>
 
@@ -88,8 +88,8 @@ mw.notif_item_delete = function($item_id){
 
 
       </tr>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </tbody>
   </table>
 </div>
-<? endif; ?>
+<?php endif; ?>

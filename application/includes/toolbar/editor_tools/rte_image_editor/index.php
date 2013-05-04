@@ -411,7 +411,7 @@ mw.embed = {
   </div>
   <div class="Xtab" style="display: none">
 
-    <? //exec_action('rte_image_editor_image_search'); ?>
+    <?php //exec_action('rte_image_editor_image_search'); ?>
 
   </div>
 

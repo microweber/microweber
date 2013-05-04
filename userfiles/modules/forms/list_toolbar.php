@@ -1,4 +1,4 @@
-<? if(is_admin()==false) { mw_error('You must be logged as admin', 1); }
+<?php if(is_admin()==false) { mw_error('You must be logged as admin', 1); }
 
 
 if(!isset($params['load_list'])){
@@ -7,7 +7,7 @@ if(!isset($params['load_list'])){
 
  ?>
 <script  type="text/javascript">
-  mw.require('<? print $config['url_to_module']; ?>forms_data_manager.js');
+  mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
   </script>
 <?php $def =  _e("Search for data", true); 
@@ -26,7 +26,7 @@ if(trim($load_list) == 'default'){
 
 ?>
 
-<h2 class="left to-edit"  <?  if(trim($load_list) != 'default'): ?>id="form_field_title" <? endif; ?> style="max-width: 360px" ><?php print ($data['title']); ?></h2>
+<h2 class="left to-edit"  <?php  if(trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?> style="max-width: 360px" ><?php print ($data['title']); ?></h2>
 <input
         name="forms_data_keyword"
         id="forms_data_keyword"
@@ -37,5 +37,5 @@ if(trim($load_list) == 'default'){
         placeholder='<?php print $def; ?>'
         onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
       />
-<div class="export-label"> <span>Export data:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<? print $data['id'] ?>');"><span class="ico iexcell"></span>Excel</a> </div>
+<div class="export-label"> <span>Export data:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><span class="ico iexcell"></span>Excel</a> </div>
 <div class="mw_clear"></div>

@@ -18,5 +18,5 @@ description: Simple Navigation
 ?>
 
 <div class="category-nav category-nav-stacked">
-	<? category_tree($params);   ?>
+	<?php category_tree($params);   ?>
 </div>

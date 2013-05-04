@@ -18,12 +18,12 @@ description: List Navigation
 	$params['return_data'] = true;
  
 ?>
-<? $pages_tree= pages_tree($params);  ?>
+<?php $pages_tree= pages_tree($params);  ?>
  
-<? if($pages_tree != ''): ?>
+<?php if($pages_tree != ''): ?>
 <div class="pages-nav">
 	<div class="well" style="padding: 0;">
-		<? print $pages_tree ?>
+		<?php print $pages_tree ?>
 	</div>
 </div>
-<? endif; ?>
+<?php endif; ?>

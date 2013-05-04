@@ -1,9 +1,9 @@
-<? //$rand = uniqid(); ?>
-<? $is_shop = get_content('is_shop=y');  ?>
-<? if(is_array($is_shop) and !empty($is_shop)): ?>
+<?php //$rand = uniqid(); ?>
+<?php $is_shop = get_content('is_shop=y');  ?>
+<?php if(is_array($is_shop) and !empty($is_shop)): ?>
 
 Add new product to shop
-<? else: ?>
+<?php else: ?>
 <script type="text/javascript">
     function mw_make_new_shop{rand}(){
 		
@@ -20,4 +20,4 @@ Add new product to shop
 </script> 
 <a href="javascript:mw_make_new_shop{rand}()">Click here to create your online shop</a>
 <div id="add_shop_{rand}"></div>
-<? endif; ?>
+<?php endif; ?>

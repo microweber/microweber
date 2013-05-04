@@ -1,4 +1,4 @@
-<? $seach_prefix = crc32( $params['id'] ); ?>
+<?php $seach_prefix = crc32( $params['id'] ); ?>
 <script  type="text/javascript">
 mw.require('events.js', true);
 </script>

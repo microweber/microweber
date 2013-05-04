@@ -1,4 +1,4 @@
-<div class="mw-settings-list<? if(isset($params['option_group'])): ?> mw-settings-list-<? print strtolower(trim($params['option_group'])) ?><? endif; ?>">
+<div class="mw-settings-list<?php if(isset($params['option_group'])): ?> mw-settings-list-<?php print strtolower(trim($params['option_group'])) ?><?php endif; ?>">
 	<?
 	$orig_params = $params;
 	if(isset($params['id'])){
@@ -40,16 +40,16 @@
 
 
 	?>
-	<? if(is_arr($opts)): ?>
+	<?php if(is_arr($opts)): ?>
 
 	<script type="text/javascript">
 	mw.require("options.js", true);
 	mw.require("<?php print $config['url_to_module']; ?>settings.css");
 	</script>
-	<? foreach($opts as $params): ?>
-	<? include( $config['path_to_module'].'edit.php'); ?>
-<? endforeach; ?>
-<?  else: ?>
-<? // _e("No options found"); ?>
-<? endif; ?>
+	<?php foreach($opts as $params): ?>
+	<?php include( $config['path_to_module'].'edit.php'); ?>
+<?php endforeach; ?>
+<?php  else: ?>
+<?php // _e("No options found"); ?>
+<?php endif; ?>
 </div>

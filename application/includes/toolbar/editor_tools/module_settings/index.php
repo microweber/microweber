@@ -2,10 +2,10 @@
 <html>
           <head>
 
-          <?  $module_info = false;
+          <?php  $module_info = false;
 		  if(isset($params['module'])): ?>
-           <? $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
-           <? endif; ?>
+           <?php $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
+           <?php endif; ?>
 
           <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
           
@@ -20,8 +20,8 @@
 
 
           
-          <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>default.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>default.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>api/api.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
           <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css?v=<?php print uniqid(); ?>"/>
@@ -81,13 +81,13 @@
  }
 
         mw_module_settings_info = "";
-         <? if(isarr( $module_info)): ?>
+         <?php if(isarr( $module_info)): ?>
 
-           mw_module_settings_info  = <? print json_encode($module_info); ?>
+           mw_module_settings_info  = <?php print json_encode($module_info); ?>
 		   
-		   mw_module_params  = <? print  json_encode($params); ?>
+		   mw_module_params  = <?php print  json_encode($params); ?>
  
-         <? endif; ?>
+         <?php endif; ?>
 
          if(typeof thismodal == 'undefined' && self !== parent){
            var frame = parent.mw.$('#'+this.name)[0];
@@ -126,8 +126,8 @@
 			
 
 			
-			  <? if(isarr( $module_info)): ?>
-			  <? $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
+			  <?php if(isarr( $module_info)): ?>
+			  <?php $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
 			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			  if(is_module_tml_holder.length > 0 ){
 
@@ -141,10 +141,10 @@
 
 
               var html = ""
-              + "<div id='module-modal-settings-menu-items' module_id='<? print $params['id'] ?>' module_name='<? print $module_info['module'] ?>'>"
+              + "<div id='module-modal-settings-menu-items' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
               + "</div>"
               + "<hr>"
-              + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<? print $mod_adm  ?>'>Go to admin</a></div>"
+              + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<?php print $mod_adm  ?>'>Go to admin</a></div>"
 
               var btn = "<a class='mw-ui-btn mw-ui-btn-small' onclick='$(this).toggleClass(\"active\")'><span class='ico idownarr right'></span>Menu</a>";
 
@@ -159,7 +159,7 @@
 
 			 }
                                             
-          	<? endif; ?>
+          	<?php endif; ?>
 			
 			
 		
@@ -220,7 +220,7 @@
 
 
         $(document).ready(function () {
-mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
+mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
  mw.$(".mw_option_field").bind("change", function (e) {
 
 
@@ -247,7 +247,7 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
 
 			 
 
-				var og = '<? print $params['id'] ?>';
+				var og = '<?php print $params['id'] ?>';
 				 
 
 
@@ -272,9 +272,9 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
                     option_value: val
                    // chkboxes:checkboxes_obj
                 }
-				 <? if(isset( $params['module'])): ?>
-					o_data.module = '<? print $params['module'] ?>';
-				 <? endif; ?>
+				 <?php if(isset( $params['module'])): ?>
+					o_data.module = '<?php print $params['module'] ?>';
+				 <?php endif; ?>
 
 
                 $.ajax({
@@ -298,7 +298,7 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
 							 if (window.parent.mw != undefined) {
 								  if (window.parent.mw.reload_module != undefined) {
                                    // window.parent.mw.reload_module(refresh_modules11);
-									window.parent.mw.reload_module('#<? print $params['id'] ?>');
+									window.parent.mw.reload_module('#<?php print $params['id'] ?>');
                                 }
 								 
 							 } else    if (window.mw != undefined) {
@@ -330,7 +330,7 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
             <div id="settings-container">
 
 
-                  <div class="mw-module-live-edit-settings <? print $params['id'] ?>" id="<? print $params['id'] ?>">{content}</div>
+                  <div class="mw-module-live-edit-settings <?php print $params['id'] ?>" id="<?php print $params['id'] ?>">{content}</div>
 
 
             </div>
@@ -343,13 +343,13 @@ mw.simpletabs(mwd.getElementById('<? print $params['id'] ?>'));
           
           
           <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
-<? if(isarr($params )): ?>
-  <? foreach($params  as $k=> $item): ?> 
-<input type="text" name="<? print $k ?>" value="<? print $item ?>" />
+<?php if(isarr($params )): ?>
+  <?php foreach($params  as $k=> $item): ?> 
+<input type="text" name="<?php print $k ?>" value="<?php print $item ?>" />
 
- <? endforeach ; ?>
+ <?php endforeach ; ?>
  <input type="submit" />
-<? endif; ?>
+<?php endif; ?>
 </form>
           
 </body>

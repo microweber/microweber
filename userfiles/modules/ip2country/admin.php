@@ -1,1 +1,1 @@
-<? include_once($config['path_to_module'].'index.php'); ?>
+<?php include_once($config['path_to_module'].'index.php'); ?>

@@ -8,7 +8,7 @@ if (r==true)
 if (r1==true)
   {
  
-	 $.post("<? print api_url('delete_client') ?>", { email: $email } ,function(data) {
+	 $.post("<?php print api_url('delete_client') ?>", { email: $email } ,function(data) {
 		mw.reload_module('shop/orders/clients');
 		
 		
@@ -62,7 +62,7 @@ if (r1==true)
       </tr>
     </tfoot>
     <tbody>
-      <? if(!empty($orders)): foreach ($orders as $order) : ?>
+      <?php if(!empty($orders)): foreach ($orders as $order) : ?>
        <tr>
         <td><?php print $order['first_name'] . " " . $order['last_name']; ?></td>
         <td><?php print $order['email']; ?></td>
@@ -76,11 +76,11 @@ if (r1==true)
         <td width="85">
 
 
-            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<? print ($order['email']) ?>');"></span>
+            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
-      <? endforeach; endif; ?>
+      <?php endforeach; endif; ?>
     </tbody>
   </table>
 

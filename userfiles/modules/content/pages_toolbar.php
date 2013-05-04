@@ -1,4 +1,4 @@
-<? //$rand = uniqid(); ?>
+<?php //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 

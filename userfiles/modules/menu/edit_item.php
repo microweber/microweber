@@ -41,29 +41,29 @@ if( $id != 0){
 }
 
 ?>
-<? if($data != false): ?>
-<? //$rand = uniqid(); ?>
+<?php if($data != false): ?>
+<?php //$rand = uniqid(); ?>
 
 
 <div class="vSpace"></div>
-<div class="<? print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?  print $rand ?>">
-  <? if((!isset($data['title']) or $data['title']=='' ) and isset($data["content_id"]) and intval($data["content_id"]) > 0 ): ?>
-  <? $cont = get_content_by_id($data["content_id"]);
+<div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?php  print $rand ?>">
+  <?php if((!isset($data['title']) or $data['title']=='' ) and isset($data["content_id"]) and intval($data["content_id"]) > 0 ): ?>
+  <?php $cont = get_content_by_id($data["content_id"]);
 	if(isset($cont['title'])){
 		$data['title'] = $cont['title'];
 		$item_url = content_link($cont['id']);
 	}
 	?>
-  <? else: ?>
-  <? if((!isset($data['title']) or $data['title']=='' )and isset($data["categories_id"]) and intval($data["categories_id"])>0): ?>
-  <? $cont = get_category_by_id($data["categories_id"]);
+  <?php else: ?>
+  <?php if((!isset($data['title']) or $data['title']=='' )and isset($data["categories_id"]) and intval($data["categories_id"])>0): ?>
+  <?php $cont = get_category_by_id($data["categories_id"]);
     if(isset($cont['title'])){
     	$data['title'] = $cont['title'];
     	  $item_url = category_link($cont['id']);
     }
 ?>
-  <? endif; ?>
-  <? endif; ?>
+  <?php endif; ?>
+  <?php endif; ?>
   <?
   if (isset($data['content_id']) and intval($data['content_id']) != 0) {
 		 	$item_url = content_link($data['content_id']);
@@ -82,38 +82,38 @@ if( $id != 0){
 
 
   ?>
-  <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;"> <span onclick="cancel_editing_menu(<?  print $data['id'] ?>);" class="mw-ui-btnclose"></span>
+  <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;"> <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btnclose"></span>
     <h4>Edit menu item</h4>
-    <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?  print $data['id'] ?>);">Delete</span></div>
-    <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
-    <input type="text" placeholder="<?php _e("Title"); ?>" name="title" value="<?  print $data['title'] ?>" />
-    <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?  print $data['id'] ?>').toggle();">
+    <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);">Delete</span></div>
+    <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
+    <input type="text" placeholder="<?php _e("Title"); ?>" name="title" value="<?php  print $data['title'] ?>" />
+    <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
     <?php _e("Change"); ?>
     </button>
     <div class="mw_clear vSpace"></div>
-    <input type="text" placeholder="<?php _e("URL"); ?>" name="url" value="<?  print $data['url'] ?>" />
+    <input type="text" placeholder="<?php _e("URL"); ?>" name="url" value="<?php  print $data['url'] ?>" />
     <button class="mw-ui-btn2 mw-ui-btn-blue left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');">Save</button>
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>
-    <div id="menu-selector-<?  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
-      <microweber module="categories/selector" active_ids="<?  print $data['content_id'] ?>" categories_active_ids="<?  print $data['categories_id'] ?>"  for="content" rel_id="<? print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
+    <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+      <microweber module="categories/selector" active_ids="<?php  print $data['content_id'] ?>" categories_active_ids="<?php  print $data['categories_id'] ?>"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
     </div>
-    <script>mw.treeRenderer.appendUI('#menu-selector-<?  print $data['id'] ?>'); </script>
-    <? endif; ?>
-    <?  if(isset($params['menu-id']) and !isset($data['parent_id']) or $data['parent_id'] ==0): ?>
-    <input type="text" name="parent_id" value="<?  print $params['menu-id'] ?>" />
-    <? endif; ?>
+    <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>'); </script>
+    <?php endif; ?>
+    <?php  if(isset($params['menu-id']) and !isset($data['parent_id']) or $data['parent_id'] ==0): ?>
+    <input type="text" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
+    <?php endif; ?>
   </div>
-  <input type="hidden" name="id" value="<?  print $data['id'] ?>" />
-  <input type="hidden" name="content_id" value="<?  print $data['content_id'] ?>" />
-  <input type="hidden" name="categories_id" value="<?  print $data['categories_id'] ?>" />
-  <?  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
-  <input type="hidden" name="parent_id" value="<?  print $params['menu-id'] ?>" />
-  <?  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>
-  <input type="hidden" name="parent_id" value="<?  print $data['parent_id'] ?>" />
-  <?  elseif(isset($params['parent_id'])): ?>
-  <input type="hidden" name="parent_id" value="<?  print $params['parent_id'] ?>" />
-  <? endif; ?>
+  <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
+  <input type="hidden" name="content_id" value="<?php  print $data['content_id'] ?>" />
+  <input type="hidden" name="categories_id" value="<?php  print $data['categories_id'] ?>" />
+  <?php  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
+  <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
+  <?php  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>
+  <input type="hidden" name="parent_id" value="<?php  print $data['parent_id'] ?>" />
+  <?php  elseif(isset($params['parent_id'])): ?>
+  <input type="hidden" name="parent_id" value="<?php  print $params['parent_id'] ?>" />
+  <?php endif; ?>
 </div>
-<? else: ?>
-<? endif; ?>
+<?php else: ?>
+<?php endif; ?>

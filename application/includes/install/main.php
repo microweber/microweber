@@ -5,12 +5,12 @@
 <title>Microweber Configuration</title>
 <meta charset="utf-8">
 <META HTTP-EQUIV="Content-Language" Content="en">
-<link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>api/api.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/liveadmin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/admin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<? print INCLUDES_URL; ?>css/mw_framework.css"/>
-<script type="text/javascript" src="<? print INCLUDES_URL; ?>js/jquery.js"></script>
-<?  $rand = uniqid(); ?>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>api/api.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
+<script type="text/javascript" src="<?php print INCLUDES_URL; ?>js/jquery.js"></script>
+<?php  $rand = uniqid(); ?>
 <script  type="text/javascript">
 
 
@@ -20,23 +20,23 @@ $(document).ready(function(){
 
 
 
-   $('#form_<? print $rand; ?>').submit(function() {
+   $('#form_<?php print $rand; ?>').submit(function() {
 
 
   mw_start_progress();
    $('.mw-install-holder').fadeOut();
 
-  $data = $('#form_<? print $rand; ?>').serialize();
+  $data = $('#form_<?php print $rand; ?>').serialize();
 //  alert($data);
-  //alert('<? print url_string() ?>');
+  //alert('<?php print url_string() ?>');
 
-  $.post("<? print url_string() ?>", $data,
+  $.post("<?php print url_string() ?>", $data,
    function(data) {
 
       $('.mw_log').html('');
      if(data != undefined){
      if(data == 'done'){
-       window.location.href= '<? print site_url('admin') ?>'
+       window.location.href= '<?php print site_url('admin') ?>'
      } else {
       $('.mw_log').html(data);
       $('.mw-install-holder').fadeIn();
@@ -111,7 +111,7 @@ input[type='text'], input[type='password'] {
     <div class="mw-o-box" style="width: 400px;margin: 100px auto;padding: 20px;">
       <header class="header">
         <h1>Microweber Setup</h1>
-        <small class="version">version <? print MW_VERSION ?></small>
+        <small class="version">version <?php print MW_VERSION ?></small>
 
         <p><br>Welcome to the Microweber configuration panel, here you can setup your website quickly.</p>
         <div class="custom-nav"></div>
@@ -130,37 +130,37 @@ input[type='text'], input[type='password'] {
           <div class="mw-install-holder">
 
 
-          <? if ($done == false): ?>
-          <form method="post" id="form_<? print $rand; ?>" autocomplete="true">
+          <?php if ($done == false): ?>
+          <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
             <h2>Database setup</h2>
             <div class="hr"></div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
-              <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <? if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<? print $data['db']['host'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL username <span class="mw-help" data-help="The username of your database.">?</span></label>
-              <input type="text" class="mw-ui-field" required="true" name="DB_USER" <? if(isset($data['db'])== true and isset($data['db']['user'])== true and $data['db']['user'] != '{DB_USER}'): ?> value="<? print $data['db']['user'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="DB_USER" <?php if(isset($data['db'])== true and isset($data['db']['user'])== true and $data['db']['user'] != '{DB_USER}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL password</label>
-              <input type="text" required="true" class="mw-ui-field" name="DB_PASS" <? if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<? print $data['db']['pass'] ?>" <? endif; ?> />
+              <input type="text" required="true" class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
             </div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database name <span class="mw-help" data-help="The name of your database.">?</span></label>
-              <input type="text" class="mw-ui-field" required="true" name="dbname" <? if(isset($data['db'])== true and isset($data['db']['dbname'])== true   and $data['db']['dbname'] != '{dbname}'): ?> value="<? print $data['db']['dbname'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="dbname" <?php if(isset($data['db'])== true and isset($data['db']['dbname'])== true   and $data['db']['dbname'] != '{dbname}'): ?> value="<?php print $data['db']['dbname'] ?>" <?php endif; ?> />
             </div>
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
-              <input type="text" required="true" class="mw-ui-field" name="table_prefix" <? if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<? print $data['table_prefix'] ?>" <? endif; ?> />
+              <input type="text" required="true" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
             </div>
 
             <!-- <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database type</label>
-              <input type="hidden" class="mw-ui-field" name="DB_TYPE" <? if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<? print $data['db']['type'] ?>" <? endif; ?> />
+              <input type="hidden" class="mw-ui-field" name="DB_TYPE" <?php if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<?php print $data['db']['type'] ?>" <?php endif; ?> />
             </div>-->
 
 
@@ -169,37 +169,37 @@ input[type='text'], input[type='password'] {
             <div class="hr"></div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Admin username</label>
-              <input type="text" class="mw-ui-field" required="true" name="admin_username" <? if(isset($data['admin_username'])== true and isset($data['admin_username'])!= ''): ?> value="<? print $data['admin_username'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="admin_username" <?php if(isset($data['admin_username'])== true and isset($data['admin_username'])!= ''): ?> value="<?php print $data['admin_username'] ?>" <?php endif; ?> />
             </div>
              <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Admin email</label>
-              <input type="text" class="mw-ui-field" required="true" name="admin_email" <? if(isset($data['admin_email'])== true and isset($data['admin_email'])!= ''): ?> value="<? print $data['admin_email'] ?>" <? endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" name="admin_email" <?php if(isset($data['admin_email'])== true and isset($data['admin_email'])!= ''): ?> value="<?php print $data['admin_email'] ?>" <?php endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Admin password</label>
-              <input type="password" required="true" class="mw-ui-field" name="admin_password" <? if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<? print $data['admin_password'] ?>" <? endif; ?> />
+              <input type="password" required="true" class="mw-ui-field" name="admin_password" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
             </div>
             
             
             
-            <? 		$default_content_file = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
-            <? if(is_file($default_content_file)): ?>
+            <?php 		$default_content_file = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+            <?php if(is_file($default_content_file)): ?>
             <div class="mw-ui-field-holder">
             <label class="mw-ui-check"><input name="with_default_content" type="checkbox" value="1"><span></span>&nbsp; Install default content</label>
             </div>
-            <? endif; ?>
+            <?php endif; ?>
             
             <div class="mw-ui-field-holder">
               <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
             </div>
             <div class="mw_clear"></div>
-            <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<? print $rand; ?>">
+            <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
             <input type="hidden" value="UTC" name="default_timezone" />
           </form>
-          <? else: ?>
+          <?php else: ?>
           <h2>Done, </h2>
-          <a href="<? print site_url('admin') ?>">click here to to to admin</a> <a href="<? print site_url() ?>">click here to to to site</a>
-          <? endif; ?>
+          <a href="<?php print site_url('admin') ?>">click here to to to admin</a> <a href="<?php print site_url() ?>">click here to to to site</a>
+          <?php endif; ?>
            </div>
         </div>
         <!-- .description -->

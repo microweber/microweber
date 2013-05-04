@@ -12,21 +12,21 @@ if(!isset($data)){
 }
 $counter = 0;
  ?>
-<? if (!empty($data)): ?>
+<?php if (!empty($data)): ?>
 
 <ul class="nav nav-tabs">
-  <? foreach ($data as $item): ?>
-  <? if(!isset($show_fields) or  $show_fields== false or in_array('title', $show_fields)): ?>
-  <li><a href="#tab-<? print url_title($item['title']); ?>" data-toggle="tab"><? print $item['title'] ?></a></li>
-  <? endif; ?>
-  <?  endforeach; ?>
+  <?php foreach ($data as $item): ?>
+  <?php if(!isset($show_fields) or  $show_fields== false or in_array('title', $show_fields)): ?>
+  <li><a href="#tab-<?php print url_title($item['title']); ?>" data-toggle="tab"><?php print $item['title'] ?></a></li>
+  <?php endif; ?>
+  <?php  endforeach; ?>
 </ul>
 <div class="tab-content">
-  <? foreach ($data as $item): ?>
-  <? if(!isset($show_fields) or  $show_fields== false or in_array('content', $show_fields)): ?>
-  <div class="tab-pane active" id="tab-<? print url_title($item['title']); ?>"><? print $item['content'] ?></div>
-  <? endif; ?>
-  <?  endforeach; ?>
+  <?php foreach ($data as $item): ?>
+  <?php if(!isset($show_fields) or  $show_fields== false or in_array('content', $show_fields)): ?>
+  <div class="tab-pane active" id="tab-<?php print url_title($item['title']); ?>"><?php print $item['content'] ?></div>
+  <?php endif; ?>
+  <?php  endforeach; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>
  

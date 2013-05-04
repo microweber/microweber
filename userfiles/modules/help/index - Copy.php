@@ -34,7 +34,7 @@ mw_var('mw_help_file',$get_file);
 mw_var('mw_help_path',$get_path);
 
  ?>
-<script>mw.require('<? print $config['url_to_module']; ?>help.css', true);</script>
+<script>mw.require('<?php print $config['url_to_module']; ?>help.css', true);</script>
 
 <script>
 
@@ -74,10 +74,10 @@ $(document).ready(function(){
 
       ?>
     </div>
-    <? if($show_modules_help_nav == true): ?>
-    <? $module_categories = get_categories('rel=modules') ?>
+    <?php if($show_modules_help_nav == true): ?>
+    <?php $module_categories = get_categories('rel=modules') ?>
       
-    <? $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
+    <?php $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
 	$module_categories_ids = array();
  if(isarr($modules  )){
 	 foreach($modules  as $item){
@@ -116,25 +116,25 @@ $(document).ready(function(){
 	 
 	
 	 ?>
-    <? if(isarr($module_categories  )): ?>
+    <?php if(isarr($module_categories  )): ?>
     <div class="mw-admin-sidebar">
       <h2>Modules</h2>
     </div>
     <ul class="help-nav">
-    <? // d($module_categories); ?>
-      <? foreach($module_categories  as $module_category): ?>
+    <?php // d($module_categories); ?>
+      <?php foreach($module_categories  as $module_category): ?>
       
-        <? if(isarr($modules  )): ?>
+        <?php if(isarr($modules  )): ?>
         <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span>
-        <?  print($module_category['title']); ?>
+        <?php  print($module_category['title']); ?>
         </strong>
         <ul class="mw-accordion-content">
-          <? foreach($modules  as $item): ?>
+          <?php foreach($modules  as $item): ?>
           
-          <? if(strtolower($item['module'])  != 'help'): ?>
-          <? $cats_for_this_module = get_category_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
-          <?  // d( $cats_for_this_module ); ?>
-          <? if($cats_for_this_module >0): ?>
+          <?php if(strtolower($item['module'])  != 'help'): ?>
+          <?php $cats_for_this_module = get_category_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
+          <?php  // d( $cats_for_this_module ); ?>
+          <?php if($cats_for_this_module >0): ?>
           <?php $minfo = module_info($item['module']);  ?>
           <?
 				  $module_path  = module_path($item['module']);
@@ -143,11 +143,11 @@ $(document).ready(function(){
 
 				  $basepath_this_module=str_replace($basepath_modules,"", $module_path_help); ;
 				  ?>
-          <? if(is_dir($module_path_help)): ?>
-          <li> <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img  src="<?  print($minfo['icon']); ?>" alt="" /><span class="help-title">
-            <?  print($item['name']); ?>
+          <?php if(is_dir($module_path_help)): ?>
+          <li> <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img  src="<?php  print($minfo['icon']); ?>" alt="" /><span class="help-title">
+            <?php  print($item['name']); ?>
             </span></strong>
-            <? // $module_help_pages = directory_tree( $module_path_help);
+            <?php // $module_help_pages = directory_tree( $module_path_help);
 
 			  static_pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
 
@@ -158,17 +158,17 @@ $(document).ready(function(){
 					//print $module_help_pages;
 					 ?>
           </li>
-          <? endif; ?>
-          <? endif; ?>
-          <? endif; ?>
-          <? endforeach ; ?>
+          <?php endif; ?>
+          <?php endif; ?>
+          <?php endif; ?>
+          <?php endforeach ; ?>
         </ul>
-        <? endif; ?>
+        <?php endif; ?>
       </li>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </ul>
-    <? endif; ?>
-    <? endif; ?>
+    <?php endif; ?>
+    <?php endif; ?>
   </div>
 </div>
 <div class="mw_edit_page_right" id="help-content">
@@ -186,6 +186,6 @@ $module_help_url = module_name_decode($module_help_url);
 
 
  ?>
-  <?  print static_page_get('dir_name='.$page_path); ?>
+  <?php  print static_page_get('dir_name='.$page_path); ?>
 </div>
 </div>

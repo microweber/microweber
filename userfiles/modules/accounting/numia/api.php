@@ -1,4 +1,4 @@
-<? 
+<?php 
 namespace accounting\numia;
  
 class api {

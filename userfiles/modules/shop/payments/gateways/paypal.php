@@ -8,7 +8,7 @@ function paypal_checkout_callback(data,selector){
 
 
 </script>
-<? 
+<?php 
 
 $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
  
@@ -23,6 +23,6 @@ $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 
 
 
-<? if($paypal_is_test == true and is_admin()): ?>
-<small><? print mw_warn("You are using Paypal Express in test mode!"); ?></small>
-<? endif; ?>
+<?php if($paypal_is_test == true and is_admin()): ?>
+<small><?php print mw_warn("You are using Paypal Express in test mode!"); ?></small>
+<?php endif; ?>

@@ -1,5 +1,5 @@
-<? only_admin_access(); ?>
-<? if(isset($params['module_name']) and isset($params['module_id'])): ?>
+<?php only_admin_access(); ?>
+<?php if(isset($params['module_name']) and isset($params['module_id'])): ?>
 <?
 
 
@@ -16,10 +16,10 @@ $(document).ready(function(){
 	 mw.$('.module-templates-action-btn').click(function() {
 	
 	var temp_form1 = mw.tools.firstParentWithClass(this, 'module-templates-add-new-holder');
-	var save_module_as_template_url = '<? print site_url('api') ?>/save_module_as_template';
+	var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
 	var is_del = $(this).attr('delete');
 	if(is_del != undefined){
-		var save_module_as_template_url = '<? print site_url('api') ?>/delete_module_as_template';
+		var save_module_as_template_url = '<?php print site_url('api') ?>/delete_module_as_template';
 	}
 	
 
@@ -30,7 +30,7 @@ $(document).ready(function(){
 	if(is_release != undefined){
 		var $old_od = mw.$('#'+is_release).attr("old-id")
 		d($old_od);
-		d('#<? print $module_id ?>');
+		d('#<?php print $module_id ?>');
 	}
 	
 	
@@ -40,14 +40,14 @@ $(document).ready(function(){
 		/*if (parent.mw != undefined) {
                                 if (parent.mw.reload_module !== undefined) {
 									
- 									parent.mw.$('#<? print $module_id ?>').attr("id",is_use);
+ 									parent.mw.$('#<?php print $module_id ?>').attr("id",is_use);
  									 parent.mw.reload_module("#"+is_use);
 									
                                 }
                             }*/
 						if (mw.reload_module != undefined) {	
-						mw.$('#<? print $module_id ?>').attr("old-id",is_use);
-				 mw.$('#<? print $module_id ?>').attr("id",is_use);
+						mw.$('#<?php print $module_id ?>').attr("old-id",is_use);
+				 mw.$('#<?php print $module_id ?>').attr("id",is_use);
 				 mw.reload_module("#"+is_use);
 				 
 				 
@@ -66,7 +66,7 @@ $(document).ready(function(){
 				 
 				 
 				 
-								//	 mw.reload_module("<? print $module_name  ?>");			
+								//	 mw.reload_module("<?php print $module_name  ?>");			
 						}
 							
 							
@@ -76,7 +76,7 @@ $(document).ready(function(){
 	} else {
 		 
 		 mw.form.post(temp_form1 ,save_module_as_template_url , function(){
-		 mw.reload_module("#<? print $params['id'] ?>");
+		 mw.reload_module("#<?php print $params['id'] ?>");
 		 });
 	 
 	}
@@ -92,27 +92,27 @@ $(document).ready(function(){
 	   
  
 </script>
-<? $fffound = false; ?>
+<?php $fffound = false; ?>
 <div id="module-saved-templates">
 <h5>Templates</h5>
-  <? $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
-  <? if(isarr($saved_modules )): ?>
+  <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
+  <?php if(isarr($saved_modules )): ?>
   <ul>
-    <? foreach($saved_modules  as $item): ?>
+    <?php foreach($saved_modules  as $item): ?>
     <li>
       <div class="module-templates-add-new-holder">
-        <input type="hidden" name="id" value="<? print  $item['id'] ?>">
+        <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
 
-        <input type="hidden" name="module" value="<? print  $item['module'] ?>">
-      <? print  $item['name'] ?>
-        <input  type="hidden" name="name" value="<? print  $item['name'] ?>">
+        <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+      <?php print  $item['name'] ?>
+        <input  type="hidden" name="name" value="<?php print  $item['name'] ?>">
 
-        <input  type="hidden" name="module_id" value="<? print  $item['module_id'] ?>">
-        <? if($item['module_id'] == $module_id) : ?>
-<!--        <input  type="button" value="release"   release="<? print  $item['module_id'] ?>" class="module-templates-action-btn"   /><? print  $item['module_id'] ?>
--->        <? else : ?>
-<? endif; ?>
-<? if($item['module_id'] == $module_id){
+        <input  type="hidden" name="module_id" value="<?php print  $item['module_id'] ?>">
+        <?php if($item['module_id'] == $module_id) : ?>
+<!--        <input  type="button" value="release"   release="<?php print  $item['module_id'] ?>" class="module-templates-action-btn"   /><?php print  $item['module_id'] ?>
+-->        <?php else : ?>
+<?php endif; ?>
+<?php if($item['module_id'] == $module_id){
 	$fffound = 1; 
 	
 }
@@ -121,7 +121,7 @@ $(document).ready(function(){
 
 <span delete="1" class="mw-close module-templates-action-btn"></span>
 
-<span use="<? print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue module-templates-action-btn right" >Use</span>
+<span use="<?php print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue module-templates-action-btn right" >Use</span>
 
 
 
@@ -129,18 +129,18 @@ $(document).ready(function(){
 
       </div>
     </li>
-    <? endforeach ; ?>
+    <?php endforeach ; ?>
   </ul>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? if(($fffound ) == false): ?>
+<?php if(($fffound ) == false): ?>
 <div class="module-templates-add-new-holder">
-  <input type="hidden" name="module" value="<? print $module_name ?>">
+  <input type="hidden" name="module" value="<?php print $module_name ?>">
   <input  type="text" name="name" value="" onfocus="setVisible(event);" onblur="setVisible(event);">
-  <input  type="hidden" name="module_id" value="<? print $module_id ?>">
+  <input  type="hidden" name="module_id" value="<?php print $module_id ?>">
   <input  type="button" value="Save template"  class="mw-ui-btn module-templates-action-btn"   />
 </div>
-  <? endif; ?>
-<? else : ?>
+  <?php endif; ?>
+<?php else : ?>
 error $params['module_name'] is not set or $params['module_id'] is not set
-<? endif; ?>
+<?php endif; ?>

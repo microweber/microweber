@@ -1,4 +1,4 @@
-<?   //  d($orig_params); ?>
+<?php   //  d($orig_params); ?>
 <?
 $data = false;
  if($data == false and isset($orig_params) and isset($orig_params['for_module_id']) and isset($params['id']) ){
@@ -44,31 +44,31 @@ if(!isset($data['name'])){
 <script  type="text/javascript">
 $(document).ready(function(){
 	
-	<? if(isset($data['option_key']) and  trim($data['option_key']) == 'curent_template'): ?>
+	<?php if(isset($data['option_key']) and  trim($data['option_key']) == 'curent_template'): ?>
     
 	
 	
 	  
-      <? else : ?> 
+      <?php else : ?> 
  mw.options.form('#opt_form_{rand}', function(){
       mw.notification.success("<?php _e("All changes are saved"); ?>.");
     });
-      <? endif; ?> 
+      <?php endif; ?> 
 });
 </script>
  
 <div class="option-item" id="opt_form_{rand}">
   <div class="controls">
- <? if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
+ <?php if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
 
       
-      <? else : ?> 
+      <?php else : ?> 
 
-      <? endif; ?> 
-     <input type="hidden" name="id" value="<? print $data['id'] ?>" />
-     <? // d($data); ?>
-    <? if( function_exists('make_field')): ?>
-    <? 
+      <?php endif; ?> 
+     <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
+     <?php // d($data); ?>
+    <?php if( function_exists('make_field')): ?>
+    <?php 
   $data['save_in'] = 'table_options';
   $data['custom_field_name'] = $data['option_key'];
   $data['custom_field_value'] = $data['option_value'];
@@ -88,19 +88,19 @@ $(document).ready(function(){
 
   
   print make_field($data); ?>
-    <? else : ?>
+    <?php else : ?>
  
     <label class="control-label-title">
-      <? if(isset($data['name']) == true and $data['name'] != ''): ?>
-      <? print $data['name'] ?>
-      <? else : ?>
-      <? print $data['option_key'] ?>
-      <? endif; ?>
+      <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
+      <?php print $data['name'] ?>
+      <?php else : ?>
+      <?php print $data['option_key'] ?>
+      <?php endif; ?>
     </label>
-    <? if(isset($data['help']) == true and $data['help'] != ''): ?>
-    <small  class="control-label-help"><? print $data['help'] ?></small>
-    <? endif; ?>
-    <input name="<? print $data['option_key'] ?>" class="mw_option_field mw-ui-field"   type="text" option-group="<? print $data['option_group'] ?>"  value="<? print $data['option_value'] ?>" />
-    <? endif; ?>
+    <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
+    <small  class="control-label-help"><?php print $data['help'] ?></small>
+    <?php endif; ?>
+    <input name="<?php print $data['option_key'] ?>" class="mw_option_field mw-ui-field"   type="text" option-group="<?php print $data['option_group'] ?>"  value="<?php print $data['option_value'] ?>" />
+    <?php endif; ?>
   </div>
 </div>

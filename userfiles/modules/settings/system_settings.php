@@ -1,20 +1,20 @@
 <?php only_admin_access();?>
-<? $here = dirname(__FILE__); ?>
+<?php $here = dirname(__FILE__); ?>
 
 
 
-<div class="mw-settings-list<? if(isset($params['option_group'])): ?> mw-settings-list-<? print strtolower(trim($params['option_group'])) ?><? endif; ?>">
-  <? if(isset($params['option_group'])): ?>
-  <? $here_file = $here.DS.'group'.DS.trim($params['option_group']).'.php' ; ?>
-  <? if(is_file($here_file)): ?>
-  <module="settings/group/<? print $params['option_group'] ?>" />
+<div class="mw-settings-list<?php if(isset($params['option_group'])): ?> mw-settings-list-<?php print strtolower(trim($params['option_group'])) ?><?php endif; ?>">
+  <?php if(isset($params['option_group'])): ?>
+  <?php $here_file = $here.DS.'group'.DS.trim($params['option_group']).'.php' ; ?>
+  <?php if(is_file($here_file)): ?>
+  <module="settings/group/<?php print $params['option_group'] ?>" />
   
-   <?  else: ?>
-  <module="<? print module_name_decode($params['option_group']); ?>" />
-  <? endif; ?>
+   <?php  else: ?>
+  <module="<?php print module_name_decode($params['option_group']); ?>" />
+  <?php endif; ?>
   
       
-       <?  else: ?>
-  <? // _e("No options found"); ?>
-  <? endif; ?>
+       <?php  else: ?>
+  <?php // _e("No options found"); ?>
+  <?php endif; ?>
 </div>

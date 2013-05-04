@@ -22,12 +22,12 @@ Pages
 
 
 
-<? //$rand = uniqid(); ?>
-<? $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
+<?php //$rand = uniqid(); ?>
+<?php $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
 <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
 <strong>From page</strong>
 <select name="data-page-id" id="the_post_data-page-id{rand}"  class="mw_option_field"  >
-  <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>None</option>
+  <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>None</option>
   
    <?
 $pt_opts = array();
@@ -88,21 +88,21 @@ $show_fields = array();
 <ul id="post_fields_sort_{rand}">
   <li>
     <label>Thumbnail</label>
-    <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+    <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <?php if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
   </li>
   <li>
     <label>
-      <input type="checkbox" name="data-show" value="title" class="mw_option_field" <? if(in_array('title',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="title" class="mw_option_field" <?php if(in_array('title',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       title</label>
   </li>
   <li>
     <label>
-      <input type="checkbox" name="data-show" value="read_more" class="mw_option_field"  <? if(in_array('read_more',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="read_more" class="mw_option_field"  <?php if(in_array('read_more',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       read_more</label>
   </li>
   <li>
     <label>
-      <input type="checkbox" name="data-show" value="created_on" class="mw_option_field"  <? if(in_array('created_on',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="created_on" class="mw_option_field"  <?php if(in_array('created_on',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       created_on</label>
   </li>
 </ul>

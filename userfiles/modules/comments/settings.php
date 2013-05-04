@@ -66,7 +66,7 @@
         <script type="text/javascript">
 
 
-    mw.require('<? print $config['url_to_module'] ?>style.css');
+    mw.require('<?php print $config['url_to_module'] ?>style.css');
     mw.require('color.js', true);
 </script>
 
@@ -80,7 +80,7 @@
 
     $(document).ready(function(){
 
-      mw.options.form('.<? print $config['module_class'] ?>', function(){
+      mw.options.form('.<?php print $config['module_class'] ?>', function(){
         mw.notification.success("<?php _e("All changes are saved"); ?>.");
       });
 
@@ -130,7 +130,7 @@
     });
 </script>
         <div id="module-settings">
-          <div class="<? print $config['module_class'] ?>">
+          <div class="<?php print $config['module_class'] ?>">
             <div class="comments-admin-header">
               <div class="comments-admin-header-info">
                 <h2>Settings</h2>
@@ -145,7 +145,7 @@
                 value="y"
                 class="mw_option_field"
                 option-group="comments"
-                <? if($are_enabled): ?>   checked="checked"  <? endif; ?>
+                <?php if($are_enabled): ?>   checked="checked"  <?php endif; ?>
               />
               <?php
 
@@ -165,7 +165,7 @@
                 value="y"
                 class="mw_option_field"
                 option-group="comments"
-                <? if(get_option('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <? endif; ?>
+                <?php if(get_option('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
               />
                     <span></span><span>Users must be registered and logged in to comment</span> </label>
                 </div>
@@ -178,7 +178,7 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <? if(get_option('require_moderation', 'comments')=='y'): ?>   checked="checked"  <? endif; ?>
+              <?php if(get_option('require_moderation', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span>New comments require moderation</span> </label>
                 </div>
@@ -190,7 +190,7 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <? if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <? endif; ?>
+              <?php if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span>Set paging in the comments</span> </label>
                   <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
@@ -228,7 +228,7 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <? if($email_enabled): ?>   checked="checked"  <? endif; ?>
+              <?php if($email_enabled): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span>New comment</span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
@@ -249,7 +249,7 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <? if($avatar_enabled): ?>   checked="checked"  <? endif; ?>
+              <?php if($avatar_enabled): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span>Show Avatars</span> </label>
                 </div>
@@ -257,7 +257,7 @@
               <div class="vSpace"></div>
               <div class="vSpace"></div>
               <label class="mw-ui-label-inline">Default avatar style</label>
-              <div class="comments-settings-right avatars-holder <? if(!$avatar_enabled){ ?>deactivated<?php } ?>">
+              <div class="comments-settings-right avatars-holder <?php if(!$avatar_enabled){ ?>deactivated<?php } ?>">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
                     <input
@@ -266,7 +266,7 @@
         value="1"
         class="mw_option_field"
         option-group="comments"
-        <? if(get_option('avatar_style', 'comments')=='1'): ?>   checked="checked"  <? endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='1'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-mysteryman"></i>Super User</span></label>
                 </div>
@@ -278,7 +278,7 @@
         value="2"
         class="mw_option_field"
         option-group="comments"
-        <? if(get_option('avatar_style', 'comments')=='2'): ?>   checked="checked"  <? endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='2'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-randomcolor"></i>Random Color</span></label>
                 </div>
@@ -290,7 +290,7 @@
         value="3"
         class="mw_option_field"
         option-group="comments"
-        <? if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <? endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-mwuser"></i>MW User Picture</span></label>
                 </div>
@@ -302,7 +302,7 @@
         value="4"
         class="mw_option_field"
         option-group="comments"
-        <? if(get_option('avatar_style', 'comments')=='4'): ?>   checked="checked"  <? endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='4'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span>
                     <input type="hidden" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print get_option('avatartype_custom', 'comments'); ?>" />

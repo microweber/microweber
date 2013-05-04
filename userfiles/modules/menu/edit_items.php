@@ -27,14 +27,14 @@ if( $id != 0){
 }
  
 ?>
-<?  $rand = uniqid(); ?>
-<? if(isset($data) and $data != false): ?>
+<?php  $rand = uniqid(); ?>
+<?php if(isset($data) and $data != false): ?>
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script>
 <script  type="text/javascript">
   
-  mw.require('<? print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
+  mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
  </script>
 <script  type="text/javascript">
   $(document).ready(function(){
@@ -49,16 +49,16 @@ if( $id != 0){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
+        	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
 				 
 				 
-				 <? if(isset($params['data-parent-module-id'])): ?>
-				 mw.reload_module('#<? print $params['data-parent-module-id'] ?>');
-				 <? else: ?>
+				 <?php if(isset($params['data-parent-module-id'])): ?>
+				 mw.reload_module('#<?php print $params['data-parent-module-id'] ?>');
+				 <?php else: ?>
 				 
-				 mw.reload_module('#<? print $params['id'] ?>');
-				 <? endif; ?>
-				 //mw.reload_module('#<? print $params['id'] ?>');
+				 mw.reload_module('#<?php print $params['id'] ?>');
+				 <?php endif; ?>
+				 //mw.reload_module('#<?php print $params['id'] ?>');
 				
 				
 				
@@ -74,14 +74,14 @@ if( $id != 0){
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
     	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
-    		 	mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
+    		 	mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
 				
 				
-				<? if(isset($params['parent-module-id']) and trim($params['parent-module-id']) != ''): ?>
-        		mw.reload_module('#<? print $params['id'] ?>');
-				<? else: ?>
-				mw.reload_module('#<? print $params['parent-module-id'] ?>');
-				<? endif; ?>
+				<?php if(isset($params['parent-module-id']) and trim($params['parent-module-id']) != ''): ?>
+        		mw.reload_module('#<?php print $params['id'] ?>');
+				<?php else: ?>
+				mw.reload_module('#<?php print $params['parent-module-id'] ?>');
+				<?php endif; ?>
 				
                 if(self !== parent && typeof parent.mw !== 'undefined'){
     		      window.parent.mw.reload_module('menu');
@@ -113,12 +113,12 @@ if(typeof node === 'object'){
   }
 }
 
-var the_li = mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-item-id="'+$item_id+'"]');
+var the_li = mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[data-item-id="'+$item_id+'"]');
     var edit_wrap = $('#menu_item_edit_wrap-'+$item_id);
     mw.$('.module-menu-edit-item').remove();
     the_li.find('.module_item').eq(0).after('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
        $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
-       $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<? print $id?>');
+       $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<?php print $id?>');
        mw.load_module('menu/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
            mw.$('#custom_link_inline_controller').show();
 
@@ -132,9 +132,9 @@ var the_li = mw.$('#mw_admin_menu_items_sort_<? print $rand; ?>').find('li[data-
 
 
 
-mw.menu_items_sort_<? print $rand; ?> = function(){
-  if(!mw.$("#mw_admin_menu_items_sort_<? print $rand; ?>").hasClass("ui-sortable")){
-    $("#mw_admin_menu_items_sort_<? print $rand; ?> ul:first").nestedSortable({
+mw.menu_items_sort_<?php print $rand; ?> = function(){
+  if(!mw.$("#mw_admin_menu_items_sort_<?php print $rand; ?>").hasClass("ui-sortable")){
+    $("#mw_admin_menu_items_sort_<?php print $rand; ?> ul:first").nestedSortable({
        items: 'li',
 	   listType: 'ul',
 	   handle: '.iMove',
@@ -173,28 +173,28 @@ mw.menu_items_sort_<? print $rand; ?> = function(){
 }
 
  $(document).ready(function(){
-    mw.menu_items_sort_<? print $rand; ?>();
+    mw.menu_items_sort_<?php print $rand; ?>();
  });
  </script>
 
-<div class="mw-modules-admin" id="mw_admin_menu_items_sort_<? print $rand; ?>"> <? print $data; ?> </div>
-<? else: ?>
+<div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?> </div>
+<?php else: ?>
 This menu is empty, please add items.
-<? endif; ?>
+<?php endif; ?>
 <div>
-  <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<? print $id ?>" />
+  <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
 </div>
 <div class="vSpace"></div>
 
 <?
 if(isset($params['menu-name'])): ?>
- <? $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
+ <?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) : ?>
-  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<? print $menu['id']; ?>');">Delete <? print $menu['title']; ?></a></small>
+  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">Delete <?php print $menu['title']; ?></a></small>
 
-	<? endif ?>
+	<?php endif ?>
  
  
-	<? endif ?>
+	<?php endif ?>
 
 

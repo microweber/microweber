@@ -1,4 +1,4 @@
-<? 
+<?php 
  $path = $base_path = $config['path_to_module'].'docs'.DS;
  $from_path = '';
   
@@ -15,8 +15,8 @@
  
  
  if($from_path != ''): ?>
-<? $path .=html_entity_decode($from_path).DS;  ?>
-<? endif; ?>
+<?php $path .=html_entity_decode($from_path).DS;  ?>
+<?php endif; ?>
 <?
  
 $kw = false;  

@@ -45,7 +45,7 @@ if(isset($params['content-id'])){
 
 
  if(isset($params['rel_id']) == true): ?>
-<? $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
+<?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
  
  if(empty( $data)){
 	 $data = array(); 
@@ -78,9 +78,9 @@ if(isset($template_file) and is_file($template_file) != false){
 	?>
 
 <div class="mw-notification mw-warning">
-  <div> <span class="ico ioptions"></span> <span><? print 'No default template for module '.$config['module'].' is found'; ?></span> </div>
+  <div> <span class="ico ioptions"></span> <span><?php print 'No default template for module '.$config['module'].' is found'; ?></span> </div>
 </div>
 <?
 	
 } ?>
-<? endif; ?>
+<?php endif; ?>

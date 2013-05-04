@@ -10,20 +10,20 @@
 <script type="text/javascript" src="<?php print( site_url('apijs')); ?>"></script>
 
 <!-- Le styles -->
-<link href="<? print $config['url_to_module'] ?>static/css/bootstrap.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/css/docs.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/css/prettify.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/help.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="<? print $config['url_to_module'] ?>static/pretty-json/css/pretty-json.css" />
+<link href="<?php print $config['url_to_module'] ?>static/css/bootstrap.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/docs.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/prettify.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/help.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>static/pretty-json/css/pretty-json.css" />
 
 <!-- lib -->
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/underscore-min.js" ></script>
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/libs/backbone-min.js" ></script>
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/util.js" ></script>
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/tpl.js" ></script>
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/node.js" ></script>
-<script type="text/javascript" src="<? print $config['url_to_module'] ?>static/pretty-json/src/leaf.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/libs/underscore-min.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/libs/backbone-min.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/src/util.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/src/tpl.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/src/node.js" ></script>
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>static/pretty-json/src/leaf.js" ></script>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -31,20 +31,20 @@
     <![endif]-->
 
 <!-- Le fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="<? print $config['url_to_module'] ?>static/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="<?php print $config['url_to_module'] ?>static/ico/favicon.png">
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
-<? if(is_admin() == false): ?>
+<?php if(is_admin() == false): ?>
 <div class="well span6">
   <h4>You need to login as admin to access the documentation</h4>
   <module type="users/login" />
 </div>
-<? else: ?>
+<?php else: ?>
 <script type="text/javascript">
 mw.require("events.js");
 mw.require("url.js");
@@ -79,7 +79,7 @@ $(document).ready(function () {
 					  
 					
 										
-						$.post('<? print api_url(); ?>'+function_exec,data, function(data) {
+						$.post('<?php print api_url(); ?>'+function_exec,data, function(data) {
 							
 							
 							
@@ -125,10 +125,10 @@ $(document).ready(function () {
   </script>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container-fluid"> <a class="brand" href="<? print $config['module_view'] ?>">MW Api</a>
+    <div class="container-fluid"> <a class="brand" href="<?php print $config['module_view'] ?>">MW Api</a>
       <div class="nav">
         <form class="navbar-form pull-right">
-          <input name="kw" type="text" class="span2" <? if(isset($_GET['kw'])): ?> value="<?  print $_GET['kw'] ?>" <? endif; ?> />
+          <input name="kw" type="text" class="span2" <?php if(isset($_GET['kw'])): ?> value="<?php  print $_GET['kw'] ?>" <?php endif; ?> />
           <button type="submit" class="btn btn-mini">Search</button>
         </form>
         <?
@@ -155,10 +155,10 @@ $(document).ready(function () {
 	  
 	  ?>
         <ul class="nav pull-left">
-          <li <? if($base_path == false): ?> class="active" <? endif; ?> ><a href="<? print $config['module_view'] ?>?docs_path=all">Home</a></li>
-          <li  <? if($base_path == 'core'): ?> class="active" <? endif; ?> ><a href="?docs_path=core">Core Api</a></li>
-          <li  <? if($base_path == 'modules'): ?> class="active" <? endif; ?> ><a href="?docs_path=modules">Modules Api</a></li>
-          <li  <? if($base_path == 'js'): ?> class="active" <? endif; ?> ><a href="?docs_path=js">JS Api</a></li>
+          <li <?php if($base_path == false): ?> class="active" <?php endif; ?> ><a href="<?php print $config['module_view'] ?>?docs_path=all">Home</a></li>
+          <li  <?php if($base_path == 'core'): ?> class="active" <?php endif; ?> ><a href="?docs_path=core">Core Api</a></li>
+          <li  <?php if($base_path == 'modules'): ?> class="active" <?php endif; ?> ><a href="?docs_path=modules">Modules Api</a></li>
+          <li  <?php if($base_path == 'js'): ?> class="active" <?php endif; ?> ><a href="?docs_path=js">JS Api</a></li>
         </ul>
       </div>
       <!--/.nav-collapse --> 
@@ -169,7 +169,7 @@ $(document).ready(function () {
   <div class="row-fluid">
     <div class="span3">
       <div class="well sidebar-nav">
-        <module type="help/browser" <? if(isset($base_path)): ?> base_path="<? print $base_path ?>" <? endif; ?>  ul_class="nav nav-list" />
+        <module type="help/browser" <?php if(isset($base_path)): ?> base_path="<?php print $base_path ?>" <?php endif; ?>  ul_class="nav nav-list" />
         
         <!-- <ul class="nav nav-list">
           <li class="nav-header">Sidebar</li>
@@ -195,19 +195,19 @@ $(document).ready(function () {
     <!--/span-->
     <div class="span9">
       <div id="wrapper">
-        <? 
+        <?php 
 		 $path = $config['path_to_module'].'docs'.DS;
 		if(isset($_GET['file'])): ?>
-        <?  $file =$path.html_entity_decode($_GET['file']);
+        <?php  $file =$path.html_entity_decode($_GET['file']);
  $file = str_replace('..','', $file);
   
 if(is_file($file)){
 include($file);	
 }
  ?>
-        <? else: ?>
-        <module type="help/browser" <? if(isset($_GET['path'])): ?> from_path="<? print $_GET['path'] ?>" <? endif; ?> <? if(isset($_GET['kw'])): ?> kw="<? print $_GET['kw'] ?>" <? endif; ?>  <? if(isset($base_path)): ?> base_path="<? print $base_path ?>" <? endif; ?>  />
-        <? endif; ?>
+        <?php else: ?>
+        <module type="help/browser" <?php if(isset($_GET['path'])): ?> from_path="<?php print $_GET['path'] ?>" <?php endif; ?> <?php if(isset($_GET['kw'])): ?> kw="<?php print $_GET['kw'] ?>" <?php endif; ?>  <?php if(isset($base_path)): ?> base_path="<?php print $base_path ?>" <?php endif; ?>  />
+        <?php endif; ?>
       </div>
     </div>
     <!--/span--> 
@@ -216,7 +216,7 @@ include($file);
   
   <hr>
   <footer>
-    <p>&copy; Microweber LTD <? print date("Y"); ?></p>
+    <p>&copy; Microweber LTD <?php print date("Y"); ?></p>
   </footer>
 </div>
 <!--/.fluid-container--> 
@@ -225,10 +225,10 @@ include($file);
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 
 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap.js"></script> 
 
 <!-- Analytics
     ================================================== -->
-<? endif; ?>
+<?php endif; ?>
 </body>
 </html>

@@ -40,9 +40,9 @@ mw.notif_reset_all = function(){
 
 
 </script>
-<? if(isarr($data )): ?>
-<? $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
-<? $periods_printed = array(); ?>
+<?php if(isarr($data )): ?>
+<?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
+<?php $periods_printed = array(); ?>
 <?
 	/*		foreach($periods as $period){
 				if(!in_array($period ,$periods_printed )){
@@ -78,36 +78,36 @@ mw.notif_reset_all = function(){
       </tr>
     </thead>
     <tbody>
-      <? foreach($data  as $item): ?>
-      <tr class="mw-ui-admin-notif-item-<? print $item['id'] ?> <? if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<? endif; ?>">
+      <?php foreach($data  as $item): ?>
+      <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
         <?
   	    $mod_info = false;
   	    if(isset($item['module']) and $item['module'] != ''){
   		    $mod_info = module_info($item['module']);
   	    }
        ?>
-        <td><? if($mod_info != false and isset($mod_info['name'])): ?>
-          <img src=" <?   print thumbnail($mod_info['icon'], 16,16) ?>" />
+        <td><?php if($mod_info != false and isset($mod_info['name'])): ?>
+          <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
           <?php endif; ?></td>
-        <td><? if($mod_info != false and isset($mod_info['name'])): ?>
-          <a class="mw-ui-link" href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_notif:<? print $item['id'] ?>" title="<? print $mod_info['name'] ?>"> <? print $item['title'] ?></a>
-          <? else : ?>
-          <? print $item['title'] ?>
-          <? endif; ?>
-          <time title="<? print mw_date($item['created_on']); ?>"><? print ago($item['created_on'],1); ?></time></td>
-        <td style="max-width: 60%;"><div class="notification_info"><a href="<? if($mod_info != false and isset($mod_info['name'])): ?><? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_notif:<?  print  $item['id'] ?><? endif; ?>" class="ellipsis">
-            <? if(isset($item['content']) and $item['content'] != ''): ?>
-            <? print $item['content']; ?>
-            <? else : ?>
-            <? endif; ?>
+        <td><?php if($mod_info != false and isset($mod_info['name'])): ?>
+          <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
+          <?php else : ?>
+          <?php print $item['title'] ?>
+          <?php endif; ?>
+          <time title="<?php print mw_date($item['created_on']); ?>"><?php print ago($item['created_on'],1); ?></time></td>
+        <td style="max-width: 60%;"><div class="notification_info"><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis">
+            <?php if(isset($item['content']) and $item['content'] != ''): ?>
+            <?php print $item['content']; ?>
+            <?php else : ?>
+            <?php endif; ?>
             </a></div></td>
-        <td><a href="javascript:mw.notif_item_delete('<? print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
+        <td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
       </tr>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </tbody>
   </table>
 </div>
 <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">Show system log</a>
-<? else : ?>
-<? print mw_notif('No new notifications available!'); ?>
-<? endif; ?>
+<?php else : ?>
+<?php print mw_notif('No new notifications available!'); ?>
+<?php endif; ?>

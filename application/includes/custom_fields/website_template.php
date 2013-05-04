@@ -5,7 +5,7 @@ function mw_set_default_template(){
 
 
 
-			 var el1 =  mw.$('.mw-site-theme-selector').find("[name='<? print  $data['option_key']; ?>']")[0];
+			 var el1 =  mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>']")[0];
 
 
 
@@ -43,14 +43,14 @@ $(document).ready(function(){
  });
 
 </script>
-<?  //d($data); ?>
+<?php  //d($data); ?>
 
 <div class="mw-site-theme-selector">
   <label class="control-label-title"> Website template </label>
   <!--  <button class="mw-ui-btn mw-action-delete-template">Delete Template</button>
 -->
 
-  <input id="mw_curr_theme_val" name="<? print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<? print  $data['option_group']; ?>"  value="<? print  $data['option_value']; ?>" data-id="<? print  $data['id']; ?>" />
-  <module type="content/layout_selector" data-active-site-template="<? print $data['option_value'] ?>" autoload="1"  />
+  <input id="mw_curr_theme_val" name="<?php print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<?php print  $data['option_group']; ?>"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
+  <module type="content/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1"  />
   <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()">Apply Template</button>
 </div>

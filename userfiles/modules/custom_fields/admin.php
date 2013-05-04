@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 <script type="text/javascript">
 
 
@@ -84,11 +84,11 @@ __sort_fields = function(){
 createFieldPill = function(el){
 	
   mw.custom_fields.create({
-    selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
+    selector:'.mw-admin-custom-field-edit-<?php print $params['id']; ?>',
     type:$(el).dataset('type'),
     copy:false,
-    table:'<? print $for  ?>',
-    id:'<? print $module_id  ?>',
+    table:'<?php print $for  ?>',
+    id:'<?php print $module_id  ?>',
     onCreate:function(){
       mw.$(".custom-field-edit-title").html('<span class="'+el.querySelector('span').className+'"></span><strong>' + el.textContent + '</strong>');
       mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
@@ -114,17 +114,17 @@ $(document).ready(function(){
 
 </script>
 
-<div class="<? print $config['module_class'] ?>-holder">
+<div class="<?php print $config['module_class'] ?>-holder">
 
 
 
 
 
 <module data-type="custom_fields/list"  
-  for="<? print $for  ?>"
-  for_module_id="<? print $module_id ?>"
-  <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?>
-  id="mw_custom_fields_list_<? print $params['id']; ?>"  <? if(isset($params['default-fields'])): ?> default-fields="<?  print $params['default-fields'] ?>" <? endif; ?>/>
+  for="<?php print $for  ?>"
+  for_module_id="<?php print $module_id ?>"
+  <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
+  id="mw_custom_fields_list_<?php print $params['id']; ?>"  <?php if(isset($params['default-fields'])): ?> default-fields="<?php  print $params['default-fields'] ?>" <?php endif; ?>/>
 
 
 
@@ -139,7 +139,7 @@ $(document).ready(function(){
         <div class="custom-field-edit-title"></div>
       </div>
       <div class="mw-admin-custom-field-edit-item-wrapper">
-        <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?> "></div>
+        <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
       </div>
     </div>
   </div>

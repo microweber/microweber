@@ -12,40 +12,40 @@ description: Blog
 ?>
 
 <div class="post-list">
-  <? if (!empty($data)): ?>
-  <? foreach ($data as $item): ?>
+  <?php if (!empty($data)): ?>
+  <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single">
       <div class="row">
-          <? if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
+          <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <div class="span3">
-                <a href="<? print $item['link'] ?>"><img src="<? print thumbnail($item['image'], 270); ?>" alt="" ></a>
+                <a href="<?php print $item['link'] ?>"><img src="<?php print thumbnail($item['image'], 270); ?>" alt="" ></a>
             </div>
-          <? endif; ?>
+          <?php endif; ?>
           <div class="span4">
               <div class="post-single-title-date">
-                  <? if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                    <h2 class="lead"><a href="<? print $item['link'] ?>"><? print $item['title'] ?></a></h2>
-                  <? endif; ?>
-                  <? if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-                    <small class="muted">Date: <? print $item['created_on'] ?></small>
-                  <? endif; ?>
+                  <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
+                    <h2 class="lead"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
+                  <?php endif; ?>
+                  <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
+                    <small class="muted">Date: <?php print $item['created_on'] ?></small>
+                  <?php endif; ?>
               </div>
-              <? if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                <p class="description"><? print $item['description'] ?></p>
-              <? endif; ?>
+              <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
+                <p class="description"><?php print $item['description'] ?></p>
+              <?php endif; ?>
 
-              <? if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                  <a href="<? print $item['link'] ?>" class="btn">
-                      <? $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
+              <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
+                  <a href="<?php print $item['link'] ?>" class="btn">
+                      <?php $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
                   </a>
-              <? endif; ?>
+              <?php endif; ?>
           </div>
       </div>
   </div>
-  <? endforeach; ?>
-  <? endif; ?>
+  <?php endforeach; ?>
+  <?php endif; ?>
 </div>
-<? if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-    <? print paging("num={$pages_count}&paging_param={$paging_param}&curent_page={$curent_page}") ?>
+<?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
+    <?php print paging("num={$pages_count}&paging_param={$paging_param}&curent_page={$curent_page}") ?>
     
- <? endif; ?>
+ <?php endif; ?>

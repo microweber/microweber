@@ -97,8 +97,7 @@ switch ($do) {
 
 
 ?>
-<?
-if ($done == false):
+<?php if ($done == false):
 
 $check_pass = true;
 $server_check_errors = array();
@@ -139,19 +138,19 @@ if(function_exists('apache_get_modules') ){
 ?>
 
 <form>
-  <? if($check_pass == false): ?>
-  <? if(!empty($server_check_errors)): ?>
+  <?php if($check_pass == false): ?>
+  <?php if(!empty($server_check_errors)): ?>
   <h3>Server check</h3>
   <h4>There are some errors on your server that will prevent Microweber from working properly</h4>
   <table border=1>
-    <? foreach($server_check_errors as $server_check_error): ?>
+    <?php foreach($server_check_errors as $server_check_error): ?>
     <tr>
-      <td><? print $server_check_error; ?></td>
+      <td><?php print $server_check_error; ?></td>
     </tr>
-    <? endforeach ?>
+    <?php endforeach ?>
   </table>
-  <?  endif; ?>
-  <? else: ?>
+  <?php endif; ?>
+  <?php else: ?>
   <h2>Welcome to Microweber web install</h2>
   <p>This file will download the latest version and redirect you to the install page</p>
   <p> By downloading and installing Microweber you agree to the<br>
@@ -165,13 +164,13 @@ if(function_exists('apache_get_modules') ){
 
   <input type="hidden" name="action"  value="download_and_unzip">
   <input type="submit" name="submit" value="Download and install Microweber">
-  <?  endif; ?>
+  <?php endif; ?>
 </form>
-<? else: ?>
+<?php else: ?>
 
-<h2>Done, <a href="<? print $y ?>/install">click here to continue</a></h2>
-<? unlink(__FILE__); ?>
-<? endif; ?>
+<h2>Done, <a href="<?php print $y ?>/install">click here to continue</a></h2>
+<?php unlink(__FILE__); ?>
+<?php endif; ?>
 <?php
 
 function site_url($add_string = false) {

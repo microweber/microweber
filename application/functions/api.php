@@ -116,7 +116,7 @@ function execute_document_ready($l) {
 
 /* JS Usage:
  *
- * var source = new EventSource('<? print site_url('api/event_stream')?>');
+ * var source = new EventSource('<?php print site_url('api/event_stream')?>');
  *	source.onmessage = function (event) {
  *
  * 	mw.$('#mw-admin-manage-orders').html(event.data);

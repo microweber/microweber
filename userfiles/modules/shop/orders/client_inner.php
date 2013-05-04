@@ -1,4 +1,4 @@
-<? if(isset($params['order-id']) == true): ?>
+<?php if(isset($params['order-id']) == true): ?>
 <?
 $client = get_orders('one=1&id='.intval($params['order-id']));
 $orders = get_orders('order_by=created_on desc&order_completed=y&email='.$client['email']);
@@ -19,11 +19,11 @@ mw.client_edit = {
   mw.$('.mw-client-information').addClass('nonactive');
 },
 save:function(){
- var URL = '<? print api_url('update_order') ?>';
+ var URL = '<?php print api_url('update_order') ?>';
  if(!mw.$('.mw-client-information').hasClass('nonactive')){
    var obj = mw.form.serialize('.mw-client-information');
    $.post(URL, obj ,function(data) {
-    mw.reload_module('<? print $config['module'] ?>');
+    mw.reload_module('<?php print $config['module'] ?>');
   });
  }
          //  mw.client_edit.disable();
@@ -46,14 +46,14 @@ save:function(){
           <div class="mw-client-image-holder">
           
           
-          <? if(isset( $client['created_by']) and $client['created_by'] > 0): ?>
+          <?php if(isset( $client['created_by']) and $client['created_by'] > 0): ?>
           <?
 		  $user_ord = get_user($client['created_by']);
 		   ?>
           <?php if(isset($user_ord['thumbnail']) and trim($user_ord['thumbnail'])!=''): ?>
-       <img style="vertical-align:middle" src="<? print $user_ord['thumbnail'] ?>"  height="115" width="115" />  
+       <img style="vertical-align:middle" src="<?php print $user_ord['thumbnail'] ?>"  height="115" width="115" />  
       <?php endif; ?>
-          <? endif; ?>
+          <?php endif; ?>
           
             <input type="hidden" name="client_image" id="client_image" />
           </div>
@@ -78,24 +78,24 @@ save:function(){
             </thead>
             <tbody>
               <tr class="last">
-                <td><input type="hidden" name="id"   value="<? print $client['id'] ?>" />
-<? // d( $client); ?>
+                <td><input type="hidden" name="id"   value="<?php print $client['id'] ?>" />
+<?php // d( $client); ?>
 
-                  <input class="left" type="text" name="first_name" value="<? print $client['first_name'] ?>" />
-                  <input class="right" type="text" name="last_name" value="<? print $client['last_name'] ?>" />
-                  <span class="val"><? print $client['first_name'] ?></span> <span class="val"><? print $client['last_name'] ?></span></td>
-                  <td><input type="text" name="email" value="<? print $client['email'] ?>" />
-                    <span class="val"><? print $client['email'] ?></span></td>
-                    <td><input type="text" name="phone" value="<? print $client['phone'] ?>" />
-                      <span class="val"><? print $client['phone'] ?></span></td>
-                      <td><input type="text" name="country" value="<? print $client['country'] ?>" />
-                        <span class="val"><? print $client['country'] ?></span></td>
-                        <td><input type="text" name="city" value="<? print $client['city'] ?>" />
-                          <span class="val"><? print $client['city'] ?></span></td>
-                          <td><input type="text" name="state" value="<? print $client['state'] ?>" />
-                            <span class="val"><? print $client['state'] ?></span></td>
-                            <td><input type="text" name="zip" value="<? print $client['zip'] ?>" />
-                              <span class="val"><? print $client['zip'] ?></span></td>
+                  <input class="left" type="text" name="first_name" value="<?php print $client['first_name'] ?>" />
+                  <input class="right" type="text" name="last_name" value="<?php print $client['last_name'] ?>" />
+                  <span class="val"><?php print $client['first_name'] ?></span> <span class="val"><?php print $client['last_name'] ?></span></td>
+                  <td><input type="text" name="email" value="<?php print $client['email'] ?>" />
+                    <span class="val"><?php print $client['email'] ?></span></td>
+                    <td><input type="text" name="phone" value="<?php print $client['phone'] ?>" />
+                      <span class="val"><?php print $client['phone'] ?></span></td>
+                      <td><input type="text" name="country" value="<?php print $client['country'] ?>" />
+                        <span class="val"><?php print $client['country'] ?></span></td>
+                        <td><input type="text" name="city" value="<?php print $client['city'] ?>" />
+                          <span class="val"><?php print $client['city'] ?></span></td>
+                          <td><input type="text" name="state" value="<?php print $client['state'] ?>" />
+                            <span class="val"><?php print $client['state'] ?></span></td>
+                            <td><input type="text" name="zip" value="<?php print $client['zip'] ?>" />
+                              <span class="val"><?php print $client['zip'] ?></span></td>
                             </tr>
                           </tbody>
                         </table>
@@ -110,10 +110,10 @@ save:function(){
                           </thead>
                           <tbody>
                             <tr class="last">
-                              <td width="50%"><input style="width:380px" type="text" name="address" value="<? print $client['address'] ?>" />
-                                <span class="val"><? print $client['address'] ?></span></td>
-                                <td width="50%"><input  style="width:380px"type="text" name="address2" value="<? print $client['address2'] ?>" />
-                                  <span class="val"><? print $client['address2'] ?></span></td>
+                              <td width="50%"><input style="width:380px" type="text" name="address" value="<?php print $client['address'] ?>" />
+                                <span class="val"><?php print $client['address'] ?></span></td>
+                                <td width="50%"><input  style="width:380px"type="text" name="address2" value="<?php print $client['address2'] ?>" />
+                                  <span class="val"><?php print $client['address2'] ?></span></td>
                                 </tr>
                               </tbody>
                             </table>
@@ -126,18 +126,18 @@ save:function(){
                       </div>
                       <div class="vSpace"></div>
                       <div class="vSpace"></div>
-                      <h2>Orders from <? print $client['first_name'] ?> <? print $client['last_name'] ?></h2>
-                      <? if(isarr($orders )): ?>
-                      <? foreach($orders  as $item): ?>
+                      <h2>Orders from <?php print $client['first_name'] ?> <?php print $client['last_name'] ?></h2>
+                      <?php if(isarr($orders )): ?>
+                      <?php foreach($orders  as $item): ?>
                       <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
                         <div class="mw-o-box-header"> <span class="ico iorder"></span>
                           <div class="left">
-                            <h2><span style="color: #0D5C98"><? print $item['id'] ?> |</span><span class="font-12 relative" style="top: -2px;left: 6px;"><? print $item['created_on'] ?></span> </h2>
+                            <h2><span style="color: #0D5C98"><?php print $item['id'] ?> |</span><span class="font-12 relative" style="top: -2px;left: 6px;"><?php print $item['created_on'] ?></span> </h2>
                           </div>
-                          <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);">Show Order <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<? print template_var('url'); ?>/../action:orders#?vieworder=<? print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> Go to this order</a> </div>
+                          <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);">Show Order <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<?php print template_var('url'); ?>/../action:orders#?vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> Go to this order</a> </div>
                           <div class="mw-o-box-content mw-accordion-content">
-                            <? $cart_items = get_cart('order_id='.$item['id'].'&no_session_id=1'); 	?>
-                            <? if(isarr($cart_items)): ?>
+                            <?php $cart_items = get_cart('order_id='.$item['id'].'&no_session_id=1'); 	?>
+                            <?php if(isarr($cart_items)): ?>
                             <table cellspacing="0" cellpadding="0" class="mw-o-box-table" width="935">
                               <thead>
                                 <tr>
@@ -148,24 +148,24 @@ save:function(){
                                 </tr>
                               </thead>
                               <tbody>
-                                <? foreach($cart_items  as $cart_item): ?>
+                                <?php foreach($cart_items  as $cart_item): ?>
                                 <tr class="mw-order-item mw-order-item-1">
-                                  <td class="mw-order-item-id"><? print $cart_item['title'] ?></td>
-                                  <td class="mw-order-item-amount"><? print $cart_item['price'] ?></td>
-                                  <td class="mw-order-item-amount"><? print $cart_item['qty'] ?></td>
-                                  <td class="mw-order-item-count"><? print currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
+                                  <td class="mw-order-item-id"><?php print $cart_item['title'] ?></td>
+                                  <td class="mw-order-item-amount"><?php print $cart_item['price'] ?></td>
+                                  <td class="mw-order-item-amount"><?php print $cart_item['qty'] ?></td>
+                                  <td class="mw-order-item-count"><?php print currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
                                 </tr>
-                              <? endforeach ; ?>
+                              <?php endforeach ; ?>
                             </tbody>
                           </table>
-                        <? else : ?>
+                        <?php else : ?>
                         Cannot get order's items
-                      <? endif; ?>
+                      <?php endif; ?>
                     </div>
                   </div>
-                <? endforeach ; ?>
-              <? endif; ?>
+                <?php endforeach ; ?>
+              <?php endif; ?>
             </div>
-          <? else : ?>
+          <?php else : ?>
           Please set order-id parameter
-        <? endif; ?>
+        <?php endif; ?>

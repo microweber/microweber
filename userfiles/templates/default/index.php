@@ -10,7 +10,7 @@
 */
 
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit" id="home-top"  rel="page" field="content">
   <div class="mw-row clearfix">
@@ -170,4 +170,4 @@
 
   </div>
 </div>
-<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

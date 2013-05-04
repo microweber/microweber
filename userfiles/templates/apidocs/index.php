@@ -16,7 +16,7 @@ description: Right Sidebar layout
 
 
 ?>
-<? include TEMPLATE_DIR. "header.php"; ?>
+<?php include TEMPLATE_DIR. "header.php"; ?>
 
 
 <section id="content">
@@ -55,4 +55,4 @@ description: Right Sidebar layout
 
 
 
-<? include TEMPLATE_DIR. "footer.php"; ?>
+<?php include TEMPLATE_DIR. "footer.php"; ?>

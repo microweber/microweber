@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 
 
 <?php

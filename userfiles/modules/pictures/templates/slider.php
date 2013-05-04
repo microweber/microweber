@@ -13,19 +13,19 @@ description: Pictures slider
   ?>
 
 
- <? if(isarr($data )): ?>
+ <?php if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
  <div class="well mw-module-images">
 <div class="autoscale mw-rotator mw-rotator-template-slider" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
-    <? foreach($data  as $item): ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
+    <?php foreach($data  as $item): ?>
+    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
-        <img src="<? print $item['filename']; ?>" alt="" />
+        <img src="<?php print $item['filename']; ?>" alt="" />
 
     </div>
-    <? endforeach ; ?>
+    <?php endforeach ; ?>
   </div>
 </div>
 
@@ -55,6 +55,6 @@ description: Pictures slider
 </script>
  
 
-<? else : ?>
-<? print mw_notif("Please click on settings to upload your pictures."); ?>
-<? endif; ?>
+<?php else : ?>
+<?php print mw_notif("Please click on settings to upload your pictures."); ?>
+<?php endif; ?>

@@ -5,8 +5,8 @@ mw.require("events.js", true);
 </script>
 
 <script type="text/javascript">
-	mw.on.moduleReload('cart_fields_<? print $params['id'] ?>', function(){
-          mw.reload_module('#<? print $params['id'] ?>');
+	mw.on.moduleReload('cart_fields_<?php print $params['id'] ?>', function(){
+          mw.reload_module('#<?php print $params['id'] ?>');
     	});
 </script>
 <?
@@ -52,28 +52,28 @@ if($module_template != false and $module_template != 'none'){
  }
 
 ?>
-<? if($for_id != false): ?>
+<?php if($for_id != false): ?>
 
-<div class="mw-add-to-cart-holder mw-add-to-cart-<? print $params['id'] ?>">
-  <module type="custom_fields" data-content-id="<? print $for_id ?>" data-skip-type="price"  id="cart_fields_<? print $params['id'] ?>"  />
-  <? $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id."");
+<div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>">
+  <module type="custom_fields" data-content-id="<?php print $for_id ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
+  <?php $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id."");
 
 
    ?>
-  <? if(isarr($data) == true): ?>
+  <?php if(isarr($data) == true): ?>
 
 
-  <input type="hidden"  name="for" value="<? print $for ?>" />
-  <input type="hidden"  name="for_id" value="<? print $for_id ?>" />
+  <input type="hidden"  name="for" value="<?php print $for ?>" />
+  <input type="hidden"  name="for_id" value="<?php print $for_id ?>" />
   
 
   <span class="price">
-  <?   if(isset($template_file) and is_file($template_file) != false){
+  <?php   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
 	mw_notif_live_edit( 'No default template for '.$config['module'].' is found');
 }  ?>
 </span>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

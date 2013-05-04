@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 
@@ -10,14 +10,14 @@ description: Add to cart default
 
 */
  ?>
-<? if(isarr($data )): ?>
-<? $i=1 ;foreach($data  as $key => $v ): ?>
+<?php if(isarr($data )): ?>
+<?php $i=1 ;foreach($data  as $key => $v ): ?>
 
 <div class="mw-price-item">
   
-  <span class="mw-price pull-left"><? print  $key ?>: <? print currency_format($v); ?></span>
+  <span class="mw-price pull-left"><?php print  $key ?>: <?php print currency_format($v); ?></span>
 
-  <button class="btn pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<? print $params['id'] ?>','<? print $v ?>');"><i class="icon-shopping-cart"></i> Add to cart</button>
+  <button class="btn pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>');"><i class="icon-shopping-cart"></i> Add to cart</button>
 </div>
-<? $i++; endforeach ; ?>
-<? endif; ?>
+<?php $i++; endforeach ; ?>
+<?php endif; ?>

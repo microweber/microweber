@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 
 
 <style>
@@ -21,7 +21,7 @@
 <script  type="text/javascript">
 $(document).ready(function(){
 
-  mw.options.form('.<? print $config['module_class'] ?>', function(){
+  mw.options.form('.<?php print $config['module_class'] ?>', function(){
       mw.notification.success("<?php _e("Default template saved"); ?>.");
     });
 
@@ -74,39 +74,39 @@ error('parent-module-id is required');
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
  ?>
-<?  if(is_arr( $templates)): ?>
+<?php  if(is_arr( $templates)): ?>
 
 <label class="mw-ui-label">Set default skin for the whole website</label>
 <div class="mw-ui-select" style="width: 70%">
-  <select name="data-template"     class="mw_option_field" option_group="<? print $params['parent-module-id'] ?>"  data-refresh="<? print $params['parent-module-id'] ?>"  >
-    <option  value="default"   <? if(('default' == $cur_template)): ?>   selected="selected"  <? endif; ?>>Default</option>
-    <?  foreach($templates as $item):	 ?>
-    <? if((strtolower($item['name']) != 'default')): ?>
-    <option value="<? print $item['layout_file'] ?>"   <? if(($item['layout_file'] == $cur_template)): ?>   selected="selected"  <? endif; ?>     > <? print $item['name'] ?> </option>
-    <? endif; ?>
-    <? endforeach; ?>
+  <select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
+    <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>Default</option>
+    <?php  foreach($templates as $item):	 ?>
+    <?php if((strtolower($item['name']) != 'default')): ?>
+    <option value="<?php print $item['layout_file'] ?>"   <?php if(($item['layout_file'] == $cur_template)): ?>   selected="selected"  <?php endif; ?>     > <?php print $item['name'] ?> </option>
+    <?php endif; ?>
+    <?php endforeach; ?>
   </select>
 </div>
 <a class="mw-ui-btn mw-ui-btn-green " href="javascript:;">Get more templates</a>
 <div class="mw-admin-templates-browse-holder">
-  <? if(isarr($templates )): ?>
-  <? $i = 1; foreach($templates  as $item): ?>
-  <? if(isset($item['name'])): ?>
-  <h2><? print $item['name'] ?></h2>
-   <? if(isset($item['description'])): ?>
-  <h4><? print $item['description'] ?></h4>
-  <? endif; ?>
+  <?php if(isarr($templates )): ?>
+  <?php $i = 1; foreach($templates  as $item): ?>
+  <?php if(isset($item['name'])): ?>
+  <h2><?php print $item['name'] ?></h2>
+   <?php if(isset($item['description'])): ?>
+  <h4><?php print $item['description'] ?></h4>
+  <?php endif; ?>
   
 
-  <div class="templatePreviewHolder" onclick="modulePreview(mwd.getElementById('skin_num_<? print $i.md5($curent_module); ?>')); return false;">
+  <div class="templatePreviewHolder" onclick="modulePreview(mwd.getElementById('skin_num_<?php print $i.md5($curent_module); ?>')); return false;">
 
-  <? if(isset($item['icon'])){ ?>
-        <img src="<? print $item['icon'] ?>" width="365" height="365" />
-  <? } else if(isset($item['image'])){ ?>
-        <img src="<? print $item['image'] ?>" width="365" height="365" />
-  <? } else {; ?>
+  <?php if(isset($item['icon'])){ ?>
+        <img src="<?php print $item['icon'] ?>" width="365" height="365" />
+  <?php } else if(isset($item['image'])){ ?>
+        <img src="<?php print $item['image'] ?>" width="365" height="365" />
+  <?php } else {; ?>
        <iframe
-              src="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i.md5($curent_module); ?>"
+              src="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
               width="365"
               height="365"
               frameborder="0"
@@ -117,15 +117,15 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 
   </div>
 
-  <a onclick="modulePreview(this); return false;" title="<? print $item['name'] ?>" id="skin_num_<? print $i.md5($curent_module); ?>" href="<? print site_url('clean') ?>/preview_module:<? print ($curent_module_url) ?>/preview_module_template:<? print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<? print $i.md5($curent_module); ?>"  class="mw-ui-btn">Preview</a>
+  <a onclick="modulePreview(this); return false;" title="<?php print $item['name'] ?>" id="skin_num_<?php print $i.md5($curent_module); ?>" href="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"  class="mw-ui-btn">Preview</a>
 
-  <? //d($item); ?>
+  <?php //d($item); ?>
 
   
   
   
-  <? endif; ?>
-  <?  $i++; endforeach ; ?>
-  <? endif; ?>
+  <?php endif; ?>
+  <?php  $i++; endforeach ; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

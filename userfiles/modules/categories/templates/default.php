@@ -19,7 +19,7 @@ description: List Navigation
 
 <div class="category-nav category-nav-default">
 	<div class="well">
-		<?  category_tree($params);  ?>
+		<?php  category_tree($params);  ?>
 	</div>
 </div>
 

@@ -14,12 +14,12 @@
     <div class="mw-ui-field-holder">
 
           <div class="mw-ui-field mw-ico-field" style="width: 312px;">
-              <img class="mw-captcha-img" src="<? print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
+              <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
               <input type="text" placeholder="Enter the text" class="mw-ui-invisible-field" name="captcha">
           </div>
     </div>
     <div class="mw-ui-field-holder">
-        <button type="submit" class="mw-ui-btn right"><? print $form_btn_title ?></button>
+        <button type="submit" class="mw-ui-btn right"><?php print $form_btn_title ?></button>
     </div>
 
     <div style="clear: both"></div>

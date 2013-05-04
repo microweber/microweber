@@ -42,23 +42,23 @@ $data = get_comments($comments_data);
 
 //$data = get_content($comments_data);
 ?>
-<? if(isarr($data )): ?>
+<?php if(isarr($data )): ?>
 
 
 <div class="mw-admin-comments-search-holder">
-  <? foreach($data  as $item){ ?>
-     <? if(isset($item['rel']) and $item['rel'] == 'content'): ?>
-    <module type="comments/comments_for_post" id="mw_comments_for_post_<? print $item['rel_id'] ?>" content_id="<? print $item['rel_id'] ?>" >
-     <? endif; ?>
+  <?php foreach($data  as $item){ ?>
+     <?php if(isset($item['rel']) and $item['rel'] == 'content'): ?>
+    <module type="comments/comments_for_post" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" content_id="<?php print $item['rel_id'] ?>" >
+     <?php endif; ?>
      
      
-      <? if(isset($item['rel']) and $item['rel'] == 'modules'): ?>
-    <module type="comments/comments_for_module" id="mw_comments_for_post_<? print $item['rel_id'] ?>" rel_id="<? print $item['rel_id'] ?>" rel="<? print $item['rel'] ?>" >
-     <? endif; ?>
+      <?php if(isset($item['rel']) and $item['rel'] == 'modules'): ?>
+    <module type="comments/comments_for_module" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" rel_id="<?php print $item['rel_id'] ?>" rel="<?php print $item['rel'] ?>" >
+     <?php endif; ?>
      
      
      
   <?php // _d($item);  break;  ?>
-  <? } ; ?>
+  <?php } ; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

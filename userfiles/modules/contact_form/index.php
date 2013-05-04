@@ -6,18 +6,18 @@
 <script  type="text/javascript">
 $(document).ready(function(){
 
-	$('form[data-form-id="<? print $form_id ?>"]').submit(function() {
+	$('form[data-form-id="<?php print $form_id ?>"]').submit(function() {
 		var this_form = this;
-		var append_to_form = '<input type="hidden" name="module_name" value="<? print $params['module'] ?>" />';
+		var append_to_form = '<input type="hidden" name="module_name" value="<?php print $params['module'] ?>" />';
 		$(this).append(append_to_form);
-		mw.form.post('form[data-form-id="<? print $form_id ?>"]', undefined, function(form){
+		mw.form.post('form[data-form-id="<?php print $form_id ?>"]', undefined, function(form){
 			var data2 =  (this);
 			if(typeof(data2.error) != 'undefined'){
 			mw.response(mw.$(this_form),data2);
 		} else {
 			
 			$(form).addClass("deactivated");
-	        mw.$("#msg<? print $form_id ?>").css("top", "20%");
+	        mw.$("#msg<?php print $form_id ?>").css("top", "20%");
 	        if($(form).find(".mw-captcha-img")[0].length > 0){
 		        mw.tools.refresh_image($(form).find(".mw-captcha-img")[0]);
 	        }
@@ -25,7 +25,7 @@ $(document).ready(function(){
 			$(this_form).find(".alert-error ").remove();
 			$(form).find(".alert-error ").remove();
 	        setTimeout(function(){
-	        mw.$("#msg<? print $form_id ?>").css("top", "-100%");
+	        mw.$("#msg<?php print $form_id ?>").css("top", "-100%");
 	        $(form).removeClass("deactivated");
 	         
 	        }, 3200);
@@ -36,7 +36,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<? $save_as = get_option('form_name', $params['id']);
+<?php $save_as = get_option('form_name', $params['id']);
 
 if($save_as == false){
 	$save_as = $params['id'];

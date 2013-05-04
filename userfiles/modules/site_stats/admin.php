@@ -1,13 +1,13 @@
-<?  //$rand = uniqid(); ?>
+<?php  //$rand = uniqid(); ?>
 <script  type="text/javascript">
-    $r1 = '<? print $config['url_to_module'] ?>raphael-min.js';
+    $r1 = '<?php print $config['url_to_module'] ?>raphael-min.js';
     mw.require($r1,1);
 
-    $r2 = '<? print $config['url_to_module'] ?>morris.min.js';
+    $r2 = '<?php print $config['url_to_module'] ?>morris.min.js';
     mw.require($r2,1);
  </script>
-<? $v = get_visits(); ?>
-<? $v_weekly = get_visits('weekly');
+<?php $v = get_visits(); ?>
+<?php $v_weekly = get_visits('weekly');
 $v_monthly = get_visits('monthly');
 //print_r($v_monthly);
  ?>
@@ -73,21 +73,21 @@ mw.statdatas = {
     day:[
         <?php if(!empty($v)): ?>
           <?php $i=0; foreach($v as $item) : ?>
-            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v[$i+1])) : ?>, <? endif; ?>
+            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v[$i+1])) : ?>, <?php endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>
     ],
     week:[
         <?php if(!empty($v_weekly)): ?>
           <?php $i=0; foreach($v_weekly as $item) : ?>
-            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v_weekly[$i+1])) : ?>, <? endif; ?>
+            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v_weekly[$i+1])) : ?>, <?php endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>
     ],
     month:[
         <?php if(!empty($v_monthly)): ?>
           <?php $i=0; foreach($v_monthly as $item) : ?>
-            {"period": "<? print $item['visit_date'] ?>", "total_visits": <? print $item['total_visits'] ?>, "unique_visits": <? print $item['unique_visits'] ?>} <? if(isset($v_monthly[$i+1])) : ?>, <? endif; ?>
+            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v_monthly[$i+1])) : ?>, <?php endif; ?>
           <?php $i++; endforeach; ?>
         <?php endif; ?>
     ]

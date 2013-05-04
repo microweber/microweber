@@ -8,7 +8,7 @@
 
 
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <div id="content">
      <div class="container edit"  field="content" rel="content">
         <div class="span12">
@@ -18,4 +18,4 @@
          </div>
      </div>
  </div>
-<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

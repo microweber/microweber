@@ -1,4 +1,4 @@
-<?  only_admin_access();
+<?php  only_admin_access();
  api_expose('updates');
 if(url_param('add_module')){
 
@@ -43,7 +43,7 @@ mw.bind_update_form_submit = function(){
 
                mw.tools.disable(mwd.getElementById('installsubmit'), 'Installing...', true);
 
-               mw.form.post(mw.$('.mw-select-updates-list') , '<? print api_url(); ?>mw_apply_updates', function(){
+               mw.form.post(mw.$('.mw-select-updates-list') , '<?php print api_url(); ?>mw_apply_updates', function(){
 
                  mw.tools.enable(mwd.getElementById('installsubmit'));
                  //mw.notification.success("All updates are successfully installed.")
@@ -126,14 +126,14 @@ $(document).ready(function(){
 
 
 </style>
-<? $notif_count = mw_updates_count() ?>
+<?php $notif_count = mw_updates_count() ?>
 
 <div id="mw-updates-holder">
 
 <div class="mw-sided">
     <div class="mw-side-left" style="width: 150px;">
-        <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span>Updates</span><? if($notif_count !=0) : ?>&nbsp;<sup class="mw-notif-bubble" id="number_of_updates"><? print $notif_count  ?></sup><? endif; ?></h2>
-        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="Current version <? print MW_VERSION ?>">Check for updates</span>
+        <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span>Updates</span><?php if($notif_count !=0) : ?>&nbsp;<sup class="mw-notif-bubble" id="number_of_updates"><?php print $notif_count  ?></sup><?php endif; ?></h2>
+        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="Current version <?php print MW_VERSION ?>">Check for updates</span>
     </div>
     <div class="mw-side-left" id="updates-list-info" style="font-size: 12px;">
         <span style="font-size: 18px;"><?php print user_name(); ?></span>, we are constantly trying to improve Microweber. <br>

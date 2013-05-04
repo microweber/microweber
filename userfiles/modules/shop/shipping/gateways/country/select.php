@@ -1,4 +1,4 @@
-<?   
+<?php   
 
   
  $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
@@ -57,8 +57,8 @@
   ?>
   
   
-  <select name="country" class="<? print $class  ?>">
-  <? foreach($data  as $item): ?>
-  <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
-  <? endforeach ; ?>
+  <select name="country" class="<?php print $class  ?>">
+  <?php foreach($data  as $item): ?>
+  <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+  <?php endforeach ; ?>
 </select>

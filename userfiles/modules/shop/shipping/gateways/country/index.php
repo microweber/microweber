@@ -1,5 +1,5 @@
-<? //  require_once($config['path_to_module'].'country_api.php'); ?>
-<?  $rand = uniqid();
+<?php //  require_once($config['path_to_module'].'country_api.php'); ?>
+<?php  $rand = uniqid();
 
   
  $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
@@ -58,8 +58,8 @@
 </script>
 <script type="text/javascript">
 
-  function mw_shipping_<? print $rand; ?>(){
-    mw.form.post( '#<? print $rand; ?>', '<? print $config['module_api']; ?>/shipping_to_country/set',function() {
+  function mw_shipping_<?php print $rand; ?>(){
+    mw.form.post( '#<?php print $rand; ?>', '<?php print $config['module_api']; ?>/shipping_to_country/set',function() {
 	 mw.reload_module('shop/cart');
 	 
 	 if(this.shiping_country != undefined){
@@ -76,9 +76,9 @@
   
 
 $(document).ready(function(){
-	//mw_shipping_<? print $rand; ?>();
-	mw.$('#<? print $rand; ?>').change(function() {
-	 mw_shipping_<? print $rand; ?>();
+	//mw_shipping_<?php print $rand; ?>();
+	mw.$('#<?php print $rand; ?>').change(function() {
+	 mw_shipping_<?php print $rand; ?>();
 	});
 
 }); 
@@ -86,27 +86,27 @@ $(document).ready(function(){
 
 
 </script>
-<? if(isset($params['template']) and trim($params['template']) == 'select') : ?>
+<?php if(isset($params['template']) and trim($params['template']) == 'select') : ?>
 
-<div class="<? print $config['module_class'] ?>" id="<? print $rand; ?>">
+<div class="<?php print $config['module_class'] ?>" id="<?php print $rand; ?>">
   <select name="country" class="shipping-country-select">
    <option value="">Choose country</option>
-    <? foreach($data  as $item): ?>
-    <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
-    <? endforeach ; ?>
+    <?php foreach($data  as $item): ?>
+    <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+    <?php endforeach ; ?>
   </select>
 </div>
-<? else: ?>
-<div class="<? print $config['module_class'] ?>">
-  <div id="<? print $rand; ?>">
+<?php else: ?>
+<div class="<?php print $config['module_class'] ?>">
+  <div id="<?php print $rand; ?>">
     <label>
       <?php _e("Choose country:"); ?>
     </label>
     <select name="country" class="field-full">
 	 <option value="">Choose country</option>
-      <? foreach($data  as $item): ?>
-      <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
-      <? endforeach ; ?>
+      <?php foreach($data  as $item): ?>
+      <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+      <?php endforeach ; ?>
     </select>
   </div>
   <label>
@@ -126,4 +126,4 @@ $(document).ready(function(){
   </label>
   <input name="address" class="field-full" type="text" value="" />
 </div>
-<? endif; ?>
+<?php endif; ?>

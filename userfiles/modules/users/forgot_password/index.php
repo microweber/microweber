@@ -1,14 +1,14 @@
 
-<? if(isset($_GET['reset_password_link'])): ?>
+<?php if(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password/reset_password" />
-<? else:  ?>
+<?php else:  ?>
 
 
-<? $user = user_id(); ?>
-<? $have_social_login = false; ?>
-<? if($user != false): ?>
+<?php $user = user_id(); ?>
+<?php $have_social_login = false; ?>
+<?php if($user != false): ?>
 <module type="users/profile" />
-<? else:  ?>
+<?php else:  ?>
 
 
 
@@ -18,7 +18,7 @@
 		}
  
  		 ?>
-<? //$rand = uniqid(); ?>
+<?php //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 mw.require('forms.js', true);
@@ -31,7 +31,7 @@ $(document).ready(function(){
 	 mw.$('#user_forgot_password_form{rand}').submit(function() {
 
  
- mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<? print site_url('api') ?>/user_send_forgot_password', function(a){
+ mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print site_url('api') ?>/user_send_forgot_password', function(a){
 
 	         mw.response('#form-holder{rand}',this);
 
@@ -81,5 +81,5 @@ $module_template = get_option('data-template',$params['id']);
 
 ?>
     
-<? endif; ?>
-<? endif; ?>
+<?php endif; ?>
+<?php endif; ?>

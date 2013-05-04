@@ -1,7 +1,7 @@
 
 
 
-<? $here = dirname(__FILE__);
+<?php $here = dirname(__FILE__);
 		
 	$here =	pathToURL($here).'/';
 	
@@ -14,7 +14,7 @@
         <script>mw.require('url.js');</script>
         <script>mw.require('events.js');</script>
         <style type="text/css">
-        html,body,#container,#pickfiles_<? print $uid  ?>{
+        html,body,#container,#pickfiles_<?php print $uid  ?>{
           position: absolute;
           width: 100%;
           height: 100%;
@@ -25,16 +25,16 @@
 
         </style>
  
-        <script type="text/javascript" src="<? print $here ?>js/plupload.js"></script>
-        <script type="text/javascript" src="<? print $here ?>js/plupload.html5.js"></script>
-        <script type="text/javascript" src="<? print $here ?>js/plupload.html4.js"></script>
+        <script type="text/javascript" src="<?php print $here ?>js/plupload.js"></script>
+        <script type="text/javascript" src="<?php print $here ?>js/plupload.html5.js"></script>
+        <script type="text/javascript" src="<?php print $here ?>js/plupload.html4.js"></script>
 
 
  
 
 
         <div id="container">
-            <div id="pickfiles_<? print $uid  ?>" href="javascript:;">&nbsp;</div>
+            <div id="pickfiles_<?php print $uid  ?>" href="javascript:;">&nbsp;</div>
         </div>
 
 
@@ -80,11 +80,11 @@
 
             var uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
-                browse_button : 'pickfiles_<? print $uid  ?>',
+                browse_button : 'pickfiles_<?php print $uid  ?>',
                 debug : 1,
                 container: 'container',
 				chunk_size : '3mb',
-                url : '<? print site_url('plupload'); ?>',
+                url : '<?php print site_url('plupload'); ?>',
                 filters:filters,
                 multi_selection:multi
             });

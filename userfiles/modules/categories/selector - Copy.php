@@ -96,20 +96,20 @@ if (isset($params['rel_id']) and $params['rel_id'] != 0) {
 }  
  
 ?>
-<?  
+<?php  
  
    ?>
 <script  type="text/javascript">
 
 	$(document).ready(function(){
 
-mw.$('#<? print $params['id'] ?> .mw-ui-check').on('click', function(e){
+mw.$('#<?php print $params['id'] ?> .mw-ui-check').on('click', function(e){
 	// e.preventDefault(); //stop the default form action
 	var names = [];
-	mw.$('#<? print $params['id'] ?> .mw-ui-check-input-sel:checked').each(function() {
+	mw.$('#<?php print $params['id'] ?> .mw-ui-check-input-sel:checked').each(function() {
 	names.push($(this).val());
 	});
-mw.log('<? print $params['id'] ?>');
+mw.log('<?php print $params['id'] ?>');
 	if(names.length > 0){
 	mw.$('#mw_cat_selected_{rand}').val(names.join(',')).change();
 } else {
@@ -126,7 +126,7 @@ mw.log('<? print $params['id'] ?>');
 
 	});
 </script>
-<? if(!empty($cats__parents)): ?>
+<?php if(!empty($cats__parents)): ?>
 <?
  
 
@@ -163,8 +163,8 @@ foreach ($cats__parents as $item1) {
 
 }
 ?>
-<? endif; ?>
-<?  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
+<?php endif; ?>
+<?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 	 
 						
 						
@@ -203,6 +203,6 @@ foreach ($cats__parents as $item1) {
   
   
    ?>
-<? $cats_str = implode(',', $active_cats); ?>
+<?php $cats_str = implode(',', $active_cats); ?>
 
-<input type="text" name="categories" id="mw_cat_selected_{rand}" value="<? print $cats_str ?>" />
+<input type="text" name="categories" id="mw_cat_selected_{rand}" value="<?php print $cats_str ?>" />

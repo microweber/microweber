@@ -23,7 +23,7 @@ $source_code_id = md5($source_code );
 <script  type="text/javascript">
 /*	$(document).ready(function(){
 		
-			mw.require("<? print $config['url_to_module'] ?>jquery.snippet.css", function(){
+			mw.require("<?php print $config['url_to_module'] ?>jquery.snippet.css", function(){
 
  
 
@@ -31,9 +31,9 @@ $source_code_id = md5($source_code );
 				
 			 
 			 
-	mw.require("<? print $config['url_to_module'] ?>jquery.snippet.js", function(){
+	mw.require("<?php print $config['url_to_module'] ?>jquery.snippet.js", function(){
 
- $("#<? print $source_code_id ?>").snippet("<? print $source_code_language ?>");
+ $("#<?php print $source_code_id ?>").snippet("<?php print $source_code_language ?>");
  
 			});
 	
@@ -47,6 +47,6 @@ $source_code_id = md5($source_code );
 
 </script>
  
-<pre id="<? print $source_code_id ?>">
-<? print htmlentities($source_code ); ?>
+<pre id="<?php print $source_code_id ?>">
+<?php print htmlentities($source_code ); ?>
 </pre>

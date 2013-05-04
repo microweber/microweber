@@ -2,7 +2,7 @@
 
 <h2>Cache confinguration</h2>
 <label class="mw-ui-label">Cache storage type</label>
-<?   $enable_server_cache_storage = static_option_get('enable_server_cache_storage','server');
+<?php   $enable_server_cache_storage = static_option_get('enable_server_cache_storage','server');
 
  if($enable_server_cache_storage == false){
 	$enable_server_cache_storage = 'default';
@@ -11,21 +11,21 @@ $memcache_enabled = extension_loaded('memcache');
  
   ?>
 <div class="mw-ui-select">
-  <select name="enable_server_cache_storage" class="mw_option_field"   type="text" option-group="server" option-type="static" data-refresh="<? print $params['module'] ?>">
-    <option value="default" <? if($enable_server_cache_storage == 'default'): ?> selected="selected" <? endif; ?>>Files Cache</option>
-     <option value="apc" <? if($enable_server_cache_storage == 'apc'): ?> selected="selected" <? endif; ?>>APC Cache</option>
-    <? if($memcache_enabled): ?>
-    <option value="memcache" <? if($enable_server_cache_storage == 'memcache'): ?> selected="selected" <? endif; ?>>Memcache Server</option>
-    <? endif ?>
+  <select name="enable_server_cache_storage" class="mw_option_field"   type="text" option-group="server" option-type="static" data-refresh="<?php print $params['module'] ?>">
+    <option value="default" <?php if($enable_server_cache_storage == 'default'): ?> selected="selected" <?php endif; ?>>Files Cache</option>
+     <option value="apc" <?php if($enable_server_cache_storage == 'apc'): ?> selected="selected" <?php endif; ?>>APC Cache</option>
+    <?php if($memcache_enabled): ?>
+    <option value="memcache" <?php if($enable_server_cache_storage == 'memcache'): ?> selected="selected" <?php endif; ?>>Memcache Server</option>
+    <?php endif ?>
   </select>
 </div>
 <div class="vSpace"></div>
-<? if($memcache_enabled and $enable_server_cache_storage == 'memcache'): ?>
+<?php if($memcache_enabled and $enable_server_cache_storage == 'memcache'): ?>
 <label class="mw-ui-label-inline">memcache servers</label>
-<input name="memcache_servers" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="server"  data-refresh="<? print $params['module'] ?>" option-type="static"  value="<? print static_option_get('memcache_servers','server'); ?>" />
+<input name="memcache_servers" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="server"  data-refresh="<?php print $params['module'] ?>" option-type="static"  value="<?php print static_option_get('memcache_servers','server'); ?>" />
 <br>
 <small>You can set multiple servers by seperating them by comma. Ex: 127.0.0.1:11211, 192.168.0.1:11211</small>
-<? $memcache_servers = static_option_get('memcache_servers','server');
+<?php $memcache_servers = static_option_get('memcache_servers','server');
 if($memcache_servers != false){
 $memcache_servers = trim($memcache_servers);	
 $memcache_servers  = explode(',',$memcache_servers );
@@ -34,9 +34,9 @@ $memcache_servers  = explode(',',$memcache_servers );
 
 
 ?>
-<? if(isarr($memcache_servers )): ?>
-<? foreach($memcache_servers  as $item): ?>
-<? 
+<?php if(isarr($memcache_servers )): ?>
+<?php foreach($memcache_servers  as $item): ?>
+<?php 
     
 	$h = explode(':',$item);
   if(!isset($h[1])){
@@ -62,11 +62,11 @@ if ($available && @$memcache->connect($host, $port)){
  
 	 
 	?>
-<? if( $conn != true): ?>
+<?php if( $conn != true): ?>
 <div class="mw-notification mw-error">
-  <div> <span>Cannot connect to <? print $item ?></span> </div>
+  <div> <span>Cannot connect to <?php print $item ?></span> </div>
 </div>
-<? endif; ?>
+<?php endif; ?>
 <?
  
 
@@ -83,13 +83,13 @@ if( $conn == true){
 	$get_result = $memcache->get('key');
 	 ?>
 <div class="mw-notification mw-success">
-  <div> <span class="ico icheck"></span> <span>Connected to <? print $item ?></span> </div>
+  <div> <span class="ico icheck"></span> <span>Connected to <?php print $item ?></span> </div>
 </div>
 <?
 }
   
     
     ?>
-<? endforeach ; ?>
-<? endif; ?>
-<? endif; ?>
+<?php endforeach ; ?>
+<?php endif; ?>
+<?php endif; ?>

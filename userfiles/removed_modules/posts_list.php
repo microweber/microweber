@@ -170,27 +170,27 @@ $post_params_paging['page_count'] = true;
 
 $pages_count = intval($pages);
 ?>
-<? if (intval($pages) > 1): ?>
-<? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
-<? if (!empty($paging_links)): ?>
+<?php if (intval($pages) > 1): ?>
+<?php $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+<?php if (!empty($paging_links)): ?>
 
 <div class="paging">
-  <? foreach ($paging_links as $k => $v): ?>
-  <span class="paging-item" data-page-number="<? print $k; ?>" ><a  data-page-number="<? print $k; ?>" data-paging-param="<? print $paging_param; ?>" href="<? print $v; ?>"  class="paging-link"><? print $k; ?></a></span>
-  <? endforeach; ?>
+  <?php foreach ($paging_links as $k => $v): ?>
+  <span class="paging-item" data-page-number="<?php print $k; ?>" ><a  data-page-number="<?php print $k; ?>" data-paging-param="<?php print $paging_param; ?>" href="<?php print $v; ?>"  class="paging-link"><?php print $k; ?></a></span>
+  <?php endforeach; ?>
 </div>
-<? endif; ?>
-<? endif; ?>
+<?php endif; ?>
+<?php endif; ?>
 <hr>
 <div class="content-list">
-  <? if (!empty($content)): ?>
-  <? if ($show_fields == false): ?>
-  <? $show_fields = array('thumbnail', 'title', 'description', 'read_more'); ?>
-  <? endif; ?>
-  <? foreach ($content as $item): ?>
-  <div class="content-item" data-content-id="<? print ($item['id']) ?>">
-    <? if (is_array($content) and !empty($content)): ?>
-    <? foreach ($show_fields as $show_field): ?>
+  <?php if (!empty($content)): ?>
+  <?php if ($show_fields == false): ?>
+  <?php $show_fields = array('thumbnail', 'title', 'description', 'read_more'); ?>
+  <?php endif; ?>
+  <?php foreach ($content as $item): ?>
+  <div class="content-item" data-content-id="<?php print ($item['id']) ?>">
+    <?php if (is_array($content) and !empty($content)): ?>
+    <?php foreach ($show_fields as $show_field): ?>
     <?
                         $show_field = trim($show_field);
 
@@ -245,15 +245,15 @@ $pages_count = intval($pages);
                                 break;
                         }
                         ?>
-    <? if ($fv != false and trim($fv) != ''): ?>
-    <div class="post-field-<? print $show_field ?>"><? print $fv ?></div>
-    <? endif; ?>
-    <? endforeach; ?>
-    <? // d($show_fields); ?>
-    <? endif; ?>
+    <?php if ($fv != false and trim($fv) != ''): ?>
+    <div class="post-field-<?php print $show_field ?>"><?php print $fv ?></div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <?php // d($show_fields); ?>
+    <?php endif; ?>
   </div>
-  <? endforeach; ?>
-  <? else: ?>
+  <?php endforeach; ?>
+  <?php else: ?>
   <div class="content-list-empty"> No posts </div>
-  <? endif; ?>
+  <?php endif; ?>
 </div>

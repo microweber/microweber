@@ -1,5 +1,5 @@
 <div id="main" class="liquid">
-  <? exec_action('mw_admin_dashboard_main'); ?>
+  <?php exec_action('mw_admin_dashboard_main'); ?>
   <div class="mw_clear" style="padding-bottom: 20px;">&nbsp;</div>
   <div class="quick-lists">
     <div class="quick-links-case left">
@@ -14,7 +14,7 @@
     <div class="quick-links-case">
       <h2>Quick Links</h2>
       <ul class="mw-quick-links left">
-        <? exec_action('mw_admin_dashboard_quick_link'); ?>
+        <?php exec_action('mw_admin_dashboard_quick_link'); ?>
         <li><a href="<?php print admin_url('view:settings'); ?>"><span class="ico imanage-website"></span><span>Manage Website</span></a></li>
         <li><a href="<?php print admin_url('view:modules'); ?>"><span class="ico imanage-module"></span><span>Manage Modules</span></a></li>
       </ul>
@@ -22,20 +22,20 @@
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupgrade"></span><span>Upgrades</span></a></li>
-        <? $notif_count = get_notifications('is_read=n&count=1'); ?>
+        <?php $notif_count = get_notifications('is_read=n&count=1'); ?>
         <li><a href="<?php print admin_url('view:admin__notifications'); ?>"><span class="ico inotification">
-          <? if( $notif_count > 0): ?>
-          <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
-          <? endif; ?>
+          <?php if( $notif_count > 0): ?>
+          <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
+          <?php endif; ?>
           </span><span>Notifications</span></a></li>
         <li><a href="<?php print admin_url('view:files'); ?>"><span class="ico iupload"></span><span>File Manager</span></a></li>
-        <? if(is_module('updates')): ?>
-        <? $notif_count = mw_updates_count() ?>
-        <li><a href="<?php print admin_url(); ?>view:updates"><span class="ico iupdate"> <? if( $notif_count > 0): ?>
-          <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
-          <? endif; ?></span><span>Updates</span></a></li>
-        <? endif; ?>
-        <? exec_action('mw_admin_dashboard_quick_link2'); ?>
+        <?php if(is_module('updates')): ?>
+        <?php $notif_count = mw_updates_count() ?>
+        <li><a href="<?php print admin_url(); ?>view:updates"><span class="ico iupdate"> <?php if( $notif_count > 0): ?>
+          <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
+          <?php endif; ?></span><span>Updates</span></a></li>
+        <?php endif; ?>
+        <?php exec_action('mw_admin_dashboard_quick_link2'); ?>
       </ul>
     </div>
 
@@ -43,10 +43,10 @@
       <ul class="mw-quick-links left">
         <li><a href="http://api.microweber.net/service/frames/report.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico ireport"></span><span>Report a Bug</span></a></li>
         <li><a href="http://api.microweber.net/service/frames/suggest.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico isuggest"></span><span>Suggest a feature</span></a></li>
-        <? if(is_module('help')): ?>
+        <?php if(is_module('help')): ?>
         <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span>Help &amp; Support</span></a></li>
-        <? endif; ?>
-        <? exec_action('mw_admin_dashboard_help_link'); ?>
+        <?php endif; ?>
+        <?php exec_action('mw_admin_dashboard_help_link'); ?>
       </ul>
     </div>
   </div>

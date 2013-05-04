@@ -1,4 +1,4 @@
-<? 
+<?php 
 
 
 api_expose('img_fx');

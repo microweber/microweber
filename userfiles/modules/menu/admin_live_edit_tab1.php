@@ -109,7 +109,7 @@ body.module-settings-page #custom_link_controller {
   mw.require('forms.js', true);
   mw.require('url.js', true);
 </script>
-<? if(!isset($rand )) {$rand  = uniqid();} ?>
+<?php if(!isset($rand )) {$rand  = uniqid();} ?>
 <script type="text/javascript">
 
 
@@ -119,7 +119,7 @@ body.module-settings-page #custom_link_controller {
 
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
-      $.post("<? print site_url('api/add_new_menu') ?>",  obj, function(data){
+      $.post("<?php print site_url('api/add_new_menu') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
       });
  }
@@ -153,8 +153,8 @@ var data = {}
 data.id = $id
 
  
-      $.post("<? print site_url('api/menu_delete') ?>",  data, function(resp){
-	   		  mw.reload_module('#<? print $params['id'] ?>');
+      $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
+	   		  mw.reload_module('#<?php print $params['id'] ?>');
       });
 
  }
@@ -239,7 +239,7 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<? print api_url('edit_menu_item'); ?>', function(){
+        	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
         		mw.reload_module('menu/edit_items');
         		if(window.parent != undefined && window.parent.mw != undefined){
         			window.parent.mw.reload_module('menu');
@@ -248,7 +248,7 @@ $(document).ready(function(){
         }
     }
 </script>
-<? $menus = get_menu(); ?>
+<?php $menus = get_menu(); ?>
 <?php
 
 $menu_name = get_option('menu_name', $params['id']);
@@ -282,21 +282,21 @@ $menu_name = get_option('menu_name', $params['id']);
  }
   
  ?>
-<? if(isarr($menus) == true): ?>
-<? if(isarr($menus )): ?>
+<?php if(isarr($menus) == true): ?>
+<?php if(isarr($menus )): ?>
 
 <div class="control-group">
   <label class="mw-ui-label">
     <?php _e("Select the Menu you want to edit"); ?>
   </label>
   <div class="mw-ui-select" style="width:100%">
-    <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?  print $rand ?>');" >
-      <? foreach($menus  as $item): ?>
-      <? if($active_menu == false){
+    <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
+      <?php foreach($menus  as $item): ?>
+      <?php if($active_menu == false){
 		$active_menu =   $item['title'];
 	  }?>
-      <option <?  if($menu_name == $item['title']): ?> <?  $active_menu = $item['title'] ?> selected="selected" <? endif; ?> value="<? print $item['title'] ?>"><? print $item['title'] ?></option>
-      <? endforeach ; ?>
+      <option <?php  if($menu_name == $item['title']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print $item['title'] ?></option>
+      <?php endforeach ; ?>
     </select>
   </div>
   <hr>
@@ -308,25 +308,25 @@ $menu_name = get_option('menu_name', $params['id']);
   </span></a>
   <hr>
 </div>
-<? endif; ?>
-<? else : ?>
+<?php endif; ?>
+<?php else : ?>
 You have no exising menus. Please create one.
-<? endif; ?>
+<?php endif; ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
-  <microweber module="categories/selector"  for="content" rel_id="<? print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
+  <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
 </div>
 <div id="custom_link_controller" class="mw-ui-gbox">
   <input type="text" class="mw-ui-field" placeholder="<?php _e("Title"); ?>" name="title" />
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
-  <input type="hidden" name="parent_id" value="<?  print   $menu_id ?>" />
+  <input type="hidden" name="parent_id" value="<?php  print   $menu_id ?>" />
   <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">Add to menu</button>
 </div>
 <div class="vSpace"></div>
-<?  //d( $active_menu); ?>
-<? //.. d( $params); ?>
-<div class="<? print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?  print $rand ?>">
-  <? if($active_menu != false): ?>
+<?php  //d( $active_menu); ?>
+<?php //.. d( $params); ?>
+<div class="<?php print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?php  print $rand ?>">
+  <?php if($active_menu != false): ?>
   <h2><?php print $menu_name; ?> Links
     <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label>
   </h2>
@@ -337,8 +337,8 @@ You have no exising menus. Please create one.
     <?php _e("Edit existing links/buttons"); ?>
   </label>
   <div class="vSpace"></div>
-  <module data-type="menu/edit_items"  menu-name="<?  print $active_menu ?>"  />
-  <? endif; ?>
+  <module data-type="menu/edit_items"  menu-name="<?php  print $active_menu ?>"  />
+  <?php endif; ?>
 </div>
 
 <div class="vSpace"></div>

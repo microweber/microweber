@@ -1,11 +1,11 @@
  <span class="mw_editor_btn mw_editor_element" data-command="mw_code_editor" onClick="mw_code_editor();"><span class="ed-ico"></span></span>
  
-<script src=<? print $config['url_to_module'] ?>lib/codemirror.js></script>
-    <script src=<? print $config['url_to_module'] ?>mode/xml/xml.js></script>
-    <script src=<? print $config['url_to_module'] ?>mode/javascript/javascript.js></script>
-    <script src=<? print $config['url_to_module'] ?>mode/css/css.js></script>
-    <script src=<? print $config['url_to_module'] ?>mode/htmlmixed/htmlmixed.js></script>
-    <link rel=stylesheet href=<? print $config['url_to_module'] ?>lib/codemirror.css>
+<script src=<?php print $config['url_to_module'] ?>lib/codemirror.js></script>
+    <script src=<?php print $config['url_to_module'] ?>mode/xml/xml.js></script>
+    <script src=<?php print $config['url_to_module'] ?>mode/javascript/javascript.js></script>
+    <script src=<?php print $config['url_to_module'] ?>mode/css/css.js></script>
+    <script src=<?php print $config['url_to_module'] ?>mode/htmlmixed/htmlmixed.js></script>
+    <link rel=stylesheet href=<?php print $config['url_to_module'] ?>lib/codemirror.css>
      <style type=text/css>
       .CodeMirror {
         float: left;
@@ -16,7 +16,7 @@
 		
       }
 	  
-	   #module-<? print $config['module_class'] ?> {
+	   #module-<?php print $config['module_class'] ?> {
 		  display: none;
 		  position:fixed;
 		  bottom:0px;
@@ -24,7 +24,7 @@
 	   }
     
 	
-	   #module-<? print $config['module_class'] ?> iframe {
+	   #module-<?php print $config['module_class'] ?> iframe {
         width: 49%;
         float: left;
         height: 300px;
@@ -39,12 +39,12 @@
     
     
     
-    <div id="module-<? print $config['module_class'] ?>">
+    <div id="module-<?php print $config['module_class'] ?>">
    
   
-     <textarea id="module-<? print $config['module_class'] ?>-code" name="module-<? print $config['module_class'] ?>-code">Select element to edit its HTML content</textarea>
+     <textarea id="module-<?php print $config['module_class'] ?>-code" name="module-<?php print $config['module_class'] ?>-code">Select element to edit its HTML content</textarea>
       
-    <iframe id="module-<? print $config['module_class'] ?>-preview"></iframe>
+    <iframe id="module-<?php print $config['module_class'] ?>-preview"></iframe>
     
      <div>
      <button onclick="mw_source_code_applyBack();" class="mw-ui-btn">Apply</button>
@@ -54,7 +54,7 @@
     <script>
 	
 	 function mw_code_editor() {
-		  $("#module-<? print $config['module_class'] ?>").toggle();
+		  $("#module-<?php print $config['module_class'] ?>").toggle();
 		 
 		 
 	 }
@@ -66,7 +66,7 @@
 			   
 			     var delay;
       // Initialize CodeMirror editor with a nice html5 canvas demo.
-        mw_source_code_editor = CodeMirror.fromTextArea(document.getElementById('module-<? print $config['module_class'] ?>-code'), {
+        mw_source_code_editor = CodeMirror.fromTextArea(document.getElementById('module-<?php print $config['module_class'] ?>-code'), {
         mode: 'text/html',
         tabMode: 'indent'
       });
@@ -88,7 +88,7 @@
 	  
       
       function mw_source_code_updatePreview() {
-        var previewFrame = document.getElementById('module-<? print $config['module_class'] ?>-preview');
+        var previewFrame = document.getElementById('module-<?php print $config['module_class'] ?>-preview');
         var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
         preview.open();
         preview.write(mw_source_code_editor.getValue());

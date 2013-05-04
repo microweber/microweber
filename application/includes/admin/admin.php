@@ -1,9 +1,9 @@
 <?php include (ADMIN_VIEWS_PATH . 'header.php'); ?>
-<? if(is_admin() == false): ?>
+<?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
-<? else: ?>
-<? $v1 = url_param('load_module'); ?>
-<? $v = url_param('view');
+<?php else: ?>
+<?php $v1 = url_param('load_module'); ?>
+<?php $v = url_param('view');
  
   if($v1 != false){
 	 $holder_cls = url_title($v1);
@@ -14,8 +14,8 @@
   }
   ?>
 
-<div class="admin-main-wrapper <? print  $holder_cls ?>">
-  <? if($v1 != false): ?>
+<div class="admin-main-wrapper <?php print  $holder_cls ?>">
+  <?php if($v1 != false): ?>
   <?php
         
         $v_mod = module_name_decode($v1);
@@ -30,7 +30,7 @@
          }
         
          ?>
-  <? else : ?>
+  <?php else : ?>
   <?php include_once (ADMIN_VIEWS_PATH . 'header_nav.php'); ?>
   <?php 
         
@@ -61,7 +61,7 @@
          }
         
          } ?>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>
 <?php	include (ADMIN_VIEWS_PATH . 'footer.php'); ?>

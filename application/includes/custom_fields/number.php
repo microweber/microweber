@@ -8,15 +8,15 @@
 <script>mw.require('forms.js');</script>
 
 <div class="control-group">
-  <label class="custom-field-title"><? print $data["custom_field_name"]; ?></label>
+  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
     <input type="number"
         onkeyup="mw.form.typeNumber(this);"
-        <? if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <? endif; ?>
-        <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>
-        data-custom-field-id="<? print $data["id"]; ?>"
-        name="<? print $data["custom_field_name"]; ?>"
-         placeholder="<? print $data["custom_field_value"]; ?>"
+        <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?>
+        <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
+        data-custom-field-id="<?php print $data["id"]; ?>"
+        name="<?php print $data["custom_field_name"]; ?>"
+         placeholder="<?php print $data["custom_field_value"]; ?>"
         />
   </div>
 </div>

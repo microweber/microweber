@@ -1,6 +1,6 @@
 <?php //$rand = uniqid(); ?>
 <?php $my_tree_id = crc32(url_string()); ?>
-<? $active_content_id = '';
+<?php $active_content_id = '';
 if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 	$active_content_id = $_REQUEST['edit_content'];
 }
@@ -593,14 +593,14 @@ function mw_add_product(){
         </a>
 
 
-        <? if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
+        <?php if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
 
-  <? else :  ?>
+  <?php else :  ?>
    <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
  <label>Post</label>
         <button>&nbsp;</button>
         </a>
-<? endif; ?>
+<?php endif; ?>
 
 
 
@@ -636,7 +636,7 @@ function mw_add_product(){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }
 	   ?>
-        <module data-type="pages" template="admin" active_ids="<? print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <? print $is_shop_str ?>  view="admin_tree"   />
+        <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree"   />
         <div class="mw-clear"></div>
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
@@ -668,9 +668,9 @@ function mw_add_product(){
       <div style="padding-left: 0;">
         <div class="top_label">
 
-        <? if(is_module('help')): ?>
+        <?php if(is_module('help')): ?>
         <a href="<?php print admin_url(); ?>view:help">See the tutorials here</a>
-        <? endif; ?>
+        <?php endif; ?>
        </div>
         <div class="vSpace"></div>
       </div>
@@ -699,12 +699,12 @@ $ed_content = false;
 		}
 
 	   ?>
-      <div id="pages_edit_container"  <? print $is_shop_str ?>>
-        <? if( $ed_content=== false): ?>
-        <module data-type="content/manage" page-id="global" id="edit_content_admin" <? print  $content_id ?> <? print $is_shop_str ?> />
-        <? else: ?>
-        <div id="edit_content_admin"   <? print  $content_id ?> /></div>
-        <? endif; ?>
+      <div id="pages_edit_container"  <?php print $is_shop_str ?>>
+        <?php if( $ed_content=== false): ?>
+        <module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+        <?php else: ?>
+        <div id="edit_content_admin"   <?php print  $content_id ?> /></div>
+        <?php endif; ?>
       </div>
     </div>
   </div>

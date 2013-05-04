@@ -58,7 +58,7 @@ PreviousFolder = [];
   <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
-    <? if(isarr($path_nav )): ?>
+    <?php if(isarr($path_nav )): ?>
     <?
 
 $path_nav_pop = false;
@@ -74,10 +74,10 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 }
  if(strlen($item)>0):
  ?>
-    <script>PreviousFolder.push('<? print urlencode($path_nav_pop) ?>');</script>
-    <a href="#path=<? print urlencode($path_nav_pop) ?>"><span class="<? print $config['module_class']; ?> path-item"><? print ($item) ?></span></a>&raquo;
-    <? endif; endforeach ; ?>
-    <? endif; ?>
+    <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
+    <a href="#path=<?php print urlencode($path_nav_pop) ?>"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
+    <?php endif; endforeach ; ?>
+    <?php endif; ?>
     </span> </div>
   <?php // } ?>
   <script>
@@ -86,40 +86,40 @@ $path_nav_pop = $path_nav_pop.DS.$item;
  </script>
   <div class="mw-o-box-content" id="mw-browser-list-holder">
 
-    <? if(isset($data['dirs'] )): ?>
+    <?php if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">
-      <? foreach($data['dirs']  as $item): ?>
-      <?  $dir_link = str_replace($path_restirct,'',$item); ?>
+      <?php foreach($data['dirs']  as $item): ?>
+      <?php  $dir_link = str_replace($path_restirct,'',$item); ?>
       <li>
-        <a title="<? print basename($item).'&#10;'.dirname($item); ?>" href="#path=<? print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><? print basename($item); ?></span></a>
-        <span class="mw-close" onclick="deleteItem('<? print urlencode($dir_link); ?>', '<? print basename($item); ?>');"></span>
+        <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" href="#path=<?php print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><?php print basename($item); ?></span></a>
+        <span class="mw-close" onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span>
       </li>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </ul>
-    <? else: ?>
-    <? endif; ?>
+    <?php else: ?>
+    <?php endif; ?>
     <div class="vSpace"></div>
     <div class="mw-o-box-hr"></div>
     <div class="vSpace"></div>
-    <? if(isset($data['files'] )): ?>
+    <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
-      <? foreach($data['files']  as $item): ?>
+      <?php foreach($data['files']  as $item): ?>
       <li>
 
 
 
-      <a title="<? print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<? print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<? print dir2url($item) ?>'); return false;">
-        <? $ext = strtolower(get_file_extension($item)); ?>
+      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print dir2url($item) ?>'); return false;">
+        <?php $ext = strtolower(get_file_extension($item)); ?>
 
         <?
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img src="<? print thumbnail(dir2url($item), 48,48); ?>" />
-        <? else: ?>
-        <span class="mw-fileico mw-fileico-<? print $ext ; ?>"><? print $ext ; ?></span>
-        <? endif; ?>
-        <span><? print basename($item) ?></span> </a>
+        <img src="<?php print thumbnail(dir2url($item), 48,48); ?>" />
+        <?php else: ?>
+        <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
+        <?php endif; ?>
+        <span><?php print basename($item) ?></span> </a>
 
         <?php $rand = uniqid(); ?>
 
@@ -135,8 +135,8 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 
 
         </li>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </ul>
-    <? endif; ?>
+    <?php endif; ?>
   </div>
 </div>

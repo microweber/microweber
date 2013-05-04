@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 
@@ -60,9 +60,9 @@ description: Small cart template
 }
 
 </style>
-<div class="mw-cart-small  mw-cart-<? print $params['id']?> <? print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
+<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
   <div class="mw-cart-small-content">
-    <? if(isarr($data)) :?>
+    <?php if(isarr($data)) :?>
     <?php
         $total_qty = 0;
         $total_price = 0;
@@ -79,9 +79,9 @@ description: Small cart template
 	   $checkout_link_enanbled = $params['checkout-link-enabled'];
   }
    ?>
-    <? if($checkout_link_enanbled != 'n') :?>
-    <? $checkout_page =get_option('data-checkout-page', $params['id']); ?>
-    <? if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
+    <?php if($checkout_link_enanbled != 'n') :?>
+    <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
+    <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 
 	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
@@ -90,12 +90,12 @@ description: Small cart template
    }
 
    ?>
-    <a class="btn btn-mini right" href="<? print $checkout_page_link; ?>">Checkout</a>
-    <? endif ; ?>
-    <? else : ?>
+    <a class="btn btn-mini right" href="<?php print $checkout_page_link; ?>">Checkout</a>
+    <?php endif ; ?>
+    <?php else : ?>
     <span class="no-items">
-    <?   _e('Your cart is empty') ?>
+    <?php   _e('Your cart is empty') ?>
     </span>
-    <? endif ; ?>
+    <?php endif ; ?>
   </div>
 </div>

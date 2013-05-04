@@ -14,17 +14,17 @@ if($id != false){
 }
 
   ?>
-<? if(!empty($data)):  ?>
-<? //$rand = uniqid().$data['id']; ?>
+<?php if(!empty($data)):  ?>
+<?php //$rand = uniqid().$data['id']; ?>
 <script  type="text/javascript">
 
 
 
 $(document).ready(function(){
 
-	 mw.$('#module_admin_settings_form_<? print $params['id']; ?>').submit(function() {
+	 mw.$('#module_admin_settings_form_<?php print $params['id']; ?>').submit(function() {
 
-     mw.form.post(mw.$('#module_admin_settings_form_<? print $params['id']; ?>') , '<? print site_url('api') ?>/save_settings_md', function(){
+     mw.form.post(mw.$('#module_admin_settings_form_<?php print $params['id']; ?>') , '<?php print site_url('api') ?>/save_settings_md', function(){
 
 	 });
 
@@ -36,20 +36,20 @@ $(document).ready(function(){
 
 
 
-	   mw.$('#module_uninstall_<? print $params['id']; ?>').unbind('click');
-	 mw.$('#module_uninstall_<? print $params['id']; ?>').click(function() {
+	   mw.$('#module_uninstall_<?php print $params['id']; ?>').unbind('click');
+	 mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function() {
        var for_module = {}
        for_module.id =  $(this).attr('data-module-id');
-       $.post('<? print site_url('api') ?>/uninstall_module/', for_module, function(data) {
+       $.post('<?php print site_url('api') ?>/uninstall_module/', for_module, function(data) {
 
        });
        return false;
 	 });
-	  mw.$('#module_install_<? print $params['id']; ?>').unbind('click');
-	 mw.$('#module_install_<? print $params['id']; ?>').click(function() {
+	  mw.$('#module_install_<?php print $params['id']; ?>').unbind('click');
+	 mw.$('#module_install_<?php print $params['id']; ?>').click(function() {
          var for_module = {}
          for_module.for_module =  $(this).attr('data-module-name');
-         $.post('<? print site_url('api') ?>/install_module/', for_module,  function(data) {
+         $.post('<?php print site_url('api') ?>/install_module/', for_module,  function(data) {
 
          });
 
@@ -57,8 +57,8 @@ $(document).ready(function(){
 	 });
 
 
-	 mw.$('#module_update_<? print $params['id']; ?>').unbind('click');
-	  mw.$('#module_update_<? print $params['id']; ?>').click(function() {
+	 mw.$('#module_update_<?php print $params['id']; ?>').unbind('click');
+	  mw.$('#module_update_<?php print $params['id']; ?>').click(function() {
        //  var for_module = {}
 
 
@@ -67,7 +67,7 @@ $(document).ready(function(){
        var  for_module =  $(this).attr('data-module-name');
 	   	     mw.notification.warning("Installing update for module: "+for_module + '');
 
-         $.post('<? print admin_url() ?>view:modules?add_module='+for_module,   function(data) {
+         $.post('<?php print admin_url() ?>view:modules?add_module='+for_module,   function(data) {
   mw.notification.success("New update for module <b>"+for_module + '</b> is installed');
 
          });
@@ -78,55 +78,55 @@ $(document).ready(function(){
 });
 </script>
 
-<form class="admin-modules-list-form" id="module_admin_settings_form_<? print $params['id']; ?>">
+<form class="admin-modules-list-form" id="module_admin_settings_form_<?php print $params['id']; ?>">
   <div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> <span class="mw_module_image_holder">
-    <? if(isset($data['icon'])):  ?>
-    <img src="<? print $data['icon'] ?>" alt="<? if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." /> <s class="mw_module_image_shadow"></s>
+    <?php if(isset($data['icon'])):  ?>
+    <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." /> <s class="mw_module_image_shadow"></s>
 
-    <? endif; ?>
+    <?php endif; ?>
     </span>
   </div>
   <div class="admin-modules-list-description">
-    <h2 title="<? print $data['module'] ?>">
-      <? if(isset($data['name'])):  ?>
-      <? print $data['name'] ?>
-      <? endif; ?>
+    <h2 title="<?php print $data['module'] ?>">
+      <?php if(isset($data['name'])):  ?>
+      <?php print $data['name'] ?>
+      <?php endif; ?>
     </h2>
 
-    <? if(isset($data['description'])):  ?>
-     <small title="<? print addslashes(character_limiter($data['description'],1200)); ?>">
-    <? print character_limiter($data['description'],120); ?>
+    <?php if(isset($data['description'])):  ?>
+     <small title="<?php print addslashes(character_limiter($data['description'],1200)); ?>">
+    <?php print character_limiter($data['description'],120); ?>
      </small>
-    <? endif; ?>
+    <?php endif; ?>
 
     <p> </p>
   </div>
-  <?php /*   <? if(isset($data['author'])):  ?>
-    author : <? print $data['author'] ?><br />
-  <? endif; ?>
+  <?php /*   <?php if(isset($data['author'])):  ?>
+    author : <?php print $data['author'] ?><br />
+  <?php endif; ?>
 
-  <? if(isset($data['website'])):  ?>
-    website : <? print $data['website'] ?><br />
-  <? endif; ?>
+  <?php if(isset($data['website'])):  ?>
+    website : <?php print $data['website'] ?><br />
+  <?php endif; ?>
 
-  <? if(isset($data['help'])):  ?>
-    help : <? print $data['help'] ?><br />
-  <? endif; ?> */ ?>
-  <input type="hidden" name="id" value="<? print $data['id'] ?>" />
-  <input type="hidden" name="installed" value="<? print $data['installed'] ?>" />
-  <input type="hidden" name="ui" value="<? print $data['ui'] ?>" />
-  <input type="hidden" name="ui_admin" value="<? print $data['ui_admin'] ?>" />
-  <input type="hidden" name="position" value="<? print $data['position'] ?>" />
+  <?php if(isset($data['help'])):  ?>
+    help : <?php print $data['help'] ?><br />
+  <?php endif; ?> */ ?>
+  <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
+  <input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
+  <input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />
+  <input type="hidden" name="ui_admin" value="<?php print $data['ui_admin'] ?>" />
+  <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
   <span class="admin-modules-list-buttons">
 
-  <a href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($data['module']) ?>" class="mw-ui-btn">
+  <a href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn">
   <?php _e("Settings"); ?>
   </a>
-  <? if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
-  <input class="mw-ui-btn" name="install" type="button" id="module_install_<? print $params['id']; ?>" data-module-name="<? print $data['module'] ?>" value="<?php _e("Install"); ?>" />
-  <? else : ?>
-  <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<? print $params['id']; ?>" data-module-id="<? print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
-  <? endif; ?>
+  <?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
+  <input class="mw-ui-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" value="<?php _e("Install"); ?>" />
+  <?php else : ?>
+  <input class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
+  <?php endif; ?>
   </span>
 </form>
-<? endif; ?>
+<?php endif; ?>

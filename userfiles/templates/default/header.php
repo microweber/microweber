@@ -28,9 +28,9 @@
         mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
-    <? if(isset($custom_head)): ?>
-    <? print $custom_head; ?>
-    <? else : ?>
+    <?php if(isset($custom_head)): ?>
+    <?php print $custom_head; ?>
+    <?php else : ?>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
 <?php
 /*
@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
-    <? endif; ?>
+    <?php endif; ?>
     </head>
     <body>
 <div id="header" class="clearfix">

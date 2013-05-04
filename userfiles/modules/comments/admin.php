@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 <script>
 
 
@@ -41,8 +41,8 @@ if (!isset($get_comments_params['rel_id'])) {
  
 
 if(isset($params['backend']) == true): ?>
-<? include('backend.php'); ?>
-<? else : ?>
+<?php include('backend.php'); ?>
+<?php else : ?>
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav">
     <li><a class="active" href="javascript:;">New Comments</a></li>
@@ -61,17 +61,17 @@ $get_comments_params['is_new'] = 'y';
     <?php $new = get_comments($get_comments_params); ?>
     <?php if($new > 0){ ?>
     <?php if($new == 1){ ?>
-    <h2 class="relative inline-block left">You have one new comment &nbsp;<span class="comments_number"><? print $new; ?></span></h2>
+    <h2 class="relative inline-block left">You have one new comment &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
     <?php } else { ?>
-    <h2 class="relative inline-block left">You have <? print $new; ?> new comments &nbsp;<span class="comments_number"><? print $new; ?></span></h2>
+    <h2 class="relative inline-block left">You have <?php print $new; ?> new comments &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
     <?php  } ?>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green right">See new</a>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn mw-ui-btn-green right">See new</a>
     <?php }  else { ?>
     <?php
 	 unset($get_comments_params['is_moderated']);
 		$old = get_comments($get_comments_params); ?>
     <h2 class="relative inline-block left">You don't have new comments </h2>
-    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn right" style="top:6px;">See all <strong><? print $old; ?></strong></a>
+    <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>" target="_top" class="mw-ui-btn right" style="top:6px;">See all <strong><?php print $old; ?></strong></a>
     <?php } ?>
     <div class="mw_clear"></div>
   </div>
@@ -79,16 +79,16 @@ $get_comments_params['is_new'] = 'y';
     <module type="admin/modules/templates"  />
   </div>
   <div class="tab semi_hidden">
-    <? $display_comments_from =  get_option('display_comments_from', $params['id']); ?>
-    <? $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); ?>
+    <?php $display_comments_from =  get_option('display_comments_from', $params['id']); ?>
+    <?php $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); ?>
     <label class="mw-ui-label">Display comments from</label>
     <div class="mw-ui-field-holder checkbox-plus-select">
       <label class="mw-ui-check">
-        <input name="display_comments_from" class="mw_option_field"   value="current" id="display_from_post" type="radio" <? if($display_comments_from == 'current'): ?>  checked="checked" <? endif ?> />
+        <input name="display_comments_from" class="mw_option_field"   value="current" id="display_from_post" type="radio" <?php if($display_comments_from == 'current'): ?>  checked="checked" <?php endif ?> />
         <span></span> </label>
       <div class="mw-ui-select" style="width: 290px;">
         <select name="display_comments_from_which_post" id="post_select" class="mw_option_field">
-          <option value="current_post" <? if($display_comments_from_which_post == 'current_post'): ?> selected="selected" <? endif ?>>Current Post</option>
+          <option value="current_post" <?php if($display_comments_from_which_post == 'current_post'): ?> selected="selected" <?php endif ?>>Current Post</option>
           <?php $posts = get_posts("is_active=y&limit=1000"); $html = ''; ?>
           <?php
                   foreach($posts as $post){
@@ -105,12 +105,12 @@ $get_comments_params['is_new'] = 'y';
     </div>
     <div class="mw-ui-field-holder">
       <label class="mw-ui-check">
-        <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <? if($display_comments_from == 'recent'): ?>  checked="checked" <? endif ?> />
+        <input name="display_comments_from" class="mw_option_field"    type="radio" value="recent" <?php if($display_comments_from == 'recent'): ?>  checked="checked" <?php endif ?> />
         <span></span> <span>Recent comments</span> </label>
     </div>
     <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
       <label class="mw-ui-check left">
-        <input name="display_comments_from" class="mw_option_field"    type="radio" value="module" <? if($display_comments_from == 'module'): ?>  checked="checked" <? endif ?> />
+        <input name="display_comments_from" class="mw_option_field"    type="radio" value="module" <?php if($display_comments_from == 'module'): ?>  checked="checked" <?php endif ?> />
         <span></span> <span>Custom comments</span></label>
       <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a> </div>
     <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
@@ -133,36 +133,36 @@ $comment_modules['limit'] =  '200';
 	
 	
 	 if(isarr($comment_modules )): ?>
-      <? foreach($comment_modules  as $item): ?>
-      <? $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
-      <? // d( $comment_module_title); ?>
-      <? if($comment_module_title != false and trim($comment_module_title) != ''){
+      <?php foreach($comment_modules  as $item): ?>
+      <?php $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
+      <?php // d( $comment_module_title); ?>
+      <?php if($comment_module_title != false and trim($comment_module_title) != ''){
 	$comments_module_select[$item['rel_id']] = $comment_module_title ;
 }
-?><? endforeach ; ?>
-      <? endif; ?>
-      <?   $curent_val = get_option('module_id', $params['id']); ?>
-      <? if(isarr($comments_module_select )): ?>
+?><?php endforeach ; ?>
+      <?php endif; ?>
+      <?php   $curent_val = get_option('module_id', $params['id']); ?>
+      <?php if(isarr($comments_module_select )): ?>
       <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
-        <option value="<? print $params['id'] ?>" <? if($curent_val == $params['id']): ?> selected="selected" <? endif; ?>>This module</option>
-        <? foreach($comments_module_select  as $key=>$item): ?>
-        <? if($key != $params['id']): ?>
-        <option value="<? print $key ?>" <? if($curent_val == $key): ?> selected="selected" <? endif; ?>>
-        <? if($key == $params['id']): ?>
+        <option value="<?php print $params['id'] ?>" <?php if($curent_val == $params['id']): ?> selected="selected" <?php endif; ?>>This module</option>
+        <?php foreach($comments_module_select  as $key=>$item): ?>
+        <?php if($key != $params['id']): ?>
+        <option value="<?php print $key ?>" <?php if($curent_val == $key): ?> selected="selected" <?php endif; ?>>
+        <?php if($key == $params['id']): ?>
         (This module)
-        <? endif; ?>
-        <? print $item ?></option>
-        <? endif; ?>
-        <? endforeach ; ?>
+        <?php endif; ?>
+        <?php print $item ?></option>
+        <?php endif; ?>
+        <?php endforeach ; ?>
       </select>
-      <? else : ?>
-      <input type="text"  placeholder="<? print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
-      <? endif; ?>
+      <?php else : ?>
+      <input type="text"  placeholder="<?php print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+      <?php endif; ?>
     </div>
     
     <!--<div class="mw-ui-field-holder">
       <label class="mw-ui-check">
-        <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <? if($display_comments_from == 'popular'): ?>  checked="checked" <? endif ?> />
+        <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <?php if($display_comments_from == 'popular'): ?>  checked="checked" <?php endif ?> />
         <span></span> <span>Most popular comments</span> </label>
     </div>-->
     
@@ -170,7 +170,7 @@ $comment_modules['limit'] =  '200';
     <hr>
     <label class="mw-ui-check">
       <?php  $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  ?>
-      <input type="checkbox"   <? if($enable_comments_paging): ?>   checked="checked"  <? endif; ?> value="y" name="enable_comments_paging" class="mw_option_field" />
+      <input type="checkbox"   <?php if($enable_comments_paging): ?>   checked="checked"  <?php endif; ?> value="y" name="enable_comments_paging" class="mw_option_field" />
       <span></span> <span>Show paging</span> </label>
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline">Comments per page</label>
@@ -180,4 +180,4 @@ $comment_modules['limit'] =  '200';
     <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
   </div>
 </div>
-<? endif; ?>
+<?php endif; ?>

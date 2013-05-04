@@ -15,7 +15,7 @@ description: Product Gallery
 
 
 
- <? if(isarr($data )): ?>
+ <?php if(isarr($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
 
@@ -23,20 +23,20 @@ description: Product Gallery
 
 <div class="autoscale mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
   <div class="autoscale mw-gallery-holder">
-    <? foreach($data  as $item): ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<? print $item['id']; ?>">
+    <?php foreach($data  as $item): ?>
+    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
 
          
     <span class=" mw-slider-zoomholder">
-            <img class="mw-slider-zoomimg-base" src="<? print $item['filename']; ?>" alt="" />
-            <img src="<? print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
+            <img class="mw-slider-zoomimg-base" src="<?php print $item['filename']; ?>" alt="" />
+            <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
         </span>
 
 
 
     </div>
-    <? endforeach ; ?>
+    <?php endforeach ; ?>
   </div>
 </div>
 
@@ -71,6 +71,6 @@ description: Product Gallery
 </script>
  
 
-<? else : ?>
-<? print mw_notif("Please click on settings to upload your pictures."); ?>
-<? endif; ?>
+<?php else : ?>
+<?php print mw_notif("Please click on settings to upload your pictures."); ?>
+<?php endif; ?>

@@ -1,4 +1,4 @@
-<?  
+<?php  
 
  $skip_types = array();
  $for = 'module';
@@ -50,14 +50,14 @@ $for_id =$params['rel_id'];
  
  ?>
 
-<input type="hidden" name="for_id" value="<? print $for_id?>" />
-<input type="hidden" name="for" value="<? print $for?>" />
+<input type="hidden" name="for_id" value="<?php print $for_id?>" />
+<input type="hidden" name="for" value="<?php print $for?>" />
 <?
 $prined_items_count = 0;
 if(!empty($more )): ?>
-<? $price_fields = array(); ?>
-<? foreach($more  as $field): ?>
-<? 
+<?php $price_fields = array(); ?>
+<?php foreach($more  as $field): ?>
+<?php 
  if(!in_array($field['custom_field_type'],$skip_types)){
 if(isset($field['custom_field_type'])  and $field['custom_field_type'] =='price'){
 	$price_fields[] = $field;
@@ -67,27 +67,27 @@ print  make_field($field);
 }
  }
  ?>
-<? endforeach; ?>
+<?php endforeach; ?>
  
-<? if(!in_array('price',$skip_types)  and isarr($price_fields )): ?>
-<? $price_fields_c = count($price_fields); ?>
-	<? if($price_fields_c >1) : ?>
+<?php if(!in_array('price',$skip_types)  and isarr($price_fields )): ?>
+<?php $price_fields_c = count($price_fields); ?>
+	<?php if($price_fields_c >1) : ?>
     <select name="price">
-      <? endif; ?>
-      <? foreach($price_fields  as $field): ?>
-       <? 
+      <?php endif; ?>
+      <?php foreach($price_fields  as $field): ?>
+       <?php 
 	   $prined_items_count++;
 	   if($price_fields_c >1){ $field['make_select'] = true; } ?>
-      <?  print  make_field($field);   ?>
-      <? endforeach; ?>
-      <? if($price_fields_c >1) : ?>
+      <?php  print  make_field($field);   ?>
+      <?php endforeach; ?>
+      <?php if($price_fields_c >1) : ?>
     </select>
-    <?  else: ?>
-    <? endif; ?>
-<? endif; ?>
-<? else: ?>
- <? endif; ?>
-<? if($prined_items_count == 0): ?>
-<? mw_notif_live_edit("Click on settings to edit your custom fields."); ?>
-<? endif; ?>
+    <?php  else: ?>
+    <?php endif; ?>
+<?php endif; ?>
+<?php else: ?>
+ <?php endif; ?>
+<?php if($prined_items_count == 0): ?>
+<?php mw_notif_live_edit("Click on settings to edit your custom fields."); ?>
+<?php endif; ?>
  

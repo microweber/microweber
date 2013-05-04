@@ -31,8 +31,8 @@ mw.options.form('#opt_form_{rand}');
 
  ?>
 <div class="option-item" id="opt_form_{rand}">
-  <label class="control-label"><? print $data['option_key'] ?></label>
+  <label class="control-label"><?php print $data['option_key'] ?></label>
   <div class="controls">
-    <input name="<? print $data['option_key'] ?>" class="mw_option_field"   type="text" data-refresh="<? print $data['option_group'] ?>"  value="<? print $data['option_value'] ?>" />
+    <input name="<?php print $data['option_key'] ?>" class="mw_option_field"   type="text" data-refresh="<?php print $data['option_group'] ?>"  value="<?php print $data['option_value'] ?>" />
   </div>
 </div>

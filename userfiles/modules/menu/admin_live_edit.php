@@ -1,5 +1,5 @@
-<? //include_once($config['path_to_module'].'functions.php'); ?>
-<? // d($params);
+<?php //include_once($config['path_to_module'].'functions.php'); ?>
+<?php // d($params);
 
   $rand = crc32(serialize($params));
   ?>
@@ -12,7 +12,7 @@
   </ul>
   <a href="javascript:add_new_menu();" class="mw-ui-btn mw-ui-btn-green" style="height: 19px;position: absolute;right: 13px;top: 12px;z-index: 1"><span class="ico iplus"></span><span>Create New Menu</span></a>
   <div class="tab">
-    <? include($config['path_to_module'].'admin_live_edit_tab1.php');   ?>
+    <?php include($config['path_to_module'].'admin_live_edit_tab1.php');   ?>
   </div>
   <div class="tab">
     <module type="admin/modules/templates"  />

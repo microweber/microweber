@@ -1,15 +1,15 @@
-<? if(!is_admin()){error("must be admin");}; ?>
+<?php if(!is_admin()){error("must be admin");}; ?>
 <?
 
  //$rand = uniqid(); ?>
-<? $load_module = url_param('load_module');
+<?php $load_module = url_param('load_module');
  if($load_module == true): ?>
 <?
 $mod = str_replace( '___',DS, $load_module);
 $mod = load_module($mod, $attrs=array('view' => 'admin','backend' => 'true'));
 print $mod ;
 ?>
-<? else: ?>
+<?php else: ?>
 <?
  
 $mod_params = array();
@@ -75,42 +75,42 @@ $result = $update_api -> call('get_modules', $params);
    $upds = false;
  
 ?>
-<? if(isset($mods) and isarr($mods) == true): ?>
+<?php if(isset($mods) and isarr($mods) == true): ?>
 
 <ul class="mw-modules-admin">
 
-<? if(isarr($upds) == true): ?>
-<? foreach($upds as  $upd_mod): ?>
-<? if(isset($upd_mod['module'])): ?>
-<? $item = module_info($upd_mod['module']); ?>
-<? if(isset($item['id'])): ?>
-<li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >
-    <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
+<?php if(isarr($upds) == true): ?>
+<?php foreach($upds as  $upd_mod): ?>
+<?php if(isset($upd_mod['module'])): ?>
+<?php $item = module_info($upd_mod['module']); ?>
+<?php if(isset($item['id'])): ?>
+<li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>" >
+    <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" />
   </li>
-    <? endif; ?>
-   <? endif; ?>
- <? endforeach; ?>
- <? endif; ?>
-  <? foreach($mods as $k=>$item): ?>
-  <? if(!isset($item['id'])): ?>
-  <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<? print $item['id'] ?>" >
+    <?php endif; ?>
+   <?php endif; ?>
+ <?php endforeach; ?>
+ <?php endif; ?>
+  <?php foreach($mods as $k=>$item): ?>
+  <?php if(!isset($item['id'])): ?>
+  <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>" >
   
   <div class=" module module-admin-modules-edit-module ">
- <? $data = $item; include($config["path"].'update_module.php'); ?>
+ <?php $data = $item; include($config["path"].'update_module.php'); ?>
 </div>
 
 
 
    
   </li>
-  <? else : ?>
-  <li class="mw-admin-module-list-item mw-module-installed-<? print $item['installed'] ?>" id="module-db-id-<? print $item['id'] ?>" >
-    <module type="admin/modules/edit_module" data-module-id="<? print $item['id'] ?>" />
+  <?php else : ?>
+  <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>" >
+    <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" />
   </li>
-  <? endif; ?>
-  <? endforeach; ?>
+  <?php endif; ?>
+  <?php endforeach; ?>
 </ul>
-<? else : ?>
+<?php else : ?>
 No modules found.
-<? endif; ?>
-<? endif; ?>
+<?php endif; ?>
+<?php endif; ?>

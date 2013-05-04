@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 <script type="text/javascript">
 
 
@@ -57,11 +57,11 @@ $module_id = $for_id;
        mw.$(".custom_fields_selector a").click(function(){
             var el = this;
             mw.custom_fields.create({
-              selector:'.mw-admin-custom-field-edit-<? print $params['id']; ?>',
+              selector:'.mw-admin-custom-field-edit-<?php print $params['id']; ?>',
               type:$(el).dataset('type'),
               copy:false,
-              table:'<? print $for  ?>',
-              id:'<? print $module_id  ?>',
+              table:'<?php print $for  ?>',
+              id:'<?php print $module_id  ?>',
               onCreate:function(){
                 mw.$(".custom-field-edit-title").html(el.textContent);
                 mw.$("#custom-field-editor").addClass('mw-custom-field-created').show();
@@ -74,7 +74,7 @@ $module_id = $for_id;
 
 </script>
 
-<div class="<? print $config['module_class'] ?>-holder">
+<div class="<?php print $config['module_class'] ?>-holder">
     <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;">
         <span class="ico iAdd"></span><span><?php _e("Add  New Custom Field"); ?></span>
     </span>
@@ -96,13 +96,13 @@ $module_id = $for_id;
     </ul>
   </div>
 
-  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <?php print $hide_preview  ?>  for="<?php print $for  ?>" for_module_id="<?php print $module_id ?>" <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?> id="mw_custom_fields_list_<?php print $params['id']; ?>" />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
       <div class="custom-field-edit-title"></div>
     </div>
     <div class="mw-admin-custom-field-edit-item-wrapper">
-      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<? print $params['id']; ?>"></div>
+      <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?>"></div>
     </div>
   </div>
 </div>

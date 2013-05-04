@@ -10,7 +10,7 @@
 */
 
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="gray-container">
     <div class="container">
@@ -194,4 +194,4 @@ THE SOFTWARE.</p>
 
 
 
-<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

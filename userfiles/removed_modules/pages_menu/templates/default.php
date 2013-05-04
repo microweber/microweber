@@ -11,5 +11,5 @@ description: Default menu
 */
 
   //$template_file = false; ?>
-  <?  pages_tree($params);  ?>
-  <? if($include_categories != false):  ?><? category_tree($cat_params); ?><? endif; ?>
+  <?php  pages_tree($params);  ?>
+  <?php if($include_categories != false):  ?><?php category_tree($cat_params); ?><?php endif; ?>

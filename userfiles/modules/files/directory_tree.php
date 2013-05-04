@@ -15,8 +15,8 @@ if(isset($params['base_path']) and $params['base_path'] != ''){
 
 
 if($from_path != ''): ?>
-<? $path .=html_entity_decode($from_path).DS;  ?>
-<? endif; ?>
+<?php $path .=html_entity_decode($from_path).DS;  ?>
+<?php endif; ?>
 
 <?
 

@@ -7,32 +7,32 @@ if(isset($params['global']) and $params['global'] != false){
 	$set_content_type =  get_option('data-content-type', $params['id']); 
 }
 $rand = uniqid(); ?>
-<? if(!isset($is_shop) or $is_shop == false): ?>
-<? $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
-<? else:  ?>
-<? $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
-<? endif; ?>
+<?php if(!isset($is_shop) or $is_shop == false): ?>
+<?php $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
+<?php else:  ?>
+<?php $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
+<?php endif; ?>
 <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
-<? if(isset($params['global']) and $params['global'] != false) :  ?>
-<? if($set_content_type =='product'):  ?>
-<? $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
-<? endif; ?>
+<?php if(isset($params['global']) and $params['global'] != false) :  ?>
+<?php if($set_content_type =='product'):  ?>
+<?php $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
+<?php endif; ?>
 
 <label class="mw-ui-label">Content type</label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-content-type" id="the_post_data-content-type<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"  >
-    <option  value="post"    <? if(('post' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Posts</option>
-    <option  value="page"    <? if(('page' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Pages</option>
-    <option  value="product"    <? if(('product' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>Product</option>
-    <option   value="none"   <? if(('none' == trim($set_content_type))): ?>   selected="selected"  <? endif; ?>>None</option>
+  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"  >
+    <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Posts</option>
+    <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Pages</option>
+    <option  value="product"    <?php if(('product' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Product</option>
+    <option   value="none"   <?php if(('none' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>None</option>
   </select>
 </div>
-<? endif; ?>
-<? if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
-<label class="mw-ui-label">Display <? print pluralize($set_content_type) ?> from page</label>
+<?php endif; ?>
+<?php if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
+<label class="mw-ui-label">Display <?php print pluralize($set_content_type) ?> from page</label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-page-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"   >
-    <option     <? if((0 == intval($posts_parent_page))): ?>   selected="selected"  <? endif; ?>>All pages</option>
+  <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
+    <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>All pages</option>
     <?
 $pt_opts = array();
   $pt_opts['link'] = "{empty}{title}";
@@ -55,12 +55,12 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   ?>
   </select>
 </div>
-<? if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
+<?php if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
 <?php $posts_parent_category =  get_option('data-category-id', $params['id']); ?>
 <label class="mw-ui-label">Show only from category</label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-category-id" id="the_post_data-page-id<? print  $rand ?>"  class="mw_option_field"  data-also-reload="<? print  $config['the_module'] ?>"  >
-    <option     <? if((0 == intval($posts_parent_category))): ?>   selected="selected"  <? endif; ?>>Select a category</option>
+  <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"  data-also-reload="<?php print  $config['the_module'] ?>"  >
+    <option     <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>Select a category</option>
     <?
 $pt_opts = array();
   $pt_opts['link'] = "{empty}{title}";
@@ -77,7 +77,7 @@ $pt_opts['rel_id'] = $posts_parent_page;
   ?>
   </select>
 </div>
-<? endif; ?>
+<?php endif; ?>
 <?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);
@@ -124,10 +124,10 @@ $show_fields = array();
     </style>
 <div class="vSpace"></div>
 <label class="mw-ui-label">Display on posts: </label>
-<ul id="post_fields_sort_<? print  $rand ?>" class="fields-controlls">
+<ul id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
   <li>
     <label class="mw-ui-check left">
-      <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <? if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <?php if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Thumbnail</span> </label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Size</label>
@@ -136,7 +136,7 @@ $show_fields = array();
   </li>
   <li>
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="title" class="mw_option_field" <? if(in_array('title',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="title" class="mw_option_field" <?php if(in_array('title',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Title</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Length</label>
@@ -145,32 +145,32 @@ $show_fields = array();
   </li>
   <li>
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="description" class="mw_option_field" <? if(in_array('description',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="description" class="mw_option_field" <?php if(in_array('description',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Description</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Length</label>
       <input name="data-character-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="80" style="width:65px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
     </div>
   </li>
-  <? if($is_shop): ?>
+  <?php if($is_shop): ?>
   <li>
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="price" class="mw_option_field" <? if(in_array('price',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="price" class="mw_option_field" <?php if(in_array('price',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Show price</span></label>
   </li>
   <li>  
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field"  <? if(in_array('add_to_cart',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field"  <?php if(in_array('add_to_cart',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Add to cart button</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Title</label>
       <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:65px;" placeholder="Add to cart"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
     </div>
   </li>
-  <? endif; ?>
+  <?php endif; ?>
   <li>
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="read_more" class="mw_option_field"  <? if(in_array('read_more',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="read_more" class="mw_option_field"  <?php if(in_array('read_more',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Read More Link</span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal">Title</label>
@@ -179,12 +179,12 @@ $show_fields = array();
   </li>
   <li>
     <label class="mw-ui-check">
-      <input type="checkbox" name="data-show" value="created_on" class="mw_option_field"  <? if(in_array('created_on',$show_fields)): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-show" value="created_on" class="mw_option_field"  <?php if(in_array('created_on',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
       <span></span> <span>Date</span></label>
   </li>
   <li>
     <label class="mw-ui-check left">
-      <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <? if(get_option('data-hide-paging', $params['id']) =='y'): ?>   checked="checked"  <? endif; ?> />
+      <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <?php if(get_option('data-hide-paging', $params['id']) =='y'): ?>   checked="checked"  <?php endif; ?> />
       <span></span><span>Hide paging</span></label>
     <div class="right">
       <label class="mw-ui-labe-horizontall">Posts per page</label>
@@ -193,20 +193,20 @@ $show_fields = array();
   </li>
   <li>
     <label class="mw-ui-check left">
-      <? $ord_by =  get_option('data-order-by', $params['id']); ?>
+      <?php $ord_by =  get_option('data-order-by', $params['id']); ?>
       <span></span><span>Order by</span></label>
     <div class="right">
       <div class="mw-ui-select" >
-        <select name="data-order-by"   class="mw_option_field" data-also-reload="<? print  $config['the_module'] ?>"   >
-          <option  value=""    <? if((0 == intval($ord_by))): ?>   selected="selected"  <? endif; ?>>Position &uarr;</option>
-          <option  value="position asc"    <? if(('position asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Position &darr;</option>
-          <option  value="created_on desc"    <? if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Date &uarr;</option>
-          <option  value="created_on asc"    <? if(('created_on asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Date &darr;</option>
-          <option  value="title asc"    <? if(('title asc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Title &uarr;</option>
-          <option  value="title desc"    <? if(('title desc' == trim($ord_by))): ?>   selected="selected"  <? endif; ?>>Title &darr;</option>
+        <select name="data-order-by"   class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
+          <option  value=""    <?php if((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>>Position &uarr;</option>
+          <option  value="position asc"    <?php if(('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>>Position &darr;</option>
+          <option  value="created_on desc"    <?php if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>>Date &uarr;</option>
+          <option  value="created_on asc"    <?php if(('created_on asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>>Date &darr;</option>
+          <option  value="title asc"    <?php if(('title asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>>Title &uarr;</option>
+          <option  value="title desc"    <?php if(('title desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>>Title &darr;</option>
         </select>
       </div>
     </div>
   </li>
 </ul>
-<? endif; ?>
+<?php endif; ?>

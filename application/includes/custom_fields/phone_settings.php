@@ -1,5 +1,5 @@
-<? include('settings_header.php'); ?>
-  <? // p ($data['custom_field_value']) ?>
+<?php include('settings_header.php'); ?>
+  <?php // p ($data['custom_field_value']) ?>
   <?
    if(empty($data['custom_field_values'])){
 	//$data['custom_field_values'] = array(0);
@@ -14,11 +14,11 @@
  <div class="custom-field-col-left">
 
   <div class="mw-custom-field-group ">
-  <label class="mw-ui-label" for="input_field_label<? print $rand; ?>">
+  <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
     <?php _e('Define Title'); ?>
   </label>
 
-    <input type="text" class="mw-ui-field" value="<? print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<? print $rand; ?>">
+    <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
 
 </div>
 </div>
@@ -42,4 +42,4 @@
 
        <?php print $savebtn; ?>
   </div>
-  <? include('settings_footer.php'); ?>
+  <?php include('settings_footer.php'); ?>

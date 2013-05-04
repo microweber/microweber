@@ -1,6 +1,6 @@
-<? if(is_admin()==false) { mw_error('You must be logged as admin', 1); } ?>
+<?php if(is_admin()==false) { mw_error('You must be logged as admin', 1); } ?>
 <script  type="text/javascript">
-  mw.require('<? print $config['url_to_module']; ?>forms_data_manager.js');
+  mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
   </script>
 <script  type="text/javascript">
@@ -66,41 +66,41 @@ if(isarr($data)){
 }
 ?>
 
-<table id="table_data_<? print $params['id'] ?>" cellspacing="0" cellpadding="0" width="745" class="mw-ui-admin-table">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="745" class="mw-ui-admin-table">
   <col width="20">
   <thead>
     <tr>
       <th class="mw-ui-admin-table-small">ID</th>
-      <? if(isarr($custom_fields )): ?>
-      <? foreach($custom_fields   as $k=>$item): ?>
-      <th><? print   titlelize($k); ?></th>
-      <? endforeach ; ?>
-      <? endif; ?>
+      <?php if(isarr($custom_fields )): ?>
+      <?php foreach($custom_fields   as $k=>$item): ?>
+      <th><?php print   titlelize($k); ?></th>
+      <?php endforeach ; ?>
+      <?php endif; ?>
       <th width="20" class="mw-ui-admin-table-small">Delete</th>
     </tr>
   </thead>
   <tfoot>
     <tr>
       <th class="mw-ui-admin-table-small">ID & Date</th>
-      <? if(isarr($custom_fields )): ?>
-      <? foreach($custom_fields   as $k=>$item): ?>
-      <th><? print   titlelize($k); ?></th>
-      <? endforeach ; ?>
-      <? endif; ?>
+      <?php if(isarr($custom_fields )): ?>
+      <?php foreach($custom_fields   as $k=>$item): ?>
+      <th><?php print   titlelize($k); ?></th>
+      <?php endforeach ; ?>
+      <?php endif; ?>
       <th width="20" class="mw-ui-admin-table-small">Delete</th>
     </tr>
   </tfoot>
   <tbody>
     <?php if(isarr($data)): ?>
-    <? foreach ($data as $item) : ?>
-    <tr class="mw-form-entry-item mw-form-entry-item-<? print $item['id'] ?>">
-      <td width="50" style="text-align: center"><? print $item['id'] ?>
-        <div class="mw-date" title="<? print ago($item['created_on'],1); ?>"><? print mw_date($item['created_on']);; ?></div></td>
-      <? if(isarr($custom_fields )): ?>
-      <? foreach($custom_fields   as $cvk => $custom_field_v): ?>
-      <td><? if(isset($item['custom_fields'])): ?>
-        <?  foreach ($item['custom_fields'] as $value) :  ?>
-        <? if(($value['custom_field_name']) == $cvk): ?>
+    <?php foreach ($data as $item) : ?>
+    <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
+      <td width="50" style="text-align: center"><?php print $item['id'] ?>
+        <div class="mw-date" title="<?php print ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div></td>
+      <?php if(isarr($custom_fields )): ?>
+      <?php foreach($custom_fields   as $cvk => $custom_field_v): ?>
+      <td><?php if(isset($item['custom_fields'])): ?>
+        <?php  foreach ($item['custom_fields'] as $value) :  ?>
+        <?php if(($value['custom_field_name']) == $cvk): ?>
         <?php
              $max = 150;
              if(strlen($value['custom_field_values_plain']) > $max){
@@ -114,28 +114,28 @@ if(isarr($data)){
 
 
              ?>
-        <?  endif; ?>
-        <? endforeach ; ?>
-        <?  endif; ?></td>
-      <? endforeach ; ?>
-      <? endif; ?>
-      <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<? print $item['id'] ?>','.mw-form-entry-item-<? print $item['id'] ?>');"></a></td>
+        <?php  endif; ?>
+        <?php endforeach ; ?>
+        <?php  endif; ?></td>
+      <?php endforeach ; ?>
+      <?php endif; ?>
+      <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
     </tr>
-    <? endforeach; ?>
-    <? else: ?>
+    <?php endforeach; ?>
+    <?php else: ?>
     <tr>
       <td colspan="100" align="center" style="background: #FFFD8C;">No items found</td>
     </tr>
     <?php endif; ?>
   </tbody>
 </table>
-<? if(isarr($data)) :?>
-<div class="mw-paging left"> <? print paging("num=$data_paging"); ?> </div>
-<? if(isset($params['export_to_excel'])) : ?>
-<? endif; ?>
-<? if(isset($params['export_to_excel'])) : ?>
-<? endif; ?>
-<? endif; ?>
+<?php if(isarr($data)) :?>
+<div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
+<?php if(isset($params['export_to_excel'])) : ?>
+<?php endif; ?>
+<?php if(isset($params['export_to_excel'])) : ?>
+<?php endif; ?>
+<?php endif; ?>
 <div id="start-email-campaign"> <span>Get more from your mailing lists, send email to your users</span> <a class="g-btn" href="javascript:;">Start an Email Campaign</a> </div>
 <div class="mw_clear"></div>
 <div class="vSpace"></div>

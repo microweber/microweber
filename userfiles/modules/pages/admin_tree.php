@@ -6,7 +6,7 @@ only_admin_access();
  * @param string append_to_link
  *        	You can pass any string to be appended to all pages urls
  * @param string link
- *        	Replace the link href with your own. Ex: link="<? print site_url('page_id:{id}'); ?>"
+ *        	Replace the link href with your own. Ex: link="<?php print site_url('page_id:{id}'); ?>"
  * @return string prints the site tree
  * @uses pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"
@@ -70,16 +70,16 @@ if (isset($params['data-include_categories'])) {
 	$params['return_data'] = true;
 
 ?>
-<? $pages_tree= pages_tree($params);  ?>
+<?php $pages_tree= pages_tree($params);  ?>
 
-<? if($pages_tree != ''): ?>
+<?php if($pages_tree != ''): ?>
 <div class="pages-nav">
 	<div class="well" style="padding: 0;">
-		<? print $pages_tree ?>
+		<?php print $pages_tree ?>
 	</div>
 </div>
-<? endif; ?>
-<? $is_del = get_content('count=1&is_deleted=y'); ?>
+<?php endif; ?>
+<?php $is_del = get_content('count=1&is_deleted=y'); ?>
 
 
 <ul class="pages_tree pages_trash_holder depth-1">

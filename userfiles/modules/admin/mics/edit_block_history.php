@@ -40,17 +40,17 @@ if(isset($latest_drafs) and isarr($latest_drafs)){
 
 			mw.hasDraft = {
 
-				draft:"<? print implode(',',$latest_drafs_vals); ?>"
+				draft:"<?php print implode(',',$latest_drafs_vals); ?>"
 			}
 
 
         </script>
 
-	 <? }
+	 <?php }
 
 }
 ?>
-<? if(isarr($history_files)): ?>
+<?php if(isarr($history_files)): ?>
 
 <?
 
@@ -65,9 +65,9 @@ foreach ($history_files as $value) {
 
 			mw.undoHistory = {
 
-				<?  $i = 0 ; foreach ($history_files as $value) :  ?>
-				<? print $i ?>:<? print intval($value['id']) ?>,
-				<? $i++; endforeach; ?>
+				<?php  $i = 0 ; foreach ($history_files as $value) :  ?>
+				<?php print $i ?>:<?php print intval($value['id']) ?>,
+				<?php $i++; endforeach; ?>
 
 
 			}
@@ -78,19 +78,19 @@ foreach ($history_files as $value) {
 
 
 
-<? // p($history_files); ?>
+<?php // p($history_files); ?>
 <small>Saved drafts from:</small>
 <ul id="mw_history_files">
-  <? 		foreach ($history_files as $item) : ?>
-  <li rel="load-draft-<? print ($item['id']) ?>">
-    <? //$mtime= filemtime($filename ); ?>
+  <?php 		foreach ($history_files as $item) : ?>
+  <li rel="load-draft-<?php print ($item['id']) ?>">
+    <?php //$mtime= filemtime($filename ); ?>
     <?
 
 	//$content_of_file = file_get_contents($filename);	?>
-    <a title="Click to Restore" href="javascript: mw.history.load('<? print ($item['id']) ?>')">
+    <a title="Click to Restore" href="javascript: mw.history.load('<?php print ($item['id']) ?>')">
 
 
-    <? print ago($item['created_on'], $granularity = 1); ?> </a> </li>
-  <? 		endforeach; ?>
+    <?php print ago($item['created_on'], $granularity = 1); ?> </a> </li>
+  <?php 		endforeach; ?>
 </ul>
-<? endif; ?>
+<?php endif; ?>

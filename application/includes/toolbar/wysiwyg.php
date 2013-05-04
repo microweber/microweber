@@ -147,7 +147,7 @@
 
             </div>
 
-             <? exec_action('mw_editor_btn'); ?>
+             <?php exec_action('mw_editor_btn'); ?>
             
             
         </div>

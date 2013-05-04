@@ -1,4 +1,4 @@
-<? 
+<?php 
 
 $edit_post_mode = true;
 

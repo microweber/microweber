@@ -8,38 +8,38 @@ include('empty_field_vals.php');
 
 
 //print $data["custom_field_value"]; ?>
-<? if(isarr($data['custom_field_values'])) : ?>
+<?php if(isarr($data['custom_field_values'])) : ?>
 
 <div class="control-group">
   <label class="mw-ui-label mw-custom-field-label">
-    <? if(isset($data['name']) == true and $data['name'] != ''): ?>
-    <? print $data['name'] ?>
-    <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <? print $data['custom_field_name'] ?>
-    <? else : ?>
-    <? endif; ?>
+    <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <?php print $data['name'] ?>
+    <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
+    <?php print $data['custom_field_name'] ?>
+    <?php else : ?>
+    <?php endif; ?>
   </label>
   <hr style="margin-top: 7px;" />
-  <? if(isset($data['help']) == true and $data['help'] != ''): ?>
-  <small  class="mw-custom-field-help"><? print $data['help'] ?></small>
-  <? endif; ?>
+  <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
+  <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
+  <?php endif; ?>
 
 
    
    
-    <? foreach($data['custom_field_values'] as $k=>$v): ?>
-    <? if(is_string( $v)){
+    <?php foreach($data['custom_field_values'] as $k=>$v): ?>
+    <?php if(is_string( $v)){
 	$kv =  $v;
 	} else {
 	$kv =  $v[0];	
 	}
 	?>
-     <label><? print ($kv); ?></label>
+     <label><?php print ($kv); ?></label>
 
-     <input type="text" name="<? print $data['custom_field_name'] ?>[<? print ($k); ?>]"  data-custom-field-id="<? print $data["id"]; ?>"  />
+     <input type="text" name="<?php print $data['custom_field_name'] ?>[<?php print ($k); ?>]"  data-custom-field-id="<?php print $data["id"]; ?>"  />
 
-    <? endforeach; ?>
+    <?php endforeach; ?>
 
 </div>
 <hr />
-<? endif; ?>
+<?php endif; ?>

@@ -46,20 +46,20 @@ if(isset($params['content-id'])){
   </ul>
   <div class="tab">
 
- <? if($use_from_post_forced == false): ?>
+ <?php if($use_from_post_forced == false): ?>
   <label class="mw-ui-check">
-      <input type="checkbox" name="data-use-from-post" value="y" class="mw_option_field" <? if( $use_from_post): ?>   checked="checked"  <? endif; ?> data-also-reload="<? print $config['the_module'] ?>" />
+      <input type="checkbox" name="data-use-from-post" value="y" class="mw_option_field" <?php if( $use_from_post): ?>   checked="checked"  <?php endif; ?> data-also-reload="<?php print $config['the_module'] ?>" />
       <span></span><span>Use pictures from post</span></label>
-     <? endif; ?>
+     <?php endif; ?>
       
 
-          <microweber module="pictures/admin_backend" for="<? print $for ?>" for-id="<? print $for_id ?>" >
+          <microweber module="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" >
 
        
   </div>
   <div class="tab"> <strong>Skin/Template</strong>
     <module type="admin/modules/templates"  />
-    <microweber module="settings/list"     for_module="<? print $config['module'] ?>" for_module_id="<? print $params['id'] ?>" >
+    <microweber module="settings/list"     for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
   </div>
 </div>
 <div class="mw_clear"></div>

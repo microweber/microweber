@@ -71,10 +71,10 @@ only_admin_access();?>
 }
 </style>
 <script type="text/javascript">
-mw.require("<?  print $config['url_to_module'] ?>static/base64.js");
-mw.require("<?  print $config['url_to_module'] ?>static/select2.js");
+mw.require("<?php  print $config['url_to_module'] ?>static/base64.js");
+mw.require("<?php  print $config['url_to_module'] ?>static/select2.js");
 
-mw.require("<?  print $config['url_to_module'] ?>static/select2.css");
+mw.require("<?php  print $config['url_to_module'] ?>static/select2.css");
 
 </script>
 <script>
@@ -115,25 +115,25 @@ $(document).ready(function(){
  </script>
 
 <div class='term_window'>
-  <div class='term_head'><span>Logged in as <? print user_name(); ?></span></div>
+  <div class='term_head'><span>Logged in as <?php print user_name(); ?></span></div>
   <div class='term'>
     <div id="term_buffer">
       <module type="admin/console/term" id="mw_exec_term_command" />
     </div>
 <!--    <div> <span class='cursor' onclick="$('#exec_term_command').focus()">&#9610;</span></div>
 -->    <br/>
-    <? $api_func = (get_defined_functions()); 
+    <?php $api_func = (get_defined_functions()); 
 	
 	$data = $api_func['user'];
 	 
 	
 	?>
     <labeL>Select function: <select name="exec_term_command_sel"  id="exec_term_command_sel">
-      <? if(isarr($data )): ?>
-      <? foreach($data  as $item): ?>
-      <option value="<? print $item ?>"><? print $item ?></option>
-      <? endforeach ; ?>
-      <? endif; ?>
+      <?php if(isarr($data )): ?>
+      <?php foreach($data  as $item): ?>
+      <option value="<?php print $item ?>"><?php print $item ?></option>
+      <?php endforeach ; ?>
+      <?php endif; ?>
     </select></labeL>
     <br />
 <labeL>Enter $params: <input class='exec_term_command' id="exec_term_command" type="text" /></labeL>

@@ -1,1 +1,1 @@
-<? include DEFAULT_TEMPLATE_DIR. "footer.php"; ?>
+<?php include DEFAULT_TEMPLATE_DIR. "footer.php"; ?>

@@ -1,4 +1,4 @@
-<? 
+<?php 
 $numia_api = new \accounting\numia\api();
 
 

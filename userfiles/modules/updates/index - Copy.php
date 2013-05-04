@@ -1,4 +1,4 @@
-<? 
+<?php 
  
 if(url_param('add_module')){
 
@@ -14,20 +14,20 @@ if(url_param('add_module')){
 
 
 
-?><pre><?    print_r($iudates); ?></pre>
+?><pre><?php    print_r($iudates); ?></pre>
 
-<? if(!empty($iudates)): ?>
+<?php if(!empty($iudates)): ?>
  <pre id="update_lddog_{rand}">
-<? d($iudates); ?>
+<?php d($iudates); ?>
 </pre>
 
-<? if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
- <? foreach($iudates["license_check"]["modules"] as  $item): ?>
+<?php if(isset($iudates["license_check"]) and isset($iudates["license_check"]["modules"])): ?>
+ <?php foreach($iudates["license_check"]["modules"] as  $item): ?>
  <pre id="update_log_{rand}">
-<? d($item); ?>
+<?php d($item); ?>
 </pre>
- <? endforeach; ?>
-<? endif;  ?>
+ <?php endforeach; ?>
+<?php endif;  ?>
  <script  type="text/javascript">
 
 mw.require('forms.js');
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	 mw.$('#mw_form1_updates{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#mw_form1_updates{rand}') , '<? print site_url('api') ?>/mw_apply_updates', function(){
+ mw.form.post(mw.$('#mw_form1_updates{rand}') , '<?php print site_url('api') ?>/mw_apply_updates', function(){
 	 
 var obj =  (this);
 
@@ -86,43 +86,43 @@ mw.$('#update_log_{rand}').append(value);
 
 
 <form id="mw_form1_updates{rand}" name="form1" method="post">
-  <? if(isset($iudates["mw_new_version_download"])): ?>
+  <?php if(isset($iudates["mw_new_version_download"])): ?>
   <h3>New Microweber version available</h3> 
   
-   <p>Your version <? print MW_VERSION ?></p>
-  <p>New version <? print $iudates["mw_version"] ?></p>
+   <p>Your version <?php print MW_VERSION ?></p>
+  <p>New version <?php print $iudates["mw_version"] ?></p>
   <p>
     <label>
-      <input type="checkbox" name="mw_new_version_download" value="<? print $iudates["mw_new_version_download"] ?>"  />
-      Install <? print $iudates["mw_version"] ?></label>
+      <input type="checkbox" name="mw_new_version_download" value="<?php print $iudates["mw_new_version_download"] ?>"  />
+      Install <?php print $iudates["mw_version"] ?></label>
     <br />
   </p>
-  <? endif; ?>
-  <? if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
+  <?php endif; ?>
+  <?php if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
   <h4>New module updates are available</h4>
-  <? foreach($iudates["modules"] as $k => $item): ?>
+  <?php foreach($iudates["modules"] as $k => $item): ?>
   <p>
     <label>
-      <input type="checkbox" name="modules['<? print $item["module"] ?>']" value="<? print $item["mw_new_version_download"] ?>"  />
+      <input type="checkbox" name="modules['<?php print $item["module"] ?>']" value="<?php print $item["mw_new_version_download"] ?>"  />
        
-      <? print $item["name"] ?> <? print $item["version"] ?></label>
+      <?php print $item["name"] ?> <?php print $item["version"] ?></label>
     <br />
   </p>
-  <? endforeach; ?>
-  <? endif; ?>
-  <? if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
+  <?php endforeach; ?>
+  <?php endif; ?>
+  <?php if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
   <h4>New layouts updates are available</h4>
-  <? foreach($iudates["elements"] as $k => $item): ?>
+  <?php foreach($iudates["elements"] as $k => $item): ?>
   <p>
     <label>
-      <input type="checkbox" name="elements['<? print $item["module"] ?>']" value="<? print $item["mw_new_version_download"] ?>"  />
+      <input type="checkbox" name="elements['<?php print $item["module"] ?>']" value="<?php print $item["mw_new_version_download"] ?>"  />
      
       
-      <? print $item["name"] ?> <? print $item["version"] ?></label>
+      <?php print $item["name"] ?> <?php print $item["version"] ?></label>
     <br />
   </p>
-  <? endforeach; ?>
-  <? endif; ?>
+  <?php endforeach; ?>
+  <?php endif; ?>
   <input type="submit" value="install" />
 </form>
-<? endif; ?>
+<?php endif; ?>

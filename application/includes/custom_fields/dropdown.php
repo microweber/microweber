@@ -9,39 +9,39 @@ include('empty_field_vals.php');
    //d($data);
 
 //print $data["custom_field_value"]; ?>
-<? if(!empty($data['custom_field_values'])) : ?>
+<?php if(!empty($data['custom_field_values'])) : ?>
 
 <label class="custom-field-title">
-    <? if(isset($data['name']) == true and $data['name'] != ''): ?>
-    <? print $data['name'] ?>
-    <? elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <? print $data['custom_field_name'] ?>
-    <? else : ?>
-    <? endif; ?>
+    <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <?php print $data['name'] ?>
+    <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
+    <?php print $data['custom_field_name'] ?>
+    <?php else : ?>
+    <?php endif; ?>
   </label>
 
 <div class="control-group">
 
-  <? if(isset($data['help']) == true and $data['help'] != ''): ?>
-  <small  class="mw-custom-field-help"><? print $data['help'] ?></small>
-  <? endif; ?>
+  <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
+  <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
+  <?php endif; ?>
 
 
 
- <? if(isarr($data['custom_field_values'])): ?>
-  <select <? if(isset($data['options']) and isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<? endif; ?> <? if (isset($data['input_class'])): ?> class="<? print $data['input_class'] ?>"  <? endif; ?>  name="<? print $data["custom_field_name"]; ?>"  data-custom-field-id="<? print $data["id"]; ?>">
+ <?php if(isarr($data['custom_field_values'])): ?>
+  <select <?php if(isset($data['options']) and isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>  name="<?php print $data["custom_field_name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
     <?
 	foreach($data['custom_field_values'] as $k=>$v): ?>
-    <? if(is_string( $k)){
+    <?php if(is_string( $k)){
 	$kv =  $k;
 	} else {
 	$kv =  $v;
 	}
 	?>
-    <option  data-custom-field-id="<? print $data["id"]; ?>" value="<? print $kv; ?>" <? if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <? endif; ?> ><? print ($v); ?></option>
-    <? endforeach; ?>
+    <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" <?php if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <?php endif; ?> ><?php print ($v); ?></option>
+    <?php endforeach; ?>
   </select>
   
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

@@ -11,16 +11,16 @@ description: Default
 */
 ?>
 
-<div class="<? print $config['module_class'] ?>">
-  <div id="<? print $rand; ?>">
+<div class="<?php print $config['module_class'] ?>">
+  <div id="<?php print $rand; ?>">
     <label>
       <?php _e("Choose country:"); ?>
     </label>
     <select name="country" class="field-full">
       <option value="">Choose country</option>
-      <? foreach($data  as $item): ?>
-      <option value="<? print $item['shiping_country'] ?>"  <? if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <? endif; ?>><? print $item['shiping_country'] ?></option>
-      <? endforeach ; ?>
+      <?php foreach($data  as $item): ?>
+      <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+      <?php endforeach ; ?>
     </select>
   </div>
   <label>

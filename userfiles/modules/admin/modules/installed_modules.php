@@ -15,9 +15,9 @@ $(document).ready(function(){
     }
 
 
-    mw.$('#modules_categories_tree_<? print $params['id']; ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
+    mw.$('#modules_categories_tree_<?php print $params['id']; ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
 
-    mw.$('#modules_categories_tree_<? print $params['id']; ?> li a').each(function(){
+    mw.$('#modules_categories_tree_<?php print $params['id']; ?> li a').each(function(){
         var el = this;
         var id = el.attributes['data-category-id'].nodeValue;
         el.href = '#?category=' + id;
@@ -55,11 +55,11 @@ else{
 <script  type="text/javascript">
 function mw_reload_all_modules(){
 
-	mw.$('#modules_admin_<? print $params['id']; ?>').attr('reload_modules',1);
-	mw.$('#modules_admin_<? print $params['id']; ?>').attr('cleanup_db',1);
+	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('reload_modules',1);
+	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('cleanup_db',1);
 
-  	 mw.load_module('admin/modules/manage','#modules_admin_<? print $params['id']; ?>');
-	// mw.$('#modules_admin_<? print $params['id']; ?>').removeAttr('cleanup_db');
+  	 mw.load_module('admin/modules/manage','#modules_admin_<?php print $params['id']; ?>');
+	// mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
 
 }
 
@@ -76,7 +76,7 @@ _modulesSort = function(){
 
 
     var attrs  = mw.url.getHashParams(window.location.hash);
-    var holder = mw.$('#modules_admin_<? print $params['id']; ?>');
+    var holder = mw.$('#modules_admin_<?php print $params['id']; ?>');
 
     var arr = ['data-show-ui','data-search-keyword','data-category','data-installed','install_new'], i=0, l=arr.length;
 
@@ -96,11 +96,11 @@ _modulesSort = function(){
         if(x==='category' && (attrs[x]==='0' || attrs[x]===undefined)) continue;
         holder.attr(arr[sync.indexOf(x)], attrs[x]);
     }
-    mw.load_module('admin/modules/manage','#modules_admin_<? print $params['id']; ?>', function(){
+    mw.load_module('admin/modules/manage','#modules_admin_<?php print $params['id']; ?>', function(){
       $('#module_keyword').removeClass('loading');
 
-	  var el = $( "#modules_admin_<? print $params['id']; ?> .mw-modules-admin" );
- // $( "#modules_admin_<? print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
+	  var el = $( "#modules_admin_<?php print $params['id']; ?> .mw-modules-admin" );
+ // $( "#modules_admin_<?php print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
         el.sortable({
 		handle: ".mw_admin_modules_sortable_handle",
 		items: "li",
@@ -166,9 +166,9 @@ mw.on.hashParam('installed', function(){
 <div id="mw_index_modules">
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
     <div class="mw-admin-sidebar"><h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2></div>
-    <div class="mw-admin-side-nav" id="modules_categories_tree_<? print $params['id']; ?>" >
+    <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
 
-      <module type="categories" data-for="modules" id="modules_admin_categories_<? print $params['id']; ?>" />
+      <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
       <div style="padding-left: 46px">
         <div class="vSpace"></div>
         <label class="mw-ui-label">Show: </label>
@@ -234,7 +234,7 @@ mw.on.hashParam('installed', function(){
       </ul>
     </div>
     <div class="vSpace"></div>
-    <div id="modules_admin_<? print $params['id']; ?>" ></div>
+    <div id="modules_admin_<?php print $params['id']; ?>" ></div>
   </div>
 </div>
 

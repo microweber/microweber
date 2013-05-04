@@ -1,9 +1,9 @@
 <?php only_admin_access();?>
  
- <?  //  d($params); ?>
+ <?php  //  d($params); ?>
  
  
-<? 
+<?php 
 if(isset($params["exec_command"])){
 	$params["exec_command_params"] = base64_decode(trim($params["exec_command_params"]));
 	 $params["exec_command"] = base64_decode(trim($params["exec_command"]));
@@ -32,7 +32,7 @@ $arg=  $string = ($params["exec_command"]);
  ?>
  <br />
 
- <textarea class="term_results"><? print_r ($a ); ?></textarea>
+ <textarea class="term_results"><?php print_r ($a ); ?></textarea>
  <?
 	 
 //	$res = $$string;

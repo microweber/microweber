@@ -188,20 +188,20 @@ if ($template != false and strtolower($template) != 'none') {
     $(document).ready(function(){
 
 		
-		 mw.$('#<? print $params['id'] ?> a.comments-login-link').click(function() {
-			 var login_hold = "login-comments-form-<? print $params['id'] ?>";
+		 mw.$('#<?php print $params['id'] ?> a.comments-login-link').click(function() {
+			 var login_hold = "login-comments-form-<?php print $params['id'] ?>";
 			if($('#'+login_hold).length == 0){
-						$('#<? print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
+						$('#<?php print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
 			}
 			 mw.load_module('users/login','#'+login_hold)
 			 return false;
 		});
            
 	 
-			 mw.$('#<? print $params['id'] ?> a.comments-register-link').click(function() {
-			 var login_hold = "login-comments-form-<? print $params['id'] ?>";
+			 mw.$('#<?php print $params['id'] ?> a.comments-register-link').click(function() {
+			 var login_hold = "login-comments-form-<?php print $params['id'] ?>";
 					if($('#'+login_hold).length == 0){
-						$('#<? print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
+						$('#<?php print $params['id'] ?>').append("<div id='"+login_hold+"'></div>");
 					}
 			 mw.load_module('users/register','#'+login_hold)
 			 return false;
@@ -211,9 +211,9 @@ if ($template != false and strtolower($template) != 'none') {
  
 		
 		
-        mw.$('form#comments-form-<? print $params['id'] ?>').submit(function() {
+        mw.$('form#comments-form-<?php print $params['id'] ?>').submit(function() {
 
-            mw.form.post('form#comments-form-<? print $params['id'] ?>', '<? print site_url('api/post_comment'); ?>',
+            mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print site_url('api/post_comment'); ?>',
 			function(msg) {
 				
 				var resp = this;
@@ -224,7 +224,7 @@ if ($template != false and strtolower($template) != 'none') {
 						 if(typeof(data2.error) != 'undefined'){
 
 
-                                mw.response(mw.$('form#comments-form-<? print $params['id'] ?>'),data2);
+                                mw.response(mw.$('form#comments-form-<?php print $params['id'] ?>'),data2);
 
 							
 					    } 
@@ -233,10 +233,10 @@ if ($template != false and strtolower($template) != 'none') {
 				
 			 
 				if(typeof(resp.error) != 'undefined'){
-					var err_hold = "error-comments-form-<? print $params['id'] ?>";
+					var err_hold = "error-comments-form-<?php print $params['id'] ?>";
 					
 					if($('#'+err_hold).length == 0){
-						$('#comments-form-<? print $params['id'] ?>').append("<div class=\"alert alert-error\" id='"+err_hold+"'></div>");
+						$('#comments-form-<?php print $params['id'] ?>').append("<div class=\"alert alert-error\" id='"+err_hold+"'></div>");
 						
 					}
 					 
@@ -245,7 +245,7 @@ if ($template != false and strtolower($template) != 'none') {
 					
 					
 				} else {
-					mw.reload_module('#<? print $params['id'] ?>');
+					mw.reload_module('#<?php print $params['id'] ?>');
 				}
 				
 				

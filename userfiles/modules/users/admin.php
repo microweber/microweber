@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 <script  type="text/javascript">
 
 
@@ -198,7 +198,7 @@ function mw_admin_delete_user_by_id($user_id){
 	if (r==true){
 		data = {};
 		data.id = $user_id
-	   $.post("<? print api_url() ?>delete_user",data, function() {
+	   $.post("<?php print api_url() ?>delete_user",data, function() {
 		   _mw_admin_users_manage();
 		});
 	  }
@@ -212,7 +212,7 @@ function mw_admin_delete_user_by_id($user_id){
 
 </script>
 
-<? $mw_notif =  (url_param('mw_notif'));
+<?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = read_notification( $mw_notif);	
  
@@ -220,13 +220,13 @@ if( $mw_notif != false){
 
 mark_notifications_as_read('users');
  ?>
-<? if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
+<?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
 	//  var holder = mw.$('#user_edit_admin_panel');
-        // holder.attr('edit-user',"<? print $mw_notif['rel_id'] ?>");
-		 mw.url.windowHashParam('edit-user', '<? print $mw_notif['rel_id'] ?>');
+        // holder.attr('edit-user',"<?php print $mw_notif['rel_id'] ?>");
+		 mw.url.windowHashParam('edit-user', '<?php print $mw_notif['rel_id'] ?>');
 		  _mw_admin_user_edit();
  });
 
@@ -234,7 +234,7 @@ $(document).ready(function(){
 
 </script>
  
-<? endif; ?>
+<?php endif; ?>
 
 <div id="mw_index_users">
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">

@@ -10,7 +10,7 @@ mw.tools.simpleRotator(Rotator);
 /*
 
 
- var source = new EventSource('<? print site_url('api/event_stream')?>');
+ var source = new EventSource('<?php print site_url('api/event_stream')?>');
 source.onmessage = function (event) {
 
   mw.$('#mw-admin-manage-orders').html(event.data);
@@ -60,7 +60,7 @@ if (r==true)
   {
  
  
- $.post("<? print api_url('delete_order') ?>", { id: $p_id } ,function(data) {
+ $.post("<?php print api_url('delete_order') ?>", { id: $p_id } ,function(data) {
     mw.reload_module('shop/orders');
 });
 
@@ -72,7 +72,7 @@ if (r==true)
  
 }
 </script>
-<?  
+<?php  
 mark_notifications_as_read('shop');
  ?>
 <div class="mw-simple-rotator" style="width: 960px;padding: 20px;">

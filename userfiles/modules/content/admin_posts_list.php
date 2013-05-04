@@ -177,13 +177,13 @@ $post_params_paging['page_count'] = true;
 $paging_links = false;
 $pages_count = intval($pages);
 ?>
-<? if (intval($pages_count) > 1): ?>
-<? $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
-<? endif; ?>
+<?php if (intval($pages_count) > 1): ?>
+<?php $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+<?php endif; ?>
 
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
-  <? if(isarr($data)): ?>
-  <? foreach ($data as $item): ?>
+  <?php if(isarr($data)): ?>
+  <?php foreach ($data as $item): ?>
 
   <?
   $pub_class = '';
@@ -194,10 +194,10 @@ $pages_count = intval($pages);
    ?>
 
 
-  <div class="manage-post-item manage-post-item-<? print ($item['id']) ?> <? print $pub_class ?>">
+  <div class="manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
     <div class="manage-post-itemleft">
       <label class="mw-ui-check left">
-        <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<? print ($item['id']) ?>">
+        <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
       <?
@@ -205,25 +205,25 @@ $pages_count = intval($pages);
 
 
 		 ?>
-      <? if($pic == true ): ?>
-      <a class="manage-post-image left" style="background-image: url('<? print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
-      <? else : ?>
-      <a class="manage-post-image manage-post-image-no-image left"  onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"></a>
-      <? endif; ?>
+      <?php if($pic == true ): ?>
+      <a class="manage-post-image left" style="background-image: url('<?php print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+      <?php else : ?>
+      <a class="manage-post-image manage-post-image-no-image left"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+      <?php endif; ?>
 
-      <? $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
+      <?php $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
 
       <div class="manage-post-main">
-        <h3 class="manage-post-item-title"><a target="_top" href="<? print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>');return false;"><? print strip_tags($item['title']) ?></a></h3>
-        <small><a  class="manage-post-item-link-small" target="_top"  href="<? print content_link($item['id']); ?>/editmode:y"><? print content_link($item['id']); ?></a></small>
-        <div class="manage-post-item-description"> <? print character_limiter(strip_tags($item['description']), 60);
+        <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h3>
+        <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
+        <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a target="_top"  href="<? print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<? print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<? print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:mw.delete_single_post('<? print ($item['id']) ?>');;">Delete</a> </div>
+        <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;">Delete</a> </div>
       </div>
-      <div class="manage-post-item-author" title="<? print user_name($item['created_by']); ?>"><? print user_name($item['created_by'],'username') ?></div>
+      <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
     </div>
 
-<? if($is_momodule_comments == true): ?>
+<?php if($is_momodule_comments == true): ?>
 <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
 <?
 
@@ -238,19 +238,19 @@ if($new > 0){
 
 
 
-        <? if($have_new): ?>
+        <?php if($have_new): ?>
 
-        <a href="<?php print admin_url('view:comments'); ?>/#content_id=<? print $item['id'] ?>" class="comment-notification"><? print($new); ?></a>
+        <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comment-notification"><?php print($new); ?></a>
 
         <?php else:  ?>
 
-        <span class="comment-notification comment-notification-silver "><? print($new); ?></span>
-         <? endif;?>
-        <? endif; ?>
+        <span class="comment-notification comment-notification-silver "><?php print($new); ?></span>
+         <?php endif;?>
+        <?php endif; ?>
 
 
   </div>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 </div>
 <div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn">Delete</a> </div>
 <div class="mw-paging">
@@ -267,13 +267,13 @@ if($new > 0){
 
 
      if(isset($paging_links) and isarr($paging_links)):  ?>
-<? $i=1; foreach ($paging_links as $item): ?>
-<a  class="page-<? print $i; ?> <? if($numactive == $i): ?> active <? endif; ?>" href="#<? print $paging_param ?>=<? print $i ?>" onClick="mw.url.windowHashParam('<? print $paging_param ?>','<? print $i ?>');return false;"><? print $i; ?></a>
-<? $i++; endforeach; ?>
-<? endif; ?>
-<? else: ?>
+<?php $i=1; foreach ($paging_links as $item): ?>
+<a  class="page-<?php print $i; ?> <?php if($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+<?php $i++; endforeach; ?>
+<?php endif; ?>
+<?php else: ?>
 <div class="mw-no-posts-foot">
-  <? if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
+  <?php if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
   <h2 class="left">No Products Here</h2>
 
  <ul class="mw-quick-links mw-quick-links-green left">
@@ -287,7 +287,7 @@ if($new > 0){
           $url = "#action=new:product&amp;parent_page=".$post_params['parent'];
         }
      ?>
-    <a href="<? print   $url ; ?>">
+    <a href="<?php print   $url ; ?>">
       <span class="mw-ui-btn-plus">&nbsp;</span>
       <span class="ico iproduct"></span>
       <span>Add New Product</span>
@@ -296,7 +296,7 @@ if($new > 0){
 </ul>
 
 
-  <? else: ?>
+  <?php else: ?>
   <h2 class="left">No Posts Here</h2>
 
 
@@ -315,9 +315,9 @@ if($new > 0){
     }
 
      ?>
-     <? if(isset($url )): ?>
-    <a href="<? print   $url ; ?>">
-      <? endif; ?>
+     <?php if(isset($url )): ?>
+    <a href="<?php print   $url ; ?>">
+      <?php endif; ?>
 
 
       <span class="mw-ui-btn-plus">&nbsp;</span>
@@ -329,6 +329,6 @@ if($new > 0){
 
 
 
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

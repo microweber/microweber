@@ -1,4 +1,4 @@
-<? only_admin_access(); ?>
+<?php only_admin_access(); ?>
 
 
 
@@ -30,7 +30,7 @@
 });
 </script>
 
-         <? $is_orders = get_orders('count=1');
+         <?php $is_orders = get_orders('count=1');
 
 
             ?>

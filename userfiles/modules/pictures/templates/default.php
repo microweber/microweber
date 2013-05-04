@@ -11,7 +11,7 @@ description: Pictures List
 */
 
   ?>
-<? if(isarr($data )): ?>
+<?php if(isarr($data )): ?>
 
 <?php  $rand = uniqid(); ?>
 
@@ -31,21 +31,21 @@ $(document).ready(function(){
 </script>
 <div class="mw-module-images<?php if($no_img){ ?> no-image<?php } ?>">
 <div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-<?php print $rand; ?>">
-  <? foreach($data  as $item): ?>
-  <div class="mw-pictures-item mw-pictures-item-<? print $item['id']; ?>">
+  <?php foreach($data  as $item): ?>
+  <div class="mw-pictures-item mw-pictures-item-<?php print $item['id']; ?>">
     <div class="thumbnail">
     <span class="valign">
                     <span class="valign-cell">
-        <img src="<? print $item['filename']; ?>" />
+        <img src="<?php print $item['filename']; ?>" />
         </span>
         </span>
     </div>
   </div>
-  <? endforeach ; ?>
+  <?php endforeach ; ?>
 </div>
 </div>
 
-<? else : ?>
-<? print mw_notif("Please click on settings to upload your pictures."); ?>
+<?php else : ?>
+<?php print mw_notif("Please click on settings to upload your pictures."); ?>
  
- <? endif; ?>
+ <?php endif; ?>

@@ -1,4 +1,4 @@
-<?  if(is_admin() == false) { error("Must be admin"); }
+<?php  if(is_admin() == false) { error("Must be admin"); }
 
 
 $user_params = array();
@@ -44,7 +44,7 @@ $data = get_users($user_params);
  ?>
 
  
- <? if(isarr($data )): ?>
+ <?php if(isarr($data )): ?>
 
 <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%">
   <thead>
@@ -68,13 +68,13 @@ $data = get_users($user_params);
       </tr>
   </tfoot>
   <tbody>
-  <? foreach($data  as $item): ?>
-     <tr id="mw-admin-user-<?  print $item['id']; ?>">
+  <?php foreach($data  as $item): ?>
+     <tr id="mw-admin-user-<?php  print $item['id']; ?>">
           <td width="170">
           
            <span class="mw-user-thumb mw-user-thumb-small">
            <?php if(isset($item['thumbnail']) and trim($item['thumbnail'])!=''): ?>
-            <img style="vertical-align:middle" src="<? print $item['thumbnail'] ?>"  height="24" width="24" />
+            <img style="vertical-align:middle" src="<?php print $item['thumbnail'] ?>"  height="24" width="24" />
 		   <?php endif; ?>
             </span>
            
@@ -86,34 +86,34 @@ $data = get_users($user_params);
           
           
 		   <?php if(isset($item['oauth_provider']) and trim($item['oauth_provider'])!=''): ?>
-           <a href="<?  print $item['profile_url']; ?>" target="_blank" title="<? print ucwords($item['oauth_provider']) ?>" class="mw-social-ico-<? print $item['oauth_provider'] ?>"></a>
+           <a href="<?php  print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-social-ico-<?php print $item['oauth_provider'] ?>"></a>
 		   
 		   
 		   
-		   <?php endif; ?><?  print $item['first_name']; ?>&nbsp;<?  print $item['last_name']; ?>
+		   <?php endif; ?><?php  print $item['first_name']; ?>&nbsp;<?php  print $item['last_name']; ?>
           </span>
 
 
 
 
           </td>
-          <td><?  print $item['username']; ?></td>
-          <td><?  print $item['email']; ?></td>
-          <td align="center"> <?  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
+          <td><?php  print $item['username']; ?></td>
+          <td><?php  print $item['email']; ?></td>
+          <td align="center"> <?php  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
           <td align="center"><?php if($item['is_active']=='y'): ?><span class="ico icheck" style="float: none"></span><?php else:  ?><span class="ico iRemove" style="float: none; "><?php endif; ?></span></td>
           <td>
-            <span class="mw-ui-admin-table-show-on-hover del-row"  onclick="mw_admin_delete_user_by_id('<?  print $item['id']; ?>')"></span>
-            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?  print $item['id']; ?>');return false;" href="#edit-user=<?  print $item['id']; ?>">Edit</a>
+            <span class="mw-ui-admin-table-show-on-hover del-row"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
+            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?php  print $item['id']; ?>');return false;" href="#edit-user=<?php  print $item['id']; ?>">Edit</a>
 
           </td>
       </tr>
- <? endforeach ; ?>
+ <?php endforeach ; ?>
   </tbody>
 </table>
- <? if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
-    <? print paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
-    <? endif; ?>
-<? endif; ?>
+ <?php if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
+    <?php print paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
+    <?php endif; ?>
+<?php endif; ?>
 
 
 

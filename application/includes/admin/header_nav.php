@@ -1,4 +1,4 @@
-<? if(!isset($_REQUEST['no_toolbar'])): ?>
+<?php if(!isset($_REQUEST['no_toolbar'])): ?>
 
 <div>
   <div class="mw-v-table" id="mw_toolbar_nav">
@@ -7,26 +7,26 @@
     </div>
     <div class="mw-v-cell" style="width: 100%">
 
-  <? if(is_admin()): ?>
+  <?php if(is_admin()): ?>
 
 
 
 
 
 
-  <?   $active = url_param('view'); ?>
+  <?php   $active = url_param('view'); ?>
     <ul id="mw_tabs">
-      <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<? endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
-      <li <?php if($active == 'content'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
-      <? exec_action('mw_admin_header_menu_start'); ?>
-      <li <?php if($active == 'modules'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
-      <? exec_action('mw_admin_header_menu'); ?>
-      <li <?php if($active == 'users'): ?> class="active" <? endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
-      <? //exec_action('mw_admin_header_menu'); ?>
-      <? if(is_module('help')): ?>
-      <li <?php if($active == 'help'): ?> class="active" <? endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
-      <? endif; ?>
-      <? exec_action('mw_admin_header_menu_end'); ?>
+      <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<?php endif; ?>><a href="<?php print admin_url(); ?>view:dashboard">Dashboard</a></li>
+      <li <?php if($active == 'content'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:content">Website</a></li>
+      <?php exec_action('mw_admin_header_menu_start'); ?>
+      <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules">Modules</a></li>
+      <?php exec_action('mw_admin_header_menu'); ?>
+      <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users">Users</a></li>
+      <?php //exec_action('mw_admin_header_menu'); ?>
+      <?php if(is_module('help')): ?>
+      <li <?php if($active == 'help'): ?> class="active" <?php endif; ?> ><a href="<?php print admin_url(); ?>view:help">Help</a></li>
+      <?php endif; ?>
+      <?php exec_action('mw_admin_header_menu_end'); ?>
     </ul>
     </div>
     <div class="mw-v-cell">
@@ -46,11 +46,11 @@ $past_page = content_link($past_page[0]['id']);
     <?php _e("Go Live Edit"); ?>
     </a>
     <div class="mw-toolbar-notification">
-      <? $notif_count = get_notifications('is_read=n&count=1'); ?>
-      <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<? if( $notif_count == 0): ?> faded<? endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
-      <? if( $notif_count > 0): ?>
-      <sup class="mw-notif-bubble"><? print  $notif_count ?></sup>
-      <? endif; ?>
+      <?php $notif_count = get_notifications('is_read=n&count=1'); ?>
+      <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
+      <?php if( $notif_count > 0): ?>
+      <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
+      <?php endif; ?>
       </span> </span>
       <div class="mw-toolbar-notif-items-wrap mw-o-box">
         <div class="mw-o-box-header">
@@ -159,8 +159,8 @@ if (r==true)
     </script>
 
 
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>
 <div class="mw_clear" style="height: 0;">&nbsp;</div>
 <div id="mw-admin-content">

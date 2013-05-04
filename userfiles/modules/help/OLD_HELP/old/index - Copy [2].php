@@ -8,10 +8,10 @@
 <meta name="author" content="">
 
 <!-- Le styles -->
-<link href="<? print $config['url_to_module'] ?>static/css/bootstrap.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/css/docs.css" rel="stylesheet">
-<link href="<? print $config['url_to_module'] ?>static/js/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/bootstrap.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/css/docs.css" rel="stylesheet">
+<link href="<?php print $config['url_to_module'] ?>static/js/google-code-prettify/prettify.css" rel="stylesheet">
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -19,11 +19,11 @@
     <![endif]-->
 
 <!-- Le fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="<? print $config['url_to_module'] ?>static/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="<? print $config['url_to_module'] ?>static/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="<?php print $config['url_to_module'] ?>static/ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="<?php print $config['url_to_module'] ?>static/ico/favicon.png">
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -344,11 +344,11 @@
         <p>Turn on responsive CSS in your project by including the proper meta tag and additional stylesheet within the <code>&lt;head&gt;</code> of your document. If you've compiled Bootstrap from the Customize page, you need only include the meta tag.</p>
         <pre class="prettyprint linenums">
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-&lt;link href="<? print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet"&gt;
+&lt;link href="<?php print $config['url_to_module'] ?>static/css/bootstrap-responsive.css" rel="stylesheet"&gt;
 </pre>
         <p><span class="label label-info">Heads up!</span> Bootstrap doesn't include responsive features by default at this time as not everything needs to be responsive. Instead of encouraging developers to remove this feature, we figure it best to enable it as needed.</p>
         <h2>About responsive Bootstrap</h2>
-        <img src="<? print $config['url_to_module'] ?>static/img/responsive-illustrations.png" alt="Responsive devices" style="float: right; margin: 0 0 20px 20px;">
+        <img src="<?php print $config['url_to_module'] ?>static/img/responsive-illustrations.png" alt="Responsive devices" style="float: right; margin: 0 0 20px 20px;">
         <p>Media queries allow for custom CSS based on a number of conditions&mdash;ratios, widths, display type, etc&mdash;but usually focuses around <code>min-width</code> and <code>max-width</code>.</p>
         <ul>
           <li>Modify the width of column in our grid</li>
@@ -505,23 +505,23 @@
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/jquery.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-transition.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-alert.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-modal.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-dropdown.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-scrollspy.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-tab.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-tooltip.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-popover.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-button.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-collapse.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-carousel.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-typeahead.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/bootstrap-affix.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/holder/holder.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/google-code-prettify/prettify.js"></script> 
-<script src="<? print $config['url_to_module'] ?>static/js/application.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/jquery.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-transition.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-alert.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-modal.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-dropdown.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-scrollspy.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-tab.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-tooltip.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-popover.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-button.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-collapse.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-carousel.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-typeahead.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/bootstrap-affix.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/holder/holder.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/google-code-prettify/prettify.js"></script> 
+<script src="<?php print $config['url_to_module'] ?>static/js/application.js"></script> 
 
 <!-- Analytics
     ================================================== -->

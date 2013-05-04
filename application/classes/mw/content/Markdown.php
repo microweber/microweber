@@ -345,7 +345,7 @@ class Markdown {
 					[ ]*
 					(?=\n{2,}|\Z)		# followed by a blank line or end of document
 			
-			| # PHP and ASP-style processor instructions (<? and <%)
+			| # PHP and ASP-style processor instructions (<?php and <%)
 			
 					[ ]{0,'.$less_than_tab.'}
 					(?s:

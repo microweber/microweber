@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<? include_once( INCLUDES_DIR . 'api/treerenderer.php'); ?>
+<?php include_once( INCLUDES_DIR . 'api/treerenderer.php'); ?>
 </script>
 <?
 
@@ -130,9 +130,9 @@ if (isset($params['rel_id']) and $params['rel_id'] != 0) {
 
 $(document).ready(function(){
 
-   // mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
-    mw.$('#categorories_selector_for_post_<? print $rand; ?> input[name="categories"]').bind('change', function(e){
-   // mw_load_post_cutom_fields_from_categories<? print $rand; ?>();
+   // mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
+    mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[name="categories"]').bind('change', function(e){
+   // mw_load_post_cutom_fields_from_categories<?php print $rand; ?>();
 
 
 
@@ -147,9 +147,9 @@ $(document).ready(function(){
 
 });
 
-function mw_load_post_cutom_fields_from_categories<? print $rand; ?>(){
-var a =	mw.$('#categorories_selector_for_post_<? print $rand; ?> *[name="categories"]').val();
-var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_<? print $rand; ?>')
+function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
+var a =	mw.$('#categorories_selector_for_post_<?php print $rand; ?> *[name="categories"]').val();
+var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_<?php print $rand; ?>')
 if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	holder1.empty();
 
@@ -159,7 +159,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 	var i = 1;
 	$.each(cf_cats, function(index, value) {
 
-	$new_div_id = 'cf_post_cat_hold_<? print $rand; ?>_'+i+mw.random();
+	$new_div_id = 'cf_post_cat_hold_<?php print $rand; ?>_'+i+mw.random();
 	$new_div = '<div id="'+$new_div_id+'"></div>'
 	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
   holder1.append($new_div);
@@ -173,11 +173,11 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 			$(this).find('.control-group').append($new_use_btn);
 			mw.$('.use_'+$new_div_id).unbind('click');
 					mw.$('.use_'+$new_div_id).bind('click', function(e){
-						//   mw_load_post_cutom_fields_from_categories<? print $rand; ?>()
+						//   mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
 						$closest =$(this).parent('.control-group').find('*[data-custom-field-id]:first');
 						$closest= $closest.attr('data-custom-field-id');
-						mw.$('#fields_for_post_<? print $rand; ?>').attr('copy_from',$closest);
-						mw.reload_module('#fields_for_post_<? print $rand; ?>');
+						mw.$('#fields_for_post_<?php print $rand; ?>').attr('copy_from',$closest);
+						mw.reload_module('#fields_for_post_<?php print $rand; ?>');
 					 	mw.log($closest );
 
 						return false;
@@ -205,12 +205,12 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 
     mw.tools.tag({
-      tagholder:'#mw-post-added-<? print $rand; ?>',
+      tagholder:'#mw-post-added-<?php print $rand; ?>',
       items: ".mw-ui-check",
-      itemsWrapper: mwd.querySelector('#mw-category-selector-<? print $rand; ?>'),
+      itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
       method:'parse',
       onTag:function(){
-        var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+        var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
         if(curr_content != undefined){
 			  if(typeof load_iframe_editor === 'function'){
          	load_iframe_editor(curr_content);
@@ -228,7 +228,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 
 
-      var curr_content = mwd.getElementById('mw-editor<? print $rand; ?>').value;
+      var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
       if(curr_content != undefined){
 		 if(typeof load_iframe_editor === 'function'){
        		load_iframe_editor(curr_content);
@@ -262,7 +262,7 @@ if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
 
 $(document).ready(function(){
 
-	mw.$('#<? print $params['id'] ?> .mw-ui-check').bind('click', function(e){
+	mw.$('#<?php print $params['id'] ?> .mw-ui-check').bind('click', function(e){
 			if(typeof mw_set_categories_from_tree === 'function'){
 		 		mw_set_categories_from_tree()
 			}
@@ -380,8 +380,8 @@ if(isset($tree['is_shop'] )){
 }
 pages_tree($tree);
 ?>
-<? endif; ?>
-<?  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
+<?php endif; ?>
+<?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 
 
 
@@ -420,6 +420,6 @@ pages_tree($tree);
 
 
 ?>
-<? $cats_str = implode(',', $active_cats); ?>
+<?php $cats_str = implode(',', $active_cats); ?>
 
-<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<? print $cats_str ?>" />
+<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

@@ -150,8 +150,8 @@ mw.settings = {
       browse_button : 'pickfiles',
       container: 'container',
       max_file_size : '<?php print ini_get("upload_max_filesize"); ?>',
-      url : '<? print site_url("plupload"); ?>',
-      flash_swf_url:'<? print INCLUDES_URL; ?>toolbar/editor_tools/plupload/plupload.flash.swf',
+      url : '<?php print site_url("plupload"); ?>',
+      flash_swf_url:'<?php print INCLUDES_URL; ?>toolbar/editor_tools/plupload/plupload.flash.swf',
       multi_selection:true
     },
 

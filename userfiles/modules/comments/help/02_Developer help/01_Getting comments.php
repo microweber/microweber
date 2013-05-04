@@ -1,1 +1,1 @@
-<? print __FILE__ ?>
+<?php print __FILE__ ?>

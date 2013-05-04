@@ -1,4 +1,4 @@
-<? function google_conv_currency($from_Currency,$to_Currency,$amount) {
+<?php function google_conv_currency($from_Currency,$to_Currency,$amount) {
 $amount = urlencode($amount);
 $from_Currency = urlencode($from_Currency);
 $to_Currency = urlencode($to_Currency);

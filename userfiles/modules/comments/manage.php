@@ -22,7 +22,7 @@
  $comments = get_comments($data);
 
 ?>
-<? if (isarr($comments)): ?>
+<?php if (isarr($comments)): ?>
 <script type="text/javascript">
     mw.require("forms.js",true);
 </script>
@@ -35,8 +35,8 @@
           var field = form.find('#comment_state');
           field.val(val);
           var id = form.attr('id');
-          mw.form.post('#'+id, '<? print site_url('api/post_comment'); ?>');
-          mw.reload_module('<? print $params['type'] ?>');
+          mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
+          mw.reload_module('<?php print $params['type'] ?>');
       },
       edit:function(form){
         var body = form.querySelector('.comment-body-edit');
@@ -58,34 +58,34 @@
 
 </script>
 
-<div class="mw-comments-manage" id="comments-manage-<? print $params['id'] ?>">
-  <? foreach ($comments as $comment) : ?>
+<div class="mw-comments-manage" id="comments-manage-<?php print $params['id'] ?>">
+  <?php foreach ($comments as $comment) : ?>
   <div class="mw-comment-body">
-    <form class="comments-manage-form" id="comments-form-<? print $comment['id'] ?>">
-      <div class="comment-author"><? print $comment['comment_name'] ?></div>
-      <div class="comment-body"><? print $comment['comment_body'] ?> <a href="javascript:;" class="mw-ui-link" onclick="mw.adminComments.edit(mw.tools.firstParentWithClass(this, 'comments-manage-form'))">
+    <form class="comments-manage-form" id="comments-form-<?php print $comment['id'] ?>">
+      <div class="comment-author"><?php print $comment['comment_name'] ?></div>
+      <div class="comment-body"><?php print $comment['comment_body'] ?> <a href="javascript:;" class="mw-ui-link" onclick="mw.adminComments.edit(mw.tools.firstParentWithClass(this, 'comments-manage-form'))">
         <?php _e("Edit"); ?>
         </a></div>
       <div class="comment-body-edit">
-        <textarea name="comment_body"><? print $comment['comment_body'] ?></textarea>
+        <textarea name="comment_body"><?php print $comment['comment_body'] ?></textarea>
         <span class="mw-ui-btn">
         <?php _e("Save"); ?>
         </span> </div>
-      <input type="hidden" name="id" value="<? print $comment['id'] ?>">
-      <input type="hidden" name="action" id="comment_state" value="<? print $comment['id'] ?>" />
+      <input type="hidden" name="id" value="<?php print $comment['id'] ?>">
+      <input type="hidden" name="action" id="comment_state" value="<?php print $comment['id'] ?>" />
       <div class="comment-controll-bar"> <a href="javascript:;" class="mw-ui-btn left" onclick="">
         <?php _e("Reply"); ?>
         </a>
-        <? if($comment['is_moderated'] == 'n'): ?>
+        <?php if($comment['is_moderated'] == 'n'): ?>
         <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'publish')">
         <?php _e("Publish"); ?>
         </a>
-        <? endif; ?>
-        <? if($comment['is_moderated'] == 'y'): ?>
+        <?php endif; ?>
+        <?php if($comment['is_moderated'] == 'y'): ?>
         <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'unpublish')">
         <?php _e("Unpublish"); ?>
         </a>
-        <? endif; ?>
+        <?php endif; ?>
         <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'delete')">
         <?php _e("Delete"); ?>
         </a> <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action(this.parentNode, 'spam')">
@@ -93,6 +93,6 @@
         </a> </div>
     </form>
   </div>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

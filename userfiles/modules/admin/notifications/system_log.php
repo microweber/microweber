@@ -48,14 +48,14 @@ mw.log_item_delete = function($item_id){
 mw.syslog_log_reset_all = function(){
 	 mw.tools.confirm("All the log entries will be deleted!! Are you sure?", function(){
 	 $.get("<?php print site_url('api/system_log_reset'); ?>", function(){
-		 	mw.reload_module('<? print $config['module'] ?>');
+		 	mw.reload_module('<?php print $config['module'] ?>');
 	  });
 	 });
 }
 
 
 </script>
-<? if(isarr($data )): ?>
+<?php if(isarr($data )): ?>
 
 <div class="mw-admin-system_log-holder" id="admin_system_log">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
@@ -72,8 +72,8 @@ mw.syslog_log_reset_all = function(){
       </tr>
     </thead>
     <tbody>
-      <? foreach($data  as $item): ?>
-      <tr class="mw-ui-admin-log-item-<? print $item['id'] ?> <? if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<? endif; ?>">
+      <?php foreach($data  as $item): ?>
+      <tr class="mw-ui-admin-log-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
         <?
   	    $mod_info = false;
   	    if(isset($item['module']) and $item['module'] != ''){
@@ -81,61 +81,61 @@ mw.syslog_log_reset_all = function(){
   	    }
        ?>
         <td> 
-          <time class="mw-date" title="<? print mw_date($item['created_on']); ?> (<? print ($item['created_on']); ?>)"><? print ago($item['created_on'],1); ?></time> <br> 
+          <time class="mw-date" title="<?php print mw_date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print ago($item['created_on'],1); ?></time> <br> 
           
            
-           <? if($mod_info != false and isset($mod_info['name'])): ?> 
-          <img src=" <?   print thumbnail($mod_info['icon'], 16,16) ?>" />
-          <? elseif(isset($item['rel']) and trim($item['rel']) != '') : ?>
-          <? endif; ?>
-          <? if(isset($item['rel']) and trim($item['rel']) != '') : ?>
-               <span><? print $item['rel'] ?></span> <br> 
-            <? else : ?>
-            <? endif; ?>
-            <? if(isset($item['user_ip']) and $item['user_ip'] != ''): ?>
+           <?php if($mod_info != false and isset($mod_info['name'])): ?> 
+          <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
+          <?php elseif(isset($item['rel']) and trim($item['rel']) != '') : ?>
+          <?php endif; ?>
+          <?php if(isset($item['rel']) and trim($item['rel']) != '') : ?>
+               <span><?php print $item['rel'] ?></span> <br> 
+            <?php else : ?>
+            <?php endif; ?>
+            <?php if(isset($item['user_ip']) and $item['user_ip'] != ''): ?>
              
-<small><? print $item['user_ip'] ?></small>
-              <? endif; ?>
+<small><?php print $item['user_ip'] ?></small>
+              <?php endif; ?>
           
           </td>
-        <td style="max-width: 60%;"><? if($mod_info != false and isset($mod_info['name'])): ?>
-          <a class="mw-ui-link" href="<? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_notif:log_<? print $item['id'] ?>" title="<? print $mod_info['name'] ?>"> <? print $item['title'] ?></a>
-          <? else : ?>
-          <? print $item['title'] ?>
-          <? endif; ?>
+        <td style="max-width: 60%;"><?php if($mod_info != false and isset($mod_info['name'])): ?>
+          <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
+          <?php else : ?>
+          <?php print $item['title'] ?>
+          <?php endif; ?>
           
           <div class="logication_info">
-            <? if(isset($item['content']) and $item['content'] != ''): ?>
-            <? if($mod_info != false and isset($mod_info['name'])): ?><a href="<? if($mod_info != false and isset($mod_info['name'])): ?><? print admin_url() ?>view:modules/load_module:<? print module_name_encode($item['module']) ?>/mw_log:<?  print  $item['id'] ?><? endif; ?>" class="ellipsis"><? endif; ?>
+            <?php if(isset($item['content']) and $item['content'] != ''): ?>
+            <?php if($mod_info != false and isset($mod_info['name'])): ?><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_log:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis"><?php endif; ?>
 			
 			
-			<? print html_entity_decode($item['content']); ?>
-             <? if($mod_info != false and isset($mod_info['name'])): ?>
+			<?php print html_entity_decode($item['content']); ?>
+             <?php if($mod_info != false and isset($mod_info['name'])): ?>
             </a> 
-            <? endif; ?>
+            <?php endif; ?>
             
             
             
             
-            <? elseif(isset($item['rddddel']) and trim($item['rddddel']) != '') : ?>
-            <span class="left"><? print $item['rddddel'] ?></span>
-            <? else : ?>
-            <? endif; ?>
-            <? if(isset($item['description']) and $item['description'] != ''): ?>
+            <?php elseif(isset($item['rddddel']) and trim($item['rddddel']) != '') : ?>
+            <span class="left"><?php print $item['rddddel'] ?></span>
+            <?php else : ?>
+            <?php endif; ?>
+            <?php if(isset($item['description']) and $item['description'] != ''): ?>
               <br>
-<small><? print html_entity_decode( $item['description']) ?></small>
-              <? endif; ?>
+<small><?php print html_entity_decode( $item['description']) ?></small>
+              <?php endif; ?>
           </div>
           
           </td>
   
-        <td><a href="javascript:mw.log_item_delete('<? print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
+        <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
       </tr>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </tbody>
   </table>
 </div>
-<? else: ?>
-<? print mw_notif("Your system log is empty") ?>
-<? endif; ?>
+<?php else: ?>
+<?php print mw_notif("Your system log is empty") ?>
+<?php endif; ?>
  

@@ -1,5 +1,5 @@
-<? include('toolbar_tag_editor_js.php') ; ?>
-<? $text_block_classes = "mw_edit_tag_p mw_edit_tag_h1 mw_edit_tag_h2 mw_edit_tag_h3 mw_edit_tag_h4 mw_edit_tag_h5 mw_edit_tag_h6 mw_edit_tag_span  mw_edit_tag_ul  mw_edit_tag_li  mw_edit_tag_div mw_edit_tag_strong mw_edit_tag_code";  ?>
+<?php include('toolbar_tag_editor_js.php') ; ?>
+<?php $text_block_classes = "mw_edit_tag_p mw_edit_tag_h1 mw_edit_tag_h2 mw_edit_tag_h3 mw_edit_tag_h4 mw_edit_tag_h5 mw_edit_tag_h6 mw_edit_tag_span  mw_edit_tag_ul  mw_edit_tag_li  mw_edit_tag_div mw_edit_tag_strong mw_edit_tag_code";  ?>
 
 <div  id="mw_html_css_editor"  class="mw_editor_accordeon">
   <ul>
@@ -57,15 +57,15 @@
           <td><input  name="font-family" class="mw_ac_fonts css_property mw_tag_editor_input mw_tag_editor_input_select_font"  type="text" /></td>
           <td><select name="font-size" dimensions="px" class="mw_ac_sizes css_property mw_tag_editor_input mw_tag_editor_input_select_font_size" type="text" onchange="mw_html_tag_editor_apply_styles()">
               <option value="">Size</option>
-              <? for ($i = 1; $i <= 100 ; $i++) : ?>
-              <option value="<? print $i ?>"><? print $i ?> px</option>
-              <? endfor; ?>
+              <?php for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<?php print $i ?>"><?php print $i ?> px</option>
+              <?php endfor; ?>
             </select></td>
         </tr>
       </table>
     </div>
     <div class="css_editor_tab_float">
-      <div class="<? print $text_block_classes ?>">
+      <div class="<?php print $text_block_classes ?>">
         <table border="0" cellpadding="5" cellspacing="5" id="mw_toolbar_text_edit_sidebar">
           <tr>
             <td><a href="javascript:mw_html_tag_editor_apply_style_for_element('font-weight', 'bold', 'normal')"  class="mw_tag_editor_font_style_btns"  css_name="font-weight" css_value_active="bold"><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/bold.png"  /></a></td>
@@ -81,14 +81,14 @@
             <td><input type="image"  class="mw_make_element" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/heading_2.png" make_element="h2" value="h2" unselectable="true" /></td>
             <td><input type="image"  class="mw_make_element" make_element="h3" value="h3" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/heading_3.png" unselectable="true" /></td>
             <td><img  src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/seperator.png"  /></td>
-            <td><input type="image" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/image.gif"    class="mw_make_element" make_element="img" make_element_attr="src" make_element_attr_val="http://lorempixum.com/200/200/?<? print rand(); ?>" value="img"  unselectable="true" /></td>
+            <td><input type="image" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/image.gif"    class="mw_make_element" make_element="img" make_element_attr="src" make_element_attr_val="http://lorempixum.com/200/200/?<?php print rand(); ?>" value="img"  unselectable="true" /></td>
             <td><input type="image"  class="mw_make_element" make_element="a" value="a" src="<?php   print( ADMIN_STATIC_FILES_URL);  ?>img/css_editor/world_link.png"  unselectable="true" /></td>
             <td></td>
           </tr>
         </table>
       </div>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mw_edit_tag_table"  style="display:none">
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td> font-weight </td>
           <td><select name="font-weight"   class="css_property" type="text">
               <option value="">Default</option>
@@ -98,7 +98,7 @@
               <option value="lighter">lighter</option>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>font-style</td>
           <td><select name="font-style"   class="css_property" type="text">
               <option value="">Default</option>
@@ -107,7 +107,7 @@
               <option value="oblique">oblique</option>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>text-transform</td>
           <td><select name="text-transform"   class="css_property" type="text">
               <option value="">Default</option>
@@ -117,7 +117,7 @@
               <option value="lowercase">lowercase</option>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>text-decoration</td>
           <td><select name="text-decoration"   class="css_property" type="text">
               <option value="">Default</option>
@@ -128,7 +128,7 @@
               <option value="blink">blink</option>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>text-align</td>
           <td><select name="text-align"   class="css_property" type="text">
               <option value="">Default</option>
@@ -138,22 +138,22 @@
               <option value="justify">justify</option>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>letter-spacing</td>
           <td><select name="letter-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
               <option value="">Default</option>
-              <? for ($i = 1; $i <= 100 ; $i++) : ?>
-              <option value="<? print $i ?>"><? print $i ?></option>
-              <? endfor; ?>
+              <?php for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<?php print $i ?>"><?php print $i ?></option>
+              <?php endfor; ?>
             </select></td>
         </tr>
-        <tr class="<? print $text_block_classes ?>">
+        <tr class="<?php print $text_block_classes ?>">
           <td>word-spacing</td>
           <td><select name="word-spacing" dimensions="px" class="mw_ac_sizes css_property" type="text">
               <option value="">Default</option>
-              <? for ($i = 1; $i <= 100 ; $i++) : ?>
-              <option value="<? print $i ?>"><? print $i ?></option>
-              <? endfor; ?>
+              <?php for ($i = 1; $i <= 100 ; $i++) : ?>
+              <option value="<?php print $i ?>"><?php print $i ?></option>
+              <?php endfor; ?>
             </select></td>
         </tr>
       </table>
@@ -313,7 +313,7 @@
         <table width="100%" border="0" cellspacing="4" cellpadding="0">
           <tr>
             <td  ><img id="image_editor_holder_src" width="100" />
-            <td  ><form enctype="multipart/form-data" method="POST" action="<? print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
+            <td  ><form enctype="multipart/form-data" method="POST" action="<?php print  site_url('api/media/upload') ?>" id="uploadForm" name="uploadForm" encoding="multipart/form-data">
                 <input type="hidden" value="1000000" name="MAX_FILE_SIZE">
                 <input type="file" name="file" onchange="mw_do_the_image_upload();">
               </form></td>

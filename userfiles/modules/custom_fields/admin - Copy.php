@@ -4,7 +4,7 @@
 
 
 
-<? //  d($params) ?>
+<?php //  d($params) ?>
 <script type="text/javascript">
 
 
@@ -52,7 +52,7 @@ $module_id = $for_id;
  
 ?>
 
-<div class="<? print $config['module_class'] ?>-holder"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
+<div class="<?php print $config['module_class'] ?>-holder"> <span class="mw-ui-btn-rect" onclick="mw.tools.toggle('.custom_fields_selector', this);"><span class="ico iAdd"></span>
   <?php _e("Add New Custom Field"); ?>
   </span>
   <div class="vSpace"></div>
@@ -98,7 +98,7 @@ mw.custom_fields.create = function($type, $copy, callback){
       if($copy !== undefined){
         var copy_str = '/copy_from:'+ $copy;
       }
-      mw.$('#custom-fields-form-wrap-{rand}').load('<? print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><? print $module_id; ?>/for:<? print $for  ?>/custom_field_type:'+$type + copy_str, function(){
+      mw.$('#custom-fields-form-wrap-{rand}').load('<?php print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><?php print $module_id; ?>/for:<?php print $for  ?>/custom_field_type:'+$type + copy_str, function(){
         mw.is.func(callback) ? callback.call($type) : '';
         mw.$("#create-custom-field-table").removeClass("semi_hidden");
       });
@@ -109,16 +109,16 @@ mw.custom_fields.create = function($type, $copy, callback){
 
 
 $(document).ready(function(){
-<? if($copy_from != false): ?>
-    mw.custom_fields.create('', '<? print $copy_from ?>');
-<? endif; ?>
+<?php if($copy_from != false): ?>
+    mw.custom_fields.create('', '<?php print $copy_from ?>');
+<?php endif; ?>
         //make_new_field()
 
-<? if(isset($params['content-subtype']) != false and trim($params['content-subtype'] == 'product') and intval($module_id) == 0): ?>
+<?php if(isset($params['content-subtype']) != false and trim($params['content-subtype'] == 'product') and intval($module_id) == 0): ?>
 mw.custom_fields.create('price');
     //    mw.$(".custom_fields_selector").show();
 
-<? endif; ?>
+<?php endif; ?>
 
 
 
@@ -128,7 +128,7 @@ mw.custom_fields.create('price');
 
 mw.custom_fields.save = function(id){
     var obj = mw.form.serialize("#"+id);
-    $.post("<? print site_url('api_html/save_custom_field') ?>", obj, function(data) {
+    $.post("<?php print site_url('api_html/save_custom_field') ?>", obj, function(data) {
        $cfadm_reload = false;
 	 
 	   
@@ -138,7 +138,7 @@ mw.custom_fields.save = function(id){
 			//  $('#create-custom-field-table').addClass('semi_hidden');
 			// $("#"+id).hide();
 			  mw.$("#create-custom-field-table").addClass("semi_hidden");
-			$("#mw_custom_fields_list_<? print $params['id']; ?>").show();
+			$("#mw_custom_fields_list_<?php print $params['id']; ?>").show();
 			
         }
         else {
@@ -180,7 +180,7 @@ mw.custom_fields.del = function(id){
     var q = "Are you sure you want to delete this?";
     mw.tools.confirm(q, function(){
       var obj = mw.form.serialize("#"+id);
-      $.post("<? print site_url('api/remove_field') ?>",  obj, function(data){
+      $.post("<?php print site_url('api/remove_field') ?>",  obj, function(data){
         $("#"+id).parents('.custom-field-table-tr').first().remove();
       });
     });
@@ -222,5 +222,5 @@ mw.custom_fields.sort_rows = function(){
 
 
 </script>
-  <module data-type="custom_fields/list" <? print $hide_preview  ?>  for="<? print $for  ?>" for_module_id="<? print $module_id ?>" <? if(isset($params['rel_id'])): ?> rel_id="<? print $params['rel_id'] ?>"  <? endif; ?> id="mw_custom_fields_list_<? print $params['id']; ?>" />
+  <module data-type="custom_fields/list" <?php print $hide_preview  ?>  for="<?php print $for  ?>" for_module_id="<?php print $module_id ?>" <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?> id="mw_custom_fields_list_<?php print $params['id']; ?>" />
 </div>

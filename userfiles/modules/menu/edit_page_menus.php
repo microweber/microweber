@@ -1,5 +1,5 @@
-<? $menus = get_menu(); ?>
-    <? //$rand = uniqid(); ?>
+<?php $menus = get_menu(); ?>
+    <?php //$rand = uniqid(); ?>
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Add to Navigation"); ?>
@@ -17,16 +17,16 @@ $content_id = false;
 $menu_name = false;
  if(isarr($menus )): ?>
     <ul id="mw-menu-selector-list-{rand}" class="mw-menu-selector-list">
-      <? foreach($menus  as $item): ?>
+      <?php foreach($menus  as $item): ?>
       <li>
           <label class="mw-ui-check">
-            <input id="menuid-<? print $item['id'] ?>" name="add_content_to_menu[]"  <? if(is_in_menu($item['id'],$content_id)): ?> checked="checked" <? endif; ?> value="<? print $item['id'] ?>" type="checkbox">
-            <span></span><span class="mw-menuselector-menu-title"><? print ucwords(string_nice($item['title'])) ?></span>
+            <input id="menuid-<?php print $item['id'] ?>" name="add_content_to_menu[]"  <?php if(is_in_menu($item['id'],$content_id)): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>" type="checkbox">
+            <span></span><span class="mw-menuselector-menu-title"><?php print ucwords(string_nice($item['title'])) ?></span>
           </label>
       </li>
-      <? endforeach ; ?>
+      <?php endforeach ; ?>
     </ul>
-    <? endif; ?>
+    <?php endif; ?>
   </div>
   <script>
 

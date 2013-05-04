@@ -409,7 +409,7 @@ if($template_file == false){
 		include($template_file);
 
 		?>
-<?  if(isset($params['ajax_paging'])):  ?>
+<?php  if(isset($params['ajax_paging'])):  ?>
 <script type="text/javascript">
 			 
 			 
@@ -417,13 +417,13 @@ if($template_file == false){
  
     $(document).ready(function(){
 
-		 mw.$('#<? print $params['id'] ?>').find('a[data-page-number]').unbind('click');
-		 mw.$('#<? print $params['id'] ?>').find('a[data-page-number]').click(function(e) {
+		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').unbind('click');
+		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').click(function(e) {
 			 var pn = $(this).attr('data-page-number');
 		 
-			 mw.$('#<? print $params['id'] ?>').attr('paging_param','curent_page')
-			 mw.$('#<? print $params['id'] ?>').attr('curent_page',pn)
-			 mw.reload_module('#<? print $params['id'] ?>');
+			 mw.$('#<?php print $params['id'] ?>').attr('paging_param','curent_page')
+			 mw.$('#<?php print $params['id'] ?>').attr('curent_page',pn)
+			 mw.reload_module('#<?php print $params['id'] ?>');
 			 
 			 
 			 return false;
@@ -436,15 +436,15 @@ if($template_file == false){
 			 
 			 
 		</script>
-<? endif; ?>
-<?  if(isset($params['is_shop'])):  ?>
+<?php endif; ?>
+<?php  if(isset($params['is_shop'])):  ?>
 <script type="text/javascript">
 			if(mw.cart == undefined){
 				mw.require("shop.js");
 
 			}
 		</script>
-<? endif; ?>
+<?php endif; ?>
 <?
 
 	} else {

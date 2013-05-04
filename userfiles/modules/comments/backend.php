@@ -2,7 +2,7 @@
 <script type="text/javascript">
 
 
-    mw.require('<? print $config['url_to_module'] ?>style.css');
+    mw.require('<?php print $config['url_to_module'] ?>style.css');
     mw.require('color.js', true);
 </script>
 <script type="text/javascript">
@@ -101,7 +101,7 @@ mw.on.hashParam("comments_for_content", function(){  /*
           if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
           if(conf){
               var id = form.attr('id');
-              mw.form.post('#'+id, '<? print site_url('api/post_comment'); ?>');
+              mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
 			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
 				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
 			  });
@@ -147,7 +147,7 @@ mw.on.hashParam("comments_for_content", function(){  /*
 					
 					var mark_as_old = {}
 					mark_as_old.content_id = is_cont;
-					$.post('<? print site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
+					$.post('<?php print site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
 					   
 					});
 					
@@ -160,7 +160,7 @@ mw.on.hashParam("comments_for_content", function(){  /*
 			  
 			  
 			 /* var id = form.attr('id');
-              mw.form.post('#'+id, '<? print site_url('api/post_comment'); ?>');
+              mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
 			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
 				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
 			  });
@@ -178,7 +178,7 @@ mw.on.hashParam("comments_for_content", function(){  /*
 
 
 </script>
-<? $mw_notif =  (url_param('mw_notif'));
+<?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = read_notification( $mw_notif);	
  
@@ -186,17 +186,17 @@ if( $mw_notif != false){
 mark_notifications_as_read('comments');
  ?>
  
-<? if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
+<?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
-/*$('#mw_admin_posts_with_comments').attr('content_id',"<? print $mw_notif['rel_id'] ?>");
+/*$('#mw_admin_posts_with_comments').attr('content_id',"<?php print $mw_notif['rel_id'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
  });*/
  
- $('#mw_admin_posts_with_comments').attr('rel_id',"<? print $mw_notif['rel_id'] ?>");
- $('#mw_admin_posts_with_comments').attr('rel',"<? print $mw_notif['rel'] ?>");
+ $('#mw_admin_posts_with_comments').attr('rel_id',"<?php print $mw_notif['rel_id'] ?>");
+ $('#mw_admin_posts_with_comments').attr('rel',"<?php print $mw_notif['rel'] ?>");
 	  mw.reload_module('#mw_admin_posts_with_comments', function(){
 			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
  });
@@ -206,9 +206,9 @@ $(document).ready(function(){
 
 
 </script>
-<? endif; ?>
+<?php endif; ?>
 
-<? // d($config); ?>
+<?php // d($config); ?>
 <div id="mw_edit_pages_content">
   <div id="mw_edit_page_left" class="mw_edit_page_default">
     <?php $info = module_info($config['module']); ?>
@@ -226,9 +226,9 @@ $(document).ready(function(){
       <div class="vSpace"></div>
       <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
 
- <? if(is_module('help')): ?>
-          <a href="<?php print admin_url(); ?>view:help/module:<? print $config['module_name_url_safe'] ?>">Help</a></li>
-         <? endif; ?>
+ <?php if(is_module('help')): ?>
+          <a href="<?php print admin_url(); ?>view:help/module:<?php print $config['module_name_url_safe'] ?>">Help</a></li>
+         <?php endif; ?>
        </div>
 
   </div>
@@ -252,11 +252,11 @@ $(document).ready(function(){
         </div>
         <?php  /*
 
-          <div class="<? print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">
+          <div class="<?php print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">
             <div class="new-comments"><module type="comments/manage" is_moderated="n" /></div>
             <div class="old-comments"><module type="comments/manage"  is_moderated="y" /></div>
           </div>
-          <div class="<? print $config['module_class'] ?> mw_comments_admin_for_post" id="mw_admin_posts_with_comments_edit"> </div>
+          <div class="<?php print $config['module_class'] ?> mw_comments_admin_for_post" id="mw_admin_posts_with_comments_edit"> </div>
 
           */ ?>
       </div>
@@ -269,7 +269,7 @@ $(document).ready(function(){
         <div class="comments-admin-header">
           <div class="comments-admin-header-info">
            
-    <module type="admin/templates/browse" for="<? print $config["the_module"] ?>"  />
+    <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
  
         </div>
       </div>

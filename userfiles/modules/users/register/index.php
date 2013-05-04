@@ -1,11 +1,11 @@
   
-<? $user = user_id(); ?>
-<? $have_social_login = false; ?>
-<? if($user != false): ?>
+<?php $user = user_id(); ?>
+<?php $have_social_login = false; ?>
+<?php if($user != false): ?>
 <module type="users/profile" />
-<? elseif(isset($_GET['reset_password_link'])): ?>
+<?php elseif(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password" />
-<? else:  ?>
+<?php else:  ?>
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		$form_btn_title = 'Register';
@@ -50,7 +50,7 @@ if($enable_user_fb_registration == true){
 
 		
 		 ?>
-<? //$rand = uniqid(); ?>
+<?php //$rand = uniqid(); ?>
 <script  type="text/javascript">
 
 mw.require('forms.js', true);
@@ -63,7 +63,7 @@ $(document).ready(function(){
 	 mw.$('#user_registration_form{rand}').submit(function() {
 
  
- mw.form.post(mw.$('#user_registration_form{rand}') , '<? print site_url('api') ?>/register_user', function(){
+ mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/register_user', function(){
 	         mw.response('#form-holder{rand}',this);
 
 	// mw.reload_module('[data-type="categories"]');
@@ -79,7 +79,7 @@ $(document).ready(function(){
 </script>
 
 <div class="box-head">
-  <h2>New Registration or <a href="javascript:mw.load_module('users/login', '#<? print $params['id'] ?>');">Login</a></h2>
+  <h2>New Registration or <a href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>');">Login</a></h2>
 </div>
 <div id="form-holder{rand}">
   <form id="user_registration_form{rand}" method="post" class="clearfix">
@@ -95,37 +95,37 @@ $(document).ready(function(){
     </div>
     <div class="control-group">
       <div class="controls">
-        <div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<? print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
+        <div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
           <input type="text" placeholder="Enter the text" class="mw-captcha-input" name="captcha">
         </div>
       </div>
     </div>
     <div class="social-login">
       <label>Login with</label>
-      <? if(get_option('enable_user_fb_registration','users') =='y'): ?>
-      <a href="<? print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
-      <? $have_social_login = true; ?>
-      <? endif; ?>
-      <? if(get_option('enable_user_twitter_registration','users') =='y'): ?>
-      <a href="<? print site_url('api/user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
-      <? $have_social_login = true; ?>
-      <? endif; ?>
-      <? if(get_option('enable_user_google_registration','users') =='y'): ?>
-      <a href="<? print site_url('api/user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
-      <? $have_social_login = true; ?>
-      <? endif; ?>
-      <? if(get_option('enable_user_windows_live_registration','users') =='y'): ?>
-      <a href="<? print site_url('api/user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
-      <? $have_social_login = true; ?>
-      <? endif; ?>
-      <? if(get_option('enable_user_github_registration','users') =='y'): ?>
-      <a href="<? print site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
-      <? $have_social_login = true; ?>
-      <? endif; ?>
+      <?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
+      <a href="<?php print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
+      <?php $have_social_login = true; ?>
+      <?php endif; ?>
+      <?php if(get_option('enable_user_twitter_registration','users') =='y'): ?>
+      <a href="<?php print site_url('api/user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
+      <?php $have_social_login = true; ?>
+      <?php endif; ?>
+      <?php if(get_option('enable_user_google_registration','users') =='y'): ?>
+      <a href="<?php print site_url('api/user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
+      <?php $have_social_login = true; ?>
+      <?php endif; ?>
+      <?php if(get_option('enable_user_windows_live_registration','users') =='y'): ?>
+      <a href="<?php print site_url('api/user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
+      <?php $have_social_login = true; ?>
+      <?php endif; ?>
+      <?php if(get_option('enable_user_github_registration','users') =='y'): ?>
+      <a href="<?php print site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
+      <?php $have_social_login = true; ?>
+      <?php endif; ?>
     </div>
-    <button type="submit" class="btn btn-large pull-right"><? print $form_btn_title ?></button>
+    <button type="submit" class="btn btn-large pull-right"><?php print $form_btn_title ?></button>
     <div style="clear: both"></div>
   </form>
   <div class="alert" style="margin: 0;display: none;"></div>
 </div>
-<? endif; ?>
+<?php endif; ?>

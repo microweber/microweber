@@ -10,17 +10,17 @@
 		<div class="mw-ui-select" style="width: 100%;">
 			<?php $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']); ?>
 			<select name="data-checkout-link-enabled"  class="mw_option_field"  >
-				<option    value="y"  <? if(('n' != strval($checkout_link_enanbled))): ?>   selected="selected"  <? endif; ?>>Yes</option>
-				<option    value="n"  <? if(('n' == strval($checkout_link_enanbled))): ?>   selected="selected"  <? endif; ?>>No</option>
+				<option    value="y"  <?php if(('n' != strval($checkout_link_enanbled))): ?>   selected="selected"  <?php endif; ?>>Yes</option>
+				<option    value="n"  <?php if(('n' == strval($checkout_link_enanbled))): ?>   selected="selected"  <?php endif; ?>>No</option>
 			</select>
 		</div>
 		<div class="mw-ui-label">
 			<strong>Use Checkout Page From</strong>
 		</div>
-		<? $selected_page=get_option('data-checkout-page', $params['id']); ?>
+		<?php $selected_page=get_option('data-checkout-page', $params['id']); ?>
 		<div class="mw-ui-select" style="width: 100%;">
 			<select name="data-checkout-page"  class="mw_option_field"  >
-				<option    value="default"  <? if((0 == intval($selected_page)) or ('default' == strval($selected_page))): ?>   selected="selected"  <? endif; ?>>Default</option>
+				<option    value="default"  <?php if((0 == intval($selected_page)) or ('default' == strval($selected_page))): ?>   selected="selected"  <?php endif; ?>>Default</option>
 				<?
 					$pt_opts = array();
 					$pt_opts['link'] = "{title}";

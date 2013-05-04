@@ -1,4 +1,4 @@
-<? if(!isset($my_tree_id)) { $my_tree_id = uniqid();} ?>
+<?php if(!isset($my_tree_id)) { $my_tree_id = uniqid();} ?>
 
 mw.treeRenderer = {
   edit_buttons:function(type, id, sort_button){

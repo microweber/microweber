@@ -1,6 +1,6 @@
-<? if(isset($_GET['reset_password_link'])): ?>
+<?php if(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password" /> 
-<? else:  ?>
+<?php else:  ?>
 
 
 
@@ -17,19 +17,19 @@ $(document).ready(function(){
 
 
 
-	 mw.$('#user_login_<? print $params['id'] ?>').submit(function() {
+	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
 
 
- mw.form.post(mw.$('#user_login_<? print $params['id'] ?>') , '<? print site_url('api/user_login') ?>', function(a, b){
+ mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print site_url('api/user_login') ?>', function(a, b){
 	        
 			
 			
 
-			// mw.response('#user_login_holder_<? print $params['id'] ?>',this);
+			// mw.response('#user_login_holder_<?php print $params['id'] ?>',this);
 
 
 			 if(typeof this.success === 'string'){
-				  mw.reload_module('[data-type="<? print $config['module'] ?>"]');
+				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
 				  window.location.href = window.location.href;
                   return false;
 			 }
@@ -75,4 +75,4 @@ $module_template = get_option('data-template',$params['id']);
 					//print 'No default template for '.  $config['module'] .' is found';
 				}
 
-?><? endif; ?>
+?><?php endif; ?>

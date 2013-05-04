@@ -32,15 +32,15 @@
 <div class="cc_process_error"></div>
 
 
-<? 
+<?php 
 
 $paypal_is_test = (get_option('paypalpro_testmode', 'payments')) == 'y'; 
  
 ?>
  
-<? if($paypal_is_test == true and is_admin()): ?>
-<small><? print mw_warn("You are using Paypal Pro in test mode!"); ?></small>
-<? endif; ?>
+<?php if($paypal_is_test == true and is_admin()): ?>
+<small><?php print mw_warn("You are using Paypal Pro in test mode!"); ?></small>
+<?php endif; ?>
 
 
 

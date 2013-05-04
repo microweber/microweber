@@ -4,22 +4,22 @@
   
 ?>
 
-<script>mw.require("<? print $config['url_to_module'] ?>numia/style.css", true);</script>
+<script>mw.require("<?php print $config['url_to_module'] ?>numia/style.css", true);</script>
 
 
 <div class="numia-register">
 
-<? if(isarr($err )): ?>
+<?php if(isarr($err )): ?>
 <div class="alert alert-error">
  <h4>Error:</h4>
 <ul>
-  <? foreach($err  as $item): ?>
+  <?php foreach($err  as $item): ?>
 
-<li><? print $item ?></li>
- <? endforeach ; ?>
+<li><?php print $item ?></li>
+ <?php endforeach ; ?>
  </ul>
  </div>
-<? endif; ?>
+<?php endif; ?>
 
 
 <a class="numia_logo" href="http://numia.biz" target="_blank"></a>
@@ -34,7 +34,7 @@
 
 <div class="well">
     <div>
-    <form   method="post" id="numia_user_login" action="<? print $config['url_main'] ?>"  >
+    <form   method="post" id="numia_user_login" action="<?php print $config['url_main'] ?>"  >
       <input name="numia_register" type="hidden" value="1"  />
 
       <div class="control-group">
@@ -63,7 +63,7 @@
         <br>
       <input class="btn btn-large" type="submit" value="<?php _e("Register"); ?>" />
           &nbsp;
-      Or &nbsp;<a href="<? print $config['url_main'] ?>">Login to Numia</a>
+      Or &nbsp;<a href="<?php print $config['url_main'] ?>">Login to Numia</a>
     </form>
     </div>
 </div>
