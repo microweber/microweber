@@ -23,5 +23,5 @@ $mt =  menu_tree($menu_filter);
 if($mt != false){
 	print ($mt);
 } else {
-	mw_notif("There are no items in the menu <b>".$params['menu-name']. '</b>');
+	mw_notif_live_edit("There are no items in the menu <b>".$params['menu-name']. '</b>');
 }

@@ -37,18 +37,21 @@ class Curl {
 	//Headers can be modified depending on what you need cURL to accomplish
 	private function setHeaders($type = '')
 	{
+		
+		
+		if (function_exists("curl_init")) {
 		$this->headers = array(
-						'CURLOPT_URL' => $this->url,
-						'CURLOPT_VERBOSE' => 1,
-						'CURLOPT_SSL_VERIFYPEER' => FALSE,
+						CURLOPT_URL => $this->url,
+						CURLOPT_VERBOSE => 1,
+						CURLOPT_SSL_VERIFYPEER => FALSE,
 						//CURLOPT_TIMEOUT => 30,
-						'CURLOPT_RETURNTRANSFER' => TRUE
+						CURLOPT_RETURNTRANSFER => TRUE
 		);
-
+		
 		if($type == 'post')
 		{
-			$this->headers['CURLOPT_POST'] = TRUE;
-			$this->headers['CURLOPT_POSTFIELDS'] = $this->fields_string;
+			$this->headers[CURLOPT_POST] = TRUE;
+			$this->headers[CURLOPT_POSTFIELDS] = $this->fields_string;
 		}
 
 		if(is_array($this->http_headers))
@@ -57,6 +60,7 @@ class Curl {
 			//$this->headers[CURLINFO_HEADER_OUT] = TRUE;
 			//$this->headers[CURLOPT_HEADER] = 1;
 			$this->headers[CURLOPT_SSL_VERIFYHOST] = FALSE;
+		}
 		}
 		return $this;
 	}
