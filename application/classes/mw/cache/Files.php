@@ -316,9 +316,9 @@ class Files    {
 			}
 			$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
 			$cacheDir = CACHEDIR . $cache_group;
-			$cacheDir = str_replace(MW_ROOTPATH,'',$cacheDir);
+			//$cacheDir = str_replace(':','_',$cacheDir);
 
-$cacheDir = str_replace(':','_',$cacheDir);
+$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);
 			// if (!is_dir($cacheDir)) {
 			// mkdir_recursive($cacheDir);
 			// }
