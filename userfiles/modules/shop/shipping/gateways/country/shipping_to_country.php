@@ -11,7 +11,7 @@ api_expose('shop/shipping/gateways/country/shipping_to_country/delete');
 class shipping_to_country {
 
 	// singleton instance
-	private static $table;
+	public $table;
 
 	// private constructor function
 	// to prevent external instantiation
