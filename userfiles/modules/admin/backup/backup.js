@@ -81,7 +81,7 @@ mw.admin_backup = {
       			 if($selector_to_hide != undefined){
       			 	$($selector_to_hide).fadeOut().remove();
 
-      			 }                <u></u>
+      			 }                
       			}
       			);
         })
