@@ -45,19 +45,23 @@ if (isset($_POST['IS_INSTALLED'])) {
 		 sleep(2);*/
 
 		if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] == 'no') {
-			$temp_db = array(
-			//'dsn' => 'mysql:host=localhost;port=3306;dbname=mw_install',
-			// 'dsn' => 'sqlite:db/default.db',
-			'type' => $to_save['DB_TYPE'],'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER'], 'pass' => $to_save['DB_PASS']);
+			
+			if($to_save['DB_PASS'] == ''){
+				$temp_db = array('type' => $to_save['DB_TYPE'],'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER']);
+			} else {
+				$temp_db = array('type' => $to_save['DB_TYPE'],'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER'], 'pass' => $to_save['DB_PASS']);
+			}
+			
 
-			//var_dump(MW_IS_INSTALLED);
+			 
  
 			$qs = "SELECT '' AS empty_col";
 			//var_dump($qs);
 			$qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+			 
 			if (isset($qz['error'])) {
 				var_dump($qz);
-				print('error');
+				print('error database probably does not exist!');
 			} else {
 				ini_set('memory_limit', '512M');
 				set_time_limit(0);

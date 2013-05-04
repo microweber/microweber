@@ -137,7 +137,7 @@ input[type='text'], input[type='password'] {
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
-              <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php endif; ?> />
+              <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif(isset($data['db'])!= true): ?> value="localhost" <?php endif; ?> />
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL username <span class="mw-help" data-help="The username of your database.">?</span></label>
@@ -145,7 +145,7 @@ input[type='text'], input[type='password'] {
             </div>
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">MySQL password</label>
-              <input type="text" required="true" class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
+              <input type="text"   class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
             </div>
 
             <div class="mw-ui-field-holder">
@@ -155,7 +155,7 @@ input[type='text'], input[type='password'] {
 
             <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
-              <input type="text" required="true" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
+              <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
             </div>
 
             <!-- <div class="mw-ui-field-holder">

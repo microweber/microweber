@@ -2,6 +2,7 @@
 
 namespace mw;
 
+
 class Update {
 
 	private $remote_api_url = 'http://serv.microweber.net/service/update/';
@@ -200,7 +201,7 @@ class Update {
 			error('Must be admin!');
 		}
 		print __FILE__ . __LINE__;
-		 
+
 		print 1;
 		return $updates;
 		$down_dir = CACHEDIR_ROOT . 'downloads' . DS;
@@ -216,7 +217,7 @@ class Update {
 			if (is_file($loc_fn_d)) {
 				$to_be_unzipped['root'][] = $loc_fn_d;
 			}
-			 
+
 		}
 
 		$what_next = array('modules', 'elements');
@@ -396,7 +397,7 @@ class Update {
 				if (!is_dir($dir_c)) {
 					mkdir_recursive($dir_c);
 				}
-				 
+
 				$dl_file = $dir_c . $fname;
 				if (!is_file($dl_file)) {
 					$get = url_download($value, $post_params = false, $save_to_file = $dl_file);
@@ -404,7 +405,7 @@ class Update {
 				if (is_file($dl_file)) {
 					$unzip = new \mw\utils\Unzip();
 					$target_dir = MW_ROOTPATH;
-			 
+
 					// $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
 					// skip_cache
 				}
@@ -430,13 +431,23 @@ class Update {
 		if ($method != false) {
 			$requestUrl = $requestUrl . '?api_function=' . $method;
 		}
-		$ch = curl_init($requestUrl);
-		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
-		curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, "Microweber");
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
+
+		$curl = new \mw\utils\Curl();
+
+
+				//$ch = \curl_init($requestUrl);
+		$curl->setUrl($requestUrl);
+		$curl->url = $requestUrl;
+
+
+
+
+		//\curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+		//\curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+		//\curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		//\curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		//\curl_setopt($ch, CURLOPT_USERAGENT, "Microweber");
+		//\curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
 		if (!is_array($post_params)) {
 			$post_params = array();
 		}
@@ -451,12 +462,19 @@ class Update {
 
 			$post_params_to_send = array('base64' => $post_paramsbase64);
 
-			curl_setopt($ch, CURLOPT_POST, count($post_params_to_send));
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params_to_send);
-		}
-		$result1 = curl_exec($ch);
+			$result1 = $curl->post($post_params_to_send);
 
-		curl_close($ch);
+			//\curl_setopt($ch, CURLOPT_POST, count($post_params_to_send));
+			//\curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params_to_send);
+			//
+			//
+			//
+		} else {
+		//$result1 = \curl_exec($ch);
+		$result1 = $curl->get($post_params_to_send);
+		}
+
+	//	\curl_close($ch);
 		$result = false;
 		if ($result1 != false) {
 			$result = json_decode($result1, 1);

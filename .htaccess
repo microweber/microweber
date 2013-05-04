@@ -23,7 +23,7 @@ RewriteCond %{REQUEST_URI} !\.(gif|jpg|jpeg|png|js|css)$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule ^(.*)$ /index.php
-RewriteRule ^(.*)$ /index.php [NC,L]
+RewriteRule ^(.*)$ index.php [NC,L]
 
 
 

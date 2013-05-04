@@ -46,7 +46,7 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
 
 	$q = db_q($q);
 	}
-	
+
 	$c_id = $id;
 				if (defined("MW_DB_TABLE_MEDIA")) {
 					$table1 = MW_DB_TABLE_MEDIA;
@@ -186,7 +186,7 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 			break;
 		}
 		$for = $rel;
-	} if (stristr($for, MW_TABLE_PREFIX) == false) {
+	} if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($for, MW_TABLE_PREFIX) == false) {
 			//$for = MW_TABLE_PREFIX.$for;
 	}	else {
 
@@ -1715,7 +1715,7 @@ function db_get_real_table_name($assoc_name) {
 
 
 	$assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
-	 if (stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
+	 if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
 			$assoc_name_new = MW_TABLE_PREFIX.$assoc_name_new;
 	}
 	 $_mw_db_get_real_table_names[$assoc_name] = $assoc_name_new;
@@ -1834,7 +1834,7 @@ function db_table_exist($table) {
 $ex_fields_static = array();
 function db_get_table_fields($table, $exclude_fields = false) {
 
-	global $ex_fields_static; 
+	global $ex_fields_static;
 	if (isset($ex_fields_static[$table])) {
 		return $ex_fields_static[$table];
 

@@ -26,7 +26,13 @@ if ($is_mysqli != false) {
 } else {
 	static $link;
 	if ($link == false) {
-		$link = mysql_connect($db['host'], $db['user'], $db['pass']);
+		if(isset($db['pass']) and $db['pass'] != ''){
+			$link = mysql_connect($db['host'], $db['user'], $db['pass']);
+
+		} else {
+			$link = mysql_connect($db['host'], $db['user']);
+
+		}
 
 		if (mysql_select_db($db['dbname']) == false) {
 			$error['error'][] = 'Could not select database ' . $db['dbname'];
