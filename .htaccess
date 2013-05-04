@@ -1,5 +1,3 @@
-AddHandler x-mapp-php6 .php 
-
 RewriteEngine on
 RewriteRule ^userfiles/media - [L,NC]
 RewriteRule ^userfiles/templates - [L,NC]
