@@ -67,12 +67,12 @@ if ($available && @$memcache->connect($host, $port)){
   <div> <span>Cannot connect to <?php print $item ?></span> </div>
 </div>
 <?php endif; ?>
-<?
+<?php
  
 
 if( $conn == true){
 	?>
-<?
+<?php
 	$version = $memcache->getVersion();
 	 
     $tmp_object = new stdClass;
@@ -85,7 +85,7 @@ if( $conn == true){
 <div class="mw-notification mw-success">
   <div> <span class="ico icheck"></span> <span>Connected to <?php print $item ?></span> </div>
 </div>
-<?
+<?php
 }
   
     

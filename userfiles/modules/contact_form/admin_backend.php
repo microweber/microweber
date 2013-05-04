@@ -21,7 +21,7 @@ $(document).ready(function(){
 </script>
       <?php else :  ?>
       <?php endif; ?>
-      <?
+      <?php
  
 mark_notifications_as_read('contact_form');
  
@@ -65,7 +65,7 @@ if((url_param('templates') != false)){
         <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a> </div>
     </div>
     <div class="mw_edit_page_right" style="padding: 20px;">
-      <?
+      <?php
 
 
 

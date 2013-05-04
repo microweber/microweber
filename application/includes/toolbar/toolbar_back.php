@@ -6,7 +6,7 @@
 <link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
  
-  <a href="<?
+  <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
 	  $u  = content_link(CONTENT_ID);
   } else {

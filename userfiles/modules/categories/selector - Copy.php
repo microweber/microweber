@@ -1,4 +1,4 @@
-<?
+<?php
 
 // d($params);
  
@@ -50,7 +50,7 @@ if (!isset($params['rel_id'])) {
 	$rel_id = '&rel_id=' . $params['rel_id'];
 }
 ?>
-<?
+<?php
 $cats_str = array();
 $cats_ids = array();
 $cats__parents = array();
@@ -127,7 +127,7 @@ mw.log('<?php print $params['id'] ?>');
 	});
 </script>
 <?php if(!empty($cats__parents)): ?>
-<?
+<?php
  
 
 foreach ($cats__parents as $item1) {

@@ -7,7 +7,7 @@
 
  ?>
  
- <?
+ <?php
 	 $notif_html = '';
 	$notif_count = get_notifications('module=shop&rel=cart_orders&is_read=n&count=1');
  	if( $notif_count > 0){

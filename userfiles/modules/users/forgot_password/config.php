@@ -1,4 +1,4 @@
-<?
+<?php
 
 $config = array();
 $config['name'] = "Forgot password";

@@ -21,7 +21,7 @@
 		<div class="mw-ui-select" style="width: 100%;">
 			<select name="data-checkout-page"  class="mw_option_field"  >
 				<option    value="default"  <?php if((0 == intval($selected_page)) or ('default' == strval($selected_page))): ?>   selected="selected"  <?php endif; ?>>Default</option>
-				<?
+				<?php
 					$pt_opts = array();
 					$pt_opts['link'] = "{title}";
 					$pt_opts['list_tag'] = " ";

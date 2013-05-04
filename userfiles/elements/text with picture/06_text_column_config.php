@@ -1,4 +1,4 @@
-<?
+<?php
 
 $config = array();
 $config['name'] = "Text (3 columns) and wide picture";

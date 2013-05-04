@@ -1,7 +1,7 @@
 <script type="text/javascript">
 mw.require("shop.js", true);
 </script>
-<?
+<?php
 
 $template = get_option('data-template', $params['id']);
 $template_css_prefix = '';

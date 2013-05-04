@@ -1,4 +1,4 @@
-<?
+<?php
 
  $err = mw_var('numia_error');
   

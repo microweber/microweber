@@ -1,4 +1,4 @@
-<?
+<?php
 header('Content-Type: application/octet-stream');
 error_reporting(125);
 $data = 'OK:';

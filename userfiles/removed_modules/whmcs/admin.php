@@ -1,4 +1,4 @@
- <?
+ <?php
  
 $module_id = $params['id'];
 //$rand = rand();

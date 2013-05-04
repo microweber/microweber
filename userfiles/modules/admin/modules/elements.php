@@ -1,5 +1,5 @@
 elements admin
-<?
+<?php
  
 $mod_params = array();
  //$mod_params['debug']  = 1;

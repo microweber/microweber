@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('MW_BARE_BONES', 1);
 

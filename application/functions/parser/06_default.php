@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!defined('APC_CACHE_PARSER')) {
 

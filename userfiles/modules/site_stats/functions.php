@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!defined("MODULE_DB_USERS_ONLINE")) {
 	define('MODULE_DB_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');

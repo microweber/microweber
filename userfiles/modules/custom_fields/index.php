@@ -52,7 +52,7 @@ $for_id =$params['rel_id'];
 
 <input type="hidden" name="for_id" value="<?php print $for_id?>" />
 <input type="hidden" name="for" value="<?php print $for?>" />
-<?
+<?php
 $prined_items_count = 0;
 if(!empty($more )): ?>
 <?php $price_fields = array(); ?>

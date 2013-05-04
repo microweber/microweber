@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 $notif_params = $params;
 
@@ -43,7 +43,7 @@ mw.notif_item_delete = function($item_id){
 
       <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?><?php endif; ?>">
 
-        <?
+        <?php
 	 $mod_info = false;
 	 if(isset($item['module']) and $item['module'] != ''){
 		 $mod_info = module_info($item['module']);

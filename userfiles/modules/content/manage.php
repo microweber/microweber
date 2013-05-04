@@ -1,4 +1,4 @@
-<?
+<?php
 
 $posts_mod = array();
 $posts_mod['type'] = 'content/admin_posts_list';
@@ -57,7 +57,7 @@ $posts = array();
   //d($params);
 ?>
 <?php  if(isset($params['page-id'])):  ?>
-<?
+<?php
 
 if($params['page-id'] == 'global'){
  if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
@@ -231,7 +231,7 @@ mw.manage_content_sort = function(){
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
 
   <?php  if(isset($params['page-id'])):  ?>
-  <?
+  <?php
 
 
 
@@ -283,7 +283,7 @@ pages_tree($pt_opts);
   <?php else : ?>
 
   <?php  if(isset($params['category-id'])):  ?>
-  <?
+  <?php
 $pt_opts = array();
 $pt_opts['parent'] = $params['category-id'];
  //  $pt_opts['id'] = "pgs_tree";
@@ -391,7 +391,7 @@ mw.on.moduleReload('#<?php print $params['id'] ?>', function(){
 
 
 </script>
-<?
+<?php
 
 
 

@@ -1,4 +1,4 @@
-<?
+<?php
  
 d($params);
  if(!isset($params['active_ids'])){
@@ -17,7 +17,7 @@ $params['input-name'] = 'category_id' ;
 
 <select name="<?php print $params['input-name'] ?>"     >
   <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>None</option>
-  <?
+  <?php
 $pt_opts = array();
 $pt_opts['link'] = "{title}";
 $pt_opts['list_tag'] = " ";
@@ -37,7 +37,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 
   ?>
-  <?
+  <?php
    
  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 	 

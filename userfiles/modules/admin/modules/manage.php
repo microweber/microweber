@@ -1,16 +1,16 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
-<?
+<?php
 
  //$rand = uniqid(); ?>
 <?php $load_module = url_param('load_module');
  if($load_module == true): ?>
-<?
+<?php
 $mod = str_replace( '___',DS, $load_module);
 $mod = load_module($mod, $attrs=array('view' => 'admin','backend' => 'true'));
 print $mod ;
 ?>
 <?php else: ?>
-<?
+<?php
  
 $mod_params = array();
 $mod_params['ui']  = 'any';

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Print the site pages as tree

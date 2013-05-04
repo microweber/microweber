@@ -1,4 +1,4 @@
-<?
+<?php
 include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR . 'fSQL.php');
 
 $dbf = DBPATH_FULL . "" . $db['dbname'];

@@ -2,11 +2,11 @@
  
  
  ?>
-<?
+<?php
 
 if(!empty($more )): ?>
 <?php foreach($more  as $field): ?>
-<?
+<?php
  print  make_field($field);
    ?>
 <?php endforeach; ?>

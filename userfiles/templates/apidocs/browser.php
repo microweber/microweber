@@ -18,7 +18,7 @@
 <?php $path .=html_entity_decode($from_path).DS;  ?>
 <?php endif; ?>
  
-<?
+<?php
  
 $kw = false;  
 if(isset($params['kw'])){

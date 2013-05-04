@@ -1,4 +1,4 @@
-<?
+<?php
 $mw_cache_get_content_memory = array();
 
 

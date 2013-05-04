@@ -1,4 +1,4 @@
-<?
+<?php
 if (!defined("MODULE_DB_IP2COUNTRY")) {
 	define('MODULE_DB_IP2COUNTRY', MW_TABLE_PREFIX . 'ip2country');
 }

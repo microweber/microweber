@@ -164,7 +164,7 @@ $post_params['is_deleted'] = 'y';
 
 $content   =$data = get_content($post_params);
 ?>
-<?
+<?php
 $post_params_paging = $post_params;
 //$post_params_paging['count'] = true;
 
@@ -208,7 +208,7 @@ $pages_count = intval($pages);
     <?php if(isarr($data)): ?>
     <?php foreach ($data as $item): ?>
 
-    <?
+    <?php
     $pub_class = '';
     if(isset($item['is_active']) and $item['is_active'] == 'n'){
      $pub_class = ' content-unpublished';
@@ -223,7 +223,7 @@ $pages_count = intval($pages);
         <input name="select_delete_forever" class="select_delete_forever" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
         <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-        <?
+        <?php
         $pic  = get_picture(  $item['id']);
 
 
@@ -248,7 +248,7 @@ $pages_count = intval($pages);
 
   <?php if($is_momodule_comments == true): ?>
   <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
-  <?
+  <?php
 
   if($new > 0){
     $have_new = 1;
@@ -444,7 +444,7 @@ restore_single_post_from_deletion = function(id){
 
 
 <div class="mw-paging">
-  <?
+  <?php
 
   $numactive = 1;
 

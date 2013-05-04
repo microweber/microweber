@@ -1,4 +1,4 @@
-<?
+<?php
 
   $rand = $params['id']; ?>
 <script  type="text/javascript">

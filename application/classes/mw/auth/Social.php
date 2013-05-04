@@ -1,4 +1,4 @@
-<?
+<?php
 namespace mw\auth;
 use Hybrid_Auth;
 use Hybrid_Endpoint;

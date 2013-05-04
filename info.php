@@ -1,4 +1,4 @@
-<?
+<?php
 $time_start = microtime(true);
 
 

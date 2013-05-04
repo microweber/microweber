@@ -1,4 +1,4 @@
-<?
+<?php
 
 api_hook('register_user', 'modify_whmcs_user');
 

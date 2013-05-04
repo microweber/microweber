@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 
 </script>
-<?
+<?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
  $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 

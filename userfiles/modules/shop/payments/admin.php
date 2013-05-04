@@ -171,14 +171,14 @@ mw.$("#available_providers").sortable({
 
 
 </style>
-<?
+<?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
 $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 // d($payment_modules);
 ?>
 
 <div class="vSpace"></div>
-<?
+<?php
 /**
  *
  */

@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (isset($_GET['numia_api_function'])) {
 	$method_name = trim($_GET['numia_api_function']);

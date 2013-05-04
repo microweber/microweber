@@ -1,4 +1,4 @@
-Faker<?
+Faker<?php
 if(is_admin() == false){
 error('must be admin');	
 }

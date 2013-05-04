@@ -1,5 +1,5 @@
 <?php //include_once($config['path_to_module'].'functions.php'); ?>
-<?
+<?php
 	$ip = USER_IP;
 if(isset($params) and isset($params['ip'])){
 	

@@ -1,4 +1,4 @@
-<?
+<?php
 
 $config = array();
 $config['name'] = "Highlight Code";

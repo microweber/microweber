@@ -131,7 +131,7 @@ $(document).ready(function () {
           <input name="kw" type="text" class="span2" <?php if(isset($_GET['kw'])): ?> value="<?php  print $_GET['kw'] ?>" <?php endif; ?> />
           <button type="submit" class="btn btn-mini">Search</button>
         </form>
-        <?
+        <?php
 		
 		 $helpers_path=$config['path_to_module'].'helpers'.DS;
 

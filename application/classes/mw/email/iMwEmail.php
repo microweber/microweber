@@ -1,4 +1,4 @@
-<?
+<?php
 namespace mw\email;
 
 interface  iMwEmail {

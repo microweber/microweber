@@ -1,4 +1,4 @@
-<?
+<?php
 
 $config = array();
 $config['name'] = "Shipping to country module";

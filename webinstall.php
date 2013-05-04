@@ -117,11 +117,11 @@ if (is_writable($here)) {
 
 	$server_check_errors['not_wrtiable'] =  'The current directory is not writable';
 }
-if (!ini_get('short_open_tag')) {
+/*if (!ini_get('short_open_tag')) {
 	$check_pass = false;
 
 	$server_check_errors['short_open_tag'] =  'You must enable short_open_tag from php.ini';
-}
+}*/
 
 if(function_exists('apache_get_modules') ){
 

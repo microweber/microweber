@@ -1,4 +1,4 @@
-<?
+<?php
 
 if(isset($params['option_key']) and isset($params['option_group']) ){
 	$data =  get_option($key = $params['option_key'], $option_group = $params['option_group'], $return_full = true, $orderby = false);
@@ -26,7 +26,7 @@ mw.options.form('#opt_form_{rand}');
  
 });
 </script>
-<?
+<?php
  
 
  ?>

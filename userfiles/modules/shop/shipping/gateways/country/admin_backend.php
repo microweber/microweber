@@ -1,5 +1,5 @@
 <?php $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
-<?
+<?php
 
 
   require_once($config['path_to_module'].'shipping_to_country.php');
@@ -79,11 +79,11 @@ mw.$('.country-id-0').show()
 
 
 </script>
-<?
+<?php
  $data_active = array();
  $data_disabled = array();
  foreach($data  as $item): ?>
-<?
+<?php
 
   if(isset($item['is_active']) and 'n' == trim($item['is_active'])){
 	  $data_disabled[] = $item;
@@ -98,7 +98,7 @@ mw.$('.country-id-0').show()
     }
     ?>
 <?php endforeach ; ?>
-<?
+<?php
 
 $datas['data_active'] = $data_active;
 $datas['data_disabled'] = $data_disabled;
@@ -107,13 +107,13 @@ $datas['data_disabled'] = $data_disabled;
 
 <div class="vSpace"></div>
 <div class="vSpace"></div>
-<?
+<?php
  $data_active = array();
  $data_disabled = array();
  foreach($datas  as $data_key=> $data): ?>
 <?php if(empty($data)): ?>
 <?php endif; ?>
-<?
+<?php
 if($data_key == 'data_disabled'){
  $truck_class = 'red';
 } else {
@@ -150,10 +150,10 @@ SaveShipping = function(form, dataType){
 
 </script>
   <?php foreach($data  as $item): ?>
-  <?
+  <?php
 $new = false;
 if(!isset($item['id'])) :?>
-  <?
+  <?php
 if($data_key == 'data_active'){
 $item['id']= 0;
 $item['is_active']= 'y';
@@ -192,11 +192,11 @@ $new = true;
             </option>
             <?php endif; ?>
             <?php foreach($countries  as $item1): ?>
-            <?
+            <?php
 		$disabled = '';
 
 		foreach($countries_used  as $item2): ?>
-            <?
+            <?php
         if($item2 == $item1){
 			$disabled = 'disabled="disabled"';
 		}

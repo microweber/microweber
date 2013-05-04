@@ -10,7 +10,7 @@ description: Search
 
 */
 ?>
-<?
+<?php
 
 
 

@@ -1,5 +1,5 @@
 <div class="mw-settings-list<?php if(isset($params['option_group'])): ?> mw-settings-list-<?php print strtolower(trim($params['option_group'])) ?><?php endif; ?>">
-	<?
+	<?php
 	$orig_params = $params;
 	if(isset($params['id'])){
 		unset($params['id']);

@@ -1,4 +1,4 @@
-<?
+<?php
  
  if(is_admin() == false){
 	 error('Must be admin');

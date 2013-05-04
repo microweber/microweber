@@ -1,10 +1,10 @@
-<?
+<?php
 //$rand = rand();
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-<?
+<?php
 
 
 //print $data["custom_field_value"]; ?>

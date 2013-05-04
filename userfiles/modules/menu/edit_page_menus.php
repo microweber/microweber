@@ -8,7 +8,7 @@
     <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-{rand}" style="width: 605px;">
         <input type="text" class="mw-ui-invisible-field" data-default="Click here to add to navigation" value="Click here to add to navigation" />
     </div>
-    <?
+    <?php
 $content_id = false;
  if(isset($params['content_id'])){
 	 $content_id = $params['content_id'];

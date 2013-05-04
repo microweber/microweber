@@ -1,5 +1,5 @@
 <div class="<?php print $config['module_class']; ?>">
-<?
+<?php
 
 $params['is_shop'] = 'y';
 		$dir_name = normalize_path(MODULES_DIR);

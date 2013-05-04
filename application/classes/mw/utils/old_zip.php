@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace mw\utils;
 use ZipArchive;

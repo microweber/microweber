@@ -1,4 +1,4 @@
-<?
+<?php
 $id =  false;
 if(isset($params["data-module-id"])){
 $id = 	$params["data-module-id"];

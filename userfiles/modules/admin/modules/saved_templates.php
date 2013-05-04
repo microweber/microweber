@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 <?php if(isset($params['module_name']) and isset($params['module_id'])): ?>
-<?
+<?php
 
 
  $module_name = $params['module_name'];

@@ -1,4 +1,4 @@
-<?
+<?php
  
 if(url_param('add_module')){
 	include_once($config['path_to_module'].'add_module.php');

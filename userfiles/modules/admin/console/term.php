@@ -33,7 +33,7 @@ $arg=  $string = ($params["exec_command"]);
  <br />
 
  <textarea class="term_results"><?php print_r ($a ); ?></textarea>
- <?
+ <?php
 	 
 //	$res = $$string;
    

@@ -1,4 +1,4 @@
-<?
+<?php
 $config = false;
 if($params['module_info']){
 				$params['module_info']= str_replace('..', '', $params['module_info']);

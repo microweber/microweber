@@ -29,7 +29,7 @@ Pages
 <select name="data-page-id" id="the_post_data-page-id{rand}"  class="mw_option_field"  >
   <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>None</option>
   
-   <?
+   <?php
 $pt_opts = array();
 $pt_opts['link'] = "{title}";
 $pt_opts['list_tag'] = " ";

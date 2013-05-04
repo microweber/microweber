@@ -15,7 +15,7 @@
 
 
       <option value="0"   <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="None">None</option>
-          <?
+          <?php
 $pt_opts = array();
           $pt_opts['link'] = "{empty}{title}";
           $pt_opts['list_tag'] = " ";

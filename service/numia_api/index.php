@@ -1,4 +1,4 @@
-<?
+<?php
 
 class numia_api {
 	private $remote_api_url = 'http://54.243.113.235/service/numia_api/numia_api_server.php';

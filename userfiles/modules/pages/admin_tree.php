@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 /**
  * Print the site pages as tree
@@ -65,7 +65,7 @@ if (isset($params['data-include_categories'])) {
 	  $params['is_active'] = 'y';
 	 }
 
- ?><?
+ ?><?php
 
 	$params['return_data'] = true;
 

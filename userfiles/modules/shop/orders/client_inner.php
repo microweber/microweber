@@ -1,5 +1,5 @@
 <?php if(isset($params['order-id']) == true): ?>
-<?
+<?php
 $client = get_orders('one=1&id='.intval($params['order-id']));
 $orders = get_orders('order_by=created_on desc&order_completed=y&email='.$client['email']);
 ?>
@@ -47,7 +47,7 @@ save:function(){
           
           
           <?php if(isset( $client['created_by']) and $client['created_by'] > 0): ?>
-          <?
+          <?php
 		  $user_ord = get_user($client['created_by']);
 		   ?>
           <?php if(isset($user_ord['thumbnail']) and trim($user_ord['thumbnail'])!=''): ?>

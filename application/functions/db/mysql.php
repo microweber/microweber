@@ -1,4 +1,4 @@
-<?
+<?php
 
 // $is_mysqli = function_exists('mysqli_connect');
 $is_mysqli = false;

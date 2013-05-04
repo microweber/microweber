@@ -1,4 +1,4 @@
-<?
+<?php
 if($params['type'] != 'google_maps'){
 return;	
 }

@@ -10,7 +10,7 @@ description: sidebar
 
 */
 ?>
-<?
+<?php
 
 
 
@@ -25,7 +25,7 @@ if(!isset($tn[1])){
 <div class="module-posts-template-sidebar">
   <?php if (!empty($data)): ?>
   <ul>
-  <?
+  <?php
 
    $count = -1;
     foreach ($data as $item):
@@ -58,7 +58,7 @@ if(!isset($tn[1])){
         <?php } ?>
         <?php endif; ?>
         <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
-        <?
+        <?php
                 $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
 			  if( $add_cart_text == false){  $add_cart_text =  'Add to cart';  }
 

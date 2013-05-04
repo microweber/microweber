@@ -1,4 +1,4 @@
-<?
+<?php
 $is_new = template_var('new_page');
 
 

@@ -1,4 +1,4 @@
-<?
+<?php
 // d($params);
 
 $post_params = $params;
@@ -157,7 +157,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 $post_params['content_type'] = 'post';
 $content   =$data = get_content($post_params);
 ?>
-<?
+<?php
 $post_params_paging = $post_params;
 //$post_params_paging['count'] = true;
 
@@ -191,7 +191,7 @@ $pages_count = intval($pages);
   <div class="content-item" data-content-id="<?php print ($item['id']) ?>">
     <?php if (is_array($content) and !empty($content)): ?>
     <?php foreach ($show_fields as $show_field): ?>
-    <?
+    <?php
                         $show_field = trim($show_field);
 
  $fv = false;

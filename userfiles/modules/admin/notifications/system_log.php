@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 $log_params = $params;
 
@@ -74,7 +74,7 @@ mw.syslog_log_reset_all = function(){
     <tbody>
       <?php foreach($data  as $item): ?>
       <tr class="mw-ui-admin-log-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
-        <?
+        <?php
   	    $mod_info = false;
   	    if(isset($item['module']) and $item['module'] != ''){
   		    $mod_info = module_info($item['module']);

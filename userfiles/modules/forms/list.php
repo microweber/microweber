@@ -15,7 +15,7 @@ toggle_show_less = function(el){
 
 
   </script>
-<?
+<?php
 
 $data = array();
  if(isset($params['load_list'])){

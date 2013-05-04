@@ -1,4 +1,4 @@
-<?
+<?php
 if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
 	define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
 }

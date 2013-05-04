@@ -1,4 +1,4 @@
-<?
+<?php
 $payment_success = false;
 if(isset($_SESSION['mw_payment_success'])){
 session_del('mw_payment_success');
@@ -86,7 +86,7 @@ mw.$(".mw-checkout-form .well").css("minHeight",__max);
     mw.require("shop.js");
   </script>
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
-  <?
+  <?php
   
    if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />

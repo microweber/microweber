@@ -1,4 +1,4 @@
-<?
+<?php
 
 if(!isset($data)){
   $default_data = array(

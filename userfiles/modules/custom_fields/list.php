@@ -12,7 +12,7 @@ if(typeof __smart_field_opener !== 'function'){
 
 
 </script>
-<?
+<?php
 
   $for = 'module';
  if(isset($params['for'])){
@@ -53,10 +53,10 @@ if(typeof __smart_field_opener !== 'function'){
 
 
 ?>
-<?
+<?php
 $data = array();
  if(isset($params['for_module_id'])): ?>
-<?
+<?php
 if(isset($params['default-fields'])){
 	make_default_custom_fields($for,$params['for_module_id'],$params['default-fields']);
 }

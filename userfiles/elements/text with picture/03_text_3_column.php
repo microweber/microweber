@@ -1,5 +1,5 @@
 <?php $rand = uniqid();  ?>
-<?
+<?php
 if(!isset($data)){
 	$default_data = array( 
     "title" => "Three Columns with Pictures", 

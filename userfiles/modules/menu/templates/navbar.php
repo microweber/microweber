@@ -15,7 +15,7 @@ description: Navigation bar
 <div class="navbar navbar-static">
   <div class="navbar-inner">
     <div class="container">
-      	<?
+      	<?php
 
   $menu_filter['ul_class_deep'] = 'dropdown-menu';
 	$menu_filter['li_class_deep'] = 'dropdown-submenu';

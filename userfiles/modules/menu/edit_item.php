@@ -1,4 +1,4 @@
-<?
+<?php
 $rand = uniqid();
 if(is_admin() == false){
     error('Must be admin');
@@ -64,7 +64,7 @@ if( $id != 0){
 ?>
   <?php endif; ?>
   <?php endif; ?>
-  <?
+  <?php
   if (isset($data['content_id']) and intval($data['content_id']) != 0) {
 		 	$item_url = content_link($data['content_id']);
 

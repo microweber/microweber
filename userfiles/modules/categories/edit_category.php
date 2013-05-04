@@ -1,4 +1,4 @@
-<?
+<?php
 $form_rand_id  = uniqid();;
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;
@@ -186,7 +186,7 @@ $(document).ready(function(){
     <label class="mw-ui-label">
       <?php _e("Parent"); ?>
     </label>
-    <?
+    <?php
       $is_shop = '';
     if (isset($params['is_shop'])) {
     	//$is_shop = '&is_shop=' . $params['is_shop'];

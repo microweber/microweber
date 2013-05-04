@@ -38,7 +38,7 @@ description: Columns
         <?php } ?>
         <?php endif; ?>
         <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
-        <?
+        <?php
 
 			  $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
 			  if( $add_cart_text == false){
@@ -57,7 +57,7 @@ description: Columns
         <input type="hidden"  name="price" value="<?php print $v ?>" />
         <input type="hidden"  name="content_id" value="<?php print $item['id'] ?>" />
       </div>
-      <?
+      <?php
 			break;
 			$i++; endforeach ; ?>
       <?php  endif; ?>

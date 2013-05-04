@@ -1,4 +1,4 @@
-<?
+<?php
 
 class sample_update_client {
 	private $remote_api_url = 'http://54.243.113.235/service/update/';

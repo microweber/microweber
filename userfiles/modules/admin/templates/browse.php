@@ -53,7 +53,7 @@ modulePreview = function(el){
 
 
 </script>
-<?
+<?php
 if(isset($params['for'])){
 	$params['parent-module'] = $params['for'];
 	$params['parent-module-id'] =  $params['for'];

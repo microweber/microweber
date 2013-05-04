@@ -52,7 +52,7 @@ if(isset($params['backend']) == true): ?>
   <div class="tab semi_hidden">
     <div class="vSpace"></div>
     <div class="vSpace"></div>
-    <?
+    <?php
 		
 		$get_comments_params['count'] = '1';
 		//$get_comments_params['is_moderated'] = 'n';
@@ -115,7 +115,7 @@ $get_comments_params['is_new'] = 'y';
       <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a> </div>
     <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
       <label class="mw-ui-label-inline">From module: </label>
-      <?
+      <?php
    	 $comment_modules = array();
 	  $comment_modules['rel'] =  'modules';
 	  	  $comment_modules['rel_id'] =  '[not_null]';

@@ -39,7 +39,7 @@ description: Full width cart template
       </tr>
     </thead>
     <tbody>
-      <?
+      <?php
        $total = 0;
        foreach ($data as $item) :
        $total += $item['price']* $item['qty'];

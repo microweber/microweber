@@ -16,7 +16,7 @@ description: 4 Columns
 <div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-4">
   <div class="row-fluid">
     <?php if (!empty($data)): ?>
-    <?
+    <?php
         $count = -1;
         foreach ($data as $item):
         $count++;

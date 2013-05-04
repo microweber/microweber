@@ -1,5 +1,5 @@
 <?php   //  d($orig_params); ?>
-<?
+<?php
 $data = false;
  if($data == false and isset($orig_params) and isset($orig_params['for_module_id']) and isset($params['id']) ){
  	$chck =   get_options('limit=1&id=' . $params['id']);

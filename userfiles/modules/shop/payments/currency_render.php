@@ -1,4 +1,4 @@
-<?
+<?php
 
 $curencies = currencies_list_paypal();
 //the  $currencies array now have a list of supported currencies supported by pal

@@ -12,7 +12,7 @@ description: List Navigation
 
   //$template_file = false; ?>
   
-  <?
+  <?php
     $params['ul_class'] = 'nav nav-list';
   ?>
  <?php  pages_tree($params);  ?>

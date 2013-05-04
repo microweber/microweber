@@ -1,4 +1,4 @@
-<?
+<?php
 
 only_admin_access();
  
@@ -33,7 +33,7 @@ $rand = uniqid(); ?>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
     <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>All pages</option>
-    <?
+    <?php
 $pt_opts = array();
   $pt_opts['link'] = "{empty}{title}";
 $pt_opts['list_tag'] = " ";
@@ -61,7 +61,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"  data-also-reload="<?php print  $config['the_module'] ?>"  >
     <option     <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>Select a category</option>
-    <?
+    <?php
 $pt_opts = array();
   $pt_opts['link'] = "{empty}{title}";
 $pt_opts['list_tag'] = " ";

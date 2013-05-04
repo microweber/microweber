@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 
 $ord = get_orders('id='.$params['order-id']);

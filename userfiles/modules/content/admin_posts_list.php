@@ -1,4 +1,4 @@
-<?
+<?php
 
 $is_momodule_comments = is_module('comments');
 
@@ -164,7 +164,7 @@ $post_params['content_type'] = 'post';
 
 $content   =$data = get_content($post_params);
 ?>
-<?
+<?php
 $post_params_paging = $post_params;
 //$post_params_paging['count'] = true;
 
@@ -185,7 +185,7 @@ $pages_count = intval($pages);
   <?php if(isarr($data)): ?>
   <?php foreach ($data as $item): ?>
 
-  <?
+  <?php
   $pub_class = '';
 				if(isset($item['is_active']) and $item['is_active'] == 'n'){
 					$pub_class = ' content-unpublished';
@@ -200,7 +200,7 @@ $pages_count = intval($pages);
         <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-      <?
+      <?php
     	$pic  = get_picture(  $item['id']);
 
 
@@ -225,7 +225,7 @@ $pages_count = intval($pages);
 
 <?php if($is_momodule_comments == true): ?>
 <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
-<?
+<?php
 
 if($new > 0){
   $have_new = 1;
@@ -254,7 +254,7 @@ if($new > 0){
 </div>
 <div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn">Delete</a> </div>
 <div class="mw-paging">
-<?
+<?php
 
         $numactive = 1;
 

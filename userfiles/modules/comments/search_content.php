@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access() ;
 $comments_data = array();
 $comments_data['in_table'] =  'comments';

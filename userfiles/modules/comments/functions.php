@@ -1,4 +1,4 @@
-<?
+<?php
 if (!defined("MODULE_DB_COMMENTS")) {
 	define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }

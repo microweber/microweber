@@ -1,4 +1,4 @@
-<?
+<?php
 
 $ns = $config['ns'];
 api_expose('shipping_to_country');

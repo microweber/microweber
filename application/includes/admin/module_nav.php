@@ -1,4 +1,4 @@
-<?
+<?php
     $module = get_modules_from_db('one=1&ui=any&module='.$v_mod);
  ?>
 

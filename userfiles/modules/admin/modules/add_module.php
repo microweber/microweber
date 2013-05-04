@@ -1,7 +1,7 @@
 add_module
 
 
-<?
+<?php
 
 if(url_param('add_module')){
 	$install = url_param('add_module');

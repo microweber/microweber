@@ -1,4 +1,4 @@
-<?
+<?php
 
 $data  = array();
 $data['id'] = 0;	

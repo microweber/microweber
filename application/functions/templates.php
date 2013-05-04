@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @desc  Get the template layouts info under the layouts subdir on your active template

@@ -1,4 +1,4 @@
-<?
+<?php
 define('MW_BARE_BONES', 1);
 include('../../index.php');
 $cache_here_now = dirname(__FILE__).DS.'cache'.DS;

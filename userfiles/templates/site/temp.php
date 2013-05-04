@@ -23,7 +23,7 @@ var_dump($skin_file);
 ?>
 <h1>pages_tree</h1>
 Usage pages_tree($params); <br />
-<?
+<?php
 //usage with $params as sting
 pages_tree('maxdepth=2'); //prints ul with li
 

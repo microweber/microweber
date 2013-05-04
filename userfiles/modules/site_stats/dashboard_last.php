@@ -7,7 +7,7 @@ $requests_num = false;
   </div>  </div>
   <div id="visits_info_table">
   <h2><?php _e("User Info"); ?><?php if($requests_num != false): ?> <small>(<?php print $requests_num ?> <?php _e("req/s"); ?>)</small><?php endif; ?></h2>
-  <?
+  <?php
 
     ?>
   <?php if(!empty($users_last5)): ?>

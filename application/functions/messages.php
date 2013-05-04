@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
 	define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');

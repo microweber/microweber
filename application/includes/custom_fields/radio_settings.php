@@ -1,7 +1,7 @@
 <?php include('settings_header.php'); ?>
    <?php // p ($data['custom_field_value']) ?>
    
-   <?
+   <?php
    if(empty($data['custom_field_values'])){
 	//$data['custom_field_values'] = array(0);
    }
