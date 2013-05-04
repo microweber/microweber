@@ -19,14 +19,14 @@ function getfile($requestUrl, $save_to_file = false) {
 
 	//..file_put_contents($dir . substr($url, strrpos($url, '/'), strlen($url)), file_get_contents($url));
 }
- 
+
 $y = site_url();
 
 $y = str_replace(basename(__FILE__), '', $y);
 $y = str_replace('?/', '', $y);
 
  //$y = str_replace('//', '/', $y);
- 
+
 $do = false;
 $done = false;
 if (isset($_REQUEST['action'])) {
@@ -34,7 +34,7 @@ if (isset($_REQUEST['action'])) {
 }
 $dir = dirname(__FILE__);
 switch ($do) {
-	 
+
 	case 'download' :
 	case 'download_and_unzip' :
 
@@ -48,17 +48,17 @@ switch ($do) {
 
 		$fn = ($dir . DIRECTORY_SEPARATOR . 'mw-latest.zip');
 		getfile($url, $fn);
-		
+
 	}
-	
+
 	if($do == 'download_and_unzip'){
 	header('Location: '.$y.basename(__FILE__).'?action=unzip');
 	exit();
-		
+
 	}
-	
-	
-	
+
+
+
 	break;
 
 	case 'unzip' :
@@ -85,11 +85,11 @@ switch ($do) {
 		//              echo 'failed';
 		//        }
 	break;
-	
+
 
 	default :
-	
-	
+
+
 	break;
 }
 
@@ -125,9 +125,10 @@ if (!ini_get('short_open_tag')) {
 }
 
 if(function_exists('apache_get_modules') ){
-	$check_pass = false;
+
 
 	 if(!in_array('mod_rewrite',apache_get_modules())){
+	 	$check_pass = false;
 		$server_check_errors['mod_rewrite'] =  'mod_rewrite is not enabled on your server';
 	 }
 }
@@ -155,13 +156,13 @@ if(function_exists('apache_get_modules') ){
   <p>This file will download the latest version and redirect you to the install page</p>
   <p> By downloading and installing Microweber you agree to the<br>
     <a href="http://microweber.com/license.txt">License Agreement</a> </p>
-  
-  <!--    
+
+  <!--
   <input type="radio" name="action" value="download">
-   
+
   <input type="radio" name="action" value="unzip">
      <input type="radio" name="action"  value="download_and_unzip">-->
-  
+
   <input type="hidden" name="action"  value="download_and_unzip">
   <input type="submit" name="submit" value="Download and install Microweber">
   <?  endif; ?>

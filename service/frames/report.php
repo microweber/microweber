@@ -1,4 +1,18 @@
-<?php include "header.php"; ?>
+<?php 
+
+
+ 
+if(!isset($_GET['user'])){
+header('Location: http://microweber.com/frames/report.php');
+} else {
+header('Location: http://microweber.com/frames/report.php?user='.$_GET['user']);
+	
+}
+exit();
+include "header.php"; 
+
+
+?>
 
 
 <script>
