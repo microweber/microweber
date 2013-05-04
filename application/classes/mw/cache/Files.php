@@ -318,10 +318,11 @@ class Files    {
 			$cacheDir = CACHEDIR . $cache_group;
 			//$cacheDir = str_replace(':','_',$cacheDir);
 
-$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);
+//$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);
 			// if (!is_dir($cacheDir)) {
 			// mkdir_recursive($cacheDir);
 			// }
+
 
 			if (!defined($cache_content)) {
 				define($cache_content, $cacheDir);

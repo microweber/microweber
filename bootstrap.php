@@ -159,9 +159,9 @@ if (is_file($config_file_for_site)) {
 	define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
 }
 
-$dnf = MW_ROOTPATH;
-$md5_conf = 'mw_cache_' . crc32($config_file_for_site);
-$cache_main_dir = $dnf .  'cache' . DIRECTORY_SEPARATOR . $md5_conf .DIRECTORY_SEPARATOR;
+$dnf = CACHEDIR_ROOT;
+$md5_conf = 'mw_cache_' .crc32($config_file_for_site);
+$cache_main_dir = $dnf .    $md5_conf .DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
@@ -176,6 +176,7 @@ if (is_dir($cache_main_dir) == false) {
 }
 
 define('CACHEDIR', $cache_main_dir);
+
 define('HISTORY_DIR', MW_USERFILES . 'history' . DIRECTORY_SEPARATOR);
 
 define('LIBSPATH', MW_APPPATH . 'libraries' . DIRECTORY_SEPARATOR);
