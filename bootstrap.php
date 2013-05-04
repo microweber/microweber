@@ -150,7 +150,7 @@ define('DATETIME_FORMAT', 'F j g:m a');
 define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
 $config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
-// 
+//
 //var_dump($config_file_for_site);
 if (is_file($config_file_for_site)) {
 	define('MW_CONFIG_FILE', $config_file_for_site);
@@ -276,7 +276,7 @@ function site_url($add_string = false) {
 		$d = '';
 		if (isset($_SERVER['SCRIPT_NAME'])) {
 			$d = dirname($_SERVER['SCRIPT_NAME']);
-			$d = trim($d, '/');
+			$d = trim($d, DIRECTORY_SEPARATOR);
 		}
 
 		if ($d == '') {

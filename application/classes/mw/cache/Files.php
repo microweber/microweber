@@ -68,23 +68,23 @@ class Files    {
 		$apc_obj = false;
 		if (defined('APC_CACHE') and APC_CACHE == true) {
 			if($this->apc != false){
-				 
+
 			 $this->apc->delete($cache_group );
 			}
 		}
 
- 
+
 
 		$this -> cache_clean_group($cache_group);
 
 	}
 
 	public function debug() {
-		
+
 		$debug = array();
 		$debug['files_cache'] = $this -> cache_get_content_from_memory(true);
 		if (defined('APC_CACHE') and APC_CACHE == true) {
-			
+
 			if($this->apc != false){
 						$debug['apc_cache'] = $this->apc -> debug();
 
@@ -99,15 +99,15 @@ class Files    {
 
 		$apc_obj = false;
 		if (defined('APC_CACHE') and APC_CACHE == true) {
-			
+
 			if($this->apc == false){
 				 $apc_obj = new \mw\cache\Apc();
 				 $this->apc =  $apc_obj;
 			} else {
 				 $apc_obj = $this->apc;
 			}
-			
-			
+
+
 
 			 $apc_obj_gt = $apc_obj->get($cache_id, $cache_group, $time);
 			 //unset( $apc_obj );
@@ -316,7 +316,7 @@ class Files    {
 			}
 			$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
 			$cacheDir = CACHEDIR . $cache_group;
-
+$cacheDir = str_replace(':','_',$cacheDir);
 			// if (!is_dir($cacheDir)) {
 			// mkdir_recursive($cacheDir);
 			// }
@@ -624,7 +624,7 @@ class Files    {
 				$is_cleaning_now = mw_var('is_cleaning_now');
 
 				// if ($is_cleaning_now == false) {
-				$cache_file_temp = $cache_file . '.tmp' . uniqid() . '.php';
+				$cache_file_temp = dirname($cache_file).DS.'tmp' . uniqid() . '.php';
 
 				$cacheDir_temp = dirname($cache_file_temp);
 				if (!is_dir($cacheDir_temp)) {
