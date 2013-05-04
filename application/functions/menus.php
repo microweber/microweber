@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!defined("MODULE_DB_MENUS")) {
 	define('MODULE_DB_MENUS', MW_TABLE_PREFIX . 'menus');

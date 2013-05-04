@@ -1,7 +1,7 @@
 <script type="text/javascript">
 <?php include_once( INCLUDES_DIR . 'api/treerenderer.php'); ?>
 </script>
-<?
+<?php
 
 $orig_params = ($params);
 
@@ -59,7 +59,7 @@ if (!isset($params['rel_id'])) {
 
 
 ?>
-<?
+<?php
 $cats_str = array();
 $cats_ids = array();
 $cats__parents = array();
@@ -276,11 +276,11 @@ $(document).ready(function(){
 
 
 </script>
-<?
+<?php
 
 
  if(!empty($cats__parents)): ?>
-<?
+<?php
 
 $active_cats1 = array();
 foreach ($cats__parents as $item1) {

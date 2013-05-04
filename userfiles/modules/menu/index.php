@@ -1,5 +1,5 @@
 <?php //include_once($config['path_to_module'].'functions.php'); ?>
-<?
+<?php
 if(isset($params['name'])){
 	$params['menu-name'] = $params['name'];
 

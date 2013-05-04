@@ -1,10 +1,10 @@
-<?
+<?php
 //$rand = rand();
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-<?
+<?php
 
    //d($data);
 
@@ -30,7 +30,7 @@ include('empty_field_vals.php');
 
  <?php if(isarr($data['custom_field_values'])): ?>
   <select <?php if(isset($data['options']) and isarr($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>  name="<?php print $data["custom_field_name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
-    <?
+    <?php
 	foreach($data['custom_field_values'] as $k=>$v): ?>
     <?php if(is_string( $k)){
 	$kv =  $k;

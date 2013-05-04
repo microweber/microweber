@@ -9,7 +9,7 @@ mw.require("events.js", true);
           mw.reload_module('#<?php print $params['id'] ?>');
     	});
 </script>
-<?
+<?php
 $for_id = false;
 $for = 'content';
 if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')){

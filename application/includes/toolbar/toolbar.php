@@ -98,7 +98,7 @@ mw_save_draft_int = self.setInterval(function(){
 
 
     </script>
-<?
+<?php
 
 
 			 $back_url = site_url().'admin/view:content';

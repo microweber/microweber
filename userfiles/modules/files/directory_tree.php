@@ -1,4 +1,4 @@
-<?
+<?php
 $path = $base_path = TEMPLATE_DIR;
 $from_path = '';
 
@@ -18,7 +18,7 @@ if($from_path != ''): ?>
 <?php $path .=html_entity_decode($from_path).DS;  ?>
 <?php endif; ?>
 
-<?
+<?php
 
 $kw = false;
 if(isset($params['kw'])){

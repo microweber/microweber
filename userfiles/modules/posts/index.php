@@ -1,4 +1,4 @@
-<?
+<?php
 $curent_page = 1;
 
 $post_params = $params;
@@ -445,7 +445,7 @@ if($template_file == false){
 			}
 		</script>
 <?php endif; ?>
-<?
+<?php
 
 	} else {
 

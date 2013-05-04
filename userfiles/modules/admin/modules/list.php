@@ -1,4 +1,4 @@
-<?
+<?php
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
@@ -9,7 +9,7 @@ $modules_options['ui'] = true;
 //
 
 ?>
-<?
+<?php
 $mod_obj_str = 'modules';
  if(isset($is_elements) and $is_elements == true) {
                               $mod_obj_str = 'elements';
@@ -40,7 +40,7 @@ if(isset($params['layout_type'])){
 
    <?php if(isset($module2['module'])): ?>
 
-  <?
+  <?php
 
 
 		 $module_group2 = explode(DIRECTORY_SEPARATOR ,$module2['module']);

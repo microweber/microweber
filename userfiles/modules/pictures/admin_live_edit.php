@@ -1,4 +1,4 @@
-<?
+<?php
 $for = $config['module'];
 $for_module_id = $params['id'];
 

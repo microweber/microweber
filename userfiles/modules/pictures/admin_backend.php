@@ -3,7 +3,7 @@
     mw.require('<?php print $config['url_to_module'] ?>pictures.js', true);
 
 </script>
-<?
+<?php
 
 
 
@@ -103,7 +103,7 @@ $(document).ready(function(){
   }?>
 
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
-<?
+<?php
 
 if(intval($for_id) >0){
 $media = get_pictures("rel_id={$for_id}&rel={$for}");

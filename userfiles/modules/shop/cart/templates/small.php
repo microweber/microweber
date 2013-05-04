@@ -72,7 +72,7 @@ description: Small cart template
         }
       ?>
     <span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span> |
-    <?
+    <?php
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
   } else {

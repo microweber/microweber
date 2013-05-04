@@ -1,4 +1,4 @@
-<?
+<?php
 
 only_admin_access();
 $path = $path_here = $config['path_to_module'].'help'.DS;
@@ -136,7 +136,7 @@ $(document).ready(function(){
           <?php  // d( $cats_for_this_module ); ?>
           <?php if($cats_for_this_module >0): ?>
           <?php $minfo = module_info($item['module']);  ?>
-          <?
+          <?php
 				  $module_path  = module_path($item['module']);
 
 				  $module_path_help = $module_path.'help'.DS;
@@ -173,7 +173,7 @@ $(document).ready(function(){
 </div>
 <div class="mw_edit_page_right" id="help-content">
 
-<?
+<?php
 
 $page_path = $path_here;
 $module_help_url = url_param('module_help');

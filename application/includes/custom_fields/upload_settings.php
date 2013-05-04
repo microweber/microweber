@@ -47,7 +47,7 @@
 
       <label class="mw-ui-label">Custom File Types</label>
 
-      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?
+      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
 $oresult = array_diff($data['options']['file_types'], $array2);

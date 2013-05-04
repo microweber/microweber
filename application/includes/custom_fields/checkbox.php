@@ -1,4 +1,4 @@
-<?
+<?php
 
 //$rand = rand();
 
@@ -6,7 +6,7 @@ if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-<?
+<?php
 
   ?>
 <?php if(!empty($data['custom_field_values'])) : ?>

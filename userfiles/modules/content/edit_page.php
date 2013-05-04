@@ -1,4 +1,4 @@
-<?
+<?php
 if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
 }   //  $params['content_type'] = 'post';
@@ -583,7 +583,7 @@ function mw_before_content_save<?php print $rand; ?>(){
       <span class="mw-title-field-label mw-title-field-label-<?php print strtolower(( $t)); ?>"></span>
       <input name="title" onkeyup="mw.askusertostay = true;" onpaste="mw.askusertostay = true;" class="mw-ui-field mw-title-field"  type="text" value="<?php print ($data['title'])?>" />
       <?php else : ?>
-      <?
+      <?php
 
 
 ?>
@@ -597,7 +597,7 @@ function mw_before_content_save<?php print $rand; ?>(){
     <div class="edit_page_content_parent" id="admin_edit_page_form_content_parent_info<?php print $rand; ?>"></div>
     <div class="mw_clear"></div>
   </div>
-  <?
+  <?php
 if(!isset($data['content'])){
   $data['content'] = '';
 }?>
@@ -789,7 +789,7 @@ load_preview();
       <div class="mw-ui-select" style="width: 100%;">
         <select name="parent" id="parent_page_select_<?php print $rand; ?>">
           <option value="0"   <?php if((0 == intval($data['parent']))): ?>   selected="selected"  <?php endif; ?> title="None">None</option>
-          <?
+          <?php
 
           $pt_opts['link'] = "{empty}{title}";
           $pt_opts['list_tag'] = " ";
@@ -917,7 +917,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
 }
 
   </script>
-    <?
+    <?php
 
   $shopstr = '&is_shop=n';
 
@@ -945,7 +945,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
 
 
   if(isset($include_categories_in_cat_selector)): ?>
-    <?
+    <?php
   $x = implode(',',$include_categories_in_cat_selector);
   $strz = ' add_ids="'.$x.'" ';   ?>
     <?php endif; ?>
@@ -1009,7 +1009,7 @@ $(mwd).ready(function(){
   <?php endif; ?>
   <?php /* ONLY FOR POSTS  */ ?>
   <?php if($edit_post_mode != false): ?>
-  <?
+  <?php
 
 
 
@@ -1039,7 +1039,7 @@ if(!isset($params["subtype"])){
   <?php else: ?>
   <?php $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
   <?php endif; ?>
-  <?
+  <?php
 if(intval($data['id']) == 0){
  if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
    $data['parent'] = $params["parent-page-id"];
@@ -1053,7 +1053,7 @@ if(intval($data['id']) == 0){
   <?php endif; ?>
   <input name="subtype"  type="hidden"  value="<?php print $data['subtype'] ?>" >
   <?php endif; ?>
-  <?
+  <?php
 
 
 
@@ -1283,7 +1283,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
       </div>
       <input name="subtype_value"  type="hidden" value="<?php print ($data['subtype_value'])?>" />
       <?php endif; ?>
-      <?
+      <?php
 
               if(isset($data['position'])): ?>
       <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />

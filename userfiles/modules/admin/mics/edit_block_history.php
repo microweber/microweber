@@ -1,4 +1,4 @@
-<?
+<?php
  only_admin_access();
 
 
@@ -28,7 +28,7 @@ $url = url_string(true);
 
 
 ?>
-<?
+<?php
 if(isset($latest_drafs) and isarr($latest_drafs)){
 	//d($latest_drafs);
 
@@ -52,7 +52,7 @@ if(isset($latest_drafs) and isarr($latest_drafs)){
 ?>
 <?php if(isarr($history_files)): ?>
 
-<?
+<?php
 
 $latest_undo_vals = array();
 foreach ($history_files as $value) {
@@ -84,7 +84,7 @@ foreach ($history_files as $value) {
   <?php 		foreach ($history_files as $item) : ?>
   <li rel="load-draft-<?php print ($item['id']) ?>">
     <?php //$mtime= filemtime($filename ); ?>
-    <?
+    <?php
 
 	//$content_of_file = file_get_contents($filename);	?>
     <a title="Click to Restore" href="javascript: mw.history.load('<?php print ($item['id']) ?>')">

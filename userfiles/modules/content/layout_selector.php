@@ -436,7 +436,7 @@ $(document).ready(function() {
   </label>
   <div class="layouts_box_container">
     <div class="layouts_box" id="layout_selector<?php print $rand; ?>">
-      <?
+      <?php
 	  /*<ul>
         <li value="inherit"  onclick="mw.templatePreview.view(0);"  <?php if(('' == trim($data['layout_file']))): ?>   selected="selected"  <?php endif; ?>>None</li>
         <?php if(!empty($layouts)): ?>

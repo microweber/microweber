@@ -30,7 +30,7 @@
     </ul>
     </div>
     <div class="mw-v-cell">
-            <?
+            <?php
 
 if(isset($_COOKIE['last_page'])){
 	$past_page = site_url($_COOKIE['last_page']);

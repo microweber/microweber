@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 
 
@@ -57,7 +57,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
           <span class="mw-ord-id">ORD-<?php print $item['id'] ?></span></a>
           <div class="mw-date" title="<?php print ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div>
         </td>
-        <td class="mw-order-item-status"><?
+        <td class="mw-order-item-status"><?php
 		 if($item['order_status'] == false): ?>
           New
           <?php elseif($item['order_status'] == 'completed'): ?>
@@ -65,7 +65,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
           <?php else : ?>
           Pending
           <?php endif; ?></td>
-        <td class="mw-order-item-amount"><?
+        <td class="mw-order-item-amount"><?php
 		 
 		
 		

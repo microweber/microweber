@@ -10,7 +10,7 @@
 
 
 </script>
-<?
+<?php
 $for = 'module';
 
 $copy_from = false;

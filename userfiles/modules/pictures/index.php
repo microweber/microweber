@@ -1,4 +1,4 @@
-<?
+<?php
 
   $no_img = false;
   
@@ -80,7 +80,7 @@ if(isset($template_file) and is_file($template_file) != false){
 <div class="mw-notification mw-warning">
   <div> <span class="ico ioptions"></span> <span><?php print 'No default template for module '.$config['module'].' is found'; ?></span> </div>
 </div>
-<?
+<?php
 	
 } ?>
 <?php endif; ?>

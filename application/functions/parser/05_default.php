@@ -1,4 +1,4 @@
-<?
+<?php
 
 if ($layout != '') {
 	$mw_found_elems = '';

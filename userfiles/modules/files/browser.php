@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 /**
  * Simple file browser
@@ -59,11 +59,11 @@ PreviousFolder = [];
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
     <?php if(isarr($path_nav )): ?>
-    <?
+    <?php
 
 $path_nav_pop = false;
 foreach($path_nav  as $item): ?>
-    <?
+    <?php
 
 if($path_nav_pop  == false){
 	$path_nav_pop = $item;
@@ -111,7 +111,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
       <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print dir2url($item) ?>'); return false;">
         <?php $ext = strtolower(get_file_extension($item)); ?>
 
-        <?
+        <?php
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>

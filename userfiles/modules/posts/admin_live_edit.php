@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 $is_shop = false;
 

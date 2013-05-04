@@ -6,7 +6,7 @@ if(get_option('enable_comments', 'comments')=='y'){
 
 
 ?>
-<?
+<?php
 $paging_param = $params['id'].'_page';
  $curent_page_from_url = url_param($paging_param);
 if(isset($params['content-id'])){
@@ -259,7 +259,7 @@ if ($template != false and strtolower($template) != 'none') {
  include($template_file); 
 switch ($template_file):  case true:  ?>
 
-<?
+<?php
           if ($template_file != false) {
               break;
           }

@@ -1,4 +1,4 @@
-<?
+<?php
  if(is_admin() == false){
 	 error('Must be admin');
  }
@@ -186,7 +186,7 @@ This menu is empty, please add items.
 </div>
 <div class="vSpace"></div>
 
-<?
+<?php
 if(isset($params['menu-name'])): ?>
  <?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) : ?>

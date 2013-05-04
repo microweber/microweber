@@ -256,7 +256,7 @@ mw.tools.tabGroup({
 
 
 
-  <?
+  <?php
 
 
   /*

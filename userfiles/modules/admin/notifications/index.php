@@ -1,4 +1,4 @@
-<?
+<?php
 only_admin_access();
 $notif_params = $params;
 
@@ -43,7 +43,7 @@ mw.notif_reset_all = function(){
 <?php if(isarr($data )): ?>
 <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
 <?php $periods_printed = array(); ?>
-<?
+<?php
 	/*		foreach($periods as $period){
 				if(!in_array($period ,$periods_printed )){
 					$time1 = strtotime($item['created_on']);
@@ -80,7 +80,7 @@ mw.notif_reset_all = function(){
     <tbody>
       <?php foreach($data  as $item): ?>
       <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
-        <?
+        <?php
   	    $mod_info = false;
   	    if(isset($item['module']) and $item['module'] != ''){
   		    $mod_info = module_info($item['module']);

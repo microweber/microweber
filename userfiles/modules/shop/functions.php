@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 action_hook('mw_admin_settings_menu', 'mw_print_admin_shop_settings_link');

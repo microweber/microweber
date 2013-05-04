@@ -630,7 +630,7 @@ function mw_add_product(){
 
 
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
-        <?
+        <?php
 	  $is_shop_str = '';
 	   if(isset($is_shop)){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
@@ -674,7 +674,7 @@ function mw_add_product(){
        </div>
         <div class="vSpace"></div>
       </div>
-      <?
+      <?php
 $ed_content = false;
  $content_id = '';
 
