@@ -1,9 +1,9 @@
 
-
+### mw htaccess
 RewriteEngine on
 
 #Uncomment bellow and set the name of your sub-folder if you are installing MW in subfolder
-#RewriteBase /subfolder/ 
+#RewriteBase /your_sub_folder/
 
 
 RewriteRule ^userfiles/media - [L,NC]
@@ -26,7 +26,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule ^(.*)$ /index.php
 RewriteRule ^(.*)$ index.php [NC,L]
 
-
-
-
-
+### end of mw htaccess
