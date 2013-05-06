@@ -1,5 +1,7 @@
 <?php
-
+if(isset($params['for-module'])){
+	$params['parent-module'] = $params['for-module'];
+}
 if(!isset($params['parent-module'])){
 error('parent-module is required');	
 	
@@ -10,7 +12,8 @@ error('parent-module-id is required');
 	
 }
  $templates = module_templates($params['parent-module']);
-//$params['type'];
+ 
+ //$params['type'];
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?php  if(is_arr( $templates)): ?>

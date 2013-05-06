@@ -21,8 +21,11 @@ $rand = uniqid(); ?>
 <label class="mw-ui-label">Content type</label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"  >
+        <option     <?php if(('' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Choose content type</option>
+
+      <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Pages</option>
+
     <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Posts</option>
-    <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Pages</option>
     <option  value="product"    <?php if(('product' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>Product</option>
     <option   value="none"   <?php if(('none' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>>None</option>
   </select>
