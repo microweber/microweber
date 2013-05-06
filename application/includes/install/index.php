@@ -60,8 +60,8 @@ if (isset($_POST['IS_INSTALLED'])) {
 			$qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 			 
 			if (isset($qz['error'])) {
-				var_dump($qz);
-				print('error database probably does not exist!');
+			//	var_dump($qz);
+				print('Error with the database connection or database probably does not exist!');
 			} else {
 				ini_set('memory_limit', '512M');
 				set_time_limit(0);
@@ -73,6 +73,43 @@ if (isset($_POST['IS_INSTALLED'])) {
 				}
 				 // d($save_config);
 				
+				$default_htaccess_file = MW_ROOTPATH .  '.htaccess';
+				$to_add_htaccess = true;
+				if(is_file($default_htaccess_file)){
+				$default_htaccess_file_c = file_get_contents($default_htaccess_file);	
+				 if(strstr($default_htaccess_file_c, 'mw htaccess')){
+					 $to_add_htaccess = false;
+				 }
+				}
+				if($to_add_htaccess  == true){
+				$f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
+					if(is_file($f_htaccess)){
+					$f_htaccess_file_c = file_get_contents($f_htaccess);	
+					 if(strstr($f_htaccess_file_c, 'mw htaccess')){
+						 if(isset($_SERVER['SCRIPT_NAME'])){
+							 $dnht = dirname($_SERVER['SCRIPT_NAME']);
+						 } else if(isset($_SERVER['PHP_SELF'])){
+							 $dnht = dirname($_SERVER['PHP_SELF']);
+						 }
+							 
+							 
+						if(isset($dnht)){ 
+							 $dnht = str_replace('\\', '/', $dnht);
+							 if($dnht != '/' and $dnht !=DIRECTORY_SEPARATOR){
+								// $f_htaccess_file_c = str_ireplace('/your_sub_folder/', $dnht, $f_htaccess_file_c);
+
+							 $f_htaccess_file_c = str_ireplace('#RewriteBase /your_sub_folder/', 'RewriteBase '.$dnht.'/', $f_htaccess_file_c);
+
+								 
+							 }
+						 }
+						 
+						  
+						 file_put_contents($default_htaccess_file, $f_htaccess_file_c, FILE_APPEND);
+					 }
+					}
+						
+				}
 
 				file_put_contents($cfg, $save_config);
 			

@@ -42,6 +42,7 @@ class Update {
 		ini_set("memory_limit", "160M");
 		$data = array();
 		$data['mw_version'] = MW_VERSION;
+		$data['mw_update_check_site'] = site_url();
 
 		$t = templates_list();
 		$data['templates'] = $t;
@@ -166,6 +167,8 @@ class Update {
 		set_time_limit(0);
 
 		$params['core_update'] = $new_version;
+		$params['mw_update_check_site'] = site_url();
+
 		$result = $this -> call('get_download_link', $params);
 		//d($result);
 		if (isset($result["core_update"])) {

@@ -213,11 +213,20 @@ $ver = $this->get_latest_core_version();
 		
 		
 				if (isset($params['mw_version'])) {
+					
+					
+					
 		 					$ver = $version_last = $this->get_latest_core_version();
 						$to_return['version'] = trim($ver );
 							if (isset( $ver) and floatval( $ver) > floatval($params['mw_version'])) {
 								$dl_params = array();
 								$dl_params['core_update'] = 1;
+								
+								if(isset($params['mw_update_check_site'])){
+									$dl_params['no_htaccess'] = 1;
+								}
+								
+								
 								$module_download_link = $this -> get_download_link($dl_params);
 								if(isset($module_download_link['core_update'])){
 									$to_return['core_update'] = $module_download_link['core_update'];
@@ -450,14 +459,21 @@ $ver = $this->get_latest_core_version();
 		}
 		
 		
-		
+		if(isset($params['mw_update_check_site'])){
+									$params['no_htaccess'] = 1;
+								}
 		
 		
 		if (isset($params['core_update'])) {
 				$ver = $this->get_latest_core_version();
 				 
  						 
-						$zip_name = trim('microweber-' . $ver) . ".zip";
+						 	if (isset($params['no_htaccess'])) {
+								$zip_name = trim('microweber-update-' . $ver) . ".zip";
+							} else {
+								$zip_name = trim('microweber-' . $ver) . ".zip";
+							}
+						
 						$filename = $this -> downloads_dir . $zip_name;
 						//if(!is_file($filename)){
 							
@@ -563,7 +579,9 @@ $ver = $this->get_latest_core_version();
 							 
 							$locations[] = $this -> repo_dir.'index.php';
 							$locations[] = $this -> repo_dir.'bootstrap.php';
+							if (!isset($params['no_htaccess'])) {
 							$locations[] = $this -> repo_dir.'.htaccess';  
+							}
 							$locations[] = $this -> repo_dir.'license.txt';   
  
 					 		$fileTime = date("D, d M Y H:i:s T"); 
