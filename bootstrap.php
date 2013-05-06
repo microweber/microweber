@@ -283,7 +283,13 @@ function site_url($add_string = false) {
 		if ($d == '') {
 			$pageURL = $pageURL_host;
 		} else {
-			$pageURL = $pageURL_host . '/' . $d;
+
+			$pageURL_host = rtrim($pageURL_host, '/') . '/';
+	 		$d = ltrim($d, '/');
+	 		$d = ltrim($d, DIRECTORY_SEPARATOR);
+
+			$pageURL = $pageURL_host . $d;
+
 		}
 		// var_dump($d);
 		if (isset($_SERVER['QUERY_STRING'])) {
@@ -300,11 +306,11 @@ function site_url($add_string = false) {
 			$pageURL = rtrim($pageURL, '?');
 		}
 
-		//var_Dump($_SERVER);
+
 		//$url_segs1 = str_replace($pageURL_host, '',$pageURL);
 		$url_segs = explode('/', $pageURL);
 		// 	 var_dump($d);
-		// var_dump($pageURL);
+
 		//		  var_dump($_SERVER);
 		//        exit;
 		$i = 0;
@@ -323,7 +329,9 @@ function site_url($add_string = false) {
 		}
 		$url_segs[] = '';
 		$mw_site_url = implode('/', $url_segs);
+
 	}
+	//$mw_site_url = rtrim($mw_site_url, '///');
 	//
 	return $mw_site_url . $add_string;
 }

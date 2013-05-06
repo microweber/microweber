@@ -73,7 +73,7 @@ if (!defined('MW_BARE_BONES')) {
 	$close_conn = function_exists('db_query');
 
 	$m1 = url_segment(0);
-
+ 
 	if ($m1) {
 		$m = $m1;
 	} else {

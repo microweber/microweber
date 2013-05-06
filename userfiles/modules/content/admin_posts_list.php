@@ -285,13 +285,22 @@ if($new > 0){
 
         } else if(isset($post_params['parent'])){
           $url = "#action=new:product&amp;parent_page=".$post_params['parent'];
+        }else {
+          $url = "#action=new:product";
         }
+
      ?>
+
+
+
     <a href="<?php print   $url ; ?>">
       <span class="mw-ui-btn-plus">&nbsp;</span>
       <span class="ico iproduct"></span>
       <span>Add New Product</span>
     </a>
+
+
+
   </li>
 </ul>
 

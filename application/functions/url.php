@@ -11,7 +11,7 @@ function api_url($str = '') {
 
 function url_segment($k = -1, $page_url = false) {
 	//static $u;
-	$u = '';
+	$u = false;
 	if ($page_url == false or $page_url == '') {
 		$u1 = curent_url();
 	} else {
@@ -23,17 +23,25 @@ function url_segment($k = -1, $page_url = false) {
 
 	$u2 = site_url();
 
+
+
+
+
 	$u1 = rtrim($u1, '\\');
 	$u1 = rtrim($u1, '/');
 
 	$u2 = rtrim($u2, '\\');
 	$u2 = rtrim($u2, '/');
+	$u2 = reduce_double_slashes($u2);
+	$u1 = reduce_double_slashes($u1);
+
 	$u1 = str_replace($u2, '', $u1);
 	if (!isset($u) or $u == false) {
 		$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
 
 	}
 	//}
+
 
 	return $k != -1 ? v($u[$k]) : $u;
 
