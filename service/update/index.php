@@ -211,10 +211,10 @@ $ver = $this->get_latest_core_version();
 			  $to_return['elements'] = $updates_data;
 		}
 		
-		
+ 
 				if (isset($params['mw_version'])) {
 					
-					
+						
 					
 		 					$ver = $version_last = $this->get_latest_core_version();
 						$to_return['version'] = trim($ver );
@@ -458,7 +458,7 @@ $ver = $this->get_latest_core_version();
 			}
 		}
 		
-		
+	
 		if(isset($params['mw_update_check_site'])){
 									$params['no_htaccess'] = 1;
 								}

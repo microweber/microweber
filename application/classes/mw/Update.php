@@ -474,7 +474,7 @@ class Update {
 			//
 		} else {
 		//$result1 = \curl_exec($ch);
-		$result1 = $curl->get($post_params_to_send);
+		$result1 = $curl->post($post_params_to_send);
 		}
 
 	//	\curl_close($ch);

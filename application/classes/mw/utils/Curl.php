@@ -28,17 +28,23 @@ class Curl {
 
 	private function buildPostString()
 	{
+
+if (function_exists("curl_init")) {
 		$this->fields_string = null;
 		foreach($this->post_data as $key=>$value) { $this->fields_string .= $key.'='.$value.'&'; }
 		$this->fields_string = rtrim($this->fields_string,"&");
+
+
 		return $this;
+		}
+
 	}
 
 	//Headers can be modified depending on what you need cURL to accomplish
 	private function setHeaders($type = '')
 	{
-		
-		
+
+
 		if (function_exists("curl_init")) {
 		$this->headers = array(
 						CURLOPT_URL => $this->url,
@@ -47,7 +53,7 @@ class Curl {
 						//CURLOPT_TIMEOUT => 30,
 						CURLOPT_RETURNTRANSFER => TRUE
 		);
-		
+
 		if($type == 'post')
 		{
 			$this->headers[CURLOPT_POST] = TRUE;
@@ -123,13 +129,30 @@ $ch = curl_init();
 
            } else {
 
+$data =  $this->post_data;
 
-$context=stream_context_create(array("http" => array(
-                     "method"  => "POST",
-                     "header"  => "Content-type: application/x-www-form-urlencoded",
-                     "content" => $this->headers,
-                 )));
-                 $result=@file_get_contents($url, false, $context);
+
+
+$data = http_build_query($data);
+
+
+$context = stream_context_create(array(
+    'http' => array(
+        'method' => 'POST',
+        'header' => 'Content-Type: application/x-www-form-urlencoded',
+        'content' => $data
+    )
+));
+
+
+
+
+
+
+
+                 $result= @file_get_contents($this->url, false, $context);
+
+
 
 
              }
