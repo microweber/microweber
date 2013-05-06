@@ -315,7 +315,9 @@ class Files    {
 				}
 			}
 			$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
+			 
 			$cacheDir = CACHEDIR . $cache_group;
+			 
 			//$cacheDir = str_replace(':','_',$cacheDir);
 
 //$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);
@@ -627,7 +629,7 @@ class Files    {
 				$is_cleaning_now = mw_var('is_cleaning_now');
 
 				// if ($is_cleaning_now == false) {
-				$cache_file_temp = dirname($cache_file).DS.'tmp' . uniqid() . '.php';
+				$cache_file_temp = CACHEDIR.DS.'tmp' . uniqid() . '.php';
 
 				$cacheDir_temp = dirname($cache_file_temp);
 				if (!is_dir($cacheDir_temp)) {
