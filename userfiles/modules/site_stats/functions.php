@@ -225,8 +225,8 @@ function stats_insert_cookie_based() {
 		setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
 
 		$data = array();
-		$data['visit_date'] = date("Y-m-d");
-		$data['visit_time'] = date("H:i:s");
+		$data['visit_date'] = date("Y-m-d", strtotime("now"));
+		$data['visit_time'] = date("H:i:s", strtotime("now"));
 		//   $data['debug'] = date("H:i:s");
 
 		$table = MODULE_DB_USERS_ONLINE;
@@ -344,10 +344,10 @@ function get_visits($range = 'daily') {
 		case 'users_online' :
 
 			//$data['visit_time'] = date("H:i:s");
-			$ago = date("H:i:s", strtotime("-30 minutes"));
+			$ago = date("H:i:s", strtotime("-5 minutes"));
 			$ago2 = date("Y-m-d", strtotime("now"));
 			$q = "SELECT COUNT(*) AS users_online FROM $table where visit_date='$ago2' and visit_time>'$ago'    ";
-
+ 
 			$results = db_query($q);
 			$results = intval($results[0]['users_online']);
 

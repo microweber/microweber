@@ -63,6 +63,11 @@
      
           </div>
               <div class="clearfix post-comments">
+               <font size="6" class="">.htaccess setup</font>
+               
+               <p>If you are installing MW in subfolder on your webserver you must edit your .htaccess file and set your folder name with the <em>RewriteBase</em> parameter<br class="">
+                  
+                </p>
               
               
                 <font size="6" class="">Database Setup</font>
