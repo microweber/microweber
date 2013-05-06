@@ -2,7 +2,7 @@
 
 RewriteEngine on
 
-#Uncomment bellor and set the name of your sub-folder if you are installing MW in subfolder
+#Uncomment bellow and set the name of your sub-folder if you are installing MW in subfolder
 #RewriteBase /subfolder/ 
 
 
