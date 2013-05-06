@@ -580,7 +580,7 @@ $ver = $this->get_latest_core_version();
 							$locations[] = $this -> repo_dir.'index.php';
 							$locations[] = $this -> repo_dir.'bootstrap.php';
 							if (!isset($params['no_htaccess'])) {
-							$locations[] = $this -> repo_dir.'.htaccess';  
+							//$locations[] = $this -> repo_dir.'.htaccess';  
 							}
 							$locations[] = $this -> repo_dir.'license.txt';   
  

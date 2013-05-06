@@ -95,10 +95,11 @@ if (isset($_POST['IS_INSTALLED'])) {
 							 
 						if(isset($dnht)){ 
 							 $dnht = str_replace('\\', '/', $dnht);
-							 if($dnht != '/' and dnht != '//' and $dnht !=DIRECTORY_SEPARATOR){
-								  $f_htaccess_file_c = str_ireplace('/your_sub_folder/', $dnht.'/', $f_htaccess_file_c);
+							 $dnht = str_replace(' ', '%20', $dnht);
+							 if($dnht != '/' and $dnht !=DIRECTORY_SEPARATOR){
+								// $f_htaccess_file_c = str_ireplace('/your_sub_folder/', $dnht, $f_htaccess_file_c);
 
-							// $f_htaccess_file_c = str_ireplace('#RewriteBase /your_sub_folder/', 'RewriteBase '.$dnht.'/', $f_htaccess_file_c);
+							 $f_htaccess_file_c = str_ireplace('#RewriteBase /your_sub_folder/', 'RewriteBase '.$dnht.'/', $f_htaccess_file_c);
 
 								 
 							 }
