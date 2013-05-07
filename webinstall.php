@@ -168,7 +168,7 @@ if(function_exists('apache_get_modules') ){
 </form>
 <?php else: ?>
 
-<h2>Done, <a href="<?php print $y ?>/install">click here to continue</a></h2>
+<h2>Done, <a href="index.php">click here to continue</a></h2>
 <?php unlink(__FILE__); ?>
 <?php endif; ?>
 <?php
