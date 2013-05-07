@@ -291,7 +291,7 @@ function site_url($add_string = false) {
 			$pageURL = $pageURL_host . $d;
 
 		}
-		// var_dump($d);
+		//
 		if (isset($_SERVER['QUERY_STRING'])) {
 			$pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
 		}
@@ -331,7 +331,12 @@ function site_url($add_string = false) {
 		$mw_site_url = implode('/', $url_segs);
 
 	}
+
 	//$mw_site_url = rtrim($mw_site_url, '///');
+	//
+	//
+	//
+	//
 	//
 	return $mw_site_url . $add_string;
 }

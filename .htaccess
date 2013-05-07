@@ -3,7 +3,7 @@
 RewriteEngine on
 
 #Uncomment bellow and set the name of your sub-folder if you are installing MW in subfolder
-#RewriteBase /your_sub_folder/
+RewriteBase /mw/
 
 
 RewriteRule ^userfiles/media - [L,NC]

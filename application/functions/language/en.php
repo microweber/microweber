@@ -548,3 +548,4 @@ $language["for-shipping"]= 'for shipping' ;
 $language["content-is-deleted"]= 'Content is deleted!' ; 
 $language["content-is-restored"]= 'Content is restored!' ; 
 $language["content-is-restored"]= 'Content is restored!' ; 
+$language["content"]= 'Content' ; 

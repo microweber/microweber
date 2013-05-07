@@ -34,8 +34,10 @@ function url_segment($k = -1, $page_url = false) {
 	$u2 = rtrim($u2, '/');
 	$u2 = reduce_double_slashes($u2);
 	$u1 = reduce_double_slashes($u1);
-
+	$u2 = rawurldecode($u2);
+ 	$u1 = rawurldecode($u1);
 	$u1 = str_replace($u2, '', $u1);
+
 	if (!isset($u) or $u == false) {
 		$u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
 
