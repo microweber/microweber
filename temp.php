@@ -18,6 +18,16 @@ C:\xampp\apache\bin\ab.exe -n 200 -c 20 http://localhost/wordpress/?p=4
 
  C:\xampp\apache\bin\ab.exe -n 200 -c 50  http://pecata/Microweber/how-to-install-mw?debug=1
 
+ C:\xampp\apache\bin\ab.exe -n 200 -c 20  http://localhost:8080/my%20portable%20files/m2%20Test%20123%20ZZZ/home
+
+ C:\xampp\apache\bin\ab.exe -n 200 -c 20  http://localhost/mw/home
+
+  C:\xampp\apache\bin\ab.exe -n 200 -c 20  http://demo.microweber.net/home/
+
+
+
+ http://localhost:8080/my%20portable%20files/m2%20Test%20123%20ZZZ/home?debug=1
+
 ====================================================================
 
 Joyent

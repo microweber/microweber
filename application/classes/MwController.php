@@ -352,7 +352,7 @@ class MwController {
 		}
 
 		//
-		   
+
 
 		  if($page['id'] != 0){
 			  $page = get_content_by_id($page['id']);
@@ -365,7 +365,7 @@ class MwController {
 		  } else {
 			  $content = $page;
 		  }
-		 
+
 		//
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
@@ -409,7 +409,7 @@ class MwController {
 				$content = $page_non_active;
 			}
 		}
- 
+
 		define_constants($content);
 
 		//$page_data = get_content_by_id(PAGE_ID);
@@ -601,7 +601,7 @@ class MwController {
 					$back_to_editmode = session_get('back_to_editmode');
 					if ($back_to_editmode == true) {
 						$tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
-	
+
 						$layout_toolbar = new MwView($tb);
 						$layout_toolbar = $layout_toolbar -> __toString();
 						if ($layout_toolbar != '') {
@@ -612,7 +612,7 @@ class MwController {
 					}
 				}
 			}
-			
+
 
 			$l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 			$l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
@@ -1309,18 +1309,18 @@ class MwController {
 			//   $data['rel'] = $is_rel;
 
 			if ($is_rel == 'page') {
-				 
+
 
 			}
 
 			if ($is_rel == 'post') {
 				// $refpage = get_ref_page ();
-				 
+
 			}
 
 			if ($is_rel == 'category') {
 				// $refpage = get_ref_page ();
-				 
+
 			}
 		}
 

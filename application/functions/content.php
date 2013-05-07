@@ -242,7 +242,7 @@ function mw_db_init_content_table() {
 }
 action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
 function create_mw_default_pages_in_not_exist() {
-	mw_create_default_content('default'); 
+	mw_create_default_content('default');
 	//mw_create_default_content('shop');
 
 }
@@ -1621,7 +1621,7 @@ if(isset($ustr2) and trim($ustr2) == 'favicon.ico'){
 		if(isset($ustr) and trim($ustr) == 'favicon.ico'){
 			return false;
 		} elseif($ustr2 == '' or $ustr2 == '/'){
-			
+
 		 $ref_page = get_homepage();
 		}
 
@@ -1639,8 +1639,8 @@ if(isset($ustr2) and trim($ustr2) == 'favicon.ico'){
 				$save_page['url'] = url_string(1);
 				$save_page['title'] = url_title(url_string(1));
 				$page_id = save_content($save_page);
-			  
-			  
+
+
 			}
 			//d($pd);
 

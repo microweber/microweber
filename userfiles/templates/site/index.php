@@ -31,7 +31,7 @@
 
             <span class="or">or</span>
 
-            <a href="javascript:;" class="obtn obtn-blue" id="download">Download</a>
+            <a href="javascript:;" class="obtn obtn-blue" id="download">Download Beta</a>
 
             <div id="download_modal" class="hide">
 

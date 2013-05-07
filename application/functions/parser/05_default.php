@@ -5,13 +5,13 @@ if ($layout != '') {
 	$mw_found_elems_arr = array();
 
 	$mw_to_cache = array('orig', $layout);
-
+$cached = false;
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
 	// d($parser_mem_crc);
 
 	$do_not_cache = false;
 	if (template_var('content') != false) {
- 
+
 		$do_not_cache = true;
 		$cached = false;
 	} else {
@@ -390,7 +390,7 @@ if ($layout != '') {
 			//d($mw_to_cache);
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
 			if ($do_not_cache == false) {
-				
+
 				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 			}
 		} else {
@@ -408,7 +408,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 	if (isset($mw_to_cache['elems']) and isset($mw_to_cache['to_replace']) and isset($mw_to_cache['new'])) {
 
 		$modified_layout = $mw_to_cache['new'];
-		 
+
 		//$parser_mem_crc1 = 'parser_' . crc32($value['orig']);
 
 		//$ch = mw_var($parser_mem_crc1);
@@ -427,7 +427,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 			$elk_crc = crc32($elk);
 			if (!in_array($elk_crc, $passed_reps)) {
 				$passed_reps[] = $elk_crc;
- 
+
 				if ($value != '') {
 					//$layout = $ch;
 					$val_rep = $value;
