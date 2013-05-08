@@ -18,6 +18,7 @@
     
 
     <script type="text/javascript">
+
         mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
     </script>
     <script type="text/javascript">

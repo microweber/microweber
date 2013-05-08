@@ -57,6 +57,7 @@ export SDC_CLI_ACCOUNT=microweber
 export SDC_CLI_KEY_ID=deployer
 
 
+megalan dns     89.190.192.248
 
 
 

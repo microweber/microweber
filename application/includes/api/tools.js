@@ -268,6 +268,11 @@ mw.tools = {
       var center = typeof center == 'undefined' ? true : center;
       var modal = $(modal);
       var container = modal.find(".mw_modal_container").eq(0);
+
+
+
+      if(container.length === 0) { return false; }
+
       var frame = modal.find(".mw-modal-frame").eq(0);
 
 

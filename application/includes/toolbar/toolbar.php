@@ -210,7 +210,7 @@ mw_save_draft_int = self.setInterval(function(){
 
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
-      <microweber module="admin/modules/categories_dropdown" />
+      <microweber module="admin/modules/categories_dropdown" no_wrap="true" />
       <div class ="modules_bar_slider bar_slider">
         <div class="modules_bar">
           <microweber module="admin/modules/list" />

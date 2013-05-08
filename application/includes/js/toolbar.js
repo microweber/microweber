@@ -774,7 +774,8 @@ mw.toggle_subpanel = function(){
        mw.$("#mw-toolbar-right").css("top", 0);
        mw.$("#show_hide_sub_panel").css("top", 10);
     });
-    $(mwd.body).animate({paddingTop:0});
+    //$(mwd.body).animate({paddingTop:0});
+    $(mwd.body).animate({paddingTop:mw.$("#mw-text-editor").height()});
 
   }
 }

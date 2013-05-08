@@ -3,6 +3,7 @@
 
 <script type="text/javascript">
      parent.mw.require("external_callbacks.js");
+     mw.require("events.js");
      mw.require("forms.js");
      mw.require("files.js");
      mw.require("tools.js");
@@ -401,7 +402,7 @@ mw.embed = {
     <div id="media-search-holder">
     <div class="mw-ui-field left" style="width: 230px;" id="media_search">
         <span id="image_status"></span>
-        <input type="text" id="media_search_field" placeholder="URL" value="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
+        <input type="text" id="media_search_field" placeholder="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
      </div>
     <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;">Insert</button>
 
