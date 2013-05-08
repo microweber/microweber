@@ -52,39 +52,6 @@ body{
 }
 
 
-#mw_posts_add_live_edit  form.mw_admin_edit_content_form{
-  width: 390px;
-  padding: 0;
-}
-#mw_posts_add_live_edit  .mw-title-field{
-  width: 320px;
-}
-#mw_posts_add_live_edit  iframe.mw-editor-iframe-loaded{
-    width: 390px;
-}
-#mw_posts_add_live_edit  #mw-scaleeditor, #mw_posts_add_live_edit .go-live{
-  display: none;
-}
-#mw_posts_add_live_edit form.add-edit-page-post textarea{
-  width: 360px;
-}
-#mw_posts_add_live_edit #post_pass_field input.mw-ui-field{
-    width: 360px;
-}
-#mw_posts_add_live_edit #edit_post_select_category .mw-tag-selector{
-  width: 360px;
-}
-#mw_posts_add_live_edit #edit_post_select_category .input{
-  width: 110px;
-}
-#mw_posts_add_live_edit .mw-ui-category-selector{
-  width: 380px;
-}
-
-#mw_posts_add_live_edit  .pages_tree_link_text{
-  max-width: 100%;
-}
-
 .module-live-edit{
   padding: 20px;
   overflow: hidden;

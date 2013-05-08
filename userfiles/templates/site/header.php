@@ -38,9 +38,9 @@
 <div id="header" class="clearfix">
       <div class="container"> <a href="javascript:;" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
     <ul id="main-menu" class="nav nav-pills mw-nav">
-          <li><a href="/">Get Started</a></li>
+          <li><a href="#home-video">Download</a></li>
           <li><a href="#how-to-use">How to use</a></li>
-          <li><a href="javascript:;" id="doc-popup">Documentation</a></li>
+          <li><a href="javascript:;" id="doc-popup">How to install</a></li>
           <li><a href="#contact-us">Contacts</a></li>
         </ul>
     <div id="doc-modal" class="hide">

@@ -27,7 +27,7 @@
           <div id="get-started">
           <div id="get-started-btns">
 
-            <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Coming Soon</span></a>
+            <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Comming Soon</span></a>
 
             <span class="or">or</span>
 
@@ -140,29 +140,30 @@ THE SOFTWARE.</p>
 <div class="row">
 
     <div class="span4">
-        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Quick Demo of Microweber')">
+        <div class="h-video" onclick="mw.site.modal_video('eajCiD0ha2s', 'Quick Demo of Microweber')">
             <div class="h-video-shot">
-                <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
+              <img src="http://img.youtube.com/vi/eajCiD0ha2s/0.jpg" alt="" />
+             
             </div>
             <div class="h-video-title">Quick Demo of Microweber</div>
         </div>
     </div>
     <div class="span4">
-        <div class="h-video" onclick="mw.site.modal_video('cOZhe_WtnWM', 'How to make Online Shop')">
+        <div class="h-video" onclick="mw.site.modal_video('iNRAh96YEwY', 'Drag &amp; Drop the Modules')">
+            <div class="h-video-shot">
+                 <img src="http://img.youtube.com/vi/iNRAh96YEwY/0.jpg" alt="" />
+            </div>
+            <div class="h-video-title">Drag &amp; Drop the Modules</div>
+        </div>
+    </div>
+    <div class="span4">
+       
+ <div class="h-video" onclick="mw.site.modal_video('cOZhe_WtnWM', 'How to make Online Shop')">
             <div class="h-video-shot">
                 <img src="http://img.youtube.com/vi/cOZhe_WtnWM/0.jpg" alt="" />
             </div>
             <div class="h-video-title">How to make Online Shop</div>
         </div>
-    </div>
-    <div class="span4">
-        <div class="h-video" onclick="mw.site.modal_video('eajCiD0ha2s', 'Drag &amp; Drop the Modules')">
-            <div class="h-video-shot">
-                <img src="http://img.youtube.com/vi/eajCiD0ha2s/0.jpg" alt="" />
-            </div>
-            <div class="h-video-title">Drag &amp; Drop the Modules</div>
-        </div>
-
     </div>
 
 

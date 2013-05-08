@@ -1123,7 +1123,7 @@ function save_module_to_db($data_to_save) {
 				//
 				if ($save != false and isset($save[0]) and is_array($save[0])) {
 					$s["id"] = intval($save[0]["id"]);
- 
+
 					$save = save_data($table, $s);
 					$mname_clen = 	 str_replace('\\', '/',$s["module"]);
 					$mname_clen = db_escape_string($mname_clen);
@@ -1133,15 +1133,15 @@ function save_module_to_db($data_to_save) {
 				 db_q($del);
 					}
 				} else {
-					
+
 					$save = save_data($table, $s);
 				}
 			} else {
-		
+
 			}
-			
+
 		} else {
-				
+
 			$save = save_data($table, $s);
 		}
 
@@ -1202,7 +1202,7 @@ function delete_module_as_template($data) {
 
 	}
 
- 
+
 }
 api_expose('save_module_as_template');
 function save_module_as_template($data_to_save) {
@@ -1252,7 +1252,7 @@ function modules_list($options = false) {
 
 action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false) {
-	
+
 	$params = $options;
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
@@ -1855,6 +1855,10 @@ function load_module($module_name, $attrs = array()) {
 		//  $lic = 'valid';
 		if ($lic != false) {
 			$config['license'] = $lic;
+		}
+
+		if(isset($attrs['module-id']) and $attrs['module-id'] != false){
+			$attrs['id'] = $attrs['module-id'];
 		}
 
 		if (!isset($attrs['id'])) {

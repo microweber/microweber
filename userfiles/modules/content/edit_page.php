@@ -1,11 +1,19 @@
 <?php
+$data = false;
 if(!isset($edit_post_mode)){
 	$edit_post_mode = false;
 }   //  $params['content_type'] = 'post';
 
 
 $rand = uniqid();
-
+if(isset($params["subtype"])){
+	$edit_post_mode = 1;
+	 if(isset($params['subtype']) and trim($params['subtype']) == 'product'){
+		  $params["is_shop"] = 'y';
+	  }
+	//d($params);
+	//$params["data-page-id"] = PAGE_ID;
+}
 
 if(isset($params["data-content-id"]) and intval($params['data-content-id']) > 0){
 	$params["data-page-id"] = $params["data-content-id"];
@@ -23,18 +31,18 @@ if(!isset($params["data-page-id"])){
 }
 
 $pid = false;
-$data = false;
+
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
   $data = get_content_by_id(intval($params["data-page-id"]));
-  if(isarr($data)){
+ 
+//d($data);
+}
+ if(isarr($data)){
 	  if(isset($data['subtype']) and trim($data['subtype']) == 'product'){
 		  $params["is_shop"] = 'y';
 	  }
   }
-//d($data);
-}
-
 
 $active_site_template = '';
 $layout_file = '';

@@ -80,6 +80,14 @@ function after_upld_<?php print $rand; ?>(a, eventType){
 	   
         if(window.parent != undefined && window.parent.mw != undefined){
             window.parent.mw.reload_module('pictures');
+			
+			 if(window.parent != undefined && window.parent.mw != undefined){
+   window.parent.mw.reload_module('posts');
+   window.parent.mw.reload_module('shop/products');
+   window.parent.mw.reload_module('content');
+
+
+}
         } else {
 
         }
