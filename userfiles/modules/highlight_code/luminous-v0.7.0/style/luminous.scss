@@ -1,0 +1,138 @@
+// This is the source file for luminous.css
+// If you want to edit it, you'll need SASS.
+// http://sass-lang.com/
+
+@mixin vendor-prefix($property, $value) {
+  @each $prefix in '', -webkit-, -moz-, -o-, -ms- {
+    #{$prefix}#{$property} : $value;
+  }
+}
+
+@mixin transition($properties, $duration: 0.5s, $easing: ease-in) {
+  @each $prefix in '', -webkit-, -moz-, -o-, -ms- {
+    #{$prefix}transition-property: $properties;
+    #{$prefix}transition-duration : $duration;
+    #{$prefix}transition-timing-function: $easing;
+  }
+}
+
+.luminous {
+
+  font-size:inherit; 
+  text-align:left;
+  font-family: "Consolas", "DejaVu Sans Mono", monospace;
+  overflow: auto;
+  
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  
+  position: relative;
+  
+  &.inline {
+    min-width: 1px;
+    max-width: none;
+    line-height: normal;
+    &, div, pre {
+      padding: 0;
+      *display: inline;
+      display: inline-block;
+    }
+    pre {
+      // this would otherwise get 'overflow auto', but auto seems to
+      // cause it to sit a bit out of line with the text. So does 'hidden'.
+      // in any case, this shouldn't overflow.
+      overflow: visible;
+    }
+  }
+  .link {
+    &, &:visited {
+      text-decoration: underline;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  
+  pre {
+    margin: 0;
+    padding: 0;
+    background: transparent none;
+    font-size: inherit;
+    font-family: inherit;
+    width: auto;
+  }
+  
+  // non-line numbered, directly inside the .luminous
+  & > pre {    
+    padding-left: 1em;
+  }
+
+  
+  /* line numbers */
+  table {
+      width: 100%;
+      vertical-align: top;
+      border-collapse: collapse;
+      border-spacing: 0;
+      td {
+        padding: 0;
+        margin: 0;
+        vertical-align: top;
+        &.code-container { width: 100%; }
+      }
+      
+      .code {
+          & > span {
+              padding: 0 0 0 1em;
+              display: block;
+              @include transition(background-color);
+          }
+          @include transition(padding-left, 0.2s);
+      }
+      .line-numbers {
+          cursor: default;
+          text-align: center;
+          overflow: hidden;
+          span {
+                padding: 0 0.5em;          
+                display: block; 
+                &:nth-child(5n) {
+                  font-weight: bold;
+              }
+          }
+          max-width: 60px;
+          @include transition(max-width, 0.2s);
+          
+          &.collapsed {
+              border: none;
+              max-width: 0;
+          }
+      }
+      
+  }
+  
+  
+  div {
+    border-radius: inherit;
+  }
+  
+  .line-number-control {
+          @include transition(left, 0.2s);
+          height: 26px;
+          width: 18px;
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          z-index: 1;
+          cursor: pointer;
+          // default: line numbers are shown
+          background: transparent url(icons/chevron-left.png);
+          &.show-line-numbers {
+              // override: line numbers are hidden
+              background: transparent url(icons/chevron-right.png);
+          }
+      }  
+    
+}

@@ -1,0 +1,163 @@
+.luminous .character{color:#FF69B4 !important;}
+
+.luminous .comment{color:gray !important; font-style:italic !important;}
+
+/* NOTE: TODO: etc. */
+.luminous .comment_note{
+  background-color:#FFB2B0 !important;
+  background-color:rgba(255, 178, 176, 0.70) !important; 
+  color:black !important; 
+  font-style:normal !important;}
+.luminous .constant{color:#0073AD !important; font-weight:bold !important;}
+.luminous .esc{color:#057CA3 !important;}
+.luminous .function{color:purple !important;}
+.luminous .heredoc{color:red !important; 
+  background-color:#FFF8F8 !important;
+  background-color:rgba(255, 248, 248, 0.20) !important;
+  
+  
+}
+.luminous .htmltag{font-weight:bold !important; color:purple !important;}  
+.luminous .keyword{font-weight:bold !important; color:#0066FF !important;}
+.luminous .numeric {color:blue !important;}
+.luminous .operator{color:#0000BF !important;}
+
+.luminous .oo{color:#339900 !important;}
+.luminous .obj{color:#3366FF !important;}
+.luminous .preprocessor{color:green !important;}
+.luminous .shebang{font-weight:bold !important; font-style:normal !important; color:purple !important;}
+.luminous .string{color:red !important; 
+  background-color:#FFF8F8 !important;
+  background-color:rgba(255, 157, 157, 0.20) !important;
+
+}
+.luminous .type{color:#0057AE !important;}
+/* not used*/
+.luminous .user_function{color: #000099 !important; font-weight:bold !important;}
+.luminous .value{color:green !important;}
+.luminous .variable{color:#4545A9 !important;}
+
+.luminous .doccomment{color:blue !important;}
+.luminous .doctag {color:#CA60CA !important;}
+.luminous .docstr {color:red !important;}
+.luminous .docproperty{color:#0095FF !important; font-weight:bold !important;}
+
+
+
+.luminous .lang_latex{color:blue !important;}
+.luminous .latex_function{color:red !important; font-weight:normal !important;}
+.luminous .latex_operator{color:black !important;}
+
+.luminous .make_target{color:magenta !important;}
+.luminous .make_dep{color: blue !important;}
+
+.luminous .regex{color:#8000FF !important; 
+  background-color:#F9F3FF !important;
+  background-color:rgba(231, 206, 255, 0.20) !important;  
+}
+.luminous .regex_subpattern{font-weight:bold !important; color:black !important;}
+.luminous .regex_class_marker{color:#0083E1 !important; font-weight:bold !important;}
+.luminous .regex_subpattern_marker{color:green !important; font-weight:bold !important;}
+.luminous .regex_repeat_marker {color:blue !important;}
+.luminous .regex_operator{color:green !important;}
+
+/* Specific to the whitespace language */
+.luminous .whitespace_space{background-color:#FF5151 !important;}
+.luminous .whitespace_tab{background-color:#A1B6FF !important;}
+
+
+
+
+.luminous .diff_header_new{color:green !important;}
+.luminous .diff_header_old{color:red !important;}
+.luminous .diff_range{color:blue !important;}
+.luminous .diff_old{background-color:#FFBFBF !important; 
+  background-color: rgba(255, 191, 191, 0.5) !important;
+}
+.luminous .diff_new{background-color:#BFFFBF !important;
+  background-color: rgba(191, 255, 191, 0.5) !important;
+}
+.luminous .diff_unchanged{
+  color: #888888 !important;
+
+}
+
+.luminous .diff_unchanged * {
+  background-color: transparent !important;
+  color: #888888 !important;
+}
+
+
+.luminous .xml {
+  color: #666 !important;
+}
+.luminous .xml * {
+  color: black !important;  
+}
+.luminous .xml .type {
+  color: #2C72C7 !important;  
+}
+.luminous .xml .htmltag {
+  color: #00892C !important;  
+/*   font-weight: normal !important; */
+}
+.luminous .xml .string {
+  color: #0057AE !important;
+}
+.luminous .xml .comment {
+  color: gray !important;
+}
+
+
+.luminous .interpolation * {  
+  background-color: transparent !important;
+}
+.luminous .interpolation {
+  font-style: italic;
+  background-color: rgba(30, 80, 200, 0.1);
+}
+
+.luminous .delimiter {
+  font-weight:bold;
+  color: #644A9B;
+}
+
+
+.luminous .code
+{
+  background-color: #FCFCFC !important;
+}
+
+.luminous a.link, .luminous a.link:visited
+{
+  color:blue !important;
+}
+
+/* line numbers */
+.luminous .line-numbers{
+  color:black !important;
+  background-color:#e0e0e0 !important;
+  border-right:1px solid black !important;  
+}
+.luminous
+{
+  color:black !important;
+  border-color: #999;
+  background-color: #fff;
+}
+
+
+
+.luminous .code.numbered > span:nth-child(2n)
+{
+  background-color:#F3F3F3;
+}
+
+.luminous .code .highlight
+{
+  background-color:#DFDEF6;
+}
+.luminous .code.numbered .highlight:nth-child(2n)
+{
+  background-color:#DFDEF6;
+}

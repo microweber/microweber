@@ -1,0 +1,73 @@
+
+.luminous {
+  background-color: #EEEEED;
+}
+
+/* line numbers */
+.luminous .line-numbers {
+  background-color: #F0F0F0 !important;
+  border-right: 1px dashed #BBBBBB !important;
+  color: #555555;
+}
+
+.luminous .code .highlight {
+  background-color: #A4C0E4;
+  background-color: rgba(164, 192, 228, 0.5);
+}
+
+
+.luminous .character { color: #9C0F0F !important; }
+.luminous .comment { color: #57401E !important; font-style: italic !important;}
+.luminous .comment_note { font-weight: bold !important; font-style:normal !important;}
+.luminous .constant { color : #462886 !important; }
+.luminous .delimiter {color: #CF4913 !important; font-weight:bold !important; }
+.luminous .diff_header_new{color: #008C00 !important;}
+.luminous .diff_header_old{color: #BF0303 !important;}
+.luminous .diff_range{color:#0000FF !important;}
+.luminous .doccomment{color: #00734D !important;}
+.luminous .doctag {color: #00BF00  !important; font-weight: bold  !important;}
+.luminous .docproperty{font-weight: bold  !important;}
+.luminous .esc{color: #8F6B32 !important;}
+.luminous .function{ color: #E20800 !important;}
+.luminous .heredoc, .luminous .string {
+  color: #00892C !important;
+  background-color: rgba(119, 183, 83, 0.15) !important; 
+}
+.luminous .htmltag {
+  font-weight: bold !important;
+  color: #644A9B !important;
+ }
+.luminous .interpolation {background-color: rgba(164, 192, 228, 0.15)  !important;}
+.luminous .keyword { font-weight:bold !important; color: #2C72C7 !important; }
+.luminous .numeric {color: #00BF00 !important; }
+.luminous .operator {color: #E20071 !important; }
+.luminous .obj {}
+.luminous .oo { color: #00A7B3 !important; }
+.luminous .preprocessor { color:  #004D00 !important; }
+.luminous .regex {color: #644A9B !important; }
+.luminous .type { color: #730055 !important; }
+.luminous .user_function {font-weight: bold !important;}
+.luminous .value{ color: #555753 !important; }
+.luminous .variable { color: #00438A !important; }
+
+
+
+
+
+
+/* this stuff has to come after the other rules because it will probably
+ * override some of them 
+ */
+.luminous .diff_old{
+  background-color:#FFBFBF !important; 
+  background-color: rgba(232, 87, 82, 0.15) !important;
+}
+.luminous .diff_new{
+  background-color:#BFFFBF !important;
+  background-color: rgba(0, 191, 0, 0.15) !important;
+}
+.luminous .diff_unchanged, .luminous .diff_unchanged * {
+  color: #888A85 !important;
+  background-color: transparent !important;
+}
+
