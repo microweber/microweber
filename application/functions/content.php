@@ -2911,13 +2911,15 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 			extract($params);
 		}
 	}
-
+	if(!defined('CONTENT_ID')){
+		define_constants();
+	}
 	$function_cache_id = false;
 	$args = func_get_args();
 	foreach ($args as $k => $v) {
 		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
 	}
-	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+	$function_cache_id = __FUNCTION__ . crc32($function_cache_id).CONTENT_ID.PAGE_ID;
 	if ($parent == 0) {
 		$cache_group = 'content/global';
 	} else {
@@ -3259,7 +3261,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 					} else {
 						$active_class = '';
 					}
-
+  
 
 					$ext_classes = '';
 					if($res_count == 0){

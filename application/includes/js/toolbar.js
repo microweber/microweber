@@ -552,19 +552,17 @@ $(document).ready(function(){
  });
 
 
- mw.$("#mw-toolbar-right a").click(function(){
-   return mw.beforeleave(this.href);
- });
 
 
 
 
- mw.$(".edit a").click(function(){
+
+ mw.$(".edit a, #mw-toolbar-right a").click(function(){
   var el = this;
   if(el.onclick === null){
     return mw.beforeleave(this.href);
   }
-  if(!(el.href.indexOf("javascript:") === 0 || el.href == '#')){
+  if(!(el.href.indexOf("javascript:") === 0 || el.href == '#' || typeof el.attributes['href'] == 'undefined')){
        return mw.beforeleave(this.href);
   }
 
