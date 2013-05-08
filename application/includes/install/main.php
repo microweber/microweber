@@ -200,17 +200,11 @@ input[type='text'], input[type='password'] {
             <?php endif; ?>
           </div>
           <div id="mw-install-done" style="display:none">
-           <h2>Installation is completed</h2>
-           <br />
-
-           <a href="<?php print site_url() ?>/admin"><strong>Click here to go to Admin Panel</strong></a>
-           <br />
-
-       		<a href="<?php print site_url() ?>">Click here visit your site</a>
-         
-         
-          
-          </div>
+            <h2>Installation is completed</h2>
+            <br />
+            <a href="<?php print site_url() ?>/admin" class="mw-ui-btn-action">Click here to go to Admin Panel</a> <br />
+            <br />
+            <a href="<?php print site_url() ?>" class="mw-ui-btn">Click here visit your site</a> </div>
         </div>
         <!-- .description --> 
         
