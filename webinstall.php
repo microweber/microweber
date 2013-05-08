@@ -1,3 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Welcome to Microweber Web Install</title>
+<style type="text/css">
+
+*{ margin: 0; padding: 0; }
+body{ font: 14px/24px Verdana, Arial, sans-serif;color: #434343; }
+img{border: none}
+a{ text-decoration: none; color: #434343; }
+a,input,textarea,select{ outline: none; }
+h1,h2,h3,h4,h5{ font-weight: normal; }
+
+input[type='text'],
+input[type='password'],
+textarea, #license_text{
+  border: 1px solid #E6E6E6;
+  border-top-color: #C6C6C6;
+  padding:8px 10px;
+  background: white;
+  outline: none;
+  cursor: text;
+}
+
+button, input[type='submit'], .btn{
+  padding: 8px 10px;
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  border-color:#d5d1d1 #c2bfbf #A1A0A0;
+  color: #434343;
+  font-size: 11px;
+  line-height:normal;
+  text-align: center;
+  position: relative;
+  border-radius: 2px;
+  box-shadow:inset 0 1px 0px 0px #fff;
+  background-image: linear-gradient(bottom, #E1E1E1 0%, #F5F5F5 100%);
+  background-image: -o-linear-gradient(bottom, #E1E1E1 0%, #F5F5F5 100%);
+  background-image: -moz-linear-gradient(bottom, #E1E1E1 0%, #F5F5F5 100%);
+  background-image: -webkit-linear-gradient(bottom, #E1E1E1 0%, #F5F5F5 100%);
+  background-image: -ms-linear-gradient(bottom, #E1E1E1 0%, #F5F5F5 100%);
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0, #E1E1E1),
+  	color-stop(1, #F5F5F5)
+  );
+}
+
+.box{
+  width: 550px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #E5E5E5;
+  border-radius: 2px;
+}
+
+.box h2, .box p{ padding-bottom: 12px; }
+
+.agreement{
+  padding: 12px 0;
+  font-size: 12px;
+}
+
+.agreement a{
+  color: #347ECC;
+  text-decoration: underline
+}
+
+#license_text{
+  width: 530px;
+  height: 200px;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+
 <?php
 ini_set("memory_limit", "160M");
 ini_set("set_time_limit",0);
@@ -137,7 +225,11 @@ if(function_exists('apache_get_modules') ){
 
 ?>
 
-<form>
+
+
+
+
+<form class="box">
   <?php if($check_pass == false): ?>
   <?php if(!empty($server_check_errors)): ?>
   <h3>Server check</h3>
@@ -151,10 +243,9 @@ if(function_exists('apache_get_modules') ){
   </table>
   <?php endif; ?>
   <?php else: ?>
-  <h2>Welcome to Microweber web install</h2>
-  <p>This file will download the latest version and redirect you to the install page</p>
-  <p> By downloading and installing Microweber you agree to the<br>
-    <a href="http://microweber.com/license.txt">License Agreement</a> </p>
+  <h2>Welcome to Microweber Web Install</h2>
+  <p>This file will download the latest version and redirect you to the install page.</p>
+
 
   <!--
   <input type="radio" name="action" value="download">
@@ -164,8 +255,34 @@ if(function_exists('apache_get_modules') ){
 
   <input type="hidden" name="action"  value="download_and_unzip">
   <input type="submit" name="submit" value="Download and install Microweber">
+
+  <p class="agreement"> By downloading and installing Microweber you agree to the
+  <a href="http://microweber.net/license" id="license">License Agreement</a> </p>
+
+  <iframe id="license_text" frameborder="0" scrolling="auto" style="display: none;"></iframe>
+
+  <script>
+    var doc = document, link = doc.getElementById('license'), frame = doc.getElementById('license_text');
+    lactivated = false;
+    link.onclick = function(){
+        if(!lactivated){
+           lactivated = true;
+           frame.src = this.href;
+        }
+        if(frame.style.display == 'none'){
+            frame.style.display = 'block';
+        }
+        else{
+          frame.style.display = 'none';
+        }
+        return false;
+    }
+  </script>
   <?php endif; ?>
 </form>
+
+
+
 <?php else: ?>
 
 <h2>Done, <a href="index.php">click here to continue</a></h2>
@@ -793,3 +910,7 @@ class Unzip {
 
 }
 ?>
+
+</body>
+
+</html>
