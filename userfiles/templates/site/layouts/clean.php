@@ -12,7 +12,7 @@ description: Clean layout
 
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content"> 
   <div class="container edit"  field="content" rel="content">
@@ -27,4 +27,4 @@ description: Clean layout
 </section>
 
 
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

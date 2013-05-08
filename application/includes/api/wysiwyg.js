@@ -366,14 +366,16 @@ mw.wysiwyg = {
          mw.wysiwyg.execCommand('forecolor', null, color);
     },
     fontbg:function(color){
-         mw.wysiwyg.execCommand('backcolor', null, "#"+color);
+        var color = color != 'transparent' ? '#' + color : color;
+        mw.wysiwyg.execCommand('backcolor', null, color);
     },
     request_change_bg_color:function(el){
        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_bg_color');
        $(mw.wysiwyg.external).find("iframe").width(360).height(320);
     },
     change_bg_color : function(color){
-        $(".element-current").css("backgroundColor", "#"+color);
+       var color = color != 'transparent' ? '#' + color : color;
+        $(".element-current").css("backgroundColor", color);
     },
     request_border_color:function(el){
        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_border_color');

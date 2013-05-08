@@ -418,6 +418,11 @@ padding-top: 11px;
   background: #242B35;
   padding: 10px 20px 0;
   min-height: 70px;
+  margin-bottom: 50px;
+}
+
+body.home #header{
+  margin-bottom: 0;
 }
 
 

@@ -36,17 +36,22 @@
     </head>
     <body>
 <div id="header" class="clearfix">
-      <div class="container"> <a href="javascript:;" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
+      <div class="container"> <a href="<?php print site_url('home') ?>" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
     <ul id="main-menu" class="nav nav-pills mw-nav">
-          <li><a href="#home-video">Download</a></li>
-          <li><a href="#how-to-use">How to use</a></li>
-          <li><a href="javascript:;" id="doc-popup">How to install</a></li>
-          <li><a href="#contact-us">Contacts</a></li>
+          <li><a href="<?php print site_url('home') ?>#home-video">Download</a></li>
+          <li><a href="<?php print site_url('home') ?>#how-to-use">How to use</a></li>
+<!--          <li><a href="javascript:;" id="doc-popup">How to install</a></li>
+-->          
+
+          <li><a href="<?php print site_url('developers-help') ?>">Help</a></li>
+
+
+<li><a href="<?php print site_url('home') ?>#contact-us">Contacts</a></li>
         </ul>
     <div id="doc-modal" class="hide">
           <div align="left">
         <h4>We are currently writing our documentation.</h4>
-        <div rel="content" field="content" class="edit">
+        <div >
               <div class="clearfix post-comments"> <b class="">Microweber is free &amp; open source content management&nbsp;system or CMS. <br class="">
                 </b><br class="">
             When you&nbsp;want to install Microweber for a first time, you must know few things.</div>
@@ -75,6 +80,7 @@
                <font size="6" class=""><img src="/MW_SETUP_1.jpg" class="element element-image" id="image_1367135275115"><br class="">
                 </font><br class="">
                 <p>When you start with the install you will need set admin account. This will be the only way to manage your website, blog or online shop. The fields you will need to fill are:<br class="">
+
                   
                 </p>
             <ul class="" style="font-weight: bold;">

@@ -37,7 +37,9 @@
 }
 
 
-
+.transparent{
+  background: url(<?php print pathToURL(dirname(__FILE__)); ?>/ico.transparentbg.png) no-repeat 1px 1px;
+}
 
 
 
@@ -85,8 +87,9 @@
               span.setAttribute('onclick', '_do("'+color.replace(/#/g, '')+'");');
             }
             else{
-              span.style.background = color;
+
               $(span).addClass("transparent");
+              span.title = "Transparent Color";
               span.setAttribute('onclick', '_do("'+'transparent'+'");');
             }
 

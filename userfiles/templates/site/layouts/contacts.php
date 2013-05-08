@@ -12,7 +12,7 @@ description: Contact us layout
 
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div id="content">
 	<div class="container">
@@ -68,4 +68,4 @@ description: Contact us layout
   </div>
 	</div>
 </div>
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

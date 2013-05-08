@@ -57,7 +57,7 @@ $(document).ready(function(){
         return false;
     });
     mw.$("#doc-popup").click(function(){
-        mw.site.modal('#doc-modal', 'Sorry', false);
+        mw.site.modal('#doc-modal', 'How To Install', false);
         return false;
     });
 
