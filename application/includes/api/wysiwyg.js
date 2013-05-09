@@ -20,6 +20,7 @@ mw.wysiwyg = {
 
                     mw.askusertostay = true;
                 });
+
             });
         }
         else{
@@ -310,14 +311,14 @@ mw.wysiwyg = {
            }
 
            if(event.keyCode == 46 && sel.isCollapsed){
-              d(r.endOffset)
-             r.setStart(r.commonAncestorContainer, r.endOffset - 1);
-
              try{
-              r.setEnd(r.startContainer, r.endOffset + 1);
+                sel.isCollapsed = false;
+                r.setEnd(r.commonAncestorContainer, r.endOffset + 1);
+                r.deleteContents();
+              return false;
              }
              catch(e){
-                d(e)
+
              return false; }
              mw.e.cancel(event, true);
            }
@@ -349,7 +350,28 @@ mw.wysiwyg = {
 
       });
 
+      mw.on.tripleClick(mwd.body, function(target){
+        mw.wysiwyg.select_all(target);
 
+        if(mw.tools.hasParentsWithClass(target, 'element')){
+          mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
+        }
+
+
+        var s = window.getSelection();
+        var r = s.getRangeAt(0);
+        var c = r.cloneContents();
+        var a = r.commonAncestorContainer.querySelectorAll('*'), l = a.length, i=0;
+
+        for( ; i<l; i++ ){
+          if(s.containsNode(a[i])){
+              r.setEndBefore(a[i]);
+              break;
+              return false;
+          }
+        }
+
+      });
 
       $(mwd.body).keyup(function(е){
         if(mw.tools.isEmpty(е.target)){
@@ -357,6 +379,10 @@ mw.wysiwyg = {
          }
          if(е.keyCode == 13) {
                mw.$(".element-current").removeClass("element-current");
+               var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
+               for( ; i<l; i++){
+                   el[i].id =  'row_' + mw.random();
+               }
          }
       });
 
@@ -1002,14 +1028,14 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
     }
   });
 
-  $(window).bind("onElementClick", function(e, el){
+ /* $(window).bind("onElementClick", function(e, el){
     if($(el).hasClass("lipsum")){
        $(el).removeClass("lipsum");
 
        mw.wysiwyg.select_all(el);
        mw.wysiwyg.select_all(el);
     }
-  });
+  });   */
 
 
  if(!window['mwAdmin']){

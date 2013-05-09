@@ -120,7 +120,22 @@ DOMChange:function(element, callback, attr){
         callback.call(obj);
       }
     });
-  }
+  },
+  tripleClick : function(el, callback){
+    var t, timeout = 199, el = el || window;
+    el.addEventListener("dblclick", function () {
+        t = setTimeout(function () {
+            t = null;
+        }, timeout);
+    });
+    el.addEventListener("click", function (e) {
+        if (t) {
+            clearTimeout(t);
+            t = null;
+            callback.call(el, e.target)
+        }
+    });
+}
 }
 
 mw.hashHistory = [window.location.hash]
@@ -208,6 +223,12 @@ mw.e = {
     if (e.stopPropagation) e.stopPropagation();
   }
 }
+
+
+
+
+
+
 
 
 

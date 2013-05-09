@@ -2230,7 +2230,7 @@ dropInside = function(el){
         var shadow = css.shadow(true);
         var border = css.border(true);
 
-    if(bg.color != 'transparent' || bg.image != 'none'){
+    if((bg.color != 'transparent' && bg.color != 'rgba(0, 0, 0, 0)') || bg.image != 'none'){
       return true;
     }
     if(padding.top > 0 || padding.right > 0 || padding.bottom > 0 || padding.left > 0){
@@ -2239,7 +2239,9 @@ dropInside = function(el){
     if(radius.tl > 0 || radius.tr > 0 || radius.br > 0 || radius.bl > 0){
       return true;
     }
-    if(shadow.color !='none'){return true}
+    if(shadow.color !='none'){
+      return true;
+    }
 
     if(border.top.width > 0 || border.right.width > 0 || border.bottom.width > 0 || border.left.width > 0){
       return true;

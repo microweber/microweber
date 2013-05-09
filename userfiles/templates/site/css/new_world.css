@@ -4,7 +4,8 @@
 body{
   background: #F3F3F3;
   font: 400 16px/1.5 'Open Sans', Arial, sans-serif;
-  color: #696969;
+ /* color: #696969;*/
+  color: black;
 }
 
 label, input, button, select, textarea{
