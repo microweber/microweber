@@ -865,9 +865,7 @@ ul.dropdown-menu ul.dropdown-menu{
 .sidebar-box .nav li.depth-1 li a{
   display: block;
 }
-.sidebar-box .nav li.depth-1 > a.active-parent{
-  background: #eee;
-}
+
 
 .sidebar-box .nav li.depth-1 li.active > a{
   text-decoration: underline;

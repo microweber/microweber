@@ -2923,7 +2923,8 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 	if ($parent == 0) {
 		$cache_group = 'content/global';
 	} else {
-		$cache_group = 'content/' . $parent;
+		//$cache_group = 'content/' . $parent;
+		$cache_group = 'categories/global';
 	}
 	if (isset($include_categories) and $include_categories == true) {
 		$cache_group = 'categories/global';

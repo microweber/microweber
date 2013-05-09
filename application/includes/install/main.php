@@ -10,7 +10,17 @@
 <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
 <script type="text/javascript" src="<?php print INCLUDES_URL; ?>js/jquery.js"></script>
-<?php  $rand = uniqid(); ?>
+<?php
+
+    $rand = uniqid();
+
+    $ua = $_SERVER["HTTP_USER_AGENT"];
+
+    $defhost =  strpos($_SERVER["HTTP_USER_AGENT"], 'Linux') ? 'localhost' : '127.0.0.1';
+
+
+
+?>
 <script  type="text/javascript">
 
 
@@ -23,6 +33,12 @@ $(document).ready(function(){
    $('#form_<?php print $rand; ?>').submit(function() {
 
 
+   if(this.elements["admin_password"].value != this.elements["admin_password2"].value){
+    alert("Passwords don't match.")
+    return false;
+   }
+
+         $('#mw_log').hide();
   mw_start_progress();
    $('.mw-install-holder').fadeOut();
 
@@ -33,7 +49,7 @@ $(document).ready(function(){
   $.post("<?php print url_string() ?>", $data,
    function(data) {
 
-      $('.mw_log').html('');
+      $('#mw_log').hide().empty();
      if(data != undefined){
      if(data == 'done'){
        // window.location.href= '<?php print site_url('admin') ?>'
@@ -41,7 +57,8 @@ $(document).ready(function(){
 			 $('#mw-install-done').fadeIn();
 
      } else {
-      $('.mw_log').html(data);
+
+      $('#mw_log').html(data).show();
       $('.mw-install-holder').fadeIn();
      }
 
@@ -89,9 +106,30 @@ function mw_start_progress(){
 body {
 	background: #f4f4f4;
 }
+
+h1,h2,h3,h4,h5{
+  font-weight: normal;
+}
+
+.vSpace {
+    clear: both;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.installholder{
+  width: 590px;
+  margin: 80px auto 40px;
+}
+
 .mw-o-box {
 	background: white;
-	box-shadow:0px 20px 14px -23px #CCCCCC;
+}
+
+.mw-o-box-header, .mw-o-box-content{
+  padding-left: 20px;
+  padding-right: 20px;
 }
 input[type='text'], input[type='password'] {
 	width: 200px;
@@ -105,34 +143,143 @@ input[type='text'], input[type='password'] {
 .mw_install_progress {
 	display: none;
 }
+
+.mw-o-box  ol{
+  padding-left: 20px;
+
+}
+
+.error{
+  color: red;
+}
+.error a{
+  color: red;
+}
+
+.mw-o-box ol.error{
+  color: red;
+  padding-top: 10px;
+}
+
+.mw-o-box ol.error li{
+  padding: 5px 0;
+}
+#logo{
+  float: left;
+}
+
+.Beta{
+  float: right;
+}
+
+.version{
+  color: #757575;
+}
+
+#mw-install-done {
+  text-align: center;
+  padding-bottom: 40px;
+  clear: both;
+  overflow: hidden;
+}
+
+#mw-install-done .mw-ui-btn{
+  margin: 0  0 0 35px;
+  width: 190px;
+}
+
+#mw-install-done .mw-ui-btn-blue{
+  margin: 0 35px 0 0;
+}
+
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <div class="page">
-    <div class="mw-o-box" style="width: 400px;margin: 100px auto;padding: 20px;">
-      <header class="header">
-        <h1>Microweber Setup</h1>
-        <small class="version">version <?php print MW_VERSION ?></small>
-        <p><br>
+  <div class="installholder">
+      <a href="http://microweber.net" target="_blank" id="logo">
+        <img src="//microweber.net/webinstall/logo.png" alt="Microweber" />
+        <small class="version">v. <?php print MW_VERSION ?></small>
+      </a>
+    <span class="Beta">Beta Version</span>
+    <div class="vSpace"></div>
+    <div class="mw-o-box" >
+      <div class="mw-o-box-header">
+        <h2>Setup</h2>
+
+        <p>
           Welcome to the Microweber configuration panel, here you can setup your website quickly.</p>
         <div class="custom-nav"></div>
-      </header>
+      </div>
+
+      <div class="mw-o-box-content">
+
       <div class="sep"><span class="left-arrow arrow"></span><span class="right-arrow arrow"></span></div>
       <div class="demo" id="demo-one">
         <div class="description">
-          <div class="mw_log"> </div>
+          <div id="mw_log" class="error mw-o-box mw-o-box-content" style="display: none"></div>
           <div class="mw_install_progress">
             <progress max="5000" value="1" id="mw_install_progress_bar"></progress>
           </div>
           <div class="mw-install-holder">
             <?php if ($done == false): ?>
+
+
+
+
+<?php
+
+$check_pass = true;
+$server_check_errors = array();
+if (version_compare(phpversion(), "5.3.0", "<=")) {
+	$check_pass = false;
+	$server_check_errors['php_version'] = 'You must run PHP 5.3 or greater';
+}
+if (!ini_get('allow_url_fopen')) {
+	$check_pass = false;
+	$server_check_errors['allow_url_fopen'] =  'You must enable allow_url_fopen from php.ini';
+}
+$here = dirname(__FILE__).DIRECTORY_SEPARATOR.uniqid();
+if (is_writable($here)) {
+	$check_pass = false;
+	$server_check_errors['not_wrtiable'] =  'The current directory is not writable';
+}
+if(function_exists('apache_get_modules') ){
+	 if(!in_array('mod_rewrite',apache_get_modules())){
+	 	$check_pass = false;
+		$server_check_errors['mod_rewrite'] =  'mod_rewrite is not enabled on your server';
+	 }
+}
+
+
+
+            ?>
+
+            <?php if ($check_pass == false): ?>
+          <?php if(!empty($server_check_errors)): ?>
+    <h3>Server check</h3>
+    <h4>There are some errors on your server that will prevent Microweber from working properly</h4>
+      <ol class="error">
+      <?php foreach($server_check_errors as $server_check_error): ?>
+      <li>
+        <?php print $server_check_error; ?>
+      </li>
+      <?php endforeach ?>
+      </ol>
+  <?php endif; ?>
+
+
+
+              <?php else: ?>
+
+
+
             <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
               <h2>Database setup</h2>
               <div class="hr"></div>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
-                <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif(isset($data['db'])!= true): ?> value="localhost" <?php endif; ?> />
+                <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif(isset($data['db'])!= true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">MySQL username <span class="mw-help" data-help="The username of your database.">?</span></label>
@@ -150,12 +297,12 @@ input[type='text'], input[type='password'] {
                 <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
                 <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
               </div>
-              
+
               <!-- <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database type</label>
               <input type="hidden" class="mw-ui-field" name="DB_TYPE" <?php if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<?php print $data['db']['type'] ?>" <?php endif; ?> />
             </div>-->
-              
+               <div class="admin-setup">
               <h2>Admin user setup</h2>
               <div class="hr"></div>
               <div class="mw-ui-field-holder">
@@ -169,6 +316,11 @@ input[type='text'], input[type='password'] {
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Admin password</label>
                 <input type="password" required="true" class="mw-ui-field" name="admin_password" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+              </div>
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Repeat password</label>
+                <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password2'])== true and isset($data['admin_password2'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+              </div>
               </div>
               <?php 		$default_content_file = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
               <?php if(is_file($default_content_file)): ?>
@@ -189,28 +341,36 @@ input[type='text'], input[type='password'] {
                 </small> </div>
               <div class="mw-ui-field-holder">
                 <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
+                <div class="vSpace"></div>
               </div>
               <div class="mw_clear"></div>
               <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
               <input type="hidden" value="UTC" name="default_timezone" />
             </form>
+
+                 <?php endif; ?>
             <?php else: ?>
             <h2>Done, </h2>
             <a href="<?php print site_url('admin') ?>">click here to to to admin</a> <a href="<?php print site_url() ?>">click here to to to site</a>
             <?php endif; ?>
+
+
+
+
+
           </div>
           <div id="mw-install-done" style="display:none">
             <h2>Installation is completed</h2>
             <br />
-            <a href="<?php print site_url() ?>/admin" class="mw-ui-btn-action">Click here to go to Admin Panel</a> <br />
-            <br />
-            <a href="<?php print site_url() ?>" class="mw-ui-btn">Click here visit your site</a> </div>
+            <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">Click here to go to Admin Panel</a>
+
+            <a href="<?php print site_url() ?>" class="mw-ui-btn left">Click here visit your site</a> </div>
         </div>
         <!-- .description --> 
         
       </div>
       <!-- .demo --> 
-      
+            </div>
     </div>
   </div>
   <!-- .page --> 
