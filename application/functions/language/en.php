@@ -549,3 +549,4 @@ $language["content-is-deleted"]= 'Content is deleted!' ;
 $language["content-is-restored"]= 'Content is restored!' ; 
 $language["content-is-restored"]= 'Content is restored!' ; 
 $language["content"]= 'Content' ; 
+$language["content-was-sent-to-trash"]= 'Content was sent to Trash' ; 

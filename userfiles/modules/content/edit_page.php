@@ -1304,7 +1304,30 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
       </div>
       <?php if(isset($data['id']) and $data['id'] > 0): ?>
       <br />
-      <small>Id: <?php print ($data['id'])?></small>
+      <small>Id: <?php print ($data['id'])?></small> 
+      <script  type="text/javascript">
+ 
+
+mw.del_curent_page = function(a, callback){
+	  var r=confirm("Are you sure you want to delete this?")
+  if (r==true) {
+	 var arr = $.isArray(a) ? a : [a];
+   var obj = {ids:arr}
+    $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+		
+		   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+
+		
+		
+      typeof callback === 'function' ? callback.call(data) : '';
+    });
+	}
+}
+
+</script>
+      <small><a href="javascript:mw.del_curent_page('<?php print ($data['id'])?>');"  class="mw-ui-link">
+    <?php _e('Delete'); ?>
+    </a></small> 
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />

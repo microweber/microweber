@@ -50,7 +50,7 @@ class LuminousOptions {
    * If the formatter supports line numbering, this setting controls whether
    * or not lines should be numbered
    */
-  private $line_numbers = true;
+  private $line_numbers = false;
 
   /**
    * @brief Line number of first line
