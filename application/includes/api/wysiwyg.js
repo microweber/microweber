@@ -310,11 +310,11 @@ mw.wysiwyg = {
            }
 
            if(event.keyCode == 46 && sel.isCollapsed){
-              d(r.startContainer)
-             r.setEnd(r.startContainer, r.endOffset + 1);
+              d(r.endOffset)
+             r.setStart(r.commonAncestorContainer, r.endOffset - 1);
 
              try{
-              //  r.setEnd(r.startContainer, r.endOffset + 1);
+              r.setEnd(r.startContainer, r.endOffset + 1);
              }
              catch(e){
                 d(e)

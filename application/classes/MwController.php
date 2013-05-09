@@ -357,23 +357,28 @@ class MwController {
 		  if($page['id'] != 0){
 			  $page = get_content_by_id($page['id']);
 
-				if (isset($page['is_pinged']) and $page['is_pinged'] == "n" ) {
-				content_ping_servers_async();
-				}
+					
 
-
-
-		if ($page['content_type'] == "post" and isset($page['parent'])) {
-			$content = $page;
-			$page = get_content_by_id($page['parent']);
-		} else {
-			$content = $page;
-		}
+			
+			
+					if ($page['content_type'] == "post" and isset($page['parent'])) {
+						$content = $page;
+						$page = get_content_by_id($page['parent']);
+					} else {
+						$content = $page;
+					}
 		  } else {
 			  $content = $page;
 		  }
 
 		//
+		
+		
+		if (isset($page['is_pinged']) and $page['is_pinged'] == "n" ) {
+			 
+					content_ping_servers_async();
+					}
+		
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
 			$content['active_site_template'] = $is_preview_template;
