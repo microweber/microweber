@@ -2223,6 +2223,9 @@ __createRow = function(hovered, mw_drag_current, pos){
 
 
 dropInside = function(el){
+    if(el.tagName == 'IMG') {
+      return false;
+    }
     var css = mw.CSSParser(el).get;
         var bg = css.background();
         var padding = css.padding(true);

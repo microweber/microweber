@@ -354,7 +354,7 @@ mw.wysiwyg = {
         mw.wysiwyg.select_all(target);
 
         if(mw.tools.hasParentsWithClass(target, 'element')){
-          mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
+          //mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
         }
 
 

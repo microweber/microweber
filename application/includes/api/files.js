@@ -1,6 +1,6 @@
 mw.files = {
     settings:{
-        filetypes:"png,gif,jpg,jpeg,tiff,bmp",
+        filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg",
         url:mw.settings.upload_url,
         type:'explorer', // ... or filedrag
         multiple:true
@@ -8,19 +8,26 @@ mw.files = {
     filetypes:function(a, normalize){
         var def = !!normalize ? a : mw.files.settings.filetypes;
         switch(a){
+		case 'img':	
+		case 'image':
         case 'images':
           return mw.files.settings.filetypes;
           break;
+		case 'video':
         case 'videos':
           return 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
           break;
+		case 'file':  
         case 'files':
           return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
           break;
         case 'documents':
+		case 'doc':
           return 'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
           break;
         case 'archives':
+		case 'arc':
+		case 'arch':
           return 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
           break;
         case 'all':

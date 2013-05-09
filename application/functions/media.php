@@ -6,7 +6,7 @@ function get_picture($content_id, $for = 'post', $full = false) {
 	$arr['limit'] = '1';
 	$arr['rel_id'] = $content_id;
 	$imgages = get_pictures($arr);
- 
+
 	if ($imgages != false and isset($imgages[0])) {
 		if (isset($imgages[0]['filename']) and $full == false) {
 			return $imgages[0]['filename'];
@@ -352,7 +352,7 @@ function save_media($data) {
 		 } else {
 
 		 }
-		 }*/
+		}*/
 
 		$s['filename'] = $data['src'];
 	}
@@ -515,10 +515,18 @@ function thumbnail($src, $width = 200, $height = 200) {
 		//
 
 		if (file_exists($src)) {
+			$ext = get_file_extension($src);
 
-			$tn = new \mw\Thumbnailer($src);
-			$thumbOptions = array('maxLength' => $height, 'width' => $width);
-			$tn -> createThumb($thumbOptions, $cache_path);
+			if(strtolower($ext) == 'svg'){
+				$res1 = file_get_contents($src);
+				$res1 = svgScaleHack($res1,$width,$height);
+				file_put_contents($cache_path,$res1);
+
+			} else {
+				$tn = new \mw\Thumbnailer($src);
+				$thumbOptions = array('maxLength' => $height, 'width' => $width);
+				$tn -> createThumb($thumbOptions, $cache_path);
+			}
 		}
 
 	}
@@ -639,4 +647,45 @@ function delete_media_file($params) {
 	}
 	return $resp;
 
+}
+
+
+
+function svgScaleHack($svg, $minWidth, $minHeight)
+{
+	$reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+	$reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+	preg_match($reW, $svg, $mw);
+	preg_match($reH, $svg, $mh);
+
+	if(!isset($mw[2]) and isset($mh[2])){
+		$mw[2] = $mh[2];
+	}
+
+	 if(empty($mw)){
+$width = floatval($minWidth);
+	$height = floatval($minHeight);
+	 } else {
+	 	$width = floatval($mw[2]);
+	$height = floatval($mh[2]);
+	 }
+
+	if (!$width || !$height) return false;
+
+    // scale to make width and height big enough
+	$scale = 1;
+	if ($width < $minWidth){
+		$scale = $minWidth/$width;
+	}
+	if ($height < $minHeight){
+		$scale = max($scale, ($minHeight/$height));
+	}
+	$scale = 1;
+	//$width *= $scale*2;
+	//$height *= $scale*2;
+
+	$svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+	$svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
+
+	return $svg;
 }
