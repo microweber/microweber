@@ -86,6 +86,15 @@ cat ~/.ssh/id_dsa.pub.transferred >> ~/.ssh/authorized_keys
 rm ~/.ssh/id_dsa.pub.transferred
 exit
 
+
+rsync  --verbose  --progress --stats /home/ /home2/
+scp /home/ /home2/
+
+yes | cp -fivrp --force  --preserve /home/ /home2/
+
+
+
+
 rsync -e ssh  --verbose  --progress --stats --compress  --exclude '.git' --exclude 'cache'   api@api.microweber.net:/home/api/public_html /home/api/public_html
 
 rsync -e ssh  --verbose  --progress --stats --compress  --exclude '.git' --exclude 'cache' --exclude 'history' --exclude 'userfiles/media'   --exclude '?'   /home/api/master /home/api/public_html

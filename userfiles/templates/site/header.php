@@ -43,7 +43,7 @@
 <!--          <li><a href="javascript:;" id="doc-popup">How to install</a></li>
 -->          
 
-          <li><a href="<?php print site_url('developers-help') ?>">Help</a></li>
+          <li><a href="<?php print site_url('developers-help') ?>">How to install</a></li>
 
 
 <li><a href="<?php print site_url('home') ?>#contact-us">Contacts</a></li>

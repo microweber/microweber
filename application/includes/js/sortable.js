@@ -1079,8 +1079,8 @@ mw.drag = {
                                      $(mw.dragCurrent).removeClass("mw_drag_float");
                                      $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                      hovered.removeClass("mw_drag_float");
-                                     if(hovered.hasClass("edit")){
-                                        hovered.append(mw.dragCurrent);
+                                     if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
+                                        hovered.prepend(mw.dragCurrent);
                                      }
                                      else{hovered.before(mw.dragCurrent);
 
@@ -1090,8 +1090,8 @@ mw.drag = {
                                     $(mw.dragCurrent).removeClass("mw_drag_float");
                                     $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                      hovered.removeClass("mw_drag_float");
-                                     if(hovered.hasClass("edit")){
-                                        hovered.prepend(mw.dragCurrent);
+                                     if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
+                                        hovered.append(mw.dragCurrent);
                                      }
                                      else{
 
@@ -2219,6 +2219,33 @@ __createRow = function(hovered, mw_drag_current, pos){
             mw.drag.fix_placeholders(true);
             mw.resizable_columns();
        }, 200)
+}
+
+
+dropInside = function(el){
+    var css = mw.CSSParser(el).get;
+        var bg = css.background();
+        var padding = css.padding(true);
+        var radius = css.radius(true);
+        var shadow = css.shadow(true);
+        var border = css.border(true);
+
+    if(bg.color != 'transparent' || bg.image != 'none'){
+      return true;
+    }
+    if(padding.top > 0 || padding.right > 0 || padding.bottom > 0 || padding.left > 0){
+      return true;
+    }
+    if(radius.tl > 0 || radius.tr > 0 || radius.br > 0 || radius.bl > 0){
+      return true;
+    }
+    if(shadow.color !='none'){return true}
+
+    if(border.top.width > 0 || border.right.width > 0 || border.bottom.width > 0 || border.left.width > 0){
+      return true;
+    }
+
+    return false;
 }
 
 

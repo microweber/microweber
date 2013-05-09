@@ -33,13 +33,24 @@ mw.CSSParser = function(el){
         return final;
       }
     }
-    this.border = function(){
-        return {
-            top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
-            left:{width:css.borderLeftWidth, style:css.borderLeftStyle, color:css.borderLeftColor},
-            right:{width:css.borderRightWidth, style:css.borderRightStyle, color:css.borderRightColor},
-            bottom:{width:css.borderBottomWidth, style:css.borderBottomStyle, color:css.borderBottomColor}
+    this.border = function(parse){
+        if(!parse){
+          return {
+              top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
+              left:{width:css.borderLeftWidth, style:css.borderLeftStyle, color:css.borderLeftColor},
+              right:{width:css.borderRightWidth, style:css.borderRightStyle, color:css.borderRightColor},
+              bottom:{width:css.borderBottomWidth, style:css.borderBottomStyle, color:css.borderBottomColor}
+          }
         }
+        else{
+          return {
+              top:{width:parseFloat(css.borderTopWidth), style:css.borderTopStyle, color:css.borderTopColor},
+              left:{width:parseFloat(css.borderLeftWidth), style:css.borderLeftStyle, color:css.borderLeftColor},
+              right:{width:parseFloat(css.borderRightWidth), style:css.borderRightStyle, color:css.borderRightColor},
+              bottom:{width:parseFloat(css.borderBottomWidth), style:css.borderBottomStyle, color:css.borderBottomColor}
+          }
+        }
+
     }
     this.width = function(){
         return css.width;
