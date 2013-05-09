@@ -6,7 +6,7 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.662);
+	define('MW_VERSION', 0.664);
 }
 error_reporting(E_ALL);
 

@@ -356,6 +356,13 @@ class MwController {
 
 		  if($page['id'] != 0){
 			  $page = get_content_by_id($page['id']);
+
+				if (isset($page['is_pinged']) and $page['is_pinged'] == "n" ) {
+				content_ping_servers_async();
+				}
+
+
+
 		if ($page['content_type'] == "post" and isset($page['parent'])) {
 			$content = $page;
 			$page = get_content_by_id($page['parent']);

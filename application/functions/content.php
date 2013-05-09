@@ -2589,6 +2589,8 @@ function save_content($data, $delete_the_cache = true) {
 			}
 		}
 	}
+
+	 exec_action('mw_save_content');
 	return $save;
 	//exit();
 	// if ($data_to_save ['content_type'] == 'page') {
@@ -3262,7 +3264,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 					} else {
 						$active_class = '';
 					}
-  
+
 
 					$ext_classes = '';
 					if($res_count == 0){
@@ -3978,3 +3980,79 @@ $page = get_content_by_url($ref_page);
 	return false;
 
 }
+
+
+
+
+
+
+//action_hook('mw_save_content', 'content_ping_servers_async');
+//action_hook('mw_user_login_admin', 'content_ping_servers_async');
+function content_ping_servers_async() {
+$scheduler = new \mw\utils\Events();
+$scheduler -> registerShutdownEvent("content_ping_servers");
+}
+
+function content_ping_servers() {
+
+		if ($_SERVER ["SERVER_NAME"] == 'localhost') {
+			return false;
+		}
+
+		if ($_SERVER ["SERVER_NAME"] == '127.0.0.1') {
+			return false;
+		}
+
+		$q = get_content('is_pinged=n&limit=5');
+
+		$server = array (
+		'Google' => 'http://blogsearch.google.com/ping/RPC2',
+		'Feed 2' => 'http://ping.pubsub.com/ping',
+		'Feed 3' => 'http://api.my.yahoo.co.jp/RPC2' );
+
+
+		if(!empty( $q)){
+
+
+
+			foreach ( $server as $line_num => $line ) {
+
+				$line = trim ( $line );
+
+
+				if ($line != '') {
+
+					foreach ( $q as $the_post ) {
+
+						$pages = array();
+						$pages [] = $the_post ['title'];
+ 						$pages [] = content_link($the_post ['id']);
+
+						$save = array('id' => $the_post ['id'], 'is_pinged' => 'y');
+						mw_var('FORCE_SAVE_CONTENT',MW_DB_TABLE_CONTENT);
+						mw_var('FORCE_SAVE', MW_DB_TABLE_CONTENT);
+
+						save(MW_DB_TABLE_CONTENT, $save);
+						$request = xmlrpc_encode_request("weblogUpdates.ping", $pages);
+						$context = stream_context_create(array('http' => array(
+						    'method' => "POST",
+						    'header' => "Content-Type: text/xml",
+						    'content' => $request
+						)));
+						$file = @file_get_contents($line, false, $context);
+						$response = xmlrpc_decode($file);
+						if ($response && xmlrpc_is_fault($response)) {
+						   // trigger_error("xmlrpc: $response[faultString] ($response[faultCode])");
+						} else {
+
+						    //print_r($response);
+						}
+
+					}
+
+				}
+
+			}
+		}
+
+	}

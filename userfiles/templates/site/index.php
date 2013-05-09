@@ -34,7 +34,7 @@
 
             <a href="javascript:;" class="obtn obtn-blue" id="download">Download Beta</a>
 
-            <a href="javascript:;" id="download-zip">Web Install<small>(26kb)</small></a>
+            <a href="<?php print site_url('download.php?webinstall=1') ?>" id="download-zip">Web Install<small> (8kb)</small></a>
 
             <div id="download_modal" class="hide">
 

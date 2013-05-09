@@ -967,6 +967,7 @@ function user_login($params) {
 
 			if (!defined('USER_ID')) {
 				define("USER_ID", $data['id']);
+				exec_action('mw_user_login');
 			}
 
 			session_set('user_session', $user_session);
@@ -974,7 +975,7 @@ function user_login($params) {
 			update_user_last_login_time();
 			if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
 				if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-
+ 				exec_action('mw_user_login_admin');
 					$p = get_page();
 					if (!empty($p)) {
 						$link = page_link($p['id']);
