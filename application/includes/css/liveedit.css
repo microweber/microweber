@@ -81,6 +81,10 @@ body.mw-live-edit.dragStart .edit{
 	 
 }
 
+.element{
+  min-height: 14px;
+}
+
 .empty-element {
 	/*background-image: url(images/drop.png); */
 	background-color:transparent !important;

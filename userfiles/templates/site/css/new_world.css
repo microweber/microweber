@@ -1624,3 +1624,17 @@ input.mw-captcha-input{
     color: white;
 }
 }
+
+
+
+
+#download-zip{
+  clear: both;
+    display: block;
+    float: right;
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+    text-decoration: underline;
+    width: 218px;
+}

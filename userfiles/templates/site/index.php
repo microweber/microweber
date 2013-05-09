@@ -32,7 +32,9 @@
 
             <span class="or">or</span>
 
-            <a href="javascript:;" class="obtn obtn-blue" id="download">Web Install</a>
+            <a href="javascript:;" class="obtn obtn-blue" id="download">Download Beta</a>
+
+            <a href="javascript:;" id="download-zip">Web Install<small>(26kb)</small></a>
 
             <div id="download_modal" class="hide">
 
