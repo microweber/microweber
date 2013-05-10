@@ -476,16 +476,20 @@ mw.drag = {
 
             if(el.hasClass("element") ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') ||
+            mw.tools.hasClass(mw.currentDragMouseOver.className, 'module') ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element") || el.hasClass("mw-empty")){
                     mw.dropable.hide();
+
                 }
                 else{
                     mw.dropable.show();
+
                 }
             }
             else{
                mw.dropable.hide();
+
             }
            }
            }
