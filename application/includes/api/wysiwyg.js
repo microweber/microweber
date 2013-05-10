@@ -1067,9 +1067,7 @@ mw.$(".mw_dropdown_action_font_size li a").each(function(i){
 
 $(window).load(function(){
   mw.wysiwyg.init_editables();
-  setInterval(function(){
-    mw.wysiwyg.fixElements(mwd.body);
-  }, 333);
+
 })
 
 

@@ -164,15 +164,16 @@ function mw_check_for_update() {
 
 		$mw_avail_updates = $iudates;
 
-	$notif = array();
-		$notif['module'] = "updates";
+		if(intval($mw_avail_updates) > 0){
+				$notif = array();
+				$notif['module'] = "updates";
 
-		$notif['title'] = "New updates are avaiable.";
-		$notif['description'] = "There are new MW updates";
+				$notif['title'] = "New updates are avaiable.";
+				$notif['description'] = "There are new MW updates";
 
-		 post_notification($notif);
+				 post_notification($notif);
 
-
+		}
 	}
 	return $mw_avail_updates;
 

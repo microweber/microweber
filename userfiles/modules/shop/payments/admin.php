@@ -149,7 +149,7 @@ mw.$("#available_providers").sortable({
 .gateway-icon-title .gateway-title{
   display: block;
   float: right;
-  width: 560px;
+  width: 530px;
   padding-top: 10px;
 
 }

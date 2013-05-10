@@ -28,23 +28,7 @@ $v_monthly = get_visits('monthly');
 <module="site_stats/dashboard_last" id="stats_dashboard_last" />
 <script  type="text/javascript">
 
-var curr_users = mwd.getElementById('real_users_online');
-var curr_users_numb = parseFloat(curr_users.innerHTML);
-var i = -1;
-_countEm = 100;
 
-_rendvisits = function(){
-  i++;
-  _countEm > 0 ? _countEm--:'';
-  if(curr_users_numb>=i){
-    setTimeout(function(){
-     curr_users.innerHTML = i;
-     _rendvisits();
-    }, _countEm);
-  }
-}
-
-curr_users_numb <= 10 ? _rendvisits() : '';
 
 
 

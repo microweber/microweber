@@ -1,7 +1,7 @@
 <?php
-
+$language_content = array();
 function _e($k, $to_return = false) {
-    static $c;
+    global $language_content;
     static $lang_file;
 
     //$k = str_replace(' ', '-', $k);
@@ -10,7 +10,7 @@ function _e($k, $to_return = false) {
  	$lang = session_get('lang');
 	}
 //	$k1 = url_title($k);
-    if ($c === NULL) {
+    if ($language_content === NULL or !is_array($language_content)) {
         if ($lang_file === NULL) {
             if (!isset($_SESSION) or session_get('lang') == 'en') {
                 $lang = 'en';
@@ -37,26 +37,26 @@ function _e($k, $to_return = false) {
                 include ($lang_file);
             }
 
-            $c = $language;
+            $language_content = $language;
         }
     } else {
 
     }
-    if (isset($c[$k1]) == false) {
+    if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
             $k2 = addslashes($k);
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
             @file_put_contents($lang_file, $b, FILE_APPEND);
         }
-if($to_return == true ){
-	return   $k;
-}
+		if($to_return == true ){
+			return   $k;
+		}
         print $k;
     } else {
-if($to_return == true ){
-	return   $c[$k1];
-}
-        print $c[$k1];
+		if($to_return == true ){
+			return   $language_content[$k1];
+		}
+        print $language_content[$k1];
     }
 }
 

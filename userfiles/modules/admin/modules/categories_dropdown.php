@@ -18,7 +18,12 @@ $for2 = 'module';
       <li data-category-id="all"><a href="#">All</a></li>
       <li class="dd_custom" style="display: none" value="-1"><a style="text-decoration: underline" href="#"></a></li>
       <li>
-        <module type="categories" data-no-wrap=1 data-for="<?php print $for ?>" id="modules_toolbar_categories_<?php print $rand+1  ?>" />
+        <module
+            type="categories"
+            data-no-wrap=1
+            data-for="<?php print $for ?>"
+            id="modules_toolbar_categories_<?php print $rand+1;  ?>"
+            template="liveedit_toolbar" />
       </li>
     </ul>
   </div>

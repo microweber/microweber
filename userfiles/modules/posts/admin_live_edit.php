@@ -171,7 +171,7 @@ if(isset($params['global']) and $params['global'] != false){
     <li><a href="javascript:;">Skin/Template</a></li>
  
     <li id="add_new_post" style="display: none;"><a href="javascript:;"></a></li>
-    <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');">Menage</a></li>
+    <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');">Manage</a></li>
     <li id="edit_posts" style="display: none;"><a href="javascript:;"></a></li>
   </ul>
   <div class="tab">
@@ -185,7 +185,7 @@ if(isset($params['global']) and $params['global'] != false){
     <?php endif;  ?>
   </div>
   <div class="tab">
-    <?php 
+    <?php
    
    if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 	    $add_post_q = 'subtype="product" is_shop=y ';

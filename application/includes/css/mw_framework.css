@@ -989,7 +989,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-medium{
   padding: 5px 12px 6px;
   height: 15px;
-} 
+}
 
 
 .mw-ui-btn-plus{
@@ -2630,6 +2630,10 @@ body.dragStart .mw_dropable_arr_up .mw_dropable_arr:before{
   left: -55px;
 }
 
+body.dragStart .mw_dropable_vertical .mw_dropable_arr:before{
+  display: none;
+}
+
 
 body.dragStart .empty-element.currentDragMouseOver:before{
   position: absolute;
@@ -2665,6 +2669,20 @@ body.dragStart .empty-element.currentDragMouseOver:before{
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
+}
+
+
+.edit li.module-item{
+  list-style: none;
+  background: white url(../img/img_check_loading.gif) no-repeat center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #BDBBBB;
+  border-radius: 3px;
+}
+
+.edit li.module-item * {
+  display: none;
 }
 
 
