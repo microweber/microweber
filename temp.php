@@ -86,12 +86,19 @@ cat ~/.ssh/id_dsa.pub.transferred >> ~/.ssh/authorized_keys
 rm ~/.ssh/id_dsa.pub.transferred
 exit
 
+cd to/the/dir
+mv * ../
+
 
 rsync  --verbose  --progress --stats /home/ /home2/
 scp /home/ /home2/
 
-yes | cp -fivrp --force  --preserve /home/ /home2/
+yes | cp -fivrp --force  --preserve /home /home2
 
+
+yes | cp -fivrp --force  --preserve  /home_back/home_old/* /home/
+
+mkfs -t ext4 /dev/sdg
 
 
 
@@ -138,7 +145,7 @@ API Username: 	boksio_1352898155_biz_api1.gmail.com
 API Password: 	1352898225
 Signature: 	A3gEt3WXnVKeHHoeh0uLGXFuaRVvAxtzdKdF0t46v02YJBxqmFALdIHJ
 
-Blez830106758z
+
 ==================================
 
 memcache 54.243.113.235
@@ -235,3 +242,7 @@ ab -n 100 -c 10 -r "http://pecata/1k/title-20121011104847"
 
 C:\xampp\apache\bin\ab.exe -n 100 -c 10 -r "http://192.168.0.3/1k/my-product?test=1"
 
+
+
+
+mkfs -t ext4 /dev/sdg

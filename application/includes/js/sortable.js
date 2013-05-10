@@ -1712,6 +1712,7 @@ if(typeof el === 'object'){
     if(mw.tools.isEmptyObject(master) == false ){
             if(is_draft && is_draft != false){
              master['is_draft']  = true;
+			 mw.askusertostay = true;
             }
 
 
@@ -1725,12 +1726,12 @@ if(typeof el === 'object'){
 
             },
             success: function(data) {
-
+ mw.askusertostay = false;
               mw.history.init();
               if(!is_draft){
-                mw.askusertostay = true;
+             //  mw.askusertostay = true;
               } else {
-                 //mw.askusertostay = false;
+            //    mw.askusertostay = false;
               }
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");

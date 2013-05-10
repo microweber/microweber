@@ -17,7 +17,7 @@ description: Post inner layout
       <h3 class="edit" field="title" rel="content">Page Title</h3>
       <div class="edit"  field="content" rel="content">
         <div class="clearfix post-comments">
-          <module data-type="pictures" data-template="slider" data-content-id="<?php print CONTENT_ID; ?>"  />
+          <module data-type="pictures" data-template="slider"  rel="content"  />
         </div>
   
           <div class="element" style="width:95%">

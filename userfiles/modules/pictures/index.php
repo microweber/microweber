@@ -13,6 +13,11 @@ if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and de
 	$params['for'] = 'content';
 }
 
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and defined('CONTENT_ID')){
+	$params['rel_id'] = CONTENT_ID; 
+	$params['for'] = 'content';
+}
+
 
 
 if(!isset($params['rel_id'])){
@@ -48,9 +53,9 @@ if(isset($params['content-id'])){
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
  
  if(empty( $data)){
-	 $data = array(); 
+	/* $data = array(); 
 	 $data[0]['id'] = 0;
-	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';
+	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';*/
          $no_img = true;
  }
  
@@ -76,10 +81,8 @@ if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
 	?>
-
-<div class="mw-notification mw-warning">
-  <div> <span class="ico ioptions"></span> <span><?php print 'No default template for module '.$config['module'].' is found'; ?></span> </div>
-</div>
+<?php print mw_notif_live_edit("No template found. Please choose template."); ?>
+ 
 <?php
 	
 } ?>

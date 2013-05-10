@@ -37,7 +37,7 @@ modulePreview = function(el){
    var modal = mw.tools.modal.frame({
      url:url,
      name:"preview_" + el.id,
-     title: 'Preview Template - <b>' + el.title + "</b>",
+     title:'Preview Template - <b>' + el.title + "</b>",
      height:600,
      template:'mw_modal_simple'
    });
@@ -77,7 +77,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 <?php  if(is_arr( $templates)): ?>
 
 <label class="mw-ui-label">Set default skin for the whole website</label>
-<div class="mw-ui-select" style="width: 70%">
+<div class="mw-ui-select left" style="width: 70%;margin-right:20px;">
   <select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
     <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>Default</option>
     <?php  foreach($templates as $item):	 ?>
@@ -87,37 +87,55 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
     <?php endforeach; ?>
   </select>
 </div>
-<a class="mw-ui-btn mw-ui-btn-green " href="javascript:;">Get more templates</a>
+<a class="mw-ui-btn mw-ui-btn-green" href="javascript:;">Get more templates</a>
 <div class="mw-admin-templates-browse-holder">
   <?php if(isarr($templates )): ?>
   <?php $i = 1; foreach($templates  as $item): ?>
+
+
+
+  <div class="templatePreviewHolder" >
+
+
   <?php if(isset($item['name'])): ?>
   <h2><?php print $item['name'] ?></h2>
    <?php if(isset($item['description'])): ?>
-  <h4><?php print $item['description'] ?></h4>
+  <small class="templatePreviewDescription"><?php print $item['description'] ?></small>
   <?php endif; ?>
-  
 
-  <div class="templatePreviewHolder" onclick="modulePreview(mwd.getElementById('skin_num_<?php print $i.md5($curent_module); ?>')); return false;">
-
+ <div class="templatePreviewContainer">
   <?php if(isset($item['icon'])){ ?>
-        <img src="<?php print $item['icon'] ?>" width="365" height="365" />
+        <img src="<?php print $item['icon'] ?>"  />
   <?php } else if(isset($item['image'])){ ?>
-        <img src="<?php print $item['image'] ?>" width="365" height="365" />
+        <img src="<?php print $item['image'] ?>" />
   <?php } else {; ?>
        <iframe
               src="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
-              width="365"
-              height="365"
               frameborder="0"
               scrolling="no"
               >
        </iframe>
   <?php } ?>
 
+  <div class="templatePreviewOL">
+  <div class="templatePreviewOLContent">
+     <span class="mw-ui-btn mw-ui-btn-large"><?php print $item['name'] ?></span>
+     <span class="mw-ui-btn left mw-ui-btn-green">Use as default</span>
+     <a
+        onclick="modulePreview(this); return false;"
+        title="<?php print $item['name'] ?>"
+        id="skin_num_<?php print $i.md5($curent_module); ?>"
+        href="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
+        class="mw-ui-btn mw-ui-btn-blue right">Preview</a>
+
+  </div>
   </div>
 
-  <a onclick="modulePreview(this); return false;" title="<?php print $item['name'] ?>" id="skin_num_<?php print $i.md5($curent_module); ?>" href="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"  class="mw-ui-btn">Preview</a>
+  </div>
+
+  </div>
+
+
 
   <?php //d($item); ?>
 

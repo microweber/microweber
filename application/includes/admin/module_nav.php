@@ -17,7 +17,7 @@
   <?php   $active = url_param('view'); ?>
 
     <a title="<?php _e("Back"); ?>" href="<?php print admin_url(); ?>view:modules" class="mw-ui-btn mw-btn-single-ico left back-to-admin-cookie"><span class="ico ilaquo"></span></a>
-    <a href="javascript:;" class="mw-ui-btn right"><span><?php _e("Buy now"); ?></span></a>
+    <a href="<?php print admin_url(); ?>view:modules" class="mw-ui-btn right"><span><?php _e("Back"); ?></span></a>
 
     <div class="module-toolbar-info">
       <div class="admin-modules-list-image">

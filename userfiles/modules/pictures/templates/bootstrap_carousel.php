@@ -45,10 +45,6 @@ description: Bootstrap Carousel
     </div>
 
 <?php else : ?>
-<div class="mw-notification mw-success">
-    <div>
-      <span class="ico ioptions"></span>
-      <span>Please click on settings to upload your pictures.</span>
-    </div>
-  </div>
+<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
+
  <?php endif; ?>

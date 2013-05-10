@@ -46,6 +46,6 @@ $(document).ready(function(){
 </div>
 
 <?php else : ?>
-<?php print mw_notif("Please click on settings to upload your pictures."); ?>
+<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
  
  <?php endif; ?>

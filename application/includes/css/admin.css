@@ -981,8 +981,82 @@ form .shipping-country-row:first-child{
   margin-right: 10px;
 }
 
+.templatePreviewHolder{
+  width: 300px;
+  float: left;
+  margin: 7px;
+}
 
+.templatePreviewHolder h2{
+  padding-bottom: 0;
+}
+
+.templatePreviewContainer{
+  height: 365px;
+  overflow: hidden;
+  position: relative;
+  width: 300px;
+}
 
 table.users-list-table .del-row{
   margin:-12px -7px auto auto;
 }
+
+.templatePreviewOL{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+
+}
+
+.templatePreviewContainer > img{
+  max-width:300px;
+  max-height: 365px;
+}
+
+.templatePreviewContainer > iframe{
+  width:300px;
+  height: 365px;
+}
+
+.templatePreviewOL:hover{
+  background: rgba(0, 0, 0, 0.6);
+}
+
+
+.templatePreviewOLContent{
+  visibility: hidden;
+  width:225px;
+  margin:95px auto;
+
+}
+
+.templatePreviewOL:hover .templatePreviewOLContent{
+  visibility: visible;
+}
+.templatePreviewOLContent .mw-ui-btn{
+  width: 82px;
+  box-shadow: 0 0 2px #111;
+}
+
+.templatePreviewOLContent .mw-ui-btn-large{
+  width: 183px;
+  margin-bottom: 15px;
+}
+
+.templatePreviewDescription{
+  display: block;
+  padding-bottom: 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+
+
+
+
