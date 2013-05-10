@@ -250,6 +250,27 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 			}
 		}
 
+		$script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+		$replaced_codes = array();
+		preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+		if (!empty($mw_script_matches)) {
+			foreach ($mw_script_matches [0] as $key => $value) {
+				if ($value != '') {
+					$v1 = crc32($value);
+					$v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
+					$layout = str_replace($value, $v1, $layout);
+					// $layout = str_replace_count($value, $v1, $layout,1);
+					if (!isset($replaced_codes[$v1])) {
+						$replaced_codes[$v1] = $value;
+					}
+					// p($value);
+				}
+			}
+		}
+
+
+
 		$script_pattern = "/<module[^>]*>/Uis";
 
 		//$script_pattern = "/<module.*.[^>]*>/is";
@@ -414,6 +435,18 @@ function _OLD_parse_micrwober_tags($layout, $options = false, $coming_from_paren
 				unset($replaced_scripts[$key]);
 			}
 		}
+		if (!empty($replaced_codes)) {
+					foreach ($replaced_codes as $key => $value) {
+						if ($value != '') {
+
+							$layout = str_replace($key, $value, $layout);
+						}
+						unset($replaced_codes[$key]);
+					}
+				}
+
+
+
 
 		if (!empty($replaced_modules)) {
 
@@ -1185,7 +1218,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 								$coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
 							}
 
-						 
+
 							if (isset($attrs['id']) == true) {
 
 								$coming_from_parent_strz1 = $attrs['id'];

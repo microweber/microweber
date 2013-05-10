@@ -161,9 +161,11 @@ $(document).ready(function(){
 
 
 
-   var t = mqd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
+   var t = mwd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
 
-
+   for( ; i<l; i++){
+     $(t[i]).addClass("nodrop");
+   }
 
 
 });
