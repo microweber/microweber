@@ -49,8 +49,10 @@ class MwController {
 			if ($is_editmode == 'n') {
 				$is_editmode = false;
 				$page_url = url_param_unset('editmode', $page_url);
+
 				session_set('back_to_editmode', true);
 				session_set('editmode', false);
+				sleep(1);
 				safe_redirect(site_url($page_url));
 				exit();
 			} else {
@@ -62,7 +64,7 @@ class MwController {
 					if ($editmode_sess == false) {
 						session_set('editmode', true);
 						session_set('back_to_editmode', false);
-
+$is_editmode = false;
 						//	d($user_data);
 						//exit();
 
@@ -357,10 +359,10 @@ class MwController {
 		  if($page['id'] != 0){
 			  $page = get_content_by_id($page['id']);
 
-					
 
-			
-			
+
+
+
 					if ($page['content_type'] == "post" and isset($page['parent'])) {
 						$content = $page;
 						$page = get_content_by_id($page['parent']);
@@ -372,13 +374,13 @@ class MwController {
 		  }
 
 		//
-		
-		
+
+
 		if (isset($page['is_pinged']) and $page['is_pinged'] == "n" ) {
-			 
+
 					content_ping_servers_async();
 					}
-		
+
 		if ($is_preview_template != false and $is_admin == true) {
 			$is_preview_template = str_replace('____', DS, $is_preview_template);
 			$content['active_site_template'] = $is_preview_template;
