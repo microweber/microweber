@@ -262,12 +262,7 @@ mw.wysiwyg = {
         }
 
 
-      /*
-        if(event.keyCode === 46 && mwd.querySelector('.element-current') !== null && mwd.querySelector('.element-current').tagName === 'IMG'){
-          $(mw.image_resizer).removeClass("active");
-          $(mwd.querySelector('.element-current')).remove();
-          return false;
-        }    */
+
 
          if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
 
@@ -310,7 +305,9 @@ mw.wysiwyg = {
              }
            }
 
-           if(event.keyCode == 46 && sel.isCollapsed){
+          
+
+            if(event.keyCode == 46 && sel.isCollapsed){
              try{
                 sel.isCollapsed = false;
                 r.setEnd(r.commonAncestorContainer, r.endOffset + 1);
@@ -322,6 +319,9 @@ mw.wysiwyg = {
              return false; }
              mw.e.cancel(event, true);
            }
+
+
+
 
            if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){
              mw.e.cancel(event, true);

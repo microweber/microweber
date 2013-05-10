@@ -26,4 +26,7 @@ $source_code_id = md5($source_code );
   <?php //echo luminous::highlight($source_code_language,$source_code); ?>
   <code class="<?php  echo $source_code_language; ?>" lang="<?php  echo $source_code_language; ?>">
   <?php  echo nl2br($source_code,1); ?>
-  </code> </div>
+  </code> 
+  
+  
+  </div>
