@@ -22,8 +22,9 @@ $rand_id = md5(serialize($params)); ?>
 <select  name="source_theme" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"  data-refresh="highlight_code">
 <?php if($theme_sel != false): ?>
  <option value="<?php print $theme_sel ?>" selected="selected"><?php print $theme_sel ?></option>
-
    <?php endif; ?>
+       <option value="emacs">emacs</option>
+
     <option value="acid">acid</option>
     <option value="berries-dark">berries-dark</option>
     <option value="berries-light">berries-light</option>
@@ -36,7 +37,6 @@ $rand_id = md5(serialize($params)); ?>
     <option value="desert">desert</option>
     <option value="dull">dull</option>
     <option value="easter">easter</option>
-    <option value="emacs">emacs</option>
     <option value="golden">golden</option>
     <option value="greenlcd">greenlcd</option>
     <option value="ide-anjuta">ide-anjuta</option>
@@ -65,6 +65,14 @@ $rand_id = md5(serialize($params)); ?>
     <option value="zellner">zellner</option>
 </select>
 
+ <?php $source_show_lines =  get_option('source_show_lines', $params['id']); ?>
+<label  class="label">Lines</label>
+<select  name="source_show_lines" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"  data-refresh="highlight_code">
+<?php if($source_show_lines != false): ?>
+ <option value="<?php print $source_show_lines ?>" selected="selected"><?php print $source_show_lines ?></option>
+   <?php endif; ?>
+    <option value="n">no</option>
+    <option value="y">yes</option>
 
 
     <hr />

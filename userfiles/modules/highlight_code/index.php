@@ -34,9 +34,14 @@ $source_code =  ($source_code);
  <?php $theme_sel =  get_option('source_theme', $params['id']);
 if($theme_sel == false or trim($theme_sel) == 'zellner'){
 
-	$theme_sel  = 'acid';
+	$theme_sel  = 'emacs';
 }
-$source_code_id = md5($source_code.$theme_sel.$source_code_language );
+  $source_show_lines =  get_option('source_show_lines', $params['id']) == 'y';
+
+$source_code_id = md5($source_code.$theme_sel.$source_code_language.$source_show_lines );
+
+
+
   ?>
 <script>
 $(document).ready(function() {
@@ -50,7 +55,7 @@ $(document).ready(function() {
 var thepre = document.getElementById('pre<?php  print $source_code_id; ?>');
 
  //$("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>");
-    $("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>",{style:"<?php  print $theme_sel; ?>",clipboard:"<?php print $config['url_to_module']; ?>snippet/zc.swf",showNum:true});
+    $("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>",{style:"<?php  print $theme_sel; ?>",clipboard:"<?php print $config['url_to_module']; ?>snippet/zc.swf",showNum:<?php  print intval($source_show_lines); ?>});
 
 
 	//Prism.highlightElement(srccode, true);
@@ -62,7 +67,7 @@ var thepre = document.getElementById('pre<?php  print $source_code_id; ?>');
 
 </script>
 <div class="mw-code-hl">
-	<textarea class="language-<?php  print $source_code_language; ?>" id="src<?php  print $source_code_id; ?>" lang="<?php  print $source_code_language; ?>">
+	<textarea class="language-<?php  print $source_code_language; ?>" id="src<?php  print $source_code_id; ?>" lang="<?php  print $source_code_language; ?>" style="display:none;">
 				<?php  //echo nl2br($source_code,1); ?>
 				<?php   print ($source_code); ?>
 	</textarea>
