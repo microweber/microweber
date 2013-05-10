@@ -11,7 +11,7 @@ description: Home layout
 */
 
 ?>
-<?php include TEMPLATE_DIR. "header.php"; ?>
+<? include TEMPLATE_DIR. "header.php"; ?>
 <section id="content">
   <div class="container">
     <!-- welcome text -->
@@ -47,4 +47,4 @@ description: Home layout
 </section>
 
 
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<? include TEMPLATE_DIR. "footer.php"; ?>

@@ -1,4 +1,4 @@
-<?php include TEMPLATE_DIR. "header.php"; ?>
+<? include TEMPLATE_DIR. "header.php"; ?>
 <div class="demo" id="demo-one">
   <div class="description">
     <h2 class="fn">content_link(<strong>$id</strong>)</h2>
@@ -63,4 +63,4 @@
 </div>
 
 
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<? include TEMPLATE_DIR. "footer.php"; ?>

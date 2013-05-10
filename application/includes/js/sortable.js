@@ -122,6 +122,8 @@ $(document).ready(function(){
 
    mw.edits = mw.$('.edit');
 
+
+
    mw.edits.mouseleave(function(e){
      if(mw.isDrag){
        var el = $(this);
@@ -156,6 +158,10 @@ $(document).ready(function(){
        }
      }
    });
+
+
+
+   var t = mqd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
 
 
 
@@ -430,9 +436,9 @@ mw.drag = {
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
 
-            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop') || mw.currentDragMouseOver.attributes['field'] === 'title'){
-              mw.currentDragMouseOver=null;
-              return false;
+            if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop') || mw.currentDragMouseOver.getAttribute('field') === 'title'){
+              mw.currentDragMouseOver = mw.drag.noop;
+              //return false;
             }
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
 

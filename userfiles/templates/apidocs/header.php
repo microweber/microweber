@@ -13,12 +13,12 @@
 </head>
 <body>
 <?php $base_path = ( TEMPLATE_DIR); ?>
-<?php $base_link =  layout_link('docs'); ?>
+<? $base_link =  layout_link('docs'); ?>
 
-      <module type="files/directory_tree" base_path="docs"  base_link="<?php print $base_link ?>"  ul_class="nav nav-list" />
+      <module type="files/directory_tree" base_path="docs"  base_link="<? print $base_link ?>"  ul_class="nav nav-list" />
 
 
-<a href="<?php print layout_link('functions/get'); ?>"><?php print layout_link('functions/get'); ?></a>
+<a href="<? print layout_link('functions/get'); ?>"><? print layout_link('functions/get'); ?></a>
 
 
 

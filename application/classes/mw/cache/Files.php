@@ -13,7 +13,7 @@ if (!defined('APC_CACHE')) {
   	if (isset($_POST) and isarr($_POST)) {
 		//$apc_exists = false;
 	}
-	 $apc_exists = false;
+	// $apc_exists = false;
 
 	define("APC_CACHE", $apc_exists);
 
@@ -42,6 +42,28 @@ class Files    {
 
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {
+		
+		
+		
+		$apc_obj = false;
+		if (defined('APC_CACHE') and APC_CACHE == true) {
+
+			if($this->apc == false){
+				 $apc_obj = new \mw\cache\Apc();
+				 $this->apc =  $apc_obj;
+			} else {
+				 $apc_obj = $this->apc;
+			}
+
+
+
+			 $apc_obj_gt = $apc_obj->save($data_to_cache, $cache_id, $cache_group);
+			 
+		 }
+		
+		
+		
+		
 
 		$dir_lock = $this -> cache_get_dir('delete_lock');
 		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
