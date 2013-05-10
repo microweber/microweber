@@ -17,6 +17,7 @@ description: Columns
   <div class="row-fluid">
     <?php if (!empty($data)): ?>
     <?php foreach ($data as $item): ?>
+ 
     <div class="span4">
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
@@ -31,7 +32,7 @@ description: Columns
             <small class="muted">Posted on: <?php print $item['created_on']; ?></small>
         <?php endif; ?>
         </div>
-        <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
+        <?php if(!isset($show_fields) or  ($show_fields == false or in_array('description', $show_fields))): ?>
             <p class="description"><?php print $item['description'] ?></p>
         <?php endif; ?>
 

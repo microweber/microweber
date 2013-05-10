@@ -57,7 +57,8 @@ if(!isset($tn[1])){
             <small class="muted">Posted on: <?php print $item['created_on']; ?></small>
         <?php endif; ?>
         </div>
-        <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
+        
+        <?php if(!isset($show_fields) or ($show_fields == false or in_array('description', $show_fields))): ?>
             <p class="description"><?php print $item['description'] ?></p>
         <?php endif; ?>
 

@@ -10,8 +10,9 @@ $(document).ready(function(){
 
 });
 </script>
-<div class="well">
+
 <?php if(isarr($payment_options)) :?>
+<div class="well">
 <?php if(count($payment_options) > 0): ?>
 
     
@@ -30,7 +31,9 @@ $(document).ready(function(){
 <div id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
   <module type="<?php print $payment_options[0]['gw_file'] ?>"  />
 </div>
+
+
+</div>
 <?php else : ?>
 <?php print mw_notif_live_edit("Click here to edit Payment Options"); ?>
 <?php endif;?>
-</div>

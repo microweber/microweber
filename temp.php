@@ -246,3 +246,11 @@ C:\xampp\apache\bin\ab.exe -n 100 -c 10 -r "http://192.168.0.3/1k/my-product?tes
 
 
 mkfs -t ext4 /dev/sdg
+
+
+
+ns-873.awsdns-45.net
+ns-1729.awsdns-24.co.uk
+ns-488.awsdns-61.com
+ns-1059.awsdns-04.org
+

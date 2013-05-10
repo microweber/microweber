@@ -264,7 +264,7 @@ mw.wysiwyg = {
 
 
 
-         if((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown'){
+         if( (event.keyCode == 46 || event.keyCode == 8) && event.type == 'NOTkeydown' ){
 
 
 
@@ -305,7 +305,7 @@ mw.wysiwyg = {
              }
            }
 
-          
+
 
             if(event.keyCode == 46 && sel.isCollapsed){
              try{

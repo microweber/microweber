@@ -543,7 +543,7 @@ function mw_add_product(){
 </script>
 
 <div id="mw_edit_pages">
-  <div id="mw_edit_pages_content">
+  <div id="mw_edit_pages_content">   
     <div class="mw_edit_page_left" id="mw_edit_page_left">
 
 

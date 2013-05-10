@@ -4,7 +4,7 @@
 
 
  action_hook('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
- 
+
 function mw_print_admin_backup_settings_link() {
 
 	if(is_module_installed('admin/backup')){
@@ -127,8 +127,8 @@ function mw_apply_updates($params) {
 function mw_updates_count() {
 	$count = 0;
 	$upd_count = mw_check_for_update();
-	 
- 
+
+
 
 	if (isset($upd_count['modules'])) {
 		$count = $count + sizeof($upd_count['modules']);
@@ -142,6 +142,13 @@ function mw_updates_count() {
 	if (isset($upd_count['elements'])) {
 		$count = $count + sizeof($upd_count['elements']);
 	}
+
+
+
+
+
+
+
 
 	return $count;
 }
@@ -157,7 +164,13 @@ function mw_check_for_update() {
 
 		$mw_avail_updates = $iudates;
 
+	$notif = array();
+		$notif['module'] = "updates";
 
+		$notif['title'] = "New updates are avaiable.";
+		$notif['description'] = "There are new MW updates";
+
+		 post_notification($notif);
 
 
 	}

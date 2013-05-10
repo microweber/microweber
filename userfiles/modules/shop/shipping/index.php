@@ -14,18 +14,20 @@
   }
 </script>
 
-  <div class="well">
-    <div style="display: none">
-      <select onchange="_gateway(this);" name="shipping_gw" class="field-full mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if(count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>" >
-        <?php foreach ($shipping_options as $item) : ?>
-        <option value="<?php print  $item['module_base']; ?>"><?php print  $item['name']; ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <h2 style="margin-top:0 ">Shipping Information</h2>
-    <hr />
-    <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
-      <module type="<?php print $shipping_options[0]['module_base'] ?>"  />
-    </div>
-    <?php endif;?>
+<div class="well">
+  <div style="display: none">
+    <select onchange="_gateway(this);" name="shipping_gw" class="field-full mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if(count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>" >
+      <?php foreach ($shipping_options as $item) : ?>
+      <option value="<?php print  $item['module_base']; ?>"><?php print  $item['name']; ?></option>
+      <?php endforeach; ?>
+    </select>
   </div>
+  <h2 style="margin-top:0 ">Shipping Information</h2>
+  <hr />
+  <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
+    <module type="<?php print $shipping_options[0]['module_base'] ?>"  />
+  </div>
+</div>
+<?php else : ?>
+<?php print mw_notif_live_edit("Click here to edit Shipping Options"); ?>
+<?php endif;?>

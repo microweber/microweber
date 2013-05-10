@@ -989,12 +989,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-medium{
   padding: 5px 12px 6px;
   height: 15px;
-}
-
-.mw-ui-btn-large, .mw-ui-btn-big{
-  padding: 10px 20px;
-  font-size: 18px;
-}
+} 
 
 
 .mw-ui-btn-plus{

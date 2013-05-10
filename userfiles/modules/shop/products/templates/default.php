@@ -50,6 +50,7 @@ if(!isset($tn[1])){
       <span class="date"><?php print $item['created_on'] ?></span>
       <?php endif; ?>
       <?php if($show_fields == false or ($show_fields != false and  is_array($show_fields) and  in_array('description', $show_fields))): ?>
+     
       <p class="description"> <?php print $item['description']; ?> </p>
       <?php endif; ?>
       <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
