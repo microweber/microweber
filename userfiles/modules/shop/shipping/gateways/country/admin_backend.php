@@ -37,6 +37,11 @@ if(mw.shipping_country == undefined){
 
   mw.require('<?php print $config['url_to_module'] ?>country.js');
 
+
+
+ thismodal.main.width(980)
+ $(thismodal.main[0].getElementsByTagName('iframe')).width(970)
+
  </script>
 <script  type="text/javascript">
 

@@ -65,43 +65,44 @@ function mw_post_update() {
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($params) {
-	only_admin_access();
+	only_admin_access(); 
 	$params = parse_params($params);
 	$update_api = new \mw\Update();
-	$res = array();
-
+	$res = array(); 
+ 	$upd_params = array();
 	if (isarr($params)) {
 		foreach ($params as $param_k => $param) {
 			if ($param_k == 'mw_version') {
-				$param['mw_version'] = $param_k;
-			}
+				$upd_params['mw_version'] = $param_k;
+			} 
 
 			if ($param_k == 'elements') {
-				$param['elements'] = $param;
+				$upd_params['elements'] = $param;
 			}
 
 			if ($param_k == 'modules') {
-				$param['modules'] = $param;
+				$upd_params['modules'] = $param;
 			}
 			if ($param_k == 'module_templates') {
-				$param['module_templates'] = $param;
+				$upd_params['module_templates'] = $param;
 			}
 
-			if (isset($param['mw_version'])) {
-				$res[] = $update_api -> install_version($param['mw_version']);
+			if (isset($upd_params['mw_version'])) {
+				$res[] = $update_api -> install_version($upd_params['mw_version']);
+				 
 			}
-			if (isset($param['elements']) and isarr($param['elements'])) {
+			if (isset($upd_params['elements']) and isarr($upd_params['elements'])) {
 				foreach ($param['elements'] as $item) {
 					$res[] = $update_api -> install_element($item);
 				}
 			}
-			if (isset($param['modules']) and isarr($param['modules'])) {
+			if (isset($upd_params['modules']) and isarr($upd_params['modules'])) {
 				foreach ($param['modules'] as $item) {
 					$res[] = $update_api -> install_module($item);
 				}
 			}
-			if (isset($param['module_templates']) and isarr($param['module_templates'])) {
-				foreach ($param['module_templates'] as $k => $item) {
+			if (isset($param['module_templates']) and isarr($upd_params['module_templates'])) {
+				foreach ($upd_params['module_templates'] as $k => $item) {
 					if (isarr($item)) {
 						foreach ($item as $layout_file) {
 							$res[] = $update_api -> install_module_template($k, $layout_file);
