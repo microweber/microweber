@@ -371,7 +371,7 @@ a.rotator-paging-item-digit{
   width: auto;
   height: auto;
   max-height: 150px;
-  max-width: 190px;
+  max-width: 100%;
   margin: auto;
 }
 

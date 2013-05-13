@@ -13,7 +13,7 @@ if (!defined('APC_CACHE')) {
   	if (isset($_POST) and isarr($_POST)) {
 		//$apc_exists = false;
 	}
-	// $apc_exists = false;
+  $apc_exists = false;
 
 	define("APC_CACHE", $apc_exists);
 

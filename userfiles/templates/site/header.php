@@ -20,6 +20,9 @@
 
         mw.require("url.js");
         mw.require("tools.js");
+        mw.require("style_editors.js");
+        
+
         mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>

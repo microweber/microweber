@@ -940,6 +940,11 @@ right: 15px;
   box-shadow:inset 0 1px 0px 0px #fff;
 }
 
+.mw-ui-btn-large, .mw-ui-btn-big{
+    padding: 10px;
+    font-size: 18px;
+}
+
 button.mw-ui-btn,
 input.mw-ui-btn{
   height: 33px;

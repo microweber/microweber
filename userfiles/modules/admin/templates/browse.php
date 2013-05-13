@@ -43,7 +43,7 @@ modulePreview = function(el){
    });
 
    if(!modal){
-     mw.tools.highlight(mwd.getElementById("preview_" + el.id).querySelector(".tpl_previe_overlay"), "#FF0000");
+     mw.tools.highlight(mwd.getElementById("preview_" + el.id).querySelector(".tpl_previe_overlay"), "#ffffff");
    }
    else{
      $(modal.container).css("position", "relative").append("<div class='tpl_previe_overlay'></div>");
@@ -77,7 +77,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 <?php  if(is_arr( $templates)): ?>
 
 <label class="mw-ui-label">Set default skin for the whole website</label>
-<div class="mw-ui-select left" style="width: 70%;margin-right:20px;">
+<div class="mw-ui-select left" style="width: 30%;margin-right:20px;">
   <select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
     <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>Default</option>
     <?php  foreach($templates as $item):	 ?>

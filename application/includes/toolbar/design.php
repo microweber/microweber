@@ -235,7 +235,7 @@
     <li class="ts_main_li mw-designtype-image"> <a class="ts_main_a dd_design_img" href="javascript:;">Image</a>
       <div class="ts_action ts_image_action" style="width: 200px;">
         <div class="ts_action_item">
-          <div class="ts_action_centerer"> <span class="ed_item ed_nobg ed_item_image_text left" onclick="mw.image.enterText();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();"> <span></span> </span> </div>
+          <div class="ts_action_centerer"> <?php /*<span class="ed_item ed_nobg ed_item_image_text left" onclick="mw.image.enterText();"> <span></span> </span>*/ ?> <span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <?php /*<span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();"> <span></span> </span>*/ ?> </div>
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer"> <a href="javascript:;" class="ed_btn" onclick="mw.image.description.init('#ts_image_description');">Add Description</a>

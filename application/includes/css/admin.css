@@ -981,8 +981,12 @@ form .shipping-country-row:first-child{
   margin-right: 10px;
 }
 
+.mw-admin-templates-browse-holder{
+  clear: both;
+}
+
 .templatePreviewHolder{
-  width: 300px;
+  width: 365px;
   float: left;
   margin: 7px;
 }
@@ -995,7 +999,7 @@ form .shipping-country-row:first-child{
   height: 365px;
   overflow: hidden;
   position: relative;
-  width: 300px;
+  width: 365px;
 }
 
 table.users-list-table .del-row{
@@ -1013,12 +1017,12 @@ table.users-list-table .del-row{
 }
 
 .templatePreviewContainer > img{
-  max-width:300px;
+  max-width:365px;
   max-height: 365px;
 }
 
 .templatePreviewContainer > iframe{
-  width:300px;
+  width:365px;
   height: 365px;
 }
 
@@ -1043,7 +1047,7 @@ table.users-list-table .del-row{
 }
 
 .templatePreviewOLContent .mw-ui-btn-large{
-  width: 183px;
+  width: 203px;
   margin-bottom: 15px;
 }
 

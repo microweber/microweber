@@ -176,6 +176,7 @@ $.fn.canvasCTRL = function(options){
 
 mw.css3fx = {
   perspective:function(a){
+      if(typeof mw.current_element === 'undefined') return false;
       var el = mw.current_element;
       var val = "perspective( "+$(el).width()+"px ) rotateY( "+a+"deg )";
       el.style[mw.JSPrefix('transform')] = val;
@@ -183,6 +184,7 @@ mw.css3fx = {
       mw.css3fx.set_obj(el, "transform", val);
   },
   rotate : function(a){
+      if(typeof mw.current_element === 'undefined') return false;
       var el = mw.current_element;
       var val = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + ","  + Math.cos(a) + ", 0, 0)";
       el.style[mw.JSPrefix('transform')] = val;
@@ -212,7 +214,7 @@ mw.css3fx = {
     var el = el || ".mwfx";
     $(el).each(function(){
       var elem = this;
-      var json = mw.css3fx.read(el); 
+      var json = mw.css3fx.read(el);
       $.each(json, function(a,b){
          $(elem).css(mw.JSPrefix(a), b);
       });

@@ -66,7 +66,7 @@ if(isarr($data)){
 }
 ?>
 
-<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="745" class="mw-ui-admin-table">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-admin-table">
   <col width="20">
   <thead>
     <tr>
@@ -106,7 +106,7 @@ if(isarr($data)){
              if(strlen($value['custom_field_values_plain']) > $max){
                 $first = substr($value['custom_field_values_plain'], 0, $max);
                 $rest = substr($value['custom_field_values_plain'], $max);
-                print '<div class="bigger-cell">' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...More</a></div>';
+                print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...More</a></div>';
              }
              else {
                  print $value['custom_field_values_plain'];
@@ -119,7 +119,8 @@ if(isarr($data)){
         <?php  endif; ?></td>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
+      <td class="mw-ui-admin-table-delete-item">
+        <a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
     </tr>
     <?php endforeach; ?>
     <?php else: ?>
@@ -136,6 +137,6 @@ if(isarr($data)){
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php endif; ?>
-<div id="start-email-campaign"> <span>Get more from your mailing lists, send email to your users</span> <a class="g-btn" href="javascript:;">Start an Email Campaign</a> </div>
+<div id="start-email-campaign"> <span>Get more from your mailing lists, send email to your users</span> <a class="g-btn disabled" href="javascript:;" onclick="Alert('Comming Soon!');">Start an Email Campaign</a> </div>
 <div class="mw_clear"></div>
 <div class="vSpace"></div>

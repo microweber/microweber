@@ -1,31 +1,32 @@
-<div id="mw_edit_pages_content">
+<div id="mw_edit_pages_content" style="width: auto">
   <div id="mw_index_contact_form">
-    <div id="mw_edit_page_left" class="mw_edit_page_default">
+    <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
       <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = read_notification( $mw_notif);	
 
 }
 
- 
+
   ?>
       <?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
       <script type="text/javascript">
 
 $(document).ready(function(){
- 
+
     window.location= "<?php print $config['url']; ?>/load_list:<?php print $mw_notif['rel_id']; ?>";
 
 });
- 
+
 </script>
+
       <?php else :  ?>
       <?php endif; ?>
       <?php
  
 mark_notifications_as_read('contact_form');
  
-	
+
 $load_list = 'default';
 if((url_param('load_list') != false)){
     $load_list = url_param('load_list');
@@ -62,9 +63,11 @@ if((url_param('templates') != false)){
           <div class="vSpace"></div>
         </div>
         <h2>Templates</h2>
-        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a> </div>
+        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a>
+      </div>
     </div>
-    <div class="mw_edit_page_right" style="padding: 20px;">
+    <div class="mw-content-container" >
+    <div style="padding: 20px;">
       <?php
 
 
@@ -128,6 +131,7 @@ $(document).ready(function(){
       <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
       <?php else : ?>
       <?php endif; ?>
+    </div>
     </div>
   </div>
 </div>

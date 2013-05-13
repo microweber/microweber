@@ -6,19 +6,14 @@
 class shipping_api {
 
 	// singleton instance
-	private  static $here;
-	private  static $modules_list;
+	   public  $here;
+	  public   $modules_list;
 
 	// private constructor function
 	// to prevent external instantiation
 	function __construct() {
-		$this -> here = dirname(__FILE__).DS.'gateways'.DS;;
-  $here = $this -> here;
-  
-  
- 
-  
- $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
+	 $this -> here = dirname(__FILE__).DS.'gateways'.DS;;
+     $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
 	}
 
 	// getInstance method

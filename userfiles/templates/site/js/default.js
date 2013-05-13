@@ -71,7 +71,7 @@ $(document).ready(function(){
 
 
 $(window).load(function(){
-
+           mw.css3fx.init_css();
 
    // Simple way to enable the 'placeholder' attribute for browsers that doesn't support it
    if('placeholder' in document.createElement('input') === false){

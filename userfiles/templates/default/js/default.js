@@ -7,8 +7,7 @@
 
 
 
-$(window).load(function(){
-
+$(window).load(function(){      
 
    // Simple way to enable the 'placeholder' attribute for browsers that doesn't support it
    if('placeholder' in document.createElement('input') === false){
