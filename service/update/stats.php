@@ -33,7 +33,7 @@ $st = glob($stats.'*');
  }
 ?>
 
-<h1>All update checks: <? print $all ?></h1>
+<h1>IP request: <? print $all ?></h1>
 <hr />
 <table width=" 100%" border="0">
   <tr>

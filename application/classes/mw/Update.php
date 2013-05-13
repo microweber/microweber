@@ -197,7 +197,10 @@ class Update {
 	}
 
 	function apply_updates($updates) {
+				error_reporting(E_ERROR);
+
 				set_time_limit(0);
+				
 		$to_be_unzipped = array();
 		$a = is_admin();
 		if ($a == false) {
