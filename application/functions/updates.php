@@ -70,7 +70,7 @@ function mw_apply_updates($params) {
 	$update_api = new \mw\Update();
 	$res = array(); 
  	$upd_params = array();
-	if (isarr($params)) {
+	if (isarr($params)) { 
 		foreach ($params as $param_k => $param) {
 			if ($param_k == 'mw_version') {
 				$upd_params['mw_version'] = $param_k;
