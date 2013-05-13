@@ -27,7 +27,7 @@ setActiveProvider = function(el){
     });
 
 	
-	
+
 
 $('.mw-admin-wrap').click(function(){
 	// mw.options.form('.mw-set-payment-options');

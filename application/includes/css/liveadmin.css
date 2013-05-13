@@ -30,6 +30,24 @@ body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
   font-weight: normal;
 }
 
+
+body#UnsupportedBrowser #download_browsers_holder{
+  display: block !important;
+  padding: 20px 0;
+    position: fixed;
+    top: 97px;
+    width: 100%;
+    text-align: center;
+}
+
+#choose_browsers{
+  width: 307px;
+  height: 58px;
+  position: relative;
+  background: url(../img/update_browser.png) no-repeat;
+  margin: 20px auto;
+}
+
 .mw-defaults{
   line-height: 1.5;
 }

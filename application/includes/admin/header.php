@@ -11,8 +11,12 @@
     <link rel="prefetch prerender" href="<?php print admin_url(); ?>view:settings" />-->
 
     <script type="text/javascript">
-if (!window.CanvasRenderingContext2D) {
-  document.write("<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>");
+if (!!window.CanvasRenderingContext2D) {
+  var h = "<div id='UnsupportedBrowserMSG'><h1>Your a need better browser to run <b>Microweber</b></h1></div>"
+  + "<div id='download_browsers_holder'><h2>Update your browser</h2><p id='choose_browsers'>"
+  +"<a href=''>fsfd</a>";
+  +"</p></div>";
+  document.write(h);
   document.body.id = 'UnsupportedBrowser';
 }
         mwAdmin = true;
