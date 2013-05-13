@@ -48,6 +48,24 @@ body#UnsupportedBrowser #download_browsers_holder{
   margin: 20px auto;
 }
 
+#choose_browsers a{
+  display: block;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+}
+
+#u__ff{
+  left: 80px;
+}
+#u__chr{
+  left: 160px;
+}
+#u__sf{
+  left: 250px;
+}
+
 .mw-defaults{
   line-height: 1.5;
 }
