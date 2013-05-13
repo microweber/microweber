@@ -13,7 +13,14 @@ setActiveProvider = function(el){
 
 
   $(document).ready(function(){
- 
+
+
+
+  if(typeof thismodal !== 'undefined'){
+   thismodal.main.width(1000);
+   $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
+}
+
 	
 	 mw.options.form('.mw-set-payment-options', function(){
       mw.notification.success("<?php _e("Settings are saved"); ?>.");

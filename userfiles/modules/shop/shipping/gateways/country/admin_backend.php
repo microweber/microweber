@@ -38,9 +38,11 @@ if(mw.shipping_country == undefined){
   mw.require('<?php print $config['url_to_module'] ?>country.js');
 
 
+if(typeof thismodal !== 'undefined'){
+   thismodal.main.width(1000);
+   $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
+}
 
- thismodal.main.width(980)
- $(thismodal.main[0].getElementsByTagName('iframe')).width(960)
 
  </script>
 <script  type="text/javascript">
@@ -69,6 +71,9 @@ mw.shipping_country.url = "<?php print $config['module_api']; ?>";
               $(this).height($(this).outerHeight());
               $(ui.placeholder).height($(ui.item).outerHeight())
               $(ui.placeholder).width($(ui.item).outerWidth())
+       },
+       stop:function(){
+           mw.$(".<?php print $rand1 ?>").height("auto");
        },
        scroll:false,
        placeholder: "custom-field-main-table-placeholder"

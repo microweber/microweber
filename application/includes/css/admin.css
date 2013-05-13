@@ -362,8 +362,9 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 }
 
 .mw-shipping-items{
-  float: right;
+  float: left;
   width: 776px;
+  margin-left: 20px;
 }
 
 .mw-shipping-items{

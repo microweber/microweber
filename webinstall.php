@@ -1,24 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Welcome to Microweber Web Install</title>
-
-<link rel="stylesheet" type="text/css" href="http://microweber.net/webinstall/style.css" />
-
-</head>
-
-<body>
-
-<div class="box-holder">
-
-    <a href="http://microweber.net" target="_blank" id="logo"><img src="//microweber.net/webinstall/logo.png" alt="Microweber" /></a>
-
-    <span class="Beta">Beta Version</span>
-
-    <div class="vSpace"></div>
-
-<div class="box">
-
 <?php
 ini_set("memory_limit", "160M");
 ini_set("set_time_limit",0);
@@ -158,7 +137,26 @@ if(function_exists('apache_get_modules') ){
 
 ?>
 
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Welcome to Microweber Web Install</title>
 
+<link rel="stylesheet" type="text/css" href="http://microweber.net/webinstall/style.css" />
+
+</head>
+
+<body>
+
+<div class="box-holder">
+
+    <a href="http://microweber.net" target="_blank" id="logo"><img src="//microweber.net/webinstall/logo.png" alt="Microweber" /></a>
+
+    <span class="Beta">Beta Version</span>
+
+    <div class="vSpace"></div>
+
+<div class="box">
 
 
 
