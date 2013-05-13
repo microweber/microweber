@@ -53,7 +53,7 @@ window.onerror = function(a,b,c){
 
 
   mw.onLive = function(callback) {
-    if (!window['mwAdmin']) {
+    if (!window['mwAdmin'] && typeof Modules_List_modules === 'object') {
       callback.call(this)
     }
   }

@@ -1,5 +1,6 @@
 <?php
-
+$mw_shipping_api_here =  dirname(__FILE__).DS.'gateways'.DS;
+$mw_shipping_modules_list =  modules_list("cache_group=modules/global&dir_name=".$mw_shipping_api_here);
  
 //api_expose('shipping_api');
  
@@ -8,12 +9,21 @@ class shipping_api {
 	// singleton instance
 	   public  $here;
 	  public   $modules_list;
-
 	// private constructor function
 	// to prevent external instantiation
 	function __construct() {
-	 $this -> here = dirname(__FILE__).DS.'gateways'.DS;;
-     $this -> modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
+		
+		
+		
+		global $mw_shipping_api_here ;
+		global $mw_shipping_modules_list ;
+		
+		
+		
+		
+		
+	// $this -> here = $mw_shipping_api_here;
+     $this -> modules_list =  $mw_shipping_modules_list ;
 	}
 
 	// getInstance method
@@ -44,14 +54,22 @@ class shipping_api {
 		return ($data);
 	}
 	function get_active() {
-$active = array();
-		 $m = $this->modules_list;
-		 foreach($m as $item){
-			 if(get_option('shipping_gw_'.$item['module'], 'shipping') == 'y'){
-				$active [] =  $item; 
+		global $mw_shipping_modules_list ;
+		$active = array();
+		 
+		 
+		 $m = $mw_shipping_modules_list;
+		 if(isarr($m)){
+			 foreach($m as $item){
+				 if(get_option('shipping_gw_'.$item['module'], 'shipping') == 'y'){
+					$active [] =  $item; 
+				 }
 			 }
 		 }
- return $active;
+ 		return $active;
+	
+	
+	
 	}
 	
 	
@@ -60,8 +78,8 @@ $active = array();
 	
 
 	function get($params = false) {
-
-		 return $this->modules_list;
+		global $mw_shipping_modules_list ;
+		 return $mw_shipping_modules_list;
 
 	}
 	
