@@ -40,7 +40,7 @@ if(mw.shipping_country == undefined){
 
 
  thismodal.main.width(980)
- $(thismodal.main[0].getElementsByTagName('iframe')).width(970)
+ $(thismodal.main[0].getElementsByTagName('iframe')).width(960)
 
  </script>
 <script  type="text/javascript">
