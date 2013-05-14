@@ -489,7 +489,7 @@ form .shipping-country-row:first-child{
 }
 
 #mw-login{
-  width: 362px;
+  width: 287px;
   padding: 20px;
   margin: 0 auto;
   position: relative;
@@ -514,7 +514,10 @@ form .shipping-country-row:first-child{
 }
 
 #mw-login .mw-ui-field{
-  width: 300px;
+  width: 230px;
+  font-size: 14px;
+  padding: 14px;
+  
 }
 
 .mw-edit-user-table{

@@ -796,6 +796,29 @@ div.mw-date{
 }
 
 
+.mw-box{
+  display: block;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #B0B0B0;
+  box-shadow: 0 0 5px #B0B0B0;
+}
+
+.mw-box-content{
+  padding: 12px;
+  position: relative;
+  zoom:1;
+}
+.mw-box-content:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+
 
 
 

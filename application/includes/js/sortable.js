@@ -2143,6 +2143,7 @@ mw.history = {
 	 * @method mw.history.load()
 	 */
 	load: function ($id) {
+	  mw.on.DOMChangePause = true;
 		if ($id != undefined) {
 			$.ajax({
 				type: 'POST',
@@ -2159,15 +2160,15 @@ mw.history = {
             $('.edit[rel="'+rel+'"][field="'+field+'"]').html(data.value);
             mw.$(".edit.changed").removeClass("changed");
 
-
              setTimeout(function(){
-            mw.drag.fix_placeholders(true);
-            mw.resizable_columns();
-       }, 200)
+                  mw.drag.fix_placeholders(true);
+                  mw.resizable_columns();
+                  mw.on.DOMChangePause = false;
+             }, 200);
 
 
           }
-             mw.$(".hasdraft").remove()
+             mw.$(".hasdraft").remove();
 
 				}
 			})
