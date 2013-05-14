@@ -3,13 +3,47 @@ ini_set("memory_limit", "160M");
 ini_set("set_time_limit",0);
 date_default_timezone_set('America/Los_Angeles');
 
-function getfile($requestUrl, $save_to_file = false) {
 
-	$opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/Web Install" . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n"));
+
+/*
+   * @return string
+   * @param string $url
+   * @desc Return string content from a remote file
+   * @author Luiz Miguel Axcar (lmaxcar@yahoo.com.br)
+*/
+
+function get_content_url($url)
+{
+    $ch = curl_init();
+
+    curl_setopt ($ch, CURLOPT_URL, $url);
+    curl_setopt ($ch, CURLOPT_HEADER, 0);
+
+    ob_start();
+
+    curl_exec ($ch);
+    curl_close ($ch);
+    $string = ob_get_contents();
+
+    ob_end_clean();
+    
+    return $string;     
+}
+
+
+function getfile($requestUrl, $save_to_file = false) {
+	
+	if(function_exists('curl_init')){
+		$result =  get_content_url($requestUrl);
+	} else {
+		$opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/Web Install" . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n"));
 	$requestUrl = str_replace(' ', '%20', $requestUrl);
 	$context = stream_context_create($opts);
 
 	$result = file_get_contents($requestUrl, false, $context);
+	}
+
+	
 	if ($save_to_file == true) {
 		//  d($result);
 		file_put_contents($save_to_file, $result);

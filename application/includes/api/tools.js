@@ -1563,6 +1563,7 @@ Wait('$', function(){
 
   $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
      var isCustom = isCustom || false;
+     var triggerChange = triggerChange || false;
      var isValidOption = false;
      var el = this;
      if(isCustom){

@@ -217,6 +217,7 @@ border-radius: 3px;
     border:1px solid transparent;
     color: #595959;
     border-radius: 2px;
+    white-space: nowrap;
 }
 
 .mw_dropdown_type_wysiwyg:hover, .mw_dropdown_type_wysiwyg.hovered{

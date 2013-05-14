@@ -19,6 +19,11 @@ input, a, textarea, select{
   outline: none;
 }
 
+
+img{
+  border: none;
+}
+
 h2{ /*  ask the designer */
     font-size: 18px;
     font-weight: normal;
@@ -488,12 +493,20 @@ form .shipping-country-row:first-child{
   padding: 25px;
 }
 
-#mw-login{
+#sign_logo_version{
   width: 287px;
+  margin: auto;
+  text-align: right;
+  padding-bottom: 10px;
+}
+
+#mw-login{
+  width: 350px;
   padding: 20px;
   margin: 0 auto;
   position: relative;
   top: 100px;
+  text-align: center;
 }
 
 #mw-login .mw-o-box{
@@ -513,11 +526,61 @@ form .shipping-country-row:first-child{
   margin: 3px 0 0;
 }
 
-#mw-login .mw-ui-field{
-  width: 230px;
+#mw-login input.mw-ui-field{
+  width: 260px;
   font-size: 14px;
   padding: 14px;
-  
+
+}
+#mw-login div.mw-ui-field{
+  width: 269px;
+  padding: 9px;
+}
+
+#mw-login div.mw-ui-field input{
+  width: 135px;
+}
+
+#login_laguage_select{
+  margin-top: 7px;
+  color: #aaa;
+}
+
+#lang_selector, #lang_selector ul{
+  width:40px;
+  text-align:left;
+}
+#lang_selector{
+  margin: -3px 0 0 8px;
+  color: #aaa;
+}
+
+#admin_login{
+  padding: 22px 20px;
+}
+
+#admin_login .mw-ui-field::-moz-placeholder{ color: #5D5D5D; }
+#admin_login .mw-ui-field::-webkit-input-placeholder{ color: #5D5D5D; }
+
+
+#login_foot{
+  width: 286px;
+  padding: 10px 0 0;
+  margin: auto;
+}
+
+#login_foot a:first-child{
+  color: #aaa;
+}
+
+
+
+#login_foot .backico2{
+    margin-left: -9px;
+    margin-right: 6px;
+    opacity: 0.45;
+    top: -2px;
+    width: 19px;
 }
 
 .mw-edit-user-table{
