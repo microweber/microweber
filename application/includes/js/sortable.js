@@ -1616,7 +1616,7 @@ if(typeof el === 'object'){
   $(el).addClass('disabled').html('Saving...').dataset("html", html);
 }
 
-  var doc = mw.tools.parseHtml(mwd.body.innerHTML);
+ var doc = mw.tools.parseHtml(mwd.body.innerHTML);
 
 
 
@@ -1634,29 +1634,21 @@ if(typeof el === 'object'){
 
 
 
-    if(is_draft != undefined && is_draft != false){
-          //$(".edit.changed", doc).addClass('orig_changed');
-          //$(".edit.changed").removeClass("changed");
+    if(is_draft){
+
+ 			var edits = mw.$(".edit.changed", doc);
 
 
-
- 			var edits = $(".edit.changed", doc);
-          //var edits = $(".edit.changed_draft", doc);
 
     } else {
-       //  $(".edit.orig_changed").addClass('changed');
-         // $(".edit.changed_draft").removeClass("changed_draft").addClass('changed');;
 
-
-		  var edits = $(".edit.changed", doc)
+		  var edits = $(".edit.changed", doc);
 
 		 if(edits.length == 0){
            var edits = $(".edit.orig_changed", doc);
 
          }
-		 //d(edits);
-        /* var edits = $(".edit.orig_changed", doc);
-         */
+
 
     }
 
@@ -1664,67 +1656,71 @@ if(typeof el === 'object'){
 
     var master = {};
 
-    edits.each(function(j) {
 
 
-		 j++;
-        var el = $(this);
-
-
-		if($(this).attr("rel")==undefined || $(this).attr("rel")==''){
-		partId = $(this, doc).parents('.edit.changed[rel]').first();
-		if(partId != undefined){
-			// d(partId);
-			 el = partId;
-
-		}
-
-		}
+   if(edits.length > 0){
 
 
 
 
+            edits.each(function(j) {
+                 d(this);
 
-    if(el.attr("rel")!=undefined || el.attr("rel")!=''){
-
-
-
-
-        content = el.html();
-
-        var attr_obj = {};
-        var attrs = el.get(0).attributes;
-        if(attrs.length>0){
-          for (var i = 0; i < attrs.length; i++) {
-            temp1 = attrs[i].nodeName;
-            temp2 = attrs[i].nodeValue;
-            attr_obj[temp1] = temp2;
-          }
-        }
-        var obj = {
-          attributes: attr_obj,
-          html: content
-        }
-        var objX = "field_data_" + j;
-        var arr1 = [{
-          "attributes": attr_obj
-        }, {
-          "html": (content)
-        }];
-        master[objX] = obj;
+        		 j++;
+                var _el = $(this);
 
 
-      } else {
+        		if($(this).attr("rel")==undefined || $(this).attr("rel")==''){
 
-	  }
+                mw.tools.foreachParents(this, function(loop){
+                    var cls = this.className;
+                    if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && typeof this.attributes['rel'] !== 'undefined'){
+                      _el = this;
+                      mw.tools.stopLoop(loop);
+                    }
+                })
+        		}
 
-    });
 
 
-    if(mw.tools.isEmptyObject(master) == false ){
-            if(is_draft && is_draft != false){
+
+
+        if(typeof _el.attr("rel") != 'undefined' && _el.attr("rel")!=''){
+
+            var content = _el.html();
+
+            var attr_obj = {};
+            var attrs = _el.get(0).attributes;
+            if(attrs.length>0){
+              for (var i = 0; i < attrs.length; i++) {
+                temp1 = attrs[i].nodeName;
+                temp2 = attrs[i].nodeValue;
+                attr_obj[temp1] = temp2;
+              }
+            }
+            var obj = {
+              attributes: attr_obj,
+              html: content
+            }
+            var objX = "field_data_" + j;
+            var arr1 = [{
+              "attributes": attr_obj
+            }, {
+              "html": (content)
+            }];
+            master[objX] = obj;
+
+          } else {
+
+    	  }
+
+        });
+  }
+
+    if(!mw.tools.isEmptyObject(master)){
+            if(is_draft){
              master['is_draft']  = true;
-			 mw.askusertostay = true;
+			       mw.askusertostay = true;
             }
 
 
@@ -1738,62 +1734,39 @@ if(typeof el === 'object'){
 
             },
             success: function(data) {
- mw.askusertostay = false;
-              mw.history.init();
-              if(!is_draft){
-             //  mw.askusertostay = true;
-              } else {
-            //    mw.askusertostay = false;
-              }
+            mw.askusertostay = false;
+
+
+            if($('#mw-history-panel').is(":visible") == false){
+               mw.history.init();
+            }
+
+
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);
-
               }
-              if(is_draft && is_draft != false){
+              if(is_draft){
+               mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
 
-              $(".edit.changed").addClass('orig_changed');
-                $(".edit.changed").removeClass("changed");
-
-                //  $(".edit.changed").addClass('orig_changed');
-                // $(".edit.changed").removeClass("changed_draft");
-                //
-               // $(".edit.changed").removeClass("changed").addClass('orig_changed');;
-			 //  $(".edit.changed", doc).addClass('orig_changed');
-
-
-
-           //   edits.addClass('orig_changed').removeClass("changed");
-			        // $(".edit.changed").addClass('orig_changed').removeClass("changed");
 
               } else {
                  mw.notification.success("All changes are saved.");
-                // $(".edit.changed", doc).removeClass("changed");
-                 $(".edit.changed").removeClass("changed");
-				//  $(".edit.orig_changed").removeClass("orig_changed");
-
+                 mw.$(".edit.changed").removeClass("changed");
 
               }
-
               if(typeof callback === 'function'){
                    callback.call();
               }
-
             }
           });
     }  else{
-
-       mw.askusertostay = false;
-
-      if(typeof el === 'object'){
+            mw.askusertostay = false;
+            if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);
-
-              }
+            }
     }
-
-
-
   }
 }
 

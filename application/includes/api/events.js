@@ -84,6 +84,10 @@ DOMChange:function(element, callback, attr){
     element.addEventListener("DOMNodeInserted", function(){
         callback.call(this);
     }, false);
+
+   /* element.addEventListener("DOMSubtreeModified", function(){
+        callback.call(this);
+    }, false);*/
     if(attr){
       element.addEventListener("DOMAttrModified", function(e){
           var attr = e.attrName;

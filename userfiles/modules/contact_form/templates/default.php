@@ -9,8 +9,7 @@
   description: Default template for Contact form
   
   icon: dream.png
-  
-  image: dream_big.png
+
 
 */
 

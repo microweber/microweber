@@ -8,6 +8,8 @@
 
   description: Dark theme for your website
 
+  icon: dark.png
+
 */
 
 ?>

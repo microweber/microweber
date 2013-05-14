@@ -3,7 +3,13 @@
 <div>
   <div class="mw-v-table" id="mw_toolbar_nav">
     <div class="mw-v-cell">
+
+
+
+
        <a href="<?php print admin_url(); ?>view:dashboard" id="mw_toolbar_logo"></a>
+
+
     </div>
     <div class="mw-v-cell" style="width: 100%">
 

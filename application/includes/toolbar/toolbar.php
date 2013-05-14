@@ -81,9 +81,10 @@
 mw_save_draft_int = self.setInterval(function(){
 
 
-   mw.drag.save(mwd.getElementById('main-save-btn'),false,true)
+   mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
 
-},7000);
+
+},1000);
 
 
 

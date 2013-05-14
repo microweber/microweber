@@ -33,10 +33,9 @@ mw.wysiwyg = {
 
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
-                    this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
+                    !mw.tools.hasClass(this.className, 'changed') ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
                     if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
-
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
                     }
                 });
@@ -1068,7 +1067,7 @@ mw.$(".mw_dropdown_action_font_size li a").each(function(i){
 $(window).load(function(){
   mw.wysiwyg.init_editables();
 
-})
+});
 
 
 // got from http://stackoverflow.com/questions/1275250/is-there-an-easy-way-to-convert-html-with-multiple-br-tags-into-proper-surrou

@@ -659,7 +659,12 @@ mw.tools = {
     }
   },
   hasClass:function(classname, whattosearch){   //for strings
-    return (' ' + classname + ' ').indexOf(' ' + whattosearch + ' ') > -1;
+    if(typeof classname !== 'undefined'){
+      return classname.split(' ').indexOf(whattosearch) > -1;
+    }
+    else{
+      return false;
+    }
   },
   addClass:function(el, cls){
    if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);

@@ -88,7 +88,13 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 #mw_toolbar_logo{
   background-image: url(../img/logo_admin.png);
+  /**/
+
+  height:37px;
+  width:212px;
+  margin-top: 7px;
 }
+#mw_toolbar_logo:hover{opacity:1;}
 #mw_toolbar_nav{
   height: 48px;
   background-image: url(../img/navbg_admin.jpg);

@@ -70,8 +70,8 @@
 <!-- TYXO -->
   <script type="text/javascript">
   <!--
-  d=document;d.write('<a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img width="1" height="1" border="0" alt="Tyxo.bg counter" src="'+location.protocol+'//cnt.tyxo.bg/146467?rnd='+Math.round(Math.random()*2147483647));
-  d.write('&sp='+screen.width+'x'+screen.height+'&r='+escape(d.referrer)+'"></a>');
+  __d=document;__d.write('<a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img width="1" height="1" border="0" alt="Tyxo.bg counter" src="'+location.protocol+'//cnt.tyxo.bg/146467?rnd='+Math.round(Math.random()*2147483647));
+  __d.write('&sp='+screen.width+'x'+screen.height+'&r='+escape(__d.referrer)+'"></a>');
   //-->
   </script><noscript><a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img src="http://cnt.tyxo.bg/146467" width="1" height="1" border="0" alt="Tyxo.bg counter" /></a></noscript>
 <!-- / TYXO -->
