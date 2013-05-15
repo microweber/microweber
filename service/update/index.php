@@ -569,7 +569,9 @@ $ver = $this->get_latest_core_version();
 							$locations = array();
 							$locations[] = $this -> repo_dir.'application'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/elements'.DS;
+								if (!isset($params['no_htaccess'])) {
 							$locations[] = $this -> repo_dir.'userfiles/templates/default'.DS;
+								}
 							//$locations[] = $this -> repo_dir.'userfiles/modules'.DS;
 
 							 // A 
@@ -637,6 +639,8 @@ $ver = $this->get_latest_core_version();
 							//S
 							$locations[] = $this -> repo_dir.'userfiles/modules/settings'.DS;
 							$locations[] = $this -> repo_dir.'userfiles/modules/shop'.DS;
+							$locations[] = $this -> repo_dir.'userfiles/modules/search'.DS;
+
 							$locations[] = $this -> repo_dir.'userfiles/modules/site_stats'.DS;
 							//$locations[] = $this -> repo_dir.'userfiles/modules/subscribe_form'.DS;
 							//$locations[] = $this -> repo_dir.'userfiles/modules/survey'.DS;
