@@ -8,6 +8,6 @@ $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['categories'] = "online shop";
 $config['version'] = 0.26;
-$config['position'] = "13";
+$config['position'] = "14";
 
 
