@@ -34,7 +34,7 @@ mw.iframecallbacks = {
              try{
                range.surroundContents(a);
              }
-             catch(e){
+             catch(e){     alert(1)
                mw.wysiwyg.execCommand("CreateLink", false, url);
              }
            }

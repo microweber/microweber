@@ -247,7 +247,7 @@ mw.image = {
           this.style.height = $(img).height()+'px';
         });     */
 
-        $(window).bind("onImageOver", function(e, el){
+        $(window).bind("onImageClick", function(e, el){
 
          if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName=='IMG'){
            //  var order = mw.tools.parentsOrder(el, ['edit', 'module']);

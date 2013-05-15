@@ -465,6 +465,33 @@ session_write_close();
 	}  else {
 		
 	}
+	
+	if(function_exists('imagefilter')){
+		$filter_img = rand(1, 6);
+		
+		switch($filter_img){
+		 case 1:
+ 			 $gaussian = array(array(1.0, 2.0, 1.0), array(2.0, 4.0, 2.0), array(1.0, 2.0, 1.0));
+			imageconvolution($image, $gaussian, 16, 0);
+		 break;
+		 
+  
+		// break;
+		  case 3:
+			 imagefilter($image, IMG_FILTER_PIXELATE, 1);
+		 break;
+		 
+		 default:
+		 
+		 break;
+		 	
+		}
+
+		
+	
+	}
+	
+	
 	$y21 = mt_rand(5, 20);
 	captcha_vector($image, $x, $y21 / 2, 180, 200, $bgcolor);
 
@@ -473,6 +500,21 @@ session_write_close();
 
 	$y21 = mt_rand(5, 20);
 	captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $bgcolor);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	//   imagestring($image, 5, 2, 2, $text, $black);
 
