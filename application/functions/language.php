@@ -9,22 +9,38 @@ function _e($k, $to_return = false) {
 	if (isset($_SESSION)){
  	$lang = session_get('lang');
 	}
+
+    if($lang == false){
+        if(isset($_COOKIE['lang'])){
+            $lang = $_COOKIE['lang'];
+        }
+    }
+    if(!defined('MW_LANG')){
+        define('MW_LANG',$lang);
+    }
+
 //	$k1 = url_title($k);
-    if ($language_content === NULL or !is_array($language_content)) {
+    if ($language_content === NULL or !is_array($language_content) or empty($language_content)) {
         if ($lang_file === NULL) {
+
+
+
             if (!isset($_SESSION) or session_get('lang') == 'en') {
                 $lang = 'en';
-            } else {
+            } elseif( $lang != false){
+
+            }else {
                 $lang = session_get('lang');
 
             }
+
             $lang = str_replace('..', '', $lang);
             if (trim($lang) == '') {
                 $lang = 'en';
             }
             $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
             $lang_file = normalize_path($lang_file, false);
-             
+
             if (is_file($lang_file)) {
                 include ($lang_file);
             } else {
