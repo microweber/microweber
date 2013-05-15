@@ -247,7 +247,7 @@ mw.image = {
           this.style.height = $(img).height()+'px';
         });     */
 
-        $(window).bind("onImageClick", function(e, el){
+        $(window).bind("onImageOver", function(e, el){
 
          if( !mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName=='IMG'){
            //  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
@@ -257,8 +257,8 @@ mw.image = {
                var el = $(el);
                var offset = el.offset();
                var r = $(mw.image_resizer);
-               var width = el.width();
-               var height = el.height();
+               var width = el.outerWidth();
+               var height = el.outerHeight();
                r.css({
                   left:offset.left,
                   top:offset.top,

@@ -2503,7 +2503,7 @@ a.module-icon-title{
 .mw-ui-col-container{
   padding: 12px;
 }
-
+   /*
 .module-item:hover:after{
     display: block;
     content: attr(data-module-name);
@@ -2514,7 +2514,7 @@ a.module-icon-title{
     background: #A1D1EF;
     font-size: 11px;
     color: white;
-}
+}  */
 
 
 

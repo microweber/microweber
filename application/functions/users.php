@@ -442,8 +442,24 @@ session_write_close();
 	$x1 = mt_rand(15, 30);
 	$y1 = mt_rand(15, 20);
 	$tsize = rand(13, 16);
-	imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
+	
+	  
+	 
 
+	
+	
+	if(function_exists('imagettftext')){
+	imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
+	} else if(function_exists('imagestring')){
+		$font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
+	$font = normalize_path($font, 0);
+		  $font = imageloadfont($font);
+			imagestring ($image, $font, 1, 1, $text, $black);
+		
+ 	
+	}  else {
+		
+	}
 	$y21 = mt_rand(5, 20);
 	captcha_vector($image, $x, $y21 / 2, 180, 200, $bgcolor);
 

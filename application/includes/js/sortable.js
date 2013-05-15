@@ -265,6 +265,23 @@ mw.drag = {
                      $(window).trigger("onModuleLeave", mw.mm_target);
                    }
 
+                   //trigger on img
+                   if(mw.mm_target.tagName === 'IMG'){
+
+                    var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
+
+                if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
+                    if(!mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
+                       $(window).trigger("onImageOver", mw.mm_target);
+                    }
+
+
+
+                  }
+
+
+                   }
+
 
                    //trigger on row
                    if(mw.$mm_target.hasClass("mw-row")){
