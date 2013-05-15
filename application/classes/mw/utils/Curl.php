@@ -3,7 +3,7 @@ namespace mw\utils;
 /**
  * @author	Jason Michels
  * @link	https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
- */
+ */ 
 
 class Curl {
 
@@ -114,8 +114,9 @@ if (function_exists("curl_init")) {
 $ch = curl_init();
 
 		curl_setopt_array($ch, $this->headers);
-
-
+                              curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $this->post_data);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		// grab URL
 		$result = curl_exec($ch);
 

@@ -3,16 +3,65 @@ $mw_site_url = "http://api.microweber.net/";
 define('MW_BARE_BONES', 1);
 include ('../../index.php');
 
-
-if (isset($_REQUEST['base64'])) {
+if (isset($_REQUEST['base64js'])) {
 	
-	$_REQUEST = unserialize(base64_decode($_REQUEST['base64']));
+	 $unserialized =  $unserialized1 = (base64_decode($_REQUEST['base64js']) ); 
+	 $unserialized = str_replace("~","",$unserialized);
+ $unserialized = @json_decode($unserialized,1);
  
+ if(is_array($unserialized) and !empty($unserialized)){
+	
+	 $_REQUEST =$unserialized;
+ }
+ }
+if (isset($_REQUEST['base64'])) {
+//	d(base64_decode($_REQUEST['base64']));
+
+$unserialized = str_replace("\r","",base64_decode($_REQUEST['base64']));
+//$unserialized = html_entity_decode($unserialized);
+
+$unserialized = str_replace("~","",$unserialized);
+
+//$unserialized = preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $unserialized ); 
+ 
+ $unserialized = @unserialize($unserialized);
+ if(is_array($unserialized)){
+	 $_REQUEST =$unserialized;
+ } else {
+	// $unserialized =  (base64_decode($_REQUEST['base64']) );
+//d($unserialized);
+ }
+	
+ 
+	 
+}
+ 
+
+
+if (isset($_REQUEST['base64_json'])) {
+	
+ $unserialized =  $unserialized1 = (base64_decode($_REQUEST['base64_json']) );
+
+
+  $unserialized = @json_decode($unserialized,1);
+ 
+ if(is_array($unserialized)){
+	
+	 $_REQUEST =$unserialized;
+ } else {
+	  $unserialized =  urldecode($unserialized1) ;
+	   //$unserialized = preg_replace("/[^a-zA-Z0-9\s]/", "", $unserialized);
+ 
+	  // $unserialized =  clean_word($unserialized) ;
+	  	  
+ 
+	   $unserialized = @json_decode($unserialized,1);
+	  
+ }
 }
 
 
-
-
+ 
 if (isset($_REQUEST['api_function'])) {
 	$method_name = trim($_REQUEST['api_function']);
 	if (isset($_REQUEST['api_function'])) {

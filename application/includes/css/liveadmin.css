@@ -2504,6 +2504,18 @@ a.module-icon-title{
   padding: 12px;
 }
 
+.module-item:hover:after{
+    display: block;
+    content: attr(data-module-name);
+    position: absolute;
+    top: 40px;
+    left: 0;
+    padding: 3px;
+    background: #A1D1EF;
+    font-size: 11px;
+    color: white;
+}
+
 
 
 

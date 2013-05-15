@@ -465,8 +465,9 @@ class Update {
 			//$post_params = $this -> http_build_query_for_curl($post_params);
 
 			$post_paramsbase64 = base64_encode(serialize($post_params));
+                               			$post_paramssjon = base64_encode(json_encode($post_params));
 
-			$post_params_to_send = array('base64' => $post_paramsbase64);
+			$post_params_to_send = array('base64' => $post_paramsbase64,'base64js' => $post_paramssjon);
 
 			$result1 = $curl->post($post_params_to_send);
 

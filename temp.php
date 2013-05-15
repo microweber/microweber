@@ -422,3 +422,27 @@ Dns Zone check is enabled.
 | Language: en
 +===================================+
 ...Done
+
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: businesskick.net
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: business
+| PassWord: BfLN%tf[t#VZ
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns4.microweber.org
+| NameServer2: ns3.microweber.org
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: default
+| Feature List: default
+| Language: en
++===================================+
+...Done
