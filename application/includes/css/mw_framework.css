@@ -1200,8 +1200,8 @@ input.mw-ui-field{
   color: #212121;
 }
 
-.mw-ui-field:focuss{
-  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset !important;
+.mw-ui-field:focus{
+  box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
 

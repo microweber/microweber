@@ -317,7 +317,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 		$menu_params = $menu_id;
 		extract($menu_id);
 	}
-
+$params_o  = $menu_params;
 	$cache_group = 'menus/global';
 	$function_cache_id = false;
 
@@ -393,6 +393,12 @@ function menu_tree($menu_id, $maxdepth = false) {
 	if (isset($params['maxdepth']) != false) {
 		$maxdepth = $params['maxdepth'];
 	}
+
+	if (isset($params_o['maxdepth']) != false) {
+		$maxdepth = $params_o['maxdepth'];
+	}
+
+
 
 	if (!isset($link) or $link == false) {
 		$link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
@@ -550,6 +556,10 @@ function menu_tree($menu_id, $maxdepth = false) {
 						if (isset($depth)) {
 							$menu_params['depth'] = $depth + 1;
 						}
+
+
+
+
 						$test1 = menu_tree($menu_params);
 					} else {
 						$test1 = menu_tree($item['id']);
@@ -559,7 +569,7 @@ function menu_tree($menu_id, $maxdepth = false) {
 
 				} else {
 
-					if (($maxdepth != false) and ($cur_depth <= $maxdepth)) {
+					if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
 
 						if (isset($params) and isarr($params)) {
 							$test1 = menu_tree($menu_params);

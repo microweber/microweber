@@ -93,11 +93,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 #mw_toolbar_logo{
   background-image: url(../img/logo_admin.png);
-  /**/
 
-  height:37px;
-  width:212px;
-  margin-top: 7px;
 }
 #mw_toolbar_logo:hover{opacity:1;}
 #mw_toolbar_nav{
@@ -500,6 +496,11 @@ form .shipping-country-row:first-child{
   padding-bottom: 10px;
 }
 
+#sign_logo_version img{
+  position: relative;
+  top: 16px;
+}
+
 #mw-login{
   width: 350px;
   padding: 20px;
@@ -569,6 +570,10 @@ form .shipping-country-row:first-child{
   margin: auto;
 }
 
+#login_foot a{
+  font-size: 11px;
+}
+
 #login_foot a:first-child{
   color: #aaa;
 }
@@ -579,7 +584,7 @@ form .shipping-country-row:first-child{
     margin-left: -9px;
     margin-right: 6px;
     opacity: 0.45;
-    top: -2px;
+    top: -3px;
     width: 19px;
 }
 

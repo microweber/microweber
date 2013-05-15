@@ -558,7 +558,7 @@ mw.tools = {
   		    });
         })
     },
-	  del_category : function(id){
+	del_category : function(id){
       mw.tools.confirm('Are you sure you want to delete this?', function(){
          $.post(mw.settings.site_url + "api/delete_category", {id:id}, function(data) {
             var todelete =  mw.$(".item_" + id);
@@ -659,7 +659,7 @@ mw.tools = {
     }
   },
   hasClass:function(classname, whattosearch){   //for strings
-    if(typeof classname !== 'undefined'){
+    if(typeof classname === 'string'){
       return classname.split(' ').indexOf(whattosearch) > -1;
     }
     else{
@@ -846,17 +846,11 @@ mw.tools = {
   },
   confirm:function(question, callback){
 
-
-
     var conf = confirm(question);
     if(conf && typeof callback === 'function'){
       callback.call(window);
     }
     return conf;
-
-
-
-
 
   },
   el_switch:function(arr, type){
@@ -1589,7 +1583,7 @@ Wait('$', function(){
   };
 
 
-mw.datassetSupport = mw.is.obj(mwd.getElementsByTagName('html')[0].dataset) ? true : false;
+mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
 
 $.fn.dataset = function(dataset, val){
   var el = this[0];

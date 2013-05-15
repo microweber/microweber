@@ -254,3 +254,171 @@ ns-1729.awsdns-24.co.uk
 ns-488.awsdns-61.com
 ns-1059.awsdns-04.org
 
++===================================+
+| Domain: numia.host.microweber.org
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: numiahos
+| PassWord: H&kR{#g_N)7p
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns4.microweber.org
+| NameServer2: ns3.microweber.org
+| NameServer3: ns2.microweber.org
+| NameServer4: ns1.microweber.org
+| Contact Email:
+| Package: Unlimited
+| Feature List: default
+| Language: en
+
+
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: ooyes.host.microweber.org
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: ooyeshos
+| PassWord: EZ^$qVPSI#r?
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns4.microweber.org
+| NameServer2:
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: default
+| Feature List: default
+| Language: en
++===================================+
+
+
+
+
+WWWAcct 12.5.0 (c) 2013 cPanel, Inc....
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: digital-connections.tv
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: digitalc
+| PassWord: tElzi210N(&-
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.org
+| NameServer2:
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: Unlimited
+| Feature List: default
+| Language: en
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/digi/public_html/ digitalc@198.50.102.98:/home/digitalc/public_html/
+
+
+
++===================================+
+...Done
+
+
+
+
+
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: ooyes.net
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: ooyes
+| PassWord: B036vn%z)2}a
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.net
+| NameServer2: ns1.microweber.org
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: default
+| Feature List: default
+| Language: en
+
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/ooyes/public_html/ ooyes@198.50.102.98:/home/ooyes/public_html/
+...Done
+
++===================================+
+
+
+
+
+
+
+
+WWWAcct 12.5.0 (c) 2013 cPanel, Inc....
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: omnitom.com
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: omnitom
+| PassWord: Mfy?9+hq%I$Q
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.org
+| NameServer2: ns1.microweber.net
+| NameServer3:
+| NameServer4:
+| Contact Email: info@microweber.com
+| Package: default
+| Feature List: default
+| Language: en
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/omnitom/public_html/ omnitom@198.50.102.98:/home/omnitom/public_html/
+
+
++===================================+
+...Done
+
+
+
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: bozhanov.com
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: bozhanov
+| PassWord: w{N}8,W9.fhM
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.org
+| NameServer2: ns1.microweber.net
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: Unlimited
+| Feature List: default
+| Language: en
++===================================+
+...Done

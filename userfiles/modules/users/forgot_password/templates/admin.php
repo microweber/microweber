@@ -18,8 +18,8 @@
               <input type="text" placeholder="Enter the text" class="mw-ui-invisible-field" name="captcha">
           </div>
     </div>
-    <div class="mw-ui-field-holder">
-        <button type="submit" class="mw-ui-btn right"><?php print $form_btn_title; ?></button>
+    <div class="mw-ui-field-holder" style="margin: auto; width: 286px;">
+        <button type="submit" id="submit" class="mw-ui-btn right"><?php print $form_btn_title; ?></button>
     </div>
 
     <div style="clear: both"></div>

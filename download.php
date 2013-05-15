@@ -55,7 +55,7 @@ if(is_file($stats_f)){
 $st_c++;
 file_put_contents($stats_f,$st_c);
 if(isset($_GET['webinstall'])){
-		header("Location: https://s3.amazonaws.com/mw-download/webinstall.zip");
+		header("Location: http://microweber.net/webinstall.zip");
 
 	
 } elseif($url != false) {

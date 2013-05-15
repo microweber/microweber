@@ -1736,7 +1736,6 @@ if(typeof el === 'object'){
             success: function(data) {
             mw.askusertostay = false;
 
-
             if($('#mw-history-panel').is(":visible") == false){
                mw.history.init();
             }
@@ -1757,6 +1756,13 @@ if(typeof el === 'object'){
               }
               if(typeof callback === 'function'){
                    callback.call();
+              }
+            },
+            error:function(){
+              mw.$(".edit.changed").removeClass("changed");
+               if(typeof el === 'object'){
+                var html  = $(el).dataset("html");
+                $(el).removeClass('disabled').html(html);
               }
             }
           });

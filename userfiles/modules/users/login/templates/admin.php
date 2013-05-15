@@ -66,7 +66,7 @@ $(document).ready(function(){
     <div>Welcome <?php print user_name(); ?> </div>
     <a href="<?php print site_url() ?>">Go to <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" >Log Out</a>
     <?php else:  ?>
-    <form autocomplete="off" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print site_url('api/user_login') ?>"  >
+    <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print site_url('api/user_login') ?>"  >
       <div class="mw-ui-field-holder">
         <input  class="mw-ui-field" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>"   />
       </div>

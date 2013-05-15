@@ -1,4 +1,4 @@
- 
+
 <script  type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>pictures.js', true);
 
@@ -51,45 +51,30 @@ if(isset($params['content-id'])){
 
 
 function after_upld_<?php print $rand; ?>(a, eventType){
- 
-	if(eventType != undefined && eventType != 'done' ){
+
+	if(eventType != 'done' ){
 			 var data = {};
 			 data.for = '<?php print $for ?>';
 			 data.src = a;
 			 data.media_type = 'picture';
 			 data.for_id = '<?php print $for_id ?>';
 			 mw.module_pictures.after_upload(data);
-			  if(window.parent != undefined && window.parent.mw != undefined){
-            //window.parent.mw.reload_module('pictures');
-        }
-			 
 	}
-	if(eventType != undefined && eventType == 'done' ){
-
-
-        if(mw.tools != undefined){
+	if(eventType == 'done' ){
+        if(typeof mw.tools === 'object'){
     	    mw.tools.modal.remove('mw_rte_image');
     	}
-
-
-       //
-	    //mw.reload_module('pictures/admin');
-	   	  mw.reload_module('#<?php print $params['id'] ?>');   
-
-	   
-	   
-        if(window.parent != undefined && window.parent.mw != undefined){
-            window.parent.mw.reload_module('pictures');
-			
-			 if(window.parent != undefined && window.parent.mw != undefined){
-   window.parent.mw.reload_module('posts');
-   window.parent.mw.reload_module('shop/products');
-   window.parent.mw.reload_module('content');
-
-
-}
-        } else {
-
+    	mw.reload_module('#<?php print $params['id'] ?>');
+        if(self !== top && typeof parent.mw === 'object'){
+             parent.mw.reload_module('pictures');
+			 if(self !== top && typeof parent.mw === 'object'){
+               parent.mw.reload_module('posts');
+               parent.mw.reload_module('shop/products');
+               parent.mw.reload_module('content', function(){
+                 	mw.reload_module('#<?php print $params['id'] ?>');
+                    parent.mw.reload_module('pictures');
+               });
+            }
         }
 	}
 }
