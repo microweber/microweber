@@ -6,6 +6,6 @@ $config['author'] = "Microweber";
 $config['no_cache'] = true;
 $config['ui'] = true;
 $config['categories'] = "menus";
-$config['position'] = "5";
+$config['position'] = "15";
 $config['version'] = 1.2;
 

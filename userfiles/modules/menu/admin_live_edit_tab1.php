@@ -152,14 +152,14 @@ body.module-settings-page #custom_link_controller {
 var data = {}
 data.id = $id
 
- 
+
       $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
       });
 
  }
- 
- 
+
+
 
   mw.menu_edit_items = function($menu_id, $selector){
 
@@ -171,9 +171,9 @@ data.id = $id
  }
 
  menuSelectorInit = function(selector){
-	 
-	 
-	 
+
+
+
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
      mw.$(selector + ' input[type="radio"]').commuter(function(){
@@ -259,14 +259,14 @@ $menu_name = get_option('menu_name', $params['id']);
 
 		$menu_name =  $params['name'];
 	} else {
-			
+
 
 	}
-	
-	
-	
-	 
-	
+
+
+
+
+
 	$active_menu = $menu_name;
   $menu_id = false;
   if($menu_name != false){
@@ -275,12 +275,12 @@ $menu_name = get_option('menu_name', $params['id']);
 	  add_new_menu('id=0&title=' . $params['title']);
 	    $menu_id = get_menu('one=1&title='.$menu_name);
 	  }
- 
+
   }
  if(isset($menu_id['title'])){
 	 $active_menu =   $menu_id['title'];
  }
-  
+
  ?>
 <?php if(isarr($menus) == true): ?>
 <?php if(isarr($menus )): ?>
@@ -312,6 +312,12 @@ $menu_name = get_option('menu_name', $params['id']);
 <?php else : ?>
 You have no exising menus. Please create one.
 <?php endif; ?>
+<?php
+if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
+  $menu_id = $menu_id['id'];
+}
+
+ ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
   <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
 </div>

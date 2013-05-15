@@ -6,7 +6,7 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.6986);
+	define('MW_VERSION', 0.6987);
 }
 error_reporting(E_ALL);
 
@@ -18,7 +18,7 @@ function mw_autoload($className) {
 	$namespace = '';
 	if ($lastNsPos = strripos($className, '\\')) {
 		$namespace = substr($className, 0, $lastNsPos);
-		$className = substr($className, $lastNsPos + 1);
+		$className = substr($className, $lastNsmenu/admin_live_edit_tab1.phpPos + 1);
 		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 	}
 	if ($className != '') {
