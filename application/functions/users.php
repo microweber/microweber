@@ -403,7 +403,12 @@ function captcha() {
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
+	if(function_exists('imagettftext')){
 	$text1 = mt_rand(100, 4500);
+	} else {
+			$text1 = mt_rand(100, 999);
+
+	}
 	$text2 = mt_rand(2, 9);
 	$roit = mt_rand(1, 5);
 	$text = "$text1";
@@ -429,7 +434,7 @@ session_write_close();
 	// imagefill($image, 0, 0, $color1);
 	for ($i = 0; $i < $x; $i++) {
 		for ($j = 0; $j < $y; $j++) {
-			if (mt_rand(0, 20) == 20) {
+			if (mt_rand(0, 20) < 10) {
 
 				//  $coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
 
@@ -450,11 +455,11 @@ session_write_close();
 	
 	if(function_exists('imagettftext')){
 	imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
-	} else if(function_exists('imagestring')){
+	} else if(function_exists('imagestring')){  
 		$font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
 	$font = normalize_path($font, 0);
 		  $font = imageloadfont($font);
-			imagestring ($image, $font, 1, 1, $text, $black);
+			imagestring ($image, $font, 0, 0, $text, $black);
 		
  	
 	}  else {
