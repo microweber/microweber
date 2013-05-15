@@ -7,5 +7,5 @@ $config['no_cache'] = true;
 $config['ui'] = true;
 
 $config['categories'] = "other, content";
-$config['position'] = 15;
+$config['position'] = 26;
 $config['version'] = 0.4;
