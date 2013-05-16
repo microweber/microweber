@@ -65,16 +65,16 @@ function mw_post_update() {
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($params) {
-	only_admin_access(); 
+	only_admin_access();
 	$params = parse_params($params);
 	$update_api = new \mw\Update();
-	$res = array(); 
+	$res = array();
  	$upd_params = array();
-	if (isarr($params)) {  
+	if (isarr($params)) {
 		foreach ($params as $param_k => $param) {
 			if ($param_k == 'mw_version') {
 				$upd_params['mw_version'] = $param_k;
-			} 
+			}
 
 			if ($param_k == 'elements') {
 				$upd_params['elements'] = $param;
@@ -89,7 +89,7 @@ function mw_apply_updates($params) {
 
 			if (isset($upd_params['mw_version'])) {
 				$res[] = $update_api -> install_version($upd_params['mw_version']);
-				 
+
 			}
 			if (isset($upd_params['elements']) and isarr($upd_params['elements'])) {
 				foreach ($param['elements'] as $item) {
@@ -144,13 +144,6 @@ function mw_updates_count() {
 		$count = $count + sizeof($upd_count['elements']);
 	}
 
-
-
-
-
-
-
-
 	return $count;
 }
 
@@ -163,18 +156,7 @@ function mw_check_for_update() {
 
 		$iudates = $update_api -> check();
 
-		$mw_avail_updates = $iudates;
 
-		if(intval($mw_avail_updates) > 0){
-				$notif = array();
-				$notif['module'] = "updates";
-
-				$notif['title'] = "New updates are avaiable.";
-				$notif['description'] = "There are new MW updates";
-
-				 post_notification($notif);
-
-		}
 	}
 	return $mw_avail_updates;
 

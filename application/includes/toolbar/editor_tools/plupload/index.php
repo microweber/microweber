@@ -46,14 +46,6 @@
         </script>
         <script type="text/javascript">
 
-
-
-
-
-
-
-
-
             Name = this.name;
 
             mwd.body.className +=' ' + Name;
@@ -62,23 +54,13 @@
 
            $(document).ready(function(){
 
-
-
             var multi =  (Params.multiple == 'true');
 
             var autostart =  (Params.autostart == 'true' );
 
-
-
-
-
             var filters = [ {title:"", extensions : Params.filters} ]
 
-           this_frame = parent.mw.$("iframe[name='"+Name+"']");
-
-
-
-
+            this_frame = parent.mw.$("iframe[name='"+Name+"']");
 
             uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
@@ -91,8 +73,6 @@
                 multi_selection:multi
             });
 
-
-
         window.onmessage = function(event){
 
              var data = JSON.parse(event.data);
@@ -101,17 +81,7 @@
              var params =  mw.url.getUrlParams(uploader.settings.url);
              uploader.settings.url = base + "?" + json2url(data) + "&" + json2url(params);
 
-
          }
-
-
-
-
-
-
-
-
-
 
             uploader.init();
 
@@ -160,16 +130,14 @@
             });
 
 
-
             uploader.bind('Error', function(up, err){
              this_frame.trigger("error", err.file);
              $(mwd.body).removeClass("loading");
 	        });
 
-
-                 $(document.body).click(function(){
-                       this_frame.trigger("click");
-                 });
+             $(document.body).click(function(){
+                   this_frame.trigger("click");
+             });
             });
 
         </script>

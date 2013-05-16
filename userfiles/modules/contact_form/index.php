@@ -56,10 +56,12 @@ processContactForm = {
               else{
                 if(!$(this).hasClass("binded")){
                     $(this).addClass("binded");
-                    $(this).bind("FileUploaded", function(a,b){
+                    $(this).bind("FileUploaded", function(a,b,c){
 
-                      d(a);
-                      d(b);
+                      alert(this.src)
+                      alert(a.src)
+                      alert(b.src)
+                      alert(c.src)
                         __done ++;
                         if(__done == l){
                            callback.call(form);

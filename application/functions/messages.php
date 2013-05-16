@@ -58,7 +58,7 @@ function mw_db_init_notifications_table() {
 api_expose('post_notification');
 
 function post_notification($params) {
-
+d($params);
 	$params = parse_params($params);
 
 	// if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
@@ -78,6 +78,7 @@ function post_notification($params) {
 	$cleanup = "delete from $table where created_on < '{$old}'";
 	db_q($cleanup);
 	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+
 	$data = save_data($table, $params);
 	return $data;
 }

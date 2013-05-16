@@ -99,8 +99,23 @@ class Update {
 
 
 
+	$count = 0;
 
 
+
+	if (isset($result['modules'])) {
+		$count = $count + sizeof($result['modules']);
+	}
+	if (isset($result['module_templates'])) {
+		$count = $count + sizeof($result['module_templates']);
+	}
+	if (isset($result['core_update'])) {
+		$count = $count + 1;
+	}
+	if (isset($result['elements'])) {
+		$count = $count + sizeof($result['elements']);
+
+	}
 
 
  		/*if(function_exists('post_notification')){
@@ -131,21 +146,6 @@ class Update {
 			}
 
 		}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -200,7 +200,7 @@ class Update {
 				error_reporting(E_ERROR);
 
 				set_time_limit(0);
-				
+
 		$to_be_unzipped = array();
 		$a = is_admin();
 		if ($a == false) {
