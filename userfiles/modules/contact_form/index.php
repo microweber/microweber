@@ -7,73 +7,80 @@
 
 if(typeof  processContactForm !== 'object'){
 
-processContactForm = {
-   send: function(selector, msgselector){
-        mw.form.post(selector, undefined, function(form){
-			var data2 = this;
+    processContactForm = {
+       send: function(selector, msgselector){
+            mw.form.post(selector, undefined, function(form){
 
-			if(typeof data2.error === 'string'){
-                mw.response(mw.$(selector), data2);
-		    }
-            else {
-                processContactForm.done(form, msgselector);
+    			var data2 = this;
+    			if(typeof data2.error === 'string'){
+                    mw.response(mw.$(selector), data2);
+    		    }
+                else {
+                    processContactForm.done(form, msgselector);
+                }
+         	}, true );
+       },
+       done: function(form, selector){
+          var form = mw.$(form);
+          form.addClass("deactivated");
+          mw.$(selector).css("top", "20%");
+          if(form.find(".mw-captcha-img")[0].length > 0){
+              mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
+          }
+          form[0].reset();
+          form.find(".alert-error").remove();
+          setTimeout(function(){
+              mw.$(selector).css("top", "-100%");
+              form.removeClass("deactivated");
+          }, 3200);
+       },
+       upload:function(form, callback){
+            if(window['formHasUploader'] !== true ){
+                callback.call(form);
             }
-     	}, true );
-   },
-   done: function(form, selector){
-      var form = mw.$(form);
-      form.addClass("deactivated");
-      mw.$(selector).css("top", "20%");
-      if(form.find(".mw-captcha-img")[0].length > 0){
-          mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
-      }
-      form[0].reset();
-      form.find(".alert-error").remove();
-      setTimeout(function(){
-          mw.$(selector).css("top", "-100%");
-          form.removeClass("deactivated");
-      }, 3200);
-   },
-   upload:function(form, callback){
-        if(window['formHasUploader'] !== true ){
-            callback.call(form);
-        }
-        else{
-            __done = 0;
-            var l = mw.$(".mw-uploader-explorer", form).length;
-            mw.$(".mw-uploader-explorer", form).each(function(){
+            else{
+                __done = 0;
+                var l = mw.$(".mw-uploader-explorer", form).length;
+                mw.$(".mw-uploader-explorer", form).each(function(){
 
 
-              this.contentWindow['uploader'].settings.url = mw.url.set_param("captcha",  $(form).find(".mw-captcha-input").val(), this.contentWindow['uploader'].settings.url);
+                  this.contentWindow['uploader'].settings.url = mw.url.set_param("captcha",  $(form).find(".mw-captcha-input").val(), this.contentWindow['uploader'].settings.url);
 
 
-              if(this.contentWindow['uploader'].files.length == 0){
-                 __done ++;
-                    if(__done == l){
-                       callback.call(form);
-                    }
-              }
-              else{
-                if(!$(this).hasClass("binded")){
-                    $(this).addClass("binded");
-                    $(this).bind("FileUploaded", function(a,b,c){
+                  if(this.contentWindow['uploader'].files.length === 0){
 
-                      alert(this.src)
-                      alert(a.src)
-                      alert(b.src)
-                      alert(c.src)
-                        __done ++;
+                     __done ++;
                         if(__done == l){
                            callback.call(form);
                         }
-                    });
-                }
-                 this.contentWindow['uploader'].start();
-              }
-            });
-        }
-   }
-}
+                  }
+                  else{
+                    if(!$(this).hasClass("binded")){
+                        $(this).addClass("binded");
+                        $(this).bind("FileUploaded", function(a,b,c){
+                            __done ++;
+                            if(__done == l){
+                               callback.call(form);
+                            }
+                        });
+
+                        $(this).bind("responseError", function(a,b,c){
+                          __done ++;
+                          if( __done == l ){
+
+                            }
+                        });
+                    }
+                    else{
+                      this.contentWindow['uploader'].files[0].status = this.contentWindow['plupload'].QUEUED;
+                    }
+
+                     this.contentWindow['uploader'].start();
+                  }
+                });
+            }
+       }
+    }
 
 
 
@@ -81,14 +88,14 @@ processContactForm = {
 
 
 $(document).ready(function(){
-	$('form[data-form-id="<?php print $form_id ?>"]').submit(function() {
-		var this_form = this;
-		var append_to_form = '<input type="hidden" name="module_name" value="<?php print $params['module']; ?>" />';
-		$(this).append(append_to_form);
-        processContactForm.upload(this_form, function(){
-          processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id ?>");
-        })
 
+	$('form[data-form-id="<?php print $form_id ?>"]').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
+
+	$('form[data-form-id="<?php print $form_id ?>"]').submit(function() {
+         processContactForm.upload(this, function(){
+
+          processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
+        });
     	return false;
     });
 });

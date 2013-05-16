@@ -117,7 +117,35 @@ class Update {
 
 	}
 
+if(function_exists('post_notification')){
 
+
+				$count = 0;
+		 		if (isset($result['modules'])) {
+				$count = $count + sizeof($result['modules']);
+				}
+				if (isset($result['module_templates'])) {
+					$count = $count + sizeof($result['module_templates']);
+				}
+				if (isset($result['core_update'])) {
+					$count = $count + 1;
+				}
+				if (isset($result['elements'])) {
+					$count = $count + sizeof($result['elements']);
+				}
+
+			if($count > 0){
+			$notif = array();
+			$notif['module'] = "updates";
+			$notif['rel'] = "update_check";
+			$notif['rel_id'] = 'updates';
+			$notif['title'] = "New updates are avaiable";
+			$notif['description'] = "There are $count new updates are available";
+
+			 post_notification($notif);
+			}
+
+		}
  		/*if(function_exists('post_notification')){
 
 

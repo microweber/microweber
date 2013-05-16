@@ -274,30 +274,6 @@ ns-1059.awsdns-04.org
 
 
 
-Dns Zone check is enabled.
-+===================================+
-| New Account Info                  |
-+===================================+
-| Domain: ooyes.host.microweber.org
-| Ip: 198.50.102.98 (n)
-| HasCgi: y
-| UserName: ooyeshos
-| PassWord: EZ^$qVPSI#r?
-| CpanelMod: x3
-| HomeRoot: /home
-| Quota: unlimited Meg
-| NameServer1: ns4.microweber.org
-| NameServer2:
-| NameServer3:
-| NameServer4:
-| Contact Email: boksiora@gmail.com
-| Package: default
-| Feature List: default
-| Language: en
-+===================================+
-
-
-
 
 WWWAcct 12.5.0 (c) 2013 cPanel, Inc....
 
@@ -472,3 +448,50 @@ ooyes.net.	IN	MX	30 ASPMX2.GOOGLEMAIL.COM.
 ooyes.net.	IN	MX	30 ASPMX3.GOOGLEMAIL.COM.
 ooyes.net.	IN	MX	30 ASPMX4.GOOGLEMAIL.COM.
 ooyes.net.	IN	MX	30 ASPMX5.GOOGLEMAIL.COM.
+
+
+
+
+
+
+
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: kings11plus.com
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: kings11p
+| PassWord: 9TViM~=!T3Re
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: dns2.name-services.com
+| NameServer2: dns3.name-services.com
+| NameServer3: dns5.name-services.com
+| NameServer4: dns1.name-services.com
+| Contact Email: boksiora@gmail.com
+| Package: Unlimited
+| Feature List: default
+| Language: en
+
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/kings11plus/public_html/ kings11p@198.50.102.98:/home/kings11p/public_html/
+
+
+
+
+
+
++===================================+
+...Done
+
+
+
+
+
+/home/kings11plus
+
+
+

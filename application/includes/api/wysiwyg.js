@@ -193,7 +193,7 @@ mw.wysiwyg = {
 
       mw.$("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
-      items.bind("paste", function(event){
+      items.bind("paste", function(event){   /*
 
           var id = "el_"+mw.random();
           var el = "<div id='"+id+"'>&nbsp;</div>";
@@ -215,12 +215,9 @@ mw.wysiwyg = {
            });
 
            el.html(body.innerHTML);
- $(el).pmaker();
-           $(el).find("br").each(function(){
-             //$(this).wrap("<p class='element'></p>");
-             //$(this).replaceWith("<p class='element'></p>");
-           });
-         },50);
+
+
+         },50);   */
       });
 
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
@@ -1069,65 +1066,3 @@ $(window).load(function(){
 
 });
 
-
-// got from http://stackoverflow.com/questions/1275250/is-there-an-easy-way-to-convert-html-with-multiple-br-tags-into-proper-surrou
-$(function() {
-  $.fn.pmaker = function() {
-    var brs = 0;
-    var nodes = [];
-
-    function makeP()
-    {
-      // only bother doing this if we have nodes to stick into a P
-      if (nodes.length) {
-        var p = $("<p/>");
-        p.insertBefore(nodes[0]);  // insert a new P before the content
-        p.append(nodes); // add the children
-        nodes = [];
-      }
-      brs=0;
-    }
-
-    this.contents().each(function() {
-      if (this.nodeType == 3) // text node
-      {
-        // if the text has non whitespace - reset the BR counter
-        if (/\S+/.test(this.data)) {
-          nodes.push(this);
-          brs = 0;
-        }
-      } else if (this.nodeType == 1) {
-        if (/br/i.test(this.tagName)) {
-          if (++brs == 2) {
-            $(this).remove(); // remove this BR from the dom
-            $(nodes.pop()).remove(); // delete the previous BR from the array and the DOM
-            makeP();
-          } else {
-            nodes.push(this);
-          }
-        } else if (/^(?:p)$/i.test(this.tagName)) {
-          // these tags for the P break but dont scan within
-          makeP();
-        } else if (/^(?:div)$/i.test(this.tagName)) {
-          // force a P break and scan within
-          makeP();
-          $(this).pmaker();
-        } else {
-          brs = 0; // some other tag - reset brs.
-          nodes.push(this); // add the node
-          // specific nodes to not peek inside of - inline tags
-          if (!(/^(?:b|i|strong|em|span|u)$/i.test(this.tagName))) {
-            $(this).pmaker(); // peek inside for P needs
-          }
-        }
-      }
-    });
-    while ((brs--)>0) { // remove any extra BR's at the end
-      $(nodes.pop()).remove();
-    }
-    makeP();
-    return this;
-  };
-
-
-})

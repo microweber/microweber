@@ -67,10 +67,12 @@ var thepre = document.getElementById('pre<?php  print $source_code_id; ?>');
 
 </script>
 <div class="mw-code-hl">
+	<code id="highlight_code<?php  print $source_code_id; ?>" style="display:none;">
 	<textarea class="language-<?php  print $source_code_language; ?>" id="src<?php  print $source_code_id; ?>" lang="<?php  print $source_code_language; ?>" style="display:none;">
 				<?php  //echo nl2br($source_code,1); ?>
 				<?php   print ($source_code); ?>
 	</textarea>
+</code>
 
 
 

@@ -86,6 +86,7 @@
             uploader.init();
 
 
+
             uploader.bind('FilesAdded', function(up, files) {
                this_frame.trigger("FilesAdded", files);
                if(autostart) {
