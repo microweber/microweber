@@ -4,8 +4,161 @@ if (!isset($_SESSION) or empty($_SESSION)) {
 	//session_start();
 }
 
+
+
+
 if (is_admin() == false) {
-	die('{"jsonrpc" : "2.0", "error" : {"code": 99, "message": "Only admin can upload."}, "id" : "id"}');
+	if(isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"])  and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false'){
+
+			$cfid = get_custom_field_by_id(intval($_REQUEST["custom_field_id"]));
+			if($cfid == false){
+			 die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
+
+			}
+
+			if($cfid != false and isset($cfid['custom_field_type'])){
+				if($cfid['custom_field_type'] != 'upload'){
+					 die('{"jsonrpc" : "2.0", "error" : {"code": 94, "message": "Custom field is not file upload type"}}');
+
+				}
+				if($cfid != false and (  !isset($cfid['options']) or !isset($cfid['options']['file_types']) )){
+				  die('{"jsonrpc" : "2.0", "error" : {"code": 95, "message": "File types is not set."}}');
+
+				}
+				if($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])){
+					 die('{"jsonrpc" : "2.0", "error" : {"code": 96, "message": "File types cannot by empty."}}');
+				}
+
+				if($cfid != false and isset($cfid['options']) and isset($cfid['options']['file_types'])){
+
+					$alloled_ft=  array_values( ($cfid['options']['file_types']));
+					 if(empty($alloled_ft)){
+						 die('{"jsonrpc" : "2.0", "error" : {"code": 97, "message": "File types cannot by empty."}}');
+					 } else {
+						 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
+						 foreach($alloled_ft as $alloled_ft_item){
+							 if(trim($alloled_ft_item) != '' and $fileName_ext != ''){
+								 $is_ext = get_file_extension($fileName_ext);
+									$is_ext = strtolower($is_ext);
+
+									  switch($is_ext){
+										case 'php':
+										case 'php5':
+										case 'php4':
+										case 'php3':
+										case 'ptml':
+										case 'html':
+										case 'xhtml':
+										case 'shtml':
+										case 'htm':
+										case 'pl':
+										case 'cgi':
+										case 'rb':
+										case 'py':
+										case 'asp':
+										case 'htaccess':
+										case 'exe':
+										case 'msi':
+										case 'sh':
+									    case 'bat':
+									    case 'vbs':
+										$are_allowed = false;
+										die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload scripts or executables"}}');
+
+										break;
+									  }
+
+								 $are_allowed = false;
+								   switch($alloled_ft_item){
+
+
+										case 'img':
+										case 'image':
+										case 'images':
+										  $are_allowed = 'png,gif,jpg,jpeg,tiff,bmp,svg';
+										  break;
+										case 'video':
+										case 'videos':
+										  $are_allowed = 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
+										  break;
+										case 'file':
+										case 'files':
+										  $are_allowed = 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
+										  break;
+										case 'documents':
+										case 'doc':
+										   $are_allowed = 'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+										  break;
+										case 'archives':
+										case 'arc':
+										case 'arch':
+										   $are_allowed = 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
+										  break;
+										case 'all':
+										  $are_allowed = '*';
+										  break;
+										case '*':
+										 $are_allowed = '*';
+										  break;
+										default:
+										  $are_allowed = false;
+										}
+										$pass_type_check = false;
+								 if($are_allowed != false){
+									$are_allowed_a = explode(',',$are_allowed);
+									 if(!empty($are_allowed_a)){
+										  foreach($are_allowed_a as $are_allowed_a_item){
+											  $are_allowed_a_item = trim($are_allowed_a_item);
+											  if( $are_allowed_a_item != '' and $are_allowed_a_item == $is_ext){
+												  $pass_type_check = 1;
+											  }
+										  }
+
+									 }
+								 }
+								if($pass_type_check == false){
+									die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You can only upload '.$are_allowed.' files."}}');
+
+								} else {
+								if (!isset($_REQUEST['captcha'])) {
+									die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "Please enter the captcha answer!"}}');
+									} else {
+										$cap = session_get('captcha');
+										if ($cap == false) {
+										die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You must load a captcha first!"}}');
+
+										}
+										if ($_REQUEST['captcha'] != $cap) {
+										die('{"jsonrpc" : "2.0", "error" : {"code":101, "message": "Invalid captcha answer! "}}');
+
+								 		} else {
+								 			if(!isset($_REQUEST["path"])){
+								 				$_REQUEST["path"] = 'user_uploads'.DS.$_REQUEST["rel"].DS;
+								 			}
+								 		}
+									}
+
+
+									//die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": PECATA - Not finished yet."}}');
+
+								}
+
+							 }
+						 }
+
+					 }
+
+				}
+
+			}
+
+
+			//d($cfid);
+			//die('{"jsonrpc" : "2.0", "error" : {"code": 99, "message": "Not finished."}, "id" : "id"}');
+	} else {
+			die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Only admin can upload."}, "id" : "id"}');
+
+	}
 }
 
 /**

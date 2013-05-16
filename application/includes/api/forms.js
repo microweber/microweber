@@ -45,7 +45,8 @@ mw.form = {
         $(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback){
+  post:function(selector, url_to_post, callback, ignorenopost){
+    var ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);
 
 	if(url_to_post == undefined){
@@ -59,18 +60,12 @@ mw.form = {
   var is_form_valid = true;
 
     if(is_form_valid){
-        var obj = mw.form.serialize(selector);
-
-
-
+        var obj = mw.form.serialize(selector, ignorenopost);
 
       	$.post(url_to_post, obj, function(data){
 			if(mw.is.func(callback)){
-				//callback.call(selector);
 				callback.call(data, mw.$(selector)[0]);
-
 			} else {
-				//alert(data);
 				return data;
 			}
 
@@ -188,8 +183,9 @@ mw.form = {
         }
     }
   },
-  serialize : function(id, all){
-    return mw.serializeFields(id, all);
+  serialize : function(id, ignorenopost){
+    var ignorenopost = ignorenopost || false;
+    return mw.serializeFields(id, ignorenopost);
   }
 }
 

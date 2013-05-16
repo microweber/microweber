@@ -1,4 +1,16 @@
 <?php
+
+function get_custom_field_by_id($field_id) {
+
+if ($field_id != 0) {
+			$data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+			if (isset($data['options'])) {
+						$data['options'] = decode_var($data['options']);
+					}
+			return $data;
+		}
+}
+
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
 	$params = array();
 
@@ -656,10 +668,13 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
 	}
 	if (isset($data['options']) and is_string($data['options'])) {
 		$data['options'] = decode_var($data['options']);
-	  
+
 	}
- 
-	$dir = INCLUDES_DIR;
+
+	$data = replace_site_vars_back($data);
+
+
+ 	$dir = INCLUDES_DIR;
 	$dir = $dir . DS . 'custom_fields' . DS;
 	$field_type = str_replace('..', '', $field_type);
 	if ($settings == true or isset($data['settings'])) {

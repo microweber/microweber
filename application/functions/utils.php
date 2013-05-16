@@ -334,11 +334,11 @@ function ago($time, $granularity = 2) {
 			break;
 		}
 	}
-	
+
 	if($retval == ''){
 		return '1 second ago';
 	}
-	
+
 	return '' . $retval . ' ago';
 }
 function mw_warning($text, $exit = false) {
@@ -717,9 +717,9 @@ function safe_redirect($url) {
 }
 
 function session_set($name, $val) {
-	
-	
-	
+
+
+
 	if (!headers_sent()) {
 		if (!isset($_SESSION)) {
 			session_set_cookie_params(86400);
@@ -754,18 +754,18 @@ function session_get($name) {
 	}
 	//
 	if (isset($_SESSION) and isset($_SESSION[$name])) {
-		
-		
+
+
 		if(!isset($_SESSION['ip'])){
 			  $_SESSION['ip']=USER_IP;
 		} else if($_SESSION['ip'] != USER_IP){
-			
+
 			session_end();
 			return false;
 		}
-		
-		
-		
+
+
+
 		return $_SESSION[$name];
 	} else {
 		return false;
@@ -779,9 +779,9 @@ function session_del($name) {
 }
 
 function session_end() {
-	
-	
-	
+
+
+
 	$_SESSION = array();
 
 	// If it's desired to kill the session, also delete the session cookie.
@@ -795,11 +795,11 @@ function session_end() {
 	}
 
 
- 
+
 	session_destroy();
 	session_write_close();
 	unset($_SESSION);
-	
+
 }
 
 
@@ -1658,6 +1658,18 @@ function mw_date($date){
 		return $date;
 	}
 }
+
+
+function auto_link($text)
+{
+	//return preg_replace('/(http:\/\/[^ ]+)/', '<a href="$1">$1</a>', $text);
+
+
+$url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
+  $url_replacement = "<a href='$1' target='_blank'>$1</a>";
+
+  return preg_replace($url_re, $url_replacement, $text);
+ }
 
 /***********************************
 * string_format

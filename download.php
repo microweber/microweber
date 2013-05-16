@@ -1,5 +1,12 @@
 <? 
 
+
+
+require "statsmix.php";
+
+
+StatsMix::set_api_key("10833ccca2cb5dd7ca31");
+
 function getfile_latest_mw($requestUrl, $save_to_file = false) {
 
 	$opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/Web Install" . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n"));
@@ -55,11 +62,18 @@ if(is_file($stats_f)){
 $st_c++;
 file_put_contents($stats_f,$st_c);
 if(isset($_GET['webinstall'])){
+	
+	
+	StatsMix::track('download',$value = 1,$options = array('type' => "web_install"));
+
 		header("Location: http://microweber.net/webinstall.zip");
 
 	
 } elseif($url != false) {
+				StatsMix::track('download',$value = 1,$options = array('type' => "zip"));
+
 		header("Location: ".$url);
+
 } else {
 	header("Location: https://s3.amazonaws.com/mw-download/mw-latest.zip");
 

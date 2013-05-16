@@ -348,6 +348,8 @@ function replace_site_vars_back($arr) {
 			///	$ret = str_replace('userfiles', 'asdasds', $ret);
 
 			$ret = str_replace('{SITE_URL}', $site, $arr);
+				$ret = str_replace('%7BSITE_URL%7D', $site, $ret);
+
 			//$ret = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $ret);
 			//$ret = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $ret);
 

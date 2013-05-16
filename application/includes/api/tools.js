@@ -2298,7 +2298,7 @@ mw.beforeleave = function(url){
                name:'modal_beforeleave',
                width:430,
                height:230,
-               template:'mw_modal_basic',
+               template:'mw_modal_basic'
             });
 
             var save = modal.container.querySelector('.confirm-btn-green');
@@ -2335,7 +2335,7 @@ mw.contact = {
             width:500,
             height:410,
             callback:function(){
-
+                    
                 mw.postMsg(this.container.getElementsByTagName('iframe')[0].contentWindow, {user:mw.settings.user});
             }
       })

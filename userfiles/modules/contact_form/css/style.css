@@ -67,6 +67,16 @@
   width: calc(100% - 22px);
   width: -webkit-calc(100% - 22px);
 }
+
+.contact-form-template-dream .mw-custom-field-upload{
+  width: 40%
+}
+
+.contact-form-template-dream .mw-custom-field-upload input[type="text"]{
+  padding: 4px;
+  width: 40%;
+}
+
 .contact-form-template-dream textarea:focus,
 .contact-form-template-dream input[type="text"]:focus,
 .contact-form-template-dream input[type="password"]:focus,

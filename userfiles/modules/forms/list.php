@@ -109,7 +109,12 @@ if(isarr($data)){
                 print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...More</a></div>';
              }
              else {
-                 print $value['custom_field_values_plain'];
+
+              if($value['custom_field_type'] == 'upload' or $value['custom_field_type'] == 'files' or $value['custom_field_type'] == 'file'){
+                  print '<a target="_blank" class="mw-ui-link" href="'.$value['custom_field_values_plain'].'">'.basename($value['custom_field_values_plain']).'</a>';
+              } else{
+                  print $value['custom_field_values_plain'];
+               }
              }
 
 

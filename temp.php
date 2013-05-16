@@ -336,7 +336,7 @@ rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?
 
 Dns Zone check is enabled.
 +===================================+
-| New Account Info                  |
+| New Account Info   zU78XTB3                |
 +===================================+
 | Domain: ooyes.net
 | Ip: 198.50.102.98 (n)
@@ -356,8 +356,21 @@ Dns Zone check is enabled.
 | Language: en
 
 
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/ooyes/domains/massmediagroup.net/public_html/ ooyes@198.50.102.98:/home/ooyes/massmediargoup.net/
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/ooyes/domains/pulse.massmediagroup.net/public_html/ ooyes@198.50.102.98:/home/ooyes/massmediargoup.net/pulse.massmediagroup.net/
+
+
+
+
+
+
 
 rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/ooyes/public_html/ ooyes@198.50.102.98:/home/ooyes/public_html/
+
+
+
 ...Done
 
 +===================================+
@@ -446,3 +459,16 @@ Dns Zone check is enabled.
 | Language: en
 +===================================+
 ...Done
+
+
+
+mail.ooyes.net.	IN	CNAME	ghs.google.com.
+docs.ooyes.net.	IN	CNAME	ghs.google.com.
+calendar.ooyes.net.	IN	CNAME	ghs.google.com.
+ooyes.net.	IN	MX	1 ASPMX.L.GOOGLE.COM.
+ooyes.net.	IN	MX	5 ALT1.ASPMX.L.GOOGLE.COM.
+ooyes.net.	IN	MX	20 ALT2.ASPMX.L.GOOGLE.COM.
+ooyes.net.	IN	MX	30 ASPMX2.GOOGLEMAIL.COM.
+ooyes.net.	IN	MX	30 ASPMX3.GOOGLEMAIL.COM.
+ooyes.net.	IN	MX	30 ASPMX4.GOOGLEMAIL.COM.
+ooyes.net.	IN	MX	30 ASPMX5.GOOGLEMAIL.COM.

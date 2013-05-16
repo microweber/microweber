@@ -115,7 +115,7 @@ $ch = curl_init();
 
 		curl_setopt_array($ch, $this->headers);
                               curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $this->post_data);
+curl_setopt($ch, CURLOPT_POSTFIELDS,  $this->fields_string);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		// grab URL
 		$result = curl_exec($ch);

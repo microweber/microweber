@@ -446,12 +446,13 @@ window.onerror = function(a,b,c){
 
 
 
-mw.serializeFields =  function(id){
+mw.serializeFields =  function(id, ignorenopost){
+      var ignorenopost = ignorenopost || false;
       var el = mw.$(id);
       fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
       var data = {}
       $(fields, el).each(function(){
-          if(!$(this).hasClass('no-post') && !this.disabled){
+          if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled){
             var el = this, _el = $(el);
             var val = _el.val();
             var name = el.name;
@@ -484,10 +485,8 @@ mw.response = function(form, data, messages_at_the_bottom){
       return false;
     }
 
-
     var data = mw.tools.toJSON(data);
     if(typeof data == 'undefined'){
-
           return false;
       }
 
@@ -550,6 +549,10 @@ mw._response = {
     $(holder).show();
   }
 }
+
+
+
+
 
 
 

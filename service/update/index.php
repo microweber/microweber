@@ -1,4 +1,14 @@
 <?php
+
+
+require "statsmix.php";
+
+
+StatsMix::set_api_key("10833ccca2cb5dd7ca31");
+
+
+
+
 $mw_site_url = "http://api.microweber.net/";
 define('MW_BARE_BONES', 1);
 include ('../../index.php');
@@ -104,6 +114,20 @@ if(!is_dir($stats)){
 	mkdir($stats);
 }
 
+$mw_version_req = false;
+if(isset($_REQUEST['mw_version'])){
+	$mw_version_req = $_REQUEST['mw_version'];
+}
+$mw_site_req = false;
+if(isset($_REQUEST['mw_update_check_site'])){
+	$mw_version_req = $_REQUEST['mw_update_check_site'];
+}
+	StatsMix::track('update_check',$value = 1,$options = array('ip' => $uip, 'version' => $mw_version_req, 'site' => $mw_site_req));
+
+ 
+
+
+
 $stats = $stats.'stats'.DIRECTORY_SEPARATOR;
 if(!is_dir($stats)){
 	mkdir($stats);
@@ -152,8 +176,8 @@ function get_latest_core_version() {
 
 function latest($params = false) {
 	$params = array();
-		$params['core_update'] = true;
-$ver = $this->get_download_link($params);
+	$params['core_update'] = true;
+	$ver = $this->get_download_link($params);
  
 
 	return $ver;	
@@ -163,7 +187,7 @@ $ver = $this->get_download_link($params);
 
 	function get_latest_core_update($params = false) {
 		
-$ver = $this->get_latest_core_version();
+	$ver = $this->get_latest_core_version();
  
 
 	return $ver;	
@@ -509,7 +533,7 @@ $ver = $this->get_latest_core_version();
 						$filename = $this -> downloads_dir . $zip_name;
 						
 						
-						d($filename);
+						//d($filename);
 						
 						
 					/*	if(!is_file($filename)){

@@ -64,7 +64,9 @@
 
 
 
-            var multi =  (Params.multiple == 'true' || Params.multiple == true);
+            var multi =  (Params.multiple == 'true');
+
+            var autostart =  (Params.autostart == 'true' );
 
 
 
@@ -78,7 +80,7 @@
 
 
 
-            var uploader = new plupload.Uploader({
+            uploader = new plupload.Uploader({
                 runtimes : 'html5,html4',
                 browse_button : 'pickfiles_<?php print $uid  ?>',
                 debug : 1,
@@ -96,8 +98,9 @@
              var data = JSON.parse(event.data);
 
              var base = mw.url.strip(uploader.settings.url);
+             var params =  mw.url.getUrlParams(uploader.settings.url);
+             uploader.settings.url = base + "?" + json2url(data) + "&" + json2url(params);
 
-             uploader.settings.url = base + "?" + json2url(data);
 
          }
 
@@ -115,7 +118,9 @@
 
             uploader.bind('FilesAdded', function(up, files) {
                this_frame.trigger("FilesAdded", files);
-                uploader.start();
+               if(autostart) {
+                  uploader.start();
+               }
                 $(mwd.body).addClass("loading");
             });
 
@@ -154,9 +159,7 @@
                $(mwd.body).removeClass("loading");
             });
 
-            uploader.bind('FilesAdded', function(up, files){
-              this_frame.trigger("FilesAdded", [files, up.runtime]);
-            });
+
 
             uploader.bind('Error', function(up, err){
              this_frame.trigger("error", err.file);
