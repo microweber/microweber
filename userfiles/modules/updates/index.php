@@ -2,17 +2,18 @@
  api_expose('updates');
 if(url_param('add_module')){
 
-}  
+}
 
 	$install = url_param('add_module');
-	
-	
 
+
+
+      mark_notifications_as_read('updates');
 
 
 
 ?>
- 
+
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script>
@@ -35,7 +36,7 @@ mw.bind_update_form_submit = function(){
 
 
 
-      
+
 
 
          if(!mw.$("#installsubmit").hasClass("disabled")){
@@ -48,10 +49,10 @@ mw.bind_update_form_submit = function(){
                  mw.tools.enable(mwd.getElementById('installsubmit'));
                  //mw.notification.success("All updates are successfully installed.")
                  Alert("Updates are successfully installed.")
-				 
+
 				 $('#number_of_updates').fadeOut();
 				 mw.reload_module('#mw-updates', function(){
-					mw.bind_update_btns(); 
+					mw.bind_update_btns();
 				 });
 
               });
@@ -59,8 +60,8 @@ mw.bind_update_form_submit = function(){
 
          return false;
 
-    });	
-	
+    });
+
 }
 mw.bind_update_btns = function() {
 
@@ -88,20 +89,20 @@ mw.bind_update_btns = function() {
 
 
 
-	  });	
-	
+	  });
+
 }
 $(document).ready(function(){
 
 	mw.bind_update_btns();
    	mw.bind_update_form_submit();
 
-   
 
 
 
- 
-   
+
+
+
 });
 
 </script>

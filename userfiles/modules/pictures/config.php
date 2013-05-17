@@ -8,7 +8,7 @@ $config['ui'] = true;
 $config['categories'] = "media";
 $config['version'] = 0.1;
 $config['position'] = 4;
-
+$config['is_system'] = true;
 
 
 

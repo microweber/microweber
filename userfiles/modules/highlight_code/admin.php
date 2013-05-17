@@ -76,6 +76,7 @@ $rand_id = md5(serialize($params)); ?>
 
 
     <hr />
-    <textarea name="source_code" cols=""  class="mw_option_field" style="height:200px; width:300px;" data-refresh="highlight_code"     rows="2"><?php print get_option('source_code', $params['id']) ?></textarea>
+    <code>
+    <textarea name="source_code" cols=""  class="mw_option_field" style="height:200px; width:300px;" data-refresh="highlight_code"     rows="2"><?php print get_option('source_code', $params['id']) ?></textarea></code>
   </fieldset>
 </div>

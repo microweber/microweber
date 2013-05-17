@@ -89,6 +89,8 @@ function mw_db_init_modules_table() {
 	$fields_to_add[] = array('position', 'int(11) default NULL');
 	$fields_to_add[] = array('as_element', 'int(11) default 0');
 	$fields_to_add[] = array('ui_admin', 'int(11) default 0');
+	$fields_to_add[] = array('is_system', 'int(11) default 0');
+
 	$fields_to_add[] = array('version', 'varchar(11) default NULL');
 
 	$fields_to_add[] = array('notifications', 'int(11) default 0');

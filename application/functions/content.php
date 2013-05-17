@@ -2500,7 +2500,18 @@ function save_content($data, $delete_the_cache = true) {
 			$get_max_pos = db_query($get_max_pos);
 			if(isarr($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 //d($get_max_pos);
-				$data_to_save['position'] = intval($get_max_pos[0]['maxpos'])+1;
+//
+//
+//
+
+
+if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
+				$data_to_save['position'] = intval($get_max_pos[0]['maxpos'])-1;
+
+} else {
+					$data_to_save['position'] = intval($get_max_pos[0]['maxpos'])+1;
+
+}
 //d($data_to_save);
 		}
 

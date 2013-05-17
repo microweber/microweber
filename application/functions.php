@@ -6,10 +6,17 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.6999);
+	define('MW_VERSION', 0.70);
 }
 error_reporting(E_ALL);
 
+
+
+/*
+* Microweber autoloader
+* Loads up classes with namespaces
+* Add more dicectories with set_include_path
+ */
 set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 function mw_autoload($className) {

@@ -1,6 +1,10 @@
-<?
+<?php
 if(!isset($_GET['1'])){
-	die('error');
+	
+	?> 
+    <iframe src="http://www.statsmix.com/d/985b178dc36a67ab08fa" frameborder="0" width="1000" height="3000" ></iframe>
+    <?php
+	exit('');
 }
 $uip = $_SERVER['REMOTE_ADDR'];
 

@@ -20,9 +20,6 @@
 
         mw.require("url.js");
         mw.require("tools.js");
-        mw.require("style_editors.js");
-        
-
         mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
@@ -38,6 +35,12 @@
     <?php endif; ?>
     </head>
     <body>
+
+    <div id="betainfo" style="display: none;">
+    <span class="icon-remove" onclick="$(this.parentNode).remove();mw.cookie.ui('betawarn', 'false')"></span>
+    Guys, Microweber is on Beta Version now. If you have any problem with installing it please write us an <a href="/#contact-us">email</a> and we'll <strong>do it for you</strong>.
+    </div>
+
 <div id="header" class="clearfix">
       <div class="container"> <a href="<?php print site_url('home') ?>" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
     <ul id="main-menu" class="nav nav-pills mw-nav">

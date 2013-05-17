@@ -5,7 +5,7 @@ $config['name'] = "Settings";
 $config['author'] = "Microweber";
 $config['ui_admin'] = true;
 $config['ui'] = false;
-
+$config['is_system'] = true;
 
 $config['categories'] = "admin";
 $config['position'] = 4;

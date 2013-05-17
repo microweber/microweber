@@ -47,21 +47,21 @@ mw.notif_reset_all = function(){
 	/*		foreach($periods as $period){
 				if(!in_array($period ,$periods_printed )){
 					$time1 = strtotime($item['created_on']);
-			
-			
+
+
 					$time2 = strtotime($period);
-					
+
 					if($time1 < $time2){
 					 print 	$period;
 					 $periods_printed[] = $period;
 					}
-					
+
 				}
-				
+
 			}*/
-			
-			
-			
+
+
+
 			  ?>
 
 <div class="mw-admin-notifications-holder" id="admin_notifications">
@@ -85,7 +85,7 @@ mw.notif_reset_all = function(){
   	    if(isset($item['module']) and $item['module'] != ''){
   		    $mod_info = module_info($item['module']);
   	    }
-       ?>
+        ?>
         <td><?php if($mod_info != false and isset($mod_info['name'])): ?>
           <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
           <?php endif; ?></td>

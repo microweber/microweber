@@ -32,9 +32,9 @@
 
             <span class="or">or</span>
 
-            <a href="javascript:;" class="obtn obtn-blue" id="download">Download Beta</a>
+            <a href="javascript:;" class="obtn obtn-blue" id="download" rel="nofollow">Download Beta</a>
 
-            <a href="<?php print site_url('download.php?webinstall=1') ?>" id="download-zip">Web Install<small> (8kb)</small></a>
+            <a href="<?php print site_url('download.php?webinstall=1') ?>" rel="nofollow" id="download-zip">Web Install<small> (8kb)</small></a>
 
             <div id="download_modal" class="hide">
 

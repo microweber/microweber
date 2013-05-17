@@ -8,4 +8,4 @@ $config['ui'] = true;
 $config['categories'] = "menus";
 $config['position'] = "15";
 $config['version'] = 1.2;
-
+$config['is_system'] = true;

@@ -33,7 +33,7 @@
 </div>
     <div class="modal-footer">
                 <a href="javascript:;" class="btn pull-left" style="margin-top: 7px;" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                <a href="/download.php" class="btn btn-large btn-info pull-right" onclick="$('mwmodal').modal('hide')">Download</a>  </div>
+                <a href="/download.php" class="btn btn-large btn-info pull-right" rel="nofollow" onclick="$('mwmodal').modal('hide')">Download</a>  </div>
 
 
     </div>
@@ -70,8 +70,8 @@
 <!-- TYXO -->
   <script type="text/javascript">
   <!--
-  __d=document;__d.write('<a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img width="1" height="1" border="0" alt="Tyxo.bg counter" src="'+location.protocol+'//cnt.tyxo.bg/146467?rnd='+Math.round(Math.random()*2147483647));
-  __d.write('&sp='+screen.width+'x'+screen.height+'&r='+escape(__d.referrer)+'"></a>');
+  d=document;d.write('<a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img width="1" height="1" border="0" alt="Tyxo.bg counter" src="'+location.protocol+'//cnt.tyxo.bg/146467?rnd='+Math.round(Math.random()*2147483647));
+  d.write('&sp='+screen.width+'x'+screen.height+'&r='+escape(d.referrer)+'"></a>');
   //-->
   </script><noscript><a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img src="http://cnt.tyxo.bg/146467" width="1" height="1" border="0" alt="Tyxo.bg counter" /></a></noscript>
 <!-- / TYXO -->

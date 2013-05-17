@@ -119,6 +119,8 @@ function mw_apply_updates($params) {
 
 		if (isarr($res)) {
 			mw_post_update();
+			mark_notifications_as_read('updates');
+
 		}
 	}
 	return $res;
