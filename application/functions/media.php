@@ -523,6 +523,7 @@ function thumbnail($src, $width = 200, $height = 200) {
 				file_put_contents($cache_path,$res1);
 
 			} else {
+
 				$tn = new \mw\Thumbnailer($src);
 				$thumbOptions = array('maxLength' => $height, 'width' => $width);
 				$tn -> createThumb($thumbOptions, $cache_path);

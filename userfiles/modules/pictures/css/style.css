@@ -380,6 +380,11 @@ a.rotator-paging-item-digit{
   max-width:100%;
 }
 
+.mw-images-template-default-grid .thumbnail.active .valign,
+.mw-images-template-default-grid .thumbnail.active .valign-cell{
+  display: inline-block;
+}
+
 .mw-images-template-default-grid  .mw-pictures-item{
   width: 200px;
   height: 160px;

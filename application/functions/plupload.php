@@ -142,7 +142,7 @@ if (is_admin() == false) {
 
 								 		} else {
 								 			if(!isset($_REQUEST["path"])){
-								 				$_REQUEST["path"] = 'user_uploads'.DS.$_REQUEST["rel"].DS;
+								 				$_REQUEST["path"] = 'media/user_uploads'.DS.$_REQUEST["rel"].DS;
 								 			}
 								 		}
 									}

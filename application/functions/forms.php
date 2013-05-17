@@ -194,6 +194,39 @@ function delete_form_entry($data) {
 	$table = MW_DB_TABLE_FORMS_LISTS;
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
+
+
+			$fields = get_custom_fields('forms_data', $data['id'], 1);
+
+			if (isarr($fields)) {
+
+				foreach ($fields as $key => $value) {
+
+					if(isset($value['id'])){
+
+						$remid =  $value['id'];
+						$custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
+						$q = "DELETE FROM $custom_field_table where id='$remid'";
+
+						db_q($q);
+
+
+					}
+
+
+
+
+				}
+
+
+
+			cache_clean_group('custom_fields');
+
+			}
+
+
+
+
 		db_delete_by_id('forms_data', $c_id);
 	}
 }

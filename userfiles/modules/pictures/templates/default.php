@@ -36,7 +36,7 @@ $(document).ready(function(){
     <div class="thumbnail">
     <span class="valign">
                     <span class="valign-cell">
-        <img src="<?php print $item['filename']; ?>" />
+        <img src="<?php print thumbnail( $item['filename'], 700); ?>" />
         </span>
         </span>
     </div>
