@@ -156,6 +156,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
      $(uploader).bind("FilesAdded", function(a,b){
         var i=0, l=b.length;
+
          for( ; i<l; i++){
            if($(".admin-thumbs-holder .admin-thumb-item").length > 0){
              $(".admin-thumbs-holder .admin-thumb-item:last").after('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img"></span><div class="mw-post-media-img-edit" style="text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+b[i].name+'</div></div>');

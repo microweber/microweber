@@ -3,9 +3,11 @@
     <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
       <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
- $mw_notif = read_notification( $mw_notif);	
+ $mw_notif = read_notification( $mw_notif);
 
 }
+
+mark_notifications_as_read('contact_form');
 
 
   ?>
@@ -14,7 +16,7 @@ if( $mw_notif != false){
 
 $(document).ready(function(){
 
-    window.location= "<?php print $config['url']; ?>/load_list:<?php print $mw_notif['rel_id']; ?>";
+     window.location= "<?php print $config['url']; ?>/load_list:<?php print $mw_notif['rel_id']; ?>";
 
 });
 
@@ -23,9 +25,9 @@ $(document).ready(function(){
       <?php else :  ?>
       <?php endif; ?>
       <?php
- 
+
 mark_notifications_as_read('contact_form');
- 
+
 
 $load_list = 'default';
 if((url_param('load_list') != false)){
@@ -34,7 +36,7 @@ if((url_param('load_list') != false)){
 
 
    ?>
-      <?php 
+      <?php
 $templates = '';
 $load_templates = false;
 if((url_param('templates') != false)){
@@ -77,7 +79,7 @@ if((url_param('templates') != false)){
       <script type="text/javascript">
 
 
- 
+
 
 mw.on.hashParam('search', function(){
 
@@ -103,21 +105,21 @@ mw.on.hashParam('search', function(){
 });
 
 
- 
+
 
 $(document).ready(function(){
 	 $("#form_field_title").click(function() {
 		mw.tools.liveEdit(this, false,  function(){
-			var new_title =  this 
+			var new_title =  this
 			 mw.forms_data_manager.rename_form_list('<?php print $load_list ?>',new_title );
 		 });
 
-		
+
 	});
-   
+
 });
- 
- 
+
+
 
  </script>
       <module type="forms/list_toolbar"  load_list="<?php print $load_list ?>"   />

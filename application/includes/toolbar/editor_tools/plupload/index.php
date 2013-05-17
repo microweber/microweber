@@ -56,7 +56,7 @@
 
             var multi =  (Params.multiple == 'true');
 
-            var autostart =  (Params.autostart == 'true' );
+
 
             var filters = [ {title:"", extensions : Params.filters} ]
 
@@ -88,8 +88,10 @@
 
 
             uploader.bind('FilesAdded', function(up, files) {
+              d(up)
+              d(files)
                this_frame.trigger("FilesAdded", files);
-               if(autostart) {
+               if(Params.autostart != 'false') {
                   uploader.start();
                }
                 $(mwd.body).addClass("loading");

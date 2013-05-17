@@ -77,6 +77,24 @@ function post_notification($params) {
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
 	db_q($cleanup);
+
+	if(isset($params['replace'])){
+		if(isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])){
+			$rel1 = db_escape_string($params['rel']);
+			$module1 = db_escape_string($params['rel']);
+			$rel_id1 = db_escape_string($params['rel_id']);
+			$cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
+			db_q($cleanup);
+
+
+		}
+
+	}
+
+
+
+
+
 	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 
 	$data = save($table, $params);
@@ -104,6 +122,7 @@ function mark_notifications_as_read($module) {
 				$save['id'] = $value['id'];
 				$save['table'] = 'table_notifications';
 				save('table_notifications', $save);
+
 			}
 		}
 
@@ -127,6 +146,8 @@ function read_notification($id) {
 		$table = MW_DB_TABLE_NOTIFICATIONS;
 		mw_var('FORCE_SAVE', $table);
 		$data = save_data($table, $save);
+		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+
 	}
 
 	return $get;

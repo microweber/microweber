@@ -35,6 +35,7 @@ if (is_admin() == false) {
 					 if(empty($alloled_ft)){
 						 die('{"jsonrpc" : "2.0", "error" : {"code": 97, "message": "File types cannot by empty."}}');
 					 } else {
+					 	 $are_allowed = '';
 						 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 						 foreach($alloled_ft as $alloled_ft_item){
 							 if(trim($alloled_ft_item) != '' and $fileName_ext != ''){
@@ -68,31 +69,31 @@ if (is_admin() == false) {
 										break;
 									  }
 
-								 $are_allowed = false;
+
 								   switch($alloled_ft_item){
 
 
 										case 'img':
 										case 'image':
 										case 'images':
-										  $are_allowed = 'png,gif,jpg,jpeg,tiff,bmp,svg';
+										  $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg';
 										  break;
 										case 'video':
 										case 'videos':
-										  $are_allowed = 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
+										  $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
 										  break;
 										case 'file':
 										case 'files':
-										  $are_allowed = 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
+										  $are_allowed .= ',doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv,7z';
 										  break;
 										case 'documents':
 										case 'doc':
-										   $are_allowed = 'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+										   $are_allowed .= ',doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
 										  break;
 										case 'archives':
 										case 'arc':
 										case 'arch':
-										   $are_allowed = 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
+										   $are_allowed .= ',zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
 										  break;
 										case 'all':
 										  $are_allowed = '*';
@@ -108,7 +109,15 @@ if (is_admin() == false) {
 									$are_allowed_a = explode(',',$are_allowed);
 									 if(!empty($are_allowed_a)){
 										  foreach($are_allowed_a as $are_allowed_a_item){
-											  $are_allowed_a_item = trim($are_allowed_a_item);
+											  $are_allowed_a_item = strtolower(trim($are_allowed_a_item));
+											  	$is_ext = strtolower(trim($is_ext));
+
+
+
+									 		if($are_allowed_a_item == '*'){
+ 													$pass_type_check = 1;
+									 		}
+
 											  if( $are_allowed_a_item != '' and $are_allowed_a_item == $is_ext){
 												  $pass_type_check = 1;
 											  }

@@ -136,6 +136,7 @@ if(function_exists('post_notification')){
 
 			if($count > 0){
 			$notif = array();
+			$notif['replace'] = true;
 			$notif['module'] = "updates";
 			$notif['rel'] = "update_check";
 			$notif['rel_id'] = 'updates';

@@ -60,7 +60,7 @@ mw.files = {
         frame.style.backgroundColor = "transparent";
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('allowtransparency', 'true');
-        var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple;
+        var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple +'&autostart='+obj.autostart;
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
 

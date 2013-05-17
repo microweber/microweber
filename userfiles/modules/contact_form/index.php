@@ -48,7 +48,6 @@ if(typeof  processContactForm !== 'object'){
 
 
                   if(this.contentWindow['uploader'].files.length === 0){
-
                      __done ++;
                         if(__done == l){
                            callback.call(form);
@@ -90,9 +89,9 @@ if(typeof  processContactForm !== 'object'){
 
 $(document).ready(function(){
 
-	$('form[data-form-id="<?php print $form_id ?>"]').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
+	mw.$('form[data-form-id="<?php print $form_id ?>"]').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
 
-	$('form[data-form-id="<?php print $form_id ?>"]').submit(function() {
+	mw.$('form[data-form-id="<?php print $form_id ?>"]').submit(function() {
          processContactForm.upload(this, function(){
 
           processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
