@@ -57,7 +57,7 @@ if(typeof  processContactForm !== 'object'){
                   else{
                     if(!$(this).hasClass("binded")){
                         $(this).addClass("binded");
-                        $(this).bind("FileUploaded", function(a,b,c){
+                        $(this).bind("FileUploaded", function(){
                             __done ++;
                             if(__done == l){
                                callback.call(form);
@@ -68,6 +68,7 @@ if(typeof  processContactForm !== 'object'){
                           __done ++;
                           if( __done == l ){
 
+                                mw.response(mw.$(form), b.error);
                             }
                         });
                     }
