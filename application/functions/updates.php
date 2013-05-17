@@ -101,7 +101,7 @@ function mw_apply_updates($params) {
 					$res[] = $update_api -> install_module($item);
 				}
 			}
-			if (isset($param['module_templates']) and isarr($upd_params['module_templates'])) {
+			if (isset($upd_params['module_templates']) and isarr($upd_params['module_templates'])) {
 				foreach ($upd_params['module_templates'] as $k => $item) {
 					if (isarr($item)) {
 						foreach ($item as $layout_file) {
