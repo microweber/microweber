@@ -30,6 +30,9 @@ mw.files = {
 		case 'arch':
           return 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
           break;
+        case 'audio':
+          return 'mp3,wav,ogg,mp4,flac';
+          break;
         case 'all':
           return '*';
           break;

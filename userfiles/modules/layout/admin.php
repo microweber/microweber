@@ -13,18 +13,16 @@ include_once($config['path_to_module'].'../posts/admin_live_edit_tab1.php'); ?>
   <div class="tab">
    
  <?php $layout =  get_option('data-layout', $params['id']); ?>
- <input name="data-layout" id="data-layout-set-val"     class="mw_option_field" value="<?php print $layout; ?>" />
+ <input name="data-layout" id="data-layout-set-val"    class="mw_option_field semi_hidden" value="<?php print $layout; ?>" />
  <script>
 $(document).ready(function(){
- 
+
 	mw.$(".dynamic_layout_choooser .list-elements li").click(function(){
 	   $('#data-layout-set-val').val($(this).attr('data-module-name'));
 	    $('#data-layout-set-val').trigger('change');
 	});
  
 });
-
-
 </script>
  
  <div class="dynamic_layout_choooser">

@@ -340,6 +340,7 @@ mw.setCurrentStyles = function(el){
 
 
   var parser = mw.CSSParser(el);
+
   $("#width_slider").slider("value", parser.get.width().tonumber());
 
 
@@ -562,7 +563,7 @@ $(window).bind("onBodyClick", function(){
     });
 
 
-    }); 
+    });
 
 });
 

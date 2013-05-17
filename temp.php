@@ -495,3 +495,74 @@ rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?
 
 
 
+
+
+
+
+WWWAcct 12.5.0 (c) 2013 cPanel, Inc....
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: englishlanguageexams.com
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: englishl
+| PassWord: wB-}EM!7SP=a
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.org
+| NameServer2: ns1.microweber.net
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: default
+| Feature List: default
+| Language: en
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?' --exclude 'cache/*' --exclude 'history'   /home/microweber/domains/englishlanguageexams.com/public_html/ englishl@198.50.102.98:/home/englishl/public_html/
+
+
++===================================+
+...Done
+
+
+
+/home/iwunwa/public_html
+
+
+
+WWWAcct 12.5.0 (c) 2013 cPanel, Inc....
+
+Dns Zone check is enabled.
++===================================+
+| New Account Info                  |
++===================================+
+| Domain: iwunwa.com
+| Ip: 198.50.102.98 (n)
+| HasCgi: y
+| UserName: iwunwa
+| PassWord: 1HW3.AiRR[k5
+| CpanelMod: x3
+| HomeRoot: /home
+| Quota: unlimited Meg
+| NameServer1: ns1.microweber.com
+| NameServer2: ns2.microweber.com
+| NameServer3:
+| NameServer4:
+| Contact Email: boksiora@gmail.com
+| Package: default
+| Feature List: default
+| Language: en
+
+
+rsync --verbose  --progress --stats --compress -r --exclude '.git'  --exclude '?'   /home/iwunwa/public_html/ iwunwa@198.50.102.98:/home/iwunwa/public_html/
+
+
+
+
++===================================+
+...Done
