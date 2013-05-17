@@ -88,13 +88,13 @@
 
 
             uploader.bind('FilesAdded', function(up, files) {
-              d(up)
-              d(files)
-               this_frame.trigger("FilesAdded", files);
+              d(up.runtime)
+               this_frame.trigger("FilesAdded", [files]);
                if(Params.autostart != 'false') {
                   uploader.start();
+                  $(mwd.body).addClass("loading");
                }
-                $(mwd.body).addClass("loading");
+
             });
 
             uploader.bind('UploadProgress', function(up, file) {

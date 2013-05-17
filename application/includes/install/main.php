@@ -271,12 +271,24 @@ if(function_exists('apache_get_modules') ){
 
 
               <?php else: ?>
+ <?php
+$hide_db_setup = false;
+if(isset($_REQUEST['basic'])){
+$hide_db_setup = 1;
+}
 
-
+  ?>
 
             <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
-              <h2>Database setup</h2>
+
+<?php if ($hide_db_setup == false): ?>
+     <h2>Database setup</h2>
+<?php else: ?>
+     <h2><span class="mw-ui-btn" onclick="$('#mw_db_setup_toggle').toggle();">Database setup</span></h2>
+<?php endif; ?>
+
               <div class="hr"></div>
+            <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
                 <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif(isset($data['db'])!= true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
@@ -297,6 +309,9 @@ if(function_exists('apache_get_modules') ){
                 <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
                 <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
               </div>
+          </div>
+
+
 
               <!-- <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database type</label>
@@ -366,15 +381,15 @@ if(function_exists('apache_get_modules') ){
 
             <a href="<?php print site_url() ?>" class="mw-ui-btn left">Click here visit your site</a> </div>
         </div>
-        <!-- .description --> 
-        
+        <!-- .description -->
+
       </div>
-      <!-- .demo --> 
+      <!-- .demo -->
             </div>
     </div>
   </div>
-  <!-- .page --> 
-  
+  <!-- .page -->
+
 </div>
 <!-- .wrapper -->
 

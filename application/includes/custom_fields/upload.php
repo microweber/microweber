@@ -56,8 +56,8 @@ $(document).ready(function(){
 
 
     $(<?php print $up; ?>).bind('FilesAdded', function(frame, file){
-
-       mwd.getElementById('file_name<?php print $data["custom_field_name"]; ?>').value = file.name;
+                               
+       mwd.getElementById('file_name<?php print $data["custom_field_name"]; ?>').value = file[0].name;
 
     });
 
