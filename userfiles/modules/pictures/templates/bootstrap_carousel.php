@@ -28,7 +28,7 @@ description: Bootstrap Carousel
         <?php $count = -1; foreach($data  as $item): ?>
          <?php $count++; ?>
           <div class="<?php if($count==0){ print 'active ';} ?>item">
-            <img src="<?php print $item['filename']; ?>"  />
+            <img src="<?php print thumbnail($item['filename'], 900, 700); ?>"  />
             <?php if(isset($item['title']) and $item['title'] !=''){ ?>
             <div class="carousel-caption">
                 <p><?php print $item['title']; ?></p>

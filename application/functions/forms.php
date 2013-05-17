@@ -310,6 +310,13 @@ function get_form_entires($params) {
 	$params = parse_params($params);
 	$table = MW_DB_TABLE_FORMS_DATA;
 	$params['table'] = $table;
+
+
+if(!isset($params["order_by"] )){
+$params["order_by"] = 'created_on desc';
+}
+
+
 	//$params['debug'] = $table;
 	$data = get($params);
 	$ret = array();

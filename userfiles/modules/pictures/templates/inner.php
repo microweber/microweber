@@ -27,7 +27,7 @@ description: Inner Slider
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
 
-            <img  class="autoscale-x" src="<?php print $item['filename']; ?>" alt="" />
+            <img  class="autoscale-x" src="<?php print thumbnail($item['filename'], 900); ?>" alt="" />
 
 
 

@@ -61,6 +61,7 @@ if(typeof  processContactForm !== 'object'){
                             if(__done == l){
                                callback.call(form);
                             }
+                            this.contentWindow['uploader'].splice(0);
                         });
 
                         $(this).bind("responseError", function(a,b,c){

@@ -448,11 +448,24 @@ function pixum_img() {
 function pixum($width, $height) {
 	return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }
-
-function thumbnail($src, $width = 200, $height = 200) {
-	if ($src == false) {
-		return pixum($width, $height);
+api_expose('thumbnail_img');
+function thumbnail_img($params) {
+	if(isset($_SESSION) and !empty($_SESSION)){
+		session_write_close();
 	}
+	 extract($params);
+
+	if(isset($src)){
+		$src = decode_var($src);
+	}
+
+	if ($src == false) {
+			return pixum($width, $height);
+		}
+
+
+
+
 
 	//require_once ();
 	$surl = site_url();
@@ -515,6 +528,143 @@ function thumbnail($src, $width = 200, $height = 200) {
 		//
 
 		if (file_exists($src)) {
+
+
+			if(strtolower($ext) == 'svg'){
+				$res1 = file_get_contents($src);
+				$res1 = svgScaleHack($res1,$width,$height);
+				file_put_contents($cache_path,$res1);
+
+			} else {
+
+				$tn = new \mw\Thumbnailer($src);
+				$thumbOptions = array('maxLength' => $height, 'width' => $width);
+				$tn -> createThumb($thumbOptions, $cache_path);
+
+ unset($tn);
+
+
+			}
+		}
+
+	}
+
+
+$ext = get_file_extension($cache_path);
+if($ext == 'jpg'){
+	$ext = 'jpeg';
+}
+header ("Content-Type: image/".$ext);
+header("Content-Length: " . filesize($cache_path));
+
+
+$fp = fopen($cache_path, 'rb');
+
+// dump the picture and stop the script
+fpassthru($fp);
+exit;
+
+
+
+
+	if (file_exists($cache_path)) {
+
+		//$cache_path = pathToURL($cache_path);
+		 //$cache_path = file_get_contents($cache_path);
+		 //
+		 //
+		 return $cache_path;
+	} else {
+		return pixum($width, $height);
+	}
+	return false;
+
+}
+
+function thumbnail($src, $width = 200, $height = 200) {
+	if ($src == false) {
+		return pixum($width, $height);
+	}
+
+
+
+
+
+
+	//require_once ();
+	$surl = site_url();
+	$local = false;
+
+	$media_url = MEDIA_URL;
+	$media_url = trim($media_url);
+	$src = str_replace('{SITE_URL}', $surl, $src);
+	$src = str_replace('%7BSITE_URL%7D', $surl, $src);
+
+	// $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+
+	/*
+	 */
+
+	if (strstr($src, $surl) or strpos($src, $surl)) {
+
+		$src = str_replace($surl . '/', $surl, $src);
+		//$src = str_replace($media_url, '', $src);
+		$src = str_replace($surl, '', $src);
+		$src = ltrim($src, DS);
+		$src = ltrim($src, '/');
+		$src = rtrim($src, DS);
+		$src = rtrim($src, '/');
+		//$src = MEDIAFILES . $src;
+		$src = MW_ROOTPATH . $src;
+		$src = normalize_path($src, false);
+
+	} else {
+
+		// $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+		//
+		// if (!file_exists($dl_file)) {
+		// $is_dl = url_download($src, false, $dl_file);
+		// } else {
+		// $is_dl = 1;
+		// }
+		// if ($is_dl == true) {
+		// $src = $dl_file;
+		// } else {
+		//
+		// }
+		if ($src == false) {
+			return pixum($width, $height);
+		}
+	}
+	$cd = CACHEDIR . 'thumbnail' . DS;
+	if (!is_dir($cd)) {
+		mkdir_recursive($cd);
+	}
+
+	$cache = crc32($src . $width . $height) . basename($src);
+
+	$cache = str_replace(' ', '_', $cache);
+	$cache_path = $cd . $cache;
+
+	if (file_exists($cache_path)) {
+//$src1 = encode_var($src);
+
+//$base_src = basename($src);
+
+	//return site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+	} else {
+		//
+
+		if (file_exists($src)) {
+
+$src1 = encode_var($src);
+
+$base_src = basename($src);
+
+	//return site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+
+
+
 			$ext = get_file_extension($src);
 
 			if(strtolower($ext) == 'svg'){
@@ -527,6 +677,10 @@ function thumbnail($src, $width = 200, $height = 200) {
 				$tn = new \mw\Thumbnailer($src);
 				$thumbOptions = array('maxLength' => $height, 'width' => $width);
 				$tn -> createThumb($thumbOptions, $cache_path);
+
+ 				unset($tn);
+
+
 			}
 		}
 

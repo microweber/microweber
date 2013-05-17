@@ -22,7 +22,7 @@ description: Pictures slider
     <?php foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
-        <img src="<?php print $item['filename']; ?>" alt="" />
+        <img src="<?php print thumbnail($item['filename'], 700); ?>" alt="" />
 
     </div>
     <?php endforeach ; ?>

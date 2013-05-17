@@ -29,8 +29,8 @@ description: Product Gallery
 
          
     <span class=" mw-slider-zoomholder">
-            <img class="mw-slider-zoomimg-base" src="<?php print $item['filename']; ?>" alt="" />
-            <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt="" />
+            <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 600); ?>" alt="" />
+            <img src="<?php print thumbnail($item['filename'], 1200); ?>" class="mw-slider-zoomimg" alt="" />
         </span>
 
 
