@@ -1,9 +1,0 @@
-﻿cache/
-.git/
-db/
-userfiles/media/
-userfiles/history/
-userfiles/templates/
-!userfiles/templates/default/
-backup/
-history/

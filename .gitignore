@@ -2736,3 +2736,6 @@ history
 /update.php
 /void.txt
 /service
+/.afignore
+/docs.htm
+/stats.php
