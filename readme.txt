@@ -17,4 +17,4 @@ Microweber will make new config.php for you when you install it
 
 Microweber will also create or modify your .htaccess file on install
 
-After instalation you can login in the admin panel from http://you_site_url/admin
+After installation you can login in the admin panel from http://you_site_url/admin
