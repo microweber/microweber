@@ -1,1 +1,0 @@
-mount -t nfs 54.243.113.235:/home/api/public_html/userfiles/media /home/api/localmount

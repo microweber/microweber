@@ -1,2 +1,0 @@
-/home/api/pubic_html/userfiles/media 192.168.1.9/255.255.255.0(rw, no_root_squash, async)
-/home/api/pubic_html/userfiles/media 192.168.1.10/255.255.255.0(rw, no_root_squash, async)

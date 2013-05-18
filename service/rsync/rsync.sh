@@ -1,1 +1,0 @@
-rsync --compress --update -r --exclude '.git' --exclude '/cache/mw_cache_*' --exclude '?'  --exclude 'history' --exclude 'userfiles/media'   /home/api/master/ /home/api/public_html/
