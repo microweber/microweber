@@ -7,9 +7,8 @@ Under the following conditions:
 
 * Attribution — You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
 
-* Noncommercial — You may not use this work for commercial purposes.
 
-* No Derivative Works — You may not alter, transform, or build upon this work.
+* No Derivative Works — You may not built copies of this system and sell them of offer them as a service
 
 
 **With the understanding that:**
@@ -32,10 +31,13 @@ Notice — For any reuse or distribution, you must make clear to others the lice
 **Attribution:**
 
 * You cannot remove the Microweber link from the default theme.
+
 * You cannot alter or remove the Microweber logo and branding from the Admin panel and Live edit.
-* You are not allowed to modify any part of the Microweber code and Database and distribute it as another software without our permission.
-* You are not allowed to reverse engineer and modify the Microweber code without our permission.
+
+* You are not allowed to modify any part of the  Microweber "application"  code and distribute it as another software without our permission.
+
 * Any code modification to the Microweber functions and modules belongs to Microweber LTD.
+
 * Any new code that you create and its based on the functions of Microweber belongs to you (the author).
 
 
