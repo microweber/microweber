@@ -478,9 +478,15 @@ a.mw-make-cols.active, a.mw-make-cols.active:hover{
 }
 
 
-#mw-history-panel{
+#mw-history-panel small{
 
-
+    background: #DDDDDD;
+    color: #555555;
+    display: block;
+    font-size: 11px;
+    font-weight: normal;
+    padding: 1px 10px 2px;
+    text-shadow: 1px 0 0 #FFFFFF;
 
 }
 
