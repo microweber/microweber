@@ -75,6 +75,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 			if (isset($qz['error'])) {
 			//	var_dump($qz);
 				print('Error with the database connection or database probably does not exist!');
+				exit();
 			} else {
 
 
