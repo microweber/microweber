@@ -696,6 +696,8 @@ function latest($params = false) {
 							 
 							$locations[] = $this -> repo_dir.'index.php';
 							$locations[] = $this -> repo_dir.'bootstrap.php';
+							$locations[] = $this -> repo_dir.'readme.txt';
+							$locations[] = $this -> repo_dir.'config.example.php';
 							if (!isset($params['no_htaccess'])) {
 							//$locations[] = $this -> repo_dir.'.htaccess';  
 							}

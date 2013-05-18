@@ -318,7 +318,7 @@ $hide_db_setup = 1;
               <input type="hidden" class="mw-ui-field" name="DB_TYPE" <?php if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<?php print $data['db']['type'] ?>" <?php endif; ?> />
             </div>-->
                <div class="admin-setup">
-              <h2>Admin user setup</h2>
+              <h2>Create your Admin user</h2>
               <div class="hr"></div>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Admin username</label>
