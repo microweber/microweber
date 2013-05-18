@@ -55,16 +55,15 @@ if (isset($_POST['IS_INSTALLED'])) {
 
 
 			if($to_save['DB_USER'] == 'root'){
-				if (function_exists('mysql_query')) {
+
 							$new_db = $to_save['dbname'];
 							$query_make_db="CREATE DATABASE IF NOT EXISTS $new_db";
-							if (mysql_query($query_make_db)) {
-							//print ("Database created successfully <br>");
-							} else {
-							print ("Error in creating database: <br><br>". mysql_error ());.
-							exit();
-							}
-						}
+							$qz = db_query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+						if (isset($qz['error'])) {
+									//	var_dump($qz);
+										print('Error with the database creation! ');
+									}
+
 			}
 
 
