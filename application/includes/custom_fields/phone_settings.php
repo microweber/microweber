@@ -27,7 +27,7 @@
 
    <div class="custom-field-col-right">
 
-   <label class="mw-ui-label">Default Value</label>
+   <label class="mw-ui-label"><?php _e("Default Value"); ?></label>
 
 
 

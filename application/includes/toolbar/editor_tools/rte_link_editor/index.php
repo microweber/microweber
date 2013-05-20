@@ -82,8 +82,8 @@
         ProgressBar = Progress.find('.mw-ui-progress-bar');
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
-        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! All files have been uploaded.';
-        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;Error! "'+filename+'" - Invalid filetype.';}
+        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
+        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
 
 
 
@@ -130,7 +130,7 @@
 
          $(frame).bind("FilesAdded", function(frame, files_array, runtime){
               if(runtime == 'html4'){
-                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
+                ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
               }
           });
 
@@ -289,10 +289,10 @@ ul li.mw-dd-list-result:last-child a{
 <div id="mw-popup-insertlink">
     <div class="mw_simple_tabs mw_tabs_layout_simple">
         <ul class="mw_simple_tabs_nav">
-            <li><a class="active" href="javascript:;">Website URL</a></li>
-            <li><a href="javascript:;">Page from My Website</a></li>
-            <li><a href="javascript:;">File</a></li>
-            <li><a href="javascript:;">Email</a></li>
+            <li><a class="active" href="javascript:;"><?php _e("Website URL"); ?></a></li>
+            <li><a href="javascript:;"><?php _e("Page from My Website"); ?></a></li>
+            <li><a href="javascript:;"><?php _e("File"); ?></a></li>
+            <li><a href="javascript:;"><?php _e("Email"); ?></a></li>
         </ul>
         <!-- TAB 1 -->
         <div class="tab">
@@ -302,9 +302,9 @@ ul li.mw-dd-list-result:last-child a{
                   <span id="" class="image_status link"></span>
                   <input type="text" style="width: 220px;" class="mw-ui-invisible-field" />
               </div>
-              <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url">Insert</span>
+              <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url"><?php _e("Insert"); ?></span>
               <div class="mw_clear" style="padding-bottom: 5px;"></div>
-              <label class="mw-ui-check"><input type="checkbox" id="url_target"><span></span><span>Open link in new window</span></label>
+              <label class="mw-ui-check"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
             </div>
 
         </div>
@@ -313,7 +313,7 @@ ul li.mw-dd-list-result:last-child a{
         <div class="tab">
             <div class="media-search-holder">
                 <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
-                    <span class="mw_dropdown_val">Click here to select</span>
+                    <span class="mw_dropdown_val"><?php _e("Click here to select"); ?></span>
                     <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
                     <div class="mw_dropdown_fields">
                       <ul class="">
@@ -321,7 +321,7 @@ ul li.mw-dd-list-result:last-child a{
                       </ul>
                     </div>
                 </div>
-                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_from_dropdown" style="padding: 7px 10px;">Insert</span>
+                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_from_dropdown" style="padding: 7px 10px;"><?php _e("Insert"); ?></span>
             </div>
         </div>
 
@@ -331,7 +331,7 @@ ul li.mw-dd-list-result:last-child a{
               <div class="mw-ui-field relative left" style="width: 328px;">
                   <span class="image_status link"></span>
                   <div id="upload_frame"></div>
-                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 15px;position: absolute; right: -1px; top: -1px;">Upload</span>
+                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 15px;position: absolute; right: -1px; top: -1px;"><?php _e("Upload"); ?></span>
               </div>
             </div>
 
@@ -350,7 +350,7 @@ ul li.mw-dd-list-result:last-child a{
                     <span id="" class="image_status link"></span>
                     <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="email_field" />
                 </div>
-                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email">Insert</span>
+                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
             </div>
 
         </div>

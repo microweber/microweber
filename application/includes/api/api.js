@@ -138,10 +138,6 @@ window.onerror = function(a,b,c){
 
 
 
-  if (window.console != undefined) {
-    console.log('Microweber Javascript Framework Loaded');
-  }
-
 /*
  * Microweber - Javascript Framework
  *
@@ -154,7 +150,9 @@ window.onerror = function(a,b,c){
     ok: "<?php _e('OK');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
     to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
-    del:"<?php _e('Are you sure you want to delete this?'); ?>"
+    del:"<?php _e('Are you sure you want to delete this?'); ?>",
+    save_and_continue:"<?php _e('Save &amp; Continue'); ?>",
+    before_leave:"<?php _e("Leave withot saving"); ?>"
   }
 
   mw.settings = {
@@ -184,9 +182,9 @@ window.onerror = function(a,b,c){
 
     row_id: false,
 
-    edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span>Please drag items here</span></div>',
+    edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
 
-    empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column">Please drag items here</div>',
+    empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
 
     //handles
     handles: {
@@ -196,11 +194,11 @@ window.onerror = function(a,b,c){
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;'><span></span></a>\
                 <a class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings();return false;'><span class='mw-element-name-handle'></span></a>\
             </div>\
-            <span title='Click to select this module.' class='mw-sorthandle-moveit'>Move</span>\
+            <span title='Click to select this module.' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
         </div>",
       row: "\
         <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
-            <span title='Click to select this column.' class='column_separator_title'>Columns</span>\
+            <span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\
@@ -213,11 +211,11 @@ window.onerror = function(a,b,c){
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
                 <a contenteditable='false' class='mw_edit_btn mw_edit_delete'  onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\
-            <span title='Click to select this element.' contenteditable='false' class='mw-sorthandle-moveit'>Move</span>\
+            <span title='<?php _e("Click to select this element"); ?>.' contenteditable='false' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
         </div>",
-      item: "<div title='Click to select this item.' class='mw_master_handle' id='items_handle'></div>"
+      item: "<div title='<?php _e("Click to select this item"); ?>.' class='mw_master_handle' id='items_handle'></div>"
     },
-    sorthandle_delete_confirmation_text: "Are you sure you want to delete this element?"
+    sorthandle_delete_confirmation_text: "<?php _e("Are you sure you want to delete this element"); ?>?"
   }
 
 
@@ -304,23 +302,16 @@ window.onerror = function(a,b,c){
   }
 
   mw.clear_cache = function() {
-
-
-
     $.ajax({
       url: '{SITE_URL}api/clearcache',
       type: "POST",
       success: function(data){
-
       if(mw.notification != undefined){
-      mw.notification.msg(data);
+        mw.notification.msg(data);
       }
     }
     });
   }
-
-
-
 
 
   mw._ = function(obj, sendSpecific, DONOTREPLACE) {
@@ -334,9 +325,6 @@ window.onerror = function(a,b,c){
 
 
     var attrs = $(obj.selector)[0].attributes;
-
-
-
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
@@ -421,12 +409,9 @@ window.onerror = function(a,b,c){
     }
     else{
       obj = {};
-      //  mw.log('Error: "params" must be string or object');
-       // return false;
     }
     $.post(url, obj)
         .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;   })
-      //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  })
         .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
   }
 

@@ -583,12 +583,12 @@ function mw_add_product(){
 
 
         <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
-          <label>Page</label>
+          <label><?php _e("Page"); ?></label>
           <button></button>
         </a>
 
         <a href="#action=new:page" class="mw_action_nav mw_action_sub_page"  id="action_new_sub_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
-          <label>Sub Page</label>
+          <label><?php _e("Sub Page"); ?></label>
           <button></button>
         </a>
 
@@ -597,7 +597,7 @@ function mw_add_product(){
 
   <?php else :  ?>
    <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
- <label>Post</label>
+ <label><?php _e("Post"); ?></label>
         <button>&nbsp;</button>
         </a>
 <?php endif; ?>
@@ -605,10 +605,10 @@ function mw_add_product(){
 
 
 <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
-        <label>Category</label>
+        <label><?php _e("Category"); ?></label>
         <button>&nbsp;</button>
         </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
-        <label>Product</label>
+        <label><?php _e("Product"); ?></label>
         <button>&nbsp;</button>
         </a>
         <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
@@ -669,7 +669,7 @@ function mw_add_product(){
         <div class="top_label">
 
         <?php if(is_module('help')): ?>
-        <a href="<?php print admin_url(); ?>view:help">See the tutorials here</a>
+        <a href="<?php print admin_url(); ?>view:help"><?php _e("See the tutorials here"); ?></a>
         <?php endif; ?>
        </div>
         <div class="vSpace"></div>

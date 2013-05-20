@@ -1,4 +1,4 @@
-  
+
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 <?php if($user != false): ?>
@@ -79,7 +79,7 @@ $(document).ready(function(){
 </script>
 
 <div class="box-head">
-  <h2>New Registration or <a href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>');">Login</a></h2>
+  <h2><?php _e("New Registration or"); ?> <a href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>');"><?php _e("Login"); ?></a></h2>
 </div>
 <div id="form-holder{rand}">
   <form id="user_registration_form{rand}" method="post" class="clearfix">
@@ -101,7 +101,7 @@ $(document).ready(function(){
       </div>
     </div>
     <div class="social-login">
-      <label>Login with</label>
+      <label><?php _e("Login with"); ?></label>
       <?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
       <a href="<?php print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
       <?php $have_social_login = true; ?>

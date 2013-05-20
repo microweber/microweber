@@ -3,8 +3,8 @@
 
         <div class="low-res-hider">
 
-            <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="Undo"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="Redo"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
 
 
             <span class="mw_dlm"></span>
@@ -12,16 +12,16 @@
 
         </div>
 
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
 
             <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="Font Color"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="Font Background Color"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
 
             <span class="mw_dlm"></span>
 
@@ -30,18 +30,18 @@
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">Format</span>
+                    <span class="mw_dropdown_val"><?php _e("Format"); ?></span>
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="h1"><a href="#"><h1>Heading 1</h1></a></li>
-                  <li value="h2"><a href="#"><h2>Heading 2</h2></a></li>
-                  <li value="h3"><a href="#"><h3>Heading 3</h3></a></li>
-                  <li value="h4"><a href="#"><h4>Heading 4</h4></a></li>
-                  <li value="h5"><a href="#"><h5>Heading 5</h5></a></li>
-                  <li value="h6"><a href="#"><h6>Heading 6</h6></a></li>
-                  <li value="p"><a href="#"><p>Paragraph</p></a></li>
-                  <li value="div"><a href="#"><div>Block</div></a></li>
+                  <li value="h1"><a href="#"><h1><?php _e("Heading"); ?> 1</h1></a></li>
+                  <li value="h2"><a href="#"><h2><?php _e("Heading"); ?> 2</h2></a></li>
+                  <li value="h3"><a href="#"><h3><?php _e("Heading"); ?> 3</h3></a></li>
+                  <li value="h4"><a href="#"><h4><?php _e("Heading"); ?> 4</h4></a></li>
+                  <li value="h5"><a href="#"><h5><?php _e("Heading"); ?> 5</h5></a></li>
+                  <li value="h6"><a href="#"><h6><?php _e("Heading"); ?> 6</h6></a></li>
+                  <li value="p"><a href="#"><p><?php _e("Paragraph"); ?></p></a></li>
+                  <li value="div"><a href="#"><div><?php _e("Block"); ?></div></a></li>
                 </ul>
               </div>
             </div>
@@ -60,7 +60,7 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="Font" data-value="Arial">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw_dropdown_val_holder">
                   <span class="dd_rte_arr"></span>
                   <span class="mw_dropdown_val">Arial</span>
@@ -79,7 +79,7 @@
 
 
 
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="Font Size">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
 
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
@@ -103,30 +103,30 @@
             <span class="mw_dlm"></span>
 
 
-            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="Ordered List"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="Unordered List"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="Indent"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="Outdent"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
 
             </div>
 
             <span class="mw_dlm"></span>
             <div class="wysiwyg-small-res-hider">
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="Align Both Sides"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
 
 
             <span class="mw_dlm"></span>
 
 
 
-            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit Link"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="Remove Link"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="Remove Formatting"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-            <span class="mw_editor_btn mw_editor_element" title="Create Draggable Element from selected text." data-command="custom-createelement"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
 
             <?php /* <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span>Design</span> */ ?>
 
             <span class="mw_dlm"></span>
 
-            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" title="Show/Hide Design Tools" href="#design_bnav"><span class="ico ico-extools"></span>Design</span>
+            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
 
 
 

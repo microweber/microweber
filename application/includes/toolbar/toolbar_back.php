@@ -1,4 +1,4 @@
- 
+
 
 
  
@@ -12,5 +12,5 @@
   } else {
 	  $u  =curent_url();
   }
- print $u ?>/editmode:y"  class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" id="mw_toolbar_back_to_live_edit"><span class="ico ilive"></span>Back to Live Edit</a> 
+ print $u ?>/editmode:y"  class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" id="mw_toolbar_back_to_live_edit"><span class="ico ilive"></span><?php _e("Back to Live Edit"); ?></a> 
 

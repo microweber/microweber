@@ -116,14 +116,14 @@ mw_save_draft_int = self.setInterval(function(){
 
 
 			  ?>
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info">Less</span></span>
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info"><?php _e("Less"); ?></span></span>
 
 
 <div id="mw-toolbar-right" class="mw-defaults">
 
 
 <div class="mw-ui-dropdown right" id="history_dd">
-          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="History"><span class="ico ihistory" style="height: 22px;"></span></a>
+          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("History"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
           <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
             <ul class="mw-dropdown-list">
                 <li>
@@ -133,27 +133,27 @@ mw_save_draft_int = self.setInterval(function(){
           </div>
         </div>
 
-      <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn">Save</span>
+      <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
-        <a title="Back to Admin" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>">Back to Admin</a>
+        <a title="Back to Admin" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
 
 
 
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<?php print curent_url(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;">Actions<span class="ico idownarr right"></span></a>
+        <div class="mw-ui-dropdown right"> <a href="<?php print curent_url(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
-              <li><a href="<?php print curent_url(); ?>/editmode:n">View Website</a></li>
+              <li><a href="<?php print curent_url(); ?>/editmode:n"><?php _e("View Website"); ?></a></li>
 
-              <li><a href="#" onclick="mw.preview();void(0);">Preview</a></li>
+              <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
               <?php $pub_or_inpub  = get_content_by_id(CONTENT_ID); ?>
-              <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')">Unpublish</a></li>
-              <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')">Publish</a></li>
+              <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
+              <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
               <?php endif; ?>
-              <li><a href="<?php print api_url('logout'); ?>">Logout</a></li>
+              <li><a href="<?php print api_url('logout'); ?>"><?php _e("Logout"); ?></a></li>
             </ul>
           </div>
         </div>
@@ -172,7 +172,7 @@ mw_save_draft_int = self.setInterval(function(){
 
   <?php if(!$basic_mode): ?>
 
-    <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo">Microweber - Live Edit</a>
+    <div id="mw_toolbar_nav"> <a href="#tab=modules" id="mw_toolbar_logo"><?php _e("Microweber - Live Edit"); ?></a>
       <?php /* <a href="javascript:;" style="position: absolute;top: 10px;right: 10px;" onclick="mw.extras.fullscreen(document.body);">Fullscreen</a> */  ?>
       <ul id="mw_tabs">
         <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
@@ -189,7 +189,7 @@ mw_save_draft_int = self.setInterval(function(){
           </a> </li>
       </ul>
       <div class="mw-ui-dropdown media-small" id="mw_tabs_small">
-        <span class="mw-ui-btn"><span class="ico icomobilemenu"></span><span id="mw_small_menu_text">Menu</span><span class="ico idownarr right"></span></span>
+        <span class="mw-ui-btn"><span class="ico icomobilemenu"></span><span id="mw_small_menu_text"><?php _e("Menu"); ?></span><span class="ico idownarr right"></span></span>
         <div class="mw-dropdown-content">
           <ul class="mw-dropdown-list">
             <li id="t_modules"> <a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;">
@@ -228,8 +228,8 @@ mw_save_draft_int = self.setInterval(function(){
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
     <div id="tab_pages" class="mw_toolbar_tab">
-      <p class="left">Here you can easely manage your website pages and posts. Try the functionality below. <a href="#">You can see the tutorials here</a>.</p>
-      <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span>Add New</a>
+      <p class="left"><?php _e("Here you can easely manage your website pages and posts. Try the functionality below."); ?> <a href="#"><?php _e("You can see the tutorials here"); ?></a>.</p>
+      <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span><?php _e("Add New"); ?></a>
       <iframe
             onload="mw.tools.iframeLinksToParent(this);"
             frameborder="0"
@@ -238,7 +238,7 @@ mw_save_draft_int = self.setInterval(function(){
             data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
             src="#"> </iframe>
     </div>
-    <div id="tab_help" class="mw_toolbar_tab">Help <a href="<?php print site_url('admin'); ?>">Admin</a></div>
+    <div id="tab_help" class="mw_toolbar_tab"><?php _e("Help"); ?> <a href="<?php print site_url('admin'); ?>"><?php _e("Admin"); ?></a></div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <?php //include( 'toolbar_tag_editor.php') ; ?>
     </div>

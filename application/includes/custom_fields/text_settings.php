@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     <div class="vSpace"></div>
   
-    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span>Use as Text Area</span></label>
+    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php _e("Use as Text Area"); ?></span></label>
 
     
 
@@ -50,7 +50,7 @@ $(document).ready(function(){
 
    <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Default Value</label>
+      <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Default Value"); ?></label>
         <div id="mw-custom-fields-text-holder">
             <input type="text" class="mw-ui-field" name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>"  />
         </div>

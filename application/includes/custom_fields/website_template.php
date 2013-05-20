@@ -46,11 +46,11 @@ $(document).ready(function(){
 <?php  //d($data); ?>
 
 <div class="mw-site-theme-selector">
-  <label class="control-label-title"> Website template </label>
+  <label class="control-label-title"> <?php _e("Website template"); ?> </label>
   <!--  <button class="mw-ui-btn mw-action-delete-template">Delete Template</button>
 -->
 
   <input id="mw_curr_theme_val" name="<?php print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<?php print  $data['option_group']; ?>"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
   <module type="content/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1"  />
-  <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()">Apply Template</button>
+  <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply Template"); ?></button>
 </div>

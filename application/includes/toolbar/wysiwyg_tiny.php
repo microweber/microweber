@@ -1,6 +1,6 @@
 <div id="mw_small_editor">
         <div class="mw_small_editor_top">
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="Font" data-value="Arial">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw_dropdown_val_holder">
                   <span class="dd_rte_arr"></span>
                   <span class="mw_dropdown_val">Arial</span>
@@ -16,7 +16,7 @@
               </div>
             </div>
             <span class="mw_dlm"></span>
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="Font Size">
+            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val">10pt</span>
@@ -34,19 +34,19 @@
               </div>
             </div>
             <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="Add/Edit/Remove Link"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="Insert Media"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit/Remove Link"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
             <div class="mw_clear">&nbsp;</div>
         </div>
         <div class="mw_small_editor_bottom">
-          <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="Bold"><span class="ed-ico"></span></span>
-          <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="Italic"><span class="ed-ico"></span></span>
-          <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="Underline"><span class="ed-ico"></span></span>
+          <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
+          <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
+          <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
           <span class="mw_dlm"></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="Align Left"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="Align Center"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="Align Right"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="Align Both Sides"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
             <div class="mw_clear">&nbsp;</div>
         </div>
 

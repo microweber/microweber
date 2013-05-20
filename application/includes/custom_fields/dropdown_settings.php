@@ -22,7 +22,7 @@
     />
 
     <span></span>
-    <span>Allow Multiple Choices</span>
+    <span><?php _e("Allow Multiple Choices"); ?></span>
   </label>
 
 </div>

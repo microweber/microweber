@@ -129,7 +129,7 @@
 
 <div id="main_holder">
 
-<label class="mw-ui-label">Colors used in this page</label>
+<label class="mw-ui-label"><?php _e("Colors used in this page"); ?></label>
 
     <div id="my-colors">
 
@@ -140,7 +140,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
     <div class="vSpace"></div>
-<label class="mw-ui-label">Custom color</label>
+<label class="mw-ui-label"><?php _e("Custom color"); ?></label>
 
 
 

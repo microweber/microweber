@@ -15,7 +15,7 @@
 
    <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Default Value</label>
+      <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Default Value"); ?></label>
 
         <input type="text" class="mw-ui-field" name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>" id="custom_field_value<?php print $rand; ?>">
 

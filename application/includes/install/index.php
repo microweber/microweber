@@ -73,19 +73,9 @@ if (isset($_POST['IS_INSTALLED'])) {
 			$qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
 			if (isset($qz['error'])) {
-			//	var_dump($qz);
-				print('Error with the database connection or database probably does not exist!');
+				_e("Error with the database connection or database probably does not exist!");
 				exit();
 			} else {
-
-
-
-
-
-
-
-
-
 
 				ini_set('memory_limit', '512M');
 				set_time_limit(0);

@@ -91,8 +91,8 @@
         ProgressBar = Progress.find('.mw-ui-progress-bar');
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
-        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! All files have been uploaded.';
-        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;Error! "'+filename+'" - Invalid filetype.';}
+        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
+        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
 
 
 
@@ -151,7 +151,7 @@
 
           $(frame).bind("FilesAdded", function(frame, files_array, runtime){
               if(runtime == 'html4'){
-                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
+                ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
               }
           });
           li.append(frame);
@@ -369,7 +369,7 @@ mw.embed = {
 <div class="mw_simple_tabs mw_tabs_layout_simple" id="image_tabs">
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
-    <li><a href="javascript:;" onmouseup="mw.$('#media_search_field').focus();">URL</a></li>
+    <li><a href="javascript:;" onmouseup="mw.$('#media_search_field').focus();"><?php _e("URL"); ?></a></li>
     <li><?php /*<a href="javascript:;">Uploaded</a>*/ ?></li>
   </ul>
 
@@ -380,20 +380,20 @@ mw.embed = {
         <ul class="mw-upload-filetypes" id="">
             <li class="mw-upload-filetype-image" data-type="images">
                 <div class="mw-upload-frame"></div>
-                <span>Image</span>
+                <span><?php _e("Image"); ?></span>
             </li>
             <li class="mw-upload-filetype-video" data-type="videos">
                 <div class="mw-upload-frame"></div>
-                <span>Video</span></li>
+                <span><?php _e("Video"); ?></span></li>
             <li class="mw-upload-filetype-file" data-type="files">
                 <div class="mw-upload-frame"></div>
-                <span>Files</span>
+                <span><?php _e("Files"); ?></span>
             </li>
         </ul>
 
 
 
-      <div class="drag_files_label" style="display: none;">Drag your files here</div>
+      <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
     </center>
   </div>
   <div class="tab" id="get_image_from_url">
@@ -402,9 +402,9 @@ mw.embed = {
     <div id="media-search-holder">
     <div class="mw-ui-field left" style="width: 230px;" id="media_search">
         <span id="image_status"></span>
-        <input type="text" id="media_search_field" placeholder="URL" class="mw-ui-invisible-field" name="get_image_by_url" />
+        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" />
      </div>
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;">Insert</button>
+    <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;"><?php _e("Insert"); ?></button>
 
 
    </div>

@@ -49,22 +49,22 @@ $data = get_users($user_params);
 <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%">
   <thead>
       <tr>
-          <th>Names</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Is Active</th>
-          <th>Edit </th>
+          <th><?php _e("Names"); ?></th>
+          <th><?php _e("Username"); ?></th>
+          <th><?php _e("Email"); ?></th>
+          <th><?php _e("Role"); ?></th>
+          <th><?php _e("Is Active"); ?></th>
+          <th><?php _e("Edit"); ?> </th>
       </tr>
   </thead>
   <tfoot>
       <tr>
-          <td>Name</td>
-          <td>Username</td>
-          <td>Email</td>
-          <td>Role</td>
-          <th>Is Active</th>
-          <th>Edit </th>
+          <td><?php _e("Name"); ?></td>
+          <td><?php _e("Username"); ?></td>
+          <td><?php _e("Email"); ?></td>
+          <td><?php _e("Role"); ?></td>
+          <th><?php _e("Is Active"); ?></th>
+          <th><?php _e("Edit"); ?> </th>
       </tr>
   </tfoot>
   <tbody>

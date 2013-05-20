@@ -205,10 +205,8 @@ input[type='text'], input[type='password'] {
     <div class="vSpace"></div>
     <div class="mw-o-box" >
       <div class="mw-o-box-header">
-        <h2>Setup</h2>
-
-        <p>
-          Welcome to the Microweber configuration panel, here you can setup your website quickly.</p>
+        <h2><?php _e("Setup"); ?></h2>
+        <p><?php _e("Welcome to the Microweber configuration panel, here you can setup your website."); ?></p>
         <div class="custom-nav"></div>
       </div>
 
@@ -233,21 +231,21 @@ $check_pass = true;
 $server_check_errors = array();
 if (version_compare(phpversion(), "5.3.0", "<=")) {
 	$check_pass = false;
-	$server_check_errors['php_version'] = 'You must run PHP 5.3 or greater';
+	$server_check_errors['php_version'] = _e("You must run PHP 5.3 or greater", true);
 }
 if (!ini_get('allow_url_fopen')) {
 	$check_pass = false;
-	$server_check_errors['allow_url_fopen'] =  'You must enable allow_url_fopen from php.ini';
+	$server_check_errors['allow_url_fopen'] =  _e("You must enable allow_url_fopen from php.ini", true);
 }
 $here = dirname(__FILE__).DIRECTORY_SEPARATOR.uniqid();
 if (is_writable($here)) {
 	$check_pass = false;
-	$server_check_errors['not_wrtiable'] =  'The current directory is not writable';
+	$server_check_errors['not_wrtiable'] =  _e("The current directory is not writable", true);
 }
 if(function_exists('apache_get_modules') ){
 	 if(!in_array('mod_rewrite',apache_get_modules())){
 	 	$check_pass = false;
-		$server_check_errors['mod_rewrite'] =  'mod_rewrite is not enabled on your server';
+		$server_check_errors['mod_rewrite'] =  _e("mod_rewrite is not enabled on your server", true);
 	 }
 }
 
@@ -257,8 +255,8 @@ if(function_exists('apache_get_modules') ){
 
             <?php if ($check_pass == false): ?>
           <?php if(!empty($server_check_errors)): ?>
-    <h3>Server check</h3>
-    <h4>There are some errors on your server that will prevent Microweber from working properly</h4>
+    <h3><?php _e("Server check"); ?></h3>
+    <h4><?php _e("There are some errors on your server that will prevent Microweber from working properly"); ?></h4>
       <ol class="error">
       <?php foreach($server_check_errors as $server_check_error): ?>
       <li>
@@ -282,31 +280,31 @@ $hide_db_setup = 1;
             <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
 
 <?php if ($hide_db_setup == false): ?>
-     <h2>Database setup</h2>
+     <h2><?php _e("Database setup"); ?></h2>
 <?php else: ?>
-     <h2><span class="mw-ui-btn" onclick="$('#mw_db_setup_toggle').toggle();">Database setup</span></h2>
+     <h2><span class="mw-ui-btn" onclick="$('#mw_db_setup_toggle').toggle();"><?php _e("Database setup"); ?></span></h2>
 <?php endif; ?>
 
               <div class="hr"></div>
             <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">MySQL hostname <span class="mw-help" data-help="The address where your database is hosted.">?</span></label>
+                <label class="mw-ui-label"><?php _e("MySQL hostname"); ?><span class="mw-help" data-help="<?php _e("The address where your database is hosted."); ?>">?</span></label>
                 <input type="text" class="mw-ui-field" required="true" autofocus="" name="DB_HOST" <?php if(isset($data['db'])== true and isset($data['db']['host'])== true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif(isset($data['db'])!= true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">MySQL username <span class="mw-help" data-help="The username of your database.">?</span></label>
+                <label class="mw-ui-label"><?php _e("MySQL username"); ?><span class="mw-help" data-help="<?php _e("The username of your database."); ?>">?</span></label>
                 <input type="text" class="mw-ui-field" required="true" name="DB_USER" <?php if(isset($data['db'])== true and isset($data['db']['user'])== true and $data['db']['user'] != '{DB_USER}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">MySQL password</label>
+                <label class="mw-ui-label"><?php _e("MySQL password"); ?></label>
                 <input type="text"   class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Database name <span class="mw-help" data-help="The name of your database.">?</span></label>
+                <label class="mw-ui-label"><?php _e("Database name"); ?><span class="mw-help" data-help="<?php _e("The name of your database."); ?>">?</span></label>
                 <input type="text" class="mw-ui-field" required="true" name="dbname" <?php if(isset($data['db'])== true and isset($data['db']['dbname'])== true   and $data['db']['dbname'] != '{dbname}'): ?> value="<?php print $data['db']['dbname'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Table prefix <span class="mw-help" data-help="Change this If you want to install multiple instances of Microweber to this database.">?</span></label>
+                <label class="mw-ui-label"><?php _e("Table prefix"); ?><span class="mw-help" data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database."); ?>">?</span></label>
                 <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
               </div>
           </div>
@@ -318,22 +316,22 @@ $hide_db_setup = 1;
               <input type="hidden" class="mw-ui-field" name="DB_TYPE" <?php if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<?php print $data['db']['type'] ?>" <?php endif; ?> />
             </div>-->
                <div class="admin-setup">
-              <h2>Create your Admin user</h2>
+              <h2><?php _e("Create your Admin user"); ?></h2>
               <div class="hr"></div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Admin username</label>
+                <label class="mw-ui-label"><?php _e("Admin username"); ?></label>
                 <input type="text" class="mw-ui-field" required="true" name="admin_username" <?php if(isset($data['admin_username'])== true and isset($data['admin_username'])!= ''): ?> value="<?php print $data['admin_username'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Admin email</label>
+                <label class="mw-ui-label"><?php _e("Admin email"); ?></label>
                 <input type="text" class="mw-ui-field" required="true" name="admin_email" <?php if(isset($data['admin_email'])== true and isset($data['admin_email'])!= ''): ?> value="<?php print $data['admin_email'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Admin password</label>
+                <label class="mw-ui-label"><?php _e("Admin password"); ?></label>
                 <input type="password" required="true" class="mw-ui-field" name="admin_password" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Repeat password</label>
+                <label class="mw-ui-label"><?php _e("Repeat password"); ?></label>
                 <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password2'])== true and isset($data['admin_password2'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
               </div>
               </div>
@@ -342,15 +340,15 @@ $hide_db_setup = 1;
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-check">
                   <input name="with_default_content" type="checkbox" value="1">
-                  <span></span>&nbsp; Install default content</label>
+                  <span></span>&nbsp; <?php _e("Install default content"); ?></label>
               </div>
               <?php endif; ?>
               <?php 		$default_content_file = MW_ROOTPATH .  '.htaccess'; ?>
               <div class="mw-ui-field-holder"> <small>
                 <?php if(is_file($default_content_file)): ?>
-                Your .htaccess file will be modified
+                <?php _e("Your .htaccess file will be modified"); ?>
                 <?php else: ?>
-                A new .htaccess file will be created
+                <?php _e("A new .htaccess file will be created"); ?>
                 <?php endif; ?>
                 <?php //d($_SERVER);  ?>
                 </small> </div>
@@ -365,21 +363,18 @@ $hide_db_setup = 1;
 
                  <?php endif; ?>
             <?php else: ?>
-            <h2>Done, </h2>
-            <a href="<?php print site_url('admin') ?>">click here to to to admin</a> <a href="<?php print site_url() ?>">click here to to to site</a>
+            <h2><?php _e("Done"); ?>, </h2>
+            <a href="<?php print site_url('admin') ?>"><?php _e("click here to to to admin"); ?></a> <a href="<?php print site_url() ?>"><?php _e("click here to to to site"); ?></a>
             <?php endif; ?>
-
-
-
 
 
           </div>
           <div id="mw-install-done" style="display:none">
-            <h2>Installation is completed</h2>
+            <h2><?php _e("Installation is completed"); ?></h2>
             <br />
-            <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">Click here to go to Admin Panel</a>
+            <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right"><?php _e("Click here to go to Admin Panel"); ?></a>
 
-            <a href="<?php print site_url() ?>" class="mw-ui-btn left">Click here visit your site</a> </div>
+            <a href="<?php print site_url() ?>" class="mw-ui-btn left"><?php _e("Click here visit your site"); ?></a> </div>
         </div>
         <!-- .description -->
 

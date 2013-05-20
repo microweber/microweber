@@ -18,7 +18,7 @@ include('empty_field_vals.php');
     </span>
     <input type="text" class="no-post" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
 
-    <button type="button" class="btn">Browse</button>
+    <button type="button" class="btn"><?php _e("Browse"); ?></button>
  </div>
 </div>
 <div class="progress" id="upload_progress_<?php print($rand); ?>" style="display:none;">

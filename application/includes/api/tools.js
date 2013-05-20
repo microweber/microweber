@@ -2086,7 +2086,7 @@ $(window).load(function(){
 
 mw.traverse = function(root, h){
   var els = root.querySelectorAll('.edit .element, .edit .module');
-  d(els);
+
   $(els).each(function(){
         _dis = this;
         var el = mwd.createElement('span');
@@ -2284,10 +2284,10 @@ setVisible = function(e){
 mw.beforeleave_html = ""
     + "<div class='mw-before-leave-container'>"
       + "<p>Leave page by choosing an option</p>"
-      + "<span class='confirm-btn-red'>Leave withot saving</span>"
-      + "<span class='confirm-btn-green' >Save &amp; Continue</span>"
+      + "<span class='confirm-btn-red'>"+mw.msg.before_leave+"</span>"
+      + "<span class='confirm-btn-green' >"+mw.msg.save_and_continue+"</span>"
       + "<div class='vSpace'></div>"
-      + "<span class='mw-cancel' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>Cancel</span>"
+      + "<span class='mw-cancel' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>"+mw.msg.cancel+"</span>"
     + "</div>";
 
 mw.beforeleave = function(url){
@@ -2335,12 +2335,31 @@ mw.contact = {
             width:500,
             height:410,
             callback:function(){
-                    
+
                 mw.postMsg(this.container.getElementsByTagName('iframe')[0].contentWindow, {user:mw.settings.user});
             }
       })
     }
 }
+
+crawl = false;
+crawlc = [];
+
+$(document).ready(function(){
+  if(crawl){
+    Alert("Crawling !");
+  $(mwd.links).each(function(){
+    if(top.crawlc.indexOf(this.href) === -1){
+      top.crawlc.push(this.href);
+       var frame = mwd.createElement('iframe');
+       frame.className = 'semi_hidden';
+        frame.src = this.href;
+        mwd.body.appendChild(frame);
+    }
+    else{return false;}
+  });
+   }
+});
 
 
 
