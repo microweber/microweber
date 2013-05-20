@@ -14,7 +14,7 @@
 
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
-		$form_btn_title = 'Reset password';
+		    $form_btn_title = _e("Reset password", true);
 		}
  
  		 ?>

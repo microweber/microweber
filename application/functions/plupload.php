@@ -96,13 +96,18 @@ if (is_admin() == false) {
 										   $are_allowed .= ',zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
 										  break;
 										case 'all':
-										  $are_allowed = '*';
+										  $are_allowed .= ',*';
 										  break;
 										case '*':
-										 $are_allowed = '*';
+										 $are_allowed .= ',*';
 										  break;
 										default:
-										  $are_allowed = false;
+										
+							 
+											  $are_allowed .= $alloled_ft_item;
+										 
+										
+										 
 										}
 										$pass_type_check = false;
 								 if($are_allowed != false){
@@ -125,8 +130,8 @@ if (is_admin() == false) {
 
 									 }
 								 }
-								if($pass_type_check == false){
-									die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You can only upload '.$are_allowed.' files."}}');
+								if($pass_type_check == false){ 
+									die('{"jsonrpc" : "2.0", "error" : {"code":103, "message": "You can only upload '.$are_allowed.' files."}}');
 
 								} else {
 								if (!isset($_REQUEST['captcha'])) {

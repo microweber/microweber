@@ -85,18 +85,18 @@ $(document).ready(function(){
   <form id="user_registration_form{rand}" method="post" class="clearfix">
     <div class="control-group">
       <div class="controls">
-        <input type="text" class="large-field"  name="email" placeholder="Email">
+        <input type="text" class="large-field"  name="email" placeholder="<?php _e("Email"); ?>">
       </div>
     </div>
     <div class="control-group">
       <div class="controls">
-        <input type="password" class="large-field" name="password" placeholder="Password">
+        <input type="password" class="large-field" name="password" placeholder="<?php _e("Password"); ?>">
       </div>
     </div>
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
-          <input type="text" placeholder="Enter the text" class="mw-captcha-input" name="captcha">
+          <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-captcha-input" name="captcha">
         </div>
       </div>
     </div>

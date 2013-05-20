@@ -64,7 +64,7 @@ $(document).ready(function(){
   <div class="mw-box-content" id="admin_login">
     <?php if($user != false): ?>
     <div>Welcome <?php print user_name(); ?> </div>
-    <a href="<?php print site_url() ?>">Go to <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" >Log Out</a>
+    <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" ><?php _e("Log Out"); ?></a>
     <?php else:  ?>
     <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print site_url('api/user_login') ?>"  >
       <div class="mw-ui-field-holder">
@@ -112,8 +112,8 @@ $(document).ready(function(){
 
   <div id="login_foot">
 
-    <a href="<?php print site_url() ?>" class="left"><span class="ico backico2"></span>Back to My WebSite</a>
-    <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link right">Forgot my password?</a>
+    <a href="<?php print site_url() ?>" class="left"><span class="ico backico2"></span><?php _e("Back to My WebSite"); ?></a>
+    <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link right"><?php _e("Forgot my password"); ?>?</a>
 
   </div>
 
