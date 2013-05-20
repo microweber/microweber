@@ -1692,7 +1692,7 @@ if(typeof el === 'object'){
                 mw.tools.foreachParents(this, function(loop){
                     var cls = this.className;
                     if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && typeof this.attributes['rel'] !== 'undefined'){
-                      _el = this;
+                      _el = $(this);
                       mw.tools.stopLoop(loop);
                     }
                 })
