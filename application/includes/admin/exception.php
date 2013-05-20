@@ -20,13 +20,9 @@ d($e);
 <?php if(c('debug_mode'))
 {
 	print '<p>In '. str_replace(dirname(__DIR__),'',$e->getFile()).' on line '. $e->getLine(). '</p>';
-	//print dump($e->getTrace());
-	
-	foreach($e->getTrace() as $item)
-	{
+	foreach($e->getTrace() as $item){
 		if(isset($item['file'])) $file = str_replace(dirname(__DIR__),'',$item['file']);
 		$line = isset($item['line']) ? $item['line'] : '';
-		
 		print $file. ($line?" on line $line":'').'<br>';
 		if(!empty($item['args'])) print dump($item['args']);
 	}

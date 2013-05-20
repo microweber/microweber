@@ -22,9 +22,6 @@ function _e($k, $to_return = false) {
 //	$k1 = url_title($k);
     if ($language_content === NULL or !is_array($language_content) or empty($language_content)) {
         if ($lang_file === NULL) {
-
-
-
             if (!isset($_SESSION) or session_get('lang') == 'en') {
                 $lang = 'en';
             } elseif( $lang != false){
@@ -52,8 +49,8 @@ function _e($k, $to_return = false) {
                 $lang_file = normalize_path($lang_file, false);
                 include ($lang_file);
             }
-
             $language_content = $language;
+
         }
     } else {
 
@@ -61,6 +58,7 @@ function _e($k, $to_return = false) {
     if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
             $k2 = addslashes($k);
+            $language_content[$k1] = $k2;
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
             @file_put_contents($lang_file, $b, FILE_APPEND);
         }

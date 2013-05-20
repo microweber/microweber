@@ -80,10 +80,16 @@ $(document).ready(function(){
 <div data-value="" title="" class="mw_dropdown mw_dropdown_type_wysiwyg" id="lang_selector">
     <span class="mw_dropdown_val_holder">
         <span class="dd_rte_arr"></span>
+        <?php if(defined('MW_LANG') and MW_LANG != '' and MW_LANG != 'en'): ?>
+         <span class="mw_dropdown_val"><?php print strtoupper(MW_LANG); ?></span>
+         <?php else:  ?>
         <span class="mw_dropdown_val">EN</span>
+        <?php endif;  ?>
     </span>
   <div class="mw_dropdown_fields">
     <ul>
+
+
       <li value="en"><a href="javascript:;">EN</a></li>
       <li value="es"><a href="javascript:;">ES</a></li>
       <li value="bg"><a href="javascript:;">BG</a></li>

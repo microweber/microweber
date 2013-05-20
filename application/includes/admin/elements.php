@@ -7,13 +7,11 @@
 
 
 $(document).ready(function(){
-	 	window.addEventListener('message', receiveMessage, false);
 
-function receiveMessage(evt)
-{
+window.addEventListener('message', receiveMessage, false);
 
+function receiveMessage(evt) {
     alert("got message: "+evt.data);
-
 }
 
 
@@ -47,12 +45,6 @@ return false;
 
  });
 
-
-
-
-
-
-
 });
 
 
@@ -60,25 +52,14 @@ return false;
 
 
 function mw_reload_all_modules(){
-
 	mw.$('#modules_admin_<?php print $rand; ?>').attr('reload_modules',1);
-		 	mw.$('#modules_admin_<?php print $rand; ?>').attr('cleanup_db',1);
-
-
-  	 mw.load_module('admin/modules/elements','#modules_admin_<?php print $rand; ?>');
-
+	mw.$('#modules_admin_<?php print $rand; ?>').attr('cleanup_db',1);
+  	mw.load_module('admin/modules/elements','#modules_admin_<?php print $rand; ?>');
 }
-
-
-
-
 
 
 </script>
 <button onclick="mw_reload_all_modules()">Reload elements</button>
-
-
-
 
 <table width=" 100%" border="1">
   <tr>
@@ -87,5 +68,3 @@ function mw_reload_all_modules(){
   </tr>
 </table>
 
-<!--<iframe src="http://192.168.0.3/" ></iframe>
--->
