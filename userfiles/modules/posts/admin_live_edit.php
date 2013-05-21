@@ -102,64 +102,44 @@ if(isset($params['global']) and $params['global'] != false){
 				 $('#mw_posts_add_live_edit').attr('subtype',$cont_type);
  
 			 }
-			 
-			 
-			 
 			 $('#mw_posts_add_live_edit').attr('content_type',$cont_type);
- 
 		 }
-
       mw.load_module('content/edit_page', '#mw_posts_add_live_edit')
  	}
- 
- 
   mw.manage_live_edit_content = function($id){
 	  mw.simpletab.set(mwd.getElementById('manage_posts'));
-	  
 	   if($id != undefined){
 			 $('#mw_posts_manage_live_edit').attr('module-id',$id);
-
-		 }
-		 
-		 
-	   
+       }
 	   mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit')
-  } 
+  }
   mw.edit_content_live_edit = function($cont_id){
 	   mw.simpletab.set(mwd.getElementById('edit_posts'));
 	     $('#mw_posts_edit_live_edit').attr('data-content-id', $cont_id);
 	 	 $('#mw_posts_edit_live_edit').attr('from_live_edit',1);
-		 
-		  
-	    mw.load_module('content/edit_page', '#mw_posts_edit_live_edit')
-	  
-	  
+	     mw.load_module('content/edit_page', '#mw_posts_edit_live_edit')
   }
  
  </script>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple"> 
-  <!--    <a href="<?php print admin_url('view:').$params['module']  ?>" class="mw-ui-btn right relative" style="z-index: 2;margin:13px 13px 0 0;" target="_blank">Add post</a>
--->
-  
   <?php   if(isset($params['global'])){ ?>
   <a href="javascript:;"
     class="mw-ui-btn mw-ui-btn-green"
     onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');"
-    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico i<?php print trim($set_content_type_mod); ?>"></span>Add new <?php print ucwords($set_content_type_mod); ?></a>
+    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico i<?php print trim($set_content_type_mod); ?>"></span><?php _e("Add new"); ?> <?php print ucwords($set_content_type_mod); ?></a>
   <?php } else if($is_shop){  ?>
   <a href="javascript:;"
     class="mw-ui-btn mw-ui-btn-green"
     onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('product');"
-    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico iproduct"></span>New Product</a>
+    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico iproduct"></span><?php _e("New Product"); ?></a>
   <?php } else{ ?>
   <a href="javascript:;"
     class="mw-ui-btn mw-ui-btn-green"
     onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('post');"
-    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico ipost"></span>New Post</a>
+    style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico ipost"></span><?php _e("New Post"); ?></a>
   <?php } ?>
-<!--  <a   href="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');" style="position: absolute;top: 42px;right: 38px;z-index: 3;">menage</a>
--->  <ul class="mw_simple_tabs_nav">
+ <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;" class="actSive"> 
       <!-- <?php if($is_shop): ?>
       Products
@@ -167,11 +147,11 @@ if(isset($params['global']) and $params['global'] != false){
       Posts
       <?php endif;  ?>--> 
       
-      Settings</a></li>
-    <li><a href="javascript:;">Skin/Template</a></li>
+      <?php _e("Settings"); ?></a></li>
+    <li><a href="javascript:;"><?php _e("Skin/Template"); ?></a></li>
  
     <li id="add_new_post" style="display: none;"><a href="javascript:;"></a></li>
-    <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');">Manage</a></li>
+    <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a></li>
     <li id="edit_posts" style="display: none;"><a href="javascript:;"></a></li>
   </ul>
   <div class="tab">

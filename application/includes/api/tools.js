@@ -140,26 +140,28 @@ mw.tools = {
         container.append(html).height(height-padding);
 
         modal_object.css({top:($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(doc.defaultView).width()/2)-(width/2)});
+        if(typeof $.fn.draggable === 'function'){
+            modal_object.show().draggable({
+              handle:'.mw_modal_toolbar',
+              containment:'window',
+              iframeFix: false,
+              start:function(){
+                $(this).find(".iframe_fix").show();
+                if($(".mw_modal").length>1){
+                  mw_m_max = parseFloat($(this).css("zIndex"));
+                  $(".mw_modal").not(this).each(function(){
+                       var z = parseFloat($(this).css("zIndex"));
+                       mw_m_max = z>=mw_m_max?z+1:mw_m_max;
+                  });
+                  $(this).css("zIndex", mw_m_max);
+                }
+              },
+              stop:function(){
+                 $(this).find(".iframe_fix").hide();
+              }
+            });
+        }
 
-        modal_object.show().draggable({
-          handle:'.mw_modal_toolbar',
-          containment:'window',
-          iframeFix: false,
-          start:function(){
-            $(this).find(".iframe_fix").show();
-            if($(".mw_modal").length>1){
-              mw_m_max = parseFloat($(this).css("zIndex"));
-              $(".mw_modal").not(this).each(function(){
-                   var z = parseFloat($(this).css("zIndex"));
-                   mw_m_max = z>=mw_m_max?z+1:mw_m_max;
-              });
-              $(this).css("zIndex", mw_m_max);
-            }
-          },
-          stop:function(){
-             $(this).find(".iframe_fix").hide();
-          }
-        });
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
         typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';

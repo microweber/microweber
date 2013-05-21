@@ -115,7 +115,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img src="<?php print thumbnail(dir2url($item), 48,48); ?>" />
+        <img src="<?php print thumbnail(dir2url($item), 48, 48); ?>" />
         <?php else: ?>
         <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
         <?php endif; ?>
@@ -127,13 +127,8 @@ $path_nav_pop = $path_nav_pop.DS.$item;
             <label class="mw-ui-check left">
                 <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" /><span></span>
             </label>
-
             <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
-
          </div>
-
-
-
         </li>
       <?php endforeach ; ?>
     </ul>

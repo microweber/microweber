@@ -238,7 +238,11 @@ mw_save_draft_int = self.setInterval(function(){
             data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
             src="#"> </iframe>
     </div>
-    <div id="tab_help" class="mw_toolbar_tab"><?php _e("Help"); ?> <a href="<?php print site_url('admin'); ?>"><?php _e("Admin"); ?></a></div>
+    <div id="tab_help" class="mw_toolbar_tab">
+
+      <p style="padding: 31px;text-align: center">Currently Help section is under construction. Please visit <a target="_blank" class="mw-ui-link" href="http://microweber.com">www.microweber.com</a> for more information.</p>
+
+    </div>
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <?php //include( 'toolbar_tag_editor.php') ; ?>
     </div>

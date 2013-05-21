@@ -43,29 +43,22 @@ $source_code_id = md5($source_code.$theme_sel.$source_code_language.$source_show
 <script>
 $(document).ready(function() {
 
-
-
-
-
 	 var srccode = $('#src<?php  print $source_code_id; ?>').val();
 	 $('#pre<?php  print $source_code_id; ?>').text(srccode);
-var thepre = document.getElementById('pre<?php  print $source_code_id; ?>');
+     var thepre = document.getElementById('pre<?php  print $source_code_id; ?>');
+     $("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>",{style:"<?php  print $theme_sel; ?>",clipboard:"<?php print $config['url_to_module']; ?>snippet/zc.swf",showNum:<?php  print intval($source_show_lines); ?>});
 
- //$("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>");
-    $("#pre<?php  print $source_code_id; ?>").snippet("<?php  print $source_code_language; ?>",{style:"<?php  print $theme_sel; ?>",clipboard:"<?php print $config['url_to_module']; ?>snippet/zc.swf",showNum:<?php  print intval($source_show_lines); ?>});
-
-
-	//Prism.highlightElement(srccode, true);
-	//
-	//
-	//
-	//
 });
 
 </script>
 <div class="mw-code-hl">
 	<code id="highlight_code<?php  print $source_code_id; ?>"  style="display:none;" >
-	<textarea class="language-<?php  print $source_code_language; ?>" id="src<?php  print $source_code_id; ?>" lang="<?php  print $source_code_language; ?>" style="display:none;"><?php   print ($source_code); ?></textarea>
+	<textarea
+              class="language-<?php print $source_code_language; ?>"
+              id="src<?php  print $source_code_id; ?>"
+              lang="<?php  print $source_code_language; ?>"
+              style="display:none;"><?php   print ($source_code); ?>
+    </textarea>
 </code>
 
 

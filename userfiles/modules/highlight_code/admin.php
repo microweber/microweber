@@ -4,10 +4,10 @@ $rand_id = md5(serialize($params)); ?>
 
 <div id="mw_email_source_code_editor<?php print $rand_id ?>">
   <fieldset class="inputs">
-    <legend><span>Source code editor</span></legend>
-    <?php $langs = array( "html","php", "javascript",  "css", "python",  "sql",     "java",  "perl","xml", "ruby", "c", "cpp", "csharp"); ?>
+    <legend><span><?php _e("Source code editor"); ?></span></legend>
+    <?php $langs = array( "html","php", "javascript",  "css", "python",  "sql", "java", "perl","xml", "ruby", "c", "cpp", "csharp"); ?>
     <?php $l_sel =  get_option('source_code_language', $params['id']); ?>
-    <label  class="label">Source Code Language</label>
+    <label  class="label"><?php _e("Source Code Language"); ?></label>
     <select name="source_code_language" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"   type="text" data-refresh="highlight_code"  id="link_existing_bookmark">
       <option value="<?php print $l_sel ?>"><?php print $l_sel ?></option>
       <?php foreach($langs as $lan): ?>
@@ -66,17 +66,23 @@ $rand_id = md5(serialize($params)); ?>
 </select>
 
  <?php $source_show_lines =  get_option('source_show_lines', $params['id']); ?>
-<label  class="label">Lines</label>
+<label  class="label"><?php _e("Lines"); ?></label>
 <select  name="source_show_lines" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"  data-refresh="highlight_code">
 <?php if($source_show_lines != false): ?>
  <option value="<?php print $source_show_lines ?>" selected="selected"><?php print $source_show_lines ?></option>
    <?php endif; ?>
-    <option value="n">no</option>
-    <option value="y">yes</option>
+    <option value="n"><?php _e("no"); ?></option>
+    <option value="y"><?php _e("yes"); ?></option>
 
 
     <hr />
     <code>
-    <textarea name="source_code" cols=""  class="mw_option_field" style="height:200px; width:300px;" data-refresh="highlight_code"     rows="2"><?php print get_option('source_code', $params['id']) ?></textarea></code>
+    <textarea
+        name="source_code"
+        cols=""
+        class="mw_option_field"
+        style="height:200px; width:300px;"
+        data-refresh="highlight_code"
+        rows="2"><?php print get_option('source_code', $params['id']) ?></textarea></code>
   </fieldset>
 </div>

@@ -60,10 +60,7 @@ $(document).ready(function(){
 <div class="option-item" id="opt_form_{rand}">
   <div class="controls">
  <?php if(isset($orig_params) and isset($orig_params['for_module_id'])): ?>
-
-      
-      <?php else : ?> 
-
+      <?php else : ?>
       <?php endif; ?> 
      <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
      <?php // d($data); ?>

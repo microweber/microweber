@@ -11,11 +11,6 @@ description: Small Navigation
 */
 
 
-      	 //$menu_filter['ul_tag'] = 'div';
-		 //$menu_filter['li_tag'] = 'span';
-		 //
-
-
 $menu_filter['ul_class'] = 'nav nav-small';
 $menu_filter['maxdepth'] = 1;
 

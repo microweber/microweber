@@ -18,7 +18,7 @@ function mw_print_admin_menu_settings_btn() {
   if($active == 'settings'){
 	   $cls = ' class="active" ';
   }
-	print '<li'.$cls.'><a href="'.admin_url().'view:settings">Settings</a></li>';
+	print '<li'.$cls.'><a href="'.admin_url().'view:settings">' . _e("Settings", true) . '</a></li>';
 }
 
 

@@ -118,7 +118,7 @@ $(document).ready(function(){
 	 ?>
     <?php if(isarr($module_categories  )): ?>
     <div class="mw-admin-sidebar">
-      <h2>Modules</h2>
+      <h2><?php _e("Modules"); ?></h2>
     </div>
   
     <?php // d($module_categories); ?>

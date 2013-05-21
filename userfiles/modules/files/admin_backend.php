@@ -3,7 +3,7 @@
  //$rand = uniqid(); ?>
 <script type="text/javascript">
     mw.require("events.js");
-	 mw.require("forms.js");
+	mw.require("forms.js");
     mw.require("url.js");
     mw.require("files.js");
 </script>
@@ -118,7 +118,7 @@ createPopHTML = function(img){
       + "<img src='" + img +"' />"
       + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
       + "<div class='vSpace'></div>"
-      + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\")'>Delete</span>"
+      + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\")'><?php _e("Delete"); ?></span>"
       + "</div>";
   return h;
 }
@@ -128,11 +128,11 @@ deleteItem = function(url, name){
   if(typeof url === 'string'){
     var obj = {path:[url]};
     var name = name || 'this';
-    var msg = "Are you sure you want to delete "+name+"?";
+    var msg = "<?php _e("Are you sure you want to delete"); ?> "+name+"?";
   }
   else if(url.constructor === [].constructor){
      var obj = {path:url}
-     var msg = "Are you sure you want to delete these files?";
+     var msg = "<?php _e("Are you sure you want to delete these files"); ?>?";
   }
   else{
     return false;
@@ -142,7 +142,6 @@ deleteItem = function(url, name){
       $.post(mw.settings.api_url + "delete_media_file", obj, function(a){
            $(mwd.body).removeClass("loading");
            _mw_admin_files_manage('all');
-
            mw.notification.msg(a);
       });
   })
@@ -210,7 +209,7 @@ saveNewFolder = function(a){
 
 
 createFolder = function(){
-  var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="New Folder" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
+  var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="<?php _e("New Folder"); ?>" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
   if(mwd.querySelector(".mw-browser-list") !== null){
     $(mwd.querySelector(".mw-browser-list")).prepend(html).find("input:first").focus();
   }
@@ -249,7 +248,6 @@ $(document).ready(function(){
 
 	mw.$("#mw_uploader").append(Uploader);
 	$(Uploader).bind("FileUploaded", function(obj, data){
-	    //alert(data.src);
          _mw_admin_files_manage('all');
     });
 
@@ -276,7 +274,7 @@ $(document).ready(function(){
  ?>
 
 <div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-  <h2><span class="ico iupload"></span>&nbsp;File Manager</h2>
+  <h2><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></h2>
   <div>
     <!--<div class="mw-item-sorter left" style="margin-right: 10px;"> <span class="mw-ui-label-help">Sort by</span>
       <select name="module_show" class="mw-ui-simple-dropdown" style="width: 110px;" onchange="mw.url.windowHashParam('sort_by', this.value)">
@@ -296,12 +294,12 @@ $(document).ready(function(){
 
 
 
-    
+
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">
-        <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left">Upload File</div>
-        <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">Delete selected files</span>
-        <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">Create folder</span>
+        <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left"><?php _e("Upload File"); ?></div>
+        <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
+        <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
     </div>
 
 
@@ -315,7 +313,7 @@ $(document).ready(function(){
   <div id="user_edit_admin_{rand}" ></div>
   <div class="vSpace"></div>
 
-  <span class="mw-ui-btn right disabled delete_item">Delete Selected</span>
+  <span class="mw-ui-btn right disabled delete_item"><?php _e("Delete Selected"); ?></span>
 
   <div class="mw_clear"></div>
   <div class="vSpace"></div>

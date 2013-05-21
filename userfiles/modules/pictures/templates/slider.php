@@ -56,5 +56,5 @@ description: Pictures slider
  
 
 <?php else : ?>
-<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
+ <?php print  "<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"; ?>
 <?php endif; ?>

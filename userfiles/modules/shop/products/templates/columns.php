@@ -45,7 +45,7 @@ description: Columns
 
 			  $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
 			  if( $add_cart_text == false){
-				     $add_cart_text =  'Add to cart';
+				     $add_cart_text =  _e("Add to cart", true);
 			  }
 			  ?>
 				 <?php if(isarr( $item['prices'])): ?>

@@ -1,7 +1,10 @@
-<?php 
- 
+<?php
+
 $rand_id = md5(serialize($params)); ?>
 
-<div id="mw_email_source_code_editor<?php print $rand_id ?>" >
-          <textarea name="source_code" cols="50"  class="mw_option_field" style="height:600px; width:100%;" data-refresh="embed"     ><?php print get_option('source_code', $params['id']) ?></textarea>
+<div class="module-live-edit">
+  <div id="mw_email_source_code_editor<?php print $rand_id ?>">
+      <label class="mw-ui-label"><?php _e("Insert Embed Code"); ?></label>
+      <textarea name="source_code" class="mw_option_field mw-ui-field" style="height:100px; width:370px;" data-refresh="embed"><?php print get_option('source_code', $params['id']) ?></textarea>
+   </div>
  </div>

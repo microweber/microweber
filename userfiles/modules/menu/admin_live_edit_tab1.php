@@ -241,8 +241,8 @@ $(document).ready(function(){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
         		mw.reload_module('menu/edit_items');
-        		if(window.parent != undefined && window.parent.mw != undefined){
-        			window.parent.mw.reload_module('menu');
+        		if(self!==parent && typeof parent.mw === 'object'){
+        			parent.mw.reload_module('menu');
         		}
         	});
         }
@@ -300,7 +300,7 @@ $menu_name = get_option('menu_name', $params['id']);
     </select>
   </div>
   <hr>
-  <label class="mw-ui-label">Select from:</label>
+  <label class="mw-ui-label"><?php _e("Select from"); ?>:</label>
   <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
   <?php _e("Add New Link"); ?>
   </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
@@ -310,7 +310,7 @@ $menu_name = get_option('menu_name', $params['id']);
 </div>
 <?php endif; ?>
 <?php else : ?>
-You have no exising menus. Please create one.
+<?php _e("You have no exising menus. Please create one."); ?>
 <?php endif; ?>
 <?php
 if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
@@ -326,7 +326,7 @@ if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
   <input type="hidden" name="parent_id" value="<?php  print   $menu_id ?>" />
-  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">Add to menu</button>
+  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');"><?php _e("Add to menu"); ?></button>
 </div>
 <div class="vSpace"></div>
 <?php  //d( $active_menu); ?>
@@ -334,11 +334,8 @@ if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?php  print $rand ?>">
   <?php if($active_menu != false): ?>
   <h2><?php print $menu_name; ?> Links
-    <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label>
+    <label class="mw-ui-label"><small><?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?></small></label>
   </h2>
-  <?php /*<span style="padding: 0;" class="posts-selector right">
-    <span class="view_all_subs" onclick="view_all_subs();"><?php _e("View All"); ?></span>/<span class="hide_all_subs" onclick="hide_all_subs();"><?php _e("Hide All"); ?></span>
-  </span>*/ ?>
   <label class="mw-ui-label">
     <?php _e("Edit existing links/buttons"); ?>
   </label>

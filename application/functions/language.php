@@ -10,7 +10,7 @@ function _e($k, $to_return = false) {
  	$lang = session_get('lang');
 	}
 
-    if($lang == false){
+    if(!isset($lang) or $lang == false){
         if(isset($_COOKIE['lang'])){
             $lang = $_COOKIE['lang'];
         }

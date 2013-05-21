@@ -1,1 +1,1 @@
-<h1>Thank you for your order.</h1>
+<h1><?php _e("Thank you for your order"); ?>.</h1>

@@ -20,7 +20,6 @@
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-   //	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span onclick="mw.tools.toggle(this.parentNode.parentNode.querySelector(\'ul\'), this);" class="menu_nested_controll_arrow"></span><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a></div>';
 	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a></div>';
 
     $data = menu_tree( $menu_params);
@@ -33,37 +32,25 @@ if( $id != 0){
     mw.require('forms.js', true);
 </script>
 <script  type="text/javascript">
-  
+
   mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
  </script>
-<script  type="text/javascript">
-  $(document).ready(function(){
-    mw.$(".mw-modules-admin li").each(function(){
-      if(!mw.tools.has(this, 'ul.menu')){
-       //  this.querySelector('.menu_nested_controll_arrow').style.display = 'none';
-      }
-    });
-  });
- </script>
+
  
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
-				 
-				 
+
 				 <?php if(isset($params['data-parent-module-id'])): ?>
 				 mw.reload_module('#<?php print $params['data-parent-module-id'] ?>');
 				 <?php else: ?>
 				 
 				 mw.reload_module('#<?php print $params['id'] ?>');
 				 <?php endif; ?>
-				 //mw.reload_module('#<?php print $params['id'] ?>');
-				
-				
-				
-        		if(window.parent != undefined && window.parent.mw != undefined){
-        			window.parent.mw.reload_module('menu');
+
+        		if( self !== parent && typeof parent.mw === 'object'){
+        			parent.mw.reload_module('menu');
         		}
         	});
         }
@@ -82,9 +69,9 @@ mw.menu_item_delete = function($item_id){
 				<?php else: ?>
 				mw.reload_module('#<?php print $params['parent-module-id'] ?>');
 				<?php endif; ?>
-				
-                if(self !== parent && typeof parent.mw !== 'undefined'){
-    		      window.parent.mw.reload_module('menu');
+
+                if( self !== parent && typeof parent.mw === 'object'){
+    		      parent.mw.reload_module('menu');
     	        }
 
     	  });
@@ -179,7 +166,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 
 <div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?> </div>
 <?php else: ?>
-This menu is empty, please add items.
+<?php _e("This menu is empty, please add items."); ?>
 <?php endif; ?>
 <div>
   <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
@@ -190,7 +177,7 @@ This menu is empty, please add items.
 if(isset($params['menu-name'])): ?>
  <?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) : ?>
-  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">Delete <?php print $menu['title']; ?></a></small>
+  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');"><?php _e("Delete"); ?> <?php print $menu['title']; ?></a></small>
 
 	<?php endif ?>
  

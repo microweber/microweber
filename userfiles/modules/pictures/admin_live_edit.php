@@ -24,9 +24,6 @@ if( $use_from_post){
 	$params['content-id'] = PAGE_ID;
 
 	 }	 
-	 
-	 
-	 
 }
 
  
@@ -41,25 +38,23 @@ if(isset($params['content-id'])){
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav">
-    <li><a href="javascript:;" class="active">My pictures</a></li>
-    <li><a href="javascript:;">Skin/Template</a></li>
+    <li><a href="javascript:;" class="active"><?php _e("My pictures"); ?></a></li>
+    <li><a href="javascript:;"><?php _e("Skin/Template"); ?></a></li>
   </ul>
   <div class="tab">
 
  <?php if($use_from_post_forced == false): ?>
   <label class="mw-ui-check">
       <input type="checkbox" name="data-use-from-post" value="y" class="mw_option_field" <?php if( $use_from_post): ?>   checked="checked"  <?php endif; ?> data-also-reload="<?php print $config['the_module'] ?>" />
-      <span></span><span>Use pictures from post</span></label>
+      <span></span><span><?php _e("Use pictures from post"); ?></span></label>
      <?php endif; ?>
-      
 
-          <microweber module="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" >
+     <microweber module="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" >
 
-       
   </div>
-  <div class="tab"> <strong>Skin/Template</strong>
+  <div class="tab"> <strong><?php _e("Skin/Template"); ?></strong>
     <module type="admin/modules/templates"  />
-    <microweber module="settings/list"     for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
+    <microweber module="settings/list"  for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
   </div>
 </div>
 <div class="mw_clear"></div>

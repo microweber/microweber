@@ -2,10 +2,10 @@
 
 $source_code =  get_option('source_code', $params['id']) ;
 if(strval($source_code) == ''){
-	$source_code = '// embed code here';
+	$source_code = mw_notif_le('Click to insert Embed Code');
 }
 if($source_code != false and $source_code != ''){
-print $source_code;
+    print "<div class='mwembed'>" . $source_code . '</div>';
 } else {
-	
+
 }

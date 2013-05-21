@@ -38,8 +38,8 @@
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav">
-    <li><a href="javascript:;" class="active">Content list</a></li>
-    <li><a href="javascript:;">Layouts</a></li>
+    <li><a href="javascript:;" class="active"><?php _e("Content list"); ?></a></li>
+    <li><a href="javascript:;"><?php _e("Layouts"); ?></a></li>
   </ul>
   <div class="tab">
 <?php 
@@ -51,7 +51,7 @@ include_once($config['path_to_module'].'../posts/admin_live_edit_tab1.php'); ?>
   <div class="tab">
 
  <?php $layout =  get_option('data-layout', $params['id']); ?>
- <input name="data-layout" id="data-layout-set-val"    class="mw_option_field semi_hidden" value="<?php print $layout; ?>" />
+ <input name="data-layout" id="data-layout-set-val" class="mw_option_field semi_hidden" value="<?php print $layout; ?>" />
  <script>
 $(document).ready(function(){
     curr_layot = mwd.getElementById('data-layout-set-val').value;
@@ -75,7 +75,7 @@ $(document).ready(function(){
 </script>
 
  <div class="mw-o-box">
- <div class="mw-o-box-header">Choose layout</div>
+ <div class="mw-o-box-header"><?php _e("Choose layout"); ?></div>
 
      <div class="dynamic_layout_choooser mw-o-box-content">
 
@@ -85,10 +85,6 @@ $(document).ready(function(){
 
 
  </div>
-
-
-
-
 
   </div>
 

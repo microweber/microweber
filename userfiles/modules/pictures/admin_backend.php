@@ -109,7 +109,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
  ?>
 <div class="vSpace">&nbsp;</div>
-<label class="mw-ui-label">Add Images <small>(The first image will be thumbnail)</small></label>
+<label class="mw-ui-label"><?php _e("Add Images"); ?> <small>(<?php _e("The first image will be thumbnail"); ?>)</small></label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
   <?php if(isarr( $media)): ?>
   <?php $default_title = _e("Image title", true); ?>

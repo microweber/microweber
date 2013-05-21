@@ -69,11 +69,9 @@ if($module_template == false and isset($params['template'])){
 
 
 if($module_template != false){
-		$template_file = module_templates( $config['module'], $module_template);
-
+    $template_file = module_templates( $config['module'], $module_template);
 } else {
-		$template_file = module_templates( $config['module'], 'default');
-
+    $template_file = module_templates( $config['module'], 'default');
 }
 
 //d($module_template );
@@ -82,7 +80,7 @@ if(isset($template_file) and is_file($template_file) != false){
 } else {
 	?>
 <?php print mw_notif_live_edit("No template found. Please choose template."); ?>
- 
+
 <?php
 	
 } ?>

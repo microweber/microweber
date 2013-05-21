@@ -66,7 +66,9 @@ if(!isset($tn[1])){
         <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
         <?php
                 $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
-			  if( $add_cart_text == false){  $add_cart_text =  'Add to cart';  }
+			  if( $add_cart_text == false){
+			        $add_cart_text =  _e("Add to cart", true);
+              }
 
         ?>
 
@@ -93,7 +95,7 @@ if(!isset($tn[1])){
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
                   <a href="<?php print $item['link'] ?>" class="btn">
-                      <?php $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
+                      <?php $read_more_text ? print $read_more_text : print _e("Continue Reading", true); ?>
                   </a>
               <?php endif; ?>
           </div>

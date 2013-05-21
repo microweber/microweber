@@ -456,7 +456,7 @@ body.Resizing .mwembed:after{
 }
 
 
-.edit .module-video {
+.edit .module-video, .edit .module-pictures {
   padding: 10px 0;
 }
 

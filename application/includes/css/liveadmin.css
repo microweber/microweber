@@ -2516,6 +2516,36 @@ a.module-icon-title{
     color: white;
 }  */
 
+.video-module-default-view{
+  padding: 120px 0;
+  text-align: center;
+  background: #111 url(../img/logomark_modules.png) no-repeat 20px 20px;
+  background-size: 25px 25px;
+}
+.video-module-default-view img{
+  opacity: 0.5;
+}
+.pictures-module-default-view{
+  padding: 60px;
+  width: 100px;
+  text-align: center;
+  background: #fff url(../img/logomark_modules.png) no-repeat 20px 20px;
+  background-size: 25px 25px;
+}
+.pictures-module-default-view img{
+  opacity: 0.5;
+}
+
+.picture-module-default-view{
+  padding: 120px 0;
+  text-align: center;
+  background: #fff url(../img/logomark_modules.png) no-repeat 20px 20px;
+  background-size: 25px 25px;
+}
+.picture-module-default-view img{
+  opacity: 0.5;
+}
+
 
 
 

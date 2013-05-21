@@ -15,13 +15,12 @@ description: Full width cart template
 <div class="mw-cart mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<?php print $params['id']?>">
     <h4 style="margin-top: 16px;" class="edit" rel="<?php print $params['id']?>" field="cart_title">
-      <?php   _e('My cart') ?>
+      <?php  _e('My cart'); ?>
     </h4>
   </div>
   <?php if(isarr($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <colgroup>
-
         <col width="60">
         <col width="620">
         <col width="120">
@@ -30,12 +29,12 @@ description: Full width cart template
     </colgroup>
     <thead>
       <tr>
-        <th>Image</th>
-        <th class="mw-cart-table-product">Product Name</th>
-        <th>QTY</th>
-        <th>Price</th>
-        <th>Total</th>
-        <th>Delete</th>
+        <th><?php _e("Image"); ?></th>
+        <th class="mw-cart-table-product"><?php _e("Product Name"); ?></th>
+        <th><?php _e("QTY"); ?></th>
+        <th><?php _e("Price"); ?></th>
+        <th><?php _e("Total"); ?></th>
+        <th><?php _e("Delete"); ?></th>
       </tr>
     </thead>
     <tbody>
@@ -52,14 +51,8 @@ description: Full width cart template
       <?php endif; ?>
       </td>
         <td class="mw-cart-table-product">
-		
-
-      
-
-      
-
-		<?php print $item['title'] ?>
-          <?php 	if(isset($item['custom_fields'])): ?>
+	   <?php print $item['title'] ?>
+          <?php if(isset($item['custom_fields'])): ?>
           <?php print $item['custom_fields'] ?>
           <?php  endif ?></td>
         <td><input type="number" class="input-mini" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" /></td>
@@ -72,68 +65,49 @@ description: Full width cart template
     </tbody>
   </table>
 
-
-
    <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active');  ?>
 	<?php if(isarr($shipping_options)) :?>
     <div>
-
-
-
-    <h3>Continue Shopping or Complete Order</h3>
-
+    <h3><?php _e("Continue Shopping or Complete Order"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">
         <tbody>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-country"><label>Shipping to:</label> <module type="shop/shipping/select" /></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-country"><label><?php _e("Shipping to"); ?>:</label> <module type="shop/shipping/select" /></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label>Shipping price:</label> <span class="shiping_cost"><?php print currency_format(session_get('shiping_cost')); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <span class="shiping_cost"><?php print currency_format(session_get('shiping_cost')); ?></span></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label>Total Price:</label> <span class="total_cost"><?php print currency_format($total + intval(session_get('shiping_cost'))); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(session_get('shiping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>
   </div>
   <?php endif ; ?>
-
-
-
-
-  
-
-
   <?php  
-  if(!isset($params['checkout-link-enabled'])){
-	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
-  } else {
-	   $checkout_link_enanbled = $params['checkout-link-enabled'];
-  }
+      if(!isset($params['checkout-link-enabled'])){
+    	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
+      } else {
+    	   $checkout_link_enanbled = $params['checkout-link-enabled'];
+      }
    ?>
   <?php if($checkout_link_enanbled != 'n') :?>
   <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
   <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
-	   
 	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
 	   $checkout_page_link = site_url('checkout');;
-	   
    }
-
    ?>
+  <a class="btn btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
 
-
-
-  <a class="btn btn-warning pull-right" href="<?php print $checkout_page_link; ?>">Checkout</a>
-
-  <a href="javascript:;" class="btn pull-right continue-shopping">Continue Shopping</a>
+  <a href="javascript:;" class="btn pull-right continue-shopping"><?php _e("Continue Shopping"); ?></a>
 
   <?php endif ; ?>
   <?php else : ?>
-  <h4 class="alert">Your cart is empty.</h4>
+  <h4 class="alert"><?php _e("Your cart is empty."); ?></h4>
   <?php endif ; ?>
 </div>

@@ -11,7 +11,7 @@ function mw_print_admin_updates_settings_link() {
 	}
 	$notif_html = '';
 $mname = module_name_encode('updates');
-	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Updates</a></li>";
+	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">" . _e("Updates", true) . "</a></li>";
 
 	//$notif_count = get_notifications('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
