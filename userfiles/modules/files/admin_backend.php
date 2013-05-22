@@ -27,9 +27,7 @@
   text-align: center;
 }
 
-.browser-ctrl-bar{
-  float: left;
-}
+
 
 .browser-ctrl-bar .mw-ui-btn{
   float: left;
@@ -169,6 +167,17 @@ mw.on.hashParam('select-file', function(){
              mw.$("#prfile .mw_modal_title").html(this.split("/").pop())
           }
       }
+      else if(type == 'mp3' || type ==  'avi' || type=='mp4'){
+         var html = '<video controls autoplay><source src="'+this+'" type="video/ogg"></video>';
+         mw.tools.modal.init({
+                html:html,
+                template:"mw_modal_simple",
+                width:500,
+                height:460,
+                name:"prfile",
+                title:this.split("/").pop()
+              });
+      }
       else{
           if(mw.$("#prfile").length > 0){
                mw.$("#prfile").remove()
@@ -241,10 +250,48 @@ mw.on.hashParam('sort_order', function(){
 
 $(document).ready(function(){
 
+
+Progress =  mw.$('#mw-upload-progress');
+        ProgressBar = Progress.find('.mw-ui-progress-bar');
+        ProgressInfo = Progress.find('.mw-ui-progress-info');
+        ProgressPercent = Progress.find('.mw-ui-progress-percent');
+        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
+        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
+
+
+
+
+
     Uploader = mw.files.uploader({
 		filetypes:"*",
-		multiple:false
+		multiple:true
 	});
+
+    $(Uploader).bind("progress", function(frame, file){
+        ProgressBar.width(file.percent+'%');
+        ProgressPercent.html(file.percent+'%');
+        ProgressInfo.html(file.name);
+    });
+
+    $(Uploader).bind("done", function(frame, item){
+        ProgressBar.width('0%');
+        ProgressPercent.html('');
+        ProgressInfo.html(ProgressDoneHTML);
+     });
+
+    $(Uploader).bind("error", function(frame, file){
+        ProgressBar.width('0%');
+        ProgressPercent.html('');
+        ProgressInfo.html(ProgressErrorHTML(file.name));
+    });
+
+    $(Uploader).bind("FilesAdded", function(frame, files_array, runtime){
+        if(runtime == 'html4'){
+          ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
+        }
+    });
+
+
 
 	mw.$("#mw_uploader").append(Uploader);
 	$(Uploader).bind("FileUploaded", function(obj, data){
@@ -276,36 +323,25 @@ $(document).ready(function(){
 <div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
   <h2><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></h2>
   <div>
-    <!--<div class="mw-item-sorter left" style="margin-right: 10px;"> <span class="mw-ui-label-help">Sort by</span>
-      <select name="module_show" class="mw-ui-simple-dropdown" style="width: 110px;" onchange="mw.url.windowHashParam('sort_by', this.value)">
-        <option value="filemtime">Last modified</option>
-        <option value="filesize">Size</option>
-        <option value="">Auto</option>
-      </select>
-    </div>
-    <div class="mw-item-sorter left"> <span class="mw-ui-label-help">Sort order</span>
-      <select name="sort_order" class="mw-ui-simple-dropdown" style="width: 110px;" onchange="mw.url.windowHashParam('sort_order', this.value)">
-        <option value="ASC">Ascending</option>
-        <option value="DESC">Descending</option>
-        <option value="">Auto</option>
-      </select>
-    </div>-->
-    
-
-
-
-
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">
+        <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
+
         <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left"><?php _e("Upload File"); ?></div>
         <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
         <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
     </div>
 
+ <div class="vSpace"></div>
+<div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
+    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
+    <div class="mw-ui-progress-info"></div>
+    <span class="mw-ui-progress-percent"></span>
+</div>
 
 
-      <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
-      <div class="mw_clear"></div>
+
+       <div class="mw_clear"></div>
     </div>
   </div>
   <div class="vSpace"></div>

@@ -600,9 +600,13 @@ function mw_before_content_save<?php print $rand; ?>(){
       <input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <?php if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><?php else : ?><?php _e("Name"); ?><?php endif ?>" />
       <?php endif; ?>
     </div>
+
+    <?php if(!isset($params['from_live_edit'])): ?>
     <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
       <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
+
+      <?php endif; ?>
     <div class="edit_page_content_parent" id="admin_edit_page_form_content_parent_info<?php print $rand; ?>"></div>
     <div class="mw_clear"></div>
   </div>

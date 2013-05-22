@@ -22,16 +22,16 @@ only_admin_access();
  }
 
  $path = urldecode($path);
- 
- 
+
+
  $path = str_replace($path_restirct,'',$path);
-  
+
  //$data = rglob($path);
   $params_get_files = array();
    $params_get_files['directory']  =  $path_restirct.$path;
-   
+
    if (isset($params['search'])) {
-		   $params_get_files['search']  =  $params['search'];  
+		   $params_get_files['search']  =  $params['search'];
 	}
 
 	  if (isset($params['sort_by'])) {
@@ -41,7 +41,12 @@ only_admin_access();
 		   $params_get_files['sort_order']  =  $params['sort_order'];
 	}
 
-  //  $params['keyword']   
+ if(isset($params_get_files['directory']) and !is_dir($params_get_files['directory'])){
+  mw_warn('You are trying to open invalid folder');
+ }  else if(isset($params_get_files['directory']) and is_dir($params_get_files['directory']) and !is_writable($params_get_files['directory'])){
+  mw_warn('Your folder is not writable. You wont be able to upload in it.');
+ }
+  //  $params['keyword']
  $data = get_files($params_get_files);
 
  $path_nav = explode(DS,$path);
@@ -85,6 +90,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
   <div class="mw-o-box-content" id="mw-browser-list-holder">
+
 
     <?php if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">

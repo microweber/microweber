@@ -322,6 +322,7 @@ window.onerror = function(a,b,c){
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
 
+    if(typeof $(obj.selector)[0] === 'undefined') { return false; }
 
 
     var attrs = $(obj.selector)[0].attributes;
