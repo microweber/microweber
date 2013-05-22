@@ -973,6 +973,10 @@ ul.dropdown-menu ul.dropdown-menu{
 
     }
 
+    .comment-image-holder{
+      width: 67px;
+    }
+
     .comment .img-polaroid,
     .comment .img-rounded{
       display: block;

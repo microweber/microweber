@@ -1706,7 +1706,7 @@ if(isset($ustr2) and trim($ustr2) == 'favicon.ico'){
 			 */
 			$url = url_string(true);
 			$some_mods = array();
-			if (isset($the_field_data['attributes'])) {
+			if (isset($the_field_data) and isarr($the_field_data) and isset($the_field_data['attributes'])) {
 				if (($the_field_data['html']) != '') {
 					$field = false;
 					if (isset($the_field_data['attributes']['field'])) {

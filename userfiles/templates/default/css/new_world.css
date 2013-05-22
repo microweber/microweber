@@ -712,6 +712,14 @@ ul.dropdown-menu ul.dropdown-menu{
       padding: 20px 0;
 
     }
+    .comment-image-holder{
+      width: 67px;
+
+    }
+
+    .comment-image-holder .mw-ui-col-container{
+      margin-right: 30px;
+    }
 
     .comment .img-polaroid,
     .comment .img-rounded{

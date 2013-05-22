@@ -40,7 +40,7 @@ description: Default comments template
     if(!$required_moderation or $comment['is_moderated'] == 'y' or (!empty($_SESSION) and  $comment['session_id'] == session_id())){
   ?>
     <div class="clearfix comment" id="comment-<?php print $comment['id'] ?>">
-      <div class="row-fluid">
+      <div class="mw-ui-row">
         <?php
 
   $avatars_enabled = get_option('avatar_enabled', 'comments')=='y';
@@ -57,7 +57,8 @@ description: Default comments template
 
   ?>
         <?php if($avatars_enabled){ ?>
-        <div class="span1">
+        <div class="mw-ui-col comment-image-holder">
+        <div class="mw-ui-col-container">
           <?php $avatar_style =  get_option('avatar_style', 'comments'); ?>
           <?php  if (isset($comment_author['thumbnail'])  and isset($comment_author['thumbnail']) != ''){ ?>
           <img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="img-polaroid comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
@@ -75,18 +76,11 @@ description: Default comments template
            <?php } ?>
           <?php } ?>
         </div>
+        </div>
         <?php } ?>
-         <?php
 
-         if($avatars_enabled){
-            $column_class = "span11";
-         }
-         else{
-             $column_class = "span12";
-         }
-
-          ?>
-        <div class="<?php print $column_class; ?>">
+        <div class="mw-ui-col">
+        <div class="mw-ui-col-container">
           <div class="comment-content">
             <div class="comment-author"> <?php print $comment['comment_name'] ?> </div>
             <div class="comment-body">
@@ -95,6 +89,7 @@ description: Default comments template
               <?php endif; ?>
               <?php print nl2br($comment['comment_body'] ,1);?> </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
