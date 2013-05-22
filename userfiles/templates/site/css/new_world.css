@@ -972,6 +972,9 @@ ul.dropdown-menu ul.dropdown-menu{
       padding: 20px 0;
 
     }
+    .comments .mw-ui-row{
+      width: 100%;
+    }
 
     .comment-image-holder{
       width: 67px;

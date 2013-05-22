@@ -705,6 +705,10 @@ ul.dropdown-menu ul.dropdown-menu{
       padding-left: 10px;
     }
 
+    .comments .mw-ui-row{
+      width: 100%;
+    }
+
     .comment{
       clear: both;
       overflow: hidden;
