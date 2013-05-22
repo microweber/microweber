@@ -63,6 +63,10 @@ mw.custom_fields = {
 
       mw.$($selector).load(mw.settings.api_html+ 'make_custom_field',data , function(){
         mw.is.func(callback) ? callback.call(this) : '';
+
+        mw.$(".mw-admin-custom-field-edit-item-wrapper input").bind("keyup", function(){
+          __save();
+        });
       });
 
      mw.$("#smart_field_opener").hide();
@@ -278,7 +282,7 @@ __save = function(c){
                       mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
                           __sort_fields();
                       });
-                      mw.$("#custom-field-editor").removeClass('mw-custom-field-created')
+                      mw.$("#custom-field-editor").removeClass('mw-custom-field-created');
                  }
                  else{
                     __sort_fields();

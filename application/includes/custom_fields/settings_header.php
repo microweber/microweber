@@ -10,6 +10,7 @@ $add_remove_controls = ''.
 
 
 $savebtn = '<button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();">'. _e('Save', true). '</button>';
+$savebtn = '';
 
 
 if(!isset($settings)){
@@ -21,7 +22,7 @@ $settings = 1;
  if(intval($settings) == 2){
 
  }
-       $hidden_class = ' mw-hide ';
+ $hidden_class = ' mw-hide ';
 $is_for_module = url_param('for_module_id', 1);
 $for = url_param('for', 1);
  

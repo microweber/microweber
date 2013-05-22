@@ -15,9 +15,7 @@ function _e($k, $to_return = false) {
             $lang = $_COOKIE['lang'];
         }
     }
-    if(!defined('MW_LANG')){
-        define('MW_LANG',$lang);
-    }
+
 
 //	$k1 = url_title($k);
     if ($language_content === NULL or !is_array($language_content) or empty($language_content)) {
@@ -55,6 +53,15 @@ function _e($k, $to_return = false) {
     } else {
 
     }
+
+
+
+  if(!defined('MW_LANG') and isset($lang)){
+        define('MW_LANG',$lang);
+    }
+
+
+
     if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
             $k2 = addslashes($k);

@@ -103,10 +103,11 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		} else {
 			$field_type = db_escape_string($field_type);
 			$field_type_q = ' and custom_field_type="' . $field_type . '"  ';
+				$field_type_q .= ' and custom_field_type!=""  ';
 		}
 
 		$sidq = '';
-		if ($id == 0 and $for_session != false) {
+		if (intval($id) == 0 and $for_session != false) {
 			if (is_admin() != false) {
 				$sid = session_id();
 				$sidq = ' and session_id="' . $sid . '"  ';
@@ -116,6 +117,14 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		}
 
 		if ($id != 'all') {
+			 if (intval($id) == 0){
+			 	if (is_admin() != false) {
+				$sid = session_id();
+				$sidq = ' and session_id="' . $sid . '"  ';
+			}
+			 }
+
+
 			$idq1ttid = " rel_id='{$id}' ";
 		} else {
 			$idq1ttid = ' rel_id is not null ';
@@ -132,7 +141,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		   ";
 
 		if ($debug != false) {
-			// d($q);
+			//
 		}
 
 		// $crc = crc32 ( $q );
@@ -470,7 +479,17 @@ function save_custom_field($data) {
 			if (!isset($data_to_save['rel_id'])) {
 				$data_to_save['rel_id'] = $form_data_from_id['rel_id'];
 			}
+
+			if (isset($form_data_from_id['custom_field_type']) and $form_data_from_id['custom_field_type'] != '' and (!isset($data_to_save['custom_field_type']) or ($data_to_save['custom_field_type']) == '')) {
+ 				$data_to_save['custom_field_type'] = $form_data_from_id['custom_field_type'];
+			}
+
+
 		}
+
+
+
+
 
 		if (isset($data_to_save['copy_rel_id'])) {
 
@@ -495,13 +514,17 @@ function save_custom_field($data) {
 
 	$data_to_save['session_id'] = session_id();
 
-	// $data_to_save['debug'] = 1;
+// $data_to_save['debug'] = 1;
+	if(!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == ''){
 
-	$save = save_data($table_custom_field, $data_to_save);
+	} else {
+		$save = save_data($table_custom_field, $data_to_save);
+		cache_clean_group('custom_fields');
 
-	cache_clean_group('custom_fields');
-	//	$save = make_field($save);
-	return $save;
+		return $save;
+	}
+
+
 
 	//exit
 }

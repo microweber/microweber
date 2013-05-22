@@ -469,7 +469,7 @@ function mw_before_content_save<?php print $rand; ?>(){
 	
 	
 	
-	
+
 	
 	
 	
@@ -834,11 +834,12 @@ load_preview();
   <a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
   <?php _e("Add to Page &amp; Category"); ?>
   </a>
-  <small class="right mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
+  &nbsp;&nbsp;
+  <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">
     <div class="mw-ui-field mw-tag-selector " id="mw-post-added-<?php print $rand; ?>">
-      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." />
+      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" />
     </div>
     <script>
 
@@ -1091,10 +1092,11 @@ if(intval($data['id']) == 0){
   <a href="javascript:;" class="mw-ui-more toggler-active" onclick="mw.tools.toggle('#custom_fields_for_post_<?php print $rand; ?>', this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>
   <?php _e("Custom Fields"); ?>
   </a>
+
   <?php else: ?>
   <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>
   <?php _e("Custom Fields"); ?>
-  </a>
+  </a> &nbsp;&nbsp;   <small class="mw-help" data-help="You can set custom properties for this <?php print $data['content_type'] ?>. ">(?)</small>
   <?php endif; ?>
 
 
@@ -1102,7 +1104,7 @@ if(intval($data['id']) == 0){
   <div class="vSpace"></div>
   <?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
   <div id="custom_fields_for_post_<?php print $rand; ?>"  style="<?php if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>display:block;<?php else: ?>display:none;<?php endif; ?>">
-    <small class="right mw-help" data-help="You can set custom properties for this <?php print $data['content_type'] ?>. ">(?)</small>
+
     <div class="vSpace"></div>
     <module type="custom_fields/admin"    for="content" rel_id="<?php print $data['id'] ?>" id="fields_for_post_<?php print $rand; ?>" content-subtype="<?php print $data['subtype'] ?>" />
 
