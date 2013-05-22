@@ -718,6 +718,7 @@ ul.dropdown-menu ul.dropdown-menu{
       display: block;
       width: 67px;
       max-height: 67px;
+      max-width: 100%;
       margin: 5px 0;
       text-align: center;
     }
@@ -726,6 +727,7 @@ ul.dropdown-menu ul.dropdown-menu{
       display: block;
       width: 67px;
       height: 67px;
+      max-width: 100%;
     }
 
     .comment-author{

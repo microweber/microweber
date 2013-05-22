@@ -17,40 +17,35 @@
 
 <div id="mw-admin-content">
   <div class="mw_edit_page_default" id="mw_edit_page_left">
-    <div class="mw-admin-sidebar"><h2><span class="ico imanage-module"></span>&nbsp;Backups</h2></div>
-    <div class="mw-admin-side-nav"  >
-
+    <div class="mw-admin-sidebar"><h2><span class="ico imanage-module"></span>&nbsp;<?php _e("Backups"); ?></h2></div>
+    <div class="mw-admin-side-nav">
         <ul>
-          <li><a href="<? print $config['url']; ?>?backup_action=manage">Manage</a></li>
-          <li><a href="<? print $config['url']; ?>?backup_action=settings">Settings</a></li>
+          <li><a href="<? print $config['url']; ?>?backup_action=manage"><?php _e("Manage"); ?></a></li>
+          <li><a href="<? print $config['url']; ?>?backup_action=settings"><?php _e("Settings"); ?></a></li>
         </ul>
-
       <div>
-
 
       <div class="back-up-nav-btns">
 
         <div class="vSpace"></div>
-        <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span>Create Database Backup</span></a>
+        <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span><?php _e("Create Database Backup"); ?></span></a>
         <div class="vSpace"></div>
-        <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span>Create Full Backup</span></a>
+        <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span><?php _e("Create Full Backup"); ?></span></a>
         <div class="vSpace"></div>
         <script type="text/javascript">
-		var uploader = mw.files.uploader({
-			filetypes:"zip,sql",
-			multiple:false
-		});
+    		var uploader = mw.files.uploader({
+    			filetypes:"zip,sql",
+    			multiple:false
+    		});
 
 		_mw_log_reload_int = false;
 		$(document).ready(function(){
 
-			
 			if(_mw_log_reload_int == false){
-						_mw_log_reload_int = true;
-					     mw.reload_module_interval("#mw_backup_log", 5000);
-					}
-			
-			
+                _mw_log_reload_int = true;
+                mw.reload_module_interval("#mw_backup_log", 5000);
+            }
+
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
 					mw.admin_backup.move_uploaded_file_to_backup(data.src);
@@ -70,12 +65,12 @@
 					mw.$("#mw_uploader_loading").show();
                 // mw.notification.warning("Still uploading...", 5000);
 
-					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), 'Uploading...<span id="upload_backup_info"></span>');
+					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e("Uploading"); ?>...<span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
                 $(uploader).bind('error', function(up, file) {
-                   mw.notification.error("The backup must be sql or zip.");
+                   mw.notification.error("<?php _e("The backup must be sql or zip"); ?>.");
 
             	});
 
@@ -87,12 +82,12 @@
 
 		</script>
 
-        <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload backup<span id="upload_backup_info"></span></span></span>
+        <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span><?php _e("Upload backup"); ?><span id="upload_backup_info"></span></span></span>
 
         </div>
 
 
-        <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">Uploading files</div>
+        <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;"><?php _e("Uploading files"); ?></div>
         <div class="vSpace">&nbsp;</div>
         <module id="mw_backup_log" type="admin/backup/log"/>
       </div>

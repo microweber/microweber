@@ -1,10 +1,10 @@
 <? if(!is_admin()){error("must be admin");}; ?>
 <!-- h2 stays for breadcrumbs -->
-<h2><a href="#" class="active">Create a Backup</a></h2>
+<h2><a href="#" class="active"><?php _e("Create a Backup"); ?></a></h2>
 <form action="" class="jNice">
-  <h3>Backup Log</h3>
+  <h3><?php _e("Backup Log"); ?></h3>
   <table cellpadding="0" cellspacing="0">
-    
+
       <td><?php
 // Include settings
 include("config.php");
@@ -28,10 +28,10 @@ backup_tables($DBhost,$DBuser,$DBpass,$DBName,$table,$extname,$filess);
 // Backup the table and save it to a sql file
 	
 
-	 
+
       	// Print the message
-	print('The backup has been created successfully. <br />You can get <b>MySQL dump file</b> <a href="' . $filess . '.sql" class="view">here</a>.<br>' . "\n");
-	print('You can get <b>Backed-up files archive</b> <a href="' . $filess . '.zip" class="view">here</a>.<br>' . "\n");
+	print(_e("The backup has been created successfully", true).'. <br />' . _e("You can get MySQL dump file", true) . ' <a href="' . $filess . '.sql" class="view">'._e("", true).'</a>.<br>' . "\n");
+	print(_e("You can get Backed-up files archive", true).' <a href="' . $filess . '.zip" class="view">'._e("here", true).'</a>.<br>' . "\n");
 ?></td>
   </table>
   <br />

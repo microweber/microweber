@@ -7,7 +7,7 @@ PHP 5.3 or above
 MySQL 5 or above
 short_open_tag must be set to "on" in php.ini
 mod_rewrite must be enabled
-
+lib-xml must be enabled, with DOM support
 
 Unzip and upload the files in your server folder and
 open your browser to the index.php file

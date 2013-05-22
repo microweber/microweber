@@ -2,6 +2,7 @@
 <html prefix="og: http://ogp.me/ns#">
     <head>
     <title>{content_meta_title}</title>
+    <link href="{TEMPLATE_URL}img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="{content_meta_title}">

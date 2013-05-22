@@ -1,12 +1,12 @@
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav" style="margin: 0;">
-    <li><a href="javascript:;" class="active">Upload</a></li>
-    <li><a href="javascript:;">URL</a></li>
+    <li><a href="javascript:;" class="active"><?php _e("Upload"); ?></a></li>
+    <li><a href="javascript:;"><?php _e("URL"); ?></a></li>
   </ul>
   <div class="tab">
 
-    <label class="mw-ui-label">Upload Track</label>
+    <label class="mw-ui-label"><?php _e("Upload Track"); ?></label>
     <div class="relative inline-block" id="upload_holder">
         <input
                 type="text"
@@ -15,7 +15,7 @@
                 class="mw-ui-field mw_option_field left"
                 style="margin: 0 -1px 0 0;width: 295px;"
                 id="upload_value" />
-        <span class="mw-ui-btn relative" id="upload">Upload</span>
+        <span class="mw-ui-btn relative" id="upload"><?php _e("Upload"); ?></span>
     </div>
 
     <div class="vSpace"></div>
@@ -31,7 +31,7 @@
 
   </div>
   <div class="tab semi_hidden">
-         <label class="mw-ui-label">Paste URL</label>
+         <label class="mw-ui-label"><?php _e("Paste URL"); ?></label>
 
          <input
                name="data-audio-url"
@@ -82,13 +82,13 @@
         ProgressBar = Progress.find('.mw-ui-progress-bar');
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
-        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;Done! The File has been uploaded.';
-        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;Error! "'+filename+'" - Invalid filetype.';}
+        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done"); ?>! <?php _e("The File has been uploaded"); ?>.';
+        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
 
 
     $(frame).bind("FilesAdded", function(frame, files_array, runtime){
               if(runtime == 'html4'){
-                ProgressInfo.html('Uploading - "' + files_array[0].name+'" ...');
+                ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
               }
           });
 

@@ -31,7 +31,6 @@
 
 
             <script>
-
                 mw.notification.success("<?php print html_entity_decode($check['value']) ?>");
             </script>
 

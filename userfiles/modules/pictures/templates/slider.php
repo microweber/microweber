@@ -53,8 +53,9 @@ description: Pictures slider
     }
   });
 </script>
- 
+
 
 <?php else : ?>
- <?php print  "<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"; ?>
+
+ <?php  mw_text_live_edit("<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 <?php endif; ?>

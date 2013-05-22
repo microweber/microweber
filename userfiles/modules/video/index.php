@@ -95,7 +95,7 @@ function video_module_url2embed($u, $w, $h, $autoplay){
 }
 
   else{
-     print  "<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>";
+     mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
   }
 }
 
@@ -114,15 +114,14 @@ else if($prior == '2'){
 
       // print mw_notif_le("Upload Video or paste URL or Embed Code.");
 
-      print  "<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>";
+      mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
 
     }
 }
 else{
 
-    print  "<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>";
+    mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
 
   //print mw_notif_le("Upload Video or paste URL or Embed Code.");
 }
 
- 

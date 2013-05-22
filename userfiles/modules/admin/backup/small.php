@@ -15,9 +15,9 @@
  
   <div class="back-up-nav-btns">
 
-    <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span>Create Database Backup</span></a>
+    <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span><?php _e("Create Database Backup"); ?></span></a>
 
-    <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span>Create Full Backup</span></a>
+    <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span><?php _e("Create Full Backup"); ?></span></a>
 
     <script type="text/javascript">
 		var uploader = mw.files.uploader({
@@ -54,7 +54,7 @@
 					mw.$("#mw_uploader_loading").show();
                 // mw.notification.warning("Still uploading...", 5000);
 
-					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), 'Uploading...<span id="upload_backup_info"></span>');
+					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e("Uploading"); ?>...<span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
@@ -70,8 +70,8 @@
 
 
 		</script> 
-    <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload backup<span id="upload_backup_info"></span></span></span> </div>
-  <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">Uploading files</div>
+    <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span><?php _e("Upload backup"); ?><span id="upload_backup_info"></span></span></span> </div>
+  <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;"><?php _e("Uploading files"); ?></div>
   <div class="vSpace">&nbsp;</div>
   <module id="mw_backup_log" type="admin/backup/log"/>
  

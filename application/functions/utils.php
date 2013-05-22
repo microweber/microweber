@@ -357,19 +357,41 @@ function mw_notification($text, $exit = false) {
 function mw_notif_le($text, $exit = false){
 	return mw_notif_live_edit($text, $exit);
 }
+
+function mw_text_live_edit($text, $exit = false){
+	$editmode_sess = session_get('editmode');
+
+	if($editmode_sess == true){
+
+		print $text;
+	}
+	if ($exit == true) {
+		die();
+	}
+
+
+
+}
+
 function mw_notif_live_edit($text, $exit = false){
 	$editmode_sess = session_get('editmode');
 
 	if($editmode_sess == true){
-	 $to_print = '<div class="mw-notification mw-success ">
-			    <div class="mw-notification-text mw-open-module-settings">'.$text.'</div>
-			  </div>';
+		$to_print = '<div class="mw-notification mw-success ">
+		<div class="mw-notification-text mw-open-module-settings">'.$text.'</div>
+		</div>';
 
 
 
-	print $to_print;
+		print $to_print;
 
 	}
+
+	if ($exit == true) {
+		die();
+	}
+
+
 }
 
 function mw_notif($text, $exit = false) {
@@ -757,7 +779,7 @@ function session_get($name) {
 
 
 		if(!isset($_SESSION['ip'])){
-			  $_SESSION['ip']=USER_IP;
+			$_SESSION['ip']=USER_IP;
 		} else if($_SESSION['ip'] != USER_IP){
 
 			session_end();
@@ -787,11 +809,11 @@ function session_end() {
 	// If it's desired to kill the session, also delete the session cookie.
 	// Note: This will destroy the session, and not just the session data!
 	if (ini_get("session.use_cookies")) {
-	    $params = session_get_cookie_params();
-	    setcookie(session_name(), '', time() - 42000,
-	        $params["path"], $params["domain"],
-	        $params["secure"], $params["httponly"]
-	    );
+		$params = session_get_cookie_params();
+		setcookie(session_name(), '', time() - 42000,
+			$params["path"], $params["domain"],
+			$params["secure"], $params["httponly"]
+			);
 	}
 
 
@@ -1117,10 +1139,10 @@ function directory_tree_iterate_directory($it){
 
 
 			if($it->hasChildren()) {
-			 	$_mw_directory_tree_iterate_directory_depth++;
+				$_mw_directory_tree_iterate_directory_depth++;
 
 
-				 $to_print .=sprintf('<li class="directory_tree is_sub_folder depth_'.$_mw_directory_tree_iterate_directory_depth.'">%s</li>',$it->getFilename());
+				$to_print .=sprintf('<li class="directory_tree is_sub_folder depth_'.$_mw_directory_tree_iterate_directory_depth.'">%s</li>',$it->getFilename());
 
 
 				$bleh = $it->getChildren();
@@ -1131,7 +1153,7 @@ function directory_tree_iterate_directory($it){
 
 			}
 		} elseif($it->isFile() && !$it->isDot())  {
- 			$to_print .= '<li class="directory_tree is_file depth_'.$_mw_directory_tree_iterate_directory_depth.' '.$class_path.'">'. $link_href ."</li>\n";
+			$to_print .= '<li class="directory_tree is_file depth_'.$_mw_directory_tree_iterate_directory_depth.' '.$class_path.'">'. $link_href ."</li>\n";
 
 		}
 	}
@@ -1195,11 +1217,11 @@ function directory_tree_iterate_directory($it){
 
 function directory_tree($path = '.', $params = false) {
 
-$params = parse_params($params);
+	$params = parse_params($params);
 
 	$dir = $path;
 
-	 return directory_tree_build($dir, $params);
+	return directory_tree_build($dir, $params);
 
 
 
@@ -1211,8 +1233,8 @@ $params = parse_params($params);
 
 function directory_tree_build($dir, $params = false){
 
-$params = parse_params($params);
-$class = 'directory_tree';
+	$params = parse_params($params);
+	$class = 'directory_tree';
 	if(isset($params['class'])){
 		$class = $params['class'];
 	}
@@ -1247,133 +1269,133 @@ $class = 'directory_tree';
 	}
 
 
-  static $level = 0;
+	static $level = 0;
 
-  if($max_depth > $level){
+	if($max_depth > $level){
 
-  $level++;
-  $ffs = scandir($dir);
-  echo '<ul class="'.$class.' depth_'.$level.'">';
-  foreach($ffs as $ff){
-		$is_hidden = substr($ff, 0, 1);
-		if ($is_hidden == '_') {
+		$level++;
+		$ffs = scandir($dir);
+		echo '<ul class="'.$class.' depth_'.$level.'">';
+		foreach($ffs as $ff){
+			$is_hidden = substr($ff, 0, 1);
+			if ($is_hidden == '_') {
 
-		} else {
-
-
+			} else {
 
 
-		  	$file1 =  $ff;
+
+
+				$file1 =  $ff;
 
 
 				if(strlen($file1) > 3){
-							$pos = strpos($file1, '_', 1);
+					$pos = strpos($file1, '_', 1);
 
-							if ($pos != false) {
-								$substr = substr($file1, 0, $pos);
-								if(intval($substr) > 0){
-									$file1 = substr($file1, $pos, strlen($file1));
-									$file1  = ltrim($file1, '_');
-								}
+					if ($pos != false) {
+						$substr = substr($file1, 0, $pos);
+						if(intval($substr) > 0){
+							$file1 = substr($file1, $pos, strlen($file1));
+							$file1  = ltrim($file1, '_');
+						}
 						//
+					}
+				}
+
+				$file1  = str_replace('_', ' ', $file1);
+
+
+
+
+
+
+				if($ff != '.' && $ff != '..'){
+					echo '<li class="'.$class.' depth_'.$level.'">';
+					if(is_dir($dir.'/'.$ff)) {
+
+						$is_index = $dir.DS.$ff.DS.'index.php';
+						$link_href = '';
+
+						if(is_file($is_index)){
+							$link = $dir.'/'.$ff.'/index.php';
+							if(trim($basedir) != ''){
+								$link =  normalize_path($link, false);
+								$basedir =  normalize_path($basedir, false);
+								$link = str_replace($basedir.DS,'',  $link );
+								$link = str_replace('\\', '/', $link);
+								$link = urlencode($link);
+
+
+
 							}
-				 }
+							$active_class = '';
 
-			 $file1  = str_replace('_', ' ', $file1);
-
-
-
-
+							if(isset($_REQUEST[$url_param]) and  urldecode($_REQUEST[$url_param]) == $link){
+								$active_class = ' active ';
+							}
 
 
-		    if($ff != '.' && $ff != '..'){
-		      echo '<li class="'.$class.' depth_'.$level.'">';
-		      if(is_dir($dir.'/'.$ff)) {
+							$file1 = "<a class='{$active_class}' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
 
-		      	$is_index = $dir.DS.$ff.DS.'index.php';
-		      	$link_href = '';
-
-		      	if(is_file($is_index)){
-					$link = $dir.'/'.$ff.'/index.php';
-					if(trim($basedir) != ''){
-					$link =  normalize_path($link, false);
-					$basedir =  normalize_path($basedir, false);
-					$link = str_replace($basedir.DS,'',  $link );
-					$link = str_replace('\\', '/', $link);
-					$link = urlencode($link);
+						}
 
 
 
+
+
+
+						$h_start = ($level == 1) ? '<h2 class="'.$title_class. '">' : '<h3 class="'.$title_class.'">';
+						$h_close = ($level == 1) ? '</h2>' : '</h3>';
+						echo $h_start.$file1.$h_close;
+						directory_tree_build($dir.'/'.$ff, $params);
+					} else {
+						$file1  = no_ext($file1);
+
+						$link = $dir.'/'.$ff;
+
+						if(trim($basedir) != ''){
+							$link =  normalize_path($link, false);
+							$basedir =  normalize_path($basedir, false);
+							$link = str_replace($basedir.DS,'',  $link );
+
+						}
+
+
+						$link = str_replace('\\', '/', $link);
+						$class_path = str_replace('/', '--',  $link );
+						$class_path = str_replace(' ', '_', $class_path);
+						$class_path = str_replace('.', '_', $class_path);
+						$active_class = '';
+						if(isset($_REQUEST[$url_param]) and urldecode($_REQUEST[$url_param]) == $link){
+							$active_class = ' active ';
+						}
+
+
+						$link_href = $file1;
+						if($link != false){
+							$link = urlencode($link);
+							$link_href = "<a class='{$active_class} page_{$class_path} ' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
+						}
+
+
+
+						echo $link_href;
 					}
-					$active_class = '';
-
-					if(isset($_REQUEST[$url_param]) and  urldecode($_REQUEST[$url_param]) == $link){
-					$active_class = ' active ';
-					}
-
-
-				$file1 = "<a class='{$active_class}' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
-
-		      	}
-
-
-
-
-
-
-		        $h_start = ($level == 1) ? '<h2 class="'.$title_class. '">' : '<h3 class="'.$title_class.'">';
-		        $h_close = ($level == 1) ? '</h2>' : '</h3>';
-		        echo $h_start.$file1.$h_close;
-		        directory_tree_build($dir.'/'.$ff, $params);
-		      } else {
-		      	$file1  = no_ext($file1);
-
-		      	 $link = $dir.'/'.$ff;
-
-				if(trim($basedir) != ''){
-					$link =  normalize_path($link, false);
-					$basedir =  normalize_path($basedir, false);
-					$link = str_replace($basedir.DS,'',  $link );
-
+					echo '</li>';
 				}
 
-
-				$link = str_replace('\\', '/', $link);
-				$class_path = str_replace('/', '--',  $link );
-				$class_path = str_replace(' ', '_', $class_path);
-				$class_path = str_replace('.', '_', $class_path);
-				$active_class = '';
-				if(isset($_REQUEST[$url_param]) and urldecode($_REQUEST[$url_param]) == $link){
-				$active_class = ' active ';
-				}
+			}
+		}
+		echo '</ul>';
 
 
-				$link_href = $file1;
-				if($link != false){
-					$link = urlencode($link);
-				$link_href = "<a class='{$active_class} page_{$class_path} ' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
-				}
+	} else {
+
+
+	}
 
 
 
-		        echo $link_href;
-		      }
-		      echo '</li>';
-		    }
-
-	    }
-  }
-  echo '</ul>';
-
-
-  } else {
-
-
-  }
-
-
-
-  $level--;
+	$level--;
 }
 
 
@@ -1567,24 +1589,24 @@ function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full
  * @version 1.0
  */
 function directory_profile( $dir ) {
-  static $info = array();
-  if( is_dir( $dir = rtrim( $dir, "/\\" ) ) ) {
-    foreach( scandir( $dir) as $item ) {
-      if( $item != "." && $item != ".." ) {
-        $info['all'][] = $absPath = $dir . DIRECTORY_SEPARATOR . $item;
-        $stat = stat( $absPath );
-        switch( $stat['mode'] & 0170000 ) {
-        case 0010000: $info['files'][]       = $absPath; break;
-        case 0040000: $info['directories'][] = $absPath; profile( $absPath ); break;
-        case 0120000: $info['links'][]       = $absPath; break;
-        case 0140000: $info['sockets'][]     = $absPath; break;
-        case 0010000: $info['pipes'][]       = $absPath; break;
-        }
-      }
-    }
-  }
+	static $info = array();
+	if( is_dir( $dir = rtrim( $dir, "/\\" ) ) ) {
+		foreach( scandir( $dir) as $item ) {
+			if( $item != "." && $item != ".." ) {
+				$info['all'][] = $absPath = $dir . DIRECTORY_SEPARATOR . $item;
+				$stat = stat( $absPath );
+				switch( $stat['mode'] & 0170000 ) {
+					case 0010000: $info['files'][]       = $absPath; break;
+					case 0040000: $info['directories'][] = $absPath; profile( $absPath ); break;
+					case 0120000: $info['links'][]       = $absPath; break;
+					case 0140000: $info['sockets'][]     = $absPath; break;
+					case 0010000: $info['pipes'][]       = $absPath; break;
+				}
+			}
+		}
+	}
   //clearstatcache();
-  return $info;
+	return $info;
 }
 
 
@@ -1665,11 +1687,11 @@ function auto_link($text)
 	//return preg_replace('/(http:\/\/[^ ]+)/', '<a href="$1">$1</a>', $text);
 
 
-$url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
-  $url_replacement = "<a href='$1' target='_blank'>$1</a>";
+	$url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
+	$url_replacement = "<a href='$1' target='_blank'>$1</a>";
 
-  return preg_replace($url_re, $url_replacement, $text);
- }
+	return preg_replace($url_re, $url_replacement, $text);
+}
 
 /***********************************
 * string_format

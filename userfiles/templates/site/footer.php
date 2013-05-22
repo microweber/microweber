@@ -8,6 +8,7 @@
         <div class="row" id="footer-row">
             <div class="span5">Copyright &copy; Microweber. All Rights Reserved</div>
             <div class="span7" id="PowerdByHolder">
+            <a href="https://github.com/ooyes/Microweber" target="_blank">We are on Github</a> 
                 <div id="PowerdBy">
                     <a title="Powered by Microweber" id="PowerdByLink" target="_blank" href="http://microweber.com">(MW)</a>
                     <div id="PowerdByInfo">Powered By <a href="http://microweber.com" target="_blank">Microweber</a></div>

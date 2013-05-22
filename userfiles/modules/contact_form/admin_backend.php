@@ -64,8 +64,8 @@ if((url_param('templates') != false)){
           </ul>
           <div class="vSpace"></div>
         </div>
-        <h2>Templates</h2>
-        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a>
+        <h2><?php _e("Templates"); ?></h2>
+        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green"><?php _e("Get more templates"); ?></a>
       </div>
     </div>
     <div class="mw-content-container" >
@@ -126,7 +126,7 @@ $(document).ready(function(){
       <div class="vSpace"></div>
       <module type="forms/list" load_list="<?php print $load_list ?>"  for_module="<?php print $config["the_module"] ?>" id="forms_data_module" />
       <?php if(strtolower(trim($load_list)) != 'default'): ?>
-      <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">Delete list</span>
+      <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
       <?php endif; ?>
       <?php endif; ?>
       <?php if($load_templates == true): ?>

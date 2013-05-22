@@ -719,10 +719,10 @@ if(typeof mw.content_save_btn ==='undefined'){
           <span class="mw-ui-btn mw-ui-btn-green">Publish Page</span> */ ?>
 
 
-          <span class="mw-ui-btn go-live" onclick="mw.content_save_btn(this);" data-text="Go Live Edit">Go Live Edit</span>
+          <span class="mw-ui-btn go-live" onclick="mw.content_save_btn(this);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
 
 
-          <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="mw.content_save_btn(this);" data-text="Save" id="mw-save-content-btn" >Save</span>
+          <span class="mw-ui-btn mw-ui-btn-green" style="min-width: 66px;" onclick="mw.content_save_btn(this);" data-text="<?php _e("Save"); ?>" id="mw-save-content-btn" ><?php _e("Save"); ?></span>
 
            
           
@@ -761,11 +761,11 @@ load_preview();
 
 
     </script>
-  <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">Template</a>
+  <a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;"><?php _e("Template"); ?></a>
   <div class="mw-layout-selector-holder" style="display: none;">
     <module id="mw-layout-selector-module" data-type="content/layout_selector" <?php print
       $layout_from_parent ?> data-page-id="<?php print ($data['id'])?>"  autoload=1 />
-    <div class="mw-save-content-bar"> <span class="mw-ui-btn go-live">Go Live Edit</span> <span onclick="$(this).parents('form').submit();" style="min-width: 66px;" class="mw-ui-btn mw-ui-btn-green">Save</span> </div>
+    <div class="mw-save-content-bar"> <span class="mw-ui-btn go-live"><?php _e("Go Live Edit"); ?></span> <span onclick="$(this).parents('form').submit();" style="min-width: 66px;" class="mw-ui-btn mw-ui-btn-green"><?php _e("Save"); ?></span> </div>
   </div>
   <div class="vSpace"></div>
   <?php if($edit_post_mode == false): ?>
@@ -797,7 +797,7 @@ load_preview();
       </label>
       <div class="mw-ui-select" style="width: 100%;">
         <select name="parent" id="parent_page_select_<?php print $rand; ?>">
-          <option value="0"   <?php if((0 == intval($data['parent']))): ?>   selected="selected"  <?php endif; ?> title="None">None</option>
+          <option value="0"   <?php if((0 == intval($data['parent']))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("None"); ?>"><?php _e("None"); ?></option>
           <?php
 
           $pt_opts['link'] = "{empty}{title}";
@@ -838,7 +838,7 @@ load_preview();
   <div class="vSpace"></div>
   <div id="edit_post_select_category" style="display: block">
     <div class="mw-ui-field mw-tag-selector " id="mw-post-added-<?php print $rand; ?>">
-      <input type="text" class="mw-ui-invisible-field" value="Click here to add to categories and pages." data-default="Click here to add to categories and pages." />
+      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." />
     </div>
     <script>
 
@@ -960,7 +960,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
     <?php endif; ?>
     <?php $categories_active_ids = ''; ?>
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
-      <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<?php print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');">All</a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<?php print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');">Selected</a> </div>
+      <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<?php print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');"><?php _e("All"); ?></a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<?php print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');"><?php _e("Selected"); ?></a> </div>
       <?php if(intval($data['id']) > 0): ?>
       <?php $in_cats = get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
   if(isarr($in_cats)){
@@ -1069,7 +1069,7 @@ if(intval($data['id']) == 0){
 ?>
   <?php if($edit_post_mode != false): ?>
   <?php $data['content_type'] = 'post'; ?>
-  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.memoryToggle(this);" data-for='.pictures-editor-holder' id="pictures-editor-toggle" href="javascript:;">Pictures Gallery</a>
+  <a class="toggle_advanced_settings mw-ui-more" onclick="mw.tools.memoryToggle(this);" data-for='.pictures-editor-holder' id="pictures-editor-toggle" href="javascript:;"><?php _e("Pictures Gallery"); ?></a>
   <div class="pictures-editor-holder" style="display: none;">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id'] ?>  />
   </div>
@@ -1111,7 +1111,7 @@ if(intval($data['id']) == 0){
 
 
  <div class="vSpace"></div>
- <small>Custom fields you may like to use <span class="" data-help="Those custom fields are from the page or categories you chose for this <?php print $data['subtype'] ?>.">(?)</span></small>
+ <small><?php _e("Custom fields you may like to use"); ?> <span class="" data-help="Those custom fields are from the page or categories you chose for this <?php print $data['subtype'] ?>.">(?)</span></small>
     <div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>" ></div>
     <div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>" ></div>
 
@@ -1213,7 +1213,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
     <div class="vSpace"></div>
   </div>
   <?php if($edit_post_mode == false): ?>
-  <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">Pictures Gallery</a>
+  <a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;"><?php _e("Pictures Gallery"); ?></a>
   <div class="pictures-editor-holder" style="display: none;">
     <microweber module="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
   </div>
@@ -1231,18 +1231,18 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
     <div class="advanced_settings_holder">
       <div class="vSpace"></div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Description <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
+        <label class="mw-ui-label"><?php _e("Description"); ?> <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
         <textarea
         class="mw-ui-field" name="description"   placeholder="Describe your page in short"><?php if($data['description']!='') print ($data['description'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Meta Title <small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
+        <label class="mw-ui-label"><?php _e("Meta Title"); ?> <small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
         <textarea class="mw-ui-field" name="content_meta_title"  placeholder="Title to appear on the search engines results page."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Meta Keywords <small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
+        <label class="mw-ui-label"><?php _e("Meta Keywords"); ?> <small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
         <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
 </textarea>
       </div>
@@ -1251,42 +1251,42 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
         <div class="mw-ui-label left" style="width: 130px">Is Active <small class="mw-help" data-help="If yes your content will be visible on the site">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_active" type="radio"  value="n" <?php if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>No</span></label>
+          <span></span><span><?php _e("No"); ?></span></label>
         <label class="mw-ui-check">
           <input name="is_active" type="radio"  value="y" <?php if( 'y' == trim($data['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>Yes</span></label>
+          <span></span><span><?php _e("Yes"); ?></span></label>
       </div>
       <?php /* PAGES ONLY  */ ?>
       <?php if($edit_post_mode == false): ?>
       <div class="vSpace"></div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Home?</div>
+        <div class="mw-ui-label left" style="width: 130px"><?php _e("Is Home"); ?>?</div>
         <label class="mw-ui-check">
           <input name="is_home" type="radio"  value="n" <?php if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>No</span></label>
+          <span></span><span><?php _e("No"); ?></span></label>
         <label class="mw-ui-check">
           <input name="is_home" type="radio"  value="y" <?php if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>Yes</span></label>
+          <span></span><span><?php _e("Yes"); ?></span></label>
       </div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Shop <small class="mw-help" data-help="If yes this page will accept products to be added to it">(?)</small></div>
+        <div class="mw-ui-label left" style="width: 130px"><?php _e("Is Shop"); ?> <small class="mw-help" data-help="If yes this page will accept products to be added to it">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>No</span></label>
+          <span></span><span><?php _e("No"); ?></span></label>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"  value="y" <?php if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>Yes</span></label>
+          <span></span><span><?php _e("Yes"); ?></span></label>
       </div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Page type</label>
+        <label class="mw-ui-label"><?php _e("Page type"); ?></label>
         <div class="mw-ui-select" style="width: 220px;">
           <select name="subtype">
             <option value="<?php print $data['subtype'] ?>"   <?php if(isset($data['subtype']) and trim($data['subtype']) != '' and trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static'  ): ?>   selected="selected"  <?php endif; ?>><?php print $data['subtype'] ?></option>
-            <option value="static"   <?php if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>>static</option>
-            <option value="dynamic"   <?php if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <?php endif; ?>>dynamic</option>
+            <option value="static"   <?php if( '' == trim($data['subtype']) or 'static' == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php _e("static"); ?></option>
+            <option value="dynamic"   <?php if( 'dynamic' == trim($data['subtype'])  ): ?>   selected="selected"  <?php endif; ?>><?php _e("dynamic"); ?></option>
           </select>
         </div>
       </div>
@@ -1299,29 +1299,24 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
       <?php endif; ?>
       <?php /* PAGES ONLY  */ ?>
       <div class="mw-ui-field-holder" id="post_pass_field">
-        <label class="mw-ui-label">Password <small>(Only the users with the password can have a access)</small></label>
+        <label class="mw-ui-label"><?php _e("Password"); ?> <small>(<?php _e("Only the users with the password can have a access"); ?>)</small></label>
         <input name="password" class="mw-ui-field" type="password" value="" />
       </div>
       <?php if(isset($data['id']) and $data['id'] > 0): ?>
       <br />
-      <small>Id: <?php print ($data['id'])?></small> 
+      <small><?php _e("Id"); ?>: <?php print ($data['id'])?></small>
       <script  type="text/javascript">
  
 
 mw.del_curent_page = function(a, callback){
-	  var r=confirm("Are you sure you want to delete this?")
-  if (r==true) {
-	 var arr = $.isArray(a) ? a : [a];
-   var obj = {ids:arr}
-    $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
-		
-		   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
-
-		
-		
-      typeof callback === 'function' ? callback.call(data) : '';
-    });
-	}
+	  mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
+        var arr = $.isArray(a) ? a : [a];
+        var obj = {ids:arr}
+        $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+   		   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+           typeof callback === 'function' ? callback.call(data) : '';
+        });
+	  });
 }
 
 </script>
@@ -1331,22 +1326,22 @@ mw.del_curent_page = function(a, callback){
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />
-      <small>Created on: <?php print format_date($data['created_on'])?></small>
+      <small><?php _e("Created on"); ?>: <?php print format_date($data['created_on'])?></small>
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />
-      <small>Updated on: <?php print format_date($data['updated_on'])?></small>
+      <small><?php _e("Updated on"); ?>: <?php print format_date($data['updated_on'])?></small>
       <?php endif; ?>
       <?php /* PRODUCTS ONLY  */ ?>
       <?php if(isset($data['subtype']) and trim($data['subtype']) == 'a_product'): ?>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 160px">Downloadable product?</div>
+        <div class="mw-ui-label left" style="width: 160px"><?php _e("Downloadable product"); ?>?</div>
         <label class="mw-ui-check">
           <input name="subtype_value" type="radio"  value="normal" <?php if( '' == trim($data['subtype_value']) or 'normal' == trim($data['subtype_value'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>No</span></label>
+          <span></span><span><?php _e("No"); ?></span></label>
         <label class="mw-ui-check">
           <input name="subtype_value" type="radio"  value="downloadable" <?php if( 'downloadable' == trim($data['subtype_value'])): ?>   checked="checked"  <?php endif; ?> />
-          <span></span><span>Yes</span></label>
+          <span></span><span><?php _e("Yes"); ?></span></label>
       </div>
       <?php endif; ?>
       <?php /*  end of PRODUCTS ONLY  */ ?>

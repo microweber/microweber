@@ -905,6 +905,12 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 				break;
 		}
 
+
+
+
+
+
+
 		/*
 		 $layout = str_replace('<mw ', '<module ', $layout);
 		 $layout = str_replace('<editable ', '<div class="edit" ', $layout);

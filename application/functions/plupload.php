@@ -102,12 +102,12 @@ if (is_admin() == false) {
 										 $are_allowed .= ',*';
 										  break;
 										default:
-										
-							 
-											  $are_allowed .= $alloled_ft_item;
-										 
-										
-										 
+
+
+											  $are_allowed .= ','.$alloled_ft_item;
+
+
+
 										}
 										$pass_type_check = false;
 								 if($are_allowed != false){
@@ -130,7 +130,7 @@ if (is_admin() == false) {
 
 									 }
 								 }
-								if($pass_type_check == false){ 
+								if($pass_type_check == false){
 									die('{"jsonrpc" : "2.0", "error" : {"code":103, "message": "You can only upload '.$are_allowed.' files."}}');
 
 								} else {

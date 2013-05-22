@@ -1,10 +1,9 @@
-
-
-
 document.getElementsByTagName('html')[0].className = window.location.href.indexOf('pecata/') !==-1 ?  document.getElementsByTagName('html')[0].className + ' mwoffice' : document.getElementsByTagName('html')[0].className;
 
-
 mw = {}
+
+mw.version = "<?php print MW_VERSION; ?>";
+
 
 mw.pauseSave = false;
 
@@ -20,14 +19,14 @@ window.onerror = function(a,b,c){
     window.onbeforeunload = function() {
 
         if(mw.askusertostay){
-            mw.notification.warning("You have unsaved changes!");
-            return "You have unsaved changes!";
+            mw.notification.warning("<?php _e("You have unsaved changes"); ?>!");
+            return "<?php _e("You have unsaved changes"); ?>!";
         }
     }
   }
 
   warnOnLeave = function(){
-     mw.tools.confirm("You have unsaved changes! Are you sure?");
+     mw.tools.confirm("<?php _e("You have unsaved changes! Are you sure"); ?>?");
   }
 
   mw.module = {} //Global Variable for modules scripts
@@ -55,7 +54,7 @@ window.onerror = function(a,b,c){
     }
   }
   mw.onAdmin = function(callback) {
-    if (window['mwAdmin']) {
+    if ( window['mwAdmin'] ) {
       callback.call(this);
     }
   }
@@ -81,10 +80,11 @@ window.onerror = function(a,b,c){
     mw.required = [];
     mw.require = function(url, inHead) {
       var inHead = inHead || false;
-      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL); ?>api/" + url;
+      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL ); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
+        var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
         var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
         if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead) {
            mwd.write(string);

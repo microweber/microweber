@@ -205,7 +205,7 @@ $is_editmode = false;
 						$mod_params = $mod_params . " id='{$preview_module_id}' ";
 					}
 
-					$page['content'] = '<module type="' . $page_url . '" ' . $mod_params . '  />';
+					$page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
 					$page['simply_a_file'] = 'clean.php';
 					$page['layout_file'] = 'clean.php';
 					template_var('content', $page['content']);

@@ -67,20 +67,7 @@ mw.on.hashParam("rel_id", function(){
     }
 });
 
-mw.on.hashParam("comments_for_content", function(){  /*
-    if(this  !== '' && this  != '0'){
-		$('#mw_comments_admin_dashboard').hide();
-		$('#mw_admin_posts_with_comments_edit').show();
-    	$('#mw_admin_posts_with_comments_edit').attr('data-content-id',this);
-		 mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
-    } else {
-    	$('#mw_admin_posts_with_comments_edit').removeAttr('data-content-id');
-		$('#mw_comments_admin_dashboard').show();
-		$('#mw_admin_posts_with_comments_edit').hide();
-
-    }
-
-     */
+mw.on.hashParam("comments_for_content", function(){
 
 });
 
@@ -151,26 +138,9 @@ mw.on.hashParam("comments_for_content", function(){  /*
 					   
 					});
 					
-					
-					 //var mark_comments_as_old = master.parentNode.querySelector('.new-comments');
-					 //alert(is_cont);
+
 				}
-			  
-			  
-			  
-			  
-			 /* var id = form.attr('id');
-              mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
-			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
-				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
-			  });
-			  */
-			  
-			//  alert('here ajax');
-			  
-			  
-			  
-          }
+         }
       }
     }
 
@@ -218,16 +188,16 @@ $(document).ready(function(){
 
       <?php module_ico_title($info['module']); ?>
 
-      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">My Comments</a>
-      <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;">Settings</a>
+      <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0"><?php _e("My Comments"); ?></a>
+      <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;"><?php _e("Settings"); ?></a>
 
       <h2>Templates</h2>
-      <a href="javascript:;" class="comments-group mw-ui-btn mw-ui-btn-hover">My templates</a>
+      <a href="javascript:;" class="comments-group mw-ui-btn mw-ui-btn-hover"><?php _e("My templates"); ?></a>
       <div class="vSpace"></div>
-      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Get more templates</a>
+      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green"><?php _e("Get more templates"); ?></a>
 
  <?php if(is_module('help')): ?>
-          <a href="<?php print admin_url(); ?>view:help/module:<?php print $config['module_name_url_safe'] ?>">Help</a></li>
+          <a href="<?php print admin_url(); ?>view:help/module:<?php print $config['module_name_url_safe'] ?>"><?php _e("Help"); ?></a>
          <?php endif; ?>
        </div>
 
@@ -238,8 +208,8 @@ $(document).ready(function(){
         <div id="comments-admin-side">
           <div class="comments-admin-header">
             <div class="comments-admin-header-info">
-              <h2>My Comments</h2>
-              <small>Read, moderate & publish commets</small> </div>
+              <h2><?php _e("My Comments"); ?></h2>
+              <small><?php _e("Read, moderate & publish commets"); ?></small> </div>
             <input
               autocomplete="off"
               type="search"

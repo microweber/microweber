@@ -1138,6 +1138,14 @@ table.users-list-table .del-row{
   text-overflow: ellipsis
 }
 
+.module-settings-group-email.mw-o-box input[type='text'],
+.module-settings-group-email.mw-o-box input[type='password']{
+  width: 300px;
+}
+.module-settings-group-email.mw-o-box select{
+  width: 320px;
+}
+
 
 
 

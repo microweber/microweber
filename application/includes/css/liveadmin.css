@@ -2484,25 +2484,7 @@ a.module-icon-title{
 
 
 
-[class*=mw-ui-col]{ float: left; }
-.mw-ui-col2{
-  width: 50%;
-}
-.mw-ui-col3{
-  width: 33.33%;
-}
-.mw-ui-col4{
-  width: 25%;
-}
-.mw-ui-col5{
-  width: 20%;
-}
-.mw-ui-col6{
-  width: 16.66%;
-}
-.mw-ui-col-container{
-  padding: 12px;
-}
+
    /*
 .module-item:hover:after{
     display: block;
@@ -2545,7 +2527,6 @@ a.module-icon-title{
 .picture-module-default-view img{
   opacity: 0.5;
 }
-
 
 
 

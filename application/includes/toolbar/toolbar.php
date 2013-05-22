@@ -145,7 +145,7 @@ mw_save_draft_int = self.setInterval(function(){
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
-              <li><a href="<?php print curent_url(); ?>/editmode:n"><?php _e("View Website"); ?></a></li>
+              <li><a href="<?php print curent_url(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>

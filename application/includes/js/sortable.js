@@ -1751,8 +1751,12 @@ if(typeof el === 'object'){
 
             },
             success: function(data) {
-            mw.askusertostay = false;
-
+                if(is_draft){
+                    mw.askusertostay = true;
+                }
+                else{
+                  mw.askusertostay = false;
+                }
             if($('#mw-history-panel').is(":visible") == false){
                mw.history.init();
             }
@@ -1784,7 +1788,7 @@ if(typeof el === 'object'){
             }
           });
     }  else{
-            mw.askusertostay = false;
+            //mw.askusertostay = false;
             if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);

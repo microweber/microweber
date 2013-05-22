@@ -24,6 +24,15 @@
 <?php
 if(isset($_COOKIE['last_page'])){
 	$past_page = site_url($_COOKIE['last_page']);
+  if($past_page != false){
+    $cont_by_url = get_content_by_url($past_page );
+   }
+if(isset($cont_by_url) and $cont_by_url == false){
+  $past_page=get_content("order_by=updated_on desc&limit=1");
+$past_page = content_link($past_page[0]['id']);
+}
+
+
 } else {
 	$past_page=get_content("order_by=updated_on desc&limit=1");
 $past_page = content_link($past_page[0]['id']);

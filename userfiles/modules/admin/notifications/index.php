@@ -76,7 +76,7 @@ mw.notif_reset_all = function(){
     </colgroup>
     <thead>
       <tr>
-        <th colspan="4"><h2><span class="ico inotification"></span>Your Notifications</h2></th>
+        <th colspan="4"><h2><span class="ico inotification"></span><?php _e("Your Notifications"); ?></h2></th>
       </tr>
     </thead>
     <tbody>
@@ -109,19 +109,19 @@ mw.notif_reset_all = function(){
     </tbody>
   </table>
 </div>
-<a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">Show system log</a>
+<a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')"><?php _e("Show system log"); ?></a>
 <?php else : ?>
 
 
 
 <div class="mw-o-box" style="width: 500px;text-align: center;margin: 60px auto;">
-<div class="mw-o-box-header"><h2>No new notifications available!</h2></div>
+<div class="mw-o-box-header"><h2><?php _e("No new notifications available"); ?>!</h2></div>
 <div class="mw-o-box-content">
-    <p>Choose your Action</p>
+    <p><?php _e("Choose your Action"); ?></p>
     <br>
    <p>
-    <a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">Back to Dashboard</a>
-    <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green">Manage your Content</a>
+    <a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;"><?php _e("Back to Dashboard"); ?></a>
+    <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green"><?php _e("Manage your Content"); ?></a>
    </p>
     <br>
    <?php //print mw_notif('No new notifications available!'); ?>

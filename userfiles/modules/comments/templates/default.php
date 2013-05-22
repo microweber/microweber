@@ -26,9 +26,9 @@ description: Default comments template
   <?php if($form_title != false): ?>
   <h2><?php print $form_title ?></h2>
   <?php elseif($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
-  <h2>Recent comments</h2>
+  <h2><?php _e("Recent comments"); ?></h2>
   <?php else : ?>
-  <h2>Comments for <strong>
+  <h2><?php _e("Comments for"); ?> <strong>
     <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
     </strong></h2>
   <?php endif; ?>
@@ -40,7 +40,7 @@ description: Default comments template
     if(!$required_moderation or $comment['is_moderated'] == 'y' or (!empty($_SESSION) and  $comment['session_id'] == session_id())){
   ?>
     <div class="clearfix comment" id="comment-<?php print $comment['id'] ?>">
-      <div class="row">
+      <div class="row-fluid">
         <?php
 
   $avatars_enabled = get_option('avatar_enabled', 'comments')=='y';
@@ -76,12 +76,22 @@ description: Default comments template
           <?php } ?>
         </div>
         <?php } ?>
-        <div class="span5">
+         <?php
+
+         if($avatars_enabled){
+            $column_class = "span11";
+         }
+         else{
+             $column_class = "span12";
+         }
+
+          ?>
+        <div class="<?php print $column_class; ?>">
           <div class="comment-content">
             <div class="comment-author"> <?php print $comment['comment_name'] ?> </div>
             <div class="comment-body">
               <?php if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>
-              <em class="comment-require-moderation">Your comment requires moderation</em><br />
+              <em class="comment-require-moderation"><?php _e("Your comment requires moderation"); ?></em><br />
               <?php endif; ?>
               <?php print nl2br($comment['comment_body'] ,1);?> </div>
           </div>
@@ -94,7 +104,7 @@ description: Default comments template
     <?php endif; ?>
   </div>
   <?php else: ?>
-  <h2>No comments</h2>
+  <h2><?php _e("No comments"); ?></h2>
   <?php endif; ?>
   <hr>
   <?php if(!$login_required or $cur_user != false): ?>
@@ -105,45 +115,45 @@ description: Default comments template
       <?php if($form_title != false): ?>
       <input type="hidden" name="comment_subject" value="<?php print $form_title ?>">
       <?php endif; ?>
-      <h2>Leave a comment</h2>
+      <h2><?php _e("Leave a comment"); ?></h2>
       <?php if( $cur_user == false) :  ?>
       <div class="row-fluid">
         <div class="span4 comment-field">
-          <input class="input-medium" placeholder="Your name" required type="text" name="comment_name">
+          <input class="input-medium" placeholder="<?php _e("Your name"); ?>" required type="text" name="comment_name">
         </div>
         <div class="span4 comment-field">
-          <input class="input-medium" placeholder="Website" type="text" name="comment_website">
+          <input class="input-medium" placeholder="<?php _e("Website"); ?>" type="text" name="comment_website">
         </div>
         <div class="span4 comment-field">
-          <input class="input-medium" placeholder="Your email" required type="email"  name="comment_email">
+          <input class="input-medium" placeholder="<?php _e("Your email"); ?>" required type="email"  name="comment_email">
         </div>
       </div>
       <?php else: ?>
-      <span class="comments-user-profile">You are commenting as:
+      <span class="comments-user-profile"><?php _e("You are commenting as"); ?>:
 
 
 
       <?php if(isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail'])!=''): ?>
       <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<?php print $cur_user_data['thumbnail'] ?>"  height="24" width="24" /> </span>
       <?php endif; ?>
-      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print api_url('logout') ?>">(Logout)</a></small> </span>
+      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print api_url('logout') ?>">(<?php _e("Logout"); ?>)</a></small> </span>
       <?php endif; ?>
       <div class="row-fluid">
         <div class="span12 comment-field">
-          <textarea required placeholder="Comment" name="comment_body"></textarea>
+          <textarea required placeholder="<?php _e("Comment"); ?>" name="comment_body"></textarea>
         </div>
       </div>
       <div class="row-fluid">
         <div class="span12">
-          <div class="input-prepend captcha pull-left"> <span class="add-on"> <img title="Click to refresh image" alt="Captcha image" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
-            <input type="text" name="captcha" required class="input-medium" placeholder="Enter text">
+          <div class="input-prepend captcha pull-left"> <span class="add-on"> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
+            <input type="text" name="captcha" required class="input-medium" placeholder="<?php _e("Enter text"); ?>">
           </div>
-          <input type="submit" class="btn pull-right" value="Add comment">
+          <input type="submit" class="btn pull-right" value="<?php _e("Add comment"); ?>">
         </div>
       </div>
     </form>
   </div>
   <?php else :  ?>
-  <div class="alert"> You have to <a href='<?php print site_url(); ?>login' class="comments-login-link">log in</a> or <a class="comments-register-link" href='<?php print site_url(); ?>register'>register</a> to post a comment. </div>
+  <div class="alert"> <?php _e("You have to"); ?> <a href='<?php print site_url(); ?>login' class="comments-login-link"><?php _e("log in"); ?></a> <?php _e("or"); ?> <a class="comments-register-link" href='<?php print site_url(); ?>register'><?php _e("register"); ?></a> <?php _e("to post a comment"); ?>. </div>
   <?php endif; ?>
 </div>

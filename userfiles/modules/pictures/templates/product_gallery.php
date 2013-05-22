@@ -27,7 +27,7 @@ description: Product Gallery
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
 
-         
+
     <span class=" mw-slider-zoomholder">
             <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 600); ?>" alt="" />
             <img src="<?php print thumbnail($item['filename'], 1200); ?>" class="mw-slider-zoomimg" alt="" />
@@ -69,8 +69,8 @@ description: Product Gallery
   });
 
 </script>
- 
+
 
 <?php else : ?>
- <?php print  "<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"; ?>
+ <?php  mw_text_live_edit("<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 <?php endif; ?>
