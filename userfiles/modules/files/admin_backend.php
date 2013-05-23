@@ -167,8 +167,8 @@ mw.on.hashParam('select-file', function(){
              mw.$("#prfile .mw_modal_title").html(this.split("/").pop())
           }
       }
-      else if(type == 'mp3' || type ==  'avi' || type=='mp4'){
-         var html = '<video controls autoplay><source src="'+this+'" type="video/ogg"></video>';
+      else if(type == 'mp3' || type ==  'avi' || type=='mp4' || type == 'wmv' || type == 'swf'){
+         var html = '<embed autoplay="true" width="470" height="420"  src="'+this+'"></embed>';
          mw.tools.modal.init({
                 html:html,
                 template:"mw_modal_simple",

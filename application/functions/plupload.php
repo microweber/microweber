@@ -344,7 +344,11 @@ $rerturn['bytes_uploaded'] = $upl_size_log;
 
 
 print json_encode($rerturn);
+if(isset($_SESSION) and !empty($_SESSION)){
 @session_write_close();
+
+}
+
 exit ;
 
 // Return JSON-RPC response

@@ -509,6 +509,9 @@ function get_layout_for_page($page = array()) {
 	if(is_array($page)){
 		ksort($page);
 	}
+
+
+
 	$function_cache_id = $function_cache_id . serialize($page) ;
 
 
@@ -4044,20 +4047,25 @@ function content_ping_servers() {
 						mw_var('FORCE_SAVE', MW_DB_TABLE_CONTENT);
 
 						save(MW_DB_TABLE_CONTENT, $save);
-						$request = xmlrpc_encode_request("weblogUpdates.ping", $pages);
-						$context = stream_context_create(array('http' => array(
-						    'method' => "POST",
-						    'header' => "Content-Type: text/xml",
-						    'content' => $request
-						)));
-						$file = @file_get_contents($line, false, $context);
-						$response = xmlrpc_decode($file);
-						if ($response && xmlrpc_is_fault($response)) {
-						   // trigger_error("xmlrpc: $response[faultString] ($response[faultCode])");
-						} else {
 
-						    //print_r($response);
+						if(function_exists('xmlrpc_encode_request') and function_exists('stream_context_create') and function_exists('xmlrpc_decode')){
+
+							$request = xmlrpc_encode_request("weblogUpdates.ping", $pages);
+							$context = stream_context_create(array('http' => array(
+							    'method' => "POST",
+							    'header' => "Content-Type: text/xml",
+							    'content' => $request
+							)));
+							$file = @file_get_contents($line, false, $context);
+							$response = xmlrpc_decode($file);
+							if ($response && xmlrpc_is_fault($response)) {
+							   // trigger_error("xmlrpc: $response[faultString] ($response[faultCode])");
+							} else {
+
+							    //print_r($response);
+							}
 						}
+
 
 					}
 
