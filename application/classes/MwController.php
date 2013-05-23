@@ -440,6 +440,15 @@ $is_editmode = false;
 			$l = new MwView($render_file);
 			// $l->content = $content;
 			// $l->set($l);
+			
+			
+			if (isset($is_preview_template) and $is_preview_template != false){
+		 
+			  //@session_write_close();	
+			}
+			 
+			
+			
 			$l = $l -> __toString();
 
 			// $domain = TEMPLATE_URL;

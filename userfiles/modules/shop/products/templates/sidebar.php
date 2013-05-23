@@ -52,8 +52,10 @@ if(!isset($tn[1])){
                      <div class="product-price-holder clearfix">
         <?php if($show_fields == false or in_array('price', $show_fields)): ?>
         <?php if(isset($item['prices']) and isarr($item['prices'])){  ?>
-        <span class="price"><?php print currency_format(array_shift(array_values($item['prices']))); ?></span>
-        <?php } else{ ?>
+ <?php 
+		$vals2 = array_values($item['prices']);
+		$val1 = array_shift($vals2); ?>
+        <span class="price"><?php print currency_format($val1); ?></span>        <?php } else{ ?>
 
         <?php } ?>
         <?php endif; ?>

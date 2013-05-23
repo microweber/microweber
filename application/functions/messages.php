@@ -258,7 +258,7 @@ function email_get_transport_object() {
 	$transport_type = trim($email_advanced);
 
 	try {
-		$_mw_email_obj = new mw\email\Sender($transport_type);
+		$_mw_email_obj = new \mw\email\Sender($transport_type);
 		$_mw_email_transport_object = $_mw_email_obj;
 		return $_mw_email_obj;
 	} catch (Exception $e) {

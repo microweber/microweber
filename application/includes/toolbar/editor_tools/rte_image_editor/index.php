@@ -83,6 +83,26 @@
 
     $(document).ready(function(){
 
+        /*
+         mw.$(".body.browser-liveedit .mw-browser-list-file").click(function(){
+
+        });  */
+
+
+        mw.on.hashParam('select-file', function(){
+
+
+            var type = mw.url.type(this);
+            GlobalEmbed = __generateEmbed(type, this);
+
+            parent.mw.iframecallbacks[hash](GlobalEmbed);
+            parent.mw.tools.modal.remove('mw_rte_image');
+
+
+
+        });
+
+
         mw.simpletabs(document.getElementById('image_tabs'));
 
 
@@ -370,7 +390,7 @@ mw.embed = {
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
     <li><a href="javascript:;" onmouseup="mw.$('#media_search_field').focus();"><?php _e("URL"); ?></a></li>
-    <li><?php /*<a href="javascript:;">Uploaded</a>*/ ?></li>
+    <li><a href="javascript:;">Uploaded</a></li>
   </ul>
 
   <div class="tab" id="drag_files_here">
@@ -389,6 +409,8 @@ mw.embed = {
                 <div class="mw-upload-frame"></div>
                 <span><?php _e("Files"); ?></span>
             </li>
+
+
         </ul>
 
 
@@ -410,9 +432,9 @@ mw.embed = {
    </div>
 
   </div>
-  <div class="Xtab" style="display: none">
+  <div class="tab">
 
-    <?php //exec_action('rte_image_editor_image_search'); ?>
+    <?php exec_action('rte_image_editor_image_search'); ?>
 
   </div>
 

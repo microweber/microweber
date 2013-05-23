@@ -345,7 +345,7 @@ $hide_db_setup = 1;
               </div>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label"><?php _e("MySQL password"); ?></label>
-                <input type="text"   class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
+                <input type="password"   class="mw-ui-field" name="DB_PASS" <?php if(isset($data['db'])== true and isset($data['db']['pass'])== true  and $data['db']['pass'] != '{DB_PASS}' ): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
               </div>
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label"><?php _e("Database name"); ?><span class="mw-help" data-help="<?php _e("The name of your database."); ?>">?</span></label>

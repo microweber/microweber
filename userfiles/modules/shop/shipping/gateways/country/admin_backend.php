@@ -20,7 +20,7 @@
      $countries_used = array();
 	 array_unshift($countries, "Worldwide");
 
-
+asort($countries);
 
 
 

@@ -2,6 +2,11 @@
  if(is_admin() == false) { error("Must be admin"); }
  //$rand = uniqid(); ?>
 <script type="text/javascript">
+
+    if(self !== parent){
+      document.body.className += ' browser-liveedit';
+    }
+
     mw.require("events.js");
 	mw.require("forms.js");
     mw.require("url.js");
@@ -37,6 +42,34 @@
 .posts-selector span:hover{
   text-decoration: underline
 }
+
+
+/* Live Edit */
+
+body.browser-liveedit h2{
+  display: none;
+}
+
+body.browser-liveedit #files_ctrl_holder{
+  display: none;
+}
+
+body.browser-liveedit .mw-o-box-content{
+  height: auto;
+}
+
+body.browser-liveedit .delete_item{
+  display: none;
+}
+
+body.browser-liveedit .mw-browser-list .mw-ui-check{
+  display: none;
+}
+
+
+
+
+/* /Live Edit */
 
 </style>
 <script  type="text/javascript">
@@ -96,6 +129,11 @@ _mw_admin_files_manage = function(param, value, callback){
 
 $(window).bind("load", function(){
  _mw_admin_files_manage('all');
+
+
+
+
+
 });
 
 
@@ -114,18 +152,35 @@ mw.on.hashParam('path', function(){
 
 });
 
-createPopHTML = function(img){
-  var h = ""
-      + "<div class='file-preview-holder'>"
-      + "<img src='" + img +"' />"
-      + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
-      + "<div class='vSpace'></div>"
-      + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\")'><?php _e("Delete"); ?></span>"
-      + "</div>";
+createPopHTML = function(img, type){
+  var type = type || 'image';
+  if(type == 'image'){
+    var h = ""
+        + "<div class='file-preview-holder'>"
+        + "<img src='" + img +"' />"
+        + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
+        + "<div class='vSpace'></div>"
+        + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span>"
+        + "</div>";
+  }
+  else if(type == 'media'){
+       var h = ""
+        + "<div class='file-preview-holder'>"
+        + '<embed autoplay="true" width="455" height="320"  src="'+img+'"></embed>'
+        + "<div class='vSpace'></div>"
+        + "<div class='vSpace'></div>"
+        + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
+        + "<div class='vSpace'></div>"
+        + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span>"
+        + "</div>";
+  }
+
+
+
   return h;
 }
 
-deleteItem = function(url, name){
+deleteItem = function(url, name, frommodal){
 
   if(typeof url === 'string'){
     var obj = {path:[url]};
@@ -141,6 +196,7 @@ deleteItem = function(url, name){
   }
 
   mw.tools.confirm(msg, function(){ $(mwd.body).addClass("loading");
+      if(frommodal == true ){mw.$("#prfile").remove()}
       $.post(mw.settings.api_url + "delete_media_file", obj, function(a){
            $(mwd.body).removeClass("loading");
            _mw_admin_files_manage('all');
@@ -150,7 +206,7 @@ deleteItem = function(url, name){
 
 }
 
-
+if(self === parent){
 mw.on.hashParam('select-file', function(){
   if(this!=false){
       var type = this.split(".").pop();
@@ -172,9 +228,8 @@ mw.on.hashParam('select-file', function(){
           }
       }
       else if(type == 'mp3' || type ==  'avi' || type=='mp4' || type == 'wmv' || type == 'swf'){
-         var html = '<embed autoplay="true" width="470" height="420"  src="'+this+'"></embed>';
          mw.tools.modal.init({
-                html:html,
+                html:createPopHTML(this, 'media'),
                 template:"mw_modal_simple",
                 width:500,
                 height:460,
@@ -193,11 +248,10 @@ mw.on.hashParam('select-file', function(){
              mw.$("#prfile").remove();
         }
   }
-
-
-
-
 });
+
+
+}
 
 saveNewFolder = function(a){
     if(a!=''){
@@ -325,7 +379,7 @@ Progress =  mw.$('#mw-upload-progress');
 
 <div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
   <h2><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
-  <div>
+  <div id="files_ctrl_holder">
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">
         <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
