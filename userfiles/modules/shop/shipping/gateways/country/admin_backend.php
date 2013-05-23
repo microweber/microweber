@@ -152,7 +152,7 @@ SaveShipping = function(form, dataType){
   }
   else{
         mw.reload_module(dataType, function(){
-          mw.notification.success("<?php _e("All changes are saved"); ?>");  
+          mw.notification.success("<?php _e("All changes are saved"); ?>");
         });
   }
 

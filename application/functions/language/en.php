@@ -295,3 +295,4 @@ $language["date"]= 'Date' ;
 $language["no-posts-here"]= 'No Posts Here' ; 
 $language["unpublish"]= 'Unpublish' ; 
 $language["publish"]= 'Publish' ; 
+$language["all-changes-are-saved"]= 'All changes are saved' ; 
