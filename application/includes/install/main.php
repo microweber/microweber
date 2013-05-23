@@ -250,6 +250,54 @@ if(function_exists('apache_get_modules') ){
 }
 
 
+if(!extension_loaded("dom")){
+  $check_pass = false;
+  $server_check_errors['dom'] =  _e("The DOM php extension must be loaded", true);
+
+}
+
+if(!extension_loaded("xml")){
+  $check_pass = false;
+  $server_check_errors['xml'] =  _e("The lib-xml php extension must be loaded", true);
+
+}
+
+if(!extension_loaded("json")){
+  $check_pass = false;
+  $server_check_errors['json'] =  _e("The json php extension must be loaded", true);
+}
+
+if(defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILES)){
+  $check_pass = false;
+  $must_be = MW_USERFILES;
+  $server_check_errors['MW_USERFILES'] =  _e("The directory ". MW_USERFILES ." must be writable", true);
+}
+
+if(defined('CACHEDIR_ROOT') and is_dir(CACHEDIR_ROOT) and !is_writable(CACHEDIR_ROOT)){
+  $check_pass = false;
+  $must_be = CACHEDIR_ROOT;
+  $server_check_errors['CACHEDIR_ROOT'] =  _e("The directory ". CACHEDIR_ROOT ." must be writable", true);
+}
+
+
+if(defined('CACHEDIR_ROOT') and is_dir(CACHEDIR_ROOT) and !is_writable(CACHEDIR_ROOT)){
+  $check_pass = false;
+  $must_be = CACHEDIR_ROOT;
+  $server_check_errors['CACHEDIR_ROOT'] =  _e("The directory ". CACHEDIR_ROOT ." must be writable", true);
+}
+
+if(defined('MEDIAFILES') and is_dir(MEDIAFILES) and !is_writable(MEDIAFILES)){
+  $check_pass = false;
+  $must_be = MEDIAFILES;
+  $server_check_errors['MEDIAFILES'] =  _e("The directory ". MEDIAFILES ." must be writable", true);
+}
+if(defined('MW_APPPATH_FULL') and is_dir(MW_APPPATH_FULL) and !is_writable(MW_APPPATH_FULL)){
+  $check_pass = false;
+  $must_be = MW_APPPATH_FULL;
+  $server_check_errors['MW_APPPATH_FULL'] =  _e("The directory ". MW_APPPATH_FULL ." must be writable", true);
+}
+
+
 
             ?>
 
