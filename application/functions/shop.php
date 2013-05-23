@@ -20,6 +20,7 @@ if (!defined("MODULE_DB_SHOP_ORDERS")) {
 }
 
 action_hook('mw_db_init', 'mw_shop_module_init_db');
+action_hook('mw_db_init_default', 'mw_shop_module_init_db');
 
 function mw_shop_module_init_db() {
 	$function_cache_id = false;
@@ -721,7 +722,7 @@ function checkout($data) {
 			if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
 				$q = " UPDATE $cart_table set
 			order_completed='y', order_id='{$ord}'
-			
+
 			where order_completed='n'  and session_id='{$sid}' ";
 
 				db_q($q);
@@ -813,7 +814,7 @@ function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) 
 				$order_items_html = array_pp($cart_items);
 
 				$order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
- 
+
 
 					foreach ($ord_data as $key => $value) {
 						$order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
@@ -823,7 +824,7 @@ function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) 
 				if (!defined('MW_ORDERS_SKIP_SID')) {
 			//		define('MW_ORDERS_SKIP_SID', 1);
 				}
-				
+
 				$cc = false;
 				if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
 					$cc = $order_email_cc;

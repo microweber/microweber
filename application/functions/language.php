@@ -24,6 +24,8 @@ if(isarr($language_content)){
     $lang_file_str = '<?php '. "\n";
     $lang_file_str .= ' $language=array();'."\n";
     foreach ($language_content as $key => $value) {
+
+    $value = addslashes( $value);
     $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
     }

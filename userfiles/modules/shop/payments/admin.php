@@ -286,8 +286,8 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
           <label class="mw-ui-label"><?php _e("Email subject"); ?></label>
           <input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
           <label class="mw-ui-label"><?php _e("Send copy email to"); ?></label>
-          <input name="order_email_cc" class="mw-ui-field mw_option_field"   id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
-          <a class="mw-ui-btn mw-ui-btn-small" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);">[test]</a>
+          <input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
+          <a class="mw-ui-btn" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);"><?php _e("Test"); ?></a>
           <table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">
             <tr>
               <td><label class="mw-ui-label"><?php _e("Send test email to"); ?></label>
