@@ -3568,6 +3568,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
 
 function mw_create_default_content($what) {
 
+	if(defined("MW_NO_DEFAULT_CONTENT")){
+		return true;
+	}
+
+
+
 	switch ($what) {
 		case 'shop' :
 		$is_shop = get_content('content_type=page&is_shop=y');

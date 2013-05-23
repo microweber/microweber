@@ -19,8 +19,12 @@ if (!defined("MODULE_DB_SHOP_ORDERS")) {
 	define('MODULE_DB_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
 }
 
+if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
+	define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+}
+
 action_hook('mw_db_init', 'mw_shop_module_init_db');
-action_hook('mw_db_init_default', 'mw_shop_module_init_db');
+//action_hook('mw_db_init_default', 'mw_shop_module_init_db');
 
 function mw_shop_module_init_db() {
 	$function_cache_id = false;
@@ -151,6 +155,34 @@ function mw_shop_module_init_db() {
 	db_add_table_index('rel_id', $table_name, array('rel_id'));
 
 	db_add_table_index('session_id', $table_name, array('session_id'));
+
+
+
+	$table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;
+
+	$fields_to_add = array();
+	$fields_to_add[] = array('updated_on', 'datetime default NULL');
+	$fields_to_add[] = array('created_on', 'datetime default NULL');
+	$fields_to_add[] = array('is_active', "char(1) default 'y'");
+
+	$fields_to_add[] = array('shiping_cost', 'float default NULL');
+	$fields_to_add[] = array('shiping_cost_max', 'float default NULL');
+	$fields_to_add[] = array('shiping_cost_above', 'float default NULL');
+
+	$fields_to_add[] = array('shiping_country', 'TEXT default NULL');
+		$fields_to_add[] = array('position', 'int(11) default NULL');
+
+
+	set_db_table($table_name, $fields_to_add);
+
+
+
+
+
+
+
+
+
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 

@@ -931,6 +931,7 @@ mw.tools = {
     }
   },
   scrollTo:function(el, callback, parent){
+    if( $(el).length === 0) { return false; }
     mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
         typeof callback === 'function' ? callback.call(el) : '';
     });

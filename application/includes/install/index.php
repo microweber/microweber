@@ -157,6 +157,9 @@ if (isset($_POST['IS_INSTALLED'])) {
 						$default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
 						$default_content_file = $default_content_folder . 'mw_default_content.zip';
           				if(is_file($default_content_file)){
+
+define("MW_NO_DEFAULT_CONTENT", true);
+
 							$restore = new \mw\utils\Backup;
 							$restore->backups_folder =$default_content_folder;
 							$restore->backup_file ='mw_default_content.zip';
