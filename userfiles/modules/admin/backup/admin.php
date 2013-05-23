@@ -1,1 +1,1 @@
-<? include($config['mp'].'index.php'); ?>
+<?php include($config['mp'].'index.php'); ?>

@@ -325,6 +325,7 @@ window.onerror = function(a,b,c){
     if(typeof $(obj.selector)[0] === 'undefined') { return false; }
 
 
+
     var attrs = $(obj.selector)[0].attributes;
 
     if (sendSpecific) {
@@ -343,6 +344,7 @@ window.onerror = function(a,b,c){
     }
 
     $.post(url, to_send, function(data) {
+
       if(DONOTREPLACE){
           obj.done.call($(selector)[0], data);
           return false;

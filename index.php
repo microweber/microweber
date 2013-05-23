@@ -15,6 +15,7 @@ define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest')
 
 require_once ('bootstrap.php');
 $c_file = MW_CONFIG_FILE;
+
 $go_to_install = false;
 if (!is_file($c_file)) {
 
@@ -57,7 +58,7 @@ function error($e, $f = false, $l = false) {
 
 $default_timezone = c('default_timezone');
 if ($default_timezone == false or $default_timezone == '{default_timezone}') {
-	
+
 } else {
 	date_default_timezone_set($default_timezone);
 }
@@ -73,7 +74,7 @@ if (!defined('MW_BARE_BONES')) {
 	$close_conn = function_exists('db_query');
 
 	$m1 = url_segment(0);
- 
+
 	if ($m1) {
 		$m = $m1;
 	} else {
@@ -105,17 +106,17 @@ if (!defined('MW_BARE_BONES')) {
 	if ($m == 'api.js') {
 		$m = 'apijs';
 	}
-   
+
 	if (method_exists($c, $m)) {
 
 		$c -> $m();
 		if ($close_conn == true and $installed == true) {
 			db_query('close');
 		}
-  
+
 		exit();
 	} else {
- 
+
 		$c -> index();
 		if ($close_conn == true and $installed == true) {
 			db_query('close');

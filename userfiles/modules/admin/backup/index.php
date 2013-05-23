@@ -1,6 +1,6 @@
-<? if(!is_admin()){error("must be admin");}; ?>
+<?php if(!is_admin()){error("must be admin");}; ?>
 <script  type="text/javascript">
-    mw.require("<? print $config['url_to_module']; ?>backup.js");
+    mw.require("<?php print $config['url_to_module']; ?>backup.js");
 	mw.require("files.js");
 </script>
 <style>
@@ -20,8 +20,8 @@
     <div class="mw-admin-sidebar"><h2><span class="ico imanage-module"></span>&nbsp;<?php _e("Backups"); ?></h2></div>
     <div class="mw-admin-side-nav">
         <ul>
-          <li><a href="<? print $config['url']; ?>?backup_action=manage"><?php _e("Manage"); ?></a></li>
-          <li><a href="<? print $config['url']; ?>?backup_action=settings"><?php _e("Settings"); ?></a></li>
+          <li><a href="<?php print $config['url']; ?>?backup_action=manage"><?php _e("Manage"); ?></a></li>
+          <li><a href="<?php print $config['url']; ?>?backup_action=settings"><?php _e("Settings"); ?></a></li>
         </ul>
       <div>
 
@@ -94,10 +94,10 @@
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
-    <? if(isset($_GET['backup_action'])): ?>
-    <module type="admin/backup/<? print $_GET['backup_action'] ?>" />
-    <? else :?>
+    <?php if(isset($_GET['backup_action'])): ?>
+    <module type="admin/backup/<?php print $_GET['backup_action'] ?>" />
+    <?php else :?>
     <module type="admin/backup/manage" />
-    <? endif ;?>
+    <?php endif ;?>
   </div>
 </div>

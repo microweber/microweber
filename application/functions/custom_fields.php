@@ -452,6 +452,8 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 api_expose('save_custom_field');
 
 function save_custom_field($data) {
+
+
 	$id = user_id();
 	if ($id == 0) {
 		error('Error: not logged in.');

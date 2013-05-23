@@ -316,7 +316,6 @@ Progress =  mw.$('#mw-upload-progress');
 
 </script>
 <?php
-
     $ui_order_control = 'dropdown';
 
 
@@ -325,7 +324,7 @@ Progress =  mw.$('#mw-upload-progress');
  ?>
 
 <div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-  <h2><a href="javascript:;"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
+  <h2><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
   <div>
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">

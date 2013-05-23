@@ -67,8 +67,7 @@ function _reload_c() {
 		include (MW_CONFIG_FILE);
 		if (isset($config)) {
 			$_mw_config_file_values = $config;
-			// d($_mw_config_file_values );
-		}
+ 		}
 	}
 }
 

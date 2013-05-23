@@ -1538,6 +1538,16 @@ mw.tools = {
       }
     $(mwd.body).removeClass("loading");
     return el;
+  },
+  loading:function(el, state){
+    var state = typeof state === 'undefined' ? true : state;
+    if(state){
+      $(el).addClass("mw-loading");
+    }
+    else{
+      $(el).removeClass("mw-loading");
+    }
+
   }
 }
 

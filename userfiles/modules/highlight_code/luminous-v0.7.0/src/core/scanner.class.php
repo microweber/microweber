@@ -1167,7 +1167,7 @@ abstract class LuminousEmbeddedWebScript extends LuminousScanner {
    * @brief Is the source embedded in a server-side script (e.g. PHP)?
    * 
    * Embedded in a server side language? i.e. do we need to break at
-   * (for example) \<? tags?
+   * (for example) \<?php tags?
    */
   public $embedded_server = false;
   

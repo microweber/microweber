@@ -1,5 +1,5 @@
-<? if(!is_admin()){error("must be admin");}; ?>
-<?
+<?php if(!is_admin()){error("must be admin");}; ?>
+<?php
 /*
 $var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);
@@ -48,23 +48,23 @@ d($backs);
       </tr>
     </tfoot>
     <tbody>
-      <? $backups = api('mw/utils/Backup/get');
+      <?php $backups = api('mw/utils/Backup/get');
 		  if(isarr($backups )): ?>
-      <?
+      <?php
 	  $i = 1;
 	   foreach($backups  as $item): ?>
-      <tr class="mw_admin_backup_item_<? print $i ?>">
-        <td><? print $item['filename']  ?></td>
-          <td><span class="mw-date"><? print $item['date']  ?></span></td>
-          <td><span class="mw-date"><? print $item['time']  ?></span></td>
-          <td><span class="mw-date"><? print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<? print api_url('mw/utils/Backup/download'); ?>?file=<? print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+      <tr class="mw_admin_backup_item_<?php print $i ?>">
+        <td><?php print $item['filename']  ?></td>
+          <td><span class="mw-date"><?php print $item['date']  ?></span></td>
+          <td><span class="mw-date"><?php print $item['time']  ?></span></td>
+          <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
+          <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('mw/utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_backup.restore('<? print $item['filename']  ?>')"><?php _e("Restore"); ?></a></td>
-        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_backup.remove('<? print $item['filename']  ?>', '.mw_admin_backup_item_<? print $i ?>')"><?php _e("Delete"); ?></a></td>
+        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_backup.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a></td>
+        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_backup.remove('<?php print $item['filename']  ?>', '.mw_admin_backup_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>
-      <? $i++; endforeach ; ?>
-      <? endif; ?>
+      <?php $i++; endforeach ; ?>
+      <?php endif; ?>
     </tbody>
   </table>
 </div>

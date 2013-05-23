@@ -34,10 +34,10 @@ if(isset($data['active_site_template']) and $data['active_site_template'] == '')
 if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
   $data['layout_file'] = $params["layout_file"] ;
 }
- 
+
 $inherit_from = false;
 
- 
+
 if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit')){
 
   if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
@@ -282,15 +282,15 @@ if(inherit_from != undefined){
 
 var preview_template_param = '';
 if(template != undefined){
-  preview_template_param = '/preview_template:'+template;
+  preview_template_param = '&preview_template='+template;
 }
 
 var preview_layout_param = '';
 if(layout != undefined){
-  preview_layout_param = '/preview_layout:'+layout;
+  preview_layout_param = '&preview_layout='+layout;
 }
 
-var iframe_url = '<?php print $iframe_start; ?>/no_editmode:true'+preview_template_param+preview_layout_param+'/?content_id=<?php print  $data['id'] ?>'+inherit_from_param
+var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true'+preview_template_param+preview_layout_param+'&content_id=<?php print  $data['id'] ?>'+inherit_from_param
 //d('iframe_url is '+iframe_url);
 if(return_url == undefined){
   $(window).trigger('templateChanged', iframe_url);
@@ -381,7 +381,7 @@ $(document).ready(function() {
 <?php $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
 <?php endif; ?>
 
- 
+
 
 <div style="display: none">
   <select name="layout_file"     id="active_site_layout_<?php print $rand; ?>"

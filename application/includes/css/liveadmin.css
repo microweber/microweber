@@ -898,6 +898,9 @@ form.add-edit-page-post textarea{
   overflow: hidden;
   position: relative;
 }
+.module-custom-fields-admin-holder{
+  position: relative;
+}
 
 .custom-field-edit-header{
   height: 25px;
@@ -1106,7 +1109,7 @@ form.add-edit-page-post{
   padding-left: 20px;
 }
 
-body.loading:after{
+body.loading:after, .mw-loading:after{
     content: "";
     position: fixed;
     width: 100%;
@@ -1115,16 +1118,12 @@ body.loading:after{
     z-index: 99998;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0)/* url(../img/loader.svg) no-repeat center center*/;
+    background: rgba(0,0,0,0);
 }
 
-body.loading:before{
+body.loading:before, .mw-loading:before{
     background: #D8FFC2 url(../img/load.gif) no-repeat center center;
     background-size: 15px auto;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-bottomright: 5px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     content: " ";
@@ -1143,6 +1142,19 @@ body.loading:before{
     height: 13px;
     z-index: 99999;
     box-shadow: 0 0 2px #ccc;
+}
+
+.mw-loading{
+  position: relative;
+}
+
+.mw-loading:before{
+  border-radius: 5px;
+  top: 10px;
+}
+
+.mw-loading:before, .mw-loading:after{
+  position: absolute;
 }
 
 body.still-loading:before{

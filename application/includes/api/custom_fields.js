@@ -79,8 +79,8 @@ mw.custom_fields = {
       if($copy !== undefined && $copy !== false){
         var copy_str = '/copy_from:'+ $copy;
       }
-        mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
 
+      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
         mw.is.func(callback) ? callback.call($type) : '';
       });
   },
@@ -93,8 +93,6 @@ mw.custom_fields = {
       data.save_on_copy =1;
       data.rel =$for_table;
       data.rel_id =$for_id;
-
-
       $.post(mw.settings.api_html+'make_custom_field' , data , function(){
 		  mw.reload_module('custom_fields/list');
 		  mw.is.func(callback) ? callback.call($type) : '';
@@ -275,8 +273,11 @@ mw.custom_fields.del = function(id, toremove){
 
 
 __save = function(c){
-
+               mw.tools.loading($(".module-custom-fields-admin")[0], true);
                mw.custom_fields.save(__save__global_id, function(){
+
+
+
                  if(mw.$("#custom-field-editor").hasClass('mw-custom-field-created')){
 
                       mw.custom_fields.edit('.mw-admin-custom-field-edit-item', this, function(){
@@ -290,6 +291,9 @@ __save = function(c){
                  if(typeof c === 'function'){
                    c.call()
                  }
+                  d($(".module-custom-fields-admin")[0])
+                 mw.tools.loading($(".module-custom-fields-admin")[0], false);
+
                });
  
 

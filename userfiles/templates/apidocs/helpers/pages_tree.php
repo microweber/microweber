@@ -1,5 +1,5 @@
-<? $this_field_name = (!isset($field_name) or !$field_name) ? "content_id":$field_name;  ?>
-<select name="<? print $this_field_name ?>"    class="mw-exec-option"  >
+<?php $this_field_name = (!isset($field_name) or !$field_name) ? "content_id":$field_name;  ?>
+<select name="<?php print $this_field_name ?>"    class="mw-exec-option"  >
                 <option     value="">false</option>
                 <?
 $pt_opts = array();

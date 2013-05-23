@@ -2,12 +2,17 @@
 
 
 $language_content_saved = false;
-function __store_lang_file($lang){
+function __store_lang_file($lang = 'en'){
     global $language_content;
      global $language_content_saved;
      if($language_content_saved == true){
         return;
      }
+
+if($lang == false or $lang == ''){
+    $lang = 'en';
+}
+
 
 
 

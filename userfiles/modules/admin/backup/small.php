@@ -1,6 +1,6 @@
-<? if(!is_admin()){error("must be admin");}; ?>
+<?php if(!is_admin()){error("must be admin");}; ?>
 <script  type="text/javascript">
-    mw.require("<? print $config['url_to_module']; ?>backup.js");
+    mw.require("<?php print $config['url_to_module']; ?>backup.js");
 	mw.require("files.js");
 </script>
 <style>
@@ -75,9 +75,9 @@
   <div class="vSpace">&nbsp;</div>
   <module id="mw_backup_log" type="admin/backup/log"/>
  
-<? if(isset($_GET['backup_action'])): ?>
-<module type="admin/backup/<? print $_GET['backup_action'] ?>" />
-<? else :?>
+<?php if(isset($_GET['backup_action'])): ?>
+<module type="admin/backup/<?php print $_GET['backup_action'] ?>" />
+<?php else :?>
 <module type="admin/backup/manage" />
-<? endif ;?>
+<?php endif ;?>
 </div>
