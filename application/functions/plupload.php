@@ -204,6 +204,9 @@ if(isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST
 	$target_path = MW_USERFILES.DS.$path;
 	$target_path = normalize_path($target_path, 1);
 }
+
+
+
 $targetDir = $target_path;
 if (!is_dir($targetDir)) {
 	mkdir_recursive($targetDir);
@@ -226,6 +229,7 @@ $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 // Clean the fileName for security reasons
 $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
+$fileName = str_replace('..', '.', $fileName);
 
 // Make sure the fileName is unique but only if chunking is disabled
 if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {

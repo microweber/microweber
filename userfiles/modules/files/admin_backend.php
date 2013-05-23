@@ -34,6 +34,10 @@
   margin-right: 12px;
 }
 
+.posts-selector span:hover{
+  text-decoration: underline
+}
+
 </style>
 <script  type="text/javascript">
 
@@ -321,7 +325,7 @@ Progress =  mw.$('#mw-upload-progress');
  ?>
 
 <div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-  <h2><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></h2>
+  <h2><a href="javascript:;"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
   <div>
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">
@@ -330,6 +334,11 @@ Progress =  mw.$('#mw-upload-progress');
         <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left"><?php _e("Upload File"); ?></div>
         <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
         <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
+        <div class="mw-o-box inline-block left">
+            <span class="posts-selector left" style="padding: 6px 14px;">
+            <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">Select All</span>/<span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">Unselect All</span></span>
+        </div>
+
     </div>
 
  <div class="vSpace"></div>

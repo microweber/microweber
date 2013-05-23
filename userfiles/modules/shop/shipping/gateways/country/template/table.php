@@ -18,6 +18,8 @@ description: Table
       <tr>
         <td colspan="3"></td>
         <td style="width: 260px;" colspan="2" class="cell-shipping-country"><label><?php _e("Shipping to"); ?>:</label>
+
+
           <select name="country" class="shipping-country-select">
             <option value=""><?php _e("Choose country"); ?></option>
             <?php foreach($data  as $item): ?>

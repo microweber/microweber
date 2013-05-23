@@ -207,11 +207,11 @@ if ($template != false and strtolower($template) != 'none') {
 
 <script type="text/javascript">
     $(document).ready(function(){
-
+ mw.init_comment_form<?php print md5($params['id']) ?>();
 
     });
 
- mw.init_commnets = function(){
+ mw.init_comment_form<?php print md5($params['id']) ?> = function(){
 
 var comm_hold = "login-comments-form-<?php print $params['id'] ?>";
 var comm_module_id = "<?php print $params['id'] ?>";

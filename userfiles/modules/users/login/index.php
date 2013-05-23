@@ -23,14 +23,14 @@ $(document).ready(function(){
  mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print site_url('api/user_login') ?>', function(a, b){
 	        
 			
-			
+
 
 			// mw.response('#user_login_holder_<?php print $params['id'] ?>',this);
 
 
 			 if(typeof this.success === 'string'){
 				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-				  window.location.href = window.location.href;
+				  window.location.reload();
                   return false;
 			 }
              mw.notification.msg(this, 5000);

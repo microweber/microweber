@@ -44,7 +44,7 @@
 		</div>
 		<div class="mw_clear vSpace"></div>
 		<label class="mw-ui-label"><?php _e("Max depth"); ?></label>
-		<div class="left mw-ui-select" style="width: 75px; min-width: 0;">
+		<div class="left mw-ui-select" style="width: 100px; min-width: 0;">
         	<select name="maxdepth" class="mw_option_field">
         		<option value="none" selected><?php _e("Default"); ?></option>
         		<?php for($i = 1; $i<10; $i++): ?>

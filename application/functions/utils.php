@@ -68,7 +68,7 @@ function character_limiter($str, $length,$dots='...', $minword = 3) {
 	$sub = '';
 	$len = 0;
 
-
+$str = strip_tags($str);
 	if(strlen($str) < intval($length)){
 		return $str;
 	}
@@ -2114,4 +2114,22 @@ function decode_entities($text) {
     $text= preg_replace('/&#(\d+);/me',"chr(\\1)",$text); #decimal notation
     $text= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$text);  #hex notation
     return $text;
+}
+
+
+if(!function_exists('put_ini_file')){
+	function put_ini_file($file, $array, $i = 0){
+	  $str="";
+	  foreach ($array as $k => $v){
+	    if (is_array($v)){
+	      $str.=str_repeat(" ",$i*2)."[$k]".PHP_EOL;
+	      $str.=put_ini_file("",$v, $i+1);
+	    }else
+	      $str.=str_repeat(" ",$i*2)."$k = $v".PHP_EOL;
+	  }
+	 if($file)
+	    return file_put_contents($file,$str);
+	  else
+	    return $str;
+	}
 }
