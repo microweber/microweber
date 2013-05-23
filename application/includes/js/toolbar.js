@@ -559,12 +559,15 @@ $(document).ready(function(){
 
  mw.$(".edit a, #mw-toolbar-right a").click(function(){
   var el = this;
-  if(el.onclick === null){
-    return mw.beforeleave(this.href);
+  if(!el.isContentEditable){
+      if(el.onclick === null){
+        return mw.beforeleave(this.href);
+      }
+      if(!(el.href.indexOf("javascript:") === 0 || el.href == '#' || typeof el.attributes['href'] == 'undefined')){
+           return mw.beforeleave(this.href);
+      }
   }
-  if(!(el.href.indexOf("javascript:") === 0 || el.href == '#' || typeof el.attributes['href'] == 'undefined')){
-       return mw.beforeleave(this.href);
-  }
+
 
  });
 
