@@ -4,6 +4,7 @@
 </script>
 
 <div class="edit" field="shopsidebar" rel="page">
+    <module type="search" template="autocomplete" />
     <h4 class="element sidebar-title">Shop Cart</h4>
     <module type="shop/cart" />
 

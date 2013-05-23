@@ -223,7 +223,7 @@ $pages_count = intval($pages);
       <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
     </div>
 
-<?php if($is_momodule_comments == true): ?>
+<?php if($is_momodule_comments == true and function_exists('get_comments')): ?>
 <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
 <?php
 

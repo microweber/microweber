@@ -288,6 +288,8 @@ if (isset($_SERVER["CONTENT_TYPE"]))
 
 // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
 if (strpos($contentType, "multipart") !== false) {
+
+
 	if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
 		// Open temp file
 		$out = fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
@@ -303,8 +305,9 @@ if (strpos($contentType, "multipart") !== false) {
 			fclose($in);
 			fclose($out);
 			@unlink($_FILES['file']['tmp_name']);
-		} else
+		} else {
 			die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+			}
 	} else
 		die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
 } else {
