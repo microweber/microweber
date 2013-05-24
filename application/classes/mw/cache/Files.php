@@ -34,7 +34,7 @@ if (!defined('APC_CACHE')) {
 class Files    {
 	public $mw_cache_mem = array();
 	public $mw_cache_mem_hits = array();
-	private $mw_cache_lock_timeout = 10;
+	private $mw_cache_lock_timeout = 0;
 	private $mw_cache_lock_time = false;
 	private $time_now = false;
 	public $apc = false;
@@ -64,7 +64,7 @@ class Files    {
 		
 		
 		
-
+ 
 		$dir_lock = $this -> cache_get_dir('delete_lock');
 		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
 

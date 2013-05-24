@@ -9,29 +9,31 @@ function __store_lang_file($lang = 'en'){
         return;
      }
 
-if($lang == false or $lang == ''){
-    $lang = 'en';
-}
-
-
-
-
- $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
-
-if(isarr($language_content)){
-    $language_content = array_unique($language_content);
-
-    $lang_file_str = '<?php '. "\n";
-    $lang_file_str .= ' $language=array();'."\n";
-    foreach ($language_content as $key => $value) {
-
-    $value = addslashes( $value);
-    $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
-
+    if($lang == false or $lang == ''){
+        $lang = 'en';
     }
-    $language_content_saved = 1;
-    file_put_contents($lang_file, $lang_file_str);
-}
+
+
+
+
+    $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+
+    if(isarr($language_content)){
+            $language_content = array_unique($language_content);
+
+            $lang_file_str = '<?php '. "\n";
+            $lang_file_str .= ' $language=array();'."\n";
+                foreach ($language_content as $key => $value) {
+
+                $value = addslashes( $value);
+                $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
+
+                }
+            $language_content_saved = 1;
+            if (is_admin() == true) {
+            file_put_contents($lang_file, $lang_file_str);
+            }
+    }
 
 }
 
@@ -84,13 +86,13 @@ function _e($k, $to_return = false) {
             if (is_file($lang_file)) {
                 include_once ($lang_file);
             } else {
-                if (is_admin() == true) {
-                    $b = '<?php ' . "\n " . '$language' . " = array(); \n";
-                    @file_put_contents($lang_file, $b);
-                }
-                $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
-                $lang_file = normalize_path($lang_file, false);
-                include_once ($lang_file);
+                // if (is_admin() == true) {
+                //     $b = '<?php ' . "\n " . '$language' . " = array(); \n";
+                //   // @file_put_contents($lang_file, $b);
+                // }
+                // $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+                // $lang_file = normalize_path($lang_file, false);
+                // include_once ($lang_file);
             }
             if(isset($language) and isarr($language)){
             $language_content = $language;
