@@ -60,7 +60,7 @@ PreviousFolder = [];
 
 <div class="mw-o-box mw-file-browser">
   <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
-  <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right"><span class="backico"></span>
+  <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
     <?php if(isarr($path_nav )): ?>
@@ -80,7 +80,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
  if(strlen($item)>0):
  ?>
     <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
-    <a href="#path=<?php print urlencode($path_nav_pop) ?>"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
+    <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
     <?php endif; endforeach ; ?>
     <?php endif; ?>
     </span> </div>

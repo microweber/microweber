@@ -4,10 +4,42 @@ if (!isset($_SESSION) or empty($_SESSION)) {
 	//session_start();
 }
 
+ $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
+					 
+							 
+								 $is_ext = get_file_extension($fileName_ext);
+									$is_ext = strtolower($is_ext);
 
+									  switch($is_ext){
+										case 'php':
+										case 'php5':
+										case 'php4':
+										case 'php3':
+										case 'ptml':
+										case 'html':
+										case 'xhtml':
+										case 'shtml':
+										case 'htm':
+										case 'pl':
+										case 'cgi':
+										case 'rb':
+										case 'py':
+										case 'asp':
+										case 'htaccess':
+										case 'exe':
+										case 'msi':
+										case 'sh':
+									    case 'bat':
+									    case 'vbs':
+										$are_allowed = false;
+										die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload scripts or executables"}}');
+
+										break;
+									  }
 
 
 if (is_admin() == false) {
+	
 	if(isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"])  and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false'){
 
 			$cfid = get_custom_field_by_id(intval($_REQUEST["custom_field_id"]));

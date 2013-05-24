@@ -68,10 +68,10 @@ $(document).ready(function(){
     <?php else:  ?>
     <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print site_url('api/user_login') ?>"  >
       <div class="mw-ui-field-holder">
-        <input  class="mw-ui-field" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>"   />
+        <input  class="mw-ui-field" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if(isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;  ?>  />
       </div>
       <div class="mw-ui-field-holder">
-        <input  class="mw-ui-field"  name="password" tabindex="2" required type="password" placeholder="<?php _e("Password"); ?>"   />
+        <input  class="mw-ui-field"  name="password" tabindex="2" required type="password" <?php if(isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif;  ?> placeholder="<?php _e("Password"); ?>"   />
       </div>
       <div class="mw-ui-field-holder" style="margin: auto; width: 286px;">
         <span class="left" id="login_laguage_select"><span class="left">Language</span>

@@ -34,7 +34,7 @@ if (!defined('APC_CACHE')) {
 class Files    {
 	public $mw_cache_mem = array();
 	public $mw_cache_mem_hits = array();
-	private $mw_cache_lock_timeout = 3;
+	private $mw_cache_lock_timeout = 10;
 	private $mw_cache_lock_time = false;
 	private $time_now = false;
 	public $apc = false;

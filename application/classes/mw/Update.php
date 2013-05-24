@@ -1,7 +1,9 @@
 <?php
 
 namespace mw;
-
+if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
+define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+}
 
 class Update {
 
@@ -22,7 +24,14 @@ class Update {
 			error('Must be admin!');
 		}
 		if (!ini_get('safe_mode')) {
-			set_time_limit(0);
+					 if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}			
+	
 		}
 		$c_id = __FUNCTION__ . date("ymdh");
 		//	$data['layouts'] = $t;
@@ -185,7 +194,13 @@ if(function_exists('post_notification')){
 
 	function post_update() {
 		if (!ini_get('safe_mode')) {
-			set_time_limit(0);
+			 if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}	
 		}
 		mw_post_update();
 	}
@@ -193,7 +208,13 @@ if(function_exists('post_notification')){
 	function install_version($new_version) {
 		only_admin_access();
 		$params = array();
-		set_time_limit(0);
+		 if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}	
 
 		$params['core_update'] = $new_version;
 		$params['mw_update_check_site'] = site_url();
@@ -228,7 +249,13 @@ if(function_exists('post_notification')){
 	function apply_updates($updates) {
 				error_reporting(E_ERROR);
 
-				set_time_limit(0);
+				if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}	
 
 		$to_be_unzipped = array();
 		$a = is_admin();
@@ -282,7 +309,13 @@ if(function_exists('post_notification')){
 		}
 		$unzipped = array();
 		if (!empty($to_be_unzipped)) {
-			set_time_limit(0);
+			if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}	
 			foreach ($to_be_unzipped as $key => $value) {
 				$unzip_loc = false;
 				if ($key == 'root') {

@@ -1027,17 +1027,32 @@ function isarr($var) {
  * the path to scan
  * @return mixed
  * an array of files in the given path matching the pattern.
- */
+ */ 
 function rglob($pattern = '*', $flags = 0, $path = '') {
 	if (!$path && ($dir = dirname($pattern)) != '.') {
 		if ($dir == '\\' || $dir == '/')
 			$dir = '';
 		return rglob(basename($pattern), $flags, $dir . DS);
 	}
+	
+	
+ 
+	
 	$paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
 	$files = glob($path . $pattern, $flags);
-	foreach ($paths as $p)
-		$files = array_merge($files, rglob($pattern, $flags, $p . DS));
+	
+	
+	if(isarr($paths)){
+		foreach ($paths as $p){
+			$temp =  rglob($pattern, false, $p . DS);
+			 
+			if(isarr($temp) and isarr($files)){
+			$files = array_merge($files,$temp);
+			}else if(isarr($temp)){
+			$files =$temp;
+			}
+		}
+	}
 	return $files;
 
 

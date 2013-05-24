@@ -3,7 +3,7 @@
 defined('T') OR die();
 
 if (!ini_get('safe_mode')) {
-	set_time_limit(60);
+	//set_time_limit(60); 
 }
 
 /*

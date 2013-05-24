@@ -56,6 +56,7 @@
 
 
           <div id="subscribe_form">
+          <img src="/Get_Started.png" id="get_started_img" alt="" />
                 <div class="subscribe clearfix">
                     <form target="_blank" class="visible-desktop visible-tablet main-subscribe" action="http://microweber.us5.list-manage.com/subscribe/post?u=7f8e2fe375e0b8dd295c13503&id=4ba9fc5952" method="post" name="mc-embedded-subscribe-form">
                       <input class="input-xlarge pull-left" type="email" name="EMAIL" required placeholder="Enter your email">
@@ -124,7 +125,7 @@
 
 </div>
 
-<h2 class="z-title"  id="contact-us">Did you tried Microweber already?</h2>
+<h2 class="z-title"  id="contact-us">Have you tried Microweber already?</h2>
     <br>
 
  <div class="row">

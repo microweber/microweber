@@ -1331,10 +1331,21 @@ function scan_for_modules($options = false) {
 	} else {
 		$glob_patern = '*config.php';
 	}
-ini_set("memory_limit", "160M");
-	if (!ini_get('safe_mode')) {
-		set_time_limit(250);
-	}
+	
+	
+	
+	if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
+define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+}
+	
+
+if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+		 ini_set("memory_limit", "160M");
+						ini_set("set_time_limit",0);
+						}
+					if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+						set_time_limit(0);
+		 			}	
 	//clearcache();
 	//clearstatcache();
 

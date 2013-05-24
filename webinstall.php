@@ -1,10 +1,19 @@
 <?php
+
+define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+
+
+if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
 ini_set("memory_limit", "160M");
 ini_set("set_time_limit",0);
+}
+
+if(!strstr(INI_SYSTEM_CHECK_DISABLED,'date_default_timezone_set')){
 date_default_timezone_set('America/Los_Angeles');
+}
 
-
-
+ 
+ 
 /*
    * @return string
    * @param string $url
@@ -96,7 +105,14 @@ switch ($do) {
 	break;
 
 	case 'unzip' :
+	
+	
+	if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
 	set_time_limit(0);
+	}
+
+
+	
 	$dir = dirname(__FILE__);
 	$fn = ('mw-latest.zip');
 

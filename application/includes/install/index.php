@@ -1,5 +1,9 @@
 <?php
 
+if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
+define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+}
+
 defined('T') or die();
 $installed = MW_IS_INSTALLED;
 
@@ -77,8 +81,14 @@ if (isset($_POST['IS_INSTALLED'])) {
 				exit();
 			} else {
 
-				ini_set('memory_limit', '512M');
-				set_time_limit(0);
+if(!strstr(INI_SYSTEM_CHECK_DISABLED,'ini_set')){
+ini_set('memory_limit', '512M');
+ini_set("set_time_limit",0);
+}
+	if(!strstr(INI_SYSTEM_CHECK_DISABLED,'set_time_limit')){
+		set_time_limit(0);
+}			
+		
 
 				$save_config = $save_config_orig;
 				$to_save['IS_INSTALLED'] = 'no';
