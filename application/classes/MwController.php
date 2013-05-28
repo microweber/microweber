@@ -44,6 +44,11 @@ class MwController {
 
 		$is_editmode = url_param('editmode');
 		$is_no_editmode = url_param('no_editmode');
+		
+		
+	
+		
+		
 		if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
 			if ($is_editmode == 'n') {
@@ -52,9 +57,14 @@ class MwController {
 
 				session_set('back_to_editmode', true);
 				session_set('editmode', false);
-				sleep(1);
-				safe_redirect(site_url($page_url));
-				exit();
+				//sleep(1);
+				
+				
+				 
+				
+				
+				//safe_redirect(site_url($page_url));
+				//exit();
 			} else {
 
 				$editmode_sess = session_get('editmode');

@@ -200,6 +200,22 @@ function module_option($key, $module, $option_group = false, $return_full = fals
 
 
 
+/**
+*
+* Getting options from the database
+*
+* @param $key array|string - if array it will replace the db params
+* @param $option_group string - your option group
+* @param $return_full bool - if true it will return the whole db row as array rather then just the value
+* @param $module string - if set it will store option for module
+
+* Example usage:
+
+* get_option('my_key', 'my_group');
+*
+*
+*
+*/
 $_mw_global_options_mem = array();
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false) {
 	if (MW_IS_INSTALLED != true) {
@@ -424,8 +440,33 @@ if (is_admin() != false) {
 	api_expose('save_option');
 }
 
+
+
+
+/**
+*
+* You can use this function to store options in the database.
+*
+* @param $data array|string
+* Example usage:
+*
+* $option = array();
+* $option['option_value'] = 'my value';
+* $option['option_key'] = 'my_option';
+* $option['option_group'] = 'my_option_group';
+* save_option($option);
+*
+*
+*
+*/
+
 function save_option($data) {
 	$is_admin = is_admin();
+
+if(is_string($data)){
+	$data = parse_params($data);
+}
+
 
 	// p($_POST);
 	$option_group = false;

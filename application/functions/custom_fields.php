@@ -117,13 +117,13 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 		}
 
 		if ($id != 'all') {
-			 if (intval($id) == 0){
+		/*	 if (intval($id) == 0){
 			 	if (is_admin() != false) {
 				$sid = session_id();
 				$sidq = ' and session_id="' . $sid . '"  ';
 			}
 			 }
-
+*/ 
 
 			$idq1ttid = " rel_id='{$id}' ";
 		} else {
@@ -142,8 +142,11 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 
 		if ($debug != false) {
 			//
+			
+			
+			
 		}
-
+ 
 		// $crc = crc32 ( $q );
 
 		$crc = (crc32($q));
@@ -320,12 +323,12 @@ function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	$cache_content = cache_get_content($function_cache_id, 'db/custom_fields');
-
-	if (($cache_content) != false) {
-
-		return true;
-	}
+	 
+  $is_made = get_option($function_cache_id, 'make_default_custom_fields');
+if($is_made == 'yes'){
+return;	
+}
+	 
 
 	$table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
@@ -350,14 +353,24 @@ function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
 					save_custom_field($make_field);
 				}
 			}
+			
+			
+				  $option = array();
+				  $option['option_value'] = 'yes';
+				  $option['option_key'] = $function_cache_id;
+				  $option['option_group'] = 'make_default_custom_fields';
+				  save_option($option);
+			
+			
+			
+			
 		}
 
 		//
 
 	}
 
-	cache_save($function_cache_id, $function_cache_id, $cache_group = 'db/custom_fields');
-
+ 
 }
 
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false) {

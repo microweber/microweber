@@ -22,6 +22,7 @@ mw.mouse = {
   goto:function(el, callback){
     mw.mouse.create();
     var off = $(el).offset();
+    if(typeof off === 'undefined') { return false; }
     $(mw.mouse.m).css({
       left:'50%',
       top:'50%',
@@ -62,6 +63,7 @@ mw.mouse = {
 
 
 mw.helpinfo = {
+
     helper : function(){
       if( typeof mw.helpinfo_helper === 'undefined'){
         mw.helpinfo_helper = mwd.createElement('div');
@@ -69,27 +71,29 @@ mw.helpinfo = {
         mw.helpinfo_helper.id = 'helpinfo_helper';
         var footer = ''
             + '<div id="mw_info_helper_footer">'
-              + '<span class="mw-ui-btn  left" onclick="mw.helpinfo.hide();">Hide</span>'
-              + '<span class="mw-ui-btn mw-ui-btn-green right" id="mw_helpinfo_next_btn" onclick="mw.helpinfo.next();">Next</span>'
-              + '<span class="mw-ui-btn mw-ui-btn-blue right" id="mw_helpinfo_prev_btn" onclick="mw.helpinfo.previous();">Previous</span>'
+              + '<span class="mw-ui-btn mw-ui-btn-medium  left" onclick="mw.helpinfo.hide();">Hide</span>'
+              + '<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right" id="mw_helpinfo_next_btn" onclick="mw.helpinfo.next();">Next</span>'
+              + '<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue right" id="mw_helpinfo_prev_btn" onclick="mw.helpinfo.previous();">Previous</span>'
             + '</div>';
         mw.helpinfo_helper.innerHTML = '<span id="helpinfo_arr"></span><div id="mw_info_helper_content"></div>' + footer;
         mwd.body.appendChild( mw.helpinfo_helper );
         mw.helpinfo_container = mwd.getElementById('mw_info_helper_content');
         mw.helpinfo_overlay = mwd.createElement('div');
         mw.helpinfo_overlay.className = 'mw_helpinfo_overlay';
-        mwd.body.appendChild(mw.helpinfo_overlay);
+        //mwd.body.appendChild(mw.helpinfo_overlay);
       }
     },
     position:function(el, pos){
        var pos = pos || 'bottomleft';
 
        var off = $(el).offset();
+       if(typeof off === 'undefined') { return false; }
        var w = $(el).outerWidth();
        var h = $(el).outerHeight();
 
        var tipheight = $(mw.helpinfo_helper).height();
        var tipwidth = $(mw.helpinfo_helper).width();
+        $(mw.helpinfo_helper).removeAttr("style");
 
        if(pos == 'bottomleft'){
          $(mw.helpinfo_helper).css({
@@ -161,9 +165,13 @@ mw.helpinfo = {
          });
          mw.helpinfo_helper.className = 'helpinfo_helper rightcenter';
        }
+       if($(mw.helpinfo.active).dataset("css") != ''){
+          $(mw.helpinfo_helper).attr("style", $(mw.helpinfo_helper).attr("style") + $(mw.helpinfo.active).dataset("css"));
+        }
     },
     autoscroll:function(el){
       var off = $(el).offset();
+       if(typeof off === 'undefined') { return false; }
       var elh = $(el).outerHeight();
       var h = $(window).height();
       var scr = $(window).scrollTop();

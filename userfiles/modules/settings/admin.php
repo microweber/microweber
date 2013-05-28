@@ -83,6 +83,8 @@ $(document).ready(function(){
           <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website"><?php _e("Email"); ?></a></li>
            <?php exec_action('mw_admin_settings_menu'); ?>
             <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>
+                   <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language"><?php _e("Language"); ?></a></li>
+
         </ul>
       </div>
       <div style="padding-left: 46px">
@@ -110,7 +112,7 @@ $(document).ready(function(){
 <div class="mw-helpinfo semi_hidden">
 
 
-<div class="mw-help-item" data-for=".mw_edit_page_right" data-pos="righttop">
+<div class="mw-help-item" data-for="#mw_tabs .active" data-pos="bottomcenter" data-css="margin-top:-2px;">
      <p>The "Settings" section will help you to manage the global settings for your website </p>
  </div>
  <div class="mw-help-item" data-for="#mw_edit_page_left" data-pos="righttop"  data-onshow="gotonextpage('<?php print admin_url('view:users'); ?>')">
