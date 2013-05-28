@@ -14,5 +14,6 @@
           <menuitem label="<?php _e("Add New Category"); ?>" icon="<?php print INCLUDES_URL; ?>img/context.category.png" onclick="window.location.href = '<?php print admin_url(); ?>view:content#action=new:category'"></menuitem>
           <menuitem label="<?php _e("Add New Product"); ?>" icon="<?php print INCLUDES_URL; ?>img/context.product.png" onclick="window.location.href = '<?php print admin_url(); ?>view:content#action=new:product'"></menuitem>
      </menu>
+
   </body>
 </html>

@@ -53,3 +53,34 @@
   <br />
   <br />
 </div>
+
+
+<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
+     <div class="mw-helpinfo semi_hidden">
+
+           <div class="mw-help-item" data-for=".dashboard_stats svg" data-pos="topcenter">
+               <p>This is your main statistic.</p>
+               <p>You can explore your visits by daily, weekly and monthly time frame. </p>
+           </div>
+           <div class="mw-help-item" data-for="#real_users_online" data-pos="rightcenter">
+               <p>This is the number of users <br>that are currently online on your website.</p>
+           </div>
+           <div class="mw-help-item" data-for="#mw-go_livebtn_admin" data-pos="bottomright" data-onshow="gotonextpage('<?php print admin_url('view:content'); ?>');">
+               <p>From here you can explore your website <br> and have fun with the Live edit functionality. </p>
+               <p>Also you can: </p>
+               <ul>
+                    <li>Change your content;</li>
+                    <li>Add new functionalities;</li>
+                    <li>Modify the design.</li>
+               </ul>
+           </div>
+
+     </div>
+     <script>
+         mw.require("helpinfo.js");
+         mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
+     </script>
+
+<?php  }  ?>
+
+

@@ -101,3 +101,30 @@ $(document).ready(function(){
     </div>
   </div>
 </div>
+
+
+
+
+
+<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
+<div class="mw-helpinfo semi_hidden">
+
+
+<div class="mw-help-item" data-for=".mw_edit_page_right" data-pos="righttop">
+     <p>The "Settings" section will help you to manage the global settings for your website </p>
+ </div>
+ <div class="mw-help-item" data-for="#mw_edit_page_left" data-pos="righttop"  data-onshow="gotonextpage('<?php print admin_url('view:users'); ?>')">
+     <p>This is the navigation with the available settings</p>
+ </div>
+
+
+</div>
+
+     <script>
+         mw.require("helpinfo.js");
+         mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
+     </script>
+
+
+
+<?php  }  ?>

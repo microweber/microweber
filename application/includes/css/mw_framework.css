@@ -475,6 +475,9 @@ body.view-shop .mw_action_post{
 .mw-tree{
   padding: 10px 0;
 }
+#pages_tree_toolbar{
+  background: #F3F3F3;
+}
 
 .mw-tree *{
   margin: 0;

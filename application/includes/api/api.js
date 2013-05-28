@@ -101,7 +101,7 @@ window.onerror = function(a,b,c){
 
 
 
-  Wait = function(a, b) {
+  Wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {
       Wait(a, b), 52
     }) : b.call(a);
