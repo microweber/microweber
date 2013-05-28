@@ -162,13 +162,26 @@ function array_to_module_params($params, $filter = false) {
 	return $str;
 }
 
+
+
+
 function parse_params($params) {
+	
+	
+
+	
+	
+	
+	
 	$params2 = array();
 	if (is_string($params)) {
 		$params = parse_str($params, $params2);
 		$params = $params2;
 		unset($params2);
 	}
+	
+	
+	
 	return $params;
 }
 

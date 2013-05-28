@@ -1,5 +1,27 @@
 <?php
 
+
+if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()){
+    set_magic_quotes_runtime(0);
+}
+ 
+
+function params_stripslashes_array($array) {
+        return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
+}
+	
+if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()){
+   
+
+	$_GET = params_stripslashes_array($_GET);
+    $_POST = params_stripslashes_array($_POST);
+    $_COOKIE = params_stripslashes_array($_COOKIE); 
+	$_REQUEST = params_stripslashes_array($_REQUEST);
+ 
+}
+
+
+
 // Controller Class
 class MwController {
 	public $return_data = false;
