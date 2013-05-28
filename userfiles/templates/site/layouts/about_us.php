@@ -12,7 +12,7 @@ description: About us layout
 
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 <div class="container edit our-team"  field="content" rel="page">
     <p class="element">&nbsp;</p>
 	<div class="mw-row">
@@ -138,4 +138,4 @@ description: About us layout
     <p class="element">&nbsp;</p>
 	<div class="clear"></div>
 </div>
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
