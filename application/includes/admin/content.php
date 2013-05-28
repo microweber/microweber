@@ -200,7 +200,7 @@ mw.on.hashParam("parent-page", function(){
 
 mw.on.hashParam("action", function(){
 
-    $(mwd.body).addClass("loading");
+
 
   mw.$("#pages_edit_container").stop();
 
@@ -250,16 +250,19 @@ mw.on.hashParam("action", function(){
   if(arr[0]==='new'){
 
       if(arr[1]==='page'){
+        //$(mwd.body).addClass("loading");
         mw_select_page_for_editing(0);
       }
       else if(arr[1]==='post'){
+        //$(mwd.body).addClass("loading");
         mw_select_post_for_editing(0);
       }
       else if(arr[1]==='category'){
+       // $(mwd.body).addClass("loading");
         mw_select_category_for_editing(0);
       }
       else if(arr[1]==='product'){
-
+       // $(mwd.body).addClass("loading");
         mw_add_product(0);
       }
 
