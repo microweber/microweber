@@ -7,7 +7,7 @@ define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 
 class Update {
 
-	private $remote_api_url = 'http://serv.microweber.net/service/update/';
+	private $remote_api_url = 'http://api.microweber.net/service/update/';
 
 	function __construct() {
 
@@ -100,6 +100,9 @@ class Update {
 		$data['elements'] = $t;
 
 		$result = $this -> call('check_for_update', $data);
+		
+ 
+		
 		//if ($skip_cache == false) {
 		if ($result != false) {
 			cache_save($result, $c_id, 'update/global');
@@ -542,7 +545,13 @@ if(function_exists('post_notification')){
 		//$result1 = \curl_exec($ch);
 		$result1 = $curl->post($post_params_to_send);
 		}
-
+		
+		if($result1 == ''){
+		return false;	
+		}
+		
+		
+ 
 	//	\curl_close($ch);
 		$result = false;
 		if ($result1 != false) {

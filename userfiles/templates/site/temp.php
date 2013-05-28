@@ -1,4 +1,4 @@
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit"    rel="page" field="my_content">
     <p class="element">This is the default theme of (MW). </p>
@@ -73,7 +73,7 @@ print  $pages_tree;
 |`li_class`  | you can set the CSS class name for the LI  | ` <module type="pages" li_class="nav-item" />` |
 |`link`  | allows you to set custom link of each page  | ` <module type="pages" link="{title}/{id}" />` |
 </div>
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>
 
 
   

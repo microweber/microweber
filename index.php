@@ -76,6 +76,7 @@ if (!defined('MW_BARE_BONES')) {
 	$m1 = url_segment(0);
 
 	if ($m1) {
+		 $m1 = str_replace('.','',$m1);
 		$m = $m1;
 	} else {
 		$m = 'index';

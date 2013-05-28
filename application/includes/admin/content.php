@@ -199,6 +199,9 @@ mw.on.hashParam("parent-page", function(){
 
 
 mw.on.hashParam("action", function(){
+
+    $(mwd.body).addClass("loading");
+
   mw.$("#pages_edit_container").stop();
 
 
@@ -353,6 +356,7 @@ else{
                $(this).replaceWith(div);
                $(div).animate({"left": 0}, 220, function(){
                      mw.$(".mw_edit_page_right").css("overflow", "visible");
+                     $(mwd.body).removeClass("loading")
                });
           });
       });
@@ -712,8 +716,8 @@ $ed_content = false;
 
 
 
-<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
-     <div class="mw-helpinfo semi_hidden">
+
+
 
 
         <?php $view = url_param('view'); ?>
@@ -721,71 +725,18 @@ $ed_content = false;
         <?php if( $view == 'content'){  ?>
 
 
-           <div class="mw-help-item" data-for=".mw_edit_pages_nav" data-pos="bottomcenter">
-               <p>This navigation will help you to create new <br>Pages, Posts, Categories or add new Products</p>
-           </div>
-
-           <div class="mw-help-item" data-for="#pages_tree_toolbar" data-pos="righttop">
-               <p>This is you current content</p>
-               <p>In this section appears your Pages, Shops and Categories ... </p>
-           </div>
-
-           <div class="mw-help-item" data-for="#mw_admin_posts_sortable" data-pos="topcenter">
-               <p>When you select some Page, Shop or Category... </p>
-               <p>You'll see it's Posts/Products on the right side</p>
-           </div>
-           <div class="mw-help-item" data-for="#action_new_page button" data-pos="rightcenter" data-onshow="addnewpage()">
-               <p>You can click here to add New Page</p>
-           </div>
-
-           <div class="mw-help-item" data-for=".mw-template-selector .mw-ui-select" data-pos="rightcenter" >
-               <p>Here you can choose the template for your content...</p>
-           </div>
-
-           <div class="mw-help-item" data-for=".layouts_box_container" data-pos="righttop">
-               <p>Also you can choose the type of <br> your layout(depending on the type of the content)</p>
-           </div>
-           <div class="mw-help-item" data-for=".module-custom-fields-admin-holder" data-pos="rightcenter" data-onbeforeshow="showcustomfields()">
-               <p>Custom Fields</p>
-           </div>
-           <div class="mw-help-item" data-for=".admin-thumbs-holder" data-pos="rightcenter" data-onbeforeshow="showcustompics()" data-onshow="gotonextpage('<?php print admin_url('view:shop'); ?>')">
-               <p>Click to create gallery for your page</p>
-               <small>Note that you have to drop it in the Live Edit section from the Modules Toolbar</small>
-           </div>
+          <?php  show_help('content');  ?>
 
 
          <?php } else if($view == 'shop'){  ?>
-            <div class="mw-help-item" data-for="#mw-admin-shop-navigation" data-pos="bottomcenter">
-               <p>The "Shop" section is similar to the "Website" section but it has a navigation, <br> that will help you to manage your Store/s . </p>
-           </div>
-           <div class="mw-help-item" data-for=".new-order-notification" data-pos="bottomleft" data-onshow="gotonextpage('<?php print admin_url('view:modules'); ?>')">
-               <p>This green box is showing you your latest orders that you've didn't check.</p>
-           </div>
+
+              <?php  show_help('shop');  ?>
 
          <?php  } ?>
 
 
-     </div>
-     <script>
-         mw.require("helpinfo.js");
-         mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
-     </script>
-     <script>
-        mw.helpinfo.functions.addnewpage = function(){
-            mw.mouse.gotoAndClick("#action_new_page button");
-        }
-        mw.helpinfo.functions.showcustomfields = function(){
-            var item = mwd.getElementById('custom-fields-toggler');
-            $(item).addClass("custom-fields-toggler");
-            $($(item).dataset("for")).show();
-        }
-        mw.helpinfo.functions.showcustompics = function(){
-            var item = mwd.getElementById('pictures-toggle');
-            $(item).addClass("custom-fields-toggler");
-            $($(item).dataset("for")).show();
-        }
-
-     </script>
 
 
-<?php  }  ?>
+
+
+

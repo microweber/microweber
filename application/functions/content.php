@@ -120,7 +120,7 @@ function mw_db_init_content_table() {
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-	db_add_table_index('field', $table_name, array('field(55)'));
+	//db_add_table_index('field', $table_name, array('field(55)'));
 
 	$table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
 	$fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -132,7 +132,7 @@ function mw_db_init_content_table() {
 
 	db_add_table_index('rel', $table_name, array('rel(55)'));
 	db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-	db_add_table_index('field', $table_name, array('field(55)'));
+	//db_add_table_index('field', $table_name, array('field(56)'));
 
 
 	$table_name = MW_DB_TABLE_MEDIA;
@@ -217,7 +217,7 @@ function mw_db_init_content_table() {
 
 
 
-
+ 
 	$table_name = MW_DB_TABLE_MENUS;
 
 	$fields_to_add = array();
@@ -234,7 +234,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('url', 'TEXT default NULL');
 	set_db_table($table_name, $fields_to_add);
 
-
+ 
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;

@@ -28,7 +28,8 @@
           <div id="get-started">
           <div id="get-started-btns">
 
-            <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Comming Soon</span></a>
+            <?php /* <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Comming Soon</span></a> */ ?>
+            <a href=" http://demo.microweber.org/admin?username=demo&password=demo" target="_blank" class="obtn obtn-orange" style="overflow: hidden;" >Try the Live Demo</a>
 
             <span class="or">or</span>
 

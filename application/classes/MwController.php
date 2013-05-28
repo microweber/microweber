@@ -1495,6 +1495,56 @@ $is_editmode = false;
 		exit();
 	}
 
+
+function sitemapxml(){
+	
+	
+	
+	$sm_file = CACHEDIR.'sitemap.xml';
+ 
+ $skip = false;
+ if(is_file($sm_file)){
+	 $filelastmodified = filemtime($sm_file);
+
+        if(($filelastmodified-time()) > 3*3600)
+        {
+			 $skip = 1;
+		}
+	 
+ }
+ 
+ 
+if($skip == false){
+	$map = new \mw\utils\Sitemap($sm_file);
+	$map->file = CACHEDIR.'sitemap.xml';
+	
+	$cont = get_content("limit=2500&fields=id,updated_on&orderby=updated_on desc");
+	
+	
+	if(!empty($cont)){
+		foreach($cont as $item){
+			$map->addPage(content_link($item['id']), 'daily', 1,$item['updated_on']);
+		} 
+	}
+	$map = $map->create();
+
+}
+$map = $sm_file;
+$fp = fopen($map, 'r');
+
+// send the right headers
+header("Content-Type: text/xml");
+header("Content-Length: " . filesize($map));
+
+// dump the picture and stop the script
+fpassthru($fp);
+exit;
+
+
+ 
+ 
+}
+
 	function apijs() {
 
 		$ref_page = false;

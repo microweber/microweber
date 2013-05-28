@@ -54,10 +54,10 @@
   <br />
 </div>
 
-<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
 
-    <?php  show_help('dashboard');  ?>
 
-<?php  }  ?>
+<?php  show_help('dashboard');  ?>
+
+
 
 

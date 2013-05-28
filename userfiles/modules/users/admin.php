@@ -248,33 +248,7 @@ function mw_admin_delete_user_by_id($user_id){
 
 
 
-<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
-<div class="mw-helpinfo semi_hidden">
 
 
-<div class="mw-help-item" data-for="#users_admin_panel" data-pos="righttop" data-onshow="viewuser()">
-     <p>Here you can view and manage your users information </p>
- </div>
+ <?php  show_help('users');  ?>
 
-
-
-</div>
-
-     <script>
-         mw.require("helpinfo.js");
-         mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
-     </script>
-      <script>
-      mw.helpinfo.functions.viewuser = function(){
-        setTimeout(function(){
-          mw.$("#users_admin_panel tbody tr:first").addClass("active");
-            mw.mouse.gotoAndClick("#users_admin_panel tbody .mw-ui-btn");
-
-            mw.$(".module-users-edit-user").addClass("mwcurrhelp");
-        }, 300);
-        }
-
-      </script>
-
-
-<?php  }  ?>

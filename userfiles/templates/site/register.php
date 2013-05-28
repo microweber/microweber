@@ -6,7 +6,7 @@
 */
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<? include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div id="content">
     <div class="container">
@@ -27,4 +27,4 @@
 
 
 
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<? include THIS_TEMPLATE_DIR. "footer.php"; ?>

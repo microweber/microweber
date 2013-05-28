@@ -67,7 +67,7 @@
                 browse_button : 'pickfiles_<?php print $uid  ?>',
                 debug : 1,
                 container: 'container',
-				chunk_size : '3mb',
+				chunk_size : '1mb',
                 url : '<?php print site_url('plupload'); ?>',
                 filters:filters,
                 multi_selection:multi

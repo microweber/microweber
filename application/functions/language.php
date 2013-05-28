@@ -318,13 +318,6 @@ if(!empty($mw_all_langs)){
 
 
 
-
-
-
-
-
-
-
 function show_help($section = 'main'){
     $lang = 'en';
         if (!isset($_SESSION) or session_get('lang') == 'en') {

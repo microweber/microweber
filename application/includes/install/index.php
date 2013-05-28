@@ -174,7 +174,7 @@ define("MW_NO_DEFAULT_CONTENT", true);
 							$restore->backups_folder =$default_content_folder;
 							$restore->backup_file ='mw_default_content.zip';
 							ob_start();
-							$rest = $restore->exec_restore();
+							//$rest = $restore->exec_restore();
 						    ob_get_clean();
 						//d($to_save['with_default_content']);
 						}

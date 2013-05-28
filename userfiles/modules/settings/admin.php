@@ -65,7 +65,7 @@ $(document).ready(function(){
 <script type="text/javascript">
 	mw.require("options.js");
 	mw.require("<?php print $config['url_to_module']; ?>settings.css");
-	</script>
+</script>
 
 <div id="mw_index_settings">
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
@@ -81,18 +81,13 @@ $(document).ready(function(){
           <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users"><?php _e("Login & Register"); ?></a></li>
           <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template"><?php _e("Template"); ?></a></li>
           <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website"><?php _e("Email"); ?></a></li>
-           <?php exec_action('mw_admin_settings_menu'); ?>
-            <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>
-                   <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language"><?php _e("Language"); ?></a></li>
+          <?php exec_action('mw_admin_settings_menu'); ?>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>
+          <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language"><?php _e("Language"); ?></a></li>
 
         </ul>
       </div>
-      <div style="padding-left: 46px">
-        <div class="vSpace"></div>
-        <!--<div class="vSpace">&nbsp;</div>
-        <a href="javascript:;" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>
-        <?php _e("Add new settings"); ?>
-        </span></a>--> </div>
+
     </div>
     </div>
   </div>
@@ -106,27 +101,5 @@ $(document).ready(function(){
 
 
 
+  <?php  show_help('settings');  ?>
 
-
-<?php  if(!isset($_COOKIE['helpinfo'])){  ?>
-<div class="mw-helpinfo semi_hidden">
-
-
-<div class="mw-help-item" data-for="#mw_tabs .active" data-pos="bottomcenter" data-css="margin-top:-2px;">
-     <p>The "Settings" section will help you to manage the global settings for your website </p>
- </div>
- <div class="mw-help-item" data-for="#mw_edit_page_left" data-pos="righttop"  data-onshow="gotonextpage('<?php print admin_url('view:users'); ?>')">
-     <p>This is the navigation with the available settings</p>
- </div>
-
-
-</div>
-
-     <script>
-         mw.require("helpinfo.js");
-         mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
-     </script>
-
-
-
-<?php  }  ?>

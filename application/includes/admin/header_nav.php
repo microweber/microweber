@@ -14,9 +14,22 @@
       <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules"><?php _e("Modules"); ?></a></li>
       <?php exec_action('mw_admin_header_menu'); ?>
       <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users"><?php _e("Users"); ?></a></li>
+
+    <li><a href="javascript:;" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a></li>
+
+  <?php
+
+
+  /*
       <?php if(is_module('help')): ?>
       <li <?php if($active == 'help'): ?> class="active" <?php endif; ?> ><a href="<?php print admin_url(); ?>view:help"><?php _e("Help"); ?></a></li>
       <?php endif; ?>
+
+*/
+
+
+?>
+
       <?php exec_action('mw_admin_header_menu_end'); ?>
     </ul>
     </div>
