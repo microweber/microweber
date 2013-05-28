@@ -507,6 +507,9 @@ if(function_exists('post_notification')){
 
 
 				//$ch = \curl_init($requestUrl);
+				
+			 
+				
 		$curl->setUrl($requestUrl);
 		$curl->url = $requestUrl;
 
