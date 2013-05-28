@@ -4,6 +4,7 @@ media
 temp
 download
 Thumbs.db
+*Thumbs.db
 .DS_Store
 .DS_Store?
 ._notes
