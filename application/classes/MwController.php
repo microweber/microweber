@@ -1,6 +1,10 @@
 <?php
 
 
+
+// magic quotes fix
+// http://php.net/manual/en/function.get-magic-quotes-gpc.php
+// http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()){
     set_magic_quotes_runtime(0);
 }
