@@ -111,7 +111,7 @@ class Unzip {
 					
 					 $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
 
-					 file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+					// file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
 
 						//file_put_contents($file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
 					} 
