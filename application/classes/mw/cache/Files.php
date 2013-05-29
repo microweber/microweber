@@ -11,16 +11,17 @@ if (!defined('APC_CACHE')) {
 
 	$apc_exists = function_exists('apc_fetch');
   	if (isset($_POST) and isarr($_POST)) {
-		 $apc_exists = false;
+		// $apc_exists = false;
 	}
-  $apc_exists = false;
+  //$apc_exists = false;
 
 	define("APC_CACHE", $apc_exists);
 
 	if (!defined('APC_EXPIRES')) {
-
-	define("APC_EXPIRES", 60);
+ 	define("APC_EXPIRES", 60);
 	}
+ 
+	
 	if (defined('APC_CACHE') and APC_CACHE == true) {
 
 

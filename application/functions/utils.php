@@ -744,6 +744,9 @@ function safe_redirect($url) {
 if(function_exists('session_set_save_handler')){
 
 $mw_session_handler = new MwSession();
+
+
+ 
 session_set_save_handler(
     array($mw_session_handler, 'open'),
     array($mw_session_handler, 'close'),
@@ -753,12 +756,12 @@ session_set_save_handler(
     array($mw_session_handler, 'gc')
     );
 
-	if(function_exists('register_shutdown_function')){
-	register_shutdown_function('session_write_close');
-	}
+
 }
 
-
+if(function_exists('register_shutdown_function')){
+	register_shutdown_function('session_write_close');
+ }
 
 
 function session_set($name, $val) {
