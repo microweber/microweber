@@ -85,18 +85,18 @@ class Unzip {
 						$file = substr(zip_entry_name($zip_entry), strrpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR)+1); 
 						
 						
-						 $file =(zip_entry_name($zip_entry)); 
+						 $file_entry=(zip_entry_name($zip_entry)); 
 
 						
 						if(!is_dir($dir)){ 
 							mkdir($dir) or die("Unable to create $dir\n"); 
 						} 
-						if(strlen(trim($file)) > 0){ 
+						if(strlen(trim($file_entry)) > 0){ 
 						
 						
 						
 						
-						 $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+						 $file_locations[] = $file_location = $this->_target_dir .  ($preserve_filepath ? $file_entry : basename($file_entry));
 
 						file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
 								//d($dir.DS.$file);
@@ -108,10 +108,13 @@ class Unzip {
 						} 
 					}else{ 
 					//d($dir.DS.$file);
-					
-				//	 $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
-
-					// file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+						 $file_entry=(zip_entry_name($zip_entry)); 
+ $file_locations[] = $file_location = $this->_target_dir .  ($preserve_filepath ? $file_entry : basename($file_entry));
+ 
+							//if(!is_dir($file_location)){
+								@file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+							//}
+				
 
 						//file_put_contents($file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
 					} 
