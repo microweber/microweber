@@ -21,8 +21,9 @@
 	//d($apc_exists);
 	define("APC_CACHE", $apc_exists);
 }*/
-  $_mw_cache_obj = false;
-$enable_server_cache_storage = static_option_get('enable_server_cache_storage', 'server');
+
+  //$_mw_cache_obj = false;
+/*$enable_server_cache_storage = static_option_get('enable_server_cache_storage', 'server');
 if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'default') {
 	if ($enable_server_cache_storage != 'default') {
 		$cache_storage_type = "\mw\cache\\" . trim($enable_server_cache_storage);
@@ -37,18 +38,11 @@ if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'd
 } else {
 
 
+}*/
+
+if (!isset($_mw_cache_obj) or $_mw_cache_obj == false) {
+	 	$_mw_cache_obj = new \mw\cache\Files();
 }
-
-if ($_mw_cache_obj == false) {
-		/*
-		if ($apc_exists == true) {
-					$_mw_cache_obj = new mw\cache\apc();
-				} else {*/
-
-			$_mw_cache_obj = new mw\cache\Files();
-
-	//	}
-	}
 /*
  // if(isset($_GET['debug'])){
  // d($enable_server_cache_storage);
@@ -56,7 +50,7 @@ if ($_mw_cache_obj == false) {
 
 if (!defined('APC_EXPIRES')) {
 
-	define("APC_EXPIRES", 3000);
+	define("APC_EXPIRES", 30);
 }
 
 /**
