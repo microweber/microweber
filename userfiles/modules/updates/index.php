@@ -45,7 +45,7 @@ mw.bind_update_form_submit = function(){
                mw.tools.disable(mwd.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
 
                mw.form.post({
-                    url: '/<?php print api_url(); ?>mw_apply_updates',
+                    url: '<?php print api_url(); ?>mw_apply_updates',
                     error:function(){
                           mw.tools.enable(mwd.getElementById('installsubmit'));
                         Alert("<?php _e("There was a Problem connecting to the Server"); ?>");
@@ -58,7 +58,7 @@ mw.bind_update_form_submit = function(){
                             mw.bind_update_btns();
                         });
                     },
-                    selector: mw.$('.mw-select-updates-list');
+                    selector: mw.$('.mw-select-updates-list')
                });
 
 

@@ -275,9 +275,9 @@ if($this->mw_cache_saved_files == null){
 			mkdir_recursive($dir_lock);
 		}
 		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
-		@touch($cache_group_lock);
+		//@touch($cache_group_lock);
 		//d($cache_group_lock);
-		// return true;
+		// return true; 
 		//mw_notif(__FUNCTION__.$cache_group);
 		$is_cleaning_now = mw_var('is_cleaning_now');
 		$use_apc = false;
