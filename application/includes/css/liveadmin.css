@@ -1483,7 +1483,9 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   padding-top: 5px;
 }
 
-
+.order-status-selector{
+  padding-bottom: 10px;
+}
 
 .order-status-selector .font-11{
   color: #8B8B8B;

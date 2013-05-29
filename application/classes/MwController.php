@@ -8,20 +8,20 @@
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()){
     set_magic_quotes_runtime(0);
 }
- 
+
 
 function params_stripslashes_array($array) {
         return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
 }
-	
+
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()){
-   
+
 
 	$_GET = params_stripslashes_array($_GET);
     $_POST = params_stripslashes_array($_POST);
-    $_COOKIE = params_stripslashes_array($_COOKIE); 
+    $_COOKIE = params_stripslashes_array($_COOKIE);
 	$_REQUEST = params_stripslashes_array($_REQUEST);
- 
+
 }
 
 
@@ -70,11 +70,11 @@ class MwController {
 
 		$is_editmode = url_param('editmode');
 		$is_no_editmode = url_param('no_editmode');
-		
-		
-	
-		
-		
+
+
+
+
+
 		if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
 			if ($is_editmode == 'n') {
@@ -84,11 +84,11 @@ class MwController {
 				session_set('back_to_editmode', true);
 				session_set('editmode', false);
 				//sleep(1);
-				
-				
-				 
-				
-				
+
+
+
+
+
 				//safe_redirect(site_url($page_url));
 				//exit();
 			} else {
@@ -476,15 +476,15 @@ $is_editmode = false;
 			$l = new MwView($render_file);
 			// $l->content = $content;
 			// $l->set($l);
-			
-			
+
+
 			if (isset($is_preview_template) and $is_preview_template != false){
-		 
-			  //@session_write_close();	
+
+			  //@session_write_close();
 			}
-			 
-			
-			
+
+
+
 			$l = $l -> __toString();
 
 			// $domain = TEMPLATE_URL;
@@ -614,6 +614,9 @@ $is_editmode = false;
 			//	mw_var('get_module_template_settings_from_options', 0);
 
 			$apijs_loaded = site_url('apijs');
+
+	$apijs_loaded = site_url('apijs').'?id='.CONTENT_ID;
+
 			$is_admin = is_admin();
 			$default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
 
@@ -1523,11 +1526,11 @@ $is_editmode = false;
 
 
 function sitemapxml(){
-	
-	
-	
+
+
+
 	$sm_file = CACHEDIR.'sitemap.xml';
- 
+
  $skip = false;
  if(is_file($sm_file)){
 	 $filelastmodified = filemtime($sm_file);
@@ -1536,21 +1539,21 @@ function sitemapxml(){
         {
 			 $skip = 1;
 		}
-	 
+
  }
- 
- 
+
+
 if($skip == false){
 	$map = new \mw\utils\Sitemap($sm_file);
 	$map->file = CACHEDIR.'sitemap.xml';
-	
+
 	$cont = get_content("limit=2500&fields=id,updated_on&orderby=updated_on desc");
-	
-	
+
+
 	if(!empty($cont)){
 		foreach($cont as $item){
 			$map->addPage(content_link($item['id']), 'daily', 1,$item['updated_on']);
-		} 
+		}
 	}
 	$map = $map->create();
 
@@ -1567,11 +1570,14 @@ fpassthru($fp);
 exit;
 
 
- 
- 
+
+
 }
 
 	function apijs() {
+
+define("MW_NO_SESSION",1);
+
 
 		$ref_page = false;
 
@@ -1586,9 +1592,11 @@ exit;
 			}
 
 		}
-		session_write_close();
+		//
 		header("Content-type: text/javascript");
 		define_constants($ref_page);
+
+
 
 		$l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
 		$l = $l -> __toString();

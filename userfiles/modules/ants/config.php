@@ -9,4 +9,4 @@ $config['author_website'] = "http://devblog.x2k.co.uk/";
 $config['ui'] = true;
 $config['categories'] = "other";
 $config['position'] = "28";
-$config['version'] = 0.06;
+$config['version'] = 0.05;

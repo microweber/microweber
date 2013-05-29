@@ -11,7 +11,7 @@ if (!defined('APC_CACHE')) {
 
 	$apc_exists = function_exists('apc_fetch');
   	if (isset($_POST) and isarr($_POST)) {
-		//$apc_exists = false;
+		 $apc_exists = false;
 	}
   $apc_exists = false;
 
@@ -19,7 +19,7 @@ if (!defined('APC_CACHE')) {
 
 	if (!defined('APC_EXPIRES')) {
 
-	define("APC_EXPIRES", 300);
+	define("APC_EXPIRES", 60);
 	}
 	if (defined('APC_CACHE') and APC_CACHE == true) {
 
@@ -32,6 +32,11 @@ if (!defined('APC_CACHE')) {
 
 
 class Files    {
+
+
+
+	public $mw_cache_saved_files = array();
+
 	public $mw_cache_mem = array();
 	public $mw_cache_mem_hits = array();
 	private $mw_cache_lock_timeout = 0;
@@ -42,9 +47,9 @@ class Files    {
 
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {
-		
-		
-		
+
+
+
 		$apc_obj = false;
 		if (defined('APC_CACHE') and APC_CACHE == true) {
 
@@ -58,18 +63,18 @@ class Files    {
 
 
 			 $apc_obj_gt = $apc_obj->save($data_to_cache, $cache_id, $cache_group);
-			 
+
 		 }
-		
-		
-		
-		
- 
+
+
+
+
+
 		$dir_lock = $this -> cache_get_dir('delete_lock');
 		$cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
 
 		/*if (is_file($cache_group_lock)) {
- 
+
 			if ($this -> mw_cache_lock_time == false) {
 				$this -> mw_cache_lock_time = filemtime($cache_group_lock);
 			}
@@ -82,8 +87,20 @@ class Files    {
 				@unlink($cache_group_lock);
 			}
 		}*/
+if($this->mw_cache_saved_files == null){
+	$this->mw_cache_saved_files = array();
+}
 
+		if(!in_array($cache_id,$this->mw_cache_saved_files)){
+		$this ->mw_cache_saved_files[] = $cache_id;
 		return $this -> cache_save($data_to_cache, $cache_id, $cache_group);
+
+		} else {
+		//	print $cache_id;
+		}
+
+
+
 	}
 
 	public function delete($cache_group = 'global') {
@@ -337,9 +354,9 @@ class Files    {
 				}
 			}
 			$cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
-			 
+
 			$cacheDir = CACHEDIR . $cache_group;
-			 
+
 			//$cacheDir = str_replace(':','_',$cacheDir);
 
 //$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);

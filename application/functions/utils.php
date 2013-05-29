@@ -738,12 +738,35 @@ function safe_redirect($url) {
 	exit();
 }
 
+
+
+
+if(function_exists('session_set_save_handler')){
+
+$mw_session_handler = new MwSession();
+session_set_save_handler(
+    array($mw_session_handler, 'open'),
+    array($mw_session_handler, 'close'),
+    array($mw_session_handler, 'read'),
+    array($mw_session_handler, 'write'),
+    array($mw_session_handler, 'destroy'),
+    array($mw_session_handler, 'gc')
+    );
+
+	if(function_exists('register_shutdown_function')){
+	register_shutdown_function('session_write_close');
+	}
+}
+
+
+
+
 function session_set($name, $val) {
 
 
 
-	if (!headers_sent()) {
-		if (!isset($_SESSION)) {
+	if (!defined('MW_NO_SESSION') and !headers_sent()) {
+		if (!isset($_SESSION) ) {
 			session_set_cookie_params(86400);
 			ini_set('session.gc_maxlifetime', 86400);
 			session_start();
@@ -755,7 +778,7 @@ function session_set($name, $val) {
 			$is_the_same = session_get($name);
 			if ($is_the_same != $val) {
 				$_SESSION[$name] = $val;
-				session_write_close();
+				//session_write_close();
 				//$_SESSION['ip']=USER_IP;
 			}
 		}
@@ -767,9 +790,9 @@ function session_get($name) {
 		if (!headers_sent()) {
 			if (!isset($_SESSION)) {
 				//return false;
-				session_start();
+				 session_start();
 				  //d($_SESSION);
-				//$_SESSION['ip']=USER_IP;
+			// $_SESSION['ip']=USER_IP;
 			}
 		}
 	// probable timout here?!
@@ -819,7 +842,7 @@ function session_end() {
 
 
 	session_destroy();
-	session_write_close();
+	//session_write_close();
 	unset($_SESSION);
 
 }
@@ -1027,25 +1050,25 @@ function isarr($var) {
  * the path to scan
  * @return mixed
  * an array of files in the given path matching the pattern.
- */ 
+ */
 function rglob($pattern = '*', $flags = 0, $path = '') {
 	if (!$path && ($dir = dirname($pattern)) != '.') {
 		if ($dir == '\\' || $dir == '/')
 			$dir = '';
 		return rglob(basename($pattern), $flags, $dir . DS);
 	}
-	
-	
- 
-	
+
+
+
+
 	$paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
 	$files = glob($path . $pattern, $flags);
-	
-	
+
+
 	if(isarr($paths)){
 		foreach ($paths as $p){
 			$temp =  rglob($pattern, false, $p . DS);
-			 
+
 			if(isarr($temp) and isarr($files)){
 			$files = array_merge($files,$temp);
 			}else if(isarr($temp)){

@@ -44,18 +44,28 @@ mw.bind_update_form_submit = function(){
 
                mw.tools.disable(mwd.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
 
-               mw.form.post(mw.$('.mw-select-updates-list') , '<?php print api_url(); ?>mw_apply_updates', function(){
+               mw.form.post({
+                    url: '/<?php print api_url(); ?>mw_apply_updates',
+                    error:function(){
+                          mw.tools.enable(mwd.getElementById('installsubmit'));
+                        Alert("<?php _e("There was a Problem connecting to the Server"); ?>");
+                    },
+                    done:function(){
+                        mw.tools.enable(mwd.getElementById('installsubmit'));
+                        Alert("Updates are successfully installed.");
+                        $('#number_of_updates').fadeOut();
+                            mw.reload_module('#mw-updates', function(){
+                            mw.bind_update_btns();
+                        });
+                    },
+                    selector: mw.$('.mw-select-updates-list');
+               });
 
-                 mw.tools.enable(mwd.getElementById('installsubmit'));
-                 //mw.notification.success("All updates are successfully installed.")
-                 Alert("Updates are successfully installed.")
 
-				 $('#number_of_updates').fadeOut();
-				 mw.reload_module('#mw-updates', function(){
-					mw.bind_update_btns();
-				 });
 
-              });
+
+
+
          }
 
          return false;

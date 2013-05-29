@@ -45,7 +45,11 @@ mw.form = {
         $(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback, ignorenopost){
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error){
+    if(selector.constructor === {}.constructor){
+      return mw.form._post(selector);
+    }
+    var callback_error = callback_error || false;
     var ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);
 
@@ -61,17 +65,23 @@ mw.form = {
 
     if(is_form_valid){
         var obj = mw.form.serialize(selector, ignorenopost);
-
-      	$.post(url_to_post, obj, function(data){
-			if(mw.is.func(callback)){
+      	var xhr = $.post(url_to_post, obj, function(data){
+			if(typeof callback === 'function'){
 				callback.call(data, mw.$(selector)[0]);
 			} else {
 				return data;
 			}
-
+        });
+        xhr.fail(function(a,b) {
+           if(typeof callback_error === 'function'){
+              callback_error.call(a,b);
+           }
         });
     }
 	return false;
+  },
+  _post:function(obj){
+    mw.form.post(obj.selector, obj.url, obj.done, obj.ignorenopost, obj.error);
   },
   validate:{
     checkbox: function(obj){

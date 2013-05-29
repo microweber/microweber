@@ -217,7 +217,7 @@ function mw_db_init_content_table() {
 
 
 
- 
+
 	$table_name = MW_DB_TABLE_MENUS;
 
 	$fields_to_add = array();
@@ -234,7 +234,7 @@ function mw_db_init_content_table() {
 	$fields_to_add[] = array('url', 'TEXT default NULL');
 	set_db_table($table_name, $fields_to_add);
 
- 
+
 
 	cache_save(true, $function_cache_id, $cache_group = 'db');
 	return true;
@@ -2576,7 +2576,7 @@ if (isset($data_to_save['content_type']) and strval($data_to_save['content_type'
 	";
 
 
-	cache_clean_group('media');
+	cache_clean_group('media/global');
 
 	db_q($clean);
 
@@ -2605,6 +2605,7 @@ if (isset($data_to_save['content_type']) and strval($data_to_save['content_type'
 	}
 
 	 exec_action('mw_save_content');
+	 //session_write_close();
 	return $save;
 	//exit();
 	// if ($data_to_save ['content_type'] == 'page') {

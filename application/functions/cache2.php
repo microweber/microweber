@@ -48,10 +48,7 @@ if (!isset($_mw_cache_obj) or $_mw_cache_obj == false) {
  // d($enable_server_cache_storage);
  // }*/
 
-if (!defined('APC_EXPIRES')) {
 
-	define("APC_EXPIRES", 30);
-}
 
 /**
  *
@@ -74,7 +71,7 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
 		$local_obj = new $cache_storage_type;
 
 	}
-	//d($local_obj);
+	 //d($cache_group);
 	  $local_obj -> delete($cache_group);
 }
 

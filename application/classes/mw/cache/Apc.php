@@ -20,8 +20,8 @@ class Apc   {
 		$data_to_cache = serialize($data_to_cache);
 
 		$cache = CACHE_CONTENT_PREPEND . $data_to_cache;
-
-		apc_store($cache_id, $cache, APC_EXPIRES);
+		//@apc_delete($cache_id); 
+		@apc_store($cache_id, $cache, APC_EXPIRES);
 
 	}
 
