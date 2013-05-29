@@ -58,6 +58,74 @@ class Unzip {
 
     }
 
+
+		public function native_unzip($zip_file, $target_dir = NULL, $preserve_filepath = TRUE){
+			  $file_locations = array();
+		if(function_exists('zip_open')){
+ 
+		$file = $zip_file; 
+		 $zip = zip_open($file); 
+			if(is_resource($zip)){ 
+				$tree = ""; 
+				while(($zip_entry = zip_read($zip)) !== false){ 
+					//echo "Unpacking ".zip_entry_name($zip_entry)."\n"; 
+					if(strpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR) !== false){ 
+						$last = strrpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR); 
+						
+						if($target_dir == false or $target_dir == NULL){
+								$dir = substr(zip_entry_name($zip_entry), 0, $last); 
+						} else {
+							$dir = $target_dir; 	
+						}
+						
+					
+						 
+						
+						
+						$file = substr(zip_entry_name($zip_entry), strrpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR)+1); 
+						
+						
+						 $file =(zip_entry_name($zip_entry)); 
+
+						
+						if(!is_dir($dir)){ 
+							mkdir($dir) or die("Unable to create $dir\n"); 
+						} 
+						if(strlen(trim($file)) > 0){ 
+						
+						
+						
+						
+						 $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+
+						file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+								//d($dir.DS.$file);
+						
+							//$return = @file_put_contents($dir."/".$file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+							if($return === false){ 
+							//	die("Unable to write file $dir/$file\n"); 
+							} 
+						} 
+					}else{ 
+					//d($dir.DS.$file);
+					
+					 $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+
+					 file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+
+						//file_put_contents($file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
+					} 
+				} 
+			}else{ 
+				//echo "Unable to open zip file\n"; 
+			} 
+		}
+	
+	
+	return   $file_locations;
+		}
+
+
     // --------------------------------------------------------------------
 
     /**
@@ -70,11 +138,65 @@ class Unzip {
     public function extract($zip_file, $target_dir = NULL, $preserve_filepath = TRUE) {
         $this->_zip_file = $zip_file;
         $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if(function_exists('zip_open')){
+			return $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
         if (!$files = $this->_list_files()) {
             $this->set_error('ZIP folder was empty.');
             return FALSE;
         }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
         $file_locations = array();
         foreach ($files as $file => $trash) {
@@ -553,7 +675,7 @@ $out_dn = str_replace('\/', DS,  $out_dn);
 
         if ($signature == $this->zip_signature) {
             // Get information about the zipped file
-            $file['version_needed'] = unpack("v", fread($fh, 2));
+            $file['version_needed'] = unpack("v", fread($fh, 2)); 
             // version needed to extract
             $file['general_bit_flag'] = unpack("v", fread($fh, 2));
             // general purpose bit flag
