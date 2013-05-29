@@ -90,7 +90,7 @@ class MwSession {
     {
         $file = $this->savePath.DS."sess_$id";
         if (file_exists($file)) {
-            unlink($file);
+            @unlink($file);
         }
 
         return true;
@@ -100,7 +100,7 @@ class MwSession {
     {
         foreach (glob($this->savePath.DS."sess_*") as $file) {
             if (filemtime($file) + $maxlifetime < time() && file_exists($file)) {
-                unlink($file);
+                @unlink($file);
             }
         }
 
