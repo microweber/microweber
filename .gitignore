@@ -2740,3 +2740,24 @@ history
 /.afignore
 /docs.htm
 /stats.php
+/application/classes/__history/SplClassLoader.php
+/application/classes/__history/stateful.php
+/application/classes/__history/time.php
+/application/classes/__history/unzip.php
+/application/classes/__history/view.php
+/ - Copy \[2\].htaccess
+/.config_192.168.0.3.php.swp
+/.htaccess
+/.idea/.name
+/.idea/Microweber.iml
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/scopes/scope_settings.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+/MWSetup.exe
+/MWSetup1.exe
+/MWSetup2.exe
+/MWSetup3.exe
+/MWSetup7.exe

@@ -1,0 +1,426 @@
+/* Global styles */
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+img{
+  border: none;
+}
+
+body{
+  background: #ECEEF1;
+  font: 14px/1.5 'Open Sans', Arial, sans-serif;
+  color: #696969;
+}
+
+input, textarea, select, a{
+  outline: none;
+}
+
+a, a:hover{
+  text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-weight: 300;
+  line-height: normal;
+}
+
+
+/* /Global styles */
+
+
+
+/* Layout Styles */
+
+
+#header{
+  min-height: 82px;
+  background-color: #307EB1;
+  background-color: #4791c8;
+  color: white;
+}
+
+#content{
+  clear: both;
+  min-height: 400px;
+  padding-top: 55px;
+  position: relative;
+  zoom:1;
+}
+#content:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#footer{
+  clear: both;
+  padding: 55px 0;
+  font-size: 12px;
+  color: #878787;
+}
+
+
+
+
+/* /Layout Styles */
+
+
+
+
+/* Header */
+
+#logo{
+  background: url("../img/logo.png") no-repeat;
+  background-size: contain;
+  display: block;
+  float: left;
+  height: 46px;
+  margin-top: 15px;
+  text-indent: -9999px;
+  width: 195px;
+  max-width: 100%;
+}
+
+#main-nav{
+  float: left;
+  margin: 24px 0 24px 40px;
+}
+
+
+#main-nav a{
+  color: white;
+  border-radius: 0;
+}
+
+#main-nav li a:hover{
+  background:#3B90C9;
+  color:white;
+}
+
+#main-nav li.active a, #main-nav li.active a:hover{
+  background:#E7F1F7;
+  color:#4692C5;
+}
+
+
+
+#usernav{
+  font-size: 12px;
+  float: right;
+  padding: 31px 50px 0 0;
+}
+
+#usernav a{
+  color: #7EC1EE
+}
+#usernav a:hover{
+  text-decoration:underline
+}
+
+#download_section{
+  float: right;
+  display: inline-block;
+}
+#mwversion{
+  display: block;
+  font-size: 11px;
+  padding: 8px 0 2px;
+  text-align:right;
+}
+
+.download-btn{
+  display: inline-block;
+  background: #E7F1F7 url(../img/download.png) no-repeat;
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #4692C5;
+  padding: 7px 12px 7px 45px;
+}
+
+.download-btn:hover{
+  box-shadow: inset 0 0 6px #ccc;
+}
+
+.download-btn:active{
+  box-shadow: inset 0 0 6px #949494;
+  border-radius: 2px;
+  text-decoration: none
+}
+
+
+
+
+
+/* /Header */
+
+
+/* Content */
+
+
+#content{
+
+}
+
+
+
+
+/* /Content */
+
+
+/* footer */
+
+
+#copyright{
+  float: right;
+  white-space: nowrap;
+  padding:7px 50px 11px 0;
+  background: url(../img/logocopy.png) no-repeat right 1px;
+}
+
+
+
+
+/* /footer */
+
+
+
+/* UI Framework */
+
+
+.box{
+  background: white;
+  display: inline-block;
+  position: relative;
+  box-shadow: 0 0 3px #ccc;
+}
+
+
+.box-content{
+  padding: 12px;
+  position: relative;
+  zoom:1;
+}
+
+.box-content:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.box [class*='box-arr']{
+    display: block;
+    position: absolute;
+    width:14px;
+    height: 28px;
+    background-image: url(../img/boxarr.png);
+    background-repeat: no-repeat;
+}
+
+.box-arr-leftcenter{
+  left: -14px;
+  top: 50%;
+  margin-top: -14px;
+}
+.box-arr-rightcenter{
+  right: -14px;
+  top: 50%;
+  margin-top: -14px;
+  background-position: right top;
+}
+
+.box.box-deactivated{
+  background-color: transparent;
+  box-shadow: none;
+}
+.box.box-deactivated [class*='box-arr']{
+  display: none;
+}
+
+.box.hover:hover{
+ background: white;
+  box-shadow: 0 0 3px #ccc;
+}
+
+.start{
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  padding: 9px 10px 10px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid #D64E25;
+  background: #fc8236;
+  background: -moz-linear-gradient(top,  #fc8236 0%, #fb7030 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fc8236), color-stop(100%,#fb7030));
+  background: -webkit-linear-gradient(top,  #fc8236 0%,#fb7030 100%);
+  background: -o-linear-gradient(top,  #fc8236 0%,#fb7030 100%);
+  background: -ms-linear-gradient(top,  #fc8236 0%,#fb7030 100%);
+  background: linear-gradient(to bottom,  #fc8236 0%,#fb7030 100%);
+  box-shadow: inset 0 1px 0px #FECBAB;
+}
+
+.start:hover, .start:active, .start:focus{
+   color: white;
+   text-decoration: none;
+}
+
+.start:hover, .start:focus{
+    background: #fb7030;
+}
+
+.start:active{
+  box-shadow: inset 0 0 8px #DC4904;
+  box-shadow: inset 0 1px 0px #FECBAB, inset 0 0 16px #C84204;
+}
+
+.vspace{
+  display: block;
+  clear: both;
+  height: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* /UI Framework */
+
+
+/* Home */
+
+
+
+
+#mw-team{
+  height:85px;
+  width: 100%;
+  display: table;
+}
+
+.mw-member{
+  display: table-cell;
+  vertical-align: top;
+  width: 77px;
+}
+.mw-member.active{
+  width: auto;
+}
+
+
+.mw-member-info{
+  display: none;
+}
+
+#mw-team .box{
+  position: relative;
+  float: left;
+  min-height: 76px;
+  margin: 0 20px 0 10px;
+}
+
+#mw-team-activator{
+  width: 100%;
+}
+
+#mw-team-activator .box{
+  display: inline-block;
+  width: 80%;
+  width: calc(100% - 120px);
+  width: -webkit-calc(100% - 120px);
+}
+
+.mw-member-image{
+  display: inline-block;
+  position: relative;
+  float: left;
+  margin-right:10px;
+  width: 77px;
+  height: 76px;
+  background: white;
+  box-shadow: 0 0 3px #ccc;
+
+}
+.mw-member-image:hover{
+  opacity: 0.5;
+}
+
+.mw-member-image img{
+  width: 77px;
+  height: 76px;
+  position: absolute;
+  top: 0;
+  left: 0;
+    -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+
+#h-features{
+  position: relative;
+  min-height: 370px;
+}
+
+
+#h-features .box{
+  cursor: pointer;
+  display: block;
+}
+
+#h-features h3{
+    font-size:24px;
+    color: #2F7DB1;
+    font-weight: 300;
+    line-height:32px;
+    margin: 0 0 5px;
+    padding: 0 0 2px 68px;
+    background: url(../img/home.about.icons.png) no-repeat;
+}
+
+#h-features .box-deactivated h3, #h-features .box-deactivated p{
+  opacity: 0.5;
+
+}
+
+#h-features h3, #h-features p{
+    -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+
+#how-it-works h3 { background-position: 0px 0px }
+#shop-for-free h3 { background-position: 0px -97px }
+#need-a-blog h3 { background-position: 0px -192px }
+
+#h-features p{
+  margin: 0;
+}
+
+#h-features .start{
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  width: calc(100% - 20px);
+  width: -webkit-calc(100% - 20px);
+}
+
+video{
+  background-color: #4791C8;
+}
+
+
+/* /Home */
+
