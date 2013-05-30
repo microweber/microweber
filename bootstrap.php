@@ -3,7 +3,7 @@
 defined('T') OR die();
 
 if (!ini_get('safe_mode')) {
-	//set_time_limit(60); 
+    //set_time_limit(60);
 }
 
 /*
@@ -36,30 +36,30 @@ session_set_cookie_params(86400);
 
 if (!defined('E_STRICT')) {
 
-	define(E_STRICT, 0);
+    define(E_STRICT, 0);
 }
 
 //
 //error_reporting ( E_ALL & ~ E_STRICT );
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 $system_folder = $mw_config['system_folder'];
 
 $application_folder = $mw_config['application_folder'];
 
 if (isset($mw_config['system_folder_shared'])) {
-	if ($mw_config['system_folder_shared'] == false) {
+    if ($mw_config['system_folder_shared'] == false) {
 
-		if (strpos($system_folder, '/') === FALSE) {
-			if (function_exists('realpath') and @realpath(dirname(__FILE__)) !== FALSE) {
-				$system_folder = realpath(dirname(__FILE__)) . '/' . $system_folder;
-			}
-		} else {
-			// Swap directory separators to Unix style for consistency
-			$system_folder = str_replace("\\", "/", $system_folder);
-		}
-	} else {
-		$system_folder = $mw_config['system_folder_shared'];
-	}
+        if (strpos($system_folder, '/') === FALSE) {
+            if (function_exists('realpath') and @realpath(dirname(__FILE__)) !== FALSE) {
+                $system_folder = realpath(dirname(__FILE__)) . '/' . $system_folder;
+            }
+        } else {
+            // Swap directory separators to Unix style for consistency
+            $system_folder = str_replace("\\", "/", $system_folder);
+        }
+    } else {
+        $system_folder = $mw_config['system_folder_shared'];
+    }
 }
 /*
 
@@ -89,7 +89,7 @@ define('MW_USERFILES_DIRNAME', 'userfiles');
 
 define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_DIRNAME . DS);
 
-define("MW_USERFILES_URL", site_url(MW_USERFILES_DIRNAME.'/'));
+define("MW_USERFILES_URL", site_url(MW_USERFILES_DIRNAME . '/'));
 
 define("MW_USERFILES_DIR", MW_USERFILES);
 
@@ -125,16 +125,16 @@ $pageURL = 'http';
 
 if (isset($_SERVER["HTTPS"])) {
 
-	if ($_SERVER["HTTPS"] == "on") {
+    if ($_SERVER["HTTPS"] == "on") {
 
-		$pageURL .= "s";
-	}
+        $pageURL .= "s";
+    }
 }
 if ($mw_config['site_url']) {
-	// define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
-	define('SITEURL', $mw_config['site_url']);
+    // define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
+    define('SITEURL', $mw_config['site_url']);
 } else {
-	define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
+    define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
 }
 
 define('SITE_URL', SITEURL);
@@ -143,7 +143,7 @@ define('CACHE_FILES_EXTENSION', '.php');
 
 define('CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
 
-define('CACHEDIR_ROOT', dirname((__FILE__)) .DIRECTORY_SEPARATOR. 'cache' . DIRECTORY_SEPARATOR);
+define('CACHEDIR_ROOT', dirname((__FILE__)) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR);
 
 define('DATETIME_FORMAT', 'F j g:m a');
 
@@ -153,26 +153,26 @@ $config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.ph
 //
 //var_dump($config_file_for_site);
 if (is_file($config_file_for_site)) {
-	define('MW_CONFIG_FILE', $config_file_for_site);
+    define('MW_CONFIG_FILE', $config_file_for_site);
 
 } else {
-	define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
+    define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
 }
 
 $dnf = CACHEDIR_ROOT;
-$md5_conf = 'mw_cache_' .crc32($config_file_for_site);
-$cache_main_dir = $dnf .    $md5_conf .DIRECTORY_SEPARATOR;
+$md5_conf = 'mw_cache_' . crc32($config_file_for_site);
+$cache_main_dir = $dnf . $md5_conf . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
-	@mkdir($cache_main_dir);
+    @mkdir($cache_main_dir);
 }
 
 //$cache_main_dir = $cache_main_dir . crc32(MW_ROOTPATH) . DIRECTORY_SEPARATOR;
 
 if (is_dir($cache_main_dir) == false) {
 
-	@mkdir($cache_main_dir);
+    @mkdir($cache_main_dir);
 }
 
 define('CACHEDIR', $cache_main_dir);
@@ -242,101 +242,102 @@ ini_set('include_path', ini_get('include_path') . ':' . MW_BASEPATH . 'libraries
 
 if (defined('NO_MICROWEBER') == false) {
 
-	//rm(($file));
-	//require_once (MW_APPPATH . 'models/system_loader.php');
+    //rm(($file));
+    //require_once (MW_APPPATH . 'models/system_loader.php');
 }
-if(!isset($mw_site_url)){
-$mw_site_url = false;
+if (!isset($mw_site_url)) {
+    $mw_site_url = false;
 }
-function site_url($add_string = false) {
-	global $mw_site_url;
-	if ($mw_site_url == false) {
-		$pageURL = 'http';
-		if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
-			$pageURL .= "s";
-		}
+function site_url($add_string = false)
+{
+    global $mw_site_url;
+    if ($mw_site_url == false) {
+        $pageURL = 'http';
+        if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
+            $pageURL .= "s";
+        }
 
-		$subdir_append = false;
-		if (isset($_SERVER['PATH_INFO'])) {
-			// $subdir_append = $_SERVER ['PATH_INFO'];
-		} elseif (isset($_SERVER['REDIRECT_URL'])) {
-			$subdir_append = $_SERVER['REDIRECT_URL'];
-		} else {
-			//  $subdir_append = $_SERVER ['REQUEST_URI'];
-		}
+        $subdir_append = false;
+        if (isset($_SERVER['PATH_INFO'])) {
+            // $subdir_append = $_SERVER ['PATH_INFO'];
+        } elseif (isset($_SERVER['REDIRECT_URL'])) {
+            $subdir_append = $_SERVER['REDIRECT_URL'];
+        } else {
+            //  $subdir_append = $_SERVER ['REQUEST_URI'];
+        }
 
-		$pageURL .= "://";
-		if ($_SERVER["SERVER_PORT"] != "80") {
-			$pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-		} else {
-			$pageURL .= $_SERVER["SERVER_NAME"];
-		}
-		$pageURL_host = $pageURL;
-		$pageURL .= $subdir_append;
+        $pageURL .= "://";
+        if ($_SERVER["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
+        } else {
+            $pageURL .= $_SERVER["SERVER_NAME"];
+        }
+        $pageURL_host = $pageURL;
+        $pageURL .= $subdir_append;
 
-		$d = '';
-		if (isset($_SERVER['SCRIPT_NAME'])) {
-			$d = dirname($_SERVER['SCRIPT_NAME']);
-			$d = trim($d, DIRECTORY_SEPARATOR);
-		}
+        $d = '';
+        if (isset($_SERVER['SCRIPT_NAME'])) {
+            $d = dirname($_SERVER['SCRIPT_NAME']);
+            $d = trim($d, DIRECTORY_SEPARATOR);
+        }
 
-		if ($d == '') {
-			$pageURL = $pageURL_host;
-		} else {
+        if ($d == '') {
+            $pageURL = $pageURL_host;
+        } else {
 
-			$pageURL_host = rtrim($pageURL_host, '/') . '/';
-	 		$d = ltrim($d, '/');
-	 		$d = ltrim($d, DIRECTORY_SEPARATOR);
+            $pageURL_host = rtrim($pageURL_host, '/') . '/';
+            $d = ltrim($d, '/');
+            $d = ltrim($d, DIRECTORY_SEPARATOR);
 
-			$pageURL = $pageURL_host . $d;
+            $pageURL = $pageURL_host . $d;
 
-		}
-		//
-		if (isset($_SERVER['QUERY_STRING'])) {
-			$pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
-		}
+        }
+        //
+        if (isset($_SERVER['QUERY_STRING'])) {
+            $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
+        }
 
-		if (isset($_SERVER['REDIRECT_URL'])) {
-			//  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
-		}
+        if (isset($_SERVER['REDIRECT_URL'])) {
+            //  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
+        }
 
-		$uz = parse_url($pageURL);
-		if (isset($uz['query'])) {
-			$pageURL = str_replace($uz['query'], '', $pageURL);
-			$pageURL = rtrim($pageURL, '?');
-		}
+        $uz = parse_url($pageURL);
+        if (isset($uz['query'])) {
+            $pageURL = str_replace($uz['query'], '', $pageURL);
+            $pageURL = rtrim($pageURL, '?');
+        }
 
 
-		//$url_segs1 = str_replace($pageURL_host, '',$pageURL);
-		$url_segs = explode('/', $pageURL);
-		// 	 var_dump($d);
+        //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
+        $url_segs = explode('/', $pageURL);
+        // 	 var_dump($d);
 
-		//		  var_dump($_SERVER);
-		//        exit;
-		$i = 0;
-		$unset = false;
-		foreach ($url_segs as $v) {
-			if ($unset == true and $d != '') {
+        //		  var_dump($_SERVER);
+        //        exit;
+        $i = 0;
+        $unset = false;
+        foreach ($url_segs as $v) {
+            if ($unset == true and $d != '') {
 
-				unset($url_segs[$i]);
-			}
-			if ($v == $d and $d != '') {
+                unset($url_segs[$i]);
+            }
+            if ($v == $d and $d != '') {
 
-				$unset = true;
-			}
+                $unset = true;
+            }
 
-			$i++;
-		}
-		$url_segs[] = '';
-		$mw_site_url = implode('/', $url_segs);
+            $i++;
+        }
+        $url_segs[] = '';
+        $mw_site_url = implode('/', $url_segs);
 
-	}
+    }
 
-	//$mw_site_url = rtrim($mw_site_url, '///');
-	//
-	//
-	//
-	//
-	//
-	return $mw_site_url . $add_string;
+    //$mw_site_url = rtrim($mw_site_url, '///');
+    //
+    //
+    //
+    //
+    //
+    return $mw_site_url . $add_string;
 }

@@ -141,6 +141,7 @@ $is_editmode = false;
 			if (is_admin()) {
 				$is_preview_module = module_name_decode($is_preview_module);
 				if (is_module($is_preview_module)) {
+					
 					$is_preview_module_skin = url_param('preview_module_template');
 					$preview_module_id = url_param('preview_module_id');
 					$preview_module = $is_preview_module;
@@ -208,6 +209,14 @@ $is_editmode = false;
 				template_var('new_page', $page);
 			}
 		}
+		
+		if (isset($is_preview_template) and $is_preview_template != false){
+
+			 session_write_close();
+			}
+		
+		
+		
 		if ($page == false or $this -> create_new_page == true) {
 			if (trim($page_url) == '' and $preview_module == false) {
 				//
@@ -473,15 +482,15 @@ $is_editmode = false;
 		}
 
 		if ($render_file) {
+			
+			
+			
 			$l = new MwView($render_file);
 			// $l->content = $content;
 			// $l->set($l);
 
 
-			if (isset($is_preview_template) and $is_preview_template != false){
-
-			  //@session_write_close();
-			}
+			
 
 
 

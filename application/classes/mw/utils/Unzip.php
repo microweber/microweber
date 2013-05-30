@@ -47,84 +47,55 @@ class Unzip {
     // What is allowed out of the zip
     // --------------------------------------------------------------------
 
-    /**
-     * Constructor
-     *
-     * @access    Public
-     * @param     string
-     * @return    none
-     */
-    function __construct() {
-
-    }
+		/**
+		 * Constructor
+		 *
+		 * @access    Public
+		 * @param     string
+		 * @return    none
+		 */
+		function __construct() {
+	
+		}
 
 
 		public function native_unzip($zip_file, $target_dir = NULL, $preserve_filepath = TRUE){
-			  $file_locations = array();
+		$file_locations = array();
 		if(function_exists('zip_open')){
- 
-		$file = $zip_file; 
-		 $zip = zip_open($file); 
-			if(is_resource($zip)){ 
-				$tree = ""; 
-				while(($zip_entry = zip_read($zip)) !== false){ 
-					//echo "Unpacking ".zip_entry_name($zip_entry)."\n"; 
-					if(strpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR) !== false){ 
-						$last = strrpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR); 
-						
-						if($target_dir == false or $target_dir == NULL){
-								$dir = substr(zip_entry_name($zip_entry), 0, $last); 
-						} else {
-							$dir = $target_dir; 	
-						}
-						
+ 			  $filename =$zip_file;
+				$archive = zip_open($filename);
+				while($entry = zip_read($archive)){
+					$size = zip_entry_filesize($entry);
+					$name = zip_entry_name($entry);
 					
-						 
-						
-						
-						$file = substr(zip_entry_name($zip_entry), strrpos(zip_entry_name($zip_entry), DIRECTORY_SEPARATOR)+1); 
-						
-						
-						 $file_entry=(zip_entry_name($zip_entry)); 
-
-						
-						if(!is_dir($dir)){ 
-							mkdir($dir) or die("Unable to create $dir\n"); 
-						} 
-						if(strlen(trim($file_entry)) > 0){ 
-						
-						
-						
-						
-						 $file_locations[] = $file_location = $this->_target_dir .  ($preserve_filepath ? $file_entry : basename($file_entry));
-
-						file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
-								//d($dir.DS.$file);
-						
-							//$return = @file_put_contents($dir."/".$file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
-							if($return === false){ 
-							//	die("Unable to write file $dir/$file\n"); 
-							} 
-						} 
-					}else{ 
-					//d($dir.DS.$file);
-						 $file_entry=(zip_entry_name($zip_entry)); 
- $file_locations[] = $file_location = $this->_target_dir .  ($preserve_filepath ? $file_entry : basename($file_entry));
- 
-							//if(!is_dir($file_location)){
-								@file_put_contents($file_location, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
-							//}
-				
-
-						//file_put_contents($file, zip_entry_read($zip_entry, zip_entry_filesize($zip_entry))); 
-					} 
-				} 
-			}else{ 
-				//echo "Unable to open zip file\n"; 
-			} 
+					$is_dir_there = $target_dir.$name;
+					$dnf = dirname($is_dir_there);
+					
+					if(!is_dir($dnf)){
+					 mkdir_recursive($dnf);	
+					}
+					
+					
+					if(!is_dir($target_dir.$name)){
+					$unzipped = @fopen($target_dir.$name,'wb');
+					while($size > 0){
+						$chunkSize = ($size > 10240) ? 10240 : $size;
+						$size -= $chunkSize;
+						$chunk = zip_entry_read($entry, $chunkSize);
+						if($chunk !== false){ 
+						@fwrite($unzipped, $chunk);
+						}
+					}
+					$file_locations[] = $target_dir.$name;
+					@fclose($unzipped);
+					}
+				}
+			
+			
+			return $file_locations;
+			  
 		}
-	
-	
+ 	
 	return   $file_locations;
 		}
 

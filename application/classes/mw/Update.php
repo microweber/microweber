@@ -1,6 +1,6 @@
 <?php
-
 namespace mw;
+
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 }
@@ -508,20 +508,10 @@ class Update
 
         $curl = new \mw\utils\Curl();
 
-
-        //$ch = \curl_init($requestUrl);
-
-
         $curl->setUrl($requestUrl);
         $curl->url = $requestUrl;
 
 
-        //\curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
-        //\curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
-        //\curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //\curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        //\curl_setopt($ch, CURLOPT_USERAGENT, "Microweber");
-        //\curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
         if (!is_array($post_params)) {
             $post_params = array();
         }
