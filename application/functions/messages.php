@@ -80,11 +80,13 @@ function post_notification($params) {
 
 	if(isset($params['replace'])){
 		if(isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])){
+			unset($params['replace']);
 			$rel1 = db_escape_string($params['rel']);
-			$module1 = db_escape_string($params['rel']);
+			$module1 = db_escape_string($params['module']);
 			$rel_id1 = db_escape_string($params['rel_id']);
 			$cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
 			db_q($cleanup);
+
 
 
 		}
@@ -99,6 +101,33 @@ function post_notification($params) {
 
 	$data = save($table, $params);
 	return $data;
+}
+
+
+function delete_notifications_for_module($module) {
+
+	if (($module) != false and $module != '') {
+
+		$table = MW_DB_TABLE_NOTIFICATIONS;
+
+		mw_var('FORCE_SAVE', $table);
+
+		 $get_params = array();
+		$get_params['table'] = 'table_notifications';
+		$get_params['fields'] = 'id';
+		$get_params['module'] = db_escape_string($module);
+
+		$data = get_notifications($get_params);
+		if(isarr($data )){
+		  $ids = array_values_recursive($data);
+		  $idsi = implode(',',$ids);
+		  $cleanup = "delete from $table where id IN ({$idsi})";
+		  db_q($cleanup);
+		}
+
+		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+		return true;
+	}
 }
 
 function mark_notifications_as_read($module) {
@@ -129,7 +158,6 @@ function mark_notifications_as_read($module) {
 		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 		return $data;
 	}
-
 }
 
 function read_notification($id) {

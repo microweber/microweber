@@ -5,10 +5,7 @@ if(url_param('add_module')){
 }
 
 	$install = url_param('add_module');
-
-
-
-      mark_notifications_as_read('updates');
+  delete_notifications_for_module('updates');
 
 
 

@@ -23,7 +23,7 @@ $(document).ready(function(){
     ?>
     <select id="user_lang" name="language" class="mw_option_field"    option-group="website" data-also-reload="settings/group/language_edit">
       <option disabled="disabled">Select Language...</option>
-      <option value="en" <?php if($def_language == 'en' or $def_language == false): ?> selected="" <?php endif; ?>>English</option>
+      <option value="en" <?php if($def_language == 'en' or $def_language == false or $def_language == ''): ?> selected="" <?php endif; ?>>English</option>
       <option value="ar" <?php if($def_language == 'ar' or $def_language == false): ?> selected="" <?php endif; ?> >Arabic - العربية</option>
       <option value="eu" <?php if($def_language == 'eu' or $def_language == false): ?> selected="" <?php endif; ?> >Basque - Euskara</option>
       <option value="bg" <?php if($def_language == 'bg' or $def_language == false): ?> selected="" <?php endif; ?> >Bulgarian</option>
@@ -53,10 +53,6 @@ $(document).ready(function(){
       <option value="ru" <?php if($def_language == 'ru' or $def_language == false): ?> selected="" <?php endif; ?>>Russian - Русский</option>
       <option value="zh-cn" <?php if($def_language == 'zh-cn' or $def_language == false): ?> selected="" <?php endif; ?>>Simplified Chinese - 简体中文</option>
       <option value="slo" <?php if($def_language == 'slo' or $def_language == false): ?> selected="" <?php endif; ?>>Slovenian - Slovenščina</option>
-
-
-
-
       <option value="es" <?php if($def_language == 'es' or $def_language == false): ?> selected="" <?php endif; ?>>Spanish - Español</option>
       <option value="sv" <?php if($def_language == 'sv' or $def_language == false): ?> selected="" <?php endif; ?>>Swedish - Svenska</option>
       <option value="th" <?php if($def_language == 'th' or $def_language == false): ?> selected="" <?php endif; ?>>Thai - ภาษาไทย</option>

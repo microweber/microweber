@@ -133,23 +133,13 @@ function mw_apply_updates($params) {
 function mw_updates_count() {
 	$count = 0;
 	$upd_count = mw_check_for_update();
-
-
-
-	if (isset($upd_count['modules'])) {
-		$count = $count + sizeof($upd_count['modules']);
-	}
-	if (isset($upd_count['module_templates'])) {
-		$count = $count + sizeof($upd_count['module_templates']);
-	}
-	if (isset($upd_count['core_update'])) {
-		$count = $count + 1;
-	}
-	if (isset($upd_count['elements'])) {
-		$count = $count + sizeof($upd_count['elements']);
+	if(isset($upd_count['count'])){
+		return intval($upd_count['count']);
+	} else {
+		return false;
 	}
 
-	return $count;
+
 }
 
 $mw_avail_updates = false;
@@ -160,7 +150,7 @@ function mw_check_for_update() {
 		$update_api = new \mw\Update();
 
 		$iudates = $update_api -> check();
-
+$mw_avail_updates = $iudates;
 
 	}
 	return $mw_avail_updates;

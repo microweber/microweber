@@ -29,7 +29,7 @@ class Update
         }
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
+				ini_set("memory_limit", "160M");
                 ini_set("set_time_limit", 0);
             }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
@@ -52,7 +52,7 @@ class Update
         } else {
             cache_clean_group('update/global');
         }
-        ini_set("memory_limit", "160M");
+        
         $data = array();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = site_url();
@@ -105,10 +105,7 @@ class Update
 
 
         //if ($skip_cache == false) {
-        if ($result != false) {
-            cache_save($result, $c_id, 'update/global');
-        }
-
+       
 
         $count = 0;
 
@@ -150,9 +147,9 @@ class Update
                 $notif['module'] = "updates";
                 $notif['rel'] = "update_check";
                 $notif['rel_id'] = 'updates';
-                $notif['title'] = "New updates are avaiable";
+                $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
-
+ 
                 post_notification($notif);
             }
 
@@ -188,6 +185,23 @@ class Update
 
 
         //}
+		
+		 
+		if(isarr($result)){
+			$result['count'] = $count;
+		}
+		//$result =  $count;	
+	 
+		
+		
+		 if ($result != false) {
+            cache_save($result, $c_id, 'update/global');
+        }
+
+
+
+
+		
         return $result;
     }
 

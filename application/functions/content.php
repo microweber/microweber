@@ -410,10 +410,6 @@ $content = get_content_by_id($content['id']);
                             define("TEMPLATE_URL", $the_template_url);
                         }
 					}
-
-
-
-
 					$the_active_site_template = 'default';
 					$the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
 
