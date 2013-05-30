@@ -8,34 +8,34 @@ class MwSession {
     public $savePath;
 
     function MwSession(){
-		
+
 	$sessionpath = session_save_path();
-	 
+
 	if (strpos ($sessionpath, ";") !== FALSE){
   		$sessionpath = substr ($sessionpath, strpos ($sessionpath, ";")+1);
 	}
-	
+
 	if($sessionpath == ''){
-	$sessionpath =  DBPATH_FULL.'session'.DS;	
+	$sessionpath =  DBPATH_FULL.'session'.DS;
 	}
-	
+
 	 $this->savePath = $sessionpath;
-	 
+
 	}
 
     function open($savePath, $sessionName)
     {
 
 
- 
-		
+
+
 		 if($savePath != false and trim($savePath) != ''){
-			 
+
 				$this->savePath = $savePath;
-				
- 
+
+
 		 }
-     
+
         if (!is_dir($this->savePath)) {
             mkdir_recursive($this->savePath);
         }
@@ -62,14 +62,23 @@ class MwSession {
         }
          if(!is_file($this->savePath.DS.'index.php')){
             @touch($this->savePath.DS.'index.php');
+
+                $hta = $this->savePath .DS. '.htaccess';
+                if (!is_file($hta)) {
+                    touch($hta);
+                    file_put_contents($hta, 'Deny from all');
+                }
+
+
+
          }
- 
- 
- 
- 
+
+
+
+
 		$sess_file = $this->savePath.DS."sess_$id";
-		 
-		
+
+
 		  if ($fp = @fopen($sess_file, "w")) {
 		   flock($fp,LOCK_EX);
 		   $results=fwrite($fp, $data);
@@ -78,8 +87,8 @@ class MwSession {
 		  } else {
 		   return(false);
 		  }
-		 
- 
+
+
 
 
 
