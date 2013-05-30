@@ -116,19 +116,19 @@ $cont  = get_language_file_content();
   <tbody>
   <?php foreach($cont as $k => $item): ?>
   <tr>
-    <td><? print $k ?></td>
+    <td><?php print $k ?></td>
     <td>
-    <textarea name="<? print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><? print $item ?></textarea>
+    <textarea name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><?php print $item ?></textarea>
 
-<?php /*    <input name="<? print $k ?>" class="mw-ui-field" value="<? print $item ?>" style="width: 400px;" type="text" onchange="save_lang_form()" /></td> */ ?>
+<?php /*    <input name="<?php print $k ?>" class="mw-ui-field" value="<?php print $item ?>" style="width: 400px;" type="text" onchange="save_lang_form()" /></td> */ ?>
 
   </tr>
   </tbody>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 </table>
 </form>
-<? endif; ?>
  <div class="send-your-lang" style="margin: 40px 0;">
   <label class="mw-ui-label"><small>Help us to improove Microweber</small></label>
   <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a>
   </div>
+<?php endif; ?>
