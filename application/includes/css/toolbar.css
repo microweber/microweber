@@ -553,7 +553,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 .mw-col .ui-resizable-handle{
     visibility:hidden;
 }
-.mw-col:hover .ui-resizable-handle{
+.mw-col:hover .ui-resizable-handle, .mw-row:hover > .mw-col > .ui-resizable-handle{
     visibility:visible;
 }
 .element-active .mw-sorthandle:first-child{

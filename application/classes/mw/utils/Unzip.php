@@ -63,33 +63,43 @@ class Unzip {
 		$file_locations = array();
 		if(function_exists('zip_open')){
  			  $filename =$zip_file;
+			  
+			  
+			  
 				$archive = zip_open($filename);
-				while($entry = zip_read($archive)){
-					$size = zip_entry_filesize($entry);
-					$name = zip_entry_name($entry);
-					
-					$is_dir_there = $target_dir.$name;
-					$dnf = dirname($is_dir_there);
-					
-					if(!is_dir($dnf)){
-					 mkdir_recursive($dnf);	
-					}
-					
-					
-					if(!is_dir($target_dir.$name)){
-					$unzipped = @fopen($target_dir.$name,'wb');
-					while($size > 0){
-						$chunkSize = ($size > 10240) ? 10240 : $size;
-						$size -= $chunkSize;
-						$chunk = zip_entry_read($entry, $chunkSize);
-						if($chunk !== false){ 
-						@fwrite($unzipped, $chunk);
+				
+				
+				if (is_resource($archive)){
+					while($entry = zip_read($archive)){
+						$size = zip_entry_filesize($entry);
+						$name = zip_entry_name($entry);
+						
+						$is_dir_there = $target_dir.$name;
+						$dnf = dirname($is_dir_there);
+						
+						if(!is_dir($dnf)){
+						 mkdir_recursive($dnf);	
+						}
+						
+						
+						if(!is_dir($target_dir.$name)){
+						$unzipped = @fopen($target_dir.$name,'wb');
+						while($size > 0){
+							$chunkSize = ($size > 10240) ? 10240 : $size;
+							$size -= $chunkSize;
+							$chunk = zip_entry_read($entry, $chunkSize);
+							if($chunk !== false){ 
+							@fwrite($unzipped, $chunk);
+							}
+						}
+						$file_locations[] = $target_dir.$name;
+						@fclose($unzipped);
 						}
 					}
-					$file_locations[] = $target_dir.$name;
-					@fclose($unzipped);
-					}
+					  zip_close($archive);
 				}
+				
+
 			
 			
 			return $file_locations;
@@ -114,8 +124,8 @@ class Unzip {
         $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
 		
 		
-		
-		
+		 
+		 
 		
 		
 		
@@ -123,7 +133,11 @@ class Unzip {
 		
 		
 		if(function_exists('zip_open')){
-			return $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
+			$is_any =  $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
+			 
+			if(!empty($is_any)){
+						return $is_any;		
+			} 			
 		}
 		
 		
@@ -131,14 +145,14 @@ class Unzip {
 		
 		
 		
+		 
 		
 		
 		
 		
 		
 		
-		
-		
+		if(function_exists('gzinflate')){
 		
 		
 		
@@ -179,7 +193,7 @@ class Unzip {
 
             $folders = explode('/', $dirname);
             $out_dn = $this->_target_dir . '/' . $dirname;
-$out_dn = str_replace('\/', DS,  $out_dn);
+			$out_dn = str_replace('\/', DS,  $out_dn);
             // Skip stuff in stupid folders
             if (in_array(current($folders), $this->_skip_dirs)) {
                 continue;
@@ -234,6 +248,8 @@ $out_dn = str_replace('\/', DS,  $out_dn);
 
                         if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
                             $this->set_error('Desitnation path is not writable.');
+							$resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
+		return $resp;
                             return FALSE;
                         }
 
@@ -253,6 +269,18 @@ $out_dn = str_replace('\/', DS,  $out_dn);
         }
 
         return $file_locations;
+		
+		
+		
+		
+		}
+		
+		$resp = array('error' => 'There was an error with the unzip');
+		return $resp;
+		
+		
+		
+		
     }
 
     // --------------------------------------------------------------------
