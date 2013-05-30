@@ -47,7 +47,7 @@ function __store_lang_file($lang = 'en')
         $lang_file_str .= ' $language=array();' . "\n";
         foreach ($language_content as $key => $value) {
 
-            $value = addslashes($value);
+            $value =  ($value);
             $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
         }
