@@ -22,6 +22,10 @@ team = {
         team.newContent(curr, next);
       },
       newImage:function(curr, next){
+
+
+
+
         var a = mwd.createElement("img");
         var b = mwd.createElement("img");
         a.src = mw.$("#mw-team-activator img")[0].src;
@@ -30,18 +34,6 @@ team = {
 
         mw.$("#mw-team-activator .mw-member-image").prepend(b);
 
-        var c =  mw.$(".mwmember.active");
-
-
-
-        c.next(".mwmember").length > 0 ? c.next(".mwmember").find(".mw-member-image").prepend(a) : mw.$(".mwmember").eq(0).find(".mw-member-image").prepend(a);
-
-
-        c.removeClass("active");
-
-
-
-        c.next(".mwmember").length > 0 ? c.next(".mwmember").addClass("active") : mw.$(".mwmember").eq(0).addClass("active");
 
         $(a).next().css({opacity:0});
         $(b).next().css({opacity:0});
@@ -49,15 +41,24 @@ team = {
             $(a).next().remove();
             $(b).next().remove();
         }, 300);
+
+
+
+
+
       },
-      newContent : function(curr, next){
+      newContent : function (curr, next){
 
       },
       init : function(){
 
         setInterval(function(){
-            team.flip()
+            //team.flip()
         }, 1000);
+
+
+
+
       }
 };
 

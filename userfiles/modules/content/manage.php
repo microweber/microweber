@@ -77,13 +77,13 @@ else {
 
 <script type="text/javascript">
 
- 
+
 
 
 
 $(document).ready(function(){
-setTimeout(function(){ 
-	
+
+
 		var prev_frame_attrs = {};
 
 $('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
@@ -94,15 +94,15 @@ $('#mw_page_layout_preview').attr('autoload',"1");
 
 $('#mw_page_layout_preview').attr('data-small',"1");
 
- 
+
  mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
-	
-	
-	
-	}, 200);  
-	  
-    });	  
-</script>	
+
+
+
+
+
+    });
+</script>
 
 
 
