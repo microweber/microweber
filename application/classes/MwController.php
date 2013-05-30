@@ -813,7 +813,9 @@ $is_editmode = false;
 	}
 
 	function admin() {
-
+        if (!defined('MW_BACKEND')) {
+            define('MW_BACKEND', true);
+        }
 		if (MW_IS_INSTALLED == true) {
 			//exec_action('mw_db_init');
 			exec_action('mw_cron');

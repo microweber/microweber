@@ -20,6 +20,7 @@
           <div class="box-content">Microweber is free & easy drag and drop content managament system (CMS) of new generation.</div>
         </div>
       </div>
+      <div class="mw-member mwmember active" style="display: none"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" /></span></div>
       <div class="mw-member mwmember"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/peter.jpg" alt="" /></span></div>
       <div class="mw-member mwmember"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/boris.jpg" alt="" /></span></div>
       <script type="text/javascript">

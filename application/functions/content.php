@@ -909,6 +909,8 @@ function get_content_by_url($url = '', $no_recursive = false) {
 	return get_page_by_url($url, $no_recursive);
 }
 
+$mw_skip_pages_starting_with_url = array('admin','api','module'); //its set in the funk bellow
+$mw_precahced_links = array();
 function get_page_by_url($url = '', $no_recursive = false) {
 	if (strval($url) == '') {
 
@@ -950,8 +952,47 @@ function get_page_by_url($url = '', $no_recursive = false) {
 	}
 	$url = rtrim($url, '?');
 	$url = rtrim($url, '#');
+
+    global $mw_skip_pages_starting_with_url;
+
+    if (1 !== stripos($url, 'http://') && 1 !== stripos($url, 'https://')) {
+       // $url = 'http://' . $url;
+       // return false;
+
+    }
+    if (defined('MW_BACKEND')) {
+        return false;
+
+    }
+    if(isarr($mw_skip_pages_starting_with_url)){
+        $segs = explode('/', $url);
+
+        foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
+            if(in_array( $skip_page_url, $segs)){
+                return false;
+            }
+           /* if (0 !== stripos($url, $skip_page_url) or 0 !== stripos($url, $skip_page_url.'/')){
+
+            }*/
+        }
+
+    }
+
+
+
+
+    global $mw_precahced_links;
+
+
+    $link_hash = 'link'.crc32($url);
+
+    if(isset( $mw_precahced_links[$link_hash])){
+        return $mw_precahced_links[$link_hash];
+    }
+
+
 	$sql = "SELECT id from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
-  //d($sql);
+
 	$q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
 	$result = $q;
@@ -962,7 +1003,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 
 
 		//$get_by_id = $content;
-
+        $mw_precahced_links[$link_hash] =  $content;
 		return $content;
 	}
 
@@ -986,7 +1027,7 @@ function get_page_by_url($url = '', $no_recursive = false) {
 					$url = get_page_by_url($test[0], true);
 				}
 				if (!empty($url)) {
-
+                    $mw_precahced_links[$link_hash] =  $url;
 					return $url;
 				}
 
@@ -999,9 +1040,10 @@ function get_page_by_url($url = '', $no_recursive = false) {
 		$content['id'] = ((int)$content['id']);
 		}
 		//$get_by_id = get_content_by_id($content['id']);
-
+        $mw_precahced_links[$link_hash] =  $content;
 		return $content;
 	}
+    $mw_precahced_links[$link_hash] =  false;
 }
 
 /**
