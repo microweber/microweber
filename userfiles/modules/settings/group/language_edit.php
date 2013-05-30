@@ -128,13 +128,7 @@ $cont  = get_language_file_content();
 </table>
 </form>
 <? endif; ?>
-
-
-
-
-  <div class="send-your-lang" style="margin: 40px 0;">
-
+ <div class="send-your-lang" style="margin: 40px 0;">
   <label class="mw-ui-label"><small>Help us to improove Microweber</small></label>
   <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a>
-
   </div>
