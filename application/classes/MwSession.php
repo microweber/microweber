@@ -6,8 +6,10 @@ class MwSession {
 
 
     public $savePath;
+	
+	 private $store = false;
 
-    function MwSession(){
+    function __construct(){ 
 
 	$sessionpath = session_save_path();
 
@@ -50,11 +52,22 @@ class MwSession {
 
     function read($id)
     {
-        return (string)@file_get_contents($this->savePath.DS."sess_$id");
+       
+	   if($this->store != false){
+		   return $this->store;
+	   } else {
+			$this->store = (string)@file_get_contents($this->savePath.DS."sess_$id");
+		  return $this->store;
+	   }
+	   
+	      
     }
 
     function write($id, $data)
     {
+
+
+$this->store =  false;
 
         if(!is_dir($this->savePath)){
             mkdir_recursive($this->savePath);
@@ -80,7 +93,7 @@ class MwSession {
 
 
 		  if ($fp = @fopen($sess_file, "w")) {
-		   flock($fp,LOCK_EX);
+		  // flock($fp,LOCK_EX);
 		   $results=fwrite($fp, $data);
 		   flock($fp,LOCK_UN);
 		   return($results);

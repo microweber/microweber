@@ -189,7 +189,7 @@ if (isset($_POST['IS_INSTALLED'])) {
                 print('done');
 
             }
-
+@session_write_close();
             exit();
 
             //var_dump($_REQUEST);

@@ -576,3 +576,7 @@ $language["please-choose-page-or-category"]= 'Please choose Page or Category' ;
 $language["parent"]= 'Parent' ; 
 $language["about-us"]= 'About Us' ; 
 $language["our-team"]= 'Our Team' ; 
+$language["back-to-admin"]= 'Back to Admin' ; 
+$language["background-color"]= 'Background color' ; 
+$language["title"]= 'Title' ; 
+$language["install"]= 'Install' ; 

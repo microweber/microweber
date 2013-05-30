@@ -62,6 +62,9 @@ function mw_post_update() {
 
 }
 
+
+
+
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($params) {
@@ -165,6 +168,18 @@ function mw_check_for_update() {
 }
 
 
+
+
+
+//api_expose('mw_send_anonymous_server_data');
+// function used do send us the language files
+function mw_send_anonymous_server_data($params) {
+	only_admin_access();
+	$update_api = new \mw\Update();
+	$iudates = $update_api -> send_anonymous_server_data($params);
+	return $iudates;
+
+}
 
 
 

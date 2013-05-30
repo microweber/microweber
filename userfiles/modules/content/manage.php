@@ -74,6 +74,39 @@ else {
 
 ?>
 
+
+<script type="text/javascript">
+
+ 
+
+
+
+$(document).ready(function(){
+setTimeout(function(){ 
+	
+		var prev_frame_attrs = {};
+
+$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
+$('#mw_page_layout_preview').attr('inherit_from',"<?php print ($page_info['id'])?>");
+$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
+
+$('#mw_page_layout_preview').attr('autoload',"1");
+
+$('#mw_page_layout_preview').attr('data-small',"1");
+
+ 
+ mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
+	
+	
+	
+	}, 200);  
+	  
+    });	  
+</script>	
+
+
+
+
 <div class="mw-admin-page-preview-holder">
   <div  class="mw-admin-page-preview-page">
     <div style="width: 370px;margin-left: 30px;" class="left">
@@ -81,7 +114,7 @@ else {
       <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
       <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
       <?php endif; ?>
-      <module data-type="content/layout_selector" data-page-id="<?php print ($page_info['id'])?>" autoload="1" inherit_from="<?php print ($page_info['id'])?>" data-small=1 edit_page_id="<?php print ($page_info['id'])?>"  />
+      <div style="height:335px;" id="mw_page_layout_preview"></div>
     </div>
     <div class="right" style="width: 210px;">
       <?php if(isset($page_info) and isset($page_info['title'])): ?>

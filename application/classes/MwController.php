@@ -212,7 +212,9 @@ $is_editmode = false;
 		
 		if (isset($is_preview_template) and $is_preview_template != false){
 
-			 session_write_close();
+			 if (!defined('MW_NO_SESSION')){
+				 define('MW_NO_SESSION', true);
+			 }
 			}
 		
 		
@@ -422,8 +424,12 @@ $is_editmode = false;
 
 
 		if (isset($page['is_pinged']) and $page['is_pinged'] == "n" ) {
+				if (!isset($is_preview_template) or $is_preview_template == false){
+
 
 					content_ping_servers_async();
+					
+				}
 					}
 
 		if ($is_preview_template != false and $is_admin == true) {
@@ -470,7 +476,7 @@ $is_editmode = false;
 		}
 
 		define_constants($content);
-
+ 
 		//$page_data = get_content_by_id(PAGE_ID);
 
 		$render_file = get_layout_for_page($content);

@@ -494,6 +494,21 @@ class Update
 
     }
 
+
+    function send_anonymous_server_data($params = false){
+
+        if ($params != false) {
+            $params = parse_params($params);
+        } else {
+            $params = array();
+        }
+        $params['site_url'] = site_url();
+        $result = $this->call('send_anonymous_server_data', $params);
+        return $result;
+    }
+
+
+
     function call($method = false, $post_params = false)
     {
         $cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
@@ -529,17 +544,12 @@ class Update
 
             $result1 = $curl->post($post_params_to_send);
 
-            //\curl_setopt($ch, CURLOPT_POST, count($post_params_to_send));
-            //\curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params_to_send);
-            //
-            //
-            //
         } else {
-            //$result1 = \curl_exec($ch);
-            $result1 = $curl->post($post_params_to_send);
+            $result1 = false;
+            // $result1 = $curl->post($post_params_to_send);
         }
 
-        if ($result1 == '') {
+        if ($result1 == '' or $result1 == false) {
             return false;
         }
 

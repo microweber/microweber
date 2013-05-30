@@ -406,7 +406,14 @@ $content = get_content_by_id($content['id']);
 						if (defined('THIS_TEMPLATE_URL') == false) {
 							define("THIS_TEMPLATE_URL", $the_template_url);
 						}
+                        if (defined('TEMPLATE_URL') == false) {
+                            define("TEMPLATE_URL", $the_template_url);
+                        }
 					}
+
+
+
+
 					$the_active_site_template = 'default';
 					$the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
 
