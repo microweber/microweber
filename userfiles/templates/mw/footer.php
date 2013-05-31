@@ -23,4 +23,4 @@
   <div class="modal-body" id="mwmodal-content"> </div>
   <div class="modal-footer"> <a href="javascript:;" class="btn pull-left" style="margin-top: 7px;" data-dismiss="modal" aria-hidden="true">Cancel</a> <a href="/download.php" class="btn btn-large btn-info pull-right" rel="nofollow" onclick="$('mwmodal').modal('hide')">Download</a> </div>
 </div>
-</body></html>
+<?php include "foot.php"; ?>

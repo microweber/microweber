@@ -354,6 +354,7 @@ video{
   height:85px;
   width: 100%;
   display: table;
+  margin-bottom: 30px;
 }
 
 .mw-member{

@@ -176,9 +176,11 @@ if (isset($_POST['IS_INSTALLED'])) {
                         ob_start();
                          $rest = $restore->exec_restore();
 						 
-						 // d($rest);
-						 
+										 
+							//mw_post_update();			 
+
                          ob_get_clean();
+						 // exec_action('mw_scan_for_modules');
                         //d($to_save['with_default_content']);
                     }
 

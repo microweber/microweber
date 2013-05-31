@@ -97,7 +97,7 @@ class Files
      *
      *
      * Stores your data in the cache.
-     * It can store any value, such as strings, array, objects, etc.
+     * It can store any value that can be serialized, such as strings, array, objects, etc.
      *
      * @param mixed $data_to_cache
      *            your data

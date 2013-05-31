@@ -5,6 +5,8 @@
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php print site_url('sitemap.xml'); ?>" /> 
+
     <meta property="og:title" content="{content_meta_title}">
     <meta name="keywords" content="{content_meta_keywords}">
     <meta name="description" content="{content_meta_description}">

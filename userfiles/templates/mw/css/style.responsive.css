@@ -1,3 +1,9 @@
+@media (max-width: 1200px) {
+  #h-features p{
+    font-size: 13px;
+  }
+
+}
 @media (min-width: 979px) {
 
 #main-nav{
