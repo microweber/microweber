@@ -263,7 +263,7 @@ h1,h2,h3,h4,h5,h6{
 
 .box.hover2.box-deactivated:hover [class*='box-arr']{
   display: block;
-  opacity:0.5;
+  opacity:0.4;
 }
 
 

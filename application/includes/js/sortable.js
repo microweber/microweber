@@ -259,7 +259,7 @@ mw.drag = {
                      $(window).trigger("onModuleOver", mw.mm_target);
                    }
                    else if(mw.$mm_target.parents(".module").length>0){
-                     $(window).trigger("onModuleOver", mw.$mm_target.parents(".module:first")[0]);
+                     $(window).trigger("onModuleOver", mw.tools.firstParentWithClass(mw.mm_target, 'module'));
                    }
                    else if(mw.mm_target.id!='mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length==0){
                      $(window).trigger("onModuleLeave", mw.mm_target);

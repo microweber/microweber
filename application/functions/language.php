@@ -47,7 +47,7 @@ function __store_lang_file($lang = 'en')
         $lang_file_str .= ' $language=array();' . "\n";
         foreach ($language_content as $key => $value) {
 
-            $value =  ($value);
+            $value =  addslashes($value);
             $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
         }
@@ -175,15 +175,21 @@ function _e($k, $to_return = false)
 
             //@file_put_contents($lang_file, $b, FILE_APPEND);
         }
+		
+		
+		
+		$k =  stripslashes($k);
         if ($to_return == true) {
             return $k;
         }
         print $k;
     } else {
+		$val =  stripslashes($language_content[$k1]);
         if ($to_return == true) {
-            return $language_content[$k1];
+			
+            return $val ;
         }
-        print $language_content[$k1];
+        print $val ;
     }
 }
 
