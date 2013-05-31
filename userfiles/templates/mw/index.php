@@ -20,7 +20,6 @@
           <div class="box-content">Microweber is free & easy drag and drop content managament system (CMS) of new generation.</div>
         </div>
       </div>
-      <div class="mw-member mwmember active" style="display: none"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" /></span></div>
       <div class="mw-member mwmember"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/peter.jpg" alt="" /></span></div>
       <div class="mw-member mwmember"> <span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/boris.jpg" alt="" /></span></div>
       <script type="text/javascript">
@@ -52,19 +51,19 @@
     <div class="row">
       <div class="span4">
         <div id="h-features">
-          <div class="box" id="how-it-works">
+          <div class="box hover2" id="how-it-works">
             <div class="box-content">
               <h3>How it works? </h3>
               <p>The easiest CMS in the Internet! Make Web by drag & drop as you always wanted!</p>
             </div>
             <i class="box-arr-rightcenter"></i> </div>
-          <div class="box box-deactivated" id="shop-for-free">
+          <div class="box box-deactivated hover2" id="shop-for-free">
             <div class="box-content">
               <h3>Shop for Free? </h3>
               <p>Sure! Create your online shop right now!</p>
             </div>
             <i class="box-arr-rightcenter"></i> </div>
-          <div class="box box-deactivated" id="need-a-blog">
+          <div class="box box-deactivated hover2" id="need-a-blog">
             <div class="box-content">
               <h3>Need a Blog? </h3>
               <p>Alright! Your professional Blog for free Get it!</p>

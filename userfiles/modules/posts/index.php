@@ -309,9 +309,13 @@ if (!empty($content)){
 			}
 
 			$item['link'] = content_link($item['id']);
+			
+ 
 			if(!isset( $item['description']) or $item['description'] == ''){
 				if(isset( $item['content']) and $item['content'] != ''){
-					$item['description'] = character_limiter(strip_tags( $item['content']),$character_limit);
+					 
+					$item['description'] = character_limiter(strip_tags($item['content']),$character_limit);
+					 
 				}
  			} else {
 				$item['description'] = character_limiter(strip_tags( $item['description']),$character_limit);

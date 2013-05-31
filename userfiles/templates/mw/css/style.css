@@ -248,9 +248,25 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .box.hover:hover{
- background: white;
+  background: white;
   box-shadow: 0 0 3px #ccc;
 }
+
+.box.hover:hover [class*='box-arr']{
+  display: block;
+}
+.box.hover2.box-deactivated:hover{
+  background: white;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 3px #DBDBDB;
+}
+
+.box.hover2.box-deactivated:hover [class*='box-arr']{
+  display: block;
+  opacity:0.5;
+}
+
+
 
 .start{
   display: block;
@@ -350,9 +366,7 @@ h1,h2,h3,h4,h5,h6{
   box-shadow: 0 0 3px #ccc;
 
 }
-.mw-member-image:hover{
-  opacity: 0.5;
-}
+
 
 .mw-member-image img{
   width: 77px;
@@ -360,10 +374,10 @@ h1,h2,h3,h4,h5,h6{
   position: absolute;
   top: 0;
   left: 0;
-    -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+  -webkit-transition: all 0.6s linear;
+  -moz-transition: all 0.6s linear;
+  -o-transition: all 0.6s linear;
+  transition: all 0.6s linear;
 }
 
 
@@ -376,6 +390,7 @@ h1,h2,h3,h4,h5,h6{
 #h-features .box{
   cursor: pointer;
   display: block;
+  margin-bottom: 12px;
 }
 
 #h-features h3{
@@ -388,13 +403,15 @@ h1,h2,h3,h4,h5,h6{
     background: url(../img/home.about.icons.png) no-repeat;
 }
 
-#h-features .box-deactivated h3, #h-features .box-deactivated p{
-  opacity: 0.5;
 
+
+#h-features .box-deactivated h3, #h-features .box-deactivated p{
+  /*opacity: 0.5;
+    */
 }
 
 #h-features h3, #h-features p{
-    -webkit-transition: all 0.3s linear;
+   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;

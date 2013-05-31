@@ -5,56 +5,66 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 team = {
+      thematrix:{
+        "0": [0, 1, 2],
+        "1": [1, 0, 2],
+        "2": [2, 0, 1]
+      },
       active : 0,
       flip:function(){
-        var curr = _team[team.active], next;
-        if(typeof _team[team.active + 1] != 'undefined'){
-            team.active ++;
-            var next = _team[team.active ];
+        if(typeof team.thematrix[team.active + 1] !== 'undefined'){
+            team.active ++ ;
+            var next = team.thematrix[team.active];
         }
-        else {
-           team.active = 0;
-           var next = _team[0];
-
+        else{
+          var next = team.thematrix[0];
+          team.active = 0;
         }
-        team.newImage(curr, next);
-        team.newContent(curr, next);
-      },
-      newImage:function(curr, next){
-
-
-
-
-        var a = mwd.createElement("img");
-        var b = mwd.createElement("img");
-        a.src = mw.$("#mw-team-activator img")[0].src;
-        b.src = next.img;
-
-
-        mw.$("#mw-team-activator .mw-member-image").prepend(b);
-
-
-        $(a).next().css({opacity:0});
-        $(b).next().css({opacity:0});
-        setTimeout(function(){
-            $(a).next().remove();
-            $(b).next().remove();
-        }, 300);
-
-
-
-
+        team.newImages(next);
 
       },
-      newContent : function (curr, next){
+      newImages:function(next){
+        var i = 0, l = next.length;
+        for( ; i < l; i++){
+            var e = next[i];
+            var image_holder = mw.$(".mw-member-image").eq(i);
+            var src = _team[e].img;
+            var img = mwd.createElement('img');
+            img.src = src;
+            image_holder.prepend(img);
 
+            if( i === 0){
+              team.newText(_team[e]);
+            }
+            $(img).next().css({opacity:0});
+            setTimeout(function(){
+                image_holder.find("img:last").eq(1).remove();
+               // alert(1)
+            }, 620);
+        }
       },
+      newText:function(i){
+        var box = mw.$("#mw-team-activator .box-content");
+        var text = i.text;   d(text)
+        box.html(text);
+      },
+
       init : function(){
 
         setInterval(function(){
-            //team.flip()
-        }, 1000);
+            team.flip()
+        }, 7000);
 
 
 

@@ -64,27 +64,37 @@ function file_size_nice($size) {
 }
 
 
-function character_limiter($str, $length,$dots='...', $minword = 3) {
-	$sub = '';
-	$len = 0;
+if ( ! function_exists('character_limiter'))
+{
+    function character_limiter($str, $n = 500, $end_char = '&#8230;')
+    {
+        if (strlen($str) < $n)
+        {
+            return $str;
+        }
+        $str = strip_tags($str);
+        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
-$str = strip_tags($str);
-	if(strlen($str) < intval($length)){
-		return $str;
-	}
+        if (strlen($str) <= $n)
+        {
+            return $str;
+        }
 
-	foreach (explode(' ', $str) as $word) {
-		$part = (($sub != '') ? ' ' : '') . $word;
-		$sub .= $part;
-		$len += strlen($part);
+        $out = "";
+        foreach (explode(' ', trim($str)) as $val)
+        {
+            $out .= $val.' ';
 
-		if (strlen($word) > $minword && strlen($sub) >= $length) {
-			break;
-		}
-	}
-
-	return $sub . (($len < strlen($str)) ? $dots : '');
+            if (strlen($out) >= $n)
+            {
+                $out = trim($out);
+                return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+            }
+        }
+    }
 }
+
+
 
 function array_pp($arr){
 	$retStr = '<ul>';
@@ -742,17 +752,17 @@ function safe_redirect($url) {
 
 
 if(function_exists('session_set_save_handler')){
-	
-	
-$check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR .   'MwSession.php';	
-	
+
+
+$check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR .   'MwSession.php';
+
 	if(file_exists($check_if_custom_session_class)){
-		
-		 
+
+
 	$mw_session_handler = new MwSession();
-	
-	 
-	 
+
+
+
 	session_set_save_handler(
 		array($mw_session_handler, 'open'),
 		array($mw_session_handler, 'close'),
@@ -761,8 +771,8 @@ $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARAT
 		array($mw_session_handler, 'destroy'),
 		array($mw_session_handler, 'gc')
 		);
-	
-	
+
+
 	}
 
 
