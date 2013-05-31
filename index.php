@@ -39,6 +39,7 @@ require_once (MW_APPPATH_FULL . 'functions' . DS . 'mw_functions.php');
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false) {
+    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
 	$v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
 	$v -> e = $e;
@@ -83,7 +84,7 @@ if (!defined('MW_BARE_BONES')) {
 	}
 
 
- 
+
 
 	$admin_url = c('admin_url');
 	if ($m == 'admin' or $m == $admin_url) {

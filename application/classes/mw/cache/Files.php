@@ -34,6 +34,7 @@ class Files
 
 
     public $mw_cache_saved_files = array();
+    public $mw_cache_deleted_groups = array();
     public $mw_cache_mem = array();
     public $mw_cache_mem_hits = array();
     public $apc = false;
@@ -205,6 +206,21 @@ class Files
     public function delete($cache_group = 'global')
     {
         $apc_obj = false;
+
+        if ($this->mw_cache_deleted_groups == null) {
+            $this->mw_cache_deleted_groups = array();
+        }
+        if (!in_array($cache_group, $this->mw_cache_deleted_groups)) {
+            $this->mw_cache_deleted_groups[] = $cache_group;
+
+        } else {
+            return  true;
+            //	print $cache_id;
+        }
+
+
+
+
         if (defined('APC_CACHE') and APC_CACHE == true) {
             if ($this->apc != false) {
 

@@ -15,6 +15,10 @@ body{
   color: #696969;
 }
 
+body.blue{
+    background: #4791C8;
+}
+
 input, textarea, select, a{
   outline: none;
 }
@@ -215,6 +219,8 @@ h1,h2,h3,h4,h5,h6{
 
 video{
   background-color: #4791C8;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 
@@ -223,6 +229,10 @@ video{
   display: inline-block;
   position: relative;
   box-shadow: 0 0 3px #ccc;
+}
+
+body.blue .box{
+  box-shadow: 0 0 3px #777;
 }
 
 
@@ -241,7 +251,7 @@ video{
   height: 0;
 }
 
-.box [class*='box-arr']{
+[class*='box-arr']{
     display: block;
     position: absolute;
     width:14px;
@@ -249,6 +259,8 @@ video{
     background-image: url(../img/boxarr.png);
     background-repeat: no-repeat;
 }
+
+
 
 .box-arr-leftcenter{
   left: -14px;
@@ -260,6 +272,14 @@ video{
   top: 50%;
   margin-top: -14px;
   background-position: right top;
+}
+.box-arr-topcenter{
+  top: -14px;
+  left: 50%;
+  margin-left: -14px;
+  width:28px;
+  height: 14px;
+  background-position: 0 0 ;
 }
 
 .box.box-deactivated{
@@ -275,6 +295,8 @@ video{
   box-shadow: 0 0 3px #ccc;
 }
 
+body.blue .box.hover:hover{ box-shadow: 0 0 3px #777; }
+
 .box.hover:hover [class*='box-arr']{
   display: block;
 }
@@ -283,6 +305,8 @@ video{
   background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 3px #DBDBDB;
 }
+
+body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 
 .box.hover2.box-deactivated:hover [class*='box-arr']{
   display: block;
@@ -495,4 +519,33 @@ video{
 
 
 /* /Home */
+
+
+
+
+
+
+/* Login Page */
+
+#login-form{
+  width: 520px;
+  height: 400px;
+  margin: auto;
+  max-width: 100%;
+}
+
+
+.loginico{
+  position: absolute;
+  left:-44px;
+  top: 50%;
+  margin-top: -93px;
+  display: block;
+  width:88px;
+  height: 187px;
+  background: url(../img/loginicons.png) no-repeat
+}
+
+
+/* /Login Page */
 

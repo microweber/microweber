@@ -1,6 +1,6 @@
-<?php include "head.php"; ?>
-    
-    <script>if(self !== top) { document.body.className += ' iframe' }</script>
+    <?php include "head.php"; ?>
+
+    <?php /*<script>if(self !== top) { document.body.className += ' iframe' }</script>*/ ?>
 
 
 
@@ -35,13 +35,10 @@
                 <a href="javascript:;">Login</a>
             </div>
 
-    <div class="btn-group" id="usernav-mobile">
-      <a class="btn btn-info">Sign up</a>
-      <a class="btn btn-warning">Login</a>
-    </div>
-
-
-
+            <div class="btn-group" id="usernav-mobile">
+              <a class="btn btn-info">Sign up</a>
+              <a class="btn btn-warning">Login</a>
+            </div>
 
               <ul class="nav nav-pills" id="main-nav">
                 <li class="active"><a href="javascript:;">Home</a></li>

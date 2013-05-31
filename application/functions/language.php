@@ -47,7 +47,7 @@ function __store_lang_file($lang = 'en')
         $lang_file_str .= ' $language=array();' . "\n";
         foreach ($language_content as $key => $value) {
 
-            $value = addslashes($value);
+            $value =  ($value);
             $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
         }
@@ -175,20 +175,15 @@ function _e($k, $to_return = false)
 
             //@file_put_contents($lang_file, $b, FILE_APPEND);
         }
-
-
-        $k = stripslashes($k);
         if ($to_return == true) {
             return $k;
         }
         print $k;
     } else {
-        $val = stripslashes($language_content[$k1]);
         if ($to_return == true) {
-
-            return $val;
+            return $language_content[$k1];
         }
-        print $val;
+        print $language_content[$k1];
     }
 }
 
@@ -198,30 +193,22 @@ function set_language($lang = 'en')
     session_set('lang', $lang);
     return $lang;
 }
-
 api_expose('send_lang_form_to_microweber');
 
-function send_lang_form_to_microweber($data)
-{
+function send_lang_form_to_microweber($data){
     if (is_admin() == true) {
         $def_language = get_option('language', 'website');
-
-
-        if ($def_language == false) {
-            $def_language = 'en';
-        }
 
         $send = array();
         $send['function_name'] = __FUNCTION__;
         $send['language'] = $def_language;
         $send['data'] = $data;
-        return mw_send_anonymous_server_data($send);
+ return mw_send_anonymous_server_data($send);
 
 
     }
 
 }
-
 api_expose('save_language_file_content');
 function save_language_file_content($data)
 {
@@ -301,7 +288,7 @@ function get_language_file_content()
                     mkdir_recursive($cust_dir);
                 }
 
-                if (copy($en_lang_file, $cust_lang)) {
+                if(copy($en_lang_file, $cust_lang)){
                     $lang_file = $cust_lang;
                 }
 

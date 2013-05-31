@@ -584,6 +584,9 @@ function get($params) {
 	}
 
 	$mode = 1;
+    if(isset($no_cahce) and $no_cahce == true){
+        $mode = 2;
+    }
 	switch ($mode) {
 		case 1 :
 		static $results_map = array();
@@ -602,7 +605,7 @@ function get($params) {
 
 		}
 		break;
-
+        case 2 :
 		default :
 		$ge = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 

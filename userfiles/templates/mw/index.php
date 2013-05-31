@@ -138,10 +138,18 @@
                                      width="100%"
                                      height="350px"
                                      scrolling="no"></iframe>-->
+
+                                     <style type="text/css">
+
+                                             #wistia_abcde12345 div, #wistia_abcde12345 {
+                                               width: auto !important;
+                                             }
+                                            
+                                     </style>
               
-              <div id="wistia_abcde12345" style="height:350px;width:100%" data-video-width="100%" data-video-height="350"> </div>
+              <div id="wistia_abcde12345" data-autoresize="none" style="height:350px;width:100%" data-video-width="100%" data-video-height="350"> </div>
               <script src="http://fast.wistia.net/static/E-v1.js"></script> 
-              <script src="http://fast.wistia.net/static/concat/E-v1-gridify,socialbar-v1.js"></script> 
+              <script src="http://fast.wistia.net/static/concat/E-v1-gridify,socialbar-v1.js"></script>
               <script>
                                       wistiaEmbed = Wistia.embed("1be6jcecsf", {
                                         playerColor: "2B6F9C",
@@ -151,12 +159,16 @@
                                         platformPreference:'html5',
                                         controlsVisibleOnLoad:true
                                       });
+
+                                      d(wistiaEmbed)
                                       $(window).load(function(){
                                          var poster = document.getElementById('wistia_1_poster');
 
                                          if(poster !== null ){
                                            poster.style.display = 'none';
                                          }
+
+
 
                                       });
 
