@@ -13,6 +13,7 @@
   }
   #usernav{
     float: right;
+    padding-right: 10px;
   }
 
   #h-features h3{
@@ -23,25 +24,35 @@
     margin-top: 12px;
   }
 
+
+
 }  /* / max-width: 979px */
 
 @media (max-width: 767px) {
 
   #main-nav {
-     width: 300px;
+
      display: none;
-     margin: auto;
-     padding-bottom: 20px;
-     float: none;
-     max-width: 100%;
+
+  }
+
+  #home-videos{
+    display: none;
+  }
+
+  #main-menu-toggle{
+    display: inline-block;
   }
 
   #main-menu-toggle{
     display: block;
   }
 
-  #main-nav li{
-    float: none;
+  #mw-team{
+    display: none;
+  }
+  #mw-team-mobile{
+    display: block;
   }
 
   #header{
@@ -52,38 +63,59 @@
   #usernav{
     padding-right: 0px;
     padding-top: 5px;
+    padding-bottom: 12px;
     clear: both;
+    display: none;
+  }
+  #usernav-mobile {
+    display: block;
   }
 
 }
 
 @media (max-width: 490px) {
 
+    #logo, #download_section, #usernav, .download-btn{
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
+      width: 193px;
+      text-align: center;
+      display: block;
+    }
+     .download-btn{
+       width: 135px;
+     }
+
     #download_section{
         padding-top: 20px;
     }
 
-    #main-nav{
-      width: auto;
-      clear: both;
-      float: none;
-      padding-top: 30px;
-      margin: 0
-    }
+
     #usernav{
       padding-top: 5px;
       padding-right: 0;
       clear: both;
-    }
-
-    #main-nav {
-      -moz-column-count:auto;
-      -webkit-column-count:auto;
-      column-count:auto;
-    }
-
-    #mw-team{
       display: none;
     }
+    #usernav-mobile {
+      float: none;
+    }
+
+    #main-menu-toggle{
+      display:block;
+      clear: both;
+      width: 193px;
+      float: none;
+      margin: auto;
+      padding: 20px 0 0;
+    }
+    #main-menu-toggle .btn{
+      width: 170px;
+      padding: 10px;
+    }
+     #main-menu-toggle  .dropdown-menu{
+       width: 190px;
+     }
 
 }

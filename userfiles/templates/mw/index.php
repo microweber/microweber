@@ -14,6 +14,51 @@
 
 <div id="content">
   <div class="container">
+   <?php /*<div id="mw-team-mobile" class="row">
+        <div class="span4">
+          <div class="box">
+            <div class="box-content">
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="box">
+            <div class="box-content">
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/peter.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="box">
+            <div class="box-content">
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/boris.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+            </div>
+          </div>
+        </div>
+   </div>*/ ?>
+
+   <div id="mw-team-mobile" class="row">
+        <div class="span12">
+          <div class="box">
+            <div class="box-content">
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+               <hr>
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/peter.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+               <hr>
+               <img src="<?php print( TEMPLATE_URL); ?>img/team/boris.jpg" alt="" class="thumbnail" />
+               <p>Microweber is free & easy drag and drop content managament system (CMS) of new generation.</p>
+            </div>
+          </div>
+        </div>
+
+
+   </div>
     <div id="mw-team">
       <div class="mw-member" id="mw-team-activator"><span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" /></span>
         <div class="box"><i class="box-arr-leftcenter"></i>
@@ -73,8 +118,8 @@
         <div class="vspace"></div>
       </div>
       <div class="span8">
-        <div class="box" style="width: 100%;height: 370px;">
-          <div class="box-content" >
+        <div class="box" id="home-videos">
+          <div class="box-content">
             <div style="height: 350px;background: #307EB1 url(<?php print( TEMPLATE_URL); ?>img/logo.png) no-repeat center;">
               <!--
                               <video controls=""  name="media" style="height: 340px;width: 95%; margin:auto; display: block">

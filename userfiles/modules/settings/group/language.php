@@ -20,6 +20,9 @@ $(document).ready(function(){
     <?php
         $def_language = get_option('language','website');
 
+if($def_language == false){
+  $def_language = 'en';
+}
     ?>
     <select id="user_lang" name="language" class="mw_option_field"    option-group="website" data-also-reload="settings/group/language_edit">
       <option disabled="disabled">Select Language...</option>

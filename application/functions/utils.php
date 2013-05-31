@@ -2215,3 +2215,10 @@ if(!function_exists('put_ini_file')){
 	    return $str;
 	}
 }
+
+
+
+
+function is_fqdn($FQDN) {
+    return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
+}

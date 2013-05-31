@@ -17,16 +17,20 @@
     
 
     <script type="text/javascript">
+
         mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
     </script>
-    <script type="text/javascript">
 
+
+    <script type="text/javascript">
 
         mw.require("url.js");
         mw.require("tools.js");
         mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
+
+
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
     <?php else : ?>
@@ -40,13 +44,13 @@
   <script type="text/javascript" src="{TEMPLATE_URL}js/bootstrap.min.js"></script>
   <script type="text/javascript" src="{TEMPLATE_URL}js/site.js"></script>
     
-    
+
     <?php endif; ?>
     </head>
     <body>
     <script>if(self !== top) { document.body.className += ' iframe' }</script>
 
- 
+
 
     <div id="header">
         <div class="container">
@@ -57,22 +61,36 @@
                 <a href="javascript:;" class="download-btn">Download</a>
             </div>
 
+            <div id="main-menu-toggle" class="btn-group">
+                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  <span>Menu</span>
+
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="active"><a href="javascript:;">Home</a></li>
+                  <li><a href="javascript:;">Features</a></li>
+                  <li><a href="javascript:;">How to</a></li>
+                  <li><a href="javascript:;">Comunity</a></li>
+                  <li><a href="javascript:;">Support</a></li>
+                </ul>
+              </div>
+
+
             <div id="usernav">
                 <a href="javascript:;">Sign up</a>
                 <span>or</span>
                 <a href="javascript:;">Login</a>
             </div>
 
-              <div id="main-menu-toggle">
-                <a class="btn btn-info" onclick="$('#main-nav').toggle();">
-                  <span>Menu</span>
-                  <span class="icon-align-justify icon-white"></span>
-                  <span class="caret"></span>
-                </a>
-              </div>
+    <div class="btn-group" id="usernav-mobile">
+      <a class="btn btn-info">Sign up</a>
+      <a class="btn btn-warning">Login</a>
+    </div>
 
 
-              
+
+
               <ul class="nav nav-pills" id="main-nav">
                 <li class="active"><a href="javascript:;">Home</a></li>
                 <li><a href="javascript:;">Features</a></li>

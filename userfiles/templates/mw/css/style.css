@@ -94,11 +94,11 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #main-menu-toggle{
-  display: none;
-  clear: both;
-  text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+    float: right;
+    display: none;
+    position: relative;
+    margin-right: 10px;
+    margin-top: 28px;
 }
 
 
@@ -164,7 +164,18 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+#usernav-mobile {
+    clear: both;
+    margin: auto;
+    float: right;
+    padding: 20px 0;
+    width: 193px;
+    display: none;
+}
 
+#usernav-mobile .btn{
+  width: 70px;
+}
 
 
 /* /Header */
@@ -201,6 +212,10 @@ h1,h2,h3,h4,h5,h6{
 
 
 /* UI Framework */
+
+video{
+  background-color: #4791C8;
+}
 
 
 .box{
@@ -314,6 +329,16 @@ h1,h2,h3,h4,h5,h6{
   height: 12px;
   overflow: hidden;
   position: relative;
+}
+
+
+.dropdown-menu a:hover,
+.dropdown-menu a:focus{
+  background: #307EB1;
+}
+
+.btn, .dropdown-menu, .well, .thumbnail{
+  border-radius: 0px;
 }
 
 
@@ -442,8 +467,29 @@ h1,h2,h3,h4,h5,h6{
   width: -webkit-calc(100% - 20px);
 }
 
-video{
-  background-color: #4791C8;
+
+
+#home-videos{
+  width: 100%;
+  height: 370px;
+}
+
+#mw-team-mobile{
+  display: none;
+}
+
+#mw-team-mobile hr{
+  clear: both;
+}
+
+#mw-team-mobile .box{
+  margin-bottom: 20px;
+}
+
+#mw-team-mobile img{
+  float: left;
+  margin-right: 12px;
+  margin-bottom: 8px;
 }
 
 

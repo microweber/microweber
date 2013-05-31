@@ -511,11 +511,14 @@ class Update
 
     public function send_anonymous_server_data($params = false){
 
-        if ($params != false) {
+        if ($params != false and is_string( $params)) {
             $params = parse_params($params);
-        } else {
+        }
+
+        if($params == false){
             $params = array();
         }
+
         $params['site_url'] = site_url();
         $result = $this->call('send_anonymous_server_data', $params);
         return $result;
@@ -540,9 +543,8 @@ class Update
         $curl->setUrl($requestUrl);
         $curl->url = $requestUrl;
 
-
         if (!is_array($post_params)) {
-            $post_params = array();
+         //   $post_params = array();
         }
         $post_params['site_url'] = site_url();
         $post_params['api_function'] = $method;
@@ -554,7 +556,7 @@ class Update
             $post_paramsbase64 = base64_encode(serialize($post_params));
             $post_paramssjon = base64_encode(json_encode($post_params));
 
-            $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon);
+            $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
 
             $result1 = $curl->post($post_params_to_send);
 

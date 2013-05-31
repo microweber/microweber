@@ -1,4 +1,7 @@
 
+Dimension = 0;
+
+
 team = {
       thematrix:{
         "0": [0, 1, 2],
@@ -49,6 +52,8 @@ team = {
 
 
 $(document).ready(function(){
+    window.scrollTo(0,1);
+    Dimension = $(window).width();
 
     $("#h-features .box").click(function(){
       if($(this).hasClass("box-deactivated")){
@@ -56,4 +61,8 @@ $(document).ready(function(){
          $(this).removeClass("box-deactivated");
       }
     });
+});
+
+$(window).bind("load resize", function(){
+    Dimension = $(window).width();
 });

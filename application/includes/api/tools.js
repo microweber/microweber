@@ -1936,22 +1936,25 @@ mw.dump = function(){
 
 mw.notification = {
 
-   msg:function(data, timeout){
+   msg:function(data, timeout, alert){
         var timeout = timeout || 1000;
+        var alert = alert || false;
         if(data != undefined){
-
-
             if(data.success != undefined ){
-               mw.notification.success(data.success, timeout);
-            }
+               if(!alert){
+                 mw.notification.success(data.success, timeout);
+               }
+               else{
+                 Alert (data.success);
+               }
 
-             if(data.error != undefined ){
+            }
+            if(data.error != undefined ){
                mw.notification.error(data.error, timeout);
             }
-
-              if(data.warning != undefined ){
-                 mw.notification.warning(data.warning, timeout);
-              }
+            if(data.warning != undefined ){
+               mw.notification.warning(data.warning, timeout);
+            }
          }
     },
 

@@ -34,13 +34,24 @@
 
  function send_lang_form_to_microweber(){
 
+ if(!mw.$(".send-your-lang a").hasClass("disabled")){
 
- mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print site_url('api/send_lang_form_to_microweber'); ?>',
+    mw.tools.disable(mwd.querySelector(".send-your-lang a"), "Sending...");
+
+    mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print site_url('api/send_lang_form_to_microweber'); ?>',
       function(msg) {
-mw.notification.msg(this);
+
+        mw.notification.msg(this, 1000, true);
+
+        mw.tools.enable(mwd.querySelector(".send-your-lang a"));
 
       });
-            return false;
+
+ }
+
+
+
+ return false;
 
  }
 
@@ -104,8 +115,7 @@ $cont  = get_language_file_content();
  ?>
 <?php if(!empty($cont)): ?>
 <form id="language-form-<?php print $params['id'] ?>">
-<input name="unicode_temp_remove" type="hidden" value="☃"  />
-<table width="100%" border="0" class="mw-ui-admin-table" cellspacing="0" cellpadding="0">
+ <table width="100%" border="0" class="mw-ui-admin-table" cellspacing="0" cellpadding="0">
 <thead>
   <tr>
     <th scope="col">Key</th>
