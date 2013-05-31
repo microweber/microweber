@@ -38,7 +38,7 @@
           }
         ]
         $(document).ready(function(){
-          team.init()
+          team.init();
         });
       </script>
 
@@ -75,7 +75,7 @@
       <div class="span8">
         <div class="box" style="width: 100%;height: 370px;">
           <div class="box-content" >
-            <div style="height: 350px;background: #307EB1 url(<?php print( TEMPLATE_URL); ?>img/logo.png) no-repeat center;"> 
+            <div style="height: 350px;background: #307EB1 url(<?php print( TEMPLATE_URL); ?>img/logo.png) no-repeat center;">
               <!--
                               <video controls=""  name="media" style="height: 340px;width: 95%; margin:auto; display: block">
                                 <source src="http://r18---sn-nv47en7k.c.youtube.com/videoplayback?cp=U0hVTllNVF9GUUNONV9RR1hDOklJTm9sbmRQYVM1&expire=1369926217&fexp=927604%2C901439%2C929400%2C916625%2C900352%2C924605%2C928201%2C901208%2C929123%2C929915%2C929906%2C925714%2C929919%2C929119%2C931202%2C932802%2C928017%2C912518%2C911416%2C906906%2C904476%2C904830%2C930807%2C919373%2C906836%2C933701%2C912711%2C929606%2C910075&id=79a8c2883d216b6b&ip=78.90.67.20&ipbits=8&itag=22&key=yt1&ms=nxu&mt=1369902794&mv=m&newshard=yes&ratebypass=yes&signature=6D706C9D984EC20158D0BE82E7EDD40D8FCE762C.9A6CABEF8FB5F1CDF242F9566E09FCDCE1F1BAC3&source=youtube&sparams=cp%2Cid%2Cip%2Cipbits%2Citag%2Cratebypass%2Csource%2Cupn%2Cexpire&sver=3&upn=0y9j5jDoUDE&cpn=QGSIJGkgp9mpeEG1&ptk=musicshake&begin=8440&redirect_counter=1&cms_redirect=yes" type="audio/mpeg">

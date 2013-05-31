@@ -52,7 +52,7 @@ class Update
         } else {
             cache_clean_group('update/global');
         }
-        
+
         $data = array();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = site_url();
@@ -105,7 +105,7 @@ class Update
 
 
         //if ($skip_cache == false) {
-       
+
 
         $count = 0;
 
@@ -149,7 +149,7 @@ class Update
                 $notif['rel_id'] = 'updates';
                 $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
- 
+
                 post_notification($notif);
             }
 
@@ -185,15 +185,15 @@ class Update
 
 
         //}
-		
-		 
+
+
 		if(isarr($result)){
 			$result['count'] = $count;
 		}
-		//$result =  $count;	
-	 
-		
-		
+		//$result =  $count;
+
+
+
 		 if ($result != false) {
             cache_save($result, $c_id, 'update/global');
         }
@@ -201,7 +201,7 @@ class Update
 
 
 
-		
+
         return $result;
     }
 
@@ -509,7 +509,7 @@ class Update
     }
 
 
-    function send_anonymous_server_data($params = false){
+    public function send_anonymous_server_data($params = false){
 
         if ($params != false) {
             $params = parse_params($params);

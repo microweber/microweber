@@ -16,7 +16,9 @@ description: Login default
 
 <div id="mw-login">
   <?php if($user != false): ?>
-  <module type="users/profile" />
+  <div class="well">
+    <module type="users/profile" />
+  </div>
   <?php else:  ?>
   <div class="box-head">
     <h2><?php _e("Login or"); ?> <a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>');"><?php _e("Register"); ?></a></h2>

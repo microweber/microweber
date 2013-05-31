@@ -1,2 +1,2 @@
-<div><?php _e("Welcome"); ?> <?php print user_name(); ?> </div>
+  <div><?php _e("Welcome"); ?> <?php print user_name(); ?> </div>
   <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" ><?php _e("Log Out"); ?></a>

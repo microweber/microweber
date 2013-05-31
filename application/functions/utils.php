@@ -1,11 +1,22 @@
 <?php
 
+
+/**
+ * Removes double slashes from sting
+ * @param $str
+ * @return string
+ */
 function reduce_double_slashes($str) {
 	return preg_replace("#([^:])//+#", "\\1/", $str);
 }
 
-//copy_directory('dirnameSource','dirnameDestination');
 
+/**
+ * Copies directory recursively
+ *
+ * @param $source
+ * @param $destination
+ */
 function copy_directory($source, $destination) {
 	if (is_dir($source)) {
 		@mkdir($destination);
@@ -38,9 +49,6 @@ function microtime_float () {
 }
 
 
-// A much better and accurate version can be found
-// in Aidan's PHP Repository:
-// http://aidanlister.com/repos/v/function.size_readable.php
 
 /**
  * Returns a human readable filesize
@@ -66,6 +74,14 @@ function file_size_nice($size) {
 
 if ( ! function_exists('character_limiter'))
 {
+
+
+    /**
+     * @param $str
+     * @param int $n
+     * @param string $end_char
+     * @return string
+     */
     function character_limiter($str, $n = 500, $end_char = '&#8230;')
     {
         if (strlen($str) < $n)
@@ -95,7 +111,12 @@ if ( ! function_exists('character_limiter'))
 }
 
 
-
+/**
+ * Prints an array in unordered list - <ul>
+ *
+ * @param array $arr
+ * @return string
+ */
 function array_pp($arr){
 	$retStr = '<ul>';
 	if (is_array($arr)){
@@ -140,7 +161,8 @@ function array_change_key($array, $search, $replace) {
  *
  * @param string $pathname
  *        	The directory path.
- * @return boolean returns TRUE if exists or made or FALSE on failure.
+ * @return boolean
+ *          returns TRUE if exists or made or FALSE on failure.
  */
 function mkdir_recursive($pathname) {
 	if ($pathname == '') {

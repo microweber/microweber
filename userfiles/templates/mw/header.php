@@ -63,15 +63,18 @@
                 <a href="javascript:;">Login</a>
             </div>
 
-
-
-            <ul class="nav nav-pills" id="main-nav">
-              <li class="active"><a href="javascript:;">Home</a></li>
-              <li><a href="javascript:;">Features</a></li>
-              <li><a href="javascript:;">How to</a></li>
-              <li><a href="javascript:;">Comunity</a></li>
-              <li><a href="javascript:;">Support</a></li>
-            </ul>
+            <div style="clear: both" style="padding: 10px;"></div>
+              <a class="btn btn-info" id="main-menu-toggle" onclick="$('#main-nav').toggle();">
+                <span class="icon-align-justify"></span>
+                <span>Menu</span>
+              </a>
+              <ul class="nav nav-pills" id="main-nav">
+                <li class="active"><a href="javascript:;">Home</a></li>
+                <li><a href="javascript:;">Features</a></li>
+                <li><a href="javascript:;">How to</a></li>
+                <li><a href="javascript:;">Comunity</a></li>
+                <li><a href="javascript:;">Support</a></li>
+              </ul>
 
 
         </div>

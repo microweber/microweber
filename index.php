@@ -82,6 +82,9 @@ if (!defined('MW_BARE_BONES')) {
 		$m = 'index';
 	}
 
+
+ 
+
 	$admin_url = c('admin_url');
 	if ($m == 'admin' or $m == $admin_url) {
 		if ($admin_url == $m) {

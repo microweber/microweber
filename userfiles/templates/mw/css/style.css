@@ -99,8 +99,8 @@ h1,h2,h3,h4,h5,h6{
   border-radius: 0;
 }
 
-#main-nav li a:hover{
-  background:#3B90C9;
+#main-nav li a:hover, #main-nav li a:focus{
+  background:#539ED0;
   color:white;
 }
 
@@ -263,7 +263,7 @@ h1,h2,h3,h4,h5,h6{
 
 .box.hover2.box-deactivated:hover [class*='box-arr']{
   display: block;
-  opacity:0.4;
+  opacity:0.66;
 }
 
 
