@@ -256,11 +256,9 @@ body.blue .box{
     position: absolute;
     width:14px;
     height: 28px;
-    background-image: url(../img/boxarr.png);
     background-repeat: no-repeat;
+    color: white;
 }
-
-
 
 .box-arr-leftcenter{
   left: -14px;
@@ -274,13 +272,18 @@ body.blue .box{
   background-position: right top;
 }
 .box-arr-topcenter{
-  top: -14px;
+  top: -16px;
   left: 50%;
   margin-left: -14px;
-  width:28px;
-  height: 14px;
-  background-position: 0 0 ;
+  width:13px;
+  height: 16px;
+  transform:scaleX(2);
+  -ms-transform:scaleX(2);
+  -webkit-transform:scaleX(2);
+  text-shadow: 0 -2px 1px #bbb;
 }
+
+body.blue .box-arr-topcenter{ text-shadow: 0 -2px 1px #888;  }
 
 .box.box-deactivated{
   background-color: transparent;
@@ -530,7 +533,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 #login-form{
   width: 520px;
   height: 400px;
-  margin: auto;
+  margin: 215px auto 100px;
   max-width: 100%;
 }
 
@@ -544,6 +547,17 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   width:88px;
   height: 187px;
   background: url(../img/loginicons.png) no-repeat
+}
+
+.wlogo{
+  display: block;
+  position: absolute;
+  background: url(../img/wlogo.png) no-repeat;
+  width: 90px;
+  height: 88px;
+  top: -115px;
+  left: 50%;
+  margin-left: -45px;
 }
 
 

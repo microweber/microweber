@@ -384,6 +384,7 @@ function get_elements_from_db($params = false)
         $params = $options = $params2;
     }
     $params['table'] = $table;
+    $params['group_by'] = 'module';
     $params['orderby'] = 'position asc';
 
     $params['cache_group'] = 'elements/global';

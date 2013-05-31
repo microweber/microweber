@@ -21,8 +21,8 @@
 
       </div>
       <i class="loginico"></i>
-      <i class="box-arr-topcenter"></i>
-
+      <i class="box-arr-topcenter">&#9650;</i>
+      <i class="wlogo"></i>
     </div>
   </div>
 </div>

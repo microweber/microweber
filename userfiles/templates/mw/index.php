@@ -61,7 +61,7 @@
    </div>
     <div id="mw-team">
       <div class="mw-member" id="mw-team-activator"><span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" /></span>
-        <div class="box"><i class="box-arr-leftcenter"></i>
+        <div class="box"><i class="box-arr-leftcenter">&#9664;</i>
           <div class="box-content">Microweber is free & easy drag and drop content managament system (CMS) of new generation.</div>
         </div>
       </div>
@@ -99,19 +99,19 @@
               <h3>How it works? </h3>
               <p>The easiest CMS in the Internet! Make Web by drag & drop as you always wanted!</p>
             </div>
-            <i class="box-arr-rightcenter"></i> </div>
+            <i class="box-arr-rightcenter">&#9654;</i> </div>
           <div class="box box-deactivated hover2" id="shop-for-free">
             <div class="box-content">
               <h3>Shop for Free? </h3>
               <p>Sure! Create your online shop right now!</p>
             </div>
-            <i class="box-arr-rightcenter"></i> </div>
+            <i class="box-arr-rightcenter">&#9654;</i> </div>
           <div class="box box-deactivated hover2" id="need-a-blog">
             <div class="box-content">
               <h3>Need a Blog? </h3>
               <p>Alright! Your professional Blog for free Get it!</p>
             </div>
-            <i class="box-arr-rightcenter"></i> </div>
+            <i class="box-arr-rightcenter">&#9654;</i> </div>
           <a href="javascript:;" tabindex="1" class="start" title="Get Started">Get Started</a> </div>
         <div class="vspace"></div>
       </div>
@@ -144,7 +144,7 @@
                                              #wistia_abcde12345 div, #wistia_abcde12345 {
                                                width: auto !important;
                                              }
-                                            
+
                                      </style>
               
               <div id="wistia_abcde12345" data-autoresize="none" style="height:350px;width:100%" data-video-width="100%" data-video-height="350"> </div>
