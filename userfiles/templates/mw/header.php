@@ -63,11 +63,16 @@
                 <a href="javascript:;">Login</a>
             </div>
 
-            <div style="clear: both" style="padding: 10px;"></div>
-              <a class="btn btn-info" id="main-menu-toggle" onclick="$('#main-nav').toggle();">
-                <span class="icon-align-justify"></span>
-                <span>Menu</span>
-              </a>
+              <div id="main-menu-toggle">
+                <a class="btn btn-info" onclick="$('#main-nav').toggle();">
+                  <span>Menu</span>
+                  <span class="icon-align-justify icon-white"></span>
+                  <span class="caret"></span>
+                </a>
+              </div>
+
+
+              
               <ul class="nav nav-pills" id="main-nav">
                 <li class="active"><a href="javascript:;">Home</a></li>
                 <li><a href="javascript:;">Features</a></li>

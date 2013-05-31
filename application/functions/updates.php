@@ -166,8 +166,26 @@ $mw_avail_updates = $iudates;
 function mw_send_anonymous_server_data($params) {
 	only_admin_access();
 	$update_api = new \mw\Update();
-	$iudates = $update_api -> send_anonymous_server_data($params);
-	return $iudates;
+
+
+
+ 		if ($params != false) {
+            $params = parse_params($params);
+        } else {
+            $params = array();
+        }
+
+
+        if(method_exists($update_api,'send_anonymous_server_data')){
+        	$iudates = $update_api -> send_anonymous_server_data($params);
+        	return $iudates;
+        } else {
+        	 $params['site_url'] = site_url();
+        	 $result = $update_api->call('send_anonymous_server_data', $params);
+       		 return $result;
+        }
+
+
 
 }
 

@@ -93,6 +93,14 @@ h1,h2,h3,h4,h5,h6{
   margin: 24px 0 24px 40px;
 }
 
+#main-menu-toggle{
+  display: none;
+  clear: both;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 
 #main-nav a{
   color: white;
