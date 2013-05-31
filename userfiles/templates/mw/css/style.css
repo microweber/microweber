@@ -258,18 +258,28 @@ body.blue .box{
     height: 28px;
     background-repeat: no-repeat;
     color: white;
+    font-style: normal;
 }
 
 .box-arr-leftcenter{
-  left: -14px;
+  height: 22px;
+  left: -11px;
   top: 50%;
-  margin-top: -14px;
+  margin-top: -11px;
+  transform:scaleY(2);
+  -ms-transform:scaleY(2);
+  -webkit-transform:scaleY(2);
+  text-shadow: -1px 0 1px #ddd;
 }
 .box-arr-rightcenter{
-  right: -14px;
+  right: -12px;
   top: 50%;
-  margin-top: -14px;
+  margin-top: -8px;
   background-position: right top;
+  transform:scaleY(2);
+  -ms-transform:scaleY(2);
+  -webkit-transform:scaleY(2);
+  text-shadow: 1px 0 1px #ddd;
 }
 .box-arr-topcenter{
   top: -16px;
@@ -282,7 +292,6 @@ body.blue .box{
   -webkit-transform:scaleX(2);
   text-shadow: 0 -2px 1px #bbb;
 }
-
 body.blue .box-arr-topcenter{ text-shadow: 0 -2px 1px #888;  }
 
 .box.box-deactivated{
@@ -313,7 +322,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 
 .box.hover2.box-deactivated:hover [class*='box-arr']{
   display: block;
-  opacity:0.66;
+  opacity:0.5;
 }
 
 
@@ -534,7 +543,16 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   width: 520px;
   height: 400px;
   margin: 215px auto 100px;
+
   max-width: 100%;
+}
+
+#login-form form{
+  padding-left: 38px;
+}
+
+#login-form-status{
+  height: 110px;
 }
 
 
@@ -558,6 +576,38 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   top: -115px;
   left: 50%;
   margin-left: -45px;
+}
+
+.liunput{
+  position: relative;
+  z-index: 1;
+}
+
+.liunput input{
+  padding:18px;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 18px;
+  color: #858585;
+  border-color: #E0E0E0;
+  margin-bottom: 0;
+}
+
+.liunput input:focus{
+  box-shadow: none;
+  border-color: #71AACF;
+}
+
+.liunput .box-arr-leftcenter{ left: -10px; text-shadow: -1px 0 0 #E0E0E0; }
+.liunput input:focus + .box-arr-leftcenter{ text-shadow: -1px 0 0 #71AACF; }
+
+
+#login-form .liunput{
+  margin-bottom: 42px;
+}
+
+#login-form .liunput input{
+  width: 400px;
 }
 
 
