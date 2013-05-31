@@ -1049,7 +1049,7 @@ function install_module($params)
     //    }
 
     $this_module = get_modules_from_db('no_cache=1&ui=any&one=1&module=' . $module_name);
-    
+
     if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
         $to_save = array();
         $to_save['id'] = $this_module['id'];
