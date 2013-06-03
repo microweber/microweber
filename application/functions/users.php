@@ -282,7 +282,7 @@ function register_user($params)
     $user = isset($params['username']) ? $params['username'] : false;
     $pass = isset($params['password']) ? $params['password'] : false;
     $email = isset($params['email']) ? $params['email'] : false;
-
+    $pass2 = $pass;
     $pass = hash_user_pass($pass);
 
     if (!isset($params['captcha'])) {
@@ -358,7 +358,9 @@ function register_user($params)
 
             $params = $data;
             $params['id'] = $next;
-
+            if (isset($pass2)) {
+                $params['password2'] = $pass2;
+            }
             exec_action('after_user_register', $params);
             return array('succcess' => 'You have registered successfully');
 
