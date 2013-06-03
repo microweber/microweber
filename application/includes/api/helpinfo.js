@@ -305,11 +305,11 @@ mw.helpinfo = {
         mw.$("#mw_info_helper_footer").hide();
         mw.helpinfo.position(help, 'bottomcenter');
         mw.helpinfo.autoscroll(help);
+        mw.cookie.set("helpinfo", "false");
         setTimeout(function(){
              mw.$("#helpinfo_helper").animate({opacity:0, top:0}, 500, function(){
                  mw.$("#helpinfo_helper").removeAttr("style").css({left:-9999});
                  mw.$("#mw_info_helper_footer").show();
-                 mw.cookie.set("helpinfo", "false");
                  mw.$("#helpbtn").parent().removeClass("active");
              });
         }, 1500);

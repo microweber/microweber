@@ -275,7 +275,8 @@ mw.image = {
                   mw.wysiwyg.select_element(el[0]);
                }
                else{
-                  mw.wysiwyg.select_all(el[0].parentNode);
+                  mw.wysiwyg.select_element(el[0].parentNode);
+
                }
 
 

@@ -381,7 +381,7 @@ $hide_db_setup = 1;
                 <?php if(is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
-                    <input name="with_default_content" type="checkbox" value="1">
+                    <input name="with_default_content" type="checkbox" checked="checked" value="1">
                     <span></span>&nbsp;
                     <?php _e("Install default content"); ?>
                   </label>

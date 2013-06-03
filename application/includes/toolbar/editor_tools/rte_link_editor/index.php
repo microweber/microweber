@@ -300,7 +300,7 @@ ul li.mw-dd-list-result:last-child a{
             <div class="media-search-holder">
               <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
                   <span id="" class="image_status link"></span>
-                  <input type="text" style="width: 220px;" class="mw-ui-invisible-field" />
+                  <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="customweburl" autofocus="" />
               </div>
               <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url"><?php _e("Insert"); ?></span>
               <div class="mw_clear" style="padding-bottom: 5px;"></div>

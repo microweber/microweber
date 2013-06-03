@@ -19,7 +19,8 @@ body.blue{
     background: #4791C8;
 }
 
-input, textarea, select, a{
+input, textarea, select, a,
+input:focus, textarea:focus, select:focus, a:focus{
   outline: none;
 }
 
@@ -30,6 +31,26 @@ a, a:hover{
 h1,h2,h3,h4,h5,h6{
   font-weight: 300;
   line-height: normal;
+}
+
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus{
+  outline: none; /* bootstrap puts outline for ies */
 }
 
 
@@ -253,46 +274,43 @@ body.blue .box{
 
 [class*='box-arr']{
     display: block;
+    width: 10px;
+    height: 20px;
+    overflow: hidden;
     position: absolute;
-    width:14px;
-    height: 28px;
-    background-repeat: no-repeat;
-    color: white;
-    font-style: normal;
 }
 
-.box-arr-leftcenter{
-  height: 22px;
-  left: -11px;
-  top: 50%;
-  margin-top: -11px;
-  transform:scaleY(2);
-  -ms-transform:scaleY(2);
-  -webkit-transform:scaleY(2);
-  text-shadow: -1px 0 1px #ddd;
+
+
+[class*='box-arr'] i{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: white;
+    box-shadow: 0 0 3px #ccc;
+    position: absolute;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
 }
-.box-arr-rightcenter{
-  right: -12px;
-  top: 50%;
-  margin-top: -8px;
-  background-position: right top;
-  transform:scaleY(2);
-  -ms-transform:scaleY(2);
-  -webkit-transform:scaleY(2);
-  text-shadow: 1px 0 1px #ddd;
-}
-.box-arr-topcenter{
-  top: -16px;
-  left: 50%;
-  margin-left: -14px;
-  width:13px;
-  height: 16px;
-  transform:scaleX(2);
-  -ms-transform:scaleX(2);
-  -webkit-transform:scaleX(2);
-  text-shadow: 0 -2px 1px #bbb;
-}
-body.blue .box-arr-topcenter{ text-shadow: 0 -2px 1px #888;  }
+
+[class*='box-arr-left'] { left:-10px; }
+[class*='box-arr-left'] i { top: 0; left: 6px; }
+
+[class*='box-arr-right'] { right:-10px; }
+[class*='box-arr-right'] i { top: 0; right: 6px; }
+
+[class*='box-arr-top'] { top:-10px;width:20px;height: 10px }
+[class*='box-arr-top'] i { top: 6px; left: 0px; }
+
+.box-arr-leftcenter, .box-arr-rightcenter{ top: 50%; margin-top: -10px; }
+.box-arr-topcenter, .box-arr-bottomcenter{ left: 50%; margin-left: -10px; }
+
+body.blue [class*='box-arr'] i{ box-shadow: 0 0 3px #777 }
 
 .box.box-deactivated{
   background-color: transparent;
@@ -373,8 +391,53 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   background: #307EB1;
 }
 
-.btn, .dropdown-menu, .well, .thumbnail{
+.btn, .dropdown-menu, .well, .thumbnail, .alert{
   border-radius: 0px;
+}
+
+.loginbtn{
+  display: block;
+  position: relative;
+  border: 1px solid #3F88B7;
+  border-top: 3px solid #77AFD5;
+  border-radius:2px;
+  background: #4793C5;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  padding: 8px 20px;
+  cursor: pointer;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.loginbtn [class*='box-arr']{ left: 50px; height: 11px; }
+
+.loginbtn [class*='box-arr'] i{
+  background:#4793C5;
+  border:1px solid #3581B3;
+  box-shadow: inset 0 1px 0 #77AFD5 !important;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.loginbtn:hover, .loginbtn:focus{
+  background-color: #3B87BA;
+}
+
+.loginbtn:active{
+  box-shadow: inset 0 0 8px #255474;
+  border-top-color:rgba(204, 0, 0, 0);
+}
+
+.semi_hidden{
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
 }
 
 
@@ -434,9 +497,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   height: 76px;
   background: white;
   box-shadow: 0 0 3px #ccc;
-
 }
-
 
 .mw-member-image img{
   width: 77px;
@@ -481,10 +542,10 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 }
 
 #h-features h3, #h-features p{
-   -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
 }
 
 
@@ -543,16 +604,38 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   width: 520px;
   height: 400px;
   margin: 215px auto 100px;
-
   max-width: 100%;
 }
 
 #login-form form{
   padding-left: 38px;
+  margin-right: 20px;
+}
+
+
+.boxtable{
+  display: table;
+  width: 100%;
+}
+.boxcell{
+  display: table-cell;
 }
 
 #login-form-status{
   height: 110px;
+}
+#login-form-status > .boxcell{
+  vertical-align: middle;
+  text-align: center;
+}
+
+#login-form-status .alert{
+    margin: 0;
+    opacity: 0;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
 }
 
 
@@ -598,8 +681,9 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   border-color: #71AACF;
 }
 
-.liunput .box-arr-leftcenter{ left: -10px; text-shadow: -1px 0 0 #E0E0E0; }
-.liunput input:focus + .box-arr-leftcenter{ text-shadow: -1px 0 0 #71AACF; }
+.liunput [class*='box-arr'] { left:-9px; }
+.liunput [class*='box-arr'] i {  border:solid 1px #E0E0E0; box-shadow:none !important;}
+.liunput input:focus + .box-arr-leftcenter i {  border:solid 1px #71AACF; }
 
 
 #login-form .liunput{
@@ -607,7 +691,9 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 }
 
 #login-form .liunput input{
-  width: 400px;
+  width: 90%;
+  width: calc(100% - 38px);
+  width: -webkit-calc(100% - 38px);
 }
 
 

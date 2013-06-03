@@ -61,6 +61,15 @@ $(document).ready(function(){
          $(this).removeClass("box-deactivated");
       }
     });
+
+
+    mw.$('.action-submit').click(function(){
+      $(mw.tools.firstParentWithTag(this, 'form')).submit();
+      return false;
+    });
+
+
+
 });
 
 $(window).bind("load resize", function(){

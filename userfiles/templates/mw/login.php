@@ -19,40 +19,30 @@
     <div class="box" id="login-form">
       <div class="box-content">
 
-        <div id="login-form-status"></div>
-
-        <form action="#">
 
 
+        <form action="#" method="post" onsubmit="$('.alert').css('opacity',1);return false;">
+            <div id="login-form-status" class="boxtable">
+                <div class="boxcell"><div class="alert alert-info">Please, enter your username and password to login</div></div>
+            </div>
             <div class="liunput">
-
                 <input type="text" autofocus="" placeholder="Username" />
-                <i class="box-arr-leftcenter">&#9664;</i>
-
+                <i class="box-arr-leftcenter"><i></i></i>
             </div>
-            <div class="liunput">
-
+            <div class="liunput" style="margin-bottom:25px;">
                 <input type="text" placeholder="Password"  />
-                <i class="box-arr-leftcenter">&#9664;</i>
-
+                <i class="box-arr-leftcenter"><i></i></i>
             </div>
-
-
-            <input type="submit" value="Login" />
-
-
-
-            <a href="javascript:;" class="forgot-password-link">Forgot Password?</a>
-
-
-
+            <input type="submit" value="Login" class="semi_hidden" />
+            <span class="loginbtn action-submit">Login<i class="box-arr-top-left"><i></i></i></span>
+            <a href="javascript:;" class="btn btn-link forgot-password-link">Forgot Password?</a>
         </form>
 
 
 
       </div>
       <i class="loginico"></i>
-      <i class="box-arr-topcenter">&#9650;</i>
+      <i class="box-arr-topcenter"><i></i></i>
       <i class="wlogo"></i>
     </div>
   </div>

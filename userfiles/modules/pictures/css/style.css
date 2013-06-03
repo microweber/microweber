@@ -439,6 +439,30 @@ a.rotator-paging-item-digit{
   text-align: center;
 }
 
+/* Multiline */
+
+.mw-rotator-template-multiline{
+
+}
+
+.mw-rotator-template-multiline .mw-rotator-ctrls{
+  float: none;
+  margin-bottom:0;
+}
+
+.mw-rotator-template-multiline .rotator-index-control-mode-thumbnails{
+  white-space: normal;
+  position: relative;
+  height: auto;
+  bottom: 0;
+  text-align: left;
+}
+
+.mw-rotator-template-multiline .mw-rotator-thumbnail-scroller{
+  width: auto !important;
+  white-space: normal;
+}
+
 
 
 

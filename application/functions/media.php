@@ -512,7 +512,7 @@ function thumbnail_img($params) {
 			return pixum($width, $height);
 		}
 	}
-	$cd = CACHEDIR . 'thumbnail' . DS;
+	$cd = CACHEDIR . 'thumbnail' . DS;  
 	if (!is_dir($cd)) {
 		mkdir_recursive($cd);
 	}
@@ -711,7 +711,7 @@ function get_pictures($params) {
 	}
 
 	//$params['debug'] = $table;
-
+$params['limit'] = 1000;
 	$params['table'] = $table;
 	$params['orderby'] = 'position ASC';
 	$data = get($params);
