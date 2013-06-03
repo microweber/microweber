@@ -252,6 +252,8 @@ video{
   box-shadow: 0 0 3px #ccc;
 }
 
+.blue-box{ background-color: #C0E0F5; color: #4793C5 }
+
 body.blue .box{
   box-shadow: 0 0 3px #777;
 }
@@ -298,6 +300,9 @@ body.blue .box{
     transition: all 0.3s linear;
 }
 
+.blue-box > [class*='box-arr'] i{ background-color: #C0E0F5; }
+
+
 [class*='box-arr-left'] { left:-10px; }
 [class*='box-arr-left'] i { top: 0; left: 6px; }
 
@@ -310,13 +315,13 @@ body.blue .box{
 .box-arr-leftcenter, .box-arr-rightcenter{ top: 50%; margin-top: -10px; }
 .box-arr-topcenter, .box-arr-bottomcenter{ left: 50%; margin-left: -10px; }
 
-body.blue [class*='box-arr'] i{ box-shadow: 0 0 3px #777 }
+body.blue .box > [class*='box-arr'] i{ box-shadow: 0 0 3px #777 }
 
 .box.box-deactivated{
   background-color: transparent;
   box-shadow: none;
 }
-.box.box-deactivated [class*='box-arr']{
+.box.box-deactivated > [class*='box-arr']{
   display: none;
 }
 
@@ -327,7 +332,7 @@ body.blue [class*='box-arr'] i{ box-shadow: 0 0 3px #777 }
 
 body.blue .box.hover:hover{ box-shadow: 0 0 3px #777; }
 
-.box.hover:hover [class*='box-arr']{
+.box.hover:hover > [class*='box-arr']{
   display: block;
 }
 .box.hover2.box-deactivated:hover{
@@ -338,7 +343,7 @@ body.blue .box.hover:hover{ box-shadow: 0 0 3px #777; }
 
 body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 
-.box.hover2.box-deactivated:hover [class*='box-arr']{
+.box.hover2.box-deactivated:hover > [class*='box-arr']{
   display: block;
   opacity:0.5;
 }
@@ -391,6 +396,10 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   background: #307EB1;
 }
 
+.btn{
+  outline: none
+}
+
 .btn, .dropdown-menu, .well, .thumbnail, .alert{
   border-radius: 0px;
 }
@@ -399,13 +408,12 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   display: block;
   position: relative;
   border: 1px solid #3F88B7;
-  border-top: 3px solid #77AFD5;
   border-radius:2px;
   background: #4793C5;
   text-align: center;
   font-size: 30px;
   color: white;
-  padding: 8px 20px;
+  padding: 7px 20px;
   cursor: pointer;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
@@ -418,7 +426,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 .loginbtn [class*='box-arr'] i{
   background:#4793C5;
   border:1px solid #3581B3;
-  box-shadow: inset 0 1px 0 #77AFD5 !important;
+  box-shadow: 1px 1px 0px #77AFD5 inset;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
@@ -427,6 +435,20 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 
 .loginbtn:hover, .loginbtn:focus{
   background-color: #3B87BA;
+  border-color: #71AACF;
+  box-shadow:0 5px  5px -6px #000;
+}
+
+.loginbtn:hover [class*='box-arr'] i,
+.loginbtn:focus [class*='box-arr'] i{
+  background-color: #3B87BA;
+  border-color: #71AACF;
+  box-shadow: none;
+}
+
+.loginbtn:active [class*='box-arr'] i{
+    background: #31709A;
+    border-color: transparent
 }
 
 .loginbtn:active{
@@ -439,6 +461,21 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   left: -9999px;
   top: -9999px;
 }
+
+
+.btn1{
+  background: #4793C5;
+  color: white;
+  text-shadow: 0 1px 1px #296C99;
+}
+.btn1:hover, .btn1:focus{background: #377FAE;color: white; }
+
+.btn2{
+  background: #52AAE4;
+  color: white;
+  text-shadow: 0 1px 1px #296C99;
+}
+.btn2:hover, .btn2:focus, .btn2:active, .btn-group.open .btn2.dropdown-toggle{background: #349BDF ;color: white; }
 
 
 /* /UI Framework */
@@ -601,9 +638,10 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 /* Login Page */
 
 #login-form{
-  width: 520px;
-  height: 400px;
-  margin: 215px auto 100px;
+  /*width: 520px;*/
+  width: 100%;
+  min-height: 400px;
+  margin: 65px auto 30px;
   max-width: 100%;
 }
 
@@ -642,8 +680,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 .loginico{
   position: absolute;
   left:-44px;
-  top: 50%;
-  margin-top: -93px;
+  top: 108px;
   display: block;
   width:88px;
   height: 187px;
@@ -695,6 +732,23 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   width: calc(100% - 38px);
   width: -webkit-calc(100% - 38px);
 }
+
+.forgot-password-holder{
+  clear: both;
+  text-align: center;
+  padding: 10px 0;
+}
+
+#login-registration-bar .box{
+  display: block;
+  text-align: center;
+}
+
+ #login-registration-bar h3{
+   text-align: center;
+   color: white;
+   padding-bottom: 12px;
+ }
 
 
 /* /Login Page */

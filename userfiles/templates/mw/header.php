@@ -14,9 +14,8 @@
             </div>
 
             <div id="main-menu-toggle" class="btn-group">
-                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                <a class="btn btn-info btn2 dropdown-toggle" data-toggle="dropdown">
                   <span>Menu</span>
-
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -32,11 +31,11 @@
             <div id="usernav">
                 <a href="javascript:;">Sign up</a>
                 <span>or</span>
-                <a href="javascript:;">Login</a>
+                <a href="login">Login</a>
             </div>
 
             <div class="btn-group" id="usernav-mobile">
-              <a class="btn btn-info">Sign up</a>
+              <a class="btn btn-info btn2">Sign up</a>
               <a class="btn btn-warning">Login</a>
             </div>
 

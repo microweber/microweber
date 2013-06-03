@@ -2,7 +2,7 @@
 namespace mw;
 
 /*
- * 
+ *
  * from http://www.hardcode.nl/subcategory_4/article_503-thumbnail-class
  */
 
@@ -17,13 +17,13 @@ class Thumbnailer {
 	private $sizes = null;
 
 	public function __construct($image = false) {
-		
+
 		if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 			define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 		}
-		
-		
-		
+
+
+
 		   if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
                     @ini_set('memory_limit', '128M');
                     @ini_set("set_time_limit", 90);
@@ -32,17 +32,17 @@ class Thumbnailer {
                     @set_time_limit(90);
                 }
 
-		
-		
-		
+
+
+
 		if ($image) {
 			$this -> setImage($image);
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 	}
 
 	public function setImage($image) {
@@ -89,15 +89,9 @@ class Thumbnailer {
 		$im = @imagecreatetruecolor($newWidth, $newHeight);
 		imagealphablending($im, false);
 		imagesavealpha($im, true);
-		
-		if(function_exists('fastimagecopyresampled')){ 
-					fastimagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
 
-		} else {
-					imagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
+			imagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
 
-		}
-		
 
 		$type = !isset($specifications['mime']) ? $sizes['mime'] : $specifications['mime'];
 		if ($type == 'image/gif') {

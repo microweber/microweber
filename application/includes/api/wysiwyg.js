@@ -593,7 +593,6 @@ mw.wysiwyg = {
             modal.main.find("iframe").load(function(){
                   $(this).contents().find("#customweburl").val(link.href);
                   if(link.target == '_blank'){
-
                      $(this).contents().find("#url_target")[0].checked = true;
                   }
             })

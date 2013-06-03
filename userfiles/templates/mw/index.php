@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-   </div>*/ ?>
+   </div>
 
    <div id="mw-team-mobile" class="row">
         <div class="span12">
@@ -58,7 +58,7 @@
         </div>
 
 
-   </div>
+   </div>  */ ?>
     <div id="mw-team">
       <div class="mw-member" id="mw-team-activator"><span class="mw-member-image"><img src="<?php print( TEMPLATE_URL); ?>img/team/alex.jpg" alt="" /></span>
         <div class="box"><i class="box-arr-leftcenter"><i></i></i>

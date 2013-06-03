@@ -51,6 +51,8 @@ team = {
 };
 
 
+
+
 $(document).ready(function(){
     window.scrollTo(0,1);
     Dimension = $(window).width();
@@ -63,8 +65,10 @@ $(document).ready(function(){
     });
 
 
-    mw.$('.action-submit').click(function(){
-      $(mw.tools.firstParentWithTag(this, 'form')).submit();
+    mw.$('.action-submit').bind("click keyup", function(e){
+      if(e.type == 'click' || e.keyCode == 13){
+        $(mw.tools.firstParentWithTag(this, 'form')).submit();
+      }
       return false;
     });
 
