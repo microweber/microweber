@@ -92,21 +92,21 @@
 
 
     <div class="row">
-      <div class="span4">
+      <div class="span4" id="h-features-container">
         <div id="h-features">
-          <div class="box hover2" id="how-it-works">
+          <div class="box hover2 how-it-works">
             <div class="box-content">
               <h3>How it works? </h3>
               <p>The easiest CMS in the Internet! Make Web by drag & drop as you always wanted!</p>
             </div>
             <i class="box-arr-rightcenter"><i></i></i> </div>
-          <div class="box box-deactivated hover2" id="shop-for-free">
+          <div class="box box-deactivated hover2 shop-for-free">
             <div class="box-content">
               <h3>Shop for Free? </h3>
               <p>Sure! Create your online shop right now!</p>
             </div>
             <i class="box-arr-rightcenter"><i></i></i> </div>
-          <div class="box box-deactivated hover2" id="need-a-blog">
+          <div class="box box-deactivated hover2 need-a-blog">
             <div class="box-content">
               <h3>Need a Blog? </h3>
               <p>Alright! Your professional Blog for free Get it!</p>
@@ -118,6 +118,13 @@
       <div class="span8">
         <div class="box" id="home-videos">
           <div class="box-content">
+
+             <div class="how-it-works hidden-desktop hidden-tablet">
+
+                <h3>How it works? </h3>
+                <p>The easiest CMS in the Internet! Make Web by drag & drop as you always wanted!</p>
+
+             </div>
             <div style="height: 350px;background: #307EB1 url(<?php print( TEMPLATE_URL); ?>img/logo.png) no-repeat center;">
               <!--
                               <video controls=""  name="media" style="height: 340px;width: 95%; margin:auto; display: block">
@@ -170,6 +177,17 @@
                                       //wistiaEmbed.style.display = 'none';
                                       </script> 
             </div>
+            <div class="hidden-desktop hidden-tablet" id="video-menu-mobile">
+             <div class="vspace"></div>
+              <div class="shop-for-free btn pull-left">
+                <h3>Shop for Free? </h3>
+                <p>Sure! Create your online shop right now!</p>
+              </div>
+              <div class="need-a-blog btn pull-right">
+                <h3>Need a Blog? </h3>
+                <p>Alright! Your professional Blog for free Get it!</p>
+              </div>
+             </div>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@
       <li><a href="javascript:;">Downloads</a></li>
     </ul>
     <address id="copyright">
-    All rights researved  Microweber.com 2013
+    All rights reserved  Microweber.com <?php print date('Y'); ?>
     </address>
   </div>
 </div>

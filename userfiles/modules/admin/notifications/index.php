@@ -108,8 +108,10 @@ mw.notif_reset_all = function(){
       <?php endforeach ; ?>
     </tbody>
   </table>
+  <div class="vSpace"></div>
+  <a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')"><?php _e("Show system log"); ?></a>
 </div>
-<a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')"><?php _e("Show system log"); ?></a>
+
 <?php else : ?>
 
 

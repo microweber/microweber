@@ -1,4 +1,16 @@
 <?php
+/**
+ * Class used to backup and restore the database or the userfiles directory
+ *
+ * You can use it to create backup of the site. The backup will contain na sql export of the database
+ * and also a zip file with userfiles directory.
+ *
+ *
+ * @package utils
+ */
+
+
+
 
 namespace mw\utils;
 
@@ -11,6 +23,16 @@ api_expose('mw\utils\Backup\move_uploaded_file_to_backup');
 api_expose('mw\utils\Backup\restore');
 
 class Backup {
+
+    /**
+     * The backup class is used for making or restoring a backup
+     *
+     * @category  mics
+     * @package   utils
+     */
+
+
+
 
 	private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
 

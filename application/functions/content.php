@@ -1,4 +1,11 @@
 <?php
+/**
+ * This file holds useful function to work with content
+ *
+ * Here you will find functions to get and save content in the database.
+ *
+ * @package content
+ */
 
 
 if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -28,6 +35,16 @@ if (!defined("MW_DB_TABLE_MENUS")) {
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
 // action_hook('mw_db_init', 'mw_db_init_content_table');
 
+
+/**
+ * Creates the content tables in the database.
+ *
+ * It is executed on install and on update
+ *
+ *
+ * @category  content
+ * @subpackage  internal
+ */
 function mw_db_init_content_table()
 {
     $function_cache_id = false;
@@ -250,10 +267,7 @@ function define_constants($content = false)
             }
         }
     }
-    //d($content);
 
-
-    $page_data = false;
     if (is_array($content)) {
         if (isset($content['id'])) {
             $content = get_content_by_id($content['id']);
@@ -475,7 +489,7 @@ function define_constants($content = false)
         define("LAYOUTS_URL", $layouts_url);
     } else {
 
-        $layouts_url = LAYOUTS_URL;
+        // $layouts_url = LAYOUTS_URL;
     }
 
 
@@ -486,7 +500,6 @@ function get_layout_for_page($page = array())
 {
 
 
-    $args = func_get_args();
     $function_cache_id = '';
     if (is_array($page)) {
         ksort($page);
@@ -526,9 +539,13 @@ function get_layout_for_page($page = array())
     if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
         $url_file = url_string(1, 1);
         $test_file = str_replace('___', DS, $url_file);
-        $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
+        $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
+        $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
+
         if (is_file($render_file_temp)) {
             $render_file = $render_file_temp;
+        } elseif (is_file($render_file_temp2)) {
+            $render_file = $render_file_temp2;
         }
     }
 
@@ -852,7 +869,8 @@ function get_homepage()
     // ->'content';
     $table = MW_TABLE_PREFIX . 'content';
 
-    $sql = "SELECT * from $table where is_home='y'  order by updated_on desc limit 0,1 ";
+
+    $sql = "SELECT * FROM $table WHERE is_home='y'  ORDER BY updated_on DESC LIMIT 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
     // var_dump($q);
@@ -949,7 +967,7 @@ function get_page_by_url($url = '', $no_recursive = false)
     }
 
 
-    $sql = "SELECT id from $table where url='{$url}'   order by updated_on desc limit 0,1 ";
+    $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
     $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
@@ -1002,15 +1020,21 @@ function get_page_by_url($url = '', $no_recursive = false)
         return $content;
     }
     $mw_precahced_links[$link_hash] = false;
+    return false;
 }
-
 /**
- * Function to get single content item by id from the content_table
+ * Get single content item by id from the content_table
  *
- * @param
- *            int
+ * @param int $id The id of the content item
  * @return array
- * @author Peter Ivanov
+ * @category  content
+ * @function  get_content_by_id
+ *
+ * @example
+ * <pre>
+ * $content = get_content_by_id(1);
+ * var_dump($content);
+ * </pre>
  *
  */
 function get_content_by_id($id)
@@ -1025,7 +1049,7 @@ function get_content_by_id($id)
         return false;
     }
 
-    $q = "SELECT * from $table where id='$id'  limit 0,1 ";
+    //$q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
 
     $params = array();
     $params['id'] = $id;
@@ -1046,10 +1070,31 @@ function get_content_by_id($id)
     }
     return $content;
 }
-
-function get_page($id = false)
+/**
+ * Get single content item by id from the content_table
+ *
+ * @param int|string $id The id of the page or the url of a page
+ * @return array The page row from the database
+ * @category  content
+ * @function  get_page
+ *
+ * @example
+ * <pre>
+ * Get by id  
+ * $page = get_page(1);  
+ * var_dump($page);
+ * </pre>
+ * @example
+ * <pre>
+ * Get by url  
+ *
+ * $page = get_page('home');   
+ * var_dump($page);
+ *</pre>
+ */
+function get_page($id = 0)
 {
-    if ($id == false) {
+    if ($id == false or $id == 0) {
         return false;
     }
 
@@ -1098,7 +1143,7 @@ function reorder_content()
 
     $table = MW_TABLE_PREFIX . 'content';
     $maxpos = 0;
-    $get_max_pos = "select max(position) as maxpos from $table  where id IN ($ids_implode) ";
+    $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
     $get_max_pos = db_query($get_max_pos);
     if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
@@ -1118,7 +1163,7 @@ function reorder_content()
         //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
         //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
         $pox = $maxpos - $i;
-        $q = " UPDATE $table set position=$pox where id=$id   ";
+        $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
         //    var_dump($q);
         $q = db_q($q);
         $i++;
@@ -1142,43 +1187,48 @@ function get_content_admin($params)
 }
 
 
-/**
- *
- * Function to get single content item by id from the content_table
- *
- * @access public
- * @package content
- *
- * @author Peter Ivanov
- * @version 1.0
- *
- *
- * @see db#get
- * @since 0.320
- * @return mixed Array with posts or false
- * @param array $params parameters for the DB
- *
-
-Example:
-$params = array();
-$params['is_active'] = 'y'; //get only active content
-$params['parent'] = 2; //get by parent id
-$params['created_by'] = 1; //get by author id
-$params['content_type'] = 'post'; //get by content type
-$params['subtype'] = 'product'; //get by subtype
-
-$params['title'] = 'my title'; //get by title
-
-
-
-$data = get_content($params);
-
-
- */
-
-
 api_expose('get_content');
-
+/**
+ * Get array of content items from the database
+ *
+ * It accepts sting or array as parameters. You can pass any db field name as parameter to filter content by it.
+ * All parameter are passed to the get() function
+ *
+ * @function get_content
+ * @package content
+ * @category  content
+ *
+ *
+ * @desc  Get array of content items from the content DB table
+ *
+ * @see get()
+ * @see mw_db_init_content_table()
+ * @param array|bool|string $params
+ *
+ * @return array|bool|mixed
+ * @example
+ * <pre>
+ * Get by params as array
+ *
+ * $params = array();
+ * $params['is_active'] = 'y'; //get only active content
+ * $params['parent'] = 2; //get by parent id
+ * $params['created_by'] = 1; //get by author id
+ * $params['content_type'] = 'post'; //get by content type
+ * $params['subtype'] = 'product'; //get by subtype
+ * $params['title'] = 'my title'; //get by title
+ *
+ * $data = get_content($params);
+ * var_dump($data);
+ * </pre>
+ *
+ * @example
+ * <pre>
+ * Get by params as string
+ *  get_content('is_active=y');
+ *  var_dump($data);
+ * </pre>
+ */
 function get_content($params = false)
 {
 
@@ -1246,12 +1296,12 @@ function get_content($params = false)
 
 
         if (isset($params['limit'])) {
-            $limit = $params['limit'];
+            // $limit = $params['limit'];
         } else {
-            $limit = array();
-            $limit[0] = '0';
-
-            $limit[1] = '30';
+//            $limit = array();
+//            $limit[0] = '0';
+//
+//            $limit[1] = '30';
         }
 
         $table = MW_TABLE_PREFIX . 'content';
@@ -1290,13 +1340,34 @@ function get_content($params = false)
     }
 }
 
-function post_link($id = false)
+/**
+ * Gets a link for given post id
+ *
+ * If you don't pass id parameter it will try to use the current post id
+ *
+ * @param int $id The $id The id of the post
+ * @return string The url of the content
+ * @category  content
+ * @subpackage  main
+ *
+ *
+ * @example
+ * <pre>
+ * print post_link(5);
+ * </pre>
+ *
+ *
+ */
+function post_link($id = 0)
 {
     if (is_string($id)) {
         // $link = page_link_to_layout ( $id );
     }
-    if ($id == false) {
-        if (defined('PAGE_ID') == true) {
+    if ($id == false or $id == 0) {
+
+        if (defined('POST_ID') == true) {
+            $id = POST_ID;
+        } else if (defined('PAGE_ID') == true) {
             $id = PAGE_ID;
         }
     }
@@ -1310,13 +1381,29 @@ function post_link($id = false)
 }
 
 api_expose('content_link');
-
-function content_link($id = false)
+/**
+ * Gets a link for given content id
+ *
+ * If you don't pass id parameter it will try to use the current page id
+ *
+ * @param int $id The $id The id of the content
+ * @return string The url of the content
+ * @category  content
+ * @subpackage  main
+ *
+ *
+ * @example
+ * <pre>
+ * print content_link(5);
+ * </pre>
+ *
+ */
+function content_link($id = 0)
 {
     if (is_string($id)) {
         // $link = page_link_to_layout ( $id );
     }
-    if ($id == false) {
+    if ($id == false or $id == 0) {
         if (defined('PAGE_ID') == true) {
             $id = PAGE_ID;
         }
@@ -1357,16 +1444,26 @@ function page_link($id = false)
     }
 }
 
+
+
+
 /**
- * get_posts
+ * Return array of posts specified by $params
  *
- * get_posts is used to get content by parameters
+ * This function makes query in the database and returns data from the content table
  *
- * @category posts
- *
+ * @param string|array|bool $params
+ * @return string The url of the content
+ * @category  content
+ * @subpackage  main
+ * @see get_posts
+ * @function  main
+ * @example
+ * <pre>
+ * print get_posts('parent=5');
+ * </pre>
  *
  */
-
 function get_posts($params = false)
 {
     $params2 = array();
@@ -1429,7 +1526,7 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
 
     for ($x = 1; $x <= $pages_count; $x++) {
 
-        $new_url = array();
+        //$new_url = array();
 
         $new = array();
 
@@ -1475,13 +1572,13 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  * @author Microweber
  * @link
  *
- * @param $display =
+ * @param $params['num'] = 5; //the numer of pages
+ * @internal param $display =
  *            'default' //sets the default paging display with <ul> and </li>
  *            tags. If $display = false, the function will return the paging
  *            array which is the same as $posts_pages_links in every template
  *
- * @param $params['paging_param'] = 'current_page'; //the url param used for paging
- * @param $params['num'] = 5; //the numer of pages
+ * @return string - html string with ul/li
  */
 function paging($params)
 {
@@ -1537,10 +1634,13 @@ function paging($params)
 }
 
 /**
- * cf_val
+ * @function custom_field_value
  *
  * Returns custom field value
  *
+ * @param $content_id
+ * @param $field_name
+ * @param bool $use_vals_array
  * @return string or array
  * @author Peter Ivanov
  */
@@ -1600,7 +1700,7 @@ function save_edit($post_data)
         // p($post_data);
         if (isset($post_data['mw_preview_only'])) {
             $is_no_save = true;
-            unset($the_field_data_all['mw_preview_only']);
+            unset($post_data['mw_preview_only']);
         }
         $is_no_save = false;
         $is_draft = false;
@@ -1637,7 +1737,7 @@ function save_edit($post_data)
             return false;
         } elseif ($ustr2 == '' or $ustr2 == '/') {
 
-            $ref_page = get_homepage();
+            //$ref_page = get_homepage();
         }
 
 
@@ -1649,15 +1749,13 @@ function save_edit($post_data)
             $guess_page_data->return_data = true;
             $guess_page_data->create_new_page = true;
             $pd = $guess_page_data->index();
-            if (isarr($pd) and isset($pd["active_site_template"])) {
+            if (isarr($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
                 $save_page = $pd;
                 $save_page['url'] = url_string(1);
                 $save_page['title'] = url_title(url_string(1));
                 $page_id = save_content($save_page);
-
-
             }
-            //d($pd);
+            //
 
             // d($ref_page_url);
         } else {
@@ -2077,58 +2175,58 @@ function delete_content($data)
             //$q = "update $table set parent=0 where parent=$c_id ";
 
             if ($to_untrash == true) {
-                $q = "update $table set is_deleted='n' where id=$c_id and  is_deleted='y' ";
+                $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
                 $q = db_query($q);
-                $q = "update $table set is_deleted='n' where parent=$c_id   and  is_deleted='y' ";
+                $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
                 $q = db_query($q);
                 if (defined("MW_DB_TABLE_TAXONOMY")) {
                     $table1 = MW_DB_TABLE_TAXONOMY;
-                    $q = "update $table1 set is_deleted='n' where rel_id=$c_id  and  rel='content' and  is_deleted='y' ";
+                    $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
                     $q = db_query($q);
                 }
 
             } else if ($to_trash == false) {
-                $q = "update $table set parent=0 where parent=$c_id ";
+                $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
                 $q = db_query($q);
 
                 db_delete_by_id('menus', $c_id, 'content_id');
 
                 if (defined("MW_DB_TABLE_MEDIA")) {
                     $table1 = MW_DB_TABLE_MEDIA;
-                    $q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+                    $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                     $q = db_query($q);
                 }
 
                 if (defined("MW_DB_TABLE_TAXONOMY")) {
                     $table1 = MW_DB_TABLE_TAXONOMY;
-                    $q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+                    $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                     $q = db_query($q);
                 }
 
 
                 if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
                     $table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
-                    $q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+                    $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                     $q = db_query($q);
                 }
 
 
                 if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
                     $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
-                    $q = "delete from $table1 where rel_id=$c_id  and  rel='content'  ";
+                    $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                     $q = db_query($q);
                 }
 
 
             } else {
-                $q = "update $table set is_deleted='y' where id=$c_id ";
+                $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
 
                 $q = db_query($q);
-                $q = "update $table set is_deleted='y' where parent=$c_id ";
+                $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
                 $q = db_query($q);
                 if (defined("MW_DB_TABLE_TAXONOMY")) {
                     $table1 = MW_DB_TABLE_TAXONOMY;
-                    $q = "update $table1 set is_deleted='y' where rel_id=$c_id  and  rel='content' and  is_deleted='n' ";
+                    $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
                     $q = db_query($q);
                 }
@@ -2197,7 +2295,7 @@ function save_content($data, $delete_the_cache = true)
     $more_categories_to_delete = array();
     if (!isset($data['url']) and intval($data['id']) != 0) {
 
-        $q = "SELECT * from $table where id='{$data_to_save['id']}' ";
+        $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
 
         $q = db_query($q);
 
@@ -2268,7 +2366,7 @@ function save_content($data, $delete_the_cache = true)
 
         $date123 = date("YmdHis");
 
-        $q = "select id, url from $table where url LIKE '{$data['url']}'";
+        $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
 
         $q = db_query($q);
 
@@ -2305,7 +2403,7 @@ function save_content($data, $delete_the_cache = true)
     $data_to_save_options = array();
 
     if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
-        $sql = "UPDATE $table set is_home='n'   ";
+        $sql = "UPDATE $table SET is_home='n'   ";
         $q = db_query($sql);
     }
 
@@ -2468,7 +2566,7 @@ function save_content($data, $delete_the_cache = true)
     if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
         if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
-            $get_max_pos = "select max(position) as maxpos from $table  ";
+            $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
             $get_max_pos = db_query($get_max_pos);
             if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 //d($get_max_pos);
@@ -2520,12 +2618,12 @@ function save_content($data, $delete_the_cache = true)
 
     $id = $save;
 
-    $clean = " update $custom_field_table set
+    $clean = " UPDATE $custom_field_table SET
 	rel =\"content\"
 	, rel_id =\"{$id}\"
-	where
+	WHERE
 	session_id =\"{$sid}\"
-	and (rel_id=0 or rel_id IS NULL) and rel =\"content\"
+	AND (rel_id=0 OR rel_id IS NULL) AND rel =\"content\"
 
 	";
 
@@ -2535,12 +2633,12 @@ function save_content($data, $delete_the_cache = true)
 
     $media_table = MW_TABLE_PREFIX . 'media';
 
-    $clean = " update $media_table set
+    $clean = " UPDATE $media_table SET
 
 	rel_id =\"{$id}\"
-	where
+	WHERE
 	session_id =\"{$sid}\"
-	and rel =\"content\" and (rel_id=0 or rel_id IS NULL)
+	AND rel =\"content\" AND (rel_id=0 OR rel_id IS NULL)
 
 	";
 
@@ -2667,7 +2765,7 @@ function save_content_field($data, $delete_the_cache = true)
         }
         if (isset($history_files_ids) and isarr($history_files_ids)) {
             $history_files_ids_impopl = implode(',', $history_files_ids);
-            $del_q = "delete from {$table} where id IN ($history_files_ids_impopl) ";
+            $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
             db_q($del_q);
         }
         //d($history_files_ids);
@@ -2685,7 +2783,7 @@ function save_content_field($data, $delete_the_cache = true)
     if (isset($data['field']) and !isset($data['is_draft'])) {
         $fld = db_escape_string($data['field']);
         $fld_rel = db_escape_string($data['rel']);
-        $del_q = "delete from {$table} where rel='$fld_rel' and  field='$fld' ";
+        $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
         if (isset($data['rel_id'])) {
             $i = db_escape_string($data['rel_id']);
             $del_q .= " and  rel_id='$i' ";
@@ -2838,22 +2936,22 @@ function get_content_field($data, $debug = false)
 
 }
 
-/*
+/**
+ * Function to print nested tree of pages
  *
  *
- *
+ * @example
+ * <pre>
  * Example Usage:
  * pt_opts = array();
  * $pt_opts['link'] = "{title}";
  * $pt_opts['list_tag'] = "ol";
  * $pt_opts['list_item_tag'] = "li";
- *
- *
  * pages_tree($pt_opts);
+ * </pre>
  *
- *
- *
- *
+ * @example
+ * <pre>
  * Example Usage to make options for <select>:
  * $pt_opts = array();
  * $pt_opts['link'] = "{title}";
@@ -2864,21 +2962,16 @@ function get_content_field($data, $debug = false)
  * $pt_opts['ul_class'] = 'nav';
  * $pt_opts['li_class'] = 'nav-item';
  *  pages_tree($pt_opts);
- *
- * 	Other options
+ * </pre>
+ *  @example
+ * <pre>
+ * Other options
  * $pt_opts['parent'] = "8"; //
  * $pt_opts['include_first'] =  true; //includes the parent in the tree
  * $pt_opts['id_prefix'] = 'my_id';
- *
- *
- *
- *
- *
- *
- *
+ * </pre>
  *
  */
-
 function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false)
 {
 
@@ -2997,12 +3090,12 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
     }
 
     if ($include_first == true) {
-        $sql = "SELECT * from $table where  id=$parent    and   is_deleted='n' and content_type='page' $is_shop order by position desc  limit 0,1";
+        $sql = "SELECT * from $table where  id={$parent}    and   is_deleted='n' and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
         //
     } else {
 
         //$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1";
-        $sql = "SELECT * from $table where  $par_q  content_type='page' and   is_deleted='n' $is_shop  order by position desc limit 0,100";
+        $sql = "SELECT * from $table where  " . $par_q . "  content_type='page' and   is_deleted='n' $is_shop  order by position desc limit 0,100";
     }
 
     //$sql = "SELECT * from $table where  parent=$parent    and content_type='page'  order by updated_on desc limit 0,1000";
@@ -3504,7 +3597,7 @@ function pages_tree($parent = 0, $link = false, $active_ids = false, $active_cod
     }
 
 
-    return;
+    return false;
 }
 
 function mw_create_default_content($what)
@@ -3727,7 +3820,7 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
         $with_main_parrent_q = false;
     }
     $id = intval($id);
-    $q = " select id, parent  from $table where id = $id   $with_main_parrent_q ";
+    $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
     $taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
@@ -3809,12 +3902,13 @@ function content_get_inherited_parent($content_id)
 /**
  * static_pages_tree
  *
- * @desc generates static pages navigation from direcotry
+ * @desc generates static pages navigation from directory of files
  * @access      public
  * @category    static pages
  * @author      Microweber
  * @param $params = array();
  * @param $params['dir_name'] = your dir; //path to the directory root
+ * @return string
  */
 
 
@@ -3954,11 +4048,11 @@ function content_ping_servers()
 {
 
     if ($_SERVER ["SERVER_NAME"] == 'localhost') {
-       return false;
+        return false;
     }
 
     if ($_SERVER ["SERVER_NAME"] == '127.0.0.1') {
-       return false;
+        return false;
     }
 
     $fqdn = is_fqdn(site_url());
@@ -4018,7 +4112,7 @@ function content_ping_servers()
             }
             $curl = new \mw\utils\Curl();
             $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . site_url('sitemap.xml');
-            $curl->timeout = 1;
+            $curl->timeout = 3;
             $result1 = $curl->execute();
             cache_clean_group('content/ping');
         }

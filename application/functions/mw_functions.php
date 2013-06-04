@@ -36,7 +36,7 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'utils.php')
 
  }*/
 
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache2.php');
+include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db.php');

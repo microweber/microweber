@@ -260,6 +260,7 @@ function delete_user($data)
     return $data;
 }
 
+
 function hash_user_pass($pass)
 {
     //$hash = password_hash($pass, PASSWORD_BCRYPT);
@@ -979,8 +980,10 @@ function user_login_set_failed_attempt()
 
 
 /**
+ * @function user_login
+ *
  * Allows you to login a user into the system
- * It also sets used session when the user is logged
+ * It also sets user session when the user is logged
  *
  *
  *
@@ -998,18 +1001,16 @@ function user_login_set_failed_attempt()
  * @return array|bool
  *
  *
- * @uses hash_user_pass()
- * @uses get_users()
  * @note On 5 unsuccessful logins, blocks the ip for few minutes
  *
- * You can also hook to this function with custom functions
  *
+ * @hooks You can also hook to this function with custom functions
  * There are few events that get executed on login
  *
  * Here is example:
  *
- * action_hook('before_user_login', 'custom_login_function');
- *
+ * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
+ * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
  *
  *
  */
@@ -1291,23 +1292,16 @@ function is_admin()
 }
 
 /**
- * user_name
- *
+ * @function user_name
  * gets the user's FULL name
  *
- * @access public
- * @category users
- * @author Microweber
- * @link http://microweber.com
- * @param $user_id -
- *            the is of the user. If false it will use the curent user (you)
- * @param string $mode
- *            = 'full' //prints full name (first +last)
- *
- *            $mode = 'first' //prints first name
- *            $mode = 'last' //prints last name
- *            $mode = 'username' //prints username
- *
+ * @param $user_id  the id of the user. If false it will use the curent user (you)
+ * @param string $mode full|first|last|username
+ *  'full' //prints full name (first +last)
+ *  'first' //prints first name
+ *  'last' //prints last name
+ *  'username' //prints username
+ * @return string
  */
 function user_name($user_id = false, $mode = 'full')
 {
@@ -1325,7 +1319,7 @@ function user_name($user_id = false, $mode = 'full')
 }
 
 /**
- * get_users
+ * @function get_users
  *
  * @param $params array|string;
  * @params $params['username'] string username for user
@@ -1336,7 +1330,7 @@ function user_name($user_id = false, $mode = 'full')
  * @usage get_users('email=my_email');
  *
  *
- * @return array array of users;
+ * @return array of users;
  */
 function get_users($params)
 {

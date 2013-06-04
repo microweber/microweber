@@ -30,7 +30,25 @@
     margin-top: 12px;
   }
 
+   #footer {
+     text-align: center;
+   }
 
+  #footer .nav{
+    float: none;
+    text-align: center;
+  }
+
+  #footer .nav li, #footer .nav a{
+    display: inline-block;
+    float: none;
+  }
+
+  #footer #copyright{
+    display: inline-block;
+    float: none;
+    white-space: normal;
+  }
 
 }  /* / max-width: 979px */
 
@@ -42,7 +60,7 @@
 
   }
 
-  #home-videos{
+  #h-features-container{
     display: none;
   }
 
@@ -75,6 +93,10 @@
   }
   #usernav-mobile {
     display: block;
+  }
+
+  #footer{
+    padding-top: 0;
   }
 
 }
@@ -123,5 +145,10 @@
      #main-menu-toggle  .dropdown-menu{
        width: 190px;
      }
+     #footer #copyright{
+        background-position:  center bottom;
+        padding-right: 0;
+        padding-bottom: 50px;
+      }
 
 }

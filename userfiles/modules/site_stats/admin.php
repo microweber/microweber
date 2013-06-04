@@ -23,7 +23,7 @@ $v_monthly = get_visits('monthly');
 </div>
 <div class="vSpace">&nbsp;</div>
 
- 
+
  
 <module="site_stats/dashboard_last" id="stats_dashboard_last" />
 <script  type="text/javascript">

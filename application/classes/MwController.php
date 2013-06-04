@@ -947,6 +947,7 @@ class MwController
                 //
 
                 $page = get_homepage();
+
             } else {
                 $found_mod = false;
                 $page = get_page_by_url($page_url);
@@ -1081,7 +1082,22 @@ class MwController
                         }
 
                         if ($simply_a_file == false) {
-                            $page = get_homepage();
+                            //$page = get_homepage();
+
+                            if(!is_array($page)){
+                                $page = array();
+
+                                $page['id'] = 0;
+                                $page['content_type'] = 'page';
+                                $page['parent'] = '0';
+                                $page['url'] = url_string();
+                                //  $page['active_site_template'] = $page_url_segment_1;
+                                $page['simply_a_file'] = 'clean.php';
+                                $page['layout_file'] = 'clean.php';
+                            }
+
+
+
                             if (isarr($page_url_segment_3)) {
 
                                 foreach ($page_url_segment_3 as $mvalue) {
@@ -1104,6 +1120,9 @@ class MwController
                             }
 
                         } else {
+                            if(!is_array($page)){
+                                $page = array();
+                            }
                             $page['id'] = 0;
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
