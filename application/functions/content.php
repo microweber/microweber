@@ -1737,7 +1737,7 @@ function save_edit($post_data)
             return false;
         } elseif ($ustr2 == '' or $ustr2 == '/') {
 
-            //$ref_page = get_homepage();
+            $ref_page = get_homepage();
         }
 
 
