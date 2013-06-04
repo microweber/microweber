@@ -1776,11 +1776,7 @@ function save_edit($post_data)
         $save_layout = false;
         if (isset($page_id) and $page_id != 0 and !empty($the_field_data)) {
             $save_global = false;
-            if ($the_field_data['attributes']) {
-                // $the_field_data ['attributes'] = json_decode($the_field_data
-                // ['attributes']);
-                // var_dump($the_field_data ['attributes']);
-            }
+            
             $content_id = $page_id;
 
             /*
