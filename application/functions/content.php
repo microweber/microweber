@@ -1,11 +1,14 @@
 <?php
 /**
  * This file holds useful function to work with content
- *
  * Here you will find functions to get and save content in the database.
  *
  * @package content
+ * @desc  These functions will allow you to get and save content in the database.
+ *
  */
+
+
 
 
 if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -41,8 +44,9 @@ action_hook('mw_db_init_default', 'mw_db_init_content_table');
  *
  * It is executed on install and on update
  *
- *
+ * @function mw_db_init_content_table
  * @category  content
+ * @package content
  * @subpackage  internal
  */
 function mw_db_init_content_table()
@@ -252,6 +256,20 @@ function create_mw_default_pages_in_not_exist()
 
 }
 
+
+
+
+
+/**
+ * Defines all constants that are needed to parse the page layout
+ *
+ * It accepts array or $content that must have  $content['id'] set
+ *
+ *
+ * @category  content
+ * @package content
+ * @subpackage  internal
+ */
 function define_constants($content = false)
 {
 
@@ -496,6 +514,18 @@ function define_constants($content = false)
     return true;
 }
 
+
+
+/**
+ * Return the path to the layout file that will render the page
+ *
+ * It accepts array $page that must have  $page['id'] set
+ *
+ *
+ * @category  content
+ * @package content
+ * @subpackage  internal
+ */
 function get_layout_for_page($page = array())
 {
 
@@ -857,12 +887,23 @@ function get_layout_for_page($page = array())
     return $render_file;
 }
 
+/**
+ * Return link to the homepage
+ *
+ * @category  content
+ * @package content
+ */
 function homepage_link()
 {
     $hp = get_homepage();
     return content_link($hp['id']);
 }
-
+/**
+ * Returns the homepage as array
+ *
+ * @category  content
+ * @package content
+ */
 function get_homepage()
 {
 
@@ -880,7 +921,15 @@ function get_homepage()
 
     return $content;
 }
-
+/**
+ * Get the content as array by url
+ *
+ * @param string $url the url of the content
+ * @param bool $no_recursive if true, it will not try to search for parent content
+ * @return bool|string
+ * @category  content
+ * @package content
+ */
 function get_content_by_url($url = '', $no_recursive = false)
 {
     return get_page_by_url($url, $no_recursive);
@@ -1348,7 +1397,7 @@ function get_content($params = false)
  * @param int $id The $id The id of the post
  * @return string The url of the content
  * @category  content
- * @subpackage  main
+ *   
  *
  *
  * @example
@@ -1389,7 +1438,7 @@ api_expose('content_link');
  * @param int $id The $id The id of the content
  * @return string The url of the content
  * @category  content
- * @subpackage  main
+ *   
  *
  *
  * @example
@@ -1455,7 +1504,7 @@ function page_link($id = false)
  * @param string|array|bool $params
  * @return string The url of the content
  * @category  content
- * @subpackage  main
+ *   
  * @see get_posts
  * @function  main
  * @example

@@ -210,6 +210,29 @@ function db_query_log($q) {
         $index[] = $q;
     }
 }
+/**
+ * Performs a query without returning a result
+ *
+ *
+ *
+ *
+ * @param string $q Your SQL query
+ * @param bool|array $connection_settigns
+ * @return array|bool|mixed
+ * @category db
+ * @package db
+ * @see db_query
+ *
+ *
+ * @example
+ *  <pre>
+ *  //make plain query to the db
+ *    $sql = "update $table set title='new' WHERE id=1 ";
+ *  $q = db_q($sql);
+ *
+ * </pre>
+ *
+ */
 
 function db_q($q, $connection_settigns = false) {
 
@@ -225,7 +248,35 @@ function db_q($q, $connection_settigns = false) {
 
     return $q;
 }
-
+/**
+ * Executes plain query in the database.
+ *
+ * Please ensure your variables are escaped before calling this function.
+ *
+ *
+ * @category db
+ * @package db
+ * @function db_query
+ * @desc Executes plain query in the database.
+ *
+ * @param string $q Your SQL query
+ * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
+ * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
+ * @param bool $only_query If set to true, will perform only a query without returning a result
+ * @param array|bool $connection_settigns
+ * @return array|bool|mixed
+ *
+ * @example
+ *  <pre>
+ *  //make plain query to the db
+ *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+ *  $q = db_query($sql, crc32($sql), 'content/global');
+ *
+ * </pre>
+ *
+ *
+ *
+ */
 function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settigns = false) {
     if (trim($q) == '') {
         return false;
@@ -381,44 +432,7 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
     //d($result);
     return $result;
 }
-
-/**
- * get data from the database this is the MOST important function in the
- * Microweber CMS.
- * Everything relies on it.
- *
- * @author Peter Ivanov
- *
- * @param string $table
- *        	-
- *        	the table name ex. content
- * @param array $criteria
- *        	The array of database fields you want to filter
- *        	ex.
- *        	$criteria =array('id' => 11); //gets the item
- *
- *
- *        	Query options:
- *        	$criteria['debug'] = 1; //print the sql
- *        	$criteria['cache_group'] = 'content' //same as the $cache_group
- *        	$criteria['no_cache'] = 1; //does not cache the query
- *        	$criteria['count'] = 1; //get only the count
- *              $post_params_paging['page_count'] = true;  //get the page count
- *
- *
- *
- *        	Result limit:
- *        	$criteria['limit'] = 10; //gets 10 results
- *        	$criteria['limit'] = array(30,10); //gets 10 results with offset
- *        	30
- *
- *
- *
- * @param string $cache_group
- *        	-
- *        	The cache folder to use to cache the query result
- *        	You must delete this cache group when you save data to the $table
- */
+ 
 if (is_admin() == true) {
     api_expose('get');
 }
@@ -464,16 +478,39 @@ function mass_save($get_params, $save_params = false) {
  *
  * @access public
  * @package db
+
  * @category  db
  *
- * @author Peter Ivanov
- * @version 1.0
- *
- *
- * @see db
  * @since 0.320
- * @return mixed Array with data or false or integer
- * @param array $params parameters for the DB
+ * @param string|array $params parameters for the DB
+ * @param string $params['table'] the table name ex. content
+ * @param string $params['debug'] if true print the sql
+ * @param string $params['cache_group'] sets the cache folder to use to cache the query result
+ * @param string $params['no_cache']  if true it will no cache the sql
+ * @param string $params['count']  if true it will return results count
+ * @param string $params['page_count']  if true it will return pages count
+ * @param string|array $params['limit']  if set it will limit the results
+ *
+ * @function get
+ * @return mixed Array with data or false or integer if page_count is set
+ *
+ *
+ * @example <pre>
+ *
+ * //get content
+ *  $results = get("table=content&is_active=y");
+ * </pre>
+ *
+ *
+ * @example
+ *  <pre>
+ *  //get users
+ *
+ *
+ *  $results = get("table=users&is_admin=n");
+ * </pre>
+ *
+ *
  *
  */
 function get($params) {
@@ -919,27 +956,18 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
 
 
             if ($is_not_null == true) {
-                $cfvq = "custom_field_value IS NOT NULL  ";
+                $cfvq = " custom_field_value IS NOT NULL  ";
             } else {
-                $cfvq = "(custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
+                $cfvq = " (custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
 
             }
             $table_assoc_name1 = db_get_assoc_table_name($table_assoc_name);
-            $q = "SELECT  rel_id from $table_custom_fields where
-
-			rel = '$table_assoc_name1' and
-
-			(custom_field_name = '$k' or custom_field_name_plain='$k' ) and
-
-			$cfvq
-
-			$ids_q   $only_custom_fieldd_ids_q
-
-
-
-
-			";
-
+            $q = "SELECT  rel_id from ".$table_custom_fields." where";
+            $q .=" rel='$table_assoc_name1' and ";
+			$q .=" (custom_field_name = '$k' or custom_field_name_plain='$k' ) and  ";
+			$q .= db_escape_string($cfvq);
+            $q .= $ids_q;
+            $q .= $only_custom_fieldd_ids_q;
             $q2 = $q;
 
             $q = db_query($q, md5($q), 'custom_fields/global');
@@ -1826,9 +1854,9 @@ function db_table_exist($table) {
  * Gets all field names from a DB table
  *
  * @param $table string
- *        	- table name
+ *            - table name
  * @param $exclude_fields array
- *        	- fields to exclude
+ *            - fields to exclude
  * @return array
  * @author Peter Ivanov
  * @version 1.0
@@ -2142,7 +2170,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         $data = $criteria;
 
         if (DB_IS_SQLITE == false) {
-            $q = " INSERT INTO  $table set ";
+            $q = "INSERT INTO  ".$table." set ";
 
             foreach ($data as $k => $v) {
 
@@ -2177,7 +2205,7 @@ function save_data($table, $data, $data_to_save_options = false) {
         // update
         $data = $criteria;
 
-        $q = " UPDATE  $table set ";
+        $q = "UPDATE  ".$table." set ";
 
         foreach ($data as $k => $v) {
             //$v = db_escape_string($v);
@@ -2329,11 +2357,18 @@ function save_data($table, $data, $data_to_save_options = false) {
                     }
 
                     $original_data['categories'] = implode(',', $cz);
-                    $clean_q = "delete
-					from $categories_items_table where                            data_type='category_item' and
-					rel='{$table_assoc_name}' and
-					$parnotin
-					rel_id={$id_to_return}  ";
+
+
+                    $clean_q = "delete from ".$categories_items_table." where ";
+                    $clean_q .=" data_type='category_item' and ";
+                    $clean_q .=" rel='{$table_assoc_name}' and ";
+                    $clean_q .=$parnotin;
+                    $clean_q .=" rel_id={$id_to_return}";
+
+
+
+
+
                     $cats_data_items_modified = true;
                     $cats_data_modified = true;
                     // d($clean_q);
@@ -2755,48 +2790,26 @@ function save_data($table, $data, $data_to_save_options = false) {
         $data['edited_by'] = $user_session['user_id'];
     }
 
-    // p($aUserId,1);
-    // var_dump ( $table_assoc_name );
-    // p ( $data ['edited_by'], 1 );
-    /*
-     * if (strval ( $table_assoc_name ) != '') { if (intval ( $data
-     * ['edited_by'] ) != 0) { $to_execute_query = false; global
-     * $users_log_exclude; global $users_log_include; if (empty (
-     * $users_log_include )) { // ..p($users_log_exclude,1); if (empty (
-     * $users_log_exclude )) { $to_execute_query = true; // be careful } else {
-     * if (in_array ( $table_assoc_name, $users_log_exclude ) == true) {
-     * $to_execute_query = false; } else { $to_execute_query = true; } } if
-     * ($table_assoc_name == 'users_notifications') { $to_execute_query =
-     * false; } if ($table_assoc_name == 'table_custom_fields') {
-     * $to_execute_query = false; } if ($table_assoc_name == 'media') {
-     * $to_execute_query = false; } if ($table_assoc_name == 'bb_forums') {
-     * $to_execute_query = false; } } else { if (in_array ( $table_assoc_name,
-     * $users_log_include ) == true) { $to_execute_query = true; } else {
-     * $to_execute_query = false; } } if ($to_execute_query == true) { // @todo
-     * later: funtionality and documentation to move the // log in seperate
-     * database cause of possible load issues on // social networks created witm
-     * microweber $rel_table = $data ['rel']; $rel_table_id = $data
-     * ['rel_id']; if ($rel_table == false) { $rel_table =
-     * $table_assoc_name; } if ($rel_table_id == false) { $rel_table_id =
-     * $id_to_return; }   $by = intval ( $data
-     * ['edited_by'] ); $by2 = intval ( $data ['created_by'] ); $now = date (
-     * "Y-m-d H:i:s" ); $session_id = $this->session->userdata ( 'session_id' );
-     * $users_table = $cms_db_tables ['users_log']; $q = " INSERT INTO
-     * $users_table set "; $q .= " created_on ='{$now}', user_id={$by}, "; $q .=
-     * " rel_id={$id_to_return}, "; $q .= " rel='{$table_assoc_name}'
-     * ,"; $q .= " rel_table='{$rel_table}', "; $q .= "
-     * rel_table_id={$rel_table_id} ,"; $q .= " edited_by={$by} ,"; $q .= "
-     * created_by={$by2} ,"; $q .= " session_id='{$session_id}' , "; $q .= "
-     * is_read='n' , "; $q .= " user_ip='{$_SERVER['REMOTE_ADDR']}'"; } } }
-     */
+
 
     return intval($id_to_return);
 }
 
 /**
- * save data
+ * Get last id from a table
  *
- * @author Peter Ivanov
+ * @desc Created DB table from given array
+ * @package db
+ * @category  db
+ * @param $table
+ * @return bool|int
+ *
+ * @example
+ * <pre>
+ * $table_name = MW_TABLE_PREFIX . 'content';
+ * $id = db_last_id($table_name);
+ * </pre>
+ *
  */
 function db_last_id($table) {
 
@@ -3129,7 +3142,7 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
             $sql = false;
             if (isset($exisiting_fields[$the_field[0]]) != true) {
-                $sql = "alter table $table_name add column {$the_field[0]} {$the_field[1]} ";
+                $sql = "alter table $table_name add column ".$the_field[0]." ".$the_field[1]."";
                 db_q($sql);
             } else {
                 //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
@@ -3169,9 +3182,7 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
     }
 
     if ($query == false) {
-        $q = "
-		ALTER TABLE {$aTable} ADD $index `{$aIndexName}` ({$columns});
-		";
+        $q = "ALTER TABLE ".$aTable." ADD $index `".$aIndexName."` (".$columns.");";
         // var_dump($q);
         db_q($q);
     }
@@ -3216,17 +3227,11 @@ function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aFore
         $fColumns = implode(',', $aForeignColumns); ;
         $onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
         $onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
-
-        $q = "
-		ALTER TABLE {$aTable}
-		ADD CONSTRAINT `{$aFKName}`
-		FOREIGN KEY
-		({$columns})
-		REFERENCES {$aForeignTable} ($fColumns)
-		{$onDelete}
-		{$onUpdate}
-		";
-
+        $q = "ALTER TABLE ".$aTable;
+        $q .= " ADD CONSTRAINT `".$aFKName."` ";
+        $q .= " FOREIGN KEY(".$columns.") ";
+        $q .= " {$onDelete} ";
+        $q .= " {$onUpdate} ";
         db_q($q);
     }
 

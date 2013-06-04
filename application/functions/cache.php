@@ -1,10 +1,10 @@
 <?php
 /**
  * Here you will find how to work with the cache
- *
  * These functions will allow you to save and get data from the MW cache system
  *
  * @package cache
+ * @desc  These functions will allow you to save and get data from the MW cache system
  */
 
 
