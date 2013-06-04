@@ -1082,7 +1082,7 @@ class MwController
                         }
 
                         if ($simply_a_file == false) {
-                            //$page = get_homepage();
+                            $page = get_homepage();
 
                             if(!is_array($page)){
                                 $page = array();

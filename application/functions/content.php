@@ -1776,7 +1776,7 @@ function save_edit($post_data)
         $save_layout = false;
         if (isset($page_id) and $page_id != 0 and !empty($the_field_data)) {
             $save_global = false;
-            
+
             $content_id = $page_id;
 
             /*
