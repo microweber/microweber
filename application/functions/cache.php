@@ -3,51 +3,10 @@
  * Here you will find how to work with the cache
  * These functions will allow you to save and get data from the MW cache system
  *
- * @package cache
- * @category cache
+ * @package Cache
+ * @category Cache
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
-
-
-/*if (!defined('APC_CACHE')) {
-
-	$apc_exists = function_exists('apc_fetch');
-
-	if (isset($_SESSION)) {
-		$is_editmode = session_get('editmode');
-		if ($is_editmode and intval($is_editmode) == 1) {
-		//	$apc_exists = false;
-		}
-	}
-	if (isset($_POST) and isarr($_POST)) {
-	///	$apc_exists = false;
-	}
-	//$apc_exists = false;
-	//    if (isset($_COOKIE['editmode'])) {
-	//
-	//    }
-	//$apc_exists = isset($_GET['test_cookie']);
-	//d($apc_exists);
-	define("APC_CACHE", $apc_exists);
-}*/
-
-//$_mw_cache_obj = false;
-/*$enable_server_cache_storage = static_option_get('enable_server_cache_storage', 'server');
-if ($enable_server_cache_storage != false and $enable_server_cache_storage != 'default') {
-	if ($enable_server_cache_storage != 'default') {
-		$cache_storage_type = "\mw\cache\\" . trim($enable_server_cache_storage);
-
-		try {
-			$_mw_cache_obj = new $cache_storage_type;
-		} catch (Exception $e) {
-			echo 'Caught exception: ', $e -> getMessage(), "\n";
-		}
-
-	}
-} else {
-
-
-}*/
 
 if (!isset($_mw_cache_obj) or $_mw_cache_obj == false) {
     $_mw_cache_obj = new \mw\cache\Files();
@@ -63,8 +22,8 @@ mw_var('is_cleaning_now', false);
  * @param bool $cache_storage_type
  * @return boolean
  *
- * @package cache
- * @category  cache
+ * @package Cache
+ * @category Cache
  *
  */
 function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
@@ -77,25 +36,33 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
         $local_obj = new $cache_storage_type;
 
     }
-    //d($cache_group);
-    $local_obj->delete($cache_group);
+     $local_obj->delete($cache_group);
 }
 
 /**
- * Gets the data from the cache.
+ *  Gets the data from the cache.
+ *
+ *  If data is not found it return false
  *
  *
- *  return array of cached data
+ *  @example
+ * <pre>
  *
- * @param string $cache_id
- *            of the cache
- * @param string $cache_group
- *            (default is 'global') - this is the subfolder in the cache dir.
+ * $cache_id = 'my_cache_'.crc32($sql_query_string);
+ * $cache_content = cache_get_content($cache_id, 'my_cache_group');
  *
- * @param bool $cache_storage_type
- * @return mixed
- * @package cache
- * @category  cache
+ * </pre>
+ *
+ *
+ *
+ *
+ * @param string $cache_id id of the cache
+ * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
+ *
+ * @param bool $cache_storage_type You can pass custom cache object or leave false.
+ * @return  mixed returns array of cached data or false
+ * @package Cache
+ * @category Cache
  *
  */
 function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_type = false)
@@ -115,7 +82,14 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
 
 /**
  * Stores your data in the cache.
- * It can store any value, such as strings, array, objects, etc.
+ * It can store any value that can be serialized, such as strings, array, etc.
+ *
+ * @example
+ * <pre>
+ * $data = array('something' => 'some_value');
+ * $cache_id = 'my_cache_id';
+ * $cache_content = cache_save($data, $cache_id, 'my_cache_group');
+ * </pre>
  *
  * @param mixed $data_to_cache
  *            your data, anything that can be serialized
@@ -127,8 +101,8 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
  *
  * @param bool $cache_storage_type
  * @return boolean
- * @package cache
- * @category  cache
+ * @package Cache
+ * @category Cache
  */
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
@@ -149,12 +123,12 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
 
 api_expose('clearcache');
 /**
- * Clears all cache
+ * Clears all cache data
  *
  * @param bool $cache_storage_type
  * @return boolean
- * @package cache
- * @category  cache
+ * @package Cache
+ * @category Cache
  */
 function clearcache($cache_storage_type = false)
 {
@@ -174,8 +148,8 @@ function clearcache($cache_storage_type = false)
  * Prints cache debug information
  *
  * @return array
- * @package cache
- * @category  cache
+ * @package Cache
+ * @category Cache
  */
 function cache_debug()
 {

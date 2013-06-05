@@ -96,6 +96,10 @@ body.mw-preview{
     -o-transition: color 0 ease-in !important;
     transition: none !important;
 }
+img.element{
+  display: inline-block;
+}
+
 .element, .mw-col, .mw_item{
  -ms-transform-origin:50% 50%;
  -webkit-transform-origin:50% 50%;

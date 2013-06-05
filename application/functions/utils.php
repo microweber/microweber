@@ -40,19 +40,52 @@ function copy_directory($source, $destination) {
 	}
 }
 
-//Read more: http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
 
+/**
+ * Returns the current microtime
+ *
+ * @return bool|string $date The current microtime
+ *
+ * @package Utils
+ * @category Date
+ * @link http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
+ */
 function microtime_float () {
 	list ($msec, $sec) = explode(' ', microtime());
 	$microtime = (float)$msec + (float)$sec;
 	return $microtime;
 }
 
+/**
+ * Formats a date by given pattern
+ *
+ * @param $date Your date
+ * @param bool|string $date_format The format for example 'Y-m-d'
+ * @return bool|string $date The formatted date
+ *
+ * @package Utils
+ * @category Date
+ */
+function format_date($date, $date_format = false)
+{
+    if ($date_format == false) {
 
+        if(function_exists('get_option')){
+        $date_format = get_option('date_format', 'website');
+        }
+        if ($date_format == false) {
+            $date_format = "Y-m-d H:i:s";
+        }
+    }
+
+    $date = date($date_format, strtotime($date));
+    return $date;
+}
 
 /**
  * Returns a human readable filesize
- *
+ * @package Utils
+ * @category Files
  * @author      wesman20 (php.net)
  * @author      Jonas John
  * @version     0.3
@@ -75,12 +108,16 @@ function file_size_nice($size) {
 if ( ! function_exists('character_limiter'))
 {
 
-
     /**
+     *
+     * Limits a string to a number of characters
+     *
      * @param $str
      * @param int $n
      * @param string $end_char
      * @return string
+     * @package Utils
+     * @category Strings
      */
     function character_limiter($str, $n = 500, $end_char = '&#8230;')
     {
@@ -116,6 +153,8 @@ if ( ! function_exists('character_limiter'))
  *
  * @param array $arr
  * @return string
+ * @package Utils
+ * @category Arrays
  */
 function array_pp($arr){
 	$retStr = '<ul>';
@@ -136,6 +175,16 @@ function array_pp($arr){
 	return $retStr;
 }
 
+/**
+ * Changes an array key with a new key
+ *
+ * @param $array
+ * @param $search
+ * @param $replace
+ * @return string
+ * @package Utils
+ * @category Arrays
+ */
 function array_change_key($array, $search, $replace) {
 	$arr = array();
 	if (isset($array[0]) and is_arr($array[0])) {
@@ -163,6 +212,9 @@ function array_change_key($array, $search, $replace) {
  *        	The directory path.
  * @return boolean
  *          returns TRUE if exists or made or FALSE on failure.
+ *
+ * @package Utils
+ * @category Files
  */
 function mkdir_recursive($pathname) {
 	if ($pathname == '') {
@@ -185,6 +237,9 @@ function array_rpush($arr, $item) {
  * @param boolean $slash_it
  *        	If true, ads a slash at the end, false by default
  * @return string The formated string
+ *
+ * @package Utils
+ * @category Files
  */
 function normalize_path($path, $slash_it = true) {
 
@@ -231,6 +286,15 @@ function normalize_path($path, $slash_it = true) {
 	return $path;
 }
 
+
+/**
+ * Replaces _ and - characters with whitespaces
+ *
+ * @param $var
+ * @return string
+ * @package Utils
+ * @category Strings
+ */
 function string_nice($var) {
 	$var = html_entity_decode($var);
 	$var = str_replace('-', ' ', $var);
@@ -239,6 +303,26 @@ function string_nice($var) {
 
 	return $var;
 }
+
+/**
+ * Get text between other text
+ *
+ * @example
+ * <pre>
+ * $str = 'how to get this string';
+ * $get = string_get_between($str,$start="how to",$end="this string");
+ * print $get;
+ *
+ * </pre>
+ *
+ *
+ * @param $content
+ * @param $start
+ * @param $end
+ * @return string
+ * @package Utils
+ * @category Strings
+ */
 function string_get_between($content,$start,$end){
 	$r = explode($start, $content);
 	if (isset($r[1])){

@@ -219,8 +219,8 @@ function db_query_log($q) {
  * @param string $q Your SQL query
  * @param bool|array $connection_settigns
  * @return array|bool|mixed
- * @category db
- * @package db
+ * @category Database
+ * @package Database
  * @see db_query
  *
  *
@@ -254,8 +254,8 @@ function db_q($q, $connection_settigns = false) {
  * Please ensure your variables are escaped before calling this function.
  *
  *
- * @category db
- * @package db
+ * @category Database
+ * @package Database
  * @function db_query
  * @desc Executes plain query in the database.
  *
@@ -477,9 +477,9 @@ function mass_save($get_params, $save_params = false) {
  * Function to query the database
  *
  * @access public
- * @package db
+ * @package Database
 
- * @category  db
+ * @category Database
  *
  * @since 0.320
  * @param string|array $params parameters for the DB
@@ -2798,9 +2798,9 @@ function save_data($table, $data, $data_to_save_options = false) {
 /**
  * Get last id from a table
  *
- * @desc Created DB table from given array
- * @package db
- * @category  db
+ * @desc Get last inserted id from a table, you must have 'id' column in it.
+ * @package Database
+ * @category Database
  * @param $table
  * @return bool|int
  *
@@ -3049,19 +3049,39 @@ function split_sql_file($sql, $delimiter) {
 }
 
 /**
- * Function set_db_tables
+ * Creates database table from array
+ *
+ * You can pass an array of database fields and this function will set up the same db table from it
+ *
+ * @example
+ * <pre>
+ * To create custom table use
+ *
+ *
+ * $table_name = MW_TABLE_PREFIX . 'my_new_table'
+ *
+ * $fields_to_add = array();
+ * $fields_to_add[] = array('updated_on', 'datetime default NULL');
+ * $fields_to_add[] = array('created_by', 'int(11) default NULL');
+ * $fields_to_add[] = array('content_type', 'TEXT default NULL');
+ * $fields_to_add[] = array('url', 'longtext default NULL');
+ * $fields_to_add[] = array('content_filename', 'TEXT default NULL');
+ * $fields_to_add[] = array('title', 'longtext default NULL');
+ * $fields_to_add[] = array('is_active', "char(1) default 'y'");
+ * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
+ *  set_db_table($table_name, $fields_to_add);
+ * </pre>
  *
  * @desc refresh tables in DB
  * @access		public
- * @category	db
- * @subpackage		tables
- * @author		Peter Ivanov
- * @link		http://ooyes.net
- * @param		varchar $table_name to alter table
- * @param		array $fields_to_add to add new column
+ * @category Database
+ * @package	Database
+ * @subpackage Advanced
+ * @param		string  $table_name to alter table
+ * @param		array $fields_to_add to add new columns
  * @param		array $column_for_not_drop for not drop
+ * @return bool|mixed
  */
-
 function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array()) {
     $function_cache_id = false;
 
@@ -3161,11 +3181,19 @@ function set_db_table($table_name, $fields_to_add, $column_for_not_drop = array(
 
 /**
  * Add new table index if not exists
- * @example db_add_table_index('title', $table_name, array('title'));
  *
- * @param unknown_type $aIndexName Index name
- * @param unknown_type $aTable Table name
- * @param unknown_type $aOnColumns Involved columns
+ * @example
+ * <pre>
+ * db_add_table_index('title', $table_name, array('title'));
+ * </pre>
+ *
+ * @category Database
+ * @package    Database
+ * @subpackage Advanced
+ * @param string $aIndexName Index name
+ * @param string $aTable Table name
+ * @param string $aOnColumns Involved columns
+ * @param bool $indexType
  */
 function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false) {
     $columns = implode(',', $aOnColumns);
@@ -3192,8 +3220,11 @@ function db_add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = fals
 /**
  * Set table's engine
  *
- * @param unknown_type $aTable
- * @param unknown_type $aEngine
+ * @category Database
+ * @package	Database
+ * @subpackage Advanced
+ * @param string $aTable
+ * @param string $aEngine
  */
 function db_set_engine($aTable, $aEngine = 'MyISAM') {
     db_q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
@@ -3202,12 +3233,15 @@ function db_set_engine($aTable, $aEngine = 'MyISAM') {
 /**
  * Create foreign key if not exists
  *
- * @param unknown_type $aFKName Foreign key name
- * @param unknown_type $aTable Source table name
- * @param unknown_type $aColumns Source columns
- * @param unknown_type $aForeignTable Foreign table name
- * @param unknown_type $aForeignColumns Foreign columns
- * @param unknown_type $aOptions On update and on delete options
+ * @category Database
+ * @package	Database
+ * @subpackage Advanced
+ * @param string $aFKName Foreign key name
+ * @param string $aTable Source table name
+ * @param array $aColumns Source columns
+ * @param string $aForeignTable Foreign table name
+ * @param array $aForeignColumns Foreign columns
+ * @param array $aOptions On update and on delete options
  */
 function db_add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array()) {
     $query = db_query("

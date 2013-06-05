@@ -8,7 +8,17 @@ if (!defined("MW_DB_TABLE_LOG")) {
 }
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
 action_hook('mw_db_init', 'mw_db_init_users_table');
-
+/**
+ * Creates the users and log tables in the database.
+ *
+ * It is executed on install and on update
+ *
+ * @function mw_db_init_users_table()
+ * @category Users
+ * @package Users
+ * @subpackage  Advanced
+ * @uses set_db_table()
+ */
 function mw_db_init_users_table()
 {
     $function_cache_id = false;
@@ -980,42 +990,53 @@ function user_login_set_failed_attempt()
 
 
 /**
- * @function user_login
- *
  * Allows you to login a user into the system
- * It also sets user session when the user is logged
+ *
+ * It also sets user session when the user is logged. <br />
+ * On 5 unsuccessful logins, blocks the ip for few minutes <br />
  *
  *
- *
- * @param $params array|string
- * @params $params['username'] string username for login
- * @params $params['email'] string email for login
- * @params $params['password'] string password for login, it gets trough hash_user_pass() function
+ * @param array|string $params You can pass parameter as string or as array.
+ * @param mixed|string $params['email'] optional If you set  it will use this email for login
+ * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
  *
  *
- *
- * @usage user_login('username=test&password=pass')
- *
- *
- *
+ * @example
+ * <pre>
+ * //login with username
+ * user_login('username=test&password=pass')
+ * </pre>
+ * @example
+ * <pre>
+ * //login with email
+ * user_login('email=my@email.com&password=pass')
+ * </pre>
  * @return array|bool
+ * @hooks
  *
+ * You can also hook to this function with custom functions <br />
+ * There are few events that get executed on login <br />
  *
- * @note On 5 unsuccessful logins, blocks the ip for few minutes
- *
- *
- * @hooks You can also hook to this function with custom functions
- * There are few events that get executed on login
- *
+ * <pre>
  * Here is example:
- *
  * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
  * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
- *
- *
+ * </pre>
+ * @package Users
+ * @category Users
+ * @uses hash_user_pass()
+ * @uses parse_str()
+ * @uses get_users()
+ * @uses session_set()
+ * @uses get_log()
+ * @uses save_log()
+ * @uses user_login_set_failed_attempt()
+ * @uses update_user_last_login_time()
+ * @uses exec_action()
+ * @function user_login()
+ * @see mw_db_init_users_table() For the database table fields
  */
-function user_login($params)
-{
+function user_login($params){
     $params2 = array();
 
 

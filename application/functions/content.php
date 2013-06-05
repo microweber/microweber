@@ -3,8 +3,8 @@
  * This file holds useful function to work with content
  * Here you will find functions to get and save content in the database.
  *
- * @package content
- * @category content
+ * @package Content
+ * @category Content
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
@@ -46,9 +46,10 @@ action_hook('mw_db_init_default', 'mw_db_init_content_table');
  * It is executed on install and on update
  *
  * @function mw_db_init_content_table
- * @category  content
- * @package content
- * @subpackage  internal
+ * @category Content
+ * @package Content
+ * @subpackage  Advanced
+ * @uses set_db_table()
  */
 function mw_db_init_content_table()
 {
@@ -267,9 +268,9 @@ function create_mw_default_pages_in_not_exist()
  * It accepts array or $content that must have  $content['id'] set
  *
  *
- * @category  content
- * @package content
- * @subpackage  internal
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
  */
 function define_constants($content = false)
 {
@@ -523,9 +524,9 @@ function define_constants($content = false)
  * It accepts array $page that must have  $page['id'] set
  *
  *
- * @category  content
- * @package content
- * @subpackage  internal
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
  */
 function get_layout_for_page($page = array())
 {
@@ -891,8 +892,8 @@ function get_layout_for_page($page = array())
 /**
  * Return link to the homepage
  *
- * @category  content
- * @package content
+ * @category Content
+ * @package Content
  */
 function homepage_link()
 {
@@ -902,8 +903,8 @@ function homepage_link()
 /**
  * Returns the homepage as array
  *
- * @category  content
- * @package content
+ * @category Content
+ * @package Content
  */
 function get_homepage()
 {
@@ -928,8 +929,8 @@ function get_homepage()
  * @param string $url the url of the content
  * @param bool $no_recursive if true, it will not try to search for parent content
  * @return bool|string
- * @category  content
- * @package content
+ * @category Content
+ * @package Content
  */
 function get_content_by_url($url = '', $no_recursive = false)
 {
@@ -1077,7 +1078,7 @@ function get_page_by_url($url = '', $no_recursive = false)
  *
  * @param int $id The id of the content item
  * @return array
- * @category  content
+ * @category Content
  * @function  get_content_by_id
  *
  * @example
@@ -1125,7 +1126,7 @@ function get_content_by_id($id)
  *
  * @param int|string $id The id of the page or the url of a page
  * @return array The page row from the database
- * @category  content
+ * @category Content
  * @function  get_page
  *
  * @example
@@ -1245,16 +1246,19 @@ api_expose('get_content');
  * All parameter are passed to the get() function
  *
  * @function get_content
- * @package content
- * @category  content
+ * @package Content
+ * @category Content
  *
  *
  * @desc  Get array of content items from the content DB table
  *
- * @see get()
+ * @uses get()
  * @see mw_db_init_content_table()
- * @param array|bool|string $params
- *
+ * @param mixed|array|bool|string $params
+ * @param mixed|string $params['is_active'] optional search for published/unpublished content
+ * @param mixed|int|string $params['parent'] optional search content with parent
+ * @param mixed|int|string $params['created_by'] optional search by author id
+ * @param mixed|int|string $params['content_type'] optional the content types by default are 'page' and 'post', but you  can set your own
  * @return array|bool|mixed
  * @example
  * <pre>
@@ -1397,7 +1401,7 @@ function get_content($params = false)
  *
  * @param int $id The $id The id of the post
  * @return string The url of the content
- * @category  content
+ * @category Content
  *   
  *
  *
@@ -1438,7 +1442,7 @@ api_expose('content_link');
  *
  * @param int $id The $id The id of the content
  * @return string The url of the content
- * @category  content
+ * @category Content
  *   
  *
  *
@@ -1504,7 +1508,7 @@ function page_link($id = false)
  *
  * @param string|array|bool $params
  * @return string The url of the content
- * @category  content
+ * @category Content
  *   
  * @see get_posts
  * @function  main
@@ -3910,18 +3914,6 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
     }
 }
 
-function format_date($date, $date_format = false)
-{
-    if ($date_format == false) {
-        $date_format = get_option('date_format', 'website');
-        if ($date_format == false) {
-            $date_format = "Y-m-d H:i:s";
-        }
-    }
-
-    $date = date($date_format, strtotime($date));
-    return $date;
-}
 
 function content_get_inherited_parent($content_id)
 {
