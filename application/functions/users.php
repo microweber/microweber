@@ -1079,7 +1079,7 @@ function user_login($params)
             if (!isset($email) or ($email) == '') {
 
                 if (isset($user)) {
-                    $email = $user;
+                 //   $email = $user;
                 }
             }
 
@@ -1118,7 +1118,7 @@ function user_login($params)
                 $data['email'] = $user;
                 $data['password'] = $pass;
                 $data['is_active'] = 'y';
-
+              //  $data['debug'] = 'y';
 
                 $data = get_users($data);
 

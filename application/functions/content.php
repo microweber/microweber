@@ -4,6 +4,7 @@
  * Here you will find functions to get and save content in the database.
  *
  * @package content
+ * @category content
  * @desc  These functions will allow you to get and save content in the database.
  *
  */

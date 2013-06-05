@@ -4,6 +4,7 @@
  * These functions will allow you to save and get data from the MW cache system
  *
  * @package cache
+ * @category cache
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
 
