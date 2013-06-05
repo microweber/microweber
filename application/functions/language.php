@@ -4,16 +4,19 @@
 $language_content_saved = false;
 function __store_lang_file($lang = 'en')
 {
-    global $language_content;
+
     global $language_content_saved;
     if ($language_content_saved == true) {
         return;
     }
 
-    if ($lang == false or $lang == '') {
-        $lang = 'en';
+    if(is_admin() == false){
+        return false;
     }
 
+    $language_content = get_language_file_content();
+
+    $lang = current_lang();
 
     $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $language_content2 = array();
@@ -47,7 +50,7 @@ function __store_lang_file($lang = 'en')
         $lang_file_str .= ' $language=array();' . "\n";
         foreach ($language_content as $key => $value) {
 
-            $value = addslashes ($value);
+            $value = addslashes($value);
             $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
         }
@@ -56,6 +59,7 @@ function __store_lang_file($lang = 'en')
             $c1 = count($language_content);
             $c2 = count($language_content2);
             if ($c1 > $c2) {
+
                 file_put_contents($lang_file, $lang_file_str);
             }
         }
@@ -63,15 +67,29 @@ function __store_lang_file($lang = 'en')
 
 }
 
-
-$language_content = array();
-function _e($k, $to_return = false)
+/**
+ * Get the current language of the site
+ *
+ * @example
+ * <pre>
+ *  $current_lang = current_lang();
+ *  print $current_lang;
+ * </pre>
+ *
+ * @category Content
+ * @package Language
+ * @uses current_lang()
+ * @const  MW_LANG defines the MW_LANG constant
+ */
+function current_lang()
 {
-    global $language_content;
-    static $lang_file;
 
-    //$k = str_replace(' ', '-', $k);
-    $k1 = URLify::filter(($k));
+    if (defined('MW_LANG') and MW_LANG != false) {
+        return MW_LANG;
+    }
+
+
+    $lang = false;
     if (isset($_SESSION)) {
         $lang = session_get('lang');
     }
@@ -81,16 +99,14 @@ function _e($k, $to_return = false)
             $lang = $_COOKIE['lang'];
         }
     }
-
-    $def_language = get_option('language', 'website');
-
-
-    if (!isset($lang) and $def_language == false) {
+    if (!isset($lang) or $lang == false) {
+        $def_language = get_option('language', 'website');
+        if ($def_language != false) {
+            $lang = $def_language;
+        }
+    }
+    if (!isset($lang) or $lang == false) {
         $lang = 'en';
-    } else {
-
-        $lang = $def_language;
-
     }
 
     if (!defined('MW_LANG') and isset($lang)) {
@@ -98,68 +114,22 @@ function _e($k, $to_return = false)
     }
 
 
-//	$k1 = url_title($k);
-    if ($language_content === NULL or !is_array($language_content) or empty($language_content)) {
-        if ($lang_file === NULL) {
-            if (!isset($_SESSION) or session_get('lang') == 'en') {
-                $lang = 'en';
-            } elseif ($lang != false) {
+    return $lang;
 
-            } else {
-                $lang = session_get('lang');
-
-            }
-
-            $lang = str_replace('..', '', $lang);
-            if (trim($lang) == '') {
-                $lang = 'en';
-            }
-            $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
-            $lang_file = normalize_path($lang_file, false);
-
-            $cust_lang = $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . $lang . '.php';
+}
 
 
-            if (is_file($lang_file)) {
-                include_once ($lang_file);
-            } else {
+function _e($k, $to_return = false)
+{
 
-                if (is_admin() == true) {
-                    $en_lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en' . '.php';
-                    if (is_file($en_lang_file)) {
-                        $cust_dir = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
-                        if (!is_dir($cust_dir)) {
-                            mkdir_recursive($cust_dir);
-                        }
-                    }
-
-                }
-
-            }
-            if (isset($language) and isarr($language)) {
-                $language_content = $language;
-            }
-
-            if ((isset($language) and isarr($language)) and isset($cust_lang) and is_file($cust_lang)) {
-
-                include_once ($cust_lang);
-                $language_content2 = $language;
-
-                if (!empty($language_content2)) {
-                    foreach ($language_content2 as $key => $value) {
-                        $language_content[$key] = $value;
-                    }
-                }
+    static $lang_file;
 
 
-            }
+    $k1 = URLify::filter(($k));
 
+    $lang = current_lang();
 
-        }
-    } else {
-
-    }
-
+    $language_content = get_language_file_content();
 
     if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
@@ -193,22 +163,25 @@ function set_language($lang = 'en')
     session_set('lang', $lang);
     return $lang;
 }
+
 api_expose('send_lang_form_to_microweber');
 
-function send_lang_form_to_microweber($data){
+function send_lang_form_to_microweber($data)
+{
     if (is_admin() == true) {
-        $def_language = get_option('language', 'website');
+        $lang = current_lang();
 
         $send = array();
         $send['function_name'] = __FUNCTION__;
-        $send['language'] = $def_language;
+        $send['language'] = $lang;
         $send['data'] = $data;
- return mw_send_anonymous_server_data($send);
+        return mw_send_anonymous_server_data($send);
 
 
     }
 
 }
+
 api_expose('save_language_file_content');
 function save_language_file_content($data)
 {
@@ -218,15 +191,7 @@ function save_language_file_content($data)
         }
 
 
-        $def_language = get_option('language', 'website');
-        if (!isset($lang) and $def_language == false) {
-            $lang = 'en';
-        } else {
-
-            $lang = $def_language;
-
-        }
-
+        $lang = current_lang();
 
         $cust_dir = $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
         if (!is_dir($cust_dir)) {
@@ -261,17 +226,17 @@ function save_language_file_content($data)
 
 }
 
+$language_content = array();
 function get_language_file_content()
 {
+    global $language_content;
 
-    $def_language = get_option('language', 'website');
-    if (!isset($lang) and $def_language == false) {
-        $lang = 'en';
-    } else {
-
-        $lang = $def_language;
-
+    if(!empty($language_content)){
+        return $language_content;
     }
+
+
+    $lang = current_lang();
 
     $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
@@ -288,7 +253,7 @@ function get_language_file_content()
                     mkdir_recursive($cust_dir);
                 }
 
-                if(copy($en_lang_file, $cust_lang)){
+                if (copy($en_lang_file, $cust_lang)) {
                     $lang_file = $cust_lang;
                 }
 
@@ -303,6 +268,7 @@ function get_language_file_content()
         include ($lang_file);
 
         if (isset($language) and isarr($language)) {
+            $language_content = $language;
             return $language;
         }
 
@@ -344,15 +310,7 @@ function get_available_languages()
 
 function show_help($section = 'main')
 {
-    $lang = 'en';
-    if (!isset($_SESSION) or session_get('lang') == 'en') {
-        $lang = 'en';
-    } elseif ($lang != false) {
-
-    } else {
-        $lang = session_get('lang');
-
-    }
+    $lang = current_lang();
 
     $lang = str_replace('..', '', $lang);
     if (trim($lang) == '') {

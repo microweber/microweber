@@ -775,12 +775,26 @@ function str_replace_once($needle, $replace, $haystack) {
 	return substr_replace($haystack, $replace, $pos, strlen($needle));
 }
 
+/**
+ * Returns extension from a filename
+ *
+ * @param $LoSFileName Your filename
+ * @return string  $filename extension
+ * @package Utils
+ * @category Files
+ */
 function get_file_extension($LoSFileName) {
 	$LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
 	return $LoSFileExtensions;
 }
 
-
+/**
+ * Returns a filename without extension
+ * @param $filename The filename
+ * @return string  $filename without extension
+ * @package Utils
+ * @category Files
+ */
 function no_ext($filename) {
 	$filebroken = explode('.', $filename);
 	array_pop($filebroken);
@@ -788,7 +802,15 @@ function no_ext($filename) {
 	return implode('.', $filebroken);
 
 }
-
+/**
+ * Encodes a variable with json_encode and base64_encode
+ *
+ * @param mixed $var Your $var
+ * @return string Your encoded $var
+ * @package Utils
+ * @category Strings
+ * @see decode_var()
+ */
 function encode_var($var) {
 	if ($var == '') {
 		return '';
@@ -798,7 +820,15 @@ function encode_var($var) {
 	$var = base64_encode($var);
 	return $var;
 }
-
+/**
+ * Decodes a variable with base64_decode and json_decode
+ *
+ * @param string $var Your var that has been put trough encode_var
+ * @return string|array Your encoded $var
+ * @package Utils
+ * @category Strings
+ * @see encode_var()
+ */
 function decode_var($var) {
 	if(is_array($var)){
 		return $var;
@@ -825,14 +855,21 @@ function decode_var($var) {
 	return $var;
 }
 
+
+
+
+
 /**
- * Trims a entire array recursivly.
+ * Trims an entire array recursively.
  *
+ * @package Utils
+ * @category Arrays
  * @author Jonas John
  * @version 0.2
  * @link http://www.jonasjohn.de/snippets/php/trim-array.htm
  * @param array $Input
  *        	Input array
+ * @return array|string
  */
 function array_trim($Input) {
 	if (!is_array($Input))
@@ -858,17 +895,9 @@ function safe_redirect($url) {
 
 
 if(function_exists('session_set_save_handler')){
-
-
 $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR .   'MwSession.php';
-
 	if(file_exists($check_if_custom_session_class)){
-
-
 	$mw_session_handler = new MwSession();
-
-
-
 	session_set_save_handler(
 		array($mw_session_handler, 'open'),
 		array($mw_session_handler, 'close'),
@@ -877,8 +906,6 @@ $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARAT
 		array($mw_session_handler, 'destroy'),
 		array($mw_session_handler, 'gc')
 		);
-
-
 	}
 
 
@@ -966,9 +993,6 @@ function session_end() {
 			$params["secure"], $params["httponly"]
 			);
 	}
-
-
-
 	session_destroy();
 	//session_write_close();
 	unset($_SESSION);
@@ -1163,14 +1187,11 @@ function isarr($var) {
  * Recursive glob()
  *
  * @access public
- * @package utils
- * @subpackage	files
- * @category	files
+ * @package Utils
+ * @category Files
  *
- * @version 1.0
- *
- *
- * @param int $pattern
+ * @uses isarr()
+ * @param int|string $pattern
  * the pattern passed to glob()
  * @param int $flags
  * the flags passed to glob()

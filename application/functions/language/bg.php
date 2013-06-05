@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
  $language=array();
 $language["unicode_temp_remove"]= '☃' ; 
 $language["add-country"]= 'Добави държава ' ; 
@@ -358,7 +358,7 @@ $language["search-for-modules"]= 'Търсене в модули' ;
 $language["live-edit-modules"]= 'На живо модули' ; 
 $language["admin-modules"]= 'Администраторски модули' ; 
 $language["advanced"]= 'Разширени' ; 
-$language["uninstall"]= 'Премахнати' ; 
+$language["uninstall"]= 'Премахнати' ;  
 $language["are-you-sure-you-want-to-delete"]= 'Сигурен ли сте че искате да  го изтриете?' ; 
 $language["are-you-sure-you-want-to-delete-these-files"]= 'Сигурен ли сте че искате да  изтриете тези файлове?' ; 
 $language["new-folder"]= 'Нова папка' ; 
@@ -542,7 +542,7 @@ $language["main-url"]= 'Main URL' ;
 $language["enter"]= 'enter' ; 
 $language["callback-url"]= 'Callback URL' ; 
 $language["consumer-key"]= 'Consumer key' ; 
-$language["consumer-secret"]= 'Consumer secret' ; 
+$language["consumer-secret"]= 'Consumer secret' ;  
 $language["redirect-domain"]= 'Redirect Domain' ; 
 $language["template-settings-are-saved"]= 'Template settings are saved' ; 
 $language["website-template"]= 'Website template' ; 
@@ -564,7 +564,7 @@ $language["our-team"]= 'Our Team' ;
 $language["back-to-admin"]= 'Назад към админа' ; 
 $language["background-color"]= 'Background color' ; 
 $language["title"]= 'Заглави' ; 
-$language["install"]= 'Инсталирай' ; 
+$language["install"]= 'Инсталирай' ;  
 $language["install-selected-updates"]= 'Install Selected Updates' ; 
 $language["everything-is-up-to-date"]= 'Everything is up to date' ; 
 $language["installing"]= 'Installing' ; 

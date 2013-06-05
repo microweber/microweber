@@ -267,10 +267,23 @@ function create_mw_default_pages_in_not_exist()
  *
  * It accepts array or $content that must have  $content['id'] set
  *
+ * @example
+ * <pre>
+ *  Define constants for some page
+ *  $ref_page = get_content_by_id(1);
+ *  define_constants($ref_page);
+ * </pre>
  *
  * @category Content
  * @package Content
  * @subpackage Advanced
+ * @uses get_content_by_id()
+ * @const  PAGE_ID Defines the current page id
+ * @const  POST_ID Defines the current post id
+ * @const  CATEGORY_ID Defines the current category id if any
+ * @const  ACTIVE_PAGE_ID Same as PAGE_ID
+ * @const  CONTENT_ID current post or page id
+ * @const  MAIN_PAGE_ID the parent page id
  */
 function define_constants($content = false)
 {

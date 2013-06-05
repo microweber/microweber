@@ -19,12 +19,13 @@ select{
 
 #editor_holder{
   display: none;
+  width: 392px;
 }
 
 
 .mw-iframe-editor{
   width: 100%;
-  height: 200px;
+  height: 300px;
 }
 
 input[type='text']{
