@@ -67,7 +67,7 @@ btn_action = function(){
         btn_action();
     });
 
-})
+});
 
 </script>
 

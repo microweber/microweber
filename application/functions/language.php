@@ -240,40 +240,51 @@ function get_language_file_content()
 
     $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
+	
+	 $lang_file2 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
+	     $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
-    if ($lang != 'en' and !is_file($lang_file)) {
-        if (is_admin() == true) {
-            $en_lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en' . '.php';
-            if (is_file($en_lang_file)) {
-                $cust_dir = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
-                $cust_lang = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . $lang . '.php';
+ 
+   if (is_file($lang_file2)) {
+        include ($lang_file2);
 
-
-                if (!is_dir($cust_dir)) {
-                    mkdir_recursive($cust_dir);
-                }
-
-                if (copy($en_lang_file, $cust_lang)) {
-                    $lang_file = $cust_lang;
-                }
-
-
-            }
-
-        }
+        if (isset($language) and isarr($language)) {
+			foreach($language as $k => $v){
+				if (isset($language_content[$k]) == false) {
+				$language_content[$k] = $v;
+				}
+			}
+		 }
     }
-
-
+ 
+ 
     if (is_file($lang_file)) {
         include ($lang_file);
 
         if (isset($language) and isarr($language)) {
-            $language_content = $language;
-            return $language;
-        }
+			foreach($language as $k => $v){
+				if (isset($language_content[$k]) == false) {
 
-
+				$language_content[$k] = $v;
+				}
+			}
+		 }
     }
+	 if (is_file($lang_file3)) {
+        include ($lang_file3);
+
+        if (isset($language) and isarr($language)) {
+			foreach($language as $k => $v){
+				if (isset($language_content[$k]) == false) {
+
+				$language_content[$k] = $v;
+				}
+			}
+		 }
+    }
+	
+	  return $language_content;
+	
 
 }
 
