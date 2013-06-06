@@ -199,7 +199,7 @@ if(og1 != undefined){
     }
 };
 
-mw.options.form = function($selector, callback){
+mw.options.form = function($selector, callback, beforepost){
 
 
 
@@ -210,6 +210,9 @@ mw.options.form = function($selector, callback){
           if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
               item.bind("change", function(e){
+              	  if(typeof beforepost === 'function'){
+              	  	beforepost.call(this);
+              	  }
                   mw.options.save(this, callback);
 
               });

@@ -1385,7 +1385,7 @@ module_settings: function(a) {
 
   var modal = mw.tools.modal.frame({
     url:src,
-    width:432,
+    width:532,
     height:150,
     name:'module-settings-'+curr.id,
     title:'',

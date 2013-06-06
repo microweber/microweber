@@ -2,7 +2,7 @@
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 <?php if($user != false): ?>
-<module type="users/profile" />
+<module type="users/profile"  />
 <?php elseif(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password" />
 <?php else:  ?>
@@ -21,12 +21,12 @@ $enable_user_fb_registration = false;
 
 if($enable_user_fb_registration == true){
 	$enable_user_fb_registration_site =  get_option('enable_user_fb_registration', 'users');
-	if($enable_user_fb_registration_site == 'y') { 
+	if($enable_user_fb_registration_site == 'y') {
 	$enable_user_fb_registration = true;
 	
 	$fb_app_id  = get_option('fb_app_id','users');
 	$fb_app_secret  = get_option('fb_app_secret','users');
-	
+
 	if($fb_app_id != false){
 	$fb_app_id = trim($fb_app_id);	
 	}
@@ -76,6 +76,10 @@ $(document).ready(function(){
  });
  
 });
+
+
+
+
 </script>
 
 <div class="box-head">

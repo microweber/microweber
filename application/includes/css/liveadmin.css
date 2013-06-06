@@ -287,7 +287,7 @@ body.cross{
   top: 6px;
   right: 80px;
   z-index: 999;
-  width: 365px;
+  width: 400px;
 }
 #mw-toolbar-right .mw-ui-btn{
   margin: 4px 10px 0 0 ;
@@ -833,7 +833,9 @@ form.add-edit-page-post textarea{
 .mw-overlay-quick-link #preview-edit-links {
   position: absolute;
   top: 50%;
-  margin: -10px 0 0 53px;
+  margin: -10px 0 0;
+  width: 100%;
+  text-align: center;
 }
 
 
@@ -1961,7 +1963,6 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .preview_frame_wrapper .mw-overlay-quick-link a{
   visibility: hidden;
-  float: left;
   margin: 0 5px;
 }
 

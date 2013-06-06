@@ -243,6 +243,12 @@ body.Resizing .mwembed:after{
 .mw-vspace{
   padding: 12px 0;
 }
+.vSpace {
+    clear: both;
+    display: block;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
 
 
 

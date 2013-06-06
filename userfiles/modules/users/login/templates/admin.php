@@ -74,7 +74,7 @@ $(document).ready(function(){
         <input  class="mw-ui-field"  name="password" tabindex="2" required type="password" <?php if(isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif;  ?> placeholder="<?php _e("Password"); ?>"   />
       </div>
       <div class="mw-ui-field-holder" style="margin: auto; width: 286px;">
-        <span class="left" id="login_laguage_select"><span class="left">Language</span>
+        <span class="left" id="login_laguage_select"><span class="left"><?php _e("Language"); ?></span>
 
 
 <div data-value="" title="" class="mw_dropdown mw_dropdown_type_wysiwyg" id="lang_selector">

@@ -90,9 +90,7 @@ function current_lang()
 
 
     $lang = false;
-    if (isset($_SESSION)) {
-        $lang = session_get('lang');
-    }
+
 
     if (!isset($lang) or $lang == false) {
         if (isset($_COOKIE['lang'])) {
@@ -134,6 +132,9 @@ function _e($k, $to_return = false)
     if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
             $k2 = addslashes($k);
+
+
+
             $language_content[$k1] = $k2;
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
 
@@ -242,7 +243,7 @@ function get_language_file_content()
     $lang_file = normalize_path($lang_file, false);
 	
 	 $lang_file2 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
-	     $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+	 $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
  
    if (is_file($lang_file2)) {

@@ -438,16 +438,13 @@ if($template_file == false){
 			 
 			 
 			 
-			 
+
 		</script>
 <?php endif; ?>
 <?php  if(isset($params['is_shop'])):  ?>
 <script type="text/javascript">
-			if(mw.cart == undefined){
-				mw.require("shop.js");
-
-			}
-		</script>
+			mw.require("shop.js");
+</script>
 <?php endif; ?>
 <?php
 

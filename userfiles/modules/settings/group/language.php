@@ -1,9 +1,11 @@
 <?php only_admin_access(); ?>
 <script  type="text/javascript">
 $(document).ready(function(){
-
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
       mw.notification.success("<?php _e("Language settings are saved"); ?>.");
+    }, function(){
+      var cooklie_lang = $("#user_lang").val();
+      mw.cookie.set('lang', cooklie_lang );
     });
 });
 </script>

@@ -1,15 +1,13 @@
 <?php
 /**
- * This file holds useful function to work with content
- * Here you will find functions to get and save content in the database.
+ * This file holds useful functions to work with content
+ * Here you will find functions to get and save content in the database and much more.
  *
  * @package Content
  * @category Content
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
-
-
 
 
 if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -251,15 +249,6 @@ function mw_db_init_content_table()
 }
 
 action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
-function create_mw_default_pages_in_not_exist()
-{
-    mw_create_default_content('default');
-    //mw_create_default_content('shop');
-
-}
-
-
-
 
 
 /**
@@ -528,7 +517,6 @@ function define_constants($content = false)
 
     return true;
 }
-
 
 
 /**
@@ -913,6 +901,7 @@ function homepage_link()
     $hp = get_homepage();
     return content_link($hp['id']);
 }
+
 /**
  * Returns the homepage as array
  *
@@ -936,6 +925,7 @@ function get_homepage()
 
     return $content;
 }
+
 /**
  * Get the content as array by url
  *
@@ -1086,6 +1076,7 @@ function get_page_by_url($url = '', $no_recursive = false)
     $mw_precahced_links[$link_hash] = false;
     return false;
 }
+
 /**
  * Get single content item by id from the content_table
  *
@@ -1134,6 +1125,7 @@ function get_content_by_id($id)
     }
     return $content;
 }
+
 /**
  * Get single content item by id from the content_table
  *
@@ -1144,15 +1136,15 @@ function get_content_by_id($id)
  *
  * @example
  * <pre>
- * Get by id  
- * $page = get_page(1);  
+ * Get by id
+ * $page = get_page(1);
  * var_dump($page);
  * </pre>
  * @example
  * <pre>
- * Get by url  
+ * Get by url
  *
- * $page = get_page('home');   
+ * $page = get_page('home');
  * var_dump($page);
  *</pre>
  */
@@ -1267,14 +1259,25 @@ api_expose('get_content');
  *
  * @uses get()
  * @see mw_db_init_content_table()
- * @param mixed|array|bool|string $params
- * @param mixed|string $params['is_active'] optional search for published/unpublished content
- * @param mixed|int|string $params['parent'] optional search content with parent
- * @param mixed|int|string $params['created_by'] optional search by author id
- * @param mixed|int|string $params['content_type'] optional the content types by default are 'page' and 'post', but you  can set your own
- * @return array|bool|mixed
+ * @param mixed|array|bool|string $params You can pass parameters as string or as array
+ * @params Some parameters you can use
+ *
+ *
+ * |-----------------------------
+ * | Param          | Description
+ * |----------------------------
+ * | is_active      | search for published/unpublished content
+ * | parent         | get content with parent
+ * | parent         | get content with parent
+ * | created_by     | get by author id
+ * | content_type   | the content types by default are 'page' and 'post'
+ * | subtype        | the subtypes by default are 'static' ,'dynamic','post','product'
+ *
+ * @return array|bool|mixed Array of content or false if nothing is found
  * @example
+ *
  * <pre>
+ *
  * Get by params as array
  *
  * $params = array();
@@ -1287,13 +1290,16 @@ api_expose('get_content');
  *
  * $data = get_content($params);
  * var_dump($data);
+ *
  * </pre>
  *
  * @example
  * <pre>
+ *
  * Get by params as string
  *  get_content('is_active=y');
  *  var_dump($data);
+ *
  * </pre>
  */
 function get_content($params = false)
@@ -1415,7 +1421,7 @@ function get_content($params = false)
  * @param int $id The $id The id of the post
  * @return string The url of the content
  * @category Content
- *   
+ *
  *
  *
  * @example
@@ -1456,7 +1462,7 @@ api_expose('content_link');
  * @param int $id The $id The id of the content
  * @return string The url of the content
  * @category Content
- *   
+ *
  *
  *
  * @example
@@ -1512,8 +1518,6 @@ function page_link($id = false)
 }
 
 
-
-
 /**
  * Return array of posts specified by $params
  *
@@ -1522,8 +1526,8 @@ function page_link($id = false)
  * @param string|array|bool $params
  * @return string The url of the content
  * @category Content
- *   
- * @see get_posts
+ *
+ * @see get_content()
  * @function  main
  * @example
  * <pre>
@@ -3026,7 +3030,7 @@ function get_content_field($data, $debug = false)
  * $pt_opts['li_class'] = 'nav-item';
  *  pages_tree($pt_opts);
  * </pre>
- *  @example
+ * @example
  * <pre>
  * Other options
  * $pt_opts['parent'] = "8"; //
@@ -3928,6 +3932,15 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
 }
 
 
+/**
+ *  Get the first parent that has layout
+ *
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @uses get_content_parents()
+ * @uses get_content_by_id()
+ */
 function content_get_inherited_parent($content_id)
 {
 
@@ -3949,20 +3962,17 @@ function content_get_inherited_parent($content_id)
 
 }
 
-
 /**
- * static_pages_tree
- *
- * @desc generates static pages navigation from directory of files
- * @access      public
- * @category    static pages
- * @author      Microweber
+ *  Generates static pages navigation from directory of files
+ * @category Content
+ * @package Content
+ * @subpackage Experimental
+ * @internal not_tested
+ * @uses get_content_by_url()
  * @param $params = array();
  * @param $params['dir_name'] = your dir; //path to the directory root
- * @return string
+ * @return string <ul> with <li>
  */
-
-
 function static_pages_tree($params = false)
 {
     $params = parse_params($params);
@@ -3998,7 +4008,14 @@ function static_pages_tree($params = false)
 
 }
 
-
+/**
+ *  Get a static page from a file
+ * @category Content
+ * @package Content
+ * @subpackage Experimental
+ * @internal not_tested
+ * @uses get_content_by_url()
+ */
 function static_page_get($params = false)
 {
 
@@ -4059,7 +4076,13 @@ function static_page_get($params = false)
 
 }
 
-
+/**
+ *  Get page by HTTP_REFERER
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @uses get_content_by_url()
+ */
 function get_ref_page()
 {
     $ref_page = $_SERVER ['HTTP_REFERER'];
@@ -4072,6 +4095,13 @@ function get_ref_page()
 
 }
 
+/**
+ *  Get post by HTTP_REFERER
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @uses get_content_by_url()
+ */
 function get_ref_post()
 {
     $ref_page = $_SERVER ['HTTP_REFERER'];
@@ -4087,14 +4117,28 @@ function get_ref_post()
 }
 
 
-//action_hook('mw_save_content', 'content_ping_servers_async');
-//action_hook('mw_user_login_admin', 'content_ping_servers_async');
+/**
+ * Async caller for content_ping_servers
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @uses content_ping_servers()
+ * @see content_ping_servers();
+ */
 function content_ping_servers_async()
 {
     $scheduler = new \mw\utils\Events();
     $scheduler->registerShutdownEvent("content_ping_servers");
 }
 
+/**
+ * Pings the bots with the new pages and posts
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @uses is_fqdn()
+ * @uses get_content();
+ */
 function content_ping_servers()
 {
 
@@ -4168,4 +4212,18 @@ function content_ping_servers()
             cache_clean_group('content/ping');
         }
     }
+}
+
+/**
+ * Creates at least one page in the system
+ * @category Content
+ * @package Content
+ * @subpackage Advanced
+ * @see mw_create_default_content();
+ */
+function create_mw_default_pages_in_not_exist()
+{
+    mw_create_default_content('default');
+    //mw_create_default_content('shop');
+
 }
