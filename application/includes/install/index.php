@@ -48,7 +48,7 @@ if (isset($_POST['IS_INSTALLED'])) {
          clearstatcache();
          sleep(2);*/
 
-        if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] == 'no') {
+        if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] != 'yes') {
 
             if ($to_save['DB_PASS'] == '') {
                 $temp_db = array('type' => $to_save['DB_TYPE'], 'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER']);
@@ -72,6 +72,7 @@ if (isset($_POST['IS_INSTALLED'])) {
 
             $qs = "SELECT '' AS empty_col";
             //var_dump($qs);
+			 mw_var('temp_db',$temp_db);
             $qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (isset($qz['error'])) {
@@ -93,7 +94,7 @@ if (isset($_POST['IS_INSTALLED'])) {
                 foreach ($to_save as $k => $v) {
                     $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
                 }
-                // d($save_config);
+                // 
 
                 $default_htaccess_file = MW_ROOTPATH . '.htaccess';
                 $to_add_htaccess = true;
@@ -135,7 +136,7 @@ if (isset($_POST['IS_INSTALLED'])) {
                 }
 
                 file_put_contents($cfg, $save_config);
-
+ 
                 clearstatcache();
                 clearcache();
                 _reload_c();
@@ -155,8 +156,9 @@ if (isset($_POST['IS_INSTALLED'])) {
                 foreach ($to_save as $k => $v) {
                     $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
                 }
-
+ 
                 file_put_contents($cfg, $save_config);
+				 clearstatcache();
                 _reload_c();
 
 

@@ -21,4 +21,4 @@ $config = array(
     )
 );
  
-return $config;
+ 

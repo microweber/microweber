@@ -26,6 +26,18 @@ if ($is_mysqli != false) {
 } else {
 	static $link;
 	if ($link == false) {
+		 if(!isset($db) or $db == false or $db == NULL){
+			  _reload_c();
+			 $db = c('db',true);
+			 
+			 
+		 }
+		 
+		$temp_db= mw_var('temp_db');
+		if((!isset($db) or $db == false or $db == NULL) and $temp_db != false){
+			$db =$temp_db;
+		}
+	 
 		if(isset($db['pass']) and $db['pass'] != ''){
 			$link = mysql_connect($db['host'], $db['user'], $db['pass']);
 

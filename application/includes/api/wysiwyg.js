@@ -213,26 +213,35 @@ mw.wysiwyg = {
         }
     },
     paste:function(e){
-
-
+       var text = '';
+       if (window.clipboardData) {
+        var text = window.clipboardData.getData('Text');
+        e.preventDefault();
+       }
        mw.wysiwyg.save_selection();
         var pro = mwd.createElement('div');
+        var pro = mwd.createElement('textarea');
+        pro.innerHTML = text;
         pro.className = 'semi_hidden';
         pro.contentEditable = true;
         mwd.body.appendChild(pro);
         pro.focus();
-
         var range = mwd.createRange();
         range.selectNodeContents(pro);
         range.collapse(false);
-
-
-
         setTimeout(function(){
           mw.wysiwyg.restore_selection();
-          var html = "[" + pro.innerHTML  + ']';
-          alert(pro.innerHTML)
-          mw.wysiwyg.insert_html( html);
+          $(pro.querySelectorAll("*")).each(function(){
+             $(this).removeAttr("style");
+             var n = this.nodeName;
+             alert(n)
+             if(n =='DIV' || n =='P'){
+                 $(this).addClass("element");
+             }
+          });
+          var html = pro.innerHTML;
+          mw.wysiwyg.insert_html( html );
+          $(pro).remove();
         }, 120);
     },
     prepare:function(){

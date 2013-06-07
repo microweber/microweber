@@ -768,8 +768,12 @@ mw.drag = {
                     }
                     else{
                       $(window).trigger("onElementClick", curr);
+
                     }
                 }
+                if(!$(curr).hasClass('module')){
+                        mw.wysiwyg.select_element($(curr)[0]);
+                      }
             });
             $(mw.handle_module).mouseenter(function(){
                 var curr = $(this).data("curr");
