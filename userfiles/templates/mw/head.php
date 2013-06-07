@@ -16,9 +16,7 @@
 
 
 
-    <script type="text/javascript">
-        mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
-    </script>
+    <script type="text/javascript" src="{TEMPLATE_URL}js/jquery-1.10.0.min.js"></script>
 
     <script type="text/javascript">
 
@@ -37,7 +35,7 @@
   <link rel="stylesheet" type="text/css" href="{TEMPLATE_URL}css/bootstrap-responsive.css" />
   <link rel="stylesheet" type="text/css" href="{TEMPLATE_URL}css/style.css" />
   <link rel="stylesheet" type="text/css" href="{TEMPLATE_URL}css/style.responsive.css" />
-  <script type="text/javascript" src="{TEMPLATE_URL}js/jquery-1.10.0.min.js"></script>
+
   <script type="text/javascript" src="{TEMPLATE_URL}js/bootstrap.min.js"></script>
   <script type="text/javascript" src="{TEMPLATE_URL}js/site.js"></script>
 

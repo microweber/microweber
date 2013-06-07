@@ -73,9 +73,9 @@ description: Login default
 
     <input class="btn btn-large pull-right" type="submit" value="<?php _e("Login"); ?>" />
 
+  <div class="alert" style="margin: 0;display: none;"></div>
 
   </form>
-  <div class="alert" style="margin: 0;display: none;"></div>
   </div>
   <?php endif;  ?>
 

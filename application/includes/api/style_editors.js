@@ -4,6 +4,7 @@
 
 
 
+
 mw.current_element_styles = {}
 
 Registered_Sliders = ['margin', 'opacity', 'padding'];

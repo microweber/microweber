@@ -8,6 +8,28 @@ mw.require('css_parser.js');
 
 
 mw.wysiwyg = {
+    action:{
+      removeformat:function(){
+        var sel = window.getSelection();
+        var r = sel.getRangeAt(0);
+        var c = r.commonAncestorContainer;
+        mw.wysiwyg.removeStyles(c, sel);
+      }
+    },
+    removeStyles:function(common, sel){
+        if(!!common.querySelectorAll){
+          var all = common.querySelectorAll('*'), l = all.length, i = 0;
+          for( ; i<l; i++){
+            var el = all[i];
+            if(sel.containsNode(el, true)){
+              $(el).removeAttr("style");
+            }
+          }
+        }
+        else{
+           mw.wysiwyg.removeStyles(common.parentNode);
+        }
+    },
     init_editables : function(module){
        if (!window['mwAdmin']) {
 
@@ -17,7 +39,6 @@ mw.wysiwyg = {
                this.contentEditable = true;
                 mw.on.DOMChange(this, function(){
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
-
                     mw.askusertostay = true;
                 });
 
@@ -156,6 +177,9 @@ mw.wysiwyg = {
     selection:'',
     _do:function(what){
         mw.wysiwyg.execCommand(what);
+        if(typeof mw.wysiwyg.action[what] === 'function'){
+             mw.wysiwyg.action[what]();
+        }
     },
     save_selected_element:function(){
         mw.$("#mw-text-editor").addClass("editor_hover");
@@ -188,40 +212,41 @@ mw.wysiwyg = {
             } */
         }
     },
+    paste:function(){
+       mw.wysiwyg.save_selection();
+        var pro = mwd.createElement('div');
+        pro.className = 'semi_hidden';
+        pro.contentEditable = true;
+        mwd.body.appendChild(pro);
+      //  pro.focus();
+
+        var range = mwd.createRange();
+        range.selectNodeContents(pro);
+        range.collapse(false);
+
+
+
+        setTimeout(function(){
+          mw.wysiwyg.restore_selection();
+          var html = "[" + pro.innerHTML  + ']';
+          alert(pro.innerHTML)
+          mw.wysiwyg.insert_html( html);
+        }, 120);
+    },
     prepare:function(){
       mw.wysiwyg.external = mw.wysiwyg._external();
 
       mw.$("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
-      items.bind("paste", function(event){   /*
-
-          var id = "el_"+mw.random();
-          var el = "<div id='"+id+"'>&nbsp;</div>";
-          mw.wysiwyg.insert_html(el);
-          var el = mw.$("#"+id);
-
-         setTimeout(function(){
-           var html = el.html();
-           var newhtml = mw.wysiwyg.clean_word(html);
-
-           var body  = mw.tools.parseHtml(newhtml).body;
-
-           $(body.childNodes).each(function(){
-              if(this.nodeType===3){
-                var el = mwd.createElement('p');
-                el.innerHTML = this.data;
-                $(this).replaceWith(el);
-              }
-           });
-
-           el.html(body.innerHTML);
 
 
-         },50);   */
+      $(mwd.body).bind("paste", function(event){
+        if(event.target.isContentEditable){
+            mw.wysiwyg.paste();
+        }
       });
 
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
-
     },
     init:function(selector){
       var selector = selector || ".mw_editor_btn";

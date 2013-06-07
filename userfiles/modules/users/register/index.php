@@ -7,13 +7,13 @@
 <module type="users/forgot_password" />
 <?php else:  ?>
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
-		if($form_btn_title == false) { 
+		if($form_btn_title == false) {
 		$form_btn_title = 'Register';
 		}
-		
-		
+
+
 $enable_user_fb_registration =  get_option('enable_user_fb_registration', $params['id']);
-if($enable_user_fb_registration == 'y') { 
+if($enable_user_fb_registration == 'y') {
 $enable_user_fb_registration = true;
 } else {
 $enable_user_fb_registration = false;
@@ -23,32 +23,32 @@ if($enable_user_fb_registration == true){
 	$enable_user_fb_registration_site =  get_option('enable_user_fb_registration', 'users');
 	if($enable_user_fb_registration_site == 'y') {
 	$enable_user_fb_registration = true;
-	
+
 	$fb_app_id  = get_option('fb_app_id','users');
 	$fb_app_secret  = get_option('fb_app_secret','users');
 
 	if($fb_app_id != false){
-	$fb_app_id = trim($fb_app_id);	
+	$fb_app_id = trim($fb_app_id);
 	}
-	
+
 	if($fb_app_secret != false){
-	$fb_app_secret = trim($fb_app_secret);	
+	$fb_app_secret = trim($fb_app_secret);
 	}
-	
-	
-	
+
+
+
 	if($fb_app_id == ''){
 	$enable_user_fb_registration = false;
 	}
-	
+
 	} else {
 	$enable_user_fb_registration = false;
-	
+
 	}
 }
 
 
-		
+
 		 ?>
 <?php //$rand = uniqid(); ?>
 <script  type="text/javascript">
@@ -57,24 +57,30 @@ mw.require('forms.js', true);
 
 
 $(document).ready(function(){
-	
 
-	 
+
+
 	 mw.$('#user_registration_form{rand}').submit(function() {
 
- 
- mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/register_user', function(){
-	         mw.response('#form-holder{rand}',this);
 
-	// mw.reload_module('[data-type="categories"]');
-	 // mw.reload_module('[data-type="pages"]');
+ mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/register_user', function(){
+
+
+        mw.response('#form-holder{rand}',this);
+
+        if(typeof this.success !== 'undefined'){
+         mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_login', function(){
+mw.load_module('users/login', '#<?php print $params['id'] ?>');
+         });
+        }
+
 	 });
 
  return false;
- 
- 
+
+
  });
- 
+
 });
 
 

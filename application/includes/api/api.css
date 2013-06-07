@@ -390,6 +390,10 @@ body.dragStart #items_handle{
   outline: 1px solid  #429BD5 !important;
   outline: 1px solid  #9FCCEA !important;
 }
+  /*
+.element:hover, .mosule:hover{
+  outline: 1px solid  #9FCCEA !important;
+}     */
 
 
 

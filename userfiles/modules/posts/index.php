@@ -416,7 +416,7 @@ if($template_file == false){
 <?php  if(isset($params['ajax_paging'])):  ?>
 <script type="text/javascript">
 			 
-			 
+
 			 
  
     $(document).ready(function(){
@@ -424,11 +424,11 @@ if($template_file == false){
 		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').unbind('click');
 		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').click(function(e) {
 			 var pn = $(this).attr('data-page-number');
-		 
-			 mw.$('#<?php print $params['id'] ?>').attr('paging_param','curent_page')
+
+			 mw.$('#<?php print $params['id'] ?>').attr('paging_param','curent_page');
 			 mw.$('#<?php print $params['id'] ?>').attr('curent_page',pn)
 			 mw.reload_module('#<?php print $params['id'] ?>');
-			 
+
 			 
 			 return false;
 		});
@@ -436,8 +436,8 @@ if($template_file == false){
 			 
 	});		 
 			 
-			 
-			 
+
+
 
 		</script>
 <?php endif; ?>

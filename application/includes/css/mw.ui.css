@@ -251,6 +251,11 @@
     top: -4px;
 }
 
+.mw-ui-btn-big .ico,
+.mw-ui-btn-large .ico{
+  top: 0;
+}
+
 
 .mw-ui-btn .iplus{ width: 10px; background-position: -1147px 2px;}
 

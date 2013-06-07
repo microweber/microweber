@@ -2379,6 +2379,43 @@ $(document).ready(function(){
 
 
 
+  mw.ui = mw.tools;
+
+  mw.ui.btn = {
+    radionav : function(nav){
+        if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+        var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length, el;
+        for( ; i<l; i++){
+            var el = all[i];
+            el.onclick = function(){
+              if(!mw.tools.hasClass(this.className, 'active')){
+                var active = nav.querySelector(".mw-ui-btn.active");
+                if( active !== null) { mw.tools.removeClass(active, 'active'); }
+                this.className += ' active';
+              }
+            }
+        }
+    },
+    checkboxnav : function(nav){
+      if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+      var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length;
+        for( ; i<l; i++){
+           var el = all[i];
+            el.onclick = function(){
+              if(!mw.tools.hasClass(this.className, 'active')){
+                this.className += ' active';
+              }
+              else{
+                mw.tools.removeClass(this, 'active');
+              }
+            }
+        }
+    },
+  }
+
+
+
+
 
 
 

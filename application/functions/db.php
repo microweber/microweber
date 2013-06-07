@@ -1,14 +1,49 @@
 <?php
 
 define("DB_IS_SQLITE", false);
-
+/**
+ * Escapes a string from sql injection 
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ *
+ *
+ * @param string $value to escape
+ *
+ *
+ * @example 
+ * <code>
+ * //escape sql string
+ *  $results = db_escape_string($_POST['email']);
+ * </code>
+ *
+ */
 function db_escape_string($value) {
     $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
     $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
 
     return str_replace($search, $replace, $value);
 }
-
+/**
+ * Deletes item by id from db table 
+ * 
+ *
+ * @package Database
+ *
+ *
+ * @param string $table Your table
+ * @param string $id The id to delete
+ * @param string $field_name You can set custom column to delete by it, default is id
+ *
+ *
+ * @example 
+ * <code>
+ * //delete content with id 5
+ *  db_delete_by_id('content', $id=5);
+ * </code>
+ *
+ */
 function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     $table = guess_table_name($table);
     $table_real = db_get_real_table_name($table);
@@ -80,7 +115,25 @@ function db_delete_by_id($table, $id = 0, $field_name = 'id') {
     //   cache_clean_group('categories_items');
     //	d($q);
 }
-
+/**
+ * Copy entire database row 
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ *
+ * @param string $table Your table
+ * @param string $id The id to copy
+ * @param string $field_name You can set custom column to copy by it, default is id
+ *
+ *
+ * @example 
+ * <code>
+ * //copy content with id 5
+ *  db_copy_by_id('content', $id=5);
+ * </code>
+ *
+ */
 function db_copy_by_id($table, $id = 0, $field_name = 'id') {
 
     $q = db_get_id($table, $id, $field_name);
@@ -96,7 +149,25 @@ function db_copy_by_id($table, $id = 0, $field_name = 'id') {
     }
 
 }
-
+/**
+ * Get table row by id
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ *
+ * @param string $table Your table
+ * @param string $id The id to get
+ * @param string $field_name You can set custom column to get by it, default is id
+ *
+ *
+ * @example 
+ * <code>
+ * //get content with id 5
+ * $cont = db_get_id('content', $id=5);
+ * </code>
+ *
+ */
 function db_get_id($table, $id = 0, $field_name = 'id') {
 
     $id = intval($id);
@@ -128,11 +199,40 @@ function db_get_id($table, $id = 0, $field_name = 'id') {
         return false;
     }
 }
-
+/**
+ * Guess the cache group from a table name or a string
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ * @uses guess_table_name()
+ * @param string $table Your table name
+ *
+ *
+ * @example 
+ * <code>
+ * $cache_gr = guess_cache_group('content');
+ * </code>
+ *
+ */
 function guess_cache_group($for = false) {
     return guess_table_name($for, true);
 }
-
+/**
+ * Relative table name from a string
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ * @param string $table Your table name
+ * @param bool $guess_cache_group If true, returns the cache group instead of the table name
+ *
+ * @example 
+ * <code>
+ * $table = guess_table_name('content');
+ * </code>
+ *
+ */
 function guess_table_name($for = false, $guess_cache_group = false) {
 
     if (stristr($for, 'table_') == false) {
@@ -199,7 +299,25 @@ function guess_table_name($for = false, $guess_cache_group = false) {
 
     return $for;
 }
-
+/**
+ * Keep a database query log
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ * @param string $q If its string it will add query to the log, its its bool true it will return the log entries as array;
+ *
+ * @example 
+ * <code>
+ * //add query to the db log
+ * db_query_log("select * from my_table");
+ *
+ * //get the query log
+ * $queries = db_query_log(true);
+ * var_dump($queries );
+ * </code>
+ *
+ */
 function db_query_log($q) {
     static $index = array();
     if (is_bool($q)) {
@@ -213,27 +331,25 @@ function db_query_log($q) {
 /**
  * Performs a query without returning a result
  *
- *
+ * Useful if you want to preform table updates wthout the need to see the result
  *
  *
  * @param string $q Your SQL query
  * @param bool|array $connection_settigns
  * @return array|bool|mixed
- * @category Database
  * @package Database
- * @see db_query
+ * @uses db_query
  *
  *
  * @example
- *  <pre>
+ *  <code>
  *  //make plain query to the db
  *    $sql = "update $table set title='new' WHERE id=1 ";
  *  $q = db_q($sql);
  *
- * </pre>
+ * </code>
  *
  */
-
 function db_q($q, $connection_settigns = false) {
 
     if (MW_IS_INSTALLED == false) {
@@ -254,7 +370,6 @@ function db_q($q, $connection_settigns = false) {
  * Please ensure your variables are escaped before calling this function.
  *
  *
- * @category Database
  * @package Database
  * @function db_query
  * @desc Executes plain query in the database.
@@ -267,12 +382,12 @@ function db_q($q, $connection_settigns = false) {
  * @return array|bool|mixed
  *
  * @example
- *  <pre>
+ *  <code>
  *  //make plain query to the db
  *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
  *  $q = db_query($sql, crc32($sql), 'content/global');
  *
- * </pre>
+ * </code>
  *
  *
  *
@@ -436,6 +551,24 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 if (is_admin() == true) {
     api_expose('get');
 }
+/**
+ * Updates multiple items in the database
+ * 
+ *
+ * @package Database
+ * @subpackage Advanced
+ * @param string $get_params Your parrams to be passed to the get() function
+ * @param string $save_params Array of the new data
+ * @see get()
+ * @see save_data()
+ * @example 
+ * <code>
+ * //example updates the is_active flag of all content
+ * mass_save("table=content&is_active=n", 'is_active=y');
+ *
+ * </code>
+ *
+ */
 function mass_save($get_params, $save_params = false) {
     if (is_admin() != true) {
         error('only admin can save');
@@ -473,15 +606,31 @@ function mass_save($get_params, $save_params = false) {
 }
 
 /**
+ * Get items from the database
+ * 
+ * You can use this handy function to get whatever you need from any db table.
  *
- * Function to query the database
- *
- * @access public
  * @package Database
-
- * @category Database
+ * @params
  *
- * @since 0.320
+ * *You can pass those parameters in order to filter the results*
+ *  You can also use all defined database fields as parameters
+ *
+ * .[params-table]
+ *|-----------------------------------------------------------------------------
+ *| Parameter	    | Description      | Values 
+ *|------------------------------------------------------------------------------
+ *| from      		| the name of the db table, without prefix | ex. users, content, categories,etc 
+ *| table       	| same as above |  
+ *| debug         	| prints debug information  | true or false
+ *| orderby     	| you can order by any field in your table  | ex. get("table=content&orderby=id desc")
+ *| order_by     	| same as above  | 
+ *| one      		| if set returns only the 1st result |  
+ *| count      		| if set returns results count |  ex. get("table=content&count=true")
+ *| limit      		| limit the results |  ex. get("table=content&results=5")
+ *| curent_page  	| get the current page by limit offset |  ex. get("table=content&results=5&curent_page=2")
+ *
+ *
  * @param string|array $params parameters for the DB
  * @param string $params['table'] the table name ex. content
  * @param string $params['debug'] if true print the sql
@@ -495,22 +644,19 @@ function mass_save($get_params, $save_params = false) {
  * @return mixed Array with data or false or integer if page_count is set
  *
  *
- * @example <pre>
  *
+ * @example 
+ * <code>
  * //get content
  *  $results = get("table=content&is_active=y");
- * </pre>
+ * </code>
  *
  *
  * @example
- *  <pre>
+ *  <code>
  *  //get users
- *
- *
  *  $results = get("table=users&is_admin=n");
- * </pre>
- *
- *
+ * </code>
  *
  */
 function get($params) {

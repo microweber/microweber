@@ -943,6 +943,15 @@ right: 15px;
   box-shadow:inset 0 1px 0px 0px #fff;
 }
 
+.mw-ui-btn-nav .mw-ui-btn{
+  border-radius:0;
+  border-width: 1px 1px 1px 0;
+  float: left;
+}
+.mw-ui-btn-nav .mw-ui-btn:first-child{
+  border-left-width: 1px;
+}
+
 .mw-ui-btn-large, .mw-ui-btn-big{
     padding: 10px;
     font-size: 18px;
@@ -1104,7 +1113,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 
-.mw-ui-btn:active, .mw-ui-btn2:active{
+.mw-ui-btn:active, .mw-ui-btn2:active, .mw-ui-btn.active{
     box-shadow:inset 0 0 5px #ccc;
 }
 
@@ -1127,6 +1136,11 @@ a.mw-ui-btn, span.mw-ui-btn{
   background: white;
   outline: none;
   cursor: text;
+}
+.mw-ui-field-full{
+  width:96%;
+  width:calc(100% - 22px);
+  width:-webkit-calc(100% - 22px);
 }
 
 .mw-ico-field{
@@ -2389,7 +2403,7 @@ body.mw-external-loading:after{
   padding: 12px 0;
 }
 
-
+   /*
 .mwoffice .module:hover:before{
   position: absolute;
   margin-top: -10px;
@@ -2406,7 +2420,7 @@ body.mw-external-loading:after{
 
 .mwoffice .module:hover{
   outline: 1px solid #2680D3;
-}
+}     */
 
 
 

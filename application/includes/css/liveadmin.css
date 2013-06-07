@@ -389,6 +389,14 @@ html.mw_pages #mw_tabs li.active a{
   padding: 10px 0;
   position: relative;
 }
+.mw-ui-field-holder:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
 
 
 

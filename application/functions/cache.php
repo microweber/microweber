@@ -15,7 +15,7 @@ if (!isset($_mw_cache_obj) or $_mw_cache_obj == false) {
 
 mw_var('is_cleaning_now', false);
 /**
- * Deletes cache directory for given $cache_group recursively.
+ * Deletes cache for given $cache_group recursively.
  *
  * @param string $cache_group
  *            (default is 'global') - this is the subfolder in the cache dir.
@@ -23,7 +23,20 @@ mw_var('is_cleaning_now', false);
  * @return boolean
  *
  * @package Cache
- * @category Cache
+ * @example 
+ * <code>
+ * //delete the cache for the content
+ *  cache_clean_group("content");
+ *
+ * //delete the cache for the content with id 1
+ *  cache_clean_group("content/1");
+ *
+ * //delete the cache for users
+ *  cache_clean_group("users");
+ *
+ * //delete the cache for your custom table eg. my_table
+ * cache_clean_group("my_table");
+ * </code>
  *
  */
 function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
@@ -46,12 +59,12 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
  *
  *
  *  @example
- * <pre>
+ * <code>
  *
  * $cache_id = 'my_cache_'.crc32($sql_query_string);
  * $cache_content = cache_get_content($cache_id, 'my_cache_group');
  *
- * </pre>
+ * </code>
  *
  *
  *
@@ -62,7 +75,6 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
  * @param bool $cache_storage_type You can pass custom cache object or leave false.
  * @return  mixed returns array of cached data or false
  * @package Cache
- * @category Cache
  *
  */
 function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_type = false)
@@ -85,11 +97,12 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
  * It can store any value that can be serialized, such as strings, array, etc.
  *
  * @example
- * <pre>
+ * <code>
+ * //store custom data in cache
  * $data = array('something' => 'some_value');
  * $cache_id = 'my_cache_id';
  * $cache_content = cache_save($data, $cache_id, 'my_cache_group');
- * </pre>
+ * </code>
  *
  * @param mixed $data_to_cache
  *            your data, anything that can be serialized
@@ -102,8 +115,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
  * @param bool $cache_storage_type
  * @return boolean
  * @package Cache
- * @category Cache
- */
+  */
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
 
@@ -124,12 +136,14 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
 api_expose('clearcache');
 /**
  * Clears all cache data
- *
- * @param bool $cache_storage_type
+ * @example
+ * <code>
+ * //delete all cache 
+ *  clearcache();
+ * </code>
  * @return boolean
  * @package Cache
- * @category Cache
- */
+  */
 function clearcache($cache_storage_type = false)
 {
     if ($cache_storage_type == false or trim($cache_storage_type) == '') {
@@ -149,7 +163,12 @@ function clearcache($cache_storage_type = false)
  *
  * @return array
  * @package Cache
- * @category Cache
+ * @example
+ * <code>
+ * //get cache items info 
+ *  $cached_items = cache_debug();
+ * print_r($cached_items);
+ * </code>
  */
 function cache_debug()
 {

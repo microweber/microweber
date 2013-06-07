@@ -6,6 +6,275 @@ if (!defined("MW_DB_TABLE_USERS")) {
 if (!defined("MW_DB_TABLE_LOG")) {
     define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Allows you to login a user into the system
+ *
+ * It also sets user session when the user is logged. <br />
+ * On 5 unsuccessful logins, blocks the ip for few minutes <br />
+ *
+ *
+ * @param array|string $params You can pass parameter as string or as array.
+ * @param mixed|string $params['email'] optional If you set  it will use this email for login
+ * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
+ *
+ *
+ * @example
+ * <pre>
+ * //login with username
+ * user_login('username=test&password=pass')
+ * </pre>
+ * @example
+ * <pre>
+ * //login with email
+ * user_login('email=my@email.com&password=pass')
+ * </pre>
+ * @return array|bool
+ * @hooks
+ *
+ * You can also hook to this function with custom functions <br />
+ * There are few events that get executed on login <br />
+ *
+ * <pre>
+ * Here is example:
+ * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
+ * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
+ * </pre>
+ * @package Users
+ * @category Users
+ * @uses hash_user_pass()
+ * @uses parse_str()
+ * @uses get_users()
+ * @uses session_set()
+ * @uses get_log()
+ * @uses save_log()
+ * @uses user_login_set_failed_attempt()
+ * @uses update_user_last_login_time()
+ * @uses exec_action()
+ * @function user_login()
+ * @see mw_db_init_users_table() For the database table fields
+ */
+function user_login($params){
+    $params2 = array();
+
+
+    exec_action('before_user_login', $params);
+
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    if (isset($params) and !empty($params)) {
+
+        $user = isset($params['username']) ? $params['username'] : false;
+        $pass = isset($params['password']) ? $params['password'] : false;
+        $email = isset($params['email']) ? $params['email'] : false;
+
+
+        $pass = hash_user_pass($pass);
+
+
+        if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
+            return array('error' => 'Please enter username and password!');
+
+        }
+        $url = curent_url(1);
+
+        $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
+
+        if ($check == 5) {
+
+            $url_href = "<a href='$url' target='_blank'>$url</a>";
+            save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
+        }
+        if ($check > 5) {
+            $check = $check - 1;
+            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+        }
+        $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
+        if ($check2 > 25) {
+
+            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+        }
+
+        $api_key = isset($params['api_key']) ? $params['api_key'] : false;
+
+
+        if($user != false){
+            $data1 = array();
+            $data1['username'] = $user;
+            $data1['password'] = $pass;
+
+            $data1['search_in_fields'] = 'username,email';
+            $data1['is_active'] = 'y';
+
+        }
+
+        $data = array();
+
+        if (trim($user != '') and trim($pass != '') and isset($data1) and isarr($data1)) {
+            $data = get_users($data1);
+        }
+        if (isset($data[0])) {
+            $data = $data[0];
+        } else {
+            if (!isset($email) or ($email) == '') {
+
+                if (isset($user) and $user != false) {
+                    $email = $user;
+                }
+            }
+
+
+            if (trim($email) != '') {
+                $data = array();
+                $data['email'] = $email;
+                $data['password'] = $pass;
+                $data['is_active'] = 'y';
+                $data['search_in_fields'] = 'password,email';
+                $data = get_users($data);
+
+                if (isset($data[0])) {
+
+                    $data = $data[0];
+                } else {
+
+                    user_login_set_failed_attempt();
+                    return array('error' => 'Please enter right username and password!');
+
+                }
+            } else {
+                //	return array('error' => 'Please enter username or email!');
+
+            }
+
+            // return false;
+        }
+
+        if (!isarr($data)) {
+            if (trim($user) != '') {
+                $data = array();
+                $data['email'] = $user;
+                $data['password'] = $pass;
+                $data['is_active'] = 'y';
+                //  $data['debug'] = 'y';
+
+                $data = get_users($data);
+
+                if (isset($data[0])) {
+                    $data = $data[0];
+                }
+            }
+        }
+        if (!isarr($data)) {
+            user_login_set_failed_attempt();
+
+            $user_session = array();
+            $user_session['is_logged'] = 'no';
+            session_set('user_session', $user_session);
+
+            return array('error' => 'Please enter the right username and password!');
+            return false;
+        } else {
+            $user_session = array();
+            $user_session['is_logged'] = 'yes';
+            $user_session['user_id'] = $data['id'];
+
+            if (!defined('USER_ID')) {
+                define("USER_ID", $data['id']);
+                exec_action('mw_user_login');
+            }
+
+            session_set('user_session', $user_session);
+            $user_session = session_get('user_session');
+            update_user_last_login_time();
+            if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
+                if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
+                    exec_action('mw_user_login_admin');
+                    $p = get_page();
+                    if (!empty($p)) {
+                        $link = page_link($p['id']);
+                        $link = $link . '/editmode:y';
+                        safe_redirect($link);
+                    }
+                }
+            }
+
+            $aj = isAjax();
+
+            if ($aj == false and $api_key == false) {
+                if (isset($_SERVER["HTTP_REFERER"])) {
+                    //	d($user_session);
+                    //exit();
+                    safe_redirect($_SERVER["HTTP_REFERER"]);
+                    exit();
+                }
+            } else if ($aj == true) {
+                $user_session['success'] = "You are logged in!";
+            }
+
+            return $user_session;
+        }
+    }
+
+    return false;
+}
+
+api_expose('logout');
+
+function logout()
+{
+
+    if (!defined('USER_ID')) {
+        define("USER_ID", false);
+    }
+
+    // static $uid;
+    $aj = isAjax();
+    session_end();
+
+    if (isset($_COOKIE['editmode'])) {
+        setcookie('editmode');
+    }
+
+    if ($aj == false) {
+        if (isset($_SERVER["HTTP_REFERER"])) {
+            safe_redirect($_SERVER["HTTP_REFERER"]);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
 action_hook('mw_db_init', 'mw_db_init_users_table');
 /**
@@ -339,6 +608,9 @@ function register_user($params)
 
         if (empty($data)) {
             $data = array();
+
+
+
             $data['username'] = $email;
             $data['password'] = $pass;
             $data['is_active'] = 'n';
@@ -350,6 +622,9 @@ function register_user($params)
             $next = intval($next) + 1;
             $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
+
+
+
             db_q($q);
             cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
             //$data = save_user($data);
@@ -373,7 +648,11 @@ function register_user($params)
                 $params['password2'] = $pass2;
             }
             exec_action('after_user_register', $params);
-            return array('succcess' => 'You have registered successfully');
+            //user_login('email='.$email.'&password='.$pass);
+
+
+
+            return array('success' => 'You have registered successfully');
 
             //return array($next);
         } else {
@@ -989,242 +1268,6 @@ function user_login_set_failed_attempt()
 }
 
 
-/**
- * Allows you to login a user into the system
- *
- * It also sets user session when the user is logged. <br />
- * On 5 unsuccessful logins, blocks the ip for few minutes <br />
- *
- *
- * @param array|string $params You can pass parameter as string or as array.
- * @param mixed|string $params['email'] optional If you set  it will use this email for login
- * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
- *
- *
- * @example
- * <pre>
- * //login with username
- * user_login('username=test&password=pass')
- * </pre>
- * @example
- * <pre>
- * //login with email
- * user_login('email=my@email.com&password=pass')
- * </pre>
- * @return array|bool
- * @hooks
- *
- * You can also hook to this function with custom functions <br />
- * There are few events that get executed on login <br />
- *
- * <pre>
- * Here is example:
- * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
- * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
- * </pre>
- * @package Users
- * @category Users
- * @uses hash_user_pass()
- * @uses parse_str()
- * @uses get_users()
- * @uses session_set()
- * @uses get_log()
- * @uses save_log()
- * @uses user_login_set_failed_attempt()
- * @uses update_user_last_login_time()
- * @uses exec_action()
- * @function user_login()
- * @see mw_db_init_users_table() For the database table fields
- */
-function user_login($params){
-    $params2 = array();
-
-
-    exec_action('before_user_login', $params);
-
-    if (is_string($params)) {
-        $params = parse_str($params, $params2);
-        $params = $params2;
-    }
-
-    if (isset($params) and !empty($params)) {
-
-        $user = isset($params['username']) ? $params['username'] : false;
-        $pass = isset($params['password']) ? $params['password'] : false;
-        $email = isset($params['email']) ? $params['email'] : false;
-
-
-        $pass = hash_user_pass($pass);
-
-
-        if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
-            return array('error' => 'Please enter username and password!');
-
-        }
-        $url = curent_url(1);
-
-        $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
-
-        if ($check == 5) {
-
-            $url_href = "<a href='$url' target='_blank'>$url</a>";
-            save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
-        }
-        if ($check > 5) {
-            $check = $check - 1;
-            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
-        }
-        $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
-        if ($check2 > 25) {
-
-            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
-        }
-
-        $api_key = isset($params['api_key']) ? $params['api_key'] : false;
-
-        $data1 = array();
-        $data1['username'] = $user;
-        $data1['password'] = $pass;
-
-        $data1['search_in_fields'] = 'username,password,email';
-        $data1['is_active'] = 'y';
-
-        $data = array();
-
-        if (trim($user != '') and trim($pass != '')) {
-            $data = get_users($data1);
-        }
-        if (isset($data[0])) {
-            $data = $data[0];
-        } else {
-            if (!isset($email) or ($email) == '') {
-
-                if (isset($user)) {
-                 //   $email = $user;
-                }
-            }
-
-
-            if (trim($email) != '') {
-                $data = array();
-                $data['email'] = $email;
-                $data['password'] = $pass;
-                $data['is_active'] = 'y';
-
-                $data['search_in_fields'] = 'username,password,email';
-
-                if (trim($user != '') and trim($email != '')) {
-                    $data = get_users($data);
-                }
-                $data = get_users($data);
-                if (isset($data[0])) {
-                    $data = $data[0];
-                } else {
-
-                    user_login_set_failed_attempt();
-                    return array('error' => 'Please enter right username and password!');
-
-                }
-            } else {
-                //	return array('error' => 'Please enter username or email!');
-
-            }
-
-            // return false;
-        }
-
-        if (!isarr($data)) {
-            if (trim($user) != '') {
-                $data = array();
-                $data['email'] = $user;
-                $data['password'] = $pass;
-                $data['is_active'] = 'y';
-              //  $data['debug'] = 'y';
-
-                $data = get_users($data);
-
-                if (isset($data[0])) {
-                    $data = $data[0];
-                }
-            }
-        }
-        if (!isarr($data)) {
-            user_login_set_failed_attempt();
-
-            $user_session = array();
-            $user_session['is_logged'] = 'no';
-            session_set('user_session', $user_session);
-
-            return array('error' => 'Please enter the right username and password!');
-            return false;
-        } else {
-            $user_session = array();
-            $user_session['is_logged'] = 'yes';
-            $user_session['user_id'] = $data['id'];
-
-            if (!defined('USER_ID')) {
-                define("USER_ID", $data['id']);
-                exec_action('mw_user_login');
-            }
-
-            session_set('user_session', $user_session);
-            $user_session = session_get('user_session');
-            update_user_last_login_time();
-            if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
-                if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                    exec_action('mw_user_login_admin');
-                    $p = get_page();
-                    if (!empty($p)) {
-                        $link = page_link($p['id']);
-                        $link = $link . '/editmode:y';
-                        safe_redirect($link);
-                    }
-                }
-            }
-
-            $aj = isAjax();
-
-            if ($aj == false and $api_key == false) {
-                if (isset($_SERVER["HTTP_REFERER"])) {
-                    //	d($user_session);
-                    //exit();
-                    safe_redirect($_SERVER["HTTP_REFERER"]);
-                    exit();
-                }
-            } else if ($aj == true) {
-                $user_session['success'] = "You are logged in!";
-            }
-
-            return $user_session;
-        }
-    }
-
-    return false;
-}
-
-api_expose('logout');
-
-function logout()
-{
-
-    if (!defined('USER_ID')) {
-        define("USER_ID", false);
-    }
-
-    // static $uid;
-    $aj = isAjax();
-    session_end();
-
-    if (isset($_COOKIE['editmode'])) {
-        setcookie('editmode');
-    }
-
-    if ($aj == false) {
-        if (isset($_SERVER["HTTP_REFERER"])) {
-            safe_redirect($_SERVER["HTTP_REFERER"]);
-        }
-    }
-}
 
 function user_id()
 {

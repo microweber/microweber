@@ -15,7 +15,7 @@
   mw.require("style_editors.js");
   mw.require("forms.js");
   mw.require("files.js");
-   mw.require("content.js", true);
+  mw.require("content.js", true);
   mw.require("lab.js");
 
   //mw.require("keys.js");

@@ -4,7 +4,7 @@
  * Here you will find functions to get and save content in the database and much more.
  *
  * @package Content
- * @category Content
+ * @category Content 
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
@@ -32,6 +32,411 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 if (!defined("MW_DB_TABLE_MENUS")) {
     define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
 }
+
+
+
+
+api_expose('get_content_admin');
+
+function get_content_admin($params)
+{
+    if (is_admin() == false) {
+        return false;
+    }
+
+    return get_content($params);
+}
+
+
+api_expose('get_content');
+/**
+ * Get array of content items from the database
+ *
+ * It accepts string or array as parameters. You can pass any db field name as parameter to filter content by it.
+ * All parameter are passed to the get() function
+ *
+ * You can get and filter content and also order the results by criteria
+ *
+ *
+ *
+ *
+ * @function get_content
+ * @package Content
+ *
+ *
+ * @desc  Get array of content items from the content DB table
+ *
+ * @uses get() You can use all the options of get(), such as limit, order_by, count, etc...
+ *
+ * @param mixed|array|bool|string $params You can pass parameters as string or as array
+ * @params
+ *
+ * *Some parameters you can use*
+ *  You can use all defined database fields as parameters
+ *
+ * .[params-table]
+ *|-----------------------------------------------------------------------------
+ *| Field Name     | Description      | Values
+ *|------------------------------------------------------------------------------
+ *| id      		| the id of the content |
+ *| is_active      	| flag published or unpublished content | "y" or "n"
+ *| parent         	| get content with parent  | any id or 0
+ *| created_by     	| get by author id  | any user id
+ *| created_on     	| the date of creation  |
+ *| updated_on     	| the date of last edit  |
+ *| content_type   	| the type of the content | "page" or "post", anything custom
+ *| subtype        	| subtype of the content | "static","dynamic","post","product", anything custom
+ *| url        		| the link to the content |
+ *| title        	| Title of the content |
+ *| content        	| The html content saved in the database |
+ *| description     | Description used for the content list |
+ *| position        | The order position |
+ *| active_site_template        | Current template for the content |
+ *| layout_file        | Current layout from the template directory |
+ *| is_deleted      	| flag for deleted content |  "n" or "y"
+ *| is_home      	| flag for homepage |  "n" or "y"
+ *| is_shop      	| flag for shop page |  "n" or "y"
+ *
+ *
+ * @return array|bool|mixed Array of content or false if nothing is found
+ * @example
+ * #### Get with parameters as array
+ * <code>
+ *
+ * $params = array();
+ * $params['is_active'] = 'y'; //get only active content
+ * $params['parent'] = 2; //get by parent id
+ * $params['created_by'] = 1; //get by author id
+ * $params['content_type'] = 'post'; //get by content type
+ * $params['subtype'] = 'product'; //get by subtype
+ * $params['title'] = 'my title'; //get by title
+ *
+ * $data = get_content($params);
+ * var_dump($data);
+ *
+ * </code>
+ *
+ * @example
+ * #### Get by params as string
+ * <code>
+ *  $data = get_content('is_active=y');
+ *  var_dump($data);
+ * </code>
+ *
+ * @example
+ * #### Ordering and sorting
+ * <code>
+ *  //Order by position
+ *  $data = get_content('content_type=post&is_active=y&order_by=position desc');
+ *  var_dump($data);
+ *
+ *  //Order by date
+ *  $data = get_content('content_type=post&is_active=y&order_by=updated_on desc');
+ *  var_dump($data);
+ *
+ *  //Order by title
+ *  $data = get_content('content_type=post&is_active=y&order_by=title asc');
+ *  var_dump($data);
+ *
+ *  //Get content from last week
+ *  $data = get_content('created_on=[mt]-1 week&is_active=y&order_by=title asc');
+ *  var_dump($data);
+ * </code>
+ *
+ */
+function get_content($params = false)
+{
+
+    if (defined('MW_API_CALL')) {
+        if (isset($_REQUEST['api_key']) and is_admin() == 0) {
+            api_login($_REQUEST['api_key']);
+            if (is_admin() == 0) {
+                return false;
+            }
+        }
+
+    }
+
+    if (defined('PAGE_ID') == false) {
+        define_constants();
+    }
+
+
+    $params2 = array();
+
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    if (!is_array($params)) {
+        $params = array();
+        $params['is_active'] = 'y';
+    }
+
+
+    $function_cache_id = false;
+
+    $args = func_get_args();
+
+    foreach ($args as $k => $v) {
+
+        $function_cache_id = $function_cache_id . serialize($params);
+    }
+
+    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+    $cache_content = false;
+    // $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
+    if (($cache_content) == '--false--') {
+        //return false;
+    }
+    // $cache_content = false;
+    if (($cache_content) != false) {
+
+        //	return $cache_content;
+    } else {
+
+        // $params['orderby'];
+        if (isset($params['orderby'])) {
+            $orderby = $params['orderby'];
+        } else {
+            //$params['orderby'] = 'position desc, id desc';
+
+        }
+
+        $cache_group = 'content/global';
+        if (isset($params['cache_group'])) {
+            $cache_group = $params['cache_group'];
+        }
+
+
+        if (isset($params['limit'])) {
+            // $limit = $params['limit'];
+        } else {
+//            $limit = array();
+//            $limit[0] = '0';
+//
+//            $limit[1] = '30';
+        }
+
+        $table = MW_TABLE_PREFIX . 'content';
+        if (!isset($params['is_deleted'])) {
+            $params['is_deleted'] = 'n';
+        }
+        $params['table'] = $table;
+        $params['cache_group'] = $cache_group;
+        $get = get($params);
+
+
+        if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+            if (isset($get['url'])) {
+                $get['url'] = site_url($get['url']);
+            }
+            return $get;
+        }
+        if (!empty($get)) {
+            $data2 = array();
+            foreach ($get as $item) {
+                if (isset($item['url'])) {
+                    //$item['url'] = page_link($item['id']);
+                    $item['url'] = site_url($item['url']);
+                }
+                $data2[] = $item;
+            }
+            $get = $data2;
+            //  cache_save($get, $function_cache_id, $cache_group = 'content/global');
+
+            return $get;
+        } else {
+            // cache_save('--false--', $function_cache_id, $cache_group = 'content/global');
+
+            return FALSE;
+        }
+    }
+}
+
+/**
+ * Gets a link for given post id
+ *
+ * If you don't pass id parameter it will try to use the current post id
+ *
+ * @param int $id The $id The id of the post
+ * @return string The url of the content
+ * @package Content
+ * @see content_link()
+ * @see page_link()
+ * @example
+ * <code>
+ * //get link for one post
+ * print post_link(5);  //print http://your_site/your-post-title
+ * </code>
+ *
+ *
+ */
+function post_link($id = 0)
+{
+    if (is_string($id)) {
+        // $link = page_link_to_layout ( $id );
+    }
+    if ($id == false or $id == 0) {
+
+        if (defined('POST_ID') == true) {
+            $id = POST_ID;
+        } else if (defined('PAGE_ID') == true) {
+            $id = PAGE_ID;
+        }
+    }
+
+    $link = get_content_by_id($id);
+    if (strval($link) == '') {
+        $link = get_page_by_url($id);
+    }
+    $link = site_url($link['url']);
+    return $link;
+}
+
+api_expose('content_link');
+/**
+ * Gets a link for given content id
+ *
+ * If you don't pass id parameter it will try to use the current page id
+ *
+ * @param int $id The $id The id of the content
+ * @return string The url of the content
+ * @package Content
+ * @see post_link()
+ * @see page_link()
+ *
+ *
+ * @example
+ * <code>
+ * print content_link($id=1);
+ * </code>
+ *
+ */
+function content_link($id = 0)
+{
+    if (is_string($id)) {
+        // $link = page_link_to_layout ( $id );
+    }
+    if ($id == false or $id == 0) {
+        if (defined('PAGE_ID') == true) {
+            $id = PAGE_ID;
+        }
+    }
+    if ($id == 0) {
+        return site_url();
+    }
+
+    $link = get_content_by_id($id);
+    if (strval($link['url']) == '') {
+        $link = get_page_by_url($id);
+    }
+    $link = site_url($link['url']);
+    return $link;
+}
+/**
+ * Gets a link for given page id
+ *
+ * If you don't pass id parameter it will try to use the current page id
+ *
+ * @param int $id The $id The id of the page
+ * @return string The url of the content
+ * @package Content
+ * @see post_link()
+ * @see content_link()
+ *
+ *
+ * @example
+ * <code>
+ * print page_link($id=1);
+ * </code>
+ *
+ */
+function page_link($id = false)
+{
+    if (is_string($id)) {
+        // $link = page_link_to_layout ( $id );
+    }
+    if ($id == false) {
+        if (defined('PAGE_ID') == true) {
+            $id = PAGE_ID;
+        }
+    }
+
+    $link = get_content_by_id($id);
+    if (isset($link['url'])) {
+        if (strval($link['url']) == '') {
+            $link = get_page_by_url($id);
+        }
+        $link = site_url($link['url']);
+        return $link;
+    } else {
+        $link = site_url();
+        return $link;
+    }
+}
+
+
+/**
+ * Return array of posts specified by $params
+ *
+ * This function makes query in the database and returns data from the content table
+ *
+ * @param string|array|bool $params
+ * @return string The url of the content
+ * @package Content
+ *
+ * @uses get_content()
+ * @example
+ * <code>
+ * //get array of posts
+ * $content = get_posts('parent=5');
+ *
+ * if (!empty($content)) {
+ *      foreach($content as $item){
+ *       print $item['id'];
+ *       print $item['title'];
+ *       print content_link($item['id']);
+ *      }
+ * }
+ * </code>
+ *
+ */
+function get_posts($params = false)
+{
+    $params2 = array();
+
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    return get_content($params);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
@@ -257,22 +662,28 @@ action_hook('mw_db_init', 'create_mw_default_pages_in_not_exist');
  * It accepts array or $content that must have  $content['id'] set
  *
  * @example
- * <pre>
+ * <code>
  *  Define constants for some page
  *  $ref_page = get_content_by_id(1);
  *  define_constants($ref_page);
- * </pre>
+ *  print PAGE_ID;
+ *  print POST_ID;
+ *  print CATEGORY_ID;
+ *  print MAIN_PAGE_ID;
+ *  print DEFAULT_TEMPLATE_DIR;
+ *  print DEFAULT_TEMPLATE_URL;
+ * </code>
  *
- * @category Content
  * @package Content
  * @subpackage Advanced
- * @uses get_content_by_id()
  * @const  PAGE_ID Defines the current page id
  * @const  POST_ID Defines the current post id
  * @const  CATEGORY_ID Defines the current category id if any
  * @const  ACTIVE_PAGE_ID Same as PAGE_ID
  * @const  CONTENT_ID current post or page id
  * @const  MAIN_PAGE_ID the parent page id
+ * @const DEFAULT_TEMPLATE_DIR the directory of the site's default template
+ * @const DEFAULT_TEMPLATE_URL the url of the site's default template
  */
 function define_constants($content = false)
 {
@@ -524,8 +935,13 @@ function define_constants($content = false)
  *
  * It accepts array $page that must have  $page['id'] set
  *
- *
- * @category Content
+ * @example
+ * <code>
+ *  //get the layout file for content
+ *  $content = get_content_by_id($id=1);
+ *  $render_file = get_layout_for_page($content);
+ *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
+ * </code>
  * @package Content
  * @subpackage Advanced
  */
@@ -560,6 +976,14 @@ function get_layout_for_page($page = array())
     $render_file = false;
     $look_for_post = false;
     $template_view_set_inner = false;
+
+        if(!defined('ACTIVE_TEMPLATE_DIR')){
+            if (isset($page['id']) ){
+                define_constants($page);
+            }
+        }
+
+
 
     if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
         $test_file = str_replace('___', DS, $page['layout_file']);
@@ -759,6 +1183,7 @@ function get_layout_for_page($page = array())
 
         if ($render_file == false) {
             if (strtolower($page['active_site_template']) == 'default') {
+
                 $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
             } else {
                 $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
@@ -830,38 +1255,8 @@ function get_layout_for_page($page = array())
         }
 
 
-        //d($template_view_set_inner);
-    }
-    //d($render_file);
+     }
 
-    //    if (trim($page['layout_name']) != '') {
-    //        $template_view = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['layout_name'] . DS . 'index.php';
-    //        // d($template_view);
-    //        if (is_file($template_view) == true) {
-    //            $render_file = $template_view;
-    //        }
-    //    }
-    //
-    //    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
-    //        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-    //        if (is_file($template_view) == true) {
-    //            $render_file = $template_view;
-    //        }
-    //    }
-    //
-    //    if ($render_file == false and strtolower($page['active_site_template']) == 'default') {
-    //        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-    //        if (is_file($template_view) == true) {
-    //            $render_file = $template_view;
-    //        }
-    //    }
-    //
-    //    if ($render_file == false and ($page['layout_name']) == false and ($page['layout_style']) == false) {
-    //        $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-    //        if (is_file($template_view) == true) {
-    //            $render_file = $template_view;
-    //        }
-    //    }
     if (isset($page['custom_view']) and isset($render_file)) {
         $check_custom = dirname($render_file) . DS;
         $cv = trim($page['custom_view']);
@@ -871,7 +1266,6 @@ function get_layout_for_page($page = array())
         if (is_file($check_custom_f)) {
             $render_file = $check_custom_f;
         }
-        //d($check_custom_f);
 
     }
     if ($render_file == false and ($page['layout_file']) != false) {
@@ -884,8 +1278,7 @@ function get_layout_for_page($page = array())
 
         }
     }
-//	$render_file = reduce_double_slashes($render_file);
-    cache_save($render_file, $cache_id, $cache_group);
+     cache_save($render_file, $cache_id, $cache_group);
 
     return $render_file;
 }
@@ -932,7 +1325,6 @@ function get_homepage()
  * @param string $url the url of the content
  * @param bool $no_recursive if true, it will not try to search for parent content
  * @return bool|string
- * @category Content
  * @package Content
  */
 function get_content_by_url($url = '', $no_recursive = false)
@@ -1231,321 +1623,6 @@ function reorder_content()
     exit();
 }
 
-api_expose('get_content_admin');
-
-function get_content_admin($params)
-{
-    if (is_admin() == false) {
-        return false;
-    }
-
-    return get_content($params);
-}
-
-
-api_expose('get_content');
-/**
- * Get array of content items from the database
- *
- * It accepts sting or array as parameters. You can pass any db field name as parameter to filter content by it.
- * All parameter are passed to the get() function
- *
- * @function get_content
- * @package Content
- * @category Content
- *
- *
- * @desc  Get array of content items from the content DB table
- *
- * @uses get()
- * @see mw_db_init_content_table()
- * @param mixed|array|bool|string $params You can pass parameters as string or as array
- * @params Some parameters you can use
- *
- *
- * |-----------------------------
- * | Param          | Description
- * |----------------------------
- * | is_active      | search for published/unpublished content
- * | parent         | get content with parent
- * | parent         | get content with parent
- * | created_by     | get by author id
- * | content_type   | the content types by default are 'page' and 'post'
- * | subtype        | the subtypes by default are 'static' ,'dynamic','post','product'
- *
- * @return array|bool|mixed Array of content or false if nothing is found
- * @example
- *
- * <pre>
- *
- * Get by params as array
- *
- * $params = array();
- * $params['is_active'] = 'y'; //get only active content
- * $params['parent'] = 2; //get by parent id
- * $params['created_by'] = 1; //get by author id
- * $params['content_type'] = 'post'; //get by content type
- * $params['subtype'] = 'product'; //get by subtype
- * $params['title'] = 'my title'; //get by title
- *
- * $data = get_content($params);
- * var_dump($data);
- *
- * </pre>
- *
- * @example
- * <pre>
- *
- * Get by params as string
- *  get_content('is_active=y');
- *  var_dump($data);
- *
- * </pre>
- */
-function get_content($params = false)
-{
-
-    if (defined('MW_API_CALL')) {
-        if (isset($_REQUEST['api_key']) and is_admin() == 0) {
-            api_login($_REQUEST['api_key']);
-            if (is_admin() == 0) {
-                return false;
-            }
-        }
-
-    }
-
-    if (defined('PAGE_ID') == false) {
-        define_constants();
-    }
-
-
-    $params2 = array();
-
-    if (is_string($params)) {
-        $params = parse_str($params, $params2);
-        $params = $params2;
-    }
-
-    if (!is_array($params)) {
-        $params = array();
-        $params['is_active'] = 'y';
-    }
-
-
-    $function_cache_id = false;
-
-    $args = func_get_args();
-
-    foreach ($args as $k => $v) {
-
-        $function_cache_id = $function_cache_id . serialize($params);
-    }
-
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-    $cache_content = false;
-    // $cache_content = cache_get_content($function_cache_id, $cache_group = 'content/global');
-    if (($cache_content) == '--false--') {
-        //return false;
-    }
-    // $cache_content = false;
-    if (($cache_content) != false) {
-
-        //	return $cache_content;
-    } else {
-
-        // $params['orderby'];
-        if (isset($params['orderby'])) {
-            $orderby = $params['orderby'];
-        } else {
-            //$params['orderby'] = 'position desc, id desc';
-
-        }
-
-        $cache_group = 'content/global';
-        if (isset($params['cache_group'])) {
-            $cache_group = $params['cache_group'];
-        }
-
-
-        if (isset($params['limit'])) {
-            // $limit = $params['limit'];
-        } else {
-//            $limit = array();
-//            $limit[0] = '0';
-//
-//            $limit[1] = '30';
-        }
-
-        $table = MW_TABLE_PREFIX . 'content';
-        if (!isset($params['is_deleted'])) {
-            $params['is_deleted'] = 'n';
-        }
-        $params['table'] = $table;
-        $params['cache_group'] = $cache_group;
-        $get = get($params);
-
-
-        if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-            if (isset($get['url'])) {
-                $get['url'] = site_url($get['url']);
-            }
-            return $get;
-        }
-        if (!empty($get)) {
-            $data2 = array();
-            foreach ($get as $item) {
-                if (isset($item['url'])) {
-                    //$item['url'] = page_link($item['id']);
-                    $item['url'] = site_url($item['url']);
-                }
-                $data2[] = $item;
-            }
-            $get = $data2;
-            //  cache_save($get, $function_cache_id, $cache_group = 'content/global');
-
-            return $get;
-        } else {
-            // cache_save('--false--', $function_cache_id, $cache_group = 'content/global');
-
-            return FALSE;
-        }
-    }
-}
-
-/**
- * Gets a link for given post id
- *
- * If you don't pass id parameter it will try to use the current post id
- *
- * @param int $id The $id The id of the post
- * @return string The url of the content
- * @category Content
- *
- *
- *
- * @example
- * <pre>
- * print post_link(5);
- * </pre>
- *
- *
- */
-function post_link($id = 0)
-{
-    if (is_string($id)) {
-        // $link = page_link_to_layout ( $id );
-    }
-    if ($id == false or $id == 0) {
-
-        if (defined('POST_ID') == true) {
-            $id = POST_ID;
-        } else if (defined('PAGE_ID') == true) {
-            $id = PAGE_ID;
-        }
-    }
-
-    $link = get_content_by_id($id);
-    if (strval($link) == '') {
-        $link = get_page_by_url($id);
-    }
-    $link = site_url($link['url']);
-    return $link;
-}
-
-api_expose('content_link');
-/**
- * Gets a link for given content id
- *
- * If you don't pass id parameter it will try to use the current page id
- *
- * @param int $id The $id The id of the content
- * @return string The url of the content
- * @category Content
- *
- *
- *
- * @example
- * <pre>
- * print content_link(5);
- * </pre>
- *
- */
-function content_link($id = 0)
-{
-    if (is_string($id)) {
-        // $link = page_link_to_layout ( $id );
-    }
-    if ($id == false or $id == 0) {
-        if (defined('PAGE_ID') == true) {
-            $id = PAGE_ID;
-        }
-    }
-    if ($id == 0) {
-        return site_url();
-    }
-
-    $link = get_content_by_id($id);
-    if (strval($link['url']) == '') {
-        $link = get_page_by_url($id);
-    }
-    $link = site_url($link['url']);
-    return $link;
-}
-
-function page_link($id = false)
-{
-    if (is_string($id)) {
-        // $link = page_link_to_layout ( $id );
-    }
-    if ($id == false) {
-        if (defined('PAGE_ID') == true) {
-            $id = PAGE_ID;
-        }
-    }
-
-    $link = get_content_by_id($id);
-    if (isset($link['url'])) {
-        if (strval($link['url']) == '') {
-            $link = get_page_by_url($id);
-        }
-        $link = site_url($link['url']);
-        return $link;
-    } else {
-        $link = site_url();
-        return $link;
-    }
-}
-
-
-/**
- * Return array of posts specified by $params
- *
- * This function makes query in the database and returns data from the content table
- *
- * @param string|array|bool $params
- * @return string The url of the content
- * @category Content
- *
- * @see get_content()
- * @function  main
- * @example
- * <pre>
- * print get_posts('parent=5');
- * </pre>
- *
- */
-function get_posts($params = false)
-{
-    $params2 = array();
-
-    if (is_string($params)) {
-        $params = parse_str($params, $params2);
-        $params = $params2;
-    }
-
-    return get_content($params);
-}
 
 function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword')
 {
@@ -1850,40 +1927,7 @@ function save_edit($post_data)
 
             $content_id = $page_id;
 
-            /*
-			 * if (intval ( $the_field_data ['attributes'] ['page'] ) != 0) {
-			 * $page_id = intval ( $the_field_data ['attributes'] ['page'] );
-			 * $the_ref_page = get_page ( $page_id ); } if (intval (
-			 * $the_field_data ['attributes'] ['post'] ) != 0) { $post_id =
-			 * intval ( $the_field_data ['attributes'] ['post'] ); $content_id =
-			 * $post_id; $the_ref_post = get_content_by_id ( $post_id ); } if
-			 * (intval ( $the_field_data ['attributes'] ['category'] ) != 0) {
-			 * $category_id = intval ( $the_field_data ['attributes']
-			 * ['category'] ); } $page_element_id = false; if (strval (
-			 * $the_field_data ['attributes'] ['id'] ) != '') { $page_element_id
-			 * = ($the_field_data ['attributes'] ['id']); } if (($the_field_data
-			 * ['attributes'] ['global']) != false) { $save_global = true; } if
-			 * (($the_field_data ['attributes'] ['rel']) == 'global') {
-			 * $save_global = true; $save_layout = false; } if (trim (
-			 * $the_field_data ['attributes'] ['rel'] ) == 'layout') {
-			 * $save_global = false; $save_layout = true; // p($the_field_data
-			 * ['attributes'] ['rel']); } if (($the_field_data ['attributes']
-			 * ['rel']) == 'post') { if ($ref_page != '') { $save_global =
-			 * false; $ref_post = $the_ref_post = get_ref_post (); // p (
-			 * $ref_post ); $post_id = $ref_post ['id']; $page_id = $ref_page
-			 * ['id']; $content_id = $post_id; } } if (($the_field_data
-			 * ['attributes'] ['rel']) == 'page') { p ( $_SERVER ); if
-			 * ($ref_page != '') { $save_global = false; $ref_page =
-			 * $the_ref_page = get_ref_page (); $page_id = $ref_page ['id'];
-			 * $content_id = $page_id; } } if (($the_field_data ['attributes']
-			 * ['rel']) == 'PAGE_ID') { // p ( $_SERVER ); if ($ref_page != '')
-			 * { $save_global = false; $ref_page = $the_ref_page = get_ref_page
-			 * (); $page_id = $ref_page ['id']; $content_id = $page_id; } } if
-			 * (($the_field_data ['attributes'] ['rel']) == 'POST_ID') { // p (
-			 * $_SERVER ); if ($ref_page != '') { $save_global = false;
-			 * $ref_page = $the_ref_page = get_ref_page (); $page_id = $ref_page
-			 * ['id']; $content_id = $page_id; } }
-			 */
+
             $url = url_string(true);
             $some_mods = array();
             if (isset($the_field_data) and isarr($the_field_data) and isset($the_field_data['attributes'])) {
@@ -2112,34 +2156,7 @@ function save_edit($post_data)
 
                         if ($save_global == true and $save_layout == false) {
 
-                            /*
-							if (isset($the_field_data['attributes']['data-option_group'])) {
-															$og = $the_field_data['attributes']['data-option_group'];
-														} else {
-															$og = 'editable_region';
-														}
 
-														$field_content = get_option($the_field_data['attributes']['field'], $og, $return_full = true, $orderby = false);
-														$html_to_save = make_microweber_tags($html_to_save);
-														// p($html_to_save,1);
-														$to_save = $field_content;
-														$to_save['option_key'] = $the_field_data['attributes']['field'];
-														$to_save['option_value'] = $html_to_save;
-														//  $to_save['option_key2'] = 'editable_region';
-														$to_save['option_group'] = $og;
-														$to_save['page_element_id'] = $page_element_id;
-
-														if (isset($the_field_data['attributes']['data-module'])) {
-															$to_save['module'] = $the_field_data['attributes']['data-module'];
-														}
-
-														$opts_saved = true;
-
-
-							if ($is_no_save != true) {
-								save_option($to_save);
-							}
-							 * */
                             $json_print[] = $cont_field;
                             $history_to_save = array();
                             $history_to_save['table'] = 'global';
@@ -2657,6 +2674,13 @@ function save_content($data, $delete_the_cache = true)
     //$data_to_save['debug'] = 1;
     $cats_modified = true;
     $data_to_save['updated_on'] = date("Y-m-d H:i:s");
+
+	if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
+	if (!isset($data_to_save['parent'])) {
+		$data_to_save['parent'] = 0;
+	}
+
+}
     $save = save_data($table, $data_to_save);
 
     if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
