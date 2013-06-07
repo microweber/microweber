@@ -212,13 +212,15 @@ mw.wysiwyg = {
             } */
         }
     },
-    paste:function(){
+    paste:function(e){
+
+
        mw.wysiwyg.save_selection();
         var pro = mwd.createElement('div');
         pro.className = 'semi_hidden';
         pro.contentEditable = true;
         mwd.body.appendChild(pro);
-      //  pro.focus();
+        pro.focus();
 
         var range = mwd.createRange();
         range.selectNodeContents(pro);
@@ -242,7 +244,7 @@ mw.wysiwyg = {
 
       $(mwd.body).bind("paste", function(event){
         if(event.target.isContentEditable){
-            mw.wysiwyg.paste();
+            mw.wysiwyg.paste(event);
         }
       });
 
