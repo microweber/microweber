@@ -1862,30 +1862,33 @@ function save_edit($post_data)
     }
 
     $ustr2 = url_string(1, 1);
-    ;
+
     if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
         return false;
     }
     $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
     if ($ref_page != '') {
-        $ref_page = $the_ref_page = get_content_by_url($ref_page_url);
-        $ref_page2 = get_content_by_url($ref_page_url, true);
+       // $ref_page = $the_ref_page = get_content_by_url($ref_page_url);
+        $ref_page2 = $ref_page = get_content_by_url($ref_page_url, true);
 
 
         if ($ref_page2 == false) {
 
             $ustr = url_string(1);
-            ;
+
             if (is_module_installed($ustr)) {
                 $ref_page = false;
             }
 
+        } else {
+            $ref_page = $ref_page2;
         }
         if (isset($ustr) and trim($ustr) == 'favicon.ico') {
             return false;
         } elseif ($ustr2 == '' or $ustr2 == '/') {
 
             $ref_page = get_homepage();
+
         }
 
 
@@ -1897,6 +1900,7 @@ function save_edit($post_data)
             $guess_page_data->return_data = true;
             $guess_page_data->create_new_page = true;
             $pd = $guess_page_data->index();
+
             if (isarr($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
                 $save_page = $pd;
                 $save_page['url'] = url_string(1);

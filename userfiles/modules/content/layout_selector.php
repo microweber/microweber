@@ -73,8 +73,17 @@ if(isset($params["active-site-template"])){
   $data['active_site_template'] = $params["active-site-template"] ;
 }
 
-//d($data);
+if(isset($data["id"])){
+	if(!defined('ACTIVE_SITE_TEMPLATE')){
+	 define_constants($data);
+	}
+ }
 
+if(isset($data["active_site_template"]) and ($data["active_site_template"] == false or $data["active_site_template"] == NULL or trim($data["active_site_template"]) == '') and defined('ACTIVE_SITE_TEMPLATE')){
+	 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+}
+ 
+ 
 
 $templates= templates_list();
 
@@ -351,7 +360,16 @@ $(document).ready(function() {
 
 
 
+<?php
+if(defined('ACTIVE_SITE_TEMPLATE')){
+ 
+	if( !isset($data['active_site_template']) or (isset($data['active_site_template']) and trim($data['active_site_template'])== ''and defined('ACTIVE_SITE_TEMPLATE'))){
+		 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+	}
+}
+ 
 
+ ?>
   <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
     <label class="mw-ui-label">
       <?php _e("Template");   ?>

@@ -13,15 +13,42 @@ if ($installed != false) {
     }
 }
 
+
+function __mw_install_log($text)
+{
+    if (defined('CACHEDIR_ROOT')) {
+        if (!is_dir(CACHEDIR_ROOT)) {
+            mkdir(CACHEDIR_ROOT);
+        }
+    }
+    $log_file = CACHEDIR_ROOT . DIRECTORY_SEPARATOR . 'install_log.txt';
+    if (!is_file($log_file)) {
+        @touch($log_file);
+
+    }
+    if (is_file($log_file)) {
+        if($text == 'done'){
+            @file_put_contents($log_file, date('c').": "."\t".$text."<br>\n\r");
+
+        } else {
+            @file_put_contents($log_file, date('c').": "."\t".$text."<br>\n\r",FILE_APPEND);
+
+        }
+    }
+
+}
+
+
 $done = false;
 $to_save = $_REQUEST;
 
 if (isset($_POST['IS_INSTALLED'])) {
+    __mw_install_log('Starting install');
 
     if (isset($to_save['IS_INSTALLED'])) {
         $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
         $save_config = file_get_contents($f);
-
+        __mw_install_log('Copying default config file');
         if (isset($to_save['custom_dsn'])) {
             if (trim($to_save['custom_dsn']) != '') {
                 $to_save['dsn'] = $to_save['custom_dsn'];
@@ -49,6 +76,7 @@ if (isset($_POST['IS_INSTALLED'])) {
          sleep(2);*/
 
         if (isset($to_save['IS_INSTALLED']) and $to_save['IS_INSTALLED'] != 'yes') {
+            __mw_install_log('Testing database settings');
 
             if ($to_save['DB_PASS'] == '') {
                 $temp_db = array('type' => $to_save['DB_TYPE'], 'host' => $to_save['DB_HOST'], 'dbname' => $to_save['dbname'], 'user' => $to_save['DB_USER']);
@@ -72,10 +100,12 @@ if (isset($_POST['IS_INSTALLED'])) {
 
             $qs = "SELECT '' AS empty_col";
             //var_dump($qs);
-			 mw_var('temp_db',$temp_db);
+            mw_var('temp_db', $temp_db);
             $qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (isset($qz['error'])) {
+                __mw_install_log('Database Settings Error');
+
                 _e("Error with the database connection or database probably does not exist!");
                 exit();
             } else {
@@ -83,6 +113,7 @@ if (isset($_POST['IS_INSTALLED'])) {
                 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
                     ini_set('memory_limit', '512M');
                     ini_set("set_time_limit", 0);
+                    __mw_install_log('Increasing server memory');
                 }
                 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                     set_time_limit(0);
@@ -128,27 +159,35 @@ if (isset($_POST['IS_INSTALLED'])) {
                                 }
                             }
 
-
+                            __mw_install_log('Adding .htaccess');
                             file_put_contents($default_htaccess_file, $f_htaccess_file_c, FILE_APPEND);
                         }
                     }
 
                 }
-
+                __mw_install_log('Writing config file');
                 file_put_contents($cfg, $save_config);
- 
+                __mw_install_log('Clearing cache');
                 clearstatcache();
                 clearcache();
                 _reload_c();
 
-
+                __mw_install_log('Initializing users');
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+                __mw_install_log('Initializing options');
+
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
+
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+                __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
+
+                __mw_install_log('Creating modules database tables');
                 exec_action('mw_db_init_modules');
+                __mw_install_log('Loading modules');
+
                 exec_action('mw_scan_for_modules');
 
                 $save_config = $save_config_orig;
@@ -156,18 +195,18 @@ if (isset($_POST['IS_INSTALLED'])) {
                 foreach ($to_save as $k => $v) {
                     $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
                 }
- 
+
                 file_put_contents($cfg, $save_config);
-				 clearstatcache();
+                clearstatcache();
                 _reload_c();
+                __mw_install_log('Finalizing config file');
 
 
                 if (isset($to_save['with_default_content'])) {
                     $default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
                     $default_content_file = $default_content_folder . 'mw_default_content.zip';
                     if (is_file($default_content_file)) {
-
- 
+                        __mw_install_log('Installing default content');
 
 
                         define("MW_NO_DEFAULT_CONTENT", true);
@@ -176,13 +215,15 @@ if (isset($_POST['IS_INSTALLED'])) {
                         $restore->backups_folder = $default_content_folder;
                         $restore->backup_file = 'mw_default_content.zip';
                         ob_start();
-                         $rest = $restore->exec_restore();
-						 
-										 
-							//mw_post_update();			 
+                        $rest = $restore->exec_restore();
 
-                         ob_get_clean();
-						 // exec_action('mw_scan_for_modules');
+
+                        //mw_post_update();
+
+                        ob_get_clean();
+                        __mw_install_log('Default content is installed');
+
+                        // exec_action('mw_scan_for_modules');
                         //d($to_save['with_default_content']);
                     }
 
@@ -191,9 +232,10 @@ if (isset($_POST['IS_INSTALLED'])) {
 
                 // mw_create_default_content('install');
                 print('done');
+                __mw_install_log('done');
 
             }
-@session_write_close();
+            @session_write_close();
             exit();
 
             //var_dump($_REQUEST);
@@ -220,7 +262,7 @@ if (!isset($to_save['IS_INSTALLED'])) {
             include ($cfg);
         //
     }
-
+__mw_install_log('Preparing to install');
     $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include ($f);
 }

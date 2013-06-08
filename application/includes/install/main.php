@@ -81,6 +81,21 @@ function mw_start_progress(){
 
 
   $('.mw_install_progress').fadeIn();
+  
+  setInterval(function(){
+	  <?php $log_file = CACHEDIR_ROOT . DIRECTORY_SEPARATOR . 'install_log.txt'; 
+	  $log_file_url = dir2url($log_file);
+	  
+	  ?>
+	 $.get('<?php print $log_file_url ?>', function(data) {
+  		$('#mw_log_holder').html(data);
+ 	});
+	  
+	  
+	  
+	  },1000);
+  
+  
 
  var interval = 2, //How much to increase the progressbar per frame
         updatesPerSecond = 1000/60, //Set the nr of updates per second (fps)
@@ -199,6 +214,9 @@ input[type='text'], input[type='password'] {
             <div id="mw_log" class="error mw-o-box mw-o-box-content" style="display: none"></div>
             <div class="mw_install_progress">
               <progress max="5000" value="1" id="mw_install_progress_bar"></progress>
+              <br />
+           
+              <div id="mw_log_holder"></div>
             </div>
             <div class="mw-install-holder">
               <?php if ($done == false): ?>

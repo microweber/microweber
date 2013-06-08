@@ -448,7 +448,17 @@ function db_query($q, $cache_id = false, $cache_group = 'global', $only_query = 
 
     $dbtype_file =   MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . $dbtype.'.php';
 
+    if(!isset($db) or $db == false or $db == NULL){
+        _reload_c();
+        $db = c('db',true);
 
+
+    }
+
+    $temp_db= mw_var('temp_db');
+    if((!isset($db) or $db == false or $db == NULL) and $temp_db != false){
+        $db =$temp_db;
+    }
 
     switch ($dbtype) {
         case file_exists($dbtype_file):

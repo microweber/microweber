@@ -6,9 +6,12 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.7284);
+	define('MW_VERSION', 0.7285);
 }
 
+if (version_compare(phpversion(), "5.3.0", "<=")) {
+  exit("Error: You must have PHP version 5.3 or greater to run Microweber");
+}
 
 
 
@@ -62,13 +65,13 @@ function v(&$v, $d = NULL) {
 $_mw_config_file_values = array();
 function _reload_c($new_config = false) {
 global $_mw_config_file_values;
- 
+
 	if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
-		 
+
 		include (MW_CONFIG_FILE);
 		if (isset($config)) {
 			$_mw_config_file_values = $config;
-			 
+
  		}
 	}
 }
@@ -79,13 +82,13 @@ function c($k, $no_static = false) {
 		global $_mw_config_file_values;
 	} else {
 		$_mw_config_file_values = false;
-	} 
+	}
 
 	if (isset($_mw_config_file_values[$k])) {
 		return $_mw_config_file_values[$k];
 	} else {
 		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
-			  
+
 			//if (is_file(MW_CONFIG_FILE)) {
 			include_once (MW_CONFIG_FILE);
 			if (isset($config)) {
