@@ -117,9 +117,21 @@ function curent_url($skip_ajax = false, $no_get = false) {
 		}
 
 		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+		
+		$protocol = 'http';
+		$port = 80;
+		if(isset($_SERVER["SERVER_PROTOCOL"])){
 		$protocol = strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
+		}
+		if(isset($_SERVER["SERVER_PORT"])){
 		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
+		}
+		 if(isset($_SERVER["SERVER_PORT"])){
 		$u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
+		} elseif(isset($_SERVER["HOSTNAME"])){ 
+		 $u = $protocol . "://" . $_SERVER['HOSTNAME'] . $port . $serverrequri;
+		}
+		
 	}
 
 	if ($no_get == true) {

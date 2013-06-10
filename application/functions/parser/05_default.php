@@ -228,12 +228,17 @@ $cached = false;
 					} else {
 
 						$cont_field = get_content_field("rel={$rel}&field={$field}");
-
+ 
+					}
+					if ($cont_field != false) {
+						$cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
 					}
 
 				}
 				if ($cont_field != false) {
-					$field_content = $cont_field;
+					
+				
+					 $field_content = $cont_field;
 				}
 			}
 
@@ -242,6 +247,7 @@ $cached = false;
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
 
+					
 					//dbg($cont_field);
 					if ($cont_field == false) {
 						if ($option_mod != false) {
@@ -252,18 +258,30 @@ $cached = false;
 							//
 						} else {
 							$field_content = get_content_field("rel={$option_group}&field={$field}");
-
+ 
 							//$field_content = __FILE__ . __LINE__;
 							//$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
 						}
+						
 					} else {
 						$field_content = $cont_field;
 					}
+					
+					
+					
+					
+					
+					
 				} else {
+
+
+
+
 
 					if ($use_id_as_field != false) {
 						if (isset($data[$use_id_as_field])) {
 							$field_content = $data[$use_id_as_field];
+							
 						}
 						/*
 						 if ($field_content == false) {
@@ -301,8 +319,12 @@ $cached = false;
 
 				if ($field == 'content' and template_var('content') != false) {
 					$field_content = template_var('content');
+						
 					template_var('content', false);
 				}
+
+
+
 
 				if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
@@ -310,6 +332,7 @@ $cached = false;
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
+				
 
 				} else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
@@ -331,6 +354,10 @@ $cached = false;
 			}
 
 			if ($field_content != false and $field_content != '') {
+				
+					$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
+					 
+				
 				//$field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
@@ -359,8 +386,9 @@ $cached = false;
 					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
+						//$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
 						$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-						//d($field_content);
+						 
 						//pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
 						pq($elem) -> html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 

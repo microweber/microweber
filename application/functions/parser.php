@@ -788,7 +788,7 @@ function make_microweber_tags($layout) {
 		return $layout;
 	}
 
-	require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+	require_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 	$script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
 	$replaced_scripts = array();

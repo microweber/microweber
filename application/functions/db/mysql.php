@@ -1,5 +1,8 @@
 <?php
 static $link;
+
+ 
+
 $is_mysqli = function_exists('mysqli_connect');
 //$is_mysqli = false;
 if ($is_mysqli != false) {

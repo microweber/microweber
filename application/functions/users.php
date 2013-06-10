@@ -8,20 +8,6 @@ if (!defined("MW_DB_TABLE_LOG")) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Allows you to login a user into the system
  *
@@ -32,6 +18,7 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * @param array|string $params You can pass parameter as string or as array.
  * @param mixed|string $params['email'] optional If you set  it will use this email for login
  * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
+ * @param mixed|string $params['password_hashed'] optional Use hashed password for login, it does NOT go trough hash_user_pass() function
  *
  *
  * @example
@@ -44,6 +31,12 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * //login with email
  * user_login('email=my@email.com&password=pass')
  * </pre>
+ * @example
+ * <pre>
+ * //login hashed password
+ * user_login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+ * </pre>
+ *
  * @return array|bool
  * @hooks
  *
@@ -69,7 +62,8 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * @function user_login()
  * @see mw_db_init_users_table() For the database table fields
  */
-function user_login($params){
+function user_login($params)
+{
     $params2 = array();
 
 
@@ -85,9 +79,12 @@ function user_login($params){
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
         $email = isset($params['email']) ? $params['email'] : false;
-
+	    $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
 
         $pass = hash_user_pass($pass);
+		if($pass2 != false and $pass2 != NULL and trim($pass2) != ''){
+			$pass =  $pass2;
+		}
 
 
         if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
@@ -116,12 +113,11 @@ function user_login($params){
         $api_key = isset($params['api_key']) ? $params['api_key'] : false;
 
 
-        if($user != false){
+        if ($user != false) {
             $data1 = array();
             $data1['username'] = $user;
             $data1['password'] = $pass;
-
-            $data1['search_in_fields'] = 'username,email';
+            $data1['search_in_fields'] = 'username,email,password';
             $data1['is_active'] = 'y';
 
         }
@@ -224,7 +220,10 @@ function user_login($params){
                     //exit();
                     safe_redirect($_SERVER["HTTP_REFERER"]);
                     exit();
-                }
+                } else {
+					 $user_session['success'] = "You are logged in!";
+					 return $user_session;
+				}
             } else if ($aj == true) {
                 $user_session['success'] = "You are logged in!";
             }
@@ -235,6 +234,9 @@ function user_login($params){
 
     return false;
 }
+
+
+
 
 api_expose('logout');
 
@@ -259,20 +261,6 @@ function logout()
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
@@ -423,7 +411,7 @@ function system_log_reset($data = false)
 
     $table = MW_DB_TABLE_LOG;
 
-    $q = "DELETE from $table ";
+    $q = "DELETE FROM $table ";
 
     $cg = guess_cache_group($table);
 
@@ -448,7 +436,7 @@ function delete_log_entry($data)
         db_delete_by_id('log', $c_id);
         $table = MW_DB_TABLE_LOG;
         $old = date("Y-m-d H:i:s", strtotime('-1 month'));
-        $q = "DELETE from $table where created_on < '{$old}'";
+        $q = "DELETE FROM $table WHERE created_on < '{$old}'";
 
         $q = db_q($q);
 
@@ -505,6 +493,7 @@ function get_log_entry($id)
     return $get;
 
 }
+
 
 function get_log($params)
 {
@@ -610,19 +599,17 @@ function register_user($params)
             $data = array();
 
 
-
             $data['username'] = $email;
             $data['password'] = $pass;
             $data['is_active'] = 'n';
 
             $table = MW_TABLE_PREFIX . 'users';
 
-            $q = " INSERT INTO  $table set email='$email',  password='$pass',   is_active='y' ";
+            $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
             $next = db_last_id($table);
             $next = intval($next) + 1;
             $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
-
 
 
             db_q($q);
@@ -649,7 +636,6 @@ function register_user($params)
             }
             exec_action('after_user_register', $params);
             //user_login('email='.$email.'&password='.$pass);
-
 
 
             return array('success' => 'You have registered successfully');
@@ -937,6 +923,7 @@ function update_user_last_login_time()
         $data_to_save['last_login_ip'] = USER_IP;
 
         $table = MW_DB_TABLE_USERS;
+		mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
         $save = save_data($table, $data_to_save);
 
         delete_log("is_system=y&rel=login_failed&user_ip=" . USER_IP);
@@ -1267,8 +1254,17 @@ function user_login_set_failed_attempt()
 
 }
 
+api_expose('is_logged');
 
+function is_logged()
+{
+    if(user_id() >0){
+         return true;
+    } else {
+        return false;
+    }
 
+}
 function user_id()
 {
 
@@ -1535,14 +1531,15 @@ function get_user_by_username($username)
 /**
  * Function to get user printable name by given ID
  *
- * @param
- *            $id
- * @param
- *            $mode
+ * @param  $id
+ * @param string $mode
  * @return string
- * @usage Delete relation:
- *          $this->users_model->getPrintableName(10, 'full');
- *
+ * @example
+ * <code>
+ * //get user name for user with id 10
+ * nice_user_name(10, 'full');
+ * </code>
+ * @uses get_user_by_id()
  */
 function nice_user_name($id, $mode = 'full')
 {
@@ -1558,18 +1555,18 @@ function nice_user_name($id, $mode = 'full')
             // because of a common typo :)
             $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
             $name = ucwords($name);
-            return $name;
+            // return $name;
             break;
 
         case 'last' :
             $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
             $name = ucwords($name);
-            return $name;
+            // return $name;
             break;
 
         case 'username' :
             $name = $user_data['username'];
-            return $name;
+            // return $name;
             break;
 
         case 'full' :
@@ -1581,11 +1578,21 @@ function nice_user_name($id, $mode = 'full')
             }
 
             $name = ucwords($name);
-            return $name;
-
+            // return $name;
             break;
     }
-    exit();
+
+
+    if (!isset($name) or $name == false or $name == NULL or trim($name) == '') {
+        if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
+            $name = $user_data['username'];
+        } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
+            $name = $user_data['email'];
+        }
+    }
+
+    return $name;
+
 }
 
 function users_count()

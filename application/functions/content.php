@@ -4,7 +4,7 @@
  * Here you will find functions to get and save content in the database and much more.
  *
  * @package Content
- * @category Content 
+ * @category Content  
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
@@ -2364,7 +2364,8 @@ function save_content($data, $delete_the_cache = true)
 
     if ($checks != $table) {
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+			 return array('error' => 'You are not logged in as admin to save content!');
+           // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
     }
     $cats_modified = false;
@@ -2686,7 +2687,8 @@ function save_content($data, $delete_the_cache = true)
 
 }
     $save = save_data($table, $data_to_save);
-
+   // cache_clean_group('content/global');
+	//cache_clean_group('content/'.$save);
     if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
         $new_category = get_categories_for_content($save);
 
@@ -3032,13 +3034,12 @@ function get_content_field($data, $debug = false)
 }
 
 /**
- * Function to print nested tree of pages
- *
+ * Print nested tree of pages
  *
  * @example
  * <pre>
- * Example Usage:
- * pt_opts = array();
+ * // Example Usage:
+ * $pt_opts = array();
  * $pt_opts['link'] = "{title}";
  * $pt_opts['list_tag'] = "ol";
  * $pt_opts['list_item_tag'] = "li";
@@ -3047,7 +3048,7 @@ function get_content_field($data, $debug = false)
  *
  * @example
  * <pre>
- * Example Usage to make options for <select>:
+ * // Example Usage to make <select> with <option>:
  * $pt_opts = array();
  * $pt_opts['link'] = "{title}";
  * $pt_opts['list_tag'] = " ";
@@ -3060,12 +3061,24 @@ function get_content_field($data, $debug = false)
  * </pre>
  * @example
  * <pre>
- * Other options
- * $pt_opts['parent'] = "8"; //
+ * // Other options
+ * $pt_opts['parent'] = "8";
  * $pt_opts['include_first'] =  true; //includes the parent in the tree
  * $pt_opts['id_prefix'] = 'my_id';
  * </pre>
  *
+ *
+ *
+ * @package Content
+ * @param int $parent
+ * @param bool $link
+ * @param bool $active_ids
+ * @param bool $active_code
+ * @param bool $remove_ids
+ * @param bool $removed_ids_code
+ * @param bool $ul_class_name
+ * @param bool $include_first
+ * @return sting Prints the pages tree
  */
 function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false)
 {
@@ -3851,43 +3864,104 @@ function mw_create_default_content($what)
 
 
 api_expose('content_set_published');
-function content_set_published($params)
-{
+
+
+/**
+ * Set content to be published
+ *
+ * Set is_active flag 'y'
+ *
+ * @param string|array|bool $params
+ * @return string The url of the content
+ * @package Content
+ * @subpackage Advanced
+ *
+ * @uses save_content()
+ * @see content_set_unpublished()
+ * @example
+ * <code>
+ * //set published the content with id 5
+ * content_set_published(5);
+ *
+ * //alternative way
+ * content_set_published(array('id' => 5));
+ * </code>
+ *
+ */
+function content_set_published($params){
+
+    if(intval($params) > 0 and !isset($params['id'])){
+        if(!is_array($params))   {
+			$id = $params;
+			$params = array();
+            $params['id'] = $id;
+        }
+    }
+
     if (!isset($params['id'])) {
         return array('error' => 'You must provide id parameter!');
     } else {
-        if (is_admin() == false) {
-            return array('error' => 'You must be admin!');
-
-        } else {
+		  if(intval($params['id'] != 0)){
+        
             $save = array();
             $save['id'] = intval($params['id']);
             $save['is_active'] = 'y';
+	 
             $save_data = save_content($save);
             return ($save_data);
-        }
-
+		  }
+        
     }
-
 }
 
 api_expose('content_set_unpublished');
-
+/**
+ * Set content to be unpublished
+ *
+ * Set is_active flag 'n'
+ *
+ * @param string|array|bool $params
+ * @return string The url of the content
+ * @package Content
+ * @subpackage Advanced
+ *
+ * @uses save_content()
+ * @see content_set_unpublished()
+ * @example
+ * <code>
+ * //set published the content with id 5
+ * content_set_unpublished(5);
+ *
+ * //alternative way
+ * content_set_unpublished(array('id' => 5));
+ * </code>
+ *
+ */
 function content_set_unpublished($params)
 {
+ 
+    if(intval($params) > 0 and !isset($params['id'])){
+        if(!is_array($params)) {
+			$id = $params;
+            $params = array();
+            $params['id'] = $id;
+        }
+    }
+
+
+ 
     if (!isset($params['id'])) {
         return array('error' => 'You must provide id parameter!');
     } else {
-        if (is_admin() == false) {
-            return array('error' => 'You must be admin!');
-
-        } else {
+         if(intval($params['id'] != 0)){
             $save = array();
             $save['id'] = intval($params['id']);
             $save['is_active'] = 'n';
+			 
             $save_data = save_content($save);
             return ($save_data);
-        }
+		 }
+         
 
     }
 

@@ -39,6 +39,20 @@ scaleHeight()
    scaleHeight()
 });
 
+  mw.$("#mw-iframe-editor-area").bind("mouseup", function(e){
+    if(!e.target.isContentEditable){
+        var el = this.querySelector('.edit');
+        if(el !== null){
+            // Put Cursor at the end
+            mw.wysiwyg.select_all(el);
+            var range = window.getSelection().getRangeAt(0);
+            range.collapse(false);
+            el.focus();
+            window.getSelection().collapseToEnd(); // Chrome
+        }
+    }
+  });
+
 });
 
 

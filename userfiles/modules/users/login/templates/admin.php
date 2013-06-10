@@ -17,6 +17,8 @@ description: Admin login style
 <script>mw.require("tools.js");</script>
 <script>
 
+ mw.session.checkPause = true;
+
 $(document).ready(function(){
   mw.tools.dropdown();
 

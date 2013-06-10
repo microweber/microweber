@@ -755,7 +755,7 @@ mw.toggle_subpanel = function(){
      el.removeClass("state-off");
      mw.$("#show_hide_sub_panel_slider").animate({left:0}, _speed);
      mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
-       $(this).css({left:'auto'}).html('Less').fadeIn(_speed);
+       $(this).css({left:'auto'}).html(mw.msg.less).fadeIn(_speed);
      });
      mw.$(".mw_tab_active").slideDown(_speed);
      mw.$("#mw_toolbar_nav").slideDown(_speed, function(){
@@ -770,7 +770,7 @@ mw.toggle_subpanel = function(){
     el.addClass("state-off");
     mw.$("#show_hide_sub_panel_slider").animate({left:35}, _speed);
     mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
-      $(this).css({left:3}).html('More').fadeIn(_speed);
+      $(this).css({left:3}).html(mw.msg.more).fadeIn(_speed);
     });
 
     mw.$(".mw_tab_active").slideUp(_speed);

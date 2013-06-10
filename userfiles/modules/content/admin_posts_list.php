@@ -187,10 +187,11 @@ $pages_count = intval($pages);
 
   <?php
   $pub_class = '';
-				if(isset($item['is_active']) and $item['is_active'] == 'n'){
-					$pub_class = ' content-unpublished';
-				}
-
+  $append = '';
+      if(isset($item['is_active']) and $item['is_active'] == 'n'){
+      	$pub_class = ' content-unpublished';
+      	$append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">'. _e("Unpublished", true) .'</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set('. $item['id'] .', \'publish\');">' . _e("Publish", true) . '</span></div>';
+      }
    ?>
 
 
@@ -248,11 +249,12 @@ if($new > 0){
          <?php endif;?>
         <?php endif; ?>
 
+        <?php print $append; ?>
 
   </div>
   <?php endforeach; ?>
 </div>
-<div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_edit_container')"><?php _e("Unselect All"); ?></span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn"><?php _e("Delete"); ?></a> </div>
+<div class="manage-toobar manage-toolbar-bottom"><span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_edit_container')"><?php _e("Unselect All"); ?></span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn"><?php _e("Delete"); ?></a> </div>
 <div class="mw-paging">
 <?php
 

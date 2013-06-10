@@ -41,6 +41,18 @@
 
 <? if(isset($_SERVER['REMOTE_ADDR']) and $_SERVER['REMOTE_ADDR'] != '78.90.67.20'):  ?>
 
+<script src="https://www.statsmix.com/api/v2/track?api_key=10833ccca2cb5dd7ca31&value=1&name=visit"></script>
+<?php 
+if(!isset($_COOKIE['_unique_visit'])){
+	$value = 'mw_unique_visit';
+	setcookie("_unique_visit", $value, time()+3600);  /* expire in 1 hour */
+	print '<script src="https://www.statsmix.com/api/v2/track?api_key=10833ccca2cb5dd7ca31&value=1&name=unique_visit"></script>'; 
+
+}
+
+
+?>
+
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

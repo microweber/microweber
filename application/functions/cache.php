@@ -8,7 +8,7 @@
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
 
-if (!isset($_mw_cache_obj) or $_mw_cache_obj == false) {
+if (!isset($_mw_cache_obj) or $_mw_cache_obj == false or is_object($_mw_cache_obj) == false) {
     $_mw_cache_obj = new \mw\cache\Files();
 }
 
@@ -49,6 +49,13 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
         $local_obj = new $cache_storage_type;
 
     }
+	
+	if(!is_object($local_obj)){
+		 $local_obj = new \mw\cache\Files();
+	}
+	
+	
+	
      $local_obj->delete($cache_group);
 }
 
@@ -88,6 +95,13 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
         $local_obj = new $cache_storage_type;
 
     }
+	
+	if(!is_object($local_obj)){
+		 $local_obj = new \mw\cache\Files();
+	}
+	
+	
+	
 
     return $local_obj->get($cache_id, $cache_group);
 }
@@ -127,6 +141,12 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
         $local_obj = new $cache_storage_type;
 
     }
+		if(!is_object($local_obj)){
+		 $local_obj = new \mw\cache\Files();
+	}
+	
+	
+	
     // d($data_to_cache);
     return $local_obj->save($data_to_cache, $cache_id, $cache_group);
 
@@ -154,6 +174,11 @@ function clearcache($cache_storage_type = false)
         $local_obj = new $cache_storage_type;
 
     }
+	
+		if(!is_object($local_obj)){
+		 $local_obj = new \mw\cache\Files();
+	}
+	
 
     return $local_obj->purge();
 }
@@ -173,5 +198,11 @@ function clearcache($cache_storage_type = false)
 function cache_debug()
 {
     global $_mw_cache_obj;
+		if(!is_object($_mw_cache_obj)){
+		 $_mw_cache_obj = new \mw\cache\Files();
+	}
+	
+	
+	
     return $_mw_cache_obj->debug();
 }

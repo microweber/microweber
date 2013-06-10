@@ -1548,7 +1548,6 @@ mw.tools = {
     else{
       $(el).removeClass("mw-loading");
     }
-
   }
 }
 

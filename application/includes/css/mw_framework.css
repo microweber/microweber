@@ -362,6 +362,18 @@ body.not-allowed{
   width: 100%;
   position: relative;
   z-index: 998;
+
+}
+#live_edit_toolbar{
+  opacity: 0;
+  transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  -o-transition: opacity 1s;
+}
+
+body.loaded #live_edit_toolbar{
+  opacity: 1;
 }
 
 #live_edit_toolbar{
@@ -614,18 +626,27 @@ li li li li .pages_tree_link_text{
 
 }
 
-.manage-post-item.content-unpublished{
-  opacity:0.5;
+.manage-post-item.content-unpublished, .manage-post-item.content-unpublished *{
+    color: #C6C6C6;
 }
-.manage-post-item.content-unpublished:before{
+
+.manage-post-item.content-unpublished .manage-post-image{
+  opacity: 0.5;
+}
+
+.publish-btn{
+  visibility: hidden;
+}
+.post-un-publish, .post-un-publish .mw-ui-btn{
   position: absolute;
-  display: block;
-  content: "Unpublished";
-  bottom: 0;
-  right: 0;
-  font-size: 11px;
-  padding: 5px 10px;
-  background: #FFFF66;
+  bottom: 3px;
+  right: 3px;
+  width: 100px;
+  color: #4D4D4D;
+}
+
+.post-un-publish:hover .publish-btn{
+  visibility: visible;
 }
 
 .mw-tree .module a:hover, .mw-tree li.active-bg > a{
@@ -1086,6 +1107,14 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 .mw-ui-btn-green:hover{
   background: #D8FFC2;
+}
+
+.mw-ui-btn-yellow{
+  background: url(../img/grad.php?top=FFFF66&bot=FAE900) no-repeat;
+  border-color: #E0D100;
+}
+.mw-ui-btn-yellow:hover{
+  background: #FFFF66;
 }
 
 

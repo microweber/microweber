@@ -37,6 +37,7 @@
       mw.require("keys.js");
       mw.require("css_parser.js");
       mw.require("custom_fields.js");
+      mw.require("session.js");
     </script>
     <?php if(!isset($_REQUEST['no_toolbar'])): ?>
     <script type="text/javascript">

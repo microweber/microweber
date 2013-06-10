@@ -32,8 +32,8 @@ mw.treeRenderer = {
 
 		   if(sort_button != undefined && sort_button == true){
 			 var $str2  = "<span class='mw_sort_tree_handle ico iMove'  onclick='event.stopPropagation();return false;' onmousedown=\"mw.treeRenderer.makeSortable(this);\" title='<?php _e("Sort"); ?>'></span>";
-		  $str = $str+$str2;
-		  }
+		     $str = $str+$str2;
+		   }
 		  return  $str;
 
       }
@@ -114,7 +114,6 @@ mw.treeRenderer = {
                        if(!!mw.treeRenderer){
                                   mw.$(".mw_pages_posts_tree").removeClass("activated");
 
-
                                       var isel = $('#pages_tree_toolbar');
 
                                     if(isel.length > 0){
@@ -125,22 +124,6 @@ mw.treeRenderer = {
                               }
                          });
                   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -202,8 +185,10 @@ mw.treeRenderer = {
 		    var sort_content = true;
 	  		}
 			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts + sub_page;
-              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
-
+             el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
+             if( $(el).hasClass("content-unpublished") ) {
+                $(el).append("<span class='ico icheck'></span>");
+             }
 
           }
           else if(attr['data-category-id']!==undefined){
@@ -217,11 +202,11 @@ mw.treeRenderer = {
 		        var sort_content = true;
 	  		}
 
-
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit."); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
               el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
               el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
           }
+
 
 
 		  }

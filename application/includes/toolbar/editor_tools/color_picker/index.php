@@ -109,7 +109,9 @@
           });
 
 
-
+         $(document.body).mousedown(function(e){
+           e.preventDefault()
+         })
 
 
         var input = mwd.getElementById('colorpicker');

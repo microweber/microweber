@@ -500,6 +500,11 @@ form.add-edit-page-post textarea{
   clear: both;
   color: #4D4D4D;
 }
+
+
+
+
+
 .manage-post-itemleft{
   float: left;
   width: 580px;
@@ -648,9 +653,6 @@ form.add-edit-page-post textarea{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 }
 
-
-
-
 .posts-selector{
   font-size: 11px;
   color: #235F99;
@@ -694,10 +696,10 @@ form.add-edit-page-post textarea{
   background: #F4F4F4;
   border-top: 1px solid #E2E2E2;
   bottom: 0;
-    left: 0;
-    position: static;
-    width: 610px;
-    overflow: hidden;
+  left: 0;
+  position: static;
+  width: 610px;
+  overflow: hidden;
 }
 
 .manage-ico{

@@ -70,7 +70,7 @@ $(document).ready(function(){
 
         if(typeof this.success !== 'undefined'){
          mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_login', function(){
-mw.load_module('users/login', '#<?php print $params['id'] ?>');
+            mw.load_module('users/login', '#<?php print $params['id'] ?>');
          });
         }
 

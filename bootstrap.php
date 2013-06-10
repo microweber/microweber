@@ -106,8 +106,13 @@ define('ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
 define('STYLES_DIR', MW_USERFILES . 'styles' . DS);
 
 define('PLUGINS_DIRNAME', MW_USERFILES . 'plugins' . '/');
+if(isset($_SERVER["REMOTE_ADDR"])){
+define("USER_IP", $_SERVER["REMOTE_ADDR"]);	
+} else {
+define("USER_IP", '127.0.0.1');	
 
-define("USER_IP", $_SERVER["REMOTE_ADDR"]);
+}
+
 
 $subdir = $_SERVER['SCRIPT_NAME'];
 
@@ -116,8 +121,10 @@ $subdir = dirname($subdir);
 $subdir = ltrim($subdir, '/');
 
 $subdir = rtrim($subdir, '/');
+if(isset($_SERVER["SERVER_NAME"])){
+	$get_url_dir = $_SERVER["SERVER_NAME"] . (trim($_SERVER["REQUEST_URI"]));
+}
 
-$get_url_dir = $_SERVER["SERVER_NAME"] . (trim($_SERVER["REQUEST_URI"]));
 //var_Dump( $_SERVER);
 //define ( 'SITEURL', 'http://' . $_SERVER ["SERVER_NAME"] . '/' . $subdir . '/' );
 
@@ -134,7 +141,7 @@ if ($mw_config['site_url']) {
     // define ( 'SITEURL', $pageURL . '://' . $mw_config ['site_url'] . '/' . $subdir . '/' );
     define('SITEURL', $mw_config['site_url']);
 } else {
-    define('SITEURL', $pageURL . '://' . $_SERVER["SERVER_NAME"] . '/' . $subdir . '/');
+    define('SITEURL', site_url());
 }
 
 define('SITE_URL', SITEURL);
@@ -149,7 +156,13 @@ define('DATETIME_FORMAT', 'F j g:m a');
 
 define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
-$config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+if(!isset( $_SERVER["SERVER_NAME"])){
+	$config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
+
+} else {
+	$config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+
+}
 //
 //var_dump($config_file_for_site);
 if (is_file($config_file_for_site)) {
@@ -267,10 +280,13 @@ function site_url($add_string = false)
         }
 
         $pageURL .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
+		//error_log(serialize($_SERVER));
+        if (isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
             $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-        } else {
+        } elseif(isset($_SERVER["SERVER_NAME"])) {
             $pageURL .= $_SERVER["SERVER_NAME"];
+        }else if(isset($_SERVER["HOSTNAME"])) {
+            $pageURL .= $_SERVER["HOSTNAME"];
         }
         $pageURL_host = $pageURL;
         $pageURL .= $subdir_append;

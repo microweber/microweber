@@ -220,7 +220,7 @@ mw.wysiwyg = {
        }
        mw.wysiwyg.save_selection();
         var pro = mwd.createElement('div');
-        var pro = mwd.createElement('textarea');
+        //var pro = mwd.createElement('textarea');
         pro.innerHTML = text;
         pro.className = 'semi_hidden';
         pro.contentEditable = true;
@@ -234,7 +234,6 @@ mw.wysiwyg = {
           $(pro.querySelectorAll("*")).each(function(){
              $(this).removeAttr("style");
              var n = this.nodeName;
-             alert(n)
              if(n =='DIV' || n =='P'){
                  $(this).addClass("element");
              }
@@ -249,8 +248,6 @@ mw.wysiwyg = {
 
       mw.$("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
       var items = $(".element").not(".module");
-
-
       $(mwd.body).bind("paste", function(event){
         if(event.target.isContentEditable){
             mw.wysiwyg.paste(event);
@@ -396,7 +393,7 @@ mw.wysiwyg = {
         var a = r.commonAncestorContainer.querySelectorAll('*'), l = a.length, i=0;
 
         for( ; i<l; i++ ){
-          if(s.containsNode(a[i])){
+          if(!!s.containsNode && s.containsNode(a[i])){
               r.setEndBefore(a[i]);
               break;
               return false;

@@ -183,23 +183,56 @@ mw.post = {
     $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
       typeof callback === 'function' ? callback.call(data) : '';
     });
+  },
+  publish:function(id, c){
+    var obj = {
+      id:id
+    }
+    $.post(mw.settings.api_url + 'content_set_published', obj, function(data){
+        if(typeof c === 'function'){
+          c.call(id, data);
+        }
+    });
+  },
+  unpublish:function(id, c){
+    var obj = {
+      id:id
+    }
+    $.post(mw.settings.api_url + 'content_set_unpublished', obj, function(data){
+        if(typeof c === 'function'){
+          c.call(id, data);
+        }
+    })
+  },
+  set:function(id, state){
+    if(state == 'unpublish'){
+       mw.post.unpublish(id, function(data){
+         mw.notification.warning("<?php _e("Content is unpublished"); ?>");
+       });
+    }
+    else if(state == 'publish'){
+        mw.post.publish(id, function(data){
+            mw.notification.success("<?php _e("Content is published"); ?>");
+            mw.$(".manage-post-item-" + id).removeClass("content-unpublished").find(".post-un-publish").remove();
+       });
+    }
   }
 }
 
 
+
+
+
 delete_selected_posts = function(){
-
-
-mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
-  var master = mwd.getElementById('pages_edit_container');
-  var arr = mw.check.collectChecked(master);
-  mw.post.del(arr, function(){
-   mw.reload_module('#<?php print $params['id'] ?>', function(){
-     toggle_cats_and_pages()
-   });
- });
-});
-
+      mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
+        var master = mwd.getElementById('pages_edit_container');
+        var arr = mw.check.collectChecked(master);
+        mw.post.del(arr, function(){
+         mw.reload_module('#<?php print $params['id'] ?>', function(){
+           toggle_cats_and_pages()
+         });
+       });
+      });
 }
 
 
@@ -324,14 +357,14 @@ category_tree($pt_opts);
 </div>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#mw_admin_posts_manage')"><?php _e("Unselect All"); ?></span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();"><?php _e("Delete"); ?></span>
   <input
-  onfocus="mw.form.dstatic(event);"
-  onblur="mw.form.dstatic(event);"
-  onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
-  value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php else: ?><?php _e("Search for posts"); ?><?php endif; ?>"
-  data-default="<?php _e("Search for posts"); ?>"
-  type="text"
-  class="manage-search"
-  id="mw-search-field"   />
+        onfocus="mw.form.dstatic(event);"
+        onblur="mw.form.dstatic(event);"
+        onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
+        value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php else: ?><?php _e("Search for posts"); ?><?php endif; ?>"
+        data-default="<?php _e("Search for posts"); ?>"
+        type="text"
+        class="manage-search"
+        id="mw-search-field"   />
   <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
 <?php    print $posts = module( $posts_mod);  ?>
