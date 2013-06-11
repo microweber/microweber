@@ -2345,7 +2345,6 @@ function delete_content($data)
  *
  * @return string | the id saved
  *
- * @author Peter Ivanov
  *
  * @version 1.0
  *
@@ -2444,7 +2443,7 @@ function save_content($data, $delete_the_cache = true)
     if (isset($data_to_save['title']) and (!isset($data['url']) or trim($data['url']) == '')) {
         $data['url'] = url_title($data_to_save['title']);
     }
-
+ 
     if (isset($data['url']) and $data['url'] != false) {
         //$data['url'] = url_title($data['url']);
 
@@ -2488,6 +2487,12 @@ function save_content($data, $delete_the_cache = true)
         // $data_to_save ['url_md5'] = md5 ( $data_to_save
         // ['url'] );
     }
+
+
+if(isset($data_to_save['url']) and is_string($data_to_save['url'])){
+$data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);	
+}
+
 
     $data_to_save_options = array();
 
@@ -2641,7 +2646,7 @@ function save_content($data, $delete_the_cache = true)
             }
         }
     }
-
+ 	
     if (isset($data_to_save['content'])) {
         if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
             unset($data_to_save['content']);
@@ -2681,12 +2686,23 @@ function save_content($data, $delete_the_cache = true)
     $data_to_save['updated_on'] = date("Y-m-d H:i:s");
 
 	if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
-	if (!isset($data_to_save['parent'])) {
-		$data_to_save['parent'] = 0;
+		if (!isset($data_to_save['parent'])) {
+			$data_to_save['parent'] = 0;
+		}
 	}
-
-}
+	
+	
+ if (isset($data_to_save['url']) and $data_to_save['url'] == site_url()) {
+	 unset($data_to_save['url']);
+ }
+ 
+	
+	if (isset($data_to_save['debug'])) {
+	
+	}
+	 
     $save = save_data($table, $data_to_save);
+	
    // cache_clean_group('content/global');
 	//cache_clean_group('content/'.$save);
     if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {

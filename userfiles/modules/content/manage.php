@@ -204,7 +204,11 @@ mw.post = {
         }
     })
   },
-  set:function(id, state){
+  set:function(id, state, e){
+    if(typeof e !== 'undefined'){
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if(state == 'unpublish'){
        mw.post.unpublish(id, function(data){
          mw.notification.warning("<?php _e("Content is unpublished"); ?>");
@@ -214,6 +218,10 @@ mw.post = {
         mw.post.publish(id, function(data){
             mw.notification.success("<?php _e("Content is published"); ?>");
             mw.$(".manage-post-item-" + id).removeClass("content-unpublished").find(".post-un-publish").remove();
+            if(typeof e !== 'undefined'){
+              $(e.target.parentNode).removeClass("content-unpublished");
+              $(e.target).remove();
+            }
        });
     }
   }

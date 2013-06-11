@@ -355,8 +355,8 @@ $cached = false;
 
 			if ($field_content != false and $field_content != '') {
 				
-					$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
-					 
+					 $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
+			 
 				
 				//$field_content = htmlspecialchars_decode($field_content);
 
@@ -481,6 +481,9 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 				//$modified_layout = $rep;
 
 				$value = htmlspecialchars_decode($value);
+
+
+
 
 				//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
 				$modified_layout = str_replace($rep, $value, $modified_layout);

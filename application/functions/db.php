@@ -277,7 +277,6 @@ function db_get_id($table, $id = 0, $field_name = 'id')
  * @param bool $data_to_save_options
  * @return string|int The id of the saved row.
  *
- * @uses save_data();
  * @example
  * <code>
  * $table = MW_TABLE_PREFIX.'content';
@@ -285,9 +284,9 @@ function db_get_id($table, $id = 0, $field_name = 'id')
  * $data['id'] = 0; //if 0 will create new content
  * $data['title'] = 'new title';
  * $data['content'] = '<p>Something</p>';
- * $save = save_data($table, $data);
+ * $save = save($table, $data);
  * </code>
- *
+ * @package Database
  */
 function save($table, $data, $data_to_save_options = false)
 {
@@ -297,6 +296,8 @@ function save($table, $data, $data_to_save_options = false)
 /**
  * Same as save()
  * @see save()
+ * @package Database
+ * @subpackage Advanced
  */
 function save_data($table, $data, $data_to_save_options = false)
 {
@@ -976,7 +977,6 @@ function save_data($table, $data, $data_to_save_options = false)
  *
  * @desc Get last inserted id from a table, you must have 'id' column in it.
  * @package Database
- * @category Database
  * @param $table
  * @return bool|int
  *
@@ -1246,6 +1246,15 @@ if (is_admin() == true) {
  * @return array
  * @package Database
  * @subpackage Advanced
+ * @example
+ * <code>
+ * $table = MW_TABLE_PREFIX.'content';
+ * $data = array();
+ * $data['id'] = 1;
+ * $data['non_ex'] = 'i do not exist and will be removed';
+ * $criteria = map_array_to_database_table($table, $data);
+ * var_dump($criteria);
+ * </code>
  */
 function map_array_to_database_table($table, $array)
 {

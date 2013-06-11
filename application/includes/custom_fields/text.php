@@ -1,5 +1,12 @@
 <?php  // d($data); ?>
 
+
+<?php
+
+    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+
+?>
+
 <div class="control-group">
   <label class="custom-field-title">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
@@ -14,12 +21,12 @@
   <?php endif; ?>
   <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>
   <div class="controls">
-    <textarea <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>">
+    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>">
     </textarea>
   </div>
   <?php else : ?>
   <div class="controls">
-    <input type="text"   <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>"  placeholder="<?php print $data["custom_field_value"]; ?>" />
+    <input type="text"   <?php if ($is_required): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>"  placeholder="<?php print $data["custom_field_value"]; ?>" />
   </div>
   <?php endif; ?>
 </div>

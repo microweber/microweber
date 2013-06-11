@@ -15,6 +15,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   var f = $(this).dataset('for');
   mw.$('#mw-custom-fields-address-fields-'+f).slideUp('fast');
   mw.$('#mw-custom-fields-address-fields-'+f + " input").attr('disabled', 'disabled');
+
 });
 
 
@@ -39,6 +40,12 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 }
 
 </style>
+    <?php $is_required = (isset($data['options']) == true and in_array('required',$data['options']) == true);
+
+
+  
+          ?>
+
   <div class="custom-field-col-left">
     <div class="mw-custom-field-group ">
       <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
@@ -55,7 +62,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
         'state'=>'State/Province',
         'zip'=>'Zip/Postal Code'
      );
-	 
+
 	// d($data['options'])
 
       ?>
@@ -67,7 +74,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
             <span></span><span><?php print $val; ?></span></label>
         </div>
         <?php
-		}
+		    }
 		 } ?>
       </div>
     </div>
@@ -75,11 +82,17 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
       <?php foreach($opt as $key => $val){ ?>
-      <div id="mw-custom-fields-address-fields-<?php print $key; ?>">
+      <div id="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">
         <label class="mw-ui-label"><?php print $val; ?></label>
         <input type="text" class="mw-ui-field" name="custom_field_value[<?php print $key; ?>]" <?php if(isset($data['custom_field_values'][$key]) and isset($data['custom_field_values'][$key][0])) : ?> value="<?php print $data['custom_field_values'][$key][0] ?>"  <?php endif; ?> />
       </div>
       <?php } ?>
     </div>
+     <hr>
+    <label class="mw-ui-check">
+
+
+    <input type="checkbox"  class="mw-custom-field-option" name="options[]"  <?php if($is_required == true): ?> checked="checked" <?php endif; ?> value="required"><span></span><span><?php _e("Required"); ?>?</span></label>
+
     <?php print $savebtn; ?> </div>
   <?php include('settings_footer.php'); ?>

@@ -10,13 +10,20 @@ include('empty_field_vals.php');
 <?php if(!empty($data['custom_field_name'])) : ?>
 <?php $rand = uniqid(); ?>
 
+<?php
+
+    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+
+?>
+
+
 <div class="control-group">
  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
  <div class="input-prepend input-append relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <span class="add-on">
         <i class="icon-file"></i>
     </span>
-    <input type="text" class="no-post" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+    <input type="text" <?php if($is_required){ ?> required <?php } ?> class="no-post" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
 
     <button type="button" class="btn"><?php _e("Browse"); ?></button>
  </div>

@@ -45,6 +45,7 @@
             mw.custom_fields.sort("fields<?php print $rand; ?>");
         </script>
       </div>
+      
       <?php print $savebtn; ?>
   </div>
   <?php include('settings_footer.php'); ?>

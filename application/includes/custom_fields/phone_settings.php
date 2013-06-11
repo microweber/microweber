@@ -39,7 +39,7 @@
         name="custom_field_value"
         value="<?php if($data['custom_field_value']==''): ?>ex.: 001-8892345678<?php else : print $data['custom_field_value'];endif; ?>" />
 
-
+          <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
        <?php print $savebtn; ?>
   </div>
   <?php include('settings_footer.php'); ?>

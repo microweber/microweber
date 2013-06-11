@@ -39,8 +39,9 @@ $(document).ready(function(){
     <input type="text" onkeyup="" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
 
     <div class="vSpace"></div>
-  
+
     <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php _e("Use as Text Area"); ?></span></label>
+    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 
     
 

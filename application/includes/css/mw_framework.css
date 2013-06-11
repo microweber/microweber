@@ -802,7 +802,6 @@ a.depth-1 .mw_toggle_tree{
 
 .mw_ed_tree_show_posts{
   background: url(../img/admin_tree_icons.png) no-repeat 2px 6px;
-
 }
 
 .mw_ed_tree_show_posts,
@@ -824,11 +823,24 @@ a.depth-1 .mw_toggle_tree{
 .mw_ed_tree_content:hover,
 .mw_del_tree_content:hover{opacity:1}
 
+.mw_ed_tree_publish{
+    display: block;
+    float: right;
+    width: 16px;
+    height: 16px;
+    text-indent: -9999px;
+    background: url(../img/sidebar_published_status.png) no-repeat;
+    margin: 2px 2px 0;
+}
+.mw_ed_tree_publish:hover{
+  background-position: bottom;
 
+}
 
 
 a:hover .mw_del_tree_content,
 a:hover .mw_ed_tree_show_posts,
+
 a:hover .mw_tree_sub_page,
 a:hover .mw_ed_tree_content{
   visibility: visible;
@@ -1715,6 +1727,10 @@ select.mw-ui-simple-dropdown:focus{
   /*padding: 6px 0 0 30px;*/
   padding-bottom: 300px;
   position: relative;
+-webkit-transition: left 0.4s;
+-moz-transition: left 0.4s;
+-o-transition: left 0.4s;
+transition: left 0.4s;
 }
 
 

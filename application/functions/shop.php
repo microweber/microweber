@@ -265,9 +265,9 @@ function mw_print_admin_menu_shop_btn() {
 	$active = url_param('view');
 	$cls = '';
 	if ($active == 'shop') {
-		$cls = ' class="active" ';
+		$cls = ' class="active" '; 
 	}
-	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">Online Shop</a></li>';
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">'._e('Online Shop',true).'</a></li>';
 }
 
 action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');

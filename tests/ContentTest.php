@@ -53,6 +53,7 @@ class ContentTest extends PHPUnit_Framework_TestCase
 		 if(is_array($data)){
 			 foreach($data as $item){
 				 $item['updated_on'] = $new_date;
+				//  $item['debug'] = $new_date;
 					$upd = save_content($item);
 					
 					//PHPUnit

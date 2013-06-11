@@ -410,7 +410,9 @@ html.mw_pages #mw_tabs li.active a{
 }
 
 form.add-edit-page-post textarea{
-  width: 605px;
+  width: 590px;
+  width: calc(100% - 22px);
+  width: -webkit-calc(100% - 22px);
   height: 85px;
 }
 

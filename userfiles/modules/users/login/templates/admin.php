@@ -15,6 +15,7 @@ description: Admin login style
 
 <div id="mw-login">
 <script>mw.require("tools.js");</script>
+<script>mw.require("session.js");</script>
 <script>
 
  mw.session.checkPause = true;
@@ -90,11 +91,14 @@ $(document).ready(function(){
     </span>
   <div class="mw_dropdown_fields">
     <ul>
+<?php $langs = get_available_languages(); 
+ 
 
-
-      <li value="en"><a href="javascript:;">EN</a></li>
-      <li value="es"><a href="javascript:;">ES</a></li>
-      <li value="bg"><a href="javascript:;">BG</a></li>
+?>
+<?php foreach($langs as $lang): ?>
+<li value="<?php print $lang; ?>"><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
+ <? endforeach; ?>
+ 
     </ul>
 </div>
 </div>

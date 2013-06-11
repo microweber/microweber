@@ -583,8 +583,11 @@ mw.tools = {
           var len = lis.length;
           $.each(lis, function(i){
             i++;
-            var id = this.attributes['data-item-id'].nodeValue;
-            _remember = i<len ? _remember + id + "," : _remember + id;
+            if(!! this.attributes['data-item-id']){
+              var id = this.attributes['data-item-id'].nodeValue;
+              _remember = i<len ? _remember + id + "," : _remember + id;
+            }
+
           });
           mw.cookie.ui("tree_"+tree.id, _remember);
       }

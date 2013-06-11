@@ -10,7 +10,14 @@ mw.pauseSave = false;
 mw.askusertostay = false;
 
 window.onerror = function(a,b,c){
-  console.log(a + b + c);
+  //console.log(a + b + c);
+  /*      :)
+  var audio = document.createElement('audio');
+  audio.setAttribute('src', 'http://www.w3schools.com/html/horse.mp3');
+  audio.play();  */
+  if(typeof mw.notification === 'object'){
+    //mw.notification.error(a+'<br><br>'+b+'<br><br>'+c);
+  }
 }
 
 

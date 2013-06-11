@@ -6,6 +6,15 @@ if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
+
+
+<?php
+
+    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+
+?>
+
+
 <?php
 
 
@@ -20,7 +29,7 @@ include('empty_field_vals.php');
     <?php endif; ?>
   </label>
 <input type="text"
-        <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?>
+         <?php if ($is_required): ?> required="true"  <?php endif; ?>
         <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
         data-custom-field-id="<?php print $data["id"]; ?>"
         name="<?php print $data["custom_field_name"]; ?>"

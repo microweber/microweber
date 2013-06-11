@@ -1239,22 +1239,22 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Description"); ?> <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
         <textarea
-        class="mw-ui-field" name="description"   placeholder="Describe your page in short"><?php if($data['description']!='') print ($data['description'])?>
+        class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Meta Title"); ?> <small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
-        <textarea class="mw-ui-field" name="content_meta_title"  placeholder="Title to appear on the search engines results page."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
+        <textarea class="mw-ui-field" name="content_meta_title"  placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
 </textarea>
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Meta Keywords"); ?> <small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
-        <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
+        <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
 </textarea>
       </div>
       <div class="vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px">Is Active <small class="mw-help" data-help="If yes your content will be visible on the site">(?)</small></div>
+        <div class="mw-ui-label left" style="width: 130px"><?php _e("Is Active"); ?> <small class="mw-help" data-help="<?php _e("If yes your content will be visible on the site"); ?>">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_active" type="radio"  value="n" <?php if( '' == trim($data['is_active']) or 'n' == trim($data['is_active'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span><?php _e("No"); ?></span></label>
@@ -1277,7 +1277,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
       </div>
       <div class="mw_clear vSpace"></div>
       <div class="mw-ui-check-selector">
-        <div class="mw-ui-label left" style="width: 130px"><?php _e("Is Shop"); ?> <small class="mw-help" data-help="If yes this page will accept products to be added to it">(?)</small></div>
+        <div class="mw-ui-label left" style="width: 130px"><?php _e("Is Shop"); ?> <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span><?php _e("No"); ?></span></label>

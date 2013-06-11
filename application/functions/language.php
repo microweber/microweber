@@ -2,7 +2,12 @@
 
 
 $language_content_saved = false;
-function __store_lang_file($lang = 'en')
+/**
+ * Saves the language file after page load
+ * @package Language
+ * @internal
+ */
+function __store_lang_file()
 {
 
     global $language_content_saved;
@@ -71,15 +76,13 @@ function __store_lang_file($lang = 'en')
  * Get the current language of the site
  *
  * @example
- * <pre>
+ * <code>
  *  $current_lang = current_lang();
  *  print $current_lang;
- * </pre>
+ * </code>
  *
- * @category Content
  * @package Language
- * @uses current_lang()
- * @const  MW_LANG defines the MW_LANG constant
+ * @constant  MW_LANG defines the MW_LANG constant
  */
 function current_lang()
 {
@@ -115,8 +118,24 @@ function current_lang()
     return $lang;
 
 }
-
-
+/**
+ * Prints a string in the current language
+ *
+ * @example
+ * <code>
+ *   //print something in the user language
+ *  _e('Pages');
+ * </code>
+ *  @example
+ * <code>
+ *   //get a string in the user language
+ *  $pages_string = _e('Pages',1);
+ * print $pages_string;
+ * </code>
+ *
+ * @package Language
+ * @use current_lang()
+  */
 function _e($k, $to_return = false)
 {
 
@@ -141,7 +160,7 @@ function _e($k, $to_return = false)
 
             $scheduler = new \mw\utils\Events();
             // schedule a global scope function:
-            $scheduler->registerShutdownEvent("__store_lang_file", $lang);
+            $scheduler->registerShutdownEvent("__store_lang_file");
 
 
             //@file_put_contents($lang_file, $b, FILE_APPEND);
@@ -157,16 +176,28 @@ function _e($k, $to_return = false)
         print $language_content[$k1];
     }
 }
-
+/**
+ * Set the current language
+ *
+ * @example
+ * <code>
+ *   //sets language to Spanish
+ *  set_language('es');
+ * </code>
+ * @package Language
+ */
 function set_language($lang = 'en')
 {
-
-    session_set('lang', $lang);
-    return $lang;
+    setcookie("lang",$lang);
+     return $lang;
 }
 
 api_expose('send_lang_form_to_microweber');
-
+/**
+ * Send your language translation to Microweber
+ * @internal its used via ajax in the admin panel under Settings->Language
+ * @package Language
+ */
 function send_lang_form_to_microweber($data)
 {
     if (is_admin() == true) {
@@ -184,9 +215,18 @@ function send_lang_form_to_microweber($data)
 }
 
 api_expose('save_language_file_content');
+/**
+ * Saves your custom language translation
+ * @internal its used via ajax in the admin panel under Settings->Language
+ * @package Language
+ */
 function save_language_file_content($data)
 {
-    if (is_admin() == true) {
+    
+	if(isset($_POST) and !empty($_POST)){
+	$data = $_POST;
+	}
+	if (is_admin() == true) {
         if (isset($data['unicode_temp_remove'])) {
             unset($data['unicode_temp_remove']);
         }
@@ -228,6 +268,11 @@ function save_language_file_content($data)
 }
 
 $language_content = array();
+/**
+ * Gets all the language file contents
+ * @internal its used via ajax in the admin panel under Settings->Language
+ * @package Language
+ */
 function get_language_file_content()
 {
     global $language_content;
@@ -291,6 +336,25 @@ function get_language_file_content()
 
 
 $mw_all_langs = array();
+/**
+ * Get all available languages as array
+ *
+ * To set user language you must create cookie named "lang"
+ *
+ * @return array The languages array
+ * @package Language
+ * @example
+ * <code>
+ * //get all languages
+ * $langs = get_available_languages();
+ * var_dump($langs);
+ * </code>
+ *
+ * <code>
+ * //set language for the user
+ *  setcookie("lang", 'en'); //sets english language
+ * </code>
+ */
 function get_available_languages()
 {
     global $mw_all_langs;
@@ -319,7 +383,12 @@ function get_available_languages()
 
 }
 
-
+/**
+ * Shows a section of the help file
+ * @internal its used on the help in the admin
+ * @package Language
+ *
+ */
 function show_help($section = 'main')
 {
     $lang = current_lang();
@@ -331,10 +400,13 @@ function show_help($section = 'main')
 
 
     $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file_en = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
 
     if (is_file($lang_file)) {
         include($lang_file);
+    } else if (is_file($lang_file_en)) {
+        return $lang_file_en;
     }
 
 }

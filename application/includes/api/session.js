@@ -39,7 +39,7 @@ mw.session = {
           mw.session.logRequest();
         }
       });
-    }, 3000);
+    }, 30000);
   }
 }
 

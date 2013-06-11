@@ -2,19 +2,7 @@
 
 defined('T') OR die();
 
-if (!ini_get('safe_mode')) {
-    //set_time_limit(60);
-}
 
-/*
- * EDIT THIS FILE TO SETUP SYSTEM STATE
- * If posible, these should be set in the php.ini instead of here!
- */
-
-/*
- * Set the server timezone
- * see: http://us3.php.net/manual/en/timezones.php
- */
 //date_default_timezone_set("America/Chicago");
 
 /*
@@ -23,6 +11,8 @@ if (!ini_get('safe_mode')) {
 //setlocale(LC_ALL, 'en_US.utf-8');
 //iconv_set_encoding("internal_encoding", "UTF-8");
 //mb_internal_encoding('UTF-8');
+
+
 $mw_config = array();
 
 $mw_config['site_url'] = site_url();
@@ -30,9 +20,13 @@ $mw_config['site_url'] = site_url();
 
 $mw_config['system_folder'] = 'application';
 $mw_config['application_folder'] = 'application';
-
-session_set_cookie_params(86400);
+if (!ini_get('safe_mode')) {
+    if (function_exists('session_set_cookie_params')) {
+        session_set_cookie_params(86400);
 //Sets the session cookie lifetime to 12 hours.
+    }
+}
+
 
 if (!defined('E_STRICT')) {
 
@@ -106,10 +100,10 @@ define('ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
 define('STYLES_DIR', MW_USERFILES . 'styles' . DS);
 
 define('PLUGINS_DIRNAME', MW_USERFILES . 'plugins' . '/');
-if(isset($_SERVER["REMOTE_ADDR"])){
-define("USER_IP", $_SERVER["REMOTE_ADDR"]);	
+if (isset($_SERVER["REMOTE_ADDR"])) {
+    define("USER_IP", $_SERVER["REMOTE_ADDR"]);
 } else {
-define("USER_IP", '127.0.0.1');	
+    define("USER_IP", '127.0.0.1');
 
 }
 
@@ -121,8 +115,8 @@ $subdir = dirname($subdir);
 $subdir = ltrim($subdir, '/');
 
 $subdir = rtrim($subdir, '/');
-if(isset($_SERVER["SERVER_NAME"])){
-	$get_url_dir = $_SERVER["SERVER_NAME"] . (trim($_SERVER["REQUEST_URI"]));
+if (isset($_SERVER["SERVER_NAME"])) {
+    $get_url_dir = $_SERVER["SERVER_NAME"] . (trim($_SERVER["REQUEST_URI"]));
 }
 
 //var_Dump( $_SERVER);
@@ -156,11 +150,11 @@ define('DATETIME_FORMAT', 'F j g:m a');
 
 define('MW_APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 define('MW_APPPATH_FULL', MW_ROOTPATH . MW_APPPATH);
-if(!isset( $_SERVER["SERVER_NAME"])){
-	$config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
+if (!isset($_SERVER["SERVER_NAME"])) {
+    $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
 
 } else {
-	$config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+    $config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
 
 }
 //
@@ -233,31 +227,9 @@ $media_url = SITEURL . MW_USERFILES_DIRNAME . '/styles/';
 define('STYLES_URL', $media_url);
 
 define('RESOURCES_DIR', MW_USERFILES . 'resources' . '/');
-////var_dump( ADMIN_STATIC_FILES_URL);
 
-/*
 
- |---------------------------------------------------------------
 
- | LOAD THE FRONT CONTROLLER
-
- |---------------------------------------------------------------
-
- |
-
- | And away we go...
-
- |
-
- */
-
-ini_set('include_path', ini_get('include_path') . ':' . MW_BASEPATH . 'libraries/');
-
-if (defined('NO_MICROWEBER') == false) {
-
-    //rm(($file));
-    //require_once (MW_APPPATH . 'models/system_loader.php');
-}
 if (!isset($mw_site_url)) {
     $mw_site_url = false;
 }
@@ -280,12 +252,12 @@ function site_url($add_string = false)
         }
 
         $pageURL .= "://";
-		//error_log(serialize($_SERVER));
-        if (isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+        //error_log(serialize($_SERVER));
+        if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
             $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-        } elseif(isset($_SERVER["SERVER_NAME"])) {
+        } elseif (isset($_SERVER["SERVER_NAME"])) {
             $pageURL .= $_SERVER["SERVER_NAME"];
-        }else if(isset($_SERVER["HOSTNAME"])) {
+        } else if (isset($_SERVER["HOSTNAME"])) {
             $pageURL .= $_SERVER["HOSTNAME"];
         }
         $pageURL_host = $pageURL;
@@ -323,13 +295,8 @@ function site_url($add_string = false)
             $pageURL = rtrim($pageURL, '?');
         }
 
-
-        //$url_segs1 = str_replace($pageURL_host, '',$pageURL);
         $url_segs = explode('/', $pageURL);
-        // 	 var_dump($d);
 
-        //		  var_dump($_SERVER);
-        //        exit;
         $i = 0;
         $unset = false;
         foreach ($url_segs as $v) {
@@ -348,12 +315,7 @@ function site_url($add_string = false)
         $mw_site_url = implode('/', $url_segs);
 
     }
-
-    //$mw_site_url = rtrim($mw_site_url, '///');
-    //
-    //
-    //
-    //
-    //
+	
+	 
     return $mw_site_url . $add_string;
 }

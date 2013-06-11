@@ -79,7 +79,10 @@ $(document).ready(function(){
 
 
 	if(mw.url.windowHashParam ("action") === undefined){
-		}
+
+
+
+	}
 
 
 
@@ -355,13 +358,12 @@ else{
           div.id = 'pages_edit_container';
           div.style.left = '200px';
           div.innerHTML = data;
-          $(this).animate({"left": -800}, 320, function(){
-               $(this).replaceWith(div);
-               $(div).animate({"left": 0}, 220, function(){
-                     mw.$(".mw_edit_page_right").css("overflow", "visible");
-                     $(mwd.body).removeClass("loading")
-               });
-          });
+          var _this = this;
+          $(_this).css({"left": -800});
+          setTimeout(function(){
+                $(_this).replaceWith(div);
+                $(div).css({"left": 0});
+          }, 400);
       });
   }
   else{

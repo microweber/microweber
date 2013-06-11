@@ -7,7 +7,7 @@ require_once (dirname(__FILE__).'/../index.php');
 
 
 
-class DbTest extends PHPUnit_Framework_TestCase
+class DbBasicTest extends PHPUnit_Framework_TestCase
 {
     
 	

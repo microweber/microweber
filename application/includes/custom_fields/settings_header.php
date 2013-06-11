@@ -179,7 +179,25 @@ var master = mwd.getElementById('custom_fields_edit<?php print $rand; ?>');
 
 var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
 
-//$(fields).attr("onchange", "__save()");
+ //$(fields).attr("onchange", "__save()");
+
+
+if( typeof is_body_click_binded === 'undefined' ){
+       is_body_click_binded = true;
+ $(mwd.body).bind("click", function(e){
+   //__save()
+   if(window.name.contains("module-settings") && self !== top){
+      if(e.target.type == 'checkbox'){
+        __save()
+      }
+
+   }
+ });
+
+
+}
+
+
 
 
 });

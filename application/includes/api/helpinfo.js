@@ -208,6 +208,7 @@ mw.helpinfo = {
     },
     init:function(activate){
        var activate = activate || false;
+       //alert(mw.cookie.get("helpinfo"))
        if(activate){
          mw.cookie.set("helpinfo", "true");
          mw.helpinfo.init();

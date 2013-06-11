@@ -21,7 +21,7 @@
 
         <input type="text" class="mw-ui-field"  name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>" id="custom_field_value<?php print $rand; ?>">
 
-
+        <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
     <?php print $savebtn; ?>
     </div>
 
