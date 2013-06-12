@@ -339,6 +339,7 @@ return;
 		$fields_csv_str = explode(',', $fields_csv_str);
 		$fields_csv_str = array_trim($fields_csv_str);
 		//d($fields_csv_str);
+        $pos = 0;
 		if (isarr($fields_csv_str)) {
 			foreach ($fields_csv_str as $field_type) {
 				$ex = get_custom_fields($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
@@ -347,10 +348,12 @@ return;
 					$make_field = array();
 					$make_field['rel'] = $rel;
 					$make_field['rel_id'] = $rel_id;
+                    $make_field['position'] = $pos;
 					$make_field['custom_field_name'] = ucfirst($field_type);
 					$make_field['custom_field_type'] = $field_type;
 
 					save_custom_field($make_field);
+                    $pos++;
 				}
 			}
 			
