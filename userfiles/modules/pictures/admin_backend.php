@@ -61,21 +61,27 @@ function after_upld_<?php print $rand; ?>(a, eventType){
 			 mw.module_pictures.after_upload(data);
 	}
 	if(eventType == 'done' ){
-        if(typeof mw.tools === 'object'){
-    	    mw.tools.modal.remove('mw_rte_image');
-    	}
-    	mw.reload_module('#<?php print $params['id'] ?>');
-        if(self !== top && typeof parent.mw === 'object'){
-             parent.mw.reload_module('pictures');
-			 if(self !== top && typeof parent.mw === 'object'){
-               parent.mw.reload_module('posts');
-               parent.mw.reload_module('shop/products');
-               parent.mw.reload_module('content', function(){
-                 	mw.reload_module('#<?php print $params['id'] ?>');
-                    parent.mw.reload_module('pictures');
-               });
-            }
-        }
+		
+		setTimeout(function(){
+			  if(typeof mw.tools === 'object'){
+				mw.tools.modal.remove('mw_rte_image');
+			}
+			mw.reload_module('#<?php print $params['id'] ?>');
+			if(self !== top && typeof parent.mw === 'object'){
+				 parent.mw.reload_module('pictures');
+				 if(self !== top && typeof parent.mw === 'object'){
+				   parent.mw.reload_module('posts');
+				   parent.mw.reload_module('shop/products');
+				   parent.mw.reload_module('content', function(){
+						mw.reload_module('#<?php print $params['id'] ?>');
+						parent.mw.reload_module('pictures');
+				   });
+				}
+			}
+		},100)
+		
+		
+      
 	}
 }
 
@@ -166,8 +172,10 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
      });
 
      $(uploader).bind("FileUploaded done" ,function(e, a){
-
-      after_upld_<?php print $rand; ?>(a.src, e.type);
+	setTimeout(function(){
+	after_upld_<?php print $rand; ?>(a.src, e.type);
+	},100)
+      
      })
   });
 

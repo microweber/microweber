@@ -50,10 +50,15 @@
       <input type="text" class="mw-ui-field"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
-$oresult = array_diff($data['options']['file_types'], $array2);
-       print implode(',',$oresult); ?><?php endif; ?>" placeholder='psd,html,css' />
+
+      $oresult = array_diff( $data['options']['file_types'], $array2 );
+
+      print implode(',', $oresult); ?><?php endif; ?>" placeholder='psd,html,css' />
 
     </div>
+    <div class="vSpace"></div>
+    <label class="mw-ui-check">
+    <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 
 </div>
 
@@ -70,7 +75,7 @@ $oresult = array_diff($data['options']['file_types'], $array2);
 
    <div class="custom-field-col-right">
 
-      <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
+
 
   </div>
   <?php include('settings_footer.php'); ?>

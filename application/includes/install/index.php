@@ -28,10 +28,10 @@ function __mw_install_log($text)
     }
     if (is_file($log_file)) {
         if($text == 'done'){
-            @file_put_contents($log_file, date('c').": "."\t".$text."<br>\n\r");
+            @file_put_contents($log_file, "[".date('H:i:s')."] "."\t".$text."<br>\n\r");
 
         } else {
-            @file_put_contents($log_file, date('c').": "."\t".$text."<br>\n\r",FILE_APPEND);
+            @file_put_contents($log_file, "[".date('H:i:s')."] "."\t".$text."<br>\n\r",FILE_APPEND);
 
         }
     }
@@ -128,6 +128,9 @@ if (isset($_POST['IS_INSTALLED'])) {
                 // 
 
                 $default_htaccess_file = MW_ROOTPATH . '.htaccess';
+				
+				
+				
                 $to_add_htaccess = true;
                 if (is_file($default_htaccess_file)) {
                     $default_htaccess_file_c = file_get_contents($default_htaccess_file);
@@ -135,6 +138,12 @@ if (isset($_POST['IS_INSTALLED'])) {
                         $to_add_htaccess = false;
                     }
                 }
+				
+				
+				
+				
+				
+				
                 if ($to_add_htaccess == true) {
                     $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
                     if (is_file($f_htaccess)) {
@@ -165,7 +174,75 @@ if (isset($_POST['IS_INSTALLED'])) {
                     }
 
                 }
-                __mw_install_log('Writing config file');
+                 
+				 if(isset($_SERVER["SERVER_SOFTWARE"])){
+					 
+					$sSoftware = strtolower( $_SERVER["SERVER_SOFTWARE"] );
+					if ( stripos($sSoftware, "microsoft-iis") !== false or stristr($sSoftware, "microsoft-iis") !== false ){
+						__mw_install_log($_SERVER["SERVER_SOFTWARE"]);
+					     $default_webconfig_iis_file = MW_ROOTPATH . 'Web.config';
+						 
+							$to_add_webconfig_iis = true;
+							if (is_file($default_webconfig_iis_file)) {
+								$default_htaccess_file_c = file_get_contents($default_webconfig_iis_file);
+								if (strstr($default_htaccess_file_c, '<action type="Rewrite" url="index.php" />')) {
+									$to_add_webconfig_iis = false;
+								}
+							}
+							
+							
+							
+							__mw_install_log('Web.config check '. $to_add_webconfig_iis);
+							
+							
+							
+							if ($to_add_webconfig_iis == true) {
+                    $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
+                    if (is_file($f_htaccess)) {
+						 $f_htaccess_c = file_get_contents($f_htaccess);
+                       __mw_install_log('Adding Web.config');
+                      file_put_contents($default_webconfig_iis_file,$f_htaccess_c, FILE_APPEND);
+                    }
+
+                }
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+					}
+				 }
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				__mw_install_log('Writing config file');
                 file_put_contents($cfg, $save_config);
                 __mw_install_log('Clearing cache');
                 clearstatcache();

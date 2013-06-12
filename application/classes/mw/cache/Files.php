@@ -45,8 +45,13 @@ class Files
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
+		global $mw_cache_get_content_memory;
+		$mw_cache_get_content_memory[$cache_group][$cache_id] = $data_to_cache;
 
-        $apc_obj = false;
+       $this->mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
+	    
+	   
+	    $apc_obj = false;
         if (defined('APC_CACHE') and APC_CACHE == true) {
 
             if ($this->apc == false) {
@@ -82,7 +87,7 @@ class Files
         if ($this->mw_cache_saved_files == null) {
             $this->mw_cache_saved_files = array();
         }
-
+ 		
         if (!in_array($cache_id, $this->mw_cache_saved_files)) {
             $this->mw_cache_saved_files[] = $cache_id;
             return $this->cache_save($data_to_cache, $cache_id, $cache_group);
@@ -389,6 +394,14 @@ class Files
     public function get($cache_id, $cache_group = 'global', $time = false)
     {
 
+
+		global $mw_cache_get_content_memory;
+		if(is_array($mw_cache_get_content_memory) and isset($mw_cache_get_content_memory[$cache_group]) and isset($mw_cache_get_content_memory[$cache_group][$cache_id])){
+			return $mw_cache_get_content_memory[$cache_group][$cache_id];
+		}
+	 
+
+
         $apc_obj = false;
         if (defined('APC_CACHE') and APC_CACHE == true) {
 
@@ -403,6 +416,7 @@ class Files
             $apc_obj_gt = $apc_obj->get($cache_id, $cache_group, $time);
             //unset( $apc_obj );
             if ($apc_obj_gt != false) {
+				$mw_cache_get_content_memory[$cache_group][$cache_id] = $apc_obj_gt;
                 return $apc_obj_gt;
             }
         }
@@ -435,6 +449,7 @@ class Files
             }
         }*/
         $ret = $this->cache_get_content($cache_id, $cache_group, $time);
+		$mw_cache_get_content_memory[$cache_group][$cache_id] = $ret;
 
         if ($apc_obj != false) {
             $apc_obj->save($ret, $cache_id, $cache_group);

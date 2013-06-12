@@ -91,15 +91,11 @@ $(document).ready(function(){
     </span>
   <div class="mw_dropdown_fields">
     <ul>
-<?php $langs = get_available_languages(); 
- 
-
-?>
+<?php $langs = get_available_languages(); ?>
 <?php foreach($langs as $lang): ?>
 <li value="<?php print $lang; ?>"><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
- <? endforeach; ?>
- 
-    </ul>
+<?php endforeach; ?>
+</ul>
 </div>
 </div>
 

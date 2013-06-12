@@ -6,7 +6,7 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.7285);
+	define('MW_VERSION', 0.7286);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
@@ -61,6 +61,8 @@ function load_file($f) {
 function v(&$v, $d = NULL) {
 	return isset($v) ? $v : $d;
 }
+
+
 
 $_mw_config_file_values = array();
 function _reload_c($new_config = false) {

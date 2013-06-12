@@ -8,7 +8,7 @@
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
 
-if (!isset($_mw_cache_obj) or $_mw_cache_obj == false or is_object($_mw_cache_obj) == false) {
+if (!isset($_mw_cache_obj) or is_object($_mw_cache_obj) == false) {
     $_mw_cache_obj = new \mw\cache\Files();
 }
 
@@ -41,7 +41,7 @@ mw_var('is_cleaning_now', false);
  */
 function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
 {
-    if ($cache_storage_type == false) {
+    if ($cache_storage_type == false  or $cache_storage_type == 'files') {
         global $_mw_cache_obj;
         $local_obj = $_mw_cache_obj;
     } else {
@@ -86,10 +86,12 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
  */
 function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
-
-    if ($cache_storage_type == false) {
-        global $_mw_cache_obj;
+	static $cache_default;
+     global $_mw_cache_obj;
+	 
+	if ($cache_storage_type == false or $cache_storage_type == 'files') {
         $local_obj = $_mw_cache_obj;
+		
     } else {
         $cache_storage_type = "\mw\cache\\" . $cache_storage_type;
         $local_obj = new $cache_storage_type;
@@ -97,11 +99,13 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
     }
 	
 	if(!is_object($local_obj)){
-		 $local_obj = new \mw\cache\Files();
+		 if(!is_object($cache_default)){
+			  $local_obj = $cache_default = new \mw\cache\Files();
+		 } else {
+			$local_obj = $cache_default ;
+			 
+		}
 	}
-	
-	
-	
 
     return $local_obj->get($cache_id, $cache_group);
 }
@@ -133,9 +137,10 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
 
-    if ($cache_storage_type == false) {
+    if ($cache_storage_type == false  or $cache_storage_type == 'files') {
         global $_mw_cache_obj;
         $local_obj = $_mw_cache_obj;
+		 
     } else {
         $cache_storage_type = "\mw\cache\\" . $cache_storage_type;
         $local_obj = new $cache_storage_type;
@@ -166,7 +171,7 @@ api_expose('clearcache');
   */
 function clearcache($cache_storage_type = false)
 {
-    if ($cache_storage_type == false or trim($cache_storage_type) == '') {
+    if ($cache_storage_type == false or trim($cache_storage_type) == ''  or $cache_storage_type == 'files') {
         global $_mw_cache_obj;
         $local_obj = $_mw_cache_obj;
     } else {

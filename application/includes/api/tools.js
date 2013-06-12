@@ -1518,7 +1518,7 @@ mw.tools = {
     var _el = $(el);
     if(!_el.hasClass("disabled")){
       _el.addClass('disabled');
-      if(el.tagName != 'INPUT'){
+      if(_el[0].tagName != 'INPUT'){
         _el.dataset("text", _el.html());
         _el.html(text);
       }
@@ -1534,7 +1534,8 @@ mw.tools = {
     var _el = $(el);
     var text = _el.dataset("text");
     _el.removeClass("disabled");
-    if(el.tagName != 'INPUT'){
+
+    if(_el[0].tagName != 'INPUT'){
         _el.html(text);
       }
       else{

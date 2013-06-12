@@ -60,7 +60,7 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * @uses update_user_last_login_time()
  * @uses exec_action()
  * @function user_login()
- * @see mw_db_init_users_table() For the database table fields
+ * @see _table() For the database table fields
  */
 function user_login($params)
 {
@@ -264,7 +264,7 @@ function logout()
 
 
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
-action_hook('mw_db_init', 'mw_db_init_users_table');
+//action_hook('mw_db_init', 'mw_db_init_users_table');
 /**
  * Creates the users and log tables in the database.
  *
