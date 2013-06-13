@@ -62,6 +62,7 @@ $(document).ready(function(){
                   <li value="h5"><a href="#"><h5><?php _e("Heading"); ?> 5</h5></a></li>
                   <li value="h6"><a href="#"><h6><?php _e("Heading"); ?> 6</h6></a></li>
                   <li value="p"><a href="#"><p><?php _e("Paragraph"); ?></p></a></li>
+                  <li value="pre"><a href="#"><div><?php _e("Pre formatted"); ?></div></a></li>
                 </ul>
               </div>
             </div>

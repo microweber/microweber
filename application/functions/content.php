@@ -4,7 +4,7 @@
  * Here you will find functions to get and save content in the database and much more.
  *
  * @package Content
- * @category Content  
+ * @category Content
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
@@ -36,19 +36,9 @@ if (!defined("MW_DB_TABLE_MENUS")) {
 
 
 
-api_expose('get_content_admin');
-
-function get_content_admin($params)
-{
-    if (is_admin() == false) {
-        return false;
-    }
-
-    return get_content($params);
-}
 
 
-api_expose('get_content');
+
 /**
  * Get array of content items from the database
  *
@@ -253,6 +243,16 @@ function get_content($params = false)
             return FALSE;
         }
     }
+}
+api_expose('get_content_admin');
+
+function get_content_admin($params)
+{
+    if (is_admin() == false) {
+        return false;
+    }
+
+    return get_content($params);
 }
 
 /**
@@ -2443,7 +2443,7 @@ function save_content($data, $delete_the_cache = true)
     if (isset($data_to_save['title']) and (!isset($data['url']) or trim($data['url']) == '')) {
         $data['url'] = url_title($data_to_save['title']);
     }
- 
+
     if (isset($data['url']) and $data['url'] != false) {
         //$data['url'] = url_title($data['url']);
 
@@ -2490,7 +2490,7 @@ function save_content($data, $delete_the_cache = true)
 
 
 if(isset($data_to_save['url']) and is_string($data_to_save['url'])){
-$data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);	
+$data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);
 }
 
 
@@ -2646,7 +2646,7 @@ $data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);
             }
         }
     }
- 	
+
     if (isset($data_to_save['content'])) {
         if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
             unset($data_to_save['content']);
@@ -2690,19 +2690,19 @@ $data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);
 			$data_to_save['parent'] = 0;
 		}
 	}
-	
-	
+
+
  if (isset($data_to_save['url']) and $data_to_save['url'] == site_url()) {
 	 unset($data_to_save['url']);
  }
- 
-	
+
+
 	if (isset($data_to_save['debug'])) {
-	
+
 	}
-	 
+
     $save = save_data($table, $data_to_save);
-	
+
    // cache_clean_group('content/global');
 	//cache_clean_group('content/'.$save);
     if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
@@ -3918,15 +3918,15 @@ function content_set_published($params){
         return array('error' => 'You must provide id parameter!');
     } else {
 		  if(intval($params['id'] != 0)){
-        
+
             $save = array();
             $save['id'] = intval($params['id']);
             $save['is_active'] = 'y';
-	 
+
             $save_data = save_content($save);
             return ($save_data);
 		  }
-        
+
     }
 }
 
@@ -3955,7 +3955,7 @@ api_expose('content_set_unpublished');
  */
 function content_set_unpublished($params)
 {
- 
+
     if(intval($params) > 0 and !isset($params['id'])){
         if(!is_array($params)) {
 			$id = $params;
@@ -3965,7 +3965,7 @@ function content_set_unpublished($params)
     }
 
 
- 
+
     if (!isset($params['id'])) {
         return array('error' => 'You must provide id parameter!');
     } else {
@@ -3973,11 +3973,11 @@ function content_set_unpublished($params)
             $save = array();
             $save['id'] = intval($params['id']);
             $save['is_active'] = 'n';
-			 
+
             $save_data = save_content($save);
             return ($save_data);
 		 }
-         
+
 
     }
 

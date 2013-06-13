@@ -175,7 +175,7 @@ mw.slug = {
     }
     else{
        edit.focus();
-       mw.slug.fieldAutoWidthGrow(edit[0]);
+       //mw.slug.fieldAutoWidthGrow(edit[0]);
     }
   },
   fieldAutoWidthGrow:function(field){

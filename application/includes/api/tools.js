@@ -2385,14 +2385,16 @@ $(document).ready(function(){
   mw.ui = mw.tools;
 
   mw.ui.btn = {
-    radionav : function(nav){
+    radionav : function(nav, btn_selector){
+
         if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
-        var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length, el;
+        var btn_selector = btn_selector || ".mw-ui-btn";
+        var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
         for( ; i<l; i++){
             var el = all[i];
             el.onclick = function(){
               if(!mw.tools.hasClass(this.className, 'active')){
-                var active = nav.querySelector(".mw-ui-btn.active");
+                var active = nav.querySelector(btn_selector + ".active");
                 if( active !== null) { mw.tools.removeClass(active, 'active'); }
                 this.className += ' active';
               }
@@ -2414,6 +2416,36 @@ $(document).ready(function(){
             }
         }
     },
+  }
+
+  mw.inline = {
+    bar:function(el){
+      if(typeof el.has_bar === 'undefined'){
+        el.has_bar = true;
+        var bar = mwd.createElement('div');
+        this.bar = bar;
+        bar.className = 'mw-inline-bar';
+        $(bar).css($(el).offset());
+        $(bar).data("for", el);
+        mwd.body.appendChild(bar);
+      }
+      return el;
+    },
+    tableController:function(el){
+      var el =  mw.inline.bar(el);
+      el.bar.innerHTML = ''
+        +'<div class="mw-ui-dropdown">'
+            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-mini" href="javascript:;">Insert</a>'
+            +'<div style="width: 155px;" class="mw-dropdown-content">'
+              +'<ul class="mw-dropdown-list">'
+                  +'<li><a href="javascript">Row Above</a></li>'
+                  +'<li><a href="javascript">Row Below</a></li>'
+                  +'<li><a href="javascript">Column on left</a></li>'
+                  +'<li><a href="javascript">Column on right/a></li>'
+              +'</ul>'
+            +'</div>'
+        +'</div>';
+    }
   }
 
 

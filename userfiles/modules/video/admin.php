@@ -49,7 +49,7 @@
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Upload Video from your computer"); ?></label>
         <input  onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field left"  type="text" data-reload="<?php print $params['data-type'] ?>" value="<?php print get_option('upload', $params['id']) ?>" style="width:270px;" />
-        <span class="mw-ui-btn right" id="upload_btn" style="width: 60px;"><?php _e("Browse"); ?></span>
+        <span class="mw-ui-btn left"  id="upload_btn" style="width: 60px;margin-left:-1px;"><?php _e("Browse"); ?></span>
       </div>
 
       <div class="mw_clear"></div>

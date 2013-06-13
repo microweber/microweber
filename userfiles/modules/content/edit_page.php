@@ -203,6 +203,7 @@ $(document).ready(function(){
 
 
 
+
   mw.$('#admin_edit_page_form_<?php print $rand; ?>').submit(function() {
 
 
@@ -284,29 +285,11 @@ mw_on_save_complete<?php print $rand; ?>()
   });
 
   mw.$('#admin_edit_page_form_<?php print $rand; ?> .go-live').click(function() {
-
-
-    mw_before_content_save<?php print $rand; ?>()
-
-
-
- 
-
+    mw_before_content_save<?php print $rand; ?>();
     mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print site_url('api/save_content') ?>', function(){
-
-     mw_after_content_save<?php print $rand; ?>(this);
-
-
-
-
-   });
-
-
-
-
+        mw_after_content_save<?php print $rand; ?>(this);
+    });
     return false;
-
-
   });
 
 
@@ -602,8 +585,8 @@ function mw_before_content_save<?php print $rand; ?>(){
     </div>
 
     <?php if(!isset($params['from_live_edit'])): ?>
-    <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
-      <input name="content_url" class="edit-post-slug" onkeyup="mw.slug.fieldAutoWidthGrow(this);" onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
+    <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
+      <input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
       <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
 
       <?php endif; ?>
@@ -654,7 +637,7 @@ if(!!mw.templatePreview){
 
 
 if(!!content){
- mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<?php print  $edit_post_mode ?>&content_type=<?php print  $data['content_type'] ?>'+ifr_ed_url_more, content);
+    mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=<?php print  $edit_post_mode ?>&content_type=<?php print  $data['content_type'] ?>'+ifr_ed_url_more, content);
 
 }
 else{
@@ -1315,20 +1298,20 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
  
 
 mw.del_curent_page = function(a, callback){
-	  mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
-        var arr = $.isArray(a) ? a : [a];
+    mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
+        var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids:arr}
         $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
-   		   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+    	   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
            typeof callback === 'function' ? callback.call(data) : '';
         });
-	  });
+    });
 }
 
 </script>
       <small><a href="javascript:mw.del_curent_page('<?php print ($data['id'])?>');"  class="mw-ui-link">
     <?php _e('Delete'); ?>
-    </a></small> 
+    </a></small>
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />

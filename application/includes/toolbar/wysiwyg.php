@@ -42,6 +42,7 @@
                   <li value="h6"><a href="#"><h6><?php _e("Heading"); ?> 6</h6></a></li>
                   <li value="p"><a href="#"><p><?php _e("Paragraph"); ?></p></a></li>
                   <li value="div"><a href="#"><div><?php _e("Block"); ?></div></a></li>
+                  <li value="pre"><a href="#"><div><?php _e("Pre formatted"); ?></div></a></li>
                 </ul>
               </div>
             </div>
@@ -139,6 +140,27 @@
             <?php /* <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span>Design</span> */ ?>
 
             <span class="mw_dlm"></span>
+
+             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert"
+             id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
+
+                <span class="mw_dropdown_val_holder">
+                    <span class="dd_rte_arr"></span>
+                    <span class="mw_dropdown_val"><?php _e("Insert"); ?></span>
+                </span>
+              <div class="mw_dropdown_fields">
+                <ul>
+                  <li value="hr"><a href="#" style="font-size: 10px"><?php _e("Horizontal Rule"); ?></a></li>
+                  <li value="box"><a href="#" style="font-size: 10px"><?php _e("Box"); ?></a></li>
+                  <li value="table"><a href="#" style="font-size: 10px"><?php _e("Table"); ?></a></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <span class="mw_dlm"></span>
+
+
 
             <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
 

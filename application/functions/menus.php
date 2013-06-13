@@ -427,6 +427,12 @@ function menu_tree($menu_id, $maxdepth = false)
         $is_active = true;
         if (intval($item['content_id']) > 0) {
             $cont = get_content_by_id($item['content_id']);
+			   if (isarr($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
+				    $is_active = false;
+					$cont = false;
+			   }
+			
+			
             if (isarr($cont)) {
                 $title = $cont['title'];
                 $url = content_link($cont['id']);

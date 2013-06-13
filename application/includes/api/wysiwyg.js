@@ -1100,5 +1100,20 @@ mw.$(".mw_dropdown_action_font_size li a").each(function(i){
 $(window).load(function(){
   mw.wysiwyg.init_editables();
 
+  mw.$("#wysiwyg_insert").bind("change", function(){
+    var val = $(this).getDropdownValue();
+    if(val == 'hr'){
+        mw.wysiwyg._do('InsertHorizontalRule');
+    }
+    else if(val == 'box'){
+          mw.wysiwyg.applier('div', 'well');
+    }
+    else if(val == 'table'){
+         var table = mw.wysiwyg.applier('table', 'table', {width:"100%"});
+         table.innerHTML = '<tr><td>Lorem Ipsum</td><td>Lorem Ipsum</td></tr><tr><td>Lorem Ipsum</td><td>Lorem Ipsum</td></tr>';
+         table.setAttribute('onclick', 'mw.inline.tableController(this);');
+    }
+  });
+
 });
 

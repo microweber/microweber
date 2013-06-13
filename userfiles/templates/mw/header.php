@@ -42,6 +42,7 @@
               <ul class="nav nav-pills" id="main-nav">
                 <li class="active"><a href="javascript:;">Home</a></li>
                 <li><a href="javascript:;">Features</a></li>
+                <li><a href="plans-and-pricing">Plans & Pricing</a></li>
                 <li><a href="javascript:;">How to</a></li>
                 <li><a href="javascript:;">Comunity</a></li>
                 <li><a href="javascript:;">Support</a></li>

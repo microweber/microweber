@@ -1447,21 +1447,7 @@ input.mw-title-field{
   background: #FFFDD1;
 }
 
-.post-thumb-uploader{
-/*  width : 133px;
-  float: left;
-  margin-right: 5px;
-  height: 38px;
-  background:#EDEDED url(../img/add_post_thumbnail.png) no-repeat center center;
-  border: 1px solid #D4D4D4;
-  border-top-color:#B9B9B9;
-  cursor: pointer;
-  text-align: center;
-  font-size: 10px;
-  color: #434343;
-  padding-top:93px;
-  box-shadow:inset 0 0 1px #C8C8C8;*/
-}
+
 .post-thumb-uploader{
   width: 129px;
   height: 129px;
@@ -1470,6 +1456,8 @@ input.mw-title-field{
   text-indent: -100%;
   overflow: hidden;
   cursor: pointer;
+  float: left;
+  margin: 0 10px;
 }
 
 
@@ -1477,10 +1465,6 @@ input.mw-title-field{
   border-color: #618D0D;
   background-color: #D8FFC4;
 }
-
-
-
-
 
 .mw-ui-check{
   display: inline-block;
@@ -1637,8 +1621,8 @@ select.mw-ui-simple-dropdown:focus{
   margin-left: 0;
 }
 
-.admin-thumbs-holder > div:nth-child(5n){
-  clear: both;
+.admin-thumbs-holder > div:nth-child(3n+1){
+  /*clear: both;*/
   margin-left: 0;
 }
 

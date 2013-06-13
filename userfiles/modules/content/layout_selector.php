@@ -36,11 +36,11 @@ if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
 }
 
 $inherit_from = false;
+ 
 
+if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'))){
 
-if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit')){
-
-  if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
+  if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) != '' or trim($params["inherit_from"]) != '0')){
 //
 
 
@@ -50,9 +50,11 @@ if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout
 $data['active_site_template']  =  $inherit_from_id['active_site_template'];
           $data['layout_file']  = $inherit_from_id['layout_file'];
  $inherit_from = $inherit_from_id;
+  $data['layout_file']  = 'inherit';
 
  } else {
         $inh1 = content_get_inherited_parent($params["inherit_from"]);
+	
         if($inh1 == false){
          $inh1 = intval($params["inherit_from"]);
        }
@@ -88,7 +90,7 @@ if(isset($data["active_site_template"]) and ($data["active_site_template"] == fa
 $templates= templates_list();
 
 $layout_options = array();
-
+$layout_options  ['no_cache'] = 1;
 $layout_options  ['site_template'] = $data['active_site_template'];
 
 $layouts = layouts_list($layout_options);

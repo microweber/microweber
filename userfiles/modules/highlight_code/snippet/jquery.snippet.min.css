@@ -11,12 +11,7 @@
 .snippet-wrap .snippet-menu pre, .snippet-wrap .snippet-hide pre {background-color:transparent; margin:0; padding:0;}
 .snippet-wrap .snippet-menu a, .snippet-wrap .snippet-hide a {padding:0 5px; text-decoration:underline;}
 .snippet-wrap pre.sh_sourceCode{padding:1em;line-height:1.8em;overflow:auto;position:relative;
--moz-border-radius:15px;
--webkit-border-radius:15px;
-border-radius:15px;
-box-shadow: 2px 2px 5px #000;
--moz-box-shadow: 2px 2px 5px #000;
--webkit-box-shadow: 2px 2px 5px #000;}
+ }
 .snippet-wrap pre.snippet-textonly {padding:2em;}
 *:first-child+html .snippet-wrap pre.snippet-formatted {padding:2em 1em;}
 * html .snippet-wrap pre.snippet-formatted {padding:2em 1em;}
