@@ -735,7 +735,6 @@ mw.tools = {
      }
   },
   hasChildrenWithClass:function(node, cls){
-
     var g = {}
     g.final = false;
     mw.tools.foreachChildren(node,function(){

@@ -13,21 +13,105 @@
 
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
-<div id="content" style="padding-top: 120px;">
+<div id="content" style="padding-top: 0px;">
+      <div id="plans-and-pricing-tabs-holder">
+        <div class="plan-tabs" id="plans-and-pricing-tabs">
+
+
+                <a href="javascript:;" class="pbtn active">Personal</a>
+                <a href="javascript:;" class="pbtn">Business</a>
+
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            mw.ui.btn.radionav(mwd.getElementById('plans-and-pricing-tabs'), '.pbtn');
+
+
+            issearching = null;
+
+
+            $(document).ready(function(){
+                PTABS = mw.$("#plans-and-pricing-tabs");
+                $(window).bind("scroll resize", function(){
+
+                    $(this).scrollTop() > 102 ? PTABS.addClass("fixed12") : PTABS.removeClass("fixed12");
+
+                });
+
+                mw.$("#domain-search-field").bind("keydown keyup", function(e){
+
+                    var w = e.keyCode;
+
+                    if(w===32){ return false; }
+
+                    if(e.type == 'keyup'){
+                          if(w!=32 && !e.ctrlKey){
+                               var val = this.value;
+                               var val = val.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+                               var val = val.replace(/-+$|(-)+/g, '-');
+                               if(val.indexOf("-")==0){
+                                 var val = val.substring(1);
+                               }
+                               if(val != ''){
+                                   this.value = val;
+
+
+
+                                   if(typeof issearching  === 'number'){
+                                     clearTimeout(issearching);
+                                   }
+
+                                     issearching = setTimeout(function(){
+
+                                         var tld = $(mwd.getElementById('format_main')).getDropdownValue();
+
+                                         mw.$("#domain-search-ajax-results").attr("class", "loading");
+
+                                         mw.whm.domain_check(val, tld, function(data){
+                                             if(data != null){
+                                                if(data.status == "available"){
+                                                    mw.$("#domain-search-ajax-results").attr("class", "yes");
+                                                }
+                                                else if(data.status == "unavailable"){
+                                                    mw.$("#domain-search-ajax-results").attr("class", "no");
+                                                }
+                                                else if(typeof data.status == "undefined"){
+                                                    mw.$("#domain-search-ajax-results").attr("class", "no");
+                                                }
+                                             }
+                                             else{
+                                                 mw.$("#domain-search-ajax-results").attr("class", "");
+                                             }
+                                             issearching = null;
+                                         });
+
+                                     }, 500);
+
+
+                               }
+                               else{
+                                    mw.$("#domain-search-ajax-results").removeClass("active");
+                                    issearching = null;
+                               }
+
+                          }
+                    }
+
+                });
+
+            });
+
+
+        </script>
+
+
   <div class="container">
 
 
 
-        <div class="plan-tabs" id="plans-and-pricing-tabs">
 
-            <a href="javascript:;" class="pbtn active">Personal</a>
-            <a href="javascript:;" class="pbtn">Business</a>
-
-        </div>
-
-        <script type="text/javascript">
-            mw.ui.btn.radionav(mwd.getElementById('plans-and-pricing-tabs'), '.pbtn');
-        </script>
 
        <div id="pricing-tabs-content">
             <img
@@ -124,9 +208,9 @@
                   <div class="box block domain-search-form">
                     <div class="box-content">
                       <form action="#" method="post">
-                          <input type="text" placeholder="Type domain name" tabindex="1" class="pull-left invisible-field" autocomplete="off " autofocus="" />
+                          <input type="text" placeholder="Type domain name" tabindex="1" class="pull-left invisible-field" autocomplete="off" autofocus="" id="domain-search-field" />
 
-                          <div title="" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
+                          <div title="" data-val="subdomain" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
                               <span class="mw_dropdown_val_holder">
                                   <span class="dd_rte_arr"></span>
                                   <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
@@ -142,6 +226,10 @@
                           </div>
                       </form>
                     </div>
+
+                    <div id="domain-search-ajax-results"></div>
+
+
                   </div>
                   </div>
 
@@ -156,7 +244,71 @@
 
        <div class="vspace"></div>
 
+
+       <div class="also-faq">
        <h2 class="text-center blue">You may want to know?</h2>
+       <div class="row">
+           <div class="span6">
+            <h3>HOW LONG ARE YOUR CONTRACTS?</h3>
+            <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+           <div class="span6">
+             <h3>WHAT KIND OF WEBSITES I CAN MAKE?</h3>
+             <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+       </div>
+       <div class="row">
+           <div class="span6">
+            <h3>CAN I DOWNLOAD MICROWEBER?</h3>
+            <p>Sure. MW is a fully-managed web service. We do not have plans to make a downloadable version. Squarespace does provide many standard methods for exporting your data.</p>
+           </div>
+           <div class="span6">
+             <h3>DO I HAVE A ONLINE SHOP INCLUDED?</h3>
+             <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+       </div>
+       <div class="row">
+           <div class="span6">
+            <h3>DO YOU OFFER EMAIL ACCOUNTS?</h3>
+            <p>While Squarespace does not provide email accounts, you can easily link your domain to Google Apps and get email.</p>
+           </div>
+           <div class="span6">
+             <h3>Which payment methods can i accept?</h3>
+             <p>Sure. MW is a fully-managed web service. We do not have plans to make a downloadable version. Squarespace does provide many standard methods for exporting your data. </p>
+           </div>
+       </div>
+       <div class="row">
+           <div class="span6">
+            <h3>DO I NEED ANOTHER WEB HOST?</h3>
+            <p>No. All Squarespace plans include our fully-managed cloud hosting, ensuring your website remains available at all times.</p>
+           </div>
+           <div class="span6">
+             <h3>CAN I GET MOBILE VERSION OF MY SITE?</h3>
+             <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+       </div>
+       <div class="row">
+           <div class="span6">
+            <h3>DO I HAVE SUPPORT?</h3>
+            <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+           <div class="span6">
+             <h3>Do you offer a free PLAN?</h3>
+             <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+       </div>
+       <div class="row">
+           <div class="span6">
+            <h3>Can I use my own domain name?</h3>
+            <p>Our plans are month-to-month, yearly, or two years. We make it simple to start — and stop — your service at any time.</p>
+           </div>
+           <div class="span6">
+             <h3>DO I NEED ANOTHER WEB HOST?</h3>
+             <p>No. All Squarespace plans include our fully-managed cloud hosting, ensuring your website remains available at all times.</p>
+           </div>
+       </div>
+
+      </div>
 
   </div>
 </div>

@@ -24,6 +24,12 @@ input:focus, textarea:focus, select:focus, a:focus{
   outline: none;
 }
 
+input[type=text]::-ms-clear {
+    display: none;
+}
+
+
+
 a, a:hover{
   text-decoration: none;
 }
@@ -69,6 +75,7 @@ input[type="color"]:focus,
   min-height: 82px;
   background-color: #307EB1;
   background-color: #4791c8;
+  box-shadow: 0 0 4px #BBBBBB;
   color: white;
 }
 
@@ -685,11 +692,14 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   top: 39px;
   border: 1px solid #D4D4D4;
   padding-top: 0;
+  width: 99.5%;
+  width: calc(100% - 2px);
+  width: -webkit-calc(100% - 2px);
 }
 
 .mw_dropdown_type_mw  .mw_dropdown_fields ul{
   border-radius: 0px;
-
+  box-shadow: none;
 }
 
 
@@ -1052,16 +1062,29 @@ body .invisible-field, body .invisible-field:focus{
 
 /* Plans and Pricing */
 
+#plans-and-pricing-tabs-holder{
+  padding: 20px;
+  min-height: 68px;
+}
 
 #plans-and-pricing-tabs{
   text-align: center;
-  padding-bottom: 25px;
+  padding-top: 12px;
+  background-color: #ECEEF1;
+}
+#plans-and-pricing-tabs.fixed12{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  box-shadow: 0 0 2px #ccc;
 }
 
 
 #plans-and-pricing-tabs a{
   width: 170px;
-  margin: 0 7px;
+  margin: 0 7px 12px;
 }
 
 .plan-image{
@@ -1192,13 +1215,40 @@ body .invisible-field, body .invisible-field:focus{
 
 .domain-search-form{
   cursor: text;
+  position: relative;
 }
+
+#domain-search-ajax-results{
+  position: absolute;
+  right: 320px;
+  top: 19px;
+  width: 16px;
+  height: 16px;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+#domain-search-ajax-results.yes{
+  background: url(../img/yesno.png) no-repeat
+}
+#domain-search-ajax-results.no{
+  background: url(../img/yesno.png) no-repeat -19px 0;
+}
+
+#domain-search-ajax-results.loading{
+  background:url(../img/loading.gif) no-repeat;
+}
+
+
 
 .domain-search-form .invisible-field{
    padding: 11px;
+   font-size: 18px;
    margin: 0;
-   max-width: calc(100% - 315px);
-   max-width: -webkit-calc(100% - 315px);
+   width: calc(100% - 315px);
+   width: -webkit-calc(100% - 315px);
 }
 
 .domain-search-form .mw_dropdown_type_mw {
@@ -1215,6 +1265,9 @@ body .invisible-field, body .invisible-field:focus{
   overflow: hidden;
   padding-top: 85px;
 }
+#starttitle h2{
+  font-size: 26px;
+}
 
 #starttitle #starttitle-info{
     text-align: center;
@@ -1225,6 +1278,27 @@ body .invisible-field, body .invisible-field:focus{
 #starttitle img{
   float: right;
 }
+
+.also-faq{
+  padding-top: 50px;
+}
+
+.also-faq h3{
+  font-size: 18px;
+  color: #000000;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.also-faq > .row{
+  padding-bottom: 50px;
+}
+
+.also-faq h2{
+  padding-bottom: 50px;
+}
+
+
 
 
 

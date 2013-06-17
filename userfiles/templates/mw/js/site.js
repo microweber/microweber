@@ -84,8 +84,27 @@ $(document).ready(function(){
 
 });
 
-$(window).bind("load resize", function(){
+$(window).bind("load", function(){
+    Dimension = $(window).width();
+
+
+    if('placeholder' in document.createElement('input') === false){
+       mw.$("[placeholder]").each(function(){
+          var el = $(this), p = el.attr("placeholder");
+          el.val() == '' ? el.val(p) : '' ;
+          el.bind('focus', function(e){ el.val() == p ? el.val('') : ''; });
+          el.bind('blur', function(e){ el.val() == '' ? el.val(p) : '';});
+       });
+    }
+
+
+});
+$(window).bind("resize", function(){
     Dimension = $(window).width();
 });
+
+
+
+
 
 

@@ -34,7 +34,7 @@ Notice — For any reuse or distribution, you must make clear to others the lice
 
 * You cannot alter or remove the Microweber logo and branding from the Admin panel and Live edit.
 
-* You are not allowed to modify any part of the  Microweber "application"  code and distribute it as another software without our permission.
+* You may use this software in commercial applications, however you may not resell this software without permission from Microweber
 
 * Any code modification to the Microweber functions and modules belongs to Microweber LTD.
 

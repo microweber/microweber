@@ -183,7 +183,10 @@
        /* Plans */
 
 
-
+      #plans-and-pricing-tabs.fixed12{
+        box-shadow: none;
+        position: static;
+      }
 
 
        /* /Plans */
