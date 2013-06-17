@@ -99,40 +99,64 @@
             </div>
            </div>
        </div>
-       <h2 class="orange">Want to try it first?</h2>
+
+
+
+       <div id="starttitle" class="row">
+
+           <div class="span3"><h2 class="orange">Want to try it first?</h2></div>
+
+           <div class="span6"><p id="starttitle-info">Sure, choose your domain and get started right now!</p></div>
+
+           <div class="span3"><img src="{TEMPLATE_URL}img/getit.png" alt="" /></div>
+
+       </div>
 
        <div class="box box-gray block" id="domain-search">
         <div class="box-content">
 
-            <a href="javascript:;" class="start pull-right">Get Started Free </a>
-            <div class="box left domain-search-form">
-              <div class="box-content">
-                <form action="#" method="post">
-                    <input type="text" placeholder="Type domain name" tabindex="1" class="pull-left invisible-field" autocomplete="off " autofocus="" />
+              <div class="row-fluid">
 
-                    <div title="" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
-                        <span class="mw_dropdown_val_holder">
-                            <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
-                        </span>
-                      <div class="mw_dropdown_fields">
-                        <ul>
-                          <li value="h1"><a href="javascript:;">1</a></li>
-                          <li value="h1"><a href="javascript:;">1</a></li>
-                          <li value="h1"><a href="javascript:;">1</a></li>
-                          <li value="h1"><a href="javascript:;">1</a></li>
-                        </ul>
-                      </div>
+
+
+
+                  <div class="span9">
+                  <div class="box block domain-search-form">
+                    <div class="box-content">
+                      <form action="#" method="post">
+                          <input type="text" placeholder="Type domain name" tabindex="1" class="pull-left invisible-field" autocomplete="off " autofocus="" />
+
+                          <div title="" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
+                              <span class="mw_dropdown_val_holder">
+                                  <span class="dd_rte_arr"></span>
+                                  <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
+                              </span>
+                            <div class="mw_dropdown_fields">
+                              <ul>
+                                <li value="subdomain"><a href="javascript:;">.microweber.com - <small>Free</small></a></li>
+                                <li value="com"><a href="javascript:;">.com - <small>$20</small></a></li>
+                                <li value="net"><a href="javascript:;">.net - <small>$30</small></a></li>
+                                <li value="org"><a href="javascript:;">.org - <small>$40</small></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                      </form>
                     </div>
+                  </div>
+                  </div>
 
-                </form>
+                  <div class="span3"><a href="javascript:;" class="start inline-block">Get Started Free </a></div>
+
+
               </div>
-            </div>
-
 
         </div>
         <i class="box-arr-topleft"><i></i></i>
        </div>
+
+       <div class="vspace"></div>
+
+       <h2 class="text-center blue">You may want to know?</h2>
 
   </div>
 </div>

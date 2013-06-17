@@ -605,6 +605,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 }
 
 .block{ display: block !important; }
+.inline-block{ display: inline-block !important; }
 .relative{ position: relative !important; }
 
 
@@ -1170,7 +1171,7 @@ body .invisible-field, body .invisible-field:focus{
 
 
 .personal-plans{
-  height: 300px;
+  min-height: 300px;
   position: relative;
 }
 
@@ -1191,10 +1192,33 @@ body .invisible-field, body .invisible-field:focus{
 .domain-search-form .invisible-field{
    padding: 11px;
    margin: 0;
+   max-width: calc(100% - 315px);
+   max-width: -webkit-calc(100% - 315px);
 }
 
-.domain-search-form .mw_dropdown_type_mw .mw_dropdown_val_holder{
-  width: 260px;
+.domain-search-form .mw_dropdown_type_mw {
+  width: 290px;
+  float: right;
+}
+
+.domain-search-form .box-content{
+  padding: 7px;
+}
+
+#starttitle{
+  clear: both;
+  overflow: hidden;
+  padding-top: 85px;
+}
+
+#starttitle #starttitle-info{
+    text-align: center;
+    padding-top: 50px;
+    font-size: 18px;
+}
+
+#starttitle img{
+  float: right;
 }
 
 

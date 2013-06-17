@@ -8,7 +8,7 @@ Under the following conditions:
 * Attribution — You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
 
 
-* No Derivative Works — You may not built copies of this system and sell them of offer them as a service
+* No Derivative Works — You may not built copies of this system and sell them or offer them as a service
 
 
 **With the understanding that:**

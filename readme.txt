@@ -7,6 +7,8 @@ You can easily manipulate the content and the layout of your pages without the n
 [Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo) 
 
 
+
+
 # How to install
 
 The following server requirements are needed:
@@ -28,3 +30,6 @@ Microweber will make new config.php for you when you install it
 Microweber will also create or modify your .htaccess file on install
 
 After installation you can login in the admin panel from http://you_site_url/admin
+
+For developers: 
+there is little [documentation available here](http://help.microweber.com/apidocs/ "") 
