@@ -1,4 +1,4 @@
-# Microweber is Drag-and-Drop system for making websites
+# Microweber is Drag-and-Drop CMS
 
 Microweber is a content management system of new generation that allows you to make your website by drag and drop. 
 
