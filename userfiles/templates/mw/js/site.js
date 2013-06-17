@@ -75,9 +75,9 @@ $(document).ready(function(){
    mw.tools.dropdown();
 
 
-   mw.$(".domain-search-form").bind("mousedown", function(e){
+   mw.$(".domain-search-form").bind("mouseup", function(e){
      if(e.target.nodeName == 'DIV' || e.target.nodeName == 'FORM'){
-       this
+       this.getElementsByTagName('input')[0].focus();
      }
    });
 
