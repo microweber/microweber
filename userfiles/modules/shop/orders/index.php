@@ -68,8 +68,8 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
         <td class="mw-order-item-amount"><?php
 		 
 		
-		
-		 print currency_format(floatval($item['amount'])+floatval($item['shipping']),$item['currency']) ?></td>
+
+		 print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
           <?php _e("Yes"); ?>
           <?php else : ?>

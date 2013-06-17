@@ -1110,7 +1110,7 @@ $(window).load(function(){
     }
     else if(val == 'table'){
          var table = mw.wysiwyg.applier('table', 'table', {width:"100%"});
-         table.innerHTML = '<tr><td>Lorem Ipsum</td><td>Lorem Ipsum</td></tr><tr><td>Lorem Ipsum</td><td>Lorem Ipsum</td></tr>';
+         table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
          table.setAttribute('onclick', 'mw.inline.tableController(this);');
     }
   });

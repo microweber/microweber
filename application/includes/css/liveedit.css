@@ -360,11 +360,11 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
 .mw-inline-bar{
   position: absolute;
   z-index: 999;
-  padding: 10px;
+  padding: 5px;
   background: white;
   box-shadow: 0 0 2px #111;
-  border-radius:3px;
-
+  border-radius:2px;
+  min-width: 150px;  
 }
 
 

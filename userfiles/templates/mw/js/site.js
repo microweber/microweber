@@ -72,7 +72,7 @@ $(document).ready(function(){
       return false;
     });
 
-
+   mw.tools.dropdown();
 
 });
 

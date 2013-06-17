@@ -392,7 +392,7 @@ mw.tools = {
 
     if(typeof __dd_activated === 'undefined'){
       __dd_activated = true;
-      $(mwd.body).mousedown(function(){
+      $(mwd.body).mousedown(function(e){
         if(mw.$('.mw_dropdown.hover').length==0){
            mw.$(".mw_dropdown").removeClass("active");
            mw.$(".mw_dropdown_fields").hide();
@@ -2423,28 +2423,42 @@ $(document).ready(function(){
       if(typeof el.has_bar === 'undefined'){
         el.has_bar = true;
         var bar = mwd.createElement('div');
-        this.bar = bar;
+        bar.contentEditable = false;
+        el.bar = bar;
         bar.className = 'mw-inline-bar';
-        $(bar).css($(el).offset());
         $(bar).data("for", el);
         mwd.body.appendChild(bar);
+        var off = $(el).offset()
+        $(bar).css({
+          top : off.top,
+          left:off.left
+        });
       }
       return el;
     },
     tableController:function(el){
       var el =  mw.inline.bar(el);
       el.bar.innerHTML = ''
-        +'<div class="mw-ui-dropdown">'
-            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-mini" href="javascript:;">Insert</a>'
+        +'<div class="mw-defaults mw-ui-dropdown">'
+            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-small" href="javascript:;"><span class="ico iplus"></span><span>Insert</span></a>'
             +'<div style="width: 155px;" class="mw-dropdown-content">'
               +'<ul class="mw-dropdown-list">'
-                  +'<li><a href="javascript">Row Above</a></li>'
-                  +'<li><a href="javascript">Row Below</a></li>'
-                  +'<li><a href="javascript">Column on left</a></li>'
-                  +'<li><a href="javascript">Column on right/a></li>'
+                  +'<li><a href="javascript:;">Row Above</a></li>'
+                  +'<li><a href="javascript:;">Row Below</a></li>'
+                  +'<li><a href="javascript:;">Column on left</a></li>'
+                  +'<li><a href="javascript:;">Column on right</a></li>'
               +'</ul>'
             +'</div>'
         +'</div>';
+        $(el.bar).css("marginTop", -$(el.bar).outerHeight());
+    },
+    setActiveCell:function(el, event){
+        event.preventDefault();
+        event.stopPropagation();
+        if(!mw.tools.hasClass(el.className, 'tc-activecell')){
+           mw.$(".tc-activecell").removeClass('tc-activecell');
+           $(el).addClass('tc-activecell')
+        }
     }
   }
 

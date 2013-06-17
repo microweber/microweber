@@ -50,6 +50,24 @@
     white-space: normal;
   }
 
+  /* Plans */
+
+  .personal-plans .plan-micro,
+  .personal-plans .plan-weber,
+  .personal-plans .plan-business{
+    position: static;
+    width: auto;
+  }
+
+  .personal-plans .start{
+    display: inline-block;
+    width: 150px;
+  }
+
+
+  /* /Plans */
+
+
 }  /* / max-width: 979px */
 
 @media (max-width: 767px) {
@@ -150,5 +168,24 @@
         padding-right: 0;
         padding-bottom: 50px;
       }
+
+
+
+      .plan-features li a{
+        padding-left: 7px;
+        text-align: center;
+      }
+
+      .plan-features li a i{
+        display: none;
+      }
+
+       /* Plans */
+
+
+
+
+
+       /* /Plans */
 
 }

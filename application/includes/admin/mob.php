@@ -65,6 +65,78 @@ if(array_key_exists('post', $_GET)){     ?>
 
   </div>
   </div>
+
+
+  <!-- Content -->
+       <div class="vSpace"></div>
+   <div class="mw-o-box" style="width: 800px;max-width: 80%;margin: auto;">
+  <div class="mw-o-box-header">
+       <h2>Posts</h2>
+  </div>
+  <div class="mw-o-box-content">
+        <?php
+
+        $params = array();
+        if(array_key_exists('type', $_GET)){
+          $params['content_type'] = $_GET['type'];
+        }
+        else{
+
+        }
+
+       if(array_key_exists('subtype', $_GET)){
+        $params['subtype'] = $_GET['subtype'];
+       }
+
+        $content = get_content($params);
+
+if (!empty($content)) {
+     foreach($content as $item){   ?>
+
+     <pre><?php d($item); exit(); ?></pre>
+
+       <div class="mob-post">
+        <img width="50" src="<?php print thumbnail($item['image']); ?>" alt="" />  <?php print $item['title']; ?>
+       </div>
+
+
+  <?php     }
+}
+
+
+        ?>
+
+  </div>
+  </div>
+      <div class="vSpace"></div>
+  <div class="mw-o-box" style="width: 800px;max-width: 80%;margin: auto;">
+  <div class="mw-o-box-header">
+       <h2>Orders</h2>
+  </div>
+  <div class="mw-o-box-content">
+       <?php
+
+       $orders = get_orders();
+
+
+        foreach($orders as $order){
+
+       ?>
+
+       <div>
+        <?php print $order['first_name']; ?>
+        <?php print $order['last_name']; ?>
+        <?php print $order['email']; ?> -
+         <?php print currency_format(floatval($order['amount'])+floatval($order['shipping']),$order['currency']); ?>
+       </div>
+
+       <?php } ?>
+
+  </div>
+  </div>
+
+
+
 </div>
 
 
