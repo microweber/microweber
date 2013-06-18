@@ -497,6 +497,10 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
     background: #fb7030;
 }
 
+.start:focus{
+  box-shadow:0 1px 0 #FECBAB inset, 0 0 3px #999999, 0 0 3px -1px #999999;
+}
+
 .start:active{
   box-shadow: inset 0 0 8px #DC4904;
   box-shadow: inset 0 1px 0px #FECBAB, inset 0 0 16px #C84204;
@@ -660,6 +664,13 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 }
 
 
+.mw_dropdown_type_mw{
+  outline: none;
+}
+
+.mw_dropdown_type_mw:focus{
+  box-shadow: 0 0 2px #888;
+}
 
 .mw_dropdown_type_mw .mw_dropdown_val_holder{
     display: block;
@@ -673,7 +684,7 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
   padding:2px 10px;
 }
 
-.mw_dropdown_type_mw  .mw_dropdown_val small{
+.mw_dropdown_type_mw  .mw_dropdown_val small, .mw_dropdown_type_mw .mw_dropdown_fields a small{
   color: #296FA5;
   font-size: 14px;
 }
@@ -700,16 +711,18 @@ body.blue .box.hover2.box-deactivated:hover{ box-shadow: 0 0 3px #777; }
 .mw_dropdown_type_mw  .mw_dropdown_fields ul{
   border-radius: 0px;
   box-shadow: none;
+  background: white;
 }
 
 
 .mw_dropdown_type_mw  .mw_dropdown_fields a{
   color:#696969;
   display: block;
-  padding:2px 10px;
+  padding:10px;
+  font-size: 24px;
 }
 
-.mw_dropdown_type_mw .mw_dropdown_fields a:hover{
+.mw_dropdown_type_mw .mw_dropdown_fields a:hover, .mw_dropdown_type_mw .mw_dropdown_fields a:hover small{
   color:white;
   background: #4791C8;
 
@@ -1231,28 +1244,29 @@ body .invisible-field, body .invisible-field:focus{
 }
 
 #domain-search-ajax-results.yes{
-  background: url(../img/yesno.png) no-repeat
+  background: url(../img/yes.png) no-repeat  right center
 }
 #domain-search-ajax-results.no{
-  background: url(../img/yesno.png) no-repeat -19px 0;
+  background: url(../img/no.png) no-repeat right center ;
 }
 
 #domain-search-ajax-results.loading{
-  background:url(../img/loading.gif) no-repeat;
+  background:url(../img/loading.gif) no-repeat  left center ;
 }
 
 
 
 .domain-search-form .invisible-field{
    padding: 11px;
+   height: 22px;
    font-size: 18px;
    margin: 0;
-   width: calc(100% - 315px);
-   width: -webkit-calc(100% - 315px);
+   width: calc(100% - 325px);
+   width: -webkit-calc(100% - 325px);
 }
 
 .domain-search-form .mw_dropdown_type_mw {
-  width: 290px;
+  width: 300px;
   float: right;
 }
 
@@ -1296,6 +1310,16 @@ body .invisible-field, body .invisible-field:focus{
 
 .also-faq h2{
   padding-bottom: 50px;
+}
+
+.ptab{
+  position: absolute;
+  left:  -9999px;
+  top: -9999px;
+}
+
+.ptab.active{
+  position: static;
 }
 
 

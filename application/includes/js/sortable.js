@@ -1224,7 +1224,7 @@ mw.drag = {
         var els = mwd.querySelectorAll('div.element'), l = els.length, i = 0;
         if(l>0){
           for(;i<l;i++){
-             if(els[i].querySelector('p,div,li')===null){
+             if(els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6')===null){
                  els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
              }
           }

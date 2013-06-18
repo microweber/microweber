@@ -22,20 +22,20 @@ if (!defined("MW_DB_TABLE_LOG")) {
  *
  *
  * @example
- * <pre>
+ * <code>
  * //login with username
  * user_login('username=test&password=pass')
- * </pre>
+ * </code>
  * @example
- * <pre>
+ * <code>
  * //login with email
  * user_login('email=my@email.com&password=pass')
- * </pre>
+ * </code>
  * @example
- * <pre>
+ * <code>
  * //login hashed password
  * user_login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
- * </pre>
+ * </code>
  *
  * @return array|bool
  * @hooks
@@ -43,11 +43,11 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * You can also hook to this function with custom functions <br />
  * There are few events that get executed on login <br />
  *
- * <pre>
+ * <code>
  * Here is example:
  * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
  * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
- * </pre>
+ * </code>
  * @package Users
  * @category Users
  * @uses hash_user_pass()
@@ -548,6 +548,11 @@ api_expose('register_user');
 function register_user($params)
 {
     exec_action('before_user_register', $params);
+
+
+
+
+
     $user = isset($params['username']) ? $params['username'] : false;
     $pass = isset($params['password']) ? $params['password'] : false;
     $email = isset($params['email']) ? $params['email'] : false;

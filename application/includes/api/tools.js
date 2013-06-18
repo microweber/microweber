@@ -396,6 +396,47 @@ mw.tools = {
       });
     }
 
+
+    mw.$(".mw_dropdown", root).each(function(){
+        if($(this).attr("tabindex") != undefined){
+
+          var el = this;
+          $(el).keydown(function(e){
+
+            var w = e.keyCode;
+
+
+
+            if(w == 38 || w== 39){
+                e.preventDefault();
+                e.stopPropagation();
+                var val = $(el).getDropdownValue();
+                var curr = mw.$("li[value='"+val+"']", el)[0];
+                if(curr.previousElementSibling !== null){
+                     $(el).setDropdownValue($(curr.previousElementSibling).attr("value"), true);
+                }
+                else{
+                    $(el).setDropdownValue(mw.$("li:last-child", el).attr("value"), true);
+                }
+
+            }
+            if(w==37 || w==40){
+                e.preventDefault();
+                e.stopPropagation();
+                var val = $(el).getDropdownValue();
+                var curr = mw.$("li[value='"+val+"']", el)[0];
+                if(curr.nextElementSibling !== null){
+                     $(el).setDropdownValue($(curr.nextElementSibling).attr("value"), true);
+                }
+                else{
+                    $(el).setDropdownValue(mw.$("li:first-child", el).attr("value"), true);
+                }
+
+            }
+          });
+        }
+    });
+
   },
   dd_sub_set:function(item){
       var html = $(item).html();

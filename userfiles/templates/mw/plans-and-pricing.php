@@ -17,9 +17,8 @@
       <div id="plans-and-pricing-tabs-holder">
         <div class="plan-tabs" id="plans-and-pricing-tabs">
 
-
-                <a href="javascript:;" class="pbtn active">Personal</a>
-                <a href="javascript:;" class="pbtn">Business</a>
+                <a href="#personal" class="pbtn active">Personal</a>
+                <a href="#business" class="pbtn">Business</a>
 
             </div>
         </div>
@@ -29,10 +28,34 @@
             mw.ui.btn.radionav(mwd.getElementById('plans-and-pricing-tabs'), '.pbtn');
 
 
+            $(window).load(function(){
+                var hash = window.location.hash;
+                if(hash == '#business'){
+
+                }
+                else {
+
+                }
+
+            });
+
+
             issearching = null;
 
 
             $(document).ready(function(){
+
+
+             mw.$(".pbtn").mouseup(function(){
+               if(!$(this).hasClass("active")){
+                     var i = mw.tools.index(this);
+                     mw.$(".ptab.active").removeClass("active");
+                     mw.$('.ptab').eq(i).addClass("active");
+               }
+             });
+
+
+
                 PTABS = mw.$("#plans-and-pricing-tabs");
                 $(window).bind("scroll resize", function(){
 
@@ -40,68 +63,81 @@
 
                 });
 
-                mw.$("#domain-search-field").bind("keydown keyup", function(e){
+
+                $(mwd.getElementById('format_main')).bind("change", function(){
+                    mw.$("#domain-search-field").trigger("change");
+                });
+
+                mw.$("#domain-search-field").bind("keydown keyup change", function(e){
 
                     var w = e.keyCode;
 
                     if(w===32){ return false; }
 
-                    if(e.type == 'keyup'){
+                    if(e.type == 'keyup' || e.type == 'change'){
                           if(w!=32 && !e.ctrlKey){
                                var val = this.value;
-                               var val = val.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+                               var val = val.replace(/[`~!@#$№§%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
                                var val = val.replace(/-+$|(-)+/g, '-');
                                if(val.indexOf("-")==0){
                                  var val = val.substring(1);
                                }
+
+
                                if(val != ''){
                                    this.value = val;
-
-
 
                                    if(typeof issearching  === 'number'){
                                      clearTimeout(issearching);
                                    }
-
                                      issearching = setTimeout(function(){
 
                                          var tld = $(mwd.getElementById('format_main')).getDropdownValue();
 
                                          mw.$("#domain-search-ajax-results").attr("class", "loading");
 
-                                         mw.whm.domain_check(val, tld, function(data){
+                                         var val = mw.$("#domain-search-field").val();
+                                         if(val.substring(val.length - 1) == '-'){
+                                           var val = val.substring(0, val.length - 1);
+                                           mw.$("#domain-search-field").val(val);
+                                         }
+
+                                         mw.whm.domain_check(val+tld, false, function(data){
                                              if(data != null){
                                                 if(data.status == "available"){
                                                     mw.$("#domain-search-ajax-results").attr("class", "yes");
                                                 }
                                                 else if(data.status == "unavailable"){
                                                     mw.$("#domain-search-ajax-results").attr("class", "no");
+
                                                 }
                                                 else if(typeof data.status == "undefined"){
                                                     mw.$("#domain-search-ajax-results").attr("class", "no");
                                                 }
+
                                              }
                                              else{
                                                  mw.$("#domain-search-ajax-results").attr("class", "");
                                              }
                                              issearching = null;
+
                                          });
 
-                                     }, 500);
-
-
+                                     }, 400);
                                }
                                else{
                                     mw.$("#domain-search-ajax-results").removeClass("active");
                                     issearching = null;
                                }
-
                           }
                     }
 
                 });
 
             });
+
+
+
 
 
         </script>
@@ -113,7 +149,7 @@
 
 
 
-       <div id="pricing-tabs-content">
+       <div id="pricing-tabs-content" class="ptab active">
             <img
                   class="plan-image"
                   src="{TEMPLATE_URL}img/personal-plans.jpg"
@@ -184,6 +220,14 @@
            </div>
        </div>
 
+       <div id="ptab-business" class="ptab">
+
+
+       PRO
+
+
+       </div>
+
 
 
        <div id="starttitle" class="row">
@@ -210,17 +254,17 @@
                       <form action="#" method="post">
                           <input type="text" placeholder="Type domain name" tabindex="1" class="pull-left invisible-field" autocomplete="off" autofocus="" id="domain-search-field" />
 
-                          <div title="" data-val="subdomain" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
+                          <div data-value=".microweber.com" id="format_main" class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2" >
                               <span class="mw_dropdown_val_holder">
                                   <span class="dd_rte_arr"></span>
                                   <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
                               </span>
                             <div class="mw_dropdown_fields">
                               <ul>
-                                <li value="subdomain"><a href="javascript:;">.microweber.com - <small>Free</small></a></li>
-                                <li value="com"><a href="javascript:;">.com - <small>$20</small></a></li>
-                                <li value="net"><a href="javascript:;">.net - <small>$30</small></a></li>
-                                <li value="org"><a href="javascript:;">.org - <small>$40</small></a></li>
+                                <li value=".microweber.com"><a href="javascript:;">.microweber.com - <small>Free</small></a></li>
+                                <li value=".com"><a href="javascript:;">.com - <small>$20</small></a></li>
+                                <li value=".net"><a href="javascript:;">.net - <small>$30</small></a></li>
+                                <li value=".org"><a href="javascript:;">.org - <small>$40</small></a></li>
                               </ul>
                             </div>
                           </div>
@@ -233,7 +277,7 @@
                   </div>
                   </div>
 
-                  <div class="span3"><a href="javascript:;" class="start inline-block">Get Started Free </a></div>
+                  <div class="span3"><a tabindex="3" href="javascript:;" class="start inline-block">Get Started Free </a></div>
 
 
               </div>
