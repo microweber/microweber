@@ -1,10 +1,10 @@
-# Microweber is Drag-and-Drop CMS
+# Microweber: the Drag-and-Drop CMS
 
-Microweber is a content management system of new generation that allows you to make your website by drag and drop. 
+Microweber is a content management system of new generation that allows you to make your website by drag and drop.
 
-You can easily manipulate the content and the layout of your pages without the need to write code. 
+You can easily manipulate the content and the layout of your pages without the need to write code.
 
-[Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo) 
+[Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
 
 
 
@@ -19,7 +19,7 @@ The following server requirements are needed:
 * short_open_tag must be set to "on" in php.ini
 * mod_rewrite must be enabled
 * lib-xml must be enabled, with DOM support
-
+* GD php extension must be loaded
 
 Unzip and upload the files in your server folder and
 open your browser to the index.php file
@@ -31,5 +31,5 @@ Microweber will also create or modify your .htaccess file on install
 
 After installation you can login in the admin panel from http://you_site_url/admin
 
-For developers: 
-there is little [documentation available here](http://help.microweber.com/apidocs/ "") 
+For developers:
+there is little [documentation available here](http://help.microweber.com/apidocs/ "")

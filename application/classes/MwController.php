@@ -1371,11 +1371,15 @@ class MwController
             $is_admin = is_admin();
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
             exec_action('site_header');
-            $template_headers_src = template_headers_src();
-        if($template_headers_src != false and $template_headers_src != ''){
-            $l = str_ireplace('</head>', $template_headers_src . '</head>', $l);
-
-        }
+			
+			
+			if(function_exists('template_headers_src')){
+					$template_headers_src = template_headers_src();
+					if($template_headers_src != false and $template_headers_src != ''){
+						$l = str_ireplace('</head>', $template_headers_src . '</head>', $l);
+			
+					}
+			}
 
             // $l = str_ireplace('</head>', $default_css . '</head>', $l);
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);

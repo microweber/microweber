@@ -17,7 +17,7 @@
       <div id="plans-and-pricing-tabs-holder">
         <div class="plan-tabs" id="plans-and-pricing-tabs">
 
-                <a href="#personal" class="pbtn active">Personal</a>
+                <a href="#personal" class="pbtn">Personal</a>
                 <a href="#business" class="pbtn">Business</a>
 
             </div>
@@ -31,7 +31,7 @@
             $(window).load(function(){
                 var hash = window.location.hash;
                 if(hash == '#business'){
-
+                   mw.$("#ptab-business")
                 }
                 else {
 

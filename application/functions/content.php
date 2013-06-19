@@ -775,6 +775,7 @@ function define_constants($content = false)
         define('MAIN_PAGE_ID', false);
     }
 
+ 
     if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 
         $the_active_site_template = $page['active_site_template'];

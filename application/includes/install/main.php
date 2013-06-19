@@ -247,19 +247,28 @@ if(function_exists('apache_get_modules') ){
 
 if(!extension_loaded("dom")){
   $check_pass = false;
-  $server_check_errors['dom'] =  _e("The DOM php extension must be loaded", true);
+  $server_check_errors['dom'] =  _e("The DOM PHP extension must be loaded", true);
 
 }
 
 if(!extension_loaded("xml")){
   $check_pass = false;
-  $server_check_errors['xml'] =  _e("The lib-xml php extension must be loaded", true);
+  $server_check_errors['xml'] =  _e("The lib-xml PHP extension must be loaded", true);
 
 }
 
 if(!extension_loaded("json")){
   $check_pass = false;
-  $server_check_errors['json'] =  _e("The json php extension must be loaded", true);
+  $server_check_errors['json'] =  _e("The json PHP extension must be loaded", true);
+}
+
+ 
+
+if (extension_loaded('gd') && function_exists('gd_info')) {
+    
+} else {
+	$check_pass = false; 
+    $server_check_errors['gd'] =  _e("The GD extension must be loaded in PHP", true);
 }
 
 if(defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILES)){

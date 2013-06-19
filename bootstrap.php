@@ -35,7 +35,7 @@ if (!defined('E_STRICT')) {
 
 //
 //error_reporting ( E_ALL & ~ E_STRICT );
-//error_reporting(E_ALL);
+ //error_reporting(E_ALL);
 $system_folder = $mw_config['system_folder'];
 
 $application_folder = $mw_config['application_folder'];

@@ -1076,6 +1076,10 @@ function user_social_login($params)
     }
 }
 
+
+
+
+
 api_expose('user_reset_password_from_link');
 function user_reset_password_from_link($params)
 {
