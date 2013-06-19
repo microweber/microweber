@@ -36,7 +36,7 @@ Notice — For any reuse or distribution, you must make clear to others the lice
 
 * You may use this software in commercial applications, however you may not resell this software without permission from Microweber
 
-* Any code modification to the Microweber functions and modules belongs to Microweber LTD.
+* Any modification to the Microweber core functions and modules belongs to Microweber LTD.
 
 * Any new code that you create and its based on the functions of Microweber belongs to you (the author).
 
