@@ -35,6 +35,12 @@ class MwController
     public $render_this_url = false;
     public $isolate_by_html_id = false;
 
+
+
+
+
+
+
     function admin()
     {
         if (!defined('MW_BACKEND')) {
@@ -1761,6 +1767,60 @@ class MwController
         $v = new MwView(ADMIN_VIEWS_PATH . '404.php');
         echo $v;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public $functions = array();
+    public $vars = array();
+
+    function __set($name,$data)
+    {
+        if(is_callable($data))
+            $this->functions[$name] = $data;
+        else
+            $this->vars[$name] = $data;
+    }
+
+    function __get($name)
+    {
+        if(isset($this->vars[$name]))
+            return $this->vars[$name];
+    }
+
+    function __call($method,$args)
+    {
+        if(isset($this->functions[$method]))
+        {
+            call_user_func_array($this->functions[$method],$args);
+        } else {
+            // error out
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function __destruct()
     {

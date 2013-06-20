@@ -120,6 +120,7 @@ function user_login($params)
             $data1['search_in_fields'] = 'username,email,password';
             $data1['is_active'] = 'y';
 
+
         }
 
         $data = array();
@@ -140,10 +141,18 @@ function user_login($params)
 
             if (trim($email) != '') {
                 $data = array();
+
+                $email = str_replace(' ', '+', $email);
+
                 $data['email'] = $email;
                 $data['password'] = $pass;
                 $data['is_active'] = 'y';
+
+
+
+
                 $data['search_in_fields'] = 'password,email';
+
                 $data = get_users($data);
 
                 if (isset($data[0])) {
@@ -195,8 +204,9 @@ function user_login($params)
             if (!defined('USER_ID')) {
                 define("USER_ID", $data['id']);
                 exec_action('mw_user_login');
-            }
 
+            }
+            exec_action('user_login', $data);
             session_set('user_session', $user_session);
             $user_session = session_get('user_session');
             update_user_last_login_time();
@@ -236,6 +246,116 @@ function user_login($params)
 }
 
 
+api_expose('user_social_login');
+function user_social_login($params)
+{
+    set_exception_handler('social_login_exception_handler');
+    $params2 = array();
+
+    if (is_string($params)) {
+        $params = parse_str($params, $params2);
+        $params = $params2;
+    }
+
+    $return_after_login = false;
+    if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], site_url())) {
+        $return_after_login = $_SERVER["HTTP_REFERER"];
+        session_set('user_after_login', $return_after_login);
+
+    }
+
+    $provider = false;
+    if (isset($_REQUEST['provider'])) {
+        $provider = $_REQUEST['provider'];
+        $provider = trim(strip_tags($provider));
+    }
+
+    if ($provider != false and isset($params) and !empty($params)) {
+
+        $api = new \mw\auth\Social();
+
+        try {
+
+            $authenticate = $api->authenticate($provider);
+            if (isarr($authenticate) and isset($authenticate['identifier'])) {
+
+                $data = array();
+                $data['oauth_provider'] = $provider;
+                $data['oauth_uid'] = $authenticate['identifier'];
+
+                $data_ex = get_users($data);
+                if (empty($data_ex)) {
+                    $data_to_save = $data;
+                    $data_to_save['first_name'] = $authenticate['firstName'];
+                    $data_to_save['last_name'] = $authenticate['lastName'];
+                    $data_to_save['thumbnail'] = $authenticate['photoURL'];
+                    $data_to_save['profile_url'] = $authenticate['profileURL'];
+                    $data_to_save['website_url'] = $authenticate['webSiteURL'];
+
+                    $data_to_save['email'] = $authenticate['emailVerified'];
+                    $data_to_save['user_information'] = $authenticate['description'];
+                    $data_to_save['is_active'] = 'y';
+                    $data_to_save['is_admin'] = 'n';
+
+                    $table = MW_DB_TABLE_USERS;
+                    mw_var('FORCE_SAVE', $table);
+
+                    $save = save_data($table, $data_to_save);
+                    cache_clean_group('users/global');
+                    if ($save > 0) {
+                        $data = array();
+                        $data['id'] = $save;
+
+                        $notif = array();
+                        $notif['module'] = "users";
+                        $notif['rel'] = 'users';
+                        $notif['rel_id'] = $save;
+                        $provider1 = ucwords($provider);
+                        $notif['title'] = "New user registration with {$provider1}";
+                        $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
+                        post_notification($notif);
+
+                        save_log($notif);
+
+                    }
+                    //d($save);
+                }
+
+                $data_ex = get_users($data);
+
+                if (isset($data_ex[0])) {
+                    $data = $data_ex[0];
+                    $user_session['is_logged'] = 'yes';
+                    $user_session['user_id'] = $data['id'];
+                    exec_action('after_user_register', $data);
+                    if (!defined('USER_ID')) {
+                        define("USER_ID", $data['id']);
+                    }
+                    exec_action('user_login', $data);
+                    session_set('user_session', $user_session);
+                    $user_session = session_get('user_session');
+                    $return_after_login = session_get('user_after_login');
+                    update_user_last_login_time();
+
+                    if ($return_after_login != false) {
+                        safe_redirect($return_after_login);
+                        exit();
+                    }
+
+                    //d($user_session);
+                }
+
+            }
+
+            //d($authenticate);
+
+        } catch (Exception $e) {
+            die("<b>got an error!</b> " . $e->getMessage());
+        }
+
+    }
+}
+
 
 
 api_expose('logout');
@@ -262,6 +382,229 @@ function logout()
     }
 }
 
+//api_expose('register_user');
+api_expose('register_user');
+
+function register_user($params)
+{
+    exec_action('before_user_register', $params);
+
+
+
+
+
+    $user = isset($params['username']) ? $params['username'] : false;
+    $pass = isset($params['password']) ? $params['password'] : false;
+    $email = isset($params['email']) ? $params['email'] : false;
+    $pass2 = $pass;
+    $pass = hash_user_pass($pass);
+
+    if (!isset($params['captcha'])) {
+        return array('error' => 'Please enter the captcha answer!');
+    } else {
+        $cap = session_get('captcha');
+        if ($cap == false) {
+            return array('error' => 'You must load a captcha first!');
+        }
+        if ($params['captcha'] != $cap) {
+            return array('error' => 'Invalid captcha answer!');
+        }
+    }
+    if (!isset($params['password'])) {
+        return array('error' => 'Please set password!');
+    } else {
+        if ($params['password'] == '') {
+            return array('error' => 'Please set password!');
+        }
+    }
+
+    if ($email != false) {
+
+        $data = array();
+        $data['email'] = $email;
+        $data['password'] = $pass;
+        $data['oauth_uid'] = '[null]';
+        $data['oauth_provider'] = '[null]';
+        $data['one'] = true;
+        // $data ['is_active'] = 'y';
+        $user_data = get_users($data);
+
+
+
+
+        if (empty($user_data)) {
+
+            $data = array();
+            $data['username'] = $email;
+            $data['password'] = $pass;
+            $data['oauth_uid'] = '[null]';
+            $data['oauth_provider'] = '[null]';
+            $data['one'] = true;
+            // $data ['is_active'] = 'y';
+            $user_data = get_users($data);
+        }
+
+        if (empty($user_data)) {
+            $data = array();
+
+
+            $data['username'] = $email;
+            $data['password'] = $pass;
+            $data['is_active'] = 'n';
+
+            $table = MW_TABLE_PREFIX . 'users';
+
+            $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+            $next = db_last_id($table);
+            $next = intval($next) + 1;
+            $q = "INSERT INTO $table (id,email, password, is_active)
+			VALUES ($next, '$email', '$pass', 'y')";
+
+
+            db_q($q);
+            cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
+            //$data = save_user($data);
+            session_del('captcha');
+
+            $notif = array();
+            $notif['module'] = "users";
+            $notif['rel'] = 'users';
+            $notif['rel_id'] = $next;
+            $notif['title'] = "New user registration";
+            $notif['description'] = "You have new user registration";
+            $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+            post_notification($notif);
+
+            save_log($notif);
+
+
+            $params = $data;
+            $params['id'] = $next;
+            if (isset($pass2)) {
+                $params['password2'] = $pass2;
+            }
+            exec_action('after_user_register', $params);
+            //user_login('email='.$email.'&password='.$pass);
+
+
+            return array('success' => 'You have registered successfully');
+
+            //return array($next);
+        } else {
+
+            if(isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass){
+                if(isset($user_data['email']) && $user_data['email'] != ''){
+                  $is_logged =  user_login('email='.$user_data['email'].'&password_hashed='.$pass);
+                } else  if(isset($user_data['username']) && $user_data['username'] != ''){
+                    $is_logged =  user_login('username='.$user_data['username'].'&password_hashed='.$pass);
+                }
+                if(isset($is_logged) and isarr($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])){
+                    return ($is_logged);
+                   // $user_session['success']
+                }
+
+            }
+
+
+
+            return array('error' => 'This user already exists!');
+        }
+    }
+}
+
+api_expose('save_user');
+
+/**
+ * Allows you to save users in the database
+ *
+ * By default it have security rules.
+ *
+ * If you are admin you can save any user in the system;
+ *
+ * However if you are regular user you must post param id with the current user id;
+ *
+ * @param $params
+ * @param  $params['id'] = $user_id; // REQUIRED , you must set the user id.
+ * For security reasons, to make new user please use register_user() function that requires captcha
+ * or write your own save_user wrapper function that sets  mw_var('force_save_user',true);
+ * and pass its params to save_user();
+ *
+ *
+ * @param  $params['is_active'] = 'y'; //default is 'n'
+ * @usage
+ *
+ * $upd = array();
+ * $upd['id'] = 1;
+ * $upd['email'] = $params['new_email'];
+ * $upd['password'] = $params['passwordhash'];
+ * mw_var('force_save_user', false|true); // if true you want to make new user or foce save ... skips id check and is admin check
+ * mw_var('save_user_no_pass_hash', false|true); //if true skips pass hash function and saves password it as is in the request, please hash the password before that or ensure its hashed
+ * $s = save_user($upd);
+ *
+ *
+ *
+ *
+ *
+ * @return bool|int
+ */
+function save_user($params)
+{
+
+    $force = mw_var('force_save_user');
+    $no_hash = mw_var('save_user_no_pass_hash');
+    if (isset($params['id'])) {
+        //error('COMLETE ME!!!! ');
+
+        $adm = is_admin();
+        if ($adm == false) {
+            if ($force == false) {
+
+
+                $is_logged = user_id();
+                if ($is_logged == false or $is_logged == 0) {
+                    return array('error' => 'You must be logged to save user');
+                } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
+
+                } else {
+                    return array('error' => 'You must be logged to as admin save this user');
+
+                }
+
+                // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+
+            } else {
+                mw_var('force_save_user', false);
+            }
+        }
+    } else {
+        if (MW_IS_INSTALLED == true) {
+
+
+            if ($force == false) {
+                error('COMLETE ME!!!! ');
+            } else {
+                mw_var('force_save_user', false);
+            }
+        }
+    }
+
+    $data_to_save = $params;
+
+    if (isset($data_to_save['password'])) {
+        if ($no_hash == false) {
+            $data_to_save['password'] = hash_user_pass($data_to_save['password']);
+        } else {
+            mw_var('save_user_no_pass_hash', false);
+        }
+    }
+    $table = MW_DB_TABLE_USERS;
+    $save = save_data($table, $data_to_save);
+    $id = $save;
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . '0');
+    cache_clean_group('users' . DIRECTORY_SEPARATOR . $id);
+    return $id;
+}
 
 action_hook('mw_db_init_users', 'mw_db_init_users_table');
 //action_hook('mw_db_init', 'mw_db_init_users_table');
@@ -542,209 +885,6 @@ function hash_user_pass($pass)
 
 }
 
-//api_expose('register_user');
-api_expose('register_user');
-
-function register_user($params)
-{
-    exec_action('before_user_register', $params);
-
-
-
-
-
-    $user = isset($params['username']) ? $params['username'] : false;
-    $pass = isset($params['password']) ? $params['password'] : false;
-    $email = isset($params['email']) ? $params['email'] : false;
-    $pass2 = $pass;
-    $pass = hash_user_pass($pass);
-
-    if (!isset($params['captcha'])) {
-        return array('error' => 'Please enter the captcha answer!');
-    } else {
-        $cap = session_get('captcha');
-        if ($cap == false) {
-            return array('error' => 'You must load a captcha first!');
-        }
-        if ($params['captcha'] != $cap) {
-            return array('error' => 'Invalid captcha answer!');
-        }
-    }
-    if (!isset($params['password'])) {
-        return array('error' => 'Please set password!');
-    } else {
-        if ($params['password'] == '') {
-            return array('error' => 'Please set password!');
-        }
-    }
-
-    if ($email != false) {
-
-        $data = array();
-        $data['email'] = $email;
-        $data['password'] = $pass;
-        $data['oauth_uid'] = '[null]';
-        $data['oauth_provider'] = '[null]';
-
-        // $data ['is_active'] = 'y';
-        $data = get_users($data);
-        if (empty($data)) {
-
-            $data = array();
-            $data['username'] = $email;
-            $data['password'] = $pass;
-            $data['oauth_uid'] = '[null]';
-            $data['oauth_provider'] = '[null]';
-
-            // $data ['is_active'] = 'y';
-            $data = get_users($data);
-        }
-
-        if (empty($data)) {
-            $data = array();
-
-
-            $data['username'] = $email;
-            $data['password'] = $pass;
-            $data['is_active'] = 'n';
-
-            $table = MW_TABLE_PREFIX . 'users';
-
-            $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-            $next = db_last_id($table);
-            $next = intval($next) + 1;
-            $q = "INSERT INTO $table (id,email, password, is_active)
-			VALUES ($next, '$email', '$pass', 'y')";
-
-
-            db_q($q);
-            cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
-            //$data = save_user($data);
-            session_del('captcha');
-
-            $notif = array();
-            $notif['module'] = "users";
-            $notif['rel'] = 'users';
-            $notif['rel_id'] = $next;
-            $notif['title'] = "New user registration";
-            $notif['description'] = "You have new user registration";
-            $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-            post_notification($notif);
-
-            save_log($notif);
-
-
-            $params = $data;
-            $params['id'] = $next;
-            if (isset($pass2)) {
-                $params['password2'] = $pass2;
-            }
-            exec_action('after_user_register', $params);
-            //user_login('email='.$email.'&password='.$pass);
-
-
-            return array('success' => 'You have registered successfully');
-
-            //return array($next);
-        } else {
-            return array('error' => 'This user already exists!');
-        }
-    }
-}
-
-api_expose('save_user');
-
-/**
- * Allows you to save users in the database
- *
- * By default it have security rules.
- *
- * If you are admin you can save any user in the system;
- *
- * However if you are regular user you must post param id with the current user id;
- *
- * @param $params
- * @param  $params['id'] = $user_id; // REQUIRED , you must set the user id.
- * For security reasons, to make new user please use register_user() function that requires captcha
- * or write your own save_user wrapper function that sets  mw_var('force_save_user',true);
- * and pass its params to save_user();
- *
- *
- * @param  $params['is_active'] = 'y'; //default is 'n'
- * @usage
- *
- * $upd = array();
- * $upd['id'] = 1;
- * $upd['email'] = $params['new_email'];
- * $upd['password'] = $params['passwordhash'];
- * mw_var('force_save_user', false|true); // if true you want to make new user or foce save ... skips id check and is admin check
- * mw_var('save_user_no_pass_hash', false|true); //if true skips pass hash function and saves password it as is in the request, please hash the password before that or ensure its hashed
- * $s = save_user($upd);
- *
- *
- *
- *
- *
- * @return bool|int
- */
-function save_user($params)
-{
-
-    $force = mw_var('force_save_user');
-    $no_hash = mw_var('save_user_no_pass_hash');
-    if (isset($params['id'])) {
-        //error('COMLETE ME!!!! ');
-
-        $adm = is_admin();
-        if ($adm == false) {
-            if ($force == false) {
-
-
-                $is_logged = user_id();
-                if ($is_logged == false or $is_logged == 0) {
-                    return array('error' => 'You must be logged to save user');
-                } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
-
-                } else {
-                    return array('error' => 'You must be logged to as admin save this user');
-
-                }
-
-                // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-
-            } else {
-                mw_var('force_save_user', false);
-            }
-        }
-    } else {
-        if (MW_IS_INSTALLED == true) {
-
-
-            if ($force == false) {
-                error('COMLETE ME!!!! ');
-            } else {
-                mw_var('force_save_user', false);
-            }
-        }
-    }
-
-    $data_to_save = $params;
-
-    if (isset($data_to_save['password'])) {
-        if ($no_hash == false) {
-            $data_to_save['password'] = hash_user_pass($data_to_save['password']);
-        } else {
-            mw_var('save_user_no_pass_hash', false);
-        }
-    }
-    $table = MW_DB_TABLE_USERS;
-    $save = save_data($table, $data_to_save);
-    $id = $save;
-    cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
-    cache_clean_group('users' . DIRECTORY_SEPARATOR . '0');
-    cache_clean_group('users' . DIRECTORY_SEPARATOR . $id);
-    return $id;
-}
 
 api_expose('captcha');
 
@@ -964,116 +1104,6 @@ function social_login_exception_handler($exception)
         safe_redirect(site_url());
     }
 
-}
-
-api_expose('user_social_login');
-function user_social_login($params)
-{
-    set_exception_handler('social_login_exception_handler');
-    $params2 = array();
-
-    if (is_string($params)) {
-        $params = parse_str($params, $params2);
-        $params = $params2;
-    }
-
-    $return_after_login = false;
-    if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], site_url())) {
-        $return_after_login = $_SERVER["HTTP_REFERER"];
-        session_set('user_after_login', $return_after_login);
-
-    }
-
-    $provider = false;
-    if (isset($_REQUEST['provider'])) {
-        $provider = $_REQUEST['provider'];
-        $provider = trim(strip_tags($provider));
-    }
-
-    if ($provider != false and isset($params) and !empty($params)) {
-
-        $api = new \mw\auth\Social();
-
-        try {
-
-            $authenticate = $api->authenticate($provider);
-            if (isarr($authenticate) and isset($authenticate['identifier'])) {
-
-                $data = array();
-                $data['oauth_provider'] = $provider;
-                $data['oauth_uid'] = $authenticate['identifier'];
-
-                $data_ex = get_users($data);
-                if (empty($data_ex)) {
-                    $data_to_save = $data;
-                    $data_to_save['first_name'] = $authenticate['firstName'];
-                    $data_to_save['last_name'] = $authenticate['lastName'];
-                    $data_to_save['thumbnail'] = $authenticate['photoURL'];
-                    $data_to_save['profile_url'] = $authenticate['profileURL'];
-                    $data_to_save['website_url'] = $authenticate['webSiteURL'];
-
-                    $data_to_save['email'] = $authenticate['emailVerified'];
-                    $data_to_save['user_information'] = $authenticate['description'];
-                    $data_to_save['is_active'] = 'y';
-                    $data_to_save['is_admin'] = 'n';
-
-                    $table = MW_DB_TABLE_USERS;
-                    mw_var('FORCE_SAVE', $table);
-
-                    $save = save_data($table, $data_to_save);
-                    cache_clean_group('users/global');
-                    if ($save > 0) {
-                        $data = array();
-                        $data['id'] = $save;
-
-                        $notif = array();
-                        $notif['module'] = "users";
-                        $notif['rel'] = 'users';
-                        $notif['rel_id'] = $save;
-                        $provider1 = ucwords($provider);
-                        $notif['title'] = "New user registration with {$provider1}";
-                        $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                        post_notification($notif);
-
-                        save_log($notif);
-
-                    }
-                    //d($save);
-                }
-
-                $data_ex = get_users($data);
-
-                if (isset($data_ex[0])) {
-                    $data = $data_ex[0];
-                    $user_session['is_logged'] = 'yes';
-                    $user_session['user_id'] = $data['id'];
-
-                    if (!defined('USER_ID')) {
-                        define("USER_ID", $data['id']);
-                    }
-
-                    session_set('user_session', $user_session);
-                    $user_session = session_get('user_session');
-                    $return_after_login = session_get('user_after_login');
-                    update_user_last_login_time();
-
-                    if ($return_after_login != false) {
-                        safe_redirect($return_after_login);
-                        exit();
-                    }
-
-                    //d($user_session);
-                }
-
-            }
-
-            //d($authenticate);
-
-        } catch (Exception $e) {
-            die("<b>got an error!</b> " . $e->getMessage());
-        }
-
-    }
 }
 
 

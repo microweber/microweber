@@ -154,7 +154,11 @@ if (!isset($_SERVER["SERVER_NAME"])) {
     $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
 
 } else {
-    $config_file_for_site = MW_ROOTPATH . 'config_' . $_SERVER["SERVER_NAME"] . '.php';
+
+    $cache_no_www = str_ireplace('www.', '',$_SERVER["SERVER_NAME"]);
+
+
+    $config_file_for_site = MW_ROOTPATH . 'config_' . $cache_no_www . '.php';
 
 }
 //
@@ -164,6 +168,7 @@ if (is_file($config_file_for_site)) {
 
 } else {
     define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
+    $config_file_for_site = MW_ROOTPATH . 'config.php';
 }
 
 $dnf = CACHEDIR_ROOT;
