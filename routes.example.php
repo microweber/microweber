@@ -1,6 +1,6 @@
 <?php
 
-//To Enable custom routes please rename routes.example.php to routes.php
+//To Enable custom routes please rename to this file to routes.php
 //edit your routes bellow
 
 //you can route by creating anonymous functions of the controller;
@@ -8,12 +8,12 @@ $controller->myroute_test = function () {
     echo "Hello world!";
 };
 
-
+//you can route by widldcard;
 $controller->functions['test/route/*'] = function () {
     echo "You can use wildcards!";
 };
 
-
+//you can route to your custom code
 $controller->functions['mw_unit_test'] = function () {
     $url_params = url_params();
     if (!isset($url_params[1])) {

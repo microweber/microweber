@@ -71,7 +71,7 @@ if (!defined('MW_BARE_BONES')) {
         exit();
     }
     $close_conn = function_exists('db_query');
-    $method_full = url_string(true);
+    $method_full = url_string();
     $m1 = url_segment(0);
 
     if ($m1) {
@@ -144,7 +144,7 @@ if (!defined('MW_BARE_BONES')) {
     $is_custom_controller_called = false;
     if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {
         //$params_for_route = url_segment();
-
+ 
         if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
 
             $is_custom_controller_called = true;

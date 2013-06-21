@@ -2475,25 +2475,83 @@ $(document).ready(function(){
     tableController:function(el){
       var el =  mw.inline.bar(el);
       el.bar.innerHTML = ''
+        +'<div class="mw-defaults mw-ui-btn-nav mw-ui-dropdown-button-controller">'
         +'<div class="mw-defaults mw-ui-dropdown">'
-            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-small" href="javascript:;"><span class="ico iplus"></span><span>Insert</span></a>'
+            +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Insert</span></a>'
             +'<div style="width: 155px;" class="mw-dropdown-content">'
               +'<ul class="mw-dropdown-list">'
-                  +'<li><a href="javascript:;">Row Above</a></li>'
-                  +'<li><a href="javascript:;">Row Below</a></li>'
-                  +'<li><a href="javascript:;">Column on left</a></li>'
-                  +'<li><a href="javascript:;">Column on right</a></li>'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
               +'</ul>'
+            +'</div>'
+        +'</div>'
+        +'<div class="mw-defaults mw-ui-dropdown">'
+            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Delete</span></a>'
+            +'<div style="width: 155px;" class="mw-dropdown-content">'
+              +'<ul class="mw-dropdown-list">'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
+                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
+              +'</ul>'
+            +'</div>'
             +'</div>'
         +'</div>';
         $(el.bar).css("marginTop", -$(el.bar).outerHeight());
     },
+    activeCell:null,
     setActiveCell:function(el, event){
         event.preventDefault();
         event.stopPropagation();
         if(!mw.tools.hasClass(el.className, 'tc-activecell')){
            mw.$(".tc-activecell").removeClass('tc-activecell');
-           $(el).addClass('tc-activecell')
+           $(el).addClass('tc-activecell');
+           mw.inline.activeCell = el;
+        }
+    },
+    tableManager: {
+        insertColumn: function(dir, cell){
+            var cell = $(cell)[0];
+            if(cell === null) {return false;}
+            var dir = dir || 'right';
+            var rows = $(cell.parentNode.parentNode).children('tr');
+            var i = 0, l = rows.length, index = mw.tools.index(cell);
+            for( ; i < l; i++){
+              var row = rows[i];
+              var cell = $(row).children('td')[index];
+              if(dir == 'left' || dir == 'both'){
+                  $(cell).before("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+              }
+              if(dir == 'right' || dir == 'both'){
+                  $(cell).after("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+              }
+            }
+        },
+        insertRow: function(dir, cell){
+           var cell = $(cell)[0];
+           if(cell === null) { return false; }
+           var dir = dir || 'under';
+           var parent = cell.parentNode, cells = $(parent).children('td'), i = 0, l = cells.length, html = '' ;
+           for( ; i<l; i++){
+                html += '<td onclick="mw.inline.setActiveCell(this, event);">&nbsp;</td>';
+           }
+           var html = '<tr>' + html + '</tr>';
+           if(dir == 'under' || dir == 'both'){
+             $(parent).after(html)
+           }
+           if(dir == 'above' || dir == 'both'){
+             $(parent).before(html)
+           }
+        },
+        deleteRow:function(cell){
+            $(cell.parentNode).remove();
+        },
+        deleteColumn:function(cell){
+            var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = $(body).children('tr'), l = rows.length, i = 0;
+            for( ; i<l; i++){
+                var row = rows[i];
+                $(row.getElementsByTagName('td')[index]).remove();
+            }
         }
     }
   }

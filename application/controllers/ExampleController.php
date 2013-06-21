@@ -9,11 +9,11 @@ class ExampleController extends MwController
 
     }
 
-    static function test()
+    function test()
     {
 
         $cont = get_content('one=1');
-
+d($cont);
         return $cont;
     }
 

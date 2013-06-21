@@ -470,6 +470,10 @@ body.Resizing .mwembed:after{
   padding: 10px 0;
 }
 
+.mw-wysiwyg-table td{
+  border:  1px solid #DDDDDD;
+}
+
 
 
 
