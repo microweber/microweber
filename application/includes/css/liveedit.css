@@ -371,6 +371,10 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
   outline: 1px solid #3399FF;
 }
 
+#mw-inline-tableControl{
+  height: 28px;
+}
+
 
 
 

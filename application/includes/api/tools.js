@@ -2471,7 +2471,8 @@ $(document).ready(function(){
       }
     },
     tableControl:false,
-    tableController:function(el){
+    tableController:function(el, e){
+       if(typeof e !== 'undefined'){ e.stopPropagation(); }
        if(mw.inline.tableControl === false){
             mw.inline.tableControl = mw.inline.bar('mw-inline-tableControl');
 

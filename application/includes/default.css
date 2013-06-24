@@ -473,6 +473,20 @@ body.Resizing .mwembed:after{
 
 /* Tables */
 
+table[class*='mw-wysiwyg-table']{
+
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+    vertical-align: top;
+
+}
+
+table[class*='mw-wysiwyg-table'] td{
+  padding: 6px;
+}
+
 .mw-wysiwyg-table > tbody > tr > td{
   border:  1px solid #DDDDDD;
 }
@@ -489,6 +503,7 @@ body.Resizing .mwembed:after{
 
 .mw-wysiwyg-table-zebra > tbody > tr > td{
   border:  1px solid #DDDDDD;
+  background-color: #F3F3F3;
 }
 
 .mw-wysiwyg-table-zebra > tbody > tr:nth-child(2n+1) > td{
@@ -503,6 +518,7 @@ body.Resizing .mwembed:after{
   border-width:  0px 0px 1px;
   border-style: none none solid;
   border-color:#DDDDDD;
+  background-color: #F3F3F3;
 }
 
 .mw-wysiwyg-table-simple-zebra > tbody > tr:nth-child(2n+1) > td{
