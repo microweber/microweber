@@ -162,7 +162,7 @@
 
 
 
-            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
+            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" style="border-radius:0;" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
 
 
 

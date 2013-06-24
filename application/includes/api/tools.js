@@ -2455,54 +2455,73 @@ $(document).ready(function(){
   }
 
   mw.inline = {
-    bar:function(el){
-      if(typeof el.has_bar === 'undefined'){
-        el.has_bar = true;
+    bar:function(id){
+      if(typeof id === 'undefined') { return false; }
+      if(mw.$("#"+id).length === 0){
         var bar = mwd.createElement('div');
+        bar.id = id;
         bar.contentEditable = false;
-        el.bar = bar;
         bar.className = 'mw-inline-bar';
-        $(bar).data("for", el);
         mwd.body.appendChild(bar);
-        var off = $(el).offset()
-        $(bar).css({
-          top : off.top,
-          left:off.left
-        });
+
+        return bar;
       }
-      return el;
+      else {
+        return mw.$("#"+id)[0];
+      }
     },
+    tableControl:false,
     tableController:function(el){
-      var el =  mw.inline.bar(el);
-      el.bar.innerHTML = ''
-        +'<div class="mw-defaults mw-ui-btn-nav mw-ui-dropdown-button-controller">'
-        +'<div class="mw-defaults mw-ui-dropdown">'
-            +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Insert</span></a>'
-            +'<div style="width: 155px;" class="mw-dropdown-content">'
-              +'<ul class="mw-dropdown-list">'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
-              +'</ul>'
-            +'</div>'
-        +'</div>'
-        +'<div class="mw-defaults mw-ui-dropdown">'
-            +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Delete</span></a>'
-            +'<div style="width: 155px;" class="mw-dropdown-content">'
-              +'<ul class="mw-dropdown-list">'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
-                  +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
-              +'</ul>'
-            +'</div>'
-            +'</div>'
-        +'</div>';
-        $(el.bar).css("marginTop", -$(el.bar).outerHeight());
+       if(mw.inline.tableControl === false){
+            mw.inline.tableControl = mw.inline.bar('mw-inline-tableControl');
+
+            mw.inline.tableControl.innerHTML = ''
+              +'<div class="mw-defaults mw-ui-btn-nav mw-ui-dropdown-button-controller">'
+              +'<div class="mw-defaults mw-ui-dropdown">'
+                  +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Insert</span></a>'
+                  +'<div style="width: 155px;" class="mw-dropdown-content">'
+                    +'<ul class="mw-dropdown-list">'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
+                    +'</ul>'
+                  +'</div>'
+              +'</div>'
+              +'<div class="mw-defaults mw-ui-dropdown">'
+                  +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Style</span></a>'
+                  +'<div style="width: 155px;" class="mw-dropdown-content">'
+                    +'<ul class="mw-dropdown-list">'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
+                    +'</ul>'
+                  +'</div>'
+              +'</div>'
+              +'<div class="mw-defaults mw-ui-dropdown">'
+                  +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Delete</span></a>'
+                  +'<div style="width: 155px;" class="mw-dropdown-content">'
+                    +'<ul class="mw-dropdown-list">'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
+                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
+                    +'</ul>'
+                  +'</div>'
+                  +'</div>'
+              +'</div>';
+         }
+         var off = $(el).offset();
+        $(mw.inline.tableControl).css({
+          top : off.top - 45,
+          left: off.left,
+          display:'block'
+        });
+
     },
     activeCell:null,
     setActiveCell:function(el, event){
-        event.preventDefault();
-        event.stopPropagation();
+        //event.preventDefault();
+        //event.stopPropagation();
         if(!mw.tools.hasClass(el.className, 'tc-activecell')){
            mw.$(".tc-activecell").removeClass('tc-activecell');
            $(el).addClass('tc-activecell');
@@ -2552,6 +2571,11 @@ $(document).ready(function(){
                 var row = rows[i];
                 $(row.getElementsByTagName('td')[index]).remove();
             }
+        },
+        setStyle:function(cls, cell){
+           var table = mw.tools.firstParentWithTag(cell, 'table');
+           mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
+           $(table).addClass(cls);
         }
     }
   }

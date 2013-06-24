@@ -470,11 +470,46 @@ body.Resizing .mwembed:after{
   padding: 10px 0;
 }
 
-.mw-wysiwyg-table td{
+
+/* Tables */
+
+.mw-wysiwyg-table > tbody > tr > td{
   border:  1px solid #DDDDDD;
 }
 
+/* Borderless */
 
+.mw-wysiwyg-table-simple > tbody > tr > td{
+  border-width:  0px 0px 1px;
+  border-style: none none solid;
+  border-color:#DDDDDD;
+}
+
+/* Zebra */
+
+.mw-wysiwyg-table-zebra > tbody > tr > td{
+  border:  1px solid #DDDDDD;
+}
+
+.mw-wysiwyg-table-zebra > tbody > tr:nth-child(2n+1) > td{
+  background-color: #EDEDED;
+}
+
+/* Borderless Zebra */
+
+
+
+.mw-wysiwyg-table-simple-zebra > tbody > tr > td{
+  border-width:  0px 0px 1px;
+  border-style: none none solid;
+  border-color:#DDDDDD;
+}
+
+.mw-wysiwyg-table-simple-zebra > tbody > tr:nth-child(2n+1) > td{
+  background-color: #EDEDED;
+}
+
+/* /Tables */
 
 
 

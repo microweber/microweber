@@ -367,6 +367,10 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
   min-width: 150px;
 }
 
+.tc-activecell{
+  outline: 1px solid #3399FF;
+}
+
 
 
 

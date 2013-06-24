@@ -594,6 +594,13 @@ mw.drag = {
             //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
           }
 
+
+           if(!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')){
+             $(mw.inline.tableControl).hide();
+           }
+
+         
+
         });
 
         $(window).bind("onElementOver", function(a, element){
