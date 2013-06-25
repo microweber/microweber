@@ -479,12 +479,13 @@ table[class*='mw-wysiwyg-table']{
     border-collapse: collapse;
     border-spacing: 0;
     max-width: 100%;
-    vertical-align: top;
+
 
 }
 
 table[class*='mw-wysiwyg-table'] td{
   padding: 6px;
+  vertical-align: top; 
 }
 
 .mw-wysiwyg-table > tbody > tr > td{
