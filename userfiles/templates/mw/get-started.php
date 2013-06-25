@@ -257,6 +257,8 @@
 
             <div class="vspace"></div>
 
+<module type="whmcs" template="client_products" />
+
 
         </div>
     </div>

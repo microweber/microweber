@@ -485,7 +485,7 @@ table[class*='mw-wysiwyg-table']{
 
 table[class*='mw-wysiwyg-table'] td{
   padding: 6px;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .mw-wysiwyg-table > tbody > tr > td{

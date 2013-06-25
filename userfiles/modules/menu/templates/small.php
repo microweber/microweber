@@ -11,7 +11,7 @@ description: Small Navigation
 */
 
 
-$menu_filter['ul_class'] = 'nav nav-small';
+$menu_filter['ul_class'] = 'nav nav-lite';
 $menu_filter['maxdepth'] = 1;
 
 $menu_filter['li_class_empty'] = ' ';

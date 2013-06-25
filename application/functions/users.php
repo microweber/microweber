@@ -74,6 +74,11 @@ function user_login($params)
         $params = $params2;
     }
 
+
+    //$is_logged =  session_get('user_session');
+   // if(isarr($is_logged) and isset($is_logged['']))
+
+
     if (isset($params) and !empty($params)) {
 
         $user = isset($params['username']) ? $params['username'] : false;
@@ -692,24 +697,7 @@ function mw_db_init_users_table()
     db_add_table_index('username', $table_name, array('username(255)'));
     db_add_table_index('email', $table_name, array('email(255)'));
 
-    if (MW_IS_INSTALLED != true) {
 
-        if (isset($_POST['admin_username']) and isset($_POST['admin_password'])) {
-
-            $new_admin = array();
-            $new_admin['username'] = $_POST['admin_username'];
-            $new_admin['password'] = ($_POST['admin_password']);
-            if (isset($_POST['admin_email'])) {
-                $new_admin['email'] = $_POST['admin_email'];
-            }
-            $new_admin['is_active'] = 'y';
-            $new_admin['is_admin'] = 'y';
-            mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
-            save_user($new_admin);
-
-        }
-
-    }
 
     $table_name = MW_DB_TABLE_LOG;
 

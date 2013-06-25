@@ -1,7 +1,7 @@
 <?php
 static $link;
 
- 
+
 
 $is_mysqli = function_exists('mysqli_connect');
 //$is_mysqli = false;
@@ -32,7 +32,16 @@ if ($is_mysqli != false) {
             while ($row = $result->fetch_assoc()) {
                 $nwq[] = $row;
             }
+           // mysqli_free_result($result);
             $result->free();
+            unset($result);
+
+            $is_gc_collect_cycles = function_exists('gc_collect_cycles');
+            if($is_gc_collect_cycles == true){
+            gc_collect_cycles();
+            }
+
+
             $q = $nwq;
         } else {
             $q = $result;

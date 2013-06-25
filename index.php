@@ -157,6 +157,7 @@ if (!defined('MW_BARE_BONES')) {
             // exit();
         } elseif (is_array($controller->functions) and !empty($controller->functions) and function_exists('preg_grep')) {
             $attached_routes = $controller->functions;
+            //routing wildcard urls
             foreach ($attached_routes as $k => $v) {
                 if (strstr($k, '*')) {
                     $if_route_found = preg_match(sprintf('#%s\d*#', $k), $method_full);
