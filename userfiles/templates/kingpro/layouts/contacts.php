@@ -14,7 +14,7 @@ description: Contact us layout
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
-<div id="content">
+
 	<div class="container">
         <div class="edit">
             <div class="mw-empty"></div>
@@ -58,14 +58,14 @@ description: Contact us layout
         <h3>Follow Us</h3>
         <hr>
         <div class="social-icons">
-        	<a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a>
-			<a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a>
-			<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a>
-			<a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
+        	<a href="http://www.facebook.com/microweber"><span class="icon-facebook icon-4"></span></a>
+			<a href="http://www.twitter.com/microweber"><span class="icon-twitter"></span></a>
+			<a href="http://plus.google.com"><span class="icon-google-plus"></span></a>
+			<a href="http://youtube.com"><span class="icon-youtube"></span></a><br>
 		</div>
       </div>
     </div>
   </div>
 	</div>
-</div>
+
 <?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

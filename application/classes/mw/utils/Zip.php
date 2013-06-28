@@ -1,9 +1,14 @@
 <?php
-
 namespace mw\utils;
+
+
 use ZipArchive;
 use RecursiveIteratorIterator;
 use DirectoryIterator;
+
+
+ 
+
 /**
  * Class to create and manage a Zip file.
  *
@@ -18,7 +23,7 @@ use DirectoryIterator;
  * @license GNU LGPL, Attribution required for commercial implementations, requested for everything else.
  * @link http://www.phpclasses.org/package/6110
  * @link https://github.com/Grandt/PHPZip
- * @version 1.37
+ * @version 1.37 
  */
 class Zip {
 	const VERSION = 1.37;

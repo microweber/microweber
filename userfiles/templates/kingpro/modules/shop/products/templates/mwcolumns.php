@@ -55,7 +55,7 @@ if(!isset($tn[1])){
       <div class="product-info">
 
       <?php if($show_fields == false or in_array('title', $show_fields)): ?>
-      <h3><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
+      <h3><a  href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
       <?php endif; ?>
       <?php if($show_fields != false and in_array('created_on', $show_fields)): ?>
       <span class="date"><?php print $item['created_on'] ?></span>

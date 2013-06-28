@@ -24,7 +24,7 @@
 </script>
       <?php
 		} else {    // mw_notif(html_entity_decode($check['value'])) ;
-
+//delete_log("id=" . $check['id']);
         if($check['value'] != ''){
         ?>
 

@@ -3,18 +3,14 @@
 $(document).ready(function(){
 
 
-$(mwd.body).click(function(e){
+$(mwd.body).bind("click", function(e){
     var target = e.target;
-    if(!$(target).hasClass("mw-search-field")){
+    if(!mw.tools.hasParentsWithClass(target, "mw-search-autocomplete")){
         mw.$(".mw-search-results").hide();
     }
 });
 
-mw.$(".mw-search-field").blur(function(e){
-  setTimeout(function(){
-      mw.$(".mw-search-results").hide();
-  }, 222);
-});
+
 
 
 });   // end document ready

@@ -60,6 +60,11 @@ ul, ol{ margin: 0; }
 /* Key Layout Elements */
 
 
+#header{
+  position: relative;  /* Needed for Autocomplete, Dropdowns... etc. */
+  z-index: 9;
+}
+
 
 #top{
   background: #303A47;
@@ -103,6 +108,12 @@ ul, ol{ margin: 0; }
   font-size: 11px;
 }
 
+.page-post-content{
+  padding: 12px 0;
+}
+
+
+
 
 /* /Key Layout Elements */
 
@@ -110,22 +121,7 @@ ul, ol{ margin: 0; }
 
 /* UI Framework */
 
-.container{
-  width: 1100px;
-  margin:0 auto;
-  max-width: 90%;
-  max-width: calc(100% - 40px);
-  max-width: -webkit-calc(100% - 40px);
-}
 
-.container:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
 
 .left{
   float: left;
@@ -223,8 +219,9 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 
 
 
+
 .nav-minimal{
-  float: right;
+  float: left;
   margin:  6px 17px;
 }
 
@@ -262,10 +259,23 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 .mw-search-autocomplete{
   position: relative;
   z-index: 999;
+  clear: both;
+  min-height: 30px;
+  zoom:1;
+}
+.mw-search-autocomplete:after{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .mw-search-autocomplete .input-append{
   margin: 0;
+  float: right;
+  width: 100%;
 }
 
 .mw-search-autocomplete li{
@@ -273,13 +283,11 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 }
 
 
-
 .mw-search-autocomplete input[type='text']{
-  -webkit-transition: width 0.2s ease;
-  -moz-transition: width 0.2s ease;
-  -ms-transition: width 0.2s ease;
-  -o-transition: width 0.2s ease;
-  transition: width 0.2s ease;
+    width: 60%;
+    float: left;
+    width: calc(100% - 40px);
+    width: -webkit-calc(100% - 40px);
 }
 
 .mw-search-autocomplete input[type='text']:focus{
@@ -312,11 +320,11 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
   display: block;
   float: left;
   width:70px;
+  margin-right: 20px;
 }
 
 .mw-search-results li .media-body{
-  float: right;
-  width: 135px;
+    padding-right: 12px;
 }
 
 .mw-search-results li.active, .mw-search-results li:hover,
@@ -499,8 +507,18 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 
 .sidebar-box {
   clear: both;
+  zoom:1;
   padding: 16px 0;
   border-top: 1px solid #E8E8E8;
+}
+
+.sidebar-box:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .comments-template-lite .mw-comments-form .comment-field input{
@@ -523,12 +541,7 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
   max-width: 80px;
 }
 
-.col-content{
-  width: 75%
-}
-.col-sidebar{
-  width: 25%;
-}
+
 
 .col-content > .mw-ui-col-container{
   padding: 0 40px 0 0;
@@ -548,4 +561,31 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 
 
 
+
+
 /* /Modules Templates */
+
+
+
+/* Contacts */
+
+.contact-list{
+  list-style: none;
+  padding: 12px 0;
+}
+
+.contact-list [class*="icon-"]{
+  margin-right: 12px;
+}
+
+.social-icons{
+  font-size: 22px;
+}
+
+.social-icons a{
+  margin-right: 12px;
+  color: inherit
+}
+
+/* /Contacts */
+

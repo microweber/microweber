@@ -42,7 +42,16 @@ description: shop layout
         <!-------------- Related Products -------------->
         
         <h4 class="element sidebar-title">Related Products</h4>
-        <module type="shop/products" template="4columns" related="true" />
+        <div class="mw-columns-3">
+            <module
+                    data-type="shop/products"
+                    related="true"
+                    data-limit="3"
+                    data-show="thumbnail,title,add_to_cart,description,price"
+                    data-template="mwcolumns" />
+        </div>
+
+
         <p class="element">&nbsp;</p>
       </div>
       <!------------ Sidebar -------------->

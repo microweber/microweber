@@ -12,8 +12,8 @@ description: Post inner layout
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container">
-  <div class="mw-ui-row">
-    <div class="mw-ui-col col-content">
+  <div class="row">
+    <div class="span8 col-content">
     <div class="mw-ui-col-container">
       <h3 class="edit" field="title" rel="content">Page Title</h3>
       <div class="edit"  field="content" rel="content">
@@ -34,7 +34,7 @@ description: Post inner layout
 
     </div>
     </div>
-    <div class="mw-ui-col col-sidebar">
+    <div class="span4 col-sidebar">
       <?php include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; ?>
     </div>
   </div>
