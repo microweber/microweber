@@ -13,6 +13,12 @@
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div id="content">
+
+<div class="edit" style="min-height: 300px;" rel="content" field="content">
+    <div class="element">Edit Me</div>
+</div>
+
+
   <div class="container">
    <?php /*<div id="mw-team-mobile" class="row">
         <div class="span4">

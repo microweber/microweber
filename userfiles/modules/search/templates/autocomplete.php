@@ -11,25 +11,29 @@ description: Autocomplete Search template
 */
 
   ?>
+  <?php $rand = uniqid(); ?>
 
-<div class="mw-search mw-search-autocomplete " id="search_box_holder_<?php  print $params['id'] ?>">
+
+
+
+<div class="mw-search mw-search-autocomplete " id="search_box_holder_<?php  print $params['id'] . $rand ?>">
   <div class="input-append">
     <input type="text"
-         id="search_field_<?php  print $params['id'] ?>"
+         id="search_field_<?php  print $params['id'] . $rand  ?>"
          class="input-large mw-search-field"
          placeholder="<?php _e("Search"); ?>"
-         onkeyup="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] ?>'), this, event);"
-         onpaste="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] ?>'), this, event);"
+         onkeyup="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
+         onpaste="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
      />
     <span class="add-on"><i class="icon-search"></i></span> </div>
-  <div class="mw-search-results" id="search_results_holder_<?php  print $params['id'] ?>"> </div>
+  <div class="mw-search-results" id="search_results_holder_<?php  print $params['id'] . $rand  ?>"> </div>
 </div>
 
 
 <script>
 
 
-mw.autocompleteSearch = function(parent, el, e){
+mw.autocompleteSearch = function(parent, el, e, holder_id){
     var parent = $(parent);
       if(e.type == 'keyup'){
          if(e.keyCode == 38){
@@ -43,17 +47,20 @@ mw.autocompleteSearch = function(parent, el, e){
           }
           else{
               parent.addClass("loading");
+              parent.find(".add-on i").attr("class", "icon-spinner icon-spin");
               mw.on.stopWriting(el,function(){
                   if(el.value == ''){
-                    $(mwd.getElementById('search_results_holder_<?php  print $params['id'] ?>')).hide();
+                    $(mwd.getElementById(holder_id)).hide();
                     parent.removeClass("loading");
+                    parent.find(".add-on i").attr("class", "icon-search");
                     return false;
                   }
-                  $(mwd.getElementById('search_results_holder_<?php  print $params['id'] ?>')).show();
-                    mw.search(el.value, mwd.getElementById('search_results_holder_<?php  print $params['id'] ?>'), {
+                  $(mwd.getElementById(holder_id)).show();
+                    mw.search(el.value, mwd.getElementById(holder_id), {
                        template:'search',
                        done:function(){
                          parent.removeClass("loading");
+                         parent.find(".add-on i").attr("class", "icon-search");
                        }
                     });
               });

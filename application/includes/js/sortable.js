@@ -674,7 +674,9 @@ mw.drag = {
           element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onItemOver", function(a, element){
+          if(element === false) { return false; }
           var el = $(element);
+
           var o = el.offset();
           //mw.log(mw.random());
           var pleft = parseFloat(el.css("paddingLeft"));

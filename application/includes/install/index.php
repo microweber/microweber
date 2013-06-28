@@ -5,117 +5,98 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 }
 
 
-
-
-
-
-
 $autoinstall = false;
 
-if(function_exists('getopt')){
-	$cli_autoinstall = getopt("autoinstall");
-	if(isset($cli_autoinstall) and $cli_autoinstall != false){
 
-        $cfg = MW_CONFIG_FILE;
-        if(is_file($cfg) and is_readable($cfg)){
-            require ($cfg);
+if (isset($_REQUEST['autoinstall'])) {
+    $cli_autoinstall = $_REQUEST['autoinstall'];
+}
 
-            if(isarr($config) and isset($config['db']) and isarr($config['db'])){
+if (isset($cli_autoinstall) and $cli_autoinstall != false) {
 
-                $autoinstall =$config['db'];
-                $autoinstall['is_installed'] = 'no';
-                $autoinstall['is_installed'] = 'no';
+    $cfg = MW_CONFIG_FILE;
+    if (is_file($cfg) and is_readable($cfg)) {
+        require ($cfg);
+
+        if (isarr($config) and isset($config['db']) and isarr($config['db'])) {
+
+            $autoinstall = $config['db'];
+            $autoinstall['is_installed'] = 'no';
+
+            if (isset($config['table_prefix'])) {
+                $autoinstall['table_prefix'] = $config['table_prefix'];
+
+            } else {
+                $autoinstall['table_prefix'] = '';
+            }
 
 
-                if(isset($config['table_prefix'])){
-                  $autoinstall['table_prefix'] = $config['table_prefix'];
+            if (!isset($_REQUEST['admin_username'])) {
+                if (isset($autoinstall['user'])) {
+                    $autoinstall['admin_username'] = $autoinstall['user'];
                 }
+            } else {
+                $autoinstall['admin_username'] = $_REQUEST['admin_username'];
+            }
 
-                if(!isset($_REQUEST['admin_username'])){
-                    if(isset($autoinstall['user'])){
-                        $autoinstall['admin_username'] = $autoinstall['user'];
-                    }
-                } else {
-                    $autoinstall['admin_username'] = $_REQUEST['admin_username'];
+            if (!isset($_REQUEST['dbname'])) {
+                if (isset($autoinstall['dbname'])) {
+                    $autoinstall['dbname'] = $autoinstall['dbname'];
                 }
+            } else {
+                $autoinstall['dbname'] = $_REQUEST['dbname'];
+            }
 
-                if(!isset($_REQUEST['dbname'])){
-                    if(isset($autoinstall['dbname'])){
-                        $autoinstall['dbname'] = $autoinstall['dbname'];
-                    }
-                } else {
-                    $autoinstall['dbname'] = $_REQUEST['dbname'];
+
+            if (!isset($_REQUEST['admin_username'])) {
+                if (isset($autoinstall['user'])) {
+                    $autoinstall['admin_username'] = $autoinstall['user'];
                 }
+            } else {
+                $autoinstall['admin_username'] = $_REQUEST['admin_username'];
+            }
 
 
-                if(!isset($_REQUEST['admin_username'])){
-                    if(isset($autoinstall['user'])){
-                        $autoinstall['admin_username'] = $autoinstall['user'];
-                    }
-                } else {
-                    $autoinstall['admin_username'] = $_REQUEST['admin_username'];
+            if (!isset($_REQUEST['admin_password'])) {
+                if (isset($autoinstall['pass'])) {
+                    $autoinstall['admin_password'] = $autoinstall['pass'];
                 }
+            } else {
+                $autoinstall['admin_password'] = $_REQUEST['admin_password'];
+            }
 
 
-
-
-
-
-
-
-
-                if(!isset($_REQUEST['admin_password'])){
-                    if(isset($autoinstall['pass'])){
-                        $autoinstall['admin_password'] = $autoinstall['pass'];
-                    }
-                } else {
-                    $autoinstall['admin_password'] = $_REQUEST['admin_password'];
+            if (!isset($_REQUEST['db_user'])) {
+                if (isset($autoinstall['user'])) {
+                    $autoinstall['db_user'] = $autoinstall['user'];
                 }
+            } else {
+                $autoinstall['db_user'] = $_REQUEST['db_user'];
+            }
 
-
-                if(!isset($_REQUEST['db_user'])){
-                    if(isset($autoinstall['user'])){
-                        $autoinstall['db_user'] = $autoinstall['user'];
-                    }
-                } else {
-                    $autoinstall['db_user'] = $_REQUEST['db_user'];
+            if (!isset($_REQUEST['db_pass'])) {
+                if (isset($autoinstall['pass'])) {
+                    $autoinstall['db_pass'] = $autoinstall['pass'];
                 }
+            } else {
+                $autoinstall['db_pass'] = $_REQUEST['db_pass'];
+            }
 
-                if(!isset($_REQUEST['db_pass'])){
-                    if(isset($autoinstall['pass'])){
-                        $autoinstall['db_pass'] = $autoinstall['pass'];
-                    }
-                } else {
-                    $autoinstall['db_pass'] = $_REQUEST['db_pass'];
+
+            if (!isset($_REQUEST['db_host'])) {
+                if (isset($autoinstall['host'])) {
+                    $autoinstall['db_host'] = $autoinstall['host'];
                 }
-
-
-
-                if(!isset($_REQUEST['db_host'])){
-                    if(isset($autoinstall['host'])){
-                        $autoinstall['db_host'] = $autoinstall['host'];
-                    }
-                } else {
-                    $autoinstall['db_host'] = $_REQUEST['db_host'];
-                }
-
-
-
-
+            } else {
+                $autoinstall['db_host'] = $_REQUEST['db_host'];
             }
 
 
         }
 
 
-
-
-
-
-
-
-
     }
+
 }
 
 
@@ -142,11 +123,11 @@ function __mw_install_log($text)
 
     }
     if (is_file($log_file)) {
-        if($text == 'done'){
-            @file_put_contents($log_file, "[".date('H:i:s')."] "."\t".$text."<br>\n\r");
+        if ($text == 'done') {
+            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "<br>\n\r");
 
         } else {
-            @file_put_contents($log_file, "[".date('H:i:s')."] "."\t".$text."<br>\n\r",FILE_APPEND);
+            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "<br>\n\r", FILE_APPEND);
 
         }
     }
@@ -156,19 +137,16 @@ function __mw_install_log($text)
 
 $done = false;
 
-if(is_array($autoinstall) and isset($autoinstall['is_installed'])){
-$to_save = $autoinstall;
+if (isset($autoinstall) and is_array($autoinstall) and isset($autoinstall['is_installed'])) {
+    $to_save = $autoinstall;
 
 } else {
     $to_save = $_REQUEST;
 }
 
 
-
-
-
-if(isarr($to_save)){
-	$to_save = array_change_key_case($to_save, CASE_LOWER);
+if (isarr($to_save)) {
+    $to_save = array_change_key_case($to_save, CASE_LOWER);
 }
 
 if (isset($to_save['is_installed'])) {
@@ -190,6 +168,10 @@ if (isset($to_save['is_installed'])) {
 
         }
 
+        if (!isset($to_save['default_timezone'])) {
+            $to_save['default_timezone'] = "UTC";
+        }
+
         //$to_save['IS_INSTALLED'] = 'yes';
 
         $save_config_orig = $save_config;
@@ -205,9 +187,7 @@ if (isset($to_save['is_installed'])) {
          sleep(2);*/
 
 
-
-
-         if (isset($to_save['is_installed']) and $to_save['is_installed'] != 'yes') {
+        if (isset($to_save['is_installed']) and $to_save['is_installed'] != 'yes') {
             __mw_install_log('Testing database settings');
 
             if ($to_save['db_pass'] == '') {
@@ -262,7 +242,6 @@ if (isset($to_save['is_installed'])) {
                 $default_htaccess_file = MW_ROOTPATH . '.htaccess';
 
 
-
                 $to_add_htaccess = true;
                 if (is_file($default_htaccess_file)) {
                     $default_htaccess_file_c = file_get_contents($default_htaccess_file);
@@ -270,10 +249,6 @@ if (isset($to_save['is_installed'])) {
                         $to_add_htaccess = false;
                     }
                 }
-
-
-
-
 
 
                 if ($to_add_htaccess == true) {
@@ -293,7 +268,7 @@ if (isset($to_save['is_installed'])) {
                                 $dnht = str_replace(' ', '%20', $dnht);
                                 if ($dnht != '/' and $dnht != '.' and $dnht != './' and$dnht != DIRECTORY_SEPARATOR) {
                                     // $f_htaccess_file_c = str_ireplace('/your_sub_folder/', $dnht, $f_htaccess_file_c);
-
+ 
                                     $f_htaccess_file_c = str_ireplace('#RewriteBase /your_sub_folder/', 'RewriteBase ' . $dnht . '/', $f_htaccess_file_c);
 
 
@@ -307,199 +282,147 @@ if (isset($to_save['is_installed'])) {
 
                 }
 
-                if(isset($_SERVER["SERVER_SOFTWARE"])){
+                if (isset($_SERVER["SERVER_SOFTWARE"])) {
 
-                   $sSoftware = strtolower( $_SERVER["SERVER_SOFTWARE"] );
-                   if ( stripos($sSoftware, "microsoft-iis") !== false or stristr($sSoftware, "microsoft-iis") !== false ){
-                      __mw_install_log($_SERVER["SERVER_SOFTWARE"]);
-                      $default_webconfig_iis_file = MW_ROOTPATH . 'Web.config';
+                    $sSoftware = strtolower($_SERVER["SERVER_SOFTWARE"]);
+                    if (stripos($sSoftware, "microsoft-iis") !== false or stristr($sSoftware, "microsoft-iis") !== false) {
+                        __mw_install_log($_SERVER["SERVER_SOFTWARE"]);
+                        $default_webconfig_iis_file = MW_ROOTPATH . 'Web.config';
 
-                      $to_add_webconfig_iis = true;
-                      if (is_file($default_webconfig_iis_file)) {
-                        $default_htaccess_file_c = file_get_contents($default_webconfig_iis_file);
-                        if (strstr($default_htaccess_file_c, '<action type="Rewrite" url="index.php" />')) {
-                           $to_add_webconfig_iis = false;
-                       }
-                   }
-
-
-
-                   __mw_install_log('Web.config check '. $to_add_webconfig_iis);
+                        $to_add_webconfig_iis = true;
+                        if (is_file($default_webconfig_iis_file)) {
+                            $default_htaccess_file_c = file_get_contents($default_webconfig_iis_file);
+                            if (strstr($default_htaccess_file_c, '<action type="Rewrite" url="index.php" />')) {
+                                $to_add_webconfig_iis = false;
+                            }
+                        }
 
 
-
-                   if ($to_add_webconfig_iis == true) {
-                    $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
-                    if (is_file($f_htaccess)) {
-                     $f_htaccess_c = file_get_contents($f_htaccess);
-                     __mw_install_log('Adding Web.config');
-                     file_put_contents($default_webconfig_iis_file,$f_htaccess_c, FILE_APPEND);
-                 }
-
-             }
+                        __mw_install_log('Web.config check ' . $to_add_webconfig_iis);
 
 
+                        if ($to_add_webconfig_iis == true) {
+                            $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
+                            if (is_file($f_htaccess)) {
+                                $f_htaccess_c = file_get_contents($f_htaccess);
+                                __mw_install_log('Adding Web.config');
+                                file_put_contents($default_webconfig_iis_file, $f_htaccess_c, FILE_APPEND);
+                            }
+
+                        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         }
-     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-     __mw_install_log('Writing config file');
-     file_put_contents($cfg, $save_config);
-     __mw_install_log('Clearing cache');
-     clearstatcache();
-     clearcache();
-     _reload_c();
-
-     __mw_install_log('Initializing users');
-     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-     __mw_install_log('Initializing options');
-
-     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
-     exec_action('mw_db_init_options');
-     exec_action('mw_db_init_users');
-
-     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-     __mw_install_log('Creating default database tables');
-     exec_action('mw_db_init_default');
-
-     __mw_install_log('Creating modules database tables');
-     exec_action('mw_db_init_modules');
-
-
-         if (MW_IS_INSTALLED != true) {
-
-                if (isset($to_save['admin_username']) and isset($to_save['admin_password'])) {
-                    __mw_install_log('Adding admin user');
-                    $new_admin = array();
-                    $new_admin['username'] = $to_save['admin_username'];
-                    $new_admin['password'] = ($to_save['admin_password']);
-                    if (isset($to_save['admin_email'])) {
-                        $new_admin['email'] = $to_save['admin_email'];
                     }
-                    $new_admin['is_active'] = 'y';
-                    $new_admin['is_admin'] = 'y';
-                    mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
-                    save_user($new_admin);
+                }
+
+
+                __mw_install_log('Writing config file');
+                file_put_contents($cfg, $save_config);
+                __mw_install_log('Clearing cache');
+                clearstatcache();
+                clearcache();
+                _reload_c();
+
+                __mw_install_log('Initializing users');
+                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+                __mw_install_log('Initializing options');
+
+                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+                exec_action('mw_db_init_options');
+                exec_action('mw_db_init_users');
+
+                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+                __mw_install_log('Creating default database tables');
+                exec_action('mw_db_init_default');
+
+                __mw_install_log('Creating modules database tables');
+                exec_action('mw_db_init_modules');
+
+
+                if (MW_IS_INSTALLED != true) {
+
+                    if (isset($to_save['admin_username']) and isset($to_save['admin_password'])) {
+                        __mw_install_log('Adding admin user');
+                        $new_admin = array();
+                        $new_admin['username'] = $to_save['admin_username'];
+                        $new_admin['password'] = ($to_save['admin_password']);
+                        if (isset($to_save['admin_email'])) {
+                            $new_admin['email'] = $to_save['admin_email'];
+                        }
+                        $new_admin['is_active'] = 'y';
+                        $new_admin['is_admin'] = 'y';
+                        mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
+                        save_user($new_admin);
+
+                    }
 
                 }
 
-            }
+
+                __mw_install_log('Loading modules');
+
+                exec_action('mw_scan_for_modules');
+
+                $save_config = $save_config_orig;
+                $to_save['is_installed'] = 'yes';
+                foreach ($to_save as $k => $v) {
+                    $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+                }
+
+                file_put_contents($cfg, $save_config);
+                clearstatcache();
+                _reload_c();
+                __mw_install_log('Finalizing config file');
 
 
+                if (isset($to_save['with_default_content'])) {
+                    $default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
+                    $default_content_file = $default_content_folder . 'mw_default_content.zip';
+                    if (is_file($default_content_file)) {
+                        __mw_install_log('Installing default content');
 
 
+                        define("MW_NO_DEFAULT_CONTENT", true);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     __mw_install_log('Loading modules');
-
-     exec_action('mw_scan_for_modules');
-
-     $save_config = $save_config_orig;
-     $to_save['is_installed'] = 'yes';
-     foreach ($to_save as $k => $v) {
-        $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
-    }
-
-    file_put_contents($cfg, $save_config);
-    clearstatcache();
-    _reload_c();
-    __mw_install_log('Finalizing config file');
-
-
-    if (isset($to_save['with_default_content'])) {
-        $default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
-        $default_content_file = $default_content_folder . 'mw_default_content.zip';
-        if (is_file($default_content_file)) {
-            __mw_install_log('Installing default content');
-
-
-            define("MW_NO_DEFAULT_CONTENT", true);
-
-            $restore = new \mw\utils\Backup();
-            $restore->backups_folder = $default_content_folder;
-            $restore->backup_file = 'mw_default_content.zip';
-            ob_start();
-            $rest = $restore->exec_restore();
+                        $restore = new \mw\utils\Backup();
+                        $restore->backups_folder = $default_content_folder;
+                        $restore->backup_file = 'mw_default_content.zip';
+                        ob_start();
+                        $rest = $restore->exec_restore();
 
 
                         //mw_post_update();
 
-            ob_get_clean();
-            __mw_install_log('Default content is installed');
+                        ob_get_clean();
+                        __mw_install_log('Default content is installed');
 
                         // exec_action('mw_scan_for_modules');
                         //d($to_save['with_default_content']);
-        }
+                    }
 
-    }
+                }
 
 
                 // mw_create_default_content('install');
-    print('done');
-    __mw_install_log('done');
+                print('done');
+                __mw_install_log('done');
 
-}
-@session_write_close();
-exit();
+            }
+            @session_write_close();
+            exit();
 
             //var_dump($_REQUEST);
             //$l = db_query_log(true);
             //var_dump($l);
-} else {
-    $done = true;
-    $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'done.php';
-    include ($f);
-    exit();
-}
+        } else {
+            $done = true;
+            $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'done.php';
+            include ($f);
+            exit();
+        }
 
         //  var_dump($save_config);
-}
+    }
 
 }
 
@@ -509,7 +432,7 @@ if (!isset($to_save['IS_INSTALLED'])) {
     $data = false;
     if (is_file($cfg)) {
         $data =
-        include ($cfg);
+            include ($cfg);
         //
     }
     __mw_install_log('Preparing to install');

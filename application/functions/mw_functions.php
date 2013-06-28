@@ -17,11 +17,20 @@ if (MW_IS_INSTALLED == true) {
 	}
 
 } else {
-	if (!defined('MW_TABLE_PREFIX')) {
+
+
+	if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
 
 		define('MW_TABLE_PREFIX', null);
 
-	}
+	} else if (!defined('MW_TABLE_PREFIX')) {
+        $pre = c('table_prefix');
+
+        define('MW_TABLE_PREFIX', $pre);
+
+    }
+
+
 }
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'url.php');

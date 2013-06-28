@@ -1692,12 +1692,27 @@ mw.cookie = {
   ui:function(a,b){
     var mwui = mw.cookie.get("mwui");
     var mwui = (!mwui || mwui=='') ? {} : $.parseJSON(mwui);
-    if(a===undefined){return mwui}
-    if(b===undefined){return mwui[a]!==undefined?mwui[a]:""}
+    if(typeof a === 'undefined'){return mwui}
+    if(typeof b === 'undefined'){return mwui[a]!==undefined?mwui[a]:""}
     else{
         mwui[a] = b;
         var tostring = JSON.stringify(mwui);
         mw.cookie.set("mwui", tostring, false, "/");
+        if(typeof mw.cookie.uievents[a] !== 'undefined'){
+          var funcs = mw.cookie.uievents[a], l=funcs.length, i=0;
+          for(; i<l; i++){
+              mw.cookie.uievents[a][i].call(b);
+          }
+        }
+    }
+  },
+  uievents:{},
+  onchange:function(name, func){
+    if(typeof mw.cookie.uievents[name] === 'undefined'){
+         mw.cookie.uievents[name] = [func];
+    }
+    else{
+        mw.cookie.uievents[name].push(func);
     }
   }
 }

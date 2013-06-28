@@ -34,7 +34,7 @@ if ($is_mysqli != false) {
             }
            // mysqli_free_result($result);
             $result->free();
-            unset($result);
+           // unset($result);
 
             $is_gc_collect_cycles = function_exists('gc_collect_cycles');
             if($is_gc_collect_cycles == true){

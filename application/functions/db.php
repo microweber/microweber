@@ -2489,12 +2489,15 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         return $ret;
     }
 
-    // var_dump($result);
+    //
     if ($count_only == true) {
-
+       if(is_array($result[0]) and isset($result[0]['qty'])){
         $ret = $result[0]['qty'];
 
         return $ret;
+       } else {
+           return 0;
+       }
     }
 
     $return = array();

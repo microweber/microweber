@@ -37,6 +37,19 @@
     <script type="text/javascript" src="{TEMPLATE_URL}js/bootstrap.js"></script>
     <script type="text/javascript" src="{TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
+    
+    
+    <script>
+var _prum = [['id', '51caf0d9abe53d3950000000'],
+             ['mark', 'firstbyte', (new Date()).getTime()]];
+(function() {
+    var s = document.getElementsByTagName('script')[0]
+      , p = document.createElement('script');
+    p.async = 'async';
+    p.src = '//rum-static.pingdom.net/prum.min.js';
+    s.parentNode.insertBefore(p, s);
+})();
+</script>
     </head>
     <body>
     <script>if(self !== top) { document.body.className += ' iframe' }</script>

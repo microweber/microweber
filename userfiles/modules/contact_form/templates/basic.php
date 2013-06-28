@@ -11,6 +11,7 @@ description: Basic contact form
 */
 
 ?>
+<div class="mw-contact-form-basic">
 <div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
     <h3>Write us a letter</h3>
 </div>
@@ -27,6 +28,8 @@ description: Basic contact form
   <?php  endif;?>
   <input type="submit" class="btn"  value="<?php _e("Submit"); ?>" />
 </form>
+
+</div>
 
 
 
