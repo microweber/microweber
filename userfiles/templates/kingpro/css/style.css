@@ -208,7 +208,34 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 }
 
 
+.mw-ad{
+  display: block;
+  position: relative;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
 
+.mw-ad h1{
+  padding: 8px 0;
+  margin: 8px 0;
+  border-top: 1px solid #58626E;
+  border-bottom: 1px solid #58626E;
+  display: inline-block;
+  font-size: 40px;
+}
+
+
+.mw-ad-blue h1{
+  border-color: #A6CCD7;
+}
+.mw-ad-blue{
+  background-color: #6BAABB;
+}
+
+.mw-ad-black{
+    background-color: #313B47;
+}
 
 
 
@@ -407,7 +434,7 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 }
 
 .module-posts-template-mwcolumns .product-image{
-  height: 330px;
+  height: 230px;
   width: 100%;
   background-position: center top;
   background-repeat: no-repeat;

@@ -39,7 +39,7 @@ function say($a = 'a generic greeting', $b = '') {
 // schedule a global scope function:
 $scheduler->registerShutdownEvent('say', 'hello!');
 
-// try to schedule a dyamic method:
+// try to schedule a dynamic method:
 $scheduler->registerShutdownEvent(array($scheduler, 'dynamicTest'));
 // try with a static call:
 $scheduler->registerShutdownEvent('scheduler::staticTest');
@@ -62,7 +62,7 @@ $scheduler->registerShutdownEvent('scheduler::staticTest');
  * 
  * 
 
- * @link		http://www.php.net/manual/en/function.register-shutdown-function.php#100000
+ * @link		Original is from here http://www.php.net/manual/en/function.register-shutdown-function.php#100000
 
  * @version     1.0.0
  */

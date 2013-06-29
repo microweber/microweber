@@ -354,6 +354,10 @@ unset($backup_api);
     {
 
 
+
+
+
+
         if (!defined('MW_BACKUP_STARTED')) {
             define('MW_BACKUP_STARTED', 1);
         } else {
@@ -616,9 +620,9 @@ unset($backup_api);
                 $return  = "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
             }
-            $this->log_action(false);
-        }
 
+        }
+        $this->log_action(false);
         $back_log_action = "Saving to file " . basename($filess);
         $this->log_action($back_log_action);
         // Save the sql file
