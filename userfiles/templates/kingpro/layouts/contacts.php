@@ -33,14 +33,14 @@ description: Contact us layout
     		</div>
         </h2>
   <div class="edit" field="content" rel="page">
-    <module type="google_maps" />
-    <div class="element page-post-content">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</div>
+
     <div class="row">
       <div class="span6">
-        <module type="contact_form"   class="contact-form" id="contact-form" template="basic" />
-      </div>
-      <div class="span5 offset1">
+        <module type="google_maps" />
+
+
         <div class="edit">
+        <div class="vspace"></div>
           <h3>Address</h3>
           <hr>
           <p>
@@ -58,11 +58,16 @@ description: Contact us layout
         <h3>Follow Us</h3>
         <hr>
         <div class="social-icons">
-        	<a href="http://www.facebook.com/microweber"><span class="icon-facebook icon-4"></span></a>
-			<a href="http://www.twitter.com/microweber"><span class="icon-twitter"></span></a>
-			<a href="http://plus.google.com"><span class="icon-google-plus"></span></a>
-			<a href="http://youtube.com"><span class="icon-youtube"></span></a><br>
+        	<a href="http://www.facebook.com/microweber">&nbsp;<span class="icon-facebook icon-4">&nbsp;</span></a>
+			<a href="http://www.twitter.com/microweber">&nbsp;<span class="icon-twitter">&nbsp;</span></a>
+			<a href="http://plus.google.com">&nbsp;<span class="icon-google-plus">&nbsp;</span></a>
+			<a href="http://youtube.com">&nbsp;<span class="icon-youtube">&nbsp;</span></a><br>
 		</div>
+
+      </div>
+      <div class="span5 offset1">
+        <module type="contact_form"   class="contact-form" id="contact-form" template="basic" />
+
       </div>
     </div>
   </div>

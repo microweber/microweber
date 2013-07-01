@@ -47,7 +47,7 @@ description: Minimal cart template
    }
 
    ?>
-    <a class="btn btn-mini right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+    <a class="btn btn-mini" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
     <?php endif ; ?>
     <?php else : ?>
     <span class="no-items">

@@ -70,7 +70,7 @@ if(!isset($tn[1])){
 
       <?php endif; ?>
 
-      <div class="product-price-holder clearfix">
+      <div class="product-price-holder">
         <?php if($show_fields == false or in_array('price', $show_fields)): ?>
         <?php if(isset($item['prices']) and isarr($item['prices'])){  ?>
 	    <?php

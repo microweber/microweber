@@ -48,7 +48,7 @@ class MwController
         }
         if (MW_IS_INSTALLED == true) {
             //exec_action('mw_db_init');
-            exec_action('mw_cron');
+           // exec_action('mw_cron');
         }
 
         //create_mw_default_options();
@@ -1695,7 +1695,7 @@ class MwController
 
         if (MW_IS_INSTALLED == true) {
             //exec_action('mw_db_init');
-            exec_action('mw_cron');
+          //  exec_action('mw_cron');
         }
 
         $tool = url(1);

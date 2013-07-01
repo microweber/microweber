@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html prefix="og: http://ogp.me/ns#">
     <head>
-    <script>START=new Date().getTime();</script>
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,10 +60,10 @@
                           <a href="<?php print site_url(); ?>"><img src="{TEMPLATE_URL}img/logo.png" alt="" /></a>
                        </div>
                     </div>
-                    <div class="mw-col" style="width: 60%">
+                    <div class="mw-col" style="width: 50%">
                         <module type="menu" template="minimal">
                     </div>
-                    <div class="mw-col" style="width: 20%">
+                    <div class="mw-col" style="width: 30%">
                          <module type="search" template="autocomplete">
                     </div>
                 </div>

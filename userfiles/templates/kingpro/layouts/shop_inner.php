@@ -16,11 +16,13 @@ description: shop layout
 
 <section id="content">
   <div class="container">
+  <h2 class="edit main-title"  field="title" rel="post">Product inner page</h2>
     <div class="row">
       <div class="span9"> <!-------------- Product -------------->
-        
-        <h2 class="edit"  field="title" rel="post">Product inner page</h2>
-        <hr>
+
+
+
+
         <div class="edit"  field="content" rel="post">
           <div class="mw-row">
             <div class="mw-col" style="width:50%">
@@ -46,6 +48,7 @@ description: shop layout
             <module
                     data-type="shop/products"
                     related="true"
+                    data-hide-paging="true"
                     data-limit="3"
                     data-show="thumbnail,title,add_to_cart,description,price"
                     data-template="mwcolumns" />

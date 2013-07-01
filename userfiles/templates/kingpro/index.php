@@ -60,6 +60,7 @@
     <module
             data-type="shop/products"
             data-limit="4"
+            data-hide-paging="true"
             id="home-products"
             data-description-length="60"
             data-show="thumbnail,title,add_to_cart,description,price"

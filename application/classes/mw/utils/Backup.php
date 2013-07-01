@@ -48,7 +48,7 @@ class Backup
             define('MW_NO_SESSION', 1);
         }
         $url = site_url();
-       // header("Location: " . $url);
+        // header("Location: " . $url);
         // redirect the url to the 'busy importing' page
         ob_end_clean();
         //Erase the output buffer
@@ -336,26 +336,24 @@ class Backup
 
         //$back_log_action = "Creating full backup";
         //self::log_bg_action($back_log_action);
+
+
         if (!defined('MW_BACKUP_BG_WORKER_STARTED')) {
             define('MW_BACKUP_BG_WORKER_STARTED', 1);
             $backup_api = new \mw\utils\Backup();
             $backup_api->exec_create_full();
-unset($backup_api);
+            unset($backup_api);
         } else {
 
         }
 
-      //  exit();
+        //  exit();
 
 
     }
 
     function exec_create_full()
     {
-
-
-
-
 
 
         if (!defined('MW_BACKUP_STARTED')) {
@@ -403,7 +401,7 @@ unset($backup_api);
                 $back_log_action = "Adding sql restore to zip";
                 $this->log_action($back_log_action);
                 $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
-              //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+                //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
 
             }
         }
@@ -418,7 +416,7 @@ unset($backup_api);
         $back_log_action = "Adding userfiles to zip";
         $this->log_action($back_log_action);
 
-       // $zip = $zip->finalize();
+        // $zip = $zip->finalize();
         $filename_to_return = $filename;
         $end = microtime_float();
         $end = round($end - $start, 3);
@@ -437,21 +435,174 @@ unset($backup_api);
 
     }
 
-    function log_action($back_log_action)
+    function cronjob_exec($params = false)
     {
 
-        if ($back_log_action == false) {
-            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
-        } else {
-            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
-            if (isarr($check) and isset($check['id'])) {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
-            } else {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
-            }
+        print 'backup cronjob';
+
+
+    }
+
+    function restore($params)
+    {
+        if (!defined('MW_NO_SESSION')) {
+            define('MW_NO_SESSION', 1);
+        }
+        $id = null;
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        } else if (isset($_GET['filename'])) {
+            $id = $params['filename'];
+        } else if (isset($_GET['file'])) {
+            $id = $params['file'];
+
         }
 
+        if ($id == NULL) {
+
+            return array('error' => "You have not provided a backup to restore.");
+            die();
+        }
+
+        $url = site_url();
+        header("Location: " . $url);
+        // redirect the url to the 'busy importing' page
+        ob_end_clean();
+        //Erase the output buffer
+        header("Connection: close");
+        //Tell the browser that the connection's closed
+        ignore_user_abort(true);
+        //Ignore the user's abort (which we caused with the redirect).
+        set_time_limit(0);
+        //Extend time limit
+        ob_start();
+        //Start output buffering again
+        header("Content-Length: 0");
+        //Tell the browser we're serious... there's really nothing else to receive from this page.
+        ob_end_flush();
+        //Send the output buffer and turn output buffering off.
+        flush();
+        //Yes... flush again.
+        session_write_close();
+
+        $scheduler = new \mw\utils\Events();
+
+        // schedule a global scope function:
+        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker_restore", $params);
+
+        exit();
+    }
+
+    function cronjob($params = false)
+    {
+
+        $type = 'full';
+
+        if (isset($params['type'])) {
+            $type = trim($params['type']);
+        }
+
+        $cache_id = 'backup_cron' . (USER_IP);
+        $cache_id_loc = 'backup_cron_lock' . (USER_IP);
+        $cache_content = cache_get_content($cache_id, 'backup');
+        $cache_lock = cache_get_content($cache_id_loc, 'backup');
+
+        //  d($folders);
+
+        $fileTime = date("D, d M Y H:i:s T");
+
+
+        $here = $this->get_bakup_location();
+
+        $filename = $here . 'temp_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
+
+
+        if ($cache_content == false or empty($cache_content)) {
+            $backup_actions = array();
+            $backup_actions[] = 'make_db_backup';
+
+            $userfiles_folder = MW_USERFILES;
+            $folders = rglob($userfiles_folder . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
+            if (!empty($folders)) {
+                foreach ($folders as $fold) {
+                    $backup_actions[] = $fold;
+
+                }
+            }
+
+            //$backup_actions[] = 'makesdfsdf_db_backup';
+            cache_save($backup_actions, $cache_id, 'backup');
+        } else {
+            $backup_actions = $cache_content;
+
+
+            //  d($backup_actions);
+
+
+            if (is_array($backup_actions)) {
+                $i = 0;
+                foreach ($backup_actions as $key=> $item) {
+
+                    if ($i > 100 or $cache_lock == $item) {
+
+                    } else {
+
+
+                        if (!isset($zip)) {
+
+                            $zip = new \mw\utils\Zip();
+                            $zip->setZipFile($filename);
+                        }
+
+                        if ($item == 'make_db_backup') {
+//                            $db_file = $this->create();
+//                            if (isset($db_file['filename'])) {
+//                                $filename2 = $here . $db_file['filename'];
+//                                if (is_file($filename2)) {
+//                                    $back_log_action = "Adding sql restore to zip";
+//                                    $this->log_action($back_log_action);
+//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
+//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+//
+//                                }
+//                            }
+                        } else {
+                            $relative_loc = str_replace(MW_USERFILES, '', $item);
+                            d($relative_loc);
+                            if (is_dir($item)) {
+                                $zip->addDirectoryContent($item, $relative_loc, false);
+                            } elseif (is_file($item)) {
+                                $zip->addLargeFile($item, $relative_loc, filectime($item));
+                            }
+                            //$zip->addDirectoryContent(MW_USERFILES, '', true);
+                            //  $back_log_action = "Adding userfiles to zip";
+
+
+                        }
+
+                        unset($backup_actions[$key]);
+                        if(isset($backup_actions)){
+                            cache_save($backup_actions, $cache_id, 'backup');
+                        }
+                        //d($item);
+                        cache_save($item, $cache_id_loc, 'backup');
+                        // break;
+                    }
+                    $i++;
+                }
+
+
+            }
+        }
+        if (isset($zip) and is_object($zip)) {
+            $zip = $zip->finalize();
+
+        }
+        //d($params);
+
+
+        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
     }
 
     function create()
@@ -607,7 +758,7 @@ unset($backup_api);
                         }
                         $return .= ")" . $this->file_q_sep . "\n\n\n";
                         $this->append_string_to_file($sql_bak_file, $return);
-                       //$this->log_action(false);
+                        //$this->log_action(false);
                     }
                     //  }
 
@@ -617,7 +768,7 @@ unset($backup_api);
 
 
                 }
-                $return  = "\n\n\n";
+                $return = "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
             }
 
@@ -653,64 +804,28 @@ unset($backup_api);
 
     }
 
-    function restore($params)
-    {
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
-        $id = null;
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        } else if (isset($_GET['filename'])) {
-            $id = $params['filename'];
-        } else if (isset($_GET['file'])) {
-            $id = $params['file'];
-
-        }
-
-        if ($id == NULL) {
-
-            return array('error' => "You have not provided a backup to restore.");
-            die();
-        }
-
-        $url = site_url();
-        header("Location: " . $url);
-        // redirect the url to the 'busy importing' page
-        ob_end_clean();
-        //Erase the output buffer
-        header("Connection: close");
-        //Tell the browser that the connection's closed
-        ignore_user_abort(true);
-        //Ignore the user's abort (which we caused with the redirect).
-        set_time_limit(0);
-        //Extend time limit
-        ob_start();
-        //Start output buffering again
-        header("Content-Length: 0");
-        //Tell the browser we're serious... there's really nothing else to receive from this page.
-        ob_end_flush();
-        //Send the output buffer and turn output buffering off.
-        flush();
-        //Yes... flush again.
-        session_write_close();
-
-        $scheduler = new \mw\utils\Events();
-
-        // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker_restore", $params);
-
-        exit();
-    }
-
     function create_full()
     {
+
+
+        $cron = new \mw\utils\Cron();
+        //$cron->Register('make_full_backup', 0, '\mw\utils\Backup::cronjob_exec');
+        // $cron->job('make_full_backup', 0, array('\mw\utils\Backup','cronjob_exec'));
+
+        //$cron->job('run_something_once', 0, array('\mw\utils\Backup','cronjob'));
+
+
+        $cron->job('make_full_backup', '5 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
+        //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
+        exit();
+
+
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
         $this->log_action(false);
-        $url = site_url();
-        header("Location: " . $url);
+        //  $url = site_url();
+        //header("Location: " . $url);
         // redirect the url to the 'busy importing' page
         ob_end_clean();
         //Erase the output buffer
@@ -736,6 +851,23 @@ unset($backup_api);
         $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker");
 
         exit();
+    }
+
+    function log_action($back_log_action)
+    {
+
+        if ($back_log_action == false) {
+            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+        } else {
+            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+            if (isarr($check) and isset($check['id'])) {
+                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+            } else {
+                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+            }
+        }
+
     }
 
     function move_uploaded_file_to_backup($params)
@@ -767,6 +899,58 @@ unset($backup_api);
         }
 
     }
+
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_ROOTPATH . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = module_option('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+        if (!is_dir($here)) {
+            if (!mkdir($here)) {
+                return false;
+            }
+        }
+        $loc = $here;
+        $this->backups_folder = $loc;
+        return $here;
+    }
+
+    // Read a file and display its content chunk by chunk
 
     public function get()
     {
@@ -811,14 +995,12 @@ unset($backup_api);
 
     }
 
-    // Read a file and display its content chunk by chunk
-
     function delete($params)
     {
         if (!is_admin()) {
             error("must be admin");
         }
-        ;
+
 
         // Get the provided arg
         $id = $params['id'];
@@ -896,56 +1078,6 @@ unset($backup_api);
         } else {
             die('File does not exist');
         }
-    }
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_ROOTPATH . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = module_option('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-        if (!is_dir($here)) {
-            if (!mkdir($here)) {
-                return false;
-            }
-        }
-        $loc = $here;
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function readfile_chunked($filename, $retbytes = TRUE)

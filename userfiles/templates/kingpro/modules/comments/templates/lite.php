@@ -52,7 +52,7 @@ description: Lite comments template
   }
 
   
-  
+
   
   
 
@@ -83,7 +83,12 @@ description: Lite comments template
         <div class="mw-ui-col">
         <div class="mw-ui-col-container">
           <div class="comment-content">
-            <div class="comment-author"> <?php print $comment['comment_name'] ?> </div>
+            <div class="comment-author">
+
+                <?php if(isset( $comment['comment_website'])){ ?> <a href="<?php print $comment['comment_website']; ?>"> <?php } ?>
+                    <?php print $comment['comment_name']; ?>
+                <?php if(isset( $comment['comment_website'])){ ?> </a>  <?php } ?>
+            </div>
             <div class="comment-body">
               <?php if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>
               <em class="comment-require-moderation"><?php _e("Your comment requires moderation"); ?></em><br />

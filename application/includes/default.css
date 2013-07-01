@@ -525,6 +525,23 @@ table[class*='mw-wysiwyg-table'] td{
 .mw-wysiwyg-table-simple-zebra > tbody > tr:nth-child(2n+1) > td{
   background-color: #EDEDED;
 }
+.well{
+  display: block;
+}
+.valign{
+  display: table;
+}
+
+.valign-cell{
+  display: table-cell;
+}
+.img-polaroid, .img-rounded{
+  display: inline-block;
+}
+
+[class*="span"]{
+  margin-bottom: 20px;
+}
 
 /* /Tables */
 

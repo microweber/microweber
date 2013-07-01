@@ -632,7 +632,8 @@ form .shipping-country-row:first-child{
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
+    height: 8px;
     background:#E9E6E6;
 }
 

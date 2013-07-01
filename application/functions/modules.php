@@ -2040,8 +2040,16 @@ function module_css_class($module_name)
 }
 
 action_hook('mw_cron', 'mw_cron');
+api_expose('mw_cron');
 function mw_cron()
 {
+
+    $cron = new \mw\utils\Cron;
+
+
+
+
+
     $file_loc = CACHEDIR_ROOT . "cron" . DS;
 
     $some_hour = date('Ymd');
