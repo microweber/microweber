@@ -175,7 +175,7 @@ if ($template != false and strtolower($template) != 'none') {
 } else {
   $template_file = module_templates($params['type'], 'default');
 }
-
+ 
 
 
 ?>

@@ -205,8 +205,21 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
 
+          mw.$(".edit", mwd.body).each(function(){
+           var els = this.querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
 
-         mw.$(".edit > p").addClass("element");
+           for( ; i<l; i++){
+             var el = els[i];
+             var cls = el.className
+             if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
+               $(el).addClass('element');
+             }
+           }
+
+         });
+
+
+
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
          //mw.$(".edit .mw-row").addClass("element");
          //mw.$(".edit .module").addClass("element");
@@ -383,10 +396,15 @@ mw.drag = {
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "module")
                 || mw.isDragItem(mw.mm_target)
-                || mw.mm_target.tagName=='DIV'
-                || mw.mm_target.tagName=='P'
-                || mw.mm_target.tagName=='P'
                 || mw.mm_target.tagName=='IMG'){
+
+
+                   mw.currentDragMouseOver = mw.mm_target;
+
+
+
+
+
 
 
                 if(mw.$mm_target.hasClass("module")){
@@ -451,7 +469,15 @@ mw.drag = {
                     }
                } */
 
-               //d(mw.currentDragMouseOver);
+
+                 var s = mww.getComputedStyle(mw.mm_target, null).getPropertyValue('display');
+
+                   if( s === 'inline' ){
+                        mw.currentDragMouseOver = mw.mm_target.parentNode;  // just in case
+                   }
+ 
+
+               d(mw.currentDragMouseOver);
 
 
 
@@ -1313,7 +1339,7 @@ mw.drag = {
 	    mw.pauseSave = true;
         var need_re_init = false;
 		mw.$(".edit .module-item").each(function (c) {
-
+                d(this);
                 mw._({
                   selector:this,
                   done:function(module){
@@ -1342,6 +1368,7 @@ module_settings: function(a) {
 
     var curr = a || $("#mw_handle_module").data("curr");
     var attributes = {};
+
 
     if(mw.$('#module-settings-'+curr.id).length>0){
       var m = mw.$('#module-settings-'+curr.id)[0];

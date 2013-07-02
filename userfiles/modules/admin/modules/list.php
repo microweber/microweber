@@ -57,6 +57,9 @@ if(isset($params['layout_type'])){
    <?php if(!isset($dynamic_layout['icon'])): ?>
    <?php $dynamic_layout['icon'] = $def_icon; ?>
    <?php endif; ?>
+
+
+
     <span class="mw_module_image">
 
 

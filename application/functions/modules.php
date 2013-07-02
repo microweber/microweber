@@ -194,6 +194,10 @@ function module_templates($module_name, $template_name = false)
 
             return $module_name_l;
         } else {
+
+
+
+
             $is_dot_php = get_file_extension($template_name);
             if ($is_dot_php != false and $is_dot_php != 'php') {
                 $template_name = $template_name . '.php';
@@ -201,14 +205,22 @@ function module_templates($module_name, $template_name = false)
 
             $tf = $module_name_l . $template_name;
             $tf_theme = $module_name_l_theme . $template_name;
-            //d($tf_theme);
-            if (is_file($tf_theme)) {
+            $tf_from_other_theme = TEMPLATEFILES . $template_name;
+            $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
+
+            if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
+                return $tf_from_other_theme;
+            } else if (is_file($tf_theme)) {
                 return $tf_theme;
             } else if (is_file($tf)) {
                 return $tf;
             } else {
                 return false;
             }
+
+
+
+
         }
 
         // d($module_name_l);
@@ -1733,7 +1745,7 @@ function load_module($module_name, $attrs = array())
             error('Not logged in as admin');
         }
     }
-    // $CI = get_instance();
+
     $module_name = trim($module_name);
     $module_name = str_replace('\\', '/', $module_name);
     $module_name = str_replace('..', '', $module_name);
