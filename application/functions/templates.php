@@ -10,28 +10,29 @@ function template_header($script_src)
             $mw_template_headers[] = $script_src;
             return $mw_template_headers;
         }
-    } else  if (is_bool($script_src)) {
+    } else if (is_bool($script_src)) {
         return $mw_template_headers;
 
     }
 }
+
 function template_headers_src()
 {
     $src = '';
     $headers = template_header(true);
-    if(isarr($headers)){
-        foreach($headers as $header){
-           $ext =  get_file_extension($header);
-            switch(strtolower($ext)){
+    if (isarr($headers)) {
+        foreach ($headers as $header) {
+            $ext = get_file_extension($header);
+            switch (strtolower($ext)) {
 
 
                 case 'css':
-                    $src.= '<link rel="stylesheet" href="'.$header.'" type="text/css" media="all">'."\n";
+                    $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                     break;
 
 
-                    default:
-                    $src.= '<script type="text/javascript" src="'.$header.'"></script>'."\n";
+                default:
+                    $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
                     break;
             }
         }
@@ -182,6 +183,26 @@ function layout_link($options = false)
     return $fn;
 }
 
+
+/**
+ * Lists the layout files from a given directory
+ *
+ * You can use this function to get layouts from various folders in your web server.
+ * It returns array of layouts with desctption, icon, etc
+ *
+ * This function caches the result in the 'templates' cache group
+ *
+ * @param bool|array|string $options
+ * @return array|mixed
+ *
+ * @params $options['path'] if set i will look for layouts in this folder
+ * @params $options['get_dynamic_layouts'] if set this function will scan for templates for the 'layout' module in all templates folders
+ *
+ *
+ *
+ *
+ *
+ */
 function layouts_list($options = false)
 {
     $options = parse_params($options);
@@ -232,32 +253,64 @@ function layouts_list($options = false)
     }
 
     $glob_patern = "*.php";
-    if (!isset($options['filename'])) {
-        $dir = rglob($glob_patern, 0, $path);
-    } else {
+    $template_dirs = array();
+    if (isset($options['get_dynamic_layouts'])) {
+
+        $_dirs = glob(TEMPLATEFILES . '*', GLOB_ONLYDIR);
         $dir = array();
-        $dir[] = $options['filename'];
+        foreach ($_dirs as $item) {
+            $possible_dir = $item . DS . 'modules' . DS . 'layout' . DS;
+
+            if (is_dir($possible_dir)) {
+                $template_dirs[] = $item;
+                $dir2 = rglob($possible_dir . '*.php', 0);
+                // d($dir2);
+                if (!empty($dir2)) {
+                    foreach ($dir2 as $dir_glob) {
+                        $dir[] = $dir_glob;
+                    }
+                }
+            }
+        }
+
+
+        // d($dir);
+        //  return $dir;
     }
 
-    //d($dir);
+
+    if (!isset($options['get_dynamic_layouts'])) {
+        if (!isset($options['filename'])) {
+            $dir = rglob($glob_patern, 0, $path);
+        } else {
+            $dir = array();
+            $dir[] = $options['filename'];
+        }
+    } else {
+
+    }
+
+
     $configs = array();
     if (!empty($dir)) {
 
         foreach ($dir as $filename) {
             $skip = false;
-            if (!isset($options['for_modules'])) {
-                if (strstr($filename, 'modules' . DS)) {
-                    $skip = true;
-                }
-            } else {
-                if (!strstr($filename, 'modules' . DS)) {
-                    $skip = true;
+            if (!isset($options['get_dynamic_layouts'])) {
+                if (!isset($options['for_modules'])) {
+                    if (strstr($filename, 'modules' . DS)) {
+                        $skip = true;
+                    }
+                } else {
+                    if (!strstr($filename, 'modules' . DS)) {
+                        $skip = true;
+                    }
                 }
             }
-
             if ($skip == false) {
                 $fin = file_get_contents($filename);
                 $here_dir = dirname($filename) . DS;
+                $to_return_temp = array();
                 if (preg_match('/type:.+/', $fin, $regs)) {
 
                     $result = $regs[0];
@@ -265,9 +318,20 @@ function layouts_list($options = false)
                     $to_return_temp['type'] = trim($result);
                     $to_return_temp['directory'] = $here_dir;
 
+                    $templ_dir = str_replace(TEMPLATEFILES, '', $here_dir);
+                    if ($templ_dir != '') {
+                        $templ_dir = explode(DS, $templ_dir);
+                        //d($templ_dir);
+                        if (isset($templ_dir[0])) {
+                            $to_return_temp['template_dir'] = $templ_dir[0];
+
+                        }
+
+                    }
+
 
                     if (strtolower($to_return_temp['type']) == 'layout') {
-                        $to_return_temp = array();
+
                         $to_return_temp['directory'] = $here_dir;
                         if (preg_match('/is_shop:.+/', $fin, $regs)) {
                             $result = $regs[0];
@@ -328,6 +392,7 @@ function layouts_list($options = false)
                         }
 
                         $layout_file = str_replace($path, '', $filename);
+                        $layout_file = str_replace(DS, '/', $layout_file);
                         $to_return_temp['layout_file'] = $layout_file;
                         $to_return_temp['filename'] = $filename;
                         $screen = str_ireplace('.php', '.png', $filename);

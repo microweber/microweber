@@ -232,7 +232,7 @@ mw_save_draft_int = self.setInterval(function(){
       <microweber module="admin/modules/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
-          <microweber module="admin/modules/list_elements" />
+          <microweber module="admin/modules/list_layouts" />
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>

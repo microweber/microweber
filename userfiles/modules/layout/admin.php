@@ -63,7 +63,12 @@ $(document).ready(function(){
       el.click(function(){
         if(!el.hasClass("active")){
             mw.$(".dynamic_layout_choooser .list-elements li").removeClass("active");
-  	        mw.$('#data-layout-set-val').val($(this).attr('data-module-name'));
+			var check_mname = $(this).attr('data-module-name');
+			var check_template = $(this).attr('template');
+			if(check_template != undefined && check_template != false){
+				var check_mname = check_template;
+			}
+  	        mw.$('#data-layout-set-val').val(check_mname);
       	    mw.$('#data-layout-set-val').trigger('change');
             el.addClass("active");
         }
@@ -79,7 +84,7 @@ $(document).ready(function(){
 
      <div class="dynamic_layout_choooser mw-o-box-content">
 
-    <microweber module="admin/modules/list_elements" layout_type="dynamic" />
+    <microweber module="admin/modules/list_layouts" layout_type="dynamic" />
 
   </div>
 

@@ -375,7 +375,12 @@ function get_all_functions_files_for_modules($options = false)
     }
 }
 
-function get_elements_from_db($params = false)
+
+
+
+
+
+function get_layouts_from_db($params = false)
 {
 
     $table = MW_TABLE_PREFIX . 'elements';
@@ -475,7 +480,7 @@ function save_element_to_db($data_to_save)
         if (!isset($s["id"]) and isset($s["module"])) {
             $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
-                $save = get_elements_from_db('limit=1&module=' . $s["module"]);
+                $save = get_layouts_from_db('limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {
                     $s["id"] = $save[0]["id"];
                     $save = save_data($table, $s);
@@ -1743,6 +1748,12 @@ function load_module($module_name, $attrs = array())
     }
 
     //$module_namei = str_ireplace($search, $replace, $subject)e
+
+
+
+
+
+
 
     $uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
 

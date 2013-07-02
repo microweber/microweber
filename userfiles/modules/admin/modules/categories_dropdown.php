@@ -7,6 +7,15 @@ $for = 'modules';
 $for2 = 'module';	
 }
 
+
+
+
+
+
+
+ 
+
+
 ?>
 
 <div class="mw_dropdown mw_dropdown_type_navigation left mw_dropdown_autocomplete" id="<?php print $for2 ?>_category_selector" data-value='all'>
@@ -16,6 +25,13 @@ $for2 = 'module';
     <ul>
 
       <li data-category-id="all"><a href="#"><?php _e("All"); ?></a></li>
+      
+
+
+
+
+
+
       <li class="dd_custom" style="display: none" value="-1"><a style="text-decoration: underline" href="#"></a></li>
       <li>
         <module

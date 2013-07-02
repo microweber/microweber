@@ -177,7 +177,8 @@ $(document).ready(function(){
 
 
 hasAbilityToDropElementsInside = function(target){
-  var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
+  //var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
+  var items = /^(span|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
   var x =  items.test(target.nodeName);
 
   if(x){
@@ -382,6 +383,9 @@ mw.drag = {
                 || mw.tools.hasParentsWithClass(mw.mm_target, "element")
                 || mw.tools.hasParentsWithClass(mw.mm_target, "module")
                 || mw.isDragItem(mw.mm_target)
+                || mw.mm_target.tagName=='DIV'
+                || mw.mm_target.tagName=='P'
+                || mw.mm_target.tagName=='P'
                 || mw.mm_target.tagName=='IMG'){
 
 
@@ -1308,13 +1312,13 @@ mw.drag = {
 	load_new_modules: function (callback) {
 	    mw.pauseSave = true;
         var need_re_init = false;
-		$(".module-item", '.edit').each(function (c) {
+		mw.$(".edit .module-item").each(function (c) {
 
                 mw._({
                   selector:this,
                   done:function(module){
                     mw.drag.fancynateLoading(module);
-                     mw.pauseSave = false;
+                    mw.pauseSave = false;
                   }
                 }, true);
 			need_re_init = true;

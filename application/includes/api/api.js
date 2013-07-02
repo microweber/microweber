@@ -334,6 +334,7 @@ mw.askusertostay = false;
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
       attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
+      attrs["template"] !== undefined ? to_send["template"] = attrs["template"].nodeValue : "";
     } else {
       for (var i in attrs) {
   		  if(attrs[i] != undefined){

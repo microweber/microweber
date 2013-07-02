@@ -98,7 +98,7 @@ class Update
             }
         }
 
-        $t = get_elements_from_db();
+        $t = get_layouts_from_db();
         $data['elements'] = $t;
 
         $result = $this->call('check_for_update', $data);
