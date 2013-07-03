@@ -63,4 +63,13 @@
 
 </div> <!-- /#footer -->
 
+
+
+<?php
+        $editmode = session_get('editmode');
+        if($editmode == true){
+			
+			 //include TEMPLATE_DIR . "/theme-settings.php";
+		 } ?>
+
 </body></html>

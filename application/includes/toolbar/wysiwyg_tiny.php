@@ -1,4 +1,4 @@
-<div id="mw_small_editor">
+<div id="mw_small_editor" class="mw_editor">
         <div class="mw_small_editor_top">
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw_dropdown_val_holder">

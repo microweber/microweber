@@ -881,6 +881,11 @@ function define_constants($content = false)
             define("THIS_TEMPLATE_URL", $the_template_url);
         }
     }
+ if (defined('TEMPLATE_NAME') == false) {
+
+        define('TEMPLATE_NAME', $the_active_site_template);
+    }
+
 
 
     if (defined('TEMPLATE_DIR') == false) {

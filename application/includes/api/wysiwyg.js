@@ -8,6 +8,7 @@ mw.require('css_parser.js');
 
 
 mw.wysiwyg = {
+    globalTarget: mwd.body,
     action:{
       removeformat:function(){
         var sel = window.getSelection();
@@ -256,10 +257,20 @@ mw.wysiwyg = {
 
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
     },
+    editors_disabled:false,
+    enableEditors:function(){
+        mw.$(".mw_editor, #mw_small_editor").removeClass("disabled");
+        mw.wysiwyg.editors_disabled = false;
+    },
+    disableEditors:function(){
+       mw.$(".mw_editor, #mw_small_editor").addClass("disabled");
+       mw.wysiwyg.editors_disabled = true;
+    },
     init:function(selector){
       var selector = selector || ".mw_editor_btn";
       var mw_editor_btns = mw.$(selector);
       mw_editor_btns.bind("mousedown mouseup click", function(event){
+          if(mw.wysiwyg.editors_disabled) { return false; }
           event.preventDefault();
           if(event.type=='mouseup' && !$(this).hasClass('disabled')){
              var command = $(this).dataset('command');
@@ -1114,6 +1125,25 @@ $(window).load(function(){
          table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
     }
   });
+
+  $(window).bind("keydown paste mousedown mouseup", function(e){
+    mw.wysiwyg.globalTarget = e.target;
+    var selection = window.getSelection();
+    if( mw.wysiwyg.globalTarget.isContentEditable
+        && selection.containsNode(mw.wysiwyg.globalTarget, true)
+        && !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'nodrop')
+        && !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'nodrop')){
+
+        mw.wysiwyg.enableEditors();
+    }
+    else{
+        if(!mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_editor') && !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'mw_editor')){
+            mw.wysiwyg.disableEditors();
+        }
+
+    }
+  });
+
 
 });
 

@@ -27,7 +27,12 @@
         mw.require("tools.js");
         mw.require("<?php print( INCLUDES_URL ); ?>css/mw.ui.css");
 
+
     </script>
+
+
+
+
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
     <?php else : ?>

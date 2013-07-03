@@ -195,7 +195,7 @@ function module_templates($module_name, $template_name = false)
             return $module_name_l;
         } else {
 
-
+            $template_name = str_replace('..','',$template_name);
 
 
             $is_dot_php = get_file_extension($template_name);
@@ -2068,7 +2068,7 @@ function mw_cron()
 {
 
     $cron = new \mw\utils\Cron;
-
+    $cron->run();
 
 
 

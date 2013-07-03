@@ -30,9 +30,13 @@ function template_headers_src()
                     $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                     break;
 
+                case 'js':
+                    $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                    break;
+
 
                 default:
-                    $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                    $src .=   $header   . "\n";
                     break;
             }
         }

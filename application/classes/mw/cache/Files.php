@@ -68,7 +68,7 @@ class Files
 
 
         $dir_lock = $this->cache_get_dir('delete_lock');
-        $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
+       // $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
 
         /*if (is_file($cache_group_lock)) {
 
@@ -87,7 +87,14 @@ class Files
         if ($this->mw_cache_saved_files == null) {
             $this->mw_cache_saved_files = array();
         }
- 		
+
+
+        return $this->cache_save($data_to_cache, $cache_id, $cache_group);
+
+
+
+
+
         if (!in_array($cache_id, $this->mw_cache_saved_files)) {
             $this->mw_cache_saved_files[] = $cache_id;
             return $this->cache_save($data_to_cache, $cache_id, $cache_group);
@@ -123,7 +130,11 @@ class Files
     {
 
         if ($data_to_cache == false) {
-
+            $cache_file = $this->cache_get_file_path($cache_id, $cache_group);
+            $cache_file = normalize_path($cache_file, false);
+            if(is_file($cache_file)){
+                @unlink($cache_file);
+            }
             return false;
         } else {
 

@@ -146,6 +146,65 @@ if (!function_exists('character_limiter')) {
     }
 }
 
+function zip_folder($source, $destination, $include_dir = false)
+{
+
+    if (!extension_loaded('zip') || !file_exists($source)) {
+        return false;
+    }
+
+    if (file_exists($destination)) {
+        // unlink ($destination);
+    }
+
+    static $zip;
+    if ($zip == null) {
+        $zip = new ZipArchive();
+    }
+
+    if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+        return false;
+    }
+
+
+    $source = str_replace('\\', '/', realpath($source));
+
+    if (is_dir($source) === true) {
+
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+
+
+        foreach ($files as $file) {
+            $file = str_replace('\\', '/', $file);
+            $include_dir = str_replace('\\', '/', $include_dir);
+
+            // Ignore "." and ".." folders
+            if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..')))
+                continue;
+
+            $file = realpath($file);
+            $relative_loc = $include_dir;
+//d($include_dir);
+            if (is_dir($file) === true) {
+                $zip->addEmptyDir($relative_loc);
+            } else if (is_file($file) === true) {
+                //d($file);
+                $file_loc = $include_dir . DS . basename($source);
+
+                //$file_loc = str_ireplace($include_dir, '', $file);
+                d($file_loc);
+                $zip->addFromString($file_loc, file_get_contents($file));
+            }
+        }
+    } else if (is_file($source) === true) {
+        $file_loc = $include_dir . DS . basename($source);
+
+        $zip->addFromString($file_loc, file_get_contents($source));
+    }
+
+    return $zip->close();
+}
+
 
 /**
  * Prints an array in unordered list - <ul>

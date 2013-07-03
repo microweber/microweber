@@ -211,7 +211,7 @@ mw.drag = {
            for( ; i<l; i++){
              var el = els[i];
              var cls = el.className
-             if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
+             if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
                $(el).addClass('element');
              }
            }
@@ -387,7 +387,7 @@ mw.drag = {
 
           }   else{
 
-             if(   // The Core
+             if(
                    mw.$mm_target.hasClass("element")
                 || mw.$mm_target.hasClass("empty-element")
                 || mw.$mm_target.hasClass("mw-empty")
@@ -399,11 +399,7 @@ mw.drag = {
                 || mw.mm_target.tagName=='IMG'){
 
 
-                   mw.currentDragMouseOver = mw.mm_target;
-
-
-
-
+                 //  mw.currentDragMouseOver = mw.mm_target;
 
 
 
@@ -468,16 +464,6 @@ mw.drag = {
                       }
                     }
                } */
-
-
-                 var s = mww.getComputedStyle(mw.mm_target, null).getPropertyValue('display');
-
-                   if( s === 'inline' ){
-                        mw.currentDragMouseOver = mw.mm_target.parentNode;  // just in case
-                   }
- 
-
-               d(mw.currentDragMouseOver);
 
 
 
@@ -628,6 +614,13 @@ mw.drag = {
            if(!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')){
              $(mw.inline.tableControl).hide();
              mw.$(".tc-activecell").removeClass('tc-activecell');
+           }
+
+           if(mw.tools.hasParentsWithClass(target, 'nodrop') || mw.tools.hasClass(target.className, 'nodrop')){
+             mw.wysiwyg.disableEditors();
+           }
+           else{
+              mw.wysiwyg.enableEditors();
            }
 
 
@@ -1265,7 +1258,10 @@ mw.drag = {
         if(l>0){
           for(;i<l;i++){
              if(els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6')===null){
-                 els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
+                 if(!mw.tools.hasClass(els[i].className, 'nodrop')){
+                   els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
+                 }
+
              }
           }
         }
@@ -1639,7 +1635,7 @@ module_settings: function(a) {
 
                         for( ; i<l; i++){
                             var node =  nodes[i];
-                            $(node).find('.empty-element, .ui-resizable-handle').remove();
+                            mw.$('.empty-element, .ui-resizable-handle', node).remove();
                             last_container.append(node.innerHTML);
                         }
 

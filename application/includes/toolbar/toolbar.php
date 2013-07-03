@@ -269,6 +269,7 @@ mw_save_draft_int = self.setInterval(function(){
 
   <!-- /end .mw -->
 </div>
+<?php exec_action('mw_after_editor_toolbar'); ?>
 <!-- /end mw_holder -->
 
 <?php   include INCLUDES_DIR.'toolbar'.DS."design.php"; ?>

@@ -8,38 +8,26 @@ use DirectoryIterator;
 
 
 /**
- * Class to create and manage a Zip file.
+ * Class to create zip file, aimed at large files, or even large target zip file.
+ * This class will stream the generated zip file directly to the HTTP client as the content is added.
  *
- * Inspired by CreateZipFile by Rochak Chauhan  www.rochakchauhan.com (http://www.phpclasses.org/browse/package/2322.html)
- * and
- * http://www.pkware.com/documents/casestudies/APPNOTE.TXT Zip file specification.
+ * If you need the Zip file data on the server, for storage in a database of the server file system, look at
+ *  the Zip class at http://www.phpclasses.org/browse/package/6110.html
  *
  * License: GNU LGPL, Attribution required for commercial implementations, requested for everything else.
+ *
+ * Inspired on CreateZipFile by Rochak Chauhan  www.rochakchauhan.com (http://www.phpclasses.org/browse/package/2322.html)
+ * and
+ * http://www.pkware.com/documents/casestudies/APPNOTE.TXT Zip file specification.
  *
  * @author A. Grandt <php@grandt.com>
  * @copyright 2009-2013 A. Grandt
  * @license GNU LGPL, Attribution required for commercial implementations, requested for everything else.
- * @link http://www.phpclasses.org/package/6110
- * @link https://github.com/Grandt/PHPZip
- * @version 1.37
- */
-/**
- * Class to create and manage a Zip file.
- *
- * Inspired by CreateZipFile by Rochak Chauhan  www.rochakchauhan.com (http://www.phpclasses.org/browse/package/2322.html)
- * and
- * http://www.pkware.com/documents/casestudies/APPNOTE.TXT Zip file specification.
- *
- * License: GNU LGPL, Attribution required for commercial implementations, requested for everything else.
- *
- * @author A. Grandt <php@grandt.com>
- * @copyright 2009-2013 A. Grandt
- * @license GNU LGPL, Attribution required for commercial implementations, requested for everything else.
- * @link http://www.phpclasses.org/package/6110
+ * @link http://www.phpclasses.org/package/6116
  * @link https://github.com/Grandt/PHPZip
  * @version 1.38
  */
-class Zip {
+class ZipStream {
     const VERSION = 1.38;
 
     const ZIP_LOCAL_FILE_HEADER = "\x50\x4b\x03\x04"; // Local file header signature
@@ -54,40 +42,56 @@ class Zip {
 
     private $zipMemoryThreshold = 1048576; // Autocreate tempfile if the zip data exceeds 1048576 bytes (1 MB)
 
-    private $zipData = NULL;
-    private $zipFile = NULL;
-    private $zipComment = NULL;
+    private $zipComment = null;
     private $cdRec = array(); // central directory
     private $offset = 0;
     private $isFinalized = FALSE;
     private $addExtraField = TRUE;
 
-    private $streamChunkSize = 65536;
-    private $streamFilePath = NULL;
-    private $streamTimeStamp = NULL;
-    private $streamComment = NULL;
-    private $streamFile = NULL;
-    private $streamData = NULL;
+    private $streamChunkSize = 16384; // 65536;
+    private $streamFilePath = null;
+    private $streamTimeStamp = null;
+    private $streamComment = null;
+    private $streamFile = null;
+    private $streamData = null;
     private $streamFileLength = 0;
 
     /**
      * Constructor.
      *
-     * @param boolean $useZipFile Write temp zip data to tempFile? Default FALSE
+     * @param String $archiveName Name to send to the HTTP client.
+     * @param String $contentType Content mime type. Optional, defaults to "application/zip".
      */
-    function __construct($useZipFile = FALSE) {
-        if ($useZipFile) {
-            $this->zipFile = tmpfile();
-        } else {
-            $this->zipData = "";
+    function __construct($archiveName = "", $contentType = "application/zip") {
+        if (!function_exists('sys_get_temp_dir')) {
+            die ("ERROR: ZipStream " . self::VERSION . " requires PHP version 5.2.1 or above.");
+        }
+
+        $headerFile = null;
+        $headerLine = null;
+        if (!headers_sent($headerFile, $headerLine) or die("<p><strong>Error:</strong> Unable to send file $archiveName. HTML Headers have already been sent from <strong>$headerFile</strong> in line <strong>$headerLine</strong></p>")) {
+            if ((ob_get_contents() === FALSE || ob_get_contents() == '') or die("\n<p><strong>Error:</strong> Unable to send file <strong>$archiveName.epub</strong>. Output buffer contains the following text (typically warnings or errors):<br>" . ob_get_contents() . "</p>")) {
+                if (ini_get('zlib.output_compression')) {
+                    ini_set('zlib.output_compression', 'Off');
+                }
+
+                header('Pragma: public');
+                header("Last-Modified: " . gmdate("D, d M Y H:i:s T"));
+                header("Expires: 0");
+                header("Accept-Ranges: bytes");
+                //header("Connection: Keep-Alive");
+                header("Content-Type: " . $contentType);
+                header('Content-Disposition: attachment; filename="' . $archiveName . '";');
+                header("Content-Transfer-Encoding: binary");
+                flush();
+            }
         }
     }
 
     function __destruct() {
-        if (is_resource($this->zipFile)) {
-            fclose($this->zipFile);
-        }
-        $this->zipData = NULL;
+        $this->isFinalized = TRUE;
+        $this->cdRec = null;
+        exit;
     }
 
     /**
@@ -103,10 +107,10 @@ class Zip {
     /**
      * Set Zip archive comment.
      *
-     * @param String $newComment New comment. NULL to clear.
+     * @param string $newComment New comment. null to clear.
      * @return bool $success
      */
-    public function setComment($newComment = NULL) {
+    public function setComment($newComment = null) {
         if ($this->isFinalized) {
             return FALSE;
         }
@@ -116,48 +120,19 @@ class Zip {
     }
 
     /**
-     * Set zip file to write zip data to.
-     * This will cause all present and future data written to this class to be written to this file.
-     * This can be used at any time, even after the Zip Archive have been finalized. Any previous file will be closed.
-     * Warning: If the given file already exists, it will be overwritten.
-     *
-     * @param String $fileName
-     * @return bool $success
-     */
-    public function setZipFile($fileName) {
-        if (is_file($fileName)) {
-            unlink($fileName);
-        }
-        $fd=fopen($fileName, "x+b");
-        if (is_resource($this->zipFile)) {
-            rewind($this->zipFile);
-            while (!feof($this->zipFile)) {
-                fwrite($fd, fread($this->zipFile, $this->streamChunkSize));
-            }
-
-            fclose($this->zipFile);
-        } else {
-            fwrite($fd, $this->zipData);
-            $this->zipData = NULL;
-        }
-        $this->zipFile = $fd;
-
-        return TRUE;
-    }
-
-    /**
      * Add an empty directory entry to the zip archive.
      * Basically this is only used if an empty directory is added.
      *
-     * @param String $directoryPath Directory Path and name to be added to the archive.
-     * @param int    $timestamp     (Optional) Timestamp for the added directory, if omitted or set to 0, the current time will be used.
-     * @param String $fileComment   (Optional) Comment to be added to the archive for this directory. To use fileComment, timestamp must be given.
+     * @param string $directoryPath  Directory Path and name to be added to the archive.
+     * @param int    $timestamp      (Optional) Timestamp for the added directory, if omitted or set to 0, the current time will be used.
+     * @param string $fileComment    (Optional) Comment to be added to the archive for this directory. To use fileComment, timestamp must be given.
      * @return bool $success
      */
-    public function addDirectory($directoryPath, $timestamp = 0, $fileComment = NULL) {
+    public function addDirectory($directoryPath, $timestamp = 0, $fileComment = null) {
         if ($this->isFinalized) {
             return FALSE;
         }
+
         $directoryPath = str_replace("\\", "/", $directoryPath);
         $directoryPath = rtrim($directoryPath, "/");
 
@@ -171,14 +146,14 @@ class Zip {
     /**
      * Add a file to the archive at the specified location and file name.
      *
-     * @param String $data        File data.
-     * @param String $filePath    Filepath and name to be used in the archive.
+     * @param string $data        File data.
+     * @param string $filePath    Filepath and name to be used in the archive.
      * @param int    $timestamp   (Optional) Timestamp for the added file, if omitted or set to 0, the current time will be used.
-     * @param String $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
+     * @param string $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
      * @param bool   $compress    (Optional) Compress file, if set to FALSE the file will only be stored. Default TRUE.
      * @return bool $success
      */
-    public function addFile($data, $filePath, $timestamp = 0, $fileComment = NULL, $compress = TRUE) {
+    public function addFile($data, $filePath, $timestamp = 0, $fileComment = null, $compress = TRUE) {
         if ($this->isFinalized) {
             return FALSE;
         }
@@ -210,13 +185,9 @@ class Zip {
             $gpFlags = "\x00\x00"; // Compression type 0 = stored
         }
 
-        if (!is_resource($this->zipFile) && ($this->offset + $gzLength) > $this->zipMemoryThreshold) {
-            $this->zipflush();
-        }
-
         $this->buildZipEntry($filePath, $fileComment, $gpFlags, $gzType, $timestamp, $fileCRC32, $gzLength, $dataLength, self::EXT_FILE_ATTR_FILE);
 
-        $this->zipwrite($gzData);
+        print ($gzData);
 
         return TRUE;
     }
@@ -268,13 +239,13 @@ class Zip {
     /**
      * Add a file to the archive at the specified location and file name.
      *
-     * @param String $dataFile    File name/path.
-     * @param String $filePath    Filepath and name to be used in the archive.
+     * @param string $dataFile    File name/path.
+     * @param string $filePath    Filepath and name to be used in the archive.
      * @param int    $timestamp   (Optional) Timestamp for the added file, if omitted or set to 0, the current time will be used.
-     * @param String $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
+     * @param string $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
      * @return bool $success
      */
-    public function addLargeFile($dataFile, $filePath, $timestamp = 0, $fileComment = NULL)   {
+    public function addLargeFile($dataFile, $filePath, $timestamp = 0, $fileComment = null)   {
         if ($this->isFinalized) {
             return FALSE;
         }
@@ -296,9 +267,9 @@ class Zip {
     /**
      * Create a stream to be used for large entries.
      *
-     * @param String $filePath    Filepath and name to be used in the archive.
+     * @param string $filePath    Filepath and name to be used in the archive.
      * @param int    $timestamp   (Optional) Timestamp for the added file, if omitted or set to 0, the current time will be used.
-     * @param String $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
+     * @param string $fileComment (Optional) Comment to be added to the archive for this file. To use fileComment, timestamp must be given.
      * @return bool $success
      */
     public function openStream($filePath, $timestamp = 0, $fileComment = null)   {
@@ -310,13 +281,11 @@ class Zip {
             return FALSE;
         }
 
-        $this->zipflush();
-
         if (strlen($this->streamFilePath) > 0) {
             closeStream();
         }
 
-        $this->streamFile = tempnam(sys_get_temp_dir(), 'Zip');
+        $this->streamFile = tempnam(sys_get_temp_dir(), 'ZipStream');
         $this->streamData = fopen($this->streamFile, "wb");
         $this->streamFilePath = $filePath;
         $this->streamTimestamp = $timestamp;
@@ -325,6 +294,7 @@ class Zip {
 
         return TRUE;
     }
+
     /**
      * Add data to the open stream.
      *
@@ -412,23 +382,18 @@ class Zip {
             if ($pos + $this->streamChunkSize > $eof) {
                 $datalen = $eof-$pos;
             }
-            $data = fread($file_handle, $datalen);
+            echo fread($file_handle, $datalen);
             $pos += $datalen;
-
-            $this->zipwrite($data);
-
             flush();
         }
 
         fclose($file_handle);
-
         unlink($tempzip);
     }
 
     /**
      * Close the archive.
      * A closed archive can no longer have new files added to it.
-     *
      * @return bool $success
      */
     public function finalize() {
@@ -436,123 +401,30 @@ class Zip {
             if (strlen($this->streamFilePath) > 0) {
                 $this->closeStream();
             }
-            $cd = implode("", $this->cdRec);
 
             $cdRecSize = pack("v", sizeof($this->cdRec));
-            $cdRec = $cd . self::ZIP_END_OF_CENTRAL_DIRECTORY
-                . $cdRecSize . $cdRecSize
-                . pack("VV", strlen($cd), $this->offset);
+
+            $cd = implode("", $this->cdRec);
+            print($cd);
+            print(self::ZIP_END_OF_CENTRAL_DIRECTORY);
+            print($cdRecSize.$cdRecSize);
+            print(pack("VV", strlen($cd), $this->offset));
             if (!empty($this->zipComment)) {
-                $cdRec .= pack("v", strlen($this->zipComment)) . $this->zipComment;
+                print(pack("v", strlen($this->zipComment)));
+                print($this->zipComment);
             } else {
-                $cdRec .= "\x00\x00";
+                print("\x00\x00");
             }
 
-            $this->zipwrite($cdRec);
+            flush();
 
             $this->isFinalized = TRUE;
-            $cd = NULL;
-            $this->cdRec = NULL;
+            $cd = null;
+            $this->cdRec = null;
 
             return TRUE;
         }
         return FALSE;
-    }
-
-    /**
-     * Get the handle ressource for the archive zip file.
-     * If the zip haven't been finalized yet, this will cause it to become finalized
-     *
-     * @return zip file handle
-     */
-    public function getZipFile() {
-        if (!$this->isFinalized) {
-            $this->finalize();
-        }
-
-        $this->zipflush();
-
-        rewind($this->zipFile);
-
-        return $this->zipFile;
-    }
-
-    /**
-     * Get the zip file contents
-     * If the zip haven't been finalized yet, this will cause it to become finalized
-     *
-     * @return zip data
-     */
-    public function getZipData() {
-        if (!$this->isFinalized) {
-            $this->finalize();
-        }
-        if (!is_resource($this->zipFile)) {
-            return $this->zipData;
-        } else {
-            rewind($this->zipFile);
-            $filestat = fstat($this->zipFile);
-            return fread($this->zipFile, $filestat['size']);
-        }
-    }
-
-    /**
-     * Send the archive as a zip download
-     *
-     * @param String $fileName The name of the Zip archive, ie. "archive.zip".
-     * @param String $contentType Content mime type. Optional, defaults to "application/zip".
-     * @return bool $success
-     */
-    function sendZip($fileName, $contentType = "application/zip") {
-        if (!$this->isFinalized) {
-            $this->finalize();
-        }
-
-        $headerFile = null;
-        $headerLine = null;
-        if (!headers_sent($headerFile, $headerLine) or die("<p><strong>Error:</strong> Unable to send file $fileName. HTML Headers have already been sent from <strong>$headerFile</strong> in line <strong>$headerLine</strong></p>")) {
-            if ((ob_get_contents() === FALSE || ob_get_contents() == '') or die("\n<p><strong>Error:</strong> Unable to send file <strong>$fileName.epub</strong>. Output buffer contains the following text (typically warnings or errors):<br>" . ob_get_contents() . "</p>")) {
-                if (ini_get('zlib.output_compression')) {
-                    ini_set('zlib.output_compression', 'Off');
-                }
-
-                header("Pragma: public");
-                header("Last-Modified: " . gmdate("D, d M Y H:i:s T"));
-                header("Expires: 0");
-                header("Accept-Ranges: bytes");
-                header("Connection: close");
-                header("Content-Type: " . $contentType);
-                header('Content-Disposition: attachment; filename="' . $fileName . '";');
-                header("Content-Transfer-Encoding: binary");
-                header("Content-Length: ". $this->getArchiveSize());
-
-                if (!is_resource($this->zipFile)) {
-                    echo $this->zipData;
-                } else {
-                    rewind($this->zipFile);
-
-                    while (!feof($this->zipFile)) {
-                        echo fread($this->zipFile, $this->streamChunkSize);
-                    }
-                }
-            }
-            return TRUE;
-        }
-        return FALSE;
-    }
-
-    /**
-     * Return the current size of the archive
-     *
-     * @return $size Size of the archive
-     */
-    public function getArchiveSize() {
-        if (!is_resource($this->zipFile)) {
-            return strlen($this->zipData);
-        }
-        $filestat = fstat($this->zipFile);
-
-        return $filestat['size'];
     }
 
     /**
@@ -619,19 +491,20 @@ class Zip {
         $zipEntry  = self::ZIP_LOCAL_FILE_HEADER;
         $zipEntry .= self::ATTR_VERSION_TO_EXTRACT;
         $zipEntry .= $header;
-        $zipEntry .= pack("v", ($this->addExtraField ? 28 : 0)); // Extra field length
+        $zipEntry .= $this->addExtraField ? "\x1C\x00" : "\x00\x00"; // Extra field length
         $zipEntry .= $filePath; // FileName
         // Extra fields
         if ($this->addExtraField) {
             $zipEntry .= "\x55\x54\x09\x00\x03" . $tsPack . $tsPack . $ux;
         }
-        $this->zipwrite($zipEntry);
+
+        print($zipEntry);
 
         $cdEntry  = self::ZIP_CENTRAL_FILE_HEADER;
         $cdEntry .= self::ATTR_MADE_BY_VERSION;
         $cdEntry .= ($dataLength === 0 ? "\x0A\x00" : self::ATTR_VERSION_TO_EXTRACT);
         $cdEntry .= $header;
-        $cdEntry .= pack("v", ($this->addExtraField ? 24 : 0)); // Extra field length
+        $cdEntry .= $this->addExtraField ? "\x18\x00" : "\x00\x00"; // Extra field length
         $cdEntry .= pack("v", $fileCommentLength); // File comment length
         $cdEntry .= "\x00\x00"; // Disk number start
         $cdEntry .= "\x00\x00"; // internal file attributes
@@ -642,29 +515,13 @@ class Zip {
         if ($this->addExtraField) {
             $cdEntry .= "\x55\x54\x05\x00\x03" . $tsPack . $ux;
         }
+
         if (!empty($fileComment)) {
             $cdEntry .= $fileComment; // Comment
         }
 
         $this->cdRec[] = $cdEntry;
         $this->offset += strlen($zipEntry) + $gzLength;
-    }
-
-    private function zipwrite($data) {
-        if (!is_resource($this->zipFile)) {
-            $this->zipData .= $data;
-        } else {
-            fwrite($this->zipFile, $data);
-            fflush($this->zipFile);
-        }
-    }
-
-    private function zipflush() {
-        if (!is_resource($this->zipFile)) {
-            $this->zipFile = tmpfile();
-            fwrite($this->zipFile, $this->zipData);
-            $this->zipData = NULL;
-        }
     }
 
     /**

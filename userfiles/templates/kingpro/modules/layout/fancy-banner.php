@@ -29,7 +29,7 @@ description: Fancy kingpro_fancy_3d_banner with CSS3
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 3em;
-	kingpro_fancy_3d_line-height: 78px;
+	line-height: 78px;
 	transform: skew(0, -15deg);
 }
 .kingpro_fancy_3d_banner .kingpro_fancy_3d_line:after, .kingpro_fancy_3d_banner .kingpro_fancy_3d_line:first-child:before {
@@ -62,7 +62,7 @@ description: Fancy kingpro_fancy_3d_banner with CSS3
 	top: 12px;
 	border-color: transparent transparent rgba(180,180,180,0.8) rgba(180,180,180,0.8);
 }
-.kingpro_fancy_3d_banner span {
+.kingpro_fancy_3d_banner div {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -74,8 +74,8 @@ description: Fancy kingpro_fancy_3d_banner with CSS3
 </style>
 <div class="edit" rel="global" field="layout_<?php print $params['id'] ?>">
   <div class="kingpro_fancy_3d_banner">
-    <div class="kingpro_fancy_3d_line"> <span>Fancy banner</span> </div>
-    <div class="kingpro_fancy_3d_line"> <span>Make It Look</span> </div>
-    <div class="kingpro_fancy_3d_line"> <span>Nice &amp; Classy</span> </div>
+    <div class="kingpro_fancy_3d_line"> <div class="element">Fancy banner</div> </div>
+    <div class="kingpro_fancy_3d_line"> <div class="element">Make It Look</div> </div>
+    <div class="kingpro_fancy_3d_line"> <div class="element">Nice &amp; Classy</div> </div>
   </div>
 </div>

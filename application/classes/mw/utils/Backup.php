@@ -12,6 +12,10 @@
 
 namespace mw\utils;
 
+
+use ZipArchive;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 api_expose('mw\utils\Backup\delete');
 api_expose('mw\utils\Backup\create');
 api_expose('mw\utils\Backup\download');
@@ -19,6 +23,9 @@ api_expose('mw\utils\Backup\create_full');
 api_expose('mw\utils\Backup\move_uploaded_file_to_backup');
 
 api_expose('mw\utils\Backup\restore');
+api_expose('mw\utils\Backup\cronjob');
+
+
 
 class Backup
 {
@@ -435,176 +442,6 @@ class Backup
 
     }
 
-    function cronjob_exec($params = false)
-    {
-
-
-        print 'backup cronjob';
-
-
-    }
-
-    function restore($params)
-    {
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
-        $id = null;
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        } else if (isset($_GET['filename'])) {
-            $id = $params['filename'];
-        } else if (isset($_GET['file'])) {
-            $id = $params['file'];
-
-        }
-
-        if ($id == NULL) {
-
-            return array('error' => "You have not provided a backup to restore.");
-            die();
-        }
-
-        $url = site_url();
-        header("Location: " . $url);
-        // redirect the url to the 'busy importing' page
-        ob_end_clean();
-        //Erase the output buffer
-        header("Connection: close");
-        //Tell the browser that the connection's closed
-        ignore_user_abort(true);
-        //Ignore the user's abort (which we caused with the redirect).
-        set_time_limit(0);
-        //Extend time limit
-        ob_start();
-        //Start output buffering again
-        header("Content-Length: 0");
-        //Tell the browser we're serious... there's really nothing else to receive from this page.
-        ob_end_flush();
-        //Send the output buffer and turn output buffering off.
-        flush();
-        //Yes... flush again.
-        session_write_close();
-
-        $scheduler = new \mw\utils\Events();
-
-        // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker_restore", $params);
-
-        exit();
-    }
-
-    function cronjob($params = false)
-    {
-
-        $type = 'full';
-
-        if (isset($params['type'])) {
-            $type = trim($params['type']);
-        }
-
-        $cache_id = 'backup_cron' . (USER_IP);
-        $cache_id_loc = 'backup_cron_lock' . (USER_IP);
-        $cache_content = cache_get_content($cache_id, 'backup');
-        $cache_lock = cache_get_content($cache_id_loc, 'backup');
-
-        //  d($folders);
-
-        $fileTime = date("D, d M Y H:i:s T");
-
-
-        $here = $this->get_bakup_location();
-
-        $filename = $here . 'temp_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
-
-
-        if ($cache_content == false or empty($cache_content)) {
-            $backup_actions = array();
-            $backup_actions[] = 'make_db_backup';
-
-            $userfiles_folder = MW_USERFILES;
-            $folders = rglob($userfiles_folder . '*', GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
-            if (!empty($folders)) {
-                foreach ($folders as $fold) {
-                    $backup_actions[] = $fold;
-
-                }
-            }
-
-            //$backup_actions[] = 'makesdfsdf_db_backup';
-            cache_save($backup_actions, $cache_id, 'backup');
-        } else {
-            $backup_actions = $cache_content;
-
-
-            //  d($backup_actions);
-
-
-            if (is_array($backup_actions)) {
-                $i = 0;
-                foreach ($backup_actions as $key=> $item) {
-
-                    if ($i > 100 or $cache_lock == $item) {
-
-                    } else {
-
-
-                        if (!isset($zip)) {
-
-                            $zip = new \mw\utils\Zip();
-                            $zip->setZipFile($filename);
-                        }
-
-                        if ($item == 'make_db_backup') {
-//                            $db_file = $this->create();
-//                            if (isset($db_file['filename'])) {
-//                                $filename2 = $here . $db_file['filename'];
-//                                if (is_file($filename2)) {
-//                                    $back_log_action = "Adding sql restore to zip";
-//                                    $this->log_action($back_log_action);
-//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
-//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
-//
-//                                }
-//                            }
-                        } else {
-                            $relative_loc = str_replace(MW_USERFILES, '', $item);
-                            d($relative_loc);
-                            if (is_dir($item)) {
-                                $zip->addDirectoryContent($item, $relative_loc, false);
-                            } elseif (is_file($item)) {
-                                $zip->addLargeFile($item, $relative_loc, filectime($item));
-                            }
-                            //$zip->addDirectoryContent(MW_USERFILES, '', true);
-                            //  $back_log_action = "Adding userfiles to zip";
-
-
-                        }
-
-                        unset($backup_actions[$key]);
-                        if(isset($backup_actions)){
-                            cache_save($backup_actions, $cache_id, 'backup');
-                        }
-                        //d($item);
-                        cache_save($item, $cache_id_loc, 'backup');
-                        // break;
-                    }
-                    $i++;
-                }
-
-
-            }
-        }
-        if (isset($zip) and is_object($zip)) {
-            $zip = $zip->finalize();
-
-        }
-        //d($params);
-
-
-        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
-    }
-
     function create()
     {
         ignore_user_abort(true);
@@ -804,18 +641,513 @@ class Backup
 
     }
 
-    function create_full()
+    function cronjob_exec($params = false)
     {
 
 
+        print 'backup cronjob';
+
+
+    }
+
+    function restore($params)
+    {
+        if (!defined('MW_NO_SESSION')) {
+            define('MW_NO_SESSION', 1);
+        }
+        $id = null;
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        } else if (isset($_GET['filename'])) {
+            $id = $params['filename'];
+        } else if (isset($_GET['file'])) {
+            $id = $params['file'];
+
+        }
+
+        if ($id == NULL) {
+
+            return array('error' => "You have not provided a backup to restore.");
+            die();
+        }
+
+        $url = site_url();
+        header("Location: " . $url);
+        // redirect the url to the 'busy importing' page
+        ob_end_clean();
+        //Erase the output buffer
+        header("Connection: close");
+        //Tell the browser that the connection's closed
+        ignore_user_abort(true);
+        //Ignore the user's abort (which we caused with the redirect).
+        set_time_limit(0);
+        //Extend time limit
+        ob_start();
+        //Start output buffering again
+        header("Content-Length: 0");
+        //Tell the browser we're serious... there's really nothing else to receive from this page.
+        ob_end_flush();
+        //Send the output buffer and turn output buffering off.
+        flush();
+        //Yes... flush again.
+        session_write_close();
+
+        $scheduler = new \mw\utils\Events();
+
+        // schedule a global scope function:
+        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker_restore", $params);
+
+        exit();
+    }
+
+
+
+
+
+
+
+
+
+    function cronjob($params = false)
+    {
+
+        $type = 'full';
+
+        if (isset($params['type'])) {
+            $type = trim($params['type']);
+        }
+
+        $cache_id = 'backup_queue';
+       // $cache_id_folders = 'backup_cron_folders' . (USER_IP);
+        $cache_id_loc = 'backup_progress';
+        $cache_content = cache_get_content($cache_id, 'backup');
+        $cache_lock = cache_get_content($cache_id_loc, 'backup');
+        //$cache_folders = cache_get_content($cache_id_folders, 'backup');
+
+
+        //$fileTime = date("D, d M Y H:i:s T");
+
+$time = time();
+        $here = $this->get_bakup_location();
+
+        $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
+
+        if($cache_lock == false or !is_array($cache_lock)){
+
+
+            $cache_lock = array();
+            $cache_lock['processed'] = 0;
+            $cache_lock['files_count'] = count($cache_content);
+            $cache_lock['time'] = $time;
+
+            cache_save($cache_lock, $cache_id_loc, 'backup');
+           // return false;
+        }
+
+
+
+        //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
+
+        if ($cache_content == false or empty($cache_content)) {
+            $cron = new \mw\utils\Cron();
+            $cron->delete_job('make_full_backup');
+           return true;
+        } else {
+            $backup_actions = $cache_content;
+
+              global $mw_backup_zip_obj;
+            if(!is_object($mw_backup_zip_obj)){
+                $mw_backup_zip_obj = new  ZipArchive();
+            }
+
+            if (is_array($backup_actions)) {
+                $i = 0;
+
+                cache_save($filename, $cache_id_loc, 'backup');
+
+
+                if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
+                    return false;
+                }
+                foreach ($backup_actions as $key => $item) {
+
+                    if ($i > 100 or $cache_lock == $item) {
+
+                    } else {
+
+                        $cache_lock['processed']++;
+                        $cache_lock['time']  = time();
+                        cache_save($cache_lock, $cache_id_loc, 'backup');
+                        if ($item == 'make_db_backup') {
+//                            $db_file = $this->create();
+//                            if (isset($db_file['filename'])) {
+//                                $filename2 = $here . $db_file['filename'];
+//                                if (is_file($filename2)) {
+//                                    $back_log_action = "Adding sql restore to zip";
+//                                    $this->log_action($back_log_action);
+//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
+//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+//
+//                                }
+//                            }
+                        } else {
+                            $relative_loc = str_replace(MW_USERFILES, '', $item);
+
+
+                            $new_backup_actions = array();
+
+
+
+
+                            if (is_dir($item)) {
+
+
+                              //d($cache_folders);
+                              //if($cache_folders == false or !in_array($item, $cache_folders)){
+                                //  $cache_folders[] =$item;
+
+                              //    cache_save($cache_folders, $cache_id_folders, 'backup');
+
+
+                                  $mw_backup_zip_obj->addEmptyDir($relative_loc);
+
+
+//                                          $it = new RecursiveDirectoryIterator($item);
+//
+//        foreach(new RecursiveIteratorIterator($it) as $file) {
+//            $new_backup_actions[] = trim($file);
+//           // echo $file . "\n";
+//
+//        }
+//
+//
+//
+                             // }
+
+
+
+
+                            } elseif (is_file($item)) {
+                                d($item);
+                                //$relative_loc_dn = dirname($relative_loc);
+
+                                //$mw_backup_zip_obj->addFromString($relative_loc, file_get_contents($item));
+
+                                $mw_backup_zip_obj->addFile($item, $relative_loc);
+
+                            }
+
+
+                        }
+
+                        unset($backup_actions[$key]);
+
+
+                        if(isset($new_backup_actions) and !empty($new_backup_actions)){
+                            $backup_actions = array_merge($backup_actions,$new_backup_actions);
+                             array_unique($backup_actions);
+                            cache_save($backup_actions, $cache_id, 'backup');
+
+                        } else {
+                            cache_save($backup_actions, $cache_id, 'backup');
+
+                        }
+                       //  d($backup_actions[$key]);
+
+                        if(empty($backup_actions)){
+                            cache_save(false, $cache_id, 'backup');
+
+                        }
+
+
+
+
+
+                      //  if (isset($backup_actions)) {
+                        //d($backup_actions);
+
+                      //  }
+                    // d($item);
+
+                        // break;
+                    }
+                    $i++;
+                }
+
+                $mw_backup_zip_obj->close();
+
+            }
+        }
+
+       // cache_save(false, $cache_id_loc, 'backup');
+        if(empty($backup_actions)){
+            cache_save(false, $cache_id, 'backup');
+
+        }
+
+        //d($params);
+
+
+        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
+    }
+
+
+
+
+
+
+
+
+
+    function DELcronjob($params = false)
+    {
+
+        $type = 'full';
+
+        if (isset($params['type'])) {
+            $type = trim($params['type']);
+        }
+
+        $cache_id = 'backup_cron' . (USER_IP);
+        $cache_id_loc = 'backup_cron_lock' . (USER_IP);
+        $cache_content = cache_get_content($cache_id, 'backup');
+        $cache_lock = cache_get_content($cache_id_loc, 'backup');
+
+        //  d($folders);
+
+        $fileTime = date("D, d M Y H:i:s T");
+
+
+        $here = $this->get_bakup_location();
+
+        $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
+
+        if($cache_lock == $filename){
+            cache_save('false', $cache_id_loc, 'backup');
+            return false;
+        }
+
+
+
+        //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
+
+        if ($cache_content == false or empty($cache_content)) {
+            $backup_actions = array();
+            $backup_actions[] = 'make_db_backup';
+
+            $userfiles_folder = MW_USERFILES;
+
+
+            $folders = rglob($userfiles_folder . '*',  GLOB_NOSORT);
+            if (!empty($folders)) {
+                foreach ($folders as $fold) {
+                    $backup_actions[] = $fold;
+
+                }
+            }
+
+            //$backup_actions[] = 'makesdfsdf_db_backup';
+            cache_save($backup_actions, $cache_id, 'backup');
+        } else {
+            $backup_actions = $cache_content;
+
+
+       //  d($backup_actions);
+
+
+            if (is_array($backup_actions)) {
+                $i = 0;
+                // if (!isset($zip)) {
+                // $zip = new  \mw\utils\ZipStream($filename);
+
+                cache_save($filename, $cache_id_loc, 'backup');
+//                $zip = new \ZipArchive;
+//
+//                if ($zip->open($filename, ZipArchive::CREATE) === false) {
+//                    return false;
+//                }
+
+              //  d($filename);
+
+//
+//                if (!is_file($filename)) {
+//
+//
+//                } else {
+//                    if ($zip->open($filename, ZipArchive) === false) {
+//                        return false;
+//                    }
+//
+//                }
+
+              //   $zip = new \mw\utils\Zip($filename);
+              //  if (is_file($filename)) {
+                   // $stream=$zip->getZipData();
+                 // $stream=$zip->openStream($filename);
+             //  $zip->setZipFile($stream);
+              //  } else {
+                   // $zip->setZipFile($filename);
+              //  }
+
+
+
+
+
+                //  }
+
+
+                foreach ($backup_actions as $key => $item) {
+
+                    if ($i > 10 or $cache_lock == $item) {
+
+                    } else {
+
+
+                        if ($item == 'make_db_backup') {
+//                            $db_file = $this->create();
+//                            if (isset($db_file['filename'])) {
+//                                $filename2 = $here . $db_file['filename'];
+//                                if (is_file($filename2)) {
+//                                    $back_log_action = "Adding sql restore to zip";
+//                                    $this->log_action($back_log_action);
+//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
+//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+//
+//                                }
+//                            }
+                        } else {
+                            $relative_loc = str_replace(MW_USERFILES, '', $item);
+                            //   d($relative_loc);
+                            if (is_dir($item)) {
+                                //  $zip->addEmptyDir($relative_loc);
+                                // $zip->addDir($item, $relative_loc);
+                                $relative_loc = normalize_path($relative_loc, false);
+
+
+                                zip_folder($item,$filename, $relative_loc);
+
+
+                                //$zip->addEmptyDir($relative_loc);
+                               // $zip->addDirectoryContent($item, $relative_loc, false);
+
+//                                foreach (glob($item . '/*') as $file) {
+//                                    if ($file != "." and $file != "..") {
+//                                        $newFile = str_replace(MW_USERFILES, '', $file);
+//                                        $newFile = normalize_path($newFile, false);
+//                                        $file = normalize_path($file, false);
+//
+//                                        $newFile = str_replace('\\', '/', $newFile);
+//
+//
+//                                        print 'DIRRRRRRRRRRR: ' . var_dump($file, $newFile);
+//                                        $zip->addFile($file, $newFile);
+//                                    }
+//
+//
+//                                }
+
+
+                                // $zip->addDirectoryContent($item, $relative_loc, false);
+                            } elseif (is_file($item)) {
+                                $relative_loc_dn = dirname($relative_loc);
+                                // $zip->addEmptyDir($relative_loc_dn);
+                               // print 'FILEEEEE: '. var_dump($relative_loc);
+                               // $zip->addFile($item, $relative_loc);
+                                zip_folder($item,$filename, $relative_loc);
+
+                               //$zip->addLargeFile($item, $relative_loc, filectime($item));
+                            }
+                            //$zip->addDirectoryContent(MW_USERFILES, '', true);
+                            //  $back_log_action = "Adding userfiles to zip";
+
+
+                        }
+d($item);
+                        unset($backup_actions[$key]);
+                        if (isset($backup_actions)) {
+                            cache_save($backup_actions, $cache_id, 'backup');
+                        }
+                        //d($item);
+
+                        // break;
+                    }
+                    $i++;
+                }
+
+
+            }
+        }
+        if (isset($zip) and is_object($zip)) {
+           // $zip->close();
+            // $zip->finalize();
+            // $zip->setZipFile($filename2);
+        }
+
+        cache_save('false', $cache_id_loc, 'backup');
+        //d($params);
+
+
+        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
+    }
+
+    function create_full()
+    {
+
+        if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
+            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+        }
+
+
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+            ini_set('memory_limit', '512M');
+            //ini_set("set_time_limit", 600);
+
+        }
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+             set_time_limit(600);
+        }
+
         $cron = new \mw\utils\Cron();
+
+        $backup_actions = array();
+        $backup_actions[] = 'make_db_backup';
+
+        $userfiles_folder = MW_USERFILES;
+
+
+//        $it = new RecursiveDirectoryIterator($userfiles_folder);
+//
+//        foreach(new RecursiveIteratorIterator($it) as $file) {
+//            $backup_actions[] = $file;
+//           // echo $file . "\n";
+//
+//        }
+
+
+
+
+        $folders = rglob($userfiles_folder.'*', GLOB_NOSORT );
+        if (!empty($folders)) {
+            foreach ($folders as $fold) {
+                $backup_actions[] = $fold;
+
+            }
+        }
+        $cache_id = 'backup_queue';
+        $cache_id_loc = 'backup_progress';
+
+
+        //$backup_actions[] = 'makesdfsdf_db_backup';
+        cache_save($backup_actions, $cache_id, 'backup');
+        cache_save(false, $cache_id_loc, 'backup');
+
         //$cron->Register('make_full_backup', 0, '\mw\utils\Backup::cronjob_exec');
         // $cron->job('make_full_backup', 0, array('\mw\utils\Backup','cronjob_exec'));
 
         //$cron->job('run_something_once', 0, array('\mw\utils\Backup','cronjob'));
 
 
-        $cron->job('make_full_backup', '5 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
+       // $cron->job('make_full_backup', '1 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
 
@@ -900,6 +1232,87 @@ class Backup
 
     }
 
+    public function get()
+    {
+        if (!is_admin()) {
+            error("must be admin");
+        }
+        ;
+        $here = $this->get_bakup_location();
+
+        $files = glob("$here{*.sql,*.zip}", GLOB_BRACE);
+
+        usort($files, function ($a, $b) {
+            return filemtime($a) < filemtime($b);
+        });
+
+        $backups = array();
+        if (!empty($files)) {
+            foreach ($files as $file) {
+
+                if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+                    $mtime = filemtime($file);
+                    // Get time and date from filename
+                    $date = date("F d Y", $mtime);
+                    $time = date("H:i:s", $mtime);
+                    // Remove the sql extension part in the filename
+                    //	$filenameboth = str_replace('.sql', '', $file);
+                    $bak = array();
+                    $bak['filename'] = basename($file);
+                    $bak['date'] = $date;
+                    $bak['time'] = str_replace('_', ':', $time);
+                    ;
+                    $bak['size'] = filesize($file);
+
+                    $backups[] = $bak;
+                }
+
+            }
+
+        }
+
+        return $backups;
+
+    }
+
+    // Read a file and display its content chunk by chunk
+
+    function delete($params)
+    {
+        if (!is_admin()) {
+            error("must be admin");
+        }
+
+
+        // Get the provided arg
+        $id = $params['id'];
+
+        // Check if the file has needed args
+        if ($id == NULL) {
+
+            return array('error' => "You have not provided filename to be deleted.");
+
+        }
+
+        $here = $this->get_bakup_location();
+        $filename = $here . $id;
+
+        if (is_file($filename)) {
+
+            unlink($filename);
+            return array('success' => "$id was deleted!");
+        } else {
+
+            $filename = $here . $id . '.sql';
+            if (is_file($filename)) {
+                unlink($filename);
+                return array('success' => "$id was deleted!");
+            }
+        }
+
+        //d($filename);
+    }
+
     function get_bakup_location()
     {
 
@@ -948,87 +1361,6 @@ class Backup
         $loc = $here;
         $this->backups_folder = $loc;
         return $here;
-    }
-
-    // Read a file and display its content chunk by chunk
-
-    public function get()
-    {
-        if (!is_admin()) {
-            error("must be admin");
-        }
-        ;
-        $here = $this->get_bakup_location();
-
-        $files = glob("$here{*.sql,*.zip}", GLOB_BRACE);
-
-        usort($files, function ($a, $b) {
-            return filemtime($a) < filemtime($b);
-        });
-
-        $backups = array();
-        if (!empty($files)) {
-            foreach ($files as $file) {
-
-                if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
-                    $mtime = filemtime($file);
-                    // Get time and date from filename
-                    $date = date("F d Y", $mtime);
-                    $time = date("H:i:s", $mtime);
-                    // Remove the sql extension part in the filename
-                    //	$filenameboth = str_replace('.sql', '', $file);
-                    $bak = array();
-                    $bak['filename'] = basename($file);
-                    $bak['date'] = $date;
-                    $bak['time'] = str_replace('_', ':', $time);
-                    ;
-                    $bak['size'] = filesize($file);
-
-                    $backups[] = $bak;
-                }
-
-            }
-
-        }
-
-        return $backups;
-
-    }
-
-    function delete($params)
-    {
-        if (!is_admin()) {
-            error("must be admin");
-        }
-
-
-        // Get the provided arg
-        $id = $params['id'];
-
-        // Check if the file has needed args
-        if ($id == NULL) {
-
-            return array('error' => "You have not provided filename to be deleted.");
-
-        }
-
-        $here = $this->get_bakup_location();
-        $filename = $here . $id;
-
-        if (is_file($filename)) {
-
-            unlink($filename);
-            return array('success' => "$id was deleted!");
-        } else {
-
-            $filename = $here . $id . '.sql';
-            if (is_file($filename)) {
-                unlink($filename);
-                return array('success' => "$id was deleted!");
-            }
-        }
-
-        //d($filename);
     }
 
     function download($params)
@@ -1107,3 +1439,4 @@ class Backup
     }
 
 }
+$mw_backup_zip_obj = false;

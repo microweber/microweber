@@ -53,7 +53,7 @@ class Cron
 
 
         $this->callbacks = array();
-        register_shutdown_function(array($this, 'run'));
+        //register_shutdown_function(array($this, 'run'));
     }
 
     public function setDir($dir_name = false)
@@ -76,6 +76,27 @@ class Cron
     {
         $obj = new Cron();
         $obj->job($name, $interval, $callback, $params);
+    }
+
+    public function delete_job($name)
+    {
+
+        if (is_dir($this->dir)) {
+
+            $ini_file = $this->ini_file;
+            $ini_file = $this->dir . $ini_file;
+            if (is_file($ini_file)) {
+                $ini_array = parse_ini_file($ini_file, true);
+                //$ini_mtime = filemtime($ini_file);
+                if (isset($ini_array[$name])) {
+                    unset($ini_array[$name]);
+                    $this->writeIni($ini_array);
+                }
+
+            }
+
+
+        }
     }
 
     public function job($name, $interval, $callback, $params = false)

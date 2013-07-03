@@ -11,6 +11,12 @@ img {
   border: none
 }
 
+.img-polaroid{
+  max-width: 98%;
+  max-width: calc(100% - 10px);
+  max-width: -webkit-calc(100% - 10px);
+}
+
 a{
     color: #93979D;
     text-decoration: none;
@@ -30,12 +36,12 @@ h1, h2, h3, h4, h5, h6 {
 h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a { color: #686B6F; }
 
 
-h1{ font-size: 31px; }
-h2{ font-size: 25px; }
-h3{ font-size: 20px; }
-h4{ font-size: 17px; }
-h5{ font-size: 15px; }
-h6{ font-size: 14px; }
+h1{ font-size: 300%; }
+h2{ font-size: 200%; }
+h3{ font-size: 131%; }
+h4{ font-size: 130%; }
+h5{ font-size: 115%; }
+h6{ font-size: 108%; }
 
 
 ul, ol{ margin: 0; }
@@ -92,7 +98,7 @@ ul, ol{ margin: 0; }
 #content{
   min-height: 200px;
   padding: 45px 0;
-  background: url(../img/content.jpg);
+  background: url(../img/content.jpg) center top;
 }
 
 #footer-top{
@@ -255,7 +261,7 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 }
 
 .main-title{
-  font-size:25px;
+  font-size:200%;
   padding-bottom: 12px;
   margin-bottom: 22px;
   border-bottom: 1px solid #E8E8E8;
@@ -736,4 +742,36 @@ input[type="text"][disabled], input[type="password"][disabled], input[type="date
 }
 
 /* /Contacts */
+
+
+
+
+
+/* Theme settings */
+
+
+#mw-theme-settings{
+  position: fixed;
+  z-index: 999;
+  background: #F5F5F5;
+  border: 1px solid #DCDCDC;
+  border-radius: 3px;
+  padding: 8px;
+  top: 300px;
+  left: 80%;
+  width: auto !important;
+}
+
+#mw-theme-settings-content{
+  width: 230px;
+}
+
+
+
+
+
+
+
+
+/* /Theme settings */
 

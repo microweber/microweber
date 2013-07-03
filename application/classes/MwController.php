@@ -1376,7 +1376,7 @@ class MwController
 
             $is_admin = is_admin();
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
-            exec_action('site_header');
+            exec_action('site_header', TEMPLATE_NAME);
 			
 			
 			if(function_exists('template_headers_src')){

@@ -123,7 +123,13 @@
         });
 
         _do = function(val){
-          parent.mw.iframecallbacks[_command](val);
+          if(typeof parent.mw.iframecallbacks[_command] === 'function'){
+            parent.mw.iframecallbacks[_command](val);
+          }
+          else if(typeof parent[_command] === 'function'){
+             parent[_command](val)
+          }
+
         }
 
 

@@ -1,4 +1,14 @@
-<?php only_admin_access(); ?><script  type="text/javascript">
+<?php only_admin_access(); ?>
+
+<script  type="text/javascript">
+
+
+mw.require('options.js');
+mw.require('forms.js');
+
+</script>
+
+<script  type="text/javascript">
 $(document).ready(function(){
 	
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
