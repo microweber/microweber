@@ -2336,7 +2336,7 @@ function delete_content($data)
             cache_clean_group('content/' . $c_id);
         }
 
-        cache_clean_group('content/global');
+        cache_clean_group('content');
         cache_clean_group('categories/global');
 
 

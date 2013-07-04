@@ -1262,7 +1262,7 @@ mw.drag = {
         if(l>0){
           for(;i<l;i++){
              if(els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6')===null){
-                 if(!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'empty-element')){
+                 if(!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'mw-empty')){
                    els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
                  }
 
@@ -1480,9 +1480,6 @@ module_settings: function(a) {
                    }
                  }
                  else{val = this.value }
-
-
-
 
 
 				var o_data = {
@@ -1885,7 +1882,7 @@ mw.px2pc = function(row){
     });
     //check them after
     mwcsum = 0;
-    for(var x=0; x<len; x++){
+    for(var x=0; x < len; x ++){
         mwcsum+=cache[x];
     }
     var final = 100-mwcsum;

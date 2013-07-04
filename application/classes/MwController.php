@@ -1204,7 +1204,7 @@ class MwController
                 $content = $page_non_active;
             }
 
-        } else if (isset($content['is_active']) and $content['is_active'] == 'n') {
+        } else if (isset($content['is_deleted']) and $content['is_deleted'] == 'y') {
             if (is_admin() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
@@ -1219,10 +1219,9 @@ class MwController
             }
         }
 
-      //  d($content);
-
-        define_constants($content);
-
+// 
+        define_constants($content); 
+  
         //$page_data = get_content_by_id(PAGE_ID);
 
         $render_file = get_layout_for_page($content);
