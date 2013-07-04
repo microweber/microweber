@@ -45,11 +45,11 @@
 
 #mw-admin-text-editor .editor_wrapper:after{
   content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 
@@ -64,6 +64,13 @@
 
 .mw_editor{
   line-height: normal;
+}
+
+.mw_editor.disabled{
+  opacity: 1;
+}
+.mw_editor.disabled > *{
+  opacity: 0.5;
 }
 
 .mw_editor_btn{

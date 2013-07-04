@@ -2658,6 +2658,11 @@ body.dragStart .module .edit:hover:after{
   display: none;
 }
 
+body.dragStart .nodrop-around:hover:before,
+body.dragStart .nodrop-around:hover:after{
+  display: none !important;
+}
+
 body.dragStart .mw_dropable_arr:before{
   position: absolute;
   display: block;

@@ -1285,11 +1285,22 @@ api_expose('is_logged');
 
 function is_logged()
 {
+
+    //ignore_user_abort();
+
+    mw_cron();
+   // if(isAjax()){
+    //
+   // }
+
     if(user_id() >0){
          return true;
     } else {
         return false;
     }
+
+
+
 
 }
 function user_id()

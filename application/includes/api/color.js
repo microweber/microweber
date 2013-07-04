@@ -11,8 +11,8 @@ mw.color = {
       return 'transparent';
     }
   },
-  random:function(){
-    return '#'+Math.floor(Math.random()*16777215).toString(16);
+  random: function(){
+    return '#' + Math.floor( Math.random() * 16777215 ).toString(16);
   },
   decimalToHex: function(decimal){
     var hex = decimal.toString(16);

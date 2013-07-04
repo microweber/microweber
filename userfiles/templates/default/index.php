@@ -13,6 +13,16 @@
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit" id="home-top"  rel="content" field="content">
+
+
+<div class="mw-row">
+    <div style="width: 100%; height: auto;" class="mw-col">
+      <div class="mw-col-container">
+        <div class="mw-empty"></div>
+      </div>
+    </div>
+</div>
+
   <div class="mw-row clearfix">
     <div class="mw-col" style="width: 50%">
       <div class="mw-col-container">

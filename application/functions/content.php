@@ -700,12 +700,16 @@ function define_constants($content = false)
             }
         }
     }
-
+//
     if (is_array($content)) {
-        if (isset($content['id'])) {
+        if (isset($content['id']) and $content['id'] != 0) {
             $content = get_content_by_id($content['id']);
             $page = $content;
 
+        } else if (isset($content['id']) and $content['id'] == 0) {
+            $page = $content;
+        }else if (isset($content['active_site_template'])) {
+            $page = $content;
         }
     }
 

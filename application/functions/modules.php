@@ -2067,11 +2067,36 @@ api_expose('mw_cron');
 function mw_cron()
 {
 
+
+
+
+
+
+    $file_loc = CACHEDIR_ROOT . "cron" . DS;
+    $file_loc_hour = $file_loc . 'cron_lock' .'.php';
+
+    $time = time();
+    if(!is_file($file_loc_hour)){
+        @touch($file_loc_hour);
+    } else {
+        if((filemtime($file_loc_hour)) >  $time - 2){
+            touch($file_loc_hour);
+            return true;
+        }
+    }
+
+
+
+   // touch($file_loc_hour);
     $cron = new \mw\utils\Cron;
-    $cron->run();
+    //$cron->run();
 
+    $scheduler = new \mw\utils\Events();
 
+    // schedule a global scope function:
+    //$scheduler->registerShutdownEvent("\mw\utils\Backup", $params);
 
+    $scheduler->registerShutdownEvent(array($cron, 'run'));
 
     $file_loc = CACHEDIR_ROOT . "cron" . DS;
 

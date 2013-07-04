@@ -47,6 +47,15 @@
 
 
     <?php endif; ?>
+
+
+    <?php
+
+        $theme_css = get_option('template_styles', TEMPLATE_NAME);
+
+    ?>
+
+
     </head>
     <body>
 

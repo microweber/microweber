@@ -34,12 +34,8 @@ class MwController
     public $create_new_page = false;
     public $render_this_url = false;
     public $isolate_by_html_id = false;
-
-
-
-
-
-
+    public $functions = array();
+    public $vars = array();
 
     function admin()
     {
@@ -48,7 +44,7 @@ class MwController
         }
         if (MW_IS_INSTALLED == true) {
             //exec_action('mw_db_init');
-           // exec_action('mw_cron');
+            // exec_action('mw_cron');
         }
 
         //create_mw_default_options();
@@ -383,9 +379,13 @@ class MwController
             }
 
             if (!defined('MW_API_HTML_OUTPUT')) {
-                header('Content-Type: application/json');
 
-                print json_encode($res);
+
+                if (!headers_sent()) {
+                    header('Content-Type: application/json');
+
+                    print json_encode($res);
+                }
             } else {
 
                 print($res);
@@ -551,7 +551,7 @@ class MwController
                 if (is_file($try_config_file)) {
                     include ($try_config_file);
 
-                    if(!isset($config) or !is_array($config)){
+                    if (!isset($config) or !is_array($config)) {
                         return false;
                     }
 
@@ -1090,7 +1090,7 @@ class MwController
                         if ($simply_a_file == false) {
                             //$page = get_homepage();
                             $page = false;
-                            if(!is_array($page)){
+                            if (!is_array($page)) {
                                 $page = array();
 
                                 $page['id'] = 0;
@@ -1101,7 +1101,6 @@ class MwController
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
                             }
-
 
 
                             if (isarr($page_url_segment_3)) {
@@ -1126,7 +1125,7 @@ class MwController
                             }
 
                         } else {
-                            if(!is_array($page)){
+                            if (!is_array($page)) {
                                 $page = array();
                             }
                             $page['id'] = 0;
@@ -1219,6 +1218,8 @@ class MwController
                 $content = $page_non_active;
             }
         }
+
+      //  d($content);
 
         define_constants($content);
 
@@ -1377,15 +1378,15 @@ class MwController
             $is_admin = is_admin();
             $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
             exec_action('site_header', TEMPLATE_NAME);
-			
-			
-			if(function_exists('template_headers_src')){
-					$template_headers_src = template_headers_src();
-					if($template_headers_src != false and $template_headers_src != ''){
-						$l = str_ireplace('</head>', $template_headers_src . '</head>', $l);
-			
-					}
-			}
+
+
+            if (function_exists('template_headers_src')) {
+                $template_headers_src = template_headers_src();
+                if ($template_headers_src != false and $template_headers_src != '') {
+                    $l = str_ireplace('</head>', $template_headers_src . '</head>', $l);
+
+                }
+            }
 
             // $l = str_ireplace('</head>', $default_css . '</head>', $l);
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
@@ -1423,6 +1424,21 @@ class MwController
                         $c = 1;
                         $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
                     }
+
+
+                    $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live-edit.php';
+                    $custom_live_edit = normalize_path($custom_live_edit, false);
+                    if (is_file($custom_live_edit)) {
+                        $layout_live_edit = new MwView($custom_live_edit);
+                        $layout_live_edit = $layout_live_edit->__toString();
+                        if ($layout_live_edit != '') {
+                            //$layout_live_edit = parse_micrwober_tags($layout_live_edit, $options = array('no_apc' => 1));
+                            $l = str_ireplace('</body>', $layout_live_edit . '</body>', $l, $c);
+                        }
+
+                    }
+
+
                 }
             } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
                 if (!isset($_GET['isolate_content_field']) and !isset($_GET['content_id'])) {
@@ -1695,7 +1711,7 @@ class MwController
 
         if (MW_IS_INSTALLED == true) {
             //exec_action('mw_db_init');
-          //  exec_action('mw_cron');
+            //  exec_action('mw_cron');
         }
 
         $tool = url(1);
@@ -1768,59 +1784,28 @@ class MwController
         echo $v;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    public $functions = array();
-    public $vars = array();
-
-    function __set($name,$data)
+    function __get($name)
     {
-        if(is_callable($data))
+        if (isset($this->vars[$name]))
+            return $this->vars[$name];
+    }
+
+    function __set($name, $data)
+    {
+        if (is_callable($data))
             $this->functions[$name] = $data;
         else
             $this->vars[$name] = $data;
     }
 
-    function __get($name)
+    function __call($method, $args)
     {
-        if(isset($this->vars[$name]))
-            return $this->vars[$name];
-    }
-
-    function __call($method,$args)
-    {
-        if(isset($this->functions[$method]))
-        {
-            call_user_func_array($this->functions[$method],$args);
+        if (isset($this->functions[$method])) {
+            call_user_func_array($this->functions[$method], $args);
         } else {
             // error out
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     function __destruct()
     {

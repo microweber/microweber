@@ -41,6 +41,9 @@
 		_mw_log_reload_int = false;
 		$(document).ready(function(){
 
+mw.load_module("#mw_backup_log", 'admin/backup/log');
+
+
 			if(_mw_log_reload_int == false){
                 _mw_log_reload_int = true;
                 mw.reload_module_interval("#mw_backup_log", 5000);
@@ -89,7 +92,7 @@
 
         <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;"><?php _e("Uploading files"); ?></div>
         <div class="vSpace">&nbsp;</div>
-        <module id="mw_backup_log" type="admin/backup/log"/>
+        <div id="mw_backup_log" type="admin/backup/log"></div>
       </div>
     </div>
   </div>

@@ -16,6 +16,7 @@ namespace mw\utils;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+
 api_expose('mw\utils\Backup\delete');
 api_expose('mw\utils\Backup\create');
 api_expose('mw\utils\Backup\download');
@@ -24,7 +25,6 @@ api_expose('mw\utils\Backup\move_uploaded_file_to_backup');
 
 api_expose('mw\utils\Backup\restore');
 api_expose('mw\utils\Backup\cronjob');
-
 
 
 class Backup
@@ -284,6 +284,73 @@ class Backup
 
     }
 
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_ROOTPATH . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = module_option('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+        if (!is_dir($here)) {
+            if (!mkdir($here)) {
+                return false;
+            }
+        }
+        $loc = $here;
+        $this->backups_folder = $loc;
+        return $here;
+    }
+
+    function log_action($back_log_action)
+    {
+
+        if ($back_log_action == false) {
+            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+        } else {
+            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+            if (isarr($check) and isset($check['id'])) {
+                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+            } else {
+                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+            }
+        }
+
+    }
+
     function copyr($source, $dest)
     {
         // Simple copy for a file
@@ -442,7 +509,7 @@ class Backup
 
     }
 
-    function create()
+    function create($filename = false)
     {
         ignore_user_abort(true);
         $start = microtime_float();
@@ -481,9 +548,19 @@ class Backup
         set_time_limit(0);
         // Generate the filename for the backup file
         $index1 = $here . 'index.php';
+        if($filename == false){
+            $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
+        } else {
+            $filename_to_return = $filename;
+        }
 
-        $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
         $filess = $here . $filename_to_return;
+
+        if(is_file($filess)){
+            return false;
+        }
+
+
         touch($filess);
         touch($index1);
 
@@ -700,16 +777,26 @@ class Backup
         exit();
     }
 
-
-
-
-
-
-
-
-
     function cronjob($params = false)
     {
+
+        if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
+            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+        }
+
+
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+            ini_set('memory_limit', '512M');
+            //ini_set("set_time_limit", 600);
+
+        }
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+            set_time_limit(300);
+        }
+
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ignore_user_abort')) {
+            ignore_user_abort();
+        }
 
         $type = 'full';
 
@@ -718,45 +805,97 @@ class Backup
         }
 
         $cache_id = 'backup_queue';
-       // $cache_id_folders = 'backup_cron_folders' . (USER_IP);
+        // $cache_id_folders = 'backup_cron_folders' . (USER_IP);
         $cache_id_loc = 'backup_progress';
+        $cache_state_id = 'backup_zip_state';
+
         $cache_content = cache_get_content($cache_id, 'backup');
         $cache_lock = cache_get_content($cache_id_loc, 'backup');
+        $cache_state = cache_get_content($cache_state_id, 'backup');
+
         //$cache_folders = cache_get_content($cache_id_folders, 'backup');
 
 
         //$fileTime = date("D, d M Y H:i:s T");
 
-$time = time();
+        $time = time();
         $here = $this->get_bakup_location();
 
-        $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
 
-        if($cache_lock == false or !is_array($cache_lock)){
-
-
-            $cache_lock = array();
-            $cache_lock['processed'] = 0;
-            $cache_lock['files_count'] = count($cache_content);
-            $cache_lock['time'] = $time;
-
-            cache_save($cache_lock, $cache_id_loc, 'backup');
-           // return false;
-        }
-
+ //d($cache_state);
+if($cache_state == 'opened'){
+    return true;
+}
 
 
         //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
 
         if ($cache_content == false or empty($cache_content)) {
+            cache_save(false, $cache_id_loc, 'backup');
+            cache_save(false, $cache_id, 'backup');
+
             $cron = new \mw\utils\Cron();
             $cron->delete_job('make_full_backup');
-           return true;
+            return true;
         } else {
+
+
+
+
+$bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
+
+            $filename = $here . $bak_fn . '.zip';
+
+            if ($cache_lock == false or !is_array($cache_lock)) {
+
+
+                $cache_lock = array();
+                $cache_lock['processed'] = 0;
+                $cache_lock['files_count'] = count($cache_content);
+                $cache_lock['time'] = $time;
+                $cache_lock['filename'] = $filename;
+                cache_save($cache_lock, $cache_id_loc, 'backup');
+                // return false;
+            } else {
+                if(isset($cache_lock['filename'])){
+                    $filename =$cache_lock['filename'];
+                }
+
+            }
+
+            if(isset($cache_lock['time'])){
+                $time_sec = intval( $cache_lock['time']);
+
+                if(($time - 3) < $time_sec){
+                    // print 'time lock';
+                    return false;
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             $backup_actions = $cache_content;
 
-              global $mw_backup_zip_obj;
-            if(!is_object($mw_backup_zip_obj)){
+            global $mw_backup_zip_obj;
+            if (!is_object($mw_backup_zip_obj)) {
                 $mw_backup_zip_obj = new  ZipArchive();
             }
 
@@ -769,27 +908,45 @@ $time = time();
                 if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
                     return false;
                 }
+                cache_save('opened', $cache_state_id, 'backup');
+
+
                 foreach ($backup_actions as $key => $item) {
 
-                    if ($i > 100 or $cache_lock == $item) {
+                    if ($i > 50 or $cache_lock == $item) {
 
                     } else {
 
                         $cache_lock['processed']++;
-                        $cache_lock['time']  = time();
+                        $cache_lock['time'] = time();
+                        $cache_lock['filename'] = $filename;
+
+
+                        $precent = ( $cache_lock['processed'] / $cache_lock['files_count']) * 100;
+                        $precent = round($precent);
+                        $cache_lock['percent'] = $precent;
+
+
+                        $back_log_action = "Progress {$precent}% ({$cache_lock['processed']}/{$cache_lock['files_count']}) ";
+                        $this->log_action($back_log_action);
+
                         cache_save($cache_lock, $cache_id_loc, 'backup');
+
+
+
+
                         if ($item == 'make_db_backup') {
-//                            $db_file = $this->create();
-//                            if (isset($db_file['filename'])) {
-//                                $filename2 = $here . $db_file['filename'];
-//                                if (is_file($filename2)) {
-//                                    $back_log_action = "Adding sql restore to zip";
-//                                    $this->log_action($back_log_action);
-//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
-//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
-//
-//                                }
-//                            }
+                            $db_file = $this->create($bak_fn.'.sql');
+                            if (isset($db_file['filename'])) {
+                                $filename2 = $here . $db_file['filename'];
+                                if (is_file($filename2)) {
+                                    $back_log_action = "Adding sql restore to zip";
+                                    $this->log_action($back_log_action);
+                                    $mw_backup_zip_obj->addFile($filename2, 'mw_sql_restore.sql');
+                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
+
+                                }
+                            }
                         } else {
                             $relative_loc = str_replace(MW_USERFILES, '', $item);
 
@@ -797,38 +954,10 @@ $time = time();
                             $new_backup_actions = array();
 
 
-
-
                             if (is_dir($item)) {
-
-
-                              //d($cache_folders);
-                              //if($cache_folders == false or !in_array($item, $cache_folders)){
-                                //  $cache_folders[] =$item;
-
-                              //    cache_save($cache_folders, $cache_id_folders, 'backup');
-
-
-                                  $mw_backup_zip_obj->addEmptyDir($relative_loc);
-
-
-//                                          $it = new RecursiveDirectoryIterator($item);
-//
-//        foreach(new RecursiveIteratorIterator($it) as $file) {
-//            $new_backup_actions[] = trim($file);
-//           // echo $file . "\n";
-//
-//        }
-//
-//
-//
-                             // }
-
-
-
-
+                                $mw_backup_zip_obj->addEmptyDir($relative_loc);
                             } elseif (is_file($item)) {
-                                d($item);
+                               // d($item);
                                 //$relative_loc_dn = dirname($relative_loc);
 
                                 //$mw_backup_zip_obj->addFromString($relative_loc, file_get_contents($item));
@@ -843,31 +972,28 @@ $time = time();
                         unset($backup_actions[$key]);
 
 
-                        if(isset($new_backup_actions) and !empty($new_backup_actions)){
-                            $backup_actions = array_merge($backup_actions,$new_backup_actions);
-                             array_unique($backup_actions);
+                        if (isset($new_backup_actions) and !empty($new_backup_actions)) {
+                            $backup_actions = array_merge($backup_actions, $new_backup_actions);
+                            array_unique($backup_actions);
                             cache_save($backup_actions, $cache_id, 'backup');
 
                         } else {
                             cache_save($backup_actions, $cache_id, 'backup');
 
                         }
-                       //  d($backup_actions[$key]);
+                        //  d($backup_actions[$key]);
 
-                        if(empty($backup_actions)){
+                        if (empty($backup_actions)) {
                             cache_save(false, $cache_id, 'backup');
 
                         }
 
 
-
-
-
-                      //  if (isset($backup_actions)) {
+                        //  if (isset($backup_actions)) {
                         //d($backup_actions);
 
-                      //  }
-                    // d($item);
+                        //  }
+                        // d($item);
 
                         // break;
                     }
@@ -875,12 +1001,12 @@ $time = time();
                 }
 
                 $mw_backup_zip_obj->close();
-
+                cache_save('closed', $cache_state_id, 'backup');
             }
         }
 
-       // cache_save(false, $cache_id_loc, 'backup');
-        if(empty($backup_actions)){
+        // cache_save(false, $cache_id_loc, 'backup');
+        if (empty($backup_actions)) {
             cache_save(false, $cache_id, 'backup');
 
         }
@@ -890,14 +1016,6 @@ $time = time();
 
         //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
     }
-
-
-
-
-
-
-
-
 
     function DELcronjob($params = false)
     {
@@ -922,11 +1040,10 @@ $time = time();
 
         $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
 
-        if($cache_lock == $filename){
+        if ($cache_lock == $filename) {
             cache_save('false', $cache_id_loc, 'backup');
             return false;
         }
-
 
 
         //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
@@ -938,7 +1055,7 @@ $time = time();
             $userfiles_folder = MW_USERFILES;
 
 
-            $folders = rglob($userfiles_folder . '*',  GLOB_NOSORT);
+            $folders = rglob($userfiles_folder . '*', GLOB_NOSORT);
             if (!empty($folders)) {
                 foreach ($folders as $fold) {
                     $backup_actions[] = $fold;
@@ -952,7 +1069,7 @@ $time = time();
             $backup_actions = $cache_content;
 
 
-       //  d($backup_actions);
+            //  d($backup_actions);
 
 
             if (is_array($backup_actions)) {
@@ -967,7 +1084,7 @@ $time = time();
 //                    return false;
 //                }
 
-              //  d($filename);
+                //  d($filename);
 
 //
 //                if (!is_file($filename)) {
@@ -980,17 +1097,14 @@ $time = time();
 //
 //                }
 
-              //   $zip = new \mw\utils\Zip($filename);
-              //  if (is_file($filename)) {
-                   // $stream=$zip->getZipData();
-                 // $stream=$zip->openStream($filename);
-             //  $zip->setZipFile($stream);
-              //  } else {
-                   // $zip->setZipFile($filename);
-              //  }
-
-
-
+                //   $zip = new \mw\utils\Zip($filename);
+                //  if (is_file($filename)) {
+                // $stream=$zip->getZipData();
+                // $stream=$zip->openStream($filename);
+                //  $zip->setZipFile($stream);
+                //  } else {
+                // $zip->setZipFile($filename);
+                //  }
 
 
                 //  }
@@ -1024,11 +1138,11 @@ $time = time();
                                 $relative_loc = normalize_path($relative_loc, false);
 
 
-                                zip_folder($item,$filename, $relative_loc);
+                                zip_folder($item, $filename, $relative_loc);
 
 
                                 //$zip->addEmptyDir($relative_loc);
-                               // $zip->addDirectoryContent($item, $relative_loc, false);
+                                // $zip->addDirectoryContent($item, $relative_loc, false);
 
 //                                foreach (glob($item . '/*') as $file) {
 //                                    if ($file != "." and $file != "..") {
@@ -1051,18 +1165,18 @@ $time = time();
                             } elseif (is_file($item)) {
                                 $relative_loc_dn = dirname($relative_loc);
                                 // $zip->addEmptyDir($relative_loc_dn);
-                               // print 'FILEEEEE: '. var_dump($relative_loc);
-                               // $zip->addFile($item, $relative_loc);
-                                zip_folder($item,$filename, $relative_loc);
+                                // print 'FILEEEEE: '. var_dump($relative_loc);
+                                // $zip->addFile($item, $relative_loc);
+                                zip_folder($item, $filename, $relative_loc);
 
-                               //$zip->addLargeFile($item, $relative_loc, filectime($item));
+                                //$zip->addLargeFile($item, $relative_loc, filectime($item));
                             }
                             //$zip->addDirectoryContent(MW_USERFILES, '', true);
                             //  $back_log_action = "Adding userfiles to zip";
 
 
                         }
-d($item);
+                        d($item);
                         unset($backup_actions[$key]);
                         if (isset($backup_actions)) {
                             cache_save($backup_actions, $cache_id, 'backup');
@@ -1078,7 +1192,7 @@ d($item);
             }
         }
         if (isset($zip) and is_object($zip)) {
-           // $zip->close();
+            // $zip->close();
             // $zip->finalize();
             // $zip->setZipFile($filename2);
         }
@@ -1104,7 +1218,7 @@ d($item);
 
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-             set_time_limit(600);
+            set_time_limit(600);
         }
 
         $cron = new \mw\utils\Cron();
@@ -1126,12 +1240,30 @@ d($item);
 
 
 
-        $folders = rglob($userfiles_folder.'*', GLOB_NOSORT );
+
+        $folders = rglob($userfiles_folder . '*', GLOB_NOSORT);
         if (!empty($folders)) {
+            $text_files = array();
+
+
             foreach ($folders as $fold) {
-                $backup_actions[] = $fold;
+
+                if(strstr($fold, '.php') or strstr($fold, '.js')  or strstr($fold, '.css')){
+                    $text_files[]  = $fold;
+                } else {
+                    $backup_actions[] = $fold;
+
+                }
+
 
             }
+
+            if(!empty($text_files)){
+                $backup_actions = array_merge($text_files,$backup_actions);
+            }
+
+        //    rsort($backup_actions);
+
         }
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
@@ -1147,7 +1279,7 @@ d($item);
         //$cron->job('run_something_once', 0, array('\mw\utils\Backup','cronjob'));
 
 
-       // $cron->job('make_full_backup', '1 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
+        // $cron->job('make_full_backup', '1 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
 
@@ -1185,23 +1317,6 @@ d($item);
         exit();
     }
 
-    function log_action($back_log_action)
-    {
-
-        if ($back_log_action == false) {
-            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
-        } else {
-            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
-
-            if (isarr($check) and isset($check['id'])) {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
-            } else {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
-            }
-        }
-
-    }
-
     function move_uploaded_file_to_backup($params)
     {
         only_admin_access();
@@ -1231,6 +1346,8 @@ d($item);
         }
 
     }
+
+    // Read a file and display its content chunk by chunk
 
     public function get()
     {
@@ -1275,8 +1392,6 @@ d($item);
 
     }
 
-    // Read a file and display its content chunk by chunk
-
     function delete($params)
     {
         if (!is_admin()) {
@@ -1311,56 +1426,6 @@ d($item);
         }
 
         //d($filename);
-    }
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_ROOTPATH . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = module_option('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-        if (!is_dir($here)) {
-            if (!mkdir($here)) {
-                return false;
-            }
-        }
-        $loc = $here;
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function download($params)
@@ -1439,4 +1504,5 @@ d($item);
     }
 
 }
+
 $mw_backup_zip_obj = false;

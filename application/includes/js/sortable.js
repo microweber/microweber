@@ -429,6 +429,10 @@ mw.drag = {
                     else{
                       if(mw.tools.hasClass(mw.mm_target.className, 'edit')){
                           mw.currentDragMouseOver = mw.mm_target;
+                          if(mw.tools.hasClass(mw.mm_target.className, 'nodrop-around')){
+                            mw.currentDragMouseOver =  null;
+                            d(mw.mm_target)
+                          }
                       }
                       else{
                          mw.currentDragMouseOver =  null;
@@ -1258,7 +1262,7 @@ mw.drag = {
         if(l>0){
           for(;i<l;i++){
              if(els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6')===null){
-                 if(!mw.tools.hasClass(els[i].className, 'nodrop')){
+                 if(!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'empty-element')){
                    els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
                  }
 

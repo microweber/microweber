@@ -190,6 +190,10 @@ class Cron
     public function run()
     {
 
+        ob_start();
+
+
+
         if (!defined('MW_CRON_EXEC')) {
 
             define('MW_CRON_EXEC', true);
@@ -277,6 +281,8 @@ class Cron
             $this->writeIni($ini_save);
             // }
         }
+
+        ob_end_clean();
     }
 
 

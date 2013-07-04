@@ -405,8 +405,6 @@ mw.tools = {
 
             var w = e.keyCode;
 
-
-
             if(w == 38 || w== 39){
                 e.preventDefault();
                 e.stopPropagation();
@@ -1356,7 +1354,7 @@ mw.tools = {
       var curr = a[ia];
       for( ; ib<lb; ib++){
           if(b[ib]==curr){
-            //break loop;
+            //break +;
             return curr;
           }
       }
@@ -1454,17 +1452,23 @@ mw.tools = {
             callback.call(this.value);
         });
       }
-
     }
+  },
+  objectExtend:function(str, value){
+    var arr = str.split("."), l=arr.length, i = 1;
+    var t = typeof window[arr[0]] === 'undefined' ? {} : window[arr[0]];
+    for( ; i<l; i++){
+        t = t[arr[i]] = {};
+    }
+    window[arr[0]] = t;
   },
   parseHtml: function(html){
     var d = document.implementation.createHTMLDocument("");
     d.body.innerHTML = html;
-
-   return d;
+    return d;
   },
   isEmpty:function(node){
-    return (node.innerHTML.trim()).length === 0;
+    return ( node.innerHTML.trim() ).length === 0;
   },
   isJSON:function(a){
     if(typeof a === 'object'){
@@ -2093,64 +2097,9 @@ mw.notification = {
 
 
 
-mw.googleFonts = {
-  params:'?key=AIzaSyApMgI8vW2EfAFAeVa4hDvaLoaW9A3WY94&subsets=latin&sort=alpha',
-  url:'https://www.googleapis.com/webfonts/v1/webfonts/',
-  get:function(format, callback){  return false;
-    var format = format || 'list';
-
-    jQuery.getJSON(mw.googleFonts.url + mw.googleFonts.params, function(data){
-
-        if(format==='list'){
-            var html = '<li><h2>Google Fonts:</h2></li>';
-            $.each(data.items, function(a,b){
-                html+='<li>' + b.family + '</li>';
-            });
-            html+='';
-
-            callback.call(html);
-        }
-    });
-  }
-}
-
-$(window).load(function(){
-  if(!window['mwAdmin']){
-    mw.googleFonts.get('list', function(){
-       var ul = $("#font_family_selector_main ul")[0];
-       ul.innerHTML += this
-    });
-
-        /*
-         var div = mwd.createElement('div');
-         div.id =  'LAYERS';
-
-         mw.traverse(mwd.body, div);
-
-        mwd.body.appendChild(div);
-
-        $(div).sortable({
-            stop:function(e,ui){
-              var f = $(ui.item).data("for");
-              var prev_f = $(ui.item).prev().data("for");
-
-              $(prev_f).after(f);
-            }
-        })
-       */
-  }
 
 
-/*
 
-    $("#mw-admin-container").height($(window).height())
-
-    mw.tools.scrollBar.init(mwd.getElementById('mw-admin-container'));
-
-
-    */
-
-});
 
 
 
@@ -2466,7 +2415,7 @@ $(document).ready(function(){
               }
             }
         }
-    },
+    }
   }
 
   mw.inline = {
@@ -2595,6 +2544,28 @@ $(document).ready(function(){
         }
     }
   }
+
+
+  mw.dynamicCSS = {
+    previewOne:function(selector, value){
+      if(mwd.getElementById('user_css') === null){
+        var style = mwd.createElement('style');
+        style.type = 'text/css';
+        style.id = 'user_css';
+        mwd.head.appendChild(style);
+      }
+      else{
+        var style = mwd.getElementById('user_css');
+      }
+      var css = selector + '{' + value + "}";
+      style.appendChild(document.createTextNode(css));
+    },
+    manageObject:function(main_obj, selector_obj){
+
+    }
+  }
+
+
 
 
 
