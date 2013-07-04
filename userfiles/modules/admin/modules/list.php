@@ -50,11 +50,9 @@ if(isset($params['layout_type'])){
   
  <?php if(isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
   
-  <li  data-module-name="layout" template="<?php print $dynamic_layout['template_dir'] ?>/<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>"  class="module-item"> <span class="mw_module_hold">
+  <li  data-module-name="layout" template="<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>"  class="module-item"> <span class="mw_module_hold">
 
-
-
-   <?php if(!isset($dynamic_layout['icon'])): ?>
+    <?php if(!isset($dynamic_layout['icon'])): ?>
    <?php $dynamic_layout['icon'] = $def_icon; ?>
    <?php endif; ?>
 

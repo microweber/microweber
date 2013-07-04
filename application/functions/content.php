@@ -224,7 +224,7 @@ function get_content($params = false)
             }
             return $get;
         }
-        if (!empty($get)) {
+        if (isarr($get)) {
             $data2 = array();
             foreach ($get as $item) {
                 if (isset($item['url'])) {

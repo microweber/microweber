@@ -210,7 +210,7 @@ mw.helpinfo = {
        var activate = activate || false;
        //alert(mw.cookie.get("helpinfo"))
        if(activate){
-         mw.cookie.set("helpinfo", "true");
+         mw.cookie.set("helpinfo", "true", 4380);
          mw.helpinfo.init();
          return false;
        }

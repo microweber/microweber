@@ -396,6 +396,10 @@ function layouts_list($options = false)
                         }
 
                         $layout_file = str_replace($path, '', $filename);
+                        $layout_file = str_replace(TEMPLATEFILES, '', $filename);
+
+
+                      // d(  $layout_file);
                         $layout_file = str_replace(DS, '/', $layout_file);
                         $to_return_temp['layout_file'] = $layout_file;
                         $to_return_temp['filename'] = $filename;
