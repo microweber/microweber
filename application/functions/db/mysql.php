@@ -8,11 +8,32 @@ $is_mysqli = function_exists('mysqli_connect');
 if ($is_mysqli != false) {
 
     if ($link == false or $link == NULL) {
+        if(isset($db['host'])){
+            $port_check  = explode(":",$db['host']);
+            if(isset($port_check[1])){
+                $port_num = intval($port_check[1]);
+                $db['host'] = $port_check[0];
+            }
+        }
+
+
+
         if (isset($db['pass']) and $db['pass'] != '') {
-            $link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+            if(isset($port_num) and $port_num != false){
+                $link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'],$port_num);
+            } else {
+                $link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+            }
+
 
         } else {
-            $link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
+            if(isset($port_num) and $port_num != false){
+                $link = new mysqli($db['host'], $db['user'], false, $db['dbname'],$port_num);
+
+            } else {
+                $link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
+
+            }
 
         }
     }
@@ -25,20 +46,20 @@ if ($is_mysqli != false) {
     }
 
     if ($result = $link->query($q)) {
-       // d($result);
+        // d($result);
         $nwq = array();
         /* fetch associative array */
         if (is_object($result)) {
             while ($row = $result->fetch_assoc()) {
                 $nwq[] = $row;
             }
-           // mysqli_free_result($result);
+            // mysqli_free_result($result);
             $result->free();
-           // unset($result);
+            // unset($result);
 
             $is_gc_collect_cycles = function_exists('gc_collect_cycles');
             if($is_gc_collect_cycles == true){
-            gc_collect_cycles();
+                gc_collect_cycles();
             }
 
 

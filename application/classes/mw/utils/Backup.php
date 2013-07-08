@@ -1268,11 +1268,11 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
 
-
+        $cache_state_id = 'backup_zip_state';
         //$backup_actions[] = 'makesdfsdf_db_backup';
         cache_save($backup_actions, $cache_id, 'backup');
         cache_save(false, $cache_id_loc, 'backup');
-
+        cache_save(false, $cache_state_id, 'backup');
         //$cron->Register('make_full_backup', 0, '\mw\utils\Backup::cronjob_exec');
         // $cron->job('make_full_backup', 0, array('\mw\utils\Backup','cronjob_exec'));
 

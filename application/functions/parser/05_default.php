@@ -1,22 +1,60 @@
 <?php
 
 if ($layout != '') {
+
+
+
+
+
+
+
+
+
+//    $mtime = microtime();
+//    $mtime = explode(" ",$mtime);
+//    $mtime = $mtime[1] + $mtime[0];
+//    $endtime = $mtime;
+//    $totaltime = ($endtime - T);
+//    echo "This page was created in ".$totaltime." seconds";
+//
+//
+//
+//
+
+
+
+
 	$mw_found_elems = '';
 	$mw_found_elems_arr = array();
 
 	$mw_to_cache = array('orig', $layout);
 $cached = false;
+    if(!isset($parser_mem_crc)){
 	$parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
-	// d($parser_mem_crc);
+    }
+  //.d($use_apc);
 
+
+
+
+    //d($layout);
 	$do_not_cache = false;
 	if (template_var('content') != false) {
 
 		$do_not_cache = true;
 		$cached = false;
 	} else {
+
+
+
+        if(is_object($parser_cache_object)){
+             $cached = $parser_cache_object->get($parser_mem_crc,'content_fields/global/parser');
+
+        } else {
+            $cached = false;
+        }
 		//$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
-		$cached = false;
+		//$cached = false;
 	}
 
 	//$cached = false;
@@ -228,7 +266,7 @@ $cached = false;
 					} else {
 
 						$cont_field = get_content_field("rel={$rel}&field={$field}");
- 
+
 					}
 					if ($cont_field != false) {
 						$cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
@@ -236,8 +274,8 @@ $cached = false;
 
 				}
 				if ($cont_field != false) {
-					
-				
+
+
 					 $field_content = $cont_field;
 				}
 			}
@@ -247,7 +285,7 @@ $cached = false;
 
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
 
-					
+
 					//dbg($cont_field);
 					if ($cont_field == false) {
 						if ($option_mod != false) {
@@ -258,20 +296,20 @@ $cached = false;
 							//
 						} else {
 							$field_content = get_content_field("rel={$option_group}&field={$field}");
- 
+
 							//$field_content = __FILE__ . __LINE__;
 							//$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
 						}
-						
+
 					} else {
 						$field_content = $cont_field;
 					}
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
 				} else {
 
 
@@ -281,7 +319,7 @@ $cached = false;
 					if ($use_id_as_field != false) {
 						if (isset($data[$use_id_as_field])) {
 							$field_content = $data[$use_id_as_field];
-							
+
 						}
 						/*
 						 if ($field_content == false) {
@@ -319,7 +357,7 @@ $cached = false;
 
 				if ($field == 'content' and template_var('content') != false) {
 					$field_content = template_var('content');
-						
+
 					template_var('content', false);
 				}
 
@@ -332,7 +370,7 @@ $cached = false;
 					if ($cont_field != false) {
 						$field_content = $cont_field;
 					}
-				
+
 
 				} else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 					$cont_field = get_content_field("rel={$rel}&field={$field}");
@@ -354,10 +392,10 @@ $cached = false;
 			}
 
 			if ($field_content != false and $field_content != '') {
-				
-					 $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
-			 
-				
+
+					 $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
+
+
 				//$field_content = htmlspecialchars_decode($field_content);
 
 				//$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
@@ -386,9 +424,9 @@ $cached = false;
 					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
-						//$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8")); 
+						//$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
 						$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-						 
+
 						//pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
 						pq($elem) -> html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 
@@ -425,6 +463,10 @@ $cached = false;
 		} else {
 			$mw_to_cache['new'] = $layout;
  //as of beta
+            if(is_object($parser_cache_object)){
+                //d($parser_mem_crc);
+                $parser_cache_object->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+            }
 		 //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
 		}
@@ -436,7 +478,9 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 
 	if (isset($mw_to_cache['elems']) and isset($mw_to_cache['to_replace']) and isset($mw_to_cache['new'])) {
 
-		$modified_layout = $mw_to_cache['new'];
+
+
+        $modified_layout = $mw_to_cache['new'];
 
 		//$parser_mem_crc1 = 'parser_' . crc32($value['orig']);
 
@@ -460,16 +504,22 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 				if ($value != '') {
 					//$layout = $ch;
 					$val_rep = $value;
-
+                   // $options['nested'] = 1;
 					$val_rep = htmlspecialchars_decode($val_rep);
-
+                    //$options['parse_only_modules'] = 1;
 					//$options['no_cache'] = 1;
+                   // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
+
+
+
+
 					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+                    //}
 
 					//$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
 					$rep = 'mw_replace_back_this_editable_' . $elk . '';
 					//$modified_layout = $rep;
-					//d($val_rep);
+					 //d($val_rep);
 					$modified_layout = str_replace($rep, $val_rep, $modified_layout);
 					//	mw_var($val_rep_parser_mem_crc, $modified_layout);
 

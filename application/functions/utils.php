@@ -976,26 +976,26 @@ function safe_redirect($url)
 }
 
 
-if (function_exists('session_set_save_handler')) {
-    $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'MwSession.php';
-    if (file_exists($check_if_custom_session_class)) {
-        $mw_session_handler = new MwSession();
-        session_set_save_handler(
-            array($mw_session_handler, 'open'),
-            array($mw_session_handler, 'close'),
-            array($mw_session_handler, 'read'),
-            array($mw_session_handler, 'write'),
-            array($mw_session_handler, 'destroy'),
-            array($mw_session_handler, 'gc')
-        );
-    }
-
-
-}
-
-if (function_exists('register_shutdown_function')) {
-    register_shutdown_function('session_write_close');
-}
+//if (function_exists('session_set_save_handler')) {
+//    $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'MwSession.php';
+//    if (file_exists($check_if_custom_session_class)) {
+//        $mw_session_handler = new MwSession();
+//        session_set_save_handler(
+//            array($mw_session_handler, 'open'),
+//            array($mw_session_handler, 'close'),
+//            array($mw_session_handler, 'read'),
+//            array($mw_session_handler, 'write'),
+//            array($mw_session_handler, 'destroy'),
+//            array($mw_session_handler, 'gc')
+//        );
+//    }
+//
+//
+//}
+//
+//if (function_exists('register_shutdown_function')) {
+//    register_shutdown_function('session_write_close');
+//}
 
 
 function session_set($name, $val)

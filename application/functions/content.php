@@ -972,16 +972,16 @@ function get_layout_for_page($page = array())
     if (isset($page['id']) and intval($page['id']) != 0) {
         $cache_group = 'content/' . $page['id'];
 
-        $cache_content = cache_get_content($cache_id, $cache_group);
 
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
     } else {
         $cache_group = 'content/global';
     }
+    $cache_content = cache_get_content($cache_id, $cache_group);
 
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
 
     $render_file = false;
     $look_for_post = false;

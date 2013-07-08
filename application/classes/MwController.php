@@ -1303,7 +1303,7 @@ class MwController
                 }
 
             }
-
+            //debug_info();
             $l = parse_micrwober_tags($l, $options = false);
             if ($preview_module_id != false) {
                 $_REQUEST['embed_id'] = $preview_module_id;

@@ -396,7 +396,15 @@ function layouts_list($options = false)
                         }
 
                         $layout_file = str_replace($path, '', $filename);
-                        $layout_file = str_replace(TEMPLATEFILES, '', $filename);
+
+                        if(isset($template_dirs) and !empty($template_dirs)){
+                            foreach($template_dirs as $template_dir){
+                                $layout_file = str_replace($template_dir, '', $layout_file);
+
+                            }
+                        }
+
+                     //   $layout_file = str_replace(TEMPLATEFILES, '', $layout_file);
 
 
                       // d(  $layout_file);

@@ -101,6 +101,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
 	if(!is_object($local_obj)){
 		 if(!is_object($cache_default)){
 			  $local_obj = $cache_default = new \mw\cache\Files();
+
 		 } else {
 			$local_obj = $cache_default ;
 			 

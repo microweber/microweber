@@ -84,13 +84,13 @@ class Files
                 @unlink($cache_group_lock);
             }
         }*/
-        if ($this->mw_cache_saved_files == null) {
-            $this->mw_cache_saved_files = array();
-        }
 
 
         return $this->cache_save($data_to_cache, $cache_id, $cache_group);
 
+        if ($this->mw_cache_saved_files == null) {
+            $this->mw_cache_saved_files = array();
+        }
 
 
 

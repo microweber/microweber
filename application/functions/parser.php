@@ -167,18 +167,45 @@ class MwDom extends DOMDocument {
  
 
 $passed_reps = array();
+$parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
+//$parse_micrwober_max_nest_level = 3;
 function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false) {
 	static $checker = array();
+    global $passed_reps;
+    global $parser_cache_object;
+//    global $parse_micrwober_max_nest_level;
+//
+//
+//    $parse_micrwober_max_nest_level--;
+//
+//    if($parse_micrwober_max_nest_level <0){
+//        return $layout;
+//    }
+
 
 	$d = 1;
-	if (isset($checker[$d])) {
-		//  return $layout;
-	}
+    $parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
+	if (isset($passed_reps[$parser_mem_crc])) {
+		   return $layout;
+	} else {
+        $passed_reps[$parser_mem_crc] = true;
+    }
 
 	$use_apc = false;
-	if (APC_CACHE == true) {
+	if (defined('APC_CACHE') and APC_CACHE == true) {
 		$use_apc = true;
+
+
+            if(!is_object($parser_cache_object)){
+                $parser_cache_object = new \mw\cache\Apc();
+                //d($parser_cache_object);
+            }
+
+
 	}
+
+
+
 	if (isarr($options)) {
 		// d($options);
 		if (isset($options['no_apc'])) {
@@ -356,9 +383,8 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 		}
 
 
-
-
-
+        // debug_info();
+//print_r(debug_backtrace());
 
 
 		/*
