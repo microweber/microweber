@@ -1,3 +1,3 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
+<? if(!is_admin()){error("must be admin");}; ?>
 
- <?php api('mw/utils/Backup/download'); ?>
+ <? api('mw/utils/Backup/download'); ?>

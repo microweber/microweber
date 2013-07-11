@@ -34,13 +34,13 @@ if(isset($data['active_site_template']) and $data['active_site_template'] == '')
 if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
   $data['layout_file'] = $params["layout_file"] ;
 }
-
-$inherit_from = false;
  
+$inherit_from = false;
 
-if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'))){
+ 
+if($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit')){
 
-  if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) != '' or trim($params["inherit_from"]) != '0')){
+  if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) == '' or trim($params["inherit_from"]) != '0')){
 //
 
 
@@ -50,11 +50,9 @@ if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['
 $data['active_site_template']  =  $inherit_from_id['active_site_template'];
           $data['layout_file']  = $inherit_from_id['layout_file'];
  $inherit_from = $inherit_from_id;
-  $data['layout_file']  = 'inherit';
 
  } else {
         $inh1 = content_get_inherited_parent($params["inherit_from"]);
-	
         if($inh1 == false){
          $inh1 = intval($params["inherit_from"]);
        }
@@ -75,22 +73,13 @@ if(isset($params["active-site-template"])){
   $data['active_site_template'] = $params["active-site-template"] ;
 }
 
-if(isset($data["id"])){
-	if(!defined('ACTIVE_SITE_TEMPLATE')){
-	 define_constants($data);
-	}
- }
+//d($data);
 
-if(isset($data["active_site_template"]) and ($data["active_site_template"] == false or $data["active_site_template"] == NULL or trim($data["active_site_template"]) == '') and defined('ACTIVE_SITE_TEMPLATE')){
-	 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-}
- 
- 
 
 $templates= templates_list();
 
 $layout_options = array();
-$layout_options  ['no_cache'] = 1;
+
 $layout_options  ['site_template'] = $data['active_site_template'];
 
 $layouts = layouts_list($layout_options);
@@ -293,15 +282,15 @@ if(inherit_from != undefined){
 
 var preview_template_param = '';
 if(template != undefined){
-  preview_template_param = '&preview_template='+template;
+  preview_template_param = '/preview_template:'+template;
 }
 
 var preview_layout_param = '';
 if(layout != undefined){
-  preview_layout_param = '&preview_layout='+layout;
+  preview_layout_param = '/preview_layout:'+layout;
 }
 
-var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true'+preview_template_param+preview_layout_param+'&content_id=<?php print  $data['id'] ?>'+inherit_from_param
+var iframe_url = '<?php print $iframe_start; ?>/no_editmode:true'+preview_template_param+preview_layout_param+'/?content_id=<?php print  $data['id'] ?>'+inherit_from_param
 //d('iframe_url is '+iframe_url);
 if(return_url == undefined){
   $(window).trigger('templateChanged', iframe_url);
@@ -362,16 +351,7 @@ $(document).ready(function() {
 
 
 
-<?php
-if(defined('ACTIVE_SITE_TEMPLATE')){
- 
-	if( !isset($data['active_site_template']) or (isset($data['active_site_template']) and trim($data['active_site_template'])== ''and defined('ACTIVE_SITE_TEMPLATE'))){
-		 $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-	}
-}
- 
 
- ?>
   <div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
     <label class="mw-ui-label">
       <?php _e("Template");   ?>
@@ -401,7 +381,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 <?php $data['layout_file'] = normalize_path($data['layout_file'], false); ?>
 <?php endif; ?>
 
-
+ 
 
 <div style="display: none">
   <select name="layout_file"     id="active_site_layout_<?php print $rand; ?>"
@@ -442,9 +422,9 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 
   <div id="preview-edit-links">
     <a class="mw-ui-btn mw-ui-btn-blue" href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
-        <span class="ico ieditpage"></span><span><?php _e("Edit Page"); ?></span>
+        <span class="ico ieditpage"></span><span>Edit Page</span>
     </a>
-    <a class="mw-ui-btn" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
+    <a class="mw-ui-btn" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>Go Live Edit</a>
   </div>
 </div>
 <?php endif; ?>

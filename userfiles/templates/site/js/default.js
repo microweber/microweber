@@ -46,8 +46,6 @@ mw.site = {
 
 $(document).ready(function(){
 
-    mw.$(".contact-form-container input[type='text'], .contact-form-container input[type='email'], .contact-form-container textarea").attr("required", true);
-
     mw.$("#home-video").click(function(){
       if(this.getElementsByTagName('iframe').length === 0){
         this.innerHTML = mw.site.hvideo();
@@ -64,10 +62,7 @@ $(document).ready(function(){
     });
 
 
-   if(mw.cookie.ui('betawarn') == ''){
 
-   mw.$("#betainfo").show();
-   }
 
 });
 

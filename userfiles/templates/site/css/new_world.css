@@ -1,43 +1,11 @@
 /* Global styles */
 
 
-#betainfo{
-  padding: 10px 40px;
-  position: relative;
-  background:#FCF987;
-  text-align: center;
-  font-size: 14px;
-  color: #EB5722;
-}
-#betainfo a, #betainfo a:hover, #betainfo a:active{
-   color: #EB5722;
-   text-decoration: underline
-}
-
-#betainfo .icon-remove{
-  position: absolute;
-right: 15px;
-    top: 14px;
-    cursor: pointer;
-}
-
-
 body{
   background: #F3F3F3;
   font: 400 16px/1.5 'Open Sans', Arial, sans-serif;
  /* color: #696969;*/
   color: black;
-}
-
-
-body.iframe #header,
-body.iframe #betainfo,
-body.iframe #footer{
-  display: none !important;
-}
-
-body.iframe #content{
-  padding-top: 45px;
 }
 
 label, input, button, select, textarea{
@@ -136,16 +104,16 @@ padding-top: 11px;
 }
 
 #subscribe_form{
-  /*height: 0;*/
+  height: 0;
   width: 90%;
   margin: 20px auto 0;
-  /*background: rgba(255, 255, 191, 0.8);*/
-  /*overflow: hidden;*/
+  background: rgba(255, 255, 191, 0.8);
+  overflow: hidden;
   position: relative;
   -webkit-transition:height 0.2s ease-in, background-color 5s ease-in;
-  -moz-transition:height 0.2s ease-in, background-color 5s ease-in;
-  -o-transition:height 0.2ss ease-in, background-color 5s ease-in;
-  transition:height 0.2s ease-in, background-color 5s ease-in;
+   -moz-transition:height 0.2s ease-in, background-color 5s ease-in;
+   -o-transition:height 0.2ss ease-in, background-color 5s ease-in;
+   transition:height 0.2s ease-in, background-color 5s ease-in;
 }
 
 .subscribe{
@@ -274,7 +242,6 @@ padding-top: 11px;
   float: left;
   font-weight: bold;
 }
-
 
 
 @media (max-width:600px){
@@ -591,10 +558,6 @@ ul.dropdown-menu ul.dropdown-menu{
   margin-top: 12px;
   text-indent: -9999px;
   background: url(../img/logo.png) no-repeat;
-
-  width:191px;
-  height: 46px;
-  margin-top: 8px;
 }
 #logo a, #logo a:hover {
 	color: white;
@@ -1015,19 +978,14 @@ ul.dropdown-menu ul.dropdown-menu{
       display: block;
       width: 67px;
       max-height: 67px;
-      max-width: 100%;
       margin: 5px 0;
       text-align: center;
-    }
-    .comment-image-holder{
-      width: 67px;
     }
 
     .comment .random-color span{
       display: block;
       width: 67px;
       height: 67px;
-      max-width: 100%;
     }
 
     .comment-author{
@@ -1680,49 +1638,4 @@ input.mw-captcha-input{
     text-align: center;
     text-decoration: underline;
     width: 218px;
-}
-
-#get_started_img{
-    left: 23px;
-    position: absolute;
-    top: -34px;
-}
-
-
-@media (max-width: 1200px)  {
-
-#get_started_img{
-  left: -85px;
-}
-
-
-}
-
-@media (max-width: 1000px)  {
-
-#get_started_img{
-  left: -145px;
-}
-
-
-}
-
-@media (max-width: 768px)  {
-
-#get_started_img{
-  left: -22px;
-    width: 155px;
-    top: -50px;
-}
-
-
-}
-
-@media (max-width: 480px)  {
-
-#get_started_img{
-  display: none;
-}
-
-
 }

@@ -5,8 +5,6 @@
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php print site_url('sitemap.xml'); ?>" /> 
-
     <meta property="og:title" content="{content_meta_title}">
     <meta name="keywords" content="{content_meta_keywords}">
     <meta name="description" content="{content_meta_description}">
@@ -28,7 +26,6 @@
 
         mw.require("url.js");
         mw.require("tools.js");
-        mw.require("style_editors.js");
         mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
@@ -49,9 +46,9 @@
     <?php endif; ?>
     </head>
     <body>
-<div id="header" class="clearfix" >
+<div id="header" class="clearfix">
       <div class="container">
-      <div class="edit nodrop-around" rel="global" field="header1">
+      <div class="edit" rel="global" field="header1">
         <div class="mw-row">
             <div class="mw-col" style="width: 20%">
                 <div class="mw-col-container">

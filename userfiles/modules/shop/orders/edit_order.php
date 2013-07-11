@@ -101,7 +101,7 @@ error("Invalid order id");
     </h2>
     <?php endif;?>
     <div class="vSpace"></div>
-    <div class="mw-o-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"> <span class="ico iorder"></span><span><?php _e("Order Status"); ?></span> </div>
+    <div class="mw-o-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"> <span class="ico iorder"></span><span>Order Status</span> </div>
     <div class="order-status-selector"> <span class="font-11">
       <?php _e("What is the status of this order"); ?>
       ?</span>
@@ -259,9 +259,9 @@ error("Invalid order id");
                 <?php _e("Payment Method"); ?>: <?php print $ord['payment_gw']; ?></li>
 
               <?php if(isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?>
-                 <li><?php _e("Is Paid"); ?>: <?php _e("Yes"); ?></li>
+                 <li><?php _e("Is Paid"); ?>: Yes</li>
               <?php else: ?>
-                  <li><?php _e("Is Paid"); ?>: <?php _e("No"); ?></li>
+                  <li><?php _e("Is Paid"); ?>: No</li>
               <?php endif; ?>
 
               <?php if(isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
@@ -269,7 +269,7 @@ error("Invalid order id");
               <?php endif; ?>
 <?php if(isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
               <li>
-                <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?><?php if(isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?> <span>+ <?php print $ord['payment_shipping']; ?> <?php _e("for shipping"); ?></span><?php endif; ?> <span class="mw-help" data-help="<?php _e("Amount paid by the user"); ?>">(?)</span></li>
+                <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?><?php if(isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?> <span>+ <?php print $ord['payment_shipping']; ?> <?php _e("for shipping"); ?></span><?php endif; ?> <span class="mw-help" data-help="Amount paid by the user">(?)</span></li>
               <?php endif; ?>
               
              

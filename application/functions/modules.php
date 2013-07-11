@@ -387,7 +387,11 @@ function get_all_functions_files_for_modules($options = false)
     }
 }
 
+function get_elements_from_db($params = false)
+{
+return get_layouts_from_db($params);
 
+}
 
 
 

@@ -109,7 +109,7 @@ class LuminousECMAScriptScanner extends LuminousEmbeddedWebScript {
     else {
       // build an alternation with a < followed by a lookahead
       $op_pattern .= ']|<(?![';
-      // XXX this covers <?php and <% but not very well
+      // XXX this covers <? and <% but not very well
       if ($this->embedded_server) $op_pattern .= '?%';
       if ($this->embedded_html) $op_pattern .= '/';
       $op_pattern .= '])'; // closes lookahead

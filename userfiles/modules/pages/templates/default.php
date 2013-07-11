@@ -22,7 +22,7 @@ description: List Navigation
  
 <?php if($pages_tree != ''): ?>
 <div class="pages-nav">
-	<div class="well">
+	<div class="well" style="padding: 0;">
 		<?php print $pages_tree ?>
 	</div>
 </div>

@@ -16,7 +16,7 @@ $params['input-name'] = 'category_id' ;
   ?>
 
 <select name="<?php print $params['input-name'] ?>"     >
-  <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
+  <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>None</option>
   <?php
 $pt_opts = array();
 $pt_opts['link'] = "{title}";

@@ -1,4 +1,4 @@
-<?php include TEMPLATE_DIR. "header.php"; ?>
+<? include TEMPLATE_DIR. "header.php"; ?>
 <div class="demo" id="demo-one">
   <div class="description">
     <h2  class="fn">get_content(<strong>$params</strong>)</h2>
@@ -22,17 +22,17 @@
             <tbody>
               <tr>
                 <td>id</td>
-                <td><?php $field_name='id'; include($helpers_path.'pages_tree.php'); ?></td>
+                <td><? $field_name='id'; include($helpers_path.'pages_tree.php'); ?></td>
                 <td>The id of the content</td>
               </tr>
               <tr>
                 <td>parent </td>
-                <td><?php $field_name='parent'; include($helpers_path.'pages_tree.php'); ?></td>
+                <td><? $field_name='parent'; include($helpers_path.'pages_tree.php'); ?></td>
                 <td>The id of the parent page</td>
               </tr>
               <tr>
                 <td>category</td>
-                <td><?php $field_name='category'; include($helpers_path.'category.php'); ?></td>
+                <td><? $field_name='category'; include($helpers_path.'category.php'); ?></td>
                 <td>The id of the category</td>
               </tr>
               <tr>
@@ -74,17 +74,17 @@
               <tr>
                 <td><a id="get_content_custom_fields_t" href="#messages">Custom fields</a></td>
                 <td><div   style="display:none" id="get_content_custom_fields" class="mw-exec-custom-fields">
-                    <?php $field_name='content'; include($helpers_path.'custom_fields.php'); ?>
+                    <? $field_name='content'; include($helpers_path.'custom_fields.php'); ?>
                   </div></td>
                 <td></td>
               </tr>
             </tbody>
           </table>
-          <?php   include($helpers_path.'get_common.php'); ?>
+          <?   include($helpers_path.'get_common.php'); ?>
         </div>
       </div>
       <div class="span5">
-                            <?php $field_name='get_content_output'; include($helpers_path.'output.php'); ?>
+                            <? $field_name='get_content_output'; include($helpers_path.'output.php'); ?>
 
 
 
@@ -95,4 +95,4 @@
   <!-- .panels -->
 </div>
 <!-- .demo -->
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<? include TEMPLATE_DIR. "footer.php"; ?>

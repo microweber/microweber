@@ -1,2 +1,2 @@
-<strong><?php _e("Skin/Template"); ?></strong>
+<strong>Skin/Template</strong>
 <module type="admin/modules/templates"  />

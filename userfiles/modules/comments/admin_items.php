@@ -14,19 +14,19 @@
               <div class="edit-comment">
               <small  class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print ago($comment['created_on']) ?>)</small>
                 <textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-                <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right"><?php _e("Update"); ?></a>
+                <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
                 <div class="mw_clear"></div>
               </div>
-              <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn" onclick="mw.adminComments.toggleEdit('#comment-<?php print $comment['id'];?>');"><?php _e("Edit"); ?></span>
+              <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn" onclick="mw.adminComments.toggleEdit('#comment-<?php print $comment['id'];?>');">Edit</span>
                <?php if($moderation_is_required){ ?>
                <?php if($comment['is_moderated'] == 'y') { ?>
-                    <span class="mw-ui-btn mw-ui-btn-small" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'unpublish')"><?php _e("Unpublish"); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-small" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'unpublish')">Unpublish</span>
                <?php } else { ?>
-                    <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'publish')"><?php _e("Publish"); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'publish')">Publish</span>
                <?php }} ?>
                      
 
-              <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'delete')"><?php _e("Delete"); ?></span> </div>
+              <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'delete')">Delete</span> </div>
           </div>
           <?php } ?>
       <?php } ?>
@@ -45,17 +45,17 @@
             <div class="edit-comment">
 
               <textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-              <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right"><?php _e("Update"); ?></a>
+              <a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">Update</a>
               <div class="mw_clear"></div>
             </div>
             <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn" onclick="mw.adminComments.toggleEdit('#comment-<?php print $comment['id'];?>');">Edit</span>
             <?php if($moderation_is_required){ ?>
             <?php if($comment['is_moderated'] == 'y') { ?>
-                  <span class="mw-ui-btn mw-ui-btn-small" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'unpublish')"><?php _e("Unpublish"); ?></span>
+                  <span class="mw-ui-btn mw-ui-btn-small" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'unpublish')">Unpublish</span>
              <?php } else { ?>
-                  <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'publish')"><?php _e("Publish"); ?></span>
+                  <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'publish')">Publish</span>
              <?php }} ?>
-            <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'delete')"><?php _e("Delete"); ?></span>
+            <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'delete')">Delete</span>
           </div>
         </div>
         <?php } ?>

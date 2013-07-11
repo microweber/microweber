@@ -33,9 +33,9 @@ if(trim($load_list) == 'default'){
         autocomplete="off"
         class="right mw-ui-searchfield"
         type="search"
-
+         
         placeholder='<?php print $def; ?>'
         onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
       />
-<div class="export-label"> <span><?php _e("Export data"); ?>:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><span class="ico iexcell"></span><?php _e("Excel"); ?></a> </div>
+<div class="export-label"> <span>Export data:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><span class="ico iexcell"></span>Excel</a> </div>
 <div class="mw_clear"></div>

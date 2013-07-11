@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td>have</td>
-        <td><?php $field_name=false; include($helpers_path.'in_table.php'); ?></td>
+        <td><? $field_name=false; include($helpers_path.'in_table.php'); ?></td>
         <td> have</td>
       </tr>
     </tbody>

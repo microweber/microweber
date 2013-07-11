@@ -111,10 +111,19 @@ _modulesSort = function(){
             url: mw.settings.api_url+'reorder_modules',
             type:"post",
             data:serial
-          });
+          })
+
         }
+
+
+
     });
+
+
+
+
     });
+
 }
 
 
@@ -156,26 +165,26 @@ mw.on.hashParam('installed', function(){
 
 <div id="mw_index_modules">
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
-    <div class="mw-admin-sidebar"><h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span><?php _e("Modules"); ?></span></h2></div>
+    <div class="mw-admin-sidebar"><h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span>Modules</span></h2></div>
     <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
 
       <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
       <div style="padding-left: 46px">
         <div class="vSpace"></div>
-        <label class="mw-ui-label"><?php _e("Show"); ?>: </label>
+        <label class="mw-ui-label">Show: </label>
         <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher"> <span class="mw-switch-handle"></span>
-          <label><?php _e("Installed"); ?>
+          <label>Installed
             <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
           </label>
-          <label><?php _e("Uninstalled"); ?>
+          <label>Uninstalled
             <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
           </label>
         </div>
         <div class="vSpace">&nbsp;</div>
-        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span><?php _e("Add new modules"); ?></span></a>
+        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span>Add new modules</span></a>
    <div class="vSpace">&nbsp;</div>
 
-<small  onclick="mw_reload_all_modules()" class="mw-ui-link-small"><?php _e("Reload modules"); ?></small>
+<small  onclick="mw_reload_all_modules()" class="mw-ui-link-small">Reload modules</small>
 
 
 
@@ -191,7 +200,7 @@ mw.on.hashParam('installed', function(){
 
 
 
-    <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left"><?php _e("Sort modules"); ?>:</span>
+    <div class="modules-index-bar"> <span class="mw-ui-label-help font-11 left">Sort modules:</span>
       <?php $def =  _e("Search for modules", true);  ?>
       <input
         name="module_keyword"
@@ -210,17 +219,17 @@ mw.on.hashParam('installed', function(){
         <li>
           <label class="mw-ui-check">
             <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" />
-            <span></span><span><?php _e("Live edit modules"); ?></span></label>
+            <span></span><span>Live edit modules</span></label>
         </li>
         <li>
           <label class="mw-ui-check">
             <input name="module_show" class="mw_modules_filter_show" type="radio" value="admin"   checked="checked"  onchange="mw.url.windowHashParam('ui', this.value)" />
-            <span></span><span><?php _e("Admin modules"); ?></span></label>
+            <span></span><span>Admin modules</span></label>
         </li>
         <li>
           <label class="mw-ui-check">
             <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="advanced"  onchange="mw.url.windowHashParam('ui', this.value)" />
-            <span></span><span><?php _e("Advanced"); ?></span></label>
+            <span></span><span>Advanced</span></label>
         </li>
       </ul>
     </div>

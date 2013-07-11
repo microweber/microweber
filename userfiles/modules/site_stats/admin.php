@@ -13,17 +13,17 @@ $v_monthly = get_visits('monthly');
  ?>
 
 <div id="stats">
-  <h2><?php _e("Traffic Statistic"); ?></h2>
+  <h2>Traffic Statistic</h2>
   <ul id="stats_nav">
-    <li><a href="javascript:;" data-stat='day' class="active"><?php _e("Daily"); ?></a></li>
-    <li><a href="javascript:;" data-stat='week'><?php _e("Weekly"); ?></a></li>
-    <li><a href="javascript:;" data-stat='month'><?php _e("Monthly"); ?></a></li>
+    <li><a href="javascript:;" data-stat='day' class="active">Daily</a></li>
+    <li><a href="javascript:;" data-stat='week'>Weekly</a></li>
+    <li><a href="javascript:;" data-stat='month'>Monthly</a></li>
   </ul>
   <div class="dashboard_stats" id="stats_{rand}"></div>
 </div>
 <div class="vSpace">&nbsp;</div>
 
-
+ 
  
 <module="site_stats/dashboard_last" id="stats_dashboard_last" />
 <script  type="text/javascript">

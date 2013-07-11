@@ -37,7 +37,7 @@ description: Contact us layout
     <div class="element page-post-content">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</div>
     <div class="row">
       <div class="span6">
-        <module type="contact_form"   class="contact-form" id="contact-form" />
+        <module type="contact_form" template="inline" class="contact-form" id="contact-form" />
       </div>
       <div class="span5 offset1">
         <div class="edit">

@@ -200,7 +200,7 @@ if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
 } else if(isset($params['description-length'])){
 	$character_limit = intval($params['description-length']);
 }
- $title_character_limit = 200;
+ $title_character_limit = 1200;
  $cfg_character_limit1 = get_option('data-title-limit', $params['id']);
 if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
 	$title_character_limit = intval($cfg_character_limit1);
@@ -309,31 +309,27 @@ if (!empty($content)){
 			}
 
 			$item['link'] = content_link($item['id']);
-			
- 
 			if(!isset( $item['description']) or $item['description'] == ''){
 				if(isset( $item['content']) and $item['content'] != ''){
-					 
-					$item['description'] = character_limiter(strip_tags($item['content']),$character_limit);
-					 
+					$item['description'] = character_limiter(strip_tags( $item['content']),$character_limit);
 				}
  			} else {
 				$item['description'] = character_limiter(strip_tags( $item['description']),$character_limit);
 			}
 
 
-		if(isset( $item['title']) and $item['title'] != ''){
+	if(isset( $item['title']) and $item['title'] != ''){
 
-		 $item['title'] = character_limiter(( $item['title']),$title_character_limit);
+					$item['title'] = character_limiter(( $item['title']),$title_character_limit);
 
- 		 }
+ 			}
 
-		if(isset($post_params['subtype']) and $post_params['subtype'] == 'product'){
-		$item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);
-		
-		} else {
-		$item['prices'] = false;
-		}
+if(isset($post_params['subtype']) and $post_params['subtype'] == 'product'){
+$item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);
+
+} else {
+$item['prices'] = false;
+}
 
 
 		 $data[] = $item;
@@ -358,7 +354,7 @@ $post_params_paging['page_count'] = true;
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
 
 if($cfg_data_hide_paging == false){
-	if(isset($post_params['hide-paging'])){
+	if(isset($post_params['hide-paging']) and trim($post_params['hide-paging']) == 'y'){
 $cfg_data_hide_paging = 'y';
 	unset($post_params['hide-paging']);
 }
@@ -416,7 +412,7 @@ if($template_file == false){
 <?php  if(isset($params['ajax_paging'])):  ?>
 <script type="text/javascript">
 			 
-
+			 
 			 
  
     $(document).ready(function(){
@@ -424,11 +420,11 @@ if($template_file == false){
 		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').unbind('click');
 		 mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').click(function(e) {
 			 var pn = $(this).attr('data-page-number');
-
-			 mw.$('#<?php print $params['id'] ?>').attr('paging_param','curent_page');
+		 
+			 mw.$('#<?php print $params['id'] ?>').attr('paging_param','curent_page')
 			 mw.$('#<?php print $params['id'] ?>').attr('curent_page',pn)
 			 mw.reload_module('#<?php print $params['id'] ?>');
-
+			 
 			 
 			 return false;
 		});
@@ -436,15 +432,18 @@ if($template_file == false){
 			 
 	});		 
 			 
-
-
-
+			 
+			 
+			 
 		</script>
 <?php endif; ?>
 <?php  if(isset($params['is_shop'])):  ?>
 <script type="text/javascript">
-			mw.require("shop.js");
-</script>
+			if(mw.cart == undefined){
+				mw.require("shop.js");
+
+			}
+		</script>
 <?php endif; ?>
 <?php
 

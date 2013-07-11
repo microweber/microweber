@@ -20,7 +20,7 @@
      $countries_used = array();
 	 array_unshift($countries, "Worldwide");
 
-asort($countries);
+
 
 
 
@@ -36,13 +36,6 @@ if(mw.shipping_country == undefined){
   mw.require('forms.js');
 
   mw.require('<?php print $config['url_to_module'] ?>country.js');
-
-
-if(typeof thismodal !== 'undefined'){
-   thismodal.main.width(1000);
-   $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
-}
-
 
  </script>
 <script  type="text/javascript">
@@ -71,9 +64,6 @@ mw.shipping_country.url = "<?php print $config['module_api']; ?>";
               $(this).height($(this).outerHeight());
               $(ui.placeholder).height($(ui.item).outerHeight())
               $(ui.placeholder).width($(ui.item).outerWidth())
-       },
-       stop:function(){
-           mw.$(".<?php print $rand1 ?>").height("auto");
        },
        scroll:false,
        placeholder: "custom-field-main-table-placeholder"
@@ -129,9 +119,6 @@ if($data_key == 'data_disabled'){
 } else {
 $truck_class = 'green';
 }
-
-
-
  ?>
 <?php if(isarr($data ) and !empty($data)): ?>
 <div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<?php print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
@@ -145,16 +132,12 @@ SaveShipping = function(form, dataType){
 
 
 
-  if(dataType == 'new'){
-        mw.reload_module('<?php print $config['the_module']; ?>', function(){
-          mw.notification.success("<?php _e("All changes are saved"); ?>");
-        });
-  }
-  else{
-        mw.reload_module(dataType, function(){
-          mw.notification.success("<?php _e("All changes are saved"); ?>");
-        });
-  }
+ if(dataType==='new'){
+       mw.reload_module('shop/shipping');
+    }
+    else{
+    mw.reload_module(dataType);
+    }
 
     }
 

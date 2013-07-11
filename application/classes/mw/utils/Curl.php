@@ -9,7 +9,7 @@ class Curl
 
     public $url = "";
     public $debug = false;
-    public $timeout = 60;
+    public $timeout = 5;
     private $headers = array(); //Headers are built in set_headers() and passed in execute()
     private $post_data = "";
     private $fields_string = "";

@@ -8,5 +8,5 @@ $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "portfolio";
 $config['version'] = 1.0;
-$config['position'] = 19;
+$config['position'] = 7;
 $config['as_element'] = true;

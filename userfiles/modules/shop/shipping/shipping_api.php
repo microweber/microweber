@@ -6,8 +6,8 @@
 class shipping_api {
 
 	// singleton instance
-	public   $here;
-	public    $modules_list;
+	private  static $here;
+	private  static $modules_list;
 
 	// private constructor function
 	// to prevent external instantiation

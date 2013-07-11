@@ -8,7 +8,7 @@ $user_params['id'] = 0;
 if(isset($params['edit-user'])){
 $user_params['id'] =intval($params['edit-user']);
 }
-
+ 
  if($user_params['id'] >  0){
 	  $user_params['limit'] = 1;
 	  $data = get_users($user_params);
@@ -152,7 +152,7 @@ reset_password = function(y){
     <?php  print $data['username']; ?>
     &raquo;</span>
     <?php else: ?>
-    <span><?php _e("Add new user"); ?></span>
+    <span>Add new user</span>
     <?php endif; ?>
   </div>
   <input type="hidden" class="mw-ui-field" name="id" value="<?php  print $data['id']; ?>">
@@ -160,7 +160,7 @@ reset_password = function(y){
     <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-admin-table mw-edit-user-table" width="100%">
       <col width="150px" />
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Avatar"); ?></label></td>
+        <td><label class="mw-ui-label">Avatar</label></td>
         <td><?php if($data['thumbnail'] == ''){    ?>
           <div id="avatar_holder"><img src="<?php print pixum(67,67); ?>" id="avatar_image" alt=""  /><span class="mw-close"></span></div>
           <span class='mw-ui-link' id="change_avatar">
@@ -175,59 +175,59 @@ reset_password = function(y){
           <input type="hidden" class="mw-ui-field" name="thumbnail" id="user_thumbnail" value="<?php  print $data['thumbnail']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Username"); ?></label></td>
+        <td><label class="mw-ui-label">Username</label></td>
         <td><input type="text" class="mw-ui-field" name="username" value="<?php  print $data['username']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label" style="padding-bottom: 0;"><?php _e("Password"); ?></label></td>
+        <td><label class="mw-ui-label" style="padding-bottom: 0;">Password</label></td>
         <td>
-            <span class="mw-ui-link" onclick="reset_password();"><?php _e("Change Password"); ?></span>
+            <span class="mw-ui-link" onclick="reset_password();">Change Password</span>
 
             <input type="password" disabled="disabled" name="password" class="mw-ui-field semi_hidden" id="reset_password" />
       </td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Email"); ?></label></td>
+        <td><label class="mw-ui-label">Email</label></td>
         <td><input type="text" class="mw-ui-field" name="email" value="<?php  print $data['email']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("First Name"); ?></label></td>
+        <td><label class="mw-ui-label">First Name</label></td>
         <td><input type="text" class="mw-ui-field" name="first_name" value="<?php  print $data['first_name']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Last Name"); ?></label></td>
+        <td><label class="mw-ui-label">Last Name</label></td>
         <td><input type="text" class="mw-ui-field" name="last_name" value="<?php  print $data['last_name']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Is Active"); ?>?</label></td>
+        <td><label class="mw-ui-label">Is Active?</label></td>
         <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['is_active'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
-            <label><?php _e("Yes"); ?>
+            <label>Yes
               <input type="radio" value="y" name="is_active" <?php if($data['is_active'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>
-            <label><?php _e("No"); ?>
+            <label>No
               <input type="radio" value="n" name="is_active" <?php if($data['is_active'] == 'n'): ?> checked="checked" <?php endif; ?>>
             </label>
           </div></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Is Admin"); ?>?</label></td>
+        <td><label class="mw-ui-label">Is Admin?</label></td>
         <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['is_admin'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
-            <label><?php _e("Yes"); ?>
+            <label>Yes
               <input type="radio" value="y" name="is_admin" <?php if($data['is_admin'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>
-            <label><?php _e("No"); ?>
+            <label>No
               <input type="radio" value="n" name="is_admin" <?php if($data['is_admin'] == 'n'): ?> checked="checked" <?php endif; ?>>
             </label>
           </div></td>
       </tr>
       
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Basic mode"); ?></label></td>
+        <td><label class="mw-ui-label">Basic mode</label></td>
         <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['basic_mode'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
-            <label><?php _e("Yes"); ?>
+            <label>Yes
               <input type="radio" value="y" name="basic_mode" <?php if($data['basic_mode'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>
-            <label><?php _e("No"); ?>
+            <label>No
               <input type="radio" value="n" name="basic_mode" <?php if($data['basic_mode'] == 'n'): ?> checked="checked" <?php endif; ?>>
             </label>
           </div></td>
@@ -235,7 +235,7 @@ reset_password = function(y){
       
       
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Api key"); ?></label></td>
+        <td><label class="mw-ui-label">Api key</label></td>
         <td><input type="text" class="mw-ui-field" name="api_key" value="<?php  print $data['api_key']; ?>"></td>
       </tr>
       <tr class="no-hover">

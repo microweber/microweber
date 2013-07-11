@@ -3,7 +3,7 @@
 /*
 
   type: layout
-  content_type: static
+  content_type: dynamic
   name: Home
   description: Home layout
 
@@ -12,17 +12,7 @@
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
-<div class="container edit" id="home-top"  rel="content" field="content">
-
-
-<div class="mw-row">
-    <div style="width: 100%; height: auto;" class="mw-col">
-      <div class="mw-col-container">
-        <div class="mw-empty"></div>
-      </div>
-    </div>
-</div>
-
+<div class="container edit" id="home-top"  rel="page" field="content">
   <div class="mw-row clearfix">
     <div class="mw-col" style="width: 50%">
       <div class="mw-col-container">
@@ -31,7 +21,7 @@
     </div>
     <div class="mw-col" style="width: 50%">
       <div class="mw-col-container" id="mw-welcome">
-
+         
           <h2 class="element">Welcome to Microweber</h2>
           <p class="element">This is the default theme of (MW). </p>
           <br>
@@ -41,18 +31,18 @@
           <br>
 
           <module type="btn" button_size="btn-large" class="pull-right">
-
+         
       </div>
     </div>
   </div>
-
+  <div class="container">
     <div class="element">
       <br><br>
       <h3 align="center" class="symbol">Powerful &nbsp;&amp;&nbsp; User Friendly &nbsp;Content Management System &nbsp;of &nbsp;New Generation</h3>
       <h4 align="center">with rich PHP and JavaScript API</h4>
     </div>
-
-
+  </div>
+  <div class="container">
     <div class="mw-row">
       <div class="mw-col" style="width:33.33%">
           <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
@@ -112,10 +102,10 @@
           data-description-length="100"
           data-show="thumbnail,title,created_on,read_more,description"
           data-template="columns" />
+  </div>
 
 
-
-
+  <div class="container">
     <div class="mw-row">
       <div class="mw-col" style="width:33.33%">
           <div class="mw-col-container"><div class="element"><hr class="visible-desktop column-hr"></div></div>
@@ -178,6 +168,6 @@
 
 
 
-
+  </div>
 </div>
 <?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

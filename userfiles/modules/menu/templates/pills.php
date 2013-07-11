@@ -11,6 +11,10 @@ description: Pills Navigation
 */
 
 
+      	 //$menu_filter['ul_tag'] = 'div';
+		 //$menu_filter['li_tag'] = 'span';
+		 //
+
 $menu_filter['li_class'] = 'nav-pills';
 $menu_filter['ul_class'] = 'nav nav-pills';
 $menu_filter['ul_class_deep'] = 'dropdown-menu';

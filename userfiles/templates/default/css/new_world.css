@@ -71,10 +71,6 @@ hr{
   max-width: -webkit-calc(100% - 10px);
 }
 
-.mw-ui-col img, .mw-ui-col .img-polaroid{
-  max-width: none;
-}
-
 input.large-field, textarea.large-field{
   font-size: 18px;
   padding: 10px;
@@ -709,24 +705,12 @@ ul.dropdown-menu ul.dropdown-menu{
       padding-left: 10px;
     }
 
-    .comments .mw-ui-row{
-      width: 100%;
-    }
-
     .comment{
       clear: both;
       overflow: hidden;
       zoom:1;
       padding: 20px 0;
 
-    }
-    .comment-image-holder{
-      width: 67px;
-
-    }
-
-    .comment-image-holder .mw-ui-col-container{
-      margin-right: 30px;
     }
 
     .comment .img-polaroid,
@@ -742,7 +726,6 @@ ul.dropdown-menu ul.dropdown-menu{
       display: block;
       width: 67px;
       height: 67px;
-      max-width: 100%;
     }
 
     .comment-author{

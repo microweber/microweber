@@ -9,51 +9,79 @@ $payment_success = true;
 <script type="text/javascript">
 
 function checkout_callback(data,selector){
+	//
+ 
 		   var z = typeof(data);
+		   
+		   
 		   if(z != 'object'){
+		  
 			  var o;
-					  try{
-					    o =  $.parseJSON(data);
-					    data = o;
+					  try{ o =  $.parseJSON(data);
+					  
+					  
+					  data = o;
+					  
 					   }
-					  catch(e){
+					  catch(e){ 
+					  
 						  $('.mw-checkout-responce').append(data);
-					  }
+					   
+					  }  
+						  
+					   
+					  
+					  
+
 		   } else {
 			   $('.mw-checkout-responce').html(data);
-		   }
+			  
+		   } 
+
+
+
+
+
 	$('.mw-checkout-responce').removeClass('alert-error');
 	$('.mw-checkout-responce').removeClass('alert-success');
+
 	if(data.success !== undefined){
+		
 		$('.mw-checkout-responce').html(data.success);
 		$('.mw-checkout-responce').addClass('alert alert-success');
 	 	$('.mw-checkout-form').fadeOut();
+		
+		
 	} else if(data.error !== undefined){
 		$('.mw-checkout-responce').empty().append(data.error);
 		$('.mw-checkout-responce').addClass('alert alert-error');
+
+		//alert(data.error);
 	} else {
+		 
 		$('.mw-checkout-responce').append(data);
+
 	}
 }
 
 
 $(document).ready(function(){
-    __max = 0;
-    mw.$(".mw-checkout-form .well").each(function(){
-        var h = $(this).height();
-        if(h>__max){
-          __max = h;
-        }
-    });
-    mw.$(".mw-checkout-form .well").css("minHeight",__max);
+__max = 0;
+mw.$(".mw-checkout-form .well").each(function(){
+    var h = $(this).height();
+    if(h>__max){
+      __max = h;
+    }
+});
+mw.$(".mw-checkout-form .well").css("minHeight",__max);
 
 });
 
 
 </script>
 <?php if($payment_success == false): ?>
-  <div class="vSpace"></div>
-<form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_url('checkout') ?>" >
+
+<form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_url('checkout') ?>" >
   <script type="text/javascript">
     mw.require("shop.js");
   </script>
@@ -68,7 +96,7 @@ $(document).ready(function(){
       <div class="span4">
         <div class="well">
           <?php $user = get_user(); ?>
-          <h2 style="margin-top:0 "><?php _e("Personal Information"); ?></h2>
+          <h2 style="margin-top:0 ">Personal Information</h2>
           <hr />
           <label>
             <?php _e("First Name"); ?>
@@ -95,9 +123,9 @@ $(document).ready(function(){
     <div class="mw-cart-action-holder">
       <hr />
       <?php $shop_page = get_content('is_shop=y');      ?>
-      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"><?php _e("Complete order"); ?></button>
+      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button">Complete order</button>
       <?php if(isarr($shop_page)): ?>
-      <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button"><?php _e("Continue Shopping"); ?></a>
+      <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button">Continue Shopping</a>
       <?php endif; ?>
       <div class="clear"></div>
     </div>
@@ -105,5 +133,5 @@ $(document).ready(function(){
 </form>
 <div class="mw-checkout-responce"></div>
 <?php else: ?>
-<h2><?php _e("Your payment was successfull."); ?></h2>
+<h2>Your payment was successfull.</h2>
 <?php endif; ?>

@@ -2,7 +2,7 @@
 
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
-		    $form_btn_title = _e("Save new password", true);
+		$form_btn_title = 'Save new password';
 		}
 
  		 ?>
@@ -38,7 +38,7 @@ $(document).ready(function(){
 </script>
 
 <div class="box-head mw-o-box-header">
-  <h2><?php _e("Reset your password"); ?></h2>
+  <h2>Reset your password</h2>
 </div>
 <div class="mw-o-box-content" id="form-holder<?php print $params['id'];  ?>">
   <?php if(isset($_GET['reset_password_link']) == true): ?>
@@ -60,13 +60,13 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
       <div class="control-group mw-ui-field-holder">
        <!-- <label class="control-label">Enter new password</label>-->
         <div class="controls">
-          <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Choose a password"); ?>" name="pass1" >
+          <input type="password" class="mw-ui-field field-full" placeholder="Choose a password" name="pass1" >
         </div>
       </div>
       <div class="control-group mw-ui-field-holder">
 <!--        <label class="control-label">Repeat new password</label>
 -->        <div class="controls">
-          <input type="password" class="mw-ui-field field-full"  placeholder="<?php _e("Repeat the password"); ?>" name="pass2" >
+          <input type="password" class="mw-ui-field field-full"  placeholder="Repeat the password" name="pass2" >
         </div>
       </div>
 
@@ -81,7 +81,7 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
             <span style="width: 100px;background: white" class="add-on left">
                 <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
             </span>
-            <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-ui-invisible-field mw-captcha-input" name="captcha">
+            <input type="text" placeholder="Enter the text" class="mw-ui-invisible-field mw-captcha-input" name="captcha">
           </div>
         </div>
       </div>
@@ -94,23 +94,23 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
 
 
-      <a class="btn btn-large pull-left mw-ui-btn" href="<?php print curent_url(true,true); ?>"><?php _e("Back"); ?></a>
+      <a class="btn btn-large pull-left mw-ui-btn" href="<?php print curent_url(true,true); ?>">Back</a>
       <button type="submit" class="btn btn-large pull-right btn-success mw-ui-btn mw-ui-btn-green"><?php print $form_btn_title ?></button>
     </div>
     <div style="clear: both"></div>
   </form>
   <div class="alert" style="margin-top: 20px;display: none;"></div>
   <?php else : ?>
-  <div class="alert alert-warining text-center"><?php _e("Invalid or expired link"); ?>.
+  <div class="alert alert-warining text-center">Invalid or expired link. 
   <br /><br />
-<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>"><?php _e("Go back"); ?></a>
+<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>">Go back</a>  
   </div>
   <?php endif; ?>
   <?php else : ?>
-  <div class="alert alert-warining text-center"><?php _e("You must click on the password reset link sent on your email"); ?>.<br /><br />
-<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>"><?php _e("Go back"); ?></a>  </div>
+  <div class="alert alert-warining text-center">You must click on the password reset link sent on your email.<br /><br />
+<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>">Go back</a>  </div>
   <?php endif; ?>
-  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn  btn-primary" href="<?php print curent_url(true,true); ?>"><?php _e("Click here to login with the new password"); ?></a> </div>
+  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn  btn-primary" href="<?php print curent_url(true,true); ?>">Click here to login with the new password</a> </div>
 </div>
 
 </div>

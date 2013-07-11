@@ -28,14 +28,13 @@
           <div id="get-started">
           <div id="get-started-btns">
 
-            <?php /* <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Comming Soon</span></a> */ ?>
-            <a href=" http://demo.microweber.org/admin?username=demo&password=demo" target="_blank" class="obtn obtn-orange" style="overflow: hidden;" >Try the Live Demo</a>
+            <a href="javascript:;" class="obtn obtn-orange" style="overflow: hidden;" onclick="mw.site.show_subscribe();">Get Started Free<span id="cm">Comming Soon</span></a>
 
             <span class="or">or</span>
 
-            <a href="javascript:;" class="obtn obtn-blue" id="download" rel="nofollow">Download Beta</a>
+            <a href="javascript:;" class="obtn obtn-blue" id="download">Download Beta</a>
 
-            <a href="<?php print site_url('download.php?webinstall=1') ?>" rel="nofollow" id="download-zip">Web Install<small> (8kb)</small></a>
+            <a href="<?php print site_url('download.php?webinstall=1') ?>" id="download-zip">Web Install<small> (8kb)</small></a>
 
             <div id="download_modal" class="hide">
 
@@ -57,7 +56,6 @@
 
 
           <div id="subscribe_form">
-          <img src="/Get_Started.png" id="get_started_img" alt="" />
                 <div class="subscribe clearfix">
                     <form target="_blank" class="visible-desktop visible-tablet main-subscribe" action="http://microweber.us5.list-manage.com/subscribe/post?u=7f8e2fe375e0b8dd295c13503&id=4ba9fc5952" method="post" name="mc-embedded-subscribe-form">
                       <input class="input-xlarge pull-left" type="email" name="EMAIL" required placeholder="Enter your email">
@@ -126,7 +124,7 @@
 
 </div>
 
-<h2 class="z-title"  id="contact-us">Have you tried Microweber already?</h2>
+<h2 class="z-title"  id="contact-us">Did you tried Microweber already?</h2>
     <br>
 
  <div class="row">

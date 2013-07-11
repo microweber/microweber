@@ -3,5 +3,5 @@
 $config = array();
 $config['name'] = "New World";
 $config['author'] = "Microweber";
-$config['version'] = 0.2; 
+$config['version'] = 0.1;
  

@@ -66,8 +66,8 @@ mw.syslog_log_reset_all = function(){
     </colgroup>
     <thead>
       <tr valign="middle">
-        <th valign="middle" colspan="3"><h2><span class="ico ilogication"></span><?php _e("Your system log for the last 30 days"); ?></h2>
-<a href="javascript:mw.syslog_log_reset_all();" class="mw-ui-link"><?php _e("Clean up system log"); ?></a>
+        <th valign="middle" colspan="3"><h2><span class="ico ilogication"></span>Your system log for the last 30 days</h2> 
+<a href="javascript:mw.syslog_log_reset_all();" class="mw-ui-link">Clean up system log</a>
         </th>
       </tr>
     </thead>
@@ -107,7 +107,7 @@ mw.syslog_log_reset_all = function(){
           <div class="logication_info">
             <?php if(isset($item['content']) and $item['content'] != ''): ?>
             <?php if($mod_info != false and isset($mod_info['name'])): ?><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_log:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis"><?php endif; ?>
-
+			
 			
 			<?php print html_entity_decode($item['content']); ?>
              <?php if($mod_info != false and isset($mod_info['name'])): ?>

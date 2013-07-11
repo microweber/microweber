@@ -2,7 +2,9 @@
 
 <div id="mw_index_menus">
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
-    <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span><?php _e("Menus"); ?></h2>
+    <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span>&nbsp;
+      <?php _e("Menus"); ?>
+    </h2>
     <div class="mw-admin-side-nav" id="menus_categories_tree_{rand}" >
       <div id="menus_admin_categories_{rand}">
         <?php $menus = get_menu(); ?>

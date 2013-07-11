@@ -8,7 +8,7 @@ $config['ui'] = true;
 
 
 $config['categories'] = "content";
-$config['position'] = 10;
+$config['position'] = 5;
 $config['version'] = 0.33;
 
 

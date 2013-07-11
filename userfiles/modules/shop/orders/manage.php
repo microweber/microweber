@@ -39,11 +39,11 @@
 <h2 class="mw-side-main-title left" style="padding-top: 0"><span class="ico iorder-big"></span><span><?php _e("Orders List"); ?></span></h2>
 <?php  if($is_orders != 0){    ?>
 <div class="mw-table-sorting right">
-    <label><?php _e("Sort By"); ?>:</label>
+    <label>Sort By:</label>
     <ul class="unselectable">
-      <li><span data-sort-type="created_on" onclick="mw.tools.sort({id:'shop-orders', el:this});"><?php _e("Date"); ?></span></li>
-      <li><span data-sort-type="first_name" onclick="mw.tools.sort({id:'shop-orders', el:this});"><?php _e("Name(A-Z)"); ?></span></li>
-      <li><span data-sort-type="amount" onclick="mw.tools.sort({id:'shop-orders', el:this});"><?php _e("Ammout"); ?></span></li>
+      <li><span data-sort-type="created_on" onclick="mw.tools.sort({id:'shop-orders', el:this});">Date</span></li>
+      <li><span data-sort-type="first_name" onclick="mw.tools.sort({id:'shop-orders', el:this});">Name(A-Z)</span></li>
+      <li><span data-sort-type="amount" onclick="mw.tools.sort({id:'shop-orders', el:this});">Ammout</span></li>
     </ul>
   </div>
 

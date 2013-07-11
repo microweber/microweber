@@ -152,14 +152,14 @@ body.module-settings-page #custom_link_controller {
 var data = {}
 data.id = $id
 
-
+ 
       $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
       });
 
  }
-
-
+ 
+ 
 
   mw.menu_edit_items = function($menu_id, $selector){
 
@@ -171,9 +171,9 @@ data.id = $id
  }
 
  menuSelectorInit = function(selector){
-
-
-
+	 
+	 
+	 
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
      mw.$(selector + ' input[type="radio"]').commuter(function(){
@@ -241,8 +241,8 @@ $(document).ready(function(){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
         		mw.reload_module('menu/edit_items');
-        		if(self!==parent && typeof parent.mw === 'object'){
-        			parent.mw.reload_module('menu');
+        		if(window.parent != undefined && window.parent.mw != undefined){
+        			window.parent.mw.reload_module('menu');
         		}
         	});
         }
@@ -259,14 +259,14 @@ $menu_name = get_option('menu_name', $params['id']);
 
 		$menu_name =  $params['name'];
 	} else {
-
+			
 
 	}
-
-
-
-
-
+	
+	
+	
+	 
+	
 	$active_menu = $menu_name;
   $menu_id = false;
   if($menu_name != false){
@@ -275,12 +275,12 @@ $menu_name = get_option('menu_name', $params['id']);
 	  add_new_menu('id=0&title=' . $params['title']);
 	    $menu_id = get_menu('one=1&title='.$menu_name);
 	  }
-
+ 
   }
  if(isset($menu_id['title'])){
 	 $active_menu =   $menu_id['title'];
  }
-
+  
  ?>
 <?php if(isarr($menus) == true): ?>
 <?php if(isarr($menus )): ?>
@@ -300,7 +300,7 @@ $menu_name = get_option('menu_name', $params['id']);
     </select>
   </div>
   <hr>
-  <label class="mw-ui-label"><?php _e("Select from"); ?>:</label>
+  <label class="mw-ui-label">Select from:</label>
   <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
   <?php _e("Add New Link"); ?>
   </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
@@ -310,14 +310,8 @@ $menu_name = get_option('menu_name', $params['id']);
 </div>
 <?php endif; ?>
 <?php else : ?>
-<?php _e("You have no exising menus. Please create one."); ?>
+You have no exising menus. Please create one.
 <?php endif; ?>
-<?php
-if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
-  $menu_id = $menu_id['id'];
-}
-
- ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
   <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
 </div>
@@ -326,7 +320,7 @@ if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
   <input type="hidden" name="parent_id" value="<?php  print   $menu_id ?>" />
-  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');"><?php _e("Add to menu"); ?></button>
+  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">Add to menu</button>
 </div>
 <div class="vSpace"></div>
 <?php  //d( $active_menu); ?>
@@ -334,8 +328,11 @@ if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?php  print $rand ?>">
   <?php if($active_menu != false): ?>
   <h2><?php print $menu_name; ?> Links
-    <label class="mw-ui-label"><small><?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?></small></label>
+    <label class="mw-ui-label"><small>Here you can edit your menu links. You can also drag and drop to reorder them.</small></label>
   </h2>
+  <?php /*<span style="padding: 0;" class="posts-selector right">
+    <span class="view_all_subs" onclick="view_all_subs();"><?php _e("View All"); ?></span>/<span class="hide_all_subs" onclick="hide_all_subs();"><?php _e("Hide All"); ?></span>
+  </span>*/ ?>
   <label class="mw-ui-label">
     <?php _e("Edit existing links/buttons"); ?>
   </label>

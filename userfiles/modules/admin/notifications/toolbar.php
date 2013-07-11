@@ -15,9 +15,7 @@ if(isset($notif_params['module'])){
 if(isset($params['limit'])){
 	$notif_params["is_read"] = $params['is_read'];
 }*/
-
 $notif_params["order_by"] = 'created_on desc';
-$notif_params["order_by"] = 'is_read desc, created_on desc';
 $data = get_notifications($notif_params);
 
 

@@ -6,7 +6,7 @@
   </label>
   <div class="relative">
     <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-{rand}" style="width: 605px;">
-        <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to navigation"); ?>" />
+        <input type="text" class="mw-ui-invisible-field" data-default="Click here to add to navigation" value="Click here to add to navigation" />
     </div>
     <?php
 $content_id = false;
@@ -37,6 +37,7 @@ $menu_name = false;
                   itemsWrapper: mwd.getElementById('mw-menu-selector-list-{rand}'),
                   method:'prepend'
               });
+
           });
 
   </script>

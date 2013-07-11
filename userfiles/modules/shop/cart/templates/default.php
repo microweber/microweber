@@ -18,9 +18,9 @@ description: Default cart template
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <thead>
       <tr>
-        <th class="mw-cart-table-product"><?php _e("Product Name"); ?></th>
-        <th><?php _e("QTY"); ?></th>
-        <th><?php _e("Total"); ?></th>
+        <th class="mw-cart-table-product">Product Name</th>
+        <th>QTY</th>
+        <th>Total</th>
         <th></th>
       </tr>
     </thead>
@@ -60,9 +60,9 @@ description: Default cart template
    }
    
    ?>
-  <a class="btn btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+  <a class="btn btn-warning pull-right" href="<?php print $checkout_page_link; ?>">Checkout</a>
   <?php endif ; ?>
   <?php else : ?>
-       <h4 class="alert"><?php _e("Your cart is empty"); ?>.</h4>
+       <h4 class="alert">Your cart is empty.</h4>
   <?php endif ; ?>
 </div>

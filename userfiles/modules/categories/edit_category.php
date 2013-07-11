@@ -1,8 +1,9 @@
 <?php
-$form_rand_id  = uniqid();
+$form_rand_id  = uniqid();;
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;
 }
+
 
 $data = get_category_by_id($params["data-category-id"]);
 
@@ -24,17 +25,37 @@ mw.require('forms.js');
 
 	 $sel = mw.$('#edit_category_set_par_<?php print $form_rand_id ?> input:checked').parents('li').first();
 
+
+
 	 is_cat = $sel.attr("data-category-id");
-	 is_page = $sel.attr("data-page-id");
+	  is_page = $sel.attr("data-page-id");
+	//   is_page = $sel.attr("data-page-id");
 	    mw.log( $sel);
 	 if(is_cat != undefined){
-    	 mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
-    	    mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
-    	 }
-		 if(is_page != undefined){
-		    mw.$('#rel_id_<?php print $form_rand_id ?>').val(is_page);
-		    mw.$('#parent_id_<?php print $form_rand_id ?>').val(0);
-         }
+	 mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
+
+		 mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
+
+
+
+	 }
+
+
+
+
+
+		  if(is_page != undefined){
+		 mw.$('#rel_id_<?php print $form_rand_id ?>').val(is_page);
+
+		  mw.$('#parent_id_<?php print $form_rand_id ?>').val(0);
+
+
+	 }
+
+
+
+
+
 
  }
 
@@ -67,7 +88,7 @@ mw.require('forms.js');
     }
 
     else{
-      Alert('<?php _e("Please choose Page or Category"); ?>.');
+      Alert('Please choose Page or Category.');
     }
 
   }
@@ -80,8 +101,9 @@ $(document).ready(function(){
 	// set_category_parent_<?php print $form_rand_id ?>()
 	 <?php endif; ?>
 	  mw.$('#edit_category_set_par_<?php print $form_rand_id ?> input').change(function() {
-  	     set_category_parent_<?php print $form_rand_id ?>();
-      });
+	//  alert(1);
+	     set_category_parent_<?php print $form_rand_id ?>();
+	   });
 
 
 
@@ -91,6 +113,8 @@ $(document).ready(function(){
 
  // set_category_parent_<?php print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/save_category') ?>', function(){
+
+
 	 mw.reload_module('[data-type="categories"]');
      mw.$('[data-type="pages"]').removeClass("activated");
 	  mw.reload_module('[data-type="pages"]', function(){
@@ -101,10 +125,21 @@ $(document).ready(function(){
 	 	mw.url.windowHashParam("new_content", "true");
 	 	mw.url.windowHashParam("action", "editcategory:" + this);
      <?php endif; ?>
+
+
+
 	 });
 
-    return false;
+ return false;
+
+
  });
+
+
+
+
+
+
 });
 </script>
 <?php if(intval($data['id']) == 0){
@@ -133,7 +168,7 @@ $(document).ready(function(){
 <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
     <span class="mw-title-field-label mw-title-field-label-subcat"></span>
 
-    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php _e("Sub-category Name"); ?>" />
+    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="Sub-category Name" />
 <?php else: ?>
 
 <?php if(isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
@@ -181,7 +216,7 @@ $(document).ready(function(){
   <input type="submit" class="semi hidden" name="save" />
 <microweber module="custom_fields" view="admin" for="categories" id="<?php print ($data['id'])?>" />
 <div class="post-save-bottom">
-  <input type="submit" name="save" class="semi_hidden"  value="<?php _e("Save"); ?>" />
+  <input type="submit" name="save" class="semi_hidden"  value="Save" />
   <div class="vSpace"></div>
   <span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
   <?php _e("Save"); ?>

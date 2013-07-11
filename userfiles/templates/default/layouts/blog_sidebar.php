@@ -1,5 +1,5 @@
 <div class="edit"  field="blog_sidebar" rel="inherit">
-<module type="search" template="autocomplete" />
+<module type="search" />
 
   <h4 class="element sidebar-title">Recent posts</h4>
   <div class="sidebar-box">

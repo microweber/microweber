@@ -87,17 +87,17 @@ mw.tools.tabGroup({
  </style>
 <div class="<?php print $config['module_class'] ?>">
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
-  <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
+  <label class="mw-ui-label">Enable User Registration</label>
   <div class="mw-ui-select">
     <select name="enable_user_registration" class="mw_option_field"   type="text" option-group="users">
-      <option value="y" <?php if($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
-      <option value="n" <?php if($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+      <option value="y" <?php if($curent_val == 'y'): ?> selected="selected" <?php endif; ?>>Yes</option>
+      <option value="n" <?php if($curent_val == 'n'): ?> selected="selected" <?php endif; ?>>No</option>
     </select>
   </div>
 
  <div class="vSpace"></div>
 
-<label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
+<label class="mw-ui-label">Allow Social Login with</label>
 
 
   <?php
@@ -161,44 +161,56 @@ mw.tools.tabGroup({
 
 <div class="group-logins" style="display: block">
   <ul class="mw-small-help">
-    <li><?php _e("Api access"); ?> <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Website with Facebook Login"); ?></em> <?php _e("please enter"); ?> <em><?php print site_url(); ?></em></li>
-    <li><?php _e("If asked for callback url - use"); ?> <em><?php print api_url('social_login_process?hauth.done=Facebook') ?></em></li>
+    <li>Api access <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
+    <li>In <em>Website with Facebook Login</em> please enter <em><?php print site_url(); ?></em></li>
+    <li>If asked for callback url - use <em><?php print api_url('social_login_process?hauth.done=Facebook') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("App ID/API Key"); ?></label>
+  <label class="mw-ui-label-inline">App ID/API Key</label>
   <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("App Secret"); ?></label>
+  <label class="mw-ui-label-inline">App Secret</label>
   <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
 </div>
+
+
+
+
+
+
 
 
   <div class="group-logins">
 
   <ul class="mw-small-help">
-    <li><?php _e("Set your"); ?> <em><?php _e("Api access"); ?></em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a></li>
-    <li><?php _e("In redirect URI  please enter"); ?> <em><?php print api_url('social_login_process?hauth.done=Google') ?></em></li>
+    <li>Set your <em>Api access</em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a></li>
+    <li>In redirect URI  please enter <em><?php print api_url('social_login_process?hauth.done=Google') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
+  <label class="mw-ui-label-inline">Client ID</label>
   <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('google_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
+  <label class="mw-ui-label-inline">Client secret</label>
   <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('google_app_secret','users'); ?>" />
 
  </div>
 
 
+
+
+
+
+
+
   <div class="group-logins">
 
   <ul class="mw-small-help">
-    <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Main URL"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
-    <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_url('social_login_process?hauth.done=Github') ?></em></li>
+    <li>Register your application <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a></li>
+    <li>In <em>Main URL</em> enter <em><?php print site_url() ?></em></li>
+    <li>In <em>Callback URL</em> enter <em><?php print api_url('social_login_process?hauth.done=Github') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
+  <label class="mw-ui-label-inline">Client ID</label>
   <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('github_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
+  <label class="mw-ui-label-inline">Client secret</label>
   <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
 
   </div>
@@ -210,27 +222,35 @@ mw.tools.tabGroup({
 
   <div class="group-logins">
   <ul class="mw-small-help">
-    <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Website"); ?></em> <?php _e("enter"); ?> <em><?php print site_url(); ?></em></li>
-    <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_url('social_login_process?hauth.done=Twitter') ?></em></li>
+    <li>Register your application <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
+    <li>In <em>Website</em> enter <em><?php print site_url() ?></em></li>
+    <li>In <em>Callback URL</em> enter <em><?php print api_url('social_login_process?hauth.done=Twitter') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("Consumer key"); ?></label>
+  <label class="mw-ui-label-inline">Consumer key</label>
   <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('twitter_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("Consumer secret"); ?></label>
+  <label class="mw-ui-label-inline">Consumer secret</label>
   <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
 
  </div>
-   <div class="group-logins">
+
+
+
+
+
+
+
+
+  <div class="group-logins">
   <ul class="mw-small-help">
-    <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Redirect Domain"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
-    <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_url('social_login_process?hauth.done=Live') ?></em></li>
+    <li>Register your application <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
+    <li>In <em>Redirect Domain</em> enter <em><?php print site_url() ?></em></li>
+    <li>In <em>Callback URL</em> enter <em><?php print api_url('social_login_process?hauth.done=Live') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
+  <label class="mw-ui-label-inline">Client ID</label>
   <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('windows_live_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
+  <label class="mw-ui-label-inline">Client secret</label>
   <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('windows_live_app_secret','users'); ?>" />
  </div>
 

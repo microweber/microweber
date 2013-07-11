@@ -111,6 +111,6 @@ $result = $update_api -> call('get_modules', $params);
   <?php endforeach; ?>
 </ul>
 <?php else : ?>
-<?php _e("No modules found"); ?>.
+No modules found.
 <?php endif; ?>
 <?php endif; ?>

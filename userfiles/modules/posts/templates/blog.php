@@ -27,7 +27,7 @@ description: Blog
                     <h2 class="lead"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
                   <?php endif; ?>
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-                    <small class="muted"><?php _e("Date"); ?>: <?php print $item['created_on'] ?></small>
+                    <small class="muted">Date: <?php print $item['created_on'] ?></small>
                   <?php endif; ?>
               </div>
               <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
@@ -36,7 +36,7 @@ description: Blog
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
                   <a href="<?php print $item['link'] ?>" class="btn">
-                      <?php $read_more_text ? print $read_more_text : _e("Continue Reading"); ?>
+                      <?php $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
                   </a>
               <?php endif; ?>
           </div>

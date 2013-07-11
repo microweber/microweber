@@ -21,7 +21,7 @@ description: Columns
     <div class="span4">
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
-                <img src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
+                <img src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" />
             </a>
         <?php endif; ?>
         <div class="module-posts-head">

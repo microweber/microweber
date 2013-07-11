@@ -22,16 +22,16 @@ only_admin_access();
  }
 
  $path = urldecode($path);
-
-
+ 
+ 
  $path = str_replace($path_restirct,'',$path);
-
+  
  //$data = rglob($path);
   $params_get_files = array();
    $params_get_files['directory']  =  $path_restirct.$path;
-
+   
    if (isset($params['search'])) {
-		   $params_get_files['search']  =  $params['search'];
+		   $params_get_files['search']  =  $params['search'];  
 	}
 
 	  if (isset($params['sort_by'])) {
@@ -41,12 +41,7 @@ only_admin_access();
 		   $params_get_files['sort_order']  =  $params['sort_order'];
 	}
 
- if(isset($params_get_files['directory']) and !is_dir($params_get_files['directory'])){
-  mw_warn('You are trying to open invalid folder');
- }  else if(isset($params_get_files['directory']) and is_dir($params_get_files['directory']) and !is_writable($params_get_files['directory'])){
-  mw_warn('Your folder is not writable. You wont be able to upload in it.');
- }
-  //  $params['keyword']
+  //  $params['keyword']   
  $data = get_files($params_get_files);
 
  $path_nav = explode(DS,$path);
@@ -60,7 +55,7 @@ PreviousFolder = [];
 
 <div class="mw-o-box mw-file-browser">
   <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
-  <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
+  <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
     <?php if(isarr($path_nav )): ?>
@@ -80,7 +75,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
  if(strlen($item)>0):
  ?>
     <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
-    <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
+    <a href="#path=<?php print urlencode($path_nav_pop) ?>"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
     <?php endif; endforeach ; ?>
     <?php endif; ?>
     </span> </div>
@@ -90,7 +85,6 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
   <div class="mw-o-box-content" id="mw-browser-list-holder">
-
 
     <?php if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">
@@ -121,7 +115,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img src="<?php print thumbnail(dir2url($item), 48, 48); ?>" />
+        <img src="<?php print thumbnail(dir2url($item), 48,48); ?>" />
         <?php else: ?>
         <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
         <?php endif; ?>
@@ -133,8 +127,13 @@ $path_nav_pop = $path_nav_pop.DS.$item;
             <label class="mw-ui-check left">
                 <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" /><span></span>
             </label>
+
             <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
+
          </div>
+
+
+
         </li>
       <?php endforeach ; ?>
     </ul>

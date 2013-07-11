@@ -29,6 +29,9 @@ if($prior=='1'){
 
 if($code !=''){
 
+
+
+
 $code = html_entity_decode($code);
 if(stristr($code,'<iframe') !== false){
 
@@ -86,17 +89,23 @@ function video_module_url2embed($u, $w, $h, $autoplay){
       return '<div class="mwembed"><iframe frameborder="0" width="'.$w.'" height="'.$h.'" src="http://www.dailymotion.com/embed/video/'.$id[0].'/?autoPlay='.$autoplay.'"></iframe></div>';
     }
 }
-  if(video_module_is_embed($code) == true){
-      print '<div class="mwembed">' . $code + '</div>';
-  }
-  else{
-      print video_module_url2embed($code, $w, $h, $autoplay);
-  }
+
+if(video_module_is_embed($code) == true){
+    print '<div class="mwembed">' . $code + '</div>';
+}
+else{
+    print video_module_url2embed($code, $w, $h, $autoplay);
 }
 
-  else{
-     mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
-  }
+
+}
+
+else{
+
+ print mw_notif("Upload Video or paste URL or Embed Code.");
+
+}
+
 }
 
 else if($prior == '2'){
@@ -107,21 +116,14 @@ else if($prior == '2'){
        else{
          $autoplay = 'true';
        }
-       print '<div class="mwembed "><embed width="'.$w.'" height="'.$h.'" autoplay="'.$autoplay.'" wmode="transparent" src="' . $upload . '"></embed></div>';
+       print '<div class="mwembed"><embed width="'.$w.'" height="'.$h.'" autoplay="'.$autoplay.'" wmode="transparent" src="' . $upload . '"></embed></div>';
     }
     else{
-
-
-      // print mw_notif_le("Upload Video or paste URL or Embed Code.");
-
-      mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
-
+       print mw_notif_le("Upload Video or paste URL or Embed Code.");
     }
 }
 else{
-
-    mw_text_live_edit("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
-
-  //print mw_notif_le("Upload Video or paste URL or Embed Code.");
+  print mw_notif_le("Upload Video or paste URL or Embed Code.");
 }
 
+ 

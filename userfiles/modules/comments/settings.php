@@ -32,7 +32,8 @@
 	padding-left: 40px;
 }
 .avatartype-mysteryman {
- background: url(<?php print INCLUDES_URL; ?>img/avatars.jpg) no-repeat;
+ background: url(<?php print INCLUDES_URL;
+?>img/avatars.jpg) no-repeat;
 }
 .avatartype-randomcolor {
 	background: #9F41AA;
@@ -132,10 +133,10 @@
           <div class="<?php print $config['module_class'] ?>">
             <div class="comments-admin-header">
               <div class="comments-admin-header-info">
-                <h2><?php _e("Settings"); ?></h2>
-                <small><?php _e("Define comments settings"); ?></small> </div>
+                <h2>Settings</h2>
+                <small>Define comments settings</small> </div>
             </div>
-            <label class="mw-ui-label-inline"><?php _e("Default comments settings"); ?></label>
+            <label class="mw-ui-label-inline">Default comments settings</label>
             <label class="mw-ui-check">
               <?php  $are_enabled = get_option('enable_comments', 'comments')=='y';  ?>
               <input
@@ -151,10 +152,10 @@
 
 
         ?>
-              <span></span> <span><?php _e("Allow people to post comments"); ?></span> </label>
+              <span></span> <span>Allow people to post comments</span> </label>
             <div class="vSpace"></div>
             <div id="other-settings" class="<?php if($are_enabled==false) {print " deactivated";}; ?>">
-              <label class="mw-ui-label-inline"><?php _e("Other comments settigs"); ?></label>
+              <label class="mw-ui-label-inline">Other comments settigs</label>
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -166,7 +167,7 @@
                 option-group="comments"
                 <?php if(get_option('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
               />
-                    <span></span><span><?php _e("Users must be registered and logged in to comment"); ?></span> </label>
+                    <span></span><span>Users must be registered and logged in to comment</span> </label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -179,7 +180,7 @@
               option-group="comments"
               <?php if(get_option('require_moderation', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
-                    <span></span><span><?php _e("New comments require moderation"); ?></span> </label>
+                    <span></span><span>New comments require moderation</span> </label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -191,7 +192,7 @@
               option-group="comments"
               <?php if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
-                    <span></span><span><?php _e("Set paging in the comments"); ?></span> </label>
+                    <span></span><span>Set paging in the comments</span> </label>
                   <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
                     <select name="paging" option-group="comments" class="mw_option_field">
                     
@@ -216,7 +217,7 @@
               </div>
               <div class="vSpace"></div>
               <div class="vSpace"></div>
-              <label class="mw-ui-label-inline"><?php _e("Email me on"); ?></label>
+              <label class="mw-ui-label-inline">Email me on</label>
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -229,15 +230,15 @@
               option-group="comments"
               <?php if($email_enabled): ?>   checked="checked"  <?php endif; ?>
             />
-                    <span></span><span><?php _e("New comment"); ?></span> </label>
+                    <span></span><span>New comment</span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
-                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
+                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="Type email here" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
                   </div>
                 </div>
               </div>
               <div class="vSpace"></div>
               <div class="vSpace"></div>
-              <label class="mw-ui-label-inline"><?php _e("Avatar Display"); ?></label>
+              <label class="mw-ui-label-inline">Avatar Display</label>
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -250,12 +251,12 @@
               option-group="comments"
               <?php if($avatar_enabled): ?>   checked="checked"  <?php endif; ?>
             />
-                    <span></span><span><?php _e("Show Avatars"); ?></span> </label>
+                    <span></span><span>Show Avatars</span> </label>
                 </div>
               </div>
               <div class="vSpace"></div>
               <div class="vSpace"></div>
-              <label class="mw-ui-label-inline"><?php _e("Default avatar style"); ?></label>
+              <label class="mw-ui-label-inline">Default avatar style</label>
               <div class="comments-settings-right avatars-holder <?php if(!$avatar_enabled){ ?>deactivated<?php } ?>">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -267,7 +268,7 @@
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='1'): ?>   checked="checked"  <?php endif; ?>
     />
-                    <span></span><span><i class="avatartype avatartype-mysteryman"></i><?php _e("Super User"); ?></span></label>
+                    <span></span><span><i class="avatartype avatartype-mysteryman"></i>Super User</span></label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -279,7 +280,7 @@
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='2'): ?>   checked="checked"  <?php endif; ?>
     />
-                    <span></span><span><i class="avatartype avatartype-randomcolor"></i><?php _e("Random Color"); ?></span></label>
+                    <span></span><span><i class="avatartype avatartype-randomcolor"></i>Random Color</span></label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -291,7 +292,7 @@
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
     />
-                    <span></span><span><i class="avatartype avatartype-mwuser"></i><?php _e("MW User Picture"); ?></span></label>
+                    <span></span><span><i class="avatartype avatartype-mwuser"></i>MW User Picture</span></label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check relative" id="avatar_uploader">
@@ -305,7 +306,7 @@
     />
                     <span></span><span>
                     <input type="hidden" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print get_option('avatartype_custom', 'comments'); ?>" />
-                    <i class="avatartype avatartype-upload"></i> <?php _e("Upload Picture"); ?></span></label>
+                    <i class="avatartype avatartype-upload"></i> Upload Picture</span></label>
                 </div>
               </div>
             </div>

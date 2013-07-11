@@ -998,6 +998,7 @@ mw.tools = {
     var selector = selector || el.tagName.toLowerCase();
     var parent = parent || el.parentNode;
     var all = parent.querySelectorAll(selector), i=0, l=all.length;
+    var all = mw.$(selector, parent), i=0, l=all.length;
     for ( ; i<l; i++){
         if( el===all[i] ) return i;
     }

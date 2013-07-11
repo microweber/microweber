@@ -187,11 +187,10 @@ $pages_count = intval($pages);
 
   <?php
   $pub_class = '';
-  $append = '';
-      if(isset($item['is_active']) and $item['is_active'] == 'n'){
-      	$pub_class = ' content-unpublished';
-      	$append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">'. _e("Unpublished", true) .'</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set('. $item['id'] .', \'publish\');">' . _e("Publish", true) . '</span></div>';
-      }
+				if(isset($item['is_active']) and $item['is_active'] == 'n'){
+					$pub_class = ' content-unpublished';
+				}
+
    ?>
 
 
@@ -219,12 +218,12 @@ $pages_count = intval($pages);
         <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a> </div>
+        <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;">Delete</a> </div>
       </div>
       <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
     </div>
 
-<?php if($is_momodule_comments == true and function_exists('get_comments')): ?>
+<?php if($is_momodule_comments == true): ?>
 <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
 <?php
 
@@ -249,12 +248,11 @@ if($new > 0){
          <?php endif;?>
         <?php endif; ?>
 
-        <?php print $append; ?>
 
   </div>
   <?php endforeach; ?>
 </div>
-<div class="manage-toobar manage-toolbar-bottom"><span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_edit_container')"><?php _e("Unselect All"); ?></span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn"><?php _e("Delete"); ?></a> </div>
+<div class="manage-toobar manage-toolbar-bottom"> <span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')">Select All</span>/<span onclick="mw.check.none('#pages_edit_container')">Unselect All</span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn">Delete</a> </div>
 <div class="mw-paging">
 <?php
 
@@ -276,7 +274,7 @@ if($new > 0){
 <?php else: ?>
 <div class="mw-no-posts-foot">
   <?php if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
-  <h2 class="left"><?php _e("No Products Here"); ?></h2>
+  <h2 class="left">No Products Here</h2>
 
  <ul class="mw-quick-links mw-quick-links-green left">
 
@@ -298,7 +296,7 @@ if($new > 0){
     <a href="<?php print   $url ; ?>">
       <span class="mw-ui-btn-plus">&nbsp;</span>
       <span class="ico iproduct"></span>
-      <span><?php _e("Add New Product"); ?></span>
+      <span>Add New Product</span>
     </a>
 
 
@@ -308,7 +306,7 @@ if($new > 0){
 
 
   <?php else: ?>
-  <h2 class="left"><?php _e("No Posts Here"); ?></h2>
+  <h2 class="left">No Posts Here</h2>
 
 
 <ul class="mw-quick-links mw-quick-links-green left">
@@ -333,7 +331,7 @@ if($new > 0){
 
       <span class="mw-ui-btn-plus">&nbsp;</span>
       <span class="ico ipost"></span>
-      <span><?php _e("Add New Post"); ?></span>
+      <span>Add New Post</span>
     </a>
   </li>
 </ul>

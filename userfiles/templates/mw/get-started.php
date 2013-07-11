@@ -122,30 +122,30 @@
                                                class="pull-left invisible-field" autocomplete="off" autofocus=""
                                                id="domain-search-field"/>
 
-                                        <div data-value=".microweber.com" id="format_main"
-                                             class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2">
-                              <span class="mw_dropdown_val_holder">
-                                  <span class="dd_rte_arr"></span>
-                                  <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
-                              </span>
+                                            <div data-value=".microweber.com" id="format_main"
+                                                 class="mw_dropdown mw_dropdown_type_mw pull-left" tabindex="2">
+                                            <span class="mw_dropdown_val_holder">
+                                                <span class="dd_rte_arr"></span>
+                                                <span class="mw_dropdown_val">.microweber.com <small>Free</small></span>
+                                            </span>
 
-                                            <div class="mw_dropdown_fields">
-                                                <ul>
-                                                    <li value=".microweber.com"><a href="javascript:;">.microweber.com -
-                                                            <small>Free</small>
-                                                        </a></li>
-                                                    <li value=".com"><a href="javascript:;">.com -
-                                                            <small>$20</small>
-                                                        </a></li>
-                                                    <li value=".net"><a href="javascript:;">.net -
-                                                            <small>$30</small>
-                                                        </a></li>
-                                                    <li value=".org"><a href="javascript:;">.org -
-                                                            <small>$40</small>
-                                                        </a></li>
-                                                </ul>
+                                                <div class="mw_dropdown_fields">
+                                                    <ul>
+                                                        <li value=".microweber.com"><a href="javascript:;">.microweber.com -
+                                                                <small>Free</small>
+                                                            </a></li>
+                                                        <li value=".com"><a href="javascript:;">.com -
+                                                                <small>$20</small>
+                                                            </a></li>
+                                                        <li value=".net"><a href="javascript:;">.net -
+                                                                <small>$30</small>
+                                                            </a></li>
+                                                        <li value=".org"><a href="javascript:;">.org -
+                                                                <small>$40</small>
+                                                            </a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
                                     </form>
                                 </div>
 

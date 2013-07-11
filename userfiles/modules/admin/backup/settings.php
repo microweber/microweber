@@ -1,1 +1,1 @@
-<microweber module="settings/list"     for_module="<?php print $config['module'] ?>"  >
+<microweber module="settings/list"     for_module="<? print $config['module'] ?>"  >

@@ -1,4 +1,4 @@
-
+ 
 <script  type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>pictures.js', true);
 
@@ -51,37 +51,46 @@ if(isset($params['content-id'])){
 
 
 function after_upld_<?php print $rand; ?>(a, eventType){
-
-	if(eventType != 'done' ){
+ 
+	if(eventType != undefined && eventType != 'done' ){
 			 var data = {};
 			 data.for = '<?php print $for ?>';
 			 data.src = a;
 			 data.media_type = 'picture';
 			 data.for_id = '<?php print $for_id ?>';
 			 mw.module_pictures.after_upload(data);
+			  if(window.parent != undefined && window.parent.mw != undefined){
+            //window.parent.mw.reload_module('pictures');
+        }
+			 
 	}
-	if(eventType == 'done' ){
-		
-		setTimeout(function(){
-			  if(typeof mw.tools === 'object'){
-				mw.tools.modal.remove('mw_rte_image');
-			}
-			mw.reload_module('#<?php print $params['id'] ?>');
-			if(self !== top && typeof parent.mw === 'object'){
-				 parent.mw.reload_module('pictures');
-				 if(self !== top && typeof parent.mw === 'object'){
-				   parent.mw.reload_module('posts');
-				   parent.mw.reload_module('shop/products');
-				   parent.mw.reload_module('content', function(){
-						mw.reload_module('#<?php print $params['id'] ?>');
-						parent.mw.reload_module('pictures');
-				   });
-				}
-			}
-		},100)
-		
-		
-      
+	if(eventType != undefined && eventType == 'done' ){
+
+
+        if(mw.tools != undefined){
+    	    mw.tools.modal.remove('mw_rte_image');
+    	}
+
+
+       //
+	    //mw.reload_module('pictures/admin');
+	   	  mw.reload_module('#<?php print $params['id'] ?>');   
+
+	   
+	   
+        if(window.parent != undefined && window.parent.mw != undefined){
+            window.parent.mw.reload_module('pictures');
+			
+			 if(window.parent != undefined && window.parent.mw != undefined){
+   window.parent.mw.reload_module('posts');
+   window.parent.mw.reload_module('shop/products');
+   window.parent.mw.reload_module('content');
+
+
+}
+        } else {
+
+        }
 	}
 }
 
@@ -115,7 +124,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
  ?>
 <div class="vSpace">&nbsp;</div>
-<label class="mw-ui-label"><?php _e("Add Images"); ?> <small>(<?php _e("The first image will be thumbnail"); ?>)</small></label>
+<label class="mw-ui-label">Add Images <small>(The first image will be thumbnail)</small></label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
   <?php if(isarr( $media)): ?>
   <?php $default_title = _e("Image title", true); ?>
@@ -156,8 +165,10 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
 
 
   $(document).ready(function(){
-
+ 
      mw.$("#backend_image_uploader").append(uploader);
+
+
      $(uploader).bind("FilesAdded", function(a,b){
         var i=0, l=b.length;
          for( ; i<l; i++){
@@ -172,10 +183,8 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
      });
 
      $(uploader).bind("FileUploaded done" ,function(e, a){
-	setTimeout(function(){
-	after_upld_<?php print $rand; ?>(a.src, e.type);
-	},100)
-      
+
+      after_upld_<?php print $rand; ?>(a.src, e.type);
      })
   });
 

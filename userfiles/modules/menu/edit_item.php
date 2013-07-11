@@ -84,15 +84,15 @@ if( $id != 0){
   ?>
   <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;"> <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btnclose"></span>
     <h4>Edit menu item</h4>
-    <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);"><?php _e("Delete"); ?></span></div>
+    <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);">Delete</span></div>
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
-    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" />
+    <input type="text" placeholder="<?php _e("Title"); ?>" name="title" value="<?php  print $data['title'] ?>" />
     <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
     <?php _e("Change"); ?>
     </button>
     <div class="mw_clear vSpace"></div>
-    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field"  name="url" value="<?php  print $data['url'] ?>" />
-    <button class="mw-ui-btn2 mw-ui-btn-blue left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
+    <input type="text" placeholder="<?php _e("URL"); ?>" name="url" value="<?php  print $data['url'] ?>" />
+    <button class="mw-ui-btn2 mw-ui-btn-blue left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');">Save</button>
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">

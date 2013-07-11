@@ -9,6 +9,6 @@ $config['help'] = "http://microweber.info/modules/accounting";
 $config['version'] = 0.3;
 $config['ui_admin'] = true;
 $config['ui'] = true;   
-$config['position'] =29;
+$config['position'] = 9;
 $config['categories'] = "online shop";
  

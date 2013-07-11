@@ -17,10 +17,7 @@ $mod_obj_str = 'modules';
 if(isset($params['layout_type'])){
   $el_params['layout_type'] = $params['layout_type'];
 }
-  $modules = get_layouts_from_db($el_params);
-  $dynamic_layouts = layouts_list('no_cache=1&get_dynamic_layouts=1');
-  
-   
+  $modules = get_elements_from_db($el_params);
 										//
 }     else {
 
@@ -29,60 +26,16 @@ if(isset($params['layout_type'])){
 }
 
  ?>
- 
- <script type="text/javascript">
+   <?php foreach($modules as $moduleddasdas2): ?>
+  <?php //d($moduleddasdas2); ?>
+    <?php endforeach; ?>
+<script type="text/javascript">
 
  Modules_List_<?php print $mod_obj_str ?> = {}
 
 </script>
-   <?php foreach($modules as $moduleddasdas2): ?>
-  <?php //d($moduleddasdas2); ?>
-    <?php endforeach; ?>
-
 
 <ul class="modules-list list-<?php print $mod_obj_str ?>">
-<?php $def_icon = MODULES_DIR . 'default.png'; 
- $def_icon= pathToURL($def_icon);
-?>
-  <?php if(isset($dynamic_layouts) and isarr($dynamic_layouts)): ?>
-  <?php foreach($dynamic_layouts as $dynamic_layout): ?>
-  
-  
- <?php if(isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
-  
-  <li  data-module-name="layout" template="<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>"  class="module-item"> <span class="mw_module_hold">
-
-    <?php if(!isset($dynamic_layout['icon'])): ?>
-   <?php $dynamic_layout['icon'] = $def_icon; ?>
-   <?php endif; ?>
-
-
-
-    <span class="mw_module_image">
-
-
-    <span class="mw_module_image_holder"><img
-                alt="<?php print $dynamic_layout['name'] ?>"
-                title="<?php isset($dynamic_layout['description'])? print addslashes($dynamic_layout['description']) : ''; ?>"
-                class="module_draggable"
-                data-module-name-enc="layout_<?php print date("YmdHis") ?>"
-                src="<?php print $dynamic_layout['icon'] ?>"
-                 /> <s class="mw_module_image_shadow"></s></span></span>
- 
-    <span class="module_name" alt="<?php isset($dynamic_layout['description'])? print addslashes($dynamic_layout['description']) : ''; ?>"><?php _e($dynamic_layout['name']); ?></span>  </span> </li>
-
-  
-  
-  
-  
-  <?php endif; ?>
-   <?php endforeach; ?>
-  
-   <?php endif; ?>
-
-
-
-
   <?php foreach($modules as $module2): ?>
 
    <?php if(isset($module2['module'])): ?>

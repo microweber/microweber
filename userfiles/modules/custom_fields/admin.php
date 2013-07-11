@@ -70,6 +70,7 @@ __sort_fields = function(){
         $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
           if(window.parent != undefined && window.parent.mw != undefined){
            window.parent.mw.reload_module('custom_fields');
+
          }
          mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
          mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
@@ -119,12 +120,11 @@ $(document).ready(function(){
 
 
 
-<module
-    data-type="custom_fields/list"
-    for="<?php print $for  ?>"
-    for_module_id="<?php print $module_id ?>"
-    <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
-    id="mw_custom_fields_list_<?php print $params['id']; ?>"  <?php if(isset($params['default-fields'])): ?> default-fields="<?php  print $params['default-fields'] ?>" <?php endif; ?>/>
+<module data-type="custom_fields/list"  
+  for="<?php print $for  ?>"
+  for_module_id="<?php print $module_id ?>"
+  <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
+  id="mw_custom_fields_list_<?php print $params['id']; ?>"  <?php if(isset($params['default-fields'])): ?> default-fields="<?php  print $params['default-fields'] ?>" <?php endif; ?>/>
 
 
 
@@ -133,7 +133,7 @@ $(document).ready(function(){
 
 
   <div id="custom-field-editor" style="display: none">
-    <label class="mw-ui-label"><small><?php _e("Edit"); ?> <b id="which_field"></b> <?php _e("Field"); ?></small></label>
+    <label class="mw-ui-label"><small>Edit <b id="which_field"></b> Field</small></label>
     <div class="custom-field-edit">
       <div  class="custom-field-edit-header">
         <div class="custom-field-edit-title"></div>
@@ -153,18 +153,18 @@ $(document).ready(function(){
   <ul class="mw-quick-links mw-quick-links-cols">
 
 
-    <li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span><?php _e("Text Field"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span><?php _e("Number"); ?></span></a></strong></li>
-    <li><strong id="field-type-price"><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span><?php _e("Price"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span><?php _e("Phone"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span><?php _e("Web Site"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span><?php _e("E-mail"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span><?php _e("Adress"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span><?php _e("Date"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span><?php _e("File Upload"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span><?php _e("Single Choice"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span><?php _e("Dropdown"); ?></span></a></strong></li>
-    <li><strong><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span><?php _e("Multiple choices"); ?></span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>Text Field</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span>Number</span></a></strong></li>
+    <li><strong id="field-type-price"><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span>Price</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span>Phone</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="site"><span class="ico iWebsite"></span><span>Web Site</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span>E-mail</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span>Adress</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span>Date</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span>File Upload</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span>Single Choice</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span>Dropdown</span></a></strong></li>
+    <li><strong><a href="javascript:;" data-type="checkbox"><span class="ico iChk"></span><span>Multiple choices</span></a></strong></li>
   </ul>
 </div>
 

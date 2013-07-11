@@ -41,13 +41,22 @@ if (!isset($params['rel_id'])) {
 
 	}
 
+
 	if (isset($params['parent-category-id'])) {
 		$active_cats [] = $params['parent-category-id'];
 	}
 
+
+
+
 } else {
 	$rel_id = '&rel_id=' . $params['rel_id'];
 }
+
+
+
+
+
 
 ?>
 <?php
@@ -57,7 +66,23 @@ $cats__parents = array();
 $is_ex1 = array();
 $for = db_get_assoc_table_name($for);
 
+if($for == 'conaaaaaaatent' or $for == 'content'){
 
+
+}
+
+/*$str1 = 'table=categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
+$is_ex = get($str1);
+
+if(isarr($is_ex)){
+	foreach ($is_ex as $item) {
+		$cats__parents[] = $item['id'];
+	}
+} else {
+
+
+}
+*/
 
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
   $is_ex = get_content('content_type=page&subtype=dynamic&is_shop=y&limit=100');
@@ -66,16 +91,114 @@ if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
 
 
 }
-
+// $is_ex = get_content('parent=0&content_type=page&limit=100');
 if(isarr($is_ex)){
 	foreach ($is_ex as $item) {
 		$cats__parents[] = $item['id'];
 	}
 }
+//d($cats__parents);
+/*
+//  $cats__parents = $is_ex1;
+if (empty($cats__parents)) {
+	// $is_ex1 = get('limit=100&what=category&parent_id=0&for='.$for);
+	foreach ($is_ex1 as $item) {
+	//	$cats__parents[] = $item['parent_id'];
+	}
+}
 
+if (isset($params['rel_id']) and $params['rel_id'] != 0) {
+
+	$is_exs3 = get('limit=1000&what=category_items&rel=' . $for .'&rel_id=' . $params['rel_id']);
+
+
+	if (isset($is_exs3[0])) {
+		foreach ($is_exs3 as $is_exs3z) {
+			$active_cats[] = $is_exs3z['parent_id'];
+		}
+	}
+} else {
+
+	//
+} */
 
 ?>
+<script  type="text/javascript">
 
+
+/*
+
+$(document).ready(function(){
+
+   // mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
+    mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[name="categories"]').bind('change', function(e){
+   // mw_load_post_cutom_fields_from_categories<?php print $rand; ?>();
+
+
+
+
+
+});
+
+
+
+
+
+
+});
+
+function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
+var a =	mw.$('#categorories_selector_for_post_<?php print $rand; ?> *[name="categories"]').val();
+var holder1 = mw.$('#custom_fields_from_categorories_selector_for_post_<?php print $rand; ?>')
+if(a == undefined || a == '' || a == '__EMPTY_CATEGORIES__'){
+	holder1.empty();
+
+} else {
+	var cf_cats = a.split(',');
+	holder1.empty();
+	var i = 1;
+	$.each(cf_cats, function(index, value) {
+
+	$new_div_id = 'cf_post_cat_hold_<?php print $rand; ?>_'+i+mw.random();
+	$new_div = '<div id="'+$new_div_id+'"></div>'
+	$new_use_btn = '<button type="button" class="use_'+$new_div_id+'">use</button>'
+  holder1.append($new_div);
+		 mw.$('#'+$new_div_id).attr('for','categories');
+		 mw.$('#'+$new_div_id).attr('rel_id',value);
+
+  	     mw.load_module('custom_fields/index','#'+$new_div_id, function(){
+			// mw.log(this);
+			//	$(this).find('*').addClass('red');
+		 	$(this).find('input').attr('disabled','disabled');
+			$(this).find('.control-group').append($new_use_btn);
+			mw.$('.use_'+$new_div_id).unbind('click');
+					mw.$('.use_'+$new_div_id).bind('click', function(e){
+						//   mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
+						$closest =$(this).parent('.control-group').find('*[data-custom-field-id]:first');
+						$closest= $closest.attr('data-custom-field-id');
+						mw.$('#fields_for_post_<?php print $rand; ?>').attr('copy_from',$closest);
+						mw.reload_module('#fields_for_post_<?php print $rand; ?>');
+					 	mw.log($closest );
+
+						return false;
+						});
+
+
+
+
+			 });
+  // mw.$('#'+$new_div_id).find('input').attr('disabled','disabled');
+  i++;
+
+});
+	//holder1.html(a);
+	//holder1.children().attr('disabled','disabled');
+
+
+}
+
+}*/
+</script>
  <script>
 
   $(document).ready(function(){
@@ -93,13 +216,18 @@ if(isarr($is_ex)){
          	load_iframe_editor(curr_content);
 			 }
        }
+	   
        else{
 		     if(typeof load_iframe_editor === 'function'){
          	load_iframe_editor();
 			}
        }
+
      },
      onUntag:function(){
+
+
+
       var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
       if(curr_content != undefined){
 		 if(typeof load_iframe_editor === 'function'){
@@ -111,6 +239,13 @@ if(isarr($is_ex)){
        			load_iframe_editor();
 		 }
      }
+
+
+
+
+
+
+
    }
  });
 
@@ -133,6 +268,10 @@ $(document).ready(function(){
 			}
   	});
 
+
+
+   // mw_append_pages_tree_controlls(mwd.querySelector('.mw-ui-category-selector'));
+
 });
 
 
@@ -151,13 +290,27 @@ foreach ($cats__parents as $item1) {
 }
 $tree = array();
 $tree['include_categories'] = 1;
+	// $tree['subtype'] = 'dynamic';
 $tree['parent'] = '[int]0';
+//	  $tree['include_first'] = 1;
+	//$tree['parent'] = $item1;
+//	$tree['to_tabqqle_id'] = '[gte]0';
 
+	 //
+if (isset($params['add_ids'])) {
+		//$tree['add_ids'] = $params['add_ids'];
+
+}
+
+
+
+//d($orig_params);
 
 
 if (isset($orig_params['is_shop']) and trim($orig_params['is_shop']) == 'y') {
 
 	$tree['is_shop'] = 'y';
+	//unset( $tree['parent']);
 	$tree['parent'] = 'any';
 
 
@@ -235,6 +388,8 @@ pages_tree($tree);
 
 	$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 	$fors = get($str0);
+					//d($fors );
+
 
 	if ($fors != false and is_array($fors) and !empty($fors)) {
 		foreach ($fors as $cat) {
@@ -242,8 +397,15 @@ pages_tree($tree);
 			$pt_opts = array();
 			$pt_opts['link'] = "<label class='mw-ui-check'><input type='checkbox'  {active_code} value='{id}' class='mw_cat_selector_{$rand}' ><span></span><span>{title}</span></label>";
 
+
 			$pt_opts['parent'] =$cat['id'];
+						//$cat_params['rel'] = 'content';
+					//	$cat_params['rel_id'] = ' 0 ';
+					// $cat_params['for'] = 'content';
 			$pt_opts['include_first'] = 1;
+					 //$cat_params['debug'] = 1;
+					// d($cat_params);
+						// category_tree($pt_opts);
 		}
 	}
 

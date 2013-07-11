@@ -1,4 +1,4 @@
-<?php include TEMPLATE_DIR. "header.php"; ?>
+<? include TEMPLATE_DIR. "header.php"; ?>
 <div class="mw_function_holder">
   <div class="description">
     <h2  class="fn">get(<strong>$params</strong>)</h2>
@@ -58,4 +58,4 @@
     </table>
   </div>
 </div>
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<? include TEMPLATE_DIR. "footer.php"; ?>

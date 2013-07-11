@@ -16,8 +16,6 @@ if(isset($params['limit'])){
 	$notif_params["is_read"] = $params['is_read'];
 }*/
 $notif_params["order_by"] = 'created_on desc';
-$notif_params["order_by"] = 'is_read desc, created_on desc';
-
 $data = get_notifications($notif_params);
 
 
@@ -49,21 +47,21 @@ mw.notif_reset_all = function(){
 	/*		foreach($periods as $period){
 				if(!in_array($period ,$periods_printed )){
 					$time1 = strtotime($item['created_on']);
-
-
+			
+			
 					$time2 = strtotime($period);
-
+					
 					if($time1 < $time2){
 					 print 	$period;
 					 $periods_printed[] = $period;
 					}
-
+					
 				}
-
+				
 			}*/
-
-
-
+			
+			
+			
 			  ?>
 
 <div class="mw-admin-notifications-holder" id="admin_notifications">
@@ -76,7 +74,7 @@ mw.notif_reset_all = function(){
     </colgroup>
     <thead>
       <tr>
-        <th colspan="4"><h2><span class="ico inotification"></span><?php _e("Your Notifications"); ?></h2></th>
+        <th colspan="4"><h2><span class="ico inotification"></span>Your Notifications</h2></th>
       </tr>
     </thead>
     <tbody>
@@ -87,7 +85,7 @@ mw.notif_reset_all = function(){
   	    if(isset($item['module']) and $item['module'] != ''){
   		    $mod_info = module_info($item['module']);
   	    }
-        ?>
+       ?>
         <td><?php if($mod_info != false and isset($mod_info['name'])): ?>
           <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
           <?php endif; ?></td>
@@ -108,22 +106,20 @@ mw.notif_reset_all = function(){
       <?php endforeach ; ?>
     </tbody>
   </table>
-  <div class="vSpace"></div>
-  <a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')"><?php _e("Show system log"); ?></a>
 </div>
-
+<a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">Show system log</a>
 <?php else : ?>
 
 
 
 <div class="mw-o-box" style="width: 500px;text-align: center;margin: 60px auto;">
-<div class="mw-o-box-header"><h2><?php _e("No new notifications available"); ?>!</h2></div>
+<div class="mw-o-box-header"><h2>No new notifications available!</h2></div>
 <div class="mw-o-box-content">
-    <p><?php _e("Choose your Action"); ?></p>
+    <p>Choose your Action</p>
     <br>
    <p>
-    <a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;"><?php _e("Back to Dashboard"); ?></a>
-    <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green"><?php _e("Manage your Content"); ?></a>
+    <a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">Back to Dashboard</a>
+    <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green">Manage your Content</a>
    </p>
     <br>
    <?php //print mw_notif('No new notifications available!'); ?>

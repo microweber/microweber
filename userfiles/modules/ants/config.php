@@ -8,5 +8,5 @@ $config['author'] = "Tom Oram";
 $config['author_website'] = "http://devblog.x2k.co.uk/";
 $config['ui'] = true;
 $config['categories'] = "other";
-$config['position'] = "28";
-$config['version'] = 0.05;
+$config['position'] = "60";
+$config['version'] = 0.07;

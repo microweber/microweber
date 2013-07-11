@@ -3,18 +3,18 @@
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">
-	<li><a class="active" href="javascript:;"><?php _e("Options"); ?></a></li>
-		<li><a href="javascript:;"><?php _e("Skin/Template"); ?></a></li>
+	<li><a class="active" href="javascript:;">Options</a></li>
+		<li><a href="javascript:;">Skin/Template</a></li>
 	</ul>
 	<div class="tab">
-		<label class="mw-ui-label"><?php _e("Show Categories From"); ?></label>
+		<label class="mw-ui-label">Show Categories From</label>
 
 		<div class="mw-ui-select" style="width: 100%">
 
 			<select name="data-content-id" class="mw_option_field">
 
 
-      <option value="0"   <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("None"); ?>"><?php _e("None"); ?></option>
+      <option value="0"   <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="None">None</option>
           <?php
 $pt_opts = array();
           $pt_opts['link'] = "{empty}{title}";

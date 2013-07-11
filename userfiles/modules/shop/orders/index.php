@@ -68,12 +68,12 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
         <td class="mw-order-item-amount"><?php
 		 
 		
-
-		 print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
+		
+		 print currency_format(floatval($item['amount'])+floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
-          <?php _e("Yes"); ?>
+          Yes
           <?php else : ?>
-          <?php _e("No"); ?>
+          No
           <?php endif; ?></td>
         <td class="mw-order-item-names"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
@@ -92,5 +92,5 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
   </table>
 </div>
 <?php else: ?>
-<h2><?php _e("You don't have any orders"); ?></h2>
+<h2>You don't have any orders</h2>
 <?php endif;?>
