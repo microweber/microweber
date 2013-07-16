@@ -42,6 +42,10 @@
   .upper{ text-transform: uppercase; }
 
 
+  .alert ul,
+  .alert ol{
+    margin: 0;
+  }
 
 
   [class*="icon-"]{
@@ -134,7 +138,9 @@
         background: white;
         box-shadow: 0 0 6px #ccc;
         border-radius: 0;
+        border:expression(this.style.border = 'solid 1px black');
     }
+
 
     .box-content, input.box, textarea.box{
         padding: 15px;
@@ -665,6 +671,8 @@
       text-align: center;
       padding: 20px;
       background: #EF6927;
+      cursor: pointer;
+      border: none
     }
 
     .orangebtn-medium{
@@ -712,6 +720,9 @@
       padding-left: 60px;
       background: url(replyarr.png) no-repeat 18px 7px;
     }
+
+
+
 
 
 
@@ -1510,10 +1521,56 @@
  }
  .bbox-content{
    padding: 16px;
+   overflow: hidden;
+   zoom:1;
+   position: relative;
  }
 
  .mw-blog-single-post{
    margin-bottom: 22px;
+ }
+
+ .mw-blog-single-post .description{
+   padding-top: 20px;
+ }
+
+ .post-info, .post-info > * {
+   font-size: 12px;
+   color: #999999;
+ }
+
+ .post-info{
+   padding-bottom: 20px;
+   padding-left: 4px;
+ }
+
+ .post-info .icon-tag{
+   margin: 0 6px 0 12px;
+ }
+
+ .post-author{
+   margin-left: 12px;
+ }
+ .post-author img{
+   margin-right: 6px;
+ }
+
+ .post-cats a:hover{
+   text-decoration:underline;
+ }
+
+  .mw-comments-form .mw-ui-col{
+    text-align: center;
+  }
+
+ .mw-comments-form .mw-ui-col input.box{
+   width: 75%;
+   width: calc(100% - 50px);
+   width: -webkit-calc(100% - 50px);
+ }
+
+ .comments-template-mw-site .comments{
+   padding-bottom: 20px;
  }
 
 

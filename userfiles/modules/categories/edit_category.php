@@ -127,9 +127,9 @@ $(document).ready(function(){
   <input name="id" type="hidden" value="<?php print ($data['id'])?>" />
   <input name="table" type="hidden" value="categories" />
   <input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
-  <input name="rel_id" type="text" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
+  <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
-    <input name="parent_id" type="text" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
+    <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
 
   <div class="mw-ui-field-holder">
 

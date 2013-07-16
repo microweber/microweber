@@ -339,9 +339,10 @@ function save_data($table, $data, $data_to_save_options = false)
     $table = db_get_real_table_name($table);
     $user_sid = false;
     if ($user_session == false and defined('MW_API_CALL')) {
-        session_start();
-        $user_sid = session_id();
-        $user_session = session_get('user_session');
+       // session_start();
+        //$user_sid = session_id();
+       // $user_session = session_get('user_session');
+       // d($user_sid );
 
     }
 

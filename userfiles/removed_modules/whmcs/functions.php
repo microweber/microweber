@@ -1,6 +1,6 @@
 <?php
 
-api_hook('register_user', 'modify_whmcs_user');
+api_hook('user_register', 'modify_whmcs_user');
 
 function modify_whmcs_user($data) {
 d($data);

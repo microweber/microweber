@@ -208,6 +208,7 @@ function module_templates($module_name, $template_name = false)
             $tf_from_other_theme = TEMPLATEFILES . $template_name;
             $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
+
             if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
                 return $tf_from_other_theme;
             } else if (is_file($tf_theme)) {

@@ -99,7 +99,7 @@ function mw_db_init_categories_table() {
  * @param  $params['active_ids'] = array(); //ids of active categories
  * @param  $params['active_code'] = false; //inserts this code for the active ids's
  * @param  $params['remove_ids'] = array(); //remove those caregory ids
- * @param   $params['ul_class_name'] = false; //class name for the ul
+ * @param  $params['ul_class_name'] = false; //class name for the ul
  * @param  $params['include_first'] = false; //if true it will include the main parent category
  * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
  * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
@@ -108,7 +108,7 @@ function mw_db_init_categories_table() {
  * @param  $params['list_tag'] = 'select';
  * @param  $params['list_item_tag'] = "option";
  *
-
+ *
  */
 function category_tree($params = false) {
 
@@ -1641,8 +1641,9 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 
  	array_unique($get_category);
  	if(empty($get_category)){
-	//return false;
+ 		return false;
  	}
+
 	return $get_category;
 	$function_cache_id = false;
 

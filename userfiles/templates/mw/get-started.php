@@ -175,7 +175,7 @@
                     mw.$('#user_registration_form').submit(function () {
 
 
-                        mw.form.post(mw.$('#user_registration_form'), '<?php print site_url('api') ?>/register_user', function () {
+                        mw.form.post(mw.$('#user_registration_form'), '<?php print site_url('api') ?>/user_register', function () {
 
 
                             mw.response('#form-holder', this);

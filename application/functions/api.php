@@ -38,17 +38,17 @@ function exec_action($api_function, $data = false)
     global $mw_action_hook_index;
     $hooks = $mw_action_hook_index;
 
-
+    $return = array();
     if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
         foreach ($hooks[$api_function] as $hook_key => $hook_value) {
 
             if (function_exists($hook_value)) {
                 if ($data != false) {
-                    $hook_value($data);
+                    $return[$hook_value] = $hook_value($data);
                 } else {
 
-                    $hook_value();
+                    $return[$hook_value] = $hook_value();
                 }
                 unset($hooks[$api_function][$hook_key]);
 
@@ -57,15 +57,18 @@ function exec_action($api_function, $data = false)
 
                 try {
                     if ($data != false) {
-                        call_user_func($hook_value,$data); // As of PHP 5.3.0
+                        $return[$hook_value] = call_user_func($hook_value,$data); // As of PHP 5.3.0
                     } else {
-                        call_user_func($hook_value,false);
+                        $return[$hook_value] = call_user_func($hook_value,false);
                     }
                 } catch (Exception $e) {
 
                 }
 
             }
+        }
+        if(!empty($return)){
+            return $return;
         }
     }
 }

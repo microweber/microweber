@@ -46,7 +46,7 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * <code>
  * Here is example:
  * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
- * action_hook('mw_user_login', 'custom_after_login_function'); //executed after successful login
+ * action_hook('on_user_login', 'custom_after_login_function'); //executed after successful login
  * </code>
  * @package Users
  * @category Users
@@ -57,7 +57,7 @@ if (!defined("MW_DB_TABLE_LOG")) {
  * @uses get_log()
  * @uses save_log()
  * @uses user_login_set_failed_attempt()
- * @uses update_user_last_login_time()
+ * @uses user_update_last_login_time()
  * @uses exec_action()
  * @function user_login()
  * @see _table() For the database table fields
@@ -67,7 +67,14 @@ function user_login($params)
     $params2 = array();
 
 
-    exec_action('before_user_login', $params);
+    $override = exec_action('before_user_login', $params);
+    if (is_arr($override)) {
+        foreach ($override as $resp) {
+            if (isset($resp['error']) or isset($resp['success'])) {
+                return $resp;
+            }
+        }
+    }
 
     if (is_string($params)) {
         $params = parse_str($params, $params2);
@@ -76,7 +83,7 @@ function user_login($params)
 
 
     //$is_logged =  session_get('user_session');
-   // if(isarr($is_logged) and isset($is_logged['']))
+    // if(isarr($is_logged) and isset($is_logged['']))
 
 
     if (isset($params) and !empty($params)) {
@@ -84,12 +91,12 @@ function user_login($params)
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
         $email = isset($params['email']) ? $params['email'] : false;
-	    $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
+        $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
 
         $pass = hash_user_pass($pass);
-		if($pass2 != false and $pass2 != NULL and trim($pass2) != ''){
-			$pass =  $pass2;
-		}
+        if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
+            $pass = $pass2;
+        }
 
 
         if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
@@ -154,8 +161,6 @@ function user_login($params)
                 $data['is_active'] = 'y';
 
 
-
-
                 $data['search_in_fields'] = 'password,email';
 
                 $data = get_users($data);
@@ -200,7 +205,7 @@ function user_login($params)
             session_set('user_session', $user_session);
 
             return array('error' => 'Please enter the right username and password!');
-            return false;
+
         } else {
             $user_session = array();
             $user_session['is_logged'] = 'yes';
@@ -208,16 +213,13 @@ function user_login($params)
 
             if (!defined('USER_ID')) {
                 define("USER_ID", $data['id']);
-                exec_action('mw_user_login');
+
 
             }
-            exec_action('user_login', $data);
-            session_set('user_session', $user_session);
-            $user_session = session_get('user_session');
-            update_user_last_login_time();
+            user_set_logged($data['id']);
             if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                 if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                    exec_action('mw_user_login_admin');
+                    exec_action('user_login_admin');
                     $p = get_page();
                     if (!empty($p)) {
                         $link = page_link($p['id']);
@@ -236,9 +238,9 @@ function user_login($params)
                     safe_redirect($_SERVER["HTTP_REFERER"]);
                     exit();
                 } else {
-					 $user_session['success'] = "You are logged in!";
-					 return $user_session;
-				}
+                    $user_session['success'] = "You are logged in!";
+                    return $user_session;
+                }
             } else if ($aj == true) {
                 $user_session['success'] = "You are logged in!";
             }
@@ -336,11 +338,7 @@ function user_social_login($params)
                     if (!defined('USER_ID')) {
                         define("USER_ID", $data['id']);
                     }
-                    exec_action('user_login', $data);
-                    session_set('user_session', $user_session);
-                    $user_session = session_get('user_session');
-                    $return_after_login = session_get('user_after_login');
-                    update_user_last_login_time();
+                    user_set_logged($data['id']);
 
                     if ($return_after_login != false) {
                         safe_redirect($return_after_login);
@@ -360,7 +358,6 @@ function user_social_login($params)
 
     }
 }
-
 
 
 api_expose('logout');
@@ -387,15 +384,11 @@ function logout()
     }
 }
 
-//api_expose('register_user');
-api_expose('register_user');
+//api_expose('user_register');
+api_expose('user_register');
 
-function register_user($params)
+function user_register($params)
 {
-    exec_action('before_user_register', $params);
-
-
-
 
 
     $user = isset($params['username']) ? $params['username'] : false;
@@ -415,106 +408,118 @@ function register_user($params)
             return array('error' => 'Invalid captcha answer!');
         }
     }
-    if (!isset($params['password'])) {
-        return array('error' => 'Please set password!');
-    } else {
-        if ($params['password'] == '') {
-            return array('error' => 'Please set password!');
+
+    $override = exec_action('before_user_register', $params);
+
+    if (is_arr($override)) {
+        foreach ($override as $resp) {
+            if (isset($resp['error']) or isset($resp['success'])) {
+                return $resp;
+            }
         }
     }
-
-    if ($email != false) {
-
-        $data = array();
-        $data['email'] = $email;
-        $data['password'] = $pass;
-        $data['oauth_uid'] = '[null]';
-        $data['oauth_provider'] = '[null]';
-        $data['one'] = true;
-        // $data ['is_active'] = 'y';
-        $user_data = get_users($data);
+//    if (!isset($params['password'])) {
+//        return array('error' => 'Please set password!');
+//    } else {
+//        if ($params['password'] == '') {
+//            return array('error' => 'Please set password!');
+//        }
+//    }
 
 
-
-
-        if (empty($user_data)) {
+    if (isset($params['password']) and  ($params['password']) != '') {
+        if ($email != false) {
 
             $data = array();
-            $data['username'] = $email;
+            $data['email'] = $email;
             $data['password'] = $pass;
             $data['oauth_uid'] = '[null]';
             $data['oauth_provider'] = '[null]';
             $data['one'] = true;
             // $data ['is_active'] = 'y';
             $user_data = get_users($data);
-        }
-
-        if (empty($user_data)) {
-            $data = array();
 
 
-            $data['username'] = $email;
-            $data['password'] = $pass;
-            $data['is_active'] = 'n';
+            if (empty($user_data)) {
 
-            $table = MW_TABLE_PREFIX . 'users';
+                $data = array();
+                $data['username'] = $email;
+                $data['password'] = $pass;
+                $data['oauth_uid'] = '[null]';
+                $data['oauth_provider'] = '[null]';
+                $data['one'] = true;
+                // $data ['is_active'] = 'y';
+                $user_data = get_users($data);
+            }
 
-            $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-            $next = db_last_id($table);
-            $next = intval($next) + 1;
-            $q = "INSERT INTO $table (id,email, password, is_active)
+            if (empty($user_data)) {
+                $data = array();
+
+
+                $data['username'] = $email;
+                $data['password'] = $pass;
+                $data['is_active'] = 'n';
+
+                $table = MW_TABLE_PREFIX . 'users';
+
+                $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+                $next = db_last_id($table);
+                $next = intval($next) + 1;
+                $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
 
 
-            db_q($q);
-            cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
-            //$data = save_user($data);
-            session_del('captcha');
+                db_q($q);
+                cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
+                //$data = save_user($data);
+                session_del('captcha');
 
-            $notif = array();
-            $notif['module'] = "users";
-            $notif['rel'] = 'users';
-            $notif['rel_id'] = $next;
-            $notif['title'] = "New user registration";
-            $notif['description'] = "You have new user registration";
-            $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-            \mw\Notifications::save($notif);
+                $notif = array();
+                $notif['module'] = "users";
+                $notif['rel'] = 'users';
+                $notif['rel_id'] = $next;
+                $notif['title'] = "New user registration";
+                $notif['description'] = "You have new user registration";
+                $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+                \mw\Notifications::save($notif);
 
-            save_log($notif);
-
-
-            $params = $data;
-            $params['id'] = $next;
-            if (isset($pass2)) {
-                $params['password2'] = $pass2;
-            }
-            exec_action('after_user_register', $params);
-            //user_login('email='.$email.'&password='.$pass);
+                save_log($notif);
 
 
-            return array('success' => 'You have registered successfully');
-
-            //return array($next);
-        } else {
-
-            if(isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass){
-                if(isset($user_data['email']) && $user_data['email'] != ''){
-                  $is_logged =  user_login('email='.$user_data['email'].'&password_hashed='.$pass);
-                } else  if(isset($user_data['username']) && $user_data['username'] != ''){
-                    $is_logged =  user_login('username='.$user_data['username'].'&password_hashed='.$pass);
+                $params = $data;
+                $params['id'] = $next;
+                if (isset($pass2)) {
+                    $params['password2'] = $pass2;
                 }
-                if(isset($is_logged) and isarr($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])){
-                    return ($is_logged);
-                   // $user_session['success']
+                exec_action('after_user_register', $params);
+                //user_login('email='.$email.'&password='.$pass);
+
+
+                return array('success' => 'You have registered successfully');
+
+                //return array($next);
+            } else {
+
+                if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
+                    if (isset($user_data['email']) && $user_data['email'] != '') {
+                        $is_logged = user_login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                    } else if (isset($user_data['username']) && $user_data['username'] != '') {
+                        $is_logged = user_login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                    }
+                    if (isset($is_logged) and isarr($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
+                        return ($is_logged);
+                        // $user_session['success']
+                    }
+
                 }
 
+
+                return array('error' => 'This user already exists!');
             }
-
-
-
-            return array('error' => 'This user already exists!');
         }
     }
+
+
 }
 
 api_expose('save_user');
@@ -530,7 +535,7 @@ api_expose('save_user');
  *
  * @param $params
  * @param  $params['id'] = $user_id; // REQUIRED , you must set the user id.
- * For security reasons, to make new user please use register_user() function that requires captcha
+ * For security reasons, to make new user please use user_register() function that requires captcha
  * or write your own save_user wrapper function that sets  mw_var('force_save_user',true);
  * and pass its params to save_user();
  *
@@ -696,7 +701,6 @@ function mw_db_init_users_table()
 
     db_add_table_index('username', $table_name, array('username(255)'));
     db_add_table_index('email', $table_name, array('email(255)'));
-
 
 
     $table_name = MW_DB_TABLE_LOG;
@@ -916,7 +920,7 @@ function captcha()
     // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
     $black = imagecolorallocate($image, 0, 0, 0);
     session_set('captcha', $answ);
-   // session_write_close();
+    // session_write_close();
     $col1z = rand(200, 242);
     $col1z1 = rand(150, 242);
     $col1z11 = rand(150, 242);
@@ -1044,7 +1048,7 @@ function api_login($api_key = false)
 
 }
 
-function update_user_last_login_time()
+function user_update_last_login_time()
 {
 
     $uid = user_id();
@@ -1056,7 +1060,7 @@ function update_user_last_login_time()
         $data_to_save['last_login_ip'] = USER_IP;
 
         $table = MW_DB_TABLE_USERS;
-		mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
+        mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
         $save = save_data($table, $data_to_save);
 
         delete_log("is_system=y&rel=login_failed&user_ip=" . USER_IP);
@@ -1093,9 +1097,6 @@ function social_login_exception_handler($exception)
     }
 
 }
-
-
-
 
 
 api_expose('user_reset_password_from_link');
@@ -1289,20 +1290,55 @@ function is_logged()
     //ignore_user_abort();
 
     mw_cron();
-   // if(isAjax()){
+    // if(isAjax()){
     //
-   // }
+    // }
 
-    if(user_id() >0){
-         return true;
+    if (user_id() > 0) {
+        return true;
     } else {
         return false;
     }
 
 
+}
 
+function user_set_logged($user_id)
+{
+
+    if (is_array($user_id)) {
+        if (isset($user_id['id'])) {
+            $user_id = $user_id['id'];
+        }
+    }
+
+    if (intval($user_id) > 0) {
+        $data = get_user($user_id);
+        if ($data == false) {
+            return false;
+        } else {
+            if (isarr($data)) {
+                $user_session = array();
+                $user_session['is_logged'] = 'yes';
+                $user_session['user_id'] = $data['id'];
+
+                if (!defined('USER_ID')) {
+                    define("USER_ID", $data['id']);
+
+
+                }
+                exec_action('user_login', $data);
+                session_set('user_session', $user_session);
+                $user_session = session_get('user_session');
+                user_update_last_login_time();
+                $user_session['success'] = "You are logged in!";
+                return $user_session;
+            }
+        }
+    }
 
 }
+
 function user_id()
 {
 
@@ -1669,223 +1705,4 @@ function cf_get_user($user_id, $field_name)
             // p ( $field );
         }
     }
-}
-
-/**
- * A Compatibility library with PHP 5.5's simplified password hashing API.
- *
- * @author Anthony Ferrara <ircmaxell@php.net>
- * @license http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2012 The Authors
- */
-
-if (!defined('PASSWORD_BCRYPT')) {
-
-    define('PASSWORD_BCRYPT', 1);
-    define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
-
-    /**
-     * Hash the password using the specified algorithm
-     *
-     * @param string $password The password to hash
-     * @param int $algo     The algorithm to use (Defined by PASSWORD_* constants)
-     * @param array $options  The options for the algorithm to use
-     *
-     * @return string|false The hashed password, or false on error.
-     */
-    function password_hash($password, $algo, array $options = array())
-    {
-        if (!function_exists('crypt')) {
-            trigger_error("Crypt must be loaded for password_hash to function", E_USER_WARNING);
-            return null;
-        }
-        if (!is_string($password)) {
-            trigger_error("password_hash(): Password must be a string", E_USER_WARNING);
-            return null;
-        }
-        if (!is_int($algo)) {
-            trigger_error("password_hash() expects parameter 2 to be long, " . gettype($algo) . " given", E_USER_WARNING);
-            return null;
-        }
-        switch ($algo) {
-            case PASSWORD_BCRYPT :
-                // Note that this is a C constant, but not exposed to PHP, so we don't define it here.
-                $cost = 10;
-                if (isset($options['cost'])) {
-                    $cost = $options['cost'];
-                    if ($cost < 4 || $cost > 31) {
-                        trigger_error(sprintf("password_hash(): Invalid bcrypt cost parameter specified: %d", $cost), E_USER_WARNING);
-                        return null;
-                    }
-                }
-                $required_salt_len = 22;
-                $hash_format = sprintf("$2y$%02d$", $cost);
-                break;
-            default :
-                trigger_error(sprintf("password_hash(): Unknown password hashing algorithm: %s", $algo), E_USER_WARNING);
-                return null;
-        }
-        if (isset($options['salt'])) {
-            switch (gettype($options['salt'])) {
-                case 'NULL' :
-                case 'boolean' :
-                case 'integer' :
-                case 'double' :
-                case 'string' :
-                    $salt = (string)$options['salt'];
-                    break;
-                case 'object' :
-                    if (method_exists($options['salt'], '__tostring')) {
-                        $salt = (string)$options['salt'];
-                        break;
-                    }
-                case 'array' :
-                case 'resource' :
-                default :
-                    trigger_error('password_hash(): Non-string salt parameter supplied', E_USER_WARNING);
-                    return null;
-            }
-            if (strlen($salt) < $required_salt_len) {
-                trigger_error(sprintf("password_hash(): Provided salt is too short: %d expecting %d", strlen($salt), $required_salt_len), E_USER_WARNING);
-                return null;
-            } elseif (0 == preg_match('#^[a-zA-Z0-9./]+$#D', $salt)) {
-                $salt = str_replace('+', '.', base64_encode($salt));
-            }
-        } else {
-            $buffer = '';
-            $raw_length = (int)($required_salt_len * 3 / 4 + 1);
-            $buffer_valid = false;
-            if (function_exists('mcrypt_create_iv') && !defined('PHALANGER')) {
-                $buffer = mcrypt_create_iv($raw_length, MCRYPT_DEV_URANDOM);
-                if ($buffer) {
-                    $buffer_valid = true;
-                }
-            }
-            if (!$buffer_valid && function_exists('openssl_random_pseudo_bytes')) {
-                $buffer = openssl_random_pseudo_bytes($raw_length);
-                if ($buffer) {
-                    $buffer_valid = true;
-                }
-            }
-            if (!$buffer_valid && is_readable('/dev/urandom')) {
-                $f = fopen('/dev/urandom', 'r');
-                $read = strlen($buffer);
-                while ($read < $raw_length) {
-                    $buffer .= fread($f, $raw_length - $read);
-                    $read = strlen($buffer);
-                }
-                fclose($f);
-                if ($read >= $raw_length) {
-                    $buffer_valid = true;
-                }
-            }
-            if (!$buffer_valid || strlen($buffer) < $raw_length) {
-                $bl = strlen($buffer);
-                for ($i = 0; $i < $raw_length; $i++) {
-                    if ($i < $bl) {
-                        $buffer[$i] = $buffer[$i] ^ chr(mt_rand(0, 255));
-                    } else {
-                        $buffer .= chr(mt_rand(0, 255));
-                    }
-                }
-            }
-            $salt = str_replace('+', '.', base64_encode($buffer));
-
-        }
-        $salt = substr($salt, 0, $required_salt_len);
-
-        $hash = $hash_format . $salt;
-
-        $ret = crypt($password, $hash);
-
-        if (!is_string($ret) || strlen($ret) <= 3) {
-            return false;
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Get information about the password hash. Returns an array of the information
-     * that was used to generate the password hash.
-     *
-     * array(
-     *    'algo' => 1,
-     *    'algoName' => 'bcrypt',
-     *    'options' => array(
-     *        'cost' => 10,
-     *    ),
-     * )
-     *
-     * @param string $hash The password hash to extract info from
-     *
-     * @return array The array of information about the hash.
-     */
-    function password_get_info($hash)
-    {
-        $return = array('algo' => 0, 'algoName' => 'unknown', 'options' => array(),);
-        if (substr($hash, 0, 4) == '$2y$' && strlen($hash) == 60) {
-            $return['algo'] = PASSWORD_BCRYPT;
-            $return['algoName'] = 'bcrypt';
-            list($cost) = sscanf($hash, "$2y$%d$");
-            $return['options']['cost'] = $cost;
-        }
-        return $return;
-    }
-
-    /**
-     * Determine if the password hash needs to be rehashed according to the options provided
-     *
-     * If the answer is true, after validating the password using password_verify, rehash it.
-     *
-     * @param string $hash    The hash to test
-     * @param int $algo    The algorithm used for new password hashes
-     * @param array $options The options array passed to password_hash
-     *
-     * @return boolean True if the password needs to be rehashed.
-     */
-    function password_needs_rehash($hash, $algo, array $options = array())
-    {
-        $info = password_get_info($hash);
-        if ($info['algo'] != $algo) {
-            return true;
-        }
-        switch ($algo) {
-            case PASSWORD_BCRYPT :
-                $cost = isset($options['cost']) ? $options['cost'] : 10;
-                if ($cost != $info['options']['cost']) {
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-    /**
-     * Verify a password against a hash using a timing attack resistant approach
-     *
-     * @param string $password The password to verify
-     * @param string $hash     The hash to verify against
-     *
-     * @return boolean If the password matches the hash
-     */
-    function password_verify($password, $hash)
-    {
-        if (!function_exists('crypt')) {
-            trigger_error("Crypt must be loaded for password_verify to function", E_USER_WARNING);
-            return false;
-        }
-        $ret = crypt($password, $hash);
-        if (!is_string($ret) || strlen($ret) != strlen($hash) || strlen($ret) <= 13) {
-            return false;
-        }
-
-        $status = 0;
-        for ($i = 0; $i < strlen($ret); $i++) {
-            $status |= (ord($ret[$i]) ^ ord($hash[$i]));
-        }
-
-        return $status === 0;
-    }
-
 }

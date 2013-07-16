@@ -1282,7 +1282,13 @@ if(method_exists($res, $try_class_func2)){
 
 
             $l = new MwView($render_file);
-            // $l->content = $content;
+
+            $l->page_id = PAGE_ID;
+            $l->content_id = CONTENT_ID;
+            $l->post_id = PAGE_ID;
+            $l->category_id = CATEGORY_ID;
+            $l->content = $content;
+
             // $l->set($l);
 
 
