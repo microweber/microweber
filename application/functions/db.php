@@ -330,7 +330,7 @@ function save_data($table, $data, $data_to_save_options = false)
             }
         }
     }
-    if (isset($_SESSION)) {
+    if (isset($_SESSION) and !empty($_SESSION)) {
         $user_session = session_get('user_session');
 
     } else {
@@ -338,6 +338,13 @@ function save_data($table, $data, $data_to_save_options = false)
     }
     $table = db_get_real_table_name($table);
     $user_sid = false;
+    if ($user_session == false and defined('MW_API_CALL')) {
+        session_start();
+        $user_sid = session_id();
+        $user_session = session_get('user_session');
+
+    }
+
     if ($user_session == false) {
 
         if (mw_var("FORCE_SAVE") != false) {
@@ -354,7 +361,7 @@ function save_data($table, $data, $data_to_save_options = false)
 
     if (!isset($user_session['user_id'])) {
         $user_sid = session_id();
-        //d($user_sid);
+
     } else {
         if (intval($user_session['user_id']) == 0) {
             unset($user_session['user_id']);

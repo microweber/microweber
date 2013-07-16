@@ -108,6 +108,11 @@ if(intval($for_id) >0){
 $media = get_pictures("rel_id={$for_id}&rel={$for}");
 } else {
 	$sid = session_id();
+	 if($sid == ''){
+		session_start();
+		  $sid = session_id();
+	 }
+ 
 	$media = get_pictures("rel_id={$for_id}&rel={$for}&session_id={$sid}");
 }
 

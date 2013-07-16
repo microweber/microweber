@@ -345,7 +345,7 @@ function save_media($data)
                 $newfile = $move_uploaded_files_dir . $newfile;
             }
 
-            if (rename($url2dir, $newfile)) {
+            if (is_file($url2dir) and rename($url2dir, $newfile)) {
                 $data['src'] = dir2url($newfile);
             } else {
 

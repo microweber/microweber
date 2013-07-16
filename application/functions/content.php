@@ -3034,25 +3034,25 @@ function get_content_field($data, $debug = false)
        // $data['one'] = 1;
         $data['limit'] = 1000;
     }
-    $field = false;
-    if (isset($data['field'])) {
-        $field = $data['field'];
-        unset($data['field']);
-    }
+//    $field = false;
+//    if (isset($data['field'])) {
+//        $field = $data['field'];
+//        unset($data['field']);
+//    }
     $data['table'] = $table;
  //   $data['debug'] = 1;
-   // $get = get($data);
-    $get_fields  = get($data);
-    $get = $get_fields;
-    if(!empty($get_fields)){
-
-        foreach($get_fields as $get_field){
-            if ($field != false and $get_field['field'] == $field) {
-                $get = $get_field;
-            }
-        }
-
-    }
+   $get = get($data);
+//    $get_fields  = get($data);
+//    $get = $get_fields;
+//    if(!empty($get_fields)){
+//
+//        foreach($get_fields as $get_field){
+//            if ($field != false and $get_field['field'] == $field) {
+//                $get = $get_field;
+//            }
+//        }
+//
+//    }
 
 
     if (!isset($data['full']) and isset($get['value'])) {

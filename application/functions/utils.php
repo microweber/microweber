@@ -1031,7 +1031,7 @@ function session_get($name)
                 //return false;
                 session_start();
                 //d($_SESSION);
-                // $_SESSION['ip']=USER_IP;
+                 $_SESSION['ip']=USER_IP;
             }
         }
         // probable timout here?!

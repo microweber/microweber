@@ -268,7 +268,7 @@ $cached = false;
 						$cont_field = get_content_field("rel={$rel}&field={$field}");
 
 					}
-					if ($cont_field != false) {
+					if ($cont_field != false and is_string($cont_field)) {
 						$cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
 					}
 
@@ -391,7 +391,7 @@ $cached = false;
 				}
 			}
 
-			if ($field_content != false and $field_content != '') {
+			if ($field_content != false and $field_content != '' and is_string($field_content)) {
 
 					 $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
 
