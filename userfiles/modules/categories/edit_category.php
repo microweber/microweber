@@ -1,5 +1,5 @@
 <?php
-$form_rand_id  = uniqid();
+$form_rand_id  = uniqid().rand();
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;
 }
@@ -26,7 +26,7 @@ mw.require('forms.js');
 
 	 is_cat = $sel.attr("data-category-id");
 	 is_page = $sel.attr("data-page-id");
-	    mw.log( $sel);
+
 	 if(is_cat != undefined){
     	 mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
     	    mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
@@ -79,11 +79,15 @@ $(document).ready(function(){
 	// onload_set_parent_<?php print $form_rand_id ?>();
 	// set_category_parent_<?php print $form_rand_id ?>()
 	 <?php endif; ?>
-	  mw.$('#edit_category_set_par_<?php print $form_rand_id ?> input').change(function() {
+
+
+
+
+     var h = mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
+
+	  mw.$('label', h).click(function() {
   	     set_category_parent_<?php print $form_rand_id ?>();
       });
-
-
 
 
 
@@ -123,8 +127,9 @@ $(document).ready(function(){
   <input name="id" type="hidden" value="<?php print ($data['id'])?>" />
   <input name="table" type="hidden" value="categories" />
   <input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
-  <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
+  <input name="rel_id" type="text" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
   <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
+    <input name="parent_id" type="text" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
 
   <div class="mw-ui-field-holder">
 
@@ -160,7 +165,6 @@ $(document).ready(function(){
 
 
        ?>
-    <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
       <module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio"   />
     </div>

@@ -179,7 +179,7 @@ $media = get_pictures("rel_id={$for_id}&rel={$for}");
      $(uploader).bind("FileUploaded done" ,function(e, a){
 	setTimeout(function(){
 	after_upld_<?php print $rand; ?>(a.src, e.type);
-	},100)
+	},300)
       
      })
   });

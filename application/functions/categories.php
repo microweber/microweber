@@ -1603,7 +1603,46 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
 		return false;
 	}
 
-	$get_category = get_categories_array('data_type=category&rel=content&rel_id=' . ($content_id));
+
+
+
+    $get_category_items = get_category_items('&rel=content&rel_id=' . ($content_id));
+    $include_parents = array();
+    $include_parents_str = '';
+    if(!empty($get_category_items)){
+        foreach($get_category_items as $get_category_item){
+            if(isset($get_category_item['parent_id'])){
+                   $include_parents[] = $get_category_item['parent_id'];
+            }
+        }
+       
+    }
+
+
+   // d($include_parents);
+	$get_category = get_categories('data_type=category&rel=content&rel_id=' . ($content_id));
+	if(empty($get_category)){
+		$get_category = array();
+	}
+ 		if(!empty($include_parents)){
+        $include_parents_str = 'data_type=category&rel=content&ids='.implode(',',  $include_parents);
+        $get_category2 = get_categories( $include_parents_str);
+
+        if(!empty($get_category2)){
+        foreach($get_category2 as $item){
+             $get_category[] = $item;
+        }
+       
+    }
+
+
+      //  d($get_category2 );
+    	}
+
+ 	array_unique($get_category);
+ 	if(empty($get_category)){
+	//return false;
+ 	}
 	return $get_category;
 	$function_cache_id = false;
 
