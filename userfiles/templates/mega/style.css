@@ -138,7 +138,6 @@
         background: white;
         box-shadow: 0 0 6px #ccc;
         border-radius: 0;
-        border:expression(this.style.border = 'solid 1px black');
     }
 
 
