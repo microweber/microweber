@@ -75,7 +75,9 @@ if (MW_IS_INSTALLED == true) {
 	//d($curent_time_zone);
 }
 //	exec_action('mw_db_init_options');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
+//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
+//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
@@ -86,7 +88,7 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php')
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
+//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
 
 if (MW_IS_INSTALLED == true) {
 
@@ -101,7 +103,7 @@ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'history.php
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'fx.php');
+//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'fx.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
@@ -112,10 +114,10 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 	if ($module_functions != false) {
 		if (is_array($module_functions)) {
 			foreach ($module_functions as $item) {
-				if (is_file($item)) {
+			//	if (is_file($item)) {
 
 					include_once ($item);
-				}
+				//}
 			}
 		}
 	}

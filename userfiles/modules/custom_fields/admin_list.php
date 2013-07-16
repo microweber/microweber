@@ -81,26 +81,9 @@ if(isarr( $diff) and isarr($more) ){
 		 $i++;
 	 }
 
-// foreach($diff as $item1){
-//	 $i=0;
-//	 $custom_custom_field_names_for_content[] = $item1['custom_field_name'];
-//	  foreach($more as $item2){
-//
-//	 if(in_array($item2['custom_field_name'], $custom_custom_field_names_for_content) or intval($item2['copy_of_field']) == intval($item1['id']) or $item1['custom_field_name'] == $item2['custom_field_name']){
-////d($item2['custom_field_name']);
-//		 unset($more[$i]);
-//	 } else {
-//		$data[] =  $item2;
-//	 }
-//	 //	 $custom_custom_field_names_for_content[] = $item2['custom_field_name'];
-//
-//	 $i++;
-// 		}
-// }
+
 }
- if(!empty($data)){
-	//$more = $data;
- }
+ 
 ?>
  
 <?php if(!empty( $more)):  ?>

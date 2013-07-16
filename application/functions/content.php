@@ -34,11 +34,6 @@ if (!defined("MW_DB_TABLE_MENUS")) {
 }
 
 
-
-
-
-
-
 /**
  * Get array of content items from the database
  *
@@ -68,24 +63,24 @@ if (!defined("MW_DB_TABLE_MENUS")) {
  *|-----------------------------------------------------------------------------
  *| Field Name     | Description      | Values
  *|------------------------------------------------------------------------------
- *| id      		| the id of the content |
- *| is_active      	| flag published or unpublished content | "y" or "n"
- *| parent         	| get content with parent  | any id or 0
- *| created_by     	| get by author id  | any user id
- *| created_on     	| the date of creation  |
- *| updated_on     	| the date of last edit  |
- *| content_type   	| the type of the content | "page" or "post", anything custom
- *| subtype        	| subtype of the content | "static","dynamic","post","product", anything custom
- *| url        		| the link to the content |
- *| title        	| Title of the content |
- *| content        	| The html content saved in the database |
+ *| id            | the id of the content |
+ *| is_active        | flag published or unpublished content | "y" or "n"
+ *| parent            | get content with parent  | any id or 0
+ *| created_by        | get by author id  | any user id
+ *| created_on        | the date of creation  |
+ *| updated_on        | the date of last edit  |
+ *| content_type    | the type of the content | "page" or "post", anything custom
+ *| subtype            | subtype of the content | "static","dynamic","post","product", anything custom
+ *| url                | the link to the content |
+ *| title            | Title of the content |
+ *| content            | The html content saved in the database |
  *| description     | Description used for the content list |
  *| position        | The order position |
  *| active_site_template        | Current template for the content |
  *| layout_file        | Current layout from the template directory |
- *| is_deleted      	| flag for deleted content |  "n" or "y"
- *| is_home      	| flag for homepage |  "n" or "y"
- *| is_shop      	| flag for shop page |  "n" or "y"
+ *| is_deleted        | flag for deleted content |  "n" or "y"
+ *| is_home        | flag for homepage |  "n" or "y"
+ *| is_shop        | flag for shop page |  "n" or "y"
  *
  *
  * @return array|bool|mixed Array of content or false if nothing is found
@@ -222,6 +217,10 @@ function get_content($params = false)
             if (isset($get['url'])) {
                 $get['url'] = site_url($get['url']);
             }
+            if (isset($get['title'])) {
+                //$item['url'] = page_link($item['id']);
+                $get['title'] = string_clean($get['title']);
+            }
             return $get;
         }
         if (isarr($get)) {
@@ -231,6 +230,11 @@ function get_content($params = false)
                     //$item['url'] = page_link($item['id']);
                     $item['url'] = site_url($item['url']);
                 }
+                if (isset($item['title'])) {
+                    //$item['url'] = page_link($item['id']);
+                    $item['title'] = string_clean($item['title']);
+                }
+
                 $data2[] = $item;
             }
             $get = $data2;
@@ -244,6 +248,7 @@ function get_content($params = false)
         }
     }
 }
+
 api_expose('get_content_admin');
 
 function get_content_admin($params)
@@ -335,6 +340,7 @@ function content_link($id = 0)
     $link = site_url($link['url']);
     return $link;
 }
+
 /**
  * Gets a link for given page id
  *
@@ -414,29 +420,6 @@ function get_posts($params = false)
 
     return get_content($params);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 action_hook('mw_db_init_default', 'mw_db_init_content_table');
@@ -708,7 +691,7 @@ function define_constants($content = false)
 
         } else if (isset($content['id']) and $content['id'] == 0) {
             $page = $content;
-        }else if (isset($content['active_site_template'])) {
+        } else if (isset($content['active_site_template'])) {
             $page = $content;
         }
     }
@@ -779,7 +762,7 @@ function define_constants($content = false)
         define('MAIN_PAGE_ID', false);
     }
 
- 
+
     if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 
         $the_active_site_template = $page['active_site_template'];
@@ -885,11 +868,10 @@ function define_constants($content = false)
             define("THIS_TEMPLATE_URL", $the_template_url);
         }
     }
- if (defined('TEMPLATE_NAME') == false) {
+    if (defined('TEMPLATE_NAME') == false) {
 
         define('TEMPLATE_NAME', $the_active_site_template);
     }
-
 
 
     if (defined('TEMPLATE_DIR') == false) {
@@ -987,12 +969,11 @@ function get_layout_for_page($page = array())
     $look_for_post = false;
     $template_view_set_inner = false;
 
-        if(!defined('ACTIVE_TEMPLATE_DIR')){
-            if (isset($page['id']) ){
-                define_constants($page);
-            }
+    if (!defined('ACTIVE_TEMPLATE_DIR')) {
+        if (isset($page['id'])) {
+            define_constants($page);
         }
-
+    }
 
 
     if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
@@ -1265,7 +1246,7 @@ function get_layout_for_page($page = array())
         }
 
 
-     }
+    }
 
     if (isset($page['custom_view']) and isset($render_file)) {
         $check_custom = dirname($render_file) . DS;
@@ -1288,7 +1269,7 @@ function get_layout_for_page($page = array())
 
         }
     }
-     cache_save($render_file, $cache_id, $cache_group);
+    cache_save($render_file, $cache_id, $cache_group);
 
     return $render_file;
 }
@@ -1496,7 +1477,11 @@ function get_page_by_url($url = '', $no_recursive = false)
  */
 function get_content_by_id($id)
 {
+    global $mw_global_content_memory;
 
+    if (isset($mw_global_content_memory[$id])) {
+        return $mw_global_content_memory[$id];
+    }
 
     // ->'content';
     $table = MW_TABLE_PREFIX . 'content';
@@ -1522,12 +1507,19 @@ function get_content_by_id($id)
     //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
     if (isset($q[0])) {
         $content = $q[0];
+        if (isset($content['title'])) {
+            $content['title'] = string_clean($content['title']);
+        }
     } else {
+
+        $mw_global_content_memory[$id] = false;
         return false;
     }
+    $mw_global_content_memory[$id] = $content;
     return $content;
 }
 
+$mw_global_content_memory = array();
 /**
  * Get single content item by id from the content_table
  *
@@ -1878,7 +1870,7 @@ function save_edit($post_data)
     }
     $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
     if ($ref_page != '') {
-       // $ref_page = $the_ref_page = get_content_by_url($ref_page_url);
+        // $ref_page = $the_ref_page = get_content_by_url($ref_page_url);
         $ref_page2 = $ref_page = get_content_by_url($ref_page_url, true);
 
 
@@ -2373,8 +2365,8 @@ function save_content($data, $delete_the_cache = true)
 
     if ($checks != $table) {
         if ($adm == false) {
-			 return array('error' => 'You are not logged in as admin to save content!');
-           // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            return array('error' => 'You are not logged in as admin to save content!');
+            // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
     }
     $cats_modified = false;
@@ -2499,9 +2491,9 @@ function save_content($data, $delete_the_cache = true)
     }
 
 
-if(isset($data_to_save['url']) and is_string($data_to_save['url'])){
-$data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);
-}
+    if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
+        $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
+    }
 
 
     $data_to_save_options = array();
@@ -2695,26 +2687,26 @@ $data_to_save['url'] = str_replace(site_url(), '',$data_to_save['url']);
     $cats_modified = true;
     $data_to_save['updated_on'] = date("Y-m-d H:i:s");
 
-	if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
-		if (!isset($data_to_save['parent'])) {
-			$data_to_save['parent'] = 0;
-		}
-	}
+    if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
+        if (!isset($data_to_save['parent'])) {
+            $data_to_save['parent'] = 0;
+        }
+    }
 
 
- if (isset($data_to_save['url']) and $data_to_save['url'] == site_url()) {
-	 unset($data_to_save['url']);
- }
+    if (isset($data_to_save['url']) and $data_to_save['url'] == site_url()) {
+        unset($data_to_save['url']);
+    }
 
 
-	if (isset($data_to_save['debug'])) {
+    if (isset($data_to_save['debug'])) {
 
-	}
+    }
 
     $save = save_data($table, $data_to_save);
 
-   // cache_clean_group('content/global');
-	//cache_clean_group('content/'.$save);
+    // cache_clean_group('content/global');
+    //cache_clean_group('content/'.$save);
     if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
         $new_category = get_categories_for_content($save);
 
@@ -3039,12 +3031,28 @@ function get_content_field($data, $debug = false)
 
     }
     if (!isset($data['all'])) {
-        $data['one'] = 1;
-        $data['limit'] = 1;
+       // $data['one'] = 1;
+        $data['limit'] = 1000;
+    }
+    $field = false;
+    if (isset($data['field'])) {
+        $field = $data['field'];
+        unset($data['field']);
     }
     $data['table'] = $table;
-    // $data['debug'] = 1;
-    $get = get($data);
+ //   $data['debug'] = 1;
+   // $get = get($data);
+    $get_fields  = get($data);
+    $get = $get_fields;
+    if(!empty($get_fields)){
+
+        foreach($get_fields as $get_field){
+            if ($field != false and $get_field['field'] == $field) {
+                $get = $get_field;
+            }
+        }
+
+    }
 
 
     if (!isset($data['full']) and isset($get['value'])) {
@@ -3914,12 +3922,13 @@ api_expose('content_set_published');
  * </code>
  *
  */
-function content_set_published($params){
+function content_set_published($params)
+{
 
-    if(intval($params) > 0 and !isset($params['id'])){
-        if(!is_array($params))   {
-			$id = $params;
-			$params = array();
+    if (intval($params) > 0 and !isset($params['id'])) {
+        if (!is_array($params)) {
+            $id = $params;
+            $params = array();
             $params['id'] = $id;
         }
     }
@@ -3927,7 +3936,7 @@ function content_set_published($params){
     if (!isset($params['id'])) {
         return array('error' => 'You must provide id parameter!');
     } else {
-		  if(intval($params['id'] != 0)){
+        if (intval($params['id'] != 0)) {
 
             $save = array();
             $save['id'] = intval($params['id']);
@@ -3935,7 +3944,7 @@ function content_set_published($params){
 
             $save_data = save_content($save);
             return ($save_data);
-		  }
+        }
 
     }
 }
@@ -3966,27 +3975,26 @@ api_expose('content_set_unpublished');
 function content_set_unpublished($params)
 {
 
-    if(intval($params) > 0 and !isset($params['id'])){
-        if(!is_array($params)) {
-			$id = $params;
+    if (intval($params) > 0 and !isset($params['id'])) {
+        if (!is_array($params)) {
+            $id = $params;
             $params = array();
             $params['id'] = $id;
         }
     }
 
 
-
     if (!isset($params['id'])) {
         return array('error' => 'You must provide id parameter!');
     } else {
-         if(intval($params['id'] != 0)){
+        if (intval($params['id'] != 0)) {
             $save = array();
             $save['id'] = intval($params['id']);
             $save['is_active'] = 'n';
 
             $save_data = save_content($save);
             return ($save_data);
-		 }
+        }
 
 
     }

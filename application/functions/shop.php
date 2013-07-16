@@ -279,7 +279,7 @@ function mw_print_admin_dashboard_orders_btn() {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-	$notif_count = get_notifications('module=shop&rel=cart_orders&is_read=n&count=1');
+	$notif_count = \mw\Notifications::get('module=shop&rel=cart_orders&is_read=n&count=1');
 	if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}
@@ -810,7 +810,7 @@ function after_checkout($order_id, $suppress_output = true) {
 		$notif['title'] = "You have new order";
 		$notif['description'] = "New order is placed from " . curent_url(1);
 		$notif['content'] = "New order in the online shop. Order id: " . $ord;
-		post_notification($notif);
+		\mw\Notifications::save($notif);
 		checkout_confirm_email_send($order_id);
 
 	}
@@ -866,9 +866,9 @@ function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) 
 
 					$scheduler = new \mw\utils\Events();
 					// schedule a global scope function:
-					$scheduler -> registerShutdownEvent("mw_mail", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+					$scheduler -> registerShutdownEvent("\mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
-					//mw_mail($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+					//\mw\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 				}
 
 			}

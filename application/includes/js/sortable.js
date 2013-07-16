@@ -431,7 +431,6 @@ mw.drag = {
                           mw.currentDragMouseOver = mw.mm_target;
                           if(mw.tools.hasClass(mw.mm_target.className, 'nodrop-around')){
                             mw.currentDragMouseOver =  null;
-                            d(mw.mm_target)
                           }
                       }
                       else{
@@ -567,7 +566,7 @@ mw.drag = {
 
 
 
-          if(event.target.hasAttribute("field")){    d("sortable.js - Line: 409");
+          if(event.target.hasAttribute("field")){
           /*
             var attrs = mw.tools.getAttrs(event.target);
             var tag = event.target.tagName.toLowerCase();
@@ -1339,7 +1338,6 @@ mw.drag = {
 	    mw.pauseSave = true;
         var need_re_init = false;
 		mw.$(".edit .module-item").each(function (c) {
-                d(this);
                 mw._({
                   selector:this,
                   done:function(module){
@@ -1723,7 +1721,7 @@ if(typeof el === 'object'){
 
 
             edits.each(function(j) {
-                 d(this);
+
 
         		 j++;
                 var _el = $(this);

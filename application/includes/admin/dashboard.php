@@ -22,7 +22,7 @@
     <div class="quick-links-case">
       <ul class="mw-quick-links left">
         <li><a href="<?php print admin_url(); ?>"><span class="ico iupgrade"></span><span><?php _e("Upgrades"); ?></span></a></li>
-        <?php $notif_count = get_notifications('is_read=n&count=1'); ?>
+        <?php $notif_count = \mw\Notifications::get('is_read=n&count=1'); ?>
         <li><a href="<?php print admin_url('view:admin__notifications'); ?>"><span class="ico inotification">
           <?php if( $notif_count > 0): ?>
           <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>

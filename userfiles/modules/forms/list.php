@@ -66,28 +66,28 @@ if(isarr($data)){
 }
 ?>
 
-<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="745" class="mw-ui-admin-table">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-admin-table">
   <col width="20">
   <thead>
     <tr>
-      <th class="mw-ui-admin-table-small">ID</th>
+      <th class="mw-ui-admin-table-small"><?php _e("ID"); ?></th>
       <?php if(isarr($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   titlelize($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <th width="20" class="mw-ui-admin-table-small">Delete</th>
+      <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>
     </tr>
   </thead>
   <tfoot>
     <tr>
-      <th class="mw-ui-admin-table-small">ID & Date</th>
+      <th class="mw-ui-admin-table-small"><?php _e("ID & Date"); ?></th>
       <?php if(isarr($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   titlelize($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <th width="20" class="mw-ui-admin-table-small">Delete</th>
+      <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>
     </tr>
   </tfoot>
   <tbody>
@@ -106,10 +106,15 @@ if(isarr($data)){
              if(strlen($value['custom_field_values_plain']) > $max){
                 $first = substr($value['custom_field_values_plain'], 0, $max);
                 $rest = substr($value['custom_field_values_plain'], $max);
-                print '<div class="bigger-cell">' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...More</a></div>';
+                print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...<?php _e("More"); ?></a></div>';
              }
              else {
-                 print $value['custom_field_values_plain'];
+
+              if($value['custom_field_type'] == 'upload' or $value['custom_field_type'] == 'files' or $value['custom_field_type'] == 'file'){
+                  print '<a target="_blank" class="mw-ui-link" href="'.$value['custom_field_values_plain'].'">'.basename($value['custom_field_values_plain']).'</a>';
+              } else{
+                  print $value['custom_field_values_plain'];
+               }
              }
 
 
@@ -119,12 +124,13 @@ if(isarr($data)){
         <?php  endif; ?></td>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <td class="mw-ui-admin-table-delete-item"><a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
+      <td class="mw-ui-admin-table-delete-item">
+        <a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
     </tr>
     <?php endforeach; ?>
     <?php else: ?>
     <tr>
-      <td colspan="100" align="center" style="background: #FFFD8C;">No items found</td>
+      <td colspan="100" align="center" style="background: #FFFD8C;"><?php _e("No items found"); ?></td>
     </tr>
     <?php endif; ?>
   </tbody>
@@ -136,6 +142,6 @@ if(isarr($data)){
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php endif; ?>
-<div id="start-email-campaign"> <span>Get more from your mailing lists, send email to your users</span> <a class="g-btn" href="javascript:;">Start an Email Campaign</a> </div>
+<div id="start-email-campaign"> <span><?php _e("Get more from your mailing lists, send email to your users"); ?></span> <a class="g-btn disabled" href="javascript:;" onclick="Alert('Comming Soon!');"><?php _e("Start an Email Campaign"); ?></a> </div>
 <div class="mw_clear"></div>
 <div class="vSpace"></div>

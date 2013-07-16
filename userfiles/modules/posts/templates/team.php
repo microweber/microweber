@@ -17,10 +17,6 @@ description: Team
 <?php foreach ($data as $item): ?>
 	<li class="span2">
 		<div class="element">
-			
-			
-			
-			
 			<?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
 			<a href="<?php print $item['link'] ?>">
 				<figure class="img-polaroid"><img src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 159); ?>" alt=""></figure>
@@ -39,7 +35,7 @@ description: Team
 				<p><?php print $item['description'] ?></p>
 				<?php endif; ?>
 				<?php if($show_fields == false or in_array('read_more', $show_fields)): ?>
-				<a class="btn" href="<?php print $item['link'] ?>"> <?php $read_more_text ? print $read_more_text : print 'Read more...'; ?></a>
+				<a class="btn" href="<?php print $item['link'] ?>"> <?php $read_more_text ? print $read_more_text : print _e("Read more", true) . '...'; ?></a>
 				<?php endif; ?>
 			</div>
 		</div>

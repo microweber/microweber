@@ -15,8 +15,10 @@ if(isset($notif_params['module'])){
 if(isset($params['limit'])){
 	$notif_params["is_read"] = $params['is_read'];
 }*/
+
 $notif_params["order_by"] = 'created_on desc';
-$data = get_notifications($notif_params);
+$notif_params["order_by"] = 'is_read desc, created_on desc';
+$data = \mw\Notifications::get($notif_params);
 
 
 ?>
@@ -24,7 +26,7 @@ $data = get_notifications($notif_params);
 mw.notif_item_delete = function($item_id){
 
 
-	 $.get("<?php print site_url('api/delete_notification'); ?>/"+$item_id, function(){
+	 $.get("<?php print site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
 		 	mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
 
 	  });

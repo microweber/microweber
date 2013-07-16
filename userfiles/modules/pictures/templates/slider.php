@@ -22,7 +22,7 @@ description: Pictures slider
     <?php foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
-        <img src="<?php print $item['filename']; ?>" alt="" />
+        <img src="<?php print thumbnail($item['filename'], 700); ?>" alt="" />
 
     </div>
     <?php endforeach ; ?>
@@ -53,8 +53,9 @@ description: Pictures slider
     }
   });
 </script>
- 
+
 
 <?php else : ?>
-<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
+
+ <?php  mw_text_live_edit("<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 <?php endif; ?>

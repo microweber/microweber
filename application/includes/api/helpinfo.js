@@ -264,7 +264,6 @@ mw.helpinfo = {
          mw.helpinfo.next();
          return false;
         }
-
         mw.helpinfo.init();
     },
     previous:function(){
@@ -290,7 +289,7 @@ mw.helpinfo = {
        $(mw.helpinfo_overlay).hide();
 
        if(disable){
-          mw.cookie.set("helpinfo", "false");
+          mw.cookie.set("helpinfo", "false", 4380);
           mw.$("#helpbtn").parent().removeClass("active");
        }
     },
@@ -306,7 +305,7 @@ mw.helpinfo = {
         mw.$("#mw_info_helper_footer").hide();
         mw.helpinfo.position(help, 'bottomcenter');
         mw.helpinfo.autoscroll(help);
-        mw.cookie.set("helpinfo", "false");
+        mw.cookie.set("helpinfo", "false", 4380);
         setTimeout(function(){
              mw.$("#helpinfo_helper").animate({opacity:0, top:0}, 500, function(){
                  mw.$("#helpinfo_helper").removeAttr("style").css({left:-9999});

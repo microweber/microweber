@@ -3,7 +3,6 @@
 $(document).ready(function(){
 
     mw.$('.mw-payment-gateway-<?php print $params['id']; ?> input').commuter(function() {
-
         mw.$('.mw-payment-gateway-selected-<?php print $params['id']; ?> .module:first').attr('data-selected-gw',this.value);
         mw.load_module(''+this.value,'#mw-payment-gateway-selected-<?php print $params['id']; ?>');
     });
@@ -15,8 +14,8 @@ $(document).ready(function(){
 <div class="well">
 <?php if(count($payment_options) > 0): ?>
 
-    
-      <h2 style="margin-top: 0">Payment method</h2>
+
+      <h2 style="margin-top: 0"><?php _e("Payment method"); ?></h2>
       <ul name="payment_gw" class="gateway-selector field-full mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
         <?php $count = 0; foreach ($payment_options as $item) : $count ++; ?>
         <li>

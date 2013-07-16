@@ -14,10 +14,10 @@ error('parent-module-id is required');
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?php  if(is_arr( $templates)): ?>
-<label class="mw-ui-label">Current Skin / Template</label>
+<label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
 <div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
 
-<option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>Default</option>
+<option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
   <?php  foreach($templates as $item):	 ?>
   <?php if((strtolower($item['name']) != 'default')): ?>
@@ -30,12 +30,12 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 <label class="mw-ui-label">
     <hr>
     <small>
-        Need more designs?<br>
-        You can use all templates you like and change the skin.
+        <?php _e("Need more designs"); ?>?<br>
+        <?php _e("You can use all templates you like and change the skin"); ?>.
     </small>
 </label>
 
-<a class="mw-ui-link" href="javascript:;">Browse Templates</a>
+<a class="mw-ui-link" href="javascript:;"><?php _e("Browse Templates"); ?></a>
 
 <?php //d($templates); ?>
 <?php endif; ?>

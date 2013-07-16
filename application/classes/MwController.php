@@ -6,7 +6,7 @@
 // http://php.net/manual/en/function.get-magic-quotes-gpc.php
 // http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
-    set_magic_quotes_runtime(0);
+    @set_magic_quotes_runtime(0);
 }
 
 
@@ -52,6 +52,8 @@ class MwController
         $l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
+        exec_action('on_load');
+
         $layout = parse_micrwober_tags($l, $options = false);
         $layout = execute_document_ready($layout);
 
@@ -101,7 +103,9 @@ class MwController
         define_constants();
         if ($api_function == false) {
             $api_function_full = url_string();
-            $api_function_full = substr($api_function_full, 4);
+            $api_function_full= str_replace_once('api_html', '', $api_function_full);
+            $api_function_full= str_replace_once('api', '', $api_function_full);
+            //$api_function_full = substr($api_function_full, 4);
         } else {
             $api_function_full = $api_function;
         }
@@ -112,10 +116,24 @@ class MwController
 
         $mod_api_class = explode('/', $api_function_full);
         $try_class_func = array_pop($mod_api_class);
+       // $try_class_func2 = array_pop($mod_api_class);
+        $mod_api_class_copy = $mod_api_class;
+        $try_class_func2 = array_pop($mod_api_class_copy);
+        $mod_api_class2 = implode(DS, $mod_api_class_copy);
+
+
         $mod_api_class = implode(DS, $mod_api_class);
+
+       //d($mod_api_class);
+
         $mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class, false) . '.php';
-        //d($mod_api_class1);
+        $mod_api_class_native_global_ns = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class2, false) . '.php';
+
+
+
+
+
         $try_class = str_replace('/', '\\', $mod_api_class);
         if (class_exists($try_class, false)) {
             $caller_commander = 'class_is_already_here';
@@ -125,11 +143,17 @@ class MwController
             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
-            } else if (is_file($mod_api_class_native)) {
+            } else if (is_file($mod_api_class_native_global_ns)) {
+                $try_class = str_replace('/', '\\', $mod_api_class2);
+                $mod_class_api = true;
+                include_once ($mod_api_class_native_global_ns);
+            }else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
             }
         }
+
+
         $api_exposed = '';
 
         // user functions
@@ -183,7 +207,16 @@ class MwController
                     //
                 }
 
-                if (method_exists($res, $try_class_func)) {
+                if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
+
+if(method_exists($res, $try_class_func2)){
+    $try_class_func = $try_class_func2;
+}
+
+
+
+
+
                     $res = $res->$try_class_func($data);
 
                     if (defined('MW_API_RAW')) {
@@ -211,10 +244,12 @@ class MwController
                     $try_class_full = str_replace('/', '\\', $api_function_full);
 
                     $try_class_full2 = str_replace('\\', '/', $api_function_full);
-
+                    $mod_api_class_test = explode('/', $try_class_full2);
+                    $try_class_func_test = array_pop($mod_api_class_test);
+                    $mod_api_class_test_full = implode('/',$mod_api_class_test);
                     $mod_api_err = false;
                     if (!defined('MW_API_RAW')) {
-                        if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)) {
+                        if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)and !in_array($mod_api_class_test_full, $api_exposed)) {
                             $mod_api_err = true;
 
                             foreach ($api_exposed as $api_exposed_value) {
@@ -249,9 +284,13 @@ class MwController
                             $remove = $url_segs;
                             $last_seg = array_pop($remove);
                             $last_prev_seg = array_pop($remove);
+                            $last_prev_seg2 = array_pop($remove);
+
 
                             if (class_exists($last_prev_seg, false)) {
                                 $try_class = $last_prev_seg;
+                            } else if (class_exists($last_prev_seg2, false)) {
+                                $try_class = $last_prev_seg2;
                             }
 
                         }
@@ -270,7 +309,14 @@ class MwController
                             }
 
                             $res = new $try_class($data);
-                            if (method_exists($res, $try_class_func)) {
+                            //if (method_exists($res, $try_class_func)) {
+
+                            if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
+
+
+                                if(method_exists($res, $try_class_func2)){
+                                    $try_class_func = $try_class_func2;
+                                }
                                 //	d($res);
                                 //exit();
                                 $res = $res->$try_class_func($data);
@@ -1220,8 +1266,8 @@ class MwController
         }
 
 // 
-        define_constants($content); 
-  
+        define_constants($content);
+
         //$page_data = get_content_by_id(PAGE_ID);
 
         $render_file = get_layout_for_page($content);
@@ -1303,6 +1349,8 @@ class MwController
                 }
 
             }
+            exec_action('on_load', $content);
+
             //debug_info();
             $l = parse_micrwober_tags($l, $options = false);
             if ($preview_module_id != false) {
@@ -1570,10 +1618,13 @@ class MwController
             exit();
         } else {
 
-            print 'NO LAYOUT IN ' . __FILE__;
-            d($template_view);
-            d($page);
+          //  print 'NO LAYOUT IN ' . __FILE__;
 
+            print 'Error! Please try again later.';
+
+          //  d($template_view);
+            //d($page);
+            clearcache();
             exit();
         }
         // var_dump ( $page );

@@ -56,13 +56,13 @@ $(document).ready(function(){
       <td><label class="mw-ui-check">
           <input type="checkbox" id="select_all" />
           <span></span></label></td>
-      <td colspan="2"><span class="posts-selector"> <span onclick="mw.check.all('#mw-update-table')">Select All</span>/<span onclick="mw.check.none('#mw-update-table')">Unselect All</span> </span>
-        <input type="submit" value="Install Selected Updates" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" /></td>
+      <td colspan="2"><span class="posts-selector"> <span onclick="mw.check.all('#mw-update-table')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#mw-update-table')"><?php _e("Unselect All"); ?></span> </span>
+        <input type="submit" value="<?php _e("Install Selected Updates"); ?>" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" /></td>
     </tr>
     <?php if(isset($iudates["core_update"])): ?>
     <?php $is_up_to_date = false; ?>
     <tr class="mw-table-head">
-      <td colspan="3">New Microweber version available</td>
+      <td colspan="3"><?php _e("New Microweber version available"); ?></td>
     </tr>
     <tr class="update-items">
       <td><label class="mw-ui-check">
@@ -75,12 +75,12 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endif; ?>
     <?php if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
     <tr class="mw-table-head">
-      <td colspan="3">New module updates are available</td>
+      <td colspan="3"><?php _e("New module updates are available"); ?></td>
     </tr>
     <?php foreach($iudates["modules"] as $k => $item): ?>
     <?php $is_up_to_date = false; ?>
@@ -99,14 +99,14 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
     <?php if(isset($iudates["module_templates"]) and !empty($iudates["module_templates"])): ?>
     <?php $is_up_to_date = false; ?>
     <tr class="mw-table-head">
-      <td colspan="3">New module templates</td>
+      <td colspan="3"><?php _e("New module templates"); ?></td>
     </tr>
     <?php foreach($iudates["module_templates"] as $k => $item): ?>
     <tr class="update-items">
@@ -124,13 +124,13 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
     <?php if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
     <tr class="mw-table-head">
-      <td colspan="3">New layouts updates are available</td>
+      <td colspan="3"><?php _e("New layouts updates are available"); ?></td>
     </tr>
     <?php foreach($iudates["elements"] as $k => $item): ?>
     <?php $is_up_to_date = false; ?>
@@ -149,7 +149,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install">Install Update</span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>

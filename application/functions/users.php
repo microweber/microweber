@@ -318,7 +318,7 @@ function user_social_login($params)
                         $provider1 = ucwords($provider);
                         $notif['title'] = "New user registration with {$provider1}";
                         $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                        post_notification($notif);
+                        \mw\Notifications::save($notif);
 
                         save_log($notif);
 
@@ -478,7 +478,7 @@ function register_user($params)
             $notif['title'] = "New user registration";
             $notif['description'] = "You have new user registration";
             $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-            post_notification($notif);
+            \mw\Notifications::save($notif);
 
             save_log($notif);
 
@@ -916,7 +916,7 @@ function captcha()
     // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
     $black = imagecolorallocate($image, 0, 0, 0);
     session_set('captcha', $answ);
-    session_write_close();
+   // session_write_close();
     $col1z = rand(200, 242);
     $col1z1 = rand(150, 242);
     $col1z11 = rand(150, 242);
@@ -1259,7 +1259,7 @@ function user_send_forgot_password($params)
                     $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                     //d($data_res);
-                    mw_mail($to, $subject, $content, true, $no_cache = true);
+                    \mw\email\Sender::send($to, $subject, $content, true, $no_cache = true);
 
                     return array('success' => 'Your password reset link has been sent to ' . $to);
                 } else {

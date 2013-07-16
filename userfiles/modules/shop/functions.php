@@ -14,7 +14,7 @@ function mw_print_admin_shop_settings_link() {
 	
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Payments</a></li>";
 
-	//$notif_count = get_notifications('module=comments&is_read=n&count=1');
+	//$notif_count = \mw\Notifications::get('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}*/

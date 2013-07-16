@@ -348,7 +348,7 @@ function url_title($text) {
 }
 
 function replace_site_vars_back($arr) {
-
+ return $arr;
 	if (is_string($arr)) {
 
 		$parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
@@ -386,7 +386,7 @@ function replace_site_vars_back($arr) {
 			if (is_array($v)) {
 
 				$v = replace_site_vars_back($v);
-			} else {
+			} else if (is_string($v)) {
 				$v = replace_site_vars_back($v);
 				//$v = html_entity_decode($v, ENT_COMPAT, "UTF-8");
 				// $v = str_ireplace($site, '{SITE_URL}', $v);

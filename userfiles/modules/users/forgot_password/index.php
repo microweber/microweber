@@ -14,7 +14,7 @@
 
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
-		$form_btn_title = 'Reset password';
+		    $form_btn_title = _e("Reset password", true);
 		}
  
  		 ?>
@@ -23,26 +23,28 @@
 
 mw.require('forms.js', true);
 
+formenabled = true;
+
 
 $(document).ready(function(){
 	
 
 	 
 	 mw.$('#user_forgot_password_form{rand}').submit(function() {
-
- 
- mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print site_url('api') ?>/user_send_forgot_password', function(a){
-
-	         mw.response('#form-holder{rand}',this);
-
-	// mw.reload_module('[data-type="categories"]');
-	 // mw.reload_module('[data-type="pages"]');
-	 });
-
- return false;
- 
-
- });
+          if(formenabled){
+              formenabled = false;
+              var form = this;
+              $(form).addClass('loading');
+              mw.tools.disable(form.submit);
+              mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print site_url('api') ?>/user_send_forgot_password', function(a){
+                  mw.response('#form-holder{rand}',this);
+                  formenabled = true;
+                  $(form).removeClass('loading');
+                  mw.tools.enable(form.submit);
+          	 });
+           }
+           return false;
+     });
  
 });
 </script>

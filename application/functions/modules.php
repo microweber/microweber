@@ -387,11 +387,7 @@ function get_all_functions_files_for_modules($options = false)
     }
 }
 
-function get_elements_from_db($params = false)
-{
-return get_layouts_from_db($params);
 
-}
 
 
 
@@ -650,6 +646,7 @@ function module_info($module_name)
 {
     global $_mw_modules_info_register;
     if (isset($_mw_modules_info_register[$module_name])) {
+
 
         return $_mw_modules_info_register[$module_name];
 
@@ -987,8 +984,8 @@ function re_init_modules_db()
                     $cfg = $config;
                     if (isset($config['tables']) and is_arr($config['tables'])) {
                         $tabl = $config['tables'];
-                        foreach ($tabl as $key => $value) {
-                            $table = db_get_real_table_name($key);
+                        foreach ($tabl as $key1 => $fields_to_add) {
+                            $table = db_get_real_table_name($key1);
                             set_db_table($table, $fields_to_add);
                         }
                     }
@@ -1093,8 +1090,8 @@ function install_module($params)
             if (isset($config)) {
                 if (isset($config['tables']) and is_arr($config['tables'])) {
                     $tabl = $config['tables'];
-                    foreach ($tabl as $key => $value) {
-                        $table = db_get_real_table_name($key);
+                    foreach ($tabl as $key1 => $fields_to_add) {
+                        $table = db_get_real_table_name($key1);
                         set_db_table($table, $fields_to_add);
                     }
                 }
@@ -1710,9 +1707,29 @@ function load_module_lic($module_name = false)
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
+$mw_loaded_mod_memory = array();
 function load_module($module_name, $attrs = array())
 {
-    $function_cache_id = false;
+//    $args = func_get_args();
+//    $function_cache_id = false;
+//    if(is_array($attrs)){
+//        ksort($attrs);
+//    }
+//
+//    foreach ($args as $k => $v) {
+//        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//     }
+//    $function_cache_id = crc32($function_cache_id);
+//    global $mw_loaded_mod_memory;
+//
+//    if(isset($mw_loaded_mod_memory[$function_cache_id])){
+//       // return $function_cache_id;
+//       // print $function_cache_id;
+//
+//        return $mw_loaded_mod_memory[$function_cache_id];
+//    }
+
+
     //if (defined('PAGE_ID') == false) {
     // define_constants();
     // }
@@ -1757,6 +1774,7 @@ function load_module($module_name, $attrs = array())
     $module_name = reduce_double_slashes($module_name);
 
     $module_namei = $module_name;
+
     if (strstr($module_name, 'admin')) {
 
         $module_namei = str_ireplace('\\admin', '', $module_namei);
@@ -2035,12 +2053,14 @@ function load_module($module_name, $attrs = array())
 
             //$lic_l1 = null;
             unset($lic_l1);
-            return $lic_l1e_file . $module_file;
+            $module_file =  $lic_l1e_file . $module_file;
         }
+       // d($module_file);
+       // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
         return $module_file;
     } else {
         //define($cache_content, FALSE);
-
+       // $mw_loaded_mod_memory[$function_cache_id] = false;
         return false;
     }
 }
@@ -2066,83 +2086,3 @@ function module_css_class($module_name)
     }
 }
 
-action_hook('mw_cron', 'mw_cron');
-api_expose('mw_cron');
-function mw_cron()
-{
-
-
-
-
-
-
-    $file_loc = CACHEDIR_ROOT . "cron" . DS;
-    $file_loc_hour = $file_loc . 'cron_lock' .'.php';
-
-    $time = time();
-    if(!is_file($file_loc_hour)){
-        @touch($file_loc_hour);
-    } else {
-        if((filemtime($file_loc_hour)) >  $time - 2){
-            touch($file_loc_hour);
-            return true;
-        }
-    }
-
-
-
-   // touch($file_loc_hour);
-    $cron = new \mw\utils\Cron;
-    //$cron->run();
-
-    $scheduler = new \mw\utils\Events();
-
-    // schedule a global scope function:
-    //$scheduler->registerShutdownEvent("\mw\utils\Backup", $params);
-
-    $scheduler->registerShutdownEvent(array($cron, 'run'));
-
-    $file_loc = CACHEDIR_ROOT . "cron" . DS;
-
-    $some_hour = date('Ymd');
-    $file_loc_hour = $file_loc . 'cron_lock' . $some_hour . '.php';
-    if (is_file($file_loc_hour)) {
-        return true;
-    } else {
-
-        $opts = get_options("option_key2=cronjob");
-        if ($opts != false) {
-
-            //d($file_loc);
-            if (!is_dir($file_loc)) {
-                if (!mkdir($file_loc)) {
-                    return false;
-                }
-            }
-
-            if (!defined('MW_CRON_EXEC')) {
-                define('MW_CRON_EXEC', true);
-            }
-
-            foreach ($opts as $item) {
-
-                if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
-                    if (isset($item['option_value']) and $item['option_value'] != 'n') {
-                        $when = strtotime($item['option_value']);
-                        if ($when != false) {
-                            $when_date = date('Ymd', $when);
-                            $file_loc_date = $file_loc . '' . $item['option_key'] . $item['id'] . $when_date . '.php';
-                            if (!is_file($file_loc_date)) {
-                                touch($file_loc_date);
-                                $md = module_data('module=' . $item['module'] . '/cron');
-                            }
-                        }
-                    }
-                } else {
-                    //	d($item);
-                }
-            }
-            touch($file_loc_hour);
-        }
-    }
-}

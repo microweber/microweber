@@ -94,7 +94,7 @@ $(document).ready(function(){
 </script>
 <?php $fffound = false; ?>
 <div id="module-saved-templates">
-<h5>Templates</h5>
+<h5><?php _e("Templates"); ?></h5>
   <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
   <?php if(isarr($saved_modules )): ?>
   <ul>

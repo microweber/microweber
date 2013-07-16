@@ -230,6 +230,7 @@ class Files
             $this->mw_cache_deleted_groups[] = $cache_group;
 
         } else {
+            //print $cache_group;
             return  true;
             //	print $cache_id;
         }

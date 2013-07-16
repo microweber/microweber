@@ -508,7 +508,7 @@ function post_form($params) {
 		$notif['title'] = "New form entry";
 		$notif['description'] = "You have new form entry";
 		$notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
-		post_notification($notif);
+		\mw\Notifications::save($notif);
 		//	d($cf_to_save);
 		if ($email_to == false) {
 			$email_to = get_option('email_from', 'email');
@@ -549,8 +549,8 @@ function post_form($params) {
 			if (!empty($user_mails)) {
 				array_unique($user_mails);
 				foreach ($user_mails as $value) {
-					//mw_mail($value,$mail_sj,$mail_autoresp );
-					$scheduler -> registerShutdownEvent("mw_mail", $value, $mail_sj, $mail_autoresp);
+					//\mw\email\Sender::send($value,$mail_sj,$mail_autoresp );
+					$scheduler -> registerShutdownEvent("\mw\email\Sender::send", $value, $mail_sj, $mail_autoresp);
 
 				}
 			}

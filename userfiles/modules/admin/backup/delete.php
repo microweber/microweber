@@ -4,9 +4,9 @@ $file=$_GET['file'];
 
 // Check if the file has needed args
 if ($file==NULL){
-  print("<script type='text/javascript'>window.alert('You have not provided a file to delete.')</script>");
+  print("<script type='text/javascript'>window.alert('" . _e("You have not provided a file to delete", true) . ".');</script>");
   print("<script type='text/javascript'>window.location='manage.php'</script>");
-  print("You have not provided a file to delete.<br>Click <a href='manage.php'>here</a> if your browser doesn't automatically redirect you.");
+  print( _e("You have not provided a file to delete", true) . ".<br>". _e("Click", true)." <a href='manage.php'>"._e("here", true). " .</a> "._e("if your browser doesn't automatically redirect you", true).".");
   die();
 }
 

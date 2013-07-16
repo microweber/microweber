@@ -27,7 +27,7 @@ description: Inner Slider
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
 
 
-            <img  class="autoscale-x" src="<?php print $item['filename']; ?>" alt="" />
+            <img  class="autoscale-x" src="<?php print thumbnail($item['filename'], 900); ?>" alt="" />
 
 
 
@@ -68,8 +68,8 @@ description: Inner Slider
   });
 
 </script>
- 
+
 
 <?php else : ?>
-<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
+ <?php  mw_text_live_edit("<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 <?php endif; ?>

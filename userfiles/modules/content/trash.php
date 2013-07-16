@@ -180,7 +180,7 @@ $pages_count = intval($pages);
 <?php if (intval($pages_count) > 1): ?>
 <?php $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
-<h2 class="left" style="padding-left: 20px;width: 430px;padding-bottom:16px; ">Deleted content</h2>
+<h2 class="left" style="padding-left: 20px;width: 430px;padding-bottom:16px; "><?php _e("Deleted content"); ?></h2>
 
 
 
@@ -195,9 +195,9 @@ $pages_count = intval($pages);
 <div class="manage-toobar manage-toolbar-top">
   <span class="mn-tb-arr-top left"></span>
   <span class="posts-selector left">
-    <span onclick="mw.check.all('#pages_delete_container')">Select All</span>/<span onclick="mw.check.none('#pages_delete_container')">Unselect All</span></span>
-    <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Delete forever</span>
-    <span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Restore selected</span>
+    <span onclick="mw.check.all('#pages_delete_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_delete_container')"><?php _e("Unselect All"); ?></span></span>
+    <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red"><?php _e("Delete forever"); ?></span>
+    <span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Restore selected"); ?></span>
     <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
   </div>
 
@@ -241,7 +241,7 @@ $pages_count = intval($pages);
       <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
       <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-      <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;">Edit</a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');;">Delete forever</a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;">Restore</a></div>
+      <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
     </div>
     <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
   </div>
@@ -277,20 +277,13 @@ $pages_count = intval($pages);
 </div>
 <div class="manage-toobar manage-toolbar-bottom">
   <span class="mn-tb-arr-bottom"></span> <span class="posts-selector">
-  <span onclick="mw.check.all('#pages_delete_container')">Select All</span>/<span onclick="mw.check.none('#pages_delete_container')">Unselect All</span>
+  <span onclick="mw.check.all('#pages_delete_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_delete_container')"><?php _e("Unselect All"); ?></span>
 </span>
-<span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Delete forever</span>
-<span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Restore selected</span></div>
-
-
-
-
-
-
-
+<span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red"><?php _e("Delete forever"); ?></span>
+<span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Restore selected"); ?></span></div>
 
 <script  type="text/javascript">
-mw.require('forms.js', true);
+    mw.require('forms.js', true);
 </script>
 <script  type="text/javascript">
 mw.post_del_forever = function(a, callback){
@@ -315,125 +308,82 @@ mw.post_undelete = function(a, callback){
 <script type="text/javascript">
 delete_selected_posts_forever = function(){
 
- var r=confirm("Are you sure you want to delete those pages forever?")
- if (r) {
 
-  var master = mwd.getElementById('pages_delete_container');
-  var arr = mw.check.collectChecked(master);
-  arr.forever = true;
-  mw.post_del_forever(arr, function(){
-   mw.reload_module('#<?php print $params['id'] ?>', function(){
-     toggle_cats_and_pages()
-   });
- });
+  mw.tools.confirm("<?php _e("Are you sure you want to delete those pages forever"); ?>?", function(){
+      var master = mwd.getElementById('pages_delete_container');
+      var arr = mw.check.collectChecked(master);
+      arr.forever = true;
+      mw.post_del_forever(arr, function(){
+       mw.reload_module('#<?php print $params['id'] ?>', function(){
+         toggle_cats_and_pages()
+       });
+     });
+  });
 
-}
 
 }
 
 
 delete_single_post_forever = function(id){
-  var r=confirm("Do you want to delete this content forever?")
-  if (r==true) {
-   var arr = id;
-   arr.forever = true;
-   mw.post_del_forever(arr, function(){
-    mw.$(".manage-post-item-"+id).fadeOut();
-    mw.notification.success("<?php _e('Content is deleted!'); ?>");
-
+  mw.tools.confirm("<?php _e("Do you want to delete this content forever"); ?>?", function(){
+       var arr = id;
+       arr.forever = true;
+       mw.post_del_forever(arr, function(){
+        mw.$(".manage-post-item-"+id).fadeOut();
+        mw.notification.success("<?php _e('Content is deleted!'); ?>");
+      });
   });
-	   //return false;
-  }	else {
-		//return false;
- }
-
 }
 
 restore_selected_posts = function(){
 
- var r=confirm("Are you sure you want restore the selected content")
- if (r==true) {
-
+ mw.tools.confirm("<?php _e("Are you sure you want restore the selected content"); ?>?", function(){
   var master = mwd.getElementById('pages_delete_container');
   var arr = mw.check.collectChecked(master);
   arr.forever = true;
   mw.post_undelete(arr, function(){
-
-
-
-   mw.reload_module("pages", function(){
-    if(!!mw.treeRenderer){
-
-     var isel = $('#pages_tree_toolbar');
-
-     if(isel.length > 0){
-       mw.treeRenderer.appendUI('.mw_pages_posts_tree');
-
-       mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-     }
-
-
-
-
-
-
-     mw.reload_module('#<?php print $params['id'] ?>', function(){
-      mw.notification.success("<?php _e('Content is restored!'); ?>");
+    mw.reload_module("pages", function(){
+        if(!!mw.treeRenderer){
+         var isel = $('#pages_tree_toolbar');
+         if(isel.length > 0){
+           mw.treeRenderer.appendUI('.mw_pages_posts_tree');
+           mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+         }
+         mw.reload_module('#<?php print $params['id'] ?>', function(){
+          mw.notification.success("<?php _e('Content is restored!'); ?>");
+        });
+       }
     });
-
-   }
  });
-
-
-
-
  });
-
-}
-
 }
 
 restore_single_post_from_deletion = function(id){
-  var r=confirm("Restore this content?")
-  if (r==true) {
+  mw.tools.confirm("<?php _e("Restore this content"); ?>?", function(){
    var arr = id;
    arr.forever = true;
    mw.post_undelete(arr, function(){
-    mw.$(".manage-post-item-"+id).fadeOut();
+   mw.$(".manage-post-item-"+id).fadeOut();
 
-    mw.reload_module("pages", function(){
-     mw.$(".mw_pages_posts_tree").removeClass("activated");
-
+   mw.reload_module("pages", function(){
+   mw.$(".mw_pages_posts_tree").removeClass("activated");
      if(!!mw.treeRenderer){
       var isel = $('#pages_tree_toolbar');
-
       if(isel.length > 0){
        mw.treeRenderer.appendUI('.mw_pages_posts_tree');
-
        mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
      }
-
-
      mw.notification.success("<?php _e('Content is restored!'); ?>");
-
      mw.reload_module('#<?php print $params['id'] ?>', function(){
 
      });
-
-
    }
  });
 
 
-
-
-
-
   });
-	   //return false;
-  }	else {
-		//return false;
- }
+  });
+
 
 }
 
@@ -453,9 +403,6 @@ restore_single_post_from_deletion = function(id){
   } else if(isset($params['curent_page'])){
     $numactive   = intval($params['curent_page']);
   }
-
-
-
   if(isset($paging_links) and isarr($paging_links)):  ?>
   <?php $i=1; foreach ($paging_links as $item): ?>
   <a  class="page-<?php print $i; ?> <?php if($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
@@ -467,13 +414,9 @@ restore_single_post_from_deletion = function(id){
 <?php else: ?>
 <div class="mw-no-posts-foot">
   <?php if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
-  <h2>No Products Here</h2>
-  <!--  <a href="#?action=new:product" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span>Add New Product<b><?php print $cat_name ?></b></a>
--->
+  <h2><?php _e("No Products Here"); ?></h2>
 <?php else: ?>
-<h2>No Posts Here</h2>
-  <!--  <a href="#?action=new:post" class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span>Create New Post <b><?php print $cat_name ?></b></a> </div>
--->
+<h2><?php _e("No Posts Here"); ?></h2>
 <?php endif; ?>
 </div>
 <?php endif; ?>

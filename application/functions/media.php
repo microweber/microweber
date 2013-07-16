@@ -545,10 +545,21 @@ function thumbnail_img($params)
     if (!is_dir($cd)) {
         mkdir_recursive($cd);
     }
+    $index_file = $cd.'index.html';
+    if (!is_file($index_file)) {
+        file_put_contents($index_file, 'Thumbnail directory is not allowed');
+    }
 
-    $cache = crc32($src . $width . $height) . basename($src);
+    $ext = strtolower(get_file_extension($src));
+    $cache = crc32(serialize($params)) . '.'.$ext;
 
     $cache = str_replace(' ', '_', $cache);
+
+    if(isset($cache_id)){
+        $cache = str_replace(' ', '_', $cache_id);
+        $cache = str_replace('..', '', $cache);
+    }
+
     $cache_path = $cd . $cache;
 
     if (file_exists($cache_path)) {
@@ -557,7 +568,7 @@ function thumbnail_img($params)
         //
 
         if (file_exists($src)) {
-            $ext = strtolower(get_file_extension($src));
+
 
             if (($ext) == 'svg') {
                 $res1 = file_get_contents($src);
@@ -614,13 +625,51 @@ function thumbnail($src, $width = 200, $height = 200)
     if ($src == false) {
         return pixum($width, $height);
     }
+    $src = html_entity_decode($src);
+    $src = htmlspecialchars_decode($src);
 
     $surl = site_url();
     $src = str_replace('{SITE_URL}', $surl, $src);
     $src = str_replace('%7BSITE_URL%7D', $surl, $src);
     $base_src = str_replace($surl, '', $src);
-    return site_url('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height;
 
+
+    if (!isset($width)) {
+        $width = 200;
+    }
+
+
+    if (!isset($height)) {
+        $width = 200;
+    }
+    $cd = CACHEDIR . 'thumbnail' . DS;
+
+
+
+    $ext = strtolower(get_file_extension($base_src));
+    $cache =  ($base_src . $width . $height) . '.'.$ext;
+
+    $cache = str_replace(' ', '_', $cache);
+
+  //print $cache_path;
+    //exit ($cache_path);
+    $ext = strtolower(get_file_extension($src));
+
+    $cache_id = array();
+    $cache_id['src'] = $base_src;
+    $cache_id['width'] = $width;
+    $cache_id['height'] = $height;
+    $cache_id = 'tn-'.crc32(serialize($cache_id)) . '.'.$ext;
+    $cache_path = $cd . $cache_id;
+    if (file_exists($cache_path)) {
+       // d($cache);
+        $cache_path = pathToURL($cache_path);
+        return $cache_path;
+    } else {
+
+
+    return site_url('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height.'&cache_id='.$cache_id;
+    }
 
     //require_once ();
     $surl = site_url();

@@ -24,11 +24,14 @@ include('empty_field_vals.php');
 
     <?php $i = 0; foreach($data['custom_field_values'] as $v):  ?>
       <?php $i++; ?>
-  <?php if(is_string( $k)){
+  <?php
+  $kv =  $v;	
+  
+   /*if(is_string( $k)){
 	$kv =  $k;
 	} else {
 	$kv =  $v;	
-	}
+	}*/
 	?>
   <label class="radio">
     <input type="radio" <?php if($is_required and $i==1){ ?> required <?php } ?> name="<?php print $data["custom_field_name"]; ?>"  <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" <?php if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> checked="checked" <?php endif; ?> />

@@ -42,7 +42,7 @@ if (is_admin() == false) {
 	
 	if(isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"])  and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false'){
 
-			$cfid = get_custom_field_by_id(intval($_REQUEST["custom_field_id"]));
+			$cfid = CustomFields::get_by_id(intval($_REQUEST["custom_field_id"]));
 			if($cfid == false){
 			 die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
 
@@ -401,7 +401,7 @@ $rerturn['bytes_uploaded'] = $upl_size_log;
 
 print json_encode($rerturn);
 if(isset($_SESSION) and !empty($_SESSION)){
-@session_write_close();
+//@session_write_close();
 
 }
 

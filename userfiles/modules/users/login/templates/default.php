@@ -16,10 +16,12 @@ description: Login default
 
 <div id="mw-login">
   <?php if($user != false): ?>
-  <module type="users/profile" />
+  <div class="well">
+    <module type="users/profile" />
+  </div>
   <?php else:  ?>
   <div class="box-head">
-    <h2>Login or <a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>');">Register</a></h2>
+    <h2><?php _e("Login or"); ?> <a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>');"><?php _e("Register"); ?></a></h2>
   </div>
 
   <?php if($have_social_login == true): ?>
@@ -37,7 +39,7 @@ description: Login default
     <div class="control-group" style="margin-bottom: 0;">
       <input  class="mw-ui-field large-field"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
-    <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>');">Forgot password?</a>
+    <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>');"><?php _e("Forgot password"); ?>?</a>
 
     <div class="vSpace"></div>
 
@@ -71,9 +73,9 @@ description: Login default
 
     <input class="btn btn-large pull-right" type="submit" value="<?php _e("Login"); ?>" />
 
+  <div class="alert" style="margin: 0;display: none;"></div>
 
   </form>
-  <div class="alert" style="margin: 0;display: none;"></div>
   </div>
   <?php endif;  ?>
 

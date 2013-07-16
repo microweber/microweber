@@ -6,7 +6,7 @@ type: layout
 
 name: Bootstrap Carousel
 
-description: Bootstrap Carousel 
+description: Bootstrap Carousel
 
 */
 
@@ -28,7 +28,7 @@ description: Bootstrap Carousel
         <?php $count = -1; foreach($data  as $item): ?>
          <?php $count++; ?>
           <div class="<?php if($count==0){ print 'active ';} ?>item">
-            <img src="<?php print $item['filename']; ?>"  />
+            <img src="<?php print thumbnail($item['filename'], 900, 700); ?>"  />
             <?php if(isset($item['title']) and $item['title'] !=''){ ?>
             <div class="carousel-caption">
                 <p><?php print $item['title']; ?></p>
@@ -45,6 +45,6 @@ description: Bootstrap Carousel
     </div>
 
 <?php else : ?>
-<?php print mw_notif_live_edit("Please click on settings to upload your pictures."); ?>
+ <?php  mw_text_live_edit(  "<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 
  <?php endif; ?>

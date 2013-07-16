@@ -52,6 +52,19 @@ function exec_action($api_function, $data = false)
                 }
                 unset($hooks[$api_function][$hook_key]);
 
+            } else {
+
+
+                try {
+                    if ($data != false) {
+                        call_user_func($hook_value,$data); // As of PHP 5.3.0
+                    } else {
+                        call_user_func($hook_value,false);
+                    }
+                } catch (Exception $e) {
+
+                }
+
             }
         }
     }
@@ -218,4 +231,88 @@ function mw_var($key, $new_val = false)
         }
     }
     return false;
+}
+
+
+
+
+action_hook('mw_cron', 'mw_cron');
+api_expose('mw_cron');
+function mw_cron()
+{
+
+
+
+
+
+
+    $file_loc = CACHEDIR_ROOT . "cron" . DS;
+    $file_loc_hour = $file_loc . 'cron_lock' .'.php';
+
+    $time = time();
+    if(!is_file($file_loc_hour)){
+        @touch($file_loc_hour);
+    } else {
+        if((filemtime($file_loc_hour)) >  $time - 2){
+            touch($file_loc_hour);
+            return true;
+        }
+    }
+
+
+
+    // touch($file_loc_hour);
+    $cron = new \mw\utils\Cron;
+    //$cron->run();
+
+    $scheduler = new \mw\utils\Events();
+
+    // schedule a global scope function:
+    //$scheduler->registerShutdownEvent("\mw\utils\Backup", $params);
+
+    $scheduler->registerShutdownEvent(array($cron, 'run'));
+
+    $file_loc = CACHEDIR_ROOT . "cron" . DS;
+
+    $some_hour = date('Ymd');
+    $file_loc_hour = $file_loc . 'cron_lock' . $some_hour . '.php';
+    if (is_file($file_loc_hour)) {
+        return true;
+    } else {
+
+        $opts = get_options("option_key2=cronjob");
+        if ($opts != false) {
+
+            //d($file_loc);
+            if (!is_dir($file_loc)) {
+                if (!mkdir($file_loc)) {
+                    return false;
+                }
+            }
+
+            if (!defined('MW_CRON_EXEC')) {
+                define('MW_CRON_EXEC', true);
+            }
+
+            foreach ($opts as $item) {
+
+                if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
+                    if (isset($item['option_value']) and $item['option_value'] != 'n') {
+                        $when = strtotime($item['option_value']);
+                        if ($when != false) {
+                            $when_date = date('Ymd', $when);
+                            $file_loc_date = $file_loc . '' . $item['option_key'] . $item['id'] . $when_date . '.php';
+                            if (!is_file($file_loc_date)) {
+                                touch($file_loc_date);
+                                $md = module_data('module=' . $item['module'] . '/cron');
+                            }
+                        }
+                    }
+                } else {
+                    //	d($item);
+                }
+            }
+            touch($file_loc_hour);
+        }
+    }
 }

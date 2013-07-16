@@ -1,7 +1,7 @@
 <?php   $users_last5 = get_visits('last5');
 //$requests_num = get_visits('requests_num');
 $requests_num = false;
-?><div id="users_online"><h2>Users Online</h2>
+?><div id="users_online"><h2><?php _e("Users Online"); ?></h2>
   <div class="users_online" id="real_users_online">
     <?php $users_online = get_visits('users_online'); print intval($users_online); ?>
   </div>  </div>
@@ -14,13 +14,13 @@ $requests_num = false;
   <table border="0" cellspacing="0" cellpadding="0" class="stats_table">
     <thead>
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col"><?php _e("Date"); ?></th>
         <?php if(function_exists('ip2country')): ?>
-        <th scope="col">Country</th>
+        <th scope="col"><?php _e("Country"); ?></th>
         <?php endif; ?>
-        <th scope="col">IP</th>
-        <th scope="col">Last page</th>
-        <th scope="col">Page views</th>
+        <th scope="col"><?php _e("IP"); ?></th>
+        <th scope="col"><?php _e("Last page"); ?></th>
+        <th scope="col"><?php _e("Page views"); ?></th>
       </tr>
     </thead>
     <tbody>

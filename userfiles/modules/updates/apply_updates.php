@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 only_admin_access();
 
@@ -13,7 +13,7 @@ only_admin_access();
  
  <?php  if(isset($_POST['mw_version'])){ ?>
   
- <h2>Installing new version of Microweber: <?php print  $_POST['mw_version'] ?></h2>
+ <h2><?php _e("Installing new version of Microweber"); ?>: <?php print  $_POST['mw_version'] ?></h2>
 <textarea>
 <?php $iudates = $update_api -> install_version($_POST['mw_version']); 
 d($iudates);
@@ -21,22 +21,8 @@ d($iudates);
 </textarea>
  
 <?php }  ?>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- <?php 
+
+ <?php
  if(isset($_POST['modules'])){ ?>
  <?php if(isarr($_POST['modules'])): ?>
   <?php foreach($_POST['modules']  as $item): ?> 

@@ -1,25 +1,15 @@
 <script  type="text/javascript">
 function mw_delete_shop_client($email){
-	 var r=confirm("Are you sure you want to delete this client?")
-if (r==true)
-  {
- 
-  var r1=confirm("ATTENTION!!!!!!\nALL ORDERS FROM THIS CLIENT WILL BE DELETED!\n\nCLICK CANCEL NOW\nOR\nTHERE IS NO TURNING BACK!")
-if (r1==true)
-  {
- 
+	 var r=confirm("<?php _e("Are you sure you want to delete this client"); ?>?")
+if (r==true){
+
+  var r1=confirm("<?php _e("ATTENTION"); ?>!!!!!!\n<?php _e("ALL ORDERS FROM THIS CLIENT WILL BE DELETED"); ?>!\n\n<?php _e("CLICK CANCEL NOW"); ?>\n<?php _e("OR"); ?>\n<?php _e("THERE IS NO TURNING BACK"); ?>!")
+if (r1==true){
 	 $.post("<?php print api_url('delete_client') ?>", { email: $email } ,function(data) {
 		mw.reload_module('shop/orders/clients');
-		
-		
 	});
-
   }
- 
- 
- 
    }
- 
 }
 
 </script>
@@ -74,8 +64,6 @@ if (r1==true)
           <?php print $total_ord; ?>
         </td>
         <td width="85">
-
-
             <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
             <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
@@ -83,11 +71,8 @@ if (r1==true)
       <?php endforeach; endif; ?>
     </tbody>
   </table>
-
   <?php  }  else { ?>
-
       <h2><?php _e("You don't have any clients"); ?></h2>
-
   <?php  }  ?>
 
 

@@ -54,7 +54,7 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
 		 $local_obj = new \mw\cache\Files();
 	}
 	
-	
+	//d($cache_group);
 	
      $local_obj->delete($cache_group);
 }

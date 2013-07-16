@@ -1,31 +1,34 @@
-<div id="mw_edit_pages_content">
+<div id="mw_edit_pages_content" style="width: auto">
   <div id="mw_index_contact_form">
-    <div id="mw_edit_page_left" class="mw_edit_page_default">
+    <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
       <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
- $mw_notif = read_notification( $mw_notif);	
+ $mw_notif = \mw\Notifications::read( $mw_notif);
 
 }
 
- 
+\mw\Notifications::mark_as_read('contact_form');
+
+
   ?>
       <?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
       <script type="text/javascript">
 
 $(document).ready(function(){
- 
-    window.location= "<?php print $config['url']; ?>/load_list:<?php print $mw_notif['rel_id']; ?>";
+
+     window.location= "<?php print $config['url']; ?>/load_list:<?php print $mw_notif['rel_id']; ?>";
 
 });
- 
+
 </script>
+
       <?php else :  ?>
       <?php endif; ?>
       <?php
- 
-mark_notifications_as_read('contact_form');
- 
-	
+
+\mw\Notifications::mark_as_read('contact_form');
+
+
 $load_list = 'default';
 if((url_param('load_list') != false)){
     $load_list = url_param('load_list');
@@ -33,7 +36,7 @@ if((url_param('load_list') != false)){
 
 
    ?>
-      <?php 
+      <?php
 $templates = '';
 $load_templates = false;
 if((url_param('templates') != false)){
@@ -61,10 +64,12 @@ if((url_param('templates') != false)){
           </ul>
           <div class="vSpace"></div>
         </div>
-        <h2>Templates</h2>
-        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green">Get more templates</a> </div>
+        <h2><?php _e("Templates"); ?></h2>
+        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green"><?php _e("Get more templates"); ?></a>
+      </div>
     </div>
-    <div class="mw_edit_page_right" style="padding: 20px;">
+    <div class="mw-content-container" >
+    <div style="padding: 20px;">
       <?php
 
 
@@ -74,7 +79,7 @@ if((url_param('templates') != false)){
       <script type="text/javascript">
 
 
- 
+
 
 mw.on.hashParam('search', function(){
 
@@ -100,34 +105,35 @@ mw.on.hashParam('search', function(){
 });
 
 
- 
+
 
 $(document).ready(function(){
 	 $("#form_field_title").click(function() {
 		mw.tools.liveEdit(this, false,  function(){
-			var new_title =  this 
+			var new_title =  this
 			 mw.forms_data_manager.rename_form_list('<?php print $load_list ?>',new_title );
 		 });
 
-		
+
 	});
-   
+
 });
- 
- 
+
+
 
  </script>
       <module type="forms/list_toolbar"  load_list="<?php print $load_list ?>"   />
       <div class="vSpace"></div>
       <module type="forms/list" load_list="<?php print $load_list ?>"  for_module="<?php print $config["the_module"] ?>" id="forms_data_module" />
       <?php if(strtolower(trim($load_list)) != 'default'): ?>
-      <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">Delete list</span>
+      <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
       <?php endif; ?>
       <?php endif; ?>
       <?php if($load_templates == true): ?>
       <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
       <?php else : ?>
       <?php endif; ?>
+    </div>
     </div>
   </div>
 </div>

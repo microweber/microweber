@@ -43,7 +43,7 @@ modulePreview = function(el){
    });
 
    if(!modal){
-     mw.tools.highlight(mwd.getElementById("preview_" + el.id).querySelector(".tpl_previe_overlay"), "#FF0000");
+     mw.tools.highlight(mwd.getElementById("preview_" + el.id).querySelector(".tpl_previe_overlay"), "#ffffff");
    }
    else{
      $(modal.container).css("position", "relative").append("<div class='tpl_previe_overlay'></div>");
@@ -76,10 +76,10 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
  ?>
 <?php  if(is_arr( $templates)): ?>
 
-<label class="mw-ui-label">Set default skin for the whole website</label>
-<div class="mw-ui-select left" style="width: 70%;margin-right:20px;">
+<label class="mw-ui-label"><?php _e("Set default skin for the whole website"); ?></label>
+<div class="mw-ui-select left" style="width: 30%;margin-right:20px;">
   <select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
-    <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>Default</option>
+    <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
     <?php  foreach($templates as $item):	 ?>
     <?php if((strtolower($item['name']) != 'default')): ?>
     <option value="<?php print $item['layout_file'] ?>"   <?php if(($item['layout_file'] == $cur_template)): ?>   selected="selected"  <?php endif; ?>     > <?php print $item['name'] ?> </option>
@@ -87,7 +87,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
     <?php endforeach; ?>
   </select>
 </div>
-<a class="mw-ui-btn mw-ui-btn-green" href="javascript:;">Get more templates</a>
+<a class="mw-ui-btn mw-ui-btn-green" href="javascript:;"><?php _e("Get more templates"); ?></a>
 <div class="mw-admin-templates-browse-holder">
   <?php if(isarr($templates )): ?>
   <?php $i = 1; foreach($templates  as $item): ?>
@@ -120,13 +120,13 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
   <div class="templatePreviewOL">
   <div class="templatePreviewOLContent">
      <span class="mw-ui-btn mw-ui-btn-large"><?php print $item['name'] ?></span>
-     <span class="mw-ui-btn left mw-ui-btn-green">Use as default</span>
+     <span class="mw-ui-btn left mw-ui-btn-green"><?php _e("Use as default"); ?></span>
      <a
         onclick="modulePreview(this); return false;"
         title="<?php print $item['name'] ?>"
         id="skin_num_<?php print $i.md5($curent_module); ?>"
         href="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
-        class="mw-ui-btn mw-ui-btn-blue right">Preview</a>
+        class="mw-ui-btn mw-ui-btn-blue right"><?php _e("Preview"); ?></a>
 
   </div>
   </div>

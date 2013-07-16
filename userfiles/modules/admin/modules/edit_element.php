@@ -8,7 +8,7 @@ $id = 	$params["data-module-id"];
 $data = array();
 if($id != false){
 	
-	$data = get_elements_from_db('limit=1&id='.$id);
+	$data = get_layouts_from_db('limit=1&id='.$id);
 	if(isset($data[0])){
 	$data = $data[0];	
 	}

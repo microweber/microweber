@@ -2,7 +2,14 @@
 
 <div style="margin: 5em 0;padding:2em;background:#ECF5FA;color:#000;clear:both;"> <b>Benchmarks</b>
   <pre>
+  
+  
 <?php 
+/* var_dump(debug_backtrace());
+$arr = get_defined_functions();
+
+print_r($arr['user']);*/
+
 $mtime = microtime(); 
    $mtime = explode(" ",$mtime); 
    $mtime = $mtime[1] + $mtime[0]; 

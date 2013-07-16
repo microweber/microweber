@@ -44,7 +44,7 @@ if(!isset($tn[1])){
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
                 <span class="valign">
                     <span class="valign-cell">
-                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - image" title="<?php print addslashes($item['title']); ?>" />
+                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
                     </span>
                 </span>
             </a>
@@ -54,7 +54,7 @@ if(!isset($tn[1])){
             <h3><a class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
         <?php endif; ?>
         <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-            <small class="muted">Posted on: <?php print $item['created_on']; ?></small>
+            <small class="muted"><?php _e("Posted on"); ?>: <?php print $item['created_on']; ?></small>
         <?php endif; ?>
         </div>
         

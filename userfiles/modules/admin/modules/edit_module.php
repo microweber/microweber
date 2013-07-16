@@ -89,7 +89,7 @@ $(document).ready(function(){
   <div class="admin-modules-list-description">
     <h2 title="<?php print $data['module'] ?>">
       <?php if(isset($data['name'])):  ?>
-      <?php print $data['name'] ?>
+      <?php _e($data['name']); ?>
       <?php endif; ?>
     </h2>
 

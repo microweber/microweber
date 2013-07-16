@@ -759,6 +759,7 @@
      text-transform: uppercase;
      font-size: 12px;
      background: none;
+     padding: 11px;
    }
    #header .nav a:hover{
      text-decoration: underline

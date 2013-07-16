@@ -13,6 +13,8 @@ if ($is_mysqli != false) {
             if(isset($port_check[1])){
                 $port_num = intval($port_check[1]);
                 $db['host'] = $port_check[0];
+            } else {
+                $port_num = 3306;
             }
         }
 
@@ -57,10 +59,7 @@ if ($is_mysqli != false) {
             $result->free();
             // unset($result);
 
-            $is_gc_collect_cycles = function_exists('gc_collect_cycles');
-            if($is_gc_collect_cycles == true){
-                gc_collect_cycles();
-            }
+
 
 
             $q = $nwq;

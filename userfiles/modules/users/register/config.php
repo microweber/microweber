@@ -8,7 +8,7 @@ $config['website'] = "http://microweber.com/";
 $config['help'] = "http://microweber.info/modules/users/registration"; 
 $config['version'] = 0.2;
 $config['ui'] = true; 
-   $config['position'] = 10;
+   $config['position'] = 21;
 $config['categories'] = "users";    
 
 

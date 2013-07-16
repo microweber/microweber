@@ -22,7 +22,7 @@
       <?php endforeach; ?>
     </select>
   </div>
-  <h2 style="margin-top:0 ">Shipping Information</h2>
+  <h2 style="margin-top:0 "><?php _e("Shipping Information"); ?></h2>
   <hr />
   <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
     <module type="<?php print $shipping_options[0]['module_base'] ?>"  />

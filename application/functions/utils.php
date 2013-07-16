@@ -312,6 +312,7 @@ function normalize_path($path, $slash_it = true)
     if ($ch != false) {
 
         $path = $ch;
+       // print $path;
     } else {
 
 

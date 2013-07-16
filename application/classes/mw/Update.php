@@ -25,17 +25,15 @@ class Update
     {
         $a = is_admin();
         if ($a == false) {
-            return false;
+            error('Must be admin!');
         }
-      //  return false;
-
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set("memory_limit", "160M");
-                //ini_set("set_time_limit", 30);
+				ini_set("memory_limit", "160M");
+                ini_set("set_time_limit", 0);
             }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-               // set_time_limit(30);
+                set_time_limit(0);
             }
 
         }
@@ -58,7 +56,7 @@ class Update
         $data = array();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = site_url();
-        cache_save($data, $c_id, 'update/global');
+
         $t = templates_list();
         $data['templates'] = $t;
 
@@ -126,7 +124,7 @@ class Update
 
         }
 
-        if (function_exists('post_notification')) {
+        if (function_exists('\mw\Notifications::save')) {
 
 
             $count = 0;
@@ -152,11 +150,11 @@ class Update
                 $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
 
-                \post_notification($notif);
+                \mw\Notifications::save($notif);
             }
 
         }
-        /*if(function_exists('post_notification')){
+        /*if(function_exists('\mw\Notifications::save')){
 
 
                $count = 0;
@@ -180,7 +178,7 @@ class Update
            $notif['title'] = "New updates are avaiable";
            $notif['description'] = "There are $count new updates are available";
            // d($notif);
-           //post_notification($notif);
+           //\mw\Notifications::save($notif);
            }
 
        }*/
@@ -189,23 +187,36 @@ class Update
         //}
 
 
-        if (isarr($result)) {
-            $result['count'] = $count;
-        }
-        //$result =  $count;
+		if(isarr($result)){
+			$result['count'] = $count;
+		}
+		//$result =  $count;
 
 
-        if ($result != false) {
+
+		 if ($result != false) {
             cache_save($result, $c_id, 'update/global');
-        } else {
-            $data = array();
-            $data['count'] = 0;
-            cache_save('', $c_id, 'update/global');
-
         }
+
+
+
 
 
         return $result;
+    }
+
+    function post_update()
+    {
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+        mw_post_update();
     }
 
     function install_version($new_version)
@@ -248,75 +259,6 @@ class Update
 
         }
 
-    }
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \mw\utils\Curl();
-
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-
-        if (!is_array($post_params)) {
-            //   $post_params = array();
-        }
-        $post_params['site_url'] = site_url();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-
-            //$post_params = $this -> http_build_query_for_curl($post_params);
-
-            $post_paramsbase64 = base64_encode(serialize($post_params));
-            $post_paramssjon = base64_encode(json_encode($post_params));
-
-            $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon, 'serialized' => serialize($post_params));
-
-            $result1 = $curl->post($post_params_to_send);
-
-        } else {
-            $result1 = false;
-            // $result1 = $curl->post($post_params_to_send);
-        }
-
-        if ($result1 == '' or $result1 == false) {
-            return false;
-        }
-
-
-        //	\curl_close($ch);
-        $result = false;
-        if ($result1 != false) {
-            $result = json_decode($result1, 1);
-        }
-        if ($result == false) {
-            // print $result1;
-        }
-        return $result;
-    }
-
-    function post_update()
-    {
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
-        mw_post_update();
     }
 
     function apply_updates($updates)
@@ -566,19 +508,76 @@ class Update
 
     }
 
-    public function send_anonymous_server_data($params = false)
-    {
 
-        if ($params != false and is_string($params)) {
+    public function send_anonymous_server_data($params = false){
+
+        if ($params != false and is_string( $params)) {
             $params = parse_params($params);
         }
 
-        if ($params == false) {
+        if($params == false){
             $params = array();
         }
 
         $params['site_url'] = site_url();
         $result = $this->call('send_anonymous_server_data', $params);
+        return $result;
+    }
+
+
+
+    function call($method = false, $post_params = false)
+    {
+        $cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \mw\utils\Curl();
+
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+
+        if (!is_array($post_params)) {
+         //   $post_params = array();
+        }
+        $post_params['site_url'] = site_url();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+
+            //$post_params = $this -> http_build_query_for_curl($post_params);
+
+            $post_paramsbase64 = base64_encode(serialize($post_params));
+            $post_paramssjon = base64_encode(json_encode($post_params));
+
+            $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
+
+            $result1 = $curl->post($post_params_to_send);
+
+        } else {
+            $result1 = false;
+            // $result1 = $curl->post($post_params_to_send);
+        }
+
+        if ($result1 == '' or $result1 == false) {
+            return false;
+        }
+
+
+        //	\curl_close($ch);
+        $result = false;
+        if ($result1 != false) {
+            $result = json_decode($result1, 1);
+        }
+        if ($result == false) {
+            print $result1;
+        }
         return $result;
     }
 
