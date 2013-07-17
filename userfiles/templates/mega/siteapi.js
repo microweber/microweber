@@ -98,43 +98,46 @@ mw.elementRotator = {
 
   $(mwd).ready(function(){
 
-        mw.tools.dropdown();
+      mw.tools.dropdown();
 
 
-        mw.$("#mobile-menu-toggle").bind("click", function(){
-          if(mw.$("#header .nav").hasClass("hidden-phone")){
-             mw.$("#header .nav").removeClass("hidden-phone")
-          }
-          else{
-             mw.$("#header .nav").addClass("hidden-phone")
+      mw.$("#mobile-menu-toggle").bind("click", function(){
+        if(mw.$("#header .nav").hasClass("hidden-phone")){
+           mw.$("#header .nav").removeClass("hidden-phone")
+        }
+        else{
+           mw.$("#header .nav").addClass("hidden-phone")
+        }
+      });
+
+
+     mw.$(".tabs", mwd.body).each(function(){
+        var nav = this;
+        mw.$("a", nav).bind("click", function(){
+          if(!$(this).hasClass("active")){
+            mw.$(".active", nav).removeClass("active");
+            $(this).addClass("active");
           }
         });
-
-
-           mw.$(".tabs", mwd.body).each(function(){
-              var nav = this;
-              mw.$("a", nav).bind("click", function(){
-                if(!$(this).hasClass("active")){
-                  mw.$(".active", nav).removeClass("active");
-                  $(this).addClass("active");
-                }
-              });
-           });
+     });
 
 
 
-
-
-
-    mw.$(".box-field").bind("mouseup", function(e){
-      var c = e.target.className;
-      if(mw.tools.hasClass(c, 'box-field') || mw.tools.hasClass(c, 'box') || mw.tools.hasClass(c, 'box-content')){
-        mw.$('.invisible-field', e.target).focus();
-      }
-
+    mw.$(".box-field").each(function(){
+      var el = this;
+      $(el).bind("mouseup", function(e){
+        var c = e.target.className;
+        if(mw.tools.hasClass(c, 'box-field') || mw.tools.hasClass(c, 'box') || mw.tools.hasClass(c, 'box-content')){
+          mw.$('.invisible-field', e.target).focus();
+        }
+      });
+      mw.$('.invisible-field', el).bind("focus", function(){
+        $(el).addClass("focus");
+      });
+      mw.$('.invisible-field', el).bind("blur", function(){
+        $(el).removeClass("focus");
+      });
     });
-
-
 
 
    if('placeholder' in document.createElement('input') === false){
@@ -149,8 +152,19 @@ mw.elementRotator = {
 
 
 
+   if (typeof CanvasRenderingContext2D === 'undefined'){
+     $(mwd.body).addClass('old-browser');
+
+     mw.require(mw.settings.template_url + "oldbrowsers.css");
+   }
+
 
 
   });
+
+
+
+
+
 
 

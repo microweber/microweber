@@ -6,12 +6,32 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 
 
 $autoinstall = false;
+ 
 
 
-if (isset($_REQUEST['autoinstall'])) {
-    $cli_autoinstall = $_REQUEST['autoinstall'];
+$autoinstall_cli = getopt("i:");
+ 
+/*
+You can install MW from the command line
+
+*/
+if(isset($autoinstall_cli ) and $autoinstall_cli != false and !empty($autoinstall_cli)){
+   
+    $autoinstall_cli_val=array_pop($autoinstall_cli);
+    if(trim(strtolower($autoinstall_cli_val)) == 'yes'){
+          
+        $cli_autoinstall = true;
+      
+ 
+    }
+
+
+    
+
+ 
 }
-
+ 
+ 
 if (isset($cli_autoinstall) and $cli_autoinstall != false) {
 
     $cfg = MW_CONFIG_FILE;
@@ -19,79 +39,27 @@ if (isset($cli_autoinstall) and $cli_autoinstall != false) {
         require ($cfg);
 
         if (isarr($config) and isset($config['db']) and isarr($config['db'])) {
+           // if(!isset($config['installed']) or $config['installed'] != 'yes')){
+                        $autoinstall = $config['db'];
+                        $autoinstall['is_installed'] = 'no';
 
-            $autoinstall = $config['db'];
-            $autoinstall['is_installed'] = 'no';
+                        if (isset($config['table_prefix'])) {
+                            $autoinstall['table_prefix'] = $config['table_prefix'];
 
-            if (isset($config['table_prefix'])) {
-                $autoinstall['table_prefix'] = $config['table_prefix'];
-
-            } else {
-                $autoinstall['table_prefix'] = '';
-            }
-
-
-            if (!isset($_REQUEST['admin_username'])) {
-                if (isset($autoinstall['user'])) {
-                    $autoinstall['admin_username'] = $autoinstall['user'];
-                }
-            } else {
-                $autoinstall['admin_username'] = $_REQUEST['admin_username'];
-            }
-
-            if (!isset($_REQUEST['dbname'])) {
-                if (isset($autoinstall['dbname'])) {
-                    $autoinstall['dbname'] = $autoinstall['dbname'];
-                }
-            } else {
-                $autoinstall['dbname'] = $_REQUEST['dbname'];
-            }
-
-
-            if (!isset($_REQUEST['admin_username'])) {
-                if (isset($autoinstall['user'])) {
-                    $autoinstall['admin_username'] = $autoinstall['user'];
-                }
-            } else {
-                $autoinstall['admin_username'] = $_REQUEST['admin_username'];
-            }
-
-
-            if (!isset($_REQUEST['admin_password'])) {
-                if (isset($autoinstall['pass'])) {
-                    $autoinstall['admin_password'] = $autoinstall['pass'];
-                }
-            } else {
-                $autoinstall['admin_password'] = $_REQUEST['admin_password'];
-            }
-
-
-            if (!isset($_REQUEST['db_user'])) {
-                if (isset($autoinstall['user'])) {
-                    $autoinstall['db_user'] = $autoinstall['user'];
-                }
-            } else {
-                $autoinstall['db_user'] = $_REQUEST['db_user'];
-            }
-
-            if (!isset($_REQUEST['db_pass'])) {
-                if (isset($autoinstall['pass'])) {
-                    $autoinstall['db_pass'] = $autoinstall['pass'];
-                }
-            } else {
-                $autoinstall['db_pass'] = $_REQUEST['db_pass'];
-            }
-
-
-            if (!isset($_REQUEST['db_host'])) {
-                if (isset($autoinstall['host'])) {
-                    $autoinstall['db_host'] = $autoinstall['host'];
-                }
-            } else {
-                $autoinstall['db_host'] = $_REQUEST['db_host'];
-            }
-
-
+                        } else {
+                            $autoinstall['table_prefix'] = '';
+                        }
+                        if (isset($autoinstall['host'])) {
+                            $autoinstall['db_host'] = $autoinstall['host'];
+                        }
+                        if (isset($autoinstall['user'])) {
+                            $autoinstall['db_user'] = $autoinstall['user'];
+                        }
+                        if (isset($autoinstall['pass'])) {
+                            $autoinstall['db_pass'] = $autoinstall['pass'];
+                        }
+             
+            // }
         }
 
 
@@ -171,7 +139,11 @@ if (isset($to_save['is_installed'])) {
         if (!isset($to_save['default_timezone'])) {
             $to_save['default_timezone'] = "UTC";
         }
+    if (!defined('MW_TABLE_PREFIX') and isset($to_save['table_prefix'])) {
 
+        define('MW_TABLE_PREFIX', strip_tags(trim($to_save['table_prefix'])));
+
+    }  
         //$to_save['IS_INSTALLED'] = 'yes';
 
         $save_config_orig = $save_config;

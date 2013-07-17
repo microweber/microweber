@@ -19,7 +19,7 @@ if (MW_IS_INSTALLED == true) {
 } else {
 
 
-	if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
+/*	if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
 
 		define('MW_TABLE_PREFIX', null);
 
@@ -28,7 +28,7 @@ if (MW_IS_INSTALLED == true) {
 
         define('MW_TABLE_PREFIX', $pre);
 
-    }
+    }*/
 
 
 }

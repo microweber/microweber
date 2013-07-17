@@ -160,6 +160,7 @@ mw.askusertostay = false;
 
     debug: true,
     site_url: '<?php print site_url(); ?>',
+    template_url: '<?php print TEMPLATE_URL; ?>',
     //mw.settings.site_url
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url: '<?php print site_url(); ?>api/upload/',
