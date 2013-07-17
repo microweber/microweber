@@ -114,10 +114,10 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 	if ($module_functions != false) {
 		if (is_array($module_functions)) {
 			foreach ($module_functions as $item) {
-			//	if (is_file($item)) {
+			 	if (is_file($item)) {
 
 					include_once ($item);
-				//}
+				 }
 			}
 		}
 	}

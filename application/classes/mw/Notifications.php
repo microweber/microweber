@@ -8,13 +8,17 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
     define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
 }
-action_hook('mw_db_init_default', 'mw_db_init_notifications_table');
+action_hook('mw_db_init_default', '\mw\Notifications::db_init');
 action_hook('on_load', '\mw\Notifications::db_init');
 
 
 api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
+
+
+
+
 
 class Notifications
 {

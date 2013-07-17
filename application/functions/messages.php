@@ -1,59 +1,5 @@
 <?php
 
-if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
-	define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
-}
-
-action_hook('mw_db_init_default', 'mw_db_init_notifications_table');
-
-function mw_db_init_notifications_table() {
-	$function_cache_id = false;
-
-	$args = func_get_args();
-
-	foreach ($args as $k => $v) {
-
-		$function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-	}
-
-	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-	$cache_content = cache_get_content($function_cache_id, 'db');
-
-	if (($cache_content) != false) {
-
-		return $cache_content;
-	}
-
-	$table_name = MW_DB_TABLE_NOTIFICATIONS;
-
-	$fields_to_add = array();
-
-	$fields_to_add[] = array('updated_on', 'datetime default NULL');
-	$fields_to_add[] = array('created_on', 'datetime default NULL');
-	$fields_to_add[] = array('created_by', 'int(11) default NULL');
-	$fields_to_add[] = array('edited_by', 'int(11) default NULL');
-	$fields_to_add[] = array('data_type', 'TEXT default NULL');
-	$fields_to_add[] = array('title', 'longtext default NULL');
-	$fields_to_add[] = array('description', 'TEXT default NULL');
-	$fields_to_add[] = array('content', 'TEXT default NULL');
-	$fields_to_add[] = array('module', 'TEXT default NULL');
-
-	$fields_to_add[] = array('rel', 'TEXT default NULL');
-	$fields_to_add[] = array('rel_id', 'TEXT default NULL');
-	$fields_to_add[] = array('notif_count', 'int(11) default 1');
-
-	$fields_to_add[] = array('is_read', "char(1) default 'n'");
-
-	set_db_table($table_name, $fields_to_add);
-
-	db_add_table_index('rel', $table_name, array('rel(55)'));
-	db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
-
-	cache_save(true, $function_cache_id, $cache_group = 'db');
-	return true;
-
-}
 /*
 api_expose('\mw\Notifications::save');
 
