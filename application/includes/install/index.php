@@ -12,7 +12,7 @@ $autoinstall = false;
 
                
               $autoinstall =  mw_var('mw_autoinstall');
-             d( $autoinstall);
+
 
             }
 
@@ -186,7 +186,7 @@ if (isset($to_save['is_installed'])) {
                             }
 
 
-                            if (isset($dnht)) {
+                            if (isset($dnht) and !defined('MW_INSTALL_FROM_CONFIG')) {
                                 $dnht = str_replace('\\', '/', $dnht);
                                 $dnht = str_replace(' ', '%20', $dnht);
                                 if ($dnht != '/' and $dnht != '.' and $dnht != './' and$dnht != DIRECTORY_SEPARATOR) {
