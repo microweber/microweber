@@ -56,9 +56,9 @@
            <div id="footer-social">
                 <span> Find us on </span>
                 <div class="pull-right">
-                    <a class="box-social box-social-dark" href="javascript:;"><i class="icon-facebook"></i></a>
-                    <a class="box-social box-social-dark" href="javascript:;"><i class="icon-twitter"></i></a>
-                    <a class="box-social box-social-dark" href="javascript:;"><i class="icon-google-plus"></i></a>
+                    <a class="box-social box-social-dark" href="http://facebook.com/Microweber" target="_blank"><i class="icon-facebook"></i></a>
+                    <a class="box-social box-social-dark" href="http://twitter.com/Microweber" target="_blank"><i class="icon-twitter"></i></a>
+                    <a class="box-social box-social-dark" href="javascript:;" target="_blank"><i class="icon-google-plus"></i></a>
                 </div>
            </div>
         </div>
@@ -117,11 +117,11 @@
 
 
 <script type="text/javascript">
-window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
-$.src='//v2.zopim.com/?1MoM3FVJ5jeYJlc4Kb5lnZHKTEor4Twa';z.t=+new Date;$.
-type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+  window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+  d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+  _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+  $.src='//v2.zopim.com/?1MoM3FVJ5jeYJlc4Kb5lnZHKTEor4Twa';z.t=+new Date;$.
+  type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
 </script>
 
 </body>

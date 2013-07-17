@@ -141,18 +141,22 @@
     }
 
 
+    .box-field{
+      cursor: text;
+    }
+
     .box-content, input.box, textarea.box{
-        padding: 15px;
-        zoom:1;
+      padding: 15px;
+      zoom:1;
     }
 
     .box-content:after{
-        content: ".";
-        display: block;
-        clear: both;
-        visibility: hidden;
-        line-height: 0;
-        height: 0;
+      content: ".";
+      display: block;
+      clear: both;
+      visibility: hidden;
+      line-height: 0;
+      height: 0;
     }
 
     input.box, textarea.box{
@@ -171,6 +175,9 @@
     input.box:focus, textarea.box:focus, .box.focus{
         box-shadow: 0 0 0px #ccc, inset 0 0 4px #999;
     }
+    input.box:invalid:focus, textarea.box:invalid:focus{
+        box-shadow: 0 0 0px #CF3F2B, inset 0 0 4px #CF3F2B;
+    }
 
     input.invisible-field, textarea.invisible-field, input.invisible-field:focus, textarea.invisible-field:focus{
       background: transparent ;
@@ -179,8 +186,11 @@
       box-shadow: none ;
       margin: 0;
     }
-    input.invisible-field:invalid, textarea.invisible-field:invalid, input.invisible-field:invalid:focus, textarea.invisible-field:invalid:focus{
-       background: transparent ;
+    input.invisible-field:invalid,
+    textarea.invisible-field:invalid,
+    input.invisible-field:invalid:focus,
+    textarea.invisible-field:invalid:focus{
+      background: transparent ;
       outline: none ;
       border: none ;
       box-shadow: none ;
@@ -1409,7 +1419,16 @@
      margin: 7px 0 0 65px;
    }
 
-
+  .community-single-post h5 a.pull-right {
+    font-size: 15px;
+    color:#9E9E9E;
+  }
+  .community-single-post h5 a.pull-right:hover {
+    color:#858585;
+  }
+  .community-single-post h5 .icon-comment{
+    margin-left: 6px;
+  }
 
 
    .community-cat{
@@ -1562,6 +1581,13 @@
     text-align: center;
   }
 
+  .mw-comments-form .mw-ui-row .mw-ui-col:first-child{
+    text-align: left;
+  }
+  .mw-comments-form .mw-ui-row .mw-ui-col:last-child{
+    text-align: right;
+  }
+
  .mw-comments-form .mw-ui-col input.box{
    width: 75%;
    width: calc(100% - 50px);
@@ -1570,6 +1596,10 @@
 
  .comments-template-mw-site .comments{
    padding-bottom: 20px;
+ }
+
+ .comments-template-mw-site input.orangebtn{
+   padding: 15px 20px;
  }
 
 

@@ -9,11 +9,14 @@
           <li class=""><a href="features">Features</a></li>
           <li><a href="plans">Plans</a></li>
           <li><a href="community">Community</a></li>
-          <li><a href="javascript:;">Supports</a></li>
-          <li><a href="javascript:;">Blog</a></li>
+          <li><a href="javascript:;">Support</a></li>
+          <li><a href="blog">Blog</a></li>
           <li><a href="javascript:;">Download</a></li>
           <li><a href="javascript:;">API & Docs</a></li>
-          <li><a href="javascript:;" id="header-login">Login</a></li>
+
+          <?php if(user_id() == false){ ?>
+            <li><a href="javascript:;" id="header-login">Login</a></li>
+          <?php } ?>
         </ul>
     </div> <!-- /#header > .container -->
 </div><!-- /# header -->

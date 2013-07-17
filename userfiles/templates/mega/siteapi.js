@@ -124,6 +124,19 @@ mw.elementRotator = {
 
 
 
+
+
+    mw.$(".box-field").bind("mouseup", function(e){
+      var c = e.target.className;
+      if(mw.tools.hasClass(c, 'box-field') || mw.tools.hasClass(c, 'box') || mw.tools.hasClass(c, 'box-content')){
+        mw.$('.invisible-field', e.target).focus();
+      }
+
+    });
+
+
+
+
    if('placeholder' in document.createElement('input') === false){
        mw.$("[placeholder]").each(function(){
           var el = $(this), p = el.attr("placeholder");
@@ -132,6 +145,9 @@ mw.elementRotator = {
           el.bind('blur', function(e){ el.val() == '' ? el.val(p) : '';});
        });
     }
+
+
+
 
 
 
