@@ -1,4 +1,5 @@
 <?php
+include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 
 if (MW_IS_INSTALLED == true) {
 	if (!defined('MW_TABLE_PREFIX')) {
@@ -18,8 +19,8 @@ if (MW_IS_INSTALLED == true) {
 
 } else {
 
-
-/*	if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
+/*
+	if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
 
 		define('MW_TABLE_PREFIX', null);
 
@@ -31,10 +32,103 @@ if (MW_IS_INSTALLED == true) {
     }*/
 
 
+
+
+
+
+
+
+
+
+
+    $autoinstall_cli = getopt("i:");
+
+    /*
+    You can install MW from the command line if you have predefined your db access in the config
+    just run php -e full_path_to/index.php -i=yes
+    */
+    if(isset($autoinstall_cli ) and $autoinstall_cli != false and !empty($autoinstall_cli)){
+
+        $autoinstall_cli_val=array_pop($autoinstall_cli);
+        if(trim(strtolower($autoinstall_cli_val)) == 'yes'){
+            $cli_autoinstall = true;
+        }
+    }
+
+    if (isset($cli_autoinstall) and $cli_autoinstall != false) {
+        $cfg = MW_CONFIG_FILE;
+
+        if (is_file($cfg) and is_readable($cfg)) {
+            require ($cfg);
+            if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
+                // if(!isset($config['installed']) or $config['installed'] != 'yes')){
+                $autoinstall = $config;
+                $autoinstall['is_installed'] = 'no';
+                if (isset($config['table_prefix'])) {
+                    $autoinstall['table_prefix'] = $config['table_prefix'];
+                    if (!defined('MW_TABLE_PREFIX') and isset($autoinstall['table_prefix'])) {
+
+                        define('MW_TABLE_PREFIX', (trim($autoinstall['table_prefix'])));
+
+                    }
+                } else {
+                    $autoinstall['table_prefix'] = '';
+                }
+                if (isset($autoinstall['db']['dbname'])) {
+                    $autoinstall['dbname'] = $autoinstall['db']['dbname'];
+                }
+
+
+                if (isset($autoinstall['db']['host'])) {
+                    $autoinstall['db_host'] = $autoinstall['db']['host'];
+                }
+                if (isset($autoinstall['db']['user'])) {
+                    $autoinstall['db_user'] = $autoinstall['db']['user'];
+                }
+                if (isset($autoinstall['db']['pass'])) {
+                    $autoinstall['db_pass'] = $autoinstall['db']['pass'];
+                }
+
+                if (!defined('MW_INSTALL_FROM_CONFIG')) {
+
+                    define('MW_INSTALL_FROM_CONFIG', true);
+                    mw_var('mw_autoinstall', $autoinstall);
+
+                }
+
+                // }
+            }
+
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
+
+
+
+
+
+
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'url.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'utils.php');
 /*
