@@ -7,8 +7,6 @@ if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
     define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
 }
 
-action_hook('mw_db_init_default', '\Category::db_init');
-action_hook('on_load', '\Category::db_init');
 
 
 class Category
@@ -1242,81 +1240,7 @@ class Category
 
 
 
-    static function db_init() {
-        $function_cache_id = false;
 
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = cache_get_content($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = MW_DB_TABLE_TAXONOMY;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('data_type', 'TEXT default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('content', 'TEXT default NULL');
-        $fields_to_add[] = array('content_type', 'TEXT default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-
-        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
-
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-        $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-        $fields_to_add[] = array('users_can_create_subcategories', "char(1) default 'n'");
-        $fields_to_add[] = array('users_can_create_content', "char(1) default 'n'");
-        $fields_to_add[] = array('users_can_create_content_allowed_usergroups', 'TEXT default NULL');
-
-        $fields_to_add[] = array('categories_content_type', 'TEXT default NULL');
-        $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
-
-
-        set_db_table($table_name, $fields_to_add);
-
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
-        db_add_table_index('parent_id', $table_name, array('parent_id'));
-
-        $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-
-        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
-        $fields_to_add[] = array('content_type', 'TEXT default NULL');
-        $fields_to_add[] = array('data_type', 'TEXT default NULL');
-
-        set_db_table($table_name, $fields_to_add);
-
-        //db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
-        db_add_table_index('parent_id', $table_name, array('parent_id'));
-
-        cache_save(true, $function_cache_id, $cache_group = 'db');
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
-        return true;
-
-        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
-    }
 
 
 }

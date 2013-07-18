@@ -2,7 +2,7 @@
 
 
 
-class CategoryUtils {
+class CategoryUtils extends Category {
 
 
 

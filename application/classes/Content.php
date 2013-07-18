@@ -35,6 +35,20 @@ if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
 if (!defined("MW_DB_TABLE_MENUS")) {
     define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
 }
+if (!defined("MODULE_DB_MENUS")) {
+    define('MODULE_DB_MENUS', MW_TABLE_PREFIX . 'menus');
+}
+
+if (!defined("MW_DB_TABLE_TAXONOMY")) {
+    define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
+}
+
+if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+    define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
+}
+
+
+
 class Content {
 
 
@@ -2152,7 +2166,7 @@ class Content {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'content_'.__FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = cache_get_content($function_cache_id, 'db');
 
@@ -2335,12 +2349,423 @@ class Content {
         set_db_table($table_name, $fields_to_add);
 
 
+        $table_name = MW_DB_TABLE_TAXONOMY;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('data_type', 'TEXT default NULL');
+        $fields_to_add[] = array('title', 'longtext default NULL');
+        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
+        $fields_to_add[] = array('description', 'TEXT default NULL');
+        $fields_to_add[] = array('content', 'TEXT default NULL');
+        $fields_to_add[] = array('content_type', 'TEXT default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+
+        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
+
+        $fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
+        $fields_to_add[] = array('users_can_create_subcategories', "char(1) default 'n'");
+        $fields_to_add[] = array('users_can_create_content', "char(1) default 'n'");
+        $fields_to_add[] = array('users_can_create_content_allowed_usergroups', 'TEXT default NULL');
+
+        $fields_to_add[] = array('categories_content_type', 'TEXT default NULL');
+        $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
+
+
+        set_db_table($table_name, $fields_to_add);
+
+        db_add_table_index('rel', $table_name, array('rel(55)'));
+        db_add_table_index('rel_id', $table_name, array('rel_id'));
+        db_add_table_index('parent_id', $table_name, array('parent_id'));
+
+        $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
+
+        $fields_to_add = array();
+        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+
+        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
+        $fields_to_add[] = array('content_type', 'TEXT default NULL');
+        $fields_to_add[] = array('data_type', 'TEXT default NULL');
+
+        set_db_table($table_name, $fields_to_add);
+
+        //db_add_table_index('rel', $table_name, array('rel(55)'));
+        db_add_table_index('rel_id', $table_name, array('rel_id'));
+        db_add_table_index('parent_id', $table_name, array('parent_id'));
+
         cache_save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
 
 
+
+    static function get_menu_items($params = false)
+    {
+        $table = MODULE_DB_MENUS;
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        $params['table'] = $table;
+        $params['item_type'] = 'menu_item';
+        return get($params);
+    }
+
+
+    static function get_menu($params = false)
+    {
+
+        $table = MODULE_DB_MENUS;
+
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        //$table = MODULE_DB_SHOP_ORDERS;
+        $params['table'] = $table;
+        $params['item_type'] = 'menu';
+        //$params['debug'] = 'menu';
+        $menus = get($params);
+        if (!empty($menus)) {
+            return $menus;
+        } else {
+            if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
+                add_new_menu('id=0&title=' . $params['title']);
+            }
+
+        }
+
+    }
+
+
+
+    static function menu_tree($menu_id, $maxdepth = false)
+    {
+
+        static $passed_ids;
+        if (!is_array($passed_ids)) {
+            $passed_ids = array();
+        }
+        $menu_params = '';
+        if (is_string($menu_id)) {
+            $menu_params = parse_params($menu_id);
+            if (is_array($menu_params)) {
+                extract($menu_params);
+            }
+        }
+
+        if (is_array($menu_id)) {
+            $menu_params = $menu_id;
+            extract($menu_id);
+        }
+        $params_o = $menu_params;
+        $cache_group = 'menus/global';
+        $function_cache_id = false;
+
+
+
+        $params = array();
+        $params['item_parent'] = $menu_id;
+        // $params ['item_parent<>'] = $menu_id;
+        $menu_id = intval($menu_id);
+        $params_order = array();
+        $params_order['position'] = 'ASC';
+
+        $menus = MODULE_DB_MENUS;
+
+        $sql = "SELECT * FROM {$menus}
+	WHERE parent_id=$menu_id
+
+	ORDER BY position ASC ";
+        //d($sql); and item_type='menu_item'
+        $menu_params = array();
+        $menu_params['parent_id'] = $menu_id;
+        $menu_params['table'] = $menus;
+        $menu_params['orderby'] = "position ASC";
+
+        //$q = get($menu_params);
+        // d($q);
+        $q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+
+        // $data = $q;
+        if (empty($q)) {
+
+            return false;
+        }
+        $active_class = '';
+        if (!isset($ul_class)) {
+            $ul_class = 'menu';
+        }
+
+        if (!isset($li_class)) {
+            $li_class = 'menu_element';
+        }
+
+        if (!isset($depth) or $depth == false) {
+            $depth = 0;
+        }
+        if (isset($ul_class_deep)) {
+            if ($depth > 0) {
+                $ul_class = $ul_class_deep;
+            }
+        }
+
+        if (isset($li_class_deep)) {
+            if ($depth > 0) {
+                $li_class = $li_class_deep;
+            }
+        }
+
+        if (isset($ul_tag) == false) {
+            $ul_tag = 'ul';
+        }
+
+        if (isset($li_tag) == false) {
+            $li_tag = 'li';
+        }
+
+        if (isset($params['maxdepth']) != false) {
+            $maxdepth = $params['maxdepth'];
+        }
+
+        if (isset($params_o['maxdepth']) != false) {
+            $maxdepth = $params_o['maxdepth'];
+        }
+
+
+        if (!isset($link) or $link == false) {
+            $link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
+        }
+        //d($link);
+        // $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
+        $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
+
+        $cur_depth = 0;
+        $res_count = 0;
+        foreach ($q as $item) {
+            $full_item = $item;
+
+            $title = '';
+            $url = '';
+            $is_active = true;
+            if (intval($item['content_id']) > 0) {
+                $cont = get_content_by_id($item['content_id']);
+                if (isarr($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
+                    $is_active = false;
+                    $cont = false;
+                }
+
+
+                if (isarr($cont)) {
+                    $title = $cont['title'];
+                    $url = content_link($cont['id']);
+
+                    if ($cont['is_active'] != 'y') {
+                        $is_active = false;
+                    }
+
+                }
+            } else if (intval($item['categories_id']) > 0) {
+                $cont = get_category_by_id($item['categories_id']);
+                if (isarr($cont)) {
+                    $title = $cont['title'];
+                    $url = category_link($cont['id']);
+                } else {
+                    db_delete_by_id($menus, $item['id']);
+                    $title = false;
+                    $item['title'] = false;
+                }
+            } else {
+                $title = $item['title'];
+                $url = $item['url'];
+            }
+
+            if (trim($item['url'] != '')) {
+                $url = $item['url'];
+                //d($url);
+            }
+
+            if ($item['title'] == '') {
+                $item['title'] = $title;
+            } else {
+                $title = $item['title'];
+            }
+
+            $active_class = '';
+            if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
+                $surl = site_url();
+                $cur_url = curent_url(1);
+                $item['url'] = str_replace_once('{SITE_URL}', $surl, $item['url']);
+                if ($item['url'] == $cur_url) {
+                    $active_class = 'active';
+                } else {
+                    $active_class = '';
+                }
+            } else if (CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
+                $active_class = 'active';
+            } elseif (PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
+                $active_class = 'active';
+            } elseif (POST_ID != 0 and $item['content_id'] == POST_ID) {
+                $active_class = 'active';
+            } elseif (CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
+                $active_class = 'active';
+            } else {
+                $active_class = '';
+            }
+            if ($is_active == false) {
+                $title = '';
+            }
+            if ($title != '') {
+                $item['url'] = $url;
+                //$full_item['the_url'] = page_link($full_item['content_id']);
+                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+
+                $ext_classes = '';
+                if (isset($item['parent']) and intval($item['parent']) > 0) {
+                    $ext_classes .= ' have-parent';
+                }
+
+                if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+                    $ext_classes .= ' have-category';
+                }
+
+                $ext_classes = trim($ext_classes);
+
+                $menu_link = $link;
+                foreach ($item as $key => $value) {
+                    $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
+                }
+                $menu_link = str_replace('{active_class}', $active_class, $menu_link);
+                $to_print .= $menu_link;
+                //	$to_print .= '<a data-item-id="' . $item['id'] . '" class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
+
+                $ext_classes = '';
+                if ($res_count == 0) {
+                    $ext_classes .= ' first-child';
+                    $ext_classes .= ' child-' . $res_count . '';
+                } else if (!isset($q[$res_count + 1])) {
+                    $ext_classes .= ' last-child';
+                    $ext_classes .= ' child-' . $res_count . '';
+                } else {
+                    $ext_classes .= ' child-' . $res_count . '';
+                }
+
+                if (in_array($item['id'], $passed_ids) == false) {
+
+                    if ($maxdepth == false) {
+
+                        if (isset($params) and isarr($params)) {
+                            //$menu_params = $params;
+                            //d($params);
+                            $menu_params['menu_id'] = $item['id'];
+                            $menu_params['link'] = $link;
+                            //	$menu_params['link'] = $link;
+                            if (isset($menu_params['item_parent'])) {
+                                unset($menu_params['item_parent']);
+                            }
+                            if (isset($ul_class)) {
+                                $menu_params['ul_class'] = $ul_class;
+                            }
+                            if (isset($li_class)) {
+                                $menu_params['li_class'] = $li_class;
+                            }
+
+                            if (isset($maxdepth)) {
+                                $menu_params['maxdepth'] = $maxdepth;
+                            }
+
+                            if (isset($li_tag)) {
+                                $menu_params['li_tag'] = $li_tag;
+                            }
+                            if (isset($ul_tag)) {
+                                $menu_params['ul_tag'] = $ul_tag;
+                            }
+                            if (isset($ul_class_deep)) {
+                                $menu_params['ul_class_deep'] = $ul_class_deep;
+                            }
+                            if (isset($li_class_empty)) {
+                                $menu_params['li_class_empty'] = $li_class_empty;
+                            }
+
+                            if (isset($li_class_deep)) {
+                                $menu_params['li_class_deep'] = $li_class_deep;
+                            }
+
+                            //$depth++;
+                            if (isset($depth)) {
+                                $menu_params['depth'] = $depth + 1;
+                            }
+
+
+                            $test1 = menu_tree($menu_params);
+                        } else {
+                            $test1 = menu_tree($item['id']);
+
+                        }
+                        //$test1 = menu_tree($item['id']);
+
+                    } else {
+
+                        if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
+
+                            if (isset($params) and isarr($params)) {
+                                $test1 = self::menu_tree($menu_params);
+
+                            } else {
+                                $test1 = self::menu_tree($item['id']);
+
+                            }
+
+                        }
+                    }
+                }
+                if (isset($li_class_empty) and isset($test1) and trim($test1) == '') {
+                    if ($depth > 0) {
+                        $li_class = $li_class_empty;
+                    }
+                }
+
+                $to_print = str_replace('{ul_class}', $ul_class, $to_print);
+                $to_print = str_replace('{li_class}', $li_class, $to_print);
+                $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+                $to_print = str_replace('{nest_level}', 'depth-' . $depth, $to_print);
+
+                if (isset($test1) and strval($test1) != '') {
+                    $to_print .= strval($test1);
+                }
+
+                $res_count++;
+                $to_print .= '</' . $li_tag . '>';
+
+            }
+
+            $passed_ids[] = $item['id'];
+            // }
+            // }
+            $cur_depth++;
+        }
+
+        // print "[[ $time ]]seconds\n";
+        $to_print .= '</' . $ul_tag . '>';
+        // cache_save($to_print, $function_cache_id, $cache_group);
+        return $to_print;
+    }
 }
 
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow

@@ -2,10 +2,8 @@
 
 
 
-class ContentUtils {
-
-
-
+class ContentUtils
+{
 
 
     static function save_content($data, $delete_the_cache = true)
@@ -19,7 +17,7 @@ class ContentUtils {
         if ($checks != $table) {
             if ($adm == false) {
                 return array('error' => 'You are not logged in as admin to save content!');
-             }
+            }
         }
         $cats_modified = false;
 
@@ -425,7 +423,6 @@ class ContentUtils {
         return $save;
 
     }
-
 
 
     static function save_edit($post_data)
@@ -886,7 +883,7 @@ class ContentUtils {
 
     }
 
-   static function delete($data)
+    static function delete($data)
     {
 
         $adm = is_admin();
@@ -1008,9 +1005,6 @@ class ContentUtils {
     }
 
 
-
-
-
     /**
      *  Get the first parent that has layout
      *
@@ -1108,7 +1102,7 @@ class ContentUtils {
         }
     }
 
-    static  function edit_field_draft($data)
+    static function edit_field_draft($data)
     {
         only_admin_access();
 
@@ -1156,8 +1150,7 @@ class ContentUtils {
     }
 
 
-
-  static  function reorder($params)
+    static function reorder($params)
     {
         $id = is_admin();
         if ($id == false) {
@@ -1211,7 +1204,6 @@ class ContentUtils {
     }
 
 
-
     /**
      * Set content to be unpublished
      *
@@ -1234,7 +1226,7 @@ class ContentUtils {
      * </code>
      *
      */
-   static function set_unpublished($params)
+    static function set_unpublished($params)
     {
 
         if (intval($params) > 0 and !isset($params['id'])) {
@@ -1262,7 +1254,6 @@ class ContentUtils {
         }
 
     }
-
 
 
     /**
@@ -1313,27 +1304,6 @@ class ContentUtils {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     function create_default_content($what)
@@ -1491,19 +1461,315 @@ class ContentUtils {
     }
 
 
+    static function menu_create($data_to_save)
+    {
+        $params2 = array();
+        if ($data_to_save == false) {
+            $data_to_save = array();
+        }
+        if (is_string($data_to_save)) {
+            $params = parse_str($data_to_save, $params2);
+            $data_to_save = $params2;
+        }
+
+        $id = is_admin();
+        if ($id == false) {
+            //error('Error: not logged in as admin.'.__FILE__.__LINE__);
+        } else {
+
+            if (isset($data_to_save['menu_id'])) {
+                $data_to_save['id'] = intval($data_to_save['menu_id']);
+            }
+            $table = MODULE_DB_MENUS;
+
+            $data_to_save['table'] = $table;
+            $data_to_save['item_type'] = 'menu';
+
+            $save = save_data($table, $data_to_save);
+
+            cache_clean_group('menus/global');
+
+            return $save;
+        }
+
+    }
+
+
+    static function menu_delete($id = false)
+    {
+        $params = parse_params($id);
+
+
+        $is_admin = is_admin();
+        if ($is_admin == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+
+
+        if (!isset($params['id'])) {
+            error('Error: id param is required.');
+        }
+
+        $id = $params['id'];
+
+        $id = db_escape_string($id);
+        $id = htmlspecialchars_decode($id);
+        $table = MODULE_DB_MENUS;
+
+        db_delete_by_id($table, trim($id), $field_name = 'id');
+
+        cache_clean_group('menus/global');
+
+        return true;
+
+    }
+
+    static function menu_item_get($id)
+    {
+
+        $is_admin = is_admin();
+        if ($is_admin == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+        $id = intval($id);
+
+        $table = MODULE_DB_MENUS;
+
+        return get("one=1&limit=1&table=$table&id=$id");
+
+    }
+
+
+    static function  menu_item_save($data_to_save)
+    {
+
+        $id = is_admin();
+        if ($id == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+
+        if (isset($data_to_save['menu_id'])) {
+            $data_to_save['id'] = intval($data_to_save['menu_id']);
+            cache_clean_group('menus/' . $data_to_save['id']);
+
+        }
+
+        if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
+            $data_to_save['id'] = intval($data_to_save['link_id']);
+        }
+
+        if (isset($data_to_save['id'])) {
+            $data_to_save['id'] = intval($data_to_save['id']);
+            cache_clean_group('menus/' . $data_to_save['id']);
+        }
+
+        if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
+            $data_to_save['position'] = 99999;
+        }
+
+        $url_from_content = false;
+        if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) != 0) {
+            $url_from_content = 1;
+        }
+        if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) != 0) {
+            $url_from_content = 1;
+        }
+        if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
+            unset($data_to_save['content_id']);
+        }
+
+        if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
+            unset($data_to_save['categories_id']);
+            //$url_from_content = 1;
+        }
+
+        if ($url_from_content != false) {
+            if (isset($data_to_save['title'])) {
+                $data_to_save['title'] = '';
+            }
+        }
+
+        if (isset($data_to_save['categories'])) {
+            unset($data_to_save['categories']);
+        }
+
+        if ($url_from_content == true and isset($data_to_save['url'])) {
+            $data_to_save['url'] = '';
+        }
+
+        if (isset($data_to_save['parent_id'])) {
+            $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
+            cache_clean_group('menus/' . $data_to_save['parent_id']);
+        }
+
+        $table = MODULE_DB_MENUS;
+
+        $data_to_save['table'] = $table;
+        $data_to_save['item_type'] = 'menu_item';
+        // d($data_to_save);
+        $save = save_data($table, $data_to_save);
+
+        cache_clean_group('menus/global');
+
+        return $save;
+
+    }
+
+    static function menu_item_delete($id)
+    {
+
+        $is_admin = is_admin();
+        if ($is_admin == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+
+        $table = MODULE_DB_MENUS;
+
+        db_delete_by_id($table, intval($id), $field_name = 'id');
+
+        cache_clean_group('menus/global');
+
+        return true;
+
+    }
 
 
 
+    static function menu_items_reorder($data)
+    {
+
+        $adm = is_admin();
+        if ($adm == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+        $table = MODULE_DB_MENUS;
+
+        if (isset($data['ids_parents'])) {
+            $value = $data['ids_parents'];
+            if (is_arr($value)) {
+
+                foreach ($value as $value2 => $k) {
+                    $k = intval($k);
+                    $value2 = intval($value2);
+
+                    $sql = "UPDATE $table SET
+				parent_id=$k
+				WHERE id=$value2 AND id!=$k
+				AND item_type='menu_item'
+				";
+                    // d($sql);
+                    $q = db_q($sql);
+                    cache_clean_group('menus/' . $k);
+                }
+
+            }
+        }
+
+        if (isset($data['ids'])) {
+            $value = $data['ids'];
+            if (is_arr($value)) {
+                $indx = array();
+                $i = 0;
+                foreach ($value as $value2) {
+                    $indx[$i] = $value2;
+                    $i++;
+                }
+
+                db_update_position($table, $indx);
+                return true;
+                // d($indx);
+            }
+        }
+
+    }
 
 
+    static function is_in_menu($menu_id = false, $content_id = false)
+    {
+        if ($menu_id == false or $content_id == false) {
+            return false;
+        }
+
+        $menu_id = intval($menu_id);
+        $content_id = intval($content_id);
+        $check = get_menu_items("limit=1&count=1&parent_id={$menu_id}&content_id=$content_id");
+        $check = intval($check);
+        if ($check > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
+    static function add_content_to_menu($content_id, $menu_id=false)
+    {
+        $id = is_admin();
+        if ($id == false) {
+            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+        $content_id = intval($content_id);
+        if ($content_id == 0) {
+            return;
+        }
+
+        if($menu_id != false){
+            $_REQUEST['add_content_to_menu'] = $menu_id;
+        }
 
 
+        $menus = MODULE_DB_MENUS;
+        if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
+            $add_to_menus = $_REQUEST['add_content_to_menu'];
+            $add_to_menus_int = array();
+            foreach ($add_to_menus as $value) {
+                if ($value == 'remove_from_all') {
+                    $sql = "DELETE FROM {$menus}
+				WHERE
+				item_type='menu_item'
+				AND content_id={$content_id}
+				";
+                    //d($sql);
+                    cache_clean_group('menus');
+                    $q = db_q($sql);
+                    return;
+                }
 
+                $value = intval($value);
+                if ($value > 0) {
+                    $add_to_menus_int[] = $value;
+                }
+            }
 
+        }
 
+        if (isset($add_to_menus_int) and isarr($add_to_menus_int)) {
+            $add_to_menus_int_implode = implode(',', $add_to_menus_int);
+            $sql = "DELETE FROM {$menus}
+		WHERE parent_id NOT IN ($add_to_menus_int_implode)
+		AND item_type='menu_item'
+		AND content_id={$content_id}
+		";
 
+            $q = db_q($sql);
+
+            foreach ($add_to_menus_int as $value) {
+                $check = get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                //d($check);
+                if ($check == 0) {
+                    $save = array();
+                    $save['item_type'] = 'menu_item';
+                    //	$save['debug'] = $menus;
+                    $save['parent_id'] = $value;
+                    $save['url'] = '';
+                    $save['content_id'] = $content_id;
+                    save_data($menus, $save);
+                }
+            }
+            cache_clean_group('menus/global');
+        }
+
+    }
 
 
 }
