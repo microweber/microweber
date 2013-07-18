@@ -157,18 +157,18 @@ function load_base_functions()
     }
 //	exec_action('mw_db_init_options');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
- //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
+    //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
+    //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
+    //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
+    //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+   // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
 
     if (MW_IS_INSTALLED == true) {
@@ -178,7 +178,7 @@ function load_base_functions()
         }
 
     }
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'shop.php');
+    //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'shop.php');
 
    // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
