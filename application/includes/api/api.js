@@ -317,6 +317,7 @@ mw.askusertostay = false;
 
 
   mw._ = function(obj, sendSpecific, DONOTREPLACE) {
+
     var DONOTREPLACE = DONOTREPLACE || false;
     var sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
@@ -325,7 +326,6 @@ mw.askusertostay = false;
     var to_send = params;
 
     if(typeof $(obj.selector)[0] === 'undefined') { return false; }
-
 
 
     var attrs = $(obj.selector)[0].attributes;
@@ -340,11 +340,13 @@ mw.askusertostay = false;
   		  if(attrs[i] != undefined){
               var name = attrs[i].name;
               var val = attrs[i].nodeValue;
-              to_send[name] = val;
+              if(typeof to_send[name] === 'undefined'){
+                  to_send[name]  = val;
+              }
   		  }
       }
-   //  to_send = attrs;
     }
+
 
     $.post(url, to_send, function(data) {
 

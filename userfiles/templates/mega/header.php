@@ -14,7 +14,7 @@
           <li><a href="javascript:;">Download</a></li>
           <li><a href="javascript:;">API & Docs</a></li>
           <?php if(user_id() == false){ ?>
-            <li><a href="javascript:;" id="header-login">Login</a></li>
+            <li><a href="<?php print site_url() ?>login" id="header-login">Login</a></li>
           <?php } ?>
         </ul>
     </div> <!-- /#header > .container -->
