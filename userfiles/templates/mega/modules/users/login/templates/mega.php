@@ -14,6 +14,16 @@ description: Mega
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 
+
+<script>
+
+gotoprofile = function(){
+  window.location.href =  "<?php print site_url() ?>profile"
+}
+
+
+</script>
+
 <div id="mw-login">
   <?php if($user != false): ?>
   <div class="well">
@@ -23,6 +33,7 @@ description: Mega
   <div class="box-head">
     <h2><?php _e("Login"); ?> </h2>
   </div>
+  <hr>
 
   <?php if($have_social_login == true): ?>
   <h2 class="section-title">
@@ -32,9 +43,9 @@ description: Mega
   </h2>
   <?php endif; ?>
   <div id="user_login_holder_<?php print $params['id'] ?>">
-  <form   method="post" id="user_login_<?php print $params['id'] ?>"  class="clearfix" action="#"  >
+  <form   method="post" id="user_login_<?php print $params['id'] ?>"  class="clearfix" action="#" data-callback="gotoprofile"  >
     <div class="control-group">
-      <input  class="box"   name="username" type="text" placeholder="<?php _e("Email"); ?>"   />
+      <input  class="box" autofocus=""  name="username" type="text" placeholder="<?php _e("Email"); ?>"   />
     </div>
     <div class="control-group" style="margin-bottom: 0;">
       <input  class="box"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />

@@ -129,7 +129,7 @@ if ($layout != '') {
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = CONTENT_ID;
 				}
-				$inh = content_get_inherited_parent($data_id);
+				$inh = get_content_inherited_parent($data_id);
 				if ($inh != false) {
 					$data_id = $inh;
 					$rel = 'content';

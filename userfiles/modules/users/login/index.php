@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
           var subm = mw.$('[type="submit"]', this);
-          d(subm)
+          var form = this;
 
      if(!subm.hasClass("disabled")){
        mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
@@ -30,7 +30,13 @@ $(document).ready(function(){
 			  mw.response('#user_login_<?php print $params['id'] ?>',this);
 			 if(typeof this.success === 'string'){
 				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-				  window.location.reload();
+                  if($(form).dataset("callback") && typeof window[$(form).dataset("callback")] === 'function'){
+                      window[$(form).dataset("callback")]()
+                  }
+                  else{
+                     window.location.reload();
+                  }
+
                   return false;
 			 }
              mw.notification.msg(this, 5000);

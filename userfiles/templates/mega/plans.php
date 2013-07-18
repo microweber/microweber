@@ -34,6 +34,7 @@
                             <p><strong>1 GB</strong> storage space</p>
                             <p><strong>NO</strong> Transaction fee</p>
                             <p><strong>5</strong> hours custom support</p>
+                            <p>FTP & cPanel access</p>
                             <div class="vpad">
                                 <a href="javascript:;" class="fbtn fitem-blue no-shadow">Get Started Free</a>
                             </div>
@@ -55,6 +56,7 @@
                               <p><strong>NO</strong> Transaction fee</p>
                               <p>10 GB hours custom support</p>
                               <p>10 GB Pro Themes & Modules</p>
+                              <p>FTP & cPanel access</p>
                               <div class="vpad">
                                     <a href="javascript:;" class="fbtn fitem-orange no-shadow">Get Started Free</a>
                                 </div>
@@ -74,6 +76,7 @@
                                 <p><strong>NO</strong> Transaction fee</p>
                                 <p>Unlimited hours support</p>
                                 <p>Unlimited Themes & Modules</p>
+                                <p>FTP & cPanel access</p>
                                 <div class="vpad">
                                       <a href="javascript:;" class="fbtn fitem-blue no-shadow">Get Started Free</a>
                                   </div>

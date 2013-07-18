@@ -266,56 +266,10 @@ function mw_cron()
 
     // touch($file_loc_hour);
     $cron = new \mw\utils\Cron;
-    //$cron->run();
 
     $scheduler = new \mw\utils\Events();
 
-    // schedule a global scope function:
-    //$scheduler->registerShutdownEvent("\mw\utils\Backup", $params);
+    return $scheduler->registerShutdownEvent(array($cron, 'run'));
 
-    $scheduler->registerShutdownEvent(array($cron, 'run'));
 
-    $file_loc = CACHEDIR_ROOT . "cron" . DS;
-
-    $some_hour = date('Ymd');
-    $file_loc_hour = $file_loc . 'cron_lock' . $some_hour . '.php';
-    if (is_file($file_loc_hour)) {
-        return true;
-    } else {
-
-        $opts = get_options("option_key2=cronjob");
-        if ($opts != false) {
-
-            //d($file_loc);
-            if (!is_dir($file_loc)) {
-                if (!mkdir($file_loc)) {
-                    return false;
-                }
-            }
-
-            if (!defined('MW_CRON_EXEC')) {
-                define('MW_CRON_EXEC', true);
-            }
-
-            foreach ($opts as $item) {
-
-                if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
-                    if (isset($item['option_value']) and $item['option_value'] != 'n') {
-                        $when = strtotime($item['option_value']);
-                        if ($when != false) {
-                            $when_date = date('Ymd', $when);
-                            $file_loc_date = $file_loc . '' . $item['option_key'] . $item['id'] . $when_date . '.php';
-                            if (!is_file($file_loc_date)) {
-                                touch($file_loc_date);
-                                $md = module_data('module=' . $item['module'] . '/cron');
-                            }
-                        }
-                    }
-                } else {
-                    //	d($item);
-                }
-            }
-            touch($file_loc_hour);
-        }
-    }
 }

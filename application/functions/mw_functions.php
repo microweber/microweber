@@ -62,9 +62,14 @@ if (MW_IS_INSTALLED == true) {
                 }
                 if (isset($config['table_prefix'])) {
                     $autoinstall['table_prefix'] = $config['table_prefix'];
-                    if (!defined('MW_TABLE_PREFIX') and isset($autoinstall['table_prefix'])) {
+                    if (!defined('MW_TABLE_PREFIX') and isset($autoinstall['table_prefix']) and !isset($_REQUEST['table_prefix'])) {
 
                         define('MW_TABLE_PREFIX', (trim($autoinstall['table_prefix'])));
+
+                    }
+                    if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+
+                        define('MW_TABLE_PREFIX', (trim($_REQUEST['table_prefix'])));
 
                     }
                 } else {
@@ -99,6 +104,23 @@ if (MW_IS_INSTALLED == true) {
         }
 
     }
+
+
+    if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
+
+        define('MW_TABLE_PREFIX', null);
+
+    } else if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+
+        define('MW_TABLE_PREFIX', trim($_REQUEST['table_prefix']));
+
+    }else if (!defined('MW_TABLE_PREFIX')) {
+        $pre = c('table_prefix');
+
+        define('MW_TABLE_PREFIX', $pre);
+
+    }
+
 }
 
 function load_base_functions()
@@ -135,7 +157,7 @@ function load_base_functions()
     }
 //	exec_action('mw_db_init_options');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
-//include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+ //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
@@ -158,7 +180,7 @@ function load_base_functions()
     }
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'shop.php');
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
+   // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');

@@ -99,11 +99,11 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
     }
 	
 	if(!is_object($local_obj)){
-		 if(!is_object($cache_default)){
-			  $local_obj = $cache_default = new \mw\cache\Files();
+		 if(!is_object($_mw_cache_obj)){
+			  $local_obj = $_mw_cache_obj = new \mw\cache\Files();
 
 		 } else {
-			$local_obj = $cache_default ;
+			//$local_obj = $cache_default ;
 			 
 		}
 	}
@@ -148,7 +148,7 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_s
 
     }
 		if(!is_object($local_obj)){
-		 $local_obj = new \mw\cache\Files();
+		 $local_obj = $_mw_cache_obj= new \mw\cache\Files();
 	}
 	
 	
@@ -207,7 +207,7 @@ function cache_debug()
 		if(!is_object($_mw_cache_obj)){
 		 $_mw_cache_obj = new \mw\cache\Files();
 	}
-	
+
 	
 	
     return $_mw_cache_obj->debug();

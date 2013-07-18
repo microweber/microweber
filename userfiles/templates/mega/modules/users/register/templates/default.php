@@ -72,28 +72,19 @@ mw.require('forms.js', true);
 
 $(document).ready(function(){
 
-
-
 	 mw.$('#user_registration_form{rand}').submit(function() {
+           mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_register', function(){
+                  mw.response('#form-holder{rand}',this);
+                  if(typeof this.success !== 'undefined'){
+                   mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_login', function(){
+                      mw.load_module('users/login', '#<?php print $params['id'] ?>');
+                   });
+                  }
+          	 });
+           return false;
+     });
 
-
- mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_register', function(){
-
-
-        mw.response('#form-holder{rand}',this);
-
-        if(typeof this.success !== 'undefined'){
-         mw.form.post(mw.$('#user_registration_form{rand}') , '<?php print site_url('api') ?>/user_login', function(){
-            mw.load_module('users/login', '#<?php print $params['id'] ?>');
-         });
-        }
-
-	 });
-
- return false;
-
-
- });
+     mw.$('[autofocus]').focus();
 
 });
 
@@ -105,11 +96,12 @@ $(document).ready(function(){
 <div class="box-head">
   <h2><?php _e("New Registration or"); ?> <a  class="blue" href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>', false, {template:'mega'});"><?php _e("Login"); ?></a></h2>
 </div>
+<hr>
 <div id="form-holder{rand}">
   <form id="user_registration_form{rand}" method="post" class="clearfix">
     <div class="control-group">
       <div class="controls">
-        <input type="text" class="box"  name="email" placeholder="<?php _e("Email"); ?>">
+        <input type="text" class="box" autofocus  name="email" placeholder="<?php _e("Email"); ?>">
       </div>
     </div>
     <div class="control-group">

@@ -24,9 +24,10 @@
                     </span>
                   <div class="mw_dropdown_fields">
                     <ul>
-                      <li value="1"><a href="javascript:;">API</a></li>
-                      <li value="2"><a href="javascript:;">Development</a></li>
-                      <script>for(var i=3;i<=30;i++){mwd.write('<li value="'+i+'"><a href="javascript:;">Other - '+i+'</a></li>')}</script>
+                      <?php $cats = get_categories('rel=content&rel_id=39');  ?>
+                      <?php foreach($cats as $cat){ ?>
+                          <li value="<?php print $cat['id']; ?>"><a href="javascript:;"><?php print $cat['title']; ?></a></li>
+                      <?php } ?>
                     </ul>
                   </div>
               </div>
@@ -46,6 +47,5 @@
                   <a href="javascript:;" class="blue pull-right">Preview</a>
               </div>
           </form>
-
     </div>
  <?php include "footer.php"; ?>

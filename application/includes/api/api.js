@@ -308,10 +308,10 @@ mw.askusertostay = false;
       url: '{SITE_URL}api/clearcache',
       type: "POST",
       success: function(data){
-      if(mw.notification != undefined){
-        mw.notification.msg(data);
+        if(mw.notification != undefined){
+          mw.notification.msg(data);
+        }
       }
-    }
     });
   }
 

@@ -251,10 +251,13 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Initializing options');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
+                \Content::db_init();
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+                \Module::db_init();
                 __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
 

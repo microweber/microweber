@@ -2092,7 +2092,7 @@ function db_get_long($table = false, $criteria = false, $limit = false, $offset 
         $q = "SELECT * FROM $table ";
     } else {
 
-        if (is_array($only_those_fields)) {
+        if (is_array($criteria) and is_array($only_those_fields)) {
 
             if (!empty($only_those_fields)) {
 

@@ -43,7 +43,7 @@
                 <div class="bbox">
                   <div class="bbox-content">
                       No topics for <strong><?php  print $cat['title']; ?></strong>,
-                      &nbsp;&nbsp;&nbsp;<a href="" class="blue"><em class="icon-double-angle-left"></em>&nbsp;Go back</a>
+                      &nbsp;&nbsp;&nbsp;<a href="<?php print site_url(); ?>community" class="blue"><em class="icon-double-angle-left"></em>&nbsp;Go back</a>
                   </div>
                 </div>
        <?php   }   ?>

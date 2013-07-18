@@ -95,6 +95,8 @@ $(document).ready(function(){
 
  });
 
+ mw.$('[autofocus]').focus();
+
 });
 
 
@@ -109,7 +111,7 @@ $(document).ready(function(){
   <form id="user_registration_form{rand}" method="post" class="clearfix">
     <div class="control-group">
       <div class="controls">
-        <input type="text" class="large-field"  name="email" placeholder="<?php _e("Email"); ?>">
+        <input type="text" autofocus class="large-field"  name="email" placeholder="<?php _e("Email"); ?>">
       </div>
     </div>
     <div class="control-group">
