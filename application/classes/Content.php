@@ -2,7 +2,39 @@
 action_hook('mw_db_init_default', '\Content::db_init');
 action_hook('on_load', '\Content::db_init');
 
+/**
+ * This file holds useful functions to work with content
+ * Here you will find functions to get and save content in the database and much more.
+ *
+ * @package Content
+ * @category Content
+ * @desc  These functions will allow you to get and save content in the database.
+ *
+ */
 
+
+if (!defined("MW_DB_TABLE_CONTENT")) {
+    define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
+}
+
+if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
+    define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
+}
+
+if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
+    define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', MW_TABLE_PREFIX . 'content_fields_drafts');
+}
+
+if (!defined("MW_DB_TABLE_MEDIA")) {
+    define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
+}
+
+if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+    define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
+}
+if (!defined("MW_DB_TABLE_MENUS")) {
+    define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
+}
 class Content {
 
 
