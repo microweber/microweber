@@ -568,7 +568,7 @@ function content_set_unpublished($params)
 
 function get_content_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
 {
-    return \ContentUtils::get_parents($id , $without_main_parrent, $data_type);
+    return \Content::get_parents($id , $without_main_parrent, $data_type);
 
 }
 
@@ -584,7 +584,7 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
  */
 function get_content_inherited_parent($content_id)
 {
-    return \ContentUtils::get_inherited_parent($content_id);
+    return \Content::get_inherited_parent($content_id);
 
 
 
