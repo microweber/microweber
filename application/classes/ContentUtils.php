@@ -1005,102 +1005,14 @@ class ContentUtils
     }
 
 
-    /**
-     *  Get the first parent that has layout
-     *
-     * @category Content
-     * @package Content
-     * @subpackage Advanced
-     * @uses get_content_parents()
-     * @uses get_content_by_id()
-     */
-    static function get_inherited_parent($content_id)
-    {
-
-
-        $inherit_from = self::get_parents($content_id);
-
-        $found = 0;
-        if (!empty($inherit_from)) {
-            foreach ($inherit_from as $value) {
-                if ($found == 0) {
-                    $par_c = get_content_by_id($value);
-                    if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-                        return $par_c['id'];
-                        $found = 1;
-                    }
-                }
-            }
-        }
-
-    }
 
 
     static function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
+        return \Content::get_parents($id , $without_main_parrent, $data_type);
 
-        if (intval($id) == 0) {
-
-            return FALSE;
-        }
-
-        $table = MW_DB_TABLE_CONTENT;
-
-        $ids = array();
-
-        $data = array();
-
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-
-            $with_main_parrent_q = " and parent<>0 ";
-        } else {
-
-            $with_main_parrent_q = false;
-        }
-        $id = intval($id);
-        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
-
-        $taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
-
-        //var_dump($q);
-        //  var_dump($taxonomies);
-        //  exit;
-
-        if (!empty($taxonomies)) {
-
-            foreach ($taxonomies as $item) {
-
-                if (intval($item['id']) != 0) {
-
-                    $ids[] = $item['parent'];
-                }
-                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
-                    $next = self::get_parents($item['parent'], $without_main_parrent);
-
-                    if (!empty($next)) {
-
-                        foreach ($next as $n) {
-
-                            if ($n != '' and $n != 0) {
-
-                                $ids[] = $n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($ids)) {
-
-            $ids = array_unique($ids);
-
-            return $ids;
-        } else {
-
-            return false;
-        }
     }
+
 
     static function edit_field_draft($data)
     {

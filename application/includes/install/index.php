@@ -247,6 +247,8 @@ if (isset($to_save['is_installed'])) {
                 _reload_c();
 
                 __mw_install_log('Initializing users');
+                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
                 \Users::db_init();
                 __mw_install_log('Initializing options');
@@ -256,7 +258,7 @@ if (isset($to_save['is_installed'])) {
                 \Content::db_init();
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
-
+                \Shop::db_init();
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
                 \Module::db_init();
                 __mw_install_log('Creating default database tables');
