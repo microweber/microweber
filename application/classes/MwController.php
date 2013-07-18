@@ -8,10 +8,10 @@
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
     @set_magic_quotes_runtime(0);
 }
-if (defined("MW_NO_BASE") != false) {
-    var_dump(MW_NO_BASE);
-    exit();
-}
+//if (defined("MW_NO_BASE") != false) {
+//    var_dump(MW_NO_BASE);
+//    exit();
+//}
 load_base_functions();
 function params_stripslashes_array($array)
 {
@@ -1216,14 +1216,7 @@ if(method_exists($res, $try_class_func2)){
         //
 
 
-        if (isset($page['is_pinged']) and $page['is_pinged'] == "n") {
-            if (!isset($is_preview_template) or $is_preview_template == false) {
 
-
-                content_ping_servers_async();
-
-            }
-        }
 
         if ($is_preview_template != false and $is_admin == true) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
@@ -1617,9 +1610,9 @@ if(method_exists($res, $try_class_func2)){
             if (isset($_GET['debug'])) {
 
                 $is_admin = is_admin();
-                if ($is_admin == true) {
+               // if ($is_admin == true) {
                     debug_info();
-                }
+                //}
             }
 
             // print (round(microtime()-T,5)*1000);
@@ -1628,8 +1621,8 @@ if(method_exists($res, $try_class_func2)){
         } else {
 
           //  print 'NO LAYOUT IN ' . __FILE__;
-
-            print 'Error! Please try again later.';
+            mw_create_default_content('default');
+            print 'Error! Page is not available.';
 
           //  d($template_view);
             //d($page);
@@ -1694,6 +1687,13 @@ if(method_exists($res, $try_class_func2)){
 
 // dump the picture and stop the script
         fpassthru($fp);
+
+
+       $ping = \mw\content\Ping::content_ping_servers_async();
+
+
+
+
         exit;
 
 
