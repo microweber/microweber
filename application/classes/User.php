@@ -1,786 +1,697 @@
 <?php
-if (!defined("MW_DB_TABLE_MODULES")) {
-    define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
+if (!defined("MW_DB_TABLE_USERS")) {
+    define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+}
+if (!defined("MW_DB_TABLE_LOG")) {
+    define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
 }
 
-if (!defined("MW_DB_TABLE_ELEMENTS")) {
-    define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
-}
-
-if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
-    define('MW_DB_TABLE_MODULE_TEMPLATES', MW_TABLE_PREFIX . 'module_templates');
-}
-
-if(!defined('EMPTY_MOD_STR')){
-    define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
-}
-
-$_mw_modules_info_register = array();
-
-action_hook('on_load', '\Module::db_init');
-
-$mw_mod_counter = 0;
-$mw_mod_counter_array = array();
-$mw_loaded_mod_memory = array();
-$mw_defined_module_classes = array();
-class Module
+class User
 {
-    static function get($params = false)
-    {
 
-        $table = MW_TABLE_PREFIX . 'modules';
+    /**
+     * Allows you to login a user into the system
+     *
+     * It also sets user session when the user is logged. <br />
+     * On 5 unsuccessful logins, blocks the ip for few minutes <br />
+     *
+     *
+     * @param array|string $params You can pass parameter as string or as array.
+     * @param mixed|string $params['email'] optional If you set  it will use this email for login
+     * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
+     * @param mixed|string $params['password_hashed'] optional Use hashed password for login, it does NOT go trough hash_user_pass() function
+     *
+     *
+     * @example
+     * <code>
+     * //login with username
+     * user_login('username=test&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login with email
+     * user_login('email=my@email.com&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login hashed password
+     * user_login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+     * </code>
+     *
+     * @return array|bool
+     * @hooks
+     *
+     * You can also hook to this function with custom functions <br />
+     * There are few events that get executed on login <br />
+     *
+     * <code>
+     * Here is example:
+     * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
+     * action_hook('on_user_login', 'custom_after_login_function'); //executed after successful login
+     * </code>
+     * @package Users
+     * @category Users
+     * @uses hash_user_pass()
+     * @uses parse_str()
+     * @uses get_users()
+     * @uses session_set()
+     * @uses get_log()
+     * @uses save_log()
+     * @uses user_login_set_failed_attempt()
+     * @uses user_update_last_login_time()
+     * @uses exec_action()
+     * @function user_login()
+     * @see _table() For the database table fields
+     */
+    static function login($params)
+    {
+        $params2 = array();
+
+
+        $override = exec_action('before_user_login', $params);
+        if (is_arr($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    return $resp;
+                }
+            }
+        }
+
         if (is_string($params)) {
             $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/global';
-        if (isset($params['id'])) {
-            $params['limit'] = 1;
-        } else {
-            $params['limit'] = 1000;
-        }
-        if (isset($params['module'])) {
-            $params['module'] = str_replace('/admin', '', $params['module']);
-        }
-        if (!isset($params['ui'])) {
-            $params['ui'] = 1;
-            //$params['debug'] = 1;
+            $params = $params2;
         }
 
-        if (isset($params['ui']) and $params['ui'] == 'any') {
-            // d($params);
-            unset($params['ui']);
+
+        //$is_logged =  session_get('user_session');
+        // if(isarr($is_logged) and isset($is_logged['']))
+
+
+        if (isset($params) and !empty($params)) {
+
+            $user = isset($params['username']) ? $params['username'] : false;
+            $pass = isset($params['password']) ? $params['password'] : false;
+            $email = isset($params['email']) ? $params['email'] : false;
+            $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
+
+            $pass = hash_user_pass($pass);
+            if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
+                $pass = $pass2;
+            }
+
+
+            if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
+                return array('error' => 'Please enter username and password!');
+
+            }
+            $url = curent_url(1);
+
+            $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
+
+            if ($check == 5) {
+
+                $url_href = "<a href='$url' target='_blank'>$url</a>";
+                save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
+            }
+            if ($check > 5) {
+                $check = $check - 1;
+                return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+            }
+            $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
+            if ($check2 > 25) {
+
+                return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+            }
+
+            $api_key = isset($params['api_key']) ? $params['api_key'] : false;
+
+
+            if ($user != false) {
+                $data1 = array();
+                $data1['username'] = $user;
+                $data1['password'] = $pass;
+                $data1['search_in_fields'] = 'username,email,password';
+                $data1['is_active'] = 'y';
+
+
+            }
+
+            $data = array();
+
+            if (trim($user != '') and trim($pass != '') and isset($data1) and isarr($data1)) {
+                $data = get_users($data1);
+            }
+            if (isset($data[0])) {
+                $data = $data[0];
+            } else {
+                if (!isset($email) or ($email) == '') {
+
+                    if (isset($user) and $user != false) {
+                        $email = $user;
+                    }
+                }
+
+
+                if (trim($email) != '') {
+                    $data = array();
+
+                    $email = str_replace(' ', '+', $email);
+
+                    $data['email'] = $email;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'y';
+
+
+                    $data['search_in_fields'] = 'password,email';
+
+                    $data = get_users($data);
+
+                    if (isset($data[0])) {
+
+                        $data = $data[0];
+                    } else {
+
+                        user_login_set_failed_attempt();
+                        return array('error' => 'Please enter right username and password!');
+
+                    }
+                } else {
+                    //	return array('error' => 'Please enter username or email!');
+
+                }
+
+                // return false;
+            }
+
+            if (!isarr($data)) {
+                if (trim($user) != '') {
+                    $data = array();
+                    $data['email'] = $user;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'y';
+                    //  $data['debug'] = 'y';
+
+                    $data = get_users($data);
+
+                    if (isset($data[0])) {
+                        $data = $data[0];
+                    }
+                }
+            }
+            if (!isarr($data)) {
+                user_login_set_failed_attempt();
+
+                $user_session = array();
+                $user_session['is_logged'] = 'no';
+                session_set('user_session', $user_session);
+
+                return array('error' => 'Please enter the right username and password!');
+
+            } else {
+                $user_session = array();
+                $user_session['is_logged'] = 'yes';
+                $user_session['user_id'] = $data['id'];
+
+                if (!defined('USER_ID')) {
+                    define("USER_ID", $data['id']);
+
+
+                }
+                user_set_logged($data['id']);
+                if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
+                    if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
+                        exec_action('user_login_admin');
+                        $p = get_page();
+                        if (!empty($p)) {
+                            $link = page_link($p['id']);
+                            $link = $link . '/editmode:y';
+                            safe_redirect($link);
+                        }
+                    }
+                }
+
+                $aj = isAjax();
+
+                if ($aj == false and $api_key == false) {
+                    if (isset($_SERVER["HTTP_REFERER"])) {
+                        //	d($user_session);
+                        //exit();
+                        safe_redirect($_SERVER["HTTP_REFERER"]);
+                        exit();
+                    } else {
+                        $user_session['success'] = "You are logged in!";
+                        return $user_session;
+                    }
+                } else if ($aj == true) {
+                    $user_session['success'] = "You are logged in!";
+                }
+
+                return $user_session;
+            }
         }
 
-        return get($params);
+        return false;
     }
 
-    static function load($module_name, $attrs = array())
+
+   static function logout()
     {
 
-        $is_element = false;
-        $custom_view = false;
-        if (isset($attrs['view'])) {
-
-            $custom_view = $attrs['view'];
-            $custom_view = trim($custom_view);
-            $custom_view = str_replace('\\', '/', $custom_view);
-            $custom_view = str_replace('..', '', $custom_view);
+        if (!defined('USER_ID')) {
+            define("USER_ID", false);
         }
 
-        if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if (is_admin() == false) {
-                error('Not logged in as admin');
+        // static $uid;
+        $aj = isAjax();
+        session_end();
+
+        if (isset($_COOKIE['editmode'])) {
+            setcookie('editmode');
+        }
+
+        if ($aj == false) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                safe_redirect($_SERVER["HTTP_REFERER"]);
             }
         }
+    }
 
-        $module_name = trim($module_name);
-        $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
-        // prevent hack of the directory
-        $module_name = reduce_double_slashes($module_name);
+    static function is_logged()
+    {
 
-        $module_namei = $module_name;
-
-        if (strstr($module_name, 'admin')) {
-
-            $module_namei = str_ireplace('\\admin', '', $module_namei);
-            $module_namei = str_ireplace('/admin', '', $module_namei);
-        }
-
-        //$module_namei = str_ireplace($search, $replace, $subject)e
-
-
-
-
-
-
-
-        $uninstall_lock = self::get('one=1&ui=any&module=' . $module_namei);
-
-        if (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1) {
-            return '';
-        }
-
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            define_constants();
-        }
-
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
-        $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
-        $module_in_template_file = normalize_path($module_in_template_file, false);
-
-        $try_file1 = false;
-
-        $mod_d = $module_in_template_dir;
-        $mod_d1 = normalize_path($mod_d, 1);
-        $try_file1zz = $mod_d1 . 'index.php';
-
-        if (is_dir($module_in_template_dir) and is_file($try_file1zz)) {
-            $try_file1 = $try_file1zz;
-
-        } elseif (is_file($module_in_template_file)) {
-            $try_file1 = $module_in_template_file;
+        if (user_id() > 0) {
+            return true;
         } else {
-
-            $module_in_default_dir = MODULES_DIR . $module_name . '';
-            $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            // d($module_in_default_dir);
-            $module_in_default_file = MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
-
-            $element_in_default_file = ELEMENTS_DIR . $module_name . '.php';
-            $element_in_default_file = normalize_path($element_in_default_file, false);
-
-            //
-            $module_in_default_file = normalize_path($module_in_default_file, false);
-
-            if (is_file($module_in_default_file)) {
-
-                if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
-                    $try_file1 = $module_in_default_file_custom_view;
-                } else {
-
-                    $try_file1 = $module_in_default_file;
-                }
-            } else {
-                if (is_dir($module_in_default_dir)) {
-
-                    $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-                    if ($custom_view == true) {
-
-                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
-                    } else {
-                        $try_file1 = $mod_d1 . 'index.php';
-                    }
-                } elseif (is_file($element_in_default_file)) {
-
-                    $is_element = true;
-
-                    $try_file1 = $element_in_default_file;
-                }
-            }
-        }
-        //
-
-        if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
-
-            if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
-                $attrs2 = array();
-                foreach ($attrs as $attrs_k => $attrs_v) {
-                    $attrs_k2 = substr($attrs_k, 0, 5);
-                    //d($attrs_k2);
-                    if (strtolower($attrs_k2) == 'data-') {
-                        $attrs_k21 = substr($attrs_k, 5);
-                        $attrs2[$attrs_k21] = $attrs_v;
-                        //d($attrs_k21);
-                    }
-
-                    $attrs2[$attrs_k] = $attrs_v;
-                }
-                $attrs = $attrs2;
-            }
-
-            $config['path_to_module'] = $config['mp'] = $config['path'] = normalize_path((dirname($try_file1)) . '/', true);
-            $config['the_module'] = $module_name;
-            $config['module'] = $module_name;
-
-            $config['module_name'] = dirname($module_name);
-
-            $config['module_name_url_safe'] = module_name_encode($module_name);
-            $find_base_url = curent_url(1);
-            if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
-                //	d($pos);
-                $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
-            }
-            $config['url'] = $find_base_url;
-
-            $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
-
-            $config['module_api'] = site_url('api/' . $module_name);
-            $config['module_view'] = site_url('module/' . $module_name);
-            $config['ns'] = str_replace('/', '\\', $module_name);
-            $config['module_class'] = module_css_class($module_name);
-            $config['url_to_module'] = pathToURL($config['path_to_module']);
-            $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
-
-
-            if (isset($attrs['id'])) {
-                $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
-
-                $template = false;
-
-            }
-
-            //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = load_module_lic($module_name);
-            //  $lic = 'valid';
-            if ($lic != false) {
-                $config['license'] = $lic;
-            }
-
-            if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
-                $attrs['id'] = $attrs['module-id'];
-            }
-
-            if (!isset($attrs['id'])) {
-                global $mw_mod_counter;
-                $mw_mod_counter++;
-
-                $attrs1 = crc32(serialize($attrs) . url_segment(0) . $mw_mod_counter);
-
-
-                $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
-
-            }
-            if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
-                $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
-
-                //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
-            }
-
-            $l1 = new MwView($try_file1);
-            $l1->config = $config;
-            if (!empty($config)) {
-                foreach ($config as $key1 => $value1) {
-                    template_var($key1, $value1);
-                }
-            }
-
-            if (!isset($attrs['module'])) {
-                $attrs['module'] = $module_name;
-            }
-
-            if (!isset($attrs['parent-module'])) {
-                $attrs['parent-module'] = $module_name;
-            }
-
-            if (!isset($attrs['parent-module-id'])) {
-                $attrs['parent-module-id'] = $attrs['id'];
-            }
-            $mw_restore_get = mw_var('mw_restore_get');
-            if ($mw_restore_get != false and isarr($mw_restore_get)) {
-                //d($mw_restore_get);
-                $l1->_GET = $mw_restore_get;
-                $_GET = $mw_restore_get;
-            }
-
-            $l1->params = $attrs;
-            if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
-
-                $module_file = EMPTY_MOD_STR;
-            } elseif (isset($attrs['view']) && (trim($attrs['view']) == 'admin')) {
-
-                $module_file = $l1->__toString();
-            } else {
-
-                if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
-                    $module_file = $l1->__get_vars();
-                    return $module_file;
-                } else if (isset($attrs['format']) && (trim($attrs['format']) == 'json')) {
-                    $module_file = $l1->__get_vars();
-                    header("Content-type: application/json");
-                    exit(json_encode($module_file));
-                } else {
-                    $module_file = $l1->__toString();
-                }
-            }
-            //	$l1 = null;
-            unset($l1);
-            if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
-                $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
-                $lic_l1 = new MwView($lic_l1_try_file1);
-
-                $lic_l1->config = $config;
-                $lic_l1->params = $attrs;
-
-                $lic_l1e_file = $lic_l1->__toString();
-
-                //$lic_l1 = null;
-                unset($lic_l1);
-                $module_file =  $lic_l1e_file . $module_file;
-            }
-            // d($module_file);
-            // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
-            return $module_file;
-        } else {
-            //define($cache_content, FALSE);
-            // $mw_loaded_mod_memory[$function_cache_id] = false;
             return false;
         }
+
+
+    }
+    static function has_access($function_name)
+    {
+
+        // will be updated with roles and perms
+        $is_a = is_admin();
+
+        if ($is_a == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function admin_access()
+    {
+
+        if (is_admin() == false) {
+            exit('You must be logged as admin');
+        }
+    }
+
+    /**
+     * @function user_name
+     * gets the user's FULL name
+     *
+     * @param $user_id  the id of the user. If false it will use the curent user (you)
+     * @param string $mode full|first|last|username
+     *  'full' //prints full name (first +last)
+     *  'first' //prints first name
+     *  'last' //prints last name
+     *  'username' //prints username
+     * @return string
+     */
+    static function name($user_id = false, $mode = 'full')
+    {
+        if ($mode != 'username') {
+            if ($user_id == user_id()) {
+                // return 'You';
+            }
+        }
+        if ($user_id == false) {
+            $user_id = user_id();
+        }
+
+        $name = nice_user_name($user_id, $mode);
+        return $name;
     }
     /**
-     * module_templates
+     * Generic function to get the user by id.
+     * Uses the getUsers function to get the data
      *
-     * Gets all templates for a module
+     * @param
+     *            int id
+     * @return array
      *
-     * @package        modules
-     * @subpackage    functions
-     * @category    modules api
      */
-
-      static function templates($module_name, $template_name = false)
+    static function get_by_id($id)
     {
-        $module_name = str_replace('admin', '', $module_name);
-        $module_name_l = locate_module($module_name);
-
-        $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
-
-        $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
-        //	d($module_name_l_theme);
-        if (!is_dir($module_name_l)) {
-            return false;
-        } else {
-            if ($template_name == false) {
-                $options = array();
-                $options['no_cache'] = 1;
-                $options['for_modules'] = 1;
-                $options['path'] = $module_name_l;
-                $module_name_l = layouts_list($options);
-                if (is_dir($module_name_l_theme)) {
-                    $options['path'] = $module_name_l_theme;
-                    //d($options);
-                    $module_skins_from_theme = layouts_list($options);
-                    //	d($module_skins_from_theme);
-                    if (isarr($module_skins_from_theme)) {
-                        if (!is_arr($module_name_l)) {
-                            $module_name_l = array();
-                        }
-                        $fnfound = array();
-                        $comb = array_merge($module_skins_from_theme, $module_name_l);
-                        array_unique($comb);
-                        if (!empty($comb)) {
-                            foreach ($comb as $k1 => $itm) {
-                                if (!in_array($itm['layout_file'], $fnfound)) {
-                                    $fnfound[] = $itm['layout_file'];
-                                } else {
-                                    unset($comb[$k1]);
-                                }
-                            }
-                        }
-                        $module_name_l = ($comb);
-                    }
-                    // d($module_skins_from_theme);
-                }
-
-                return $module_name_l;
-            } else {
-
-                $template_name = str_replace('..','',$template_name);
-
-
-                $is_dot_php = get_file_extension($template_name);
-                if ($is_dot_php != false and $is_dot_php != 'php') {
-                    $template_name = $template_name . '.php';
-                }
-
-                $tf = $module_name_l . $template_name;
-                $tf_theme = $module_name_l_theme . $template_name;
-                $tf_from_other_theme = TEMPLATEFILES . $template_name;
-                $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
-
-
-                if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
-                    return $tf_from_other_theme;
-                } else if (is_file($tf_theme)) {
-                    return $tf_theme;
-                } else if (is_file($tf)) {
-                    return $tf;
-                } else {
-                    return false;
-                }
-
-
-
-
-            }
-
-            // d($module_name_l);
-        }
-    }
-
-
-
-    static function url($module_name)
-    {
-        if (!is_string($module_name)) {
+        $id = intval($id);
+        if ($id == 0) {
             return false;
         }
 
-        $args = func_get_args();
-        $function_cache_id = '';
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_group = 'modules/global';
-
-        $cache_content = cache_get_content($cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        static $checked = array();
-
-        if (!isset($checked[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
-
-            if ($ch != false) {
-                $ch = dirname($ch);
-                $ch = dir2url($ch);
-                $ch = $ch . '/';
-                //	$ch = trim($ch,'\//');
-
-                $checked[$module_name] = $ch;
-            } else {
-                $checked[$module_name] = false;
-            }
-        }
-
-        cache_save($checked[$module_name], $function_cache_id, $cache_group);
-
-        return $checked[$module_name];
-
-    }
-    static function info($module_name)
-    {
-        //d($module_name);
-        global $_mw_modules_info_register;
-        if (isset($_mw_modules_info_register[$module_name])) {
-
-
-            return $_mw_modules_info_register[$module_name];
-
-        }
-
-        $params = array();
-        $params['module'] = $module_name;
-        $params['ui'] = 'any';
-        $params['limit'] = 1;
-        $data = get_modules_from_db($params);
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
+        $data = self::get_all($data);
         if (isset($data[0])) {
-            $_mw_modules_info_register[$module_name] = $data[0];
-            return $data[0];
+            $data = $data[0];
         }
+        return $data;
     }
-
-
-    static function path($module_name)
+    static function get_by_username($username)
     {
-        return self::dir($module_name);
+        $data = array();
+        $data['username'] = $username;
+        $data['limit'] = 1;
+        $data = self::get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
+        }
+        return $data;
     }
-    static function dir($module_name)
+    static function get($id = false)
     {
-        if (!is_string($module_name)) {
+        if ($id == false) {
+            $id = user_id();
+        }
+
+        if ($id == 0) {
             return false;
         }
 
-        $args = func_get_args();
-        $function_cache_id = '';
-        foreach ($args as $k => $v) {
+        $res = self::get_by_id($id);
 
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if (empty($res)) {
+
+            $res = get_user_by_username($id);
         }
 
-        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_group = 'modules/global';
-
-        $cache_content = cache_get_content($cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $checked = array();
-
-        if (!isset($checked[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
-
-            if ($ch != false) {
-                $ch = dirname($ch);
-                //$ch = dir2url($ch);
-                $ch = normalize_path($ch, 1);
-                //	$ch = trim($ch,'\//');
-
-                $checked[$module_name] = $ch;
-            } else {
-                $checked[$module_name] = false;
-            }
-        }
-
-        cache_save($checked[$module_name], $function_cache_id, $cache_group, 'files');
-
-        return $checked[$module_name];
-
+        return $res;
     }
 
 
-
-   static function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
+    /**
+     * @function get_users
+     *
+     * @param $params array|string;
+     * @params $params['username'] string username for user
+     * @params $params['email'] string email for user
+     * @params $params['password'] string password for user
+     *
+     *
+     * @usage get_users('email=my_email');
+     *
+     *
+     * @return array of users;
+     */
+    static function get_all($params)
     {
+        $params = parse_params($params);
 
-        if (!defined("ACTIVE_TEMPLATE_DIR")) {
-            define_constants();
+        $table = MW_TABLE_PREFIX . 'users';
+
+        $data = string_clean($params);
+        $orig_data = $data;
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            if (!empty($data['ids'])) {
+                $ids = $data['ids'];
+            }
+        }
+        if (!isset($params['search_in_fields'])) {
+            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+            // $data ['debug'] = 1;
         }
 
-        $module_name = trim($module_name);
-        $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
-        // prevent hack of the directory
-        $module_name = reduce_double_slashes($module_name);
-
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
-
-        $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
-        $module_in_template_file = normalize_path($module_in_template_file, false);
-        //d($module_in_template_dir);
-        $module_in_default_file12 = MODULES_DIR . $module_name . '.php';
-
-        $try_file1 = false;
-
-        $mod_d = $module_in_template_dir;
-        $mod_d1 = normalize_path($mod_d, 1);
-        $try_file1x = $mod_d1 . 'index.php';
-
-        if (is_file($try_file1x)) {
-
-            $try_file1 = $try_file1x;
-        } elseif (is_file($module_in_template_file)) {
-            $try_file1 = $module_in_template_file;
-            //d($try_file1);
-        } elseif (is_file($module_in_default_file12) and $custom_view == false) {
-            $try_file1 = $module_in_default_file12;
-            //	d($try_file1);
+        $cache_group = 'users/global';
+        if (isset($data['id']) and intval($data['id']) != 0) {
+            $cache_group = 'users/' . $data['id'];
         } else {
 
-            $module_in_default_dir = MODULES_DIR . $module_name . '';
-            $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            //  d($module_in_default_dir);
-            $module_in_default_file = MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
-
-            $element_in_default_file = ELEMENTS_DIR . $module_name . '.php';
-            $element_in_default_file = normalize_path($element_in_default_file, false);
-
-            //
-            $module_in_default_file = normalize_path($module_in_default_file, false);
-
-            if (is_file($module_in_default_file)) {
-
-                if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
-                    $try_file1 = $module_in_default_file_custom_view;
-                    if ($no_fallback_to_view == true) {
-                        return $try_file1;
-                    }
-
-                } else {
-
-                    //  $try_file1 = $module_in_default_file;
-                }
-
-            } else {
-                if (is_dir($module_in_default_dir)) {
-
-                    $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-                    if ($custom_view == true) {
-
-                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
-                        if ($no_fallback_to_view == true) {
-                            return $try_file1;
-                        }
-                    } else {
-                        if ($no_fallback_to_view == true) {
-                            return false;
-                        }
-
-                        //temp
-                        $try_file1 = $mod_d1 . 'index.php';
-                    }
-                } elseif (is_file($element_in_default_file)) {
-
-                    $is_element = true;
-
-                    $try_file1 = $element_in_default_file;
-                }
-            }
+        }
+        $cache_group = 'users/global';
+        if (isset($limit) and $limit != false) {
+            $data['limit'] = $limit;
         }
 
-        $try_file1 = normalize_path($try_file1, false);
-        return $try_file1;
+        if (isset($count_only) and $count_only != false) {
+            $data['get_count'] = $count_only;
+        }
+
+        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
+            $only_those_fields = $data['only_those_fields'];
+        }
+
+        if (isset($data['count']) and $data['count']) {
+            $count_only = $data['count'];
+        }
+
+        // $data ['no_cache'] = 1;
+
+        if (isset($data['username']) and $data['username'] == null) {
+            unset($data['username']);
+        }
+        if (isset($data['username']) and $data['username'] == '') {
+            //return false;
+        }
+
+        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $data['table'] = $table;
+        //  $data ['cache_group'] = $cache_group;
+
+        $get = get($data);
+
+        //$get = db_get($table, $criteria = $data, $cache_group);
+        // $get = db_get($table, $criteria = $data, $cache_group);
+        // var_dump($get, $function_cache_id, $cache_group);
+        //  cache_save($get, $function_cache_id, $cache_group);
+
+        return $get;
     }
-
-
-
-    static function exists($module_name)
-    {
-        if (!is_string($module_name)) {
-            return false;
-        }
-        if (trim($module_name) == '') {
-            return false;
-        }
-        global $mw_loaded_mod_memory;
-
-
-        if (!isset($mw_loaded_mod_memory[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
-            if ($ch != false) {
-                $mw_loaded_mod_memory[$module_name] = true;
-            } else {
-                $mw_loaded_mod_memory[$module_name] = false;
-            }
-        }
-
-        return $mw_loaded_mod_memory[$module_name];
-    }
-    static function is_installed($module_name)
+    static function is_admin()
     {
 
-        $module_name = trim($module_name);
-
-        $module_namei = $module_name;
-        if (strstr($module_name, 'admin')) {
-
-            $module_namei = str_ireplace('\\admin', '', $module_namei);
-            $module_namei = str_ireplace('/admin', '', $module_namei);
-        }
-
-        //$module_namei = str_ireplace($search, $replace, $subject)e
-
-        $uninstall_lock = self::get('one=1&ui=any&module=' . $module_namei);
-
-        if (empty($uninstall_lock) or (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1)) {
-            return false;
-        } else {
+        static $is = 0;
+        if (MW_IS_INSTALLED == false) {
             return true;
         }
-    }
-   static function css_class($module_name)
-    {
-        global $mw_defined_module_classes;
+        if ($is != 0 or defined('USER_IS_ADMIN')) {
+            // var_dump( $is);
+            return $is;
+        } else {
+            $usr = user_id();
+            if ($usr == false) {
+                return false;
+            }
+            $usr = get_user($usr);
 
-        if (isset($mw_defined_module_classes[$module_name]) != false) {
-            return $mw_defined_module_classes[$module_name];
+            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
+                define("USER_IS_ADMIN", true);
+                define("IS_ADMIN", true);
+            } else {
+                define("USER_IS_ADMIN", false);
+                define("IS_ADMIN", false);
+            }
+            $is = USER_IS_ADMIN;
+            // var_dump( $is);
+            // var_dump( $is);
+            // var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
+            return USER_IS_ADMIN;
+        }
+    }
+
+    static function id()
+    {
+
+        // static $uid;
+        if (defined('USER_ID')) {
+            // print USER_ID;
+            return USER_ID;
         } else {
 
-            $module_class = str_replace('/', '-', $module_name);
-            $module_class = str_replace('\\', '-', $module_class);
-            $module_class = str_replace(' ', '-', $module_class);
-            $module_class = str_replace('%20', '-', $module_class);
-            $module_class = str_replace('_', '-', $module_class);
-            $module_class = 'module-' . $module_class;
+            $user_session = session_get('user_session');
+            if ($user_session == FALSE) {
+                return false;
+            }
+            $res = false;
+            if (isset($user_session['user_id'])) {
+                $res = $user_session['user_id'];
+            }
 
-            $mw_defined_module_classes[$module_name] = $module_class;
-            return $module_class;
+            if ($res != false) {
+                // $res = $sess->get ( 'user_id' );
+                define("USER_ID", $res);
+            }
+            return $res;
         }
     }
-
-    static function db_init()
+    static function make_logged($user_id)
     {
-        $function_cache_id = false;
 
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if (is_array($user_id)) {
+            if (isset($user_id['id'])) {
+                $user_id = $user_id['id'];
+            }
         }
 
-        $function_cache_id = 'modules'.__FUNCTION__ . crc32($function_cache_id);
+        if (intval($user_id) > 0) {
+            $data = get_user($user_id);
+            if ($data == false) {
+                return false;
+            } else {
+                if (isarr($data)) {
+                    $user_session = array();
+                    $user_session['is_logged'] = 'yes';
+                    $user_session['user_id'] = $data['id'];
 
-        $cache_content = cache_get_content($function_cache_id, 'db', 'files');
+                    if (!defined('USER_ID')) {
+                        define("USER_ID", $data['id']);
 
-        if (($cache_content) != false) {
 
-            return $cache_content;
+                    }
+                    exec_action('user_login', $data);
+                    session_set('user_session', $user_session);
+                    $user_session = session_get('user_session');
+                    user_update_last_login_time();
+                    $user_session['success'] = "You are logged in!";
+                    return $user_session;
+                }
+            }
         }
 
-        $table_name = MW_DB_TABLE_MODULES;
-        $table_name2 = MW_DB_TABLE_ELEMENTS;
-        $table_name3 = MW_DB_TABLE_MODULE_TEMPLATES;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('expires_on', 'datetime default NULL');
-
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('name', 'TEXT default NULL');
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-        $fields_to_add[] = array('module_id', 'TEXT default NULL');
-
-        $fields_to_add[] = array('module', 'TEXT default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('icon', 'TEXT default NULL');
-        $fields_to_add[] = array('author', 'TEXT default NULL');
-        $fields_to_add[] = array('website', 'TEXT default NULL');
-        $fields_to_add[] = array('help', 'TEXT default NULL');
-
-        $fields_to_add[] = array('installed', 'int(11) default NULL');
-        $fields_to_add[] = array('ui', 'int(11) default 0');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-        $fields_to_add[] = array('as_element', 'int(11) default 0');
-        $fields_to_add[] = array('ui_admin', 'int(11) default 0');
-        $fields_to_add[] = array('is_system', 'int(11) default 0');
-
-        $fields_to_add[] = array('version', 'varchar(11) default NULL');
-
-        $fields_to_add[] = array('notifications', 'int(11) default 0');
-
-        set_db_table($table_name, $fields_to_add);
-
-        $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
-
-        db_add_table_index('module', $table_name, array('module(255)'));
-        db_add_table_index('module_id', $table_name, array('module_id(255)'));
-
-        set_db_table($table_name2, $fields_to_add);
-
-        db_add_table_index('module', $table_name2, array('module(255)'));
-        db_add_table_index('module_id', $table_name2, array('module_id(255)'));
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('module_id', 'TEXT default NULL');
-        $fields_to_add[] = array('name', 'TEXT default NULL');
-        $fields_to_add[] = array('module', 'TEXT default NULL');
-        set_db_table($table_name3, $fields_to_add);
-
-        cache_save(true, $function_cache_id, $cache_group = 'db', 'files');
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
-        return true;
-
-        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
     }
-
-
-    static function license($module_name = false)
+    static function hash_pass($pass)
     {
-        return true;
+
+        // Currently only md5 is supported for portability
+        // Will improve this soon!
+
+        //$hash = password_hash($pass, PASSWORD_BCRYPT);
+        //
+        $hash = md5($pass);
+        if ($hash == false) {
+            $hash = db_escape_string($hash);
+            return $pass;
+        }
+        return $hash;
+
+    }
+    static function login_set_failed_attempt()
+    {
+
+        save_log("title=Failed login&is_system=y&rel=login_failed&user_ip=" . USER_IP);
+
+    }
+
+    static function api_login($api_key = false)
+    {
+
+        if ($api_key == false and isset($_REQUEST['api_key']) and user_id() == 0) {
+            $api_key = $_REQUEST['api_key'];
+        }
+
+        if ($api_key == false) {
+            return false;
+        } else {
+            if (trim($api_key) == '') {
+                return false;
+            } else {
+                $api_key = db_escape_string($api_key);
+                if (user_id() > 0) {
+                    return true;
+                } else {
+                    $data = array();
+                    $data['api_key'] = $api_key;
+                    $data['is_active'] = 'y';
+                    $data['limit'] = 1;
+
+                    $data = get_users($data);
+
+                    if ($data != false) {
+                        if (isset($data[0])) {
+                            $data = $data[0];
+
+                            if (isset($data['api_key']) and $data['api_key'] == $api_key) {
+                                return user_login($data);
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+        }
 
     }
 
 
+    /**
+     * Function to get user printable name by given ID
+     *
+     * @param  $id
+     * @param string $mode
+     * @return string
+     * @example
+     * <code>
+     * //get user name for user with id 10
+     * nice_user_name(10, 'full');
+     * </code>
+     * @uses get_user_by_id()
+     */
+    static function nice_name($id, $mode = 'full')
+    {
+        $user = get_user_by_id($id);
+        $user_data = $user;
+        if (empty($user)) {
+            return false;
+        }
 
+        switch ($mode) {
+            case 'first' :
+            case 'fist' :
+                // because of a common typo :)
+                $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
+                $name = ucwords($name);
+                // return $name;
+                break;
+
+            case 'last' :
+                $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
+                $name = ucwords($name);
+                // return $name;
+                break;
+
+            case 'username' :
+                $name = $user_data['username'];
+                // return $name;
+                break;
+
+            case 'full' :
+            default :
+                $name = $user_data['first_name'] . ' ' . $user_data['last_name'];
+
+                if (trim($name) == '') {
+                    $name = $user_data['username'];
+                }
+
+                $name = ucwords($name);
+                // return $name;
+                break;
+        }
+
+
+        if (!isset($name) or $name == false or $name == NULL or trim($name) == '') {
+            if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
+                $name = $user_data['username'];
+            } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
+                $name = $user_data['email'];
+            }
+        }
+
+        return $name;
+
+    }
 }

@@ -257,7 +257,7 @@ function is_module_installed($module_name)
 
 function module_ico_title($module_name, $link = true)
 {
-    return \ModuleUtils::is_installed($module_name,$link);
+    return \Module::is_installed($module_name,$link);
 }
 
 $_mw_modules_info_register = array();

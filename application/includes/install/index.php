@@ -248,6 +248,7 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Initializing users');
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+                \Users::db_init();
                 __mw_install_log('Initializing options');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
