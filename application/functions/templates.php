@@ -1,9 +1,12 @@
 <?php
 
-$mw_template_headers = array();
+ 
 function template_header($script_src)
 {
-    global $mw_template_headers;
+    static $mw_template_headers;
+    if( $mw_template_headers == null){
+         $mw_template_headers = array();
+    }
 
     if (is_string($script_src)) {
         if (!in_array($script_src, $mw_template_headers)) {

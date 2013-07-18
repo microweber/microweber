@@ -8,8 +8,11 @@
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
     @set_magic_quotes_runtime(0);
 }
-
-
+if (defined("MW_NO_BASE") != false) {
+    var_dump(MW_NO_BASE);
+    exit();
+}
+load_base_functions();
 function params_stripslashes_array($array)
 {
     return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);

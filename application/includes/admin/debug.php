@@ -28,15 +28,19 @@ $mtime = microtime();
   <?php
 
 
+if(function_exists('db_query_log')){
   $ql = db_query_log(true) ;
   if($ql and is_array($ql) and !empty($ql))
-{
-	print '<b>'. count(db_query_log(true)). ' Database Queries</b>';
-	foreach(db_query_log(true) as $query)
-	{
-		print '<pre style="background:#fff">'. $query. '</pre>';
-	}
+    {
+    	print '<b>'. count(db_query_log(true)). ' Database Queries</b>';
+    	foreach(db_query_log(true) as $query)
+    	{
+    		print '<pre style="background:#fff">'. $query. '</pre>';
+    	}
+    }
 }
+
+
 ?>
   <?php if(!empty($_SESSION)) { ?>
   <b>Session Data</b> <?php print '<pre>';print_r($_SESSION);print '</pre>'; ?>
@@ -47,7 +51,7 @@ $mtime = microtime();
 <?php print implode("\n", $included_files); ?>
 </pre>
 
-
+<?php if(function_exists('cache_debug')){ ?>
 <b>
 
 Cache hits <?php $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
@@ -60,5 +64,5 @@ Cache hits <?php $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?>
 		 	<b>Debug</b>
   <pre><?php print print_r(dbg(true)); ?></pre>
   
-
+ <?php } ?>
 </div>
