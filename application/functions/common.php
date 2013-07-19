@@ -98,7 +98,7 @@
 function get_content($params = false)
 {
 
-    return \Content::get($params);
+    return \mw\Content::get($params);
 }
 
 api_expose('get_content_admin');
@@ -136,18 +136,18 @@ api_expose('content_link');
  */
 function content_link($id = 0)
 {
-    return \Content::link($id);
+    return \mw\Content::link($id);
 }
 
 
 function page_link($id = false)
 {
-    return \Content::link($id);
+    return \mw\Content::link($id);
 }
 
 function post_link($id = 0)
 {
-    return \Content::link($id);
+    return \mw\Content::link($id);
 }
 /**
  * Return array of posts specified by $params
@@ -176,7 +176,7 @@ function post_link($id = 0)
  */
 function get_posts($params = false)
 {
-    return \Content::get($params);
+    return \mw\Content::get($params);
 }
 
 
@@ -215,7 +215,7 @@ function get_posts($params = false)
 function define_constants($content = false)
 {
 
-    return \Content::define_constants($content);
+    return \mw\Content::define_constants($content);
 }
 
 
@@ -236,7 +236,7 @@ function define_constants($content = false)
  */
 function get_layout_for_page($page = array())
 {
-    return \Content::get_layout($page);
+    return \mw\Content::get_layout($page);
 
 }
 
@@ -250,7 +250,7 @@ function get_layout_for_page($page = array())
 function get_homepage()
 {
 
-    return \Content::homepage();
+    return \mw\Content::homepage();
 }
 
 /**
@@ -269,7 +269,7 @@ function get_content_by_url($url = '', $no_recursive = false)
 
 function get_page_by_url($url = '', $no_recursive = false)
 {
-    return \Content::get_by_url($url,$no_recursive);
+    return \mw\Content::get_by_url($url,$no_recursive);
 }
 
 /**
@@ -289,7 +289,7 @@ function get_page_by_url($url = '', $no_recursive = false)
  */
 function get_content_by_id($id)
 {
-    return \Content::get_by_id($id);
+    return \mw\Content::get_by_id($id);
 }
 
 
@@ -317,7 +317,7 @@ function get_content_by_id($id)
  */
 function get_page($id = 0)
 {
-    return \Content::get_page($id);
+    return \mw\Content::get_page($id);
 
 }
 
@@ -326,7 +326,7 @@ function reorder_content($params)
 {
 
 
-    return \ContentUtils::reorder($params);
+    return \mw\ContentUtils::reorder($params);
 
 
 
@@ -336,7 +336,7 @@ function reorder_content($params)
 function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword')
 {
 
-    return \Content::paging_links($base_url = false, $pages_count, $paging_param, $keyword_param);
+    return \mw\Content::paging_links($base_url = false, $pages_count, $paging_param, $keyword_param);
 
 }
 
@@ -360,7 +360,7 @@ function paging_links($base_url = false, $pages_count, $paging_param = 'curent_p
  */
 function paging($params)
 {
-    return \Content::paging($params);
+    return \mw\Content::paging($params);
 
 
 
@@ -372,7 +372,7 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 {
 
 
-    return \Content::custom_fields($content_id, $full , $field_type );
+    return \mw\Content::custom_fields($content_id, $full , $field_type );
 
 
 }
@@ -380,7 +380,7 @@ function get_custom_fields_for_content($content_id, $full = true, $field_type = 
 
 function save_edit($post_data)
 {
-    return \ContentUtils::save_edit($post_data);
+    return \mw\ContentUtils::save_edit($post_data);
 }
 
 api_expose('delete_content');
@@ -388,7 +388,7 @@ api_expose('delete_content');
 function delete_content($data)
 {
 
-    return \ContentUtils::delete($data);
+    return \mw\ContentUtils::delete($data);
 
 }
 
@@ -415,7 +415,7 @@ function save_content($data, $delete_the_cache = true)
 {
 
 
-    return \ContentUtils::save_content($data, $delete_the_cache);
+    return \mw\ContentUtils::save_content($data, $delete_the_cache);
 
 }
 
@@ -425,21 +425,21 @@ function save_content($data, $delete_the_cache = true)
 function save_content_field($data, $delete_the_cache = true)
 {
 
-    return \ContentUtils::save_content_field($data, $delete_the_cache);
+    return \mw\ContentUtils::save_content_field($data, $delete_the_cache);
 
 }
 
 api_expose('get_content_field_draft');
 function get_content_field_draft($data)
 {
-    return \ContentUtils::edit_field_draft($data);
+    return \mw\ContentUtils::edit_field_draft($data);
 }
 
 function get_content_field($data, $debug = false)
 {
 
 
-    return \Content::edit_field($data,$debug);
+    return \mw\Content::edit_field($data,$debug);
 
 
 }
@@ -493,13 +493,13 @@ function get_content_field($data, $debug = false)
  */
 function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false)
 {
-    return \Content::pages_tree($parent , $link , $active_ids , $active_code , $remove_ids, $removed_ids_code, $ul_class_name, $include_first );
+    return \mw\Content::pages_tree($parent , $link , $active_ids , $active_code , $remove_ids, $removed_ids_code, $ul_class_name, $include_first );
 }
 
 function mw_create_default_content($what)
 {
 
-    return \ContentUtils::create_default_content($what);
+    return \mw\ContentUtils::create_default_content($what);
 
 }
 
@@ -532,7 +532,7 @@ api_expose('content_set_published');
 function content_set_published($params)
 {
 
-    return \ContentUtils::set_published($params);
+    return \mw\ContentUtils::set_published($params);
 
 }
 
@@ -562,13 +562,13 @@ api_expose('content_set_unpublished');
 function content_set_unpublished($params)
 {
 
-    return \ContentUtils::set_unpublished($params);
+    return \mw\ContentUtils::set_unpublished($params);
 
 }
 
 function get_content_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
 {
-    return \Content::get_parents($id , $without_main_parrent, $data_type);
+    return \mw\Content::get_parents($id , $without_main_parrent, $data_type);
 
 }
 
@@ -584,7 +584,7 @@ function get_content_parents($id = 0, $without_main_parrent = false, $data_type 
  */
 function get_content_inherited_parent($content_id)
 {
-    return \Content::get_inherited_parent($content_id);
+    return \mw\Content::get_inherited_parent($content_id);
 
 
 
@@ -649,7 +649,7 @@ action_hook('mw_db_init_options', 'create_mw_shop_default_options');
 function create_mw_shop_default_options()
 {
 
-    return \Shop::create_mw_shop_default_options();
+    return \mw\Shop::create_mw_shop_default_options();
 
 }
 
@@ -703,7 +703,7 @@ function update_order($params = false)
 {
 
 
-    return \Shop::update_order($params);
+    return \mw\Shop::update_order($params);
 }
 
 api_expose('delete_client');
@@ -711,7 +711,7 @@ api_expose('delete_client');
 function delete_client($data)
 {
 
-    return \Shop::delete_client($data);
+    return \mw\Shop::delete_client($data);
 
 }
 
@@ -720,20 +720,20 @@ api_expose('delete_order');
 function delete_order($data)
 {
 
-    return \Shop::delete_order($data);
+    return \mw\Shop::delete_order($data);
 
 }
 
 function get_orders($params = false)
 {
 
-    return \Shop::get_orders($params);
+    return \mw\Shop::get_orders($params);
 
 }
 
 function cart_sum($return_amount = true)
 {
-    return \Shop::cart_sum($return_amount);
+    return \mw\Shop::cart_sum($return_amount);
 }
 
 
@@ -741,20 +741,20 @@ api_expose('checkout_ipn');
 
 function checkout_ipn($data)
 {
-    return \Shop::checkout_ipn($data);
+    return \mw\Shop::checkout_ipn($data);
 }
 
 api_expose('checkout');
 
 function checkout($data)
 {
-    return \Shop::checkout($data);
+    return \mw\Shop::checkout($data);
 }
 
 function checkout_confirm_email_send($order_id, $to = false, $no_cache = false)
 {
 
-    return \Shop::checkout_confirm_email_send($order_id, $to, $no_cache);
+    return \mw\Shop::checkout_confirm_email_send($order_id, $to, $no_cache);
 }
 
 api_expose('checkout_confirm_email_test');
@@ -762,14 +762,14 @@ function checkout_confirm_email_test($params)
 {
 
 
-    return \Shop::checkout_confirm_email_test($params);
+    return \mw\Shop::checkout_confirm_email_test($params);
 }
 
 api_expose('update_cart');
 
 function update_cart($data)
 {
-    return \Shop::update_cart($data);
+    return \mw\Shop::update_cart($data);
 
 
 }
@@ -779,7 +779,7 @@ api_expose('update_cart_item_qty');
 function update_cart_item_qty($data)
 {
 
-    return \Shop::update_cart_item_qty($data);
+    return \mw\Shop::update_cart_item_qty($data);
 }
 
 api_expose('remove_cart_item');
@@ -787,20 +787,20 @@ api_expose('remove_cart_item');
 function remove_cart_item($data)
 {
 
-    return \Shop::remove_cart_item($data);
+    return \mw\Shop::remove_cart_item($data);
 }
 
 function get_cart($params)
 {
 
-    return \Shop::get_cart($params);
+    return \mw\Shop::get_cart($params);
 
 
 }
 
 function payment_options($option_key = false)
 {
-    return \Shop::payment_options($option_key);
+    return \mw\Shop::payment_options($option_key);
 
 
 }
@@ -836,7 +836,7 @@ function api_login($api_key = false)
 api_expose('user_social_login');
 function user_social_login($params)
 {
-    return \Users::social_login($params);
+    return \mw\Users::social_login($params);
 }
 
 
@@ -856,7 +856,7 @@ function user_register($params)
 {
 
 
-    return \Users::register($params);
+    return \mw\Users::register($params);
 
 
 }
@@ -898,7 +898,7 @@ api_expose('save_user');
  */
 function save_user($params)
 {
-    return \Users::save($params);
+    return \mw\Users::save($params);
 }
 
 api_expose('system_log_reset');
@@ -943,7 +943,7 @@ api_expose('delete_user');
 
 function delete_user($data)
 {
-    return \Users::save($data);
+    return \mw\Users::save($data);
 }
 
 
@@ -973,7 +973,7 @@ function user_update_last_login_time()
 api_expose('social_login_process');
 function social_login_process()
 {
-    return \Users::social_login_process();
+    return \mw\Users::social_login_process();
 
 
 }
@@ -982,7 +982,7 @@ function social_login_process()
 api_expose('user_reset_password_from_link');
 function user_reset_password_from_link($params)
 {
-    return \Users::reset_password_from_link($params);
+    return \mw\Users::reset_password_from_link($params);
 
 }
 
@@ -990,7 +990,7 @@ api_expose('user_send_forgot_password');
 function user_send_forgot_password($params)
 {
 
-    return \Users::send_forgot_password($params);
+    return \mw\Users::send_forgot_password($params);
 
 
 }
@@ -1144,7 +1144,7 @@ function nice_user_name($id, $mode = 'full')
 
 function users_count()
 {
-    return \Users::count();
+    return \mw\Users::count();
 }
 
 
@@ -1159,13 +1159,13 @@ function users_count()
 
 function get_custom_field_by_id($field_id) {
 
-    return \CustomFields::get_by_id($field_id);
+    return \mw\CustomFields::get_by_id($field_id);
 
 
 }
 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
-    return \CustomFields::get($table, $id, $return_full, $field_for, $debug , $field_type , $for_session );
+    return \mw\CustomFields::get($table, $id, $return_full, $field_for, $debug , $field_type , $for_session );
 }
 
 /*document_ready('test_document_ready_api');
@@ -1191,33 +1191,33 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
  */
 api_expose('make_custom_field');
 function custom_field_names_for_table($table) {
-    return \CustomFields::names_for_table($table);
+    return \mw\CustomFields::names_for_table($table);
 }
 
 function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
-    return \CustomFields::make_default($rel, $rel_id, $fields_csv_str);
+    return \mw\CustomFields::make_default($rel, $rel_id, $fields_csv_str);
 }
 
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false) {
-    return \CustomFields::make_field($field_id, $field_type, $settings);
+    return \mw\CustomFields::make_field($field_id, $field_type, $settings);
 }
 
 api_expose('save_custom_field');
 
 function save_custom_field($data) {
-    return \CustomFields::save($data);
+    return \mw\CustomFields::save($data);
 }
 
 api_expose('reorder_custom_fields');
 
 function reorder_custom_fields($data) {
-    return \CustomFields::reorder($data);
+    return \mw\CustomFields::reorder($data);
 }
 
 api_expose('remove_field');
 
 function remove_field($id) {
-    return \CustomFields::delete($id);
+    return \mw\CustomFields::delete($id);
 }
 
 /**
@@ -1233,7 +1233,7 @@ function remove_field($id) {
  * @param array $settings
  */
 function make_field($field_id = 0, $field_type = 'text', $settings = false) {
-    return \CustomFields::make($field_id, $field_type, $settings );
+    return \mw\CustomFields::make($field_id, $field_type, $settings );
 
 }
 
@@ -1265,7 +1265,7 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
  */
 function category_tree($params = false) {
 
-    return \Category::tree($params);
+    return \mw\Category::tree($params);
 }
 
 /**
@@ -1288,7 +1288,7 @@ function category_tree($params = false) {
  *
  */
 function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false) {
-    return \Category::html_tree($parent, $link , $active_ids , $active_code, $remove_ids, $removed_ids_code, $ul_class_name , $include_first , $content_type , $li_class_name , $add_ids , $orderby , $only_with_content , $visible_on_frontend , $depth_level_counter , $max_level, $list_tag , $list_item_tag , $active_code_tag );
+    return \mw\Category::html_tree($parent, $link , $active_ids , $active_code, $remove_ids, $removed_ids_code, $ul_class_name , $include_first , $content_type , $li_class_name , $add_ids , $orderby , $only_with_content , $visible_on_frontend , $depth_level_counter , $max_level, $list_tag , $list_item_tag , $active_code_tag );
 
 }
 
@@ -1297,7 +1297,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 api_expose('save_category');
 
 function save_category($data, $preserve_cache = false) {
-    return \CategoryUtils::save(   $data, $preserve_cache);
+    return \mw\CategoryUtils::save(   $data, $preserve_cache);
 
 
 }
@@ -1306,28 +1306,28 @@ api_expose('delete_category');
 
 function delete_category($data) {
 
-    return \CategoryUtils::delete($data);
+    return \mw\CategoryUtils::delete($data);
 
 }
 
 
 
 function get_categories($params, $data_type = 'categories') {
-    return \Category::get($params,$data_type);
+    return \mw\Category::get($params,$data_type);
 
 
 }
 
 function get_category_items($params, $data_type = 'categories') {
 
-    return \Category::get_items($params,$data_type);
+    return \mw\Category::get_items($params,$data_type);
 }
 
 api_expose('reorder_categories');
 
 function reorder_categories($data) {
 
-    return \CategoryUtils::reorder($data);
+    return \mw\CategoryUtils::reorder($data);
 
 }
 
@@ -1337,7 +1337,7 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
         return false;
     }
 
-    return \Category::get_for_content($content_id, $data_type);
+    return \mw\Category::get_for_content($content_id, $data_type);
 }
 
 function category_link($id) {
@@ -1347,7 +1347,7 @@ function category_link($id) {
         return false;
     }
 
-    return \Category::link($id);
+    return \mw\Category::link($id);
 
 }
 
@@ -1367,24 +1367,24 @@ function category_link($id) {
 
  */
 function get_category_by_id($id = 0) {
-    return \Category::get_by_id($id);
+    return \mw\Category::get_by_id($id);
 
 }
 
 function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
 
-    return \Category::get_children($parent_id, $type , $visible_on_frontend);
+    return \mw\Category::get_children($parent_id, $type , $visible_on_frontend);
 }
 
 function get_page_for_category($category_id) {
-    return \Category::get_page($category_id);
+    return \mw\Category::get_page($category_id);
 
 
 }
 
 function get_category_parents($id = 0, $without_main_parrent = false, $data_type = 'category') {
 
-    return \Category::get_parents($id = 0, $without_main_parrent , $data_type);
+    return \mw\Category::get_parents($id = 0, $without_main_parrent , $data_type);
 }
 
 
@@ -1407,7 +1407,7 @@ function mw_print_admin_menu_selector($params = false)
 
 function get_menu_items($params = false)
 {
-    return \Content::get_menu_items($params);
+    return \mw\Content::get_menu_items($params);
 }
 
 
@@ -1415,21 +1415,21 @@ function get_menu_items($params = false)
 function get_menu($params = false)
 {
 
-    return \Content::get_menu($params);
+    return \mw\Content::get_menu($params);
 
 }
 
 api_expose('add_new_menu');
 function add_new_menu($data_to_save)
 {
-    return \ContentUtils::menu_create($data_to_save);
+    return \mw\ContentUtils::menu_create($data_to_save);
 
 }
 
 api_expose('menu_delete');
 function menu_delete($id = false)
 {
-    return \ContentUtils::menu_delete($id);
+    return \mw\ContentUtils::menu_delete($id);
 
 }
 
@@ -1437,21 +1437,21 @@ api_expose('delete_menu_item');
 function delete_menu_item($id)
 {
 
-    return \ContentUtils::menu_item_delete($id);
+    return \mw\ContentUtils::menu_item_delete($id);
 
 }
 
 function get_menu_item($id)
 {
 
-    return \ContentUtils::menu_item_get($id);
+    return \mw\ContentUtils::menu_item_get($id);
 
 }
 
 api_expose('edit_menu_item');
 function edit_menu_item($data_to_save)
 {
-    return \ContentUtils::menu_item_save($data_to_save);
+    return \mw\ContentUtils::menu_item_save($data_to_save);
 
 
 
@@ -1462,20 +1462,20 @@ api_expose('reorder_menu_items');
 function reorder_menu_items($data)
 {
 
-    return \ContentUtils::menu_items_reorder($data);
+    return \mw\ContentUtils::menu_items_reorder($data);
 
 }
 
 function menu_tree($menu_id, $maxdepth = false)
 {
-    return \Content::menu_tree($menu_id, $maxdepth );
+    return \mw\Content::menu_tree($menu_id, $maxdepth );
 
 
 }
 
 function is_in_menu($menu_id = false, $content_id = false)
 {
-    return \ContentUtils::is_in_menu($menu_id,$content_id);
+    return \mw\ContentUtils::is_in_menu($menu_id,$content_id);
 
 }
 
@@ -1483,7 +1483,7 @@ api_hook('save_content', 'add_content_to_menu');
 
 function add_content_to_menu($content_id, $menu_id=false)
 {
-    return \ContentUtils::add_content_to_menu($content_id,$menu_id);
+    return \mw\ContentUtils::add_content_to_menu($content_id,$menu_id);
 
 
 }
@@ -1508,7 +1508,7 @@ api_expose('reorder_modules');
 function reorder_modules($data)
 {
 
-    return \ModuleUtils::reorder_modules($data);
+    return \mw\ModuleUtils::reorder_modules($data);
 }
 
 
@@ -1536,7 +1536,7 @@ if (!defined('EMPTY_MOD_STR')) {
 
 function module_templates($module_name, $template_name = false)
 {
-    return \Module::templates($module_name, $template_name);
+    return \mw\Module::templates($module_name, $template_name);
 
 }
 
@@ -1599,7 +1599,7 @@ function module($params)
 
     //$tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
 
-    $res = \Module::load($module_name, $params);
+    $res = \mw\Module::load($module_name, $params);
     if (is_array($res)) {
         // $res['edit'] = $tags;
     }
@@ -1693,21 +1693,21 @@ function get_layouts_from_db($params = false)
 {
 
 
-    return \Layouts::get($params);
+    return \mw\Layouts::get($params);
 
 
 }
 
 function save_element_to_db($data_to_save)
 {
-    return \Layouts::save($data_to_save);
+    return \mw\Layouts::save($data_to_save);
 
 }
 
 function get_modules_from_db($params = false)
 {
 
-    return \Module::get($params);
+    return \mw\Module::get($params);
 }
 
 api_expose('save_settings_el');
@@ -1727,60 +1727,60 @@ function save_settings_md($data_to_save)
 
 function delete_elements_from_db()
 {
-    return \Layouts::delete_all();
+    return \mw\Layouts::delete_all();
 }
 
 function delete_module_by_id($id)
 {
-    return \ModuleUtils::delete_module($id);
+    return \mw\ModuleUtils::delete_module($id);
 }
 
 function delete_modules_from_db()
 {
-    return \ModuleUtils::delete_all();
+    return \mw\ModuleUtils::delete_all();
 }
 
 function is_module_installed($module_name)
 {
 
-    return \Module::is_installed($module_name);
+    return \mw\Module::is_installed($module_name);
 }
 
 function module_ico_title($module_name, $link = true)
 {
-    return \Module::is_installed($module_name,$link);
+    return \mw\Module::is_installed($module_name,$link);
 }
 
 $_mw_modules_info_register = array();
 function module_info($module_name)
 {
-    return \Module::info($module_name);
+    return \mw\Module::info($module_name);
 
 }
 
 function is_module($module_name)
 {
-    return \Module::exists($module_name);
+    return \mw\Module::exists($module_name);
 }
 
 
 
 function module_dir($module_name)
 {
-    return \Module::dir($module_name);
+    return \mw\Module::dir($module_name);
 
 }
 
 function module_url($module_name)
 {
-    return \Module::url($module_name);
+    return \mw\Module::url($module_name);
 
 }
 
 function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false)
 {
 
-    return \Module::locate($module_name, $custom_view, $no_fallback_to_view);
+    return \mw\Module::locate($module_name, $custom_view, $no_fallback_to_view);
 }
 
 api_expose('uninstall_module');
@@ -1791,7 +1791,7 @@ function uninstall_module($params)
     if (is_admin() == false) {
         return false;
     }
-    return \ModuleUtils::uninstall($params);
+    return \mw\ModuleUtils::uninstall($params);
 
 }
 
@@ -1800,7 +1800,7 @@ action_hook('mw_db_init_modules', 're_init_modules_db');
 function re_init_modules_db()
 {
 
-    return \ModuleUtils::update_db();
+    return \mw\ModuleUtils::update_db();
 
 }
 
@@ -1818,26 +1818,26 @@ function install_module($params)
         }
     }
 
-    return \ModuleUtils::install($params);
+    return \mw\ModuleUtils::install($params);
 
 }
 
 function save_module_to_db($data_to_save)
 {
-    return \ModuleUtils::save($data_to_save);
+    return \mw\ModuleUtils::save($data_to_save);
 
 }
 
 function get_saved_modules_as_template($params)
 {
-    return \ModuleUtils::get_saved_modules_as_template($params);
+    return \mw\ModuleUtils::get_saved_modules_as_template($params);
 }
 
 api_expose('delete_module_as_template');
 function delete_module_as_template($data)
 {
 
-    return \ModuleUtils::delete_module_as_template($data);
+    return \mw\ModuleUtils::delete_module_as_template($data);
 
 
 
@@ -1847,7 +1847,7 @@ api_expose('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
 
-    return \ModuleUtils::save_module_as_template($data_to_save);
+    return \mw\ModuleUtils::save_module_as_template($data_to_save);
 }
 
 /**
@@ -1874,13 +1874,13 @@ $data = modules_list($params);
 function modules_list($options = false)
 {
 
-    return \ModuleUtils::scan_for_modules($options);
+    return \mw\ModuleUtils::scan_for_modules($options);
 }
 
 action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
-    return \ModuleUtils::scan_for_modules($options);
+    return \mw\ModuleUtils::scan_for_modules($options);
 
 }
 
@@ -1888,7 +1888,7 @@ action_hook('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array())
 {
-    return \ModuleUtils::get_layouts($options);
+    return \mw\ModuleUtils::get_layouts($options);
 
 
 }
@@ -1896,20 +1896,20 @@ function get_elements($options = array())
 
 function load_module_lic($module_name = false)
 {
-    \Module::license($module_name);
+    \mw\Module::license($module_name);
 }
 
 
 function load_module($module_name, $attrs = array())
 {
 
-    return \Module::load($module_name, $attrs);
+    return \mw\Module::load($module_name, $attrs);
 
 }
 
 
 function module_css_class($module_name)
 {
-    \Module::css_class($module_name);
+    \mw\Module::css_class($module_name);
 }
 

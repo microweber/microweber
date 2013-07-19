@@ -29,10 +29,10 @@ function mw_install_stats_module($config = false) {
 
 	$is_installed = db_table_exist(MODULE_DB_USERS_ONLINE);
 	//d($is_installed);
-	if ($is_installed == false) {
-		$install = import_sql_from_file($sql);
+	if ($is_installed == false and file_exists($sql)) {
+		$install = \mw\DbUtils::import_sql_file($sql);
 		//   cache_clean_group('db');
-
+       
 		return true;
 	} elseif (is_array($is_installed) and !empty($is_installed)) {
 

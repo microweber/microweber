@@ -165,7 +165,7 @@ error("Invalid order id");
     </div>
   </div>
   <div class="mw-o-box mw-o-box-client-info">
-    <div class="mw-o-box-header"> <a href="<?php print template_var('url'); ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
+    <div class="mw-o-box-header"> <a href="<?php print mw_var('url'); ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
       <?php _e("Edit"); ?>
       </a> <span class="ico iusers"></span><span>
       <?php _e("Client Information"); ?>

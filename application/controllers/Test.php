@@ -2,7 +2,7 @@
 
 
 
-class Test extends MwController
+class Test extends \mw\Controller
 {
     function __construct()
     {

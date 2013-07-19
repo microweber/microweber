@@ -250,17 +250,17 @@ if (isset($to_save['is_installed'])) {
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-                \Users::db_init();
+                \mw\Users::db_init();
                 __mw_install_log('Initializing options');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
-                \Content::db_init();
+                \mw\Content::db_init();
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
-                \Shop::db_init();
+                \mw\Shop::db_init();
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-                \Module::db_init();
+                \mw\Module::db_init();
                 __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
 

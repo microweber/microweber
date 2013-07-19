@@ -18,7 +18,7 @@ if(!defined('EMPTY_MOD_STR')){
 
 $_mw_modules_info_register = array();
 
-action_hook('mw_db_init', '\Module::db_init');
+action_hook('mw_db_init', '\mw\Module::db_init');
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
@@ -249,7 +249,7 @@ class Module
             $l1->config = $config;
             if (!empty($config)) {
                 foreach ($config as $key1 => $value1) {
-                    template_var($key1, $value1);
+                    mw_var($key1, $value1);
                 }
             }
 

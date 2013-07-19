@@ -1,7 +1,7 @@
 <?php
 namespace mw;
-action_hook('mw_db_init_default', '\Content::db_init');
-action_hook('mw_db_init', '\Content::db_init');
+action_hook('mw_db_init_default', '\mw\Content::db_init');
+action_hook('mw_db_init', '\mw\Content::db_init');
 
 /**
  * This file holds useful functions to work with content
@@ -423,7 +423,7 @@ class Content {
     static  function custom_fields($content_id, $full = true, $field_type = false)
     {
 
-        return \CustomFields::get('content', $content_id, $full, false, false, $field_type);
+        return \mw\CustomFields::get('content', $content_id, $full, false, false, $field_type);
 
 
     }
@@ -2861,6 +2861,48 @@ class Content {
         // cache_save($to_print, $function_cache_id, $cache_group);
         return $to_print;
     }
+
+    static function template_header($script_src)
+    {
+        static $mw_template_headers;
+        if( $mw_template_headers == null){
+            $mw_template_headers = array();
+        }
+
+        if (is_string($script_src)) {
+            if (!in_array($script_src, $mw_template_headers)) {
+                $mw_template_headers[] = $script_src;
+                return $mw_template_headers;
+            }
+        } else if (is_bool($script_src)) {
+         //   return $mw_template_headers;
+            $src = '';
+            if (isarr($mw_template_headers)) {
+                foreach ($mw_template_headers as $header) {
+                    $ext = get_file_extension($header);
+                    switch (strtolower($ext)) {
+
+
+                        case 'css':
+                            $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
+                            break;
+
+                        case 'js':
+                            $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                            break;
+
+
+                        default:
+                            $src .=   $header   . "\n";
+                            break;
+                    }
+                }
+            }
+            return $src;
+        }
+    }
+
+
 }
 
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow

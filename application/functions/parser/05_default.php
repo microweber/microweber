@@ -39,7 +39,7 @@ $cached = false;
 
     //d($layout);
 	$do_not_cache = false;
-	if (template_var('content') != false) {
+	if (mw_var('content') != false) {
 
 		$do_not_cache = true;
 		$cached = false;
@@ -230,7 +230,7 @@ $cached = false;
 				}
 				$cont_field = false;
 
-				//template_var
+				//mw_var
 
 				if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
 					//
@@ -355,10 +355,10 @@ $cached = false;
 					//}
 				}
 
-				if ($field == 'content' and template_var('content') != false) {
-					$field_content = template_var('content');
+				if ($field == 'content' and mw_var('content') != false) {
+					$field_content = mw_var('content');
 
-					template_var('content', false);
+					mw_var('content', false);
 				}
 
 

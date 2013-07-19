@@ -14,7 +14,7 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 }
 
 
-
+require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
 /*
 * Microweber autoloader
 * Loads up classes with namespaces

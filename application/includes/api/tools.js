@@ -1560,7 +1560,7 @@ mw.tools = {
   },
   wysiwyg:function(area, params){
     return mw.tools.iframe_editor(area, params);
-  }
+  },
   disable : function(el, text, global){
     var text = text || 'Loading...';
     var global = global || false;

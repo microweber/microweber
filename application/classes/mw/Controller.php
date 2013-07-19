@@ -1,5 +1,5 @@
 <?php
-
+namespace mw;
 
 
 // magic quotes fix
@@ -30,7 +30,7 @@ if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
 
 
 // Controller Class
-class MwController
+class Controller
 {
     public $return_data = false;
     public $page_url = false;
@@ -954,7 +954,7 @@ if(method_exists($res, $try_class_func2)){
                 }
                 //d($_GET);
 
-                template_var('new_content_type', $page['content_type']);
+                mw_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
 
                 if (isset($_GET['parent_id']) and $_GET['parent_id'] != 0) {
@@ -985,7 +985,7 @@ if(method_exists($res, $try_class_func2)){
                 //$page['layout_file'] = $the_new_page_file;
                 //$page['simply_a_file'] = $simply_a_file;
 
-                template_var('new_page', $page);
+                mw_var('new_page', $page);
             }
         }
 
@@ -1034,9 +1034,9 @@ if(method_exists($res, $try_class_func2)){
                     $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
                     $page['simply_a_file'] = 'clean.php';
                     $page['layout_file'] = 'clean.php';
-                    template_var('content', $page['content']);
+                    mw_var('content', $page['content']);
                     dbg($page);
-                    template_var('new_page', $page);
+                    mw_var('new_page', $page);
                 }
 
                 if ($found_mod == false) {
@@ -1166,9 +1166,9 @@ if(method_exists($res, $try_class_func2)){
                                         $page['content'] = '<module type="' . $mvalue . '" />';
                                         $page['simply_a_file'] = 'clean.php';
                                         $page['layout_file'] = 'clean.php';
-                                        template_var('content', $page['content']);
+                                        mw_var('content', $page['content']);
 
-                                        template_var('new_page', $page);
+                                        mw_var('new_page', $page);
                                     }
                                 }
                             }
@@ -1185,8 +1185,8 @@ if(method_exists($res, $try_class_func2)){
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
 
-                            template_var('new_page', $page);
-                            //template_var('new_page');
+                            mw_var('new_page', $page);
+                            //mw_var('new_page');
                         }
 
                     }
@@ -1242,7 +1242,7 @@ if(method_exists($res, $try_class_func2)){
                 $page_non_active['content'] = 'This page is not published!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
-                template_var('content', $page_non_active['content']);
+                mw_var('content', $page_non_active['content']);
                 $content = $page_non_active;
             }
 
@@ -1256,7 +1256,7 @@ if(method_exists($res, $try_class_func2)){
                 $page_non_active['content'] = 'This page is deleted!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
-                template_var('content', $page_non_active['content']);
+                mw_var('content', $page_non_active['content']);
                 $content = $page_non_active;
             }
         }

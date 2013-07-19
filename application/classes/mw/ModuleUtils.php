@@ -152,7 +152,7 @@ class ModuleUtils
         $params['module'] = $module_name;
         $params['ui'] = 'any';
         $params['limit'] = 1;
-        $data = \Module::get($params);
+        $data = \mw\Module::get($params);
         $info = false;
         if (isset($data[0])) {
             $info = $data[0];

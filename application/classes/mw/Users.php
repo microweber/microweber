@@ -1,12 +1,13 @@
 <?php
+namespace mw;
 if (!defined("MW_DB_TABLE_USERS")) {
     define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
 }
 if (!defined("MW_DB_TABLE_LOG")) {
     define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
 }
-action_hook('mw_db_init_default', '\Users::db_init');
-action_hook('mw_db_init', '\Users::db_init');
+action_hook('mw_db_init_default', '\mw\Users::db_init');
+action_hook('mw_db_init', '\mw\Users::db_init');
 class Users
 {
 

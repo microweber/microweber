@@ -77,6 +77,22 @@ mw.elementRotator = {
 }
 
 
+mw.utils = {
+  stateloading:function(state){
+    var state = state || false;
+    if(state){
+        mw.$("#stateloading").css("visibility", "visible");
+        mw.$("#stateloading1,#stateloading2,#stateloading3").addClass("icon-spin");
+    }
+    else{
+       mw.$("#stateloading").css("visibility", "hidden");
+       mw.$("#stateloading1,#stateloading2,#stateloading3").removeClass("icon-spin");
+    }
+  }
+}
+
+
+
 
   //   Extending DOCS
 

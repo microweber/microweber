@@ -43,7 +43,7 @@ class Ping
 
 
         if ($fqdn != false) {
-            $q = \Content::get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
+            $q = \mw\Content::get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
 
             //$q = get_content('is_active=y');
             $server = array(

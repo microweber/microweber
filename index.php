@@ -66,7 +66,7 @@ if (!defined('MW_BARE_BONES')) {
 
     if (MW_IS_INSTALLED != true or $go_to_install == true) {
         if (!isset($controller) or !is_object($controller)) {
-        $controller = new MwController();
+        $controller = new \mw\Controller();
         }
         $controller->install();
         exit();
@@ -98,7 +98,7 @@ if (!defined('MW_BARE_BONES')) {
         }
     }
    if (!isset($controller) or !is_object($controller)) {
-        $controller = new MwController();
+        $controller = new \mw\Controller();
     }
 
     $params_for_route = url_segment();
