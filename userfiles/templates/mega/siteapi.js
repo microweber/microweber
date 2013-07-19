@@ -83,10 +83,12 @@ mw.utils = {
     if(state){
         mw.$("#stateloading").css("visibility", "visible");
         mw.$("#stateloading1,#stateloading2,#stateloading3").addClass("icon-spin");
+        $(mwd.body).addClass("loading");
     }
     else{
        mw.$("#stateloading").css("visibility", "hidden");
        mw.$("#stateloading1,#stateloading2,#stateloading3").removeClass("icon-spin");
+       $(mwd.body).removeClass("loading");
     }
   }
 }

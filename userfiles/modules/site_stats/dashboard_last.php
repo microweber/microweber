@@ -15,9 +15,9 @@ $requests_num = false;
     <thead>
       <tr>
         <th scope="col"><?php _e("Date"); ?></th>
-        <?php if(function_exists('ip2country')): ?>
+       
         <th scope="col"><?php _e("Country"); ?></th>
-        <?php endif; ?>
+      
         <th scope="col"><?php _e("IP"); ?></th>
         <th scope="col"><?php _e("Last page"); ?></th>
         <th scope="col"><?php _e("Page views"); ?></th>
@@ -27,9 +27,9 @@ $requests_num = false;
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
         <td><?php print $item['visit_date'] ?> <?php print $item['visit_time'] ?></td>
-        <?php if(function_exists('ip2country')): ?>
-        <td><?php   print ip2country($item['user_ip']); ?></td>
-        <?php endif; ?>
+        
+        <td><?php   print \mw\utils\Ip2Country::get($item['user_ip']); ?></td>
+      
         <td><?php print $item['user_ip'] ?></td>
         <td><?php print $item['last_page'] ?></td>
         <td><?php print $item['view_count'] ?></td>

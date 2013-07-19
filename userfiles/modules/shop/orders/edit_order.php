@@ -188,9 +188,9 @@ error("Invalid order id");
         <tr>
           <td><?php _e("User IP"); ?></td>
           <td><?php print $ord['user_ip']; ?>
-            <?php if(function_exists('ip2country')): ?>
-            <?php print ip2country($ord['user_ip']); ?>
-            <?php endif; ?></td>
+           
+            <?php print \mw\utils\Ip2Country::get($ord['user_ip']); ?>
+           </td>
         </tr>
       </table>
     </div>

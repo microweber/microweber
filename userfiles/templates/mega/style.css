@@ -1739,17 +1739,26 @@
   #stateloading{
     width: 200px;
     height: 200px;
-    background: rgba(90, 90, 90, 0.75);
-    position: absolute;
+    background: rgba(90, 90, 90, 0.35);
+    position: fixed;
     top: 50%;
     left: 50%;
     visibility: hidden;
     margin:-100px 0 0 -100px;
     border-radius:3px;
+    color: #111111;
   }
 
   #stateloading *{
     position: absolute;
+
+  }
+
+  #stateloading .icon-spin{
+    -moz-animation: spin 4s infinite linear;
+    -o-animation: spin 4s infinite linear;
+    -webkit-animation: spin 4s infinite linear;
+    animation: spin 4s infinite linear;
   }
 
   #stateloading1{
@@ -1766,6 +1775,17 @@
     font-size: 70px;
     right:20px;
     bottom: 20px;
+  }
+
+  body.loading:after{
+     background: none repeat scroll 0 0 rgba(90, 90, 90, 0.35);
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
   }
 
 
