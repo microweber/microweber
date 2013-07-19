@@ -83,7 +83,7 @@ mw.askusertostay = false;
         var t = url.split('.').pop();
         var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
         var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead) {
+        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
            mwd.write(string);
         } else {
           $(mwd.getElementsByTagName('head')[0]).append(string);

@@ -87,13 +87,13 @@ class Users
                     $table = MW_TABLE_PREFIX . 'users';
 
                     $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-                    $next = db_last_id($table);
+                    $next = \mw\Db::last_id($table);
                     $next = intval($next) + 1;
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
 
 
-                    db_q($q);
+                    \mw\Db::q($q);
                     cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
                     session_del('captcha');
@@ -232,7 +232,7 @@ class Users
             }
         }
         $table = MW_DB_TABLE_USERS;
-        $save = save_data($table, $data_to_save);
+        $save = \mw\Db::save($table, $data_to_save);
         $id = $save;
         cache_clean_group('users' . DIRECTORY_SEPARATOR . 'global');
         cache_clean_group('users' . DIRECTORY_SEPARATOR . '0');
@@ -248,7 +248,7 @@ class Users
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            db_delete_by_id('users', $c_id);
+            \mw\Db::delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -269,7 +269,7 @@ class Users
 
             $table = MW_DB_TABLE_USERS;
             mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
-            $save = save_data($table, $data_to_save);
+            $save = \mw\Db::save($table, $data_to_save);
 
             delete_log("is_system=y&rel=login_failed&user_ip=" . USER_IP);
 
@@ -333,7 +333,7 @@ class Users
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = save_data($table, $data1);
+        $save = \mw\Db::save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -421,7 +421,7 @@ class Users
                             $table = MW_DB_TABLE_USERS;
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = save_data($table, $data_to_save);
+                            $save = \mw\Db::save($table, $data_to_save);
                         }
                         $pass_reset_link = curent_url(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -506,7 +506,7 @@ class Users
                         $table = MW_DB_TABLE_USERS;
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = save_data($table, $data_to_save);
+                        $save = \mw\Db::save($table, $data_to_save);
                         cache_clean_group('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -673,7 +673,7 @@ class Users
         $fields_to_add[] = array('website_url', 'TEXT default NULL');
         $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('username', $table_name, array('username(255)'));
         db_add_table_index('email', $table_name, array('email(255)'));
@@ -704,7 +704,7 @@ class Users
         $fields_to_add[] = array('session_id', 'longtext default NULL');
         $fields_to_add[] = array('is_system', "char(1) default 'n'");
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         cache_save(true, $function_cache_id, $cache_group = 'db');
         return true;

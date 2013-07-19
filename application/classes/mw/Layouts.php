@@ -348,7 +348,7 @@ class Layouts {
 
         return $fn;
     }
-    function save($data_to_save)
+    static function save($data_to_save)
     {
 
         if (is_admin() == false) {
@@ -376,13 +376,13 @@ class Layouts {
                     $save = self::get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
-                        $save = save_data($table, $s);
+                        $save = \mw\Db::save($table, $s);
                     } else {
-                        $save = save_data($table, $s);
+                        $save = \mw\Db::save($table, $s);
                     }
                 }
             } else {
-                $save = save_data($table, $s);
+                $save = \mw\Db::save($table, $s);
             }
 
             //
@@ -400,7 +400,7 @@ class Layouts {
 
 
 
-    function delete_all()
+    static function delete_all()
     {
         if (is_admin() == false) {
             return false;
@@ -413,15 +413,15 @@ class Layouts {
 
             $q = "delete from $table ";
             //   d($q);
-            db_q($q);
+            \mw\Db::q($q);
 
             $q = "delete from $db_categories where rel='elements' and data_type='category' ";
             // d($q);
-            db_q($q);
+            \mw\Db::q($q);
 
             $q = "delete from $db_categories_items where rel='elements' and data_type='category_item' ";
             // d($q);
-            db_q($q);
+            \mw\Db::q($q);
             cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
             cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 

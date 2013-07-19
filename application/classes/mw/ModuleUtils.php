@@ -21,7 +21,7 @@ class ModuleUtils
                     $i++;
                 }
 
-                db_update_position($table, $indx);
+                \mw\DbUtils::update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -61,17 +61,17 @@ class ModuleUtils
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
 
-                        $save = save_data($table, $s);
+                        $save = \mw\Db::save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         $mname_clen = db_escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            db_q($del);
+                            \mw\Db::q($del);
                         }
                     } else {
 
-                        $save = save_data($table, $s);
+                        $save = \mw\Db::save($table, $s);
                     }
                 } else {
 
@@ -79,7 +79,7 @@ class ModuleUtils
 
             } else {
 
-                $save = save_data($table, $s);
+                $save = \mw\Db::save($table, $s);
             }
 
             //
@@ -108,10 +108,10 @@ class ModuleUtils
         $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
         $q = "DELETE FROM $table WHERE id={$id}";
-        db_q($q);
+        \mw\Db::q($q);
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
-        db_q($q);
+        \mw\Db::q($q);
         cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
         // cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 
@@ -130,13 +130,13 @@ class ModuleUtils
             $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            db_q($q);
+            \mw\Db::q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
-            db_q($q);
+            \mw\Db::q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
-            db_q($q);
+            \mw\Db::q($q);
             cache_clean_group('categories' . DIRECTORY_SEPARATOR . '');
             cache_clean_group('categories_items' . DIRECTORY_SEPARATOR . '');
 
@@ -327,7 +327,7 @@ class ModuleUtils
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
-                            set_db_table($table, $fields_to_add);
+                            \mw\DbUtils::build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -351,6 +351,28 @@ class ModuleUtils
                             //return true;
                         }
                     }
+                    if (isset($config['options']) and is_arr($config['options'])) {
+                        $changes = false;
+                        $tabl = $config['options'];
+                        foreach ($tabl as $key => $value) {
+                            //$table = db_get_real_table_name($key);
+                            //d($value);
+                            $value['module'] = $module_name;
+                            $ch = set_default_option($value);
+                            //	d($ch);
+                            if ($ch == true) {
+                                $changes = true;
+                            }
+                        }
+
+                        if ($changes == true) {
+
+                            cache_clean_group('options/global');
+                        }
+                    }
+
+
+
                     if (isset($config['options']) and is_arr($config['options'])) {
                         $changes = false;
                         $tabl = $config['options'];
@@ -411,7 +433,7 @@ class ModuleUtils
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
                                 $table = db_get_real_table_name($key1);
-                                set_db_table($table, $fields_to_add);
+                                \mw\DbUtils::build_table($table, $fields_to_add);
                             }
                         }
                     }
@@ -459,13 +481,13 @@ class ModuleUtils
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            db_delete_by_id($table, $c_id);
+            \mw\Db::delete_by_id($table, $c_id);
         }
 
         if (isset($data['ids']) and isarr($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                db_delete_by_id($table, $c_id);
+                \mw\Db::delete_by_id($table, $c_id);
             }
 
         }
@@ -485,7 +507,7 @@ class ModuleUtils
 
         if (!empty($data_to_save)) {
             $s = $data_to_save;
-            $save = save_data($table, $s);
+            $save = \mw\Db::save($table, $s);
         }
 
         return $save;
@@ -750,7 +772,7 @@ class ModuleUtils
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            db_q($q);
+                            \mw\Db::q($q);
                         }
                         //	d($ism);
                     }

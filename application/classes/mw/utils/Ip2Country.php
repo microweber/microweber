@@ -46,7 +46,7 @@ class Ip2Country
                         $params['country_name'] = "Unknown";
                     }
                     //d($params);
-                    $s = save_data($table, $params);
+                    $s = \mw\Db::save($table, $params);
                     $get = $params;
                 }
             }
@@ -71,7 +71,7 @@ class Ip2Country
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses set_db_table()
+     * @uses \mw\DbUtils::build_table()
      */
     static function db_init()
     {
@@ -104,7 +104,7 @@ class Ip2Country
         $fields_to_add[] = array('city', 'TEXT default NULL');
         $fields_to_add[] = array('latitude', 'TEXT default NULL');
         $fields_to_add[] = array('longitude', 'TEXT default NULL');
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
 
 

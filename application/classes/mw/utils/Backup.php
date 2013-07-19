@@ -218,7 +218,7 @@ class Backup
                     try {
                         //$result = mysql_query($stmt);
 
-                        db_q($stmt);
+                        \mw\Db::q($stmt);
                         //	print $stmt;
                     } catch (Exception $e) {
                         print 'Caught exception: ' . $e->getMessage() . "\n";

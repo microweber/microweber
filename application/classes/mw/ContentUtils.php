@@ -37,7 +37,7 @@ class ContentUtils
 
             $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
 
-            $q = db_query($q);
+            $q = \mw\Db::query($q);
 
             $thetitle = $q[0]['title'];
 
@@ -97,7 +97,7 @@ class ContentUtils
 
             $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
 
-            $q = db_query($q);
+            $q = \mw\Db::query($q);
 
             if (!empty($q)) {
 
@@ -136,7 +136,7 @@ class ContentUtils
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
             $sql = "UPDATE $table SET is_home='n'   ";
-            $q = db_query($sql);
+            $q = \mw\Db::query($sql);
         }
 
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
@@ -246,7 +246,7 @@ class ContentUtils
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = save_data($table, $par_page_new);
+                    $par_page_new = \mw\Db::save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -299,7 +299,7 @@ class ContentUtils
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
                 $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
-                $get_max_pos = db_query($get_max_pos);
+                $get_max_pos = \mw\Db::query($get_max_pos);
                 if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 
 
@@ -335,7 +335,7 @@ class ContentUtils
 
         }
 
-        $save = save_data($table, $data_to_save);
+        $save = \mw\Db::save($table, $data_to_save);
 
         // cache_clean_group('content/global');
         //cache_clean_group('content/'.$save);
@@ -375,7 +375,7 @@ class ContentUtils
 	";
 
 
-        db_q($clean);
+        \mw\Db::q($clean);
         cache_clean_group('custom_fields');
 
         $media_table = MW_TABLE_PREFIX . 'media';
@@ -392,7 +392,7 @@ class ContentUtils
 
         cache_clean_group('media/global');
 
-        db_q($clean);
+        \mw\Db::q($clean);
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
             cache_clean_group('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
@@ -684,7 +684,7 @@ class ContentUtils
 
                                 //$to_save['page_element_id'] = $page_element_id;
 
-                                $is_native_fld = db_get_table_fields('content');
+                                $is_native_fld = \mw\Db::get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 } else {
@@ -835,13 +835,13 @@ class ContentUtils
             if (isset($history_files_ids) and isarr($history_files_ids)) {
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
-                db_q($del_q);
+                \mw\Db::q($del_q);
             }
             //d($history_files_ids);
 
 
 //d($del_q );
-            //	db_q($del_q);
+            //	\mw\Db::q($del_q);
         }
 
 
@@ -861,7 +861,7 @@ class ContentUtils
                 $data['rel_id'] = 0;
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            db_q($del_q);
+            \mw\Db::q($del_q);
             //cache_clean_group($cache_group);
 
             //cache_clean_group('content_fields/global');
@@ -875,7 +875,7 @@ class ContentUtils
 
         //}
 
-        $save = save_data($table, $data);
+        $save = \mw\Db::save($table, $data);
 
 
         return $save;
@@ -909,7 +909,7 @@ class ContentUtils
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                db_delete_by_id('content', $c_id);
+                \mw\Db::delete_by_id('content', $c_id);
             }
         }
 
@@ -918,7 +918,7 @@ class ContentUtils
                 $c_id = intval($value);
                 $del_ids[] = $c_id;
                 if ($to_trash == false) {
-                    db_delete_by_id('content', $c_id);
+                    \mw\Db::delete_by_id('content', $c_id);
                 }
             }
 
@@ -934,59 +934,59 @@ class ContentUtils
 
                 if ($to_untrash == true) {
                     $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
-                    $q = db_query($q);
+                    $q = \mw\Db::query($q);
                     $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
-                    $q = db_query($q);
+                    $q = \mw\Db::query($q);
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
                         $table1 = MW_DB_TABLE_TAXONOMY;
                         $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = db_query($q);
+                    $q = \mw\Db::query($q);
 
-                    db_delete_by_id('menus', $c_id, 'content_id');
+                    \mw\Db::delete_by_id('menus', $c_id, 'content_id');
 
                     if (defined("MW_DB_TABLE_MEDIA")) {
                         $table1 = MW_DB_TABLE_MEDIA;
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
                         $table1 = MW_DB_TABLE_TAXONOMY;
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
 
                     if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
                         $table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
 
                     if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
                         $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
 
                 } else {
                     $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
 
-                    $q = db_query($q);
+                    $q = \mw\Db::query($q);
                     $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
-                    $q = db_query($q);
+                    $q = \mw\Db::query($q);
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
                         $table1 = MW_DB_TABLE_TAXONOMY;
                         $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
-                        $q = db_query($q);
+                        $q = \mw\Db::query($q);
                     }
 
 
@@ -1084,7 +1084,7 @@ class ContentUtils
         $table = MW_TABLE_PREFIX . 'content';
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = db_query($get_max_pos);
+        $get_max_pos = \mw\Db::query($get_max_pos);
         if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
@@ -1092,7 +1092,7 @@ class ContentUtils
         }
 
         // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
-        // $q = db_query($q);
+        // $q = \mw\Db::query($q);
         // $max_date = $q[0]['created_on'];
         // $max_date_str = strtotime($max_date);
         $i = 1;
@@ -1105,7 +1105,7 @@ class ContentUtils
             $pox = $maxpos - $i;
             $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
             //    var_dump($q);
-            $q = db_q($q);
+            $q = \mw\Db::q($q);
             $i++;
         }
         //
@@ -1254,7 +1254,7 @@ class ContentUtils
                         }
                     }
                     //  d($add_page);
-                    $new_shop = save_data('content', $add_page);
+                    $new_shop = \mw\Db::save('content', $add_page);
                     cache_clean_group('content');
                     cache_clean_group('categories');
                     cache_clean_group('custom_fields');
@@ -1324,7 +1324,7 @@ class ContentUtils
 
                     }
                     //  d($add_page);
-                    $new_shop = save_data('content', $add_page);
+                    $new_shop = \mw\Db::save('content', $add_page);
                     cache_clean_group('content');
                     cache_clean_group('categories');
                     cache_clean_group('content_fields');
@@ -1488,7 +1488,7 @@ class ContentUtils
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
 
-            $save = save_data($table, $data_to_save);
+            $save = \mw\Db::save($table, $data_to_save);
 
             cache_clean_group('menus/global');
 
@@ -1519,7 +1519,7 @@ class ContentUtils
         $id = htmlspecialchars_decode($id);
         $table = MODULE_DB_MENUS;
 
-        db_delete_by_id($table, trim($id), $field_name = 'id');
+        \mw\Db::delete_by_id($table, trim($id), $field_name = 'id');
 
         cache_clean_group('menus/global');
 
@@ -1610,7 +1610,7 @@ class ContentUtils
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
         // d($data_to_save);
-        $save = save_data($table, $data_to_save);
+        $save = \mw\Db::save($table, $data_to_save);
 
         cache_clean_group('menus/global');
 
@@ -1628,7 +1628,7 @@ class ContentUtils
 
         $table = MODULE_DB_MENUS;
 
-        db_delete_by_id($table, intval($id), $field_name = 'id');
+        \mw\Db::delete_by_id($table, intval($id), $field_name = 'id');
 
         cache_clean_group('menus/global');
 
@@ -1661,7 +1661,7 @@ class ContentUtils
 				AND item_type='menu_item'
 				";
                     // d($sql);
-                    $q = db_q($sql);
+                    $q = \mw\Db::q($sql);
                     cache_clean_group('menus/' . $k);
                 }
 
@@ -1678,7 +1678,7 @@ class ContentUtils
                     $i++;
                 }
 
-                db_update_position($table, $indx);
+                \mw\DbUtils::update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -1734,7 +1734,7 @@ class ContentUtils
 				";
                     //d($sql);
                     cache_clean_group('menus');
-                    $q = db_q($sql);
+                    $q = \mw\Db::q($sql);
                     return;
                 }
 
@@ -1754,7 +1754,7 @@ class ContentUtils
 		AND content_id={$content_id}
 		";
 
-            $q = db_q($sql);
+            $q = \mw\Db::q($sql);
 
             foreach ($add_to_menus_int as $value) {
                 $check = get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
@@ -1766,7 +1766,7 @@ class ContentUtils
                     $save['parent_id'] = $value;
                     $save['url'] = '';
                     $save['content_id'] = $content_id;
-                    save_data($menus, $save);
+                    \mw\Db::save($menus, $save);
                 }
             }
             cache_clean_group('menus/global');

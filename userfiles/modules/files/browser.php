@@ -27,27 +27,27 @@ only_admin_access();
  $path = str_replace($path_restirct,'',$path);
 
  //$data = rglob($path);
-  $params_get_files = array();
-   $params_get_files['directory']  =  $path_restirct.$path;
+  $params_\Files\Api::get = array();
+   $params_\Files\Api::get['directory']  =  $path_restirct.$path;
 
    if (isset($params['search'])) {
-		   $params_get_files['search']  =  $params['search'];
+		   $params_\Files\Api::get['search']  =  $params['search'];
 	}
 
 	  if (isset($params['sort_by'])) {
-		   $params_get_files['sort_by']  =  $params['sort_by'];
+		   $params_\Files\Api::get['sort_by']  =  $params['sort_by'];
 	}
 	  if (isset($params['sort_order'])) {
-		   $params_get_files['sort_order']  =  $params['sort_order'];
+		   $params_\Files\Api::get['sort_order']  =  $params['sort_order'];
 	}
 
- if(isset($params_get_files['directory']) and !is_dir($params_get_files['directory'])){
+ if(isset($params_\Files\Api::get['directory']) and !is_dir($params_\Files\Api::get['directory'])){
   mw_warn('You are trying to open invalid folder');
- }  else if(isset($params_get_files['directory']) and is_dir($params_get_files['directory']) and !is_writable($params_get_files['directory'])){
+ }  else if(isset($params_\Files\Api::get['directory']) and is_dir($params_\Files\Api::get['directory']) and !is_writable($params_\Files\Api::get['directory'])){
   mw_warn('Your folder is not writable. You wont be able to upload in it.');
  }
   //  $params['keyword']
- $data = get_files($params_get_files);
+ $data = \Files\Api::get($params_\Files\Api::get);
 
  $path_nav = explode(DS,$path);
 

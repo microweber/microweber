@@ -17,7 +17,7 @@ class DbUtils
      * @param bool|string $save_params Array of the new data
      * @return array|bool|string
      * @see get()
-     * @see save_data()
+     * @see \mw\Db::save()
      * @example
      * <code>
      * //example updates the is_active flag of all content
@@ -42,14 +42,14 @@ class DbUtils
             $get = get($get_params);
 
             if (!is_arr($get)) {
-                //$upd[] = save_data($test['table'], $save_params);
+                //$upd[] = \mw\Db::save($test['table'], $save_params);
             } else {
                 foreach ($get as $value) {
                     $sp = $save_params;
 
                     if (isset($value['id'])) {
                         $sp['id'] = $value['id'];
-                        $upd[] = save_data($test['table'], $sp);
+                        $upd[] = \mw\Db::save($test['table'], $sp);
                     }
 
                 }
@@ -71,7 +71,7 @@ class DbUtils
         // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
         $sql_check = "DESC {$table};";
 
-        $q = db_query($sql_check);
+        $q = \mw\Db::query($sql_check);
         if (isset($q['error'])) {
             return false;
         } else {
@@ -92,7 +92,7 @@ class DbUtils
      * @example
      * <code>
      * //copy content with id 5
-     *  db_copy_by_id('content', $id=5);
+     *  \mw\DbUtils::copy_row_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -102,7 +102,7 @@ class DbUtils
     static function copy_row_by_id($table, $id = 0, $field_name = 'id')
     {
 
-        $q = db_get_id($table, $id, $field_name);
+        $q = \mw\Db::get_by_id($table, $id, $field_name);
         //	d($q);
         if (isset($q[$field_name])) {
             $data = $q;
@@ -110,7 +110,7 @@ class DbUtils
                 unset($data[$field_name]);
             }
 
-            $s = save_data($table, $data);
+            $s = \mw\Db::save($table, $data);
             return $s;
         }
 
@@ -126,7 +126,7 @@ class DbUtils
                 $value = intval($value);
                 if ($value != 0) {
                     $q = "UPDATE $table_real SET position={$i} WHERE id={$value} ";
-                    $q = db_q($q);
+                    $q = \mw\Db::q($q);
                 }
                 $i++;
             }
@@ -139,11 +139,239 @@ class DbUtils
     }
 
 
+
+    /**
+     * Add new table index if not exists
+     *
+     * @example
+     * <pre>
+     * db_add_table_index('title', $table_name, array('title'));
+     * </pre>
+     *
+     * @category Database
+     * @package    Database
+     * @subpackage Advanced
+     * @param string $aIndexName Index name
+     * @param string $aTable Table name
+     * @param string $aOnColumns Involved columns
+     * @param bool $indexType
+     */
+   static function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
+    {
+        $columns = implode(',', $aOnColumns);
+
+        $query = \mw\Db::query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+
+        if ($indexType != false) {
+
+            $index = $indexType;
+        } else {
+            $index = " INDEX ";
+
+            //FULLTEXT
+        }
+
+        if ($query == false) {
+            $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
+            // var_dump($q);
+            \mw\Db::q($q);
+        }
+
+    }
+
+    /**
+     * Set table's engine
+     *
+     * @category Database
+     * @package    Database
+     * @subpackage Advanced
+     * @param string $aTable
+     * @param string $aEngine
+     */
+    static function set_table_engine($aTable, $aEngine = 'MyISAM')
+    {
+        \mw\Db::q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+    }
+
+    /**
+     * Create foreign key if not exists
+     *
+     * @category Database
+     * @package    Database
+     * @subpackage Advanced
+     * @param string $aFKName Foreign key name
+     * @param string $aTable Source table name
+     * @param array $aColumns Source columns
+     * @param string $aForeignTable Foreign table name
+     * @param array $aForeignColumns Foreign columns
+     * @param array $aOptions On update and on delete options
+     */
+    static function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
+    {
+        $query = \mw\Db::query("
+		SELECT
+		*
+		FROM
+		INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+		WHERE
+		CONSTRAINT_TYPE = 'FOREIGN KEY'
+		AND
+		constraint_name = '{$aFKName}'
+		;");
+
+        if ($query == false) {
+
+            $columns = implode(',', $aColumns);
+            $fColumns = implode(',', $aForeignColumns);
+            ;
+            $onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
+            $onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
+            $q = "ALTER TABLE " . $aTable;
+            $q .= " ADD CONSTRAINT `" . $aFKName . "` ";
+            $q .= " FOREIGN KEY(" . $columns . ") ";
+            $q .= " {$onDelete} ";
+            $q .= " {$onUpdate} ";
+            \mw\Db::q($q);
+        }
+
+    }
+
+    /**
+     * Creates database table from array
+     *
+     * You can pass an array of database fields and this function will set up the same db table from it
+     *
+     * @example
+     * <pre>
+     * To create custom table use
+     *
+     *
+     * $table_name = MW_TABLE_PREFIX . 'my_new_table'
+     *
+     * $fields_to_add = array();
+     * $fields_to_add[] = array('updated_on', 'datetime default NULL');
+     * $fields_to_add[] = array('created_by', 'int(11) default NULL');
+     * $fields_to_add[] = array('content_type', 'TEXT default NULL');
+     * $fields_to_add[] = array('url', 'longtext default NULL');
+     * $fields_to_add[] = array('content_filename', 'TEXT default NULL');
+     * $fields_to_add[] = array('title', 'longtext default NULL');
+     * $fields_to_add[] = array('is_active', "char(1) default 'y'");
+     * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
+     *  set_db_table($table_name, $fields_to_add);
+     * </pre>
+     *
+     * @desc refresh tables in DB
+     * @access        public
+     * @category Database
+     * @package    Database
+     * @subpackage Advanced
+     * @param        string $table_name to alter table
+     * @param        array $fields_to_add to add new columns
+     * @param        array $column_for_not_drop for not drop
+     * @return bool|mixed
+     */
+    static function build_table($table_name, $fields_to_add, $column_for_not_drop = array())
+    {
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
+
+        $cache_content = cache_get_content($function_cache_id, 'db/' . $table_name, 'files');
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $query = \mw\Db::query("show tables like '$table_name'");
+
+        if (!is_array($query)) {
+            $sql = "CREATE TABLE " . $table_name . " (
+			id int(11) NOT NULL auto_increment,
+			PRIMARY KEY (id)
+
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+";
+            //
+            //if (isset($_GET['debug'])) {
+            //	d($sql);
+            \mw\Db::q($sql);
+            //}
+        }
+
+        if ($table_name != 'firecms_sessions') {
+            if (empty($column_for_not_drop))
+                $column_for_not_drop = array('id');
+
+            $sql = "show columns from $table_name";
+
+            $columns = \mw\Db::query($sql);
+
+            $exisiting_fields = array();
+            $no_exisiting_fields = array();
+
+            foreach ($columns as $fivesdraft) {
+                $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+                $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+            }
+
+            for ($i = 0; $i < count($columns); $i++) {
+                $column_to_move = true;
+                for ($j = 0; $j < count($fields_to_add); $j++) {
+                    if (in_array($columns[$i]['Field'], $fields_to_add[$j])) {
+                        $column_to_move = false;
+                    }
+                }
+                $sql = false;
+                if ($column_to_move) {
+                    if (!empty($column_for_not_drop)) {
+                        if (!in_array($columns[$i]['Field'], $column_for_not_drop)) {
+                            $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
+                        }
+                    } else {
+                        $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
+                    }
+                    if ($sql) {
+                        \mw\Db::q($sql);
+
+                    }
+                }
+            }
+
+            foreach ($fields_to_add as $the_field) {
+                $the_field[0] = strtolower($the_field[0]);
+
+                $sql = false;
+                if (isset($exisiting_fields[$the_field[0]]) != true) {
+                    $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
+                    \mw\Db::q($sql);
+                } else {
+                    //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+
+                }
+
+            }
+
+        }
+
+        cache_save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, 'files');
+        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+        return true;
+        //set_db_tables
+    }
     static function get_tables()
     {
         $db = c('db');
         $db = $db['dbname'];
-        $q = db_query("SHOW TABLES FROM $db", __FUNCTION__, 'db');
+        $q = \mw\Db::query("SHOW TABLES FROM $db", __FUNCTION__, 'db');
         if (isset($q['error'])) {
             return false;
         } else {
@@ -255,7 +483,7 @@ class DbUtils
                 $sql = trim($sql);
 
                 //d($sql);
-                $qz = db_q($sql);
+                $qz = \mw\Db::q($sql);
             }
             //cache_clean_group('db');
             return true;

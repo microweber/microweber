@@ -746,14 +746,14 @@ class Module
 
         $fields_to_add[] = array('notifications', 'int(11) default 0');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
         db_add_table_index('module', $table_name, array('module(255)'));
         db_add_table_index('module_id', $table_name, array('module_id(255)'));
 
-        set_db_table($table_name2, $fields_to_add);
+        \mw\DbUtils::build_table($table_name2, $fields_to_add);
 
         db_add_table_index('module', $table_name2, array('module(255)'));
         db_add_table_index('module_id', $table_name2, array('module_id(255)'));
@@ -766,7 +766,7 @@ class Module
         $fields_to_add[] = array('module_id', 'TEXT default NULL');
         $fields_to_add[] = array('name', 'TEXT default NULL');
         $fields_to_add[] = array('module', 'TEXT default NULL');
-        set_db_table($table_name3, $fields_to_add);
+        \mw\DbUtils::build_table($table_name3, $fields_to_add);
 
         cache_save(true, $function_cache_id, $cache_group = 'db', 'files');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));

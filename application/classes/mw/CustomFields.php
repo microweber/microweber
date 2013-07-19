@@ -151,7 +151,7 @@ class CustomFields
 
             $cache_id = __FUNCTION__ . '_' . $crc;
 
-            $q = db_query($q, $cache_id, 'custom_fields/global');
+            $q = \mw\Db::query($q, $cache_id, 'custom_fields/global');
             if ($debug != false) {
                 //d($q);
             }
@@ -282,7 +282,7 @@ class CustomFields
             $data_to_save['id'] = intval($data_to_save['cf_id']);
 
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-            $form_data_from_id = db_get_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+            $form_data_from_id = \mw\Db::get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
                 if (!isset($data_to_save['rel'])) {
                     $data_to_save['rel'] = $form_data_from_id['rel'];
@@ -301,7 +301,7 @@ class CustomFields
 
             if (isset($data_to_save['copy_rel_id'])) {
 
-                $cp = db_copy_by_id($table_custom_field, $data_to_save['cf_id']);
+                $cp = \mw\DbUtils::copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
                 //$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -326,7 +326,7 @@ class CustomFields
         if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
 
         } else {
-            $save = save_data($table_custom_field, $data_to_save);
+            $save = \mw\Db::save($table_custom_field, $data_to_save);
             cache_clean_group('custom_fields');
 
             return $save;
@@ -340,7 +340,7 @@ class CustomFields
     {
 
         if ($field_id != 0) {
-            $data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            $data = \mw\Db::get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             if (isset($data['options'])) {
                 $data['options'] = decode_var($data['options']);
             }
@@ -443,7 +443,7 @@ class CustomFields
                     $i++;
                 }
 
-                db_update_position($table, $indx);
+                \mw\DbUtils::update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -479,7 +479,7 @@ class CustomFields
         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
 
-        db_q($q);
+        \mw\Db::q($q);
 
         cache_clean_group('custom_fields');
 
@@ -501,7 +501,7 @@ class CustomFields
 
                 //
                 // error('no permission to get data');
-                //  $form_data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                //  $form_data = \mw\Db::get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }}
 
@@ -526,7 +526,7 @@ class CustomFields
             }
         } else {
             if ($field_id != 0) {
-                $data = db_get_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                $data = \mw\Db::get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
@@ -539,7 +539,7 @@ class CustomFields
             if (is_admin() == true) {
 
                 $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-                $form_data = db_get_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+                $form_data = \mw\Db::get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
                 if (is_arr($form_data)) {
 
                     $field_type = $form_data['custom_field_type'];
@@ -567,7 +567,7 @@ class CustomFields
             //d($form_data);
         } else if (isset($data['field_id'])) {
 
-            $data = db_get_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+            $data = \mw\Db::get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
         if (isset($data['custom_field_type'])) {
@@ -682,7 +682,7 @@ class CustomFields
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $results = db_query($q, $cache_id, 'custom_fields/global');
+        $results = \mw\Db::query($q, $cache_id, 'custom_fields/global');
 
         if (isarr($results)) {
             return $results;

@@ -9,5 +9,7 @@ $config['ui_admin'] = true;
 $config['categories'] = "media";
 $config['position'] = 20;
 $config['version'] = 0.2;
+$config['hooks']['rte_image_editor_image_search'] = '\Files\Api::rte_image_editor_search';
+
 
 

@@ -404,8 +404,8 @@ class Content {
 
         $q = get($params);
 
-        //  $q = db_get($table, $params, $cache_group = 'content/' . $id);
-        //  $q = db_query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        //  $q = \mw\Db::get_long($table, $params, $cache_group = 'content/' . $id);
+        //  $q = \mw\Db::query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
         if (isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
@@ -1034,7 +1034,7 @@ class Content {
 
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = \mw\Db::query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
         $result = $q;
 
@@ -1459,7 +1459,7 @@ class Content {
 
         $sql = "SELECT * FROM $table WHERE is_home='y'  ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = db_query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = \mw\Db::query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         // var_dump($q);
         $result = $q;
 
@@ -1649,7 +1649,7 @@ class Content {
         $cid = __FUNCTION__ . crc32($sql);
         $cidg = 'content/' . $parent;
 
-        //$q = db_query($sql, $cid, $cidg);
+        //$q = \mw\Db::query($sql, $cid, $cidg);
         if (!isarr($params)) {
             $params = array();
         }
@@ -2168,7 +2168,7 @@ class Content {
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies = \mw\Db::query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         //var_dump($q);
         //  var_dump($taxonomies);
@@ -2248,7 +2248,7 @@ class Content {
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses set_db_table()
+     * @uses \mw\DbUtils::build_table()
      */
     static function db_init()
     {
@@ -2314,7 +2314,7 @@ class Content {
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
 
         db_add_table_index('url', $table_name, array('url(255)'));
@@ -2334,7 +2334,7 @@ class Content {
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $fields_to_add[] = array('field', 'longtext default NULL');
         $fields_to_add[] = array('value', 'TEXT default NULL');
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
@@ -2346,7 +2346,7 @@ class Content {
         $fields_to_add[] = array('url', 'TEXT default NULL');
 
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
@@ -2373,7 +2373,7 @@ class Content {
         $fields_to_add[] = array('filename', 'TEXT default NULL');
 
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
@@ -2420,7 +2420,7 @@ class Content {
         $fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
@@ -2441,7 +2441,7 @@ class Content {
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('url', 'TEXT default NULL');
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
 
         $table_name = MW_DB_TABLE_TAXONOMY;
@@ -2472,7 +2472,7 @@ class Content {
         $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
 
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id'));
@@ -2488,7 +2488,7 @@ class Content {
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
         $fields_to_add[] = array('data_type', 'TEXT default NULL');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         //db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id'));
@@ -2596,7 +2596,7 @@ class Content {
 
         //$q = get($menu_params);
         // d($q);
-        $q = db_query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+        $q = \mw\Db::query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
         // $data = $q;
         if (empty($q)) {
@@ -2682,7 +2682,7 @@ class Content {
                     $title = $cont['title'];
                     $url = category_link($cont['id']);
                 } else {
-                    db_delete_by_id($menus, $item['id']);
+                    \mw\Db::delete_by_id($menus, $item['id']);
                     $title = false;
                     $item['title'] = false;
                 }

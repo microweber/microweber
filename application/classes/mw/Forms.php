@@ -74,7 +74,7 @@ class Forms
         }
 
         $params['table'] = $table;
-        $id = save_data($table, $params);
+        $id = \mw\Db::save($table, $params);
         if (isset($params['for_module_id'])) {
             $opts = array();
             $data['module'] = $params['module_name'];
@@ -194,7 +194,7 @@ class Forms
             $to_save['form_values'] = $params['form_values'];
         }
 
-        $save = save_data($table, $to_save);
+        $save = \mw\Db::save($table, $to_save);
 
         if (!empty($cf_to_save)) {
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -210,7 +210,7 @@ class Forms
                 $value['rel_id'] = $save;
                 $value['rel'] = 'forms_data';
 
-                $cf_save = save_data($table_custom_field, $value);
+                $cf_save = \mw\Db::save($table_custom_field, $value);
             }
         }
 
@@ -316,7 +316,7 @@ class Forms
 
         $sql = "SELECT name AS country_name FROM $table   ";
 
-        $q = db_query($sql, __FUNCTION__ . crc32($sql), 'db');
+        $q = \mw\Db::query($sql, __FUNCTION__ . crc32($sql), 'db');
         $res = array();
         if (isarr($q)) {
             foreach ($q as $value) {
@@ -354,7 +354,7 @@ class Forms
                         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
 
-                        db_q($q);
+                        \mw\Db::q($q);
 
 
                     }
@@ -368,7 +368,7 @@ class Forms
             }
 
 
-            db_delete_by_id('forms_data', $c_id);
+            \mw\Db::delete_by_id('forms_data', $c_id);
         }
     }
 
@@ -382,8 +382,8 @@ class Forms
         $table = MW_DB_TABLE_FORMS_LISTS;
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            db_delete_by_id('forms_lists', $c_id);
-            db_delete_by_id('forms_data', $c_id, 'list_id');
+            \mw\Db::delete_by_id('forms_lists', $c_id);
+            \mw\Db::delete_by_id('forms_data', $c_id, 'list_id');
 
         }
     }
@@ -426,7 +426,7 @@ class Forms
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $fields_to_add[] = array('user_ip', 'TEXT default NULL');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
@@ -447,7 +447,7 @@ class Forms
         $fields_to_add[] = array('last_export', 'datetime default NULL');
         $fields_to_add[] = array('last_sent', 'datetime default NULL');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         db_add_table_index('title', $table_name, array('title(55)'));
 
@@ -556,7 +556,7 @@ class Forms
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  set_db_table($table_name, $fields_to_add);
+     *  \mw\DbUtils::build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -589,7 +589,7 @@ class Forms
             return $cache_content;
         }
 
-        $query = db_query("show tables like '$table_name'");
+        $query = \mw\Db::query("show tables like '$table_name'");
 
         if (!is_array($query)) {
             $sql = "CREATE TABLE " . $table_name . " (
@@ -602,7 +602,7 @@ class Forms
             //
             //if (isset($_GET['debug'])) {
             //	d($sql);
-            db_q($sql);
+            \mw\Db::q($sql);
             //}
         }
 
@@ -612,7 +612,7 @@ class Forms
 
             $sql = "show columns from $table_name";
 
-            $columns = db_query($sql);
+            $columns = \mw\Db::query($sql);
 
             $exisiting_fields = array();
             $no_exisiting_fields = array();
@@ -639,7 +639,7 @@ class Forms
                         $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
                     if ($sql) {
-                        db_q($sql);
+                        \mw\Db::q($sql);
 
                     }
                 }
@@ -651,7 +651,7 @@ class Forms
                 $sql = false;
                 if (isset($exisiting_fields[$the_field[0]]) != true) {
                     $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
-                    db_q($sql);
+                    \mw\Db::q($sql);
                 } else {
                     //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
 
@@ -687,7 +687,7 @@ class Forms
     {
         $columns = implode(',', $aOnColumns);
 
-        $query = db_query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+        $query = \mw\Db::query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
 
         if ($indexType != false) {
 
@@ -701,7 +701,7 @@ class Forms
         if ($query == false) {
             $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
             // var_dump($q);
-            db_q($q);
+            \mw\Db::q($q);
         }
 
     }
@@ -717,7 +717,7 @@ class Forms
      */
     static function set_table_engine($aTable, $aEngine = 'MyISAM')
     {
-        db_q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+        \mw\Db::q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
 
 
@@ -736,7 +736,7 @@ class Forms
      */
     static function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
     {
-        $query = db_query("
+        $query = \mw\Db::query("
 		SELECT
 		*
 		FROM
@@ -759,7 +759,7 @@ class Forms
             $q .= " FOREIGN KEY(" . $columns . ") ";
             $q .= " {$onDelete} ";
             $q .= " {$onUpdate} ";
-            db_q($q);
+            \mw\Db::q($q);
         }
 
     }

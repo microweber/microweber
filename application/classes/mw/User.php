@@ -463,8 +463,8 @@ class User
 
         $get = get($data);
 
-        //$get = db_get($table, $criteria = $data, $cache_group);
-        // $get = db_get($table, $criteria = $data, $cache_group);
+        //$get = \mw\Db::get_long($table, $criteria = $data, $cache_group);
+        // $get = \mw\Db::get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  cache_save($get, $function_cache_id, $cache_group);
 

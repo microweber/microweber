@@ -189,7 +189,7 @@ class Db
                     $get_data = $results_map[$criteria_id];
                     //$results_map_hits[$criteria_id]++;
                 } else {
-                    $get_data = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+                    $get_data = self::get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
 
                     //$results_map_hits[$criteria_id] = 1;
@@ -199,7 +199,7 @@ class Db
                 break;
             case 2 :
             default :
-                $get_data = db_get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+                $get_data = self::get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
                 break;
         }
@@ -241,7 +241,7 @@ class Db
      * @example
      * <code>
      * //get content with id 5
-     * $cont = db_get_id('content', $id=5);
+     * $cont = \mw\Db::get_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -265,7 +265,7 @@ class Db
 
         $q = "SELECT * FROM $table WHERE {$field_name}='$id' LIMIT 1";
 
-        $q = db_query($q);
+        $q = self::query($q);
         if (isset($q[0])) {
             $q = $q[0];
         }
@@ -412,7 +412,7 @@ class Db
         $data['user_ip'] = USER_IP;
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
-            $l = db_last_id($table);
+            $l = self::last_id($table);
             //$data['id'] = $l;
             $data['new_id'] = intval($l + 1);
             $original_data['new_id'] = $data['new_id'];
@@ -459,7 +459,7 @@ class Db
 
         $criteria_orig = $data;
 
-        $criteria = map_array_to_database_table($table, $data);
+        $criteria = self::map_array_to_table($table, $data);
 
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
@@ -473,7 +473,7 @@ class Db
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
 
-        // $criteria = map_array_to_database_table ( $table, $data );
+        // $criteria = self::map_array_to_table ( $table, $data );
 
         $criteria = add_slashes_to_array($criteria);
 
@@ -582,10 +582,10 @@ class Db
             d($q);
         }
 
-        db_q($q);
+        self::q($q);
 
         if ($id_to_return == false) {
-            $id_to_return = db_last_id($table);
+            $id_to_return = self::last_id($table);
         }
 
         $cg = guess_cache_group($table);
@@ -623,7 +623,7 @@ class Db
 				rel_id={$id_to_return}  ";
                     $cats_data_items_modified = true;
                     $cats_data_modified = true;
-                    db_q($clean_q);
+                    self::q($clean_q);
                 } else {
 
                     if (is_string($original_data['categories'])) {
@@ -647,7 +647,7 @@ class Db
 								AND   rel='{$table_assoc_name}'
 								AND   title='{$cname_check}'   ";
                                     // d($cncheckq);
-                                    $is_ex = db_query($cncheckq);
+                                    $is_ex = self::query($cncheckq);
 
                                     if (empty($is_ex)) {
                                         $clean_q = "INSERT INTO
@@ -664,7 +664,7 @@ class Db
                                         if ($dbg != false) {
                                             d($clean_q);
                                         }
-                                        db_q($clean_q);
+                                        self::q($clean_q);
 
                                     }
                                 }
@@ -702,7 +702,7 @@ class Db
                         if ($dbg != false) {
                             d($clean_q);
                         }
-                        db_q($clean_q);
+                        self::q($clean_q);
 
                         $original_data['categories'] = explode(',', $original_data['categories']);
                     }
@@ -739,7 +739,7 @@ class Db
                             if ($dbg != false) {
                                 d($q_cat1);
                             }
-                            db_q($q_cat1);
+                            self::q($q_cat1);
                         }
 
 
@@ -754,7 +754,7 @@ class Db
 				parent_id NOT IN ($id_in) ";
                     $cats_data_items_modified = true;
                     $cats_data_modified = true;
-                    //db_q($clean_q);
+                    //self::q($clean_q);
                     //   d($clean_q);
                 }
 
@@ -801,7 +801,7 @@ class Db
 					rel ='{$table_assoc_name}',
 					rel_id ='{$id_to_return}' 	";
                         $media_table_modified = true;
-                        db_q($add);
+                        self::q($add);
                     }
 
                 }
@@ -865,7 +865,7 @@ class Db
 							";
 
                                 //	d($clean);
-                                db_q($clean);
+                                self::q($clean);
                             }
                             $cfvq = '';
                             $custom_field_to_save['custom_field_name'] = $cf_k;
@@ -895,7 +895,7 @@ class Db
                                 // $custom_field_to_save = add_slashes_to_array($custom_field_to_save);
                             }
 
-                            $next_id = intval(db_last_id($custom_field_table) + 1);
+                            $next_id = intval(self::last_id($custom_field_table) + 1);
 
                             $add = " insert into $custom_field_table set
 						id =\"{$next_id}\",
@@ -939,7 +939,7 @@ class Db
                             $cf_to_save['custom_field_name'] = $cf_k;
                             $cf_to_save['custom_field_name'] = $cf_k;
 
-                            db_q($add);
+                            self::q($add);
 
                         }
                     }
@@ -987,7 +987,7 @@ class Db
      *
      * @note Please ensure your variables are escaped before calling this function.
      * @package Database
-     * @function db_query
+     * @function self::query
      * @desc Executes plain query in the database.
      *
      * @param string $q Your SQL query
@@ -1002,7 +1002,7 @@ class Db
      *  //make plain query to the db
      * $table = MW_TABLE_PREFIX.'content';
      *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
-     *  $q = db_query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
+     *  $q = self::query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
      *
      * </code>
      *
@@ -1044,7 +1044,7 @@ class Db
 
 
         // }
-        db_query_log($q);
+        self::query_log($q);
         if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
             $db = $connection_settigns;
 
@@ -1163,7 +1163,7 @@ class Db
      * @param bool|array $connection_settigns
      * @return array|bool|mixed
      * @package Database
-     * @uses db_query
+     * @uses self::query
      *
      *
      * @example
@@ -1171,7 +1171,7 @@ class Db
      *  //make plain query to the db.
      *    $table = MW_TABLE_PREFIX.'content';
      *  $sql = "update $table set title='new' WHERE id=1 ";
-     *  $q = db_q($sql);
+     *  $q = \mw\Db::q($sql);
      * </code>
      *
      */
@@ -1186,7 +1186,7 @@ class Db
         } else {
             $db = $connection_settigns;
         }
-        $q = db_query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
+        $q = self::query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
 
         return $q;
     }
@@ -1202,7 +1202,7 @@ class Db
      * @example
      * <pre>
      * $table_name = MW_TABLE_PREFIX . 'content';
-     * $id = db_last_id($table_name);
+     * $id = self::last_id($table_name);
      * </pre>
      *
      */
@@ -1216,13 +1216,44 @@ class Db
         $q = "SELECT id AS the_id FROM $table ORDER BY id DESC LIMIT 1";
 
 
-        $q = db_query($q);
+        $q = self::query($q);
 
         $result = $q[0];
 
         return intval($result['the_id']);
     }
 
+
+    /**
+     * Keep a database query log
+     *
+     * @param string $q If its string it will add query to the log, its its bool true it will return the log entries as array;
+     *
+     * @return array
+     * @example
+     * <code>
+     * //add query to the db log
+     * \mw\Db::query_log("select * from my_table");
+     *
+     * //get the query log
+     * $queries = \mw\Db::query_log(true);
+     * var_dump($queries );
+     * </code>
+     * @package Database
+     * @subpackage Advanced
+     */
+    static function query_log($q)
+    {
+        static $index = array();
+        if (is_bool($q)) {
+            $index = array_unique($index);
+            return $index;
+        } else {
+
+            $index[] = $q;
+
+        }
+    }
 
 
 
@@ -1240,7 +1271,7 @@ class Db
      * $data = array();
      * $data['id'] = 1;
      * $data['non_ex'] = 'i do not exist and will be removed';
-     * $criteria = map_array_to_database_table($table, $data);
+     * $criteria = \mw\Db::map_array_to_table($table, $array);
      * var_dump($criteria);
      * </code>
      */
@@ -1263,7 +1294,7 @@ class Db
         if (isset($arr_maps[$table])) {
             $fields = $arr_maps[$table];
         } else {
-            $fields = db_get_table_fields($table);
+            $fields = self::get_fields($table);
             $arr_maps[$table] = $fields;
         }
         if (isarr($fields)) {
@@ -1587,7 +1618,7 @@ class Db
                 $q .= $only_custom_fieldd_ids_q;
                 $q2 = $q;
 
-                $q = db_query($q, md5($q), 'custom_fields/global');
+                $q = self::query($q, md5($q), 'custom_fields/global');
                 //
 
                 if (!empty($q)) {
@@ -1871,7 +1902,7 @@ class Db
             $limit = false;
         }
         $orig_criteria = $criteria;
-        $criteria = map_array_to_database_table($table, $criteria);
+        $criteria = self::map_array_to_table($table, $criteria);
         $criteria = add_slashes_to_array($criteria);
         if ($only_those_fields == false) {
 
@@ -1882,7 +1913,7 @@ class Db
 
                 if (!empty($only_those_fields)) {
 
-                    $ex_fields = db_get_table_fields($table);
+                    $ex_fields = self::get_fields($table);
                     $flds1 = array();
                     foreach ($ex_fields as $ex_field) {
                         foreach ($only_those_fields as $ex_f_d) {
@@ -1973,7 +2004,7 @@ class Db
         }
 
         if ($to_search != false and $to_search != '') {
-            $fieals = db_get_table_fields($table);
+            $fieals = self::get_fields($table);
 
             $where_post = ' OR ';
 
@@ -2171,7 +2202,7 @@ class Db
                 $is_in_table = 'table_' . $is_in_table;
             }
             $v1 = db_get_real_table_name($is_in_table);
-            $check_if_ttid = db_get_table_fields($v1);
+            $check_if_ttid = self::get_fields($v1);
             if (in_array('rel_id', $check_if_ttid) and in_array('rel', $check_if_ttid)) {
                 $aTable_assoc1 = db_get_assoc_table_name($aTable_assoc);
                 if ($v1 != false) {
@@ -2238,10 +2269,10 @@ class Db
             //	return;
         }
         if ($original_cache_group != false) {
-            $result = db_query($q, $original_cache_id, $original_cache_group);
+            $result = self::query($q, $original_cache_id, $original_cache_group);
         } else {
             //d($q);
-            $result = db_query($q, false, false);
+            $result = self::query($q, false, false);
 
         }
         if ($count_only != true) {
@@ -2329,7 +2360,7 @@ class Db
      * @example
      * <code>
      * //delete content with id 5
-     *  db_delete_by_id('content', $id=5);
+     *  \mw\Db::delete_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -2351,53 +2382,53 @@ class Db
         //
         // d($cg);
         cache_clean_group($cg);
-        $q = db_q($q);
+        $q = self::q($q);
 
         $table1 = MW_TABLE_PREFIX . 'categories';
         $table_items = MW_TABLE_PREFIX . 'categories_items';
 
         $q = "DELETE FROM $table1 WHERE rel_id='$id'  AND  rel='$table'  ";
 
-        $q = db_q($q);
+        $q = self::q($q);
         //  cache_clean_group('categories');
 
         $q = "DELETE FROM $table_items WHERE rel_id='$id'  AND  rel='$table'  ";
         //d($q);
-        $q = db_q($q);
+        $q = self::q($q);
 
 
         if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
             $table_items = MW_DB_TABLE_NOTIFICATIONS;
             $q = "DELETE FROM $table_items WHERE rel_id='$id'  AND  rel='$table'  ";
 
-            $q = db_q($q);
+            $q = self::q($q);
         }
 
         $c_id = $id;
         if (defined("MW_DB_TABLE_MEDIA")) {
             $table1 = MW_DB_TABLE_MEDIA;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
-            $q = db_query($q);
+            $q = self::query($q);
         }
 
         if (defined("MW_DB_TABLE_TAXONOMY")) {
             $table1 = MW_DB_TABLE_TAXONOMY;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
-            $q = db_query($q);
+            $q = self::query($q);
         }
 
 
         if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             $table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
-            $q = db_query($q);
+            $q = self::query($q);
         }
 
 
         if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
             $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
-            $q = db_query($q);
+            $q = self::query($q);
         }
     }
 
@@ -2463,7 +2494,7 @@ class Db
         // var_dump($sql);
         //   $sql = "DESCRIBE $table";
 
-        $query = db_query($sql);
+        $query = self::query($sql);
         //d($query);
         $fields = $query;
 

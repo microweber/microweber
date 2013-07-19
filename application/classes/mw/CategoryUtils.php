@@ -46,11 +46,11 @@ class CategoryUtils extends Category {
             $cs['id'] = intval($data['rel_id']);
             $cs['subtype'] = 'dynamic';
             $table_c = MW_TABLE_PREFIX . 'content';
-            $save = save_data($table_c, $cs);
+            $save = \mw\Db::save($table_c, $cs);
 
         }
 
-        $save = save_data($table, $data);
+        $save = \mw\Db::save($table, $data);
 
         cache_clean_group('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
@@ -80,7 +80,7 @@ class CategoryUtils extends Category {
 	";
 
 
-        db_q($clean);
+        \mw\Db::q($clean);
         cache_clean_group('custom_fields');
 
         $media_table =  MW_TABLE_PREFIX . 'media';
@@ -97,7 +97,7 @@ class CategoryUtils extends Category {
 
         cache_clean_group('media');
 
-        db_q($clean);
+        \mw\Db::q($clean);
 
 
 
@@ -135,7 +135,7 @@ class CategoryUtils extends Category {
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = save_data($table_items, $item_save);
+                $item_save = \mw\Db::save($table_items, $item_save);
 
                 cache_clean_group('content' . DIRECTORY_SEPARATOR . $id);
             }
@@ -168,11 +168,11 @@ class CategoryUtils extends Category {
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            db_delete_by_id('categories', $c_id);
-            db_delete_by_id('categories', $c_id, 'parent_id');
-            db_delete_by_id('categories_items', $c_id, 'parent_id');
+            \mw\Db::delete_by_id('categories', $c_id);
+            \mw\Db::delete_by_id('categories', $c_id, 'parent_id');
+            \mw\Db::delete_by_id('categories_items', $c_id, 'parent_id');
             if (defined("MODULE_DB_MENUS")) {
-                db_delete_by_id('menus', $c_id, 'categories_id');
+                \mw\Db::delete_by_id('menus', $c_id, 'categories_id');
             }
 
 
@@ -200,7 +200,7 @@ class CategoryUtils extends Category {
                     $i++;
                 }
 
-                db_update_position($table, $indx);
+                \mw\DbUtils::update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

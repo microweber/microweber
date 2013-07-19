@@ -27,7 +27,7 @@ function mw_install_stats_module($config = false) {
 	$sql = $this_dir . DS . 'install.sql';
 	$cfg = $this_dir . DS . 'config.php';
 
-	$is_installed = db_table_exist(MODULE_DB_USERS_ONLINE);
+	$is_installed = \mw\DbUtils::table_exist(MODULE_DB_USERS_ONLINE);
 	//d($is_installed);
 	if ($is_installed == false and file_exists($sql)) {
 		$install = \mw\DbUtils::import_sql_file($sql);
@@ -52,7 +52,7 @@ function mw_uninstall_stats_module() {
 	$q = "DROP TABLE IF EXISTS {$table}; ";
 	//d($q);
 
-	db_q($q);
+	\mw\Db::q($q);
 	cache_clean_group('stats');
 	//  cache_clean_group('db');
 }
@@ -166,7 +166,7 @@ $few_mins_ago_visit_date = date("Y-m-d H:i:s");
 
 		mw_var('FORCE_SAVE', $table);
 		mw_var('apc_no_clear', 1);
-		$save = save_data($table, $data);
+		$save = \mw\Db::save($table, $data);
  	$_SESSION[$cookie_name] = 0;
 		 
 		mw_var('apc_no_clear', 0);
@@ -258,7 +258,7 @@ function stats_insert_cookie_based() {
 
 		mw_var('FORCE_SAVE', $table);
 		mw_var('apc_no_clear', 1);
-		$save = save_data($table, $data);
+		$save = \mw\Db::save($table, $data);
 	//	$_SESSION[$cookie_name] = 0;
 		 setcookie($cookie_name,0, time() + 99);
 
@@ -280,7 +280,7 @@ function get_visits($range = 'daily') {
 		case 'daily' :
 			$ago = date("Y-m-d", strtotime("-1 month"));
 			$q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) as total_visits, visit_date FROM $table where visit_date > '$ago' group by visit_date  ";
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 
 			break;
 
@@ -291,7 +291,7 @@ function get_visits($range = 'daily') {
 			$q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) as total_visits,visit_date, DATE_FORMAT(visit_date, '%x %V') as weeks  FROM $table where visit_date > '$ago' group by weeks  ";
 
 			// d($q);
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 
 			break;
 
@@ -302,7 +302,7 @@ function get_visits($range = 'daily') {
 			$q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) as total_visits,visit_date, DATE_FORMAT(visit_date, '%x %m') as months  FROM $table where visit_date > '$ago' group by months  ";
 
 			// d($q);
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 
 			break;
 
@@ -310,7 +310,7 @@ function get_visits($range = 'daily') {
 			 $q = "SELECT * FROM $table order by visit_date DESC, visit_time DESC limit 5  ";
 
 			  
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 
 			break;
 
@@ -321,7 +321,7 @@ function get_visits($range = 'daily') {
 			$total = 0;
 			$q = "SELECT SUM(view_count) as total_visits FROM $table  where visit_date='$ago2' and visit_time>'$ago'   ";
 			// d($q);
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 			if(isset($results[0]) and isset($results[0]['total_visits'])){
 				
 			
@@ -348,7 +348,7 @@ function get_visits($range = 'daily') {
 			$ago2 = date("Y-m-d", strtotime("now"));
 			$q = "SELECT COUNT(*) AS users_online FROM $table where visit_date='$ago2' and visit_time>'$ago'    ";
  
-			$results = db_query($q);
+			$results = \mw\Db::query($q);
 			$results = intval($results[0]['users_online']);
 
 			//	$q = 'SELECT COUNT(*) AS count FROM ' . $table . ' WHERE visit_date > '';

@@ -84,7 +84,7 @@ class Api {
                         break;
 
                     case 'delete' :
-                        $del = db_delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+                        $del = \mw\Db::delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
                         return $del;
                         break;
 
@@ -144,7 +144,7 @@ class Api {
 
         // d( $require_moderation);
 
-        $saved_data = save_data($table, $data);
+        $saved_data = \mw\Db::save($table, $data);
 
 
 
@@ -215,7 +215,7 @@ class Api {
                     $upd['id'] = $get_com['id'];
                     $upd['rel'] = 'content';
                     $upd['rel_id'] = db_escape_string($data['content_id']);
-                    save_data($table, $upd);
+                    \mw\Db::save($table, $upd);
                 }
             }
             return $get_comm;

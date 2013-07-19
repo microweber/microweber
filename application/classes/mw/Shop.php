@@ -215,7 +215,7 @@ class Shop
 			order_completed='y', order_id='{$ord}'
 			where order_completed='n'   and session_id='{$sid}'  ";
                 //d($q);
-                db_q($q);
+                \mw\Db::q($q);
                 checkout_confirm_email_send($ord);
                 $q = " UPDATE $table_orders set
 			order_completed='y'
@@ -223,7 +223,7 @@ class Shop
 			id='{$ord}' and
 			session_id='{$sid}'  ";
                 //d($q);
-                db_q($q);
+                \mw\Db::q($q);
 
                 checkout_confirm_email_send($ord);
 
@@ -359,7 +359,7 @@ class Shop
 
             define('FORCE_SAVE', $table_orders);
 
-            $temp_order = save_data($table_orders, $place_order);
+            $temp_order = \mw\Db::save($table_orders, $place_order);
             if ($temp_order != false) {
                 $place_order['id'] = $temp_order;
             } else {
@@ -396,19 +396,19 @@ class Shop
                 }
                 // $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
 
-                // db_q($q);
+                // \mw\Db::q($q);
                 if (!empty($checkout_errors)) {
 
                     return array('error' => $checkout_errors);
                 }
 
-                $ord = save_data($table_orders, $place_order);
+                $ord = \mw\Db::save($table_orders, $place_order);
 
                 $q = " UPDATE $cart_table set
 		order_id='{$ord}'
 		where order_completed='n'  and session_id='{$sid}'  ";
 
-                db_q($q);
+                \mw\Db::q($q);
 
                 if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
                     $q = " UPDATE $cart_table set
@@ -416,14 +416,14 @@ class Shop
 
 			where order_completed='n'  and session_id='{$sid}' ";
 
-                    db_q($q);
+                    \mw\Db::q($q);
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
                         $q = " UPDATE $table_orders set
 				order_completed='y'
 				where order_completed='n' and
 				id='{$ord}' and session_id='{$sid}' ";
-                        db_q($q);
+                        \mw\Db::q($q);
                     }
 
                     cache_clean_group('cart/global');
@@ -513,7 +513,7 @@ class Shop
         if ($checkz != false and isarr($checkz)) {
             // d($checkz);
             $table = MODULE_DB_SHOP;
-            db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            \mw\Db::delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
         }
@@ -549,9 +549,9 @@ class Shop
             $table = MODULE_DB_SHOP;
             mw_var('FORCE_SAVE', $table);
 
-            $cart_s = save_data($table, $cart);
+            $cart_s = \mw\Db::save($table, $cart);
             return ($cart_s);
-            //   db_delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            //   \mw\Db::delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
         }
@@ -775,7 +775,7 @@ class Shop
             //
             mw_var('FORCE_SAVE', $table);
 
-            $cart_s = save_data($table, $cart);
+            $cart_s = \mw\Db::save($table, $cart);
             return ($cart_s);
         } else {
             error('Invalid cart items');
@@ -846,7 +846,7 @@ class Shop
         $table = MODULE_DB_SHOP_ORDERS;
         $q = " SELECT  * FROM $table WHERE payment_verify_token='{$payment_verify_token}'  AND transaction_id IS NULL  LIMIT 1";
 
-        $ord_data = db_query($q);
+        $ord_data = \mw\Db::query($q);
 
         if (!isset($ord_data[0]) or !isarr($ord_data[0])) {
             return array('error' => 'Order is completed or expired.');
@@ -880,7 +880,7 @@ class Shop
             //$update_order['debug'] = 1;
             //d($update_order);
             //d($data);
-            $ord = save_data($table_orders, $update_order);
+            $ord = \mw\Db::save($table_orders, $update_order);
             checkout_confirm_email_send($ord);
             if ($ord > 0) {
 
@@ -888,14 +888,14 @@ class Shop
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   ";
                 //d($q);
-                db_q($q);
+                \mw\Db::q($q);
 
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
                 //	 d($q);
-                db_q($q);
+                \mw\Db::q($q);
                 cache_clean_group('cart/global');
                 cache_clean_group('cart_orders/global');
                 return true;
@@ -916,7 +916,7 @@ class Shop
         $amount = floatval(0.00);
         $cart = MODULE_DB_SHOP;
         $sumq = " SELECT  price, qty FROM $cart WHERE order_completed='n'  AND session_id='{$sid}'  ";
-        $sumq = db_query($sumq);
+        $sumq = \mw\Db::query($sumq);
         if (isarr($sumq)) {
             foreach ($sumq as $value) {
                 $diferent_items = $diferent_items + $value['qty'];
@@ -959,7 +959,7 @@ class Shop
         $params['table'] = $table;
 
         //  d($params);
-        return save_data($table, $params);
+        return \mw\Db::save($table, $params);
 
     }
 
@@ -975,8 +975,8 @@ class Shop
         if (isset($data['email'])) {
             $c_id = db_escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = db_q($q);
-            //db_delete_by_id($table, $c_id, 'email');
+            $res = \mw\Db::q($q);
+            //\mw\Db::delete_by_id($table, $c_id, 'email');
             cache_clean_group('cart_orders/global');
             return $res;
             //d($c_id);
@@ -996,10 +996,10 @@ class Shop
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            db_delete_by_id($table, $c_id);
+            \mw\Db::delete_by_id($table, $c_id);
             $table2 = MODULE_DB_SHOP;
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = db_q($q);
+            $res = \mw\Db::q($q);
             return $c_id;
             //d($c_id);
         }
@@ -1046,7 +1046,7 @@ class Shop
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
         $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         // db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
         db_add_table_index('rel', $table_name, array('rel'));
@@ -1129,7 +1129,7 @@ class Shop
         $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
         $fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
         // db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
         db_add_table_index('rel', $table_name, array('rel'));
@@ -1153,7 +1153,7 @@ class Shop
         $fields_to_add[] = array('position', 'int(11) default NULL');
 
 
-        set_db_table($table_name, $fields_to_add);
+        \mw\DbUtils::build_table($table_name, $fields_to_add);
 
 
         cache_save(true, $function_cache_id, $cache_group = 'db');

@@ -113,7 +113,7 @@ class Category
                 }
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
-                    db_delete_by_id($table, $id);
+                    \mw\Db::delete_by_id($table, $id);
                 }
             }
 
@@ -174,7 +174,7 @@ class Category
 
             $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
             //p($q,1);
-            $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
+            $q = \mw\Db::query($q, __FUNCTION__ . crc32($q), $cache_group);
 
             //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -196,7 +196,7 @@ class Category
 
                 $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
                 //p($q);
-                $q = db_query($q, __FUNCTION__ . crc32($q), $cache_group);
+                $q = \mw\Db::query($q, __FUNCTION__ . crc32($q), $cache_group);
 
                 //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -324,7 +324,7 @@ class Category
 
         $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
-        $q = db_query($q);
+        $q = \mw\Db::query($q);
 
         $q = $q[0];
 
@@ -722,8 +722,8 @@ class Category
         //
 
         //
-        $q = db_query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
-        //$q = db_query($sql);
+        $q = \mw\Db::query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
+        //$q = \mw\Db::query($sql);
 
         // $q = $this->core_model->dbQuery ( $sql, $cache_id =
         // 'self::html_tree_parent_cats_q_' . md5 ( $sql ),
@@ -1024,7 +1024,7 @@ class Category
         $id = intval($id);
         $q = " select id, parent_id  from $table where id = $id and  data_type='{$data_type}' " . $with_main_parrent_q;
 
-        $taxonomies = db_query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+        $taxonomies = \mw\Db::query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
         //var_dump($q);
         //  var_dump($taxonomies);
@@ -1116,7 +1116,7 @@ class Category
         //var_dump($q);
         $q_cache_id = __FUNCTION__ . crc32($q);
         //var_dump($q_cache_id);
-        $save = db_query($q, $q_cache_id, $cache_group);
+        $save = \mw\Db::query($q, $q_cache_id, $cache_group);
 
         //$save = $this->getSingleItem ( $parent_id );
         if (empty($save)) {
@@ -1223,7 +1223,7 @@ class Category
 
         $q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id  " . $data_type_q;
         // var_dump($q);
-        $data = db_query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
+        $data = \mw\Db::query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
         // var_dump ( $data );
         $results = false;
         if (!empty($data)) {
