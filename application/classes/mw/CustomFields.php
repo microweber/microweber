@@ -1,5 +1,5 @@
 <?php
-
+namespace mw;
 
 api_expose('CustomFields/delete');
 api_expose('CustomFields/reorder');

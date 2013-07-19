@@ -823,13 +823,13 @@ if (!defined("MW_DB_TABLE_LOG")) {
 
 function user_login($params)
 {
-    return \User::login($params);
+    return \mw\User::login($params);
 }
 
 function api_login($api_key = false)
 {
 
-    return \User::api_login($api_key);
+    return \mw\User::api_login($api_key);
 
 }
 
@@ -845,7 +845,7 @@ api_expose('logout');
 function logout()
 {
 
-    return \User::logout();
+    return \mw\User::logout();
 
 }
 
@@ -949,7 +949,7 @@ function delete_user($data)
 
 function hash_user_pass($pass)
 {
-    return \User::hash_pass($pass);
+    return \mw\User::hash_pass($pass);
 
 }
 
@@ -966,7 +966,7 @@ function captcha()
 function user_update_last_login_time()
 {
 
-    return \User::update_last_login_time();
+  //  return \mw\User::update_last_login_time();
 
 }
 
@@ -998,7 +998,7 @@ function user_send_forgot_password($params)
 function user_login_set_failed_attempt()
 {
 
-    return \User::login_set_failed_attempt();
+    return \mw\User::login_set_failed_attempt();
 
 }
 
@@ -1007,7 +1007,7 @@ api_expose('is_logged');
 function is_logged()
 {
 
-    return \User::is_logged();
+    return \mw\User::is_logged();
 
 
 }
@@ -1015,38 +1015,38 @@ function is_logged()
 function user_set_logged($user_id)
 {
 
-    return \User::make_logged($user_id);
+    return \mw\User::make_logged($user_id);
 
 }
 
 function user_id()
 {
 
-    return \User::id();
+    return \mw\User::id();
 }
 
 function has_access($function_name)
 {
 
-    return \User::has_access($function_name);
+    return \mw\User::has_access($function_name);
 }
 
 function admin_access()
 {
-    return \User::admin_access();
+    return \mw\User::admin_access();
 
 }
 
 function only_admin_access()
 {
-    return \User::admin_access();
+    return \mw\User::admin_access();
 
 }
 
 function is_admin()
 {
 
-    return \User::is_admin();
+    return \mw\User::is_admin();
 }
 
 /**
@@ -1063,7 +1063,7 @@ function is_admin()
  */
 function user_name($user_id = false, $mode = 'full')
 {
-    return \User::name($user_id, $mode);
+    return \mw\User::name($user_id, $mode);
 }
 
 /**
@@ -1082,7 +1082,7 @@ function user_name($user_id = false, $mode = 'full')
  */
 function get_users($params)
 {
-    return \User::get_all($params);
+    return \mw\User::get_all($params);
 }
 
 /**
@@ -1100,7 +1100,7 @@ function get_users($params)
  */
 function get_user($id = false)
 {
-    return \User::get($id);
+    return \mw\User::get($id);
 
 }
 
@@ -1115,12 +1115,12 @@ function get_user($id = false)
  */
 function get_user_by_id($id)
 {
-    return \User::get_by_id($id);
+    return \mw\User::get_by_id($id);
 }
 
 function get_user_by_username($username)
 {
-    return \User::get_user_by_username($username);
+    return \mw\User::get_user_by_username($username);
 }
 
 /**
@@ -1138,7 +1138,7 @@ function get_user_by_username($username)
  */
 function nice_user_name($id, $mode = 'full')
 {
-    return \User::nice_name($id, $mode);
+    return \mw\User::nice_name($id, $mode);
 
 }
 

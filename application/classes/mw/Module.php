@@ -1,4 +1,5 @@
 <?php
+namespace mw;
 if (!defined("MW_DB_TABLE_MODULES")) {
     define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
 }

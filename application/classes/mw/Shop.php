@@ -1,5 +1,4 @@
 <?php
-namespace mw;
 action_hook('mw_db_init_default', '\Shop::db_init');
 action_hook('mw_db_init', '\Shop::db_init');
 /**

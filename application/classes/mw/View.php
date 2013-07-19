@@ -1,7 +1,7 @@
 <?php
 namespace mw;
 // Handles working with HTML output templates
-class \mw\View {
+class View {
 
 	var $v;
 

@@ -1,5 +1,4 @@
 <?php
-namespace mw;
 if (!defined("MW_DB_TABLE_USERS")) {
     define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
 }

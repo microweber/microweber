@@ -1,4 +1,5 @@
 <?php
+namespace mw;
 action_hook('mw_db_init_default', '\Content::db_init');
 action_hook('mw_db_init', '\Content::db_init');
 
