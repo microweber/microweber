@@ -794,7 +794,7 @@ function get_pictures($params)
     $params['limit'] = 1000;
     $params['table'] = $table;
     $params['orderby'] = 'position ASC';
-    $data = get($params);
+    $data = \mw\Db::get($params);
 
     return $data;
 }

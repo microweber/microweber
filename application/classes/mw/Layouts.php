@@ -288,7 +288,7 @@ class Layouts {
             //   $params['ui'] = 1;
         }
 
-        $s = get($params);
+        $s = \mw\Db::get($params);
         // d($params); d( $s);
         return $s;
     }

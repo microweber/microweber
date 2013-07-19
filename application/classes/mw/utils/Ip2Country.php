@@ -23,7 +23,7 @@ class Ip2Country
         $params['table'] = $table;
         $params['ip'] = $ip;
         $params['limit'] = 1;
-        $get = get($params);
+        $get = \mw\Db::get($params);
         if ($get == false) {
             $remote_host = 'http://api.microweber.net';
             $service = "/service/ip2country/?ip=" . $ip;

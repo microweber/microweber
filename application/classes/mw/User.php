@@ -461,7 +461,7 @@ class User
         $data['table'] = $table;
         //  $data ['cache_group'] = $cache_group;
 
-        $get = get($data);
+        $get = \mw\Db::get($data);
 
         //$get = \mw\Db::get_long($table, $criteria = $data, $cache_group);
         // $get = \mw\Db::get_long($table, $criteria = $data, $cache_group);

@@ -64,7 +64,7 @@ class Shop
             }
         }
 
-        $get = get($params);
+        $get = \mw\Db::get($params);
         //return $get;
 
         $return = array();
@@ -1048,11 +1048,11 @@ class Shop
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        // db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        db_add_table_index('rel', $table_name, array('rel'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw\DbUtils::add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id'));
 
-        db_add_table_index('session_id', $table_name, array('session_id'));
+        \mw\DbUtils::add_table_index('session_id', $table_name, array('session_id'));
 
         $table_name = MODULE_DB_SHOP_ORDERS;
 
@@ -1131,11 +1131,11 @@ class Shop
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        // db_add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        db_add_table_index('rel', $table_name, array('rel'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw\DbUtils::add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id'));
 
-        db_add_table_index('session_id', $table_name, array('session_id'));
+        \mw\DbUtils::add_table_index('session_id', $table_name, array('session_id'));
 
 
         $table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;

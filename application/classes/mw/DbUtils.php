@@ -31,7 +31,7 @@ class DbUtils
         }
         $get_params1 = parse_params($get_params);
         $get_params1['return_criteria'] = 1;
-        $test = get($get_params1);
+        $test = \mw\Db::get($get_params1);
         $upd = array();
         if (isset($test['table'])) {
             $save_params = parse_params($save_params);
@@ -39,7 +39,7 @@ class DbUtils
                 return 'error $save_params must be array';
             }
 
-            $get = get($get_params);
+            $get = \mw\Db::get($get_params);
 
             if (!is_arr($get)) {
                 //$upd[] = \mw\Db::save($test['table'], $save_params);
@@ -145,7 +145,7 @@ class DbUtils
      *
      * @example
      * <pre>
-     * db_add_table_index('title', $table_name, array('title'));
+     * \mw\DbUtils::add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

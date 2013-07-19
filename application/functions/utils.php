@@ -1,5 +1,44 @@
 <?php
 
+function clean_word($html_to_save)
+{
+    if (strstr($html_to_save, '<!--[if gte mso')) {
+        // word mess up tags
+        $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+
+        $matches = $tags;
+        if (!empty($matches)) {
+            foreach ($matches as $m) {
+                $html_to_save = str_replace($m['full_tag'], '', $html_to_save);
+            }
+
+            $html_to_save = str_replace('<!--[if gte mso 8]><![endif]-->', '', $html_to_save);
+
+            $html_to_save = str_replace('<!--[if gte mso 9]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('<!--[if gte mso 10]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('<!--[if gte mso 11]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('class="MsoNormal"', '', $html_to_save);
+        }
+
+    }
+    $html_to_save = str_replace('class="exec"', '', $html_to_save);
+    $html_to_save = str_replace('style=""', '', $html_to_save);
+
+    $html_to_save = str_replace('ui-draggable', '', $html_to_save);
+    $html_to_save = str_replace('class="ui-droppable"', '', $html_to_save);
+    $html_to_save = str_replace('ui-droppable', '', $html_to_save);
+    $html_to_save = str_replace('mw_edited', '', $html_to_save);
+    $html_to_save = str_replace('_moz_dirty=""', '', $html_to_save);
+    $html_to_save = str_replace('ui-droppable', '', $html_to_save);
+    $html_to_save = str_replace('<br >', '<br />', $html_to_save);
+    $html_to_save = str_replace('<br>', '<br />', $html_to_save);
+    $html_to_save = str_replace(' class=""', '', $html_to_save);
+    $html_to_save = str_replace(' class=" "', '', $html_to_save);
+
+    $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
+
+    return $html_to_save;
+}
 
 /**
  * Removes double slashes from sting

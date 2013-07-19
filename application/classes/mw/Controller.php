@@ -1308,8 +1308,8 @@ if(method_exists($res, $try_class_func2)){
             if (isset($_REQUEST['isolate_content_field'])) {
                 //d($_REQUEST);
 
-                require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-                $pq = phpQuery::newDocument($l);
+                require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
 
@@ -1360,9 +1360,9 @@ if(method_exists($res, $try_class_func2)){
             }
             if (isset($_REQUEST['embed_id'])) {
                 $find_embed_id = trim($_REQUEST['embed_id']);
-                require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-                $pq = phpQuery::newDocument($l);
+                $pq = \phpQuery::newDocument($l);
                 //	$isolated_head = pq('head') -> eq(0) -> html();
                 //	$isolated_body = pq('body') -> eq(0) -> html();
 
@@ -1589,8 +1589,8 @@ if(method_exists($res, $try_class_func2)){
             if ($this->isolate_by_html_id != false) {
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
-                //require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-                $pq = phpQuery::newDocument($l);
+                //require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                $pq = \phpQuery::newDocument($l);
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
                     $l = pq($elem)->htmlOuter();

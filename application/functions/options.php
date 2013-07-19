@@ -50,8 +50,8 @@ function mw_options_init_db()
 
     \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-    //db_add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-    //db_add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+    //\mw\DbUtils::add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+    //\mw\DbUtils::add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
     cache_save(true, $function_cache_id, $cache_group = 'db');
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));

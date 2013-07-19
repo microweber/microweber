@@ -210,7 +210,7 @@ function \mw\Notifications::get($params) {
 		$table = MW_DB_TABLE_NOTIFICATIONS;
 		$params['table'] = $table;
 
-		$return = get($params);
+		$return = \mw\Db::get($params);
 	}
 	return $return;
 }*/

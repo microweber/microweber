@@ -13,7 +13,7 @@ Registered_Sliders = ['margin', 'opacity', 'padding'];
 mw.border_which = 'border';
 
 
-mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
+mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms', "Khtml"];
 
 _Prefixtest = false;
 

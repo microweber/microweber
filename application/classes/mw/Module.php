@@ -750,13 +750,13 @@ class Module
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
-        db_add_table_index('module', $table_name, array('module(255)'));
-        db_add_table_index('module_id', $table_name, array('module_id(255)'));
+        \mw\DbUtils::add_table_index('module', $table_name, array('module(255)'));
+        \mw\DbUtils::add_table_index('module_id', $table_name, array('module_id(255)'));
 
         \mw\DbUtils::build_table($table_name2, $fields_to_add);
 
-        db_add_table_index('module', $table_name2, array('module(255)'));
-        db_add_table_index('module_id', $table_name2, array('module_id(255)'));
+        \mw\DbUtils::add_table_index('module', $table_name2, array('module(255)'));
+        \mw\DbUtils::add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
         $fields_to_add[] = array('updated_on', 'datetime default NULL');

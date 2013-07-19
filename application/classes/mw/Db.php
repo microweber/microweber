@@ -55,13 +55,13 @@ class Db
      * @example
      * <code>
      * //get content
-     *  $results = get("table=content&is_active=y");
+     *  $results = \mw\Db::get("table=content&is_active=y");
      * </code>
      *
      * @example
      *  <code>
      *  //get users
-     *  $results = get("table=users&is_admin=n");
+     *  $results = \mw\Db::get("table=users&is_admin=n");
      * </code>
      *
      * @package Database
@@ -637,7 +637,7 @@ class Db
                                 $cname_check = trim($cname_check);
                                 $cname_check = db_escape_string($cname_check);
                                 //	$str1 = 'cache_group=false&no_cache=1&table=categories&title=' . $cname_check . '&data_type=category&rel=' . $table_assoc_name;
-                                //	$is_ex = get($str1);
+                                //	$is_ex = \mw\Db::get($str1);
 
                                 if ($cname_check != '') {
 
@@ -669,7 +669,7 @@ class Db
                                     }
                                 }
 
-                                //$is_ex = get($str1);
+                                //$is_ex = \mw\Db::get($str1);
                                 if (!empty($is_ex) and isarr($is_ex[0])) {
                                     $cz[$j] = $is_ex[0]['id'];
                                     $cz_int[] = intval($is_ex[0]['id']);
@@ -1708,7 +1708,7 @@ class Db
                     $cat_name_or_id1 = intval($cat_name_or_id);
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
 
-                    $is_in_category_items = get($str1_items);
+                    $is_in_category_items = \mw\Db::get($str1_items);
 
                     if (!empty($is_in_category_items)) {
 
@@ -1721,7 +1721,7 @@ class Db
 
                 }
             }
-            // $is_in_category = get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+            // $is_in_category = \mw\Db::get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
             //  $includeIds;
             if ($is_in_category_items == false) {
                 return false;

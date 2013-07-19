@@ -26,7 +26,7 @@ class Api {
         $table = MODULE_DB_COMMENTS;
         $params['table'] = $table;
 
-        $comments = get($params);
+        $comments = \mw\Db::get($params);
 
         if(isarr($comments)){
             $i = 0;

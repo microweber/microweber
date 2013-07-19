@@ -46,7 +46,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 						
 					 
 						$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
-		$fors = get($str0);
+		$fors = \mw\Db::get($str0);
 					//d($fors );
 					
 					

@@ -31,7 +31,7 @@ class Log
             $params['user_ip'] = USER_IP;
         }
 
-        $q = get($params);
+        $q = \mw\Db::get($params);
 
         return $q;
     }
@@ -66,7 +66,7 @@ class Log
             $params['user_ip'] = USER_IP;
         }
 
-        $q = get($params);
+        $q = \mw\Db::get($params);
         if (isarr($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);

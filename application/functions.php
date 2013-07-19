@@ -14,7 +14,6 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 }
 
 
-require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
 /*
 * Microweber autoloader
 * Loads up classes with namespaces
@@ -26,17 +25,6 @@ function mw_autoload($className) {
 	$className = ltrim($className, '\\');
 	$fileName = '';
 	$namespace = '';
-
-
-
-
-
-
-
-
-
-
-
 
 	if ($lastNsPos = strripos($className, '\\')) {
 		$namespace = substr($className, 0, $lastNsPos);
@@ -61,6 +49,7 @@ function mw_autoload($className) {
 }
 
 spl_autoload_register('mw_autoload');
+require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
 /*
  spl_autoload_register(function($className) {

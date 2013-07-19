@@ -950,7 +950,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
       <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<?php print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');"><?php _e("All"); ?></a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<?php print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');"><?php _e("Selected"); ?></a> </div>
       <?php if(intval($data['id']) > 0): ?>
-      <?php $in_cats = get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
+      <?php $in_cats = \mw\Db::get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
   if(isarr($in_cats)){
    foreach($in_cats as $in_cat){
     $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];

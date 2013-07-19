@@ -458,7 +458,7 @@ class ModuleUtils
 
         $params['table'] = $table;
 
-        $data = get($params);
+        $data = \mw\Db::get($params);
         return $data;
     }
 

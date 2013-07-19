@@ -44,7 +44,7 @@ class Category
         //$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
         //$data['only_those_fields'] = array('parent_id');
 
-        $data = get($data);
+        $data = \mw\Db::get($data);
         return $data;
 
         $results = false;
@@ -274,7 +274,7 @@ class Category
         }
         //$data['only_those_fields'] = array('parent_id');
 
-        $data = get($data);
+        $data = \mw\Db::get($data);
         return $data;
 
     }
@@ -368,22 +368,7 @@ class Category
     static function tree($params = false)
     {
 
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_group = 'categories/global';
-        $cache_content = cache_get_content($function_cache_id, $cache_group);
-        $cache_content = false;
-        //if (!isset($_GET['debug'])) {
-        if (($cache_content) != false) {
-            print $cache_content;
-            return;
-            //  return $cache_content;
-        }
         //}
         $p2 = array();
         // d($params);
@@ -401,6 +386,25 @@ class Category
             $parent = 0;
         }
 
+
+
+        $function_cache_id = false;
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id.serialize($params));
+
+        $cache_group = 'categories/global';
+        $cache_content = cache_get_content($function_cache_id, $cache_group);
+      //  $cache_content = false;
+
+
+        //if (!isset($_GET['debug'])) {
+        if (($cache_content) != false) {
+            print $cache_content;
+            return;
+            //  return $cache_content;
+        }
+
+       // print 11111111111111111111111;
         $link = isset($params['link']) ? $params['link'] : false;
 
         if ($link == false) {
@@ -499,7 +503,7 @@ class Category
                 $skip123 = true;
 
                 $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
-                $fors = get($str0);
+                $fors = \mw\Db::get($str0);
 
             }
 
@@ -507,7 +511,7 @@ class Category
                 $skip123 = true;
 
                 $str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = get($str1);
+                $fors1 = \mw\Db::get($str1);
                 if (isarr($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
@@ -552,7 +556,7 @@ class Category
             $skip123 = true;
 
             $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
-            $fors = get($str0);
+            $fors = \mw\Db::get($str0);
 
         }
 
@@ -578,6 +582,7 @@ class Category
 
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
+
         cache_save($content, $function_cache_id, $cache_group);
         //}
         ob_end_clean();

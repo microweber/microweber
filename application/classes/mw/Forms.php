@@ -29,7 +29,7 @@ class Forms
 
 
         //$params['debug'] = $table;
-        $data = get($params);
+        $data = \mw\Db::get($params);
         $ret = array();
         if (isarr($data)) {
 
@@ -428,9 +428,9 @@ class Forms
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        db_add_table_index('list_id', $table_name, array('list_id'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw\DbUtils::add_table_index('list_id', $table_name, array('list_id'));
 
         $table_name = MW_DB_TABLE_FORMS_LISTS;
 
@@ -449,7 +449,7 @@ class Forms
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('title', $table_name, array('title(55)'));
+        \mw\DbUtils::add_table_index('title', $table_name, array('title(55)'));
 
 
         $table_sql = INCLUDES_PATH . 'install' . DS . 'countries.sql';
@@ -672,7 +672,7 @@ class Forms
      *
      * @example
      * <pre>
-     * db_add_table_index('title', $table_name, array('title'));
+     * \mw\DbUtils::add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

@@ -271,7 +271,7 @@ class Content {
             }
             $params['table'] = $table;
             $params['cache_group'] = $cache_group;
-            $get = get($params);
+            $get = \mw\Db::get($params);
 
 
             if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -402,7 +402,7 @@ class Content {
         $params['cache_group'] = 'content/' . $id;
 
 
-        $q = get($params);
+        $q = \mw\Db::get($params);
 
         //  $q = \mw\Db::get_long($table, $params, $cache_group = 'content/' . $id);
         //  $q = \mw\Db::query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
@@ -490,7 +490,7 @@ class Content {
 
         $data['table'] = $table;
 
-        $get = get($data);
+        $get = \mw\Db::get($data);
 
 
 
@@ -2317,8 +2317,8 @@ class Content {
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
 
-        db_add_table_index('url', $table_name, array('url(255)'));
-        db_add_table_index('title', $table_name, array('title(255)'));
+        \mw\DbUtils::add_table_index('url', $table_name, array('url(255)'));
+        \mw\DbUtils::add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2336,9 +2336,9 @@ class Content {
         $fields_to_add[] = array('value', 'TEXT default NULL');
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //db_add_table_index('field', $table_name, array('field(55)'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw\DbUtils::add_table_index('field', $table_name, array('field(55)'));
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -2348,9 +2348,9 @@ class Content {
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //db_add_table_index('field', $table_name, array('field(56)'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw\DbUtils::add_table_index('field', $table_name, array('field(56)'));
 
 
         $table_name = MW_DB_TABLE_MEDIA;
@@ -2375,12 +2375,12 @@ class Content {
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        db_add_table_index('media_type', $table_name, array('media_type(55)'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw\DbUtils::add_table_index('media_type', $table_name, array('media_type(55)'));
 
-        //db_add_table_index('url', $table_name, array('url'));
-        //db_add_table_index('title', $table_name, array('title'));
+        //\mw\DbUtils::add_table_index('url', $table_name, array('url'));
+        //\mw\DbUtils::add_table_index('title', $table_name, array('title'));
 
 
         $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
@@ -2422,9 +2422,9 @@ class Content {
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        db_add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        \mw\DbUtils::add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = MW_DB_TABLE_MENUS;
@@ -2474,9 +2474,9 @@ class Content {
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
-        db_add_table_index('parent_id', $table_name, array('parent_id'));
+        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw\DbUtils::add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
@@ -2490,9 +2490,9 @@ class Content {
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        //db_add_table_index('rel', $table_name, array('rel(55)'));
-        db_add_table_index('rel_id', $table_name, array('rel_id'));
-        db_add_table_index('parent_id', $table_name, array('parent_id'));
+        //\mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
+        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw\DbUtils::add_table_index('parent_id', $table_name, array('parent_id'));
 
         cache_save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -2514,7 +2514,7 @@ class Content {
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
-        return get($params);
+        return \mw\Db::get($params);
     }
 
 
@@ -2536,7 +2536,7 @@ class Content {
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = get($params);
+        $menus = \mw\Db::get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -2594,7 +2594,7 @@ class Content {
         $menu_params['table'] = $menus;
         $menu_params['orderby'] = "position ASC";
 
-        //$q = get($menu_params);
+        //$q = \mw\Db::get($menu_params);
         // d($q);
         $q = \mw\Db::query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 

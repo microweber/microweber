@@ -67,7 +67,7 @@ class shipping_to_country
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        //db_add_table_index('shiping_country', $table_name, array('shiping_country'));
+        //\mw\DbUtils::add_table_index('shiping_country', $table_name, array('shiping_country'));
 
         cache_save(true, $function_cache_id, $cache_group = 'db');
         return true;

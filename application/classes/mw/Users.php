@@ -675,8 +675,8 @@ class Users
 
         \mw\DbUtils::build_table($table_name, $fields_to_add);
 
-        db_add_table_index('username', $table_name, array('username(255)'));
-        db_add_table_index('email', $table_name, array('email(255)'));
+        \mw\DbUtils::add_table_index('username', $table_name, array('username(255)'));
+        \mw\DbUtils::add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = MW_DB_TABLE_LOG;

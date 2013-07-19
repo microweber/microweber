@@ -94,9 +94,9 @@ mw.utils = {
     }
   },
   supportsAnimation : function(){
-    if(typeof mwd.body.style.animationName !== 'undefined') { return true; }
+    if( typeof mwd.body.style.animationName !== 'undefined' ) { return true; }
     var p = ["Webkit", "Moz", "O", "ms", "Khtml"], l = p.length, i=0;
-    for( ; i<l;i++){  if( typeof mwd.body.style[p[i]] !== 'undefined' ){return true; }}
+    for( ; i<l;i++){  if( typeof mwd.body.style[p[i]] !== 'undefined' ){ return true; }}
     return false;
   }
 }
@@ -179,17 +179,17 @@ mw.utils = {
 
 
    if (typeof CanvasRenderingContext2D === 'undefined'){
-     $(mwd.body).addClass('old-browser');
-     mw.require(mw.settings.template_url + "oldbrowsers.css");
+        $(mwd.body).addClass('old-browser');
+        mw.require(mw.settings.template_url + "oldbrowsers.css");
    }
 
-   if(typeof mwd.body.style.animationName === 'undefined'){
-    $(mwd.body).addClass('no-css-animation');
+   if( !mw.utils.supportsAnimation() ){
+        $(mwd.body).addClass('no-css-animation');
    }
 
 
 
-  alert( )
+
 
 
   });
