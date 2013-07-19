@@ -505,30 +505,6 @@ if (!function_exists('remove_invisible_characters')) {
 
 }
 
-function add_slashes_to_array($arr)
-{
-    if (!empty($arr)) {
-        $ret = array();
-
-        foreach ($arr as $k => $v) {
-            if (is_array($v)) {
-                $v = add_slashes_to_array($v);
-            } else {
-                // $v =utfString( $v );
-                // $v =
-                // preg_replace("/[^[:alnum:][:space:][:alpha:][:punct:]]/","",$v);
-                // $v = htmlentities ( $v, ENT_NOQUOTES, 'UTF-8' );
-                // $v = htmlspecialchars ( $v );
-                $v = addslashes($v);
-                $v = htmlspecialchars($v);
-            }
-
-            $ret[$k] = ($v);
-        }
-
-        return $ret;
-    }
-}
 
 function ago($time, $granularity = 2)
 {
@@ -676,28 +652,6 @@ function debug_info()
     // }
 }
 
-function remove_slashes_from_array($arr)
-{
-    if (!empty($arr)) {
-        $ret = array();
-
-        foreach ($arr as $k => $v) {
-            if (is_array($v)) {
-                $v = remove_slashes_from_array($v);
-            } else {
-                $v = htmlspecialchars_decode($v);
-                // $v = htmlspecialchars_decode ( $v );
-                // $v = html_entity_decode ( $v, ENT_NOQUOTES );
-                // $v = html_entity_decode( $v );
-                $v = stripslashes($v);
-            }
-
-            $ret[$k] = $v;
-        }
-
-        return $ret;
-    }
-}
 
 if (!function_exists('pathToURL')) {
     function pathToURL($path)

@@ -139,6 +139,14 @@
     outline: none
   }
 
+  pre{
+    background-color: transparent;
+    border: 1px solid #D1D1D1;
+    padding: 25px;
+    border-radius: 0;
+    margin: 20px 0;
+  }
+
 
 /* UI Framework */
 
@@ -1731,6 +1739,20 @@
   }
 
   /* /Profile */
+
+
+
+
+  /* Api docs */
+
+  .post-list-apidocs h2 small{
+    font-size: 12px;
+    display: block;
+  }
+
+
+  /* /Api docs */
+
 
 
   /* Lab */

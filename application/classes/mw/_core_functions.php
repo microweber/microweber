@@ -1023,7 +1023,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
     exit();
 }
 
-$mw_rand = rand();
+
 
 
 function make_microweber_tags($layout)
@@ -1032,7 +1032,7 @@ function make_microweber_tags($layout)
         return $layout;
     }
 
-    require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+    require_once (MW_APPPATH_FULL . 'classes'. DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
     $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
     $replaced_scripts = array();
@@ -1420,6 +1420,56 @@ function save($table, $data, $data_to_save_options = false)
 }
 
 
+
+
+
+function add_slashes_to_array($arr)
+{
+    if (!empty($arr)) {
+        $ret = array();
+
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $v = add_slashes_to_array($v);
+            } else {
+                // $v =utfString( $v );
+                // $v =
+                // preg_replace("/[^[:alnum:][:space:][:alpha:][:punct:]]/","",$v);
+                // $v = htmlentities ( $v, ENT_NOQUOTES, 'UTF-8' );
+                // $v = htmlspecialchars ( $v );
+                $v = addslashes($v);
+                $v = htmlspecialchars($v);
+            }
+
+            $ret[$k] = ($v);
+        }
+
+        return $ret;
+    }
+}
+
+function remove_slashes_from_array($arr)
+{
+    if (!empty($arr)) {
+        $ret = array();
+
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $v = remove_slashes_from_array($v);
+            } else {
+                $v = htmlspecialchars_decode($v);
+                // $v = htmlspecialchars_decode ( $v );
+                // $v = html_entity_decode ( $v, ENT_NOQUOTES );
+                // $v = html_entity_decode( $v );
+                $v = stripslashes($v);
+            }
+
+            $ret[$k] = $v;
+        }
+
+        return $ret;
+    }
+}
 
 
 

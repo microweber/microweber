@@ -165,8 +165,12 @@ if (MW_IS_INSTALLED == true) {
 
     //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
    // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+
+  if(!isset($_GET['debug'])){
+      include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
+
+      include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+  }
    // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
 
@@ -187,7 +191,7 @@ if (MW_IS_INSTALLED == true) {
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
  // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
-    if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+    if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
         $module_functions = get_all_functions_files_for_modules();
         if ($module_functions != false) {
             if (is_array($module_functions)) {

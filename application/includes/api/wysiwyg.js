@@ -1145,5 +1145,10 @@ $(window).load(function(){
   });
 
 
+
+  mw.$(".mw_editor").each(function(){
+     mw.tools.dropdown(this);
+  });
+
 });
 

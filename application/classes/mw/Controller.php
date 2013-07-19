@@ -12,7 +12,7 @@ if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_q
 //    var_dump(MW_NO_BASE);
 //    exit();
 //}
-load_base_functions();
+
 function params_stripslashes_array($array)
 {
     return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
@@ -836,7 +836,7 @@ if(method_exists($res, $try_class_func2)){
 
         $page = false;
         $page_url = rtrim($page_url, '/');
-        $is_admin = is_admin();
+        $is_admin = \Mw\User::is_admin();
 
         $simply_a_file = false;
         // if this is a file path it will load it
@@ -1005,8 +1005,8 @@ if(method_exists($res, $try_class_func2)){
 
             } else {
                 $found_mod = false;
-                $page = get_page_by_url($page_url);
-                $page_exact = get_page_by_url($page_url, true);
+                $page = \Mw\Content::get_by_url($page_url);
+                $page_exact =  \Mw\Content::get_by_url($page_url, true);
 
                 $the_active_site_template = get_option('curent_template');
                 $page_url_segment_1 = url_segment(0, $page_url);
