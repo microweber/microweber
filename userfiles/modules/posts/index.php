@@ -10,6 +10,10 @@ if (isset($post_params['id'])) {
 
 }
 
+
+
+
+
  //$paging_param = 'curent_page';  
 
 
@@ -58,7 +62,7 @@ if (isset($params['data-paging-param'])) {
 }
 
 
- 
+
 
 
 $show_fields = false;
@@ -116,6 +120,8 @@ if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
 
 }
 
+
+
 if($posts_parent_category == false and isset($post_params['category_id'])){
 	$posts_parent_category = $post_params['category_id'];
 }
@@ -126,7 +132,18 @@ if($posts_parent_category == false and isset($post_params['related'])){
 	}
 }
 
+ if (isset($params['autodetect'])) {
+ 
+$cat_from_url = url_param('category');
+	if($posts_parent_category  == false and defined('CATEGORY_ID') and CATEGORY_ID != false){
+	 	$posts_parent_category  = CATEGORY_ID;
+	 } if($posts_parent_category  == false and $cat_from_url != false){
+	 	$posts_parent_category  = $cat_from_url;
+	 } else if( $cfg_page_id  == false and defined('PAGE_ID')){
+	 	$cfg_page_id  = PAGE_ID;
+	 }
 
+} 
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
@@ -283,7 +300,7 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
  	
 }
 //$post_params['debug'] = 'y';
- // d($post_params);
+ 
 $content   = get_content($post_params);
 $data = array();
 

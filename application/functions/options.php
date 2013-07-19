@@ -1,5 +1,16 @@
 <?php
 
+
+
+
+
+
+
+
+
+
+
+
 if (!defined("MW_DB_TABLE_OPTIONS")) {
     define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
 }
@@ -304,10 +315,10 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $q = "select option_value from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
 
     }
-  // $get = \mw\Db::query($q, $function_cache_id, $cache_group);
+    // $get = \mw\Db::query($q, $function_cache_id, $cache_group);
 
 
-  //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
+    //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
     $q = "select * from $table where option_key is not null {$ok1} {$ok2} ";
     //d($q);
     $q_cache_id = crc32($q);

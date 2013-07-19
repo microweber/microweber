@@ -1,7 +1,7 @@
 <?php
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
-include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'url.php');
+ include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'url.php');
 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'utils.php');
+
 
 
 if (MW_IS_INSTALLED == true) {
@@ -123,14 +123,13 @@ if (MW_IS_INSTALLED == true) {
 
 }
 
-function load_base_functions()
-{
 
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
+
+
 
     //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+  include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
 
     $c_id = 'mw_init_all';
 //$cache_content_init = cache_get_content($c_id, 'db');
@@ -157,7 +156,6 @@ function load_base_functions()
     }
 //	exec_action('mw_db_init_options');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'ui.php');
- include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
     //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'custom_fields.php');
 
@@ -166,8 +164,9 @@ function load_base_functions()
     //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 
     //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'menus.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
+   // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'templates.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
+    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
    // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'messages.php');
 
@@ -182,14 +181,12 @@ function load_base_functions()
 
    // include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'history.php');
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
+     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 //include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'fx.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'dashboard.php');
 // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'cart.php');
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser.php');
-// require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
+ // require (MW_APPPATH_FULL. 'functions' . DIRECTORY_SEPARATOR . 'forms.php');
     if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
         $module_functions = get_all_functions_files_for_modules();
         if ($module_functions != false) {
@@ -220,16 +217,7 @@ function load_base_functions()
         }
     }
 
-}
 
 
 
-
-/*
- if (isset($_COOKIE['debug'])) {
- include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache2.php');
- } else {
- include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'cache.php');
-
- }*/
 

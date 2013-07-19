@@ -72,7 +72,7 @@ $cached = false;
 
 		$layout = $ch;
 	} else {
-		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+		require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 		$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 		$layout = htmlspecialchars_decode($layout);

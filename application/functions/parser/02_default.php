@@ -15,7 +15,7 @@ if ($cached != false) {
 		//print 1;
 		$layout = $ch;
 	} else {
-		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+		require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 		$pq = phpQuery::newDocument($layout);
 		$els = $pq['.edit'];
