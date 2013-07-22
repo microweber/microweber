@@ -1565,6 +1565,7 @@ mw.tools = {
     var text = text || 'Loading...';
     var global = global || false;
     var _el = $(el);
+    if(_el.length == 0) { return false; }
     if(!_el.hasClass("disabled")){
       _el.addClass('disabled');
       if(_el[0].tagName != 'INPUT'){
@@ -1581,6 +1582,7 @@ mw.tools = {
   },
   enable:function(el){
     var _el = $(el);
+    if(_el.length == 0) { return false; }
     var text = _el.dataset("text");
     _el.removeClass("disabled");
 

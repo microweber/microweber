@@ -41,6 +41,9 @@
 
   .upper{ text-transform: uppercase; }
 
+  .alert{
+    border-radius: 0;
+  }
 
   .alert ul,
   .alert ol{
@@ -65,7 +68,7 @@
   }
 
   .relative{
-    position: relative;
+    position: relative !important;
   }
 
   .nomargin{ margin: 0; }
@@ -145,6 +148,10 @@
     padding: 25px;
     border-radius: 0;
     margin: 20px 0;
+  }
+
+  .img-rounded{
+    border-radius: 0;
   }
 
 
@@ -267,6 +274,7 @@
 
   .fbtn-small{ line-height:22px;font-size: 13px;padding: 3px 6px; }
   .fbtn-medium{ line-height:35px;font-size: 20px;padding: 1px 12px; }
+  .fbtn-large{ line-height:45px;font-size: 35px;padding: 20px 22px; }
 
   .fbtn.v2{
     font-weight: bold;
@@ -1750,6 +1758,59 @@
     display: block;
   }
 
+  .mw-search-autocomplete2 .box{
+    margin: 0;
+    width: 100%;
+  }
+
+  .mw-search-autocomplete2 {
+    position: relative;
+  }
+
+  .mw-search-results{
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    background: white;
+   box-shadow: 0 0 6px #CCCCCC;
+  }
+
+  .mw-search-autocomplete2 .module-posts-template-search ul{
+    margin: 0;
+    padding-top: 10px;
+  }
+
+  .mw-search-autocomplete2 ul h5{
+    font-size: 17px;
+    margin-top: 0;
+  }
+
+   .mw-search-autocomplete2 .module-posts-template-search ul p{
+     font-size: 12px;
+   }
+   .mw-search-autocomplete2 .module-posts-template-search ul li{
+     padding: 10px;
+     border-bottom: 1px solid #EEEEEE;
+   }
+
+   .mw-search-autocomplete2 .module-posts-template-search ul li a.pull-left{
+     display: none;
+   }
+
+
+
+   .mw-search-autocomplete2 .module-posts-template-search ul li:hover,.mw-search-autocomplete2 .module-posts-template-search ul li.active{
+     background: #2484CC;
+     color: white;
+   }
+   .mw-search-autocomplete2 .module-posts-template-search ul li:hover *,.mw-search-autocomplete2 .module-posts-template-search ul li.active *{
+     color: white;
+   }
+
+   .mw-search-autocomplete2 .pagination{
+     padding-left: 10px;
+   }
 
   /* /Api docs */
 

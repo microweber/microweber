@@ -481,11 +481,11 @@ class User
             // var_dump( $is);
             return $is;
         } else {
-            $usr = user_id();
+            $usr = self::id();
             if ($usr == false) {
                 return false;
             }
-            $usr = get_user($usr);
+            $usr = self::get($usr);
 
             if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
                 define("USER_IS_ADMIN", true);

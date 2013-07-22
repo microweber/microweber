@@ -53,6 +53,7 @@ gotoprofile = function(){
     <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>');"><?php _e("Forgot password"); ?>?</a>
 
     <div class="vSpace"></div>
+    <div class="alert" style="display: none"></div>
 
 
 
@@ -86,7 +87,7 @@ gotoprofile = function(){
 
    <input class="btn btn-large pull-right" type="submit" value="<?php _e("Login"); ?>" />
 
-  <div class="alert" style="margin: 0;display: none;"></div>
+
 
   </form>
   </div>

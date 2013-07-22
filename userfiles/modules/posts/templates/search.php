@@ -40,8 +40,6 @@ if(!isset($tn[1])){
                <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                     <h5><a class="link media-heading" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h5>
                <?php endif; ?>
-
-
                <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
                     <p><?php print $item['description'] ?></p>
                <?php endif; ?>

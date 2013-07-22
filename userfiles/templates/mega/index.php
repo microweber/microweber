@@ -26,7 +26,7 @@
                       <h2><strong>WEBSITE, BLOG  & ONLINE SHOP</strong></h2>
                       <div class="text-center">
                           <a style="width:225px;"
-                             href="get_started"
+                             href="<?php print site_url(); ?>get-started"
                              title="Get Started"
                              class="fbtn fitem-orange">Get Started</a>
                       </div>
@@ -37,9 +37,9 @@
                     <div id="home-rotator-1-social">
                         <h3>Join us on</h3>
                         <div class="s-social">
-                          <a href="javascript:;" class="box-social"><i class="icon-facebook"></i></a>
-                          <a href="javascript:;" class="box-social"><i class="icon-twitter"></i></a>
-                          <a href="javascript:;" class="box-social"><i class="icon-google-plus"></i></a>
+                          <a href="http://facebook.com/Microweber" class="box-social" target="_blank"><i class="icon-facebook"></i></a>
+                          <a href="http://twitter.com/Microweber" class="box-social" target="_blank"><i class="icon-twitter"></i></a>
+                          <a href="javascript:;" class="box-social" target="_blank"><i class="icon-google-plus"></i></a>
                         </div>
                     </div>
                   </div>
