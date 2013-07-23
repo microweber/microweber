@@ -45,7 +45,7 @@ class shipping_api {
 			 
 		
 
-		$data = \mw\Db::save($this -> table, $data);
+		$data = save_data($this -> table, $data);
 		return ($data);
 	}
 	function get_active() {
@@ -79,7 +79,7 @@ $active = array();
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		\mw\Db::delete_by_id($this -> table, $c_id);
+		db_delete_by_id($this -> table, $c_id);
 
 		//d($c_id);
 	}
@@ -103,7 +103,7 @@ $active = array();
                 $i++;
             }
 
-            \mw\DbUtils::update_position_field($table, $indx);
+            db_update_position($table, $indx);
             return true;
             // d($indx);
         }

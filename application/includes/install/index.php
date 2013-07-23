@@ -122,13 +122,13 @@ if (isset($to_save['is_installed'])) {
 
             // if($to_save['db_user'] == 'root'){
 
-            // 				$new_db = $to_save['dbname'];
-            // 				$query_make_db="CREATE DATABASE IF NOT EXISTS $new_db";
-            // 				$qz = \mw\Db::query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-            // 			if (isset($qz['error'])) {
-            // 						//	var_dump($qz);
-            // 							print('Error with the database creation! ');
-            // 						}
+            //              $new_db = $to_save['dbname'];
+            //              $query_make_db="CREATE DATABASE IF NOT EXISTS $new_db";
+            //              $qz = \mw\Db::query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            //          if (isset($qz['error'])) {
+            //                      //  var_dump($qz);
+            //                          print('Error with the database creation! ');
+            //                      }
 
             // }
 
@@ -136,7 +136,7 @@ if (isset($to_save['is_installed'])) {
             $qs = "SELECT '' AS empty_col";
             //var_dump($qs);
             mw_var('temp_db', $temp_db);
-            $qz = \mw\Db::query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            $qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (isset($qz['error'])) {
                 __mw_install_log('Database Settings Error');
@@ -247,20 +247,19 @@ if (isset($to_save['is_installed'])) {
                 _reload_c();
 
                 __mw_install_log('Initializing users');
-                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
-
+ 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-                \mw\Users::db_init();
+  
                 __mw_install_log('Initializing options');
 
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
-                \mw\Content::db_init();
+                 
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
-                \mw\Shop::db_init();
+              
                 include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-                \mw\Module::db_init();
+                
                 __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
 

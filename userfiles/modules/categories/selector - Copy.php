@@ -62,7 +62,7 @@ $is_ex1 = array();
 	  }
 	  
 	$str1 = 'table=categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
-							$is_ex = \mw\Db::get($str1); 
+							$is_ex = get($str1); 
  	
 	if(isarr($is_ex)){
 	foreach ($is_ex as $item) {
@@ -74,7 +74,7 @@ $is_ex1 = array();
 
 //  $cats__parents = $is_ex1;
 if (empty($cats__parents)) {
-	// $is_ex1 = \mw\Db::get('limit=100&what=category&parent_id=0&for='.$for);
+	// $is_ex1 = get('limit=100&what=category&parent_id=0&for='.$for);
 	foreach ($is_ex1 as $item) {
 	//	$cats__parents[] = $item['parent_id'];
 	}
@@ -82,7 +82,7 @@ if (empty($cats__parents)) {
  
 if (isset($params['rel_id']) and $params['rel_id'] != 0) {
 
-	$is_exs3 = \mw\Db::get('limit=1000&what=category_items&rel=' . $for .'&rel_id=' . $params['rel_id']);
+	$is_exs3 = get('limit=1000&what=category_items&rel=' . $for .'&rel_id=' . $params['rel_id']);
  
 	 
 	if (isset($is_exs3[0])) {
@@ -170,7 +170,7 @@ foreach ($cats__parents as $item1) {
 						
 					 
 						$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
-		$fors = \mw\Db::get($str0);
+		$fors = get($str0);
 					//d($fors );
 					
 					

@@ -53,7 +53,7 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
   $data['layout_file']  = 'inherit';
 
  } else {
-        $inh1 = get_content_inherited_parent($params["inherit_from"]);
+        $inh1 = content_get_inherited_parent($params["inherit_from"]);
 	
         if($inh1 == false){
          $inh1 = intval($params["inherit_from"]);

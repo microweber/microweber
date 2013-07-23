@@ -413,17 +413,24 @@ mw.wysiwyg = {
 
       });
 
-      $(mwd.body).keyup(function(е){
-        if(mw.tools.isEmpty(е.target)){
-            е.target.innerHTML = '&zwnj;&nbsp;';
+      $(mwd.body).keyup(function(e){
+        if(mw.tools.isEmpty(e.target)){
+            e.target.innerHTML = '&zwnj;&nbsp;';
          }
-         if(е.keyCode == 13) {
+         if(e.keyCode == 13) {
                mw.$(".element-current").removeClass("element-current");
                var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                for( ; i<l; i++){
                    el[i].id =  'row_' + mw.random();
                }
+               e.preventDefault();
+               if(!e.shiftKey){
+                 mw.wysiwyg.insert_html('<p class="element"></p>');
+               }
          }
+
+
+
       });
 
 
@@ -1113,13 +1120,13 @@ $(window).load(function(){
 
   mw.$("#wysiwyg_insert").bind("change", function(){
     var val = $(this).getDropdownValue();
-    if(val == 'hr'){
+    if( val == 'hr' ){
         mw.wysiwyg._do('InsertHorizontalRule');
     }
-    else if(val == 'box'){
-          mw.wysiwyg.applier('div', 'well');
+    else if( val == 'box' ){
+        mw.wysiwyg.applier('div', 'well');
     }
-    else if(val == 'table'){
+    else if( val == 'table' ){
          var table = mw.wysiwyg.applier('table', 'mw-wysiwyg-table', {width:"100%"});
          table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
          table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
@@ -1137,8 +1144,10 @@ $(window).load(function(){
         mw.wysiwyg.enableEditors();
     }
     else{
-        if(!mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_editor') && !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'mw_editor')){
-            mw.wysiwyg.disableEditors();
+        if(!mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_editor') &&
+           !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_modal') &&
+           !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'mw_editor')){
+                mw.wysiwyg.disableEditors();
         }
 
     }

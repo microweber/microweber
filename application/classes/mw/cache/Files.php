@@ -4,10 +4,11 @@ namespace mw\cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
+
 if (!defined('APC_CACHE')) {
 
     $apc_exists = function_exists('apc_fetch');
-
+    
     //$apc_exists = false;
   
     define("APC_CACHE", $apc_exists);

@@ -2,7 +2,7 @@
 
 
 
-class ExampleController extends \mw\Controller
+class ExampleController extends MwController
 {
     function __construct()
     {

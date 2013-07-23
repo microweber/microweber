@@ -61,13 +61,12 @@ if ($default_timezone == false or $default_timezone == '{default_timezone}') {
 if (!defined('MW_BARE_BONES')) {
 
 
- 
+    if (!isset($controller) or !is_object($controller)) {
+        $controller = new MwController();
+    }
 
 
     if (MW_IS_INSTALLED != true or $go_to_install == true) {
-        if (!isset($controller) or !is_object($controller)) {
-        $controller = new \mw\Controller();
-        }
         $controller->install();
         exit();
     }
@@ -97,9 +96,7 @@ if (!defined('MW_BARE_BONES')) {
             }
         }
     }
-   if (!isset($controller) or !is_object($controller)) {
-        $controller = new \mw\Controller();
-    }
+
 
     $params_for_route = url_segment();
     //loading custom routes

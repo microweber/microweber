@@ -254,7 +254,7 @@ function reorder_media($data)
                 $i++;
             }
 
-            \mw\DbUtils::update_position_field($table, $indx);
+            db_update_position($table, $indx);
             return true;
             // d($indx);
         }
@@ -280,7 +280,7 @@ function delete_media($data)
                 @unlink($fn_remove);
             }
         }
-        \mw\Db::delete_by_id('media', $c_id);
+        db_delete_by_id('media', $c_id);
     }
 }
 
@@ -383,12 +383,12 @@ function save_media($data)
     if (isset($s['rel']) and isset($s['rel_id'])) {
         $table = MW_TABLE_PREFIX . 'media';
         //$s['debug'] = $t;
-        $s = \mw\Db::save($table, $s);
+        $s = save_data($table, $s);
         return ($s);
     } elseif (isset($s['id']) and isset($s['title'])) {
         $table = MW_TABLE_PREFIX . 'media';
         //$s['debug'] = $t;
-        $s = \mw\Db::save($table, $s);
+        $s = save_data($table, $s);
         return ($s);
     } else {
         error('Invalid data');
@@ -794,7 +794,7 @@ function get_pictures($params)
     $params['limit'] = 1000;
     $params['table'] = $table;
     $params['orderby'] = 'position ASC';
-    $data = \mw\Db::get($params);
+    $data = get($params);
 
     return $data;
 }

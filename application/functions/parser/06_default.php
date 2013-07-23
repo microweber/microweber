@@ -30,7 +30,7 @@ if ($layout != '') {
 
 		$layout = $ch;
 	} else {
-		require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 		$pq = phpQuery::newDocument($layout);
 		$els = $pq['.edit'];
@@ -129,7 +129,7 @@ if ($layout != '') {
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = CONTENT_ID;
 				}
-				$inh = get_content_inherited_parent($data_id);
+				$inh = content_get_inherited_parent($data_id);
 				if ($inh != false) {
 					$data_id = $inh;
 					$rel = 'content';

@@ -1,5 +1,5 @@
 <?php
-$is_new = mw_var('new_page');
+$is_new = template_var('new_page');
 
 
 

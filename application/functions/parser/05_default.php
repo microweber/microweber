@@ -39,7 +39,7 @@ $cached = false;
 
     //d($layout);
 	$do_not_cache = false;
-	if (mw_var('content') != false) {
+	if (template_var('content') != false) {
 
 		$do_not_cache = true;
 		$cached = false;
@@ -72,7 +72,7 @@ $cached = false;
 
 		$layout = $ch;
 	} else {
-		require_once (MW_APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'mw'. DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+		require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 		$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 		$layout = htmlspecialchars_decode($layout);
@@ -183,7 +183,7 @@ $cached = false;
 					$data_id = PAGE_ID;
 				}
 
-				$inh = get_content_inherited_parent($data_id);
+				$inh = content_get_inherited_parent($data_id);
 
 				if ($inh != false and intval($inh) != 0) {
 
@@ -230,7 +230,7 @@ $cached = false;
 				}
 				$cont_field = false;
 
-				//mw_var
+				//template_var
 
 				if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
 					//
@@ -239,7 +239,7 @@ $cached = false;
 					// and $rel == 'inherit'
 					if ($cont_field == false and $try_inherited == true) {
 
-						$inh = get_content_inherited_parent($data_id);
+						$inh = content_get_inherited_parent($data_id);
 						//d($data_id . $field . $inh);
 						//
 						if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
@@ -355,10 +355,10 @@ $cached = false;
 					//}
 				}
 
-				if ($field == 'content' and mw_var('content') != false) {
-					$field_content = mw_var('content');
+				if ($field == 'content' and template_var('content') != false) {
+					$field_content = template_var('content');
 
-					mw_var('content', false);
+					template_var('content', false);
 				}
 
 

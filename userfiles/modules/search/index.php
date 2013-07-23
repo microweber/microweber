@@ -28,7 +28,6 @@ mw.search = function(key, holder, obj){
           .attr('limit', opt.limit)
           .attr('ajax_paging', opt.ajax_paging)
           .attr('template', opt.template)
-          .removeAttr('thumbnail')
           .show();
 
     mw.load_module('posts', holder, function(){

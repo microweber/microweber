@@ -9,7 +9,7 @@ if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
     define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
 }
 action_hook('mw_db_init_default', '\mw\Notifications::db_init');
-action_hook('mw_db_init', '\mw\Notifications::db_init');
+action_hook('on_load', '\mw\Notifications::db_init');
 
 
 api_expose('/mw/Notifications/delete');
@@ -37,7 +37,7 @@ class Notifications
             $save['is_read'] = 'y';
             $table = MW_DB_TABLE_NOTIFICATIONS;
             mw_var('FORCE_SAVE', $table);
-            $data = \mw\Db::save($table, $save);
+            $data = save_data($table, $save);
             cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         }
@@ -87,7 +87,7 @@ class Notifications
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
         $q = "update $table set is_read='n'";
-        \mw\Db::q($q);
+        db_q($q);
         cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -104,7 +104,7 @@ class Notifications
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
-        \mw\Db::delete_by_id($table, intval($id), $field_name = 'id');
+        db_delete_by_id($table, intval($id), $field_name = 'id');
 
         cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -131,7 +131,7 @@ class Notifications
                 $ids = array_values_recursive($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "delete from $table where id IN ({$idsi})";
-                \mw\Db::q($cleanup);
+                db_q($cleanup);
             }
 
             cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
@@ -148,7 +148,7 @@ class Notifications
 
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = 'notifications_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_content = cache_get_content($function_cache_id, 'db');
         if (($cache_content) != false) {
 
@@ -172,10 +172,10 @@ class Notifications
 
         $fields_to_add[] = array('is_read', "char(1) default 'n'");
 
-        \mw\DbUtils::build_table($table_name, $fields_to_add);
+        set_db_table($table_name, $fields_to_add);
 
-        \mw\DbUtils::add_table_index('rel', $table_name, array('rel(55)'));
-        \mw\DbUtils::add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        db_add_table_index('rel', $table_name, array('rel(55)'));
+        db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
         cache_save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -202,7 +202,7 @@ class Notifications
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "delete from $table where created_on < '{$old}'";
-        \mw\Db::q($cleanup);
+        db_q($cleanup);
 
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
@@ -211,7 +211,7 @@ class Notifications
                 $module1 = db_escape_string($params['module']);
                 $rel_id1 = db_escape_string($params['rel_id']);
                 $cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
-                \mw\Db::q($cleanup);
+                db_q($cleanup);
 
 
             }
@@ -274,7 +274,7 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             $params['table'] = $table;
 
-            $return = \mw\Db::get($params);
+            $return = get($params);
         }
         return $return;
     }

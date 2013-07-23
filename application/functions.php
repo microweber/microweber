@@ -49,7 +49,7 @@ function mw_autoload($className) {
 }
 
 spl_autoload_register('mw_autoload');
-require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
+//require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
 /*
  spl_autoload_register(function($className) {

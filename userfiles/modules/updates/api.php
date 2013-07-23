@@ -6,7 +6,7 @@ namespace updates;
 
 
  
-class Api extends \\mw\Controller {
+class Api extends \MwController {
 	public $return_data = false;
 	public $page_url = false;
 	public $create_new_page = false;

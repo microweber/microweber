@@ -10,10 +10,6 @@ if (isset($post_params['id'])) {
 
 }
 
-
-
-
-
  //$paging_param = 'curent_page';  
 
 
@@ -62,7 +58,7 @@ if (isset($params['data-paging-param'])) {
 }
 
 
-
+ 
 
 
 $show_fields = false;
@@ -120,8 +116,6 @@ if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
 
 }
 
-
-
 if($posts_parent_category == false and isset($post_params['category_id'])){
 	$posts_parent_category = $post_params['category_id'];
 }
@@ -132,18 +126,7 @@ if($posts_parent_category == false and isset($post_params['related'])){
 	}
 }
 
- if (isset($params['autodetect'])) {
- 
-$cat_from_url = url_param('category');
-	if($posts_parent_category  == false and defined('CATEGORY_ID') and CATEGORY_ID != false){
-	 	$posts_parent_category  = CATEGORY_ID;
-	 } if($posts_parent_category  == false and $cat_from_url != false){
-	 	$posts_parent_category  = $cat_from_url;
-	 } else if( $cfg_page_id  == false and defined('PAGE_ID')){
-	 	$cfg_page_id  = PAGE_ID;
-	 }
 
-} 
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 					$sub_cats = array();
@@ -152,7 +135,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 			$page_categories = false;
 			if($posts_parent_category != false and intval($posts_parent_category) > 0 and intval($cfg_page_id) != 0){
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
-					$page_categories = \mw\Db::get($str0);
+					$page_categories = get($str0);
 					// d($page_categories);
 						if(isarr($page_categories)){
 						foreach ($page_categories as $item_cat){
@@ -300,7 +283,7 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
  	
 }
 //$post_params['debug'] = 'y';
- 
+ // d($post_params);
 $content   = get_content($post_params);
 $data = array();
 

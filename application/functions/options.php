@@ -1,16 +1,5 @@
 <?php
 
-
-
-
-
-
-
-
-
-
-
-
 if (!defined("MW_DB_TABLE_OPTIONS")) {
     define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
 }
@@ -59,10 +48,10 @@ function mw_options_init_db()
     $fields_to_add[] = array('module', 'TEXT default NULL');
     $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-    \mw\DbUtils::build_table($table_name, $fields_to_add);
+    set_db_table($table_name, $fields_to_add);
 
-    //\mw\DbUtils::add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-    //\mw\DbUtils::add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+    //db_add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+    //db_add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
     cache_save(true, $function_cache_id, $cache_group = 'db');
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -307,7 +296,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $ok1 = " AND module='{$module}' ";
     }
     $data['limit'] = 1;
-    // $get = \mw\Db::get_long($table, $data, $cache_group);
+    // $get = db_get($table, $data, $cache_group);
     $ok = db_escape_string($data['option_key']);
     if ($return_full == true) {
         $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
@@ -315,14 +304,14 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
         $q = "select option_value from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
 
     }
-    // $get = \mw\Db::query($q, $function_cache_id, $cache_group);
+  // $get = db_query($q, $function_cache_id, $cache_group);
 
 
-    //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
+  //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
     $q = "select * from $table where option_key is not null {$ok1} {$ok2} ";
     //d($q);
     $q_cache_id = crc32($q);
-    $get_all = \mw\Db::query($q, $q_cache_id, $cache_group);
+    $get_all = db_query($q, $q_cache_id, $cache_group);
     if(!isarr($get_all)){
         return false;
     }
@@ -404,7 +393,7 @@ function get_option_by_id($id)
     $q = "select * from $table where id={$id} limit 1 ";
     $function_cache_id = __FUNCTION__ . crc32($q);
     $res1 = false;
-    $res = \mw\Db::query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
+    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
     if (is_array($res) and !empty($res)) {
         return $res[0];
     }
@@ -427,7 +416,7 @@ function get_option_groups($is_system = false)
 
     //d($q);
 
-    $res = \mw\Db::query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
+    $res = db_query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
     if (is_array($res) and !empty($res)) {
         $res1 = array();
         foreach ($res as $item) {
@@ -452,7 +441,7 @@ function get_options($params = '')
     if (!isset($data['limit'])) {
         $data['limit'] = 1000;
     }
-    $get = \mw\Db::get_long($table, $data, $cache_group = 'options/global');
+    $get = db_get($table, $data, $cache_group = 'options/global');
 
     if (!empty($get)) {
         foreach ($get as $key => $value) {
@@ -527,7 +516,7 @@ function save_option($data)
                         } else {
 
                             $table = MW_DB_TABLE_OPTIONS;
-                            $copy = \mw\DbUtils::copy_row_by_id($table, $data['id']);
+                            $copy = db_copy_by_id($table, $data['id']);
                             $data['id'] = $copy;
                         }
 
@@ -562,7 +551,7 @@ function save_option($data)
             $opt_gr = db_escape_string($data['option_group']);
             $opt_key = db_escape_string($data['option_key']);
             $clean = "delete from $table where      option_group='{$opt_gr}' and  option_key='{$opt_key}'";
-            \mw\Db::q($clean);
+            db_q($clean);
             $cache_group = 'options/' . $opt_gr;
             cache_clean_group($cache_group);
 
@@ -583,7 +572,7 @@ function save_option($data)
                 //d($data['option_value']);
             }
 
-            $save = \mw\Db::save($table, $data);
+            $save = save_data($table, $data);
 
             if ($option_group != false) {
 
@@ -661,7 +650,7 @@ function delete_option_by_key($key, $option_group = false, $module_id = false)
     $q = "delete from $table where option_key='$key' $option_group_q1 $module_id_q1 ";
     $q = trim($q);
 
-    \mw\Db::q($q);
+    db_q($q);
 
     cache_clean_group('options');
 
