@@ -57,5 +57,4 @@ description: Pictures slider
 
 <?php else : ?>
 
- <?php  mw_text_live_edit("<div class='pictures-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); ?>
 <?php endif; ?>

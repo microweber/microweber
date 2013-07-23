@@ -332,7 +332,12 @@
   /* Fade Method */
 
   .rotator-method-cssFade{
+    opacity: 0;
 
+  }
+
+  body.loaded .rotator-method-cssFade{
+    opacity: 1
   }
 
   .rotator-method-cssFade .RotatorItem{

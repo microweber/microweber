@@ -51,8 +51,8 @@ if(isset($params['content-id'])){
 
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
- 
- if(empty( $data)){
+  
+ if(!isarr( $data)){
 	/* $data = array(); 
 	 $data[0]['id'] = 0;
 	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';*/
@@ -75,9 +75,13 @@ if($module_template != false){
 }
 
 //d($module_template );
-if(isset($template_file) and is_file($template_file) != false){
+if(isset($no_img) and ($no_img) != false){
+     mw_text_live_edit( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
+
+}
+else if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
-} else {
+} else  {
 	?>
 <?php print mw_notif_live_edit("No template found. Please choose template."); ?>
 

@@ -4,6 +4,8 @@
 
   //mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
 
+  mw.settings.liveEdit = true;
+
   typeof jQuery == 'undefined' ? mw.require("<?php print INCLUDES_URL; ?>js/jquery-1.9.1.js") : '' ;
   mw.require("liveadmin.js");
   mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");

@@ -166,7 +166,7 @@ mw.utils = {
     });
 
 
-   if('placeholder' in document.createElement('input') === false){
+   if('placeholder' in mwd.createElement('input') === false){
        mw.$("[placeholder]").each(function(){
           var el = $(this), p = el.attr("placeholder");
           el.val() == '' ? el.val(p) : '' ;
