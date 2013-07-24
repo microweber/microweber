@@ -375,7 +375,7 @@ mw.askusertostay = false;
 
   }
 
-  mw.qsas = mwd.querySelector;
+
 
 
   mw.log = d = function(what) {
@@ -386,7 +386,7 @@ mw.askusertostay = false;
 
   mw.$ = function(selector, context) {
     var context = context || mwd;
-    if (mw.qsas) {
+    if (typeof mwd.querySelector !== 'undefined') {
       if (typeof selector === 'string') {
         try {
           return jQuery(context.querySelectorAll(selector));
@@ -412,11 +412,11 @@ mw.askusertostay = false;
     if(type === 'string'){
         var obj = mw.serializeFields(params);
     }
-    else if(type === 'object' && !jQuery.isArray(params)){
+    else if(type.constructor === {}.constructor ){
         var obj = params;
     }
     else{
-      obj = {};
+      var obj = {};
     }
     $.post(url, obj)
         .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;   })

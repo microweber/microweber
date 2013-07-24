@@ -412,6 +412,9 @@ border-radius: 3px;
   padding: 5px 0 !important;
 }
 
+
+/*
+
 @media (max-width: 1140px) {
   .wysiwyg-low-res-hider{
         display: none;
@@ -427,8 +430,7 @@ border-radius: 3px;
   .wysiwyg-small-res-hider{
         display: none;
   }
-}
-
+}  */
 
 
 

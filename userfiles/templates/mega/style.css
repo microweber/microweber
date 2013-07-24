@@ -1879,3 +1879,80 @@
 
 
   /* /Lab */
+
+
+
+
+  /*Support*/
+
+  .support-ad{
+    height: 450px;
+    position: relative;
+    background: #E9E9E9;
+  }
+
+  .support-ad img{
+    position: absolute;
+    bottom: 0;
+    right: 100px;
+  }
+
+  .support-ad h4{
+    padding: 40px;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    background:#F5F8A5;
+  }
+
+  .support-nav{
+    width: 100%;
+    padding: 30px 0 60px;
+  }
+
+  .sbtn{
+    display: block;
+    padding: 40px 20px;
+    font-size: 25px;
+    background: #42CC8C;
+    color: white;
+    text-align: center;
+    margin: 0 10px;
+  }
+
+  .support-nav .mw-ui-col{
+    width:25%;
+  }
+
+  .support-nav .mw-ui-col:first-child a{
+    margin-left: 0
+  }
+  .support-nav .mw-ui-col:last-child a{
+    margin-right: 0
+  }
+
+  /*/Support*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

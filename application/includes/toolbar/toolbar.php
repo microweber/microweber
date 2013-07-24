@@ -52,11 +52,6 @@
             mw.tools.toolbar_slider.init();
 
 
-
-
-
-
-
             $(".mw-ui-dropdown ul .mw-ui-btn").click(function(){
                var text = $(this).text();
                mw.$(".mw-ui-dropdown .mw-ui-btn .left").html(text);

@@ -9,7 +9,7 @@
           <li class=""><a href="features">Features</a></li>
           <li><a href="plans">Plans</a></li>
           <li><a href="community">Community</a></li>
-          <li><a href="javascript:;">Support</a></li>
+          <li><a href="support">Support</a></li>
           <li><a href="blog">Blog</a></li>
           <li><a href="javascript:;">Download</a></li>
           <li><a href="javascript:;">API & Docs</a></li>
