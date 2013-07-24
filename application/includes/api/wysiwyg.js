@@ -155,8 +155,6 @@ mw.wysiwyg = {
     },
     isSelectionEditable:function(){
         var node = window.getSelection().focusNode;
-        d(node)
-        d(node.parentElement)
         return (node.isContentEditable || node.parentElement.isContentEditable) ? true : false;
     },
     execCommand:function(a,b,c){
@@ -225,8 +223,9 @@ mw.wysiwyg = {
 
        $(pro).css({
             position:'absolute',
-            width:0,
-            height:0,
+            width:1,
+            height:1,
+            opacity:0,
             overflow:'hidden',
             top:mw.wysiwyg.selection.range.getClientRects()[0].top,
             left:mw.wysiwyg.selection.range.getClientRects()[0].left
@@ -246,9 +245,8 @@ mw.wysiwyg = {
                  $(this).addClass("element");
              }
           });
-          var html = pro.innerHTML;
+          var html = mw.wysiwyg.clean_word(pro.innerHTML);
           mw.wysiwyg.insert_html( html );
-          d(pro)
           $(pro).remove();
         }, 120);
     },
@@ -365,7 +363,7 @@ mw.wysiwyg = {
            }
 
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
-             d(r.commonAncestorContainer.nextSibling)
+
              if(event.keyCode == 46 && r.endOffset == 0){
 
                if(r.commonAncestorContainer.nextSibling.nodeName === 'DIV'){
@@ -908,7 +906,7 @@ mw.wysiwyg = {
     clean_word:function( html ){
 
         html = html.replace( /<td([^>]*)>/gi, '<td>' ) ;
-        html = html.replace( /<table([^>]*)>/gi, '<table cellspacing="1" cellpadding="1" border="1">' ) ;
+        html = html.replace( /<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1">' ) ;
 
     	html = html.replace(/<o:p>\s*<\/o:p>/g, '') ;
     	html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;') ;
