@@ -245,14 +245,27 @@ mw.wysiwyg = {
            if(mw.wysiwyg.hasContentFromWord(pro)){
              pro.innerHTML = mw.wysiwyg.clean_word(pro.innerHTML);
            }
-          $(pro.querySelectorAll("*")).each(function(){
-             $(this).removeAttr("style");
-             var n = this.nodeName;
-             if(n =='DIV' || n =='P'){
-                 $(this).addClass("element");
-                 mw.tools.addClass(this, 'element');
-             }
-          });
+
+
+            $(pro.querySelectorAll("*")).each(function(){
+               $(this).removeAttr("style");
+               var n = this.nodeName;
+               if(n =='DIV' || n =='P'){
+                   $(this).addClass("element");
+                   mw.tools.addClass(this, 'element');
+               }
+            });
+
+            var c = pro.childNodes, l=c.length,i=0;
+
+            for(; i<l;i++){
+              if(c[i].nodeType === 3){
+                 $(c[i]).replaceWith("<p class='element'>" + c[i].nodeValue + "</p>");
+              }
+            }
+
+
+
           mw.wysiwyg.insert_html( pro.innerHTML );
           $(pro).remove();
         }, 120);
@@ -731,6 +744,7 @@ mw.wysiwyg = {
       $(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
+      d(html)
 
       var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
       if(isembed){

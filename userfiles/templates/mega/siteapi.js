@@ -200,8 +200,6 @@ mw.utils = {
 
 
 
-var word = new ActiveXObject("Word.Application");
-      d(word);
 
 
 
