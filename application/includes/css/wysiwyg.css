@@ -43,7 +43,7 @@
   background: #F5F5F5;
 }
 
-#mw-admin-text-editor .editor_wrapper:after{
+.editor_wrapper:after{
   content: ".";
   display: block;
   clear: both;
