@@ -436,10 +436,16 @@ function get_modules_from_db($params = false)
     if (isset($params['id'])) {
         $params['limit'] = 1;
     } else {
-        $params['limit'] = 1000;
+        $params['limit'] = 10000;
     }
+    $search_for_module = false;
     if (isset($params['module'])) {
         $params['module'] = str_replace('/admin', '', $params['module']);
+        if (!isset($params['id'])) {
+        $search_for_module = $params['module'];
+        unset( $params['module']);
+        }
+
     }
     if (!isset($params['ui'])) {
         $params['ui'] = 1;
@@ -447,11 +453,23 @@ function get_modules_from_db($params = false)
     }
 
     if (isset($params['ui']) and $params['ui'] == 'any') {
-        // d($params);
+        //
         unset($params['ui']);
     }
+    if($search_for_module == false){
+        return get($params);
+    } else {
+        $get =  get($params);
+        if(is_array($get)){
+            foreach($get as $item){
+                if(isset($item['module']) and $item['module'] == $search_for_module){
+                    return  ($item);
+                }
+            }
+        }
+        return $get;
+    }
 
-    return get($params);
 }
 
 api_expose('save_settings_el');

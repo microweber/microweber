@@ -167,6 +167,7 @@ function get($params)
     if (isset($no_cahce) and $no_cahce == true) {
         $mode = 2;
     }
+
     switch ($mode) {
         case 1 :
             static $results_map = array();
@@ -2657,22 +2658,17 @@ function db_get_table_fields($table, $exclude_fields = false)
         return false;
     }
 
-    $function_cache_id = false;
 
-    $args = func_get_args();
-
-    foreach ($args as $k => $v) {
-
-        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-    }
-
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+    $function_cache_id = __FUNCTION__ ;
 
     $cache_content = cache_get_content($function_cache_id, 'db');
 
-    if (($cache_content) != false) {
-        $ex_fields_static[$table] = $cache_content;
-        return $cache_content;
+    if (($cache_content) != false and isset($cache_content[$table])) {
+        $ex_fields_static[$table] = $cache_content[$table];
+        return $cache_content[$table];
+    }
+    if(!is_array($cache_content)){
+        $cache_content = array();
     }
 
     $table = db_get_real_table_name($table);
@@ -2731,7 +2727,8 @@ function db_get_table_fields($table, $exclude_fields = false)
         }
     }
     $ex_fields_static[$table] = $fields;
-    cache_save($fields, $function_cache_id, $cache_group = 'db');
+    $cache_content[$table] = $fields;
+    cache_save($cache_content, $function_cache_id, $cache_group = 'db');
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
     return $fields;
 }

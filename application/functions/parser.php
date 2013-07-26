@@ -653,7 +653,9 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                         $module_title = false;
                         if (isset($module_name)) {
                             $module_class = module_css_class($module_name);
-                            $module_title = module_info($module_name);
+                             $module_title = module_info($module_name);
+                           // $module_title = array();
+                           // $module_title['name'] = $module_name;
                             //	d($module_title);
                             // if (!isset($attrs['id'])) {
                             // if (isset($attrs['module-id'])) {
