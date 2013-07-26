@@ -293,7 +293,6 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         }
 
 
-
         //        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
         //        $replaced_head = array();
         //        preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -356,18 +355,19 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 break;
 
             case 5 :
-                $mtime = microtime();
-                $mtime = explode(" ",$mtime);
-                $mtime = $mtime[1] + $mtime[0];
-                $endtime = $mtime;
-                $totaltime = ($endtime - T);
-                echo "This page was created in ".$totaltime." seconds";
+//                $mtime = microtime();
+//                $mtime = explode(" ", $mtime);
+//                $mtime = $mtime[1] + $mtime[0];
+//                $endtime = $mtime;
+//                $totaltime = ($endtime - T);
+//                echo "This page was created in " . $totaltime . " seconds";
+//
                 preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
                 // d($layoutmatches);
                 if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
-                   // include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+                    // include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
 
-                   $layout= _mw_parser_replace_editable_fields($layout);
+                    $layout = _mw_parser_replace_editable_fields($layout );
 
                 }
                 break;
@@ -1037,9 +1037,7 @@ function clean_word($html_to_save)
 }
 
 
-
-
-function _mw_parser_replace_editable_fields($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
+function _mw_parser_replace_editable_fields($layout, $no_cache = false)
 {
 
 
@@ -1054,8 +1052,6 @@ function _mw_parser_replace_editable_fields($layout, $options = false, $coming_f
     if ($layout != '') {
         global $mw_replaced_modules;
         global $passed_reps;
-
-
 
 
         $mw_found_elems = '';
@@ -1075,12 +1071,13 @@ function _mw_parser_replace_editable_fields($layout, $options = false, $coming_f
             return $passed_reps[$parser_mem_crc];
         }
 
-        $cache = cache_get($parser_mem_crc, 'content_fields/global/parser');
-        if ($cache != false) {
+        if ($no_cache == false) {
+            $cache = cache_get($parser_mem_crc, 'content_fields/global/parser');
+            if ($cache != false) {
 
 
-            return $cache;
-        } else {
+                return $cache;
+            }
 
         }
 
@@ -1508,7 +1505,7 @@ function _mw_parser_replace_editable_fields($layout, $options = false, $coming_f
                         // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
 
 
-                        $val_rep = _mw_parser_replace_editable_fields($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+                        $val_rep = _mw_parser_replace_editable_fields($val_rep, true);
                         //}
 
                         //$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
@@ -1542,9 +1539,9 @@ function _mw_parser_replace_editable_fields($layout, $options = false, $coming_f
         } elseif (isset($mw_to_cache['new'])) {
 
         }
-
+        if ($no_cache == false) {
         cache_save($layout, $parser_mem_crc, 'content_fields/global/parser');
-
+        }
         //
     }
 
