@@ -381,6 +381,10 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 break;
         }
 
+
+        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
+        $layout = str_replace('</microweber>', '', $layout);
+        $layout = str_replace('></module>', '/>', $layout);
         $script_pattern = "/<module[^>]*>/Uis";
         //$script_pattern = "/<module.*.[^>]*>/is";
         $replaced_modules = array();

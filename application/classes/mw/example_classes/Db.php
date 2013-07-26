@@ -72,7 +72,7 @@ class Db
         $cache_group = false;
         $debug = false;
         $getone = false;
-        $no_cahce = false;
+        $no_cache = false;
 
         if (is_string($params)) {
             $params = parse_str($params, $params2);
@@ -123,14 +123,14 @@ class Db
             }
 
             if ($k == 'cache_group') {
-                if ($no_cahce == false) {
+                if ($no_cache == false) {
                     $cache_group = $v;
                 }
             }
 
             if ($k == 'no_cache') {
                 $cache_group = false;
-                $no_cahce = true;
+                $no_cache = true;
             }
 
             if ($k == 'single') {
@@ -176,7 +176,7 @@ class Db
         }
 
         $mode = 1;
-        if (isset($no_cahce) and $no_cahce == true) {
+        if (isset($no_cache) and $no_cache == true) {
             $mode = 2;
         }
         switch ($mode) {

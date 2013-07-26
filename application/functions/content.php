@@ -1324,7 +1324,7 @@ function get_content_by_url($url = '', $no_recursive = false)
 }
 
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow
-$mw_precahced_links = array();
+$mw_precached_links = array();
 function get_page_by_url($url = '', $no_recursive = false)
 {
     if (strval($url) == '') {
@@ -1394,13 +1394,13 @@ function get_page_by_url($url = '', $no_recursive = false)
     }
 
 
-    global $mw_precahced_links;
+    global $mw_precached_links;
 
 
     $link_hash = 'link' . crc32($url);
 
-    if (isset($mw_precahced_links[$link_hash])) {
-        return $mw_precahced_links[$link_hash];
+    if (isset($mw_precached_links[$link_hash])) {
+        return $mw_precached_links[$link_hash];
     }
 
 
@@ -1416,7 +1416,7 @@ function get_page_by_url($url = '', $no_recursive = false)
 
 
         //$get_by_id = $content;
-        $mw_precahced_links[$link_hash] = $content;
+        $mw_precached_links[$link_hash] = $content;
         return $content;
     }
 
@@ -1440,7 +1440,7 @@ function get_page_by_url($url = '', $no_recursive = false)
                     $url = get_page_by_url($test[0], true);
                 }
                 if (!empty($url)) {
-                    $mw_precahced_links[$link_hash] = $url;
+                    $mw_precached_links[$link_hash] = $url;
                     return $url;
                 }
 
@@ -1453,10 +1453,10 @@ function get_page_by_url($url = '', $no_recursive = false)
             $content['id'] = ((int)$content['id']);
         }
         //$get_by_id = get_content_by_id($content['id']);
-        $mw_precahced_links[$link_hash] = $content;
+        $mw_precached_links[$link_hash] = $content;
         return $content;
     }
-    $mw_precahced_links[$link_hash] = false;
+    $mw_precached_links[$link_hash] = false;
     return false;
 }
 

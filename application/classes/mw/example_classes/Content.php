@@ -1022,13 +1022,13 @@ class Content {
         }
 
 
-        global $mw_precahced_links;
+        global $mw_precached_links;
 
 
         $link_hash = 'link' . crc32($url);
 
-        if (isset($mw_precahced_links[$link_hash])) {
-            return $mw_precahced_links[$link_hash];
+        if (isset($mw_precached_links[$link_hash])) {
+            return $mw_precached_links[$link_hash];
         }
 
 
@@ -1044,7 +1044,7 @@ class Content {
 
 
             //$get_by_id = $content;
-            $mw_precahced_links[$link_hash] = $content;
+            $mw_precached_links[$link_hash] = $content;
             return $content;
         }
 
@@ -1068,7 +1068,7 @@ class Content {
                         $url = get_page_by_url($test[0], true);
                     }
                     if (!empty($url)) {
-                        $mw_precahced_links[$link_hash] = $url;
+                        $mw_precached_links[$link_hash] = $url;
                         return $url;
                     }
 
@@ -1081,10 +1081,10 @@ class Content {
                 $content['id'] = ((int)$content['id']);
             }
             //$get_by_id = get_content_by_id($content['id']);
-            $mw_precahced_links[$link_hash] = $content;
+            $mw_precached_links[$link_hash] = $content;
             return $content;
         }
-        $mw_precahced_links[$link_hash] = false;
+        $mw_precached_links[$link_hash] = false;
         return false;
     }
 
@@ -2906,5 +2906,5 @@ class Content {
 }
 
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow
-$mw_precahced_links = array();
+$mw_precached_links = array();
 $mw_global_content_memory = array();

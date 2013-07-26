@@ -222,14 +222,8 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     if (MW_IS_INSTALLED != true) {
         return false;
     }
-    if ($option_group != false) {
 
-        $cache_group = 'options/' . $option_group;
-
-    } else {
-        $cache_group = 'options/global';
-    }
-
+    $cache_group = 'options/global';
 
     global $_mw_global_options_mem;
 
@@ -238,14 +232,11 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 
     }
 
-
-    //d($key);
     $function_cache_id = false;
 
     $args = func_get_args();
 
     foreach ($args as $k => $v) {
-
         $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
     }
 
@@ -253,19 +244,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     if (isset($_mw_global_options_mem[$function_cache_id])) {
         return $_mw_global_options_mem[$function_cache_id];
     }
-
-    /*
-     $cache_content = cache_get_content($function_cache_id, $cache_group);
-     if (($cache_content) == '--false--') {
-     return false;
-     }
-     // $cache_content = false;
-     if (($cache_content) != false) {
-
-     return $cache_content;
-     }*/
-
-    // ->'table_options';
+ 
     $table = MW_DB_TABLE_OPTIONS;
 
     if ($orderby == false) {
@@ -282,42 +261,49 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     } else {
         $data['option_key'] = $key;
     }
-    //   $cache_group = 'options/global/' . $function_cache_id;
     $ok1 = '';
     $ok2 = '';
+    $look_for_option_group = false;
+    $look_for_module = false;
+
     if ($option_group != false) {
         $option_group = db_escape_string($option_group);
+        $look_for_option_group = $option_group;
         $ok1 = " AND option_group='{$option_group}' ";
     }
 
     if ($module != false) {
         $module = db_escape_string($module);
+        $look_for_module = $module;
+
         $data['module'] = $module;
         $ok1 = " AND module='{$module}' ";
     }
     $data['limit'] = 1;
-    // $get = db_get($table, $data, $cache_group);
-    $ok = db_escape_string($data['option_key']);
-    if ($return_full == true) {
-        $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
-    } else {
-        $q = "select option_value from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
+     $ok = db_escape_string($data['option_key']);
 
-    }
-  // $get = db_query($q, $function_cache_id, $cache_group);
+    $q = "select * from $table where option_key is not null and option_group is not null";
 
-
-  //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
-    $q = "select * from $table where option_key is not null {$ok1} {$ok2} ";
-    //d($q);
-    $q_cache_id = crc32($q);
+    $q_cache_id = 'all_opts_'.crc32($q);
     $get_all = db_query($q, $q_cache_id, $cache_group);
     if(!isarr($get_all)){
         return false;
     }
     $get  = array();
     foreach($get_all as $get_opt){
-        if(isset($get_opt['option_key']) and $ok == $get_opt['option_key']){
+
+        if($look_for_module != false and $look_for_option_group != false
+        and isset($get_opt['option_group']) and $look_for_option_group == $get_opt['option_group']
+        and isset($get_opt['module']) and $look_for_module == $get_opt['module']
+        ){
+            $get[]= $get_opt;
+        } else if($look_for_option_group != false
+            and isset($get_opt['option_group']) and $look_for_option_group == $get_opt['option_group']){
+            if(isset($get_opt['option_key']) and $ok == $get_opt['option_key']){
+                $get[]= $get_opt;
+             } else {
+             }
+        } else if(isset($get_opt['option_key']) and $ok == $get_opt['option_key']){
             $get[]= $get_opt;
         }
     }
@@ -353,8 +339,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
             return $get;
         }
     } else {
-        //cache_save('--false--', $function_cache_id, $cache_group);
-        $_mw_global_options_mem[$function_cache_id] = false;
+         $_mw_global_options_mem[$function_cache_id] = false;
         return FALSE;
     }
 }
@@ -487,16 +472,8 @@ function save_option($data)
     }
 
 
-    // p($_POST);
     $option_group = false;
     if (isarr($data)) {
-
-        if (isset($data['for_module_id']) and $data['for_module_id'] != false) {
-            //$data['option_group'] = $data['for_module_id'];
-            if (isset($data['id'])) {
-                //	unset($data['id']);
-            }
-        }
 
         if (strval($data['option_key']) != '') {
             if (strstr($data['option_key'], '|for_module|')) {
@@ -523,8 +500,7 @@ function save_option($data)
                     }
                 }
 
-                //d($ok1);
-            }
+             }
         }
 
         if (isset($data['option_type']) and trim($data['option_type']) == 'static') {
@@ -540,26 +516,22 @@ function save_option($data)
                 delete_option_by_key($data['option_key'], $data['option_group']);
             }
         }
-        //d($data);
-        $table = MW_DB_TABLE_OPTIONS;
+         $table = MW_DB_TABLE_OPTIONS;
         if (isset($data['field_values']) and $data['field_values'] != false) {
             $data['field_values'] = base64_encode(serialize($data['field_values']));
         }
 
         if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
-            //$m = db_escape_string($data['module']);
-            $opt_gr = db_escape_string($data['option_group']);
+             $opt_gr = db_escape_string($data['option_group']);
             $opt_key = db_escape_string($data['option_key']);
             $clean = "delete from $table where      option_group='{$opt_gr}' and  option_key='{$opt_key}'";
             db_q($clean);
             $cache_group = 'options/' . $opt_gr;
             cache_clean_group($cache_group);
 
-            //d($clean);
-        }
-        //	$data['debug'] = 1;
+         }
 
-        //}
+
         if (strval($data['option_key']) != '') {
 
             if (isset($data['option_group']) and strval($data['option_group']) == '') {
@@ -569,8 +541,7 @@ function save_option($data)
 
             if (isset($data['option_value']) and strval($data['option_value']) != '') {
                 $data['option_value'] = replace_site_vars($data['option_value']);
-                //d($data['option_value']);
-            }
+             }
 
             $save = save_data($table, $data);
 
@@ -594,34 +565,6 @@ function save_option($data)
                 $cache_group = 'options/' . intval($data['id']);
                 cache_clean_group($cache_group);
             }
-            //d($cache_group);
-            //
-            //            if (isset($data['id'])) {
-            //                $cache_group = 'options/' . $data['id'];
-            //                cache_clean_group($cache_group);
-            //            }
-            //            if (isset($data['module'])) {
-            //                $cache_group = 'options/' . $data['module'];
-            //                cache_clean_group($cache_group);
-            //            }
-            //
-            //
-            //            if (isset($data['data-option-group'])) {
-            //                $cache_group = 'options/' . $data['data-option-group'];
-            //                cache_clean_group($cache_group);
-            //            }
-            //            if (isset($data['option-group'])) {
-            //                $cache_group = 'options/' . $data['option-group'];
-            //                cache_clean_group($cache_group);
-            //            }
-            //            if (isset($data['data-module'])) {
-            //                $cache_group = 'options/' . $data['data-module'];
-            //                cache_clean_group($cache_group);
-            //            }
-            //            if (isset($data['option_key'])) {
-            //                $cache_group = 'options/' . $data['option_key'];
-            //                cache_clean_group($cache_group);
-            //            }
 
             cache_clean_group('options/global');
 
