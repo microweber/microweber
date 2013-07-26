@@ -292,28 +292,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
             }
         }
 
-        $script_pattern = "/<module[^>]*>/Uis";
-        //$script_pattern = "/<module.*.[^>]*>/is";
-        $replaced_modules = array();
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
 
-        if (!empty($mw_script_matches)) {
-            $matches1 = $mw_script_matches[0];
-            foreach ($matches1 as $key => $value) {
-                if ($value != '') {
-                    // d($value);
-                    $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
-                    $layout = str_replace($value, $v1, $layout);
-                    // $layout = str_replace_count($value, $v1, $layout,1);
-                    if (!isset($replaced_modules[$v1])) {
-
-                        $replaced_modules[$v1] = $value;
-                    }
-                    // p($value);
-                }
-            }
-        }
 
         //        $script_pattern = "/<head[^>]*>(.*)<\/head>/Uis";
         //        $replaced_head = array();
@@ -377,10 +356,19 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 break;
 
             case 5 :
-
+                $mtime = microtime();
+                $mtime = explode(" ",$mtime);
+                $mtime = $mtime[1] + $mtime[0];
+                $endtime = $mtime;
+                $totaltime = ($endtime - T);
+                echo "This page was created in ".$totaltime." seconds";
                 preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
+                // d($layoutmatches);
                 if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
-                    include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+                   // include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+
+                   $layout= _mw_parser_replace_editable_fields($layout);
+
                 }
                 break;
 
@@ -393,7 +381,28 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                 break;
         }
 
+        $script_pattern = "/<module[^>]*>/Uis";
+        //$script_pattern = "/<module.*.[^>]*>/is";
+        $replaced_modules = array();
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
 
+        if (!empty($mw_script_matches)) {
+            $matches1 = $mw_script_matches[0];
+            foreach ($matches1 as $key => $value) {
+                if ($value != '') {
+                    // d($value);
+                    $v1 = crc32($value);
+                    $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
+                    $layout = str_replace($value, $v1, $layout);
+                    // $layout = str_replace_count($value, $v1, $layout,1);
+                    if (!isset($replaced_modules[$v1])) {
+
+                        $replaced_modules[$v1] = $value;
+                    }
+                    // p($value);
+                }
+            }
+        }
         // debug_info();
 //print_r(debug_backtrace());
 
@@ -920,253 +929,6 @@ function make_microweber_tags($layout)
     return $layout;
 }
 
-/**
- *
- * @author Peter Ivanov
- *
- *         function groupsSave($data) {
- *         $table = $table = MW_TABLE_PREFIX . 'groups';
- *         $criteria = $this->input->xss_clean ( $data );
- *         $criteria = $this->core_model->mapArrayToDatabaseTable ( $table,
- *         $data );
- *         $save = $this->core_model->saveData ( $table, $criteria );
- *         return $save;
- *         }
- */
-function replace_in_long_text($sRegExpPattern, $sRegExpReplacement, $sVeryLongText, $normal_replace = false)
-{
-    $function_cache_id = false;
-
-    $test_for_long = strlen($sVeryLongText);
-    if ($test_for_long > 1000) {
-        $args = func_get_args();
-        $i = 0;
-        foreach ($args as $k => $v) {
-            if ($i != 2) {
-                $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-            } else {
-
-            }
-            $i++;
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($sVeryLongText) . crc32($function_cache_id);
-
-        $cache_group = 'extract_tags';
-        // $cache_content = $this->cacheGetContent ( $function_cache_id,
-        // $cache_group );
-        if (($cache_content) != false) {
-            // return $cache_content;
-        }
-    }
-
-    if ($normal_replace == false) {
-        $iSet = 0;
-        // Count how many times we increase the limit
-        while ($iSet < 10) { // If the default limit is 100'000 characters
-            // the highest new limit will be 250'000
-            // characters
-            $sNewText = preg_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
-            // Try
-            // to
-            // use
-            // PREG
-            if (preg_last_error() == PREG_BACKTRACK_LIMIT_ERROR) { // Only
-                // check on
-                // backtrack
-                // limit
-                // failure
-                ini_set('pcre.backtrack_limit', (int)ini_get('pcre.backtrack_limit') + 15000);
-                // Get
-                // current
-                // limit
-                // and
-                // increase
-                $iSet++;
-                // Do not overkill the server
-            } else { // No fail
-                $sVeryLongText = $sNewText;
-                // On failure $sNewText would be NULL
-                break;
-                // Exit loop
-            }
-        }
-    } else {
-        $sNewText = str_replace($sRegExpPattern, $sRegExpReplacement, $sVeryLongText);
-        // $sNewText = preg_replace($sRegExpPattern,$sRegExpReplacement,
-        // $sVeryLongText);
-    }
-
-    return $sNewText;
-}
-
-function parse_memory_storage($id = false, $content = false)
-{
-    static $parse_mem = array();
-    $path_md = ($id);
-    // p($parse_mem);
-    if ($parse_mem[$path_md] != false) {
-        return $parse_mem[$path_md];
-    }
-
-    if ($content != false) {
-        $parse_mem[$path_md] = $content;
-        return $content;
-    }
-}
-
-function parseTextForEmail($text)
-{
-    $email = array();
-    $invalid_email = array();
-
-    $text = ereg_replace("[^A-Za-z._0-9@ ]", " ", $text);
-
-    $token = trim(strtok($text, " "));
-
-    while ($token !== "") {
-
-        if (strpos($token, "@") !== false) {
-
-            $token = ereg_replace("[^A-Za-z._0-9@]", "", $token);
-
-            // checking to see if this is a valid email address
-            if (is_valid_email($email) !== true) {
-                $email[] = strtolower($token);
-            } else {
-                $invalid_email[] = strtolower($token);
-            }
-        }
-
-        $token = trim(strtok(" "));
-    }
-
-    $email = array_unique($email);
-    $invalid_email = array_unique($invalid_email);
-
-    return array("valid_email" => $email, "invalid_email" => $invalid_email);
-}
-
-function is_valid_email($email)
-{
-    if (eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.([a-z]){2,4})$", $email))
-        return true;
-    else
-        return false;
-}
-
-/**
- * Decode Unicode Characters from \u0000 ASCII syntax.
- *
- * This algorithm was originally developed for the
- * Solar Framework by Paul M. Jones
- *
- * @link http://solarphp.com/
- * @link http://svn.solarphp.com/core/trunk/Solar/Json.php
- * @param string $value
- * @return string
- */
-function decodeUnicodeString($chrs)
-{
-    $delim = substr($chrs, 0, 1);
-    $utf8 = '';
-    $strlen_chrs = strlen($chrs);
-
-    for ($i = 0; $i < $strlen_chrs; $i++) {
-
-        $substr_chrs_c_2 = substr($chrs, $i, 2);
-        $ord_chrs_c = ord($chrs[$i]);
-
-        switch (true) {
-            case preg_match('/\\\u[0-9A-F]{4}/i', substr($chrs, $i, 6)) :
-                // single, escaped unicode character
-                $utf16 = chr(hexdec(substr($chrs, ($i + 2), 2))) . chr(hexdec(substr($chrs, ($i + 4), 2)));
-                $utf8 .= self::_utf162utf8($utf16);
-                $i += 5;
-                break;
-            case ($ord_chrs_c >= 0x20) && ($ord_chrs_c <= 0x7F) :
-                $utf8 .= $chrs{$i};
-                break;
-            case ($ord_chrs_c & 0xE0) == 0xC0 :
-                // characters U-00000080 - U-000007FF, mask 110XXXXX
-                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                $utf8 .= substr($chrs, $i, 2);
-                ++$i;
-                break;
-            case ($ord_chrs_c & 0xF0) == 0xE0 :
-                // characters U-00000800 - U-0000FFFF, mask 1110XXXX
-                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                $utf8 .= substr($chrs, $i, 3);
-                $i += 2;
-                break;
-            case ($ord_chrs_c & 0xF8) == 0xF0 :
-                // characters U-00010000 - U-001FFFFF, mask 11110XXX
-                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                $utf8 .= substr($chrs, $i, 4);
-                $i += 3;
-                break;
-            case ($ord_chrs_c & 0xFC) == 0xF8 :
-                // characters U-00200000 - U-03FFFFFF, mask 111110XX
-                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                $utf8 .= substr($chrs, $i, 5);
-                $i += 4;
-                break;
-            case ($ord_chrs_c & 0xFE) == 0xFC :
-                // characters U-04000000 - U-7FFFFFFF, mask 1111110X
-                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                $utf8 .= substr($chrs, $i, 6);
-                $i += 5;
-                break;
-        }
-    }
-
-    return $utf8;
-}
-
-/**
- * Convert a string from one UTF-16 char to one UTF-8 char.
- *
- * Normally should be handled by mb_convert_encoding, but
- * provides a slower PHP-only method for installations
- * that lack the multibye string extension.
- *
- * This method is from the Solar Framework by Paul M. Jones
- *
- * @link http://solarphp.com
- * @param string $utf16
- *            UTF-16 character
- * @return string UTF-8 character
- */
-function utf162utf8($utf16)
-{
-    // Check for mb extension otherwise do by hand.
-    if (function_exists('mb_convert_encoding')) {
-        return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
-    }
-
-    $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
-
-    switch (true) {
-        case ((0x7F & $bytes) == $bytes) :
-            // this case should never be reached, because we are in ASCII range
-            // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-            return chr(0x7F & $bytes);
-
-        case (0x07FF & $bytes) == $bytes :
-            // return a 2-byte UTF-8 character
-            // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-            return chr(0xC0 | (($bytes >> 6) & 0x1F)) . chr(0x80 | ($bytes & 0x3F));
-
-        case (0xFFFF & $bytes) == $bytes :
-            // return a 3-byte UTF-8 character
-            // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-            return chr(0xE0 | (($bytes >> 12) & 0x0F)) . chr(0x80 | (($bytes >> 6) & 0x3F)) . chr(0x80 | ($bytes & 0x3F));
-    }
-
-    // ignoring UTF-32 for now, sorry
-    return '';
-}
-
 function modify_html($layout, $preg_match_all, $content = "", $action = 'append')
 {
 
@@ -1272,4 +1034,523 @@ function clean_word($html_to_save)
     // "<table"), $html_to_save);
     // p($html_to_save);
     return $html_to_save;
+}
+
+
+
+
+function _mw_parser_replace_editable_fields($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
+{
+
+
+//    $mtime = microtime();
+//    $mtime = explode(" ",$mtime);
+//    $mtime = $mtime[1] + $mtime[0];
+//    $endtime = $mtime;
+//    $totaltime = ($endtime - T);
+//    echo "This page was created in ".$totaltime." seconds";
+//
+
+    if ($layout != '') {
+        global $mw_replaced_modules;
+        global $passed_reps;
+
+
+
+
+        $mw_found_elems = '';
+        $mw_found_elems_arr = array();
+
+        $mw_to_cache = array('orig', $layout);
+        $cached = false;
+        if (!isset($parser_mem_crc)) {
+            $parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
+            $parser_modules_crc = 'parser_modules' . crc32($layout) . CONTENT_ID;
+
+        }
+
+
+        if (isset($passed_reps[$parser_mem_crc])) {
+
+            return $passed_reps[$parser_mem_crc];
+        }
+
+        $cache = cache_get($parser_mem_crc, 'content_fields/global/parser');
+        if ($cache != false) {
+
+
+            return $cache;
+        } else {
+
+        }
+
+        $ch = mw_var($parser_mem_crc);
+        if ($cached != false) {
+            $mw_to_cache = $cached;
+
+        } else if ($ch != false) {
+
+            $layout = $ch;
+        } else {
+            require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+            $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+            $layout = htmlspecialchars_decode($layout);
+
+            $pq = phpQuery::newDocument($layout);
+            $els = $pq['.edit'];
+
+            foreach ($els as $elem) {
+
+                // iteration returns PLAIN dom nodes, NOT phpQuery objects
+                $tagName = $elem->tagName;
+                $name = pq($elem)->attr('field');
+
+                if (strval($name) == '') {
+                    //$name = pq($elem) -> attr('id');
+                }
+
+                if (strval($name) == '') {
+                    $name = pq($elem)->attr('data-field');
+                }
+
+                // $fld_id = pq($elem)->attr('data-field-id');
+
+                $rel = pq($elem)->attr('rel');
+                if ($rel == false) {
+                    $rel = pq($elem)->attr('data-rel');
+                    if ($rel == false) {
+                        $rel = 'page';
+                    }
+                }
+
+                $option_group = pq($elem)->attr('data-option_group');
+                if ($option_group == false) {
+                    $option_group = 'editable_region';
+                }
+                $data_id = pq($elem)->attr('data-id');
+                if ($data_id == false) {
+                    $data_id = pq($elem)->attr('rel-id');
+                }
+
+                $option_mod = pq($elem)->attr('data-module');
+                if ($option_mod == false) {
+                    $option_mod = pq($elem)->attr('data-type');
+                }
+                if ($option_mod == false) {
+                    $option_mod = pq($elem)->attr('type');
+                }
+                $name = trim($name);
+                $get_global = false;
+                //  $rel = 'page';
+                $field = $name;
+                $use_id_as_field = $name;
+
+                if ($rel == 'global') {
+                    $get_global = true;
+                } else {
+                    $get_global = false;
+                }
+
+                if ($rel == 'mod1111111111ule') {
+                    $get_global = true;
+                }
+                if ($get_global == false) {
+                    //  $rel = 'page';
+                }
+
+                $try_inherited = false;
+                if ($rel == 'content') {
+
+                    if (!isset($data_id) or $data_id == false) {
+                        $data_id = CONTENT_ID;
+                    }
+
+                    $get_global = false;
+                    $data_id = intval($data_id);
+                    $data = get_content_by_id($data_id);
+
+                    //$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
+
+                } else if ($rel == 'page') {
+
+                    if (!isset($data_id) or $data_id == false) {
+                        $data_id = PAGE_ID;
+                    }
+                    $data = get_page($data_id);
+
+                    //$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+                    $get_global = false;
+                } else if ($rel == 'post') {
+                    $get_global = false;
+                    if (!isset($data_id) or $data_id == false) {
+                        $data_id = POST_ID;
+                    }
+                    $data = get_content_by_id($data_id);
+
+                } else if ($rel == 'inherit') {
+                    $get_global = false;
+                    if (!isset($data_id) or $data_id == false) {
+                        $data_id = PAGE_ID;
+                    }
+
+                    $inh = content_get_inherited_parent($data_id);
+
+                    if ($inh != false and intval($inh) != 0) {
+
+                        $try_inherited = true;
+
+                        $data_id = $inh;
+                        $rel = 'content';
+                        $data = get_content_by_id($data_id);
+                    } else {
+                        $rel = 'content';
+                        $data = get_page($data_id);
+                        //d($data);
+                        //
+                    }
+
+                } else if (isset($attr['post'])) {
+                    $get_global = false;
+                    $data = get_post($attr['post']);
+                    if ($data == false) {
+                        $data = get_page($attr['post']);
+                        //$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+                    }
+                } else if (isset($attr['category'])) {
+                    $get_global = false;
+                    $data = get_category($attr['category']);
+                } else if (isset($attr['global'])) {
+                    $get_global = true;
+                }
+                $cf = false;
+                $field_content = false;
+
+                if (isset($data[$field])) {
+                    if (isset($data[$field])) {
+
+                        $field_content = $data[$field];
+
+                    }
+                } else {
+                    if ($rel == 'page') {
+                        $rel = 'content';
+                    }
+                    if ($rel == 'post') {
+                        $rel = 'content';
+                    }
+                    $cont_field = false;
+
+                    //template_var
+
+                    if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
+                        //
+
+                        $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                        // and $rel == 'inherit'
+                        if ($cont_field == false and $try_inherited == true) {
+
+                            $inh = content_get_inherited_parent($data_id);
+                            //d($data_id . $field . $inh);
+                            //
+                            if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
+                                $data_id = $inh;
+
+                                $cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                if ($cont_field2 != false) {
+                                    $rel = 'content';
+                                    $data = get_content_by_id($inh);
+
+                                    $cont_field = $cont_field2;
+                                }
+                            }
+                        }
+
+                    } else {
+
+                        if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+                            $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+
+                            if ($cont_field != false) {
+                                $field_content = $cont_field;
+                            }
+                        } else {
+
+                            $cont_field = get_content_field("rel={$rel}&field={$field}");
+
+                        }
+                        if ($cont_field != false and is_string($cont_field)) {
+                            $cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
+                        }
+
+                    }
+                    if ($cont_field != false) {
+
+
+                        $field_content = $cont_field;
+                    }
+                }
+
+                if ($field_content == false) {
+                    if ($get_global == true) {
+
+                        $cont_field = get_content_field("rel={$rel}&field={$field}");
+
+
+                        //dbg($cont_field);
+                        if ($cont_field == false) {
+                            if ($option_mod != false) {
+                                //$field_content = __FILE__ . __LINE__;
+                                //$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+                                $field_content = get_content_field("rel={$option_group}&field={$field}");
+
+                                //
+                            } else {
+                                $field_content = get_content_field("rel={$option_group}&field={$field}");
+
+                                //$field_content = __FILE__ . __LINE__;
+                                //$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+                            }
+
+                        } else {
+                            $field_content = $cont_field;
+                        }
+
+
+                    } else {
+
+
+                        if ($use_id_as_field != false) {
+                            if (isset($data[$use_id_as_field])) {
+                                $field_content = $data[$use_id_as_field];
+
+                            }
+                            /*
+                             if ($field_content == false) {
+                             if (isset($data['custom_fields'][$use_id_as_field])) {
+                             $field_content = $data['custom_fields'][$use_id_as_field];
+                             }
+                             // d($field_content);
+                             }*/
+
+                        }
+
+                        //  if ($field_content == false) {
+                        if (isset($data[$field])) {
+
+                            $field_content = $data[$field];
+
+                        } else {
+                            /*
+                             if(!isset($data_id) or ($data_id) == false){
+                             $data_id = 0;
+                             }
+
+                             $cont_field = get_content_field("rel=content&rel_id={$data_id}&field={$field}");
+                             d($data_id);
+                             d($field);
+                             d($cont_field);
+                             if ($cont_field != false) {
+                             d($cont_field);
+
+                             }*/
+
+                        }
+                        //}
+                    }
+
+                    if ($field == 'content' and template_var('content') != false) {
+                        $field_content = template_var('content');
+
+                        template_var('content', false);
+                    }
+
+
+                    if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+                        $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+
+                        if ($cont_field != false) {
+                            $field_content = $cont_field;
+                        }
+
+
+                    } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+                        $cont_field = get_content_field("rel={$rel}&field={$field}");
+
+                        if ($cont_field != false) {
+                            $field_content = $cont_field;
+                        }
+
+                    }
+                    if ($field_content == false and isset($data['custom_fields']) and !empty($data['custom_fields'])) {
+                        foreach ($data ['custom_fields'] as $kf => $vf) {
+
+                            if ($kf == $field) {
+
+                                //$field_content = ($vf);
+                            }
+                        }
+                    }
+                }
+
+                if ($field_content != false and $field_content != '' and is_string($field_content)) {
+
+                    $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
+
+
+                    //$field_content = htmlspecialchars_decode($field_content);
+
+                    //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
+                    // pecata d($field_content);
+                    //d($field_content);
+                    $parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
+
+                    $ch2 = mw_var($parser_mem_crc);
+
+                    /*
+                     if ($use_apc == true) {
+
+                     $cache_id_apc = $parser_mem_crc2;
+
+                     $apc_field_content = apc_fetch($cache_id_apc);
+
+                     if ($apc_field_content != false) {
+                     $ch2 = true;
+                     $field_content = $apc_field_content;
+                     //	d($field_content);
+                     pq($elem) -> html($field_content);
+                     }
+                     }*/
+
+                    if ($ch2 == false) {
+                        //$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+                        if ($field_content != false and $field_content != '') {
+                            $mw_found_elems = ',' . $parser_mem_crc2;
+                            //$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
+                            $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+
+                            //pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
+                            pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+
+                        }
+                        /*
+                         if ($use_apc == true) {
+                         @apc_store($cache_id_apc, $field_content, APC_EXPIRES);
+                         }*/
+
+                    }
+                    mw_var($parser_mem_crc2, 1);
+
+                } else {
+
+                }
+            }
+            $layout = $pq->htmlOuter();
+            $pq->__destruct();
+            $pq = null;
+
+            unset($pq);
+            //if(strstr($haystack, $needle))
+            mw_var($parser_mem_crc, $layout);
+            if ($mw_found_elems != '') {
+                $mw_to_cache['new'] = $layout;
+                $mw_to_cache['to_replace'] = $mw_found_elems;
+                $mw_to_cache['elems'] = $mw_found_elems_arr;
+                //d($mw_to_cache);
+                // $mw_to_cache = base64_encode(serialize($mw_to_cache));
+
+
+                //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+
+            } else {
+                $mw_to_cache['new'] = $layout;
+                //as of beta
+
+                //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+
+            }
+        }
+
+    }
+
+    if (isset($mw_to_cache) and !empty($mw_to_cache)) {
+
+        if (isset($mw_to_cache['elems']) and isset($mw_to_cache['to_replace']) and isset($mw_to_cache['new'])) {
+
+
+            $modified_layout = $mw_to_cache['new'];
+
+            //$parser_mem_crc1 = 'parser_' . crc32($value['orig']);
+
+            //$ch = mw_var($parser_mem_crc1);
+            //$reps = explode(',', $mw_to_cache['to_replace']);
+
+            //if ($ch == false) {
+            $reps = $mw_to_cache['elems'];
+
+            if ($passed_reps == NULL) {
+                $passed_reps = array();
+
+            }
+
+            foreach ($reps as $elk => $value) {
+                $elk_crc = crc32($elk);
+                if (!in_array($elk_crc, $passed_reps)) {
+                    $passed_reps[] = $elk_crc;
+
+                    if ($value != '') {
+                        //$layout = $ch;
+                        $val_rep = $value;
+                        // $options['nested'] = 1;
+                        $val_rep = htmlspecialchars_decode($val_rep);
+                        //$options['parse_only_modules'] = 1;
+                        //$options['no_cache'] = 1;
+                        // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
+
+
+                        $val_rep = _mw_parser_replace_editable_fields($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+                        //}
+
+                        //$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
+                        $rep = 'mw_replace_back_this_editable_' . $elk . '';
+                        //$modified_layout = $rep;
+                        //d($val_rep);
+                        $modified_layout = str_replace($rep, $val_rep, $modified_layout);
+                        //	mw_var($val_rep_parser_mem_crc, $modified_layout);
+
+
+                    }
+                } else {
+                    //$passed_reps[] = $elk_crc;
+                    $rep = 'mw_replace_back_this_editable_' . $elk . '';
+                    //$modified_layout = $rep;
+
+                    $value = htmlspecialchars_decode($value);
+
+
+                    //$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
+                    $modified_layout = str_replace($rep, $value, $modified_layout);
+                }
+            }
+
+
+            $layout = $modified_layout;
+            $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+            $layout = htmlspecialchars_decode($layout);
+
+            //}
+        } elseif (isset($mw_to_cache['new'])) {
+
+        }
+
+        cache_save($layout, $parser_mem_crc, 'content_fields/global/parser');
+
+        //
+    }
+
+
+    $passed_reps[$parser_mem_crc] = $layout;
+    return $layout;
+
+
 }

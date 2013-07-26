@@ -36,19 +36,7 @@ if (strval($installed) != 'yes') {
 
 require_once (MW_APPPATH_FULL . 'functions' . DS . 'mw_functions.php');
 
-//set_error_handler('error');
 
-function error($e, $f = false, $l = false)
-{
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
-
-    $v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
-    $v->e = $e;
-    $v->f = $f;
-    $v->l = $l;
-    // _log($e -> getMessage() . ' ' . $e -> getFile());
-    die($v);
-}
 
 $default_timezone = c('default_timezone');
 if ($default_timezone == false or $default_timezone == '{default_timezone}') {
@@ -70,7 +58,7 @@ if (!defined('MW_BARE_BONES')) {
         $controller->install();
         exit();
     }
-    $close_conn = function_exists('db_query');
+
     $method_full = url_string();
     $m1 = url_segment(0);
 
@@ -121,14 +109,10 @@ if (!defined('MW_BARE_BONES')) {
             }
 
             $controller->admin();
-            if ($close_conn == true and $installed == true) {
-                db_query('close');
-            }
+
             exit();
         } else {
-            if ($close_conn == true and $installed == true) {
-                db_query('close');
-            }
+
             error('No access allowed to admin');
             exit();
         }
@@ -155,7 +139,7 @@ if (!defined('MW_BARE_BONES')) {
 
             call_user_func($controller->functions[$method_full]);
             // exit();
-        } elseif (is_array($controller->functions) and !empty($controller->functions) and function_exists('preg_grep')) {
+        } elseif (is_array($controller->functions) and !empty($controller->functions)) {
             $attached_routes = $controller->functions;
             //routing wildcard urls
             foreach ($attached_routes as $k => $v) {
@@ -188,15 +172,5 @@ if (!defined('MW_BARE_BONES')) {
         }
     }
 
-
-    if ($close_conn == true and $installed == true) {
-        db_query('close');
-    }
-    //exit('No method');
 }
 
-/*call_user_func_array(array(
- $controller,
- $method
- ), array_slice(url(), 2));*/
-//$controller -> render();

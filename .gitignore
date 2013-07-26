@@ -4,6 +4,7 @@ media
 temp
 download
 Thumbs.db
+/cache/*
 *Thumbs.db
 .DS_Store
 .DS_Store?

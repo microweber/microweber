@@ -1,4 +1,6 @@
 <?php
+
+
 if(isset($params['for-module'])){
 	$params['parent-module'] = $params['for-module'];
 }
@@ -11,7 +13,7 @@ if(!isset($params['parent-module-id'])){
 error('parent-module-id is required');	
 	
 }
-
+ 
 $site_templates = templates_list();
  
  $templates = module_templates($params['parent-module']);

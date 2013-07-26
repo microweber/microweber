@@ -172,3 +172,19 @@ function registry($k, $v = null) {
 function utf8($s, $f = 'UTF-8') {
 	return @iconv($f, $f, $s);
 }
+
+
+
+//set_error_handler('error');
+
+function error($e, $f = false, $l = false)
+{
+    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+
+    $v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
+    $v->e = $e;
+    $v->f = $f;
+    $v->l = $l;
+    // _log($e -> getMessage() . ' ' . $e -> getFile());
+    die($v);
+}

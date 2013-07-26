@@ -84,6 +84,9 @@ function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
  * @package Cache
  *
  */
+function  cache_get($cache_id, $cache_group = 'global', $cache_storage_type = false){
+    return cache_get_content($cache_id, $cache_group, $cache_storage_type);
+}
 function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
 	static $cache_default;

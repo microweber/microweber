@@ -256,7 +256,7 @@ function mw_cron()
     if(!is_file($file_loc_hour)){
         @touch($file_loc_hour);
     } else {
-        if((filemtime($file_loc_hour)) >  $time - 2){
+        if((filemtime($file_loc_hour)) >  $time - 5){
             touch($file_loc_hour);
             return true;
         }

@@ -10,16 +10,8 @@ if ($layout != '') {
 
 
 
-//    $mtime = microtime();
-//    $mtime = explode(" ",$mtime);
-//    $mtime = $mtime[1] + $mtime[0];
-//    $endtime = $mtime;
-//    $totaltime = ($endtime - T);
-//    echo "This page was created in ".$totaltime." seconds";
-//
-//
-//
-//
+
+
 
 
 
@@ -57,11 +49,7 @@ $cached = false;
 		//$cached = false;
 	}
 
-	//$cached = false;
-	//
-	if (isset($_REQUEST['debug'])) {
-		//$cached = false;
-	}
+
 
 	//
 	$ch = mw_var($parser_mem_crc);
@@ -523,7 +511,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					$modified_layout = str_replace($rep, $val_rep, $modified_layout);
 					//	mw_var($val_rep_parser_mem_crc, $modified_layout);
 
-					//d($elk);
+
 				}
 			} else {
 				//$passed_reps[] = $elk_crc;
