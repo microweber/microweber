@@ -606,7 +606,7 @@ class ContentUtils
                             $save_layout = false;
                             $content_id = $page_id;
 
-                            $inh = get_content_inherited_parent($page_id);
+                            $inh = mw('content')->get_inherited_parent($page_id);
                             if ($inh != false) {
                                 $content_id_for_con_field = $content_id = $inh;
 

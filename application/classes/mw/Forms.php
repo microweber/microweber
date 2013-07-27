@@ -12,7 +12,7 @@ if (!defined("MW_DB_TABLE_FORMS_DATA")) {
     define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
 }
 
-action_hook('mw_db_init', '\mw\Forms::db_init');
+action_hook('mw_db_init', '\mw\Forms\db_init');
 class Forms
 {
 

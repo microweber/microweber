@@ -1,7 +1,7 @@
 <?php
 namespace mw;
-action_hook('mw_db_init_default', '\mw\Content::db_init');
-action_hook('mw_db_init', '\mw\Content::db_init');
+action_hook('mw_db_init_default', '\mw\Content\db_init');
+action_hook('mw_db_init', '\mw\Content\db_init');
 
 /**
  * This file holds useful functions to work with content
@@ -423,7 +423,7 @@ class Content {
     static  function custom_fields($content_id, $full = true, $field_type = false)
     {
 
-        return \mw\CustomFields::get('content', $content_id, $full, false, false, $field_type);
+        return mw('fields')->get('content', $content_id, $full, false, false, $field_type);
 
 
     }
@@ -831,7 +831,7 @@ class Content {
                     }
                     if (isset($page)) {
                         if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
-                            $par_page = get_content_inherited_parent($page['id']);
+                            $par_page = mw('content')->get_inherited_parent($page['id']);
                             if ($par_page != false) {
                                 $par_page = get_content_by_id($par_page);
                             }

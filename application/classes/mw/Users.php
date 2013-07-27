@@ -6,8 +6,8 @@ if (!defined("MW_DB_TABLE_USERS")) {
 if (!defined("MW_DB_TABLE_LOG")) {
     define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
 }
-action_hook('mw_db_init_default', '\mw\Users::db_init');
-action_hook('mw_db_init', '\mw\Users::db_init');
+action_hook('mw_db_init_default', '\mw\Users\db_init');
+action_hook('mw_db_init', '\mw\Users\db_init');
 class Users extends \mw\User
 {
 

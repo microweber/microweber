@@ -764,7 +764,7 @@ class Modules extends \mw\Module
 
                 $table = MW_DB_TABLE_OPTIONS;
                 $uninstall_lock = get_modules_from_db('ui=any');
-                if (!empty($uninstall_lock)) {
+                if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
                     foreach ($uninstall_lock as $value) {
                         $ism = is_module($value['module']);
                         if ($ism == false) {

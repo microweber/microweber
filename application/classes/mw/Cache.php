@@ -166,6 +166,11 @@ class Cache
         return $local_obj->save($data_to_cache, $cache_id, $cache_group);
 
     }
+
+    public function clear()
+    {
+        return  $this->purge();
+    }
     public function flush()
     {
         return  $this->purge();

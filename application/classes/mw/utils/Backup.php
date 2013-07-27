@@ -277,7 +277,7 @@ class Backup
         }
         $back_log_action = "Cleaning up cache";
         $this->log_action($back_log_action);
-        clearcache();
+        mw('cache')->clear();
 
         sleep(5);
         $this->log_action(false);

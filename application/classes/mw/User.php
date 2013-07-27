@@ -332,7 +332,7 @@ class User
             $user_id = user_id();
         }
 
-        $name = nice_user_name($user_id, $mode);
+        $name = mw('user')->nice_name($user_id, $mode);
         return $name;
     }
     /**
@@ -386,7 +386,7 @@ class User
 
         if (empty($res)) {
 
-            $res = get_user_by_username($id);
+            $res = mw('user')->get_by_username($id);
         }
 
         return $res;
@@ -639,13 +639,13 @@ class User
      * @example
      * <code>
      * //get user name for user with id 10
-     * nice_user_name(10, 'full');
+     * mw('user')->nice_name(10, 'full');
      * </code>
-     * @uses get_user_by_id()
+     * @uses mw('user')->get_by_id()
      */
     public function nice_name($id, $mode = 'full')
     {
-        $user = get_user_by_id($id);
+        $user = mw('user')->get_by_id($id);
         $user_data = $user;
         if (empty($user)) {
             return false;

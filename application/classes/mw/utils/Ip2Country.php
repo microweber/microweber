@@ -6,7 +6,7 @@ if (!defined("MODULE_DB_IP2COUNTRY")) {
     define('MODULE_DB_IP2COUNTRY', MW_TABLE_PREFIX . 'ip2country');
 }
 
-action_hook('mw_db_init', '\mw\utils\Ip2Country::db_init');
+action_hook('mw_db_init', '\mw\utils\Ip2Country\db_init');
 
 class Ip2Country
 {

@@ -1,6 +1,6 @@
 <?php
 namespace mw;
-action_hook('mw_db_init_default', '\mw\shop\db_init');
+action_hook('mw_db_init_default', mw('mw\Shop')->db_init());
 
 /**
  *
@@ -13,20 +13,27 @@ action_hook('mw_db_init_default', '\mw\shop\db_init');
 
 // ------------------------------------------------------------------------
 
-if (!defined("MODULE_DB_SHOP")) {
-    define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
-}
 
-if (!defined("MODULE_DB_SHOP_ORDERS")) {
-    define('MODULE_DB_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
-}
-
-if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
-    define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
-}
 class Shop
 {
 
+    function __construct()
+    {
+        if (!defined("MODULE_DB_SHOP")) {
+            define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
+        }
+
+        if (!defined("MODULE_DB_SHOP_ORDERS")) {
+            define('MODULE_DB_SHOP_ORDERS', MW_TABLE_PREFIX . 'cart_orders');
+        }
+
+        if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
+            define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+        }
+        if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
+            define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+        }
+    }
 
     public function get_cart($params)
     {
@@ -133,7 +140,8 @@ class Shop
 
     }
 
-    public function checkout_confirm_email_send($order_id, $to = false, $no_cache = false) {
+    public function checkout_confirm_email_send($order_id, $to = false, $no_cache = false)
+    {
 
         $ord_data = get_orders('one=1&id=' . $order_id);
         if (isarr($ord_data)) {
@@ -180,7 +188,7 @@ class Shop
 
                         $scheduler = new \mw\utils\Events();
                         // schedule a global scope function:
-                        $scheduler -> registerShutdownEvent("\mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        $scheduler->registerShutdownEvent("\mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
                         //\mw\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
@@ -190,7 +198,8 @@ class Shop
         }
     }
 
-    public function checkout($data) {
+    public function checkout($data)
+    {
         if (!session_id() and !headers_sent()) {
             session_start();
         }
@@ -211,16 +220,16 @@ class Shop
             $_SESSION['mw_payment_success'] = true;
             $ord = $_SESSION['order_id'];
             if ($ord > 0) {
-                $q = " UPDATE $cart_table set
+                $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
-			where order_completed='n'   and session_id='{$sid}'  ";
+			WHERE order_completed='n'   AND session_id='{$sid}'  ";
                 //d($q);
                 \mw('db')->q($q);
                 checkout_confirm_email_send($ord);
-                $q = " UPDATE $table_orders set
+                $q = " UPDATE $table_orders SET
 			order_completed='y'
-			where order_completed='n' and
-			id='{$ord}' and
+			WHERE order_completed='n' AND
+			id='{$ord}' AND
 			session_id='{$sid}'  ";
                 //d($q);
                 \mw('db')->q($q);
@@ -243,7 +252,7 @@ class Shop
             if (isAjax()) {
                 //json_error('Your cart is empty');
 
-            } else {//	error('Your cart is empty');
+            } else { //	error('Your cart is empty');
 
             }
             $checkout_errors['cart_empty'] = 'Your cart is empty';
@@ -404,25 +413,25 @@ class Shop
 
                 $ord = \mw('db')->save($table_orders, $place_order);
 
-                $q = " UPDATE $cart_table set
+                $q = " UPDATE $cart_table SET
 		order_id='{$ord}'
-		where order_completed='n'  and session_id='{$sid}'  ";
+		WHERE order_completed='n'  AND session_id='{$sid}'  ";
 
                 \mw('db')->q($q);
 
                 if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
-                    $q = " UPDATE $cart_table set
+                    $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
 
-			where order_completed='n'  and session_id='{$sid}' ";
+			WHERE order_completed='n'  AND session_id='{$sid}' ";
 
                     \mw('db')->q($q);
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
-                        $q = " UPDATE $table_orders set
+                        $q = " UPDATE $table_orders SET
 				order_completed='y'
-				where order_completed='n' and
-				id='{$ord}' and session_id='{$sid}' ";
+				WHERE order_completed='n' AND
+				id='{$ord}' AND session_id='{$sid}' ";
                         \mw('db')->q($q);
                     }
 
@@ -449,7 +458,6 @@ class Shop
 
         //d($check_cart);
     }
-
 
 
     public function payment_options($option_key = false)
@@ -489,6 +497,7 @@ class Shop
         }
         return $valid;
     }
+
     public function remove_cart_item($data)
     {
 
@@ -518,6 +527,7 @@ class Shop
 
         }
     }
+
     public function update_cart_item_qty($data)
     {
 
@@ -556,6 +566,7 @@ class Shop
 
         }
     }
+
     public function update_cart($data)
     {
 
@@ -786,8 +797,7 @@ class Shop
     }
 
 
-
-   static  function checkout_confirm_email_test($params)
+    static function checkout_confirm_email_test($params)
     {
 
         if (!isset($params['to'])) {
@@ -807,6 +817,7 @@ class Shop
         }
 
     }
+
     public function checkout_ipn($data)
     {
         if (!session_id() and !headers_sent()) {
