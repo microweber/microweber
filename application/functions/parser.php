@@ -1464,13 +1464,13 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                 // $mw_to_cache = base64_encode(serialize($mw_to_cache));
 
 
-                //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+                //mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
             } else {
                 $mw_to_cache['new'] = $layout;
                 //as of beta
 
-                //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+                //mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
             }
         }
@@ -1547,7 +1547,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
 
         }
         if ($no_cache == false) {
-        cache_save($layout, $parser_mem_crc, 'content_fields/global/parser');
+        mw('cache')->save($layout, $parser_mem_crc, 'content_fields/global/parser');
         }
         //
     }

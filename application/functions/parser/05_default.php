@@ -45,7 +45,7 @@ $cached = false;
         } else {
             $cached = false;
         }
-		//$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+		//$cached = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser');
 		//$cached = false;
 	}
 
@@ -446,7 +446,7 @@ $cached = false;
 			// $mw_to_cache = base64_encode(serialize($mw_to_cache));
 			if ($do_not_cache == false) {
 
-				//cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+				//mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 			}
 		} else {
 			$mw_to_cache['new'] = $layout;
@@ -455,7 +455,7 @@ $cached = false;
                 //d($parser_mem_crc);
                 $parser_cache_object->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
             }
-		 //cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+		 //mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
 		}
 	}

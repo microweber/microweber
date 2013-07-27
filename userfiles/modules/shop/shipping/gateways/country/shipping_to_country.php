@@ -74,7 +74,7 @@ class shipping_to_country {
 		}
  		$params['limit']=1000;
 		// d($params);
-		return get($params);
+		return mw('db')->get($params);
 
 	}
 	

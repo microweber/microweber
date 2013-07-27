@@ -86,7 +86,7 @@ class Ip2Country
 
         $function_cache_id = 'ip2country_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = cache_get_content($function_cache_id, 'db');
+        $cache_content = mw('cache')->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 

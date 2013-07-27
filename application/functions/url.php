@@ -348,7 +348,7 @@ function url_title($text) {
 }
 
 function replace_site_vars_back($arr) {
-
+ return $arr;
 	if (is_string($arr)) {
 
 		$parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);

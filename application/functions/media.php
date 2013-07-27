@@ -82,7 +82,7 @@ function upload_progress_check()
     $cache_id = 'upload_progress_' . $ref_str;
     $cache_group = 'media/global';
 
-    $cache_content = cache_get_content($cache_id, $cache_group);
+    $cache_content = mw('cache')->get($cache_id, $cache_group);
     if ($cache_content != false) {
         if (isset($cache_content["tmp_name"]) != false) {
             if (isset($cache_content["f"]) != false) {
@@ -165,7 +165,7 @@ function upload($data)
 
         $allowedExts = array("jpg", "jpeg", "gif", "png", 'bmp');
 
-        //$upl = cache_save($_FILES, $cache_id, $cache_group);
+        //$upl = mw('cache')->save($_FILES, $cache_id, $cache_group);
         foreach ($_FILES as $item) {
 
             $extension = end(explode(".", $item["name"]));
@@ -173,7 +173,7 @@ function upload($data)
                 if ($item["error"] > 0) {
                     error("Error: " . $item["error"]);
                 } else {
-                    $upl = cache_save($item, $cache_id, $cache_group);
+                    $upl = mw('cache')->save($item, $cache_id, $cache_group);
 
                     $f = $target_path . $item['name'];
                     if (is_file($f)) {
@@ -182,7 +182,7 @@ function upload($data)
 
                     $progress = (array)$item;
                     $progress['f'] = $f;
-                    $upl = cache_save($progress, $cache_id, $cache_group);
+                    $upl = mw('cache')->save($progress, $cache_id, $cache_group);
 
                     if (move_uploaded_file($item['tmp_name'], $f)) {
                         $rerturn['src'] = pathToURL($f);
@@ -254,7 +254,7 @@ function reorder_media($data)
                 $i++;
             }
 
-            db_update_position($table, $indx);
+            \mw\DbUtils::update_position_field($table, $indx);
             return true;
             // d($indx);
         }
@@ -280,7 +280,7 @@ function delete_media($data)
                 @unlink($fn_remove);
             }
         }
-        db_delete_by_id('media', $c_id);
+        \mw\Db::delete_by_id('media', $c_id);
     }
 }
 
@@ -383,12 +383,12 @@ function save_media($data)
     if (isset($s['rel']) and isset($s['rel_id'])) {
         $table = MW_TABLE_PREFIX . 'media';
         //$s['debug'] = $t;
-        $s = save_data($table, $s);
+        $s = \mw\Db::save($table, $s);
         return ($s);
     } elseif (isset($s['id']) and isset($s['title'])) {
         $table = MW_TABLE_PREFIX . 'media';
         //$s['debug'] = $t;
-        $s = save_data($table, $s);
+        $s = \mw\Db::save($table, $s);
         return ($s);
     } else {
         error('Invalid data');
@@ -794,7 +794,7 @@ function get_pictures($params)
     $params['limit'] = 1000;
     $params['table'] = $table;
     $params['orderby'] = 'position ASC';
-    $data = get($params);
+    $data = \mw\Db::get($params);
 
     return $data;
 }

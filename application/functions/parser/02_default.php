@@ -2,7 +2,7 @@
 
 $parser_mem_crc = 'parser_' . crc32($layout);
 
-$cached = cache_get_content($parser_mem_crc, 'global/parser');
+$cached = mw('cache')->get($parser_mem_crc, 'global/parser');
 
 if ($cached != false) {
 	//print 1;
@@ -274,7 +274,7 @@ if ($cached != false) {
 
 		unset($pq);
 		//if(strstr($haystack, $needle))
-		cache_save($layout, $parser_mem_crc, 'global/parser');
+		mw('cache')->save($layout, $parser_mem_crc, 'global/parser');
 		mw_var($parser_mem_crc, $layout);
 	}
 }

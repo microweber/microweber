@@ -149,7 +149,7 @@ class Notifications
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = cache_get_content($function_cache_id, 'db');
+        $cache_content = mw('cache')->get($function_cache_id, 'db');
         if (($cache_content) != false) {
 
             return $cache_content;
@@ -177,7 +177,7 @@ class Notifications
         db_add_table_index('rel', $table_name, array('rel(55)'));
         db_add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
-        cache_save(true, $function_cache_id, $cache_group = 'db');
+        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }

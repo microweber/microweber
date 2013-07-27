@@ -17,10 +17,10 @@ if ($layout != '') {
 	// d($parser_mem_crc);
 
 	if (APC_CACHE_PARSER != false) {
-		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser', 'apc');
+		$cached = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser', 'apc');
 	} else {
 
-		$cached = cache_get_content($parser_mem_crc, 'content_fields/global/parser');
+		$cached = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser');
 	}
 	$ch = mw_var($parser_mem_crc);
 	if ($cached != false) {
@@ -313,20 +313,20 @@ if ($layout != '') {
 
 			//$mw_to_cache = base64_encode(serialize($mw_to_cache));
 			if (APC_CACHE_PARSER != false) {
-				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
+				mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
 			} else {
 
-				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
+				mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
 			}
 		} else {
 			$mw_to_cache['new'] = $layout;
 
-			//cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+			//mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 			if (APC_CACHE_PARSER != false) {
-				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
+				mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
 			} else {
 
-				cache_save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
+				mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser', 'apc');
 			}
 
 		}

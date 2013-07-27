@@ -9,7 +9,7 @@ if ($layout != '') {
 	$parser_mem_crc = 'parser_' . crc32($layout);
 	//d($parser_mem_crc);
 
-	$cached = cache_get_content($parser_mem_crc, 'global/parser');
+	$cached = mw('cache')->get($parser_mem_crc, 'global/parser');
 
 	$ch = mw_var($parser_mem_crc);
 	if ($cached != false) {
@@ -302,10 +302,10 @@ if ($layout != '') {
 
 			//$mw_to_cache = base64_encode(serialize($mw_to_cache));
 			//d($mw_to_cache);
-			cache_save($mw_to_cache, $parser_mem_crc, 'global/parser');
+			mw('cache')->save($mw_to_cache, $parser_mem_crc, 'global/parser');
 		} else {
 			$mw_to_cache['new'] = $layout;
-			cache_save($mw_to_cache, $parser_mem_crc, 'global/parser');
+			mw('cache')->save($mw_to_cache, $parser_mem_crc, 'global/parser');
 
 		}
 	}

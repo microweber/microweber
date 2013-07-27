@@ -1,5 +1,44 @@
 <?php
 
+function clean_word($html_to_save)
+{
+    if (strstr($html_to_save, '<!--[if gte mso')) {
+        // word mess up tags
+        $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
+
+        $matches = $tags;
+        if (!empty($matches)) {
+            foreach ($matches as $m) {
+                $html_to_save = str_replace($m['full_tag'], '', $html_to_save);
+            }
+
+            $html_to_save = str_replace('<!--[if gte mso 8]><![endif]-->', '', $html_to_save);
+
+            $html_to_save = str_replace('<!--[if gte mso 9]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('<!--[if gte mso 10]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('<!--[if gte mso 11]><![endif]-->', '', $html_to_save);
+            $html_to_save = str_replace('class="MsoNormal"', '', $html_to_save);
+        }
+
+    }
+    $html_to_save = str_replace('class="exec"', '', $html_to_save);
+    $html_to_save = str_replace('style=""', '', $html_to_save);
+
+    $html_to_save = str_replace('ui-draggable', '', $html_to_save);
+    $html_to_save = str_replace('class="ui-droppable"', '', $html_to_save);
+    $html_to_save = str_replace('ui-droppable', '', $html_to_save);
+    $html_to_save = str_replace('mw_edited', '', $html_to_save);
+    $html_to_save = str_replace('_moz_dirty=""', '', $html_to_save);
+    $html_to_save = str_replace('ui-droppable', '', $html_to_save);
+    $html_to_save = str_replace('<br >', '<br />', $html_to_save);
+    $html_to_save = str_replace('<br>', '<br />', $html_to_save);
+    $html_to_save = str_replace(' class=""', '', $html_to_save);
+    $html_to_save = str_replace(' class=" "', '', $html_to_save);
+
+    $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
+
+    return $html_to_save;
+}
 
 /**
  * Removes double slashes from sting
@@ -466,30 +505,6 @@ if (!function_exists('remove_invisible_characters')) {
 
 }
 
-function add_slashes_to_array($arr)
-{
-    if (!empty($arr)) {
-        $ret = array();
-
-        foreach ($arr as $k => $v) {
-            if (is_array($v)) {
-                $v = add_slashes_to_array($v);
-            } else {
-                // $v =utfString( $v );
-                // $v =
-                // preg_replace("/[^[:alnum:][:space:][:alpha:][:punct:]]/","",$v);
-                // $v = htmlentities ( $v, ENT_NOQUOTES, 'UTF-8' );
-                // $v = htmlspecialchars ( $v );
-                $v = addslashes($v);
-                $v = htmlspecialchars($v);
-            }
-
-            $ret[$k] = ($v);
-        }
-
-        return $ret;
-    }
-}
 
 function ago($time, $granularity = 2)
 {
@@ -637,28 +652,6 @@ function debug_info()
     // }
 }
 
-function remove_slashes_from_array($arr)
-{
-    if (!empty($arr)) {
-        $ret = array();
-
-        foreach ($arr as $k => $v) {
-            if (is_array($v)) {
-                $v = remove_slashes_from_array($v);
-            } else {
-                $v = htmlspecialchars_decode($v);
-                // $v = htmlspecialchars_decode ( $v );
-                // $v = html_entity_decode ( $v, ENT_NOQUOTES );
-                // $v = html_entity_decode( $v );
-                $v = stripslashes($v);
-            }
-
-            $ret[$k] = $v;
-        }
-
-        return $ret;
-    }
-}
 
 if (!function_exists('pathToURL')) {
     function pathToURL($path)
@@ -1040,13 +1033,13 @@ function session_get($name)
     if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
-//        if (!isset($_SESSION['ip'])) {
-//            $_SESSION['ip'] = USER_IP;
-//        } else if ($_SESSION['ip'] != USER_IP) {
-//
-//            session_end();
-//            return false;
-//        }
+        if (!isset($_SESSION['ip'])) {
+            $_SESSION['ip'] = USER_IP;
+        } else if ($_SESSION['ip'] != USER_IP) {
+
+            session_end();
+            return false;
+        }
 
 
         return $_SESSION[$name];

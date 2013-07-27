@@ -30,14 +30,14 @@ class StaticPages {
 
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
         $cache_content = false;
-        //$cache_content = cache_get_content($function_cache_id, 'content/static');
+        //$cache_content = mw('cache')->get($function_cache_id, 'content/static');
 
         if (($cache_content) != false) {
 
             $tree = $cache_content;
         } else {
 
-            //cache_save($tree, $function_cache_id, $cache_group = 'content/static');
+            //mw('cache')->save($tree, $function_cache_id, $cache_group = 'content/static');
         }
         if (!isset($url)) {
             $url = curent_url(true, true);

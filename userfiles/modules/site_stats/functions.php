@@ -107,7 +107,7 @@ function stats_insert() {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 $few_mins_ago_visit_date = date("Y-m-d H:i:s");
-	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
+	//$cache_content = mw('cache')->get($function_cache_id, $cache_group = 'module_stats_users_online');
 	//if (($cache_content) == '--false--') {
 	//return false;
 	//	}
@@ -188,7 +188,7 @@ function stats_insert_cookie_based() {
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-	//$cache_content = cache_get_content($function_cache_id, $cache_group = 'module_stats_users_online');
+	//$cache_content = mw('cache')->get($function_cache_id, $cache_group = 'module_stats_users_online');
 	//if (($cache_content) == '--false--') {
 	//return false;
 	//	}
