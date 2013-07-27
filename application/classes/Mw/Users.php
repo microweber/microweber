@@ -28,7 +28,7 @@ class Users extends \Mw\User
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = session_get('captcha');
+            $cap = mw('user')->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -100,7 +100,7 @@ class Users extends \Mw\User
                     \mw('db')->q($q);
                     mw('cache')->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
-                    session_del('captcha');
+                    mw('user')->session_del('captcha');
 
                     $notif = array();
                     $notif['module'] = "users";
@@ -287,7 +287,7 @@ class Users extends \Mw\User
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = session_get('captcha');
+            $cap = mw('user')->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -357,7 +357,7 @@ class Users extends \Mw\User
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = session_get('captcha');
+            $cap = mw('user')->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -470,7 +470,7 @@ class Users extends \Mw\User
         $return_after_login = false;
         if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], site_url())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
-            session_set('user_after_login', $return_after_login);
+            mw('user')->session_set('user_after_login', $return_after_login);
 
         }
 
@@ -544,7 +544,7 @@ class Users extends \Mw\User
                         user_set_logged($data['id']);
 
                         if ($return_after_login != false) {
-                            safe_redirect($return_after_login);
+                            mw('url')->redirect($return_after_login);
                             exit();
                         }
 
@@ -621,11 +621,11 @@ if (!function_exists('social_login_exception_handler')) {
             return array('error' => $exception->getMessage());
         }
 
-        $after_log = session_get('user_after_login');
+        $after_log = mw('user')->session_get('user_after_login');
         if ($after_log != false) {
-            safe_redirect($after_log);
+            mw('url')->redirect($after_log);
         } else {
-            safe_redirect(site_url());
+            mw('url')->redirect(site_url());
         }
 
     }

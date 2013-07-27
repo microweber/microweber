@@ -134,7 +134,7 @@ if (MW_IS_INSTALLED == true) {
 
     $c_id = 'mw_init_all';
 //$cache_content_init = mw('cache')->get($c_id, 'db');
-    $cache_content_init = static_option_get('is_installed', 'mw_system');
+    $cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
 
 //$cache_content_init = MW_IS_INSTALLED;
     if (MW_IS_INSTALLED == true) {
@@ -214,7 +214,7 @@ if (MW_IS_INSTALLED == true) {
                 $installed['option_group'] = ('mw_system');
                 $installed['option_key'] = ('is_installed');
                 $installed['option_value'] = 'yes';
-                static_option_save($installed);
+                mw('option')->save_static($installed);
 
             }
 

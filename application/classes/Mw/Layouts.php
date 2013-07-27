@@ -194,7 +194,7 @@ class Layouts {
 
                                 $possible = $here_dir . $to_return_temp['icon'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['icon'] = dir2url($possible);
+                                    $to_return_temp['icon'] = mw('url')->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['icon']);
                                 }
@@ -206,7 +206,7 @@ class Layouts {
                                 $to_return_temp['image'] = trim($result);
                                 $possible = $here_dir . $to_return_temp['image'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['image'] = dir2url($possible);
+                                    $to_return_temp['image'] = mw('url')->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['image']);
                                 }

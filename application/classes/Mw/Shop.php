@@ -242,7 +242,7 @@ class Shop
             mw('cache')->delete('cart_orders/global');
             if (isset($_GET['return_to'])) {
                 $return_to = urldecode($_GET['return_to']);
-                safe_redirect($return_to);
+                mw('url')->redirect($return_to);
             }
         }
         $checkout_errors = array();

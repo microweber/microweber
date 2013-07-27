@@ -733,7 +733,7 @@ class Files
         //           @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
         //       }
         //   }
-        recursive_remove_directory($directory);
+        mw('Mw\Utils\Files')->rmdir($directory);
         foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
 
             //@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
@@ -868,7 +868,7 @@ class Files
         if ($recycle_bin == false) {
             $recycle_bin = CACHEDIR . '_recycle_bin' . DS;
             if (is_dir($recycle_bin)) {
-                recursive_remove_directory($recycle_bin, false);
+                mw('Mw\Utils\Files')->rmdir($recycle_bin, false);
             }
         }
     }

@@ -4,7 +4,7 @@
 
 $numia_api = new \accounting\numia\api();
 $contoller_action = false;
-$sess_numia_token = session_get('numia_token');
+$sess_numia_token = mw('user')->session_get('numia_token');
 if($sess_numia_token  != false){
 	$contoller_action = 'dashboard';
 }
@@ -21,10 +21,10 @@ $pass = mw('db')->escape_string($pass);
 		$result = $numia_api -> call('user_login', $params);
 		if(isset($result['api_token'])){
 			$sess_numia_token = $result['api_token'];
-			 session_set('numia_token',$result['api_token']);
+			 mw('user')->session_set('numia_token',$result['api_token']);
 			
 			 if(isset($result['company_id'])){
-			 session_set('numia_company_id',$result['company_id']);
+			 mw('user')->session_set('numia_company_id',$result['company_id']);
 			 }
 		}
 	}
@@ -80,10 +80,10 @@ $result = $numia_api -> call( 'user_register', $params );
 		
 			if(isset($result['api_token'])){
 				$sess_numia_token = $result['api_token'];
-				 session_set('numia_token',$result['api_token']);
+				 mw('user')->session_set('numia_token',$result['api_token']);
 				
 				 if(isset($result['company_id'])){
-				 session_set('numia_company_id',$result['company_id']);
+				 mw('user')->session_set('numia_company_id',$result['company_id']);
 				 }
 				 
 				 mw_var('numia_success_msg', "You have been successfully registered and logged in.");
@@ -102,10 +102,10 @@ $result = $numia_api -> call( 'user_register', $params );
 } else if(isset($_POST['numia_logout'])){
 	$sess_numia_token =false;
 	  $contoller_action = 'login';
-	  session_set('numia_token',false);
+	  mw('user')->session_set('numia_token',false);
 }else if(isset($_GET['register'])){
 	$sess_numia_token =false;
-	  session_set('numia_token',false);
+	  mw('user')->session_set('numia_token',false);
 	  $contoller_action = 'register';
 }
 

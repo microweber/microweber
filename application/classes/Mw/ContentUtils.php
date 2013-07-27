@@ -1440,7 +1440,7 @@ class ContentUtils
                         $screensshot_file = normalize_path($screensshot_file, false);
                         //p($screensshot_file);
                         if (is_file($screensshot_file)) {
-                            $c['screenshot'] = pathToURL($screensshot_file);
+                            $c['screenshot'] = mw('url')->link_to_file($screensshot_file);
                         }
 
                         $to_return[] = $c;

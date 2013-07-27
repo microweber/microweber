@@ -132,7 +132,7 @@ class Forms
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             } else {
-                $cap = session_get('captcha');
+                $cap = mw('user')->session_get('captcha');
 
                 if ($cap == false) {
                     return array('error' => 'You must load a captcha first!');
@@ -531,7 +531,7 @@ class Forms
             }
             $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);
-            $download = dir2url($filename_path_full);
+            $download = mw('url')->link_to_file($filename_path_full);
             return array('success' => 'Your file has been exported!', 'download' => $download);
 
         }

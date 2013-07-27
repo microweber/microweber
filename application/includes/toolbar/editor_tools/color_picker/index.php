@@ -38,7 +38,7 @@
 
 
 .transparent{
-  background: url(<?php print pathToURL(dirname(__FILE__)); ?>/ico.transparentbg.png) no-repeat 1px 1px;
+  background: url(<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/ico.transparentbg.png) no-repeat 1px 1px;
 }
 
 
@@ -47,7 +47,7 @@
 </style>
 
 
-	<script type="text/javascript" src="<?php print pathToURL(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
+	<script type="text/javascript" src="<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
     <script>
         parent.mw.require('external_callbacks.js');
         mw.require('color.js');

@@ -208,7 +208,7 @@ class Module
             $config['module_view'] = site_url('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = module_css_class($module_name);
-            $config['url_to_module'] = pathToURL($config['path_to_module']);
+            $config['url_to_module'] = mw('url')->link_to_file($config['path_to_module']);
             $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
 
@@ -437,7 +437,7 @@ class Module
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                $ch = dir2url($ch);
+                $ch = mw('url')->link_to_file($ch);
                 $ch = $ch . '/';
                 //	$ch = trim($ch,'\//');
 
@@ -512,7 +512,7 @@ class Module
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                //$ch = dir2url($ch);
+                //$ch = mw('url')->link_to_file($ch);
                 $ch = normalize_path($ch, 1);
                 //	$ch = trim($ch,'\//');
 

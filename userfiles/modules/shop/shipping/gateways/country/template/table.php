@@ -30,12 +30,12 @@ description: Table
       <tr>
         <td colspan="3"></td>
         <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label>
-          <?php print mw('shop')->currency_format(session_get('shiping_cost')); ?></td>
+          <?php print mw('shop')->currency_format(mw('user')->session_get('shiping_cost')); ?></td>
       </tr>
       <tr>
         <td colspan="3"></td>
         <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label>
-          <?php print mw('shop')->currency_format($total + intval(session_get('shiping_cost'))); ?></td>
+          <?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shiping_cost'))); ?></td>
       </tr>
     </tbody>
   </table>

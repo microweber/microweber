@@ -690,9 +690,9 @@ class Modules extends \mw\Module
 
                     if (is_file($try_icon)) {
 
-                        $config['icon'] = pathToURL($try_icon);
+                        $config['icon'] = mw('url')->link_to_file($try_icon);
                     } else {
-                        $config['icon'] = pathToURL($def_icon);
+                        $config['icon'] = mw('url')->link_to_file($def_icon);
                     }
                     //   $config ['installed'] = install_module($config ['module']);
                     // $mmd5 = url_title($config ['module']);

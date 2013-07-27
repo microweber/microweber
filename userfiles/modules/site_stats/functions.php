@@ -326,12 +326,12 @@ function get_visits($range = 'daily') {
 				
 			
 			
-				$mw_req_sec = session_get('stats_requests_num');
+				$mw_req_sec = mw('user')->session_get('stats_requests_num');
 			
 			
 				
 				$total = $results[0]['total_visits'];
-				session_set('stats_requests_num',$total);
+				mw('user')->session_set('stats_requests_num',$total);
 				
 				$results = intval($total)-intval($mw_req_sec);
 			}  else { 

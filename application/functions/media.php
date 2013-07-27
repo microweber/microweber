@@ -158,7 +158,7 @@ function upload($data)
 
             // base64_to_file($data['file'], $f);
 
-            $rerturn['src'] = pathToURL($f);
+            $rerturn['src'] = mw('url')->link_to_file($f);
             $rerturn['name'] = $data['name'];
         }
     } else {
@@ -185,7 +185,7 @@ function upload($data)
                     $upl = mw('cache')->save($progress, $cache_id, $cache_group);
 
                     if (move_uploaded_file($item['tmp_name'], $f)) {
-                        $rerturn['src'] = pathToURL($f);
+                        $rerturn['src'] = mw('url')->link_to_file($f);
                         $rerturn['name'] = $item['name'];
                     }
                 }
@@ -206,7 +206,7 @@ function upload($data)
             //            $target = fopen($f, "w");
             //            fseek($temp, 0, SEEK_SET);
             //            stream_copy_to_stream($temp, $target);
-            //            $rerturn['src'] = pathToURL($f);
+            //            $rerturn['src'] = mw('url')->link_to_file($f);
             //            $rerturn['name'] = $item['name'];
             //            fclose($target);
         }
@@ -275,7 +275,7 @@ function delete_media($data)
         $c_id = intval($data['id']);
         $pic_data = get_pictures("one=1&id=" . $c_id);
         if (isset($pic_data['filename'])) {
-            $fn_remove = url2dir($pic_data['filename']);
+            $fn_remove = mw('url')->to_path($pic_data['filename']);
             if (is_file($fn_remove)) {
                 @unlink($fn_remove);
             }
@@ -318,7 +318,7 @@ function save_media($data)
 
     if (isset($data['src'])) {
 
-        $url2dir = url2dir($data['src']);
+        $url2dir = mw('url')->to_path($data['src']);
         $uploaded_files_dir = MEDIAFILES . DS . 'uploaded';
 
         if (isset($s['rel']) and isset($s['rel_id'])) {
@@ -346,7 +346,7 @@ function save_media($data)
             }
 
             if (is_file($url2dir) and rename($url2dir, $newfile)) {
-                $data['src'] = dir2url($newfile);
+                $data['src'] = mw('url')->link_to_file($newfile);
             } else {
 
             }
@@ -608,7 +608,7 @@ function thumbnail_img($params)
 
     if (file_exists($cache_path)) {
 
-        //$cache_path = pathToURL($cache_path);
+        //$cache_path = mw('url')->link_to_file($cache_path);
         //$cache_path = file_get_contents($cache_path);
         //
         //
@@ -663,7 +663,7 @@ function thumbnail($src, $width = 200, $height = 200)
     $cache_path = $cd . $cache_id;
     if (file_exists($cache_path)) {
        // d($cache);
-        $cache_path = pathToURL($cache_path);
+        $cache_path = mw('url')->link_to_file($cache_path);
         return $cache_path;
     } else {
 
@@ -766,7 +766,7 @@ function thumbnail($src, $width = 200, $height = 200)
     }
     if (file_exists($cache_path)) {
 
-        $cache_path = pathToURL($cache_path);
+        $cache_path = mw('url')->link_to_file($cache_path);
         return $cache_path;
     } else {
         return pixum($width, $height);
@@ -852,7 +852,7 @@ function delete_media_file($params)
     if ($fn_remove_path != false and isarr($fn_remove_path)) {
         foreach ($fn_remove_path as $key => $value) {
 
-            $fn_remove = url2dir($value);
+            $fn_remove = mw('url')->to_path($value);
 
             if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
                 $path = urldecode($fn_remove);
@@ -865,7 +865,7 @@ function delete_media_file($params)
                 if (stristr($target_path, MEDIAFILES)) {
 
                     if (is_dir($target_path)) {
-                        recursive_remove_directory($target_path, false);
+                        mw('Mw\Utils\Files')->rmdir($target_path, false);
                         $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
                     } else if (is_file($target_path)) {
                         unlink($target_path);

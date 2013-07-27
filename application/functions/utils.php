@@ -37,7 +37,7 @@ function mw_notif_le($text, $exit = false)
 
 function mw_text_live_edit($text, $exit = false)
 {
-    $editmode_sess = session_get('editmode');
+    $editmode_sess = mw('user')->session_get('editmode');
 
     if ($editmode_sess == true) {
 
@@ -52,7 +52,7 @@ function mw_text_live_edit($text, $exit = false)
 
 function mw_notif_live_edit($text, $exit = false)
 {
-    $editmode_sess = session_get('editmode');
+    $editmode_sess = mw('user')->session_get('editmode');
 
     if ($editmode_sess == true) {
         $to_print = '<div class="mw-notification mw-success ">
@@ -80,11 +80,6 @@ function mw_notif($text, $exit = false)
 }
 
 
-
-
-
-
-
 function mw_error($text, $exit = false)
 {
     include(ADMIN_VIEWS_PATH . 'mw_error.php');
@@ -102,394 +97,8 @@ function debug_info()
 }
 
 
-if (!function_exists('pathToURL')) {
-    function pathToURL($path)
-    {
-        // var_dump($path);
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-        //var_dump($path);
-        return site_url($path);
-    }
 
-}
-if (!function_exists('pathToURL')) {
-    function pathToURL($path)
-    {
-        // var_dump($path);
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-        //var_dump($path);
-        return site_url($path);
-    }
 
-}
-if (!function_exists('url2dir')) {
-    function url2dir($path)
-    {
-        if (trim($path) == '') {
-            return false;
-        }
-
-        $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-
-        return normalize_path($path, false);
-    }
-
-}
-if (!function_exists('dir2url')) {
-    function dir2url($path)
-    {
-        return pathToURL($path);
-    }
-
-}
-
-
-if (!function_exists('dirToURL')) {
-    function dirToURL($path)
-    {
-        return pathToURL($path);
-    }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function safe_redirect($url)
-{
-    if (trim($url) == '') {
-        return false;
-    }
-    $url = str_ireplace('Location:', '', $url);
-    $url = trim($url);
-    if (headers_sent()) {
-        print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
-    } else {
-        header('Location: ' . $url);
-    }
-    exit();
-}
-
-
-//if (function_exists('session_set_save_handler')) {
-//    $check_if_custom_session_class = MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'MwSession.php';
-//    if (file_exists($check_if_custom_session_class)) {
-//        $mw_session_handler = new MwSession();
-//        session_set_save_handler(
-//            array($mw_session_handler, 'open'),
-//            array($mw_session_handler, 'close'),
-//            array($mw_session_handler, 'read'),
-//            array($mw_session_handler, 'write'),
-//            array($mw_session_handler, 'destroy'),
-//            array($mw_session_handler, 'gc')
-//        );
-//    }
-//
-//
-//}
-//
-//if (function_exists('register_shutdown_function')) {
-//    register_shutdown_function('session_write_close');
-//}
-
-
-function session_set($name, $val)
-{
-
-
-    if (!defined('MW_NO_SESSION') and !headers_sent()) {
-        if (!isset($_SESSION)) {
-            session_set_cookie_params(86400);
-            ini_set('session.gc_maxlifetime', 86400);
-            session_start();
-            $_SESSION['ip'] = USER_IP;
-        }
-        if ($val == false) {
-            session_del($name);
-        } else {
-            $is_the_same = session_get($name);
-            if ($is_the_same != $val) {
-                $_SESSION[$name] = $val;
-                //session_write_close();
-                //$_SESSION['ip']=USER_IP;
-            }
-        }
-    }
-}
-
-function session_get($name)
-{
-    if (!defined('MW_NO_SESSION')) {
-        if (!headers_sent()) {
-            if (!isset($_SESSION)) {
-                //return false;
-                session_start();
-                //d($_SESSION);
-                 $_SESSION['ip']=USER_IP;
-            }
-        }
-        // probable timout here?!
-    }
-    //
-    if (isset($_SESSION) and isset($_SESSION[$name])) {
-
-
-        if (!isset($_SESSION['ip'])) {
-            $_SESSION['ip'] = USER_IP;
-        } else if ($_SESSION['ip'] != USER_IP) {
-
-            session_end();
-            return false;
-        }
-
-
-        return $_SESSION[$name];
-    } else {
-        return false;
-    }
-}
-
-function session_del($name)
-{
-    if (isset($_SESSION[$name])) {
-        unset($_SESSION[$name]);
-    }
-}
-
-function session_end()
-{
-
-
-    $_SESSION = array();
-
-    // If it's desired to kill the session, also delete the session cookie.
-    // Note: This will destroy the session, and not just the session data!
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-    session_destroy();
-    //session_write_close();
-    unset($_SESSION);
-
-}
-
-
-$mw_static_option_groups = array();
-function static_option_get($key, $option_group = "global")
-{
-    $option_group_disabled = mw_var('static_option_disabled_' . $option_group);
-    if ($option_group_disabled == true) {
-        return false;
-    }
-    global $mw_static_option_groups;
-    $option_group = trim($option_group);
-    $option_group = str_replace('..', '', $option_group);
-
-    $fname = $option_group . '.php';
-
-    $dir_name = DBPATH_FULL . 'options' . DS;
-    $dir_name_and_file = $dir_name . $fname;
-    $key = trim($key);
-
-
-    if (isset($mw_static_option_groups[$option_group]) and isset($mw_static_option_groups[$option_group][$key])) {
-        return ($mw_static_option_groups[$option_group][$key]);
-    }
-
-
-    if (is_file($dir_name_and_file)) {
-        $ops_array = file_get_contents($dir_name_and_file);
-        if ($ops_array != false) {
-            $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
-            if ($ops_array != '') {
-                $ops_array = unserialize($ops_array);
-                if (isarr($ops_array)) {
-                    $all_options = $ops_array;
-                    $mw_static_option_groups[$option_group] = $all_options;
-                    //mw_var('option_disabled_' . $option_group);
-                    if (isset($mw_static_option_groups[$option_group]) and isset($mw_static_option_groups[$option_group][$key])) {
-                        return ($mw_static_option_groups[$option_group][$key]);
-                    } else {
-                        $mw_static_option_groups[$option_group][$key] = false;
-                    }
-
-                }
-            }
-        }
-    } else {
-        mw_var('static_option_disabled_' . $option_group, true);
-    }
-
-}
-
-function static_option_save($data)
-{
-
-    if (MW_IS_INSTALLED == true) {
-        // only_admin_access();
-    }
-    $data = parse_params($data);
-
-    if (!isset($data['option_key']) or !isset($data['option_value'])) {
-        exit("Error: no option_key or option_value");
-    }
-    if (!isset($data['option_group'])) {
-        $data['option_group'] = 'global';
-    }
-    $data['option_group'] = trim($data['option_group']);
-    $data['option_key'] = trim($data['option_key']);
-    $data['option_value'] = (htmlentities($data['option_value']));
-    //d($data);
-
-    $data['option_group'] = str_replace('..', '', $data['option_group']);
-
-    $fname = $data['option_group'] . '.php';
-
-    //	$dir_name = DBPATH_FULL . 'options' . DS . $data['option_group'] . DS;
-
-    $dir_name = DBPATH_FULL . 'options' . DS;
-    $dir_name_and_file = $dir_name . $fname;
-    if (is_dir($dir_name) == false) {
-        mkdir_recursive($dir_name);
-    }
-    $data_to_serialize = array();
-    if (is_file($dir_name_and_file)) {
-        $ops_array = file_get_contents($dir_name_and_file);
-        if ($ops_array != false) {
-            $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
-            if ($ops_array != '') {
-                $ops_array = unserialize($ops_array);
-                if (isarr($ops_array)) {
-                    $data_to_serialize = $ops_array;
-                }
-            }
-        }
-        //d($ops_array);
-    }
-
-    $data_to_serialize[$data['option_key']] = $data['option_value'];
-    //	d($data_to_serialize);
-    $data_to_serialize = serialize($data_to_serialize);
-
-    $option_save_string = CACHE_CONTENT_PREPEND . $data_to_serialize;
-
-    $cache = file_put_contents($dir_name_and_file, $option_save_string);
-    return $cache;
-}
-
-function recursive_remove_directory($directory, $empty = true)
-{
-    // if the path has a slash at the end we remove it here
-    if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
-        $directory = substr($directory, 0, -1);
-    }
-
-    // if the path is not valid or is not a directory ...
-    if (!file_exists($directory) || !is_dir($directory)) {
-        // ... we return false and exit the function
-        return FALSE;
-
-        // ... if the path is not readable
-    } elseif (!is_readable($directory)) {
-        // ... we return false and exit the function
-        return FALSE;
-
-        // ... else if the path is readable
-    } else {
-        // we open the directory
-        $handle = opendir($directory);
-
-        // and scan through the items inside
-        while (FALSE !== ($item = readdir($handle))) {
-            // if the filepointer is not the current directory
-            // or the parent directory
-            if ($item != '.' && $item != '..') {
-                // we build the new path to delete
-                $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-                // if the new path is a directory
-                if (is_dir($path)) {
-                    // we call this function with the new path
-                    recursive_remove_directory($path, $empty);
-                    // if the new path is a file
-                } else {
-                    //   $path = normalize_path($path, false);
-                    try {
-                        @unlink($path);
-                    } catch (Exception $e) {
-                    }
-                }
-            }
-        }
-
-        // close the directory
-        closedir($handle);
-
-        // if the option to empty is not set to true
-        if ($empty == FALSE) {
-            @rmdir($directory);
-            // try to delete the now empty directory
-            //            if (!rmdir($directory)) {
-            //
-            //                // return false if not possible
-            //                return FALSE;
-            //            }
-        }
-
-        // return success
-        return TRUE;
-    }
-}
-
-if (!function_exists('is_serialized')) {
-    function is_serialized($data)
-    {
-        // if it isn't a string, it isn't serialized
-        if (!is_string($data))
-            return false;
-        $data = trim($data);
-        if ('N;' == $data)
-            return true;
-        if (!preg_match('/^([adObis]):/', $data, $badions))
-            return false;
-        switch ($badions[1]) {
-            case 'a' :
-            case 'O' :
-            case 's' :
-                if (preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data))
-                    return true;
-                break;
-            case 'b' :
-            case 'i' :
-            case 'd' :
-                if (preg_match("/^{$badions[1]}:[0-9.E-]+;\$/", $data))
-                    return true;
-                break;
-        }
-        return false;
-    }
-}
 
 
 function is_arr($var)
@@ -1069,7 +678,6 @@ function directory_profile($dir)
 }
 
 
-
 function lipsum($number_of_characters = false)
 {
     if ($number_of_characters == false) {
@@ -1134,16 +742,6 @@ function mw_date($date)
         return $date;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 // Thanks to http://www.eval.ca/articles/php-pluralize (MIT license)
@@ -1313,8 +911,6 @@ function random_color()
 {
     return "#" . sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
 }
-
-
 
 
 if (!function_exists('put_ini_file')) {

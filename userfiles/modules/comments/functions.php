@@ -140,7 +140,7 @@ function post_comment($data) {
 		if (!isset($data['captcha'])) {
 			return array('error' => 'Please enter the captcha answer!');
 		} else {
-			$cap = session_get('captcha');
+			$cap = mw('user')->session_get('captcha');
 
 			if ($cap == false) {
 				return array('error' => 'You must load a captcha first!');

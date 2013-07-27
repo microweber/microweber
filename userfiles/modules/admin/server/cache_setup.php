@@ -2,7 +2,7 @@
 
 <h2><?php _e("Cache confinguration"); ?></h2>
 <label class="mw-ui-label"><?php _e("Cache storage type"); ?></label>
-<?php   $enable_server_cache_storage = static_option_get('enable_server_cache_storage','server');
+<?php   $enable_server_cache_storage = mw('option')->get_static('enable_server_cache_storage','server');
 
  if($enable_server_cache_storage == false){
 	$enable_server_cache_storage = 'default';
@@ -22,10 +22,10 @@ $memcache_enabled = extension_loaded('memcache');
 <div class="vSpace"></div>
 <?php if($memcache_enabled and $enable_server_cache_storage == 'memcache'): ?>
 <label class="mw-ui-label-inline"><?php _e("Memcache servers"); ?></label>
-<input name="memcache_servers" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="server"  data-refresh="<?php print $params['module'] ?>" option-type="static"  value="<?php print static_option_get('memcache_servers','server'); ?>" />
+<input name="memcache_servers" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="server"  data-refresh="<?php print $params['module'] ?>" option-type="static"  value="<?php print mw('option')->get_static('memcache_servers','server'); ?>" />
 <br>
 <small><?php _e("You can set multiple servers by seperating them by comma"); ?>. <?php _e("Example"); ?>: 127.0.0.1:11211, 192.168.0.1:11211</small>
-<?php $memcache_servers = static_option_get('memcache_servers','server');
+<?php $memcache_servers = mw('option')->get_static('memcache_servers','server');
 if($memcache_servers != false){
 $memcache_servers = trim($memcache_servers);	
 $memcache_servers  = explode(',',$memcache_servers );

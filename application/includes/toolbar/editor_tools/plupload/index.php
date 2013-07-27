@@ -3,7 +3,7 @@
 
 <?php $here = dirname(__FILE__);
 		
-	$here =	pathToURL($here).'/';
+	$here =	mw('url')->link_to_file($here).'/';
 	
 
 	$uid =  uniqid() ;

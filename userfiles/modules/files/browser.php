@@ -114,14 +114,14 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 
 
 
-      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print dir2url($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print dir2url($item) ?>'); return false;">
+      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
         <?php $ext = strtolower(get_file_extension($item)); ?>
 
         <?php
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img src="<?php print thumbnail(dir2url($item), 48, 48); ?>" />
+        <img src="<?php print thumbnail(mw('url')->link_to_file($item), 48, 48); ?>" />
         <?php else: ?>
         <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
         <?php endif; ?>

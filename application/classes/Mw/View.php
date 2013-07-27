@@ -66,7 +66,7 @@ class View {
 
 		if ($ext == 'md') {
 			$content = file_get_contents($this -> v);
-			$rel_url = dir2url(dirname($this -> v)) . '/';
+			$rel_url = mw('url')->link_to_file(dirname($this -> v)) . '/';
 			//$content = \Mw\Content\Markdown::defaultTransform($content);
 			$parser = new \Mw\Content\MarkdownExtra;
 

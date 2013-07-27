@@ -84,7 +84,7 @@ function mw_start_progress(){
   
   setInterval(function(){
 	  <?php $log_file = CACHEDIR_ROOT . DIRECTORY_SEPARATOR . 'install_log.txt'; 
-	  $log_file_url = dir2url($log_file);
+	  $log_file_url = mw('url')->link_to_file($log_file);
 	  
 	  ?>
 	 $.get('<?php print $log_file_url ?>', function(data) {

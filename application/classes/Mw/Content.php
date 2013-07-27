@@ -935,7 +935,7 @@ class Content
 
         if (defined('LAYOUTS_URL') == false) {
 
-            $layouts_url = reduce_double_slashes(dirToURL($layouts_dir) . '/');
+            $layouts_url = reduce_double_slashes(mw('url')->link_to_file($layouts_dir) . '/');
 
             define("LAYOUTS_URL", $layouts_url);
         } else {
@@ -1162,7 +1162,7 @@ class Content
 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
-            $inherit_from = get_content_parents($page['id']);
+            $inherit_from = $this->get_parents($page['id']);
 
             $found = 0;
             if (!empty($inherit_from)) {
@@ -2208,7 +2208,7 @@ class Content
      * @category Content
      * @package Content
      * @subpackage Advanced
-     * @uses get_content_parents()
+     * @uses $this->get_parents()
      * @uses mw('content')->get_by_id()
      */
     public function get_inherited_parent($content_id)

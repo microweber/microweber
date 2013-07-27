@@ -62,7 +62,7 @@ class User
      * @uses hash_user_pass()
      * @uses parse_str()
      * @uses $this->get_all()
-     * @uses session_set()
+     * @uses $this->session_set()
      * @uses get_log()
      * @uses save_log()
      * @uses user_login_set_failed_attempt()
@@ -91,7 +91,7 @@ class User
         }
 
 
-        //$is_logged =  session_get('user_session');
+        //$is_logged =  $this->session_get('user_session');
         // if(isarr($is_logged) and isset($is_logged['']))
 
 
@@ -211,7 +211,7 @@ class User
 
                 $user_session = array();
                 $user_session['is_logged'] = 'no';
-                session_set('user_session', $user_session);
+                $this->session_set('user_session', $user_session);
 
                 return array('error' => 'Please enter the right username and password!');
 
@@ -233,7 +233,7 @@ class User
                         if (!empty($p)) {
                             $link = page_link($p['id']);
                             $link = $link . '/editmode:y';
-                            safe_redirect($link);
+                            mw('url')->redirect($link);
                         }
                     }
                 }
@@ -244,7 +244,7 @@ class User
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         //	d($user_session);
                         //exit();
-                        safe_redirect($_SERVER["HTTP_REFERER"]);
+                        mw('url')->redirect($_SERVER["HTTP_REFERER"]);
                         exit();
                     } else {
                         $user_session['success'] = "You are logged in!";
@@ -271,7 +271,7 @@ class User
 
         // static $uid;
         $aj = isAjax();
-        session_end();
+        mw('user')->session_end();
 
         if (isset($_COOKIE['editmode'])) {
             setcookie('editmode');
@@ -279,7 +279,7 @@ class User
 
         if ($aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
-                safe_redirect($_SERVER["HTTP_REFERER"]);
+                mw('url')->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
     }
@@ -340,7 +340,7 @@ class User
             $user_id = user_id();
         }
 
-        $name = mw('user')->nice_name($user_id, $mode);
+        $name = $this->nice_name($user_id, $mode);
         return $name;
     }
 
@@ -397,7 +397,7 @@ class User
 
         if (empty($res)) {
 
-            $res = mw('user')->get_by_username($id);
+            $res = $this->get_by_username($id);
         }
 
         return $res;
@@ -521,7 +521,7 @@ class User
             return USER_ID;
         } else {
 
-            $user_session = session_get('user_session');
+            $user_session = $this->session_get('user_session');
             if ($user_session == FALSE) {
                 return false;
             }
@@ -563,8 +563,8 @@ class User
 
                     }
                     exec_action('user_login', $data);
-                    session_set('user_session', $user_session);
-                    $user_session = session_get('user_session');
+                    $this->session_set('user_session', $user_session);
+                    $user_session = $this->session_get('user_session');
                     user_update_last_login_time();
                     $user_session['success'] = "You are logged in!";
                     return $user_session;
@@ -651,13 +651,13 @@ class User
      * @example
      * <code>
      * //get user name for user with id 10
-     * mw('user')->nice_name(10, 'full');
+     * $this->nice_name(10, 'full');
      * </code>
-     * @uses mw('user')->get_by_id()
+     * @uses $this->get_by_id()
      */
     public function nice_name($id, $mode = 'full')
     {
-        $user = mw('user')->get_by_id($id);
+        $user = $this->get_by_id($id);
         $user_data = $user;
         if (empty($user)) {
             return false;
@@ -812,6 +812,95 @@ class User
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
+
+    }
+
+
+
+
+
+
+    public function session_set($name, $val)
+    {
+
+
+        if (!defined('MW_NO_SESSION') and !headers_sent()) {
+            if (!isset($_SESSION)) {
+                session_set_cookie_params(86400);
+                ini_set('session.gc_maxlifetime', 86400);
+                session_start();
+                $_SESSION['ip'] = USER_IP;
+            }
+            if ($val == false) {
+                mw('user')->session_del($name);
+            } else {
+                $is_the_same = $this->session_get($name);
+                if ($is_the_same != $val) {
+                    $_SESSION[$name] = $val;
+                    //session_write_close();
+                    //$_SESSION['ip']=USER_IP;
+                }
+            }
+        }
+    }
+
+    public function session_get($name)
+    {
+        if (!defined('MW_NO_SESSION')) {
+            if (!headers_sent()) {
+                if (!isset($_SESSION)) {
+                    //return false;
+                    session_start();
+                    //d($_SESSION);
+                    $_SESSION['ip'] = USER_IP;
+                }
+            }
+            // probable timout here?!
+        }
+        //
+        if (isset($_SESSION) and isset($_SESSION[$name])) {
+
+
+            if (!isset($_SESSION['ip'])) {
+                $_SESSION['ip'] = USER_IP;
+            } else if ($_SESSION['ip'] != USER_IP) {
+
+                mw('user')->session_end();
+                return false;
+            }
+
+
+            return $_SESSION[$name];
+        } else {
+            return false;
+        }
+    }
+
+    public function session_del($name)
+    {
+        if (isset($_SESSION[$name])) {
+            unset($_SESSION[$name]);
+        }
+    }
+
+    public function session_end()
+    {
+
+
+        $_SESSION = array();
+
+        // If it's desired to kill the session, also delete the session cookie.
+        // Note: This will destroy the session, and not just the session data!
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+        //session_write_close();
+        unset($_SESSION);
 
     }
 }

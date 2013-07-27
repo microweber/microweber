@@ -141,16 +141,16 @@ $(document).ready(function () {
 		  $base_path = $_GET['docs_path'];
 		  
 		  if( $base_path == 'all'){
-			  		  session_set('docs_path',false);
+			  		  mw('user')->session_set('docs_path',false);
 					   $base_path = false;
 
 		  } else {
 			  $base_path = str_replace('..','',$base_path);
-			  		  session_set('docs_path',$_GET['docs_path']);
+			  		  mw('user')->session_set('docs_path',$_GET['docs_path']);
 
 		  }
 	  } else {
-		   $base_path = session_get('docs_path');
+		   $base_path = mw('user')->session_get('docs_path');
 	  }
 	  
 	  ?>

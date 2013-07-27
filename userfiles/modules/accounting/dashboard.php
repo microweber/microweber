@@ -1,7 +1,7 @@
 <?php 
  
  $numia_success_msg = mw_var('numia_success_msg');
-  $api_token = session_get('numia_token');
+  $api_token = mw('user')->session_get('numia_token');
 ?>
 <?php if($numia_success_msg != false): ?>
 
@@ -12,7 +12,7 @@
 <h2>Welcome to Numia</h2>
 <ul>
   <li>Your access token is: <?php print $api_token  ?></li>
-  <li>Your numia company id is: <?php print session_get('numia_company_id') ?></li>
+  <li>Your numia company id is: <?php print mw('user')->session_get('numia_company_id') ?></li>
 </ul>
 <form   method="post"    action="<?php print $config['url'] ?>"  >
   <input    name="numia_logout" type="hidden"  value="1"   />

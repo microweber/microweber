@@ -169,7 +169,7 @@ if (is_admin() == false) {
 								if (!isset($_REQUEST['captcha'])) {
 									die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "Please enter the captcha answer!"}}');
 									} else {
-										$cap = session_get('captcha');
+										$cap = mw('user')->session_get('captcha');
 										if ($cap == false) {
 										die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You must load a captcha first!"}}');
 
@@ -389,7 +389,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 $f_name = explode(DS, $filePath);
 
 $rerturn = array();
-$rerturn['src'] = pathToURL($filePath);
+$rerturn['src'] = mw('url')->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
 
 if(isset($upl_size_log) and $upl_size_log >0){

@@ -103,7 +103,7 @@ $(document).ready(function(){
       <?php _e("Choose country:"); ?>
     </label>
 
-    <?php  $selected_country = session_get('shiping_country'); ?>
+    <?php  $selected_country = mw('user')->session_get('shiping_country'); ?>
     <select name="country" class="field-full">
 	 <option value=""><?php _e("Choose country"); ?></option>
       <?php foreach($data  as $item): ?>

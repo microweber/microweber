@@ -612,7 +612,7 @@ class Controller
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
                         $config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = pathToURL($config['icon']);
+                        $config['icon'] = mw('url')->link_to_file($config['icon']);
                     }
                     print json_encode($config);
                     exit();
@@ -867,28 +867,28 @@ class Controller
                 $is_editmode = false;
                 $page_url = url_param_unset('editmode', $page_url);
 
-                session_set('back_to_editmode', true);
-                session_set('editmode', false);
+                mw('user')->session_set('back_to_editmode', true);
+                mw('user')->session_set('editmode', false);
                 //sleep(1);
 
 
-                //safe_redirect(site_url($page_url));
+                //mw('url')->redirect(site_url($page_url));
                 //exit();
             } else {
 
-                $editmode_sess = session_get('editmode');
+                $editmode_sess = mw('user')->session_get('editmode');
 
                 $page_url = url_param_unset('editmode', $page_url);
                 if ($is_admin == true) {
                     if ($editmode_sess == false) {
-                        session_set('editmode', true);
-                        session_set('back_to_editmode', false);
+                        mw('user')->session_set('editmode', true);
+                        mw('user')->session_set('back_to_editmode', false);
                         $is_editmode = false;
                         //	d($user_data);
                         //exit();
 
                     }
-                    safe_redirect(site_url($page_url));
+                    mw('url')->redirect(site_url($page_url));
                     exit();
                 } else {
                     $is_editmode = false;
@@ -899,7 +899,7 @@ class Controller
         }
 
         if (isset($_SESSION) and !$is_no_editmode) {
-            $is_editmode = session_get('editmode');
+            $is_editmode = mw('user')->session_get('editmode');
 
         } else {
             $is_editmode = false;
@@ -1495,7 +1495,7 @@ class Controller
             } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
                 if (!isset($_GET['isolate_content_field']) and !isset($_GET['content_id'])) {
                     //d($_REQUEST);
-                    $back_to_editmode = session_get('back_to_editmode');
+                    $back_to_editmode = mw('user')->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
                         $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
