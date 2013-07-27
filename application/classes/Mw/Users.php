@@ -318,7 +318,7 @@ class Users extends \Mw\User
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = db_escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = mw('db')->escape_string($params['password_reset_hash']);
         $table = MW_DB_TABLE_USERS;
 
         $check = get_users("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);

@@ -11,8 +11,8 @@ if($sess_numia_token  != false){
 if(!isset($_POST['numia_register']) and isset($_POST['numia_username']) and isset($_POST['numia_password']) ){
 $user = $_POST['numia_username'];
 $pass = $_POST['numia_password'];
-$user = db_escape_string($user);
-$pass = db_escape_string($pass);
+$user = mw('db')->escape_string($user);
+$pass = mw('db')->escape_string($pass);
 //GETTING OF ACCESS TOKEN//
 	if($user != '' and $user != ''){
 		$params = array();
@@ -31,19 +31,19 @@ $pass = db_escape_string($pass);
 }  else if(isset($_POST['numia_register']) and isset($_POST['numia_username']) and isset($_POST['numia_password']) ){
 $user = $_POST['numia_username'];
 $pass = $_POST['numia_password'];
-$user = db_escape_string($user);
-$pass = db_escape_string($pass);
+$user = mw('db')->escape_string($user);
+$pass = mw('db')->escape_string($pass);
 $first_name = '';
 $last_name = '';
 $company = '';
 if(isset($_POST['first_name'])){
-	$first_name = db_escape_string($_POST['first_name']);
+	$first_name = mw('db')->escape_string($_POST['first_name']);
 }
 if(isset($_POST['company'])){
-	$company = db_escape_string($_POST['company']);
+	$company = mw('db')->escape_string($_POST['company']);
 }
 if(isset($_POST['last_name'])){
-	$last_name = db_escape_string($_POST['last_name']);
+	$last_name = mw('db')->escape_string($_POST['last_name']);
 }
 
 

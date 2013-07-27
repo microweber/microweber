@@ -1,7 +1,7 @@
 <?php
 namespace Mw;
 
-action_hook('mw_db_init', mw('\Mw\User')->db_init());
+action_hook('mw_db_init', mw('Mw\User')->db_init());
 
 class User
 {
@@ -584,7 +584,7 @@ class User
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = db_escape_string($hash);
+            $hash = mw('db')->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -611,7 +611,7 @@ class User
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = db_escape_string($api_key);
+                $api_key = mw('db')->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {

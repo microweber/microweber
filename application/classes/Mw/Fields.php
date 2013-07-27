@@ -22,7 +22,7 @@ class Fields
             if (!is_array($params2) or (is_array($params2) and count($params2) < 2)) {
 
                 $id = trim($id);
-                $table = db_escape_string($table);
+                $table = mw('db')->escape_string($table);
 
                 if ($table != false) {
                     $table_assoc_name = db_get_table_name($table);
@@ -51,11 +51,11 @@ class Fields
             $debug = $params['debug'];
         }
         if (isset($params['for_id'])) {
-            $id = db_escape_string($params['for_id']);
+            $id = mw('db')->escape_string($params['for_id']);
         }
 
         if (isset($params['field_type'])) {
-            $field_type = db_escape_string($params['field_type']);
+            $field_type = mw('db')->escape_string($params['field_type']);
         }
         if (isset($params['return_full'])) {
             $return_full = $params['return_full'];
@@ -100,7 +100,7 @@ class Fields
                 $field_type_q = ' ';
 
             } else {
-                $field_type = db_escape_string($field_type);
+                $field_type = mw('db')->escape_string($field_type);
                 $field_type_q = ' and custom_field_type="' . $field_type . '"  ';
                 $field_type_q .= ' and custom_field_type!=""  ';
             }
@@ -380,7 +380,7 @@ class Fields
 
         if (isset($rel)) {
             $rel = guess_table_name($rel);
-            $rel_id = db_escape_string($rel_id);
+            $rel_id = mw('db')->escape_string($rel_id);
 
             $fields_csv_str = explode(',', $fields_csv_str);
             $fields_csv_str = array_trim($fields_csv_str);
@@ -668,7 +668,7 @@ class Fields
 
     static  function names_for_table($table)
     {
-        $table = db_escape_string($table);
+        $table = mw('db')->escape_string($table);
         $table1 = mw('db')->assoc_table_name($table);
 
         $table = MW_DB_TABLE_CUSTOM_FIELDS;

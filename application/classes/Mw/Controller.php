@@ -1,7 +1,7 @@
 <?php
 
 
-
+namespace Mw;
 // magic quotes fix
 // http://php.net/manual/en/function.get-magic-quotes-gpc.php
 // http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
@@ -27,7 +27,7 @@ if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
 
 
 // Controller Class
-class MwController
+class Controller
 {
     public $return_data = false;
     public $page_url = false;
@@ -96,9 +96,9 @@ class MwController
             define('MW_API_CALL', true);
         }
 
-if(!isset($_SESSION)){
-    session_start();
-}
+        if(!isset($_SESSION)){
+            session_start();
+        }
 
 
 
@@ -118,11 +118,11 @@ if(!isset($_SESSION)){
         $api_function_full = str_replace('..', '', $api_function_full);
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
-        $api_function_full = db_escape_string($api_function_full);
+        $api_function_full = mw('db')->escape_string($api_function_full);
 
         $mod_api_class = explode('/', $api_function_full);
         $try_class_func = array_pop($mod_api_class);
-       // $try_class_func2 = array_pop($mod_api_class);
+        // $try_class_func2 = array_pop($mod_api_class);
         $mod_api_class_copy = $mod_api_class;
         $try_class_func2 = array_pop($mod_api_class_copy);
         $mod_api_class2 = implode(DS, $mod_api_class_copy);
@@ -130,7 +130,7 @@ if(!isset($_SESSION)){
 
         $mod_api_class = implode(DS, $mod_api_class);
 
-       //d($mod_api_class);
+        //d($mod_api_class);
 
         $mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class, false) . '.php';
@@ -215,9 +215,9 @@ if(!isset($_SESSION)){
 
                 if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
 
-if(method_exists($res, $try_class_func2)){
-    $try_class_func = $try_class_func2;
-}
+                    if(method_exists($res, $try_class_func2)){
+                        $try_class_func = $try_class_func2;
+                    }
 
 
 
@@ -955,7 +955,7 @@ if(method_exists($res, $try_class_func2)){
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
                 if (isset($_GET['content_type'])) {
-                    $page['content_type'] = db_escape_string($_GET['content_type']);
+                    $page['content_type'] = mw('db')->escape_string($_GET['content_type']);
                 }
                 //d($_GET);
 
@@ -1217,8 +1217,6 @@ if(method_exists($res, $try_class_func2)){
         } else {
             $content = $page;
         }
-
-        //
 
 
 
@@ -1615,9 +1613,9 @@ if(method_exists($res, $try_class_func2)){
             if (isset($_GET['debug'])) {
 
                 $is_admin = is_admin();
-               // if ($is_admin == true) {
-                    debug_info();
-               // }
+                // if ($is_admin == true) {
+                debug_info();
+                // }
             }
 
             // print (round(microtime()-T,5)*1000);
@@ -1625,11 +1623,11 @@ if(method_exists($res, $try_class_func2)){
             exit();
         } else {
 
-          //  print 'NO LAYOUT IN ' . __FILE__;
+            //  print 'NO LAYOUT IN ' . __FILE__;
 
             print 'Error! Please try again later.';
 
-          //  d($template_view);
+            //  d($template_view);
             //d($page);
             mw('cache')->purge();
             exit();

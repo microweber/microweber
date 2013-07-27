@@ -3,7 +3,7 @@
 
 
 
-function countries_list()
+function mw('mw\Forms')->countries_list()
 {
 
     return mw('mw\Forms')->countries_list();

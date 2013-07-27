@@ -826,7 +826,7 @@ class ContentUtils
 
         }
         if (isset($data['is_draft']) and isset($data['url'])) {
-            $fld_remove = db_escape_string($data['url']);
+            $fld_remove = mw('db')->escape_string($data['url']);
 
             $history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
             if (isarr($history_files)) {
@@ -850,11 +850,11 @@ class ContentUtils
         }
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
-            $fld = db_escape_string($data['field']);
-            $fld_rel = db_escape_string($data['rel']);
+            $fld = mw('db')->escape_string($data['field']);
+            $fld_rel = mw('db')->escape_string($data['rel']);
             $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
             if (isset($data['rel_id'])) {
-                $i = db_escape_string($data['rel_id']);
+                $i = mw('db')->escape_string($data['rel_id']);
                 $del_q .= " and  rel_id='$i' ";
 
             } else {
@@ -1078,7 +1078,7 @@ class ContentUtils
         $ids = array_unique($ids);
 
         $ids_implode = implode(',', $ids);
-        $ids_implode = db_escape_string($ids_implode);
+        $ids_implode = mw('db')->escape_string($ids_implode);
 
 
         $table = MW_TABLE_PREFIX . 'content';
@@ -1515,7 +1515,7 @@ class ContentUtils
 
         $id = $params['id'];
 
-        $id = db_escape_string($id);
+        $id = mw('db')->escape_string($id);
         $id = htmlspecialchars_decode($id);
         $table = MODULE_DB_MENUS;
 

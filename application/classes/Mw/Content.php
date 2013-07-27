@@ -972,7 +972,7 @@ class Content
 
         // $url = strtolower($url);
         //  $url = string_clean($url);
-        $url = db_escape_string($url);
+        $url = mw('db')->escape_string($url);
         $url = addslashes($url);
 
         $url12 = parse_url($url);
@@ -1589,7 +1589,7 @@ class Content
 
         $is_shop = '';
         if (isset($params['is_shop'])) {
-            $is_shop = db_escape_string($params['is_shop']);
+            $is_shop = mw('db')->escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
 

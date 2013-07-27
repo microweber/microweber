@@ -4,7 +4,7 @@
 
 
 
-function db_escape_string($value)
+function mw('db')->escape_string($value)
 {
     global $mw_escaped_strings;
     if (isset($mw_escaped_strings[$value])) {

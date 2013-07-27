@@ -13,7 +13,7 @@
   if(isarr($data)){
 	foreach($data as $key => $item){
 			if(trim(strtolower($item['shiping_country']))  == 'worldwide' ){
-				 $countries_all = countries_list();
+				 $countries_all = mw('mw\Forms')->countries_list();
 				 unset($data[$key]);
 				  if(isarr($countries_all)){
 

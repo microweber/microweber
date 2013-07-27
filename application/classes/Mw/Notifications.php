@@ -60,7 +60,7 @@ class Notifications
             $get_params['table'] = 'table_notifications';
             $get_params['is_read'] = 'n';
             $get_params['fields'] = 'id';
-            $get_params['module'] = db_escape_string($module);
+            $get_params['module'] = mw('db')->escape_string($module);
 
             $data = $this->get($get_params);
             if (isarr($data)) {
@@ -126,7 +126,7 @@ class Notifications
             $get_params = array();
             $get_params['table'] = 'table_notifications';
             $get_params['fields'] = 'id';
-            $get_params['module'] = db_escape_string($module);
+            $get_params['module'] = mw('db')->escape_string($module);
 
             $data = $this->get($get_params);
             if (isarr($data)) {
@@ -209,9 +209,9 @@ class Notifications
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
                 unset($params['replace']);
-                $rel1 = db_escape_string($params['rel']);
-                $module1 = db_escape_string($params['module']);
-                $rel_id1 = db_escape_string($params['rel_id']);
+                $rel1 = mw('db')->escape_string($params['rel']);
+                $module1 = mw('db')->escape_string($params['module']);
+                $rel_id1 = mw('db')->escape_string($params['rel_id']);
                 $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
                 mw('db')->q($cleanup);
 
@@ -236,7 +236,7 @@ class Notifications
 
             }
 
-            $params['id'] = db_escape_string($id);
+            $params['id'] = mw('db')->escape_string($id);
             $params['one'] = true;
 
             $get = $this->get($params);

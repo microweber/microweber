@@ -297,18 +297,18 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
     $ok1 = '';
     $ok2 = '';
     if ($option_group != false) {
-        $option_group = db_escape_string($option_group);
+        $option_group = mw('db')->escape_string($option_group);
         $ok1 = " AND option_group='{$option_group}' ";
     }
 
     if ($module != false) {
-        $module = db_escape_string($module);
+        $module = mw('db')->escape_string($module);
         $data['module'] = $module;
         $ok1 = " AND module='{$module}' ";
     }
     $data['limit'] = 1;
     // $get = mw('db')->get_long($table, $data, $cache_group);
-    $ok = db_escape_string($data['option_key']);
+    $ok = mw('db')->escape_string($data['option_key']);
     if ($return_full == true) {
         $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} limit 1 ";
     } else {
@@ -558,9 +558,9 @@ function save_option($data)
         }
 
         if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
-            //$m = db_escape_string($data['module']);
-            $opt_gr = db_escape_string($data['option_group']);
-            $opt_key = db_escape_string($data['option_key']);
+            //$m = mw('db')->escape_string($data['module']);
+            $opt_gr = mw('db')->escape_string($data['option_group']);
+            $opt_key = mw('db')->escape_string($data['option_key']);
             $clean = "delete from $table where      option_group='{$opt_gr}' and  option_key='{$opt_key}'";
             mw('db')->q($clean);
             $cache_group = 'options/' . $opt_gr;
@@ -643,17 +643,17 @@ function save_option($data)
 
 function delete_option_by_key($key, $option_group = false, $module_id = false)
 {
-    $key = db_escape_string($key);
+    $key = mw('db')->escape_string($key);
 
     $table = MW_DB_TABLE_OPTIONS;
     $option_group_q1 = '';
     if ($option_group != false) {
-        $option_group = db_escape_string($option_group);
+        $option_group = mw('db')->escape_string($option_group);
         $option_group_q1 = "and option_group='{$option_group}'";
     }
     $module_id_q1 = '';
     if ($module_id != false) {
-        $module_id = db_escape_string($module_id);
+        $module_id = mw('db')->escape_string($module_id);
         $module_id_q1 = "and module='{$module_id}'";
     }
 

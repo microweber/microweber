@@ -64,7 +64,7 @@ function mark_comments_as_old($data) {
 
 				$upd['id'] = $get_com['id'];
 				$upd['rel'] = 'content';
-				$upd['rel_id'] = db_escape_string($data['content_id']);
+				$upd['rel_id'] = mw('db')->escape_string($data['content_id']);
 				mw('db')->save($table, $upd);
 			}
 		}
@@ -235,7 +235,7 @@ function get_comments($params) {
 	}
 	if (isset($params['content_id'])) {
 		$params['rel'] = 'content';
-		$params['rel_id'] = db_escape_string($params['content_id']);
+		$params['rel_id'] = mw('db')->escape_string($params['content_id']);
 
 	}
 

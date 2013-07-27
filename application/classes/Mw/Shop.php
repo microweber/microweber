@@ -853,7 +853,7 @@ class Shop
         //d($payment_verify_token);
         $ord_data = get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
         // d($ord_data);.
-        $payment_verify_token = db_escape_string($payment_verify_token);
+        $payment_verify_token = mw('db')->escape_string($payment_verify_token);
         $table = MODULE_DB_SHOP_ORDERS;
         $q = " SELECT  * FROM $table WHERE payment_verify_token='{$payment_verify_token}'  AND transaction_id IS NULL  LIMIT 1";
 
@@ -984,7 +984,7 @@ class Shop
         $table = MODULE_DB_SHOP_ORDERS;
 
         if (isset($data['email'])) {
-            $c_id = db_escape_string($data['email']);
+            $c_id = mw('db')->escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
             $res = \mw('db')->q($q);
             //\mw('db')->delete_by_id($table, $c_id, 'email');

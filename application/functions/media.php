@@ -375,7 +375,7 @@ function save_media($data)
     }
 
     if (isset($data['media_type'])) {
-        $t = db_escape_string($data['media_type']);
+        $t = mw('db')->escape_string($data['media_type']);
         $s['media_type'] = $t;
     }
 

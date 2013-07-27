@@ -27,9 +27,9 @@ function mw('Mw\Notifications')->save($params) {
 	if(isset($params['replace'])){
 		if(isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])){
 			unset($params['replace']);
-			$rel1 = db_escape_string($params['rel']);
-			$module1 = db_escape_string($params['module']);
-			$rel_id1 = db_escape_string($params['rel_id']);
+			$rel1 = mw('db')->escape_string($params['rel']);
+			$module1 = mw('db')->escape_string($params['module']);
+			$rel_id1 = mw('db')->escape_string($params['rel_id']);
 			$cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
 			\mw('db')->q($cleanup);
 
@@ -61,7 +61,7 @@ function mw('Mw\Notifications')->delete_for_module($module) {
 		 $get_params = array();
 		$get_params['table'] = 'table_notifications';
 		$get_params['fields'] = 'id';
-		$get_params['module'] = db_escape_string($module);
+		$get_params['module'] = mw('db')->escape_string($module);
 
 		$data = mw('Mw\Notifications')->get($get_params);
 		if(isarr($data )){
@@ -88,7 +88,7 @@ function mw('Mw\Notifications')->mark_as_read($module) {
 		$get_params['table'] = 'table_notifications';
 		$get_params['is_read'] = 'n';
 		$get_params['fields'] = 'id';
-		$get_params['module'] = db_escape_string($module);
+		$get_params['module'] = mw('db')->escape_string($module);
 
 		$data = mw('Mw\Notifications')->get($get_params);
 		if (isarr($data)) {
@@ -135,7 +135,7 @@ function mw('Mw\Notifications')->get_by_id($id) {
 
 		}
 
-		$params['id'] = db_escape_string($id);
+		$params['id'] = mw('db')->escape_string($id);
 		$params['one'] = true;
 
 		$get = mw('Mw\Notifications')->get($params);

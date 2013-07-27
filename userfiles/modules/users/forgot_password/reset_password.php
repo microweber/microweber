@@ -43,7 +43,7 @@ $(document).ready(function(){
 <div class="mw-o-box-content" id="form-holder<?php print $params['id'];  ?>">
   <?php if(isset($_GET['reset_password_link']) == true): ?>
   <?php
-$reset = db_escape_string($_GET['reset_password_link']);
+$reset = mw('db')->escape_string($_GET['reset_password_link']);
 $data = get_users("single=true&password_reset_hash=".$reset); ?>
   <?php if(isarr($data)): ?>
   <form id="user_reset_password_form<?php print $params['id'];  ?>" method="post" class="clearfix">

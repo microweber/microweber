@@ -314,7 +314,7 @@ class Forms
         return mw('db')->get($params);
     }
 
-    public function countries_list()
+    public function  countries_list()
     {
 
         $table = MW_DB_TABLE_COUNTRIES;

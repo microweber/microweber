@@ -63,7 +63,7 @@ class Modules extends \mw\Module
 
                         $save = mw('db')->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
-                        $mname_clen = db_escape_string($mname_clen);
+                        $mname_clen = mw('db')->escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
