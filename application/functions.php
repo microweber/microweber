@@ -74,6 +74,9 @@ function mw($class, $constructor_params=false)
      //  if(is_callable($_mw_registry[$class_name])){
     return $_mw_registry[$class_name];
        //}
+   } else {
+       print 111111111;
+       return new stdClass;
    }
 
 }

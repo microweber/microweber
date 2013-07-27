@@ -55,29 +55,37 @@ function exec_action($api_function, $data = false)
 
         foreach ($hooks[$api_function] as $hook_key => $hook_value) {
 
-            if (function_exists($hook_value)) {
-                if ($data != false) {
-                    $return[$hook_value] = $hook_value($data);
+            if ($hook_value != false) {
+
+                if (function_exists($hook_value)) {
+                    if ($data != false) {
+                        $return[$hook_value] = $hook_value($data);
+                    } else {
+
+                        $return[$hook_value] = $hook_value();
+                    }
+                    unset($hooks[$api_function][$hook_key]);
+
                 } else {
 
-                    $return[$hook_value] = $hook_value();
-                }
-                unset($hooks[$api_function][$hook_key]);
+                    if (is_string($hook_value) or is_object($hook_value)) {
+                        try {
+                            if ($data != false) {
+                                $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
+                            } else {
+                                $return[$hook_value] = call_user_func($hook_value, function () {
+                                    return true;
+                                });
+                            }
+                        } catch (Exception $e) {
 
-            } else {
-
-
-                try {
-                    if ($data != false) {
-                        $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
-                    } else {
-                        $return[$hook_value] = call_user_func($hook_value, false);
+                        }
                     }
-                } catch (Exception $e) {
 
                 }
 
             }
+
         }
         if (!empty($return)) {
             return $return;
