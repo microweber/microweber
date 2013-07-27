@@ -18,7 +18,7 @@ if(isset($params['limit'])){
 
 $notif_params["order_by"] = 'created_on desc';
 $notif_params["order_by"] = 'is_read desc, created_on desc';
-$data = \mw\Notifications::get($notif_params);
+$data = mw('mw\Notifications')->get($notif_params);
 
 
 ?>

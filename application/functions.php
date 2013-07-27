@@ -43,17 +43,24 @@ function mw_autoload($className) {
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-		require $fileName;
+		include_once($fileName);
 	}
 
 }
+
+
+
+
+spl_autoload_register('mw_autoload');
 $_mw_registry = array();
 function mw($class, $constructor_params=false)
 {
+   if($class != false){
     global $_mw_registry;
 
     $class_name = strtolower($class);
     $class = ucfirst($class);
+    $class = str_replace('/','\\',$class);
     if(!isset($_mw_registry[$class_name])){
         if($constructor_params == false){
             $_mw_registry[$class_name] = new $class($constructor_params);
@@ -63,14 +70,14 @@ function mw($class, $constructor_params=false)
 
         }
     }
+     //  d($class);
+     //  if(is_callable($_mw_registry[$class_name])){
     return $_mw_registry[$class_name];
+       //}
+   }
 
 }
 
-
-
-
-spl_autoload_register('mw_autoload');
 //require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
 /*

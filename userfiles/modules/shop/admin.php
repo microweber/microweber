@@ -1,6 +1,6 @@
 <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
- $mw_notif = \mw\Notifications::read( $mw_notif);
+ $mw_notif = mw('mw\Notifications')->read( $mw_notif);
 
 }
 

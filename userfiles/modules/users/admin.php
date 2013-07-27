@@ -172,9 +172,9 @@ function mw_admin_delete_user_by_id($user_id){
 
 <?php $mw_notif = (url_param('mw_notif'));
     if( $mw_notif != false){
-        $mw_notif = \mw\Notifications::read( $mw_notif);
+        $mw_notif = mw('mw\Notifications')->read( $mw_notif);
     }
-    \mw\Notifications::mark_as_read('users');
+    mw('mw\Notifications')->mark_as_read('users');
 ?>
 <?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">

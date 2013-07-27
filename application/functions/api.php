@@ -4,7 +4,7 @@
 
 
 
-  function db_escape_string($value)
+function db_escape_string($value)
 {
     global $mw_escaped_strings;
     if (isset($mw_escaped_strings[$value])) {
@@ -69,9 +69,9 @@ function exec_action($api_function, $data = false)
 
                 try {
                     if ($data != false) {
-                        $return[$hook_value] = call_user_func($hook_value,$data); // As of PHP 5.3.0
+                        $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
                     } else {
-                        $return[$hook_value] = call_user_func($hook_value,false);
+                        $return[$hook_value] = call_user_func($hook_value, false);
                     }
                 } catch (Exception $e) {
 
@@ -79,7 +79,7 @@ function exec_action($api_function, $data = false)
 
             }
         }
-        if(!empty($return)){
+        if (!empty($return)) {
             return $return;
         }
     }
@@ -249,31 +249,24 @@ function mw_var($key, $new_val = false)
 }
 
 
-
-
 action_hook('mw_cron', 'mw_cron');
 api_expose('mw_cron');
 function mw_cron()
 {
 
 
-
-
-
-
     $file_loc = CACHEDIR_ROOT . "cron" . DS;
-    $file_loc_hour = $file_loc . 'cron_lock' .'.php';
+    $file_loc_hour = $file_loc . 'cron_lock' . '.php';
 
     $time = time();
-    if(!is_file($file_loc_hour)){
+    if (!is_file($file_loc_hour)) {
         @touch($file_loc_hour);
     } else {
-        if((filemtime($file_loc_hour)) >  $time - 5){
+        if ((filemtime($file_loc_hour)) > $time - 5) {
             touch($file_loc_hour);
             return true;
         }
     }
-
 
 
     // touch($file_loc_hour);

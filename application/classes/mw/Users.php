@@ -1,15 +1,19 @@
 <?php
 namespace mw;
-if (!defined("MW_DB_TABLE_USERS")) {
-    define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
-}
-if (!defined("MW_DB_TABLE_LOG")) {
-    define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
-}
-action_hook('mw_db_init_default', '\mw\Users\db_init');
-action_hook('mw_db_init', '\mw\Users\db_init');
+
+
+
 class Users extends \mw\User
 {
+    function __construct()
+    {
+        if (!defined("MW_DB_TABLE_USERS")) {
+            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+        }
+        if (!defined("MW_DB_TABLE_LOG")) {
+            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+        }
+    }
 
     public function register($params)
     {
@@ -105,7 +109,7 @@ class Users extends \mw\User
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    \mw\Notifications::save($notif);
+                    mw('mw\Notifications')->save($notif);
 
                     save_log($notif);
 
@@ -147,7 +151,6 @@ class Users extends \mw\User
     }
 
 
-
     /**
      * Allows you to save users in the database
      *
@@ -181,7 +184,7 @@ class Users extends \mw\User
      *
      * @return bool|int
      */
-   public function save($params)
+    public function save($params)
     {
 
         $force = mw_var('force_save_user');
@@ -239,6 +242,7 @@ class Users extends \mw\User
         mw('cache')->delete('users' . DIRECTORY_SEPARATOR . $id);
         return $id;
     }
+
     function delete($data)
     {
         $adm = is_admin();
@@ -278,7 +282,7 @@ class Users extends \mw\User
     }
 
 
-   public function reset_password_from_link($params)
+    public function reset_password_from_link($params)
     {
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
@@ -519,7 +523,7 @@ class Users extends \mw\User
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            \mw\Notifications::save($notif);
+                            mw('mw\Notifications')->save($notif);
 
                             save_log($notif);
 
@@ -557,6 +561,7 @@ class Users extends \mw\User
 
         }
     }
+
     public function social_login_process()
     {
         set_exception_handler('social_login_exception_handler');
@@ -568,7 +573,6 @@ class Users extends \mw\User
         //$err= $api->is_error();
 
     }
-
 
 
     /**
@@ -585,7 +589,7 @@ class Users extends \mw\User
      *
      * @return array of users;
      */
-    public function get($params= false)
+    public function get($params = false)
     {
         return $this->get_all($params);
     }
@@ -605,127 +609,24 @@ class Users extends \mw\User
         return $data;
     }
 
-    public function db_init()
+
+
+}
+
+if (!function_exists('social_login_exception_handler')) {
+    function social_login_exception_handler($exception)
     {
-        $function_cache_id = false;
 
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if (isAjax()) {
+            return array('error' => $exception->getMessage());
         }
 
-        $function_cache_id = 'users'.__FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
+        $after_log = session_get('user_after_login');
+        if ($after_log != false) {
+            safe_redirect($after_log);
+        } else {
+            safe_redirect(site_url());
         }
 
-        $table_name = MW_DB_TABLE_USERS;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('expires_on', 'datetime default NULL');
-        $fields_to_add[] = array('last_login', 'datetime default NULL');
-        $fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
-
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('username', 'TEXT default NULL');
-
-        $fields_to_add[] = array('password', 'TEXT default NULL');
-        $fields_to_add[] = array('email', 'TEXT default NULL');
-
-        $fields_to_add[] = array('is_active', "char(1) default 'n'");
-        $fields_to_add[] = array('is_admin', "char(1) default 'n'");
-        $fields_to_add[] = array('is_verified', "char(1) default 'n'");
-        $fields_to_add[] = array('is_public', "char(1) default 'y'");
-
-        $fields_to_add[] = array('basic_mode', "char(1) default 'n'");
-
-        $fields_to_add[] = array('first_name', 'TEXT default NULL');
-        $fields_to_add[] = array('last_name', 'TEXT default NULL');
-        $fields_to_add[] = array('thumbnail', 'TEXT default NULL');
-
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-
-        $fields_to_add[] = array('api_key', 'TEXT default NULL');
-
-        $fields_to_add[] = array('user_information', 'TEXT default NULL');
-        $fields_to_add[] = array('subscr_id', 'TEXT default NULL');
-        $fields_to_add[] = array('role', 'TEXT default NULL');
-        $fields_to_add[] = array('medium', 'TEXT default NULL');
-
-        $fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
-
-        $fields_to_add[] = array('profile_url', 'TEXT default NULL');
-        $fields_to_add[] = array('website_url', 'TEXT default NULL');
-        $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
-
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
-
-        \mw('mw\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
-        \mw('mw\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
-
-
-        $table_name = MW_DB_TABLE_LOG;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-
-        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-
-        $fields_to_add[] = array('field', 'longtext default NULL');
-        $fields_to_add[] = array('value', 'TEXT default NULL');
-        $fields_to_add[] = array('module', 'longtext default NULL');
-
-        $fields_to_add[] = array('data_type', 'TEXT default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('content', 'TEXT default NULL');
-        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
-        $fields_to_add[] = array('session_id', 'longtext default NULL');
-        $fields_to_add[] = array('is_system', "char(1) default 'n'");
-
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
-
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
-        return true;
-
     }
-
-}
-if(!function_exists('social_login_exception_handler')){
-function social_login_exception_handler($exception)
-{
-
-    if (isAjax()) {
-        return array('error' => $exception->getMessage());
-    }
-
-    $after_log = session_get('user_after_login');
-    if ($after_log != false) {
-        safe_redirect($after_log);
-    } else {
-        safe_redirect(site_url());
-    }
-
-}
 }

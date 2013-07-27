@@ -1,7 +1,7 @@
 <?php
 namespace mw;
-action_hook('mw_db_init_default', '\mw\Content\db_init');
-action_hook('mw_db_init', '\mw\Content\db_init');
+
+action_hook('mw_db_init', mw('mw\Content')->db_init());
 
 /**
  * This file holds useful functions to work with content
@@ -14,45 +14,46 @@ action_hook('mw_db_init', '\mw\Content\db_init');
  */
 
 
-if (!defined("MW_DB_TABLE_CONTENT")) {
-    define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
-}
+class Content
+{
 
-if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
-    define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
-}
+    function __construct()
+    {
 
-if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
-    define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', MW_TABLE_PREFIX . 'content_fields_drafts');
-}
+        if (!defined("MW_DB_TABLE_CONTENT")) {
+            define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
+        }
 
-if (!defined("MW_DB_TABLE_MEDIA")) {
-    define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
-}
+        if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
+            define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
+        }
 
-if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
-    define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
-}
-if (!defined("MW_DB_TABLE_MENUS")) {
-    define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
-}
-if (!defined("MODULE_DB_MENUS")) {
-    define('MODULE_DB_MENUS', MW_TABLE_PREFIX . 'menus');
-}
+        if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
+            define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', MW_TABLE_PREFIX . 'content_fields_drafts');
+        }
 
-if (!defined("MW_DB_TABLE_TAXONOMY")) {
-    define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
-}
+        if (!defined("MW_DB_TABLE_MEDIA")) {
+            define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
+        }
 
-if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
-    define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
-}
+        if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+            define('MW_DB_TABLE_CUSTOM_FIELDS', MW_TABLE_PREFIX . 'custom_fields');
+        }
+        if (!defined("MW_DB_TABLE_MENUS")) {
+            define('MW_DB_TABLE_MENUS', MW_TABLE_PREFIX . 'menus');
+        }
+        if (!defined("MODULE_DB_MENUS")) {
+            define('MODULE_DB_MENUS', MW_TABLE_PREFIX . 'menus');
+        }
 
+        if (!defined("MW_DB_TABLE_TAXONOMY")) {
+            define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
+        }
 
-
-class Content {
-
-
+        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+            define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
+        }
+    }
 
     /**
      * Gets a link for given content id
@@ -420,14 +421,13 @@ class Content {
         return $content;
     }
 
-    static  function custom_fields($content_id, $full = true, $field_type = false)
+    static function custom_fields($content_id, $full = true, $field_type = false)
     {
 
         return mw('fields')->get('content', $content_id, $full, false, false, $field_type);
 
 
     }
-
 
 
     public function edit_field($data, $debug = false)
@@ -491,7 +491,6 @@ class Content {
         $data['table'] = $table;
 
         $get = mw('db')->get($data);
-
 
 
         if (!isset($data['full']) and isset($get['value'])) {
@@ -664,9 +663,6 @@ class Content {
 
         return $page_links;
     }
-
-
-
 
 
     /**
@@ -952,7 +948,6 @@ class Content {
     }
 
 
-
     public function get_by_url($url = '', $no_recursive = false)
     {
         if (strval($url) == '') {
@@ -1087,7 +1082,6 @@ class Content {
         $mw_precached_links[$link_hash] = false;
         return false;
     }
-
 
 
     /**
@@ -1443,7 +1437,6 @@ class Content {
     }
 
 
-
     /**
      * Returns the homepage as array
      *
@@ -1467,8 +1460,6 @@ class Content {
 
         return $content;
     }
-
-
 
 
     /**
@@ -2144,6 +2135,7 @@ class Content {
 
         return false;
     }
+
     public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
 
@@ -2239,6 +2231,7 @@ class Content {
         }
 
     }
+
     /**
      * Creates the content tables in the database.
      *
@@ -2261,7 +2254,7 @@ class Content {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'content_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'content_' . __FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = mw('cache')->get($function_cache_id, 'db');
 
@@ -2500,7 +2493,6 @@ class Content {
     }
 
 
-
     public function get_menu_items($params = false)
     {
         $table = MODULE_DB_MENUS;
@@ -2549,7 +2541,6 @@ class Content {
     }
 
 
-
     public function menu_tree($menu_id, $maxdepth = false)
     {
 
@@ -2572,7 +2563,6 @@ class Content {
         $params_o = $menu_params;
         $cache_group = 'menus/global';
         $function_cache_id = false;
-
 
 
         $params = array();
@@ -2865,7 +2855,7 @@ class Content {
     public function template_header($script_src)
     {
         static $mw_template_headers;
-        if( $mw_template_headers == null){
+        if ($mw_template_headers == null) {
             $mw_template_headers = array();
         }
 
@@ -2893,7 +2883,7 @@ class Content {
 
 
                         default:
-                            $src .=   $header   . "\n";
+                            $src .= $header . "\n";
                             break;
                     }
                 }

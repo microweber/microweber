@@ -1,25 +1,10 @@
 <?php
 namespace mw;
-if (!defined("MW_DB_TABLE_MODULES")) {
-    define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
-}
 
-if (!defined("MW_DB_TABLE_ELEMENTS")) {
-    define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
-}
-
-if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
-    define('MW_DB_TABLE_MODULE_TEMPLATES', MW_TABLE_PREFIX . 'module_templates');
-}
-
-
-if (!defined('EMPTY_MOD_STR')) {
-    define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
-}
 
 $_mw_modules_info_register = array();
+action_hook('mw_db_init', mw('mw\Module')->db_init());
 
-action_hook('mw_db_init', '\mw\Module\init_db');
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
@@ -27,6 +12,26 @@ $mw_loaded_mod_memory = array();
 $mw_defined_module_classes = array();
 class Module
 {
+    function __construct()
+    {
+        if (!defined("MW_DB_TABLE_MODULES")) {
+            define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
+        }
+
+        if (!defined("MW_DB_TABLE_ELEMENTS")) {
+            define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
+        }
+
+        if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
+            define('MW_DB_TABLE_MODULE_TEMPLATES', MW_TABLE_PREFIX . 'module_templates');
+        }
+
+
+        if (!defined('EMPTY_MOD_STR')) {
+            define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
+        }
+    }
+
     public function get($params = false)
     {
 

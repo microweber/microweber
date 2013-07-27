@@ -1,22 +1,27 @@
 <?php
 namespace mw;
 
-if (!defined("MW_DB_TABLE_COUNTRIES")) {
-    define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
-}
-if (!defined("MW_DB_TABLE_FORMS_LISTS")) {
-    define('MW_DB_TABLE_FORMS_LISTS', MW_TABLE_PREFIX . 'forms_lists');
-}
 
-if (!defined("MW_DB_TABLE_FORMS_DATA")) {
-    define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
-}
+action_hook('mw_db_init', mw('mw\Notifications')->db_init());
 
-action_hook('mw_db_init', '\mw\Forms\db_init');
 class Forms
 {
 
-    static function get_entires($params)
+    function __construct()
+    {
+        if (!defined("MW_DB_TABLE_COUNTRIES")) {
+            define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
+        }
+        if (!defined("MW_DB_TABLE_FORMS_LISTS")) {
+            define('MW_DB_TABLE_FORMS_LISTS', MW_TABLE_PREFIX . 'forms_lists');
+        }
+
+        if (!defined("MW_DB_TABLE_FORMS_DATA")) {
+            define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
+        }
+    }
+
+    public function get_entires($params)
     {
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_DATA;
@@ -55,7 +60,7 @@ class Forms
         }
     }
 
-    static function save_list($params)
+    public function save_list($params)
     {
         $adm = is_admin();
         if ($adm == false) {
@@ -90,7 +95,7 @@ class Forms
         return $params;
     }
 
-    static function post($params)
+    public function post($params)
     {
 
         $adm = is_admin();
@@ -246,7 +251,7 @@ class Forms
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
             $notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
-            \mw\Notifications::save($notif);
+            mw('mw\Notifications')->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
                 $email_to = get_option('email_from', 'email');
@@ -300,7 +305,7 @@ class Forms
 
     }
 
-    static function get_lists($params)
+    public function get_lists($params)
     {
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
@@ -309,7 +314,7 @@ class Forms
         return mw('db')->get($params);
     }
 
-    static function countries_list()
+    public function countries_list()
     {
 
         $table = MW_DB_TABLE_COUNTRIES;
@@ -330,7 +335,7 @@ class Forms
 
     }
 
-    static function delete_entry($data)
+    public function delete_entry($data)
     {
 
         $adm = is_admin();
@@ -372,7 +377,7 @@ class Forms
         }
     }
 
-    static function delete_list($data)
+    public function delete_list($data)
     {
 
         $adm = is_admin();
@@ -388,7 +393,7 @@ class Forms
         }
     }
 
-    static function db_init()
+    public function db_init()
     {
         $function_cache_id = false;
 
@@ -462,7 +467,7 @@ class Forms
     }
 
 
-    static function export_to_excel($params)
+    public function export_to_excel($params)
     {
         //this function is experimental
         set_time_limit(0);
@@ -569,7 +574,7 @@ class Forms
      * @param        array $column_for_not_drop for not drop
      * @return bool|mixed
      */
-    static function build_table($table_name, $fields_to_add, $column_for_not_drop = array())
+    public function build_table($table_name, $fields_to_add, $column_for_not_drop = array())
     {
         $function_cache_id = false;
 
@@ -683,7 +688,7 @@ class Forms
      * @param string $aOnColumns Involved columns
      * @param bool $indexType
      */
-    static function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
+    public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
     {
         $columns = implode(',', $aOnColumns);
 
@@ -715,7 +720,7 @@ class Forms
      * @param string $aTable
      * @param string $aEngine
      */
-    static function set_table_engine($aTable, $aEngine = 'MyISAM')
+    public function set_table_engine($aTable, $aEngine = 'MyISAM')
     {
         \mw('db')->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
@@ -734,7 +739,7 @@ class Forms
      * @param array $aForeignColumns Foreign columns
      * @param array $aOptions On update and on delete options
      */
-    static function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
+    public function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
     {
         $query = \mw('db')->query("
 		SELECT

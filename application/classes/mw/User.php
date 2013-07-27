@@ -1,14 +1,21 @@
 <?php
 namespace mw;
-if (!defined("MW_DB_TABLE_USERS")) {
-    define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
-}
-if (!defined("MW_DB_TABLE_LOG")) {
-    define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
-}
+
+action_hook('mw_db_init', mw('\mw\User')->db_init());
 
 class User
 {
+
+
+    function __construct()
+    {
+        if (!defined("MW_DB_TABLE_USERS")) {
+            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+        }
+        if (!defined("MW_DB_TABLE_LOG")) {
+            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+        }
+    }
 
     /**
      * Allows you to login a user into the system
@@ -255,7 +262,7 @@ class User
     }
 
 
-   public function logout()
+    public function logout()
     {
 
         if (!defined('USER_ID')) {
@@ -288,6 +295,7 @@ class User
 
 
     }
+
     public function has_access($function_name)
     {
 
@@ -335,6 +343,7 @@ class User
         $name = mw('user')->nice_name($user_id, $mode);
         return $name;
     }
+
     /**
      * Generic function to get the user by id.
      * Uses the getUsers function to get the data
@@ -354,24 +363,26 @@ class User
         $data = array();
         $data['id'] = $id;
         $data['limit'] = 1;
-        $data = self::get_all($data);
+        $data = $this->get_all($data);
         if (isset($data[0])) {
             $data = $data[0];
         }
         return $data;
     }
+
     public function get_by_username($username)
     {
         $data = array();
         $data['username'] = $username;
         $data['limit'] = 1;
-        $data = self::get_all($data);
+        $data = $this->get_all($data);
         if (isset($data[0])) {
             $data = $data[0];
         }
         return $data;
     }
-    public function get($params= false)
+
+    public function get($params = false)
     {
         $id = $params;
         if ($id == false) {
@@ -382,7 +393,7 @@ class User
             return false;
         }
 
-        $res = self::get_by_id($id);
+        $res = $this->get_by_id($id);
 
         if (empty($res)) {
 
@@ -471,6 +482,7 @@ class User
 
         return $get;
     }
+
     public function is_admin()
     {
 
@@ -482,11 +494,11 @@ class User
             // var_dump( $is);
             return $is;
         } else {
-            $usr = self::id();
+            $usr = $this->id();
             if ($usr == false) {
                 return false;
             }
-            $usr = self::get($usr);
+            $usr = $this->get($usr);
 
             if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
                 define("USER_IS_ADMIN", true);
@@ -528,6 +540,7 @@ class User
             return $res;
         }
     }
+
     public function make_logged($user_id)
     {
 
@@ -563,6 +576,7 @@ class User
         }
 
     }
+
     public function hash_pass($pass)
     {
 
@@ -579,6 +593,7 @@ class User
         return $hash;
 
     }
+
     public function login_set_failed_attempt()
     {
 
@@ -694,6 +709,112 @@ class User
         }
 
         return $name;
+
+    }
+
+    public function db_init()
+    {
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
+
+        $cache_content = mw('cache')->get($function_cache_id, 'db');
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table_name = MW_DB_TABLE_USERS;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('expires_on', 'datetime default NULL');
+        $fields_to_add[] = array('last_login', 'datetime default NULL');
+        $fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
+
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+
+        $fields_to_add[] = array('username', 'TEXT default NULL');
+
+        $fields_to_add[] = array('password', 'TEXT default NULL');
+        $fields_to_add[] = array('email', 'TEXT default NULL');
+
+        $fields_to_add[] = array('is_active', "char(1) default 'n'");
+        $fields_to_add[] = array('is_admin', "char(1) default 'n'");
+        $fields_to_add[] = array('is_verified', "char(1) default 'n'");
+        $fields_to_add[] = array('is_public', "char(1) default 'y'");
+
+        $fields_to_add[] = array('basic_mode', "char(1) default 'n'");
+
+        $fields_to_add[] = array('first_name', 'TEXT default NULL');
+        $fields_to_add[] = array('last_name', 'TEXT default NULL');
+        $fields_to_add[] = array('thumbnail', 'TEXT default NULL');
+
+        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
+
+        $fields_to_add[] = array('api_key', 'TEXT default NULL');
+
+        $fields_to_add[] = array('user_information', 'TEXT default NULL');
+        $fields_to_add[] = array('subscr_id', 'TEXT default NULL');
+        $fields_to_add[] = array('role', 'TEXT default NULL');
+        $fields_to_add[] = array('medium', 'TEXT default NULL');
+
+        $fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_token', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
+
+        $fields_to_add[] = array('profile_url', 'TEXT default NULL');
+        $fields_to_add[] = array('website_url', 'TEXT default NULL');
+        $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
+
+        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+
+        \mw('mw\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
+        \mw('mw\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
+
+
+        $table_name = MW_DB_TABLE_LOG;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+
+        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
+        $fields_to_add[] = array('position', 'int(11) default NULL');
+
+        $fields_to_add[] = array('field', 'longtext default NULL');
+        $fields_to_add[] = array('value', 'TEXT default NULL');
+        $fields_to_add[] = array('module', 'longtext default NULL');
+
+        $fields_to_add[] = array('data_type', 'TEXT default NULL');
+        $fields_to_add[] = array('title', 'longtext default NULL');
+        $fields_to_add[] = array('description', 'TEXT default NULL');
+        $fields_to_add[] = array('content', 'TEXT default NULL');
+        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
+        $fields_to_add[] = array('session_id', 'longtext default NULL');
+        $fields_to_add[] = array('is_system', "char(1) default 'n'");
+
+        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+
+        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        return true;
 
     }
 }

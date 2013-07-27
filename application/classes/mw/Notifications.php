@@ -1,35 +1,37 @@
 <?php
 namespace mw;
 
-if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
-    define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
-}
-
-if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
-    define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
-}
-action_hook('mw_db_init_default', '\mw\Notifications\db_init');
-action_hook('on_load', '\mw\Notifications\db_init');
+//action_hook('mw_db_init_default', '\mw\Notifications\db_init');
 
 
 api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
 
-
-
+action_hook('mw_db_init', mw('mw\Notifications')->db_init());
 
 
 class Notifications
 {
+    function __construct()
+    {
 
-    static function read($id)
+        if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
+            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+        }
+
+        if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
+            define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
+        }
+    }
+
+    public function read($id)
     {
         $params = array();
         $params['id'] = trim($id);
         $params['one'] = true;
 
-        $get = \mw\Notifications::get($params);
+        $get = $this->get($params);
 
         if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
             $save = array();
@@ -45,7 +47,7 @@ class Notifications
         return $get;
     }
 
-    static function mark_as_read($module)
+    public function mark_as_read($module)
     {
 
         if (($module) != false and $module != '') {
@@ -60,7 +62,7 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = \mw\Notifications::get($get_params);
+            $data = $this->get($get_params);
             if (isarr($data)) {
                 foreach ($data as $value) {
                     $save['is_read'] = 'y';
@@ -76,7 +78,7 @@ class Notifications
         }
     }
 
-    static function reset()
+    public function reset()
     {
 
         $is_admin = is_admin();
@@ -86,7 +88,7 @@ class Notifications
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
-        $q = "update $table set is_read='n'";
+        $q = "UPDATE $table SET is_read='n'";
         mw('db')->q($q);
         mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -94,7 +96,7 @@ class Notifications
 
     }
 
-    static function delete($id)
+    public function delete($id)
     {
 
         $is_admin = is_admin();
@@ -112,7 +114,7 @@ class Notifications
 
     }
 
-    static function delete_for_module($module)
+    public function delete_for_module($module)
     {
 
         if (($module) != false and $module != '') {
@@ -126,11 +128,11 @@ class Notifications
             $get_params['fields'] = 'id';
             $get_params['module'] = db_escape_string($module);
 
-            $data = \mw\Notifications::get($get_params);
+            $data = $this->get($get_params);
             if (isarr($data)) {
                 $ids = array_values_recursive($data);
                 $idsi = implode(',', $ids);
-                $cleanup = "delete from $table where id IN ({$idsi})";
+                $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
                 mw('db')->q($cleanup);
             }
 
@@ -139,7 +141,7 @@ class Notifications
         }
     }
 
-    static function db_init()
+    public function db_init()
     {
 
         $function_cache_id = false;
@@ -182,7 +184,7 @@ class Notifications
 
     }
 
-    static function save($params)
+    public function save($params)
     {
 
         $params = parse_params($params);
@@ -198,10 +200,10 @@ class Notifications
         mw_var('FORCE_SAVE', $table);
 
         if (!isset($params['rel']) or !isset($params['rel_id'])) {
-            return ('Error: invalid data you must send rel and rel_id as params for \mw\Notifications::save function');
+            return ('Error: invalid data you must send rel and rel_id as params for $this->save function');
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
-        $cleanup = "delete from $table where created_on < '{$old}'";
+        $cleanup = "DELETE FROM $table WHERE created_on < '{$old}'";
         mw('db')->q($cleanup);
 
         if (isset($params['replace'])) {
@@ -210,7 +212,7 @@ class Notifications
                 $rel1 = db_escape_string($params['rel']);
                 $module1 = db_escape_string($params['module']);
                 $rel_id1 = db_escape_string($params['rel_id']);
-                $cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
+                $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
                 mw('db')->q($cleanup);
 
 
@@ -237,13 +239,13 @@ class Notifications
             $params['id'] = db_escape_string($id);
             $params['one'] = true;
 
-            $get = \mw\Notifications::get($params);
+            $get = $this->get($params);
             return $get;
 
         }
     }
 
-    static function get($params = false)
+    public function get($params = false)
     {
         $params = parse_params($params);
 

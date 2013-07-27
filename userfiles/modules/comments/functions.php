@@ -12,7 +12,7 @@ function mw_print_admin_dashboard_comments_btn() {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-	$notif_count = \mw\Notifications::get('module=comments&is_read=n&count=1');
+	$notif_count = mw('mw\Notifications')->get('module=comments&is_read=n&count=1');
 	if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}
@@ -31,7 +31,7 @@ function mw_print_admin_comments_settings_link() {
 $mname = module_name_encode('comments/settings');
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Comments</a></li>";
 
-	//$notif_count = \mw\Notifications::get('module=comments&is_read=n&count=1');
+	//$notif_count = mw('mw\Notifications')->get('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}*/
@@ -189,7 +189,7 @@ function post_comment($data) {
 		$notif['title'] = "You have new comment";
 		$notif['description'] = "New comment is posted on " . curent_url(1);
 		$notif['content'] = character_limiter($data['comment_body'], 800);
-		\mw\Notifications::save($notif);
+		mw('mw\Notifications')->save($notif);
 
 		$email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
 		$email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
