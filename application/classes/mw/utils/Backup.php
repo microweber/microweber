@@ -583,7 +583,7 @@ class Backup
             $tables = array();
             //$result = mysql_query('SHOW TABLES');
             $qs = 'SHOW TABLES';
-            $result = mw('db')->query(($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
             //while ($row = mysql_fetch_row($result)) {
             //	$tables[] = $row[0];
             //}
@@ -614,7 +614,7 @@ class Backup
                 //$result = mysql_query('SELECT * FROM ' . $table);
 
                 $qs = 'SELECT * FROM ' . $table;
-                $result = mw('db')->query(($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+                $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
                 $num_fields = count($result[0]);
                 //$num_fields = mysql_num_fields($result);
@@ -639,7 +639,7 @@ class Backup
 
 
                 $qs = 'SHOW CREATE TABLE ' . $table;
-                $res_ch = mw('db')->query(($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+                $res_ch = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
                 $row2 = array_values($res_ch[0]);
 
 
