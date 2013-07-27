@@ -183,7 +183,7 @@ class Api {
                 $message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
                 $message .= "IP:" . USER_IP . ' <br /> ';
                 $message .=mw('format')->array_to_ul($data3);
-                \mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+                \Mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 

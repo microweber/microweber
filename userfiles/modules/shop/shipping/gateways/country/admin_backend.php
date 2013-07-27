@@ -16,7 +16,7 @@
 
   $data[] = array();
 
-     $countries =    mw('mw\Forms')->countries_list();
+     $countries =    mw('Mw\Forms')->countries_list();
      $countries_used = array();
 	 array_unshift($countries, "Worldwide");
 

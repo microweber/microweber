@@ -162,7 +162,7 @@ function mw_admin_delete_user_by_id($user_id){
     mw.tools.confirm("<?php _e("Are you sure you want to delete this user?"); ?>", function(){
   		data = {};
   		data.id = $user_id
-  	   $.post("<?php print api_url() ?>delete_user",data, function() {
+  	   $.post("<?php print mw('url')->api_link() ?>delete_user",data, function() {
   		   _mw_admin_users_manage();
   		});
     });

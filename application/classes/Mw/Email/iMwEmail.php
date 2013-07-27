@@ -1,5 +1,5 @@
 <?php
-namespace mw\email;
+namespace Mw\email;
 
 interface  iMwEmail {
 

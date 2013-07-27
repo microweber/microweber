@@ -292,8 +292,8 @@ class Forms
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
-                        //\mw\email\Sender::send($value,$mail_sj,$mail_autoresp );
-                        $scheduler->registerShutdownEvent("\mw\email\Sender::send", $value, $mail_sj, $mail_autoresp);
+                        //\Mw\email\Sender::send($value,$mail_sj,$mail_autoresp );
+                        $scheduler->registerShutdownEvent("\Mw\email\Sender::send", $value, $mail_sj, $mail_autoresp);
 
                     }
                 }

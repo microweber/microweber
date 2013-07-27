@@ -5,6 +5,6 @@
 
 
  
-class Module  extends \mw\Module {
+class Module  extends \Mw\Module {
 
 }

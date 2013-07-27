@@ -187,9 +187,9 @@ class Shop
 
                         $scheduler = new \Mw\Utils\Events();
                         // schedule a global scope function:
-                        $scheduler->registerShutdownEvent("\mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        $scheduler->registerShutdownEvent("\Mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
-                        //\mw\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        //\Mw\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
 
                 }
@@ -384,9 +384,9 @@ class Shop
 
                     $gw_process = MODULES_DIR . $data['payment_gw'] . '_process.php';
 
-                    $mw_return_url = api_url('checkout') . '?mw_payment_success=1' . $return_url_after;
-                    $mw_cancel_url = api_url('checkout') . '?mw_payment_failure=1' . $return_url_after;
-                    $mw_ipn_url = api_url('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
+                    $mw_return_url = mw('url')->api_link('checkout') . '?mw_payment_success=1' . $return_url_after;
+                    $mw_cancel_url = mw('url')->api_link('checkout') . '?mw_payment_failure=1' . $return_url_after;
+                    $mw_ipn_url = mw('url')->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
@@ -844,7 +844,7 @@ class Shop
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
-        $hostname = mw('url')->hostname($_SERVER['REMOTE_ADDR']);
+        $hostname = get_domain_from_str($_SERVER['REMOTE_ADDR']);
         $cache_gr = 'ipn';
         $cache_id = $hostname . md5(serialize($data));
 

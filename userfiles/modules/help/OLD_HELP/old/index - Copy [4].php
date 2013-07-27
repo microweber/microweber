@@ -79,7 +79,7 @@ $(document).ready(function () {
 					  
 					
 										
-						$.post('<?php print api_url(); ?>'+function_exec,data, function(data) {
+						$.post('<?php print mw('url')->api_link(); ?>'+function_exec,data, function(data) {
 							
 							
 							

@@ -239,7 +239,7 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<?php print api_url('edit_menu_item'); ?>', function(){
+        	mw.form.post(selector, '<?php print mw('url')->api_link('edit_menu_item'); ?>', function(){
         		mw.reload_module('menu/edit_items');
         		if(self!==parent && typeof parent.mw === 'object'){
         			parent.mw.reload_module('menu');

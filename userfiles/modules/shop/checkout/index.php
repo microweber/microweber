@@ -53,7 +53,7 @@ $(document).ready(function(){
 </script>
 <?php if($payment_success == false): ?>
   <div class="vSpace"></div>
-<form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_url('checkout') ?>" >
+<form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print mw('url')->api_link('checkout') ?>" >
   <script type="text/javascript">
     mw.require("shop.js");
   </script>

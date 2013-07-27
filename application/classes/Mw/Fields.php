@@ -627,7 +627,7 @@ class Fields
         }
 
         if (is_file($file)) {
-            $l = new \mw\View($file);
+            $l = new \Mw\View($file);
             //
             $l->settings = $settings;
 

@@ -5,6 +5,6 @@
 
 
  
-class Fields  extends \mw\Fields {
+class Fields  extends \Mw\Fields {
 
 }

@@ -176,21 +176,7 @@ function _e($k, $to_return = false)
         print $language_content[$k1];
     }
 }
-/**
- * Set the current language
- *
- * @example
- * <code>
- *   //sets language to Spanish
- *  set_language('es');
- * </code>
- * @package Language
- */
-function set_language($lang = 'en')
-{
-    setcookie("lang",$lang);
-     return $lang;
-}
+
 
 api_expose('send_lang_form_to_microweber');
 /**

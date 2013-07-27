@@ -2901,8 +2901,141 @@ class Content
         // }
     }
 
-}
 
+    /**
+     * Get the current language of the site
+     *
+     * @example
+     * <code>
+     *  $current_lang = current_lang();
+     *  print $current_lang;
+     * </code>
+     *
+     * @package Language
+     * @constant  MW_LANG defines the MW_LANG constant
+     */
+    public function lang_current()
+    {
+
+        if (defined('MW_LANG') and MW_LANG != false) {
+            return MW_LANG;
+        }
+
+
+        $lang = false;
+
+
+        if (!isset($lang) or $lang == false) {
+            if (isset($_COOKIE['lang'])) {
+                $lang = $_COOKIE['lang'];
+            }
+        }
+        if (!isset($lang) or $lang == false) {
+            $def_language = mw('option')->get('language', 'website');
+            if ($def_language != false) {
+                $lang = $def_language;
+            }
+        }
+        if (!isset($lang) or $lang == false) {
+            $lang = 'en';
+        }
+
+        if (!defined('MW_LANG') and isset($lang)) {
+            define('MW_LANG', $lang);
+        }
+
+
+        return $lang;
+
+    }
+
+
+    /**
+     * Set the current language
+     *
+     * @example
+     * <code>
+     *   //sets language to Spanish
+     *  set_language('es');
+     * </code>
+     * @package Language
+     */
+    function lang_set($lang = 'en')
+    {
+        setcookie("lang", $lang);
+        return $lang;
+    }
+
+
+
+
+    /**
+     * Gets all the language file contents
+     * @internal its used via ajax in the admin panel under Settings->Language
+     * @package Language
+     */
+    function get_language_file_content()
+    {
+        global $mw_language_content;
+
+        if(!empty($mw_language_content)){
+            return $mw_language_content;
+        }
+
+
+        $lang = current_lang();
+
+        $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+        $lang_file = normalize_path($lang_file, false);
+
+        $lang_file2 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
+        $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+
+
+        if (is_file($lang_file2)) {
+            include ($lang_file2);
+
+            if (isset($language) and is_array($language)) {
+                foreach($language as $k => $v){
+                    if (isset($mw_language_content[$k]) == false) {
+                        $mw_language_content[$k] = $v;
+                    }
+                }
+            }
+        }
+
+
+        if (is_file($lang_file)) {
+            include ($lang_file);
+
+            if (isset($language) and is_array($language)) {
+                foreach($language as $k => $v){
+                    if (isset($mw_language_content[$k]) == false) {
+
+                        $mw_language_content[$k] = $v;
+                    }
+                }
+            }
+        }
+        if (is_file($lang_file3)) {
+            include ($lang_file3);
+
+            if (isset($language) and is_array($language)) {
+                foreach($language as $k => $v){
+                    if (isset($mw_language_content[$k]) == false) {
+
+                        $mw_language_content[$k] = $v;
+                    }
+                }
+            }
+        }
+
+        return $mw_language_content;
+
+
+    }
+}
+$mw_language_content = array();
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow
 $mw_precached_links = array();
 $mw_global_content_memory = array();

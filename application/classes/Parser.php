@@ -5,6 +5,6 @@
 
 
  
-class Parser  extends \mw\Parser {
+class Parser  extends \Mw\Parser {
 
 }

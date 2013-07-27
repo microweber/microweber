@@ -32,16 +32,16 @@ class Cache
      * @example
      * <code>
      * //delete the cache for the content
-     *  \mw\Cache::delete("content");
+     *  \Mw\Cache::delete("content");
      *
      * //delete the cache for the content with id 1
-     *  \mw\Cache::delete("content/1");
+     *  \Mw\Cache::delete("content/1");
      *
      * //delete the cache for users
-     *  \mw\Cache::delete("users");
+     *  \Mw\Cache::delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * \mw\Cache::delete("my_table");
+     * \Mw\Cache::delete("my_table");
      * </code>
      *
      */
@@ -75,7 +75,7 @@ class Cache
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = \mw\Cache::get($cache_id, 'my_cache_group');
+     * $cache_content = \Mw\Cache::get($cache_id, 'my_cache_group');
      *
      * </code>
      *
@@ -127,7 +127,7 @@ class Cache
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = \mw\Cache::save($data, $cache_id, 'my_cache_group');
+     * $cache_content = \Mw\Cache::save($data, $cache_id, 'my_cache_group');
      * </code>
      *
      * @param mixed $data_to_cache

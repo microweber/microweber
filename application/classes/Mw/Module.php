@@ -3,7 +3,7 @@ namespace Mw;
 
 
 $_mw_modules_info_register = array();
-action_hook('mw_db_init', mw('mw\Module')->db_init());
+action_hook('mw_db_init', mw('Mw\Module')->db_init());
 
 
 $mw_mod_counter = 0;
@@ -246,7 +246,7 @@ class Module
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
 
-            $l1 = new \mw\View($try_file1);
+            $l1 = new \Mw\View($try_file1);
             $l1->config = $config;
             if (!empty($config)) {
                 foreach ($config as $key1 => $value1) {
@@ -296,7 +296,7 @@ class Module
             unset($l1);
             if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
                 $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
-                $lic_l1 = new \mw\View($lic_l1_try_file1);
+                $lic_l1 = new \Mw\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;

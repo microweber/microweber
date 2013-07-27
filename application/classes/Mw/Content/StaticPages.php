@@ -101,7 +101,7 @@ class StaticPages {
 
             if ($load_file != false) {
 
-                $static_page = new \mw\View($load_file);
+                $static_page = new \Mw\View($load_file);
                 $config = array();
                 $config['dir_name'] = $dir_name;
                 $config['filename'] = $load_file;

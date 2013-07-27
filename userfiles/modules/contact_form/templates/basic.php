@@ -22,7 +22,7 @@ description: Basic contact form
       <div class="control-group">
         <label><?php _e("Security code"); ?></label>
         <div class="input-prepend">
-          <span class="add-on" style="width: 100px;background: white"><img width="100" class="mw-captcha-img" src="<?php print api_url('captcha') ?>" /></span>
+          <span class="add-on" style="width: 100px;background: white"><img width="100" class="mw-captcha-img" src="<?php print mw('url')->api_link('captcha') ?>" /></span>
           <input name="captcha" type="text"  class="mw-captcha-input"/>
         </div>
       </div>

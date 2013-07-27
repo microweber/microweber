@@ -1,5 +1,5 @@
 <?php
-namespace mw\cache;
+namespace Mw\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 

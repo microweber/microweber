@@ -441,7 +441,7 @@ class Users extends \Mw\User
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
-                        \mw\email\Sender::send($to, $subject, $content, true, $no_cache = true);
+                        \Mw\email\Sender::send($to, $subject, $content, true, $no_cache = true);
 
                         return array('success' => 'Your password reset link has been sent to ' . $to);
                     } else {

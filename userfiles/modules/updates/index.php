@@ -42,7 +42,7 @@ mw.bind_update_form_submit = function(){
                mw.tools.disable(mwd.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
 
                mw.form.post({
-                    url: '<?php print api_url(); ?>mw_apply_updates',
+                    url: '<?php print mw('url')->api_link(); ?>mw_apply_updates',
                     error:function(){
                           mw.tools.enable(mwd.getElementById('installsubmit'));
                         Alert("<?php _e("There was a Problem connecting to the Server"); ?>");

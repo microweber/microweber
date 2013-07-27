@@ -5,6 +5,6 @@
 
 
  
-class Cache  extends \mw\Cache{
+class Cache extends Mw\Cache {
 
 }

@@ -1,6 +1,6 @@
 <?php
 namespace Mw;
-class Modules extends \mw\Module
+class Modules extends \Mw\Module
 {
 
     public function reorder_modules($data)

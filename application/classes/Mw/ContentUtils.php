@@ -486,7 +486,7 @@ class ContentUtils
             if ($ref_page == false) {
 
 
-                $guess_page_data = new \mw\Controller();
+                $guess_page_data = new \Mw\Controller();
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
@@ -1837,4 +1837,57 @@ class ContentUtils
     }
 
 
+
+
+    /**
+     * Saves your custom language translation
+     * @internal its used via ajax in the admin panel under Settings->Language
+     * @package Language
+     */
+    function lang_file_save($data)
+    {
+
+        if(isset($_POST) and !empty($_POST)){
+            $data = $_POST;
+        }
+        if (is_admin() == true) {
+            if (isset($data['unicode_temp_remove'])) {
+                unset($data['unicode_temp_remove']);
+            }
+
+
+            $lang = current_lang();
+
+            $cust_dir = $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+            if (!is_dir($cust_dir)) {
+                mkdir_recursive($cust_dir);
+            }
+
+            $language_content = $data;
+
+            $lang_file = $cust_dir . $lang . '.php';
+
+            if (is_array($language_content)) {
+                $language_content = array_unique($language_content);
+
+                $lang_file_str = '<?php ' . "\n";
+                $lang_file_str .= ' $language=array();' . "\n";
+                foreach ($language_content as $key => $value) {
+
+                    $value = addslashes($value);
+                    $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
+
+                }
+                $language_content_saved = 1;
+                if (is_admin() == true) {
+                    file_put_contents($lang_file, $lang_file_str);
+                }
+            }
+            return array('success' => 'Language file [' . $lang . '] is updated');
+
+
+        }
+
+
+    }
 }

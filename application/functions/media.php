@@ -577,7 +577,7 @@ function thumbnail_img($params)
 
             } else {
                 if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-                $tn = new \mw\Thumbnailer($src);
+                $tn = new \Mw\Thumbnailer($src);
                 $thumbOptions = array('maxLength' => $height, 'width' => $width);
                 $tn->createThumb($thumbOptions, $cache_path);
 
@@ -753,7 +753,7 @@ function thumbnail($src, $width = 200, $height = 200)
 
             } else {
 
-                $tn = new \mw\Thumbnailer($src);
+                $tn = new \Mw\Thumbnailer($src);
                 $thumbOptions = array('maxLength' => $height, 'width' => $width);
                 $tn->createThumb($thumbOptions, $cache_path);
 

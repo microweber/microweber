@@ -1,6 +1,6 @@
 <?php
 
-namespace mw\cache;
+namespace Mw\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
@@ -53,7 +53,7 @@ class Files
         if (defined('APC_CACHE') and APC_CACHE == true) {
 
             if ($this->apc == false) {
-                $apc_obj = new \mw\cache\Apc();
+                $apc_obj = new \Mw\Cache\Apc();
                 $this->apc = $apc_obj;
             } else {
                 $apc_obj = $this->apc;
@@ -416,7 +416,7 @@ class Files
         if (defined('APC_CACHE') and APC_CACHE == true) {
 
             if ($this->apc == false) {
-                $apc_obj = new \mw\cache\Apc();
+                $apc_obj = new \Mw\Cache\Apc();
                 $this->apc = $apc_obj;
             } else {
                 $apc_obj = $this->apc;
@@ -689,7 +689,7 @@ class Files
     {
         $apc_obj = false;
         if (defined('APC_CACHE') and APC_CACHE == true) {
-            $apc_obj = new \mw\cache\Apc();
+            $apc_obj = new \Mw\Cache\Apc();
             $apc_obj_gt = $apc_obj->purge();
         }
 
