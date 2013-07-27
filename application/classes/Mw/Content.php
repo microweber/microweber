@@ -1,7 +1,7 @@
 <?php
 namespace mw;
 
-action_hook('mw_db_init', mw('mw\Content')->db_init());
+action_hook('mw_db_init', mw('Mw\Content')->db_init());
 
 /**
  * This file holds useful functions to work with content
@@ -2241,7 +2241,7 @@ class Content
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('mw\DbUtils')->build_table()
+     * @uses \mw('Mw\DbUtils')->build_table()
      */
     public function db_init()
     {
@@ -2307,11 +2307,11 @@ class Content
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
 
-        \mw('mw\DbUtils')->add_table_index('url', $table_name, array('url(255)'));
-        \mw('mw\DbUtils')->add_table_index('title', $table_name, array('title(255)'));
+        \mw('Mw\DbUtils')->add_table_index('url', $table_name, array('url(255)'));
+        \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2327,11 +2327,11 @@ class Content
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $fields_to_add[] = array('field', 'longtext default NULL');
         $fields_to_add[] = array('value', 'TEXT default NULL');
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('mw\DbUtils')->add_table_index('field', $table_name, array('field(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('Mw\DbUtils')->add_table_index('field', $table_name, array('field(55)'));
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -2339,11 +2339,11 @@ class Content
         $fields_to_add[] = array('url', 'TEXT default NULL');
 
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('mw\DbUtils')->add_table_index('field', $table_name, array('field(56)'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('Mw\DbUtils')->add_table_index('field', $table_name, array('field(56)'));
 
 
         $table_name = MW_DB_TABLE_MEDIA;
@@ -2366,14 +2366,14 @@ class Content
         $fields_to_add[] = array('filename', 'TEXT default NULL');
 
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('mw\DbUtils')->add_table_index('media_type', $table_name, array('media_type(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw('Mw\DbUtils')->add_table_index('media_type', $table_name, array('media_type(55)'));
 
-        //\mw('mw\DbUtils')->add_table_index('url', $table_name, array('url'));
-        //\mw('mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+        //\mw('Mw\DbUtils')->add_table_index('url', $table_name, array('url'));
+        //\mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
 
 
         $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
@@ -2413,11 +2413,11 @@ class Content
         $fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        \mw('mw\DbUtils')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        \mw('Mw\DbUtils')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = MW_DB_TABLE_MENUS;
@@ -2434,7 +2434,7 @@ class Content
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('url', 'TEXT default NULL');
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
 
         $table_name = MW_DB_TABLE_TAXONOMY;
@@ -2465,11 +2465,11 @@ class Content
         $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
 
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('Mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
@@ -2481,11 +2481,11 @@ class Content
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
         $fields_to_add[] = array('data_type', 'TEXT default NULL');
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        //\mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        //\mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('Mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;

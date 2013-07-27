@@ -1,5 +1,5 @@
 <?php
-namespace mw\utils;
+namespace Mw\Utils;
 
 //FROM 
 class Sitemap {

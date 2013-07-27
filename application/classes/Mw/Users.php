@@ -3,7 +3,7 @@ namespace mw;
 
 
 
-class Users extends \mw\User
+class Users extends \Mw\User
 {
     function __construct()
     {
@@ -109,7 +109,7 @@ class Users extends \mw\User
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    mw('mw\Notifications')->save($notif);
+                    mw('Mw\Notifications')->save($notif);
 
                     save_log($notif);
 
@@ -482,7 +482,7 @@ class Users extends \mw\User
 
         if ($provider != false and isset($params) and !empty($params)) {
 
-            $api = new \mw\auth\Social();
+            $api = new \\Mw\Auth\Social();
 
             try {
 
@@ -523,7 +523,7 @@ class Users extends \mw\User
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            mw('mw\Notifications')->save($notif);
+                            mw('Mw\Notifications')->save($notif);
 
                             save_log($notif);
 
@@ -566,7 +566,7 @@ class Users extends \mw\User
     {
         set_exception_handler('social_login_exception_handler');
 
-        $api = new \mw\auth\Social();
+        $api = new \\Mw\Auth\Social();
         $api->process();
 
         // d($err);

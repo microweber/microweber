@@ -2,7 +2,7 @@
 
 
 
-namespace mw\utils;
+namespace Mw\Utils;
 
 
 class Captcha

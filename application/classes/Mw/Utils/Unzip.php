@@ -1,6 +1,6 @@
 <?php
 
-namespace mw\utils;
+namespace Mw\Utils;
 
 /**
  * UnZip Class

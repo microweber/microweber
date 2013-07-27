@@ -1,5 +1,5 @@
 <?php
-namespace mw\content;
+namespace Mw\Content;
 
 #
 # Markdown  -  A text-to-HTML conversion tool for web writers
@@ -1526,7 +1526,7 @@ class Markdown {
 # one.
 #
 
-class MarkdownExtra_TmpImpl extends \mw\content\Markdown {
+class MarkdownExtra_TmpImpl extends \Mw\Content\Markdown {
 
 	### Configuration Variables ###
 

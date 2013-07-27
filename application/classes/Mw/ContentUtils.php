@@ -1009,7 +1009,7 @@ class ContentUtils
 
     static function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
-        return \mw\Content::get_parents($id , $without_main_parrent, $data_type);
+        return \Mw\Content::get_parents($id , $without_main_parrent, $data_type);
 
     }
 
@@ -1678,7 +1678,7 @@ class ContentUtils
                     $i++;
                 }
 
-                \mw('mw\DbUtils')->update_position_field($table, $indx);
+                \mw('Mw\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

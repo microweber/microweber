@@ -2,7 +2,7 @@
 namespace mw;
 
 
-action_hook('mw_db_init', mw('mw\Notifications')->db_init());
+action_hook('mw_db_init', mw('Mw\Notifications')->db_init());
 
 class Forms
 {
@@ -251,7 +251,7 @@ class Forms
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
             $notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
-            mw('mw\Notifications')->save($notif);
+            mw('Mw\Notifications')->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
                 $email_to = get_option('email_from', 'email');
@@ -286,7 +286,7 @@ class Forms
                         }
                     }
                 }
-                $scheduler = new \mw\utils\Events();
+                $scheduler = new \Mw\Utils\Events();
                 // schedule a global scope function:
 
                 if (!empty($user_mails)) {
@@ -431,11 +431,11 @@ class Forms
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $fields_to_add[] = array('user_ip', 'TEXT default NULL');
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('mw\DbUtils')->add_table_index('list_id', $table_name, array('list_id'));
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw('Mw\DbUtils')->add_table_index('list_id', $table_name, array('list_id'));
 
         $table_name = MW_DB_TABLE_FORMS_LISTS;
 
@@ -452,14 +452,14 @@ class Forms
         $fields_to_add[] = array('last_export', 'datetime default NULL');
         $fields_to_add[] = array('last_sent', 'datetime default NULL');
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('title', $table_name, array('title(55)'));
+        \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title(55)'));
 
 
         $table_sql = INCLUDES_PATH . 'install' . DS . 'countries.sql';
 
-        \mw('mw\DbUtils')->import_sql_file($table_sql);
+        \mw('Mw\DbUtils')->import_sql_file($table_sql);
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -561,7 +561,7 @@ class Forms
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+     *  \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -677,7 +677,7 @@ class Forms
      *
      * @example
      * <pre>
-     * \mw('mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+     * \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

@@ -21,7 +21,7 @@ class Modules extends \mw\Module
                     $i++;
                 }
 
-                mw('\mw\DbUtils')->update_position_field($table, $indx);
+                mw('\Mw\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -327,7 +327,7 @@ class Modules extends \mw\Module
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
-                            mw('\mw\DbUtils')->build_table($table, $fields_to_add);
+                            mw('\Mw\DbUtils')->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -433,7 +433,7 @@ class Modules extends \mw\Module
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
                                 $table = db_get_real_table_name($key1);
-                                mw('\mw\DbUtils')->build_table($table, $fields_to_add);
+                                mw('\Mw\DbUtils')->build_table($table, $fields_to_add);
                             }
                         }
                     }

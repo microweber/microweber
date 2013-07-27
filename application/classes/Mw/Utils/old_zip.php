@@ -1,6 +1,6 @@
 <?php
 
-namespace mw\utils;
+namespace Mw\Utils;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use DirectoryIterator;

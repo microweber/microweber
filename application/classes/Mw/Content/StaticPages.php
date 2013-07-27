@@ -1,5 +1,5 @@
 <?php
-namespace mw\content;
+namespace Mw\Content;
 
 
 class StaticPages {

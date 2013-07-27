@@ -38,7 +38,7 @@ class Parser
 
 
             if (!is_object($parser_cache_object)) {
-                $parser_cache_object = new \mw\cache\Apc();
+                $parser_cache_object = new \Mw\Cache\Apc();
 
             }
 

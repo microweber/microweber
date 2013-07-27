@@ -1,7 +1,7 @@
 <?php
 namespace mw;
 
-action_hook('mw_db_init', mw('\mw\User')->db_init());
+action_hook('mw_db_init', mw('\Mw\User')->db_init());
 
 class User
 {
@@ -780,10 +780,10 @@ class User
         $fields_to_add[] = array('website_url', 'TEXT default NULL');
         $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('mw\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
-        \mw('mw\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
+        \mw('Mw\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
+        \mw('Mw\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = MW_DB_TABLE_LOG;
@@ -811,7 +811,7 @@ class User
         $fields_to_add[] = array('session_id', 'longtext default NULL');
         $fields_to_add[] = array('is_system', "char(1) default 'n'");
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;

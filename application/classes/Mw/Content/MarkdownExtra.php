@@ -1,5 +1,5 @@
 <?php
-namespace mw\content;
+namespace Mw\Content;
 #
 # Markdown Extra  -  A text-to-HTML conversion tool for web writers
 #
@@ -16,19 +16,19 @@ namespace mw\content;
 
 # Just force Michelf/Markdown.php to load. This is needed to load
 # the temporary implementation class. See below for details.
-\mw\content\Markdown::MARKDOWNLIB_VERSION;
+\Mw\Content\Markdown::MARKDOWNLIB_VERSION;
 
 #
 # Markdown Extra Parser Class
 #
 # Note: Currently the implementation resides in the temporary class
-# \mw\content\MarkdownExtra_TmpImpl (in the same file as \mw\content\Markdown).
+# \Mw\Content\MarkdownExtra_TmpImpl (in the same file as \Mw\Content\Markdown).
 # This makes it easier to propagate the changes between the three different
 # packaging styles of PHP Markdown. Once this issue is resolved, the
 # _MarkdownExtra_TmpImpl will disappear and this one will contain the code.
 #
 
-class MarkdownExtra extends \mw\content\MarkdownExtra_TmpImpl {
+class MarkdownExtra extends \Mw\Content\MarkdownExtra_TmpImpl {
 
 	### Parser Implementation ###
 

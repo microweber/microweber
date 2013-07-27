@@ -12,7 +12,7 @@ namespace mw;
 
 
 if (!isset($_mw_cache_obj) or is_object($_mw_cache_obj) == false) {
-    $_mw_cache_obj = new \mw\cache\Files();
+    $_mw_cache_obj = new \Mw\Cache\Files();
 }
 
 
@@ -51,13 +51,13 @@ class Cache
             global $_mw_cache_obj;
             $local_obj = $_mw_cache_obj;
         } else {
-            $cache_storage_type = "\mw\cache\\" . $cache_storage_type;
+            $cache_storage_type = "\Mw\Cache\\" . $cache_storage_type;
             $local_obj = new $cache_storage_type;
 
         }
 
         if (!is_object($local_obj)) {
-            $local_obj = new \mw\cache\Files();
+            $local_obj = new \Mw\Cache\Files();
         }
 
         //d($cache_group);
@@ -107,7 +107,7 @@ class Cache
 
         if (!is_object($local_obj)) {
             if (!is_object($cache_default)) {
-                $local_obj = $cache_default = new \mw\cache\Files();
+                $local_obj = $cache_default = new \Mw\Cache\Files();
 
             } else {
                 $local_obj = $cache_default;
@@ -158,7 +158,7 @@ class Cache
 
         }
         if (!is_object($local_obj)) {
-            $local_obj = new \mw\cache\Files();
+            $local_obj = new \Mw\Cache\Files();
         }
 
 
@@ -192,13 +192,13 @@ class Cache
             global $_mw_cache_obj;
             $local_obj = $_mw_cache_obj;
         } else {
-            $cache_storage_type = "\mw\cache\\" . $cache_storage_type;
+            $cache_storage_type = "\Mw\Cache\\" . $cache_storage_type;
             $local_obj = new $cache_storage_type;
 
         }
 
         if (!is_object($local_obj)) {
-            $local_obj = new \mw\cache\Files();
+            $local_obj = new \Mw\Cache\Files();
         }
 
 
@@ -221,7 +221,7 @@ class Cache
     {
         global $_mw_cache_obj;
         if (!is_object($_mw_cache_obj)) {
-            $_mw_cache_obj = new \mw\cache\Files();
+            $_mw_cache_obj = new \Mw\Cache\Files();
         }
 
 

@@ -4,7 +4,7 @@
 namespace mw;
 
 
-class DbUtils extends \mw\Db
+class DbUtils extends \Mw\Db
 {
 
     /**
@@ -90,7 +90,7 @@ class DbUtils extends \mw\Db
      * @example
      * <code>
      * //copy content with id 5
-     *  \mw('mw\DbUtils')->copy_row_by_id('content', $id=5);
+     *  \mw('Mw\DbUtils')->copy_row_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -141,7 +141,7 @@ class DbUtils extends \mw\Db
      *
      * @example
      * <pre>
-     * \mw('mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+     * \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

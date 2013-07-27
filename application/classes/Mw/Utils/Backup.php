@@ -10,7 +10,7 @@
  */
 
 
-namespace mw\utils;
+namespace Mw\Utils;
 
 
 use ZipArchive;

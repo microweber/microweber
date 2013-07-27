@@ -1,14 +1,14 @@
 <?php
 namespace mw;
 
-//action_hook('mw_db_init_default', '\mw\Notifications\db_init');
+//action_hook('mw_db_init_default', '\Mw\Notifications\db_init');
 
 
 api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
 
-action_hook('mw_db_init', mw('mw\Notifications')->db_init());
+action_hook('mw_db_init', mw('Mw\Notifications')->db_init());
 
 
 class Notifications

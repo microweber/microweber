@@ -1,5 +1,5 @@
 <?php
-namespace mw\content;
+namespace Mw\Content;
 
 
 class Ping
@@ -15,7 +15,7 @@ class Ping
      */
     static function content_ping_servers_async()
     {
-        $scheduler = new \mw\utils\Events();
+        $scheduler = new \Mw\Utils\Events();
         $scheduler->registerShutdownEvent("content_ping_servers");
     }
 
@@ -43,7 +43,7 @@ class Ping
 
 
         if ($fqdn != false) {
-            $q = \mw\Content::get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
+            $q = \Mw\Content::get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
 
             //$q = get_content('is_active=y');
             $server = array(
@@ -94,7 +94,7 @@ class Ping
 
                     }
                 }
-                $curl = new \mw\utils\Curl();
+                $curl = new \Mw\Utils\Curl();
                 $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . site_url('sitemap.xml');
                 $curl->timeout = 3;
                 $result1 = $curl->execute();

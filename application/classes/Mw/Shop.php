@@ -1,6 +1,6 @@
 <?php
 namespace mw;
-action_hook('mw_db_init_default', mw('mw\Shop')->db_init());
+action_hook('mw_db_init_default', mw('Mw\Shop')->db_init());
 
 /**
  *
@@ -186,7 +186,7 @@ class Shop
                     }
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                        $scheduler = new \mw\utils\Events();
+                        $scheduler = new \Mw\Utils\Events();
                         // schedule a global scope function:
                         $scheduler->registerShutdownEvent("\mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
@@ -1057,13 +1057,13 @@ class Shop
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
         $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        // \mw('mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw('Mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        \mw('Mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
 
         $table_name = MODULE_DB_SHOP_ORDERS;
 
@@ -1140,13 +1140,13 @@ class Shop
         $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
         $fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-        // \mw('mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw('Mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
+        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        \mw('Mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
 
 
         $table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;
@@ -1164,7 +1164,7 @@ class Shop
         $fields_to_add[] = array('position', 'int(11) default NULL');
 
 
-        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');

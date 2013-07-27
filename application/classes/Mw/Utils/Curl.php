@@ -1,5 +1,5 @@
 <?php
-namespace mw\utils;
+namespace Mw\Utils;
 /**
  * @original_author    Jason Michels https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
  */

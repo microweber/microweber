@@ -1,6 +1,6 @@
 <?php
 
-namespace mw\utils;
+namespace Mw\Utils;
 
 /**
  * 
@@ -31,7 +31,7 @@ function say($a = 'a generic greeting', $b = '') {
     echo "Saying {$a} {$b}<br />";
 }
 
-	$scheduler = new \mw\utils\Events();
+	$scheduler = new \Mw\Utils\Events();
 
  // schedule a global scope static function from namespaced object:
  $scheduler -> registerShutdownEvent("\admin\backup\api::bgworker");
