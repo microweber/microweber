@@ -56,6 +56,13 @@ define("DB_IS_SQLITE", false);
  */
 function get($params)
 {
+$res = (mw('db')->get($params));
+
+ return $res;
+
+
+
+
     $orderby = false;
     $cache_group = false;
     $debug = false;

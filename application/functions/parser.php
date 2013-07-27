@@ -745,6 +745,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
 
                             $mod_content = load_module($module_name, $attrs);
 
+
                             $plain_modules = mw_var('plain_modules');
                             if ($plain_modules != false) {
                                 //d($plain_modules);

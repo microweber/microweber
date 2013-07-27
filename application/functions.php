@@ -47,6 +47,28 @@ function mw_autoload($className) {
 	}
 
 }
+$_mw_registry = array();
+function mw($class, $constructor_params=false)
+{
+    global $_mw_registry;
+
+    $class_name = strtolower($class);
+    $class = ucfirst($class);
+    if(!isset($_mw_registry[$class_name])){
+        if($constructor_params == false){
+            $_mw_registry[$class_name] = new $class($constructor_params);
+
+        } else {
+            $_mw_registry[$class_name] = new $class;
+
+        }
+    }
+    return $_mw_registry[$class_name];
+
+}
+
+
+
 
 spl_autoload_register('mw_autoload');
 //require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');

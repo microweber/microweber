@@ -243,7 +243,7 @@ class Notifications
         }
     }
 
-    static function get($params)
+    static function get($params = false)
     {
         $params = parse_params($params);
 

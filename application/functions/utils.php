@@ -1040,13 +1040,13 @@ function session_get($name)
     if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
-        if (!isset($_SESSION['ip'])) {
-            $_SESSION['ip'] = USER_IP;
-        } else if ($_SESSION['ip'] != USER_IP) {
-
-            session_end();
-            return false;
-        }
+//        if (!isset($_SESSION['ip'])) {
+//            $_SESSION['ip'] = USER_IP;
+//        } else if ($_SESSION['ip'] != USER_IP) {
+//
+//            session_end();
+//            return false;
+//        }
 
 
         return $_SESSION[$name];

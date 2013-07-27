@@ -8,12 +8,8 @@
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
 
-if (!isset($_mw_cache_obj) or is_object($_mw_cache_obj) == false) {
-    $_mw_cache_obj = new \mw\cache\Files();
-}
 
 
-mw_var('is_cleaning_now', false);
 /**
  * Deletes cache for given $cache_group recursively.
  *
@@ -41,6 +37,10 @@ mw_var('is_cleaning_now', false);
  */
 function cache_clean_group($cache_group = 'global', $cache_storage_type = false)
 {
+
+    return mw('cache')->delete($cache_group);
+
+
     if ($cache_storage_type == false  or $cache_storage_type == 'files') {
         global $_mw_cache_obj;
         $local_obj = $_mw_cache_obj;
@@ -89,7 +89,13 @@ function  cache_get($cache_id, $cache_group = 'global', $cache_storage_type = fa
 }
 function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
-	static $cache_default;
+
+
+
+    return mw('cache')->get($cache_id, $cache_group);
+
+
+    static $cache_default;
      global $_mw_cache_obj;
 	 
 	if ($cache_storage_type == false or $cache_storage_type == 'files') {
@@ -140,7 +146,7 @@ function cache_get_content($cache_id, $cache_group = 'global', $cache_storage_ty
   */
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $cache_storage_type = false)
 {
-
+    return mw('cache')->save($data_to_cache,$cache_id, $cache_group);
     if ($cache_storage_type == false  or $cache_storage_type == 'files') {
         global $_mw_cache_obj;
         $local_obj = $_mw_cache_obj;

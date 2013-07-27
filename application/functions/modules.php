@@ -194,10 +194,6 @@ function module_templates($module_name, $template_name = false)
 
             return $module_name_l;
         } else {
-
-            $template_name = str_replace('..','',$template_name);
-
-
             $is_dot_php = get_file_extension($template_name);
             if ($is_dot_php != false and $is_dot_php != 'php') {
                 $template_name = $template_name . '.php';
@@ -205,23 +201,14 @@ function module_templates($module_name, $template_name = false)
 
             $tf = $module_name_l . $template_name;
             $tf_theme = $module_name_l_theme . $template_name;
-            $tf_from_other_theme = TEMPLATEFILES . $template_name;
-            $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
-
-
-            if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
-                return $tf_from_other_theme;
-            } else if (is_file($tf_theme)) {
+            //d($tf_theme);
+            if (is_file($tf_theme)) {
                 return $tf_theme;
             } else if (is_file($tf)) {
                 return $tf;
             } else {
                 return false;
             }
-
-
-
-
         }
 
         // d($module_name_l);
@@ -387,13 +374,11 @@ function get_all_functions_files_for_modules($options = false)
         return false;
     }
 }
-
-
-
-
-
-
 function get_layouts_from_db($params = false)
+{
+    return get_elements_from_db($params);
+}
+function get_elements_from_db($params = false)
 {
 
     $table = MW_TABLE_PREFIX . 'elements';
@@ -436,16 +421,10 @@ function get_modules_from_db($params = false)
     if (isset($params['id'])) {
         $params['limit'] = 1;
     } else {
-        $params['limit'] = 10000;
+        $params['limit'] = 1000;
     }
-    $search_for_module = false;
     if (isset($params['module'])) {
         $params['module'] = str_replace('/admin', '', $params['module']);
-        if (!isset($params['id'])) {
-        $search_for_module = $params['module'];
-        unset( $params['module']);
-        }
-
     }
     if (!isset($params['ui'])) {
         $params['ui'] = 1;
@@ -453,23 +432,11 @@ function get_modules_from_db($params = false)
     }
 
     if (isset($params['ui']) and $params['ui'] == 'any') {
-        //
+        // d($params);
         unset($params['ui']);
     }
-    if($search_for_module == false){
-        return get($params);
-    } else {
-        $get =  get($params);
-        if(is_array($get)){
-            foreach($get as $item){
-                if(isset($item['module']) and $item['module'] == $search_for_module){
-                    return  ($item);
-                }
-            }
-        }
-        return $get;
-    }
 
+    return get($params);
 }
 
 api_expose('save_settings_el');
@@ -511,7 +478,7 @@ function save_element_to_db($data_to_save)
         if (!isset($s["id"]) and isset($s["module"])) {
             $s["module"] = $data_to_save["module"];
             if (!isset($s["module_id"])) {
-                $save = get_layouts_from_db('limit=1&module=' . $s["module"]);
+                $save = get_elements_from_db('limit=1&module=' . $s["module"]);
                 if ($save != false and isset($save[0]) and is_array($save[0])) {
                     $s["id"] = $save[0]["id"];
                     $save = save_data($table, $s);
@@ -665,7 +632,6 @@ function module_info($module_name)
 {
     global $_mw_modules_info_register;
     if (isset($_mw_modules_info_register[$module_name])) {
-
 
         return $_mw_modules_info_register[$module_name];
 
@@ -1003,8 +969,8 @@ function re_init_modules_db()
                     $cfg = $config;
                     if (isset($config['tables']) and is_arr($config['tables'])) {
                         $tabl = $config['tables'];
-                        foreach ($tabl as $key1 => $fields_to_add) {
-                            $table = db_get_real_table_name($key1);
+                        foreach ($tabl as $key => $value) {
+                            $table = db_get_real_table_name($key);
                             set_db_table($table, $fields_to_add);
                         }
                     }
@@ -1109,8 +1075,8 @@ function install_module($params)
             if (isset($config)) {
                 if (isset($config['tables']) and is_arr($config['tables'])) {
                     $tabl = $config['tables'];
-                    foreach ($tabl as $key1 => $fields_to_add) {
-                        $table = db_get_real_table_name($key1);
+                    foreach ($tabl as $key => $value) {
+                        $table = db_get_real_table_name($key);
                         set_db_table($table, $fields_to_add);
                     }
                 }
@@ -1726,29 +1692,9 @@ function load_module_lic($module_name = false)
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
-$mw_loaded_mod_memory = array();
 function load_module($module_name, $attrs = array())
 {
-//    $args = func_get_args();
-//    $function_cache_id = false;
-//    if(is_array($attrs)){
-//        ksort($attrs);
-//    }
-//
-//    foreach ($args as $k => $v) {
-//        $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-//     }
-//    $function_cache_id = crc32($function_cache_id);
-//    global $mw_loaded_mod_memory;
-//
-//    if(isset($mw_loaded_mod_memory[$function_cache_id])){
-//       // return $function_cache_id;
-//       // print $function_cache_id;
-//
-//        return $mw_loaded_mod_memory[$function_cache_id];
-//    }
-
-
+    $function_cache_id = false;
     //if (defined('PAGE_ID') == false) {
     // define_constants();
     // }
@@ -1785,7 +1731,7 @@ function load_module($module_name, $attrs = array())
             error('Not logged in as admin');
         }
     }
-
+    // $CI = get_instance();
     $module_name = trim($module_name);
     $module_name = str_replace('\\', '/', $module_name);
     $module_name = str_replace('..', '', $module_name);
@@ -1793,7 +1739,6 @@ function load_module($module_name, $attrs = array())
     $module_name = reduce_double_slashes($module_name);
 
     $module_namei = $module_name;
-
     if (strstr($module_name, 'admin')) {
 
         $module_namei = str_ireplace('\\admin', '', $module_namei);
@@ -1801,12 +1746,6 @@ function load_module($module_name, $attrs = array())
     }
 
     //$module_namei = str_ireplace($search, $replace, $subject)e
-
-
-
-
-
-
 
     $uninstall_lock = get_modules_from_db('one=1&ui=any&module=' . $module_namei);
 
@@ -2072,14 +2011,12 @@ function load_module($module_name, $attrs = array())
 
             //$lic_l1 = null;
             unset($lic_l1);
-            $module_file =  $lic_l1e_file . $module_file;
+            return $lic_l1e_file . $module_file;
         }
-       // d($module_file);
-       // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
         return $module_file;
     } else {
         //define($cache_content, FALSE);
-       // $mw_loaded_mod_memory[$function_cache_id] = false;
+
         return false;
     }
 }

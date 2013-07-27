@@ -12,7 +12,7 @@ define('T', $mtime);
 unset($mtime);
 define('M', memory_get_usage());
 define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest');
-//define('APC_CACHE', false);
+ define('APC_CACHE', false);
 require_once ('bootstrap.php');
 $c_file = MW_CONFIG_FILE;
 
