@@ -23,8 +23,8 @@ $settings = 1;
 
  }
  $hidden_class = ' mw-hide ';
-$is_for_module = url_param('for_module_id', 1);
-$for = url_param('for', 1);
+$is_for_module = mw('url')->param('for_module_id', 1);
+$for = mw('url')->param('for', 1);
  
 if (!empty($params)) {
 

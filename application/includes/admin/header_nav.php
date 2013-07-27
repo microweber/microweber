@@ -6,7 +6,7 @@
     </div>
     <div class="mw-v-cell" style="width: 100%">
   <?php if(is_admin()): ?>
-  <?php   $active = url_param('view'); ?>
+  <?php   $active = mw('url')->param('view'); ?>
     <ul id="mw_tabs">
       <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<?php endif; ?>><a href="<?php print admin_url(); ?>view:dashboard"><?php _e("Dashboard"); ?></a></li>
       <li <?php if($active == 'content'): ?> class="active" id="mw-admin-nav-website" <?php endif; ?>><a href="<?php print admin_url(); ?>view:content"><?php _e("Website"); ?></a></li>

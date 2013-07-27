@@ -63,7 +63,7 @@ class ContentUtils
 
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
-                $data['url'] = url_title($data['title']);
+                $data['url'] = mw('url')->slug($data['title']);
 
 
             }
@@ -83,14 +83,14 @@ class ContentUtils
         $table_cats = MW_TABLE_PREFIX . 'categories';
 
         if (isset($data_to_save['title']) and (!isset($data['url']) or trim($data['url']) == '')) {
-            $data['url'] = url_title($data_to_save['title']);
+            $data['url'] = mw('url')->slug($data_to_save['title']);
         }
 
         if (isset($data['url']) and $data['url'] != false) {
 
             if (trim($data['url']) == '') {
 
-                $data['url'] = url_title($data['title']);
+                $data['url'] = mw('url')->slug($data['title']);
             }
 
             $date123 = date("YmdHis");
@@ -452,7 +452,7 @@ class ContentUtils
             exit('Error: no POST?');
         }
 
-        $ustr2 = url_string(1, 1);
+        $ustr2 = mw('url')->string(1, 1);
 
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
@@ -465,7 +465,7 @@ class ContentUtils
 
             if ($ref_page2 == false) {
 
-                $ustr = url_string(1);
+                $ustr = mw('url')->string(1);
 
                 if (is_module_installed($ustr)) {
                     $ref_page = false;
@@ -494,8 +494,8 @@ class ContentUtils
 
                 if (is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
                     $save_page = $pd;
-                    $save_page['url'] = url_string(1);
-                    $save_page['title'] = url_title(url_string(1));
+                    $save_page['url'] = mw('url')->string(1);
+                    $save_page['title'] = mw('url')->slug(mw('url')->string(1));
                     $page_id = save_content($save_page);
                 }
                 //
@@ -523,7 +523,7 @@ class ContentUtils
                 $content_id = $page_id;
 
 
-                $url = url_string(true);
+                $url = mw('url')->string(true);
                 $some_mods = array();
                 if (isset($the_field_data) and is_array($the_field_data) and isset($the_field_data['attributes'])) {
                     if (($the_field_data['html']) != '') {
@@ -737,7 +737,7 @@ class ContentUtils
 
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
-                                $cont_field['url'] = url_string(true);
+                                $cont_field['url'] = mw('url')->string(true);
                                 //$cont_field['rel'] = $rel_ch;
                                 $cont_field_new = save_content_field($cont_field);
                             } else {
@@ -1033,7 +1033,7 @@ class ContentUtils
                 $page = get_content_by_url($url);
             }
         } else {
-            $url = url_string();
+            $url = mw('url')->string();
         }
 
         define_constants($page);

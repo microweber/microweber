@@ -4,7 +4,7 @@
 action_hook('mw_admin_settings_menu', 'mw_print_admin_shop_settings_link');
 
 function mw_print_admin_shop_settings_link() {
-	$active = url_param('view');
+	$active = mw('url')->param('view');
 	$cls = '';
 	$mname = module_name_encode('shop/payments/admin');
 	if ($active == $mname ) {

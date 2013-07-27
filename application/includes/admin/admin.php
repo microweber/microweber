@@ -2,13 +2,13 @@
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
-<?php $v1 = url_param('load_module'); ?>
-<?php $v = url_param('view');
+<?php $v1 = mw('url')->param('load_module'); ?>
+<?php $v = mw('url')->param('view');
  
   if($v1 != false){
-	 $holder_cls = url_title($v1);
+	 $holder_cls = mw('url')->slug($v1);
   }  else if($v != false){
-	 $holder_cls = url_title($v);
+	 $holder_cls = mw('url')->slug($v);
   } else {
 	  $holder_cls = false;
   }

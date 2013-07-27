@@ -44,9 +44,9 @@ $(document).ready(function(){
 
   $data = $('#form_<?php print $rand; ?>').serialize();
 //  alert($data);
-  //alert('<?php print url_string() ?>');
+  //alert('<?php print mw('url')->string() ?>');
 
-  $.post("<?php print url_string() ?>", $data,
+  $.post("<?php print mw('url')->string() ?>", $data,
    function(data) {
 
       $('#mw_log').hide().empty();

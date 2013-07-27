@@ -6,7 +6,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
 action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn() {
-	$active = url_param('view');
+	$active = mw('url')->param('view');
 	$cls = '';
 	if ($active == 'comments') {
 		$cls = ' class="active" ';
@@ -22,7 +22,7 @@ function mw_print_admin_dashboard_comments_btn() {
 //action_hook('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
 
 function mw_print_admin_comments_settings_link() {
-	$active = url_param('view');
+	$active = mw('url')->param('view');
 	$cls = '';
 	if ($active == 'comments') {
 		$cls = ' class="active" ';
@@ -159,7 +159,7 @@ function post_comment($data) {
 			return array('error' => 'You must type your email or be logged in order to comment.');
 		}
 
-		$data['from_url'] = curent_url(1);
+		$data['from_url'] = mw('url')->current(1);
 
 	}
 
@@ -187,7 +187,7 @@ function post_comment($data) {
 		$notif['rel'] = $data['rel'];
 		$notif['rel_id'] = $data['rel_id'];
 		$notif['title'] = "You have new comment";
-		$notif['description'] = "New comment is posted on " . curent_url(1);
+		$notif['description'] = "New comment is posted on " . mw('url')->current(1);
 		$notif['content'] = mw('format')->limit($data['comment_body'], 800);
 		mw('Mw\Notifications')->save($notif);
 
@@ -210,7 +210,7 @@ function post_comment($data) {
 			}
 
 
-			$message = "Hi, <br/> You have new comment posted on " . curent_url(1) . ' <br /> ';
+			$message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
 			$message .= "IP:" . USER_IP . ' <br /> ';
 			$message .=mw('format')->array_to_ul($data3);
 			\mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);

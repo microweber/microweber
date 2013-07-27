@@ -300,7 +300,7 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 }
 
 if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])) {
-	$filename_log = url_title($fileName);
+	$filename_log = mw('url')->slug($fileName);
 	$check = get_log("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . USER_IP);
 	$upl_size_log = $_SERVER["CONTENT_LENGTH"];
 	if (is_array($check) and isset($check['id'])) {

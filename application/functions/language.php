@@ -142,7 +142,7 @@ function _e($k, $to_return = false)
     static $lang_file;
 
 
-    $k1 = URLify::filter(($k));
+    $k1 =mw('url')->slug($k);
 
     $lang = current_lang();
 

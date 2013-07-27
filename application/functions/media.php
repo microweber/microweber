@@ -36,7 +36,7 @@ function get_picture($content_id, $for = 'post', $full = false)
                     // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
                     //
                     // if (!file_exists($dl_file)) {
-                    // $is_dl = url_download($src, false, $dl_file);
+                    // $is_dl = mw('url')->download($src, false, $dl_file);
                     // } else {
                     // $is_dl = 1;
                     // }
@@ -520,7 +520,7 @@ function thumbnail_img($params)
         // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
         //
         // if (!file_exists($dl_file)) {
-        // $is_dl = url_download($src, false, $dl_file);
+        // $is_dl = mw('url')->download($src, false, $dl_file);
         // } else {
         // $is_dl = 1;
         // }
@@ -703,7 +703,7 @@ function thumbnail($src, $width = 200, $height = 200)
         // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
         //
         // if (!file_exists($dl_file)) {
-        // $is_dl = url_download($src, false, $dl_file);
+        // $is_dl = mw('url')->download($src, false, $dl_file);
         // } else {
         // $is_dl = 1;
         // }

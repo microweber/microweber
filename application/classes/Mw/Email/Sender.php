@@ -45,10 +45,10 @@ class Sender
         $email_from = mw('option')->get('email_from', 'email');
         if ($email_from == false or trim($email_from) == '') {
             if ($this->email_from_name != '') {
-                $email_from = url_title($this->email_from_name) . "@" . site_hostname();
+                $email_from = mw('url')->slug($this->email_from_name) . "@" . mw('url')->hostname(();
 
             } else {
-                $email_from = "noreply@" . site_hostname();
+                $email_from = "noreply@" . mw('url')->hostname(();
 
             }
         }
@@ -93,7 +93,7 @@ class Sender
             }
 
             if ($add_hostname_to_subject != false) {
-                $subject = '[' . site_hostname() . '] ' . $subject;
+                $subject = '[' . mw('url')->hostname(() . '] ' . $subject;
             }
 
             if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
@@ -236,11 +236,11 @@ class Sender
 
         if (stristr($message, '{SITE_URL}')) {
             //d(MW_ROOTPATH);
-            //$message = replace_site_vars_back($message);
+            //$message = mw('url')->replace_site_url_back($message);
             //$m -> setMessage($message, true);
             $m->importHTML($message, $baseDir = MW_ROOTPATH, $importImages = true);
         } else {
-            $message = replace_site_vars_back($message);
+            $message = mw('url')->replace_site_url_back($message);
             $m->setMessage($message, true);
         }
 

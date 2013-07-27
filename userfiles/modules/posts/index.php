@@ -17,7 +17,7 @@ if (isset($post_params['id'])) {
 if (isset($params['curent_page'])) {
 	$curent_page = $params['curent_page'];
 } else {
- $curent_page_from_url = url_param($paging_param);
+ $curent_page_from_url = mw('url')->param($paging_param);
 
  if($curent_page_from_url != false){
 	 	$curent_page = $curent_page_from_url;
@@ -272,7 +272,7 @@ if(isset($params['title'])){
 $post_params['is_active'] = 'y';
 $post_params['is_deleted'] = 'n';
 
-$cat_from_url = url_param('category');
+$cat_from_url = mw('url')->param('category');
 
 if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat_from_url != false and trim($cat_from_url) != ''){
 	$post_params['category'] = mw('db')->escape_string($cat_from_url);

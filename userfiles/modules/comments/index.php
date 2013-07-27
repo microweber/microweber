@@ -8,7 +8,7 @@ if(mw('option')->get('enable_comments', 'comments')=='y'){
 ?>
 <?php
 $paging_param = $params['id'].'_page';
- $curent_page_from_url = url_param($paging_param);
+ $curent_page_from_url = mw('url')->param($paging_param);
 if(isset($params['content-id'])){
 	 $data['rel'] = 'content';
 	 $data['rel_id'] = $params['content-id'];

@@ -194,7 +194,7 @@ class Modules extends \mw\Module
                 //            if (!is_dir($uninstall_lock)) {
                 //                mkdir_recursive($uninstall_lock);
                 //            }
-                //            $unistall_file = url_title($module_name);
+                //            $unistall_file = mw('url')->slug($module_name);
                 //            $unistall_file = $uninstall_lock . $unistall_file . '.php';
                 //            touch($unistall_file);
                 //  d($unistall_file);
@@ -295,7 +295,7 @@ class Modules extends \mw\Module
         //    if (!is_dir($uninstall_lock)) {
         //        mkdir_recursive($uninstall_lock);
         //    }
-        //    $unistall_file = url_title($module_name);
+        //    $unistall_file = mw('url')->slug($module_name);
         //    $unistall_file = $uninstall_lock . $unistall_file . '.php';
         //    // d($unistall_file);
         //    if (is_file($unistall_file)) {
@@ -695,7 +695,7 @@ class Modules extends \mw\Module
                         $config['icon'] = mw('url')->link_to_file($def_icon);
                     }
                     //   $config ['installed'] = install_module($config ['module']);
-                    // $mmd5 = url_title($config ['module']);
+                    // $mmd5 = mw('url')->slug($config ['module']);
                     //   $check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
                     //                if (is_file($check_if_uninstalled)) {
                     //                    $config ['uninstalled'] = true;

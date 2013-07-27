@@ -223,7 +223,7 @@ class Category
 
                             $string1 = ($str);
 
-                            $url = $url . '/' . url_title($string1) . '/categories:' . $data['id'];
+                            $url = $url . '/' . mw('url')->slug($string1) . '/categories:' . $data['id'];
 
                             //$url = $url . '/categories:' . $data ['id'];
                         }

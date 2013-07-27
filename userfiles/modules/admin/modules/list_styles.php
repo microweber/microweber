@@ -1,4 +1,4 @@
-<?php $v = ( url_param('action', true) );?>
+<?php $v = ( mw('url')->param('action', true) );?>
 <?php if($v) {
 	 
 	 

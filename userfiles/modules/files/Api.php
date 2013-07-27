@@ -9,7 +9,7 @@ class Api
 
     static function rte_image_editor_search()
     {
-        $active = url_param('view');
+        $active = mw('url')->param('view');
         $cls = '';
         if ($active == 'shop') {
             $cls = ' class="active" ';

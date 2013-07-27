@@ -94,7 +94,7 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
 
 
-      <a class="btn btn-large pull-left mw-ui-btn" href="<?php print curent_url(true,true); ?>"><?php _e("Back"); ?></a>
+      <a class="btn btn-large pull-left mw-ui-btn" href="<?php print mw('url')->current(true,true); ?>"><?php _e("Back"); ?></a>
       <button type="submit" class="btn btn-large pull-right btn-success mw-ui-btn mw-ui-btn-green"><?php print $form_btn_title ?></button>
     </div>
     <div style="clear: both"></div>
@@ -103,14 +103,14 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
   <?php else : ?>
   <div class="alert alert-warining text-center"><?php _e("Invalid or expired link"); ?>.
   <br /><br />
-<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>"><?php _e("Go back"); ?></a>
+<a class="btn  btn-info" href="<?php print mw('url')->current(true,true); ?>"><?php _e("Go back"); ?></a>
   </div>
   <?php endif; ?>
   <?php else : ?>
   <div class="alert alert-warining text-center"><?php _e("You must click on the password reset link sent on your email"); ?>.<br /><br />
-<a class="btn  btn-info" href="<?php print curent_url(true,true); ?>"><?php _e("Go back"); ?></a>  </div>
+<a class="btn  btn-info" href="<?php print mw('url')->current(true,true); ?>"><?php _e("Go back"); ?></a>  </div>
   <?php endif; ?>
-  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn  btn-primary" href="<?php print curent_url(true,true); ?>"><?php _e("Click here to login with the new password"); ?></a> </div>
+  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn  btn-primary" href="<?php print mw('url')->current(true,true); ?>"><?php _e("Click here to login with the new password"); ?></a> </div>
 </div>
 
 </div>

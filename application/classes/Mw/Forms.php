@@ -250,7 +250,7 @@ class Forms
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
+            $notif['content'] = "You have new form entry from " . mw('url')->current(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
             mw('Mw\Notifications')->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
@@ -500,7 +500,7 @@ class Forms
                 $csv_output .= 'created_on,';
                 $csv_output .= 'user_ip,';
                 foreach ($custom_fields as $k => $item) {
-                    $csv_output .= titlelize($k) . ",";
+                    $csv_output .= mw('format')->no_dashes($k) . ",";
                     $csv_output .= "\t";
                 }
                 $csv_output .= "\n";

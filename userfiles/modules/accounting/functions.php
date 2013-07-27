@@ -5,7 +5,7 @@
 action_hook('mw_admin_shop_link', 'mw_admin_accounting_link');
 
 function mw_admin_accounting_link() {
-	$active_action = url_param('view');
+	$active_action = mw('url')->param('view');
 	$cls = '';
 	if ($active_action == 'shop') {
 		//   $cls = ' class="active" ';

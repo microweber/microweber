@@ -59,8 +59,10 @@ function mw($class, $constructor_params=false)
     global $_mw_registry;
 
     $class_name = strtolower($class);
+
     $class = ucfirst($class);
     $class = str_replace('/','\\',$class);
+
 
     if(!isset($_mw_registry[$class_name])){
         if($constructor_params == false){
@@ -70,6 +72,7 @@ function mw($class, $constructor_params=false)
             $_mw_registry[$class_name] = new $class;
 
         }
+
     }
 
      //  if(is_callable($_mw_registry[$class_name])){

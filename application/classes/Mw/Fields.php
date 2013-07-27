@@ -253,7 +253,7 @@ class Fields
 
         $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
-         $result = replace_site_vars_back($result);
+         $result = mw('url')->replace_site_url_back($result);
         //d($result);
         return $result;
     }
@@ -606,7 +606,7 @@ class Fields
 
         }
 
-        $data = replace_site_vars_back($data);
+        $data = mw('url')->replace_site_url_back($data);
 
 
         $dir = INCLUDES_DIR;

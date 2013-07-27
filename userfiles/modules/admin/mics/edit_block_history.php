@@ -8,7 +8,7 @@ if(isset($params['post_id']) and intval($params['post_id']) != 0){
 } else if(isset($params['page_id']) and intval($params['page_id']) != 0){
 	$cont_id = intval($params['page_id']);
 }
-$url = url_string(true);
+$url = mw('url')->string(true);
 
 	$history_files = false;
 

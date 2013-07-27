@@ -24,7 +24,7 @@ $mtime = microtime();
 <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
 </pre>
   <b>URL</b>
-  <pre><?php print implode('/',url()); ?></pre>
+  <pre><?php print implode('/',mw('url')->segment()); ?></pre>
   <?php
 
 

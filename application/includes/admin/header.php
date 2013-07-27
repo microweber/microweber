@@ -54,7 +54,7 @@
     </script>
     <?php endif; ?>
     </head>
-    <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print url_param('view')  ?> action-<?php print url_param('action')  ?>">
+    <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print mw('url')->param('view')  ?> action-<?php print mw('url')->param('action')  ?>">
 
 
 

@@ -392,7 +392,7 @@ class Db
         }
 
         if (isset($data['url']) == false) {
-            //$url = url_string();
+            //$url = mw('url')->string();
             //$data['url'] = $url;
         }
 
@@ -433,7 +433,7 @@ class Db
          //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
-        $criteria = replace_site_vars($criteria);
+        $criteria = mw('url')->replace_site_url($criteria);
 
         //  }
 
@@ -1433,7 +1433,7 @@ class Db
 
                     return $ret;
                 } else {
-                    //  $cache_content = replace_site_vars_back($cache_content);
+                    //  $cache_content = mw('url')->replace_site_url_back($cache_content);
                     // $cache_content = $this->stripslashes_array($cache_content);
 
                     return $cache_content;
@@ -1890,7 +1890,7 @@ class Db
         $return = array();
 
         if (!empty($result)) {
-            $result = replace_site_vars_back($result);
+            $result = mw('url')->replace_site_url_back($result);
             $return = $result;
 
         }

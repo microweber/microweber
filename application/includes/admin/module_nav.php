@@ -10,7 +10,7 @@
 <div id="mw_toolbar_nav" class="mw-small-toolbar">
     <a href="<?php print admin_url(); ?>view:dashboard" id="mw_logo_modules"></a>
   <?php if(is_admin()): ?>
-  <?php   $active = url_param('view'); ?>
+  <?php   $active = mw('url')->param('view'); ?>
     <a title="<?php _e("Back"); ?>" href="<?php print admin_url(); ?>view:modules" class="mw-ui-btn mw-btn-single-ico left back-to-admin-cookie"><span class="ico ilaquo"></span></a>
     <a href="<?php print admin_url(); ?>view:modules" class="mw-ui-btn right"><span><?php _e("Back"); ?></span></a>
     <div class="module-toolbar-info">

@@ -128,7 +128,7 @@ class Shop
         if (is_admin() == false) {
             $params['session_id'] = session_id();
             if (!isset($params['payment_verify_token'])) {
-             }
+            }
         }
 
         $table = MODULE_DB_SHOP_ORDERS;
@@ -248,7 +248,7 @@ class Shop
         $check_cart = get_cart($cart);
         if (!is_array($check_cart)) {
 
-            if (isAjax()) {
+            if (mw('url')->is_ajax()) {
                 //json_error('Your cart is empty');
 
             } else { //	error('Your cart is empty');
@@ -311,14 +311,14 @@ class Shop
             //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
             $return_url_after = '';
-            if (isAjax()) {
-                $place_order['url'] = curent_url(true);
+            if (mw('url')->is_ajax()) {
+                $place_order['url'] = mw('url')->current(true);
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
                 $place_order['url'] = $_SERVER['HTTP_REFERER'];
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } else {
-                $place_order['url'] = curent_url();
+                $place_order['url'] = mw('url')->current();
 
             }
 
@@ -471,30 +471,33 @@ class Shop
         $providers = mw('option')->get('option_group=payments' . $option_key_q);
         $str = 'payment_gw_';
         $l = strlen($str);
-
-        $valid = array();
-        foreach ($providers as $value) {
-            if ($value['option_value'] == 'y') {
-                if (substr($value['option_key'], 0, $l) == $str) {
-                    $title = substr($value['option_key'], $l);
-                    $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
-                    $value['gw_file'] = $title;
-
-                    $mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
-
-                    if (!empty($mod_infp)) {
-                        $value = $mod_infp;
+        if (is_array($providers)) {
+            $valid = array();
+            foreach ($providers as $value) {
+                if ($value['option_value'] == 'y') {
+                    if (substr($value['option_key'], 0, $l) == $str) {
+                        $title = substr($value['option_key'], $l);
+                        $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
                         $value['gw_file'] = $title;
-                    } else {
-                        $value['name'] = $title;
-                    }
-                    //
-                    $valid[] = $value;
 
+                        $mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
+
+                        if (!empty($mod_infp)) {
+                            $value = $mod_infp;
+                            $value['gw_file'] = $title;
+                        } else {
+                            $value['name'] = $title;
+                        }
+                        //
+                        $valid[] = $value;
+
+                    }
                 }
             }
+            return $valid;
         }
-        return $valid;
+
+
     }
 
     public function remove_cart_item($data)
@@ -841,7 +844,7 @@ class Shop
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
-        $hostname = get_domain_from_str($_SERVER['REMOTE_ADDR']);
+        $hostname = mw('url')->hostname($_SERVER['REMOTE_ADDR']);
         $cache_gr = 'ipn';
         $cache_id = $hostname . md5(serialize($data));
 
@@ -1243,18 +1246,6 @@ class Shop
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     public function currency_symbol($curr = false, $key = 3)
     {
 
@@ -1335,7 +1326,7 @@ class Shop
         $service = "/service/currency/?from=" . $from . "&to=" . $to;
         $remote_host_s = $remote_host . $service;
         // d($remote_host_s);
-        $get_remote = url_download($remote_host_s);
+        $get_remote = mw('url')->download($remote_host_s);
         if ($get_remote != false) {
             return floatval($get_remote);
         }

@@ -292,4 +292,14 @@ class Format
     }
 
 
+    public function no_dashes($string)
+    {
+
+        $slug = preg_replace('/-/', ' ', $string);
+        $slug = preg_replace('/_/', ' ', $slug);
+
+        return $slug;
+    }
+
+
 }

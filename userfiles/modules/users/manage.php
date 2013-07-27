@@ -13,7 +13,7 @@ $user_params['is_active'] =$params['is_active'];
 }
 $users_per_page = 100;
 $paging_param = $params['id'].'_page';
- $curent_page_from_url = url_param($paging_param);
+ $curent_page_from_url = mw('url')->param($paging_param);
  
  
 	if( intval( $curent_page_from_url) > 0){

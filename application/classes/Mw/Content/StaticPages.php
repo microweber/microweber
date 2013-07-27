@@ -40,7 +40,7 @@ class StaticPages {
             //mw('cache')->save($tree, $function_cache_id, $cache_group = 'content/static');
         }
         if (!isset($url)) {
-            $url = curent_url(true, true);
+            $url = mw('url')->current(true, true);
         }
         $params['url'] = $url;
         $params['url_param'] = 'page';
@@ -72,8 +72,8 @@ class StaticPages {
 
 
         $load_file = false;
-        $url = curent_url(true, true);
-        $page_url = url_param('page');
+        $url = mw('url')->current(true, true);
+        $page_url = mw('url')->param('page');
         if ($page_url != false and $page_url != '') {
             $page_url = urldecode($page_url);
             $page_url = str_replace("--", "/", $page_url);

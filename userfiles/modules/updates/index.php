@@ -1,10 +1,10 @@
 <?php  only_admin_access();
  api_expose('updates');
-if(url_param('add_module')){
+if(mw('url')->param('add_module')){
 
 }
 
-	$install = url_param('add_module');
+	$install = mw('url')->param('add_module');
   mw('Mw\Notifications')->delete_for_module('updates');
 
 

@@ -112,7 +112,7 @@ class User
                 return array('error' => 'Please enter username and password!');
 
             }
-            $url = curent_url(1);
+            $url = mw('url')->current(1);
 
             $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
 
@@ -238,7 +238,7 @@ class User
                     }
                 }
 
-                $aj = isAjax();
+                $aj = mw('url')->is_ajax();
 
                 if ($aj == false and $api_key == false) {
                     if (isset($_SERVER["HTTP_REFERER"])) {
@@ -270,7 +270,7 @@ class User
         }
 
         // static $uid;
-        $aj = isAjax();
+        $aj = mw('url')->is_ajax();
         mw('user')->session_end();
 
         if (isset($_COOKIE['editmode'])) {

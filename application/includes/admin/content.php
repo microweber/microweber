@@ -1,5 +1,5 @@
 <?php //$rand = uniqid(); ?>
-<?php $my_tree_id = crc32(url_string()); ?>
+<?php $my_tree_id = crc32(mw('url')->string()); ?>
 <?php $active_content_id = '';
 if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 	$active_content_id = $_REQUEST['edit_content'];
@@ -566,7 +566,7 @@ function mw_add_product(){
 
       <div class="mw_edit_pages_nav">
         <?php
-            $view = url_param('view');
+            $view = mw('url')->param('view');
             if($view=='shop'){
         ?>
         <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
@@ -725,7 +725,7 @@ $ed_content = false;
 
 
 
-        <?php $view = url_param('view'); ?>
+        <?php $view = mw('url')->param('view'); ?>
 
         <?php if( $view == 'content'){  ?>
 

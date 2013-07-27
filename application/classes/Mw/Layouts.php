@@ -319,13 +319,13 @@ class Layouts {
             $fn = key($options);
         }
 
-        $page_url_segment_1 = url_segment(0);
+        $page_url_segment_1 = mw('url')->segment(0);
         $td = TEMPLATEFILES . $page_url_segment_1;
         $td_base = $td;
 
-        $page_url_segment_2 = url_segment(1);
+        $page_url_segment_2 = mw('url')->segment(1);
         $directly_to_file = false;
-        $page_url_segment_3 = url_segment();
+        $page_url_segment_3 = mw('url')->segment();
 
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);

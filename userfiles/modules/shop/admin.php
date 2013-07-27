@@ -1,4 +1,4 @@
-<?php $mw_notif =  (url_param('mw_notif'));
+<?php $mw_notif =  (mw('url')->param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = mw('Mw\Notifications')->read( $mw_notif);
 
@@ -28,7 +28,7 @@ window.location.href = '<?php print admin_url() ?>view:shop/action:orders/#viewo
 <?php
 $here = dirname(__FILE__);
 $here = $here.DS.'admin_views'.DS;
-  $active_action = url_param('action'); ?>
+  $active_action = mw('url')->param('action'); ?>
 <?php //mw('Mw\ContentUtils')->create_default_content('shop'); ?>
 <?php include($here .'nav.php'); ?>
 <?php $is_shop = 'y'; ?>

@@ -246,7 +246,7 @@ class Update
             }
             $dl_file = $dir_c . $fname;
             if (!is_file($dl_file)) {
-                $get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+                $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
                 $unzip = new \Mw\Utils\Unzip();
@@ -287,10 +287,10 @@ class Update
             mkdir_recursive($down_dir);
         }
         if (isset($updates['mw_new_version_download'])) {
-            $loc_fn = url_title($updates['mw_new_version_download']) . '.zip';
+            $loc_fn = mw('url')->slug($updates['mw_new_version_download']) . '.zip';
             $loc_fn_d = $down_dir . $loc_fn;
             if (!is_file($loc_fn_d)) {
-                $loc_fn_d1 = url_download($updates['mw_new_version_download'], false, $loc_fn_d);
+                $loc_fn_d1 = mw('url')->download($updates['mw_new_version_download'], false, $loc_fn_d);
             }
             if (is_file($loc_fn_d)) {
                 $to_be_unzipped['root'][] = $loc_fn_d;
@@ -311,11 +311,11 @@ class Update
 
                 foreach ($updates[$what_nex] as $key => $value) {
 
-                    $loc_fn = url_title($value) . '.zip';
+                    $loc_fn = mw('url')->slug($value) . '.zip';
                     $loc_fn_d = $down_dir2 . $loc_fn;
 
                     if (!is_file($loc_fn_d)) {
-                        $loc_fn_d1 = url_download($value, false, $loc_fn_d);
+                        $loc_fn_d1 = mw('url')->download($value, false, $loc_fn_d);
                     }
                     if (is_file($loc_fn_d)) {
                         $to_be_unzipped[$what_nex][$key] = $loc_fn_d;
@@ -407,7 +407,7 @@ class Update
                         }
                         $dl_file = $dir_c . $fname;
                         if (!is_file($dl_file)) {
-                            $get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+                            $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                         }
                         if (is_file($dl_file)) {
                             $unzip = new \Mw\Utils\Unzip();
@@ -444,7 +444,7 @@ class Update
                 }
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Mw\Utils\Unzip();
@@ -487,7 +487,7 @@ class Update
 
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = url_download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Mw\Utils\Unzip();

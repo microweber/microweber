@@ -410,7 +410,7 @@ class Users extends \Mw\User
                         $content = "Hello, {$data_res['username']} <br> ";
                         $content .= "You have requested a password reset link from IP address: " . USER_IP . "<br><br> ";
 
-                        //$content .= "on " . curent_url(1) . "<br><br> ";
+                        //$content .= "on " . mw('url')->current(1) . "<br><br> ";
 
                         $security = array();
                         $security['ip'] = USER_IP;
@@ -427,7 +427,7 @@ class Users extends \Mw\User
 
                             $save = \mw('db')->save($table, $data_to_save);
                         }
-                        $pass_reset_link = curent_url(1) . '?reset_password_link=' . $function_cache_id;
+                        $pass_reset_link = mw('url')->current(1) . '?reset_password_link=' . $function_cache_id;
 
                         $notif = array();
                         $notif['module'] = "users";
@@ -617,7 +617,7 @@ if (!function_exists('social_login_exception_handler')) {
     function social_login_exception_handler($exception)
     {
 
-        if (isAjax()) {
+        if (mw('url')->is_ajax()) {
             return array('error' => $exception->getMessage());
         }
 

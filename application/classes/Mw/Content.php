@@ -550,7 +550,7 @@ class Content
         if (isset($params['paging_param'])) {
             $paging_param = $params['paging_param'];
         }
-        $curent_page_from_url = url_param($paging_param);
+        $curent_page_from_url = mw('url')->param($paging_param);
 
         if (isset($params['curent_page'])) {
             $curent_page_from_url = $params['curent_page'];
@@ -594,8 +594,8 @@ class Content
                 // $base_url =  full_url(true);
             }*/
 
-            if (isAjax() == false) {
-                $base_url = curent_url(1);
+            if (mw('url')->is_ajax() == false) {
+                $base_url = mw('url')->current(1);
 
             } else {
                 if ($_SERVER['HTTP_REFERER'] != false) {
@@ -952,7 +952,7 @@ class Content
     {
         if (strval($url) == '') {
 
-            $url = url_string();
+            $url = mw('url')->string();
         }
 
         $u1 = $url;
@@ -1147,7 +1147,7 @@ class Content
             }
         }
         if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
-            $url_file = url_string(1, 1);
+            $url_file = mw('url')->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
             $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
@@ -2695,7 +2695,7 @@ class Content
             $active_class = '';
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
                 $surl = site_url();
-                $cur_url = curent_url(1);
+                $cur_url = mw('url')->current(1);
                 $item['url'] = mw('format')->replace_once('{SITE_URL}', $surl, $item['url']);
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
@@ -2892,6 +2892,14 @@ class Content
         }
     }
 
+
+    function debug_info()
+    {
+        //if (c('debug_mode')) {
+
+        return include(ADMIN_VIEWS_PATH . 'debug.php');
+        // }
+    }
 
 }
 

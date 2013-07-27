@@ -51,8 +51,8 @@ $data_paging['page_count'] = 1;
 //$data['debug'] = 1;
 
  $data_paging = get_form_entires($data_paging);
-if((url_param('curent_page') != false)){
-$data['curent_page'] = url_param('curent_page');
+if((mw('url')->param('curent_page') != false)){
+$data['curent_page'] = mw('url')->param('curent_page');
 }
 
 
@@ -75,7 +75,7 @@ if(is_array($data)){
       <th class="mw-ui-admin-table-small"><?php _e("ID"); ?></th>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
-      <th><?php print   titlelize($k); ?></th>
+      <th><?php print   mw('format')->no_dashes($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
       <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>
@@ -86,7 +86,7 @@ if(is_array($data)){
       <th class="mw-ui-admin-table-small"><?php _e("ID & Date"); ?></th>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
-      <th><?php print   titlelize($k); ?></th>
+      <th><?php print   mw('format')->no_dashes($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
       <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>

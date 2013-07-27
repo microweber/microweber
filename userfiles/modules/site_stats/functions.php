@@ -7,7 +7,7 @@ if (!defined("MODULE_DB_USERS_ONLINE")) {
 action_hook('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
 
 function mw_print_stats_on_dashboard() {
-	$active = url_param('view');
+	$active = mw('url')->param('view');
 	$cls = '';
 	if ($active == 'shop') {
 		//   $cls = ' class="active" ';

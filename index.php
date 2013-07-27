@@ -12,7 +12,7 @@ define('T', $mtime);
 unset($mtime);
 define('M', memory_get_usage());
 define('AJAX', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest');
- define('APC_CACHE', false);
+ 
 require_once ('bootstrap.php');
 $c_file = MW_CONFIG_FILE;
 
@@ -59,8 +59,8 @@ if (!defined('MW_BARE_BONES')) {
         exit();
     }
 
-    $method_full = url_string();
-    $m1 = url_segment(0);
+    $method_full = mw('url')->string();
+    $m1 = mw('url')->segment(0);
 
     if ($m1) {
         $m1 = str_replace('.', '', $m1);
@@ -74,7 +74,7 @@ if (!defined('MW_BARE_BONES')) {
         include_once($check_custom_controllers);
         if (class_exists($method)) {
             $controller = new $method();
-            $m1 = url_segment(1);
+            $m1 = mw('url')->segment(1);
 
             if ($m1) {
                 $m1 = str_replace('.', '', $m1);
@@ -86,7 +86,7 @@ if (!defined('MW_BARE_BONES')) {
     }
 
 
-    $params_for_route = url_segment();
+    $params_for_route = mw('url')->segment();
     //loading custom routes
     $routes_file = MW_ROOTPATH . 'routes.php';
     if (is_file($routes_file)) {
@@ -127,7 +127,7 @@ if (!defined('MW_BARE_BONES')) {
 
     $is_custom_controller_called = false;
     if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {
-        //$params_for_route = url_segment();
+        //$params_for_route = mw('url')->segment();
  
         if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
 

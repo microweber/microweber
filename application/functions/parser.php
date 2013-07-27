@@ -407,7 +407,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
                 }
             }
         }
-        // debug_info();
+        // mw('content')->debug_info();
 //print_r(debug_backtrace());
 
 
@@ -672,7 +672,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
                                 global $mw_mod_counter;
                                 $mw_mod_counter++;
                                 $mw_mod_counter1 = crc32(serialize($attrs));
-                                $attrs['id'] = $module_class . '-' . url_segment(0) . ($mw_mod_counter1);
+                                $attrs['id'] = $module_class . '-' . mw('url')->segment(0) . ($mw_mod_counter1);
                                 $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
                             } else {
@@ -703,7 +703,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
                                 // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
                                 $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                             }
-                            $module_name_url = url_title($module_name);
+                            $module_name_url = mw('url')->slug($module_name);
 
                             if ($mod_as_element == false) {
                                 if (strstr($module_name, 'text')) {

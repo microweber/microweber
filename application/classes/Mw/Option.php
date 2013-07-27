@@ -200,7 +200,7 @@ class Option
                 $get = $get[0]['option_value'];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = replace_site_vars_back($get['option_value']);
+                    $get['option_value'] = mw('url')->replace_site_url_back($get['option_value']);
                 }
                 $_mw_global_options_mem[$function_cache_id] = $get;
                 return $get;
@@ -209,7 +209,7 @@ class Option
                 $get = $get[0];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = replace_site_vars_back($get['option_value']);
+                    $get['option_value'] = mw('url')->replace_site_url_back($get['option_value']);
                 }
 
                 if (isset($get['field_values']) and $get['field_values'] != false) {
@@ -436,7 +436,7 @@ class Option
                 }
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
-                    $data['option_value'] = replace_site_vars($data['option_value']);
+                    $data['option_value'] = mw('url')->replace_site_url($data['option_value']);
                     //d($data['option_value']);
                 }
 

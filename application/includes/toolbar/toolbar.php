@@ -141,11 +141,11 @@ mw_save_draft_int = self.setInterval(function(){
 
 
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<?php print curent_url(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+        <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
-              <li><a href="<?php print curent_url(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+              <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>

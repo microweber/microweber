@@ -2,7 +2,7 @@
 <?php
 
  //$rand = uniqid(); ?>
-<?php $load_module = url_param('load_module');
+<?php $load_module = mw('url')->param('load_module');
  if($load_module == true): ?>
 <?php
 $mod = str_replace( '___',DS, $load_module);

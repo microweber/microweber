@@ -10,7 +10,7 @@
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
 	  $u  = mw('content')->link(CONTENT_ID);
   } else {
-	  $u  =curent_url();
+	  $u  =mw('url')->current();
   }
  print $u ?>/editmode:y"  class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" id="mw_toolbar_back_to_live_edit"><span class="ico ilive"></span><?php _e("Back to Live Edit"); ?></a> 
 

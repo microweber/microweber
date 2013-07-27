@@ -1,5 +1,5 @@
 
-<?php $cur_url = curent_url(true); 
+<?php $cur_url = mw('url')->current(true); 
 
 $cur_url = urlencode($cur_url);
 ?>

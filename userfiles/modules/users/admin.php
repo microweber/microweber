@@ -170,7 +170,7 @@ function mw_admin_delete_user_by_id($user_id){
 
 </script>
 
-<?php $mw_notif = (url_param('mw_notif'));
+<?php $mw_notif = (mw('url')->param('mw_notif'));
     if( $mw_notif != false){
         $mw_notif = mw('Mw\Notifications')->read( $mw_notif);
     }

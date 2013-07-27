@@ -195,7 +195,7 @@ class Module
             $config['module_name'] = dirname($module_name);
 
             $config['module_name_url_safe'] = module_name_encode($module_name);
-            $find_base_url = curent_url(1);
+            $find_base_url = mw('url')->current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 //	d($pos);
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
@@ -234,7 +234,7 @@ class Module
                 global $mw_mod_counter;
                 $mw_mod_counter++;
 
-                $attrs1 = crc32(serialize($attrs) . url_segment(0) . $mw_mod_counter);
+                $attrs1 = crc32(serialize($attrs) . mw('url')->segment(0) . $mw_mod_counter);
 
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);

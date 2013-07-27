@@ -30,7 +30,7 @@ class Ip2Country
             $remote_host_s = $remote_host . $service;
             //d($remote_host_s);
             $get_remote = false;
-            $get_remote = @url_download($remote_host_s);
+            $get_remote = @mw('url')->download($remote_host_s);
 
             if ($get_remote != false) {
                 $get_remote = json_decode($get_remote, 1);
