@@ -23,7 +23,7 @@ class Ip2Country
         $params['table'] = $table;
         $params['ip'] = $ip;
         $params['limit'] = 1;
-        $get = \mw\Db::get($params);
+        $get = \mw('db')->get($params);
         if ($get == false) {
             $remote_host = 'http://api.microweber.net';
             $service = "/service/ip2country/?ip=" . $ip;
@@ -46,7 +46,7 @@ class Ip2Country
                         $params['country_name'] = "Unknown";
                     }
                     //d($params);
-                    $s = \mw\Db::save($table, $params);
+                    $s = \mw('db')->save($table, $params);
                     $get = $params;
                 }
             }
@@ -71,7 +71,7 @@ class Ip2Country
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw\DbUtils::build_table()
+     * @uses \mw('mw\DbUtils')->build_table()
      */
     static function db_init()
     {
@@ -104,7 +104,7 @@ class Ip2Country
         $fields_to_add[] = array('city', 'TEXT default NULL');
         $fields_to_add[] = array('latitude', 'TEXT default NULL');
         $fields_to_add[] = array('longitude', 'TEXT default NULL');
-        \mw\DbUtils::build_table($table_name, $fields_to_add);
+        \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
 
 
 

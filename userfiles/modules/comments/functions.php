@@ -65,7 +65,7 @@ function mark_comments_as_old($data) {
 				$upd['id'] = $get_com['id'];
 				$upd['rel'] = 'content';
 				$upd['rel_id'] = db_escape_string($data['content_id']);
-				save_data($table, $upd);
+				mw('db')->save($table, $upd);
 			}
 		}
 		return $get_comm;
@@ -174,7 +174,7 @@ function post_comment($data) {
 
 	// d( $require_moderation);
 
-	$saved_data = save_data($table, $data);
+	$saved_data = mw('db')->save($table, $data);
 
 
 
@@ -242,7 +242,7 @@ function get_comments($params) {
 	$table = MODULE_DB_COMMENTS;
 	$params['table'] = $table;
 
-	$comments = get($params);
+	$comments = mw('db')->get($params);
 
 	if(isarr($comments)){
 		$i = 0;

@@ -50,7 +50,7 @@ class Update
             }
 
         } else {
-            cache_clean_group('update/global');
+            mw('cache')->delete('update/global');
         }
 
         $data = array();
@@ -372,8 +372,8 @@ class Update
             }
         }
         $this->post_update();
-        //cache_clean_group('update/global');
-        //clearcache();
+        //mw('cache')->delete('update/global');
+        //mw('cache')->flush();
         return $unzipped;
     }
 
@@ -459,8 +459,8 @@ class Update
 
             $data = modules_list($params);
             //d($data);
-            cache_clean_group('update/global');
-            cache_clean_group('db');
+            mw('cache')->delete('update/global');
+            mw('cache')->delete('db');
             exec_action('mw_db_init_default');
             exec_action('mw_db_init_modules');
 

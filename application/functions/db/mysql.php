@@ -121,7 +121,7 @@ if ($is_mysqli != false) {
         $err = mysql_error();
         if (strstr($err, "doesn't exist") or strstr($err, "not exist")) {
             if (function_exists('cache_clean_group')) {
-                cache_clean_group('db');
+                mw('cache')->delete('db');
 
             }
 

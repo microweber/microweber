@@ -22,7 +22,7 @@ function \mw\Notifications::save($params) {
 	}
 	$old = date("Y-m-d H:i:s", strtotime('-30 days'));
 	$cleanup = "delete from $table where created_on < '{$old}'";
-	\mw\Db::q($cleanup);
+	\mw('db')->q($cleanup);
 
 	if(isset($params['replace'])){
 		if(isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])){
@@ -31,7 +31,7 @@ function \mw\Notifications::save($params) {
 			$module1 = db_escape_string($params['module']);
 			$rel_id1 = db_escape_string($params['rel_id']);
 			$cleanup = "delete from $table where rel='{$rel1}' and module='{$module1}' and rel_id='{$rel_id1}'";
-			\mw\Db::q($cleanup);
+			\mw('db')->q($cleanup);
 
 
 
@@ -43,7 +43,7 @@ function \mw\Notifications::save($params) {
 
 
 
-	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+	mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
 	$data = save($table, $params);
 	return $data;
@@ -68,10 +68,10 @@ function \mw\Notifications::delete_for_module($module) {
 		  $ids = array_values_recursive($data);
 		  $idsi = implode(',',$ids);
 		  $cleanup = "delete from $table where id IN ({$idsi})";
-		  \mw\Db::q($cleanup);
+		  \mw('db')->q($cleanup);
 		}
 
-		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+		mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 		return true;
 	}
 }*/
@@ -101,7 +101,7 @@ function \mw\Notifications::mark_as_read($module) {
 			}
 		}
 
-		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+		mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 		return $data;
 	}
 }*/
@@ -119,8 +119,8 @@ function \mw\Notifications::read($id) {
 		$save['is_read'] = 'y';
 		$table = MW_DB_TABLE_NOTIFICATIONS;
 		mw_var('FORCE_SAVE', $table);
-		$data = \mw\Db::save($table, $save);
-		cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+		$data = \mw('db')->save($table, $save);
+		mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
 	}
 
@@ -155,8 +155,8 @@ function \mw\Notifications::reset() {
 	$table = MW_DB_TABLE_NOTIFICATIONS;
 
 	$q = "update $table set is_read='n'";
-	\mw\Db::q($q);
-	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+	\mw('db')->q($q);
+	mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
 	return true;
 
@@ -172,9 +172,9 @@ function \mw\Notifications::delete($id) {
 
 	$table = MW_DB_TABLE_NOTIFICATIONS;
 
-	\mw\Db::delete_by_id($table, intval($id), $field_name = 'id');
+	\mw('db')->delete_by_id($table, intval($id), $field_name = 'id');
 
-	cache_clean_group('notifications' . DIRECTORY_SEPARATOR . 'global');
+	mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
 	return true;
 
@@ -210,7 +210,7 @@ function \mw\Notifications::get($params) {
 		$table = MW_DB_TABLE_NOTIFICATIONS;
 		$params['table'] = $table;
 
-		$return = \mw\Db::get($params);
+		$return = \mw('db')->get($params);
 	}
 	return $return;
 }*/

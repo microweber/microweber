@@ -45,7 +45,7 @@ class shipping_api {
 			 
 		
 
-		$data = save_data($this -> table, $data);
+		$data = mw('db')->save($this -> table, $data);
 		return ($data);
 	}
 	function get_active() {

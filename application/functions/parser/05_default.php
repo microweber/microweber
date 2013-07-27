@@ -409,7 +409,7 @@ $cached = false;
 				 }*/
 
 				if ($ch2 == false) {
-					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+					//$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
 						//$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
@@ -501,7 +501,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 
 
 
-					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+					$val_rep = mw('parser')->process($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
                     //}
 
 					//$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
@@ -523,7 +523,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 
 
 
-				//$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
+				//$value = mw('parser')->process($value, $options, $coming_from_parent, $coming_from_parent_id);
 				$modified_layout = str_replace($rep, $value, $modified_layout);
 			}
 		}

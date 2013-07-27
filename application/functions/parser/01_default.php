@@ -247,7 +247,7 @@ if ($ch != false) {
 			}
 
 			if ($ch2 == false) {
-				$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+				$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 
 				pq($elem) -> html($field_content);
 

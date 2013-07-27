@@ -151,7 +151,7 @@ function execute_document_ready($l)
             }
         }
     }
-    //$l = parse_micrwober_tags($l, $options = false);
+    //$l = mw('parser')->process($l, $options = false);
 
     return $l;
 }

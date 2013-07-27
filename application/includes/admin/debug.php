@@ -28,12 +28,12 @@ $mtime = microtime();
   <?php
 
 
-if(function_exists('\mw\Db::query_log')){
-  $ql = \mw\Db::query_log(true) ;
+if(function_exists('\mw('db')->query_log')){
+  $ql = \mw('db')->query_log(true) ;
   if($ql and is_array($ql) and !empty($ql))
     {
-    	print '<b>'. count(\mw\Db::query_log(true)). ' Database Queries</b>';
-    	foreach(\mw\Db::query_log(true) as $query)
+    	print '<b>'. count(\mw('db')->query_log(true)). ' Database Queries</b>';
+    	foreach(\mw('db')->query_log(true) as $query)
     	{
     		print '<pre style="background:#fff">'. $query. '</pre>';
     	}

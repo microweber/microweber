@@ -46,12 +46,12 @@ function mw_post_update() {
 
 	$a = is_admin();
 	if ($a != false) {
-		cache_clean_group('db');
-		cache_clean_group('update/global');
-		cache_clean_group('elements/global');
+		mw('cache')->delete('db');
+		mw('cache')->delete('update/global');
+		mw('cache')->delete('elements/global');
 
-		cache_clean_group('templates');
-		cache_clean_group('modules/global');
+		mw('cache')->delete('templates');
+		mw('cache')->delete('modules/global');
 		scan_for_modules();
 		get_elements();
 		exec_action('mw_db_init_default');

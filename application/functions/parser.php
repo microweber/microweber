@@ -125,7 +125,7 @@ function parse_elem_callback($elem)
 
         //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
         // d($field_content);
-        $field_content = parse_micrwober_tags($field_content);
+        $field_content = mw('parser')->process($field_content);
 
         $elem->setInnerHTML($field_content);
     } else {
@@ -173,7 +173,7 @@ class MwDom extends DOMDocument
 $passed_reps = array();
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
-function parse_micrwober_tags($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
+function mw('parser')->process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
 {
     static $checker = array();
     global $passed_reps;
@@ -461,7 +461,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
          * $module_name = $nv; } if ($nn == 'type') { $module_name = $nv; } if ($nn
          * == 'data-type') { $module_name = $nv; } if ($nn == 'data-module') {
          * $module_name = $nv; } $z++; } // $mod_content = load_module($module_name,
-         * $attrs); $mod_content = parse_micrwober_tags($mod_content); if
+         * $attrs); $mod_content = mw('parser')->process($mod_content); if
          * ($mod_content != false) { $module_html = "<div class='module' "; if
          * (!empty($attrs)) { foreach ($attrs as $attribute_name => $attribute_node)
          * { $v = $attribute_node -> nodeValue; $module_html .= "
@@ -794,7 +794,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
                             }
 
                             if ($proceed_with_parse == true) {
-                                $mod_content = parse_micrwober_tags($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
+                                $mod_content = mw('parser')->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                             }
                             //if (trim($mod_content) != '') {
                             if ($mod_no_wrapper == false) {
@@ -837,7 +837,7 @@ function parse_micrwober_tags($layout, $options = false, $coming_from_parent = f
         }
     }
     global $mw_rand;
-    //	$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+    //	$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
     $layout = str_replace('{rand}', uniqid(), $layout);
     $layout = str_replace('{SITE_URL}', site_url(), $layout);
     $layout = str_replace('{SITEURL}', site_url(), $layout);
@@ -1079,7 +1079,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
         }
 
         if ($no_cache == false) {
-            $cache = cache_get($parser_mem_crc, 'content_fields/global/parser');
+            $cache = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser');
             if ($cache != false) {
 
 
@@ -1427,7 +1427,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                      }*/
 
                     if ($ch2 == false) {
-                        //$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+                        //$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
                         if ($field_content != false and $field_content != '') {
                             $mw_found_elems = ',' . $parser_mem_crc2;
                             //$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
@@ -1532,7 +1532,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                     $value = htmlspecialchars_decode($value);
 
 
-                    //$value = parse_micrwober_tags($value, $options, $coming_from_parent, $coming_from_parent_id);
+                    //$value = mw('parser')->process($value, $options, $coming_from_parent, $coming_from_parent_id);
                     $modified_layout = str_replace($rep, $value, $modified_layout);
                 }
             }

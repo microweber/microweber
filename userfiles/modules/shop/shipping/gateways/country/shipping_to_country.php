@@ -52,7 +52,7 @@ class shipping_to_country {
 			 
 		
 
-		$data = save_data($this -> table, $data);
+		$data = mw('db')->save($this -> table, $data);
 		return ($data);
 	}
 

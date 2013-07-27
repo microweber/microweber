@@ -980,18 +980,18 @@ window.CodeMirror = (function() {
         // where the direction flips, but only for the side with the
         // lower level. So we try to use the side with the higher
         // level.
-        if (i && part.level < (nb = order[i-1]).level) here = get(nb.level % 2 ? nb.from : nb.to - 1, true);
-        else here = get(rtl && part.from != part.to ? ch - 1 : ch);
+        if (i && part.level < (nb = order[i-1]).level) here = mw('db')->get(nb.level % 2 ? nb.from : nb.to - 1, true);
+        else here = mw('db')->get(rtl && part.from != part.to ? ch - 1 : ch);
         if (rtl == linedir) main = here; else other = here;
       } else if (right == ch) {
         var nb = i < order.length - 1 && order[i+1];
         if (!rtl && nb && nb.from == nb.to) continue;
-        if (nb && part.level < nb.level) here = get(nb.level % 2 ? nb.to - 1 : nb.from);
-        else here = get(rtl ? ch : ch - 1, true);
+        if (nb && part.level < nb.level) here = mw('db')->get(nb.level % 2 ? nb.to - 1 : nb.from);
+        else here = mw('db')->get(rtl ? ch : ch - 1, true);
         if (rtl == linedir) main = here; else other = here;
       }
     }
-    if (linedir && !ch) other = get(order[0].to - 1);
+    if (linedir && !ch) other = mw('db')->get(order[0].to - 1);
     if (!main) return other;
     if (other) main.other = other;
     return main;

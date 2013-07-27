@@ -26,7 +26,7 @@ class Api {
         $table = MODULE_DB_COMMENTS;
         $params['table'] = $table;
 
-        $comments = \mw\Db::get($params);
+        $comments = \mw('db')->get($params);
 
         if(isarr($comments)){
             $i = 0;
@@ -84,7 +84,7 @@ class Api {
                         break;
 
                     case 'delete' :
-                        $del = \mw\Db::delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+                        $del = \mw('db')->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
                         return $del;
                         break;
 
@@ -144,7 +144,7 @@ class Api {
 
         // d( $require_moderation);
 
-        $saved_data = \mw\Db::save($table, $data);
+        $saved_data = \mw('db')->save($table, $data);
 
 
 
@@ -215,7 +215,7 @@ class Api {
                     $upd['id'] = $get_com['id'];
                     $upd['rel'] = 'content';
                     $upd['rel_id'] = db_escape_string($data['content_id']);
-                    \mw\Db::save($table, $upd);
+                    \mw('db')->save($table, $upd);
                 }
             }
             return $get_comm;

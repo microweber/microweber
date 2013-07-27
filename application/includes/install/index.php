@@ -105,7 +105,7 @@ if (isset($to_save['is_installed'])) {
         //var_dump( $cfg);
 
         /*  file_put_contents($cfg, $save_config);
-         clearcache();
+         mw('cache')->flush();
          clearstatcache();
          sleep(2);*/
 
@@ -124,7 +124,7 @@ if (isset($to_save['is_installed'])) {
 
             //              $new_db = $to_save['dbname'];
             //              $query_make_db="CREATE DATABASE IF NOT EXISTS $new_db";
-            //              $qz = \mw\Db::query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            //              $qz = \mw('db')->query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
             //          if (isset($qz['error'])) {
             //                      //  var_dump($qz);
             //                          print('Error with the database creation! ');
@@ -136,7 +136,7 @@ if (isset($to_save['is_installed'])) {
             $qs = "SELECT '' AS empty_col";
             //var_dump($qs);
             mw_var('temp_db', $temp_db);
-            $qz = db_query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            $qz = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (isset($qz['error'])) {
                 __mw_install_log('Database Settings Error');
@@ -243,7 +243,7 @@ if (isset($to_save['is_installed'])) {
                 file_put_contents($cfg, $save_config);
                 __mw_install_log('Clearing cache');
                 clearstatcache();
-                clearcache();
+                mw('cache')->flush();
                 _reload_c();
 
                 __mw_install_log('Initializing users');
@@ -340,7 +340,7 @@ if (isset($to_save['is_installed'])) {
             exit();
 
             //var_dump($_REQUEST);
-            //$l = \mw\Db::query_log(true);
+            //$l = \mw('db')->query_log(true);
             //var_dump($l);
         } else {
             $done = true;

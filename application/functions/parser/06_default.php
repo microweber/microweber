@@ -281,7 +281,7 @@ if ($layout != '') {
 				 }*/
 
 				if ($ch2 == false) {
-					//$field_content = parse_micrwober_tags($field_content, $options, $coming_from_parent, $coming_from_parent_id);
+					//$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
 					if ($field_content != false and $field_content != '') {
 						$mw_found_elems = ',' . $parser_mem_crc2;
 						$mw_found_elems_arr[$parser_mem_crc2] = $field_content;
@@ -365,7 +365,7 @@ if (isset($mw_to_cache) and !empty($mw_to_cache)) {
 					//	$val_rep = html_entity_decode($val_rep, ENT_COMPAT, "UTF-8");
 					$val_rep = htmlspecialchars_decode($val_rep);
 					//$options['parse_mode'] = 1;
-					$val_rep = parse_micrwober_tags($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
+					$val_rep = mw('parser')->process($val_rep, $options, $coming_from_parent, $coming_from_parent_id);
 
 					$rep = 'mw_replace_back_this_editable_' . $elk;
 					//$modified_layout = $rep;

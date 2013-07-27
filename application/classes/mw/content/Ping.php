@@ -98,7 +98,7 @@ class Ping
                 $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . site_url('sitemap.xml');
                 $curl->timeout = 3;
                 $result1 = $curl->execute();
-                cache_clean_group('content/ping');
+                mw('cache')->delete('content/ping');
             }
         }
     }

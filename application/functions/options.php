@@ -59,10 +59,10 @@ function mw_options_init_db()
     $fields_to_add[] = array('module', 'TEXT default NULL');
     $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-    \mw\DbUtils::build_table($table_name, $fields_to_add);
+    \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-    //\mw\DbUtils::add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-    //\mw\DbUtils::add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+    //\mw('mw\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+    //\mw('mw\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
     mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -200,7 +200,7 @@ function create_mw_default_options()
     }
     if ($changes == true) {
         //var_dump($changes);
-        cache_clean_group('options/global');
+        mw('cache')->delete('options/global');
     }
     mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
 
@@ -527,7 +527,7 @@ function save_option($data)
                         } else {
 
                             $table = MW_DB_TABLE_OPTIONS;
-                            $copy = \mw\DbUtils::copy_row_by_id($table, $data['id']);
+                            $copy = \mw('mw\DbUtils')->copy_row_by_id($table, $data['id']);
                             $data['id'] = $copy;
                         }
 
@@ -564,7 +564,7 @@ function save_option($data)
             $clean = "delete from $table where      option_group='{$opt_gr}' and  option_key='{$opt_key}'";
             mw('db')->q($clean);
             $cache_group = 'options/' . $opt_gr;
-            cache_clean_group($cache_group);
+            mw('cache')->delete($cache_group);
 
             //d($clean);
         }
@@ -588,10 +588,10 @@ function save_option($data)
             if ($option_group != false) {
 
                 $cache_group = 'options/' . $option_group;
-                cache_clean_group($cache_group);
+                mw('cache')->delete($cache_group);
             } else {
                 $cache_group = 'options/' . 'global';
-                cache_clean_group($cache_group);
+                mw('cache')->delete($cache_group);
             }
 
             if (isset($data['id']) and intval($data['id']) > 0) {
@@ -600,41 +600,41 @@ function save_option($data)
 
                 if (isset($opt['option_group'])) {
                     $cache_group = 'options/' . $opt['option_group'];
-                    cache_clean_group($cache_group);
+                    mw('cache')->delete($cache_group);
                 }
                 $cache_group = 'options/' . intval($data['id']);
-                cache_clean_group($cache_group);
+                mw('cache')->delete($cache_group);
             }
             //d($cache_group);
             //
             //            if (isset($data['id'])) {
             //                $cache_group = 'options/' . $data['id'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
             //            if (isset($data['module'])) {
             //                $cache_group = 'options/' . $data['module'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
             //
             //
             //            if (isset($data['data-option-group'])) {
             //                $cache_group = 'options/' . $data['data-option-group'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
             //            if (isset($data['option-group'])) {
             //                $cache_group = 'options/' . $data['option-group'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
             //            if (isset($data['data-module'])) {
             //                $cache_group = 'options/' . $data['data-module'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
             //            if (isset($data['option_key'])) {
             //                $cache_group = 'options/' . $data['option_key'];
-            //                cache_clean_group($cache_group);
+            //                mw('cache')->delete($cache_group);
             //            }
 
-            cache_clean_group('options/global');
+            mw('cache')->delete('options/global');
 
             return $save;
         }
@@ -663,7 +663,7 @@ function delete_option_by_key($key, $option_group = false, $module_id = false)
 
     mw('db')->q($q);
 
-    cache_clean_group('options');
+    mw('cache')->delete('options');
 
     return true;
 }

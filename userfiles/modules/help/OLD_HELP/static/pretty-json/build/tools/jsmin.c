@@ -74,7 +74,7 @@ get()
 static int
 peek()
 {
-    theLookahead = get();
+    theLookahead = mw('db')->get();
     return theLookahead;
 }
 
@@ -86,12 +86,12 @@ peek()
 static int
 next()
 {
-    int c = get();
+    int c = mw('db')->get();
     if  (c == '/') {
         switch (peek()) {
         case '/':
             for (;;) {
-                c = get();
+                c = mw('db')->get();
                 if (c <= '\n') {
                     return c;
                 }
@@ -138,7 +138,7 @@ action(int d)
         if (theA == '\'' || theA == '"') {
             for (;;) {
                 putc(theA, stdout);
-                theA = get();
+                theA = mw('db')->get();
                 if (theA == theB) {
                     break;
                 }
@@ -149,7 +149,7 @@ action(int d)
                 }
                 if (theA == '\\') {
                     putc(theA, stdout);
-                    theA = get();
+                    theA = mw('db')->get();
                 }
             }
         }
@@ -161,12 +161,12 @@ action(int d)
             putc(theA, stdout);
             putc(theB, stdout);
             for (;;) {
-                theA = get();
+                theA = mw('db')->get();
                 if (theA == '/') {
                     break;
                 } else if (theA =='\\') {
                     putc(theA, stdout);
-                    theA = get();
+                    theA = mw('db')->get();
                 } else if (theA <= '\n') {
                     fprintf(stderr,
 "Error: JSMIN unterminated Regular Expression literal.\n", theA);
