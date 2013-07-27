@@ -34,7 +34,7 @@ $pid = false;
 
 if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
-  $data = get_content_by_id(intval($params["data-page-id"]));
+  $data = mw('content')->get_by_id(intval($params["data-page-id"]));
  
 //d($data);
 }
@@ -78,7 +78,7 @@ if($data == false or empty($data )){
 
 
  if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
-  $parent_cont = get_content_by_id($params["parent-page-id"]);
+  $parent_cont = mw('content')->get_by_id($params["parent-page-id"]);
       if(isarr($parent_cont) and isset($parent_cont['active_site_template'])){
 
 //    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";

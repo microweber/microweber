@@ -158,7 +158,7 @@ function _e($k, $to_return = false)
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
 
 
-            $scheduler = new \mw\utils\Events();
+            $scheduler = new \Mw\Utils\Events();
             // schedule a global scope function:
             $scheduler->registerShutdownEvent("__store_lang_file");
 

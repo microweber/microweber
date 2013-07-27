@@ -6,7 +6,7 @@ $pt_opts = array();
 $pt_opts['link'] = " <option value='{id}'>({id}) {title}</option>";
 $pt_opts['list_tag'] = " ";
  
- category_tree($pt_opts);
+ mw('category')->tree($pt_opts);
 
   ?>
 </select>

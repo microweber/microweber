@@ -75,7 +75,7 @@ function mw($class, $constructor_params=false)
     return $_mw_registry[$class_name];
        //}
    } else {
-       print 111111111;
+
        return new stdClass;
    }
 
@@ -213,7 +213,7 @@ function error($e, $f = false, $l = false)
 {
     include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
-    $v = new MwView(ADMIN_VIEWS_PATH . 'error.php');
+    $v = new \Mw\View(ADMIN_VIEWS_PATH . 'error.php');
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;

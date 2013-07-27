@@ -29,7 +29,7 @@ description: Default comments template
   <h2><?php _e("Recent comments"); ?></h2>
   <?php else : ?>
   <h2><?php _e("Comments for"); ?> <strong>
-    <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
+    <?php  $post = mw('content')->get_by_id($data['rel_id']); print $post['title']; ?>
     </strong></h2>
   <?php endif; ?>
   <div class="comments" id="comments-list-<?php print $data['id'] ?>">

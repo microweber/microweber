@@ -49,7 +49,7 @@ class MwController
 
         //create_mw_default_options();
         define_constants();
-        $l = new MwView(ADMIN_VIEWS_PATH . 'admin.php');
+        $l = new \Mw\View(ADMIN_VIEWS_PATH . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
         exec_action('on_load');
@@ -786,7 +786,7 @@ if(method_exists($res, $try_class_func2)){
         if ($embed != false) {
             $p_index = INCLUDES_PATH . 'api/index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new MwView($p_index);
+            $l = new \Mw\View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
@@ -794,7 +794,7 @@ if(method_exists($res, $try_class_func2)){
         if (isset($_REQUEST['live_edit'])) {
             $p_index = INCLUDES_PATH . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new MwView($p_index);
+            $l = new \Mw\View($p_index);
             $l->params = $data;
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
@@ -948,7 +948,7 @@ if(method_exists($res, $try_class_func2)){
         if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
 
             if (isset($_GET['content_id']) and intval($_GET['content_id']) != 0) {
-                $page = get_content_by_id($_GET['content_id']);
+                $page = mw('content')->get_by_id($_GET['content_id']);
 
             } else {
 
@@ -978,7 +978,7 @@ if(method_exists($res, $try_class_func2)){
 
                 if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
                     $page['parent'] = intval($_GET['inherit_template_from']);
-                    $inherit_from = get_content_by_id($_GET["inherit_template_from"]);
+                    $inherit_from = mw('content')->get_by_id($_GET["inherit_template_from"]);
                     if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
                         $page['active_site_template'] = $inherit_from['active_site_template'];
                         $is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
@@ -1205,12 +1205,12 @@ if(method_exists($res, $try_class_func2)){
 
 
         if ($page['id'] != 0) {
-            $page = get_content_by_id($page['id']);
+            $page = mw('content')->get_by_id($page['id']);
 
 
             if ($page['content_type'] == "post" and isset($page['parent'])) {
                 $content = $page;
-                $page = get_content_by_id($page['parent']);
+                $page = mw('content')->get_by_id($page['parent']);
             } else {
                 $content = $page;
             }
@@ -1221,14 +1221,7 @@ if(method_exists($res, $try_class_func2)){
         //
 
 
-        if (isset($page['is_pinged']) and $page['is_pinged'] == "n") {
-            if (!isset($is_preview_template) or $is_preview_template == false) {
 
-
-                content_ping_servers_async();
-
-            }
-        }
 
         if ($is_preview_template != false and $is_admin == true) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
@@ -1276,7 +1269,7 @@ if(method_exists($res, $try_class_func2)){
 // 
         define_constants($content);
 
-        //$page_data = get_content_by_id(PAGE_ID);
+        //$page_data = mw('content')->get_by_id(PAGE_ID);
 
         $render_file = get_layout_for_page($content);
 
@@ -1289,7 +1282,7 @@ if(method_exists($res, $try_class_func2)){
         if ($render_file) {
 
 
-            $l = new MwView($render_file);
+            $l = new \Mw\View($render_file);
 
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
@@ -1320,8 +1313,8 @@ if(method_exists($res, $try_class_func2)){
             if (isset($_REQUEST['isolate_content_field'])) {
                 //d($_REQUEST);
 
-                require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-                $pq = phpQuery::newDocument($l);
+                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
 
@@ -1339,7 +1332,7 @@ if(method_exists($res, $try_class_func2)){
 
                     $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new MwView($tb);
+                    $layout_toolbar = new \Mw\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -1372,9 +1365,9 @@ if(method_exists($res, $try_class_func2)){
             }
             if (isset($_REQUEST['embed_id'])) {
                 $find_embed_id = trim($_REQUEST['embed_id']);
-                require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-                $pq = phpQuery::newDocument($l);
+                $pq = \phpQuery::newDocument($l);
                 //	$isolated_head = pq('head') -> eq(0) -> html();
                 //	$isolated_body = pq('body') -> eq(0) -> html();
 
@@ -1400,7 +1393,7 @@ if(method_exists($res, $try_class_func2)){
 
                     $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new MwView($tb);
+                    $layout_toolbar = new \Mw\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -1465,7 +1458,7 @@ if(method_exists($res, $try_class_func2)){
 
                     $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
 
-                    $layout_toolbar = new MwView($tb);
+                    $layout_toolbar = new \Mw\View($tb);
                     $is_editmode_basic = false;
                     $user_data = get_user();
                     if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
@@ -1490,7 +1483,7 @@ if(method_exists($res, $try_class_func2)){
                     $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live-edit.php';
                     $custom_live_edit = normalize_path($custom_live_edit, false);
                     if (is_file($custom_live_edit)) {
-                        $layout_live_edit = new MwView($custom_live_edit);
+                        $layout_live_edit = new \Mw\View($custom_live_edit);
                         $layout_live_edit = $layout_live_edit->__toString();
                         if ($layout_live_edit != '') {
                             //$layout_live_edit = mw('parser')->process($layout_live_edit, $options = array('no_apc' => 1));
@@ -1508,7 +1501,7 @@ if(method_exists($res, $try_class_func2)){
                     if ($back_to_editmode == true) {
                         $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
-                        $layout_toolbar = new MwView($tb);
+                        $layout_toolbar = new \Mw\View($tb);
                         $layout_toolbar = $layout_toolbar->__toString();
                         if ($layout_toolbar != '') {
                             $layout_toolbar = mw('parser')->process($layout_toolbar, $options = array('no_apc' => 1));
@@ -1534,7 +1527,7 @@ if(method_exists($res, $try_class_func2)){
             $meta['og_type'] = 'website';
 
             if (CONTENT_ID > 0) {
-                $meta = get_content_by_id(CONTENT_ID);
+                $meta = mw('content')->get_by_id(CONTENT_ID);
                 $meta['content_image'] = get_picture(CONTENT_ID);
                 $meta['content_url'] = content_link(CONTENT_ID);
                 $meta['og_type'] = $meta['content_type'];
@@ -1676,7 +1669,7 @@ if(method_exists($res, $try_class_func2)){
 
 
         if ($skip == false) {
-            $map = new \mw\utils\Sitemap($sm_file);
+            $map = new \Mw\Utils\Sitemap($sm_file);
             $map->file = CACHEDIR . 'sitemap.xml';
 
             $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
@@ -1713,7 +1706,7 @@ if(method_exists($res, $try_class_func2)){
         $ref_page = false;
 
         if (isset($_GET['id'])) {
-            $ref_page = get_content_by_id($_GET['id']);
+            $ref_page = mw('content')->get_by_id($_GET['id']);
         } else if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
@@ -1728,7 +1721,7 @@ if(method_exists($res, $try_class_func2)){
         define_constants($ref_page);
 
 
-        $l = new MwView(INCLUDES_PATH . 'api' . DS . 'api.js');
+        $l = new \Mw\View(INCLUDES_PATH . 'api' . DS . 'api.js');
         $l = $l->__toString();
         // var_dump($l);
         //session_write_close();
@@ -1812,12 +1805,12 @@ if(method_exists($res, $try_class_func2)){
         $p = INCLUDES_PATH . 'toolbar/editor_tools/' . $tool . '/index.php';
         $p = normalize_path($p, false);
 
-        $l = new MwView($p_index);
+        $l = new \Mw\View($p_index);
         $layout = $l->__toString();
         // var_dump($l);
 
         if (is_file($p)) {
-            $p = new MwView($p);
+            $p = new \Mw\View($p);
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);
 
@@ -1837,14 +1830,14 @@ if(method_exists($res, $try_class_func2)){
         exit();
         //
         //header("HTTP/1.0 404 Not Found");
-        //$v = new MwView(ADMIN_VIEWS_PATH . '404.php');
+        //$v = new \Mw\View(ADMIN_VIEWS_PATH . '404.php');
         //echo $v;
     }
 
     function show_404()
     {
         header("HTTP/1.0 404 Not Found");
-        $v = new MwView(ADMIN_VIEWS_PATH . '404.php');
+        $v = new \Mw\View(ADMIN_VIEWS_PATH . '404.php');
         echo $v;
     }
 

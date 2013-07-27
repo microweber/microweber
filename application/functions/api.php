@@ -278,13 +278,13 @@ function mw_cron()
 
 
     // touch($file_loc_hour);
-    $cron = new \mw\utils\Cron;
+    $cron = new \Mw\Utils\Cron;
     //$cron->run();
 
-    $scheduler = new \mw\utils\Events();
+    $scheduler = new \Mw\Utils\Events();
 
     // schedule a global scope function:
-    //$scheduler->registerShutdownEvent("\mw\utils\Backup", $params);
+    //$scheduler->registerShutdownEvent("\Mw\Utils\Backup", $params);
 
     $scheduler->registerShutdownEvent(array($cron, 'run'));
 

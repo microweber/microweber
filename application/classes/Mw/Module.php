@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 
 $_mw_modules_info_register = array();

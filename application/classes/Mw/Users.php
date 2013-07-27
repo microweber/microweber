@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 
 
@@ -482,7 +482,7 @@ class Users extends \Mw\User
 
         if ($provider != false and isset($params) and !empty($params)) {
 
-            $api = new \\Mw\Auth\Social();
+            $api = new \Mw\Auth\Social();
 
             try {
 
@@ -566,7 +566,7 @@ class Users extends \Mw\User
     {
         set_exception_handler('social_login_exception_handler');
 
-        $api = new \\Mw\Auth\Social();
+        $api = new \Mw\Auth\Social();
         $api->process();
 
         // d($err);

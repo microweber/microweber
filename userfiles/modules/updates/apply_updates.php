@@ -3,11 +3,11 @@
 only_admin_access();
 
  	
-	 $update_api = new \mw\Update();
+	 $update_api = new \Mw\Update();
  
 	
 
- d($_POST);
+ 
  ?>apply_updates
  
  

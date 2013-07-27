@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 $passed_reps = array();
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
@@ -125,9 +125,6 @@ class Parser
                     }
                 }
             }
-
-
-
 
 
             $parse_mode = 4;
@@ -653,12 +650,9 @@ class Parser
         $checker[$d] = 1;
 
 
-
         return $layout;
         exit();
     }
-
-
 
 
     public function make_tags($layout)
@@ -736,10 +730,9 @@ class Parser
     }
 
 
-
     public function modify_html($layout, $selector, $content = "", $action = 'append')
     {
-        require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'mw' . DIRECTORY_SEPARATOR . 'utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($layout);
 
@@ -794,11 +787,28 @@ class Parser
         return $html_to_save;
     }
 
+    public function isolate_content_field($l)
+    {
+        require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        $pq = phpQuery::newDocument($l);
+
+        $isolated_head = pq('head')->eq(0)->html();
+
+        // d($isolated_head);
+        $found_field = false;
+        if (isset($_REQUEST['isolate_content_field'])) {
+            foreach ($pq ['[field=content]'] as $elem) {
+                //d($elem);
+                $isolated_el = $l = pq($elem)->htmlOuter();
+            }
+        }
+
+
+        return $l;
+    }
 
     private function _replace_editable_fields($layout, $no_cache = false)
     {
-
-
 
 
         if ($layout != '') {
@@ -841,7 +851,7 @@ class Parser
 
                 $layout = $ch;
             } else {
-                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'mw' . DIRECTORY_SEPARATOR . 'utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 $layout = htmlspecialchars_decode($layout);
@@ -917,7 +927,7 @@ class Parser
 
                         $get_global = false;
                         $data_id = intval($data_id);
-                        $data = get_content_by_id($data_id);
+                        $data = mw('content')->get_by_id($data_id);
 
                         //$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
@@ -935,7 +945,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = POST_ID;
                         }
-                        $data = get_content_by_id($data_id);
+                        $data = mw('content')->get_by_id($data_id);
 
                     } else if ($rel == 'inherit') {
                         $get_global = false;
@@ -951,7 +961,7 @@ class Parser
 
                             $data_id = $inh;
                             $rel = 'content';
-                            $data = get_content_by_id($data_id);
+                            $data = mw('content')->get_by_id($data_id);
                         } else {
                             $rel = 'content';
                             $data = get_page($data_id);
@@ -1008,7 +1018,7 @@ class Parser
                                     $cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
-                                        $data = get_content_by_id($inh);
+                                        $data = mw('content')->get_by_id($inh);
 
                                         $cont_field = $cont_field2;
                                     }
@@ -1078,7 +1088,7 @@ class Parser
 
                             }
 
-                             if (isset($data[$field])) {
+                            if (isset($data[$field])) {
 
                                 $field_content = $data[$field];
 
@@ -1234,7 +1244,7 @@ class Parser
                             // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
 
 
-                            $val_rep = _mw_parser_replace_editable_fields($val_rep, true);
+                            $val_rep = $this->_replace_editable_fields($val_rep, true);
                             //}
 
                             //$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';

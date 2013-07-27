@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 /*
  *

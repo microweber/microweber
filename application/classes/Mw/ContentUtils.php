@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 
 class ContentUtils
@@ -147,7 +147,7 @@ class ContentUtils
             }
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-                    $test2 = get_categories('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
+                    $test2 = mw('category')->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
 
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
@@ -234,7 +234,7 @@ class ContentUtils
         $par_page = false;
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
             if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
-                $par_page = get_content_by_id($data_to_save['parent']);
+                $par_page = mw('content')->get_by_id($data_to_save['parent']);
             }
 
 
@@ -1009,7 +1009,7 @@ class ContentUtils
 
     static function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
-        return \Mw\Content::get_parents($id , $without_main_parrent, $data_type);
+        return \mw('content')->get_parents($id , $without_main_parrent, $data_type);
 
     }
 

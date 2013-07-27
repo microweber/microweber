@@ -5,6 +5,6 @@
 
 
  
-class Users  extends \mw\Users {
+class Users  extends \Mw\Users {
 
 }

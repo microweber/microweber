@@ -18,5 +18,5 @@ description: List Navigation
 ?>
 
 <div class="pages-nav">
-	<?php category_tree($params);   ?>
+	<?php mw('category')->tree($params);   ?>
 </div>

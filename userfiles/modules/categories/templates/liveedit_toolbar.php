@@ -19,7 +19,7 @@ description: List Navigation for Liveedit Toolbar
 
 <div class="category-nav category-nav-default">
 
-		<?php  category_tree($params);  ?>
+		<?php  mw('category')->tree($params);  ?>
 
 </div>
 

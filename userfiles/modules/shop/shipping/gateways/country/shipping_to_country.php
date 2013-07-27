@@ -42,7 +42,7 @@ class shipping_to_country {
 			if (isset($data['id']) and intval($data['id']) > 0) {
 				
 				} else {
-			$check = $this -> get('shiping_country=' . $data['shiping_country']);
+			$check = $this ->mw('db')->get('shiping_country=' . $data['shiping_country']);
 			if ($check != false and isarr($check[0]) and isset($check[0]['id'])) {
 				$data['id'] = $check[0]['id'];
 			}

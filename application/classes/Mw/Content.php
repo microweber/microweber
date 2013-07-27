@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 action_hook('mw_db_init', mw('Mw\Content')->db_init());
 
@@ -87,7 +87,7 @@ class Content
             return site_url();
         }
 
-        $link = get_content_by_id($id);
+        $link = mw('content')->get_by_id($id);
         if (strval($link['url']) == '') {
             $link = get_page_by_url($id);
         }
@@ -341,7 +341,7 @@ class Content
 
         // $CI = get_instance ();
         if (intval($id) != 0) {
-            $page = get_content_by_id($id);
+            $page = mw('content')->get_by_id($id);
 
             if (empty($page)) {
                 $page = get_content_by_url($id);
@@ -372,7 +372,7 @@ class Content
      *
      * @example
      * <pre>
-     * $content = get_content_by_id(1);
+     * $content = mw('content')->get_by_id(1);
      * var_dump($content);
      * </pre>
      *
@@ -673,7 +673,7 @@ class Content
      * @example
      * <code>
      *  Define constants for some page
-     *  $ref_page = get_content_by_id(1);
+     *  $ref_page = mw('content')->get_by_id(1);
      *  define_constants($ref_page);
      *  print PAGE_ID;
      *  print POST_ID;
@@ -712,7 +712,7 @@ class Content
 //
         if (is_array($content)) {
             if (isset($content['id']) and $content['id'] != 0) {
-                $content = get_content_by_id($content['id']);
+                $content = mw('content')->get_by_id($content['id']);
                 $page = $content;
 
             } else if (isset($content['id']) and $content['id'] == 0) {
@@ -726,7 +726,7 @@ class Content
             if ($page['content_type'] == "post") {
                 $content = $page;
 
-                $page = get_content_by_id($page['parent']);
+                $page = mw('content')->get_by_id($page['parent']);
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);
                 }
@@ -829,7 +829,7 @@ class Content
                         if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
                             $par_page = mw('content')->get_inherited_parent($page['id']);
                             if ($par_page != false) {
-                                $par_page = get_content_by_id($par_page);
+                                $par_page = mw('content')->get_by_id($par_page);
                             }
                             if (isset($par_page['layout_file'])) {
                                 $the_active_site_template = $par_page['active_site_template'];
@@ -1075,7 +1075,7 @@ class Content
             if (isset($content['id']) and intval($content['id']) != 0) {
                 $content['id'] = ((int)$content['id']);
             }
-            //$get_by_id = get_content_by_id($content['id']);
+            //$get_by_id = mw('content')->get_by_id($content['id']);
             $mw_precached_links[$link_hash] = $content;
             return $content;
         }
@@ -1092,7 +1092,7 @@ class Content
      * @example
      * <code>
      *  //get the layout file for content
-     *  $content = get_content_by_id($id=1);
+     *  $content = mw('content')->get_by_id($id=1);
      *  $render_file = get_layout_for_page($content);
      *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
      * </code>
@@ -1168,7 +1168,7 @@ class Content
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
-                        $par_c = get_content_by_id($value);
+                        $par_c = mw('content')->get_by_id($value);
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
 
                             $page['layout_file'] = $par_c['layout_file'];
@@ -1203,7 +1203,7 @@ class Content
             $look_for_post = $page;
             if (isset($page['parent'])) {
 
-                $par_page = get_content_by_id($page['parent']);
+                $par_page = mw('content')->get_by_id($page['parent']);
 
                 if (isarr($par_page)) {
                     $page = $par_page;
@@ -1421,7 +1421,7 @@ class Content
             }
 
         }
-        if ($render_file == false and ($page['layout_file']) != false) {
+        if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
             $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
             $template_view = normalize_path($template_view, false);
 
@@ -2105,7 +2105,7 @@ class Content
                         }
                         //d($cat_params);
                         //d($cat_params);
-                        category_tree($cat_params);
+                        mw('category')->tree($cat_params);
 
                     }
                 }
@@ -2209,7 +2209,7 @@ class Content
      * @package Content
      * @subpackage Advanced
      * @uses get_content_parents()
-     * @uses get_content_by_id()
+     * @uses mw('content')->get_by_id()
      */
     public function get_inherited_parent($content_id)
     {
@@ -2221,7 +2221,7 @@ class Content
         if (!empty($inherit_from)) {
             foreach ($inherit_from as $value) {
                 if ($found == 0) {
-                    $par_c = get_content_by_id($value);
+                    $par_c = mw('content')->get_by_id($value);
                     if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
                         return $par_c['id'];
                         $found = 1;
@@ -2650,7 +2650,7 @@ class Content
             $url = '';
             $is_active = true;
             if (intval($item['content_id']) > 0) {
-                $cont = get_content_by_id($item['content_id']);
+                $cont = mw('content')->get_by_id($item['content_id']);
                 if (isarr($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
                     $is_active = false;
                     $cont = false;

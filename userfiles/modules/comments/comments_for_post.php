@@ -5,7 +5,7 @@
 
     $comments = get_comments($data);
 
-	$item = get_content_by_id($params['content_id']);
+	$item = mw('content')->get_by_id($params['content_id']);
 
     $content_id =  $params['content_id'];
 

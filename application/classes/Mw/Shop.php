@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 action_hook('mw_db_init_default', mw('Mw\Shop')->db_init());
 
 /**
@@ -588,7 +588,7 @@ class Shop
             error('Invalid data');
         }
 
-        $data['for'] = db_get_assoc_table_name($data['for']);
+        $data['for'] = mw('db')->assoc_table_name($data['for']);
 
         $for = $data['for'];
         $for_id = intval($data['for_id']);
@@ -601,7 +601,7 @@ class Shop
         }
 
         if ($data['for'] == 'content') {
-            $cont = get_content_by_id($for_id);
+            $cont = mw('content')->get_by_id($for_id);
 
             if ($cont == false) {
                 error('Invalid product?');

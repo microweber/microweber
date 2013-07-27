@@ -67,8 +67,8 @@ class MwView {
 		if ($ext == 'md') {
 			$content = file_get_contents($this -> v);
 			$rel_url = dir2url(dirname($this -> v)) . '/';
-			//$content = \mw\content\Markdown::defaultTransform($content);
-			$parser = new \mw\content\MarkdownExtra;
+			//$content = \Mw\Content\Markdown::defaultTransform($content);
+			$parser = new \Mw\Content\MarkdownExtra;
 
 			$parser -> no_markup = true;
 			 $parser -> no_entities = true;

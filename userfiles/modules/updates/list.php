@@ -1,7 +1,7 @@
 <?php
 
  only_admin_access();
- $update_api = new \mw\Update();
+ $update_api = new \Mw\Update();
  $forced = false;
  if(isset($params['force'])){
 	  $forced = 1;

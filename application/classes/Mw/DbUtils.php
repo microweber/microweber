@@ -1,7 +1,7 @@
 <?php
 
 
-namespace mw;
+namespace Mw;
 
 
 class DbUtils extends \Mw\Db
@@ -253,7 +253,7 @@ class DbUtils extends \Mw\Db
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  set_db_table($table_name, $fields_to_add);
+     *  \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB

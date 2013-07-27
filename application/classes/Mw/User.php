@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 action_hook('mw_db_init', mw('\Mw\User')->db_init());
 
@@ -61,7 +61,7 @@ class User
      * @category Users
      * @uses hash_user_pass()
      * @uses parse_str()
-     * @uses get_users()
+     * @uses $this->get_all()
      * @uses session_set()
      * @uses get_log()
      * @uses save_log()
@@ -84,7 +84,7 @@ class User
                 }
             }
         }
-
+        
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
@@ -147,7 +147,7 @@ class User
             $data = array();
 
             if (trim($user != '') and trim($pass != '') and isset($data1) and isarr($data1)) {
-                $data = get_users($data1);
+                $data = $this->get_all($data1);
             }
             if (isset($data[0])) {
                 $data = $data[0];
@@ -172,7 +172,7 @@ class User
 
                     $data['search_in_fields'] = 'password,email';
 
-                    $data = get_users($data);
+                    $data = $this->get_all($data);
 
                     if (isset($data[0])) {
 
@@ -197,9 +197,9 @@ class User
                     $data['email'] = $user;
                     $data['password'] = $pass;
                     $data['is_active'] = 'y';
-                    //  $data['debug'] = 'y';
 
-                    $data = get_users($data);
+
+                    $data = $this->get_all($data);
 
                     if (isset($data[0])) {
                         $data = $data[0];
@@ -413,7 +413,7 @@ class User
      * @params $params['password'] string password for user
      *
      *
-     * @usage get_users('email=my_email');
+     * @usage $this->get_all('email=my_email');
      *
      *
      * @return array of users;
@@ -491,8 +491,7 @@ class User
             return true;
         }
         if ($is != 0 or defined('USER_IS_ADMIN')) {
-            // var_dump( $is);
-            return $is;
+             return $is;
         } else {
             $usr = $this->id();
             if ($usr == false) {
@@ -508,9 +507,7 @@ class User
                 define("IS_ADMIN", false);
             }
             $is = USER_IS_ADMIN;
-            // var_dump( $is);
-            // var_dump( $is);
-            // var_dump( USER_IS_ADMIN.USER_IS_ADMIN.USER_IS_ADMIN);
+
             return USER_IS_ADMIN;
         }
     }
@@ -623,7 +620,7 @@ class User
                     $data['is_active'] = 'y';
                     $data['limit'] = 1;
 
-                    $data = get_users($data);
+                    $data = $this->get_all($data);
 
                     if ($data != false) {
                         if (isset($data[0])) {

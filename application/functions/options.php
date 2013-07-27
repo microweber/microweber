@@ -59,10 +59,10 @@ function mw_options_init_db()
     $fields_to_add[] = array('module', 'TEXT default NULL');
     $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-    \mw('mw\DbUtils')->build_table($table_name, $fields_to_add);
+    \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
 
-    //\mw('mw\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-    //\mw('mw\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+    //\mw('Mw\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+    //\mw('Mw\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
 
     mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
     // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -527,7 +527,7 @@ function save_option($data)
                         } else {
 
                             $table = MW_DB_TABLE_OPTIONS;
-                            $copy = \mw('mw\DbUtils')->copy_row_by_id($table, $data['id']);
+                            $copy = \mw('Mw\DbUtils')->copy_row_by_id($table, $data['id']);
                             $data['id'] = $copy;
                         }
 

@@ -19,7 +19,7 @@ if(isset($params['is_shop']) and $params['is_shop']=='y'){
 }
 
 if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
-  $check_if_excist = get_content_by_id($params['page-id']);
+  $check_if_excist = mw('content')->get_by_id($params['page-id']);
   if(isarr($check_if_excist)){
     if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
      $posts_mod['subtype'] = 'product';
@@ -69,7 +69,7 @@ if($params['page-id'] == 'global'){
 
 }
 else {
- $page_info = get_content_by_id($params['page-id']);
+ $page_info = mw('content')->get_by_id($params['page-id']);
 }
 
 ?>
@@ -358,7 +358,7 @@ if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
 
-category_tree($pt_opts);
+mw('category')->tree($pt_opts);
 ?>
   <?php endif; ?>
   <?php endif; ?>

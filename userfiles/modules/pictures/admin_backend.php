@@ -23,7 +23,7 @@ $for = 'content';
 
 
 
-$for =  db_get_assoc_table_name($for);
+$for =  mw('db')->assoc_table_name($for);
 
 
 

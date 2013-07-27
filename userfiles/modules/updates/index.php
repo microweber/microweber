@@ -5,7 +5,7 @@ if(url_param('add_module')){
 }
 
 	$install = url_param('add_module');
-  mw('mw\Notifications')->delete_for_module('updates');
+  mw('Mw\Notifications')->delete_for_module('updates');
 
 
 

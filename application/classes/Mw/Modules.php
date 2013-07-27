@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 class Modules extends \mw\Module
 {
 
@@ -48,7 +48,7 @@ class Modules extends \mw\Module
         if (!empty($data_to_save)) {
             $s = $data_to_save;
             // $s["module_name"] = $data_to_save["name"];
-            // $s["debug"] = 1;
+            
             if (!isset($s["parent_id"])) {
                 $s["parent_id"] = 0;
             }

@@ -5,6 +5,6 @@
 
 
  
-class Content  extends \mw\Content{
+class Content  extends \Mw\Content{
 
 }

@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 if (!defined("MW_DB_TABLE_LOG")) {
     define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');

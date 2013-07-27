@@ -16,7 +16,7 @@ $url = url_string(true);
 
 		$history_files = get_content_field('order_by=id desc&fields=id,created_on&is_draft=1&all=1&url='.$url);
 
-		$last_saved = get_content_by_id($cont_id);
+		$last_saved = mw('content')->get_by_id($cont_id);
 		//d($last_saved);
 		$last_saved_date = $last_saved['updated_on'];
 		//d($last_saved_date );

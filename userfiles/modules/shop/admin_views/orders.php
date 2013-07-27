@@ -49,7 +49,7 @@ function mw_delete_shop_order($p_id){
      });
 }
 </script>
-<?php  mw('mw\Notifications')->mark_as_read('shop');  ?>
+<?php  mw('Mw\Notifications')->mark_as_read('shop');  ?>
 <div class="mw-simple-rotator" style="width: 960px;padding: 20px;">
     <div class="mw-simple-rotator-container" id="orders-rotator">
       <module type="shop/orders/manage"  id="mw-admin-manage-orders"  />

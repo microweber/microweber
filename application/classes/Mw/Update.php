@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
@@ -124,7 +124,7 @@ class Update
 
         }
 
-        if (function_exists('mw('Mw\Notifications')->save')) {
+
 
 
             $count = 0;
@@ -153,7 +153,7 @@ class Update
                 mw('Mw\Notifications')->save($notif);
             }
 
-        }
+
         /*if(function_exists('mw('Mw\Notifications')->save')){
 
 

@@ -5,6 +5,6 @@
 
 
  
-class Db  extends \mw\Db {
+class Db  extends \Mw\Db {
 
 }

@@ -5,6 +5,6 @@
 
 
  
-class Shop  extends \mw\Shop {
+class Shop  extends \Mw\Shop {
 
 }

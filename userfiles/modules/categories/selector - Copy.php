@@ -55,7 +55,7 @@ $cats_str = array();
 $cats_ids = array();
 $cats__parents = array();
 $is_ex1 = array();
- $for = db_get_assoc_table_name($for);
+ $for = mw('db')->assoc_table_name($for);
 	  if($for == 'conaaaaaaatent' or $for == 'content'){
 		  
 		  
@@ -159,7 +159,7 @@ foreach ($cats__parents as $item1) {
 //$tree['debug'] = 1;
 	$tree['link'] = "<label class='mw-ui-check'><input type='checkbox'  {active_code} value='{id}' id='mw_cat_selector_{$rand}' class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
  
- 	category_tree($tree);
+ 	mw('category')->tree($tree);
 
 }
 ?>
@@ -188,7 +188,7 @@ foreach ($cats__parents as $item1) {
 				 $pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;
 					// d($cat_params);
-						// category_tree($pt_opts);
+						// mw('category')->tree($pt_opts);
 			}
 		}
 						

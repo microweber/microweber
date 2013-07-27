@@ -16,7 +16,7 @@ function get_picture($content_id, $for = 'post', $full = false)
         }
 
     } else {
-        $cont_id = get_content_by_id($content_id);
+        $cont_id = mw('content')->get_by_id($content_id);
 
         if (isset($cont_id['content'])) {
             $img = get_first_image_from_html(html_entity_decode($cont_id['content']));
@@ -254,7 +254,7 @@ function reorder_media($data)
                 $i++;
             }
 
-            \mw('mw\DbUtils')->update_position_field($table, $indx);
+            \mw('Mw\DbUtils')->update_position_field($table, $indx);
             return true;
             // d($indx);
         }
@@ -292,7 +292,7 @@ function save_media($data)
     $s = array();
     if (isset($data['for'])) {
         $t = guess_table_name($data['for']);
-        $t = db_get_assoc_table_name($t);
+        $t = mw('db')->assoc_table_name($t);
         $s['rel'] = $t;
     }
 
@@ -787,7 +787,7 @@ function get_pictures($params)
      // }*/
 
     if (isset($params['for'])) {
-        $params['rel'] = db_get_assoc_table_name($params['for']);
+        $params['rel'] = mw('db')->assoc_table_name($params['for']);
     }
 
     //$params['debug'] = $table;

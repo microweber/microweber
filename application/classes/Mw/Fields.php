@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 api_expose('CustomFields/delete');
 api_expose('CustomFields/reorder');
@@ -36,7 +36,7 @@ class Fields
 
                 }
                 if ($table_assoc_name == false) {
-                    $table_assoc_name = db_get_assoc_table_name($table_assoc_name);
+                    $table_assoc_name = mw('db')->assoc_table_name($table_assoc_name);
 
                 }
             } else {
@@ -45,7 +45,7 @@ class Fields
         }
 
         if (isset($params['for'])) {
-            $table_assoc_name = db_get_assoc_table_name($params['for']);
+            $table_assoc_name = mw('db')->assoc_table_name($params['for']);
         }
         if (isset($params['debug'])) {
             $debug = $params['debug'];
@@ -253,8 +253,7 @@ class Fields
 
         $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
-        $result = remove_slashes_from_array($result);
-        $result = replace_site_vars_back($result);
+         $result = replace_site_vars_back($result);
         //d($result);
         return $result;
     }
@@ -312,7 +311,7 @@ class Fields
         if (!isset($data_to_save['rel'])) {
             $data_to_save['rel'] = 'content';
         }
-        $data_to_save['rel'] = db_get_assoc_table_name($data_to_save['rel']);
+        $data_to_save['rel'] = mw('db')->assoc_table_name($data_to_save['rel']);
         if (!isset($data_to_save['rel_id'])) {
             $data_to_save['rel_id'] = '0';
         }
@@ -670,7 +669,7 @@ class Fields
     static  function names_for_table($table)
     {
         $table = db_escape_string($table);
-        $table1 = db_get_assoc_table_name($table);
+        $table1 = mw('db')->assoc_table_name($table);
 
         $table = MW_DB_TABLE_CUSTOM_FIELDS;
         $q = false;

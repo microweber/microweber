@@ -17,4 +17,4 @@ description: List Navigation
   ?>
  <?php  pages_tree($params);  ?>
 
-  <?php if($include_categories != false):  ?><?php $cat_params['ul_class'] = 'nav nav-list'; category_tree($cat_params); ?><?php endif; ?>
+  <?php if($include_categories != false):  ?><?php $cat_params['ul_class'] = 'nav nav-list'; mw('category')->tree($cat_params); ?><?php endif; ?>

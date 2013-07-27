@@ -14,7 +14,7 @@ $data = false;
 if(!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 
- $data = get_content_by_id($params["data-page-id"]);
+ $data = mw('content')->get_by_id($params["data-page-id"]);
 } else {
 //	$data = $params;
 }
@@ -44,7 +44,7 @@ if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['
 //
 
 
-  $inherit_from_id = get_content_by_id($params["inherit_from"]);
+  $inherit_from_id = mw('content')->get_by_id($params["inherit_from"]);
  // $inherit_from_id = false;
  if($inherit_from_id != false and isset($inherit_from_id['active_site_template']) and trim($inherit_from_id['active_site_template']) != 'inherit'){
 $data['active_site_template']  =  $inherit_from_id['active_site_template'];
@@ -59,7 +59,7 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
          $inh1 = intval($params["inherit_from"]);
        }
        if($inh1 != false){
-         $inherit_from = get_content_by_id($inh1);
+         $inherit_from = mw('content')->get_by_id($inh1);
          if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
           $data['active_site_template']  =  $inherit_from['active_site_template'];
           $data['layout_file']  = 'inherit';

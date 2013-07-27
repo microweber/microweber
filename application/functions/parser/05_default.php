@@ -145,7 +145,7 @@ $cached = false;
 
 				$get_global = false;
 				$data_id = intval($data_id);
-				$data = get_content_by_id($data_id);
+				$data = mw('content')->get_by_id($data_id);
 
 				//$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
@@ -163,7 +163,7 @@ $cached = false;
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = POST_ID;
 				}
-				$data = get_content_by_id($data_id);
+				$data = mw('content')->get_by_id($data_id);
 
 			} else if ($rel == 'inherit') {
 				$get_global = false;
@@ -179,7 +179,7 @@ $cached = false;
 
 					$data_id = $inh;
 					$rel = 'content';
-					$data = get_content_by_id($data_id);
+					$data = mw('content')->get_by_id($data_id);
 				} else {
 					$rel = 'content';
 					$data = get_page($data_id);
@@ -236,7 +236,7 @@ $cached = false;
 							$cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
 							if ($cont_field2 != false) {
 								$rel = 'content';
-								$data = get_content_by_id($inh);
+								$data = mw('content')->get_by_id($inh);
 
 								$cont_field = $cont_field2;
 							}

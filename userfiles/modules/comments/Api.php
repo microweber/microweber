@@ -159,7 +159,7 @@ class Api {
             $notif['title'] = "You have new comment";
             $notif['description'] = "New comment is posted on " . curent_url(1);
             $notif['content'] = character_limiter($data['comment_body'], 800);
-            mw('mw\Notifications')->save($notif);
+            mw('Mw\Notifications')->save($notif);
 
             $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
             $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');

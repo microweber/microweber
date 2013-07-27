@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 // Handles working with HTML output templates
 class View {
 

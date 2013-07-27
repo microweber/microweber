@@ -107,7 +107,7 @@ if(isarr( $diff) and isarr($more) ){
 <?php if(!empty( $more)):  ?>
  <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <?php if(isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
-  <?php $p = get_content_by_id($params["rel_id"]); ?>
+  <?php $p = mw('content')->get_by_id($params["rel_id"]); ?>
   <?php if(isset($p['title'])): ?>
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
     <?php _e("From"); ?>

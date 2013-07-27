@@ -20,7 +20,7 @@ function mw_print_admin_backup_settings_link() {
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Backup</a></li>";
 	//print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
 	}
-	//$notif_count = mw('mw\Notifications')->get('module=comments&is_read=n&count=1');
+	//$notif_count = mw('Mw\Notifications')->get('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}*/
@@ -70,7 +70,7 @@ api_expose('mw_apply_updates');
 function mw_apply_updates($params) {
 	only_admin_access();
 	$params = parse_params($params);
-	$update_api = new \mw\Update();
+	$update_api = new \Mw\Update();
 	$res = array();
  	$upd_params = array();
 	if (isarr($params)) {
@@ -122,7 +122,7 @@ function mw_apply_updates($params) {
 
 		if (isarr($res)) {
 			mw_post_update();
-			mw('mw\Notifications')->delete_for_module('updates');
+			mw('Mw\Notifications')->delete_for_module('updates');
 
 		}
 	}
@@ -147,7 +147,7 @@ function mw_check_for_update() {
 	global $mw_avail_updates;
 	if ($mw_avail_updates == false) {
 
-		$update_api = new \mw\Update();
+		$update_api = new \Mw\Update();
 
 		$iudates = $update_api -> check();
 $mw_avail_updates = $iudates;
@@ -165,7 +165,7 @@ $mw_avail_updates = $iudates;
 // function used do send us the language files
 function mw_send_anonymous_server_data($params) {
 	only_admin_access();
-	$update_api = new \mw\Update();
+	$update_api = new \Mw\Update();
 
 
 

@@ -64,7 +64,7 @@ $pt_opts['list_item_tag'] = "option";
 				 $pt_opts['include_first'] = 1;
 					 //$cat_params['debug'] = 1;
 					// d($cat_params);
-						 category_tree($pt_opts);
+						 mw('category')->tree($pt_opts);
 			}
 		}
 						

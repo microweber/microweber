@@ -87,7 +87,7 @@ if ($layout != '') {
 
 				$get_global = false;
 				$data_id = intval($data_id);
-				$data = get_content_by_id($data_id);
+				$data = mw('content')->get_by_id($data_id);
 				//$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
 			} else if ($rel == 'page') {
@@ -103,7 +103,7 @@ if ($layout != '') {
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = POST_ID;
 				}
-				$data = get_content_by_id($data_id);
+				$data = mw('content')->get_by_id($data_id);
 
 			} else if ($rel == 'inherit') {
 				if (!isset($data_id) or $data_id == false) {
@@ -113,7 +113,7 @@ if ($layout != '') {
 				if($inh != false){
 					$data_id = $inh;
 					$rel = 'content';
-					$data = get_content_by_id($data_id);
+					$data = mw('content')->get_by_id($data_id);
 				} else {
 					$rel = 'content';
 					$data = get_page($data_id);

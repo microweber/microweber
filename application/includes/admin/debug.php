@@ -28,8 +28,7 @@ $mtime = microtime();
   <?php
 
 
-if(function_exists('\mw('db')->query_log')){
-  $ql = \mw('db')->query_log(true) ;
+   $ql = \mw('db')->query_log(true) ;
   if($ql and is_array($ql) and !empty($ql))
     {
     	print '<b>'. count(\mw('db')->query_log(true)). ' Database Queries</b>';
@@ -38,7 +37,7 @@ if(function_exists('\mw('db')->query_log')){
     		print '<pre style="background:#fff">'. $query. '</pre>';
     	}
     }
-}
+ 
 
 
 ?>

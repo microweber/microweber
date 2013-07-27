@@ -1,7 +1,7 @@
 <?php
 
 
-namespace mw;
+namespace Mw;
 
 
 if (!defined('DB_IS_SQLITE')) {
@@ -16,7 +16,7 @@ if (!defined('USER_IP')) {
 
     }
 }
-
+$mw_db_arr_maps = array();
 class Db
 {
 
@@ -63,13 +63,13 @@ class Db
      * @example
      * <code>
      * //get content
-     *  $results = \mw('db')->get("table=content&is_active=y");
+     *  $results = $this->get("table=content&is_active=y");
      * </code>
      *
      * @example
      *  <code>
      *  //get users
-     *  $results = \mw('db')->get("table=users&is_admin=n");
+     *  $results = $this->get("table=users&is_admin=n");
      * </code>
      *
      * @package Database
@@ -124,7 +124,7 @@ class Db
             }
 
             if ($k == 'for' and !isset($params['rel'])) {
-                $v = db_get_assoc_table_name($v);
+                $v = mw('db')->assoc_table_name($v);
                 $k = 'rel';
             }
 
@@ -163,9 +163,8 @@ class Db
 
         if (!isset($table)) {
             print "error no table found in params";
-            d($params);
-            //print_r(debug_backtrace());
-            return false;
+            
+             return false;
 
         }
 
@@ -252,7 +251,7 @@ class Db
      * @example
      * <code>
      * //get content with id 5
-     * $cont = \mw('db')->get_by_id('content', $id=5);
+     * $cont = $this->get_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -431,8 +430,7 @@ class Db
         $criteria_orig = $data;
 
         $criteria = $this->map_array_to_table($table, $data);
-
-        //
+         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
         $criteria = replace_site_vars($criteria);
@@ -631,7 +629,7 @@ class Db
 
             $cache_id = $cache_id . crc32($q);
             $results = mw('cache')->get($cache_id, $cache_group);
-            //	 d($results);
+
             if ($results != false) {
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
                     return false;
@@ -654,7 +652,7 @@ class Db
             $db = $connection_settigns;
 
         } else {
-            //   $db = c('db');
+               $db = c('db');
         }
 
 
@@ -687,6 +685,7 @@ class Db
             return false;
 
         }
+
         include (MW_DB_ADAPTER_DIR . 'mysql.php');
 
 
@@ -777,7 +776,7 @@ class Db
      *  //make plain query to the db.
      *    $table = MW_TABLE_PREFIX.'content';
      *  $sql = "update $table set title='new' WHERE id=1 ";
-     *  $q = \mw('db')->q($sql);
+     *  $q = $this->q($sql);
      * </code>
      *
      */
@@ -849,10 +848,10 @@ class Db
      * @example
      * <code>
      * //add query to the db log
-     * \mw('db')->query_log("select * from my_table");
+     * $this->query_log("select * from my_table");
      *
      * //get the query log
-     * $queries = \mw('db')->query_log(true);
+     * $queries = $this->query_log(true);
      * var_dump($queries );
      * </code>
      * @package Database
@@ -886,18 +885,18 @@ class Db
      * $data = array();
      * $data['id'] = 1;
      * $data['non_ex'] = 'i do not exist and will be removed';
-     * $criteria = \mw('db')->map_array_to_table($table, $array);
+     * $criteria = $this->map_array_to_table($table, $array);
      * var_dump($criteria);
      * </code>
      */
     public function map_array_to_table($table, $array)
     {
 
-        static $arr_maps = array();
+        global $mw_db_arr_maps;
 
         $arr_key = crc32($table) + crc32(serialize($array));
-        if (isset($arr_maps[$arr_key])) {
-            return $arr_maps[$arr_key];
+        if (isset($mw_db_arr_maps[$arr_key])) {
+            return $mw_db_arr_maps[$arr_key];
         }
 
         if (empty($array)) {
@@ -906,11 +905,11 @@ class Db
         }
         // $table = $this->real_table_name($table);
 
-        if (isset($arr_maps[$table])) {
-            $fields = $arr_maps[$table];
+        if (isset($mw_db_arr_maps[$table])) {
+            $fields = $mw_db_arr_maps[$table];
         } else {
             $fields = $this->get_fields($table);
-            $arr_maps[$table] = $fields;
+            $mw_db_arr_maps[$table] = $fields;
         }
         if (isarr($fields)) {
             foreach ($fields as $field) {
@@ -935,7 +934,7 @@ class Db
         if (!isset($array_to_return)) {
             return false;
         } else {
-            $arr_maps[$arr_key] = $array_to_return;
+            $mw_db_arr_maps[$arr_key] = $array_to_return;
         }
         return $array_to_return;
     }
@@ -1076,8 +1075,7 @@ class Db
                 }
             }
 
-            // d($limit);
-            if (is_string($limit) or is_int($limit)) {
+             if (is_string($limit) or is_int($limit)) {
                 $items_per_page = intval($limit);
 
                 if ($count_only == false) {
@@ -1126,8 +1124,7 @@ class Db
             if (is_string($criteria['fields'])) {
                 $criteria['fields'] = explode(',', $criteria['fields']);
                 $only_those_fields = $criteria['fields'];
-                //     d($only_those_fields);
-                unset($criteria['fields']);
+                 unset($criteria['fields']);
             } else {
                 unset($criteria['fields']);
             }
@@ -1163,8 +1160,7 @@ class Db
             }
 
             $only_custom_fieldd_ids = array();
-            // p($data ['custom_fields_criteria'],1);
-            foreach ($criteria ['custom_fields_criteria'] as $k => $v) {
+             foreach ($criteria ['custom_fields_criteria'] as $k => $v) {
 
                 if (is_array($v) == false) {
 
@@ -1235,16 +1231,7 @@ class Db
                         // }
                         //
                     }
-                } else {
-
-                    // $ids = array();
-
-                    $remove_all_ids = true;
-
-                    //  $includeIds = array();
-                    //  $includeIds [] = '0';
-                    // $includeIds [] = 0;
-                }
+                }  
             }
         }
 
@@ -1304,7 +1291,7 @@ class Db
                     $cat_name_or_id1 = intval($cat_name_or_id);
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
 
-                    $is_in_category_items = \mw('db')->get($str1_items);
+                    $is_in_category_items = $this->get($str1_items);
 
                     if (!empty($is_in_category_items)) {
 
@@ -1317,7 +1304,7 @@ class Db
 
                 }
             }
-            // $is_in_category = \mw('db')->get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
+            // $is_in_category = $this->get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
             //  $includeIds;
             if ($is_in_category_items == false) {
                 return false;
@@ -1580,8 +1567,7 @@ class Db
         }
 
         if (!empty($includeIds)) {
-            //  d($includeIds);
-            $includeIds_idds = false;
+             $includeIds_idds = false;
             $includeIds_i = implode(',', $includeIds);
             $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
         } else {
@@ -1605,10 +1591,7 @@ class Db
             $where_post = ' OR ';
 
             $where_q = '';
-            if (isset($to_search_in_those_fields) and is_string($to_search_in_those_fields)) {
-                //$to_search_in_those_fields = explode(',', $to_search_in_those_fields);
-                //d($to_search_in_those_fields);
-            }
+
 
             foreach ($fieals as $v) {
 
@@ -1687,8 +1670,7 @@ class Db
 
         if ($where_search != '') {
             $where_search = " AND ({$where_search}) ";
-            //exit($where_search);
-        }
+         }
 
         if (!empty($criteria)) {
 
@@ -1752,9 +1734,6 @@ class Db
                     $v = str_replace('[is_not]', '', $v);
                 }
 
-                /*
-                 * var_dump ( $k ); var_dump ( $v ); print '<hr>';
-                 */
 
                 if (($k == 'updated_on') or ($k == 'created_on')) {
 
@@ -1805,8 +1784,7 @@ class Db
                     $where .= " AND id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
                 }
             }
-            // d($where);
-        }
+         }
 
         if (!isset($idds)) {
             $idds = '';
@@ -1820,11 +1798,7 @@ class Db
         }
         if ($includeIds_idds != false) {
             $q = $q . $includeIds_idds . $where_search;
-            ;
-        }
-        if ($where_search != '') {
-            //	$where_search = " AND {$where_search} ";
-            //  exit($q);
+
         }
 
         if ($groupby != false) {
@@ -1861,21 +1835,16 @@ class Db
         if ($to_search != false) {
             $original_cache_id = false;
             $original_cache_group = false;
-            // print($q);
-            //	return;
+
         }
         if ($original_cache_group != false) {
             $result = $this->query($q, $original_cache_id, $original_cache_group);
         } else {
-            //d($q);
+
             $result = $this->query($q, false, false);
 
         }
-        if ($count_only != true) {
-            if ($to_search != false) {
-                //	return $result;
-            }
-        }
+
 
         if (isset($result[0]['qty']) == true and $count_only == true) {
 
@@ -1903,12 +1872,11 @@ class Db
                 return intval($ret);
             }
 
-            // p($result);
 
             return $ret;
         }
 
-        //
+
         if ($count_only == true) {
             if (is_array($result[0]) and isset($result[0]['qty'])) {
                 $ret = $result[0]['qty'];
@@ -1951,7 +1919,7 @@ class Db
      * @example
      * <code>
      * //delete content with id 5
-     *  \mw('db')->delete_by_id('content', $id=5);
+     *  $this->delete_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -1970,8 +1938,7 @@ class Db
         $q = "DELETE FROM $table_real WHERE {$field_name}='$id' ";
 
         $cg = $this->assoc_table_name($table);
-        //
-        // d($cg);
+
         mw('cache')->delete($cg);
         $q = $this->q($q);
 
@@ -1984,8 +1951,7 @@ class Db
         //  mw('cache')->delete('categories');
 
         $q = "DELETE FROM $table_items WHERE rel_id='$id'  AND  rel='$table'  ";
-        //d($q);
-        $q = $this->q($q);
+         $q = $this->q($q);
 
 
         if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
@@ -2082,11 +2048,11 @@ class Db
         } else {
             $sql = "show columns from $table";
         }
-        // var_dump($sql);
-        //   $sql = "DESCRIBE $table";
+
+
 
         $query = $this->query($sql);
-        //d($query);
+
         $fields = $query;
 
         $exisiting_fields = array();
@@ -2274,34 +2240,7 @@ function db_get_table_name($assoc_name)
     $assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
     return $assoc_name;
 }
-
-$_mw_db_get_assoc_table_names = array();
-function db_get_assoc_table_name($assoc_name)
-{
-
-    global $_mw_db_get_assoc_table_names;
-
-    if (isset($_mw_db_get_assoc_table_names[$assoc_name])) {
-
-        return $_mw_db_get_assoc_table_names[$assoc_name];
-    }
-
-
-    $assoc_name_o = $assoc_name;
-    $assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
-    $assoc_name = str_ireplace('table_', '', $assoc_name);
-
-    $is_assoc = substr($assoc_name, 0, 5);
-    if ($is_assoc != 'table_') {
-        //	$assoc_name = 'table_' . $assoc_name;
-    }
-
-
-    $assoc_name = str_replace('table_table_', 'table_', $assoc_name);
-    //	d($is_assoc);
-    $_mw_db_get_assoc_table_names[$assoc_name_o] = $assoc_name;
-    return $assoc_name;
-}
+ 
 
 $_mw_db_get_real_table_names = array();
 function db_get_real_table_name($assoc_name)

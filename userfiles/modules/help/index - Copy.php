@@ -75,7 +75,7 @@ $(document).ready(function(){
       ?>
     </div>
     <?php if($show_modules_help_nav == true): ?>
-    <?php $module_categories = get_categories('rel=modules') ?>
+    <?php $module_categories = mw('category')->get('rel=modules') ?>
       
     <?php $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
 	$module_categories_ids = array();
@@ -88,7 +88,7 @@ $(document).ready(function(){
 		$module_path_help = $module_path.'help'.DS;
 		 
 		if(is_dir($module_path_help)){ 
-			  $cats_for_this_module = get_category_items('rel=modules&rel_id='.$item['id']);
+			  $cats_for_this_module = mw('category')->get_items('rel=modules&rel_id='.$item['id']);
 				if(isarr($cats_for_this_module  )){
 					 foreach($cats_for_this_module  as $module_categories_id){
 						//  d($module_categories_id);
@@ -132,7 +132,7 @@ $(document).ready(function(){
           <?php foreach($modules  as $item): ?>
           
           <?php if(strtolower($item['module'])  != 'help'): ?>
-          <?php $cats_for_this_module = get_category_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
+          <?php $cats_for_this_module = mw('category')->get_items('count=1&parent_id='.$module_category['id'].'&rel=modules&rel_id='.$item['id']); ?>
           <?php  // d( $cats_for_this_module ); ?>
           <?php if($cats_for_this_module >0): ?>
           <?php $minfo = module_info($item['module']);  ?>

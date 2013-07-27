@@ -159,7 +159,7 @@ if (isset($data['save_to_content_id'])) {
 <?php endif; ?>
 <?php if (isset($data['for']) and $data['for'] != false): ?>
 <?php $db_t = $for; ?>
-<input type="hidden" name="rel" value="<?php print db_get_assoc_table_name(guess_table_name($db_t )); ?>" />
+<input type="hidden" name="rel" value="<?php print mw('db')->assoc_table_name(guess_table_name($db_t )); ?>" />
 <input type="hidden" name="rel_id" value="<?php print strval($for_module_id) ?>" />
 <?php endif; ?>
 <?php if (isset($save_to_content_id)): ?>

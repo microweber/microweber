@@ -312,7 +312,7 @@ if (isset($to_save['is_installed'])) {
 
                         define("MW_NO_DEFAULT_CONTENT", true);
 
-                        $restore = new \mw\utils\Backup();
+                        $restore = new \Mw\Utils\Backup();
                         $restore->backups_folder = $default_content_folder;
                         $restore->backup_file = 'mw_default_content.zip';
                         ob_start();

@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 
 action_hook('mw_db_init', mw('Mw\Notifications')->db_init());

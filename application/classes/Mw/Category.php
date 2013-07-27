@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 
 class Category
@@ -87,7 +87,7 @@ class Category
             return $cache_content;
         } else {
             $table = MW_DB_TABLE_TAXONOMY;
-            $c_infp = get_category_by_id($id);
+            $c_infp = $this->get_by_id($id);
             if (!isset($c_infp['rel'])) {
                 return;
             }
@@ -153,7 +153,7 @@ class Category
 
             $data['id'] = $id;
 
-            $data = get_category_by_id($id);
+            $data = $this->get_by_id($id);
 
             if (empty($data)) {
 
@@ -182,7 +182,7 @@ class Category
 
             $url = false;
 
-            $parent_ids = get_category_parents($data['id']);
+            $parent_ids = $this->get_parents($data['id']);
             $parent_ids = array_rpush($parent_ids, $data['id']);
             foreach ($parent_ids as $item) {
 
@@ -227,11 +227,7 @@ class Category
                             //$url = $url . '/categories:' . $data ['id'];
                         }
                     }
-                    if ($content['content_type'] == 'post') {
-                        if (function_exists('post_link')) {
-                            $url = post_link($content['id']);
-                        }
-                    }
+
                 }
 
                 //if ($url != false) {
@@ -272,7 +268,6 @@ class Category
             $data['cache_group'] = $cache_group = 'categories/global';
 
         }
-        //$data['only_those_fields'] = array('parent_id');
 
         $data = mw('db')->get($data);
         return $data;
@@ -331,7 +326,6 @@ class Category
         if (!empty($q)) {
 
             mw('cache')->save($q, $function_cache_id, $cache_group);
-            //return $to_cache;
 
             return $q;
         } else {
@@ -400,11 +394,9 @@ class Category
         if (($cache_content) != false) {
             print $cache_content;
             return;
-            //  return $cache_content;
-        }
+         }
 
-        // print 11111111111111111111111;
-        $link = isset($params['link']) ? $params['link'] : false;
+         $link = isset($params['link']) ? $params['link'] : false;
 
         if ($link == false) {
             $link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
@@ -474,7 +466,7 @@ class Category
         }
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
-            $page = get_content_by_id($params['for_page']);
+            $page = mw('content')->get_by_id($params['for_page']);
             //d($page);
             $parent = $page['subtype_value'];
         }
@@ -498,7 +490,7 @@ class Category
             }
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
 
-                $table_assoc_name = db_get_assoc_table_name($params['for']);
+                $table_assoc_name = mw('db')->assoc_table_name($params['for']);
                 $skip123 = true;
 
                 $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
@@ -551,7 +543,7 @@ class Category
 
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
 
-            $table_assoc_name = db_get_assoc_table_name($params['rel']);
+            $table_assoc_name = mw('db')->assoc_table_name($params['rel']);
             $skip123 = true;
 
             $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
@@ -569,12 +561,12 @@ class Category
 
         if ($skip123 == false) {
 
-            content_helpers_getCaregoriesUlTree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
         } else {
 
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 foreach ($fors as $cat) {
-                    content_helpers_getCaregoriesUlTree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
                 }
             }
         }
@@ -722,7 +714,7 @@ class Category
             $my_limit_q = false;
         }
         $output = '';
-        //$children_of_the_main_parent = get_category_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
+        //$children_of_the_main_parent = $this->get_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
         //
 
         //
@@ -965,11 +957,11 @@ class Category
         } else {
 
         }
-        $category = get_category_by_id($category_id);
+        $category = $this->get_by_id($category_id);
         if ($category != false) {
             if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
                 if ($category["rel"] == 'content') {
-                    $res = get_content_by_id($category["rel_id"]);
+                    $res = mw('content')->get_by_id($category["rel_id"]);
                     if (isarr($res)) {
                         return $res;
                     }
@@ -978,14 +970,14 @@ class Category
             }
 
             if (isset($category["rel_id"]) and intval($category["rel_id"]) == 0 and intval($category["parent_id"]) > 0) {
-                $category1 = get_category_parents($category["id"]);
+                $category1 = $this->get_parents($category["id"]);
                 if (isarr($category1)) {
                     foreach ($category1 as $value) {
                         if (intval($value) != 0) {
-                            $category2 = get_category_by_id($value);
+                            $category2 = $this->get_by_id($value);
                             if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
                                 if ($category2["rel"] == 'content') {
-                                    $res = get_content_by_id($category2["rel_id"]);
+                                    $res = mw('content')->get_by_id($category2["rel_id"]);
                                     if (isarr($res)) {
                                         return $res;
                                     }
@@ -1043,7 +1035,7 @@ class Category
                     $ids[] = $item['parent_id'];
                 }
                 if ($item['parent_id'] != $item['id']) {
-                    $next = self::get_parents($item['parent_id'], $without_main_parrent);
+                    $next = $this->get_parents($item['parent_id'], $without_main_parrent);
 
                     if (!empty($next)) {
 
@@ -1147,7 +1139,7 @@ class Category
         }
 
 
-        $get_category_items = get_category_items('&rel=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('&rel=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
         if (!empty($get_category_items)) {
@@ -1161,13 +1153,13 @@ class Category
 
 
         // d($include_parents);
-        $get_category = get_categories('data_type=category&rel=content&rel_id=' . ($content_id));
+        $get_category = $this->get('data_type=category&rel=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         }
         if (!empty($include_parents)) {
             $include_parents_str = 'data_type=category&rel=content&ids=' . implode(',', $include_parents);
-            $get_category2 = get_categories($include_parents_str);
+            $get_category2 = $this->get($include_parents_str);
 
             if (!empty($get_category2)) {
                 foreach ($get_category2 as $item) {

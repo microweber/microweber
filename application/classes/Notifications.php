@@ -11,7 +11,7 @@ api_expose('/mw/Notifications/reset');
 
 
  
-class Notifications  extends \mw\Notifications{
+class Notifications  extends \Mw\Notifications{
     private $object;
  
     public function __construct($object = false) {

@@ -55,7 +55,7 @@ $cats_str = array();
 $cats_ids = array();
 $cats__parents = array();
 $is_ex1 = array();
-$for = db_get_assoc_table_name($for);
+$for = mw('db')->assoc_table_name($for);
 
 
 

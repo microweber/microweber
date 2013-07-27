@@ -56,7 +56,7 @@ function parse_elem_callback($elem)
     if ($rel == 'content') {
         if ($data_id != false) {
             $data_id = intval($data_id);
-            $data = get_content_by_id($data_id);
+            $data = mw('content')->get_by_id($data_id);
             $data['custom_fields'] = get_custom_fields_for_content($data_id, 0);
         }
     } else if ($rel == 'page') {
@@ -204,7 +204,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
 
 
         if (!is_object($parser_cache_object)) {
-            $parser_cache_object = new \mw\cache\Apc();
+            $parser_cache_object = new \Mw\Cache\Apc();
 
         }
 
@@ -1172,7 +1172,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
 
                     $get_global = false;
                     $data_id = intval($data_id);
-                    $data = get_content_by_id($data_id);
+                    $data = mw('content')->get_by_id($data_id);
 
                     //$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
 
@@ -1190,7 +1190,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                     if (!isset($data_id) or $data_id == false) {
                         $data_id = POST_ID;
                     }
-                    $data = get_content_by_id($data_id);
+                    $data = mw('content')->get_by_id($data_id);
 
                 } else if ($rel == 'inherit') {
                     $get_global = false;
@@ -1206,7 +1206,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
 
                         $data_id = $inh;
                         $rel = 'content';
-                        $data = get_content_by_id($data_id);
+                        $data = mw('content')->get_by_id($data_id);
                     } else {
                         $rel = 'content';
                         $data = get_page($data_id);
@@ -1263,7 +1263,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                                 $cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
                                 if ($cont_field2 != false) {
                                     $rel = 'content';
-                                    $data = get_content_by_id($inh);
+                                    $data = mw('content')->get_by_id($inh);
 
                                     $cont_field = $cont_field2;
                                 }

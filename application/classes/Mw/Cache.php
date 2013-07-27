@@ -1,5 +1,5 @@
 <?php
-namespace mw;
+namespace Mw;
 
 /**
  * Here you will find how to work with the cache
