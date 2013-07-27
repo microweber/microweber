@@ -57,16 +57,16 @@ function parse_elem_callback($elem)
         if ($data_id != false) {
             $data_id = intval($data_id);
             $data = mw('content')->get_by_id($data_id);
-            $data['custom_fields'] = get_custom_fields_for_content($data_id, 0);
+            $data['custom_fields'] = mw('content')->custom_fields($data_id, 0);
         }
     } else if ($rel == 'page') {
-        $data = get_page(PAGE_ID);
-        $data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+        $data = mw('content')->get_page(PAGE_ID);
+        $data['custom_fields'] = mw('content')->custom_fields($data['id'], 0);
     } else if (isset($attr['post'])) {
         $data = get_post($attr['post']);
         if ($data == false) {
-            $data = get_page($attr['post']);
-            $data['custom_fields'] = get_custom_fields_for_content($data['id'], 0);
+            $data = mw('content')->get_page($attr['post']);
+            $data['custom_fields'] = mw('content')->custom_fields($data['id'], 0);
         }
     } else if (isset($attr['category'])) {
         $data = get_category($attr['category']);
@@ -81,10 +81,10 @@ function parse_elem_callback($elem)
         if ($option_mod != false) {
             //   d($field);
 
-            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false, $option_mod);
+            $field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false, $option_mod);
             //
         } else {
-            $field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+            $field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
         }
     } else {
 
@@ -1174,16 +1174,16 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                     $data_id = intval($data_id);
                     $data = mw('content')->get_by_id($data_id);
 
-                    //$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
+                    //$data['custom_fields'] = mw('content')->custom_fields($data_id, 0, 'all');
 
                 } else if ($rel == 'page') {
 
                     if (!isset($data_id) or $data_id == false) {
                         $data_id = PAGE_ID;
                     }
-                    $data = get_page($data_id);
+                    $data = mw('content')->get_page($data_id);
 
-                    //$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+                    //$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
                     $get_global = false;
                 } else if ($rel == 'post') {
                     $get_global = false;
@@ -1209,7 +1209,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                         $data = mw('content')->get_by_id($data_id);
                     } else {
                         $rel = 'content';
-                        $data = get_page($data_id);
+                        $data = mw('content')->get_page($data_id);
                         //d($data);
                         //
                     }
@@ -1218,8 +1218,8 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                     $get_global = false;
                     $data = get_post($attr['post']);
                     if ($data == false) {
-                        $data = get_page($attr['post']);
-                        //$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+                        $data = mw('content')->get_page($attr['post']);
+                        //$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
                     }
                 } else if (isset($attr['category'])) {
                     $get_global = false;
@@ -1305,7 +1305,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                         if ($cont_field == false) {
                             if ($option_mod != false) {
                                 //$field_content = __FILE__ . __LINE__;
-                                //$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+                                //$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
                                 $field_content = get_content_field("rel={$option_group}&field={$field}");
 
                                 //
@@ -1313,7 +1313,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                                 $field_content = get_content_field("rel={$option_group}&field={$field}");
 
                                 //$field_content = __FILE__ . __LINE__;
-                                //$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+                                //$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
                             }
 
                         } else {

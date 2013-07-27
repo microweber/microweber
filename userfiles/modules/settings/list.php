@@ -11,14 +11,14 @@
 	}
 	if(isset($orig_params['for_module_id'])){
 
-		$chck =   get_options('module=' . $orig_params['for_module_id']);
+		$chck =   mw('option')->get('module=' . $orig_params['for_module_id']);
 		if (isset($chck[0]) and isset($chck[0]['id'])) {
 			$opts = $chck;
 
 		}
 
 	} else if(isset($orig_params['option_group'])){
-		$chck =   get_options('option_group=' . $orig_params['option_group'].$is_system);
+		$chck =   mw('option')->get('option_group=' . $orig_params['option_group'].$is_system);
 		if (isset($chck[0]) and isset($chck[0]['id'])) {
 			$opts = $chck;
 
@@ -27,14 +27,14 @@
 	}
 	if($opts == false and isset($params['for_module'])){
 		$params['module'] = $params['for_module'];
-//$opts = get_options('module=' . $params['for_module']);
+//$opts = mw('option')->get('module=' . $params['for_module']);
 	} else {
-//	$opts = get_options($params);
+//	$opts = mw('option')->get($params);
 	}
 
 
 	if($opts == false){
- //	$opts = get_options($params);
+ //	$opts = mw('option')->get($params);
 	}
 
 

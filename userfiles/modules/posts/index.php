@@ -45,7 +45,7 @@ if (isset($post_params['data-category-id'])) {
 
 if(!isset($config['template_file'])){
 
-//$config['template'] = get_option('data-template', $config['id']);
+//$config['template'] = mw('option')->get('data-template', $config['id']);
 	//$config['template_file'] =
 }
 
@@ -73,7 +73,7 @@ if (isset($post_params['data-show'])) {
 } else {
 
 }
-$show_fields1 = get_option('data-show', $params['id']);
+$show_fields1 = mw('option')->get('data-show', $params['id']);
 if ($show_fields1 != false  and is_string($show_fields1)  and trim($show_fields1) != '' ){
    $show_fields =$show_fields1;
 }
@@ -90,7 +90,7 @@ if (isset($post_params['data-limit'])) {
 
 
 if (!isset($post_params['data-limit'])) {
-    $lim = get_option('data-limit', $params['id']);
+    $lim = mw('option')->get('data-limit', $params['id']);
     if($lim != false){
     	$post_params['limit'] = $lim;
     }
@@ -98,21 +98,21 @@ if (!isset($post_params['data-limit'])) {
 
 }
 
- $posts_parent_category =  get_option('data-category-id', $params['id']);
+ $posts_parent_category =  mw('option')->get('data-category-id', $params['id']);
 
  $set_category_for_posts = false;
 
- $lim = get_option('data-limit', $params['id']);
+ $lim = mw('option')->get('data-limit', $params['id']);
     if($lim != false){
     	$post_params['data-limit'] = $post_params['limit'] = $lim;
     }
-$cfg_page_id = get_option('data-page-id', $params['id']);
+$cfg_page_id = mw('option')->get('data-page-id', $params['id']);
 if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
 } else if($cfg_page_id == false and isset($post_params['content_id'])) {
      $cfg_page_id =   intval($post_params['content_id']);
 } else {
-   // $cfg_page_id = get_option('data-page-id', $params['id']);
+   // $cfg_page_id = mw('option')->get('data-page-id', $params['id']);
 
 }
 
@@ -183,7 +183,7 @@ if (isset($post_params['data-thumbnail-size'])) {
         $tn_size = $temp;
     }
 } else {
-    $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
+    $cfg_page_item = mw('option')->get('data-thumbnail-size', $params['id']);
     if ($cfg_page_item != false) {
         $temp = explode('x', strtolower($cfg_page_item));
 
@@ -194,14 +194,14 @@ if (isset($post_params['data-thumbnail-size'])) {
 }
 
 $character_limit = 120;
-$cfg_character_limit = get_option('data-character-limit', $params['id']);
+$cfg_character_limit = mw('option')->get('data-character-limit', $params['id']);
 if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
 	$character_limit = intval($cfg_character_limit);
 } else if(isset($params['description-length'])){
 	$character_limit = intval($params['description-length']);
 }
  $title_character_limit = 200;
- $cfg_character_limit1 = get_option('data-title-limit', $params['id']);
+ $cfg_character_limit1 = mw('option')->get('data-title-limit', $params['id']);
 if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
 	$title_character_limit = intval($cfg_character_limit1);
 } else if(isset($params['title-length'])){
@@ -255,12 +255,12 @@ if(!isset($params['order_by'])){
 $post_params['orderby'] ='position desc';
 }
 
-$ord_by =  get_option('data-order-by', $params['id']);
+$ord_by =  mw('option')->get('data-order-by', $params['id']);
 if($ord_by != false and trim($ord_by) != ''){
 	$post_params['orderby'] =$ord_by;
 }
 
- $date_format = get_option('date_format','website');
+ $date_format = mw('option')->get('date_format','website');
 if($date_format == false){
 $date_format = "Y-m-d H:i:s";
 }
@@ -309,23 +309,23 @@ if (!empty($content)){
 				$item['updated_on'] =  date($date_format, strtotime($item['updated_on']) );
 			}
 
-			$item['link'] = content_link($item['id']);
+			$item['link'] = mw('content')->link($item['id']);
 			
  
 			if(!isset( $item['description']) or $item['description'] == ''){
 				if(isset( $item['content']) and $item['content'] != ''){
 					 
-					$item['description'] = character_limiter(strip_tags($item['content']),$character_limit);
+					$item['description'] = mw('format')->limit(strip_tags($item['content']),$character_limit);
 					 
 				}
  			} else {
-				$item['description'] = character_limiter(strip_tags( $item['description']),$character_limit);
+				$item['description'] = mw('format')->limit(strip_tags( $item['description']),$character_limit);
 			}
 
 
 		if(isset( $item['title']) and $item['title'] != ''){
 
-		 $item['title'] = character_limiter(( $item['title']),$title_character_limit);
+		 $item['title'] = mw('format')->limit(( $item['title']),$title_character_limit);
 
  		 }
 
@@ -356,7 +356,7 @@ $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
 //$post_params_paging['page_count'] = true;
 //$post_params_paging['data-limit'] = $post_params_paging['limit'] = false;
-$cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
+$cfg_data_hide_paging = mw('option')->get('data-hide-paging', $params['id']);
 
 if($cfg_data_hide_paging == false){
 	if(isset($post_params['hide-paging'])){
@@ -374,18 +374,18 @@ $pages_count = intval($pages_of_posts);
 
 $paging_links  = false;
 if (intval($pages_count) > 1){
-	//$paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
+	//$paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
 
 }
 
-$read_more_text = get_option('data-read-more-text',$params['id']);
+$read_more_text = mw('option')->get('data-read-more-text',$params['id']);
 
 
 
 
 if(!isset( $params['return'])){
 
-	$module_template = get_option('data-template',$params['id']);
+	$module_template = mw('option')->get('data-template',$params['id']);
 	if($module_template == false and isset($params['template'])){
 		$module_template =$params['template'];
 	}

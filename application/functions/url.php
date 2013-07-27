@@ -245,7 +245,7 @@ function url_param($param, $skip_ajax = false) {
 
 						// $the_param1 = base64_decode ( $the_param );
 
-						$the_param1 = decode_var($the_param);
+						$the_param1 = mw('format')->base64_to_array($the_param);
 
 						return $the_param1;
 					}

@@ -10,7 +10,7 @@
     $content_id =  $params['content_id'];
 
 
-    $moderation_is_required =  get_option('require_moderation', 'comments')=='y';
+    $moderation_is_required =  mw('option')->get('require_moderation', 'comments')=='y';
 
 ?>
 
@@ -26,7 +26,7 @@
     </span>
     <div class="comment-post-content-side">
       <h3><a href="javascript:;" class="mw-ui-link"><?php print $item['title'] ?></a></h3>
-      <a class="comment-post-url" href="<?php print content_link($item['id']) ?>"> <?php print content_link($item['id']) ?></a> <br>
+      <a class="comment-post-url" href="<?php print mw('content')->link($item['id']) ?>"> <?php print mw('content')->link($item['id']) ?></a> <br>
     <!--  <a class="mw-ui-link" href="<?php print $item['url'] ?>/editmode:y">Live edit</a>--> </div>
   </div>
   <div class="comments-holder">

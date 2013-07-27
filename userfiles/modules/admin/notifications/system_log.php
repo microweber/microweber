@@ -81,7 +81,7 @@ mw.syslog_log_reset_all = function(){
   	    }
        ?>
         <td> 
-          <time class="mw-date" title="<?php print mw_date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print ago($item['created_on'],1); ?></time> <br> 
+          <time class="mw-date" title="<?php print mw_date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print mw('format')->ago($item['created_on'],1); ?></time> <br> 
           
            
            <?php if($mod_info != false and isset($mod_info['name'])): ?> 

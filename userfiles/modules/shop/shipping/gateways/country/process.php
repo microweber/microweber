@@ -132,7 +132,7 @@ $qsign = '?';
 $myPaypal = new Paypal();
 
 // Specify your paypal email
-$myPaypal->addField('business', trim(get_option('paypalexpress_username', 'payments')));
+$myPaypal->addField('business', trim(mw('option')->get('paypalexpress_username', 'payments')));
 
 // Specify the currency
 $myPaypal->addField('currency_code', 'USD');

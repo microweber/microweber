@@ -92,16 +92,16 @@ if ($cached != false) {
 				$get_global = false;
 				$data_id = intval($data_id);
 				$data = mw('content')->get_by_id($data_id);
-				//$data['custom_fields'] = get_custom_fields_for_content($data_id, 0, 'all');
+				//$data['custom_fields'] = mw('content')->custom_fields($data_id, 0, 'all');
 
 			} else if ($rel == 'page') {
 
 				if (!isset($data_id) or $data_id == false) {
 					$data_id = PAGE_ID;
 				}
-				$data = get_page($data_id);
+				$data = mw('content')->get_page($data_id);
 
-				//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+				//$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
 				$get_global = false;
 			} else if ($rel == 'post') {
 				if (!isset($data_id) or $data_id == false) {
@@ -112,15 +112,15 @@ if ($cached != false) {
 				//d($data);
 				$get_global = false;
 				if ($data == false) {
-					$data = get_page($attr['post']);
-					//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+					$data = mw('content')->get_page($attr['post']);
+					//$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
 				}
 			} else if (isset($attr['post'])) {
 				$get_global = false;
 				$data = get_post($attr['post']);
 				if ($data == false) {
-					$data = get_page($attr['post']);
-					//$data['custom_fields'] = get_custom_fields_for_content($data['id'], 0, 'all');
+					$data = mw('content')->get_page($attr['post']);
+					//$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
 				}
 			} else if (isset($attr['category'])) {
 				$get_global = false;
@@ -163,10 +163,10 @@ if ($cached != false) {
 					if ($cont_field == false) {
 						if ($option_mod != false) {
 
-							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+							$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
 							//
 						} else {
-							$field_content = get_option($field, $option_group, $return_full = false, $orderby = false);
+							$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
 						}
 					} else {
 						$field_content = $cont_field;

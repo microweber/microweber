@@ -8,7 +8,7 @@ if(!isset($params['ul_class'])){
  }
     $params['rel'] = 'content';
 	//  $params['rel_id'] = 'content';
-	$category_tree_parent_page =  get_option('data-content-id', $params['id']);
+	$category_tree_parent_page =  mw('option')->get('data-content-id', $params['id']);
 
 if($category_tree_parent_page  == false and isset($params['content_id'])){
  $params['rel_id'] = 	$params['content_id'] =trim($params['content_id']);
@@ -21,7 +21,7 @@ if($category_tree_parent_page  == false and isset($params['content_id'])){
 	}
 
 
-	 $module_template = get_option('data-template',$params['id']);
+	 $module_template = mw('option')->get('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
 				}

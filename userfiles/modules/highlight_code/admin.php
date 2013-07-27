@@ -6,7 +6,7 @@ $rand_id = md5(serialize($params)); ?>
   <fieldset class="inputs">
     <legend><span><?php _e("Source code editor"); ?></span></legend>
     <?php $langs = array( "html","php", "javascript",  "css", "python",  "sql", "java", "perl","xml", "ruby", "c", "cpp", "csharp"); ?>
-    <?php $l_sel =  get_option('source_code_language', $params['id']); ?>
+    <?php $l_sel =  mw('option')->get('source_code_language', $params['id']); ?>
     <label  class="label"><?php _e("Source Code Language"); ?></label>
     <select name="source_code_language" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"   type="text" data-refresh="highlight_code"  id="link_existing_bookmark">
       <option value="<?php print $l_sel ?>"><?php print $l_sel ?></option>
@@ -17,7 +17,7 @@ $rand_id = md5(serialize($params)); ?>
 
 
       <hr />
- <?php $theme_sel =  get_option('source_theme', $params['id']); ?>
+ <?php $theme_sel =  mw('option')->get('source_theme', $params['id']); ?>
 <label  class="label">Theme</label>
 <select  name="source_theme" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"  data-refresh="highlight_code">
 <?php if($theme_sel != false): ?>
@@ -65,7 +65,7 @@ $rand_id = md5(serialize($params)); ?>
     <option value="zellner">zellner</option>
 </select>
 
- <?php $source_show_lines =  get_option('source_show_lines', $params['id']); ?>
+ <?php $source_show_lines =  mw('option')->get('source_show_lines', $params['id']); ?>
 <label  class="label"><?php _e("Lines"); ?></label>
 <select  name="source_show_lines" class="mw_option_field mw_tag_editor_input mw_tag_editor_input_wider selectable"  data-refresh="highlight_code">
 <?php if($source_show_lines != false): ?>
@@ -83,6 +83,6 @@ $rand_id = md5(serialize($params)); ?>
         class="mw_option_field"
         style="height:200px; width:300px;"
         data-refresh="highlight_code"
-        rows="2"><?php print get_option('source_code', $params['id']) ?></textarea></code>
+        rows="2"><?php print mw('option')->get('source_code', $params['id']) ?></textarea></code>
   </fieldset>
 </div>

@@ -95,7 +95,7 @@ if(isarr($data)){
     <?php foreach ($data as $item) : ?>
     <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
       <td width="50" style="text-align: center"><?php print $item['id'] ?>
-        <div class="mw-date" title="<?php print ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div></td>
+        <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div></td>
       <?php if(isarr($custom_fields )): ?>
       <?php foreach($custom_fields   as $cvk => $custom_field_v): ?>
       <td><?php if(isset($item['custom_fields'])): ?>
@@ -136,7 +136,7 @@ if(isarr($data)){
   </tbody>
 </table>
 <?php if(isarr($data)) :?>
-<div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
+<div class="mw-paging left"> <?php print mw('content')->paging("num=$data_paging"); ?> </div>
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php if(isset($params['export_to_excel'])) : ?>

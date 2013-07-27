@@ -52,7 +52,7 @@ class shipping_api {
 $active = array();
 		 $m = $this->modules_list;
 		 foreach($m as $item){
-			 if(get_option('shipping_gw_'.$item['module'], 'shipping') == 'y'){
+			 if(mw('option')->get('shipping_gw_'.$item['module'], 'shipping') == 'y'){
 				$active [] =  $item; 
 			 }
 		 }

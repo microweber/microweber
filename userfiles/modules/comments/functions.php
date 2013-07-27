@@ -166,7 +166,7 @@ function post_comment($data) {
 	if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
 		$data['is_moderated'] = 'y';
 	} else {
-		$require_moderation = get_option('require_moderation', 'comments');
+		$require_moderation = mw('option')->get('require_moderation', 'comments');
 		if ($require_moderation != 'y') {
 			$data['is_moderated'] = 'y';
 		}
@@ -188,11 +188,11 @@ function post_comment($data) {
 		$notif['rel_id'] = $data['rel_id'];
 		$notif['title'] = "You have new comment";
 		$notif['description'] = "New comment is posted on " . curent_url(1);
-		$notif['content'] = character_limiter($data['comment_body'], 800);
+		$notif['content'] = mw('format')->limit($data['comment_body'], 800);
 		mw('Mw\Notifications')->save($notif);
 
-		$email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
-		$email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
+		$email_on_new_comment = mw('option')->get('email_on_new_comment', 'comments') == 'y';
+		$email_on_new_comment_value = mw('option')->get('email_on_new_comment_value', 'comments');
 
 		if ($email_on_new_comment == true) {
 			$subject = "You have new comment";
@@ -212,7 +212,7 @@ function post_comment($data) {
 
 			$message = "Hi, <br/> You have new comment posted on " . curent_url(1) . ' <br /> ';
 			$message .= "IP:" . USER_IP . ' <br /> ';
-			$message .=array_pp($data3);
+			$message .=mw('format')->array_to_ul($data3);
 			\mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
 		}
 

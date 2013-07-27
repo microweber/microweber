@@ -183,7 +183,7 @@ class Fields
                         //  $it['baseline'] = "undefined";
 
                         if (isset($it['options'])) {
-                            $it['options'] = decode_var($it['options']);
+                            $it['options'] = mw('format')->base64_to_array($it['options']);
                         }
 
                         $it['title'] = $it['custom_field_name'];
@@ -316,7 +316,7 @@ class Fields
             $data_to_save['rel_id'] = '0';
         }
         if (isset($data['options'])) {
-            $data_to_save['options'] = encode_var($data['options']);
+            $data_to_save['options'] = mw('format')->array_to_base64($data['options']);
         }
 
         $data_to_save['session_id'] = session_id();
@@ -341,7 +341,7 @@ class Fields
         if ($field_id != 0) {
             $data = \mw('db')->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             if (isset($data['options'])) {
-                $data['options'] = decode_var($data['options']);
+                $data['options'] = mw('format')->base64_to_array($data['options']);
             }
             return $data;
         }
@@ -370,7 +370,7 @@ class Fields
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 
-        $is_made = get_option($function_cache_id, 'make_default_custom_fields');
+        $is_made = mw('option')->get($function_cache_id, 'make_default_custom_fields');
         if ($is_made == 'yes') {
             return;
         }
@@ -408,7 +408,7 @@ class Fields
                 $option['option_value'] = 'yes';
                 $option['option_key'] = $function_cache_id;
                 $option['option_group'] = 'make_default_custom_fields';
-                save_option($option);
+                mw('option')->save($option);
 
 
             }
@@ -602,7 +602,7 @@ class Fields
             }
         }
         if (isset($data['options']) and is_string($data['options'])) {
-            $data['options'] = decode_var($data['options']);
+            $data['options'] = mw('format')->base64_to_array($data['options']);
 
         }
 

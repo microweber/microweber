@@ -66,7 +66,7 @@ class Ping
 
                             $pages = array();
                             $pages [] = $the_post ['title'];
-                            $pages [] = content_link($the_post ['id']);
+                            $pages [] = mw('content')->link($the_post ['id']);
 
                             $save = array('id' => $the_post ['id'], 'is_pinged' => 'y', 'debug' => 'y');
                             mw_var('FORCE_SAVE_CONTENT', MW_DB_TABLE_CONTENT);

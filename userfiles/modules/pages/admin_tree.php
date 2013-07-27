@@ -8,7 +8,7 @@ only_admin_access();
  * @param string link
  *        	Replace the link href with your own. Ex: link="<?php print site_url('page_id:{id}'); ?>"
  * @return string prints the site tree
- * @uses pages_tree($params);
+ * @uses mw('content')->pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"
  */
 
@@ -32,7 +32,7 @@ if (isset($params['data-parent'])) {
      $params['parent'] = intval($params['data-parent']);
 } else {
 
-	 $o = get_option('data-parent', $params['id']);
+	 $o = mw('option')->get('data-parent', $params['id']);
 	 if($o != false and intval($o) >0){
 		 $params['parent'] =  $o;
 	 } else {
@@ -48,12 +48,12 @@ if (isset($params['data-include_categories'])) {
      $params['include_categories'] = intval($params['parent']);
 } else {
 
-	 $o = get_option('include_categories', $params['id']);
+	 $o = mw('option')->get('include_categories', $params['id']);
  	 if($o != false and ($o) == 'y'){
 		$include_categories =  $params['include_categories'] =  true;
 	 }
 }
-	 $o = get_option('maxdepth', $params['id']);
+	 $o = mw('option')->get('maxdepth', $params['id']);
 	// d($o);
 	 if($o != false and intval($o) >0){
 		 $params['maxdepth'] =  $o;
@@ -70,7 +70,7 @@ if (isset($params['data-include_categories'])) {
 	$params['return_data'] = true;
 
 ?>
-<?php $pages_tree= pages_tree($params);  ?>
+<?php $pages_tree= mw('content')->pages_tree($params);  ?>
 
 <?php if($pages_tree != ''): ?>
 <div class="pages-nav">

@@ -183,7 +183,8 @@ class Category
             $url = false;
 
             $parent_ids = $this->get_parents($data['id']);
-            $parent_ids = array_rpush($parent_ids, $data['id']);
+         //   $parent_ids = array_rpush($parent_ids, $data['id']);
+            $parent_ids = array_pad($parent_ids, -(count($parent_ids) + 1), $data['id']);
             foreach ($parent_ids as $item) {
 
                 $content = array();
@@ -512,7 +513,7 @@ class Category
         }
 
         if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
-            $page = get_page($params['not_for_page']);
+            $page = mw('content')->get_page($params['not_for_page']);
             $remove_ids = array($page['subtype_value']);
         }
 
@@ -935,7 +936,7 @@ class Category
                             }
                         }
 
-                        $children = self::html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 
                         print "</{$list_item_tag}>";
                     }

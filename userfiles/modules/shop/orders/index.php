@@ -55,7 +55,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
       <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?>">
         <td class="mw-order-item-id"><a href="#vieworder=<?php print ($item['id']) ?>"><span><?php print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
           <span class="mw-ord-id">ORD-<?php print $item['id'] ?></span></a>
-          <div class="mw-date" title="<?php print ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div>
+          <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div>
         </td>
         <td class="mw-order-item-status"><?php
 		 if($item['order_status'] == false): ?>
@@ -69,7 +69,7 @@ $orders = get_orders('order_by=id desc&order_completed=y&'.$ord.$kw);
 		 
 		
 
-		 print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
+		 print mw('shop')->currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
           <?php _e("Yes"); ?>
           <?php else : ?>

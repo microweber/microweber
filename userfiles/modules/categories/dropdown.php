@@ -33,7 +33,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
  
 
- pages_tree($pt_opts);
+ mw('content')->pages_tree($pt_opts);
 
 
   ?>

@@ -339,7 +339,7 @@ if(isset($params['keyword'])){
 //$pt_opts['keyword'] =$params['keyword'];
 }
 
-pages_tree($pt_opts);
+mw('content')->pages_tree($pt_opts);
 ?>
   <?php else : ?>
 

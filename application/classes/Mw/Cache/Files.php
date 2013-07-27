@@ -698,7 +698,7 @@ class Files
 
     function clearcache()
     {
-        $start = microtime_float();
+
 
         if (MW_IS_INSTALLED == false) {
 
@@ -713,10 +713,10 @@ class Files
         $this->recursive_remove_from_cache_index(CACHEDIR, true);
 
         $this->recursive_remove_from_cache_index(CACHEDIR_ROOT, true);
-        $end = microtime_float();
 
 
-        return array('success' => 'Cache is cleared for ' . round($end - $start, 3) . ' seconds');
+
+        return array('success' => 'Cache is cleared');
 
     }
 

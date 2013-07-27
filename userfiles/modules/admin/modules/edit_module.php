@@ -94,8 +94,8 @@ $(document).ready(function(){
     </h2>
 
     <?php if(isset($data['description'])):  ?>
-     <small title="<?php print addslashes(character_limiter($data['description'],1200)); ?>">
-    <?php print character_limiter($data['description'],120); ?>
+     <small title="<?php print addslashes(mw('format')->limit($data['description'],1200)); ?>">
+    <?php print mw('format')->limit($data['description'],120); ?>
      </small>
     <?php endif; ?>
 

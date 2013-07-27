@@ -231,21 +231,21 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
                 <h3><?php print $payment_module['name'] ?>:</h3>
 
 
-                <div class="mw-o-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
+                <div class="mw-o-box payment-state-status <?php if(mw('option')->get('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
                     <label class="mw-ui-check">
-                        <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
+                        <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(mw('option')->get('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
                         <span></span>
                         <span class="first"><?php _e("Enabled"); ?></span>
                     </label>
                     <label class="mw-ui-check">
-                      <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
+                      <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <?php if(mw('option')->get('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
                       <span></span>
                       <span class="second"><?php _e("Disabled"); ?></span>
                     </label>
                 </div>
                 <div class="mw_clear"></div>
                 <div class="vSpace"></div>
-               <!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<?php endif; ?>"> <span class="mw-switch-handle"></span>
+               <!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <?php if(mw('option')->get('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<?php endif; ?>"> <span class="mw-switch-handle"></span>
 
                 </div>-->
                 </label>
@@ -260,8 +260,8 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
           <hr>
           <h2>Currency settings</h2>
           <?php ?>
-          <?php $cur = get_option('currency', 'payments');  ?>
-          <?php $curencies = curencies_list(); ?>
+          <?php $cur = mw('option')->get('currency', 'payments');  ?>
+          <?php $curencies = mw('shop')->currency_get(); ?>
           <?php if(isarr($curencies )): ?>
           <div class="mw-ui-select">
             <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
@@ -276,29 +276,29 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
         <div class="otab">
           <h2><?php _e("Send email to the client on new order"); ?></h2>
           <label class="mw-ui-check">
-            <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
+            <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(mw('option')->get('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
             <span></span><span><?php _e("Yes"); ?></span></label>
           <label class="mw-ui-check">
-            <input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="n"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') != 'y'): ?> checked="checked" <?php endif; ?> >
+            <input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="n"  type="radio"  <?php if(mw('option')->get('order_email_enabled', 'orders') != 'y'): ?> checked="checked" <?php endif; ?> >
             <span></span><span><?php _e("No"); ?></span></label>
           <br />
           <small><?php _e("You must have a working email setup in order to send emails"); ?>. <a class="mw-ui-link" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>" style="padding: 6px;"><?php _e("Setup email here"); ?>.</a></small>
           <label class="mw-ui-label"><?php _e("Email subject"); ?></label>
-          <input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
+          <input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print mw('option')->get('order_email_subject', 'orders') ?>"  type="text" />
           <label class="mw-ui-label"><?php _e("Send copy email to"); ?></label>
-          <input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
+          <input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print mw('option')->get('order_email_cc', 'orders') ?>"  type="text" />
           <a class="mw-ui-btn" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);"><?php _e("Test"); ?></a>
           <table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">
             <tr>
               <td><label class="mw-ui-label"><?php _e("Send test email to"); ?></label>
-                <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_to','email'); ?>"  />
+                <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print mw('option')->get('test_email_to','email'); ?>"  />
                 <div class="vSpace"></div>
                 <span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn"><?php _e("Send test email"); ?></span></td>
               <td><pre id="email_send_test_btn_output"></pre></td>
             </tr>
           </table>
           <label class="mw-ui-label"><?php _e("Email content"); ?></label>
-          <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content"><?php print get_option('order_email_content', 'orders') ?></textarea>
+          <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content"><?php print mw('option')->get('order_email_content', 'orders') ?></textarea>
         </div>
       </div>
     </div>

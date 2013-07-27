@@ -225,7 +225,7 @@ if(isset($tree['is_shop'] )){
 
 	unset($tree['is_shop'] );
 }
-pages_tree($tree);
+mw('content')->pages_tree($tree);
 ?>
 <?php endif; ?>
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){

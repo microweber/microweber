@@ -78,7 +78,7 @@ class Shop
         if (isarr($get)) {
             foreach ($get as $item) {
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item['custom_fields_data'] = decode_var($item['custom_fields_data']);
+                    $item['custom_fields_data'] = mw('format')->base64_to_array($item['custom_fields_data']);
 
                     $tmp_val = '';
                     if (isset($item['custom_fields_data']) and isarr($item['custom_fields_data'])) {
@@ -146,12 +146,12 @@ class Shop
         $ord_data = get_orders('one=1&id=' . $order_id);
         if (isarr($ord_data)) {
 
-            $order_email_enabled = get_option('order_email_enabled', 'orders');
+            $order_email_enabled = mw('option')->get('order_email_enabled', 'orders');
 
             if ($order_email_enabled == true) {
-                $order_email_subject = get_option('order_email_subject', 'orders');
-                $order_email_content = get_option('order_email_content', 'orders');
-                $order_email_cc = get_option('order_email_cc', 'orders');
+                $order_email_subject = mw('option')->get('order_email_subject', 'orders');
+                $order_email_content = mw('option')->get('order_email_content', 'orders');
+                $order_email_cc = mw('option')->get('order_email_cc', 'orders');
 
                 if ($order_email_subject == false or trim($order_email_subject) == '') {
                     $order_email_subject = "Thank you for your order!";
@@ -165,7 +165,7 @@ class Shop
 
                     if (!empty($ord_data)) {
                         $cart_items = get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
-                        $order_items_html = array_pp($cart_items);
+                        $order_items_html = mw('format')->array_to_ul($cart_items);
 
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
 
@@ -345,7 +345,7 @@ class Shop
             }
 
             $place_order['amount'] = $amount;
-            $place_order['currency'] = get_option('currency', 'payments');
+            $place_order['currency'] = mw('option')->get('currency', 'payments');
 
             if (isset($data['shipping_gw'])) {
                 $place_order['shipping_service'] = $data['shipping_gw'];
@@ -469,7 +469,7 @@ class Shop
 
         }
 
-        $providers = get_options('option_group=payments' . $option_key_q);
+        $providers = mw('option')->get('option_group=payments' . $option_key_q);
         $str = 'payment_gw_';
         $l = strlen($str);
 
@@ -757,7 +757,7 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
-            $cart['custom_fields_data'] = encode_var($add);
+            $cart['custom_fields_data'] = mw('format')->array_to_base64($add);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
             //$cart['one'] = 1;
@@ -801,7 +801,7 @@ class Shop
     {
 
         if (!isset($params['to'])) {
-            $email_from = get_option('email_from', 'email');
+            $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false) {
                 return array('error' => 'You must set up your email');
             }
@@ -1228,7 +1228,7 @@ class Shop
         $changes = false;
         foreach ($datas as $val) {
 
-            $ch = set_default_option($val);
+            $ch = mw('option')->set_default($val);
             if ($ch == true) {
 
                 $changes = true;
@@ -1241,6 +1241,139 @@ class Shop
         mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db');
 
         return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function currency_symbol($curr = false, $key = 3)
+    {
+
+
+        if ($curr == false) {
+            $curr = mw('option')->get('currency', 'payments');
+        }
+
+
+        $all_cur = $this->currency_get();
+        if (isarr($all_cur)) {
+            foreach ($all_cur as $value) {
+                if (in_array($curr, $value)) {
+                    if ($key == false) {
+                        return $value;
+                    } else {
+                        return $value[$key];
+                    }
+
+                }
+            }
+        }
+
+    }
+
+
+    public function currency_get_for_paypal()
+    {
+        $curencies = array('USD', 'EUR', 'GBP', 'AUD', 'CAD', 'JPY', 'NZD', 'CHF', 'HKD', 'SGD', 'SEK', 'DKK', 'PLN', 'NOK', 'HUF', 'CZK', 'ILS', 'MXN', 'MYR', 'BRL', 'PHP', 'TWD', 'THB', 'TRY');
+
+        return $curencies;
+    }
+
+
+    public function currency_get()
+    {
+
+
+        $curencies_list_memory = mw_var('curencies_list');
+        if ($curencies_list_memory != false) {
+            return $curencies_list_memory;
+        }
+
+        $row = 1;
+
+        $cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
+        //d($cur_file);
+        if (is_file($cur_file)) {
+            if (($handle = fopen($cur_file, "r")) !== FALSE) {
+                $res = array();
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $itm = array();
+
+                    $num = count($data);
+                    //   echo "<p> $num fields in line $row: <br /></p>\n";
+                    $row++;
+                    for ($c = 0; $c < $num; $c++) {
+                        //echo $data[$c] . "<br />\n";
+                        $itm[] = $data[$c];
+                    }
+
+                    $res[] = $itm;
+                }
+
+                fclose($handle);
+                mw_var('curencies_list', $res);
+                return $res;
+            }
+        }
+    }
+
+
+    public function currency_convert_rate($from, $to)
+    {
+
+
+        $remote_host = 'http://api.microweber.net';
+        $service = "/service/currency/?from=" . $from . "&to=" . $to;
+        $remote_host_s = $remote_host . $service;
+        // d($remote_host_s);
+        $get_remote = url_download($remote_host_s);
+        if ($get_remote != false) {
+            return floatval($get_remote);
+        }
+
+    }
+
+
+    function currency_format($amount, $curr = false)
+    {
+
+        if ($curr == false) {
+
+            $curr = mw('option')->get('currency', 'payments');
+        }
+
+
+        $amount = floatval($amount);
+        $sym = $this->currency_symbol($curr);
+        switch ($curr) {
+            case "EUR":
+                $ret = "&euro; " . number_format($amount, 2, ",", " ");
+                break;
+            case "BGN":
+            case "RUB":
+                $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
+                break;
+            case "US":
+            case "USD":
+                $ret = "&#36; " . number_format($amount, 2, ".", ",");
+                break;
+            default:
+                //  print $sym;
+                $ret = $sym . ' ' . number_format($amount, 2, ".", ",");
+                break;
+        }
+        return $ret;
+
     }
 
 

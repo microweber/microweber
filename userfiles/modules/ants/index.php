@@ -1,6 +1,6 @@
 <script src="<?php print $config['url_to_module'] ?>js/jquery.insects.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/jquery.insects.css" />
-<?php $how_many_ants = get_option('number_of_ants', $params['id']);
+<?php $how_many_ants = mw('option')->get('number_of_ants', $params['id']);
 if($how_many_ants == false or $how_many_ants == '' or intval( $how_many_ants) == 0){
 	$how_many_ants = 5;
 }

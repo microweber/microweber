@@ -6,7 +6,7 @@
 </script>
 <?php
 
-$paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
+$paypal_is_test = (mw('option')->get('paypalexpress_testmode', 'payments')) == 'y';
 
 ?>
 

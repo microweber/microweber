@@ -1,6 +1,6 @@
 <?php
 
-$source_code =  get_option('source_code', $params['id']) ;
+$source_code =  mw('option')->get('source_code', $params['id']) ;
 if(strval($source_code) == ''){
 	$source_code = mw_notif_le('Click to insert Embed Code');
 }

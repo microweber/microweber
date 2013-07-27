@@ -132,7 +132,7 @@ if(typeof mw.rotator === 'undefined'){
               var paging_holder = mwd.createElement('span');
               paging_holder.className = 'rotator-index-control rotator-index-control-mode-' + mode;
               controlls.appendChild(paging_holder);
-              rotator.paging(paging_holder, mode, reflection)
+              rotator.mw('content')->paging(paging_holder, mode, reflection)
             }
             if(next){
                 var next = mwd.createElement('span');

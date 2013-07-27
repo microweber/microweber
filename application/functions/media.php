@@ -24,7 +24,7 @@ function get_picture($content_id, $for = 'post', $full = false)
             if ($img != false) {
                 $surl = site_url();
 
-                $img = str_replace_once('{SITE_URL}', $surl, $img);
+                $img = mw('format')->replace_once('{SITE_URL}', $surl, $img);
 
                 $media_url = MEDIA_URL;
                 if (stristr($img, $surl)) {
@@ -98,7 +98,7 @@ function upload_progress_check()
                     $filesize = filesize($filename);
                 }
 
-                $perc = percent($filesize, $cache_content["size"]);
+                $perc = mw('format')->percent($filesize, $cache_content["size"]);
                 return $perc;
                 //  d($perc);
             }
@@ -727,7 +727,7 @@ function thumbnail($src, $width = 200, $height = 200)
     $cache_path = $cd . $cache;
 
     if (file_exists($cache_path)) {
-//$src1 = encode_var($src);
+//$src1 = mw('format')->array_to_base64($src);
 
 //$base_src = basename($src);
 
@@ -737,7 +737,7 @@ function thumbnail($src, $width = 200, $height = 200)
 
         if (file_exists($src)) {
 
-            $src1 = encode_var($src);
+            $src1 = mw('format')->array_to_base64($src);
 
             $base_src = basename($src);
 

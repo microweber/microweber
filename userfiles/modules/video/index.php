@@ -4,16 +4,16 @@
 <?php
 
 
-$prior = get_option('prior', $params['id']);
+$prior = mw('option')->get('prior', $params['id']);
 
-$code = get_option('embed_url', $params['id']);
+$code = mw('option')->get('embed_url', $params['id']);
 
-$upload =  get_option('upload', $params['id']);
+$upload =  mw('option')->get('upload', $params['id']);
 
 
-$w = get_option('width', $params['id']);
-$h = get_option('height', $params['id']);
-$autoplay = get_option('autoplay', $params['id']) == 'y';
+$w = mw('option')->get('width', $params['id']);
+$h = mw('option')->get('height', $params['id']);
+$autoplay = mw('option')->get('autoplay', $params['id']) == 'y';
 
 
 if($w == '') {$w = '450';}

@@ -229,7 +229,7 @@ class User
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
                         exec_action('user_login_admin');
-                        $p = get_page();
+                        $p = mw('content')->get_page();
                         if (!empty($p)) {
                             $link = page_link($p['id']);
                             $link = $link . '/editmode:y';
@@ -424,7 +424,7 @@ class User
 
         $table = MW_TABLE_PREFIX . 'users';
 
-        $data = string_clean($params);
+        $data = mw('format')->clean_html($params);
         $orig_data = $data;
 
         if (isset($data['ids']) and is_array($data['ids'])) {

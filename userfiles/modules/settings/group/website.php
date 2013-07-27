@@ -17,14 +17,14 @@ $(document).ready(function(){
         <a href="javascript:;" class="mw-ui-link" onclick="mw.help('website_name');"><?php _e("See the example"); ?></a>
     </small>
   </label>
-  <input name="website_title" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_title','website'); ?>" />
+  <input name="website_title" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print mw('option')->get('website_title','website'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Website Description"); ?> <br>
     <small><?php _e("Describe what is your website for in short descriprion"); ?>.</small>
   </label>
-  <textarea name="website_description" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print get_option('website_description','website'); ?></textarea>
+  <textarea name="website_description" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print mw('option')->get('website_description','website'); ?></textarea>
 </div>
 
 
@@ -37,7 +37,7 @@ $(document).ready(function(){
    <select  name="items_per_page" class="mw_option_field"   type="range" option-group="website" >
 
     <?php
-        $per_page = get_option('items_per_page','website');
+        $per_page = mw('option')->get('items_per_page','website');
           $found = false;
           for($i=5; $i<40; $i+=5){
               if($i == $per_page){
@@ -62,14 +62,14 @@ $(document).ready(function(){
     <?php _e("Website Keywords"); ?>  <br>
     <small><?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
  </label>
-  <input name="website_keywords" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_keywords','website'); ?>" />
+  <input name="website_keywords" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print mw('option')->get('website_keywords','website'); ?>" />
 </div>
 
 
   <div class="mw-ui-field-holder">
   <label class="mw-ui-label">Date Format</label>
   <?php $date_formats = array("Y-m-d H:i:s","m/d/y", "m/d/Y","F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a" );  ?>
-  <?php   $curent_val = get_option('date_format','website'); ?>
+  <?php   $curent_val = mw('option')->get('date_format','website'); ?>
 
   <div class="mw-ui-select" style="width: 300px;">
   <select name="date_format" class="mw_option_field"     option-group="website">
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label"><?php _e("Time Zone"); ?></label>
-   <?php   $curent_time_zone = get_option('time_zone','website'); ?>
+   <?php   $curent_time_zone = mw('option')->get('time_zone','website'); ?>
  <?php 
  
  if( $curent_time_zone == false){

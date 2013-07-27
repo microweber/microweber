@@ -503,7 +503,7 @@ class ContentUtils
                 // d($ref_page_url);
             } else {
                 $page_id = $ref_page['id'];
-                $ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+                $ref_page['custom_fields'] = mw('content')->custom_fields($page_id, false);
             }
         }
         $save_as_draft = false;
@@ -1050,7 +1050,7 @@ class ContentUtils
 
         if (isset($ret['value'])) {
             $field_content = htmlspecialchars_decode($ret['value']);
-            $field_content = decode_entities($field_content);
+            $field_content = $this->_decode_entities($field_content);
             $ret['value'] = mw('parser')->process($field_content, $options = false);
 
         }
@@ -1772,6 +1772,16 @@ class ContentUtils
             mw('cache')->delete('menus/global');
         }
 
+    }
+
+
+
+    public function _decode_entities($text)
+    {
+        $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
+        $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
+        $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
+        return $text;
     }
 
 

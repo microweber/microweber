@@ -1,13 +1,13 @@
 
 <?php
     $id = "mwaudio-" . uniqid();
-    $prior =  get_option('prior', $params['id']);
+    $prior =  mw('option')->get('prior', $params['id']);
 
     if($prior == '1'){
-      $audio =  get_option('data-audio-upload', $params['id']);
+      $audio =  mw('option')->get('data-audio-upload', $params['id']);
     }
     else{
-      $audio =  get_option('data-audio-url', $params['id']);
+      $audio =  mw('option')->get('data-audio-url', $params['id']);
     }
 ?>
 

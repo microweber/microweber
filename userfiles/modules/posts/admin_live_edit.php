@@ -80,7 +80,7 @@ $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
 <?php 
 $set_content_type_mod = 'page';
 if(isset($params['global']) and $params['global'] != false){
-	$set_content_type_mod_1 =  get_option('data-content-type', $params['id']); 
+	$set_content_type_mod_1 =  mw('option')->get('data-content-type', $params['id']); 
 	if($set_content_type_mod_1 != false and $set_content_type_mod_1 != ''){
 	$set_content_type_mod = $set_content_type_mod_1;	
 	}
@@ -177,8 +177,8 @@ if(isset($params['global']) and $params['global'] != false){
 	    $add_post_q  .=' data-parent-page-id='.$params['page-id'];
    }
    
-  $posts_parent_page =  get_option('data-page-id', $params['id']); 
-   $posts_parent_category =  get_option('data-category-id', $params['id']);
+  $posts_parent_page =  mw('option')->get('data-page-id', $params['id']); 
+   $posts_parent_category =  mw('option')->get('data-category-id', $params['id']);
 
   if($posts_parent_page != false and intval($posts_parent_page) > 0){
 	  $add_post_q  .=' data-parent-page-id='.intval($posts_parent_page);

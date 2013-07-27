@@ -34,7 +34,7 @@
 
 <?php 
 
-$paypal_is_test = (get_option('paypalpro_testmode', 'payments')) == 'y'; 
+$paypal_is_test = (mw('option')->get('paypalpro_testmode', 'payments')) == 'y'; 
  
 ?>
  

@@ -358,7 +358,7 @@ class Modules extends \mw\Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = set_default_option($value);
+                            $ch = mw('option')->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;
@@ -380,7 +380,7 @@ class Modules extends \mw\Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = set_default_option($value);
+                            $ch = mw('option')->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;

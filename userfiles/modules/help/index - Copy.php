@@ -67,7 +67,7 @@ $(document).ready(function(){
     <div class="manage-items" id="main-help">
       <?php
       // .. $help_pages = str_replace("directory_tree","ssshelp-nav", $help_pages);
-         static_pages_tree('title_class=help-opener&class=help-nav&dir_name='.$path.'&url='.$config['url_base']);
+         static_mw('content')->pages_tree('title_class=help-opener&class=help-nav&dir_name='.$path.'&url='.$config['url_base']);
 
 
 
@@ -149,7 +149,7 @@ $(document).ready(function(){
             </span></strong>
             <?php // $module_help_pages = directory_tree( $module_path_help);
 
-			  static_pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
+			  static_mw('content')->pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
 
 
                 //$module_help_pages = str_replace("directory_tree","mw-accordion-content", $module_help_pages);

@@ -1,6 +1,6 @@
 <div class="mw-o-box">
 
-<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
+<?php $form_btn_title =  mw('option')->get('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		    $form_btn_title = _e("Save new password", true);
 		}

@@ -11,7 +11,7 @@ class StaticPages {
      * @package Content
      * @subpackage Experimental
      * @internal not_tested
-     * @uses get_content_by_url()
+     * @uses mw('content')->get_by_url()
      * @param $params = array();
      * @param $params['dir_name'] = your dir; //path to the directory root
      * @return string <ul> with <li>
@@ -59,7 +59,7 @@ class StaticPages {
      * @package Content
      * @subpackage Experimental
      * @internal not_tested
-     * @uses get_content_by_url()
+     * @uses mw('content')->get_by_url()
      */
     static function get($params = false)
     {

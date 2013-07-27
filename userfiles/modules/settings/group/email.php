@@ -27,12 +27,12 @@ mw.email_send_test = function(){
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label"><?php _e("Your email address"); ?><br>
       <small><?php _e("Your email address"); ?> (<?php _e("ex. my@email.com"); ?> )</small> </label>
-    <input name="email_from" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print get_option('email_from','email'); ?>" />
+    <input name="email_from" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print mw('option')->get('email_from','email'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label"><?php _e("From name"); ?><br>
       <small><?php _e("example"); ?>: <?php _e("Site Admin"); ?></small> </label>
-    <input name="email_from_name" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print get_option('email_from_name','email'); ?>" />
+    <input name="email_from_name" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print mw('option')->get('email_from_name','email'); ?>" />
   </div>
 
   <div class="vSpace"></div>
@@ -48,7 +48,7 @@ mw.email_send_test = function(){
 
 
   <label class="mw-ui-label"><?php _e("Send email function"); ?> </label>
-  <?php   $email_transport = get_option('email_transport','email');
+  <?php   $email_transport = mw('option')->get('email_transport','email');
 
  if($email_transport == false){
 	$email_transport = 'php';
@@ -73,10 +73,10 @@ mw.email_send_test = function(){
   <?php if($email_transport == 'smtp' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
     <label class="mw-ui-label"><?php print ucfirst($email_transport); ?> <?php _e("Username"); ?> <br />
     <small><?php _e("example"); ?>: <?php _e("user@email.com"); ?></small></label>
-  <input name="smtp_username" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print get_option('smtp_username','email'); ?>" />
+  <input name="smtp_username" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print mw('option')->get('smtp_username','email'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label"><?php print ucfirst($email_transport); ?> <?php _e("Password"); ?> </label>
-  <input name="smtp_password" class="mw_option_field mw-ui-field"   type="password" option-group="email"  value="<?php print get_option('smtp_password','email'); ?>" />
+  <input name="smtp_password" class="mw_option_field mw-ui-field"   type="password" option-group="email"  value="<?php print mw('option')->get('smtp_password','email'); ?>" />
   <div class="vSpace"></div>
   <?php endif; ?>
 
@@ -85,15 +85,15 @@ mw.email_send_test = function(){
   <?php if($email_transport == 'smtp'): ?>
   <label class="mw-ui-label"><?php _e("Smtp Email Host"); ?> <br />
     <small><?php _e("example"); ?>: smtp.gmail.com</small></label>
-  <input name="smtp_host" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print get_option('smtp_host','email'); ?>" />
+  <input name="smtp_host" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print mw('option')->get('smtp_host','email'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label"><?php _e("Smtp Email Port"); ?> <br />
     <small><?php _e("example"); ?>: 587 or 995, 465, 110, 25</small></label>
-  <input name="smtp_port" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print get_option('smtp_port','email'); ?>" />
+  <input name="smtp_port" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print mw('option')->get('smtp_port','email'); ?>" />
   <div class="vSpace"></div>
 
   <label class="mw-ui-label"><?php _e("Enable SMTP authentication"); ?></label>
-  <?php  $email_smtp_auth = get_option('smtp_auth','email'); ?>
+  <?php  $email_smtp_auth = mw('option')->get('smtp_auth','email'); ?>
   <div class="mw-ui-select">
     <select name="smtp_auth" class="mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
       <option value="n" <?php if($email_smtp_auth == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
@@ -102,7 +102,7 @@ mw.email_send_test = function(){
   </div>
   <div class="vSpace"></div>
   <label class="mw-ui-label"><?php _e("Enable SMTP Secure Method"); ?></label>
-  <?php  $email_smtp_secure = get_option('smtp_secure','email'); ?>
+  <?php  $email_smtp_secure = mw('option')->get('smtp_secure','email'); ?>
   <div class="mw-ui-select">
     <select name="smtp_secure" class="mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
       <option value="0" <?php if($email_smtp_secure == ''): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
@@ -116,11 +116,11 @@ mw.email_send_test = function(){
   <table width=" 100%" border="0" id="test_eml_toggle"  class="mw-o-box mw-o-box-content" style="display:none;background: white;">
     <tr>
       <td><label class="mw-ui-label"><?php _e("Send test email to"); ?></label>
-        <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email" value="<?php print get_option('test_email_to','email'); ?>"  />
+        <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email" value="<?php print mw('option')->get('test_email_to','email'); ?>"  />
          <div class="vSpace"></div>
         <label class="mw-ui-label"><?php _e("Test mail subject"); ?></label>
 
-        <input name="test_email_subject" id="test_email_subject" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_subject','email'); ?>"  />
+        <input name="test_email_subject" id="test_email_subject" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print mw('option')->get('test_email_subject','email'); ?>"  />
         <div class="vSpace"></div>
 
         <span onclick="mw.email_send_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn"><?php _e("Send test email"); ?></span></td>

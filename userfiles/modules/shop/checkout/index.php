@@ -57,7 +57,7 @@ $(document).ready(function(){
   <script type="text/javascript">
     mw.require("shop.js");
   </script>
-  <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
+  <?php $cart_show_enanbled =  mw('option')->get('data-show-cart', $params['id']); ?>
   <?php
   
    if($cart_show_enanbled != 'n'): ?>

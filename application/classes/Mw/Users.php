@@ -414,7 +414,7 @@ class Users extends \Mw\User
 
                         $security = array();
                         $security['ip'] = USER_IP;
-                        $security['hash'] = encode_var($data_res);
+                        $security['hash'] = mw('format')->array_to_base64($data_res);
                         $function_cache_id = md5(serialize($security)) . uniqid() . rand();
                         //mw('cache')->save($security, $function_cache_id, $cache_group = 'password_reset');
                         if (isset($data_res['id'])) {

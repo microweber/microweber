@@ -101,7 +101,7 @@ function current_lang()
         }
     }
     if (!isset($lang) or $lang == false) {
-        $def_language = get_option('language', 'website');
+        $def_language = mw('option')->get('language', 'website');
         if ($def_language != false) {
             $lang = $def_language;
         }

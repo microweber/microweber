@@ -143,7 +143,7 @@ if (MW_IS_INSTALLED == true) {
             exec_action('mw_db_init_options');
             exec_action('mw_db_init_users');
         }
-        $curent_time_zone = get_option('time_zone', 'website');
+        $curent_time_zone = mw('option')->get('time_zone', 'website');
         if ($curent_time_zone != false and $curent_time_zone != '') {
             $default_time_zone = date_default_timezone_get();
 

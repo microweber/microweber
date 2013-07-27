@@ -224,7 +224,7 @@ function email_get_transport_object() {
 		return $_mw_email_transport_object;
 	}
 
-	$email_advanced = get_option('email_transport', 'email');
+	$email_advanced = mw('option')->get('email_transport', 'email');
 	if ($email_advanced == false or $email_advanced == '') {
 		$email_advanced = 'php';
 	}
@@ -266,7 +266,7 @@ function \mw\email\Sender::send($to, $subject, $message, $add_hostname_to_subjec
 	$res = email_get_transport_object();
 	if (is_object($res)) {
 
-		$email_from = get_option('email_from', 'email');
+		$email_from = mw('option')->get('email_from', 'email');
 		if ($email_from == false or $email_from == '') {
 			//return mw_error('You must set your email address first!');
 		} else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
@@ -303,7 +303,7 @@ function email_send_test($params) {
 	$res = email_get_transport_object();
 	if (is_object($res)) {
 
-		$email_from = get_option('email_from', 'email');
+		$email_from = mw('option')->get('email_from', 'email');
 		if ($email_from == false or $email_from == '') {
 			//return mw_error('You must set your email address first!');
 		} else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {

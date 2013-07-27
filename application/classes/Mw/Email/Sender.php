@@ -25,24 +25,24 @@ class Sender
             $this->transport = $transport;
         }
 
-        $email_from = get_option('email_from_name', 'email');
+        $email_from = mw('option')->get('email_from_name', 'email');
         if ($email_from == false or trim($email_from) == '') {
             $email_from = getenv("USERNAME");
         }
         $this->email_from_name = $email_from;
 
-        $this->smtp_host = trim(get_option('smtp_host', 'email'));
-        $this->smtp_port = intval(get_option('smtp_port', 'email'));
+        $this->smtp_host = trim(mw('option')->get('smtp_host', 'email'));
+        $this->smtp_port = intval(mw('option')->get('smtp_port', 'email'));
 
-        $this->smtp_username = trim(get_option('smtp_username', 'email'));
-        $this->smtp_password = trim(get_option('smtp_password', 'email'));
-        $this->smtp_auth = trim(get_option('smtp_auth', 'email'));
+        $this->smtp_username = trim(mw('option')->get('smtp_username', 'email'));
+        $this->smtp_password = trim(mw('option')->get('smtp_password', 'email'));
+        $this->smtp_auth = trim(mw('option')->get('smtp_auth', 'email'));
 
-        $sec = get_option('smtp_secure', 'email');
+        $sec = mw('option')->get('smtp_secure', 'email');
 
         $this->smtp_secure = intval($sec);
 
-        $email_from = get_option('email_from', 'email');
+        $email_from = mw('option')->get('email_from', 'email');
         if ($email_from == false or trim($email_from) == '') {
             if ($this->email_from_name != '') {
                 $email_from = url_title($this->email_from_name) . "@" . site_hostname();
@@ -87,7 +87,7 @@ class Sender
         $res = self::email_get_transport_object();
         if (is_object($res)) {
 
-            $email_from = get_option('email_from', 'email');
+            $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
                 //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
@@ -124,7 +124,7 @@ class Sender
         $res = self::email_get_transport_object();
         if (is_object($res)) {
 
-            $email_from = get_option('email_from', 'email');
+            $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
                 //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
@@ -160,7 +160,7 @@ class Sender
             return $_mw_email_transport_object;
         }
 
-        $email_advanced = get_option('email_transport', 'email');
+        $email_advanced = mw('option')->get('email_transport', 'email');
         if ($email_advanced == false or $email_advanced == '') {
             $email_advanced = 'php';
         }
@@ -194,7 +194,7 @@ class Sender
         $res = self::email_get_transport_object();
         if (is_object($res)) {
 
-            $email_from = get_option('email_from', 'email');
+            $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
                 //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {

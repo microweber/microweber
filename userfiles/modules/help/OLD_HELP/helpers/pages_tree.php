@@ -9,7 +9,7 @@ $pt_opts['list_item_tag'] = "option";
 $pt_opts['depth'] = 1;
  
 $pt_opts['active_code_tag'] = '   selected="selected"  ';
- pages_tree($pt_opts);
+ mw('content')->pages_tree($pt_opts);
 
   ?>
               </select>

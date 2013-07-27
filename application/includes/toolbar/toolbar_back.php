@@ -8,7 +8,7 @@
  
   <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
-	  $u  = content_link(CONTENT_ID);
+	  $u  = mw('content')->link(CONTENT_ID);
   } else {
 	  $u  =curent_url();
   }

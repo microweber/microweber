@@ -114,13 +114,13 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
   $is_shop_exist = get_content('is_shop=y&count=1');
   if($is_shop_exist != 0){
    // $is_shop_exist = get_content('is_shop=y&count=1');
-    mw_create_default_content('shop');
+    mw('Mw\ContentUtils')->create_default_content('shop');
     $is_shop_exist = get_content('is_shop=y&limit=1');
     if(isarr($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
   } else {
-     mw_create_default_content('shop');
+     mw('Mw\ContentUtils')->create_default_content('shop');
      $is_shop_exist = get_content('is_shop=y&limit=1');
     if(isarr($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
@@ -170,7 +170,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
       } else {
 
 
-       mw_create_default_content('blog');
+       mw('Mw\ContentUtils')->create_default_content('blog');
        $is_blog_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1&no_cache=1');
      }
 
@@ -603,7 +603,7 @@ load_iframe_editor = function(content){
  var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
 
 
- var  ifr_ed_url = '<?php print content_link($data['id']) ?>?content_id=<?php print $data['id'] ?>';
+ var  ifr_ed_url = '<?php print mw('content')->link($data['id']) ?>?content_id=<?php print $data['id'] ?>';
  var  ifr_ed_url_more = '';
  <?php if($edit_post_mode != false): ?>
 
@@ -803,7 +803,7 @@ load_preview();
 
 
 
-          pages_tree($pt_opts);
+          mw('content')->pages_tree($pt_opts);
 
 
           ?>
@@ -1315,11 +1315,11 @@ mw.del_curent_page = function(a, callback){
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />
-      <small><?php _e("Created on"); ?>: <?php print format_date($data['created_on'])?></small>
+      <small><?php _e("Created on"); ?>: <?php print mw('format')->date($data['created_on'])?></small>
       <?php endif; ?>
       <?php if(isset($data['created_on'])): ?>
       <br />
-      <small><?php _e("Updated on"); ?>: <?php print format_date($data['updated_on'])?></small>
+      <small><?php _e("Updated on"); ?>: <?php print mw('format')->date($data['updated_on'])?></small>
       <?php endif; ?>
       <?php /* PRODUCTS ONLY  */ ?>
       <?php if(isset($data['subtype']) and trim($data['subtype']) == 'a_product'): ?>

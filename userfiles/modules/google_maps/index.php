@@ -8,13 +8,13 @@ if (isset($params['data-address'])) {
   
     $address = $params['data-address'];
 } else {
-      $address =  get_option('data-address', $params['id']);
+      $address =  mw('option')->get('data-address', $params['id']);
 }
 if($address == false or $address == ''){
 	if (isset($params['parent-module-id'])) {
   
     $address = $params['parent-module-id'];
-	 $address =  get_option('data-address',$address);;
+	 $address =  mw('option')->get('data-address',$address);;
 }
 }
 
@@ -32,7 +32,7 @@ if (isset($params['data-address'])) {
 
     $zoom = $params['data-zoom'];
 } else {
-      $zoom =  get_option('data-zoom', $params['id']);
+      $zoom =  mw('option')->get('data-zoom', $params['id']);
 }
 if($zoom == false or $zoom == ''){
 $zoom = "14";	

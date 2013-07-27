@@ -127,7 +127,7 @@ if (!empty($content)) {
         <?php print $order['first_name']; ?>
         <?php print $order['last_name']; ?>
         <?php print $order['email']; ?> -
-         <?php print currency_format(floatval($order['amount'])+floatval($order['shipping']),$order['currency']); ?>
+         <?php print mw('shop')->currency_format(floatval($order['amount'])+floatval($order['shipping']),$order['currency']); ?>
        </div>
 
        <?php } ?>

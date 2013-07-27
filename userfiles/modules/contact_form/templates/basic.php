@@ -18,7 +18,7 @@ description: Basic contact form
   </div>
   <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post" >
     <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
-    <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
+    <?php if(mw('option')->get('disable_captcha', $params['id']) !='y'): ?>
       <div class="control-group">
         <label><?php _e("Security code"); ?></label>
         <div class="input-prepend">

@@ -75,10 +75,7 @@ class Option
 
    
 
-    public function for_module($key, $module, $option_group = false, $return_full = false, $orderby = false)
-    {
-        return $this->get($key, $option_group, $return_full, $orderby, $module);
-    }
+
 
 
     /**
@@ -133,7 +130,7 @@ class Option
             return $_mw_global_options_mem[$function_cache_id];
         }
 
-        /*
+
          $cache_content = mw('cache')->get($function_cache_id, $cache_group);
          if (($cache_content) == '--false--') {
          return false;
@@ -142,7 +139,7 @@ class Option
          if (($cache_content) != false) {
 
          return $cache_content;
-         }*/
+         }
 
         // ->'table_options';
         $table = MW_DB_TABLE_OPTIONS;
@@ -184,6 +181,8 @@ class Option
         $q_cache_id = crc32($q);
         $get_all = mw('db')->query($q, $q_cache_id, $cache_group);
         if (!isarr($get_all)) {
+            mw('cache')->save('--false--', $function_cache_id, $cache_group);
+
             return false;
         }
         $get = array();
@@ -224,6 +223,7 @@ class Option
                 return $get;
             }
         } else {
+
             //mw('cache')->save('--false--', $function_cache_id, $cache_group);
             $_mw_global_options_mem[$function_cache_id] = false;
             return FALSE;
@@ -381,7 +381,7 @@ class Option
 
                         if (isset($data['id']) and intval($data['id']) > 0) {
 
-                            $chck = get_options('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
+                            $chck = mw('option')->get('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
                             if (isset($chck[0]) and isset($chck[0]['id'])) {
 
                                 $data['id'] = $chck[0]['id'];

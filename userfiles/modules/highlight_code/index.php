@@ -2,9 +2,9 @@
 
 
 
-$source_code =  get_option('source_code', $params['id']) ;
+$source_code =  mw('option')->get('source_code', $params['id']) ;
 
-$source_code_language =  get_option('source_code_language', $params['id']) ;
+$source_code_language =  mw('option')->get('source_code_language', $params['id']) ;
 
 
 
@@ -28,12 +28,12 @@ $source_code =  trim($source_code);
 //mw.require("<?php print $config['url_to_module']; ?>prism/prism.js", true);
 
 </script>
- <?php $theme_sel =  get_option('source_theme', $params['id']);
+ <?php $theme_sel =  mw('option')->get('source_theme', $params['id']);
 if($theme_sel == false or trim($theme_sel) == 'zellner'){
 
 	$theme_sel  = 'emacs';
 }
-  $source_show_lines =  get_option('source_show_lines', $params['id']) == 'y';
+  $source_show_lines =  mw('option')->get('source_show_lines', $params['id']) == 'y';
 
 $source_code_id = md5($source_code.$theme_sel.$source_code_language.$source_show_lines );
 

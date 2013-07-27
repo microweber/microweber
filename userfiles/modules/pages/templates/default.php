@@ -18,7 +18,7 @@ description: List Navigation
 	$params['return_data'] = true;
  
 ?>
-<?php $pages_tree= pages_tree($params);  ?>
+<?php $pages_tree= mw('content')->pages_tree($params);  ?>
  
 <?php if($pages_tree != ''): ?>
 <div class="pages-nav">

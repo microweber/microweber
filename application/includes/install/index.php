@@ -331,7 +331,7 @@ if (isset($to_save['is_installed'])) {
                 }
 
 
-                // mw_create_default_content('install');
+                // mw('Mw\ContentUtils')->create_default_content('install');
                 print('done');
                 __mw_install_log('done');
 

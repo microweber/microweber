@@ -1,12 +1,12 @@
 <?php
 
-    $style =  get_option('button_style', $params['id']);
-    $size =  get_option('button_size', $params['id']);
-    $action =  get_option('button_action', $params['id']);
-    $action_content =  get_option('popupcontent', $params['id']);
-    $url =  get_option('url', $params['id']);
-    $blank =   get_option('url_blank', $params['id']);
-    $text =  get_option('text', $params['id']);
+    $style =  mw('option')->get('button_style', $params['id']);
+    $size =  mw('option')->get('button_size', $params['id']);
+    $action =  mw('option')->get('button_action', $params['id']);
+    $action_content =  mw('option')->get('popupcontent', $params['id']);
+    $url =  mw('option')->get('url', $params['id']);
+    $blank =   mw('option')->get('url_blank', $params['id']);
+    $text =  mw('option')->get('text', $params['id']);
 
      if ($text == ''){ $text = 'Button';}
 

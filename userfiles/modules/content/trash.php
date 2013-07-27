@@ -55,7 +55,7 @@ if (isset($post_params['data-show'])) {
 
   $show_fields = $post_params['data-show'];
 } else {
-  $show_fields = get_option('data-show', $params['id']);
+  $show_fields = mw('option')->get('data-show', $params['id']);
 }
 
 if ($show_fields != false and is_string($show_fields)) {
@@ -67,13 +67,13 @@ if ($show_fields != false and is_string($show_fields)) {
 
 
 if (!isset($post_params['data-limit'])) {
-  $post_params['limit'] = get_option('data-limit', $params['id']);
+  $post_params['limit'] = mw('option')->get('data-limit', $params['id']);
 }
 $cfg_page_id = false;
 if (isset($post_params['data-page-id'])) {
  $cfg_page_id =   intval($post_params['data-page-id']);
 } else {
-  $cfg_page_id = get_option('data-page-id', $params['id']);
+  $cfg_page_id = mw('option')->get('data-page-id', $params['id']);
 
 }
 $posts_parent_category = false;
@@ -144,7 +144,7 @@ if (isset($post_params['data-thumbnail-size'])) {
     $tn_size = $temp;
   }
 } else {
-  $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
+  $cfg_page_item = mw('option')->get('data-thumbnail-size', $params['id']);
   if ($cfg_page_item != false) {
     $temp = explode('x', strtolower($cfg_page_item));
 
@@ -178,7 +178,7 @@ $paging_links = false;
 $pages_count = intval($pages);
 ?>
 <?php if (intval($pages_count) > 1): ?>
-<?php $paging_links = paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+<?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 <h2 class="left" style="padding-left: 20px;width: 430px;padding-bottom:16px; "><?php _e("Deleted content"); ?></h2>
 
@@ -238,10 +238,10 @@ $pages_count = intval($pages);
 
     <div class="manage-post-main">
       <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h3>
-      <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
-      <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
+      <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
+      <div class="manage-post-item-description"> <?php print mw('format')->limit(strip_tags($item['description']), 60);
       ?> </div>
-      <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
+      <div class="manage-post-item-links"> <a target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
     </div>
     <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
   </div>

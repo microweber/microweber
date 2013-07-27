@@ -69,7 +69,7 @@ class Content
      *
      * @example
      * <code>
-     * print content_link($id=1);
+     * print $this->link($id=1);
      * </code>
      *
      */
@@ -89,7 +89,7 @@ class Content
 
         $link = mw('content')->get_by_id($id);
         if (strval($link['url']) == '') {
-            $link = get_page_by_url($id);
+            $link = mw('content')->get_by_url($id);
         }
         $link = site_url($link['url']);
         return $link;
@@ -281,7 +281,7 @@ class Content
                 }
                 if (isset($get['title'])) {
                     //$item['url'] = page_link($item['id']);
-                    $get['title'] = string_clean($get['title']);
+                    $get['title'] = mw('format')->clean_html($get['title']);
                 }
                 return $get;
             }
@@ -294,7 +294,7 @@ class Content
                     }
                     if (isset($item['title'])) {
                         //$item['url'] = page_link($item['id']);
-                        $item['title'] = string_clean($item['title']);
+                        $item['title'] = mw('format')->clean_html($item['title']);
                     }
 
                     $data2[] = $item;
@@ -322,14 +322,14 @@ class Content
      * @example
      * <pre>
      * Get by id
-     * $page = get_page(1);
+     * $page = mw('content')->get_page(1);
      * var_dump($page);
      * </pre>
      * @example
      * <pre>
      * Get by url
      *
-     * $page = get_page('home');
+     * $page = mw('content')->get_page('home');
      * var_dump($page);
      *</pre>
      */
@@ -344,7 +344,7 @@ class Content
             $page = mw('content')->get_by_id($id);
 
             if (empty($page)) {
-                $page = get_content_by_url($id);
+                $page = mw('content')->get_by_url($id);
             }
         } else {
             if (empty($page)) {
@@ -410,7 +410,7 @@ class Content
         if (isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
-                $content['title'] = string_clean($content['title']);
+                $content['title'] = mw('format')->clean_html($content['title']);
             }
         } else {
 
@@ -701,7 +701,7 @@ class Content
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page != '') {
-                    $ref_page = get_content_by_url($ref_page);
+                    $ref_page = mw('content')->get_by_url($ref_page);
                     if (!empty($ref_page)) {
                         $content = $ref_page;
 
@@ -793,7 +793,7 @@ class Content
 
             $the_active_site_template = $page['active_site_template'];
         } else {
-            $the_active_site_template = get_option('curent_template');
+            $the_active_site_template = mw('option')->get('curent_template');
             // d($the_active_site_template );
         }
 
@@ -971,7 +971,7 @@ class Content
         $table = MW_TABLE_PREFIX . 'content';
 
         // $url = strtolower($url);
-        //  $url = string_clean($url);
+        //  $url = mw('format')->clean_html($url);
         $url = mw('db')->escape_string($url);
         $url = addslashes($url);
 
@@ -1060,7 +1060,7 @@ class Content
                     $test = array_reverse($test);
 
                     if (isset($test[0])) {
-                        $url = get_page_by_url($test[0], true);
+                        $url = mw('content')->get_by_url($test[0], true);
                     }
                     if (!empty($url)) {
                         $mw_precached_links[$link_hash] = $url;
@@ -2659,7 +2659,7 @@ class Content
 
                 if (isarr($cont)) {
                     $title = $cont['title'];
-                    $url = content_link($cont['id']);
+                    $url = $this->link($cont['id']);
 
                     if ($cont['is_active'] != 'y') {
                         $is_active = false;
@@ -2696,7 +2696,7 @@ class Content
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
                 $surl = site_url();
                 $cur_url = curent_url(1);
-                $item['url'] = str_replace_once('{SITE_URL}', $surl, $item['url']);
+                $item['url'] = mw('format')->replace_once('{SITE_URL}', $surl, $item['url']);
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
                 } else {

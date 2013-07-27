@@ -47,10 +47,10 @@ class Layouts {
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = get_option('curent_template');
+                    $the_active_site_template = mw('option')->get('curent_template');
                 }
             } else {
-                $the_active_site_template = get_option('curent_template');
+                $the_active_site_template = mw('option')->get('curent_template');
             }
             $path = normalize_path(TEMPLATEFILES . $the_active_site_template);
         } else {
@@ -329,7 +329,7 @@ class Layouts {
 
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
-            //$page_url_segment_1 =	$the_active_site_template = get_option('curent_template');
+            //$page_url_segment_1 =	$the_active_site_template = mw('option')->get('curent_template');
             //$td_base = TEMPLATEFILES .  $the_active_site_template.DS;
         } else {
 

@@ -444,7 +444,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
     <a class="mw-ui-btn mw-ui-btn-blue" href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
         <span class="ico ieditpage"></span><span><?php _e("Edit Page"); ?></span>
     </a>
-    <a class="mw-ui-btn" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
+    <a class="mw-ui-btn" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span><?php _e("Go Live Edit"); ?></a>
   </div>
 </div>
 <?php endif; ?>

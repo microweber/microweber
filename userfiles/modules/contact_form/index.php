@@ -101,13 +101,13 @@ $(document).ready(function(){
     });
 });
 </script>
-<?php $save_as = get_option('form_name', $params['id']);
+<?php $save_as = mw('option')->get('form_name', $params['id']);
 
 if($save_as == false){
 	$save_as = $params['id'];
 }
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = mw('option')->get('data-template', $params['id']);
 
 if($module_template != false and $module_template != 'none'){
 	$template_file = module_templates( $config['module'], $module_template);

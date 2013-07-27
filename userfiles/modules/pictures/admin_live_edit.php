@@ -2,7 +2,7 @@
 $for = $config['module'];
 $for_module_id = $params['id'];
 
- $use_from_post = get_option('data-use-from-post', $params['id']) =='y';
+ $use_from_post = mw('option')->get('data-use-from-post', $params['id']) =='y';
  	  $use_from_post_forced = false;
  
  if(isset($params['rel'])){

@@ -40,12 +40,12 @@ if (isset($place_order['shipping']) and intval($place_order['shipping']) > 0) {
 
 
 
-$currencies_list_paypal = currencies_list_paypal();
+$currencies_list_paypal = mw('shop')->currency_get_for_paypal();
 $currencyCode = $place_order['currency'];
 
 if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
-	 $payment_currency = get_option('payment_currency', 'payments');  
-  	$payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
+	 $payment_currency = mw('option')->get('payment_currency', 'payments');  
+  	$payment_currency_rate = mw('option')->get('payment_currency_rate', 'payments'); 
 	if($payment_currency_rate != false){
 	 $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
 	 $payment_currency_rate = floatval( $payment_currency_rate);
@@ -72,11 +72,11 @@ if (isset($place_order['currency']) and ($place_order['currency']) != false) {
 	$nvpstr .= '&CURRENCY_CODE=' . $place_order['currency'].'&CURRENCY=' . $place_order['currency'];
 
 }
-//$paypalpro_username = trim(get_option('paypalpro_username', 'payments'));
-$paypalpro_apikey = trim(get_option('paypalpro_apikey', 'payments'));
-$paypalpro_apipassword = trim(get_option('paypalpro_apipassword', 'payments'));
-$paypalpro_apisignature = trim(get_option('paypalpro_apisignature', 'payments'));
-$paypalpro_is_test = (get_option('paypalpro_testmode', 'payments')) == 'n';
+//$paypalpro_username = trim(mw('option')->get('paypalpro_username', 'payments'));
+$paypalpro_apikey = trim(mw('option')->get('paypalpro_apikey', 'payments'));
+$paypalpro_apipassword = trim(mw('option')->get('paypalpro_apipassword', 'payments'));
+$paypalpro_apisignature = trim(mw('option')->get('paypalpro_apisignature', 'payments'));
+$paypalpro_is_test = (mw('option')->get('paypalpro_testmode', 'payments')) == 'n';
 
  
 $paypalPro = new paypal_pro($paypalpro_apikey, $paypalpro_apipassword, $paypalpro_apisignature, '', '', $paypalpro_is_test, FALSE);

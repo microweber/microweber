@@ -109,8 +109,8 @@ class Controller
         define_constants();
         if ($api_function == false) {
             $api_function_full = url_string();
-            $api_function_full= str_replace_once('api_html', '', $api_function_full);
-            $api_function_full= str_replace_once('api', '', $api_function_full);
+            $api_function_full= mw('format')->replace_once('api_html', '', $api_function_full);
+            $api_function_full= mw('format')->replace_once('api', '', $api_function_full);
             //$api_function_full = substr($api_function_full, 4);
         } else {
             $api_function_full = $api_function;
@@ -513,12 +513,12 @@ class Controller
             $url = $url[0];
 
             if (trim($url) == '' or trim($url) == site_url()) {
-                //$page = get_content_by_url($url);
+                //$page = mw('content')->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
             } else {
 
-                $page = get_content_by_url($url);
+                $page = mw('content')->get_by_url($url);
 
             }
         } else {
@@ -549,9 +549,9 @@ class Controller
              $url = url_string(true);
              }*/
 
-            $url = str_replace_once('module/', '', $url);
-            $url = str_replace_once('module_api/', '', $url);
-            $url = str_replace_once('m/', '', $url);
+            $url = mw('format')->replace_once('module/', '', $url);
+            $url = mw('format')->replace_once('module_api/', '', $url);
+            $url = mw('format')->replace_once('m/', '', $url);
 
             if (is_module($url)) {
                 $_REQUEST['module'] = $url;
@@ -743,7 +743,7 @@ class Controller
                 }
 
                 if (is_array($v)) {
-                    $v1 = encode_var($v);
+                    $v1 = mw('format')->array_to_base64($v);
                     $tags .= "{$k}=\"$v1\" ";
                 } else {
                     $tags .= "{$k}=\"$v\" ";
@@ -1010,10 +1010,10 @@ class Controller
 
             } else {
                 $found_mod = false;
-                $page = get_page_by_url($page_url);
-                $page_exact = get_page_by_url($page_url, true);
+                $page = mw('content')->get_by_url($page_url);
+                $page_exact = mw('content')->get_by_url($page_url, true);
 
-                $the_active_site_template = get_option('curent_template');
+                $the_active_site_template = mw('option')->get('curent_template');
                 $page_url_segment_1 = url_segment(0, $page_url);
 
                 if ($preview_module != false) {
@@ -1057,7 +1057,7 @@ class Controller
                         $page_url_segment_3 = url_segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = get_option('curent_template');
+                            $page_url_segment_1 = $the_active_site_template = mw('option')->get('curent_template');
                             $td_base = TEMPLATEFILES . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -1521,13 +1521,13 @@ class Controller
             $meta = array();
             $meta['content_image'] = '';
             $meta['content_url'] = curent_url(1);
-            $meta['og_description'] = get_option('website_description', 'website');
+            $meta['og_description'] = mw('option')->get('website_description', 'website');
             $meta['og_type'] = 'website';
 
             if (CONTENT_ID > 0) {
                 $meta = mw('content')->get_by_id(CONTENT_ID);
                 $meta['content_image'] = get_picture(CONTENT_ID);
-                $meta['content_url'] = content_link(CONTENT_ID);
+                $meta['content_url'] = mw('content')->link(CONTENT_ID);
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                     $meta['og_type'] = $meta['subtype'];
@@ -1537,31 +1537,31 @@ class Controller
                 if (isset($meta['description']) and $meta['description'] != '') {
                     $meta['og_description'] = $meta['description'];
                 } else {
-                    $meta['og_description'] = trim(character_limiter(string_clean($meta['content']), 300));
+                    $meta['og_description'] = trim(mw('format')->limit(mw('format')->clean_html($meta['content']), 300));
                 }
 
             } else {
-                $meta['title'] = get_option('website_title', 'website');
-                $meta['description'] = get_option('website_description', 'website');
-                $meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+                $meta['title'] = mw('option')->get('website_title', 'website');
+                $meta['description'] = mw('option')->get('website_description', 'website');
+                $meta['content_meta_keywords'] = mw('option')->get('website_keywords', 'website');
 
             }
-            $meta['og_site_name'] = get_option('website_title', 'website');
+            $meta['og_site_name'] = mw('option')->get('website_title', 'website');
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
                     $meta['title'] = $meta['content_meta_title'];
                 } else if (isset($meta['title']) and $meta['title'] != '') {
 
                 } else {
-                    $meta['title'] = get_option('website_title', 'website');
+                    $meta['title'] = mw('option')->get('website_title', 'website');
                 }
                 if (isset($meta['description']) and $meta['description'] != '') {
                 } else {
-                    $meta['description'] = get_option('website_description', 'website');
+                    $meta['description'] = mw('option')->get('website_description', 'website');
                 }
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
-                    $meta['content_meta_keywords'] = get_option('website_keywords', 'website');
+                    $meta['content_meta_keywords'] = mw('option')->get('website_keywords', 'website');
                 }
                 $l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
                 $l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
@@ -1675,7 +1675,7 @@ class Controller
 
             if (!empty($cont)) {
                 foreach ($cont as $item) {
-                    $map->addPage(content_link($item['id']), 'daily', 1, $item['updated_on']);
+                    $map->addPage(mw('content')->link($item['id']), 'daily', 1, $item['updated_on']);
                 }
             }
             $map = $map->create();
@@ -1708,9 +1708,9 @@ class Controller
         } else if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
-                $ref_page = get_content_by_url($ref_page);
+                $ref_page = mw('content')->get_by_url($ref_page);
                 $page_id = $ref_page['id'];
-                //	$ref_page['custom_fields'] = get_custom_fields_for_content($page_id, false);
+                //	$ref_page['custom_fields'] = mw('content')->custom_fields($page_id, false);
             }
 
         }
@@ -1783,12 +1783,12 @@ class Controller
             $url = $url[0];
 
             if (trim($url) == '' or trim($url) == site_url()) {
-                //$page = get_content_by_url($url);
+                //$page = mw('content')->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
             } else {
 
-                $page = get_content_by_url($url);
+                $page = mw('content')->get_by_url($url);
             }
         } else {
             $url = url_string();

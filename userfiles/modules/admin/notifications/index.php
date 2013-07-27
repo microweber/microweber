@@ -96,7 +96,7 @@ mw.notif_reset_all = function(){
           <?php else : ?>
           <?php print $item['title'] ?>
           <?php endif; ?>
-          <time title="<?php print mw_date($item['created_on']); ?>"><?php print ago($item['created_on'],1); ?></time></td>
+          <time title="<?php print mw_date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time></td>
         <td style="max-width: 60%;"><div class="notification_info"><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis">
             <?php if(isset($item['content']) and $item['content'] != ''): ?>
             <?php print $item['content']; ?>

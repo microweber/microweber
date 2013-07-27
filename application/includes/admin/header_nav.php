@@ -38,17 +38,17 @@
 if(isset($_COOKIE['last_page'])){
 	$past_page = site_url($_COOKIE['last_page']);
   if($past_page != false){
-    $cont_by_url = get_content_by_url($past_page );
+    $cont_by_url = mw('content')->get_by_url($past_page );
    }
 if(isset($cont_by_url) and $cont_by_url == false){
   $past_page=get_content("order_by=updated_on desc&limit=1");
-$past_page = content_link($past_page[0]['id']);
+$past_page = mw('content')->link($past_page[0]['id']);
 }
 
 
 } else {
 	$past_page=get_content("order_by=updated_on desc&limit=1");
-$past_page = content_link($past_page[0]['id']);
+$past_page = mw('content')->link($past_page[0]['id']);
 }  ?>
   <div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print api_url('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
     <?php _e("Go Live Edit"); ?>

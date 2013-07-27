@@ -111,7 +111,7 @@ $data = get_users($user_params);
   </tbody>
 </table>
  <?php if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
-    <?php print paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
+    <?php print mw('content')->paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
     <?php endif; ?>
 <?php endif; ?>
 

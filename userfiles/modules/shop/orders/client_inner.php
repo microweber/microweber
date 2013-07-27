@@ -153,7 +153,7 @@ save:function(){
                                   <td class="mw-order-item-id"><?php print $cart_item['title'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['price'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['qty'] ?></td>
-                                  <td class="mw-order-item-count"><?php print currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
+                                  <td class="mw-order-item-count"><?php print mw('shop')->currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
                                 </tr>
                               <?php endforeach ; ?>
                             </tbody>

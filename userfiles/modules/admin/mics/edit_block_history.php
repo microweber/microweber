@@ -90,7 +90,7 @@ foreach ($history_files as $value) {
     <a title="Click to Restore" href="javascript: mw.history.load('<?php print ($item['id']) ?>')">
 
 
-    <?php print ago($item['created_on'], $granularity = 1); ?> </a> </li>
+    <?php print mw('format')->ago($item['created_on'], $granularity = 1); ?> </a> </li>
   <?php 		endforeach; ?>
 </ul>
 <?php endif; ?>

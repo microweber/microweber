@@ -1040,7 +1040,7 @@ class Db
             static $cfg_default_limit;
             if ($cfg_default_limit == false) {
                 if (function_exists('get_option')) {
-                    $cfg_default_limit = get_option('items_per_page ', 'website');
+                    $cfg_default_limit = mw('option')->get('items_per_page ', 'website');
                 }
             }
             if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {

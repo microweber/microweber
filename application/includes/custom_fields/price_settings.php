@@ -15,7 +15,7 @@
 
 <div class="custom-field-col-right">
   <div class="mw-custom-field-group">
-    <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Value   <b><?php print curency_symbol($curr=false,$key=3); ?> </b></label>
+    <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Value   <b><?php print mw('currency')->symbol($curr=false,$key=3); ?> </b></label>
 
     <input type="text"
     class="mw-ui-field"

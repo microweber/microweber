@@ -1,8 +1,8 @@
 <?php
 
-if(get_option('enable_comments', 'comments')=='y'){
+if(mw('option')->get('enable_comments', 'comments')=='y'){
 
-  $login_required = get_option('user_must_be_logged', 'comments')=='y';
+  $login_required = mw('option')->get('user_must_be_logged', 'comments')=='y';
 
 
 ?>
@@ -22,7 +22,7 @@ if (!isset($params['rel'])) {
 }
 
 
-    $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']);
+    $display_comments_from_which_post =  mw('option')->get('display_comments_from_which_post', $params['id']);
 	//d( $display_comments_from_which_post);
 
 if($display_comments_from_which_post == 'current_post' and isset($data['rel_id'])){
@@ -50,10 +50,10 @@ if (!isset($data['rel_id'])) {
 }
 
 
-$display_comments_from =  get_option('display_comments_from', $params['id']);
-$enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';
-$global_per_page = get_option('paging', 'comments');
-$global_set_paging = get_option('set_paging', 'comments') == 'y';
+$display_comments_from =  mw('option')->get('display_comments_from', $params['id']);
+$enable_comments_paging = mw('option')->get('enable_comments_paging',  $params['id'])=='y';
+$global_per_page = mw('option')->get('paging', 'comments');
+$global_set_paging = mw('option')->get('set_paging', 'comments') == 'y';
 
 
 
@@ -74,7 +74,7 @@ $comments_data['rel'] =  $data['rel'] = 'content';
 
 
 $form_title = false;
-$display_form_title_from_module_id =  get_option('form_title', $params['id']);
+$display_form_title_from_module_id =  mw('option')->get('form_title', $params['id']);
  if($display_form_title_from_module_id != false and trim($display_form_title_from_module_id) != ''){
 	$form_title = $display_form_title_from_module_id;
   }
@@ -93,10 +93,10 @@ if($display_comments_from  != false and $display_comments_from   == 'module'){
 
 $comments_data['rel_id'] =   $data['rel_id'] =  $params['id'];
 $comments_data['rel'] =  $data['rel'] = 'modules';
- $display_comments_from_module_id =  get_option('module_id', $params['id']);
+ $display_comments_from_module_id =  mw('option')->get('module_id', $params['id']);
  if($display_comments_from_module_id != false and trim($display_comments_from_module_id) != ''){
 		$comments_data['rel_id'] =   $data['rel_id'] =  $display_comments_from_module_id;
-		$display_form_title_from_module_id =  get_option('form_title', $display_comments_from_module_id);
+		$display_form_title_from_module_id =  mw('option')->get('form_title', $display_comments_from_module_id);
  if($display_form_title_from_module_id != false and trim($display_form_title_from_module_id) != ''){
 	$form_title = $display_form_title_from_module_id;
   }
@@ -109,10 +109,10 @@ $comments_data['rel'] =  $data['rel'] = 'modules';
 
 
 $paging  = false;
-$comments_per_page = get_option('comments_per_page',  $params['id']);
+$comments_per_page = mw('option')->get('comments_per_page',  $params['id']);
 
 
- $disabled_comments_paging = get_option('enable_comments_paging',  $params['id'])=='n';
+ $disabled_comments_paging = mw('option')->get('enable_comments_paging',  $params['id'])=='n';
 
 if( $enable_comments_paging == false and $global_set_paging != false and  $disabled_comments_paging == false){
 	 if(intval($global_per_page) > 0){
@@ -165,7 +165,7 @@ if( $curent_page_from_url != false){
  
 
 
-$template = get_option('data-template', $params['id']);
+$template = mw('option')->get('data-template', $params['id']);
 
 if (($template == false or ($template == '')) and isset($params['template'])) {
 

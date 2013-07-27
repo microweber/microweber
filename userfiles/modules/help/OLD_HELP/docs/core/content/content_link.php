@@ -1,7 +1,7 @@
 
 <div class="demo" id="demo-one">
   <div class="description">
-    <h2 class="fn">content_link(<strong>$id</strong>)</h2>
+    <h2 class="fn">mw('content')->link(<strong>$id</strong>)</h2>
     <p>get the url for the given content <strong>id</strong></p>
   </div>
   <!-- .description -->
@@ -16,7 +16,7 @@
   <div class="panels">
     <div class="panel" id="panel-1">
      
-<pre>&lt;? print content_link(<strong>5</strong>) ?&gt;</pre>
+<pre>&lt;? print mw('content')->link(<strong>5</strong>) ?&gt;</pre>
     </div>
     <!-- .panel -->
     <div class="panel" id="panel-2">

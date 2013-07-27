@@ -86,7 +86,7 @@ class Forms
             $data['option_group'] = $params['for_module_id'];
             $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
-            save_option($data);
+            mw('option')->save($data);
         }
 
         return array('success' => 'List is updated', $params);
@@ -126,7 +126,7 @@ class Forms
             $for_id = $params['rel_id'];
         }
 
-        $dis_cap = get_option('disable_captcha', $for_id) == 'y';
+        $dis_cap = mw('option')->get('disable_captcha', $for_id) == 'y';
 
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
@@ -147,13 +147,13 @@ class Forms
         }
 
         if ($for == 'module') {
-            $list_id = get_option('list_id', $for_id);
+            $list_id = mw('option')->get('list_id', $for_id);
         }
-        $email_to = get_option('email_to', $for_id);
-        $email_bcc = get_option('email_bcc', $for_id);
-        $email_autorespond = get_option('email_autorespond', $for_id);
+        $email_to = mw('option')->get('email_to', $for_id);
+        $email_bcc = mw('option')->get('email_bcc', $for_id);
+        $email_autorespond = mw('option')->get('email_autorespond', $for_id);
 
-        $email_autorespond_subject = get_option('email_autorespond_subject', $for_id);
+        $email_autorespond_subject = mw('option')->get('email_autorespond_subject', $for_id);
 
         if ($list_id == false) {
             $list_id = 0;
@@ -250,11 +250,11 @@ class Forms
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . array_pp($pp_arr);
+            $notif['content'] = "You have new form entry from " . curent_url(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
             mw('Mw\Notifications')->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
-                $email_to = get_option('email_from', 'email');
+                $email_to = mw('option')->get('email_from', 'email');
 
             }
             if ($email_to != false) {
@@ -268,7 +268,7 @@ class Forms
                     $mail_autoresp = $email_autorespond;
                 }
 
-                $mail_autoresp = $mail_autoresp . array_pp($pp_arr);
+                $mail_autoresp = $mail_autoresp . mw('format')->array_to_ul($pp_arr);
 
                 $user_mails = array();
                 $user_mails[] = $email_to;

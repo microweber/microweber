@@ -33,7 +33,7 @@ if(isset($params['for'])){
 
  
 
-if(get_option('data-use-from-post', $params['id']) =='y'){
+if(mw('option')->get('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
 	 } else {
@@ -59,7 +59,7 @@ if(isset($params['content-id'])){
          $no_img = true;
  }
  
-$module_template = get_option('data-template',$params['id']);
+$module_template = mw('option')->get('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
 } 

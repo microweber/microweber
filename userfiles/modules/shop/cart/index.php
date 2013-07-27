@@ -3,7 +3,7 @@ mw.require("shop.js", true);
 </script>
 <?php
 
-$template = get_option('data-template', $params['id']);
+$template = mw('option')->get('data-template', $params['id']);
 $template_css_prefix = '';
 $template_file = false;
 $module_template = false;
