@@ -1,0 +1,47 @@
+// 20/07/2010 v2.37
+//   * Error in autoAttach method, invalid arguments being passed. Thanks to Michael (michael dot kmv at gmail) por pointing it out
+// 08/03/2010 v2.36
+//   * Normalized e-mail address is now always lowercase, fixing blockDupe().
+// 09/02/2010 v2.35
+//   + New methods: setReplyTo, setReturnPath
+// 17/12/2009 v2.341
+//   * autoAttachFile was sending wrong parameters to embedFile and attachFile.
+// 11/11/2009 v2.34
+//   + static ::createFromMail() accepts params like MAIL(), but returns dSendMail2 object instead
+//   + ->attachFile(filename, &data) force attachment (doesn't even try to embed it)
+//   + ->embedFile (filename, &data) force embedding and returns CID url to be used
+//   + ->sendThroughSetDefault() to set current settings as default for new dSendMail2 objects
+//   + static $StaticSendThrough --> Array($smtp_server, $port, $user, $pass, $ssl)
+//   * sendThroughNowhere() default $error probability is zero
+// 07/10/2009 v2.33
+//   * Problem detected: Some servers refuses 'localhost' as remote host.
+//     Default host will be $_SERVER['SERVER_HOST'] if available
+//   + New property ->localhost can force any HOST value (to send after EHLO command)
+// 15/09/2009 v2.32
+//   + New method: sendThroughNowhere($error=0.1)
+//   + New method: setGroupAmount (Required when sending message for more than 9 persons)
+//   + ->getError()
+//   + ->send($startInPart, $callBack) (Now you can follow how messages are sent)
+//     Callback parameters: part=(LoopStart|LoopEnd), loopPart, totalLoops)
+//     Callback must-response: "STOP" or anything else
+// 03/09/2009
+//   + New method: setSMTPTimeout
+//   * SMTP errors writes to $error attribute
+// 31/08/2009 v2.31
+//   + New parameter: importEML(filebody[, allHeaders])
+// 28/07/2009 v2.3
+//   + New methods: allowDupe(), blockDupe() (default). Automatically strips duplicated targets on TO or CC or BCC.
+//   + New method: setCc($to)
+//   + New method: sendThroughYahoo($user, $pass)
+//   * Fixed SMTP debug messages
+// 22/06/2009 v2.21
+//   + New methods: sendThroughGMail and sendThroughHotMail($user, $pass).
+//   + New method:  replaceMessage($from, $to) (after importing a HTML or EML, replace $from with your messsage)
+// 16/06/2009 v2.2
+//   + New optional method setCharset. Default is ISO-8859-1 (Latin1)
+// 01/05/2009 v2.1
+//   * SMTP Class by ManuelLemos updated to support STARTTLS (Hotmail)
+//     sendThroughSMTP $ssl can be now 0(no), 1(yes) or 2(mixed [starttls]).
+// 04/05/2009 v2.0 
+//     First public release.
+
