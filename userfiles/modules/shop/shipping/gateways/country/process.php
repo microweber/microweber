@@ -151,12 +151,12 @@ $myPaypal->addField('amount', $place_order['amount']);
 
 // Specify any custom value
 $myPaypal->addField('total_items', $place_order['items_count'] );
-if(isarr($posted_fields)){
+if(is_array($posted_fields)){
 foreach ($posted_fields as $k => $value) {
 		 $myPaypal->addField($k,  $value );
 		} 
 }
-if(isarr($place_order)){
+if(is_array($place_order)){
 foreach ($place_order as $k => $value) {
 		 $myPaypal->addField($k,  $value );
 		} 

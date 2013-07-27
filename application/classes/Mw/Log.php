@@ -67,7 +67,7 @@ class Log
         }
 
         $q = \mw('db')->get($params);
-        if (isarr($q)) {
+        if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
                 \mw('db')->delete_by_id('log', $c_id);

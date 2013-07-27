@@ -15,7 +15,7 @@ if($menu_name != false){
 if(isset($params['menu-name'])){
 
 	$menu = get_menu('make_on_not_found=1&one=1&limit=1&title='.$params['menu-name']);
-	if(isarr($menu)){
+	if(is_array($menu)){
 		
 				
 				$menu_filter =$params;
@@ -61,12 +61,12 @@ if(isset($params['menu-name'])){
 		
 	} else {
 		//mw('content')->pages_tree($params);
-		   mw_notif_live_edit("Click on settings to edit this menu");
+		   mw('format')->lnotif("Click on settings to edit this menu");
 	}
 
 } else {
 	//mw('content')->pages_tree($params);
-	 mw_notif_live_edit("Click on settings to edit this menu");
+	 mw('format')->lnotif("Click on settings to edit this menu");
 }
 
 

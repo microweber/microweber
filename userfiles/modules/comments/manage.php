@@ -22,7 +22,7 @@
  $comments = get_comments($data);
 
 ?>
-<?php if (isarr($comments)): ?>
+<?php if (is_array($comments)): ?>
 <script type="text/javascript">
     mw.require("forms.js",true);
 </script>

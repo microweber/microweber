@@ -33,13 +33,13 @@ class DbUtils extends \Mw\Db
         $upd = array();
         if (isset($test['table'])) {
             $save_params = parse_params($save_params);
-            if (!is_arr($save_params)) {
+            if (!is_array($save_params)) {
                 return 'error $save_params must be array';
             }
 
             $get = $this->get($get_params);
 
-            if (!is_arr($get)) {
+            if (!is_array($get)) {
                 //$upd[] = $this->save($test['table'], $save_params);
             } else {
                 foreach ($get as $value) {
@@ -118,7 +118,7 @@ class DbUtils extends \Mw\Db
     {
         $table_real = $this->real_table_name($table);
         $i = 0;
-        if (isarr($data)) {
+        if (is_array($data)) {
             foreach ($data as $value) {
                 $value = intval($value);
                 if ($value != 0) {
@@ -376,7 +376,7 @@ class DbUtils extends \Mw\Db
             return false;
         } else {
             $ret = array();
-            if (is_arr($q)) {
+            if (is_array($q)) {
                 foreach ($q as $value) {
                     $v = array_values($value);
                     if (isset($v[0]) and is_string($v[0])) {

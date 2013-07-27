@@ -40,7 +40,7 @@
 
 
 	?>
-	<?php if(is_arr($opts)): ?>
+	<?php if(is_array($opts)): ?>
 
 	<script type="text/javascript">
 	mw.require("options.js", true);

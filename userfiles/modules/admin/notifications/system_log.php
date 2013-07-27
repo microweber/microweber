@@ -55,7 +55,7 @@ mw.syslog_log_reset_all = function(){
 
 
 </script>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 <div class="mw-admin-system_log-holder" id="admin_system_log">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
@@ -81,7 +81,7 @@ mw.syslog_log_reset_all = function(){
   	    }
        ?>
         <td> 
-          <time class="mw-date" title="<?php print mw_date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print mw('format')->ago($item['created_on'],1); ?></time> <br> 
+          <time class="mw-date" title="<?php print mw('format')->date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print mw('format')->ago($item['created_on'],1); ?></time> <br> 
           
            
            <?php if($mod_info != false and isset($mod_info['name'])): ?> 
@@ -136,6 +136,6 @@ mw.syslog_log_reset_all = function(){
   </table>
 </div>
 <?php else: ?>
-<?php print mw_notif("Your system log is empty") ?>
+<?php print mw('format')->notif("Your system log is empty") ?>
 <?php endif; ?>
  

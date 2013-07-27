@@ -21,7 +21,7 @@ if($payment_currency_rate != false){
 
 }
  ?>
-<?php if(isarr($curencies )): ?>
+<?php if(is_array($curencies )): ?>
 
 <h2><?php _e("Accept payments in currency"); ?></h2>
 <div class="mw-ui-select">

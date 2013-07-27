@@ -303,7 +303,7 @@ if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])) {
 	$filename_log = url_title($fileName);
 	$check = get_log("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . USER_IP);
 	$upl_size_log = $_SERVER["CONTENT_LENGTH"];
-	if (isarr($check) and isset($check['id'])) {
+	if (is_array($check) and isset($check['id'])) {
 		$upl_size_log = intval($upl_size_log) + intval($check['value']);
 		save_log("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . USER_IP. "&id=" . $check['id']);
 	} else {

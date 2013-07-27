@@ -11,5 +11,5 @@ if($how_many_ants == false or $how_many_ants == '' or intval( $how_many_ants) ==
 	});
 </script>
 <?php if(is_admin()): ?>
-<?php print mw_notif("Click here to edit the Ants"); ?>
+<?php print mw('format')->notif("Click here to edit the Ants"); ?>
 <?php endif;

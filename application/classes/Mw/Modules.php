@@ -13,7 +13,7 @@ class Modules extends \mw\Module
 
         $table = MW_TABLE_PREFIX . 'modules';
         foreach ($data as $value) {
-            if (is_arr($value)) {
+            if (is_array($value)) {
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
@@ -323,7 +323,7 @@ class Modules extends \mw\Module
 
             if ($to_save['installed'] == '1') {
                 if (isset($config)) {
-                    if (isset($config['tables']) and is_arr($config['tables'])) {
+                    if (isset($config['tables']) and is_array($config['tables'])) {
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
@@ -351,7 +351,7 @@ class Modules extends \mw\Module
                             //return true;
                         }
                     }
-                    if (isset($config['options']) and is_arr($config['options'])) {
+                    if (isset($config['options']) and is_array($config['options'])) {
                         $changes = false;
                         $tabl = $config['options'];
                         foreach ($tabl as $key => $value) {
@@ -373,7 +373,7 @@ class Modules extends \mw\Module
 
 
 
-                    if (isset($config['options']) and is_arr($config['options'])) {
+                    if (isset($config['options']) and is_array($config['options'])) {
                         $changes = false;
                         $tabl = $config['options'];
                         foreach ($tabl as $key => $value) {
@@ -419,7 +419,7 @@ class Modules extends \mw\Module
         //clearstatcache();
         $dir_name_mods = MODULES_DIR;
         $modules_remove_old = false;
-        $dir = rglob($glob_patern, 0, $dir_name_mods);
+        $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $dir_name_mods);
 
         if (!empty($dir)) {
             $configs = array();
@@ -429,7 +429,7 @@ class Modules extends \mw\Module
                     include ($loc_of_config);
                     if (isset($config)) {
                         $cfg = $config;
-                        if (isset($config['tables']) and is_arr($config['tables'])) {
+                        if (isset($config['tables']) and is_array($config['tables'])) {
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
                                 $table = db_get_real_table_name($key1);
@@ -484,7 +484,7 @@ class Modules extends \mw\Module
             mw('db')->delete_by_id($table, $c_id);
         }
 
-        if (isset($data['ids']) and isarr($data['ids'])) {
+        if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
                 mw('db')->delete_by_id($table, $c_id);
@@ -626,7 +626,7 @@ class Modules extends \mw\Module
         //clearstatcache();
 
         $modules_remove_old = false;
-        $dir = rglob($glob_patern, 0, $dir_name);
+        $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = MODULES_DIR;
         $dir_name_mods2 = ELEMENTS_DIR;
 

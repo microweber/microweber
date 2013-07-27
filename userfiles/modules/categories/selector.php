@@ -67,7 +67,7 @@ if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
 
 }
 
-if(isarr($is_ex)){
+if(is_array($is_ex)){
 	foreach ($is_ex as $item) {
 		$cats__parents[] = $item['id'];
 	}

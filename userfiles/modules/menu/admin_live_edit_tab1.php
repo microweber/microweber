@@ -282,8 +282,8 @@ $menu_name = mw('option')->get('menu_name', $params['id']);
  }
 
  ?>
-<?php if(isarr($menus) == true): ?>
-<?php if(isarr($menus )): ?>
+<?php if(is_array($menus) == true): ?>
+<?php if(is_array($menus )): ?>
 
 <div class="control-group">
   <label class="mw-ui-label">
@@ -313,7 +313,7 @@ $menu_name = mw('option')->get('menu_name', $params['id']);
 <?php _e("You have no exising menus. Please create one."); ?>
 <?php endif; ?>
 <?php
-if(isset($menu_id) and isarr($menu_id) and isset($menu_id['id'])){
+if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   $menu_id = $menu_id['id'];
 }
 

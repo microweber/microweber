@@ -77,7 +77,7 @@ class User
 
 
         $override = exec_action('before_user_login', $params);
-        if (is_arr($override)) {
+        if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
                     return $resp;
@@ -92,7 +92,7 @@ class User
 
 
         //$is_logged =  $this->session_get('user_session');
-        // if(isarr($is_logged) and isset($is_logged['']))
+        // if(is_array($is_logged) and isset($is_logged['']))
 
 
         if (isset($params) and !empty($params)) {
@@ -146,7 +146,7 @@ class User
 
             $data = array();
 
-            if (trim($user != '') and trim($pass != '') and isset($data1) and isarr($data1)) {
+            if (trim($user != '') and trim($pass != '') and isset($data1) and is_array($data1)) {
                 $data = $this->get_all($data1);
             }
             if (isset($data[0])) {
@@ -191,7 +191,7 @@ class User
                 // return false;
             }
 
-            if (!isarr($data)) {
+            if (!is_array($data)) {
                 if (trim($user) != '') {
                     $data = array();
                     $data['email'] = $user;
@@ -206,7 +206,7 @@ class User
                     }
                 }
             }
-            if (!isarr($data)) {
+            if (!is_array($data)) {
                 user_login_set_failed_attempt();
 
                 $user_session = array();
@@ -552,7 +552,7 @@ class User
             if ($data == false) {
                 return false;
             } else {
-                if (isarr($data)) {
+                if (is_array($data)) {
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
                     $user_session['user_id'] = $data['id'];

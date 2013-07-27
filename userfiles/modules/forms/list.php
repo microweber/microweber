@@ -1,4 +1,6 @@
-<?php if(is_admin()==false) { mw_error('You must be logged as admin', 1); } ?>
+<?php if(is_admin()==false) { 
+ return array('error' => 'Not logged in as admin');
+  } ?>
 <script  type="text/javascript">
   mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
@@ -55,7 +57,7 @@ $data['curent_page'] = url_param('curent_page');
 
 
  $data = get_form_entires($data);
-if(isarr($data)){
+if(is_array($data)){
   foreach ($data as $item) {
    if(isset($item['custom_fields'])){
     foreach ($item['custom_fields'] as $value) {
@@ -71,7 +73,7 @@ if(isarr($data)){
   <thead>
     <tr>
       <th class="mw-ui-admin-table-small"><?php _e("ID"); ?></th>
-      <?php if(isarr($custom_fields )): ?>
+      <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   titlelize($k); ?></th>
       <?php endforeach ; ?>
@@ -82,7 +84,7 @@ if(isarr($data)){
   <tfoot>
     <tr>
       <th class="mw-ui-admin-table-small"><?php _e("ID & Date"); ?></th>
-      <?php if(isarr($custom_fields )): ?>
+      <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   titlelize($k); ?></th>
       <?php endforeach ; ?>
@@ -91,12 +93,12 @@ if(isarr($data)){
     </tr>
   </tfoot>
   <tbody>
-    <?php if(isarr($data)): ?>
+    <?php if(is_array($data)): ?>
     <?php foreach ($data as $item) : ?>
     <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
       <td width="50" style="text-align: center"><?php print $item['id'] ?>
-        <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw_date($item['created_on']);; ?></div></td>
-      <?php if(isarr($custom_fields )): ?>
+        <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></div></td>
+      <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $cvk => $custom_field_v): ?>
       <td><?php if(isset($item['custom_fields'])): ?>
         <?php  foreach ($item['custom_fields'] as $value) :  ?>
@@ -135,7 +137,7 @@ if(isarr($data)){
     <?php endif; ?>
   </tbody>
 </table>
-<?php if(isarr($data)) :?>
+<?php if(is_array($data)) :?>
 <div class="mw-paging left"> <?php print mw('content')->paging("num=$data_paging"); ?> </div>
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>

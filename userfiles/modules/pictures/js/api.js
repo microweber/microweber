@@ -132,7 +132,7 @@ if(typeof mw.rotator === 'undefined'){
               var paging_holder = mwd.createElement('span');
               paging_holder.className = 'rotator-index-control rotator-index-control-mode-' + mode;
               controlls.appendChild(paging_holder);
-              rotator.mw('content')->paging(paging_holder, mode, reflection)
+              rotator.paging(paging_holder, mode, reflection)
             }
             if(next){
                 var next = mwd.createElement('span');
@@ -185,8 +185,8 @@ if(typeof mw.rotator === 'undefined'){
                 var img_width = $(img).width();
                 var img_height = $(img).height();
                 offset = Math.floor( ( img_width - el.width() ) * ( ( event.pageX - el.offset().left ) / el.width() ) )
-      	   	    offset2 = Math.floor( ( img_height - el.height() ) * ( ( event.pageY - el.offset().top ) / el.height() ) )
-        		if( offset <= img_width - el.width()  ) {
+                offset2 = Math.floor( ( img_height - el.height() ) * ( ( event.pageY - el.offset().top ) / el.height() ) )
+            if( offset <= img_width - el.width()  ) {
                    img.style.left = -offset+'px';
                 }
                 else{

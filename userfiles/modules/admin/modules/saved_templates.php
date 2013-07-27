@@ -96,7 +96,7 @@ $(document).ready(function(){
 <div id="module-saved-templates">
 <h5><?php _e("Templates"); ?></h5>
   <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
-  <?php if(isarr($saved_modules )): ?>
+  <?php if(is_array($saved_modules )): ?>
   <ul>
     <?php foreach($saved_modules  as $item): ?>
     <li>

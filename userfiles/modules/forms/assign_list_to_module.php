@@ -1,6 +1,13 @@
-<?php if(is_admin()==false) { mw_error('You must be logged as admin', 1); } ?>
+<?php if(is_admin()==false) { 
+
+
+                return array('error' => 'Not logged in as admin');
+
+
+
+   } ?>
 <?php if(!isset($params['for-module']) or !isset($params['for-module-id'])): ?>
-<?php  mw_warn('Error: in module "'.$config['module'].'" - You must set "for-module" and "for-module-id" parameters on this module'); return; ?>
+<?php  print mw('format')->notif('Error: in module "'.$config['module'].'" - You must set "for-module" and "for-module-id" parameters on this module', 'error'); return; ?>
 <?php endif; ?>
 <script  type="text/javascript">
   mw.require("forms.js",true);
@@ -35,7 +42,7 @@ function mw_create_new_list_{rand}(){
 <?php $selected_list = mw('option')->get('list_id', $params['for-module-id']);
 $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-module']);;
   ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 <div id="form_dropdown_lists">
   <label class="mw-ui-label"><?php _e("Save form entires to existing list"); ?></label>

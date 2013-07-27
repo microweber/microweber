@@ -67,7 +67,7 @@ if(isset($params['default-fields'])){
 
  // d($diff);
  $custom_custom_field_names_for_content = array();
-if(isarr( $diff) and isarr($more) ){
+if(is_array( $diff) and is_array($more) ){
     $i=0;
 	 foreach($more as $item2){
 

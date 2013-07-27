@@ -130,7 +130,7 @@ $(document).ready(function(){
                                                       <?php if(is_admin() and isset($_REQUEST['modules'])){
                                                           $mods = explode(',',$_REQUEST['modules']);
                                                            $mods = array_trim($mods);
-                                                          if(isarr($mods)){
+                                                          if(is_array($mods)){
                                                             foreach($mods as $mod){
                                                               print load_module($mod);
                                                             }

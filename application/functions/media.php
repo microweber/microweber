@@ -246,7 +246,7 @@ function reorder_media($data)
 
     $table = MW_TABLE_PREFIX . 'media';
     foreach ($data as $value) {
-        if (is_arr($value)) {
+        if (is_array($value)) {
             $indx = array();
             $i = 0;
             foreach ($value as $value2) {
@@ -849,7 +849,7 @@ function delete_media_file($params)
 
     $fn_remove_path = $_REQUEST["path"];
     $resp = array();
-    if ($fn_remove_path != false and isarr($fn_remove_path)) {
+    if ($fn_remove_path != false and is_array($fn_remove_path)) {
         foreach ($fn_remove_path as $key => $value) {
 
             $fn_remove = mw('url')->to_path($value);

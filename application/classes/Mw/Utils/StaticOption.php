@@ -35,7 +35,7 @@ class StaticOption
                 $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
-                    if (isarr($ops_array)) {
+                    if (is_array($ops_array)) {
                         $all_options = $ops_array;
                         $mw_static_option_groups[$option_group] = $all_options;
                         //mw_var('option_disabled_' . $option_group);
@@ -91,7 +91,7 @@ class StaticOption
                 $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
-                    if (isarr($ops_array)) {
+                    if (is_array($ops_array)) {
                         $data_to_serialize = $ops_array;
                     }
                 }

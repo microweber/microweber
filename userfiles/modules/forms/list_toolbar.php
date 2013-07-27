@@ -1,4 +1,6 @@
-<?php if(is_admin()==false) { mw_error('You must be logged as admin', 1); }
+<?php if(is_admin()==false) { 
+return array('error' => 'Not logged in as admin');
+ }
 
 
 if(!isset($params['load_list'])){

@@ -298,5 +298,5 @@ switch ($template_file):  case true:  ?>
 <?php endswitch; ?>
 <?php  }  else {
 
-	mw_notif_live_edit('Comments posting is disabled from the admin panel');
+	mw('format')->lnotif('Comments posting is disabled from the admin panel');
 } ?>

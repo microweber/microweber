@@ -19,7 +19,7 @@ description: Tabs menu
   if($mt != false){
 			print ($mt);
 		} else {
-			mw_notif_live_edit("There are no items in the menu <b>".$params['menu-name']. '</b>');
+			mw('format')->lnotif("There are no items in the menu <b>".$params['menu-name']. '</b>');
 			//mw('content')->pages_tree($params);
 			//print "There are no items in the menu <b>".$params['menu-name']. '</b>';
 		}

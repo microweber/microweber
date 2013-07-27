@@ -69,7 +69,7 @@ print  make_field($field);
  ?>
 <?php endforeach; ?>
  
-<?php if(!in_array('price',$skip_types)  and isarr($price_fields )): ?>
+<?php if(!in_array('price',$skip_types)  and is_array($price_fields )): ?>
 <?php $price_fields_c = count($price_fields); ?>
 	<?php if($price_fields_c >1) : ?>
     <select name="price">
@@ -88,6 +88,6 @@ print  make_field($field);
 <?php else: ?>
  <?php endif; ?>
 <?php if($prined_items_count == 0): ?>
-<?php mw_notif_live_edit("Click on settings to edit your custom fields."); ?>
+<?php mw('format')->lnotif("Click on settings to edit your custom fields."); ?>
 <?php endif; ?>
  

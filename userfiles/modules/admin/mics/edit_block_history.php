@@ -29,10 +29,10 @@ $url = url_string(true);
 
 ?>
 <?php
-if(isset($latest_drafs) and isarr($latest_drafs)){
+if(isset($latest_drafs) and is_array($latest_drafs)){
 	//d($latest_drafs);
 
-	$latest_drafs_vals = array_values_recursive($latest_drafs);
+	$latest_drafs_vals = mw('format')->array_values($latest_drafs);
 	 if(!empty($latest_drafs_vals)) { ?>
 
         <script  type="text/javascript">
@@ -50,7 +50,7 @@ if(isset($latest_drafs) and isarr($latest_drafs)){
 
 }
 ?>
-<?php if(isarr($history_files)): ?>
+<?php if(is_array($history_files)): ?>
 
 <?php
 

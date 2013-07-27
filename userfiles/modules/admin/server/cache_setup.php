@@ -34,7 +34,7 @@ $memcache_servers  = explode(',',$memcache_servers );
 
 
 ?>
-<?php if(isarr($memcache_servers )): ?>
+<?php if(is_array($memcache_servers )): ?>
 <?php foreach($memcache_servers  as $item): ?>
 <?php 
     

@@ -73,7 +73,7 @@ $(document).ready(function(){
 
   <div class="mw-ui-select" style="width: 300px;">
   <select name="date_format" class="mw_option_field"     option-group="website">
-    <?php if(isarr($date_formats )): ?>
+    <?php if(is_array($date_formats )): ?>
     <?php foreach($date_formats  as $item): ?>
     <option value="<?php print $item ?>" <?php if($curent_val == $item): ?> selected="selected" <?php endif; ?>><?php print date($item, time())?> - (<?php print $item ?>)</option>
     <?php endforeach ; ?>

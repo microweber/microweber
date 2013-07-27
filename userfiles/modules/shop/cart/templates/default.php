@@ -14,7 +14,7 @@ description: Default cart template
 
 <div class="mw-cart mw-sidebar-cart mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
 
-  <?php if(isarr($data)) :?>
+  <?php if(is_array($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <thead>
       <tr>

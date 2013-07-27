@@ -96,7 +96,7 @@ $(document).ready(function(){
       <hr />
       <?php $shop_page = get_content('is_shop=y');      ?>
       <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"><?php _e("Complete order"); ?></button>
-      <?php if(isarr($shop_page)): ?>
+      <?php if(is_array($shop_page)): ?>
       <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button"><?php _e("Continue Shopping"); ?></a>
       <?php endif; ?>
       <div class="clear"></div>

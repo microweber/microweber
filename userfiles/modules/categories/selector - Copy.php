@@ -64,7 +64,7 @@ $is_ex1 = array();
 	$str1 = 'table=categories&rel='.$for.'&data_type=category&limit=1000&parent_id=0&rel_id=[mt][int]0';
 							$is_ex = mw('db')->get($str1); 
  	
-	if(isarr($is_ex)){
+	if(is_array($is_ex)){
 	foreach ($is_ex as $item) {
 		 $cats__parents[] = $item['id'];
 	}

@@ -34,7 +34,7 @@ $data = $data[0];
 }
  
  ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 <script  type="text/javascript">
 mw.require('forms.js');
 mw.require('files.js');

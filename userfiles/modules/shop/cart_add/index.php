@@ -60,7 +60,7 @@ if($module_template != false and $module_template != 'none'){
 
 
    ?>
-  <?php if(isarr($data) == true): ?>
+  <?php if(is_array($data) == true): ?>
 
 
   <input type="hidden"  name="for" value="<?php print $for ?>" />
@@ -71,7 +71,7 @@ if($module_template != false and $module_template != 'none'){
   <?php   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
-	mw_notif_live_edit( 'No default template for '.$config['module'].' is found');
+	mw('format')->lnotif( 'No default template for '.$config['module'].' is found');
 }  ?>
 </span>
   <?php endif; ?>

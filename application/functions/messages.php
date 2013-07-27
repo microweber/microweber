@@ -64,8 +64,8 @@ function mw('Mw\Notifications')->delete_for_module($module) {
 		$get_params['module'] = mw('db')->escape_string($module);
 
 		$data = mw('Mw\Notifications')->get($get_params);
-		if(isarr($data )){
-		  $ids = array_values_recursive($data);
+		if(is_array($data )){
+		  $ids = mw('format')->array_values($data);
 		  $idsi = implode(',',$ids);
 		  $cleanup = "delete from $table where id IN ({$idsi})";
 		  \mw('db')->q($cleanup);
@@ -91,7 +91,7 @@ function mw('Mw\Notifications')->mark_as_read($module) {
 		$get_params['module'] = mw('db')->escape_string($module);
 
 		$data = mw('Mw\Notifications')->get($get_params);
-		if (isarr($data)) {
+		if (is_array($data)) {
 			foreach ($data as $value) {
 				$save['is_read'] = 'y';
 				$save['id'] = $value['id'];

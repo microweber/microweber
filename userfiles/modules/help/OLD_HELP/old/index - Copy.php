@@ -15,7 +15,7 @@
   <?php $path .=html_entity_decode($_GET['from_path']).DS;  ?>
   <?php endif; ?>
   <?php  
- $dirs =  directory_tree($path);
+ $dirs =  mw('Mw\Utils\Files')->dir_tree($path);
   $dirs = str_replace($base_path, '', $dirs);
  print $dirs  ;
    ?>

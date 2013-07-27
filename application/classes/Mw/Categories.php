@@ -192,7 +192,7 @@ class Categories extends Category {
 
         $table = MW_TABLE_PREFIX . 'categories';
         foreach ($data as $value) {
-            if (is_arr($value)) {
+            if (is_array($value)) {
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {

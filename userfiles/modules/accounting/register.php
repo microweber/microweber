@@ -9,7 +9,7 @@
 
 <div class="numia-register">
 
-<?php if(isarr($err )): ?>
+<?php if(is_array($err )): ?>
 <div class="alert alert-error">
  <h4>Error:</h4>
 <ul>

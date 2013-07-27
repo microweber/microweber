@@ -25,12 +25,12 @@ function __store_lang_file()
 
     $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $language_content2 = array();
-    if (isarr($language_content)) {
+    if (is_array($language_content)) {
 
         if (is_file($lang_file)) {
             include ($lang_file);
 
-            if ((isset($language) and isarr($language))) {
+            if ((isset($language) and is_array($language))) {
 
                 $language_content2 = $language;
 
@@ -243,7 +243,7 @@ function save_language_file_content($data)
 
         $lang_file = $cust_dir . $lang . '.php';
 
-        if (isarr($language_content)) {
+        if (is_array($language_content)) {
             $language_content = array_unique($language_content);
 
             $lang_file_str = '<?php ' . "\n";
@@ -294,7 +294,7 @@ function get_language_file_content()
    if (is_file($lang_file2)) {
         include ($lang_file2);
 
-        if (isset($language) and isarr($language)) {
+        if (isset($language) and is_array($language)) {
 			foreach($language as $k => $v){
 				if (isset($language_content[$k]) == false) {
 				$language_content[$k] = $v;
@@ -307,7 +307,7 @@ function get_language_file_content()
     if (is_file($lang_file)) {
         include ($lang_file);
 
-        if (isset($language) and isarr($language)) {
+        if (isset($language) and is_array($language)) {
 			foreach($language as $k => $v){
 				if (isset($language_content[$k]) == false) {
 
@@ -319,7 +319,7 @@ function get_language_file_content()
 	 if (is_file($lang_file3)) {
         include ($lang_file3);
 
-        if (isset($language) and isarr($language)) {
+        if (isset($language) and is_array($language)) {
 			foreach($language as $k => $v){
 				if (isset($language_content[$k]) == false) {
 

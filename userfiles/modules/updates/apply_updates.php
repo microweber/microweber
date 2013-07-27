@@ -24,7 +24,7 @@ d($iudates);
 
  <?php
  if(isset($_POST['modules'])){ ?>
- <?php if(isarr($_POST['modules'])): ?>
+ <?php if(is_array($_POST['modules'])): ?>
   <?php foreach($_POST['modules']  as $item): ?> 
  <h2>Installing module: <?php print  $item ?></h2>
 <textarea>
@@ -40,7 +40,7 @@ d($iudates);
 
  <?php 
  if(isset($_POST['elements'])){ ?>
- <?php if(isarr($_POST['elements'])): ?>
+ <?php if(is_array($_POST['elements'])): ?>
   <?php foreach($_POST['elements']  as $item): ?> 
  <h2>Installing layouts: <?php print  $item ?></h2>
 <textarea>
@@ -56,7 +56,7 @@ d($iudates);
 
  <?php 
  if(isset($_POST['module_templates'])){ ?>
- <?php if(isarr($_POST['module_templates'])): ?>
+ <?php if(is_array($_POST['module_templates'])): ?>
   <?php foreach($_POST['module_templates']  as $k=> $item): ?> 
  <h2>Installing module template: <?php print  $item ?> (for <em><?php print $k ?></em>)</h2>
 <textarea>

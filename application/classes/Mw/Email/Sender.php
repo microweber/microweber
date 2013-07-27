@@ -89,9 +89,7 @@ class Sender
 
             $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
-                //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-                //return mw_error("E-mail is not valid");
             }
 
             if ($add_hostname_to_subject != false) {
@@ -119,16 +117,15 @@ class Sender
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            
+             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $res = self::email_get_transport_object();
         if (is_object($res)) {
 
             $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
-                //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-                //return mw_error("E-mail is not valid");
             }
             if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
                 $to = $params['to'];
@@ -142,7 +139,9 @@ class Sender
                 $res->debug = 1;
                 $res->exec_send($to, $subject, $message);
             } else {
-                return mw_error("Test E-mail is not valid");
+                return array('error' => 'Test E-mail is not valid');
+
+ 
             }
 
         }
@@ -196,9 +195,7 @@ class Sender
 
             $email_from = mw('option')->get('email_from', 'email');
             if ($email_from == false or $email_from == '') {
-                //return mw_error('You must set your email address first!');
             } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-                //return mw_error("E-mail is not valid");
             }
             if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
                 $to = $params['to'];
@@ -212,7 +209,7 @@ class Sender
                 $res->debug = 1;
                 $res->exec_send($to, $subject, $message);
             } else {
-                return mw_error("Test E-mail is not valid");
+                return mw('format')->notif("", 'error');
             }
 
         }

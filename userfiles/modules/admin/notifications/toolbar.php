@@ -32,7 +32,7 @@ mw.notif_item_delete = function($item_id){
 	  });
 }
 </script>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 <div class="mw-admin-notifications-holder">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
@@ -78,7 +78,7 @@ mw.notif_item_delete = function($item_id){
           <?php print $item['title'] ?></span>
           <?php endif; ?>
           <div class="mw_clear"></div>
-          <time title="<?php print mw_date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
+          <time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
           <?php if($mod_info != false and isset($mod_info['name'])): ?>
            </a>
 

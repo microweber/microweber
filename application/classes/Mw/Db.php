@@ -226,7 +226,7 @@ class Db
 
         if ($getone == true) {
 
-            if (isarr($ge)) {
+            if (is_array($ge)) {
 
                 $one = array_shift($ge);
 
@@ -703,7 +703,7 @@ class Db
         if ($only_query == false) {
             // $result = $q;
             if ($cache_id != false and $cache_group != false) {
-                if (isarr($q) and !empty($q)) {
+                if (is_array($q) and !empty($q)) {
 
                     mw('cache')->save($q, $cache_id, $cache_group);
                 } else {
@@ -911,7 +911,7 @@ class Db
             $fields = $this->get_fields($table);
             $mw_db_arr_maps[$table] = $fields;
         }
-        if (isarr($fields)) {
+        if (is_array($fields)) {
             foreach ($fields as $field) {
 
                 $field = strtolower($field);
@@ -1896,7 +1896,7 @@ class Db
         }
         if ($cache_group != false) {
 
-            if (is_arr($return)) {
+            if (is_array($return)) {
 
                 //mw('cache')->save($return, $original_cache_id, $original_cache_group);
             } else {
@@ -2061,7 +2061,7 @@ class Db
             return false;
         }
 
-        if (!isarr($fields)) {
+        if (!is_array($fields)) {
             return false;
         }
         foreach ($fields as $fivesdraft) {

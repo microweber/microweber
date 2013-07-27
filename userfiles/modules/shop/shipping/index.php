@@ -5,7 +5,7 @@
 
  
   ?>
-<?php if(isarr($shipping_options)) :?>
+<?php if(is_array($shipping_options)) :?>
 <script  type="text/javascript">
   _gateway = function(el){
   	 var val = $(el).val();
@@ -29,5 +29,5 @@
   </div>
 </div>
 <?php else : ?>
-<?php print mw_notif_live_edit("Click here to edit Shipping Options"); ?>
+<?php print mw('format')->lnotif("Click here to edit Shipping Options"); ?>
 <?php endif;?>

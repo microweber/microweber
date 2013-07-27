@@ -24,7 +24,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 <div class="mw-set-shipping-options mw-admin-wrap">
   <div class="mw-o-box" style="background: #F8F8F8;">
 
-    <?php if(isarr($shipping_modules )): ?>
+    <?php if(is_array($shipping_modules )): ?>
     <?php foreach($shipping_modules  as $shipping_module): ?>
  <?php if(is_module_installed( $shipping_module['module'] )): ?>
 

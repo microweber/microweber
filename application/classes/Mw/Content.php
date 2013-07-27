@@ -285,7 +285,7 @@ class Content
                 }
                 return $get;
             }
-            if (isarr($get)) {
+            if (is_array($get)) {
                 $data2 = array();
                 foreach ($get as $item) {
                     if (isset($item['url'])) {
@@ -557,7 +557,7 @@ class Content
         }
 
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
-        if (isarr($data)) {
+        if (is_array($data)) {
             $to_print = "<div class='{$class}'><ul>";
             foreach ($data as $key => $value) {
                 $act_class = '';
@@ -1002,7 +1002,7 @@ class Content
             return false;
 
         }
-        if (isarr($mw_skip_pages_starting_with_url)) {
+        if (is_array($mw_skip_pages_starting_with_url)) {
             $segs = explode('/', $url);
 
             foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
@@ -1205,7 +1205,7 @@ class Content
 
                 $par_page = mw('content')->get_by_id($page['parent']);
 
-                if (isarr($par_page)) {
+                if (is_array($par_page)) {
                     $page = $par_page;
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
@@ -1260,7 +1260,7 @@ class Content
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
             $layouts_list = layouts_list('site_template=' . $page['active_site_template']);
 
-            if (isarr($layouts_list)) {
+            if (is_array($layouts_list)) {
                 foreach ($layouts_list as $layout_item) {
                     if ($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] == $layout_item['content_type']) {
 
@@ -1641,7 +1641,7 @@ class Content
         $cidg = 'content/' . $parent;
 
         //$q = mw('db')->query($sql, $cid, $cidg);
-        if (!isarr($params)) {
+        if (!is_array($params)) {
             $params = array();
         }
 
@@ -2651,13 +2651,13 @@ class Content
             $is_active = true;
             if (intval($item['content_id']) > 0) {
                 $cont = mw('content')->get_by_id($item['content_id']);
-                if (isarr($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
+                if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
                     $is_active = false;
                     $cont = false;
                 }
 
 
-                if (isarr($cont)) {
+                if (is_array($cont)) {
                     $title = $cont['title'];
                     $url = $this->link($cont['id']);
 
@@ -2668,7 +2668,7 @@ class Content
                 }
             } else if (intval($item['categories_id']) > 0) {
                 $cont = get_category_by_id($item['categories_id']);
-                if (isarr($cont)) {
+                if (is_array($cont)) {
                     $title = $cont['title'];
                     $url = category_link($cont['id']);
                 } else {
@@ -2755,7 +2755,7 @@ class Content
 
                     if ($maxdepth == false) {
 
-                        if (isset($params) and isarr($params)) {
+                        if (isset($params) and is_array($params)) {
                             //$menu_params = $params;
                             //d($params);
                             $menu_params['menu_id'] = $item['id'];
@@ -2809,7 +2809,7 @@ class Content
 
                         if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
 
-                            if (isset($params) and isarr($params)) {
+                            if (isset($params) and is_array($params)) {
                                 $test1 = $this->menu_tree($menu_params);
 
                             } else {
@@ -2867,7 +2867,7 @@ class Content
         } else if (is_bool($script_src)) {
             //   return $mw_template_headers;
             $src = '';
-            if (isarr($mw_template_headers)) {
+            if (is_array($mw_template_headers)) {
                 foreach ($mw_template_headers as $header) {
                     $ext = get_file_extension($header);
                     switch (strtolower($ext)) {

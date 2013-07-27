@@ -16,7 +16,7 @@
         <?php if( $audio != '' ){ ?>
             <embed wmode="transparent" autoplay="false" autostart="false" type="audio/mpeg"  width="100%" height="30" data="<?php print $audio; ?>" src="<?php print $audio; ?>"></embed>
         <?php } else{ ?>
-            <?php print mw_notif_le("Upload Audio File or paste URL.");   ?>
+            <?php print mw('format')->lnotif("Upload Audio File or paste URL.");   ?>
         <?php } ?>
     </div>
 </div>

@@ -44,7 +44,7 @@ $layout_intheme = normalize_path($layout_intheme, false);
   else if(is_file($layout_indefault_file)){
 	include($layout_indefault_file); 
  } else {
-	 mw_notif( 'Click on settings to connect your layout');
+	 mw('format')->notif( 'Click on settings to connect your layout');
  }
 
  

@@ -75,16 +75,16 @@ class Shop
         //return $get;
 
         $return = array();
-        if (isarr($get)) {
+        if (is_array($get)) {
             foreach ($get as $item) {
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item['custom_fields_data'] = mw('format')->base64_to_array($item['custom_fields_data']);
 
                     $tmp_val = '';
-                    if (isset($item['custom_fields_data']) and isarr($item['custom_fields_data'])) {
+                    if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
                         $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
                         foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-                            if (isarr($cfv)) {
+                            if (is_array($cfv)) {
                                 $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
                                 $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
                                 foreach ($cfv as $cfk1 => $cfv1) {
@@ -128,14 +128,13 @@ class Shop
         if (is_admin() == false) {
             $params['session_id'] = session_id();
             if (!isset($params['payment_verify_token'])) {
-                //error("get_orders? You must be admin");
-            }
+             }
         }
 
         $table = MODULE_DB_SHOP_ORDERS;
         $params['table'] = $table;
 
-        //  d($params);
+
         return mw('db')->get($params);
 
     }
@@ -144,7 +143,7 @@ class Shop
     {
 
         $ord_data = get_orders('one=1&id=' . $order_id);
-        if (isarr($ord_data)) {
+        if (is_array($ord_data)) {
 
             $order_email_enabled = mw('option')->get('order_email_enabled', 'orders');
 
@@ -247,7 +246,7 @@ class Shop
         }
         $checkout_errors = array();
         $check_cart = get_cart($cart);
-        if (!isarr($check_cart)) {
+        if (!is_array($check_cart)) {
 
             if (isAjax()) {
                 //json_error('Your cart is empty');
@@ -266,7 +265,7 @@ class Shop
             } else {
                 if ($mw_process_payment == true) {
                     $gw_check = payment_options('payment_gw_' . $data['payment_gw']);
-                    if (isarr($gw_check[0])) {
+                    if (is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
                         //error('No such payment gateway is activated');
@@ -519,7 +518,7 @@ class Shop
         $cart['limit'] = 1;
         $checkz = get_cart($cart);
 
-        if ($checkz != false and isarr($checkz)) {
+        if ($checkz != false and is_array($checkz)) {
             // d($checkz);
             $table = MODULE_DB_SHOP;
             \mw('db')->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
@@ -553,7 +552,7 @@ class Shop
         $cart['limit'] = 1;
         $checkz = get_cart($cart);
 
-        if ($checkz != false and isarr($checkz)) {
+        if ($checkz != false and is_array($checkz)) {
             // d($checkz);
             $cart['qty'] = intval($data['qty']);
             $table = MODULE_DB_SHOP;
@@ -606,7 +605,7 @@ class Shop
             if ($cont == false) {
                 error('Invalid product?');
             } else {
-                if (isarr($cont) and isset($cont['title'])) {
+                if (is_array($cont) and isset($cont['title'])) {
                     $data['title'] = $cont['title'];
                 }
             }
@@ -646,7 +645,7 @@ class Shop
                             /*
                              if ($item== 'ala' and is_array($item)) {
 
-                             if (isarr($cf['custom_field_values'])) {
+                             if (is_array($cf['custom_field_values'])) {
 
                              $vi = 0;
                              foreach ($item as $ik => $item_value) {
@@ -668,7 +667,7 @@ class Shop
                              } else {*/
 
                             //if($cf['custom_field_type'] != 'price'){
-                            if (isarr($cf['custom_field_values'])) {
+                            if (is_array($cf['custom_field_values'])) {
                                 if (in_array($item, $cf['custom_field_values'])) {
                                     $found = true;
                                 }
@@ -704,7 +703,7 @@ class Shop
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
-                if (isarr($prices)) {
+                if (is_array($prices)) {
 
                     foreach ($prices as $price_key => $price) {
 
@@ -748,7 +747,7 @@ class Shop
             error('Invalid data: Please post a "price" field with <input name="price"> ');
         }
 
-        if (isarr($prices)) {
+        if (is_array($prices)) {
             ksort($add);
             asort($add);
             $table = MODULE_DB_SHOP;
@@ -765,7 +764,7 @@ class Shop
             //  $cart['no_cache'] = 1;
             $checkz = get_cart($cart);
             // d($checkz);
-            if ($checkz != false and isarr($checkz) and isset($checkz[0])) {
+            if ($checkz != false and is_array($checkz) and isset($checkz[0])) {
                 //    d($check);
                 $cart['id'] = $checkz[0]['id'];
                 if ($update_qty > 0) {
@@ -810,7 +809,7 @@ class Shop
 
         }
         $ord_data = get_orders('order_completed=y&limit=50');
-        if (isarr($ord_data[0])) {
+        if (is_array($ord_data[0])) {
             shuffle($ord_data);
             $ord_test = $ord_data[0];
             checkout_confirm_email_send($ord_test['id'], $to = $email_from, true);
@@ -859,7 +858,7 @@ class Shop
 
         $ord_data = \mw('db')->query($q);
 
-        if (!isset($ord_data[0]) or !isarr($ord_data[0])) {
+        if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
             return array('error' => 'Order is completed or expired.');
         } else {
 
@@ -928,7 +927,7 @@ class Shop
         $cart = MODULE_DB_SHOP;
         $sumq = " SELECT  price, qty FROM $cart WHERE order_completed='n'  AND session_id='{$sid}'  ";
         $sumq = \mw('db')->query($sumq);
-        if (isarr($sumq)) {
+        if (is_array($sumq)) {
             foreach ($sumq as $value) {
                 $diferent_items = $diferent_items + $value['qty'];
                 $amount = $amount + (intval($value['qty']) * floatval($value['price']));
@@ -1266,7 +1265,7 @@ class Shop
 
 
         $all_cur = $this->currency_get();
-        if (isarr($all_cur)) {
+        if (is_array($all_cur)) {
             foreach ($all_cur as $value) {
                 if (in_array($curr, $value)) {
                     if ($key == false) {

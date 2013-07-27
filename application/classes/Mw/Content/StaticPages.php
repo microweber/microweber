@@ -46,7 +46,7 @@ class StaticPages {
         $params['url_param'] = 'page';
 
 
-        directory_tree($dir_name, $params);
+        mw('Mw\Utils\Files')->dir_tree($dir_name, $params);
 
 
     }

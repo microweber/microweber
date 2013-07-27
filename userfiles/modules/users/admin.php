@@ -176,7 +176,7 @@ function mw_admin_delete_user_by_id($user_id){
     }
     mw('Mw\Notifications')->mark_as_read('users');
 ?>
-<?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
+<?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
     $(document).ready(function(){
         mw.url.windowHashParam('edit-user', '<?php print $mw_notif['rel_id'] ?>');

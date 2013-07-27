@@ -62,7 +62,7 @@ description: Small cart template
 </style>
 <div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
   <div class="mw-cart-small-content">
-    <?php if(isarr($data)) :?>
+    <?php if(is_array($data)) :?>
     <?php
         $total_qty = 0;
         $total_price = 0;

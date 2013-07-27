@@ -38,7 +38,7 @@ class Apc   {
 				// d('apc_clear_cache');
 				//apc_clear_cache('user');
 				 $hits = apc_cache_info('user');
-				if (isset($hits["cache_list"]) and isarr($hits["cache_list"])) {
+				if (isset($hits["cache_list"]) and is_array($hits["cache_list"])) {
 
 					foreach ($hits["cache_list"] as $cache_list_value) {
 						if (isset($cache_list_value['info'])) {
@@ -105,7 +105,7 @@ public function purge() {
 	public function OLD_clearcache($group) {
 	 
 		$hits = apc_cache_info('user');
-				if (isset($hits["cache_list"]) and isarr($hits["cache_list"])) {
+				if (isset($hits["cache_list"]) and is_array($hits["cache_list"])) {
 
 					foreach ($hits["cache_list"] as $cache_list_value) {
 						if (isset($cache_list_value['info'])) {

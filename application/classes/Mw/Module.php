@@ -266,7 +266,7 @@ class Module
                 $attrs['parent-module-id'] = $attrs['id'];
             }
             $mw_restore_get = mw_var('mw_restore_get');
-            if ($mw_restore_get != false and isarr($mw_restore_get)) {
+            if ($mw_restore_get != false and is_array($mw_restore_get)) {
                 //d($mw_restore_get);
                 $l1->_GET = $mw_restore_get;
                 $_GET = $mw_restore_get;
@@ -350,8 +350,8 @@ class Module
                     //d($options);
                     $module_skins_from_theme = layouts_list($options);
                     //	d($module_skins_from_theme);
-                    if (isarr($module_skins_from_theme)) {
-                        if (!is_arr($module_name_l)) {
+                    if (is_array($module_skins_from_theme)) {
+                        if (!is_array($module_name_l)) {
                             $module_name_l = array();
                         }
                         $fnfound = array();

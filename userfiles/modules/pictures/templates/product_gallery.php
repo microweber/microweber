@@ -15,7 +15,7 @@ description: Product Gallery
 
 
 
- <?php if(isarr($data )): ?>
+ <?php if(is_array($data )): ?>
 
  <?php $id = "slider-".uniqid(); ?>
 

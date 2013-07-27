@@ -735,7 +735,7 @@ class Controller
         }
 
         $has_id = false;
-        if (isset($data) and isarr($data)) {
+        if (isset($data) and is_array($data)) {
             foreach ($data as $k => $v) {
 
                 if ($k == 'id') {
@@ -770,7 +770,7 @@ class Controller
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
-                    if (isarr($get_array)) {
+                    if (is_array($get_array)) {
 
                         mw_var('mw_restore_get', $get_array);
                     }
@@ -979,7 +979,7 @@ class Controller
                 if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
                     $page['parent'] = intval($_GET['inherit_template_from']);
                     $inherit_from = mw('content')->get_by_id($_GET["inherit_template_from"]);
-                    if (isarr($inherit_from) and isset($inherit_from['active_site_template'])) {
+                    if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
                         $page['active_site_template'] = $inherit_from['active_site_template'];
                         $is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
                         ;
@@ -1157,7 +1157,7 @@ class Controller
                             }
 
 
-                            if (isarr($page_url_segment_3)) {
+                            if (is_array($page_url_segment_3)) {
 
                                 foreach ($page_url_segment_3 as $mvalue) {
                                     if ($found_mod == false and is_module_installed($mvalue)) {

@@ -137,12 +137,12 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
 					$page_categories = mw('db')->get($str0);
 					// d($page_categories);
-						if(isarr($page_categories)){
+						if(is_array($page_categories)){
 						foreach ($page_categories as $item_cat){
 							//d($item_cat);
 						$sub_cats[] = $item_cat['id'];
 						$more =    get_category_children($item_cat['id']);
-						if($more != false and isarr($more)){
+						if($more != false and is_array($more)){
 							foreach ($more as $item_more_subcat){
 								$sub_cats[] = $item_more_subcat;
 							}
@@ -153,7 +153,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 			}
 
 					if($posts_parent_category != false and intval($posts_parent_category) > 0){
-						if(isarr($page_categories)){
+						if(is_array($page_categories)){
 							$sub_cats = array();
 							foreach ($page_categories as $item_cat){
 								if(intval( $item_cat['id'] ) == intval($posts_parent_category) ){
@@ -163,7 +163,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 						} else {
 							//	$sub_cats = array($posts_parent_category);
 						}
-						if(isarr($sub_cats)){
+						if(is_array($sub_cats)){
 						$post_params['category'] = $sub_cats;
 						}
 					}
@@ -216,7 +216,7 @@ if ($show_fields == false) {
 //$show_fields = array('thumbnail', 'title', 'description', 'read_more');
 }
 
-if(is_arr($show_fields)){
+if(is_array($show_fields)){
 
   $show_fields = array_trim( $show_fields);
 
@@ -342,10 +342,10 @@ if (!empty($content)){
 // }
 } else {
 	 if(isset($params['is_shop'])){
-		 	mw_notif_live_edit('Your products module is empty');
+		 	mw('format')->lnotif('Your products module is empty');
 
 	 } else {
-		 	mw_notif_live_edit('Your posts module is empty');
+		 	mw('format')->lnotif('Your posts module is empty');
 
 	 }
 }
@@ -451,7 +451,7 @@ if($template_file == false){
 
 	} else {
 
-		mw_notif_live_edit( 'No default template for '.  $config['module'] .' is found');
+		mw('format')->lnotif( 'No default template for '.  $config['module'] .' is found');
 	}
 
 

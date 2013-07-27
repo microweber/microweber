@@ -51,7 +51,7 @@ class Api
         $arrayItems = array();
         if (isset($params['search']) and strval($params['search']) != '') {
             $from_search = 1;
-            $arrayItems_search = rglob($pattern = DS . '*' . $params['search'] . '*', $flags = 0, $directory);
+            $arrayItems_search = mw('Mw\Utils\Files')->rglob($pattern = DS . '*' . $params['search'] . '*', $flags = 0, $directory);
 
         } else {
 

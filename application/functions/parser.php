@@ -212,7 +212,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
     }
 
 
-    if (isarr($options)) {
+    if (is_array($options)) {
         // d($options);
         if (isset($options['no_apc'])) {
             $use_apc = false;
@@ -495,7 +495,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
         }
 
 
-        if (isarr($replaced_modules)) {
+        if (is_array($replaced_modules)) {
 
             $attribute_pattern = '@
 			(?P<name>\w+)# attribute name
@@ -679,7 +679,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
                                 $module_html = str_replace('__MODULE_ID__', '', $module_html);
                             }
                         }
-                        if (isarr($module_title) and isset($module_title["name"])) {
+                        if (is_array($module_title) and isset($module_title["name"])) {
                             $module_title["name"] = addslashes($module_title["name"]);
                             $module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title["name"] . '"', $module_html);
                         } else {
@@ -751,7 +751,7 @@ function mw('parser')->process($layout, $options = false, $coming_from_parent = 
                                 //d($plain_modules);
                                 $module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
                                 $mod_content = '';
-                                if (isarr($module_db_data)) {
+                                if (is_array($module_db_data)) {
                                     if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
 
                                     } else {
@@ -1198,7 +1198,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                         $data_id = PAGE_ID;
                     }
 
-                    $inh = content_get_inherited_parent($data_id);
+                    $inh = mw('content')->get_inherited_parent($data_id);
 
                     if ($inh != false and intval($inh) != 0) {
 
@@ -1254,7 +1254,7 @@ function _mw_parser_replace_editable_fields($layout, $no_cache = false)
                         // and $rel == 'inherit'
                         if ($cont_field == false and $try_inherited == true) {
 
-                            $inh = content_get_inherited_parent($data_id);
+                            $inh = mw('content')->get_inherited_parent($data_id);
                             //d($data_id . $field . $inh);
                             //
                             if ($inh != false and intval($inh) != 0 and $inh != $data_id) {

@@ -65,12 +65,12 @@ class Update
         // d($t);
         $data['modules'] = $t;
         $data['module_templates'] = array();
-        if (isarr($t)) {
+        if (is_array($t)) {
             foreach ($t as $value) {
                 if (isset($value['module'])) {
                     $module_templates = module_templates($value['module']);
                     $mod_tpls = array();
-                    if (isarr($module_templates)) {
+                    if (is_array($module_templates)) {
                         foreach ($module_templates as $key1 => $value1) {
 
                             if (isset($value1['filename'])) {
@@ -79,7 +79,7 @@ class Update
                                 $options['for_modules'] = 1;
                                 $options['filename'] = $value1['filename'];
                                 $module_templates_for_this = layouts_list($options);
-                                if (isset($module_templates_for_this[0]) and isarr($module_templates_for_this[0])) {
+                                if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
                                     $mod_tpls[$key1] = $module_templates_for_this[0];
                                 }
 
@@ -187,7 +187,7 @@ class Update
         //}
 
 
-		if(isarr($result)){
+		if(is_array($result)){
 			$result['count'] = $count;
 		}
 		//$result =  $count;

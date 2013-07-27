@@ -26,7 +26,7 @@ if($data == false and isset($params['option_key']) and isset($params['option_gro
 	
 }
 
-if(!is_arr($data)){
+if(!is_array($data)){
 	$data = array();
 	$data['id'] = 0;
 }

@@ -36,7 +36,7 @@ class Forms
         //$params['debug'] = $table;
         $data = \mw('db')->get($params);
         $ret = array();
-        if (isarr($data)) {
+        if (is_array($data)) {
 
             foreach ($data as $item) {
                 //d($item);
@@ -44,7 +44,7 @@ class Forms
 
                 $fields = get_custom_fields('forms_data', $item['id'], 1);
 
-                if (isarr($fields)) {
+                if (is_array($fields)) {
                     ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
@@ -323,7 +323,7 @@ class Forms
 
         $q = \mw('db')->query($sql, __FUNCTION__ . crc32($sql), 'db');
         $res = array();
-        if (isarr($q)) {
+        if (is_array($q)) {
             foreach ($q as $value) {
                 $res[] = $value['country_name'];
             }
@@ -349,7 +349,7 @@ class Forms
 
             $fields = get_custom_fields('forms_data', $data['id'], 1);
 
-            if (isarr($fields)) {
+            if (is_array($fields)) {
 
                 foreach ($fields as $key => $value) {
 
@@ -482,7 +482,7 @@ class Forms
         } else {
             $lid = intval($params['id']);
             $data = get_form_entires('limit=100000&list_id=' . $lid);
-            if (isarr($data)) {
+            if (is_array($data)) {
                 foreach ($data as $item) {
                     if (isset($item['custom_fields'])) {
                         $custom_fields = array();
@@ -495,7 +495,7 @@ class Forms
 
 
             $csv_output = '';
-            if (isset($custom_fields) and isarr($custom_fields)) {
+            if (isset($custom_fields) and is_array($custom_fields)) {
                 $csv_output = 'id,';
                 $csv_output .= 'created_on,';
                 $csv_output .= 'user_ip,';

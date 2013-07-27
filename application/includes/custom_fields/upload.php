@@ -53,7 +53,7 @@ include('empty_field_vals.php');
  <?php print $up; ?> = mw.files.uploader({
     multiple:false,
     autostart:false,
-    filetypes:'<?php if(isarr($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <?php endif ?>'
+    filetypes:'<?php if(is_array($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <?php endif ?>'
 });
 
 var local_id = '<?php print($rand); ?>';

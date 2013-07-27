@@ -31,7 +31,7 @@ $rand = uniqid(); ?>
 <?php endif; ?>
 <?php if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
 <div class="mw-ui-field-holder">
-<label class="mw-ui-label"><?php _e("Display"); ?> <?php print pluralize($set_content_type) ?>  <?php _e("from page"); ?></label>
+<label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?>  <?php _e("from page"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
     <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
@@ -122,7 +122,7 @@ $show_fields = array();
 
     </style>
 <div class="vSpace"></div>
-<label class="mw-ui-label"><?php _e("Display on"); ?> <?php print pluralize($set_content_type) ?>: </label>
+<label class="mw-ui-label"><?php _e("Display on"); ?> <?php print ($set_content_type) ?>: </label>
 <ul id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
   <li>
     <label class="mw-ui-check left">

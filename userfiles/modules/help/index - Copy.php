@@ -79,7 +79,7 @@ $(document).ready(function(){
       
     <?php $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
 	$module_categories_ids = array();
- if(isarr($modules  )){
+ if(is_array($modules  )){
 	 foreach($modules  as $item){
 		 
 		 
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		 
 		if(is_dir($module_path_help)){ 
 			  $cats_for_this_module = mw('category')->get_items('rel=modules&rel_id='.$item['id']);
-				if(isarr($cats_for_this_module  )){
+				if(is_array($cats_for_this_module  )){
 					 foreach($cats_for_this_module  as $module_categories_id){
 						//  d($module_categories_id);
 						$module_categories_ids[] = $module_categories_id['parent_id'];
@@ -102,9 +102,9 @@ $(document).ready(function(){
 	 
 	 
  }
-	 if(isarr($module_categories_ids  )){
+	 if(is_array($module_categories_ids  )){
 		 $module_categories_ids = array_unique($module_categories_ids);
-		 if(isarr($module_categories_ids  )){
+		 if(is_array($module_categories_ids  )){
 			 $module_categories = array();
 			 foreach($module_categories_ids  as $module_categories_id){
 				
@@ -116,7 +116,7 @@ $(document).ready(function(){
 	 
 	
 	 ?>
-    <?php if(isarr($module_categories  )): ?>
+    <?php if(is_array($module_categories  )): ?>
     <div class="mw-admin-sidebar">
       <h2>Modules</h2>
     </div>
@@ -124,7 +124,7 @@ $(document).ready(function(){
     <?php // d($module_categories); ?>
       <?php foreach($module_categories  as $module_category): ?>
       
-        <?php if(isarr($modules  )): ?>
+        <?php if(is_array($modules  )): ?>
         <li><strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><span class="help-plus"></span>
         <?php  print($module_category['title']); ?>
         </strong>
@@ -147,7 +147,7 @@ $(document).ready(function(){
           <li> <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img  src="<?php  print($minfo['icon']); ?>" alt="" /><span class="help-title">
             <?php  print($item['name']); ?>
             </span></strong>
-            <?php // $module_help_pages = directory_tree( $module_path_help);
+            <?php // $module_help_pages = mw('Mw\Utils\Files')->dir_tree( $module_path_help);
 
 			  static_mw('content')->pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
 

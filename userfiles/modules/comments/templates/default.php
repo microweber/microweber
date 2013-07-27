@@ -22,7 +22,7 @@ description: Default comments template
               $cur_user_data = get_user($cur_user);
              }
         ?>
-  <?php if (isarr($comments)): ?>
+  <?php if (is_array($comments)): ?>
   <?php if($form_title != false): ?>
   <h2><?php print $form_title ?></h2>
   <?php elseif($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
@@ -68,7 +68,7 @@ description: Default comments template
           <?php } else if($avatar_style == '1' || $avatar_style == '3'){ ?>
           <img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 60, 60);  ?>"  width="60" height="60"  class="img-polaroid comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
           <?php } else if($avatar_style == '2'){ ?>
-          <span class="img-polaroid  random-color"> <span style="background-color: <?php print random_color(); ?>"> </span> </span>
+          <span class="img-polaroid  random-color"> <span style="background-color: <?php print mw('format')->random_color(); ?>"> </span> </span>
           <?php } else if(isset( $comment_author['thumbnail'])){ ?>
           <img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="img-polaroid comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
           <?php } else {  ?>

@@ -18,7 +18,7 @@ description: Full width cart template
       <?php  _e('My cart'); ?>
     </h4>
   </div>
-  <?php if(isarr($data)) :?>
+  <?php if(is_array($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <colgroup>
         <col width="60">
@@ -66,7 +66,7 @@ description: Full width cart template
   </table>
 
    <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active');  ?>
-	<?php if(isarr($shipping_options)) :?>
+	<?php if(is_array($shipping_options)) :?>
     <div>
     <h3><?php _e("Continue Shopping or Complete Order"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">

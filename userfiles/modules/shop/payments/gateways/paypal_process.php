@@ -151,12 +151,12 @@ if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
 }
 
 
-if (isarr($posted_fields)) {
+if (is_array($posted_fields)) {
 	foreach ($posted_fields as $k => $value) {
 		$myPaypal -> addField($k, $value);
 	}
 }
-if (isarr($place_order)) {
+if (is_array($place_order)) {
 	foreach ($place_order as $k => $value) {
 		$myPaypal -> addField($k, $value);
 	}

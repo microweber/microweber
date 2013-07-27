@@ -6,7 +6,7 @@ class ContentUtils
 {
 
 
-    static function save_content($data, $delete_the_cache = true)
+    public function save_content($data, $delete_the_cache = true)
     {
 
 
@@ -260,13 +260,13 @@ class ContentUtils
             if (isset($data_to_save['categories']) and $par_page == false) {
                 if (is_string($data_to_save['categories'])) {
                     $c1 = explode(',', $data_to_save['categories']);
-                    if (isarr($c1)) {
+                    if (is_array($c1)) {
                         foreach ($c1 as $item) {
                             $item = intval($item);
                             if ($item > 0) {
                                 $cont_cat = get_content('limit=1&content_type=page&subtype=dynamic&subtype_value=' . $item);
                                 //	d($cont_cat);
-                                if (isset($cont_cat[0]) and isarr($cont_cat[0])) {
+                                if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];
                                     if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
 
@@ -300,7 +300,7 @@ class ContentUtils
 
                 $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
                 $get_max_pos = \mw('db')->query($get_max_pos);
-                if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos']))
+                if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 
 
                     if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
@@ -408,7 +408,7 @@ class ContentUtils
 
             mw('cache')->delete('categories/global');
             mw('cache')->delete('categories_items/global');
-            if (isset($c1) and isarr($c1)) {
+            if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
                     if ($item > 0) {
@@ -425,7 +425,7 @@ class ContentUtils
     }
 
 
-    static function save_edit($post_data)
+    public function save_edit($post_data)
     {
         $id = is_admin();
         if ($id == false) {
@@ -492,7 +492,7 @@ class ContentUtils
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
 
-                if (isarr($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
+                if (is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
                     $save_page = $pd;
                     $save_page['url'] = url_string(1);
                     $save_page['title'] = url_title(url_string(1));
@@ -525,7 +525,7 @@ class ContentUtils
 
                 $url = url_string(true);
                 $some_mods = array();
-                if (isset($the_field_data) and isarr($the_field_data) and isset($the_field_data['attributes'])) {
+                if (isset($the_field_data) and is_array($the_field_data) and isset($the_field_data['attributes'])) {
                     if (($the_field_data['html']) != '') {
                         $field = false;
                         if (isset($the_field_data['attributes']['field'])) {
@@ -618,7 +618,7 @@ class ContentUtils
                         $save_layout = false;
                         if ($inh == false and !isset($content_id_for_con_field)) {
 
-                            if (isarr($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post') {
+                            if (is_array($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post') {
                                 $content_id_for_con_field = intval($ref_page['parent']);
                                 // d($content_id);
                             } else {
@@ -802,7 +802,7 @@ class ContentUtils
         exit();
     }
 
-    static function save_content_field($data, $delete_the_cache = true)
+    public function save_content_field($data, $delete_the_cache = true)
     {
 
         $adm = is_admin();
@@ -829,10 +829,10 @@ class ContentUtils
             $fld_remove = mw('db')->escape_string($data['url']);
 
             $history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
-            if (isarr($history_files)) {
-                $history_files_ids = array_values_recursive($history_files);
+            if (is_array($history_files)) {
+                $history_files_ids = mw('format')->array_values($history_files);
             }
-            if (isset($history_files_ids) and isarr($history_files_ids)) {
+            if (isset($history_files_ids) and is_array($history_files_ids)) {
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
                 \mw('db')->q($del_q);
@@ -883,7 +883,7 @@ class ContentUtils
 
     }
 
-    static function delete($data)
+    public function delete($data)
     {
 
         $adm = is_admin();
@@ -913,7 +913,7 @@ class ContentUtils
             }
         }
 
-        if (isset($data['ids']) and isarr($data['ids'])) {
+        if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
                 $del_ids[] = $c_id;
@@ -1007,14 +1007,14 @@ class ContentUtils
 
 
 
-    static function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
+    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
         return \mw('content')->get_parents($id , $without_main_parrent, $data_type);
 
     }
 
 
-    static function edit_field_draft($data)
+    public function edit_field_draft($data)
     {
         only_admin_access();
 
@@ -1062,7 +1062,7 @@ class ContentUtils
     }
 
 
-    static function reorder($params)
+    public function reorder($params)
     {
         $id = is_admin();
         if ($id == false) {
@@ -1085,7 +1085,7 @@ class ContentUtils
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
         $get_max_pos = \mw('db')->query($get_max_pos);
-        if (isarr($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
+        if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
 
@@ -1138,7 +1138,7 @@ class ContentUtils
      * </code>
      *
      */
-    static function set_unpublished($params)
+    public function set_unpublished($params)
     {
 
         if (intval($params) > 0 and !isset($params['id'])) {
@@ -1190,7 +1190,7 @@ class ContentUtils
      * </code>
      *
      */
-    static function set_published($params)
+    public function set_published($params)
     {
 
         if (intval($params) > 0 and !isset($params['id'])) {
@@ -1243,7 +1243,7 @@ class ContentUtils
                     $add_page['is_shop'] = 'y';
                     $add_page['active_site_template'] = 'default';
                     $find_layout = layouts_list();
-                    if (isarr($find_layout)) {
+                    if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (isset($item['layout_file']) and isset($item['is_shop'])) {
                                 $add_page['layout_file'] = $item['layout_file'];
@@ -1302,7 +1302,7 @@ class ContentUtils
                     $add_page['is_shop'] = 'n';
                     $add_page['active_site_template'] = 'default';
                     $find_layout = layouts_list();
-                    if (isarr($find_layout)) {
+                    if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
                                 $add_page['layout_file'] = $item['layout_file'];
@@ -1381,7 +1381,7 @@ class ContentUtils
      * @author    Microweber Dev Team
      * @since Version 1.0
      */
-   static function templates_list($options = false)
+   public function templates_list($options = false)
     {
 
         $args = func_get_args();
@@ -1407,8 +1407,8 @@ class ContentUtils
         $layout_path = $path;
         //	print $path;
         //exit;
-        //$map = directory_map ( $path, TRUE );
-        $map = directory_map($path, TRUE, TRUE);
+        //$map = $this->directory_map ( $path, TRUE );
+        $map = $this->directory_map($path, TRUE, TRUE);
 
         $to_return = array();
 
@@ -1464,7 +1464,7 @@ class ContentUtils
 
 
 
-    static function menu_create($data_to_save)
+    public function menu_create($data_to_save)
     {
         $params2 = array();
         if ($data_to_save == false) {
@@ -1498,7 +1498,7 @@ class ContentUtils
     }
 
 
-    static function menu_delete($id = false)
+    public function menu_delete($id = false)
     {
         $params = parse_params($id);
 
@@ -1527,7 +1527,7 @@ class ContentUtils
 
     }
 
-    static function menu_item_get($id)
+    public function menu_item_get($id)
     {
 
         $is_admin = is_admin();
@@ -1543,7 +1543,7 @@ class ContentUtils
     }
 
 
-    static function  menu_item_save($data_to_save)
+    public function  menu_item_save($data_to_save)
     {
 
         $id = is_admin();
@@ -1618,7 +1618,7 @@ class ContentUtils
 
     }
 
-    static function menu_item_delete($id)
+    public function menu_item_delete($id)
     {
 
         $is_admin = is_admin();
@@ -1638,7 +1638,7 @@ class ContentUtils
 
 
 
-    static function menu_items_reorder($data)
+    public function menu_items_reorder($data)
     {
 
         $adm = is_admin();
@@ -1649,7 +1649,7 @@ class ContentUtils
 
         if (isset($data['ids_parents'])) {
             $value = $data['ids_parents'];
-            if (is_arr($value)) {
+            if (is_array($value)) {
 
                 foreach ($value as $value2 => $k) {
                     $k = intval($k);
@@ -1670,7 +1670,7 @@ class ContentUtils
 
         if (isset($data['ids'])) {
             $value = $data['ids'];
-            if (is_arr($value)) {
+            if (is_array($value)) {
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
@@ -1687,7 +1687,7 @@ class ContentUtils
     }
 
 
-    static function is_in_menu($menu_id = false, $content_id = false)
+    public function is_in_menu($menu_id = false, $content_id = false)
     {
         if ($menu_id == false or $content_id == false) {
             return false;
@@ -1705,7 +1705,7 @@ class ContentUtils
     }
 
 
-    static function add_content_to_menu($content_id, $menu_id=false)
+    public function add_content_to_menu($content_id, $menu_id=false)
     {
         $id = is_admin();
         if ($id == false) {
@@ -1746,7 +1746,7 @@ class ContentUtils
 
         }
 
-        if (isset($add_to_menus_int) and isarr($add_to_menus_int)) {
+        if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
             $add_to_menus_int_implode = implode(',', $add_to_menus_int);
             $sql = "DELETE FROM {$menus}
 		WHERE parent_id NOT IN ($add_to_menus_int_implode)
@@ -1782,6 +1782,58 @@ class ContentUtils
         $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
         $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
         return $text;
+    }
+
+
+
+
+// ------------------------------------------------------------------------
+
+    /**
+     * Create a Directory Map
+     *
+     *
+     * Reads the specified directory and builds an array
+     * representation of it.  Sub-folders contained with the
+     * directory will be mapped as well.
+     *
+     * @author        ExpressionEngine Dev Team
+     * @link        http://codeigniter.com/user_guide/helpers/directory_helper.html
+     * @access    public
+     * @param    string    path to source
+     * @param    int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+     * @return    array
+     */
+    function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full_path = false)
+    {
+        if ($fp = @opendir($source_dir)) {
+            $filedata = array();
+            $new_depth = $directory_depth - 1;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+            while (FALSE !== ($file = readdir($fp))) {
+                // Remove '.', '..', and hidden files [optional]
+                if (!trim($file, '.') OR ($hidden == FALSE && $file[0] == '.')) {
+                    continue;
+                }
+
+                if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)) {
+                    $filedata[$file] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
+                } else {
+                    if ($full_path == false) {
+                        $filedata[] = $file;
+                    } else {
+                        $filedata[] = $source_dir . $file;
+                    }
+
+                }
+            }
+
+            closedir($fp);
+            return $filedata;
+        }
+
+        return FALSE;
     }
 
 

@@ -11,7 +11,7 @@ description: Pictures List
 */
 
   ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 <?php  $rand = uniqid(); ?>
 

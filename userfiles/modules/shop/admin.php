@@ -7,7 +7,7 @@ if( $mw_notif != false){
 
   ?>
 
-<?php if(isarr($mw_notif) and isset($mw_notif['rel_id']) and $mw_notif['rel_id'] !=0): ?>
+<?php if(is_array($mw_notif) and isset($mw_notif['rel_id']) and $mw_notif['rel_id'] !=0): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){

@@ -127,7 +127,7 @@ save:function(){
                       <div class="vSpace"></div>
                       <div class="vSpace"></div>
                       <h2><?php _e("Orders from"); ?> <?php print $client['first_name'] ?> <?php print $client['last_name'] ?></h2>
-                      <?php if(isarr($orders )): ?>
+                      <?php if(is_array($orders )): ?>
                       <?php foreach($orders  as $item): ?>
                       <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
                         <div class="mw-o-box-header"> <span class="ico iorder"></span>
@@ -137,7 +137,7 @@ save:function(){
                           <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);"><?php _e("Show Order"); ?> <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<?php print template_var('url'); ?>/../action:orders#?vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> <?php _e("Go to this order"); ?></a> </div>
                           <div class="mw-o-box-content mw-accordion-content">
                             <?php $cart_items = get_cart('order_id='.$item['id'].'&no_session_id=1'); 	?>
-                            <?php if(isarr($cart_items)): ?>
+                            <?php if(is_array($cart_items)): ?>
                             <table cellspacing="0" cellpadding="0" class="mw-o-box-table" width="935">
                               <thead>
                                 <tr>

@@ -11,7 +11,7 @@ description: Bootstrap Carousel
 */
 
   ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 <script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
 

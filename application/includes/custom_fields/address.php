@@ -18,7 +18,7 @@ include('empty_field_vals.php');
 
 
 //print $data["custom_field_value"]; ?>
-<?php if(isarr($data['custom_field_values'])) : ?>
+<?php if(is_array($data['custom_field_values'])) : ?>
 
 <div class="control-group">
   <label class="mw-ui-label mw-custom-field-label">

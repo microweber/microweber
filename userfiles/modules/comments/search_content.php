@@ -42,7 +42,7 @@ $data = get_comments($comments_data);
 
 //$data = get_content($comments_data);
 ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 
 
 <div class="mw-admin-comments-search-holder">

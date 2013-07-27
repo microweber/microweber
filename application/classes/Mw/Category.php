@@ -504,7 +504,7 @@ class Category
 
                 $str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
                 $fors1 = mw('db')->get($str1);
-                if (isarr($fors1)) {
+                if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
                 }
@@ -963,7 +963,7 @@ class Category
             if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
                 if ($category["rel"] == 'content') {
                     $res = mw('content')->get_by_id($category["rel_id"]);
-                    if (isarr($res)) {
+                    if (is_array($res)) {
                         return $res;
                     }
                 }
@@ -972,14 +972,14 @@ class Category
 
             if (isset($category["rel_id"]) and intval($category["rel_id"]) == 0 and intval($category["parent_id"]) > 0) {
                 $category1 = $this->get_parents($category["id"]);
-                if (isarr($category1)) {
+                if (is_array($category1)) {
                     foreach ($category1 as $value) {
                         if (intval($value) != 0) {
                             $category2 = $this->get_by_id($value);
                             if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
                                 if ($category2["rel"] == 'content') {
                                     $res = mw('content')->get_by_id($category2["rel_id"]);
-                                    if (isarr($res)) {
+                                    if (is_array($res)) {
                                         return $res;
                                     }
                                 }

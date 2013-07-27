@@ -38,7 +38,7 @@ if(isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
  
 //d($data);
 }
- if(isarr($data)){
+ if(is_array($data)){
 	  if(isset($data['subtype']) and trim($data['subtype']) == 'product'){
 		  $params["is_shop"] = 'y';
 	  }
@@ -60,7 +60,7 @@ if($data == false or empty($data )){
    if(!isset($params["is_shop"]) or $params["is_shop"] == 'n'){
      $parent_cont = get_content('subtype=dynamic&is_active=y&content_type=page&limit=1&order_by=updated_on desc&is_shop=n');
    }
-   if(isarr($parent_cont) and isset($parent_cont[0])){
+   if(is_array($parent_cont) and isset($parent_cont[0])){
     $params["parent-page-id"] = $parent_cont[0]['id'];
     $params["parent-category-id"] = $parent_cont[0]['subtype_value'];
   }
@@ -79,7 +79,7 @@ if($data == false or empty($data )){
 
  if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
   $parent_cont = mw('content')->get_by_id($params["parent-page-id"]);
-      if(isarr($parent_cont) and isset($parent_cont['active_site_template'])){
+      if(is_array($parent_cont) and isset($parent_cont['active_site_template'])){
 
 //    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
 
@@ -116,19 +116,19 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
    // $is_shop_exist = get_content('is_shop=y&count=1');
     mw('Mw\ContentUtils')->create_default_content('shop');
     $is_shop_exist = get_content('is_shop=y&limit=1');
-    if(isarr($is_shop_exist)){
+    if(is_array($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
   } else {
      mw('Mw\ContentUtils')->create_default_content('shop');
      $is_shop_exist = get_content('is_shop=y&limit=1');
-    if(isarr($is_shop_exist)){
+    if(is_array($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
 
     if(isset($data['parent']) and  intval($data['parent']) == 0){
       $is_shop_exist = get_content('is_shop=y&limit=1');
-      if(isarr($is_shop_exist)){
+      if(is_array($is_shop_exist)){
         $params['parent-page-id'] = $data['parent_id'] = $data['parent'] = $is_shop_exist[0]['id'];
       }
     }
@@ -142,7 +142,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
     $is_blog_exist = false;
     if(isset($params['parent-page-id'])){
       $is_blog_exist = get_content("id=".$params['parent-page-id']);
-      if(isarr($is_blog_exist)){
+      if(is_array($is_blog_exist)){
         $data['parent'] = $is_blog_exist[0]['id'];
 
       }
@@ -156,7 +156,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
 
 
 
-     if(isarr($is_blog_exist)){
+     if(is_array($is_blog_exist)){
 
 
      } else {
@@ -165,7 +165,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
 
        $is_blog_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1');
 
-       if(isarr($is_blog_exist)){
+       if(is_array($is_blog_exist)){
         $data['parent'] = $is_blog_exist[0]['id'];
       } else {
 
@@ -175,7 +175,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
      }
 
    }
-   if(isarr($is_blog_exist)){
+   if(is_array($is_blog_exist)){
        // $params['parent-page-id'] = $data['parent_id'] = $data['parent'] = $is_blog_exist[0]['id'];
      $data['parent'] = $is_blog_exist[0]['id'];
    }
@@ -951,7 +951,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
       <div class="cat_selector_view_ctrl"><a href="javascript:;" class="active" onclick="mw.$('#categorories_selector_for_post_<?php print $rand; ?> label.mw-ui-check').show();$(this).addClass('active').next().removeClass('active');"><?php _e("All"); ?></a> <a href="javascript:;" onclick="mw.tools.tree.viewChecked(mwd.getElementById('categorories_selector_for_post_<?php print $rand; ?>'));$(this).addClass('active').prev().removeClass('active');"><?php _e("Selected"); ?></a> </div>
       <?php if(intval($data['id']) > 0): ?>
       <?php $in_cats = mw('db')->get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
-  if(isarr($in_cats)){
+  if(is_array($in_cats)){
    foreach($in_cats as $in_cat){
     $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
   }
@@ -975,7 +975,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
   $data['parent'] =  $params['parent-page-id'] ;
 }
 
-if(isset($is_blog_exist) and isarr($is_blog_exist)){
+if(isset($is_blog_exist) and is_array($is_blog_exist)){
 
 }
 if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $params["selected-category-id"])){

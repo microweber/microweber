@@ -386,11 +386,11 @@ class Fields
             $fields_csv_str = array_trim($fields_csv_str);
             //d($fields_csv_str);
             $pos = 0;
-            if (isarr($fields_csv_str)) {
+            if (is_array($fields_csv_str)) {
                 foreach ($fields_csv_str as $field_type) {
                     $ex = $this->get($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
 
-                    if (isarr($ex) == false) {
+                    if (is_array($ex) == false) {
                         $make_field = array();
                         $make_field['rel'] = $rel;
                         $make_field['rel_id'] = $rel_id;
@@ -434,7 +434,7 @@ class Fields
         $table = MW_TABLE_PREFIX . 'custom_fields';
 
         foreach ($data as $value) {
-            if (is_arr($value)) {
+            if (is_array($value)) {
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
@@ -539,7 +539,7 @@ class Fields
 
                 $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
                 $form_data = \mw('db')->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
-                if (is_arr($form_data)) {
+                if (is_array($form_data)) {
 
                     $field_type = $form_data['custom_field_type'];
                     $data['id'] = 0;
@@ -683,7 +683,7 @@ class Fields
 
         $results = \mw('db')->query($q, $cache_id, 'custom_fields/global');
 
-        if (isarr($results)) {
+        if (is_array($results)) {
             return $results;
         }
 

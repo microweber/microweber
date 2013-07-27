@@ -156,7 +156,7 @@ if( $mw_notif != false){
 mw('Mw\Notifications')->mark_as_read('comments');
  ?>
  
-<?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
+<?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">
 
 $(document).ready(function(){

@@ -75,11 +75,11 @@ $result = $update_api -> call('get_modules', $params);
    $upds = false;
  
 ?>
-<?php if(isset($mods) and isarr($mods) == true): ?>
+<?php if(isset($mods) and is_array($mods) == true): ?>
 
 <ul class="mw-modules-admin">
 
-<?php if(isarr($upds) == true): ?>
+<?php if(is_array($upds) == true): ?>
 <?php foreach($upds as  $upd_mod): ?>
 <?php if(isset($upd_mod['module'])): ?>
 <?php $item = module_info($upd_mod['module']); ?>

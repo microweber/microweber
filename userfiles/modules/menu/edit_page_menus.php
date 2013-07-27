@@ -15,7 +15,7 @@ $content_id = false;
  }
 
 $menu_name = false;
- if(isarr($menus )): ?>
+ if(is_array($menus )): ?>
     <ul id="mw-menu-selector-list-{rand}" class="mw-menu-selector-list">
       <?php foreach($menus  as $item): ?>
       <li>

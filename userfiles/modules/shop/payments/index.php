@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 </script>
 
-<?php if(isarr($payment_options)) :?>
+<?php if(is_array($payment_options)) :?>
 <div class="well">
 <?php if(count($payment_options) > 0): ?>
 
@@ -34,5 +34,5 @@ $(document).ready(function(){
 
 </div>
 <?php else : ?>
-<?php print mw_notif_live_edit("Click here to edit Payment Options"); ?>
+<?php print mw('format')->lnotif("Click here to edit Payment Options"); ?>
 <?php endif;?>

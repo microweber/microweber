@@ -132,7 +132,7 @@ $comment_modules['limit'] =  '200';
 	$comments_module_select = array();
 	
 	
-	 if(isarr($comment_modules )): ?>
+	 if(is_array($comment_modules )): ?>
       <?php foreach($comment_modules  as $item): ?>
       <?php $comment_module_title =  mw('option')->get('form_title', $item['rel_id']); ?>
       <?php // d( $comment_module_title); ?>
@@ -142,7 +142,7 @@ $comment_modules['limit'] =  '200';
 ?><?php endforeach ; ?>
       <?php endif; ?>
       <?php   $curent_val = mw('option')->get('module_id', $params['id']); ?>
-      <?php if(isarr($comments_module_select )): ?>
+      <?php if(is_array($comments_module_select )): ?>
       <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
         <option value="<?php print $params['id'] ?>" <?php if($curent_val == $params['id']): ?> selected="selected" <?php endif; ?>><?php _e("This module"); ?></option>
         <?php foreach($comments_module_select  as $key=>$item): ?>

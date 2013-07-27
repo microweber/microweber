@@ -42,7 +42,7 @@ if(isset($params['layout_type'])){
 <?php $def_icon = MODULES_DIR . 'default.png';
  $def_icon= mw('url')->link_to_file($def_icon);
 ?>
-  <?php if(isset($dynamic_layouts) and isarr($dynamic_layouts)): ?>
+  <?php if(isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
   <?php foreach($dynamic_layouts as $dynamic_layout): ?>
 
 

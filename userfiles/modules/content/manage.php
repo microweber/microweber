@@ -20,7 +20,7 @@ if(isset($params['is_shop']) and $params['is_shop']=='y'){
 
 if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
   $check_if_excist = mw('content')->get_by_id($params['page-id']);
-  if(isarr($check_if_excist)){
+  if(is_array($check_if_excist)){
     if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
      $posts_mod['subtype'] = 'product';
    }
@@ -30,7 +30,7 @@ if(!isset($params['category-id']) and isset($params['page-id']) and $params['pag
 if(isset($params['category-id']) and $params['category-id']!='global'){
   $check_if_excist = get_page_for_category($params['category-id']);
 
-  if(isarr($check_if_excist)){
+  if(is_array($check_if_excist)){
     if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
      $posts_mod['subtype'] = 'product';
    }
@@ -110,7 +110,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 <div class="mw-admin-page-preview-holder">
   <div  class="mw-admin-page-preview-page">
     <div style="width: 370px;margin-left: 30px;" class="left">
-      <?php if(isarr($page_info) and isset($page_info['title'])): ?>
+      <?php if(is_array($page_info) and isset($page_info['title'])): ?>
       <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
       <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
       <?php endif; ?>

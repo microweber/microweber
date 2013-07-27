@@ -244,7 +244,7 @@ function get_comments($params) {
 
 	$comments = mw('db')->get($params);
 
-	if(isarr($comments)){
+	if(is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
 			if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){

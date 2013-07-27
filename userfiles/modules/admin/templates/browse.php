@@ -74,7 +74,7 @@ error('parent-module-id is required');
 
 $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
  ?>
-<?php  if(is_arr( $templates)): ?>
+<?php  if(is_array( $templates)): ?>
 
 <label class="mw-ui-label"><?php _e("Set default skin for the whole website"); ?></label>
 <div class="mw-ui-select left" style="width: 30%;margin-right:20px;">
@@ -89,7 +89,7 @@ $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
 </div>
 <a class="mw-ui-btn mw-ui-btn-green" href="javascript:;"><?php _e("Get more templates"); ?></a>
 <div class="mw-admin-templates-browse-holder">
-  <?php if(isarr($templates )): ?>
+  <?php if(is_array($templates )): ?>
   <?php $i = 1; foreach($templates  as $item): ?>
 
 

@@ -27,7 +27,7 @@ $mod_name = $params['parent-module'];
  
  
 $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
- ?><?php  if(is_arr( $templates)): ?>
+ ?><?php  if(is_array( $templates)): ?>
 <label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
 <div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
 
@@ -39,7 +39,7 @@ $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
   <?php endif; ?>
   <?php endforeach; ?>
 
-<?php  if(is_arr( $site_templates)): ?>
+<?php  if(is_array( $site_templates)): ?>
 <?php  foreach($site_templates as $site_template):   ?>
 <?php  if(isset( $site_template['dir_name'])): ?>
   <?php 
@@ -60,7 +60,7 @@ $possible_dir = $template_dir . DS . 'modules' . DS .$mod_name .DS;
             $templates = layouts_list($options);
  
  ?>
- <?php  if(is_arr( $templates)): ?>
+ <?php  if(is_array( $templates)): ?>
  <optgroup label="<?php print $site_template['name']; ?>">
      <?php  foreach($templates as $item):  ?>
   <?php if((strtolower($item['name']) != 'default')): ?>

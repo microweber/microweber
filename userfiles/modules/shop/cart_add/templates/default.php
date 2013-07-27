@@ -10,7 +10,7 @@ description: Add to cart default
 
 */
  ?>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 <?php $i=1 ;foreach($data  as $key => $v ): ?>
 
 <div class="mw-price-item">

@@ -206,7 +206,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
       <div style="float: right;width: 745px;" class="mw-set-payment-options">
         <div class="otab" style="display: block">
           <h2><?php _e("Payment providers"); ?> </h2>
-          <?php if(isarr($payment_modules )): ?>
+          <?php if(is_array($payment_modules )): ?>
           <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
             <?php foreach($payment_modules  as $payment_module): ?>
             <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
@@ -262,7 +262,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
           <?php ?>
           <?php $cur = mw('option')->get('currency', 'payments');  ?>
           <?php $curencies = mw('shop')->currency_get(); ?>
-          <?php if(isarr($curencies )): ?>
+          <?php if(is_array($curencies )): ?>
           <div class="mw-ui-select">
             <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
               <?php foreach($curencies  as $item): ?>

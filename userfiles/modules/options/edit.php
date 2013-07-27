@@ -7,7 +7,7 @@ if(isset($params['option_key']) and isset($params['option_group']) ){
 	 
 }
 
-if(!is_arr($data)){
+if(!is_array($data)){
 	$data = array();
 }
 

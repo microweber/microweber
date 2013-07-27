@@ -44,7 +44,7 @@ $data = get_users($user_params);
  ?>
 
  
- <?php if(isarr($data )): ?>
+ <?php if(is_array($data )): ?>
 
 <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%">
   <thead>

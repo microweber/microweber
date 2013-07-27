@@ -67,7 +67,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 
       ?>
       <div id="mw-custom-fields-address-fields-selector">
-        <?php if(isarr($opt)) { foreach($opt as $key => $val){ ?>
+        <?php if(is_array($opt)) { foreach($opt as $key => $val){ ?>
         <div>
           <label class="mw-ui-check">
             <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <?php if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <?php endif; ?>  />

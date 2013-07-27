@@ -16,7 +16,7 @@ include_once($config['path_to_module'].'../posts/index.php');
 ?> 
  
 <div class="manage-posts-holder">
-  <?php if(isarr($data)): ?>
+  <?php if(is_array($data)): ?>
   <?php foreach ($data as $item): ?>
 
   <?php

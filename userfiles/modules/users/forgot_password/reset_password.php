@@ -45,7 +45,7 @@ $(document).ready(function(){
   <?php
 $reset = mw('db')->escape_string($_GET['reset_password_link']);
 $data = get_users("single=true&password_reset_hash=".$reset); ?>
-  <?php if(isarr($data)): ?>
+  <?php if(is_array($data)): ?>
   <form id="user_reset_password_form<?php print $params['id'];  ?>" method="post" class="clearfix">
     <div class="reset-pass-form-wrap">
 

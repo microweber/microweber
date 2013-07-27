@@ -49,7 +49,7 @@ class Curl
 
 
             $ch = curl_init();
-            if (isarr($this->headers) != false) {
+            if (is_array($this->headers) != false) {
             }
             curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
             curl_setopt($ch, CURLOPT_URL, $this->url);

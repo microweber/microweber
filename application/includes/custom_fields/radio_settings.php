@@ -32,7 +32,7 @@
    
     <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
 
-     <?php if(isarr($data['custom_field_values'])) : ?>
+     <?php if(is_array($data['custom_field_values'])) : ?>
      <?php foreach($data['custom_field_values'] as $v): ?>
       <div class="mw-custom-field-form-controls">
         <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<?php print $rand; ?>');" name="custom_field_value[]"  value="<?php print $v; ?>" />

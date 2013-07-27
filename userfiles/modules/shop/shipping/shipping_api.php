@@ -36,7 +36,7 @@ class shipping_api {
 				
 				} else {
 			$check = $this ->mw('db')->get('shiping_country=' . $data['shiping_country']);
-			if ($check != false and isarr($check[0]) and isset($check[0]['id'])) {
+			if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
 				$data['id'] = $check[0]['id'];
 			}
 				}
@@ -95,7 +95,7 @@ $active = array();
 
     
     foreach ($data as $value) {
-        if (is_arr($value)) {
+        if (is_array($value)) {
             $indx = array();
             $i = 0;
             foreach ($value as $value2) {

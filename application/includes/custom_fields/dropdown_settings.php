@@ -34,7 +34,7 @@
 
       <label class="mw-ui-label">Values</label>
       <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
-        <?php if(isarr($data['custom_field_values'])) : ?>
+        <?php if(is_array($data['custom_field_values'])) : ?>
         <?php foreach($data['custom_field_values'] as $v): ?>
         <div class="mw-custom-field-form-controls">
           <input type="text" class="mw-ui-field" name="custom_field_value[]"  value="<?php print $v; ?>">

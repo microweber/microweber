@@ -176,7 +176,7 @@ class Option
         //d($q);
         $q_cache_id = crc32($q);
         $get_all = mw('db')->query($q, $q_cache_id, $cache_group);
-        if (!isarr($get_all)) {
+        if (!is_array($get_all)) {
             mw('cache')->save('--false--', $function_cache_id, $cache_group);
 
             return false;
@@ -194,7 +194,7 @@ class Option
         if (!empty($get)) {
 
             if ($return_full == false) {
-                if (!isarr($get)) {
+                if (!is_array($get)) {
                     return false;
                 }
                 $get = $get[0]['option_value'];
@@ -357,7 +357,7 @@ class Option
 
         // p($_POST);
         $option_group = false;
-        if (isarr($data)) {
+        if (is_array($data)) {
 
             if (isset($data['for_module_id']) and $data['for_module_id'] != false) {
                 //$data['option_group'] = $data['for_module_id'];
@@ -638,7 +638,7 @@ class Option
                 $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
-                    if (isarr($ops_array)) {
+                    if (is_array($ops_array)) {
                         $all_options = $ops_array;
                         $mw_static_option_groups[$option_group] = $all_options;
                         //mw_var('option_disabled_' . $option_group);
@@ -695,7 +695,7 @@ class Option
                 $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
-                    if (isarr($ops_array)) {
+                    if (is_array($ops_array)) {
                         $data_to_serialize = $ops_array;
                     }
                 }

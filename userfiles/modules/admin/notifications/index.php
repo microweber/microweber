@@ -42,7 +42,7 @@ mw.notif_reset_all = function(){
 
 
 </script>
-<?php if(isarr($data )): ?>
+<?php if(is_array($data )): ?>
 <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
 <?php $periods_printed = array(); ?>
 <?php
@@ -96,7 +96,7 @@ mw.notif_reset_all = function(){
           <?php else : ?>
           <?php print $item['title'] ?>
           <?php endif; ?>
-          <time title="<?php print mw_date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time></td>
+          <time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time></td>
         <td style="max-width: 60%;"><div class="notification_info"><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis">
             <?php if(isset($item['content']) and $item['content'] != ''): ?>
             <?php print $item['content']; ?>
@@ -126,7 +126,7 @@ mw.notif_reset_all = function(){
     <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green"><?php _e("Manage your Content"); ?></a>
    </p>
     <br>
-   <?php //print mw_notif('No new notifications available!'); ?>
+   <?php //print mw('format')->notif('No new notifications available!'); ?>
 
 </div>
 </div>

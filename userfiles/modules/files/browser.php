@@ -26,7 +26,7 @@ only_admin_access();
 
  $path = str_replace($path_restirct,'',$path);
 
- //$data = rglob($path);
+ //$data = mw('Mw\Utils\Files')->rglob($path);
   $params_get_files = array();
    $params_get_files['directory']  =  $path_restirct.$path;
 
@@ -42,12 +42,12 @@ only_admin_access();
 	}
 
  if(isset($params_get_files['directory']) and !is_dir($params_get_files['directory'])){
-  mw_warn('You are trying to open invalid folder');
+  mw('format')->notif('You are trying to open invalid folder', 'error');
  }  else if(isset($params_get_files['directory']) and is_dir($params_get_files['directory']) and !is_writable($params_get_files['directory'])){
-  mw_warn('Your folder is not writable. You wont be able to upload in it.');
+  mw('format')->notif('Your folder is not writable. You wont be able to upload in it.', 'warning');
  }
   //  $params['keyword']
- $data = get_files($params_get_files);
+ $data = mw('Mw\Utils\Files')->get($params_get_files);
 
  $path_nav = explode(DS,$path);
 
@@ -63,7 +63,7 @@ PreviousFolder = [];
   <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
-    <?php if(isarr($path_nav )): ?>
+    <?php if(is_array($path_nav )): ?>
     <?php
 
 $path_nav_pop = false;

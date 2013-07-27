@@ -11,7 +11,7 @@ mw('Mw\Notifications')->mark_as_read('contact_form');
 
 
   ?>
-      <?php if(isarr($mw_notif) and isset($mw_notif['rel_id'])): ?>
+      <?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
       <script type="text/javascript">
 
 $(document).ready(function(){
@@ -56,7 +56,7 @@ if((url_param('templates') != false)){
           <ul>
             <li><a   <?php if($load_list == 'default'){ ?> class="active" <?php } ?> href="<?php print $config['url']; ?>/load_list:default" >Default list</a></li>
             <?php $data = get_form_lists('module_name=contact_form'); ?>
-            <?php if(isarr($data )): ?>
+            <?php if(is_array($data )): ?>
             <?php foreach($data  as $item): ?>
             <li><a <?php if($load_list == $item['id']){ ?> class="active" <?php } ?> href="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></a></li>
             <?php endforeach ; ?>

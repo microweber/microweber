@@ -97,7 +97,7 @@ class Layouts {
 
                 if (is_dir($possible_dir)) {
                     $template_dirs[] = $item;
-                    $dir2 = rglob($possible_dir . '*.php', 0);
+                    $dir2 = mw('Mw\Utils\Files')->rglob($possible_dir . '*.php', 0);
                     // d($dir2);
                     if (!empty($dir2)) {
                         foreach ($dir2 as $dir_glob) {
@@ -115,7 +115,7 @@ class Layouts {
 
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
-                $dir = rglob($glob_patern, 0, $path);
+                $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $path);
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];
@@ -314,7 +314,7 @@ class Layouts {
 
         if (isset($options[0])) {
             $fn = $options[0];
-        } elseif (isarr($options)) {
+        } elseif (is_array($options)) {
             $val = current($options);
             $fn = key($options);
         }

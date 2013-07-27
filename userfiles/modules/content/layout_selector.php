@@ -53,14 +53,14 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
   $data['layout_file']  = 'inherit';
 
  } else {
-        $inh1 = content_get_inherited_parent($params["inherit_from"]);
+        $inh1 = mw('content')->get_inherited_parent($params["inherit_from"]);
 	
         if($inh1 == false){
          $inh1 = intval($params["inherit_from"]);
        }
        if($inh1 != false){
          $inherit_from = mw('content')->get_by_id($inh1);
-         if(isarr($inherit_from) and isset($inherit_from['active_site_template'])){
+         if(is_array($inherit_from) and isset($inherit_from['active_site_template'])){
           $data['active_site_template']  =  $inherit_from['active_site_template'];
           $data['layout_file']  = 'inherit';
         }

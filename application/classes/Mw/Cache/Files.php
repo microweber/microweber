@@ -271,7 +271,7 @@ class Files
         //@touch($cache_group_lock);
         //d($cache_group_lock);
         // return true;
-        //mw_notif(__FUNCTION__.$cache_group);
+        //mw('format')->notif(__FUNCTION__.$cache_group);
         $is_cleaning_now = mw_var('is_cleaning_now');
         $use_apc = false;
         if ($is_cleaning_now == false) {

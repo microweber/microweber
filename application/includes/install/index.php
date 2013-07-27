@@ -63,7 +63,7 @@ if (isset($autoinstall) and is_array($autoinstall) and isset($autoinstall['is_in
 }
 
 
-if (isarr($to_save)) {
+if (is_array($to_save)) {
     $to_save = array_change_key_case($to_save, CASE_LOWER);
 }
 

@@ -49,7 +49,7 @@ $comments_data2['is_new'] =  'y';
       <h3><a href="javascript:;" class="mw-ui-link"><?php print $item['name'] ?></a></h3>
      <?php endif; ?>
      
-      <?php if(isarr($links )): ?>
+      <?php if(is_array($links )): ?>
      
   <?php foreach($links  as $link): ?> 
   <a class="comment-post-url" href="<?php print $link['from_url'] ?>"><?php print $link['from_url'] ?></a><br />

@@ -171,7 +171,7 @@ $cached = false;
 					$data_id = PAGE_ID;
 				}
 
-				$inh = content_get_inherited_parent($data_id);
+				$inh = mw('content')->get_inherited_parent($data_id);
 
 				if ($inh != false and intval($inh) != 0) {
 
@@ -227,7 +227,7 @@ $cached = false;
 					// and $rel == 'inherit'
 					if ($cont_field == false and $try_inherited == true) {
 
-						$inh = content_get_inherited_parent($data_id);
+						$inh = mw('content')->get_inherited_parent($data_id);
 						//d($data_id . $field . $inh);
 						//
 						if ($inh != false and intval($inh) != 0 and $inh != $data_id) {

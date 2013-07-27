@@ -25,7 +25,7 @@ class memcache implements \iMwCache {
 
 			$conn = false;
 
-			if (isarr($memcache_servers)) {
+			if (is_array($memcache_servers)) {
 				foreach ($memcache_servers as $item) {
 					if ($conn == false) {
 						$h = explode(':', $item);

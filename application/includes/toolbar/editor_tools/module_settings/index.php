@@ -81,7 +81,7 @@
  }
 
         mw_module_settings_info = "";
-         <?php if(isarr( $module_info)): ?>
+         <?php if(is_array( $module_info)): ?>
 
            mw_module_settings_info  = <?php print json_encode($module_info); ?>
 		   
@@ -126,7 +126,7 @@
 			
 
 			
-			  <?php if(isarr( $module_info)): ?>
+			  <?php if(is_array( $module_info)): ?>
 			  <?php $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
 			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			  if(is_module_tml_holder.length > 0 ){
@@ -343,7 +343,7 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
           
           
           <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
-<?php if(isarr($params )): ?>
+<?php if(is_array($params )): ?>
   <?php foreach($params  as $k=> $item): ?> 
 <input type="text" name="<?php print $k ?>" value="<?php print $item ?>" />
 

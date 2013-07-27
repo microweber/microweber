@@ -13,7 +13,7 @@ class Ping
      * @uses content_ping_servers()
      * @see content_ping_servers();
      */
-    static function content_ping_servers_async()
+    public function content_ping_servers_async()
     {
         $scheduler = new \Mw\Utils\Events();
         $scheduler->registerShutdownEvent("content_ping_servers");
@@ -28,7 +28,7 @@ class Ping
      * @uses is_fqdn()
      * @uses get_content();
      */
-    static  function content_ping_servers()
+    public function content_ping_servers()
     {
 
         if ($_SERVER ["SERVER_NAME"] == 'localhost') {
@@ -39,7 +39,7 @@ class Ping
             return false;
         }
 
-        $fqdn = is_fqdn(site_url());
+        $fqdn = $this->is_fqdn(site_url());
 
 
         if ($fqdn != false) {
@@ -52,7 +52,7 @@ class Ping
                 'Feed 3' => 'http://api.my.yahoo.co.jp/RPC2');
 
 
-            if (isarr($q)) {
+            if (is_array($q)) {
 
 
                 foreach ($server as $line_num => $line) {
@@ -101,5 +101,11 @@ class Ping
                 mw('cache')->delete('content/ping');
             }
         }
+    }
+
+
+    function is_fqdn($FQDN)
+    {
+        return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }
 }

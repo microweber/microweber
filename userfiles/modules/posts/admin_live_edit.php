@@ -196,12 +196,12 @@ if(isset($params['global']) and $params['global'] != false){
 					$sub_cats = array();
 					$page_categories = mw('db')->get($str0);
 					// d($page_categories);
-						if(isarr($page_categories)){
+						if(is_array($page_categories)){
 						foreach ($page_categories as $item_cat){
 							//d($item_cat);
 						$sub_cats[] = $item_cat['id'];
 						$more =    get_category_children($item_cat['id']);
-						if($more != false and isarr($more)){
+						if($more != false and is_array($more)){
 							foreach ($more as $item_more_subcat){
 								$sub_cats[] = $item_more_subcat;
 							}
@@ -210,7 +210,7 @@ if(isset($params['global']) and $params['global'] != false){
 						}
 					}
 				 
-				if(isarr($sub_cats) and in_array($posts_parent_category,$sub_cats)){
+				if(is_array($sub_cats) and in_array($posts_parent_category,$sub_cats)){
 						
 	  	    $add_post_q  .=' selected-category-id='.intval($posts_parent_category);
 				}

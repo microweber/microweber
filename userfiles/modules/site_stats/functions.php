@@ -362,7 +362,7 @@ function get_visits($range = 'daily') {
 	if ($q == false or $results == false) {
 		return false;
 	}
-	if (isarr($results)) {
+	if (is_array($results)) {
 		foreach ($results as $item) {
 
 		}

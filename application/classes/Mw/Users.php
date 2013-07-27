@@ -39,7 +39,7 @@ class Users extends \Mw\User
 
         $override = exec_action('before_user_register', $params);
 
-        if (is_arr($override)) {
+        if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
                     return $resp;
@@ -134,7 +134,7 @@ class Users extends \Mw\User
                         } else if (isset($user_data['username']) && $user_data['username'] != '') {
                             $is_logged = user_login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
                         }
-                        if (isset($is_logged) and isarr($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
+                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
                             return ($is_logged);
                             // $user_session['success']
                         }
@@ -322,7 +322,7 @@ class Users extends \Mw\User
         $table = MW_DB_TABLE_USERS;
 
         $check = get_users("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
-        if (!isarr($check)) {
+        if (!is_array($check)) {
             return array('error' => 'Invalid data or expired link!');
         } else {
             $data1['password'] = $params['pass1'];
@@ -399,7 +399,7 @@ class Users extends \Mw\User
                     }
 
                 }
-                if (!isarr($data_res)) {
+                if (!is_array($data_res)) {
                     return array('error' => 'Enter right username or email!');
 
                 } else {
@@ -487,7 +487,7 @@ class Users extends \Mw\User
             try {
 
                 $authenticate = $api->authenticate($provider);
-                if (isarr($authenticate) and isset($authenticate['identifier'])) {
+                if (is_array($authenticate) and isset($authenticate['identifier'])) {
 
                     $data = array();
                     $data['oauth_provider'] = $provider;

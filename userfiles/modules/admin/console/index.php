@@ -129,7 +129,7 @@ $(document).ready(function(){
 	
 	?>
     <labeL>Select function: <select name="exec_term_command_sel"  id="exec_term_command_sel">
-      <?php if(isarr($data )): ?>
+      <?php if(is_array($data )): ?>
       <?php foreach($data  as $item): ?>
       <option value="<?php print $item ?>"><?php print $item ?></option>
       <?php endforeach ; ?>

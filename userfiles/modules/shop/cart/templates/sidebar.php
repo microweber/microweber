@@ -18,7 +18,7 @@ description: Sidebar cart template
       <?php  _e('My cart'); ?>
     </h2>
   </div>
-  <?php if(isarr($data)) :?>
+  <?php if(is_array($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
     <thead>
       <tr>

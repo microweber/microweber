@@ -4,7 +4,7 @@ only_admin_access();
 $ord = get_orders('id='.$params['order-id']);
 
 $cart_items = array();
-if(isarr($ord[0])){
+if(is_array($ord[0])){
 	$ord = $ord[0];
 	$cart_items = get_cart('order_completed=y&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
 
@@ -25,7 +25,7 @@ error("Invalid order id");
     <div class="mw-o-box-header"> <span class="ico iorder"></span><span>
       <?php _e("Order Information"); ?>
       </span> </div>
-    <?php if(isarr($cart_items)) :?>
+    <?php if(is_array($cart_items)) :?>
     <div class="mw-order-images">
       <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
       <?php $p = get_picture($cart_items[$i]['rel_id']); ?>

@@ -63,7 +63,7 @@ class Notifications
             $get_params['module'] = mw('db')->escape_string($module);
 
             $data = $this->get($get_params);
-            if (isarr($data)) {
+            if (is_array($data)) {
                 foreach ($data as $value) {
                     $save['is_read'] = 'y';
                     $save['id'] = $value['id'];
@@ -129,8 +129,8 @@ class Notifications
             $get_params['module'] = mw('db')->escape_string($module);
 
             $data = $this->get($get_params);
-            if (isarr($data)) {
-                $ids = array_values_recursive($data);
+            if (is_array($data)) {
+                $ids = mw('format')->array_values($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
                 mw('db')->q($cleanup);

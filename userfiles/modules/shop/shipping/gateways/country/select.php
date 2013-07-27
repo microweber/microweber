@@ -9,12 +9,12 @@
  if( $data == false){
 	 $data = array(); 
  }
-  if(isarr($data)){
+  if(is_array($data)){
 	foreach($data as $key => $item){
 			if(trim(strtolower($item['shiping_country']))  == 'worldwide' ){
 				 $countries_all = mw('mw\Forms')->countries_list();
 				 unset($data[$key]);
-				  if(isarr($countries_all)){
+				  if(is_array($countries_all)){
 					  
 					  foreach($countries_all as  $countries_new){
 						  $data[] = array('shiping_country' =>  $countries_new);
@@ -31,10 +31,10 @@
 
 
  
- if(isarr($data)){
+ if(is_array($data)){
 	foreach($data as $key =>$item){
 		$skip = false;
-		if(isarr($data_disabled)){
+		if(is_array($data_disabled)){
 			foreach($data_disabled as $item_disabled){
 				if($item['shiping_country']  == $item_disabled['shiping_country'] ){
 					$skip = 1;
