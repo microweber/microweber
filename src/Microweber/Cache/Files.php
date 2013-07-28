@@ -211,7 +211,7 @@ class Files
                 if (!is_dir($cacheDir_temp)) {
                     $this->_mkdirs($cacheDir_temp);
                 }
-d($cache_file);
+
                 $cache = file_put_contents($cache_file, $content1);
 
 
@@ -389,6 +389,7 @@ d($cache_file);
 
         $cache_group = str_replace(array('/',';',':','.'), array(DIRECTORY_SEPARATOR,'_','_','_'), $cache_group);
 
+        $cache_id = str_replace(array('/',';',':','.'), array(DIRECTORY_SEPARATOR,'_','_','_'), $cache_id);
 
         $f = $this->cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
 

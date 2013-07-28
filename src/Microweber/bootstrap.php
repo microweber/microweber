@@ -3,7 +3,6 @@
 defined('MW_ROOTPATH') or die("You cannot call this file on its own. Please define 'MW_ROOTPATH' constant first.");
 
 
-
 if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.7287);
 }
@@ -113,7 +112,7 @@ if (!defined('T')) {
 * Add more dicectories with set_include_path
  */
 $mw_get_prev_dir = dirname(MW_APP_PATH);
-set_include_path($mw_get_prev_dir . PATH_SEPARATOR.
+set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
     MW_APP_PATH . 'controllers' . DS .
     PATH_SEPARATOR . MW_MODULES_DIR .
@@ -149,10 +148,6 @@ spl_autoload_register('mw_autoload');
 $_mw_registry = array();
 function mw($class, $constructor_params = false)
 {
-    global $mw;
-    if(is_object($mw)){
-        $constructor_params = $mw;
-    }
 
     if ($class != false) {
         global $_mw_registry;
@@ -163,26 +158,29 @@ function mw($class, $constructor_params = false)
         $class = str_replace('/', '\\', $class);
 
         $mw = '\Microweber\\' . $class;
-        $mw = str_replace(array('\\\\','Microweber\Microweber'), array('\\','Microweber'), $mw);
+        $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
 
         if (!isset($_mw_registry[$class_name])) {
             if ($constructor_params == false) {
 
-                try {
-                 $prop = new $mw($constructor_params);
-                } catch (Exception $e) {
-                    $prop = new $class($constructor_params);
-                }
-                if (isset($prop)) {
-                    $_mw_registry[$class_name] = $prop;
-                }
-           } else {
                 try {
                     $prop = new $mw($constructor_params);
                 } catch (Exception $e) {
                     $prop = new $class($constructor_params);
                 }
                 if (isset($prop)) {
+                    $_mw_registry[$class_name] = $prop;
+                }
+            } else {
+
+                try {
+                    $prop = new $mw($constructor_params);
+
+                } catch (Exception $e) {
+                    $prop = new $class($constructor_params);
+                }
+                if (isset($prop)) {
+
                     $_mw_registry[$class_name] = $prop;
                 }
 
@@ -203,7 +201,7 @@ function mw($class, $constructor_params = false)
 function mw_error_handler()
 {
 
-    if(!headers_sent()){
+    if (!headers_sent()) {
         header("Content-Type:text/plain");
 
     }
@@ -318,7 +316,11 @@ function dbg($q)
 
 function dump($v)
 {
-    return '<pre>' . var_dump($v) . '</pre>';
+
+    $wrap = "############## \n\n\ ";
+    $ret = '<pre>' . var_dump($v) . '</pre>';
+    $ret = $wrap . $ret . $wrap;
+    return $ret;
 }
 
 function _log($m)
