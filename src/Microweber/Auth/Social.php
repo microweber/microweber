@@ -25,9 +25,29 @@ class Social {
 		return Hybrid_Auth::storage()->get( "hauth_session.error.status" );;
 	}
 
+
+
 	public function isUserConnected() {
 		return $this -> api -> isUserConnected();
 	}
+
+
+    function object_2_array($result)
+    {
+        $array = array();
+        foreach ($result as $key => $value) {
+            if (is_object($value)) {
+                $array[$key] = $this->object_2_array($value);
+            }
+            if (is_array($value)) {
+                $array[$key] =  $this->object_2_array($value);
+            } else {
+                $array[$key] = $value;
+            }
+        }
+        return $array;
+    }
+
 
 	function process() {
 		$class = $this -> here . DS . 'hybridauth' . DS . 'Hybrid/Auth.php';
@@ -52,7 +72,7 @@ class Social {
 			$user_profile = $adapter -> getUserProfile();
 
 			if (!empty($user_profile)) {
-				$user_profile = object_2_array($user_profile);
+				$user_profile = $this->object_2_array($user_profile);
 				return $user_profile;
 			}
 		} catch( Exception $e ) {

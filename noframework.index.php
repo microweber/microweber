@@ -35,23 +35,6 @@ if (strval($installed) != 'yes') {
 }
 
 
-
-$router = new \Microweber\Router();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-exit('1111111');
 if (!isset($controller) or !is_object($controller)) {
     $controller = new\Microweber\Controller($mw);
 }
@@ -72,6 +55,21 @@ if ($m1) {
     $method = 'index';
 }
 
+$check_custom_controllers = MW_APP_PATH . 'controllers' . DIRECTORY_SEPARATOR . $method . '.php';
+if (is_file($check_custom_controllers)) {
+    include_once($check_custom_controllers);
+    if (class_exists($method)) {
+        $controller = new $method();
+        $m1 = mw('url')->segment(1);
+
+        if ($m1) {
+            $m1 = str_replace('.', '', $m1);
+            $method = $m1;
+        } else {
+            $method = 'index';
+        }
+    }
+}
 
 
 $params_for_route = mw('url')->segment();

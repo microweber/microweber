@@ -1934,3 +1934,145 @@ function mw_print_rte_image_editor_image_search() {
     }
     print '<module type="files/admin" />';
 }
+
+
+
+
+/**
+ * Converts a path in the appropriate format for win or linux
+ *
+ * @param string $path
+ *            The directory path.
+ * @param boolean $slash_it
+ *            If true, ads a slash at the end, false by default
+ * @return string The formated string
+ *
+ * @package Utils
+ * @category Files
+ */
+function normalize_path($path, $slash_it = true)
+{
+
+    $parser_mem_crc = 'normalize_path' . crc32($path . $slash_it);
+
+    $ch = mw_var($parser_mem_crc);
+    if ($ch != false) {
+
+        $path = $ch;
+        // print $path;
+    } else {
+
+
+        $path_original = $path;
+        $s = DIRECTORY_SEPARATOR;
+        $path = preg_replace('/[\/\\\]/', $s, $path);
+        // $path = preg_replace ( '/' . $s . '$/', '', $path ) . $s;
+        $path = str_replace($s . $s, $s, $path);
+        if (strval($path) == '') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+            $path = rtrim($path, DIRECTORY_SEPARATOR);
+        } else {
+            $path .= DIRECTORY_SEPARATOR;
+            $path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+        }
+        if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+        } else {
+            $path = $path . DIRECTORY_SEPARATOR;
+            $path = reduce_double_slashes($path);
+            // $path = rtrim ( $path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR );
+        }
+
+        mw_var($parser_mem_crc, $path);
+
+    }
+
+    return $path;
+}
+
+
+/**
+ * Removes double slashes from sting
+ * @param $str
+ * @return string
+ */
+function reduce_double_slashes($str)
+{
+    return preg_replace("#([^:])//+#", "\\1/", $str);
+}
+
+
+
+
+/**
+ * Returns extension from a filename
+ *
+ * @param $LoSFileName Your filename
+ * @return string  $filename extension
+ * @package Utils
+ * @category Files
+ */
+function get_file_extension($LoSFileName)
+{
+    $LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
+    return $LoSFileExtensions;
+}
+
+/**
+ * Returns a filename without extension
+ * @param $filename The filename
+ * @return string  $filename without extension
+ * @package Utils
+ * @category Files
+ */
+function no_ext($filename)
+{
+    $filebroken = explode('.', $filename);
+    array_pop($filebroken);
+
+    return implode('.', $filebroken);
+
+}
+
+/**
+ * Makes directory recursive, returns TRUE if exists or made and false on error
+ *
+ * @param string $pathname
+ *            The directory path.
+ * @return boolean
+ *          returns TRUE if exists or made or FALSE on failure.
+ *
+ * @package Utils
+ * @category Files
+ */
+function mkdir_recursive($pathname)
+{
+    if ($pathname == '') {
+        return false;
+    }
+    is_dir(dirname($pathname)) || mkdir_recursive(dirname($pathname));
+    return is_dir($pathname) || @mkdir($pathname);
+}
+
+
+function db_escape_string($value)
+{
+    global $mw_escaped_strings;
+    if (isset($mw_escaped_strings[$value])) {
+        return $mw_escaped_strings[$value];
+    }
+
+    $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+    $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+    $new = str_replace($search, $replace, $value);
+    $mw_escaped_strings[$value] = $new;
+    return $new;
+}
+function strleft($s1, $s2) {
+    return substr($s1, 0, strpos($s1, $s2));
+}
+

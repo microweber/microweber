@@ -37,792 +37,7 @@ class Controller
     public $functions = array();
     public $vars = array();
 
-    function admin()
-    {
-        if (!defined('MW_BACKEND')) {
-            define('MW_BACKEND', true);
-        }
-        if (MW_IS_INSTALLED == true) {
-            //exec_action('mw_db_init');
-            // exec_action('mw_cron');
-        }
-
-        //create_mw_default_options();
-        define_constants();
-        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
-        $l = $l->__toString();
-        // var_dump($l);
-        exec_action('on_load');
-
-        $layout = mw('parser')->process($l, $options = false);
-        $layout = execute_document_ready($layout);
-
-        print $layout;
-
-        if (isset($_GET['debug'])) {
-            mw('content')->debug_info();
-            $is_admin = is_admin();
-            if ($is_admin == true) {
-
-            }
-        }
-        exit();
-    }
-
-    function rss()
-    {
-        if (MW_IS_INSTALLED == true) {
-            exec_action('mw_cron');
-        }
-    }
-
-    function api_html()
-    {
-        if (!defined('MW_API_HTML_OUTPUT')) {
-            define('MW_API_HTML_OUTPUT', true);
-        }
-        $this->api();
-    }
-
-    function api($api_function = false, $params = false)
-    {
-
-
-        if (isset($_REQUEST['api_key']) and user_id() == 0) {
-            api_login($_REQUEST['api_key']);
-        }
-
-        if (!defined('MW_API_CALL')) {
-            define('MW_API_CALL', true);
-        }
-
-        if(!isset($_SESSION)){
-            session_start();
-        }
-
-
-
-        $mod_class_api = false;
-        $mod_class_api_called = false;
-        $mod_class_api_class_exist = false;
-        $caller_commander = false;
-        define_constants();
-        if ($api_function == false) {
-            $api_function_full = mw('url')->string();
-            $api_function_full= mw('format')->replace_once('api_html', '', $api_function_full);
-            $api_function_full= mw('format')->replace_once('api', '', $api_function_full);
-            //$api_function_full = substr($api_function_full, 4);
-        } else {
-            $api_function_full = $api_function;
-        }
-        $api_function_full = str_replace('..', '', $api_function_full);
-        $api_function_full = str_replace('\\', '/', $api_function_full);
-        $api_function_full = str_replace('//', '/', $api_function_full);
-        $api_function_full = mw('db')->escape_string($api_function_full);
-
-        $mod_api_class = explode('/', $api_function_full);
-        $try_class_func = array_pop($mod_api_class);
-        // $try_class_func2 = array_pop($mod_api_class);
-        $mod_api_class_copy = $mod_api_class;
-        $try_class_func2 = array_pop($mod_api_class_copy);
-        $mod_api_class2 = implode(DS, $mod_api_class_copy);
-
-
-        $mod_api_class = implode(DS, $mod_api_class);
-
-        //d($mod_api_class);
-
-        $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
-        $mod_api_class_native = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class, false) . '.php';
-        $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
-
-
-
-
-
-        $try_class = str_replace('/', '\\', $mod_api_class);
-        if (class_exists($try_class, false)) {
-            $caller_commander = 'class_is_already_here';
-            $mod_class_api_class_exist = true;
-        } else {
-            //
-            if (is_file($mod_api_class1)) {
-                $mod_class_api = true;
-                include_once ($mod_api_class1);
-            } else if (is_file($mod_api_class_native_global_ns)) {
-                $try_class = str_replace('/', '\\', $mod_api_class2);
-                $mod_class_api = true;
-                include_once ($mod_api_class_native_global_ns);
-            }else if (is_file($mod_api_class_native)) {
-                $mod_class_api = true;
-                include_once ($mod_api_class_native);
-            }
-        }
-
-
-        $api_exposed = '';
-
-        // user functions
-        $api_exposed .= 'user_login user_logout ';
-
-        // content functions
-        $api_exposed .= 'save_edit ';
-        $api_exposed .= 'set_language ';
-        $api_exposed .= (api_expose(true));
-        $api_exposed = explode(' ', $api_exposed);
-        $api_exposed = array_unique($api_exposed);
-        $api_exposed = array_trim($api_exposed);
-        if ($api_function == false) {
-            $api_function = mw('url')->segment(1);
-        }
-
-        if (!defined('MW_API_RAW')) {
-            if ($mod_class_api != false) {
-                $url_segs = mw('url')->segment(-1);
-                // $api_function = ;
-                //d($api_functioan);
-                //d($try_class);
-            }
-        } else {
-            $url_segs = explode('/', $api_function);
-
-        }
-
-        switch ($caller_commander) {
-            case 'class_is_already_here' :
-                if ($params != false) {
-                    $data = $params;
-                } else if (!$_POST and !$_GET) {
-                    //  $data = mw('url')->segment(2);
-                    $data = mw('url')->params(true);
-                    if (empty($data)) {
-                        $data = mw('url')->segment(2);
-                    }
-                } else {
-                    $data = $_REQUEST;
-                }
-
-                static $loaded_classes = array();
-
-                //$try_class_n = src_
-                if (isset($loaded_classes[$try_class]) == false) {
-                    $res = new $try_class($data);
-                    $loaded_classes[$try_class] = $res;
-                } else {
-                    $res = $loaded_classes[$try_class];
-                    //
-                }
-
-                if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
-
-                    if(method_exists($res, $try_class_func2)){
-                        $try_class_func = $try_class_func2;
-                    }
-
-
-
-
-
-                    $res = $res->$try_class_func($data);
-
-                    if (defined('MW_API_RAW')) {
-                        $mod_class_api_called = true;
-                        return ($res);
-                    }
-
-                    if (!defined('MW_API_HTML_OUTPUT')) {
-                        header('Content-Type: application/json');
-
-                        print json_encode($res);
-                    } else {
-
-                        print($res);
-                    }
-                    exit();
-                }
-
-                break;
-
-            default :
-                if ($mod_class_api == true and $mod_api_class != false) {
-
-                    $try_class = str_replace('/', '\\', $mod_api_class);
-                    $try_class_full = str_replace('/', '\\', $api_function_full);
-
-                    $try_class_full2 = str_replace('\\', '/', $api_function_full);
-                    $mod_api_class_test = explode('/', $try_class_full2);
-                    $try_class_func_test = array_pop($mod_api_class_test);
-                    $mod_api_class_test_full = implode('/',$mod_api_class_test);
-                    $mod_api_err = false;
-                    if (!defined('MW_API_RAW')) {
-                        if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)and !in_array($mod_api_class_test_full, $api_exposed)) {
-                            $mod_api_err = true;
-
-                            foreach ($api_exposed as $api_exposed_value) {
-                                //d($api_exposed_value);
-                                if ($mod_api_err == true) {
-                                    if ($api_exposed_value == $try_class_full) {
-                                        $mod_api_err = false;
-                                    } else if ($api_exposed_value == $try_class_full2) {
-
-                                        $mod_api_err = false;
-                                    } else {
-                                        $convert_slashes = str_replace('\\', '/', $try_class_full);
-                                        //$convert_slashes2 = str_replace('\\', '/', $try_class_full);
-
-                                        //d($convert_slashes);
-                                        // d($try_class_full);
-                                        if ($convert_slashes == $api_exposed_value) {
-                                            $mod_api_err = false;
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            $mod_api_err = false;
-
-                        }
-                    }
-
-                    if ($mod_class_api and $mod_api_err == false) {
-
-                        if (!class_exists($try_class, false)) {
-                            $remove = $url_segs;
-                            $last_seg = array_pop($remove);
-                            $last_prev_seg = array_pop($remove);
-                            $last_prev_seg2 = array_pop($remove);
-
-
-                            if (class_exists($last_prev_seg, false)) {
-                                $try_class = $last_prev_seg;
-                            } else if (class_exists($last_prev_seg2, false)) {
-                                $try_class = $last_prev_seg2;
-                            }
-
-                        }
-
-                        if (class_exists($try_class, false)) {
-                            if ($params != false) {
-                                $data = $params;
-                            } else if (!$_POST and !$_GET) {
-                                //  $data = mw('url')->segment(2);
-                                $data = mw('url')->params(true);
-                                if (empty($data)) {
-                                    $data = mw('url')->segment(2);
-                                }
-                            } else {
-                                $data = $_REQUEST;
-                            }
-
-                            $res = new $try_class($data);
-                            //if (method_exists($res, $try_class_func)) {
-
-                            if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
-
-
-                                if(method_exists($res, $try_class_func2)){
-                                    $try_class_func = $try_class_func2;
-                                }
-                                //	d($res);
-                                //exit();
-                                $res = $res->$try_class_func($data);
-                                $mod_class_api_called = true;
-
-                                if (defined('MW_API_RAW')) {
-                                    return ($res);
-                                }
-
-                                if (!defined('MW_API_HTML_OUTPUT')) {
-                                    header('Content-Type: application/json');
-
-                                    print json_encode($res);
-                                } else {
-
-                                    print($res);
-                                }
-
-                                exit();
-                            }
-
-                        } else {
-                            error('The api class ' . $try_class . '  does not exist');
-
-                        }
-
-                    }
-
-                }
-
-                break;
-        }
-
-        if ($api_function) {
-
-        } else {
-            $api_function = 'index';
-        }
-
-        if ($api_function == 'module' and $mod_class_api_called == false) {
-            $this->module();
-        } else {
-            $err = false;
-            if (!in_array($api_function, $api_exposed)) {
-                $err = true;
-            }
-            if ($err == true) {
-                foreach ($api_exposed as $api_exposed_item) {
-                    if ($api_exposed_item == $api_function) {
-                        $err = false;
-                    }
-                }
-            }
-
-            if ($err == false) {
-                //
-                if ($mod_class_api_called == false) {
-                    if (!$_POST and !$_GET) {
-                        //  $data = mw('url')->segment(2);
-                        $data = mw('url')->params(true);
-                        if (empty($data)) {
-                            $data = mw('url')->segment(2);
-                        }
-                    } else {
-                        $data = $_REQUEST;
-                    }
-
-                    if (function_exists($api_function)) {
-
-                        $res = $api_function($data);
-
-                    } elseif (class_exists($api_function, false)) {
-                        //
-                        $segs = mw('url')->segment();
-                        $mmethod = array_pop($segs);
-
-                        $res = new $api_function($data);
-                        if (method_exists($res, $mmethod)) {
-                            $res = $res->$mmethod($data);
-                        }
-
-                    }
-
-                }
-                $hooks = api_hook(true);
-
-                if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-
-                    foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-                        if ($hook_value != false and $hook_value != null) {
-                            //d($hook_value);
-                            $hook_value($res);
-                            //
-                        }
-                    }
-
-                } else {
-                    //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
-                }
-
-                // print $api_function;
-            } else {
-
-                error('The api function ' . $api_function . ' is not defined in the allowed functions list');
-
-            }
-
-            if (!defined('MW_API_HTML_OUTPUT')) {
-
-
-                if (!headers_sent()) {
-                    header('Content-Type: application/json');
-
-                    print json_encode($res);
-                }
-            } else {
-
-                print($res);
-            }
-            exit();
-        }
-        // exit ( $api_function );
-    }
-
-    function module()
-    {
-        if (!defined('MW_API_CALL')) {
-            //	define('MW_API_CALL', true);
-        }
-        if(!isset($_SESSION)){
-            session_start();
-        }
-        $page = false;
-
-        $custom_display = false;
-        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
-            $custom_display = true;
-        }
-
-        if (isset($_REQUEST['data-module-name'])) {
-            $_REQUEST['module'] = $_REQUEST['data-module-name'];
-            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
-
-            if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = mw('url')->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
-            }
-
-        }
-
-        if (isset($_REQUEST['data-type'])) {
-            $_REQUEST['module'] = $_REQUEST['data-type'];
-        }
-
-        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
-            $custom_display = true;
-        }
-        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
-            $custom_display = FALSE;
-        }
-
-        if ($custom_display == true) {
-            $custom_display_id = false;
-            if (isset($_REQUEST['id'])) {
-                $custom_display_id = $_REQUEST['id'];
-            }
-            if (isset($_REQUEST['data-id'])) {
-                $custom_display_id = $_REQUEST['data-id'];
-            }
-        }
-        if (isset($_SERVER["HTTP_REFERER"])) {
-            $from_url = $_SERVER["HTTP_REFERER"];
-
-        }
-        if (isset($_REQUEST['from_url'])) {
-            $from_url = $_REQUEST['from_url'];
-        }
-
-        if (isset($from_url) and $from_url != false) {
-
-            $url = $from_url;
-
-            if (strpos($url, '#')) {
-                $url = substr($url, 0, strpos($url, '#'));
-            }
-
-            //$url = $_SERVER["HTTP_REFERER"];
-            $url = explode('?', $url);
-            $url = $url[0];
-
-            if (trim($url) == '' or trim($url) == mw_site_url()) {
-                //$page = mw('content')->get_by_url($url);
-                $page = get_homepage();
-                // var_dump($page);
-            } else {
-
-                $page = mw('content')->get_by_url($url);
-
-            }
-        } else {
-            $url = mw('url')->string();
-        }
-
-        define_constants($page);
-
-        if ($custom_display == true) {
-
-            $u2 = mw_site_url();
-            $u1 = str_replace($u2, '', $url);
-            $this->render_this_url = $u1;
-            $this->isolate_by_html_id = $custom_display_id;
-            $this->index();
-            exit();
-        }
-        $url_last = false;
-        if (!isset($_REQUEST['module'])) {
-            $url = mw('url')->string(0);
-            if ($url == __FUNCTION__) {
-                $url = mw('url')->string(0);
-            }
-            /*
-             $is_ajax = mw('url')->is_ajax();
-
-             if ($is_ajax == true) {
-             $url = mw('url')->string(true);
-             }*/
-
-            $url = mw('format')->replace_once('module/', '', $url);
-            $url = mw('format')->replace_once('module_api/', '', $url);
-            $url = mw('format')->replace_once('m/', '', $url);
-
-            if (is_module($url)) {
-                $_REQUEST['module'] = $url;
-                $mod_from_url = $url;
-
-            } else {
-                $url1 = $url_temp = explode('/', $url);
-                $url_last = array_pop($url_temp);
-
-                $try_intil_found = false;
-                $temp1 = array();
-                foreach ($url_temp as $item) {
-
-                    $temp1[] = implode('/', $url_temp);
-                    $url_laset = array_pop($url_temp);
-
-                }
-
-                $i = 0;
-                foreach ($temp1 as $item) {
-                    if ($try_intil_found == false) {
-
-                        if (is_module($item)) {
-
-                            $url_tempx = explode('/', $url);
-
-                            $_REQUEST['module'] = $item;
-                            $url_prev = $url_last;
-                            $url_last = array_pop($url_tempx);
-                            $url_prev = array_pop($url_tempx);
-
-                            // d($url_prev);
-                            $mod_from_url = $item;
-                            $try_intil_found = true;
-                        }
-
-                    }
-                    $i++;
-                }
-
-            }
-        }
-
-        $module_info = mw('url')->param('module_info', true);
-
-        if ($module_info) {
-            if ($_REQUEST['module']) {
-                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
-                $try_config_file = normalize_path($try_config_file, false);
-                if (is_file($try_config_file)) {
-                    include ($try_config_file);
-
-                    if (!isset($config) or !is_array($config)) {
-                        return false;
-                    }
-
-
-                    if (!isset($config['icon']) or $config['icon'] == false) {
-                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = mw('url')->link_to_file($config['icon']);
-                    }
-                    print json_encode($config);
-                    exit();
-                }
-            }
-        }
-
-        $admin = mw('url')->param('admin', true);
-
-        $mod_to_edit = mw('url')->param('module_to_edit', true);
-        $embed = mw('url')->param('embed', true);
-
-        $mod_iframe = false;
-        if ($mod_to_edit != false) {
-            $mod_to_edit = str_ireplace('_mw_slash_replace_', '/', $mod_to_edit);
-            $mod_iframe = true;
-        }
-        //$data = $_REQUEST;
-
-        if (($_POST)) {
-            $data = $_POST;
-        } else {
-            $url = mw('url')->segment();
-
-            if (!empty($url)) {
-                foreach ($url as $k => $v) {
-                    $kv = explode(':', $v);
-                    if (isset($kv[0]) and isset($kv[1])) {
-                        $data[$kv[0]] = $kv[1];
-                    }
-                }
-            }
-        }
-
-        if (!isset($_POST['id']) and !isset($data['id']) and isset($_REQUEST['id'])) {
-            //	$data['id'] = $_REQUEST['id'];
-        }
-
-        $is_page_id = mw('url')->param('page_id', true);
-        if ($is_page_id != '') {
-            //s  $data['page_id'] = $is_page_id;
-        }
-
-        $is_REQUEST_id = mw('url')->param('post_id', true);
-        if ($is_REQUEST_id != '') {
-            //  $data['post_id'] = $is_REQUEST_id;
-        }
-
-        $is_category_id = mw('url')->param('category_id', true);
-        if ($is_category_id != '') {
-            //   $data['category_id'] = $is_category_id;
-        }
-
-        $is_rel = mw('url')->param('rel', true);
-        if ($is_rel != '') {
-            //   $data['rel'] = $is_rel;
-
-            if ($is_rel == 'page') {
-
-
-            }
-
-            if ($is_rel == 'post') {
-                // $refpage = get_ref_page ();
-
-            }
-
-            if ($is_rel == 'category') {
-                // $refpage = get_ref_page ();
-
-            }
-        }
-
-        $tags = false;
-        $mod_n = false;
-
-        if (isset($data['type']) != false) {
-            if (trim($data['type']) != '') {
-                $mod_n = $data['data-type'] = $data['type'];
-            }
-        }
-
-        if (isset($data['data-module-name'])) {
-            $mod_n = $data['data-type'] = $data['data-module-name'];
-            unset($data['data-module-name']);
-        }
-
-        if (isset($data['data-type']) != false) {
-            $mod_n = $data['data-type'];
-        }
-        if (isset($data['data-module']) != false) {
-            if (trim($data['data-module']) != '') {
-                $mod_n = $data['module'] = $data['data-module'];
-            }
-        }
-
-        if (isset($data['module'])) {
-            $mod_n = $data['data-type'] = $data['module'];
-            unset($data['module']);
-        }
-
-        if (isset($data['type'])) {
-            $mod_n = $data['data-type'] = $data['type'];
-            unset($data['type']);
-        }
-        if (isset($data['data-type']) != false) {
-            $data['data-type'] = rtrim($data['data-type'], '/');
-            $data['data-type'] = rtrim($data['data-type'], '\\');
-            $data['data-type'] = str_replace('__', '/', $data['data-type']);
-        }
-        if (!isset($data)) {
-            $data = $_REQUEST;
-        }
-        if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
-            $data['module'] = ($mod_from_url);
-        }
-
-        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
-            $data['id'] = $_REQUEST['id'];
-        }
-
-        $has_id = false;
-        if (isset($data) and is_array($data)) {
-            foreach ($data as $k => $v) {
-
-                if ($k == 'id') {
-                    $has_id = true;
-                }
-
-                if (is_array($v)) {
-                    $v1 = mw('format')->array_to_base64($v);
-                    $tags .= "{$k}=\"$v1\" ";
-                } else {
-                    $tags .= "{$k}=\"$v\" ";
-                }
-            }
-        }
-        if ($has_id == false) {
-
-            //	$mod_n = mw('url')->slug($mod_n) . '-' . date("YmdHis");
-            //	$tags .= "id=\"$mod_n\" ";
-        }
-
-        $tags = "<module {$tags} />";
-
-        $opts = array();
-        if ($_REQUEST) {
-            $opts = $_REQUEST;
-        }
-        $opts['admin'] = $admin;
-
-        if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
-            $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, mw_site_url())) {
-                $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
-                if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
-                    $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
-                    if (is_array($get_array)) {
-
-                        mw_var('mw_restore_get', $get_array);
-                    }
-                    //
-
-                }
-            }
-        }
-
-        $res = mw('parser')->process($tags, $opts);
-        $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
-
-        if ($embed != false) {
-            $p_index = MW_INCLUDES_DIR . 'api/index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new \Microweber\View($p_index);
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
-        }
-
-        if (isset($_REQUEST['live_edit'])) {
-            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new \Microweber\View($p_index);
-            $l->params = $data;
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
-        }
-        $res = mw('parser')->process($res, $options = false);
-
-        $res = execute_document_ready($res);
-        if (!defined('MW_NO_OUTPUT')) {
-            $res = mw('url')->replace_site_url_back($res);
-            print $res;
-        }
-
-        if ($url_last != __FUNCTION__) {
-            if (function_exists($url_last)) {
-                //
-                $this->api($url_last);
-            } else if (isset($url_prev) and function_exists($url_prev)) {
-                $this->api($url_last);
-            } elseif (class_exists($url_last, false)) {
-                $this->api($url_last);
-            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
-                $this->api($url_prev);
-            }
-        }
-        exit();
-    }
-
-    function index()
+    public function index()
     {
 
         if ($this->render_this_url == false and mw('url')->is_ajax() == FALSE) {
@@ -1219,8 +434,6 @@ class Controller
         }
 
 
-
-
         if ($is_preview_template != false and $is_admin == true) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
             $content['active_site_template'] = $is_preview_template;
@@ -1264,7 +477,7 @@ class Controller
             }
         }
 
-// 
+//
         define_constants($content);
 
         //$page_data = mw('content')->get_by_id(PAGE_ID);
@@ -1618,8 +831,7 @@ class Controller
                 // }
             }
 
-            // print (round(microtime()-T,5)*1000);
-            //
+
             exit();
         } else {
 
@@ -1632,11 +844,789 @@ class Controller
             mw('cache')->purge();
             exit();
         }
-        // var_dump ( $page );
-        // var_dump($ab);
+
     }
 
-    function m()
+    public function admin()
+    {
+        if (!defined('MW_BACKEND')) {
+            define('MW_BACKEND', true);
+        }
+        if (MW_IS_INSTALLED == true) {
+            //exec_action('mw_db_init');
+            // exec_action('mw_cron');
+        }
+
+        //create_mw_default_options();
+        define_constants();
+        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
+        $l = $l->__toString();
+        // var_dump($l);
+        exec_action('on_load');
+
+        $layout = mw('parser')->process($l, $options = false);
+        $layout = execute_document_ready($layout);
+
+        print $layout;
+
+        if (isset($_GET['debug'])) {
+            mw('content')->debug_info();
+            $is_admin = is_admin();
+            if ($is_admin == true) {
+
+            }
+        }
+        exit();
+    }
+
+    public function rss()
+    {
+        if (MW_IS_INSTALLED == true) {
+            exec_action('mw_cron');
+        }
+    }
+
+    public function api_html()
+    {
+        if (!defined('MW_API_HTML_OUTPUT')) {
+            define('MW_API_HTML_OUTPUT', true);
+        }
+        $this->api();
+    }
+
+    public function api($api_function = false, $params = false)
+    {
+
+
+        if (isset($_REQUEST['api_key']) and user_id() == 0) {
+            api_login($_REQUEST['api_key']);
+        }
+
+        if (!defined('MW_API_CALL')) {
+            define('MW_API_CALL', true);
+        }
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+
+        $mod_class_api = false;
+        $mod_class_api_called = false;
+        $mod_class_api_class_exist = false;
+        $caller_commander = false;
+        define_constants();
+        if ($api_function == false) {
+            $api_function_full = mw('url')->string();
+            $api_function_full = mw('format')->replace_once('api_html', '', $api_function_full);
+            $api_function_full = mw('format')->replace_once('api', '', $api_function_full);
+            //$api_function_full = substr($api_function_full, 4);
+        } else {
+            $api_function_full = $api_function;
+        }
+        $api_function_full = str_replace('..', '', $api_function_full);
+        $api_function_full = str_replace('\\', '/', $api_function_full);
+        $api_function_full = str_replace('//', '/', $api_function_full);
+        $api_function_full = mw('db')->escape_string($api_function_full);
+
+        $mod_api_class = explode('/', $api_function_full);
+        $try_class_func = array_pop($mod_api_class);
+        // $try_class_func2 = array_pop($mod_api_class);
+        $mod_api_class_copy = $mod_api_class;
+        $try_class_func2 = array_pop($mod_api_class_copy);
+        $mod_api_class2 = implode(DS, $mod_api_class_copy);
+
+
+        $mod_api_class = implode(DS, $mod_api_class);
+
+        //d($mod_api_class);
+
+        $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
+        $mod_api_class_native = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class, false) . '.php';
+        $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
+
+
+        $try_class = str_replace('/', '\\', $mod_api_class);
+        if (class_exists($try_class, false)) {
+            $caller_commander = 'class_is_already_here';
+            $mod_class_api_class_exist = true;
+        } else {
+            //
+            if (is_file($mod_api_class1)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class1);
+            } else if (is_file($mod_api_class_native_global_ns)) {
+                $try_class = str_replace('/', '\\', $mod_api_class2);
+                $mod_class_api = true;
+                include_once ($mod_api_class_native_global_ns);
+            } else if (is_file($mod_api_class_native)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class_native);
+            }
+        }
+
+
+        $api_exposed = '';
+
+        // user functions
+        $api_exposed .= 'user_login user_logout ';
+
+        // content functions
+        $api_exposed .= 'save_edit ';
+        $api_exposed .= 'set_language ';
+        $api_exposed .= (api_expose(true));
+        $api_exposed = explode(' ', $api_exposed);
+        $api_exposed = array_unique($api_exposed);
+        $api_exposed = array_trim($api_exposed);
+        if ($api_function == false) {
+            $api_function = mw('url')->segment(1);
+        }
+
+        if (!defined('MW_API_RAW')) {
+            if ($mod_class_api != false) {
+                $url_segs = mw('url')->segment(-1);
+                // $api_function = ;
+                //d($api_functioan);
+                //d($try_class);
+            }
+        } else {
+            $url_segs = explode('/', $api_function);
+
+        }
+
+        switch ($caller_commander) {
+            case 'class_is_already_here' :
+                if ($params != false) {
+                    $data = $params;
+                } else if (!$_POST and !$_GET) {
+                    //  $data = mw('url')->segment(2);
+                    $data = mw('url')->params(true);
+                    if (empty($data)) {
+                        $data = mw('url')->segment(2);
+                    }
+                } else {
+                    $data = $_REQUEST;
+                }
+
+                static $loaded_classes = array();
+
+                //$try_class_n = src_
+                if (isset($loaded_classes[$try_class]) == false) {
+                    $res = new $try_class($data);
+                    $loaded_classes[$try_class] = $res;
+                } else {
+                    $res = $loaded_classes[$try_class];
+                    //
+                }
+
+                if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
+
+                    if (method_exists($res, $try_class_func2)) {
+                        $try_class_func = $try_class_func2;
+                    }
+
+
+                    $res = $res->$try_class_func($data);
+
+                    if (defined('MW_API_RAW')) {
+                        $mod_class_api_called = true;
+                        return ($res);
+                    }
+
+                    if (!defined('MW_API_HTML_OUTPUT')) {
+                        header('Content-Type: application/json');
+
+                        print json_encode($res);
+                    } else {
+
+                        print($res);
+                    }
+                    exit();
+                }
+
+                break;
+
+            default :
+                if ($mod_class_api == true and $mod_api_class != false) {
+
+                    $try_class = str_replace('/', '\\', $mod_api_class);
+                    $try_class_full = str_replace('/', '\\', $api_function_full);
+
+                    $try_class_full2 = str_replace('\\', '/', $api_function_full);
+                    $mod_api_class_test = explode('/', $try_class_full2);
+                    $try_class_func_test = array_pop($mod_api_class_test);
+                    $mod_api_class_test_full = implode('/', $mod_api_class_test);
+                    $mod_api_err = false;
+                    if (!defined('MW_API_RAW')) {
+                        if (!in_array($try_class_full, $api_exposed) and !in_array($try_class_full2, $api_exposed)and !in_array($mod_api_class_test_full, $api_exposed)) {
+                            $mod_api_err = true;
+
+                            foreach ($api_exposed as $api_exposed_value) {
+                                //d($api_exposed_value);
+                                if ($mod_api_err == true) {
+                                    if ($api_exposed_value == $try_class_full) {
+                                        $mod_api_err = false;
+                                    } else if ($api_exposed_value == $try_class_full2) {
+
+                                        $mod_api_err = false;
+                                    } else {
+                                        $convert_slashes = str_replace('\\', '/', $try_class_full);
+                                        //$convert_slashes2 = str_replace('\\', '/', $try_class_full);
+
+                                        //d($convert_slashes);
+                                        // d($try_class_full);
+                                        if ($convert_slashes == $api_exposed_value) {
+                                            $mod_api_err = false;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            $mod_api_err = false;
+
+                        }
+                    }
+
+                    if ($mod_class_api and $mod_api_err == false) {
+
+                        if (!class_exists($try_class, false)) {
+                            $remove = $url_segs;
+                            $last_seg = array_pop($remove);
+                            $last_prev_seg = array_pop($remove);
+                            $last_prev_seg2 = array_pop($remove);
+
+
+                            if (class_exists($last_prev_seg, false)) {
+                                $try_class = $last_prev_seg;
+                            } else if (class_exists($last_prev_seg2, false)) {
+                                $try_class = $last_prev_seg2;
+                            }
+
+                        }
+
+                        if (class_exists($try_class, false)) {
+                            if ($params != false) {
+                                $data = $params;
+                            } else if (!$_POST and !$_GET) {
+                                //  $data = mw('url')->segment(2);
+                                $data = mw('url')->params(true);
+                                if (empty($data)) {
+                                    $data = mw('url')->segment(2);
+                                }
+                            } else {
+                                $data = $_REQUEST;
+                            }
+
+                            $res = new $try_class($data);
+                            //if (method_exists($res, $try_class_func)) {
+
+                            if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
+
+
+                                if (method_exists($res, $try_class_func2)) {
+                                    $try_class_func = $try_class_func2;
+                                }
+                                //	d($res);
+                                //exit();
+                                $res = $res->$try_class_func($data);
+                                $mod_class_api_called = true;
+
+                                if (defined('MW_API_RAW')) {
+                                    return ($res);
+                                }
+
+                                if (!defined('MW_API_HTML_OUTPUT')) {
+                                    header('Content-Type: application/json');
+
+                                    print json_encode($res);
+                                } else {
+
+                                    print($res);
+                                }
+
+                                exit();
+                            }
+
+                        } else {
+                            error('The api class ' . $try_class . '  does not exist');
+
+                        }
+
+                    }
+
+                }
+
+                break;
+        }
+
+        if ($api_function) {
+
+        } else {
+            $api_function = 'index';
+        }
+
+        if ($api_function == 'module' and $mod_class_api_called == false) {
+            $this->module();
+        } else {
+            $err = false;
+            if (!in_array($api_function, $api_exposed)) {
+                $err = true;
+            }
+            if ($err == true) {
+                foreach ($api_exposed as $api_exposed_item) {
+                    if ($api_exposed_item == $api_function) {
+                        $err = false;
+                    }
+                }
+            }
+
+            if ($err == false) {
+                //
+                if ($mod_class_api_called == false) {
+                    if (!$_POST and !$_GET) {
+                        //  $data = mw('url')->segment(2);
+                        $data = mw('url')->params(true);
+                        if (empty($data)) {
+                            $data = mw('url')->segment(2);
+                        }
+                    } else {
+                        $data = $_REQUEST;
+                    }
+
+                    if (function_exists($api_function)) {
+
+                        $res = $api_function($data);
+
+                    } elseif (class_exists($api_function, false)) {
+                        //
+                        $segs = mw('url')->segment();
+                        $mmethod = array_pop($segs);
+
+                        $res = new $api_function($data);
+                        if (method_exists($res, $mmethod)) {
+                            $res = $res->$mmethod($data);
+                        }
+
+                    }
+
+                }
+                $hooks = api_hook(true);
+
+                if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+
+                    foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+                        if ($hook_value != false and $hook_value != null) {
+                            //d($hook_value);
+                            $hook_value($res);
+                            //
+                        }
+                    }
+
+                } else {
+                    //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
+                }
+
+                // print $api_function;
+            } else {
+
+                error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+
+            }
+
+            if (!defined('MW_API_HTML_OUTPUT')) {
+
+
+                if (!headers_sent()) {
+                    header('Content-Type: application/json');
+
+                    print json_encode($res);
+                }
+            } else {
+
+                print($res);
+            }
+            exit();
+        }
+        // exit ( $api_function );
+    }
+
+    public function module()
+    {
+        if (!defined('MW_API_CALL')) {
+            //	define('MW_API_CALL', true);
+        }
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $page = false;
+
+        $custom_display = false;
+        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
+            $custom_display = true;
+        }
+
+        if (isset($_REQUEST['data-module-name'])) {
+            $_REQUEST['module'] = $_REQUEST['data-module-name'];
+            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+
+            if (!isset($_REQUEST['id'])) {
+                $_REQUEST['id'] = mw('url')->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+            }
+
+        }
+
+        if (isset($_REQUEST['data-type'])) {
+            $_REQUEST['module'] = $_REQUEST['data-type'];
+        }
+
+        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
+            $custom_display = true;
+        }
+        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
+            $custom_display = FALSE;
+        }
+
+        if ($custom_display == true) {
+            $custom_display_id = false;
+            if (isset($_REQUEST['id'])) {
+                $custom_display_id = $_REQUEST['id'];
+            }
+            if (isset($_REQUEST['data-id'])) {
+                $custom_display_id = $_REQUEST['data-id'];
+            }
+        }
+        if (isset($_SERVER["HTTP_REFERER"])) {
+            $from_url = $_SERVER["HTTP_REFERER"];
+
+        }
+        if (isset($_REQUEST['from_url'])) {
+            $from_url = $_REQUEST['from_url'];
+        }
+
+        if (isset($from_url) and $from_url != false) {
+
+            $url = $from_url;
+
+            if (strpos($url, '#')) {
+                $url = substr($url, 0, strpos($url, '#'));
+            }
+
+            //$url = $_SERVER["HTTP_REFERER"];
+            $url = explode('?', $url);
+            $url = $url[0];
+
+            if (trim($url) == '' or trim($url) == mw_site_url()) {
+                //$page = mw('content')->get_by_url($url);
+                $page = get_homepage();
+                // var_dump($page);
+            } else {
+
+                $page = mw('content')->get_by_url($url);
+
+            }
+        } else {
+            $url = mw('url')->string();
+        }
+
+        define_constants($page);
+
+        if ($custom_display == true) {
+
+            $u2 = mw_site_url();
+            $u1 = str_replace($u2, '', $url);
+            $this->render_this_url = $u1;
+            $this->isolate_by_html_id = $custom_display_id;
+            $this->index();
+            exit();
+        }
+        $url_last = false;
+        if (!isset($_REQUEST['module'])) {
+            $url = mw('url')->string(0);
+            if ($url == __FUNCTION__) {
+                $url = mw('url')->string(0);
+            }
+            /*
+             $is_ajax = mw('url')->is_ajax();
+
+             if ($is_ajax == true) {
+             $url = mw('url')->string(true);
+             }*/
+
+            $url = mw('format')->replace_once('module/', '', $url);
+            $url = mw('format')->replace_once('module_api/', '', $url);
+            $url = mw('format')->replace_once('m/', '', $url);
+
+            if (is_module($url)) {
+                $_REQUEST['module'] = $url;
+                $mod_from_url = $url;
+
+            } else {
+                $url1 = $url_temp = explode('/', $url);
+                $url_last = array_pop($url_temp);
+
+                $try_intil_found = false;
+                $temp1 = array();
+                foreach ($url_temp as $item) {
+
+                    $temp1[] = implode('/', $url_temp);
+                    $url_laset = array_pop($url_temp);
+
+                }
+
+                $i = 0;
+                foreach ($temp1 as $item) {
+                    if ($try_intil_found == false) {
+
+                        if (is_module($item)) {
+
+                            $url_tempx = explode('/', $url);
+
+                            $_REQUEST['module'] = $item;
+                            $url_prev = $url_last;
+                            $url_last = array_pop($url_tempx);
+                            $url_prev = array_pop($url_tempx);
+
+                            // d($url_prev);
+                            $mod_from_url = $item;
+                            $try_intil_found = true;
+                        }
+
+                    }
+                    $i++;
+                }
+
+            }
+        }
+
+        $module_info = mw('url')->param('module_info', true);
+
+        if ($module_info) {
+            if ($_REQUEST['module']) {
+                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
+                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
+                $try_config_file = normalize_path($try_config_file, false);
+                if (is_file($try_config_file)) {
+                    include ($try_config_file);
+
+                    if (!isset($config) or !is_array($config)) {
+                        return false;
+                    }
+
+
+                    if (!isset($config['icon']) or $config['icon'] == false) {
+                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+                        $config['icon'] = mw('url')->link_to_file($config['icon']);
+                    }
+                    print json_encode($config);
+                    exit();
+                }
+            }
+        }
+
+        $admin = mw('url')->param('admin', true);
+
+        $mod_to_edit = mw('url')->param('module_to_edit', true);
+        $embed = mw('url')->param('embed', true);
+
+        $mod_iframe = false;
+        if ($mod_to_edit != false) {
+            $mod_to_edit = str_ireplace('_mw_slash_replace_', '/', $mod_to_edit);
+            $mod_iframe = true;
+        }
+        //$data = $_REQUEST;
+
+        if (($_POST)) {
+            $data = $_POST;
+        } else {
+            $url = mw('url')->segment();
+
+            if (!empty($url)) {
+                foreach ($url as $k => $v) {
+                    $kv = explode(':', $v);
+                    if (isset($kv[0]) and isset($kv[1])) {
+                        $data[$kv[0]] = $kv[1];
+                    }
+                }
+            }
+        }
+
+        if (!isset($_POST['id']) and !isset($data['id']) and isset($_REQUEST['id'])) {
+            //	$data['id'] = $_REQUEST['id'];
+        }
+
+        $is_page_id = mw('url')->param('page_id', true);
+        if ($is_page_id != '') {
+            //s  $data['page_id'] = $is_page_id;
+        }
+
+        $is_REQUEST_id = mw('url')->param('post_id', true);
+        if ($is_REQUEST_id != '') {
+            //  $data['post_id'] = $is_REQUEST_id;
+        }
+
+        $is_category_id = mw('url')->param('category_id', true);
+        if ($is_category_id != '') {
+            //   $data['category_id'] = $is_category_id;
+        }
+
+        $is_rel = mw('url')->param('rel', true);
+        if ($is_rel != '') {
+            //   $data['rel'] = $is_rel;
+
+            if ($is_rel == 'page') {
+
+
+            }
+
+            if ($is_rel == 'post') {
+                // $refpage = get_ref_page ();
+
+            }
+
+            if ($is_rel == 'category') {
+                // $refpage = get_ref_page ();
+
+            }
+        }
+
+        $tags = false;
+        $mod_n = false;
+
+        if (isset($data['type']) != false) {
+            if (trim($data['type']) != '') {
+                $mod_n = $data['data-type'] = $data['type'];
+            }
+        }
+
+        if (isset($data['data-module-name'])) {
+            $mod_n = $data['data-type'] = $data['data-module-name'];
+            unset($data['data-module-name']);
+        }
+
+        if (isset($data['data-type']) != false) {
+            $mod_n = $data['data-type'];
+        }
+        if (isset($data['data-module']) != false) {
+            if (trim($data['data-module']) != '') {
+                $mod_n = $data['module'] = $data['data-module'];
+            }
+        }
+
+        if (isset($data['module'])) {
+            $mod_n = $data['data-type'] = $data['module'];
+            unset($data['module']);
+        }
+
+        if (isset($data['type'])) {
+            $mod_n = $data['data-type'] = $data['type'];
+            unset($data['type']);
+        }
+        if (isset($data['data-type']) != false) {
+            $data['data-type'] = rtrim($data['data-type'], '/');
+            $data['data-type'] = rtrim($data['data-type'], '\\');
+            $data['data-type'] = str_replace('__', '/', $data['data-type']);
+        }
+        if (!isset($data)) {
+            $data = $_REQUEST;
+        }
+        if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
+            $data['module'] = ($mod_from_url);
+        }
+
+        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
+            $data['id'] = $_REQUEST['id'];
+        }
+
+        $has_id = false;
+        if (isset($data) and is_array($data)) {
+            foreach ($data as $k => $v) {
+
+                if ($k == 'id') {
+                    $has_id = true;
+                }
+
+                if (is_array($v)) {
+                    $v1 = mw('format')->array_to_base64($v);
+                    $tags .= "{$k}=\"$v1\" ";
+                } else {
+                    $tags .= "{$k}=\"$v\" ";
+                }
+            }
+        }
+        if ($has_id == false) {
+
+            //	$mod_n = mw('url')->slug($mod_n) . '-' . date("YmdHis");
+            //	$tags .= "id=\"$mod_n\" ";
+        }
+
+        $tags = "<module {$tags} />";
+
+        $opts = array();
+        if ($_REQUEST) {
+            $opts = $_REQUEST;
+        }
+        $opts['admin'] = $admin;
+
+        if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
+            $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
+            if (strstr($get_arr_from_ref, mw_site_url())) {
+                $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
+                if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
+                    $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
+                    if (is_array($get_array)) {
+
+                        mw_var('mw_restore_get', $get_array);
+                    }
+                    //
+
+                }
+            }
+        }
+
+        $res = mw('parser')->process($tags, $opts);
+        $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
+
+        if ($embed != false) {
+            $p_index = MW_INCLUDES_DIR . 'api/index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new \Microweber\View($p_index);
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+        }
+
+        if (isset($_REQUEST['live_edit'])) {
+            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new \Microweber\View($p_index);
+            $l->params = $data;
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+        }
+        $res = mw('parser')->process($res, $options = false);
+
+        $res = execute_document_ready($res);
+        if (!defined('MW_NO_OUTPUT')) {
+            $res = mw('url')->replace_site_url_back($res);
+            print $res;
+        }
+
+        if ($url_last != __FUNCTION__) {
+            if (function_exists($url_last)) {
+                //
+                $this->api($url_last);
+            } else if (isset($url_prev) and function_exists($url_prev)) {
+                $this->api($url_last);
+            } elseif (class_exists($url_last, false)) {
+                $this->api($url_last);
+            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
+                $this->api($url_prev);
+            }
+        }
+        exit();
+    }
+
+
+    public function m()
     {
 
         if (!defined('MW_API_CALL')) {
@@ -1649,7 +1639,7 @@ class Controller
         return $this->module();
     }
 
-    function sitemapxml()
+    public function sitemapxml()
     {
 
 
@@ -1695,7 +1685,7 @@ class Controller
 
     }
 
-    function apijs()
+    public function apijs()
     {
 
         define("MW_NO_SESSION", 1);
@@ -1731,7 +1721,7 @@ class Controller
         exit();
     }
 
-    function plupload()
+    public function plupload()
     {
         define_constants();
         $f = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
@@ -1739,7 +1729,7 @@ class Controller
         exit();
     }
 
-    function install()
+    public function install()
     {
         $installed = MW_IS_INSTALLED;
 
@@ -1758,7 +1748,7 @@ class Controller
         }
     }
 
-    function editor_tools()
+    public function editor_tools()
     {
         if (!defined('IN_ADMIN')) {
             define('IN_ADMIN', true);
@@ -1832,7 +1822,7 @@ class Controller
         //echo $v;
     }
 
-    function show_404()
+    public function show_404()
     {
         header("HTTP/1.0 404 Not Found");
         $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
