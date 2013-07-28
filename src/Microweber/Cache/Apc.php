@@ -20,8 +20,13 @@ class Apc   {
 		$data_to_cache = serialize($data_to_cache);
 
 		$cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
-		//@apc_delete($cache_id); 
-		@apc_store($cache_id, $cache, APC_EXPIRES);
+		//@apc_delete($cache_id);
+        try {
+            @apc_store($cache_id, $cache, APC_EXPIRES);
+        } catch (Exception $e) {
+
+        }
+
 
 	}
 

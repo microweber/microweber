@@ -149,7 +149,7 @@ function reorder_content($params)
 {
 
 
-    return \mw('Microweber\ContentUtils')->reorder($params);
+    return \mw('ContentUtils')->reorder($params);
 
 
 
@@ -166,7 +166,7 @@ function reorder_content($params)
 api_expose('save_edit');
 function save_edit($post_data)
 {
-    return \mw('Microweber\ContentUtils')->save_edit($post_data);
+    return \mw('ContentUtils')->save_edit($post_data);
 }
 
 api_expose('delete_content');
@@ -174,7 +174,7 @@ api_expose('delete_content');
 function delete_content($data)
 {
 
-    return \mw('Microweber\ContentUtils')->delete($data);
+    return \mw('ContentUtils')->delete($data);
 
 }
 
@@ -201,7 +201,7 @@ function save_content($data, $delete_the_cache = true)
 {
 
 
-    return \mw('Microweber\ContentUtils')->save_content($data, $delete_the_cache);
+    return \mw('ContentUtils')->save_content($data, $delete_the_cache);
 
 }
 
@@ -211,14 +211,14 @@ function save_content($data, $delete_the_cache = true)
 function save_content_field($data, $delete_the_cache = true)
 {
 
-    return \mw('Microweber\ContentUtils')->save_content_field($data, $delete_the_cache);
+    return \mw('ContentUtils')->save_content_field($data, $delete_the_cache);
 
 }
 
 api_expose('get_content_field_draft');
 function get_content_field_draft($data)
 {
-    return \mw('Microweber\ContentUtils')->edit_field_draft($data);
+    return \mw('ContentUtils')->edit_field_draft($data);
 }
 
 function get_content_field($data, $debug = false)
@@ -261,7 +261,7 @@ api_expose('content_set_published');
 function content_set_published($params)
 {
 
-    return \mw('Microweber\ContentUtils')->set_published($params);
+    return \mw('ContentUtils')->set_published($params);
 
 }
 
@@ -291,7 +291,7 @@ api_expose('content_set_unpublished');
 function content_set_unpublished($params)
 {
 
-    return \mw('Microweber\ContentUtils')->set_unpublished($params);
+    return \mw('ContentUtils')->set_unpublished($params);
 
 }
 
@@ -357,13 +357,13 @@ function template_headers_src()
  */
 function templates_list($options = false)
 {
-    return \mw('Microweber\ContentUtils')->templates_list($options);
+    return \mw('ContentUtils')->templates_list($options);
 
 }
 
 function layout_link($options = false)
 {
-    return \Microweber\Layouts::get_link($options);
+    return \mw('Layouts')->get_link($options);
 }
 
 
@@ -388,7 +388,7 @@ function layout_link($options = false)
  */
 function layouts_list($options = false)
 {
-    return \Microweber\Layouts::scan($options);
+    return \mw('Layouts')->scan($options);
 }
 
 
@@ -462,7 +462,7 @@ function mw_print_admin_dashboard_orders_btn()
         $cls = ' class="active" ';
     }
     $notif_html = '';
-    $notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
+    $notif_count = mw('Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
     }
@@ -687,37 +687,37 @@ api_expose('system_log_reset');
 
 function system_log_reset($data = false)
 {
-    return \Microweber\Log::reset();
+    return \Log::reset();
 }
 
 api_expose('delete_log_entry');
 
 function delete_log_entry($data)
 {
-    return \Microweber\Log::delete_entry($data);
+    return \Log::delete_entry($data);
 }
 
 function delete_log($params)
 {
-    return \Microweber\Log::delete($params);
+    return \Log::delete($params);
 }
 
 function save_log($params)
 {
-    return \Microweber\Log::save($params);
+    return \Log::save($params);
 }
 
 function get_log_entry($id)
 {
 
-    return \Microweber\Log::get_entry_by_id($id);
+    return \Log::get_entry_by_id($id);
 
 }
 
 
 function get_log($params)
 {
-    return \Microweber\Log::get($params);
+    return \Log::get($params);
 
 }
 
@@ -741,7 +741,7 @@ api_expose('captcha');
 
 function captcha()
 {
-    return \Microweber\Utils\Captcha::render();
+    return Microweber\Utils\Captcha::render();
 }
 
 
@@ -1015,7 +1015,7 @@ function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids
 api_expose('save_category');
 
 function save_category($data, $preserve_cache = false) {
-    return \Microweber\CategoryUtils::save(   $data, $preserve_cache);
+    return \mw('categories')->save(   $data, $preserve_cache);
 
 
 }
@@ -1024,7 +1024,7 @@ api_expose('delete_category');
 
 function delete_category($data) {
 
-    return \Microweber\CategoryUtils::delete($data);
+    return \mw('categories')->delete($data);
 
 }
 
@@ -1037,7 +1037,7 @@ api_expose('reorder_categories');
 
 function reorder_categories($data) {
 
-    return \Microweber\CategoryUtils::reorder($data);
+    return \mw('categories')->reorder($data);
 
 }
 
@@ -1127,14 +1127,14 @@ function get_menu($params = false)
 api_expose('add_new_menu');
 function add_new_menu($data_to_save)
 {
-    return \mw('Microweber\ContentUtils')->menu_create($data_to_save);
+    return \mw('ContentUtils')->menu_create($data_to_save);
 
 }
 
 api_expose('menu_delete');
 function menu_delete($id = false)
 {
-    return \mw('Microweber\ContentUtils')->menu_delete($id);
+    return \mw('ContentUtils')->menu_delete($id);
 
 }
 
@@ -1142,21 +1142,21 @@ api_expose('delete_menu_item');
 function delete_menu_item($id)
 {
 
-    return \mw('Microweber\ContentUtils')->menu_item_delete($id);
+    return \mw('ContentUtils')->menu_item_delete($id);
 
 }
 
 function get_menu_item($id)
 {
 
-    return \mw('Microweber\ContentUtils')->menu_item_get($id);
+    return \mw('ContentUtils')->menu_item_get($id);
 
 }
 
 api_expose('edit_menu_item');
 function edit_menu_item($data_to_save)
 {
-    return \mw('Microweber\ContentUtils')->menu_item_save($data_to_save);
+    return \mw('ContentUtils')->menu_item_save($data_to_save);
 
 
 
@@ -1167,7 +1167,7 @@ api_expose('reorder_menu_items');
 function reorder_menu_items($data)
 {
 
-    return \mw('Microweber\ContentUtils')->menu_items_reorder($data);
+    return \mw('ContentUtils')->menu_items_reorder($data);
 
 }
 
@@ -1180,7 +1180,7 @@ function menu_tree($menu_id, $maxdepth = false)
 
 function is_in_menu($menu_id = false, $content_id = false)
 {
-    return \mw('Microweber\ContentUtils')->is_in_menu($menu_id,$content_id);
+    return \mw('ContentUtils')->is_in_menu($menu_id,$content_id);
 
 }
 
@@ -1188,7 +1188,7 @@ api_hook('save_content', 'add_content_to_menu');
 
 function add_content_to_menu($content_id, $menu_id=false)
 {
-    return \mw('Microweber\ContentUtils')->add_content_to_menu($content_id,$menu_id);
+    return \mw('ContentUtils')->add_content_to_menu($content_id,$menu_id);
 
 
 }
@@ -1200,7 +1200,7 @@ api_expose('reorder_modules');
 function reorder_modules($data)
 {
 
-    return \mw('Microweber\Modules')->reorder_modules($data);
+    return \mw('Modules')->reorder_modules($data);
 }
 
 
@@ -1346,7 +1346,7 @@ function get_all_functions_files_for_modules($options = false)
         }
     }
 
-    $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $dir_name);
+    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
 
     if (!empty($dir)) {
         $configs = array();
@@ -1385,14 +1385,14 @@ function get_layouts_from_db($params = false)
 {
 
 
-    return \Microweber\Layouts::get($params);
+    return \mw('Layouts')->get($params);
 
 
 }
 
 function save_element_to_db($data_to_save)
 {
-    return \Microweber\Layouts::save($data_to_save);
+    return \mw('Layouts')->save($data_to_save);
 
 }
 
@@ -1419,17 +1419,17 @@ function save_settings_md($data_to_save)
 
 function delete_elements_from_db()
 {
-    return \Microweber\Layouts::delete_all();
+    return \mw('Layouts')->delete_all();
 }
 
 function delete_module_by_id($id)
 {
-    return \mw('Microweber\Modules')->delete_module($id);
+    return \mw('Modules')->delete_module($id);
 }
 
 function delete_modules_from_db()
 {
-    return \mw('Microweber\Modules')->delete_all();
+    return \mw('Modules')->delete_all();
 }
 
 function is_module_installed($module_name)
@@ -1483,7 +1483,7 @@ function uninstall_module($params)
     if (is_admin() == false) {
         return false;
     }
-    return \mw('Microweber\Modules')->uninstall($params);
+    return \mw('Modules')->uninstall($params);
 
 }
 
@@ -1492,7 +1492,7 @@ action_hook('mw_db_init_modules', 're_init_modules_db');
 function re_init_modules_db()
 {
 
-    return \mw('Microweber\Modules')->update_db();
+    return \mw('Modules')->update_db();
 
 }
 
@@ -1510,26 +1510,26 @@ function install_module($params)
         }
     }
 
-    return \mw('Microweber\Modules')->install($params);
+    return \mw('Modules')->install($params);
 
 }
 
 function save_module_to_db($data_to_save)
 {
-    return \mw('Microweber\Modules')->save($data_to_save);
+    return \mw('Modules')->save($data_to_save);
 
 }
 
 function get_saved_modules_as_template($params)
 {
-    return \mw('Microweber\Modules')->get_saved_modules_as_template($params);
+    return \mw('Modules')->get_saved_modules_as_template($params);
 }
 
 api_expose('delete_module_as_template');
 function delete_module_as_template($data)
 {
 
-    return \mw('Microweber\Modules')->delete_module_as_template($data);
+    return \mw('Modules')->delete_module_as_template($data);
 
 
 
@@ -1539,7 +1539,7 @@ api_expose('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
 
-    return \mw('Microweber\Modules')->save_module_as_template($data_to_save);
+    return \mw('Modules')->save_module_as_template($data_to_save);
 }
 
 /**
@@ -1566,13 +1566,13 @@ $data = modules_list($params);
 function modules_list($options = false)
 {
 
-    return \mw('Microweber\Modules')->scan_for_modules($options);
+    return \mw('Modules')->scan_for_modules($options);
 }
 
 action_hook('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
-    return \mw('Microweber\Modules')->scan_for_modules($options);
+    return \mw('Modules')->scan_for_modules($options);
 
 }
 
@@ -1580,7 +1580,7 @@ action_hook('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array())
 {
-    return \mw('Microweber\Modules')->get_layouts($options);
+    return \mw('Modules')->get_layouts($options);
 
 
 }
@@ -1663,7 +1663,7 @@ function save_option($data)
 api_expose('save_form_list');
 function save_form_list($params)
 {
-    return mw('Microweber\Forms')-> save_list($params);
+    return mw('Forms')-> save_list($params);
 
 }
 
@@ -1672,14 +1672,14 @@ api_expose('delete_forms_list');
 
 function delete_forms_list($data)
 {
-    return mw('Microweber\Forms')-> delete_list($data);
+    return mw('Forms')-> delete_list($data);
 }
 
 api_expose('delete_form_entry');
 
 function delete_form_entry($data)
 {
-    return mw('Microweber\Forms')-> delete_entry($data);
+    return mw('Forms')-> delete_entry($data);
 
 }
 
@@ -1688,7 +1688,7 @@ function forms_list_export_to_excel($params)
 {
 
 
-    return mw('Microweber\Forms')-> export_to_excel($params);
+    return mw('Forms')-> export_to_excel($params);
 
 
 }
@@ -1696,19 +1696,19 @@ function forms_list_export_to_excel($params)
 
 function get_form_entires($params)
 {
-    return mw('Microweber\Forms')-> get_entires($params);
+    return mw('Forms')-> get_entires($params);
 
 }
 
 function get_form_lists($params)
 {
-    return mw('Microweber\Forms')-> get_lists($params);
+    return mw('Forms')-> get_lists($params);
 }
 
 api_expose('post_form');
 function post_form($params)
 {
-    return mw('Microweber\Forms')-> post($params);
+    return mw('Forms')-> post($params);
 
 
 }
@@ -1733,7 +1733,7 @@ function mw_print_admin_backup_settings_link() {
         print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Backup</a></li>";
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
-    //$notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
+    //$notif_count = mw('Notifications')->get('module=comments&is_read=n&count=1');
     /*if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
     }*/
@@ -1775,7 +1775,7 @@ api_expose('mw_apply_updates');
 function mw_apply_updates($params) {
     only_admin_access();
     $params = parse_params($params);
-    $update_api = new \Microweber\Update();
+    $update_api = new \Update();
     $res = array();
     $upd_params = array();
     if (is_array($params)) {
@@ -1827,7 +1827,7 @@ function mw_apply_updates($params) {
 
         if (is_array($res)) {
             mw_post_update();
-            mw('Microweber\Notifications')->delete_for_module('updates');
+            mw('Notifications')->delete_for_module('updates');
 
         }
     }
@@ -1852,7 +1852,7 @@ function mw_check_for_update() {
     global $mw_avail_updates;
     if ($mw_avail_updates == false) {
 
-        $update_api = new \Microweber\Update();
+        $update_api = new \Update();
 
         $iudates = $update_api -> check();
         $mw_avail_updates = $iudates;
@@ -1876,7 +1876,7 @@ function admin_url($add_string = false) {
 // function used do send us the language files
 function mw_send_anonymous_server_data($params) {
     only_admin_access();
-    $update_api = new \Microweber\Update();
+    $update_api = new \Update();
 
 
 

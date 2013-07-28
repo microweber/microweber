@@ -198,14 +198,48 @@ function mw($class, $constructor_params = false)
 
 }
 
-function mw_error_handler()
+function mw_error_handler($errno, $errstr, $errfile, $errline)
 {
 
-    if (!headers_sent()) {
-        header("Content-Type:text/plain");
 
-    }
-    print_r(debug_backtrace());
+
+
+        if (!(error_reporting() & $errno)) {
+            // This error code is not included in error_reporting
+            return;
+        }
+
+        switch ($errno) {
+            case E_USER_ERROR:
+                if (!headers_sent()) {
+                    header("Content-Type:text/plain");
+
+                }
+                echo "<b>ERROR</b> [$errno] $errstr<br />\n";
+                echo "  Fatal error on line $errline in file $errfile";
+                echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+                print_r(debug_backtrace());
+                echo "Aborting...<br />\n";
+                exit(1);
+                break;
+
+            case E_USER_WARNING:
+                echo "<b>WARNING</b> [$errno] $errstr<br />\n";
+                break;
+
+            case E_USER_NOTICE:
+              // echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+                break;
+
+            default:
+               // echo "Unknown error type: [$errno] $errstr<br />\n";
+                break;
+        }
+
+        /* Don't execute PHP internal error handler */
+        return true;
+
+
 }
 
 set_error_handler('mw_error_handler');

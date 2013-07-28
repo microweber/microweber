@@ -160,7 +160,7 @@ class Backup
 
                 $exract_folder = md5(basename($filename));
                 $unzip = new \Microweber\Utils\Unzip();
-                $target_dir = CACHEDIR . 'backup_restore' . DS . $exract_folder . DS;
+                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
                 }
