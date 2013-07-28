@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
 class Category

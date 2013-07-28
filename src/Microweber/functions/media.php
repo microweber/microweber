@@ -22,18 +22,18 @@ function get_picture($content_id, $for = 'post', $full = false)
             $img = get_first_image_from_html(html_entity_decode($cont_id['content']));
 
             if ($img != false) {
-                $surl = site_url();
+                $surl = mw_site_url();
 
                 $img = mw('format')->replace_once('{SITE_URL}', $surl, $img);
 
-                $media_url = MEDIA_URL;
+                $media_url = MW_MEDIA_URL;
                 if (stristr($img, $surl)) {
                     return $img;
                 } else {
                     return $img;
                     return false;
                     // $src = $img;
-                    // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+                    // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
                     //
                     // if (!file_exists($dl_file)) {
                     // $is_dl = mw('url')->download($src, false, $dl_file);
@@ -133,7 +133,7 @@ function upload($data)
     $cache_id = 'upload_progress_' . $ref_str;
     $cache_group = 'media/global';
 
-    $target_path = MEDIAFILES . 'uploaded' . DS;
+    $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
     $target_path = normalize_path($target_path, 1);
 
     if (!is_dir($target_path)) {
@@ -254,7 +254,7 @@ function reorder_media($data)
                 $i++;
             }
 
-            \mw('Mw\DbUtils')->update_position_field($table, $indx);
+            \mw('Microweber\DbUtils')->update_position_field($table, $indx);
             return true;
             // d($indx);
         }
@@ -319,11 +319,11 @@ function save_media($data)
     if (isset($data['src'])) {
 
         $url2dir = mw('url')->to_path($data['src']);
-        $uploaded_files_dir = MEDIAFILES . DS . 'uploaded';
+        $uploaded_files_dir = MW_MEDIA_DIR . DS . 'uploaded';
 
         if (isset($s['rel']) and isset($s['rel_id'])) {
-            $move_uploaded_files_dir = MEDIAFILES . DS . $s['rel'] . DS;
-            $move_uploaded_files_dir_index = MEDIAFILES . DS . $s['rel'] . DS . 'index.php';
+            $move_uploaded_files_dir = MW_MEDIA_DIR . DS . $s['rel'] . DS;
+            $move_uploaded_files_dir_index = MW_MEDIA_DIR . DS . $s['rel'] . DS . 'index.php';
 
             $uploaded_files_dir = normalize_path($uploaded_files_dir);
             if (!is_dir($move_uploaded_files_dir)) {
@@ -399,7 +399,7 @@ function pixum_img()
 {
     $mime_type = "image/jpg";
     $extension = ".jpg";
-    $cache_folder = CACHEDIR . 'pixum' . DS;
+    $cache_folder = MW_CACHE_DIR . 'pixum' . DS;
     if (!is_dir($cache_folder)) {
         mkdir_recursive($cache_folder);
     }
@@ -456,7 +456,7 @@ function pixum_img()
 
 function pixum($width, $height)
 {
-    return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    return mw_site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }
 
 api_expose('thumbnail_img');
@@ -483,10 +483,10 @@ function thumbnail_img($params)
 
 
     //require_once ();
-    $surl = site_url();
+    $surl = mw_site_url();
     $local = false;
 
-    $media_url = MEDIA_URL;
+    $media_url = MW_MEDIA_URL;
     $media_url = trim($media_url);
     $src = str_replace('{SITE_URL}', $surl, $src);
     $src = str_replace('%7BSITE_URL%7D', $surl, $src);
@@ -507,7 +507,7 @@ function thumbnail_img($params)
         $src = ltrim($src, '/');
         $src = rtrim($src, DS);
         $src = rtrim($src, '/');
-        //$src = MEDIAFILES . $src;
+        //$src = MW_MEDIA_DIR . $src;
         $src = MW_ROOTPATH . $src;
         $src = normalize_path($src, false);
 
@@ -517,7 +517,7 @@ function thumbnail_img($params)
         $src = normalize_path($src, false);
 
 
-        // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+        // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
         //
         // if (!file_exists($dl_file)) {
         // $is_dl = mw('url')->download($src, false, $dl_file);
@@ -541,7 +541,7 @@ function thumbnail_img($params)
 
         }
     }
-    $cd = CACHEDIR . 'thumbnail' . DS;
+    $cd = MW_CACHE_DIR . 'thumbnail' . DS;
     if (!is_dir($cd)) {
         mkdir_recursive($cd);
     }
@@ -577,7 +577,7 @@ function thumbnail_img($params)
 
             } else {
                 if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-                $tn = new \Mw\Thumbnailer($src);
+                $tn = new \Microweber\Thumbnailer($src);
                 $thumbOptions = array('maxLength' => $height, 'width' => $width);
                 $tn->createThumb($thumbOptions, $cache_path);
 
@@ -628,7 +628,7 @@ function thumbnail($src, $width = 200, $height = 200)
     $src = html_entity_decode($src);
     $src = htmlspecialchars_decode($src);
 
-    $surl = site_url();
+    $surl = mw_site_url();
     $src = str_replace('{SITE_URL}', $surl, $src);
     $src = str_replace('%7BSITE_URL%7D', $surl, $src);
     $base_src = str_replace($surl, '', $src);
@@ -642,7 +642,7 @@ function thumbnail($src, $width = 200, $height = 200)
     if (!isset($height)) {
         $width = 200;
     }
-    $cd = CACHEDIR . 'thumbnail' . DS;
+    $cd = MW_CACHE_DIR . 'thumbnail' . DS;
 
 
 
@@ -668,14 +668,14 @@ function thumbnail($src, $width = 200, $height = 200)
     } else {
 
 
-    return site_url('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height.'&cache_id='.$cache_id;
+    return mw_site_url('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height.'&cache_id='.$cache_id;
     }
 
     //require_once ();
-    $surl = site_url();
+    $surl = mw_site_url();
     $local = false;
 
-    $media_url = MEDIA_URL;
+    $media_url = MW_MEDIA_URL;
     $media_url = trim($media_url);
     $src = str_replace('{SITE_URL}', $surl, $src);
     $src = str_replace('%7BSITE_URL%7D', $surl, $src);
@@ -694,13 +694,13 @@ function thumbnail($src, $width = 200, $height = 200)
         $src = ltrim($src, '/');
         $src = rtrim($src, DS);
         $src = rtrim($src, '/');
-        //$src = MEDIAFILES . $src;
+        //$src = MW_MEDIA_DIR . $src;
         $src = MW_ROOTPATH . $src;
         $src = normalize_path($src, false);
 
     } else {
 
-        // $dl_file = MEDIAFILES . 'downloaded' . DS . md5($src) . basename($src);
+        // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
         //
         // if (!file_exists($dl_file)) {
         // $is_dl = mw('url')->download($src, false, $dl_file);
@@ -716,7 +716,7 @@ function thumbnail($src, $width = 200, $height = 200)
             return pixum($width, $height);
         }
     }
-    $cd = CACHEDIR . 'thumbnail' . DS;
+    $cd = MW_CACHE_DIR . 'thumbnail' . DS;
     if (!is_dir($cd)) {
         mkdir_recursive($cd);
     }
@@ -731,7 +731,7 @@ function thumbnail($src, $width = 200, $height = 200)
 
 //$base_src = basename($src);
 
-        //return site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+        //return mw_site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
     } else {
         //
 
@@ -741,7 +741,7 @@ function thumbnail($src, $width = 200, $height = 200)
 
             $base_src = basename($src);
 
-            //return site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+            //return mw_site_url('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
 
 
             $ext = get_file_extension($src);
@@ -753,7 +753,7 @@ function thumbnail($src, $width = 200, $height = 200)
 
             } else {
 
-                $tn = new \Mw\Thumbnailer($src);
+                $tn = new \Microweber\Thumbnailer($src);
                 $thumbOptions = array('maxLength' => $height, 'width' => $width);
                 $tn->createThumb($thumbOptions, $cache_path);
 
@@ -805,8 +805,8 @@ function create_media_dir($params)
 {
     only_admin_access();
     $resp = array();
-    $target_path = MEDIAFILES . 'uploaded' . DS;
-    $fn_path = MEDIAFILES;
+    $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
+    $fn_path = MW_MEDIA_DIR;
     if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '') {
         $_REQUEST["path"] = urldecode($_REQUEST["path"]);
 
@@ -843,7 +843,7 @@ function delete_media_file($params)
 {
     only_admin_access();
 
-    $target_path = MEDIAFILES . 'uploaded' . DS;
+    $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
     $target_path = normalize_path($target_path, 0);
     $path_restirct = MW_USERFILES;
 
@@ -862,10 +862,10 @@ function delete_media_file($params)
                 $target_path = MW_USERFILES . DS . $path;
                 $target_path = normalize_path($target_path, false);
 
-                if (stristr($target_path, MEDIAFILES)) {
+                if (stristr($target_path, MW_MEDIA_DIR)) {
 
                     if (is_dir($target_path)) {
-                        mw('Mw\Utils\Files')->rmdir($target_path, false);
+                        mw('Microweber\Utils\Files')->rmdir($target_path, false);
                         $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
                     } else if (is_file($target_path)) {
                         unlink($target_path);

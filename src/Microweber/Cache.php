@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 /**
  * Here you will find how to work with the cache
@@ -11,9 +11,7 @@ namespace Mw;
  */
 
 
-if (!isset($_mw_cache_obj) or is_object($_mw_cache_obj) == false) {
-    $_mw_cache_obj = new \Mw\Cache\Files();
-}
+
 
 
 class Cache
@@ -32,16 +30,16 @@ class Cache
      * @example
      * <code>
      * //delete the cache for the content
-     *  \Mw\Cache::delete("content");
+     *  \Microweber\Cache::delete("content");
      *
      * //delete the cache for the content with id 1
-     *  \Mw\Cache::delete("content/1");
+     *  \Microweber\Cache::delete("content/1");
      *
      * //delete the cache for users
-     *  \Mw\Cache::delete("users");
+     *  \Microweber\Cache::delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * \Mw\Cache::delete("my_table");
+     * \Microweber\Cache::delete("my_table");
      * </code>
      *
      */
@@ -51,13 +49,13 @@ class Cache
             global $_mw_cache_obj;
             $local_obj = $_mw_cache_obj;
         } else {
-            $cache_storage_type = "\Mw\Cache\\" . $cache_storage_type;
+            $cache_storage_type = "Cache\\" . $cache_storage_type;
             $local_obj = new $cache_storage_type;
 
         }
 
         if (!is_object($local_obj)) {
-            $local_obj = new \Mw\Cache\Files();
+            $local_obj = new Cache\Files();
         }
 
         //d($cache_group);
@@ -75,7 +73,7 @@ class Cache
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = \Mw\Cache::get($cache_id, 'my_cache_group');
+     * $cache_content = \Microweber\Cache::get($cache_id, 'my_cache_group');
      *
      * </code>
      *
@@ -107,7 +105,7 @@ class Cache
 
         if (!is_object($local_obj)) {
             if (!is_object($cache_default)) {
-                $local_obj = $cache_default = new \Mw\Cache\Files();
+                $local_obj = $cache_default = new Cache\Files();
 
             } else {
                 $local_obj = $cache_default;
@@ -127,7 +125,7 @@ class Cache
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = \Mw\Cache::save($data, $cache_id, 'my_cache_group');
+     * $cache_content = \Microweber\Cache::save($data, $cache_id, 'my_cache_group');
      * </code>
      *
      * @param mixed $data_to_cache
@@ -158,7 +156,7 @@ class Cache
 
         }
         if (!is_object($local_obj)) {
-            $local_obj = new \Mw\Cache\Files();
+            $local_obj = new Cache\Files();
         }
 
 
@@ -192,13 +190,13 @@ class Cache
             global $_mw_cache_obj;
             $local_obj = $_mw_cache_obj;
         } else {
-            $cache_storage_type = "\Mw\Cache\\" . $cache_storage_type;
+            $cache_storage_type = "Cache\\" . $cache_storage_type;
             $local_obj = new $cache_storage_type;
 
         }
 
         if (!is_object($local_obj)) {
-            $local_obj = new \Mw\Cache\Files();
+            $local_obj = new Cache\Files();
         }
 
 
@@ -221,7 +219,7 @@ class Cache
     {
         global $_mw_cache_obj;
         if (!is_object($_mw_cache_obj)) {
-            $_mw_cache_obj = new \Mw\Cache\Files();
+            $_mw_cache_obj = new Cache\Files();
         }
 
 

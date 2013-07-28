@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
@@ -150,11 +150,11 @@ class Update
                 $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
 
-                mw('Mw\Notifications')->save($notif);
+                mw('Microweber\Notifications')->save($notif);
             }
 
 
-        /*if(function_exists('mw('Mw\Notifications')->save')){
+        /*if(function_exists('mw('Microweber\Notifications')->save')){
 
 
                $count = 0;
@@ -178,7 +178,7 @@ class Update
            $notif['title'] = "New updates are avaiable";
            $notif['description'] = "There are $count new updates are available";
            // d($notif);
-           //mw('Mw\Notifications')->save($notif);
+           //mw('Microweber\Notifications')->save($notif);
            }
 
        }*/
@@ -240,7 +240,7 @@ class Update
 
             $value = trim($result["core_update"]);
             $fname = basename($value);
-            $dir_c = CACHEDIR . 'update/downloads' . DS;
+            $dir_c = MW_CACHE_DIR . 'update/downloads' . DS;
             if (!is_dir($dir_c)) {
                 mkdir_recursive($dir_c);
             }
@@ -249,7 +249,7 @@ class Update
                 $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
-                $unzip = new \Mw\Utils\Unzip();
+                $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = MW_ROOTPATH;
                 $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
                 $this->post_update();
@@ -282,7 +282,7 @@ class Update
 
         print 1;
         return $updates;
-        $down_dir = CACHEDIR_ROOT . 'downloads' . DS;
+        $down_dir = MW_CACHE_ROOT_DIR . 'downloads' . DS;
         if (!is_dir($down_dir)) {
             mkdir_recursive($down_dir);
         }
@@ -339,13 +339,13 @@ class Update
                 }
 
                 if ($key == 'modules') {
-                    $unzip_loc = MODULES_DIR;
+                    $unzip_loc = MW_MODULES_DIR;
                 }
 
                 if ($key == 'elements') {
-                    $unzip_loc = ELEMENTS_DIR;
+                    $unzip_loc = MW_ELEMENTS_DIR;
                 }
-                // $unzip_loc = CACHEDIR_ROOT;
+                // $unzip_loc = MW_CACHE_ROOT_DIR;
 
                 if ($unzip_loc != false and is_array($value) and !empty($value)) {
                     $unzip_loc = normalize_path($unzip_loc);
@@ -401,7 +401,7 @@ class Update
 
 
                         $fname = basename($value);
-                        $dir_c = CACHEDIR . 'downloads' . DS;
+                        $dir_c = MW_CACHE_DIR . 'downloads' . DS;
                         if (!is_dir($dir_c)) {
                             mkdir_recursive($dir_c);
                         }
@@ -410,7 +410,7 @@ class Update
                             $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                         }
                         if (is_file($dl_file)) {
-                            $unzip = new \Mw\Utils\Unzip();
+                            $unzip = new \Microweber\Utils\Unzip();
                             $target_dir = MW_ROOTPATH;
                             //d($dl_file);
                             $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
@@ -438,7 +438,7 @@ class Update
             foreach ($result["modules"] as $mod_k => $value) {
 
                 $fname = basename($value);
-                $dir_c = CACHEDIR . 'downloads' . DS;
+                $dir_c = MW_CACHE_DIR . 'downloads' . DS;
                 if (!is_dir($dir_c)) {
                     mkdir_recursive($dir_c);
                 }
@@ -447,7 +447,7 @@ class Update
                     $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
-                    $unzip = new \Mw\Utils\Unzip();
+                    $unzip = new \Microweber\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
                     //d($dl_file);
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
@@ -480,7 +480,7 @@ class Update
             foreach ($result["elements"] as $mod_k => $value) {
 
                 $fname = basename($value);
-                $dir_c = CACHEDIR . 'downloads' . DS;
+                $dir_c = MW_CACHE_DIR . 'downloads' . DS;
                 if (!is_dir($dir_c)) {
                     mkdir_recursive($dir_c);
                 }
@@ -490,7 +490,7 @@ class Update
                     $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
-                    $unzip = new \Mw\Utils\Unzip();
+                    $unzip = new \Microweber\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
 
                     // $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
@@ -538,7 +538,7 @@ class Update
             $requestUrl = $requestUrl . '?api_function=' . $method;
         }
 
-        $curl = new \Mw\Utils\Curl();
+        $curl = new \Microweber\Utils\Curl();
 
         $curl->setUrl($requestUrl);
         $curl->url = $requestUrl;

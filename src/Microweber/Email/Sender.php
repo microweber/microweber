@@ -1,5 +1,5 @@
 <?php
-namespace Mw\email;
+namespace Microweber\email;
 $_mw_email_transport_object = false;
 api_expose('/mw/email/Sender/test');
 class Sender
@@ -167,7 +167,7 @@ class Sender
         $transport_type = trim($email_advanced);
 
         try {
-            $_mw_email_obj = new \Mw\email\Sender($transport_type);
+            $_mw_email_obj = new \Microweber\email\Sender($transport_type);
             $_mw_email_transport_object = $_mw_email_obj;
             return $_mw_email_obj;
         } catch (Exception $e) {

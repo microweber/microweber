@@ -1,7 +1,7 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
-action_hook('mw_db_init', mw('Mw\Option')->db_init());
+action_hook('mw_db_init', mw('Microweber\Option')->db_init());
 
 
 action_hook('mw_db_init_options', 'create_mw_default_options');
@@ -11,11 +11,19 @@ class Option
 {
 
 
-    function __construct()
+    function __construct($application)
     {
         if (!defined("MW_DB_TABLE_OPTIONS")) {
             define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
         }
+
+        if(!is_object($application)){
+            $this->app = new \Microweber\Application();
+        } else {
+            $this->app = $application;
+        }
+
+
     }
 
 
@@ -32,7 +40,7 @@ class Option
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->Cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -61,12 +69,12 @@ class Option
         $fields_to_add[] = array('module', 'TEXT default NULL');
         $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        //\mw('Mw\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-        //\mw('Mw\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+        //\mw('Microweber\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+        //\mw('Microweber\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
         $this->_create_mw_default_options();
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->Cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
@@ -91,7 +99,7 @@ class Option
 
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
-        if (MW_IS_INSTALLED != true) {
+        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED != true) {
             return false;
         }
         if ($option_group != false) {
@@ -127,7 +135,7 @@ class Option
         }
 
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->Cache->get($function_cache_id, $cache_group);
         if (($cache_content) == '--false--') {
             return false;
         }
@@ -177,7 +185,7 @@ class Option
         $q_cache_id = crc32($q);
         $get_all = mw('db')->query($q, $q_cache_id, $cache_group);
         if (!is_array($get_all)) {
-            mw('cache')->save('--false--', $function_cache_id, $cache_group);
+            $this->app->Cache->save('--false--', $function_cache_id, $cache_group);
 
             return false;
         }
@@ -220,7 +228,7 @@ class Option
             }
         } else {
 
-            //mw('cache')->save('--false--', $function_cache_id, $cache_group);
+            //$this->app->Cache->save('--false--', $function_cache_id, $cache_group);
             $_mw_global_options_mem[$function_cache_id] = false;
             return FALSE;
         }
@@ -384,7 +392,7 @@ class Option
                             } else {
 
                                 $table = MW_DB_TABLE_OPTIONS;
-                                $copy = \mw('Mw\DbUtils')->copy_row_by_id($table, $data['id']);
+                                $copy = \mw('Microweber\DbUtils')->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                             }
 
@@ -397,7 +405,7 @@ class Option
 
             if (isset($data['option_type']) and trim($data['option_type']) == 'static') {
 
-                return mw('Mw\Utils\StaticOption')->save($data);
+                return mw('Microweber\Utils\StaticOption')->save($data);
 
             }
 
@@ -421,7 +429,7 @@ class Option
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
                 mw('db')->q($clean);
                 $cache_group = 'options/' . $opt_gr;
-                mw('cache')->delete($cache_group);
+                $this->app->Cache->delete($cache_group);
 
                 //d($clean);
             }
@@ -445,10 +453,10 @@ class Option
                 if ($option_group != false) {
 
                     $cache_group = 'options/' . $option_group;
-                    mw('cache')->delete($cache_group);
+                    $this->app->Cache->delete($cache_group);
                 } else {
                     $cache_group = 'options/' . 'global';
-                    mw('cache')->delete($cache_group);
+                    $this->app->Cache->delete($cache_group);
                 }
 
                 if (isset($data['id']) and intval($data['id']) > 0) {
@@ -457,14 +465,14 @@ class Option
 
                     if (isset($opt['option_group'])) {
                         $cache_group = 'options/' . $opt['option_group'];
-                        mw('cache')->delete($cache_group);
+                        $this->app->Cache->delete($cache_group);
                     }
                     $cache_group = 'options/' . intval($data['id']);
-                    mw('cache')->delete($cache_group);
+                    $this->app->Cache->delete($cache_group);
                 }
 
 
-                mw('cache')->delete('options/global');
+                $this->app->Cache->delete('options/global');
 
                 return $save;
             }
@@ -493,7 +501,7 @@ class Option
 
         mw('db')->q($q);
 
-        mw('cache')->delete('options');
+        $this->app->Cache->delete('options');
 
         return true;
     }
@@ -503,7 +511,7 @@ class Option
 
         $function_cache_id = __FUNCTION__;
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group = 'db', 'files');
+        $cache_content = $this->app->Cache->get($function_cache_id, $cache_group = 'db', 'files');
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -602,9 +610,9 @@ class Option
         }
         if ($changes == true) {
             //var_dump($changes);
-            mw('cache')->delete('options/global');
+            $this->app->Cache->delete('options/global');
         }
-        mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
+        $this->app->Cache->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
 
         return true;
     }
@@ -622,7 +630,7 @@ class Option
 
         $fname = $option_group . '.php';
 
-        $dir_name = DBPATH_FULL . 'options' . DS;
+        $dir_name = MW_STORAGE_DIR . 'options' . DS;
         $dir_name_and_file = $dir_name . $fname;
         $key = trim($key);
 
@@ -681,9 +689,9 @@ class Option
 
         $fname = $data['option_group'] . '.php';
 
-        //	$dir_name = DBPATH_FULL . 'options' . DS . $data['option_group'] . DS;
+        //	$dir_name = MW_STORAGE_DIR . 'options' . DS . $data['option_group'] . DS;
 
-        $dir_name = DBPATH_FULL . 'options' . DS;
+        $dir_name = MW_STORAGE_DIR . 'options' . DS;
         $dir_name_and_file = $dir_name . $fname;
         if (is_dir($dir_name) == false) {
             mkdir_recursive($dir_name);

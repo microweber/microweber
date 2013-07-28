@@ -144,7 +144,7 @@ description: Default comments template
       </div>
       <div class="row-fluid">
         <div class="span12">
-          <div class="input-prepend captcha pull-left"> <span class="add-on"> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
+          <div class="input-prepend captcha pull-left"> <span class="add-on"> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print mw_site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
             <input type="text" name="captcha" required class="input-medium" placeholder="<?php _e("Enter text"); ?>">
           </div>
           <input type="submit" class="btn pull-right" value="<?php _e("Add comment"); ?>">
@@ -153,6 +153,6 @@ description: Default comments template
     </form>
   </div>
   <?php else :  ?>
-  <div class="alert"> <?php _e("You have to"); ?> <a href='<?php print site_url(); ?>login' class="comments-login-link"><?php _e("log in"); ?></a> <?php _e("or"); ?> <a class="comments-register-link" href='<?php print site_url(); ?>register'><?php _e("register"); ?></a> <?php _e("to post a comment"); ?>. </div>
+  <div class="alert"> <?php _e("You have to"); ?> <a href='<?php print mw_site_url(); ?>login' class="comments-login-link"><?php _e("log in"); ?></a> <?php _e("or"); ?> <a class="comments-register-link" href='<?php print mw_site_url(); ?>register'><?php _e("register"); ?></a> <?php _e("to post a comment"); ?>. </div>
   <?php endif; ?>
 </div>

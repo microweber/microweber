@@ -16,7 +16,7 @@
 
   $data[] = array();
 
-     $countries =    mw('Mw\Forms')->countries_list();
+     $countries =    mw('Microweber\Forms')->countries_list();
      $countries_used = array();
 	 array_unshift($countries, "Worldwide");
 

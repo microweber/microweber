@@ -162,7 +162,7 @@ mw.tools.tabGroup({
 <div class="group-logins" style="display: block">
   <ul class="mw-small-help">
     <li><?php _e("Api access"); ?> <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Website with Facebook Login"); ?></em> <?php _e("please enter"); ?> <em><?php print site_url(); ?></em></li>
+    <li><?php _e("In"); ?> <em><?php _e("Website with Facebook Login"); ?></em> <?php _e("please enter"); ?> <em><?php print mw_site_url(); ?></em></li>
     <li><?php _e("If asked for callback url - use"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Facebook') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("App ID/API Key"); ?></label>
@@ -192,7 +192,7 @@ mw.tools.tabGroup({
 
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Main URL"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
+    <li><?php _e("In"); ?> <em><?php _e("Main URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw_site_url() ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Github') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
@@ -211,7 +211,7 @@ mw.tools.tabGroup({
   <div class="group-logins">
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Website"); ?></em> <?php _e("enter"); ?> <em><?php print site_url(); ?></em></li>
+    <li><?php _e("In"); ?> <em><?php _e("Website"); ?></em> <?php _e("enter"); ?> <em><?php print mw_site_url(); ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Twitter') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Consumer key"); ?></label>
@@ -224,7 +224,7 @@ mw.tools.tabGroup({
    <div class="group-logins">
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
-    <li><?php _e("In"); ?> <em><?php _e("Redirect Domain"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
+    <li><?php _e("In"); ?> <em><?php _e("Redirect Domain"); ?></em> <?php _e("enter"); ?> <em><?php print mw_site_url() ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Live') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
@@ -261,7 +261,7 @@ mw.tools.tabGroup({
   <?php if($enable_user_yahoo_registration == 'y'): ?>
   <ul class="mw-small-help">
     <li>Go here to register your application <a target="_blank" href="https://developer.apps.yahoo.com/dashboard/createKey.html">https://developer.apps.yahoo.com/dashboard/createKey.html</a></li>
-    <li>In Website please enter <em><?php print site_url() ?></em></li>
+    <li>In Website please enter <em><?php print mw_site_url() ?></em></li>
     <li>In Callback URL please enter <em><?php print mw('url')->api_link('social_login_process?hauth.done=Yahoo') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Consumer key</label>

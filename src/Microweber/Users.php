@@ -1,9 +1,9 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
 
-class Users extends \Mw\User
+class Users extends \Microweber\User
 {
     function __construct()
     {
@@ -109,7 +109,7 @@ class Users extends \Mw\User
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    mw('Mw\Notifications')->save($notif);
+                    mw('Microweber\Notifications')->save($notif);
 
                     save_log($notif);
 
@@ -269,13 +269,13 @@ class Users extends \Mw\User
             $data_to_save = array();
             $data_to_save['id'] = $uid;
             $data_to_save['last_login'] = date("Y-m-d H:i:s");
-            $data_to_save['last_login_ip'] = USER_IP;
+            $data_to_save['last_login_ip'] = MW_USER_IP;
 
             $table = MW_DB_TABLE_USERS;
             mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
             $save = \mw('db')->save($table, $data_to_save);
 
-            delete_log("is_system=y&rel=login_failed&user_ip=" . USER_IP);
+            delete_log("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -408,12 +408,12 @@ class Users extends \Mw\User
 
                         $subject = "Password reset!";
                         $content = "Hello, {$data_res['username']} <br> ";
-                        $content .= "You have requested a password reset link from IP address: " . USER_IP . "<br><br> ";
+                        $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
 
                         //$content .= "on " . mw('url')->current(1) . "<br><br> ";
 
                         $security = array();
-                        $security['ip'] = USER_IP;
+                        $security['ip'] = MW_USER_IP;
                         $security['hash'] = mw('format')->array_to_base64($data_res);
                         $function_cache_id = md5(serialize($security)) . uniqid() . rand();
                         //mw('cache')->save($security, $function_cache_id, $cache_group = 'password_reset');
@@ -441,7 +441,7 @@ class Users extends \Mw\User
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
-                        \Mw\email\Sender::send($to, $subject, $content, true, $no_cache = true);
+                        \Microweber\email\Sender::send($to, $subject, $content, true, $no_cache = true);
 
                         return array('success' => 'Your password reset link has been sent to ' . $to);
                     } else {
@@ -468,7 +468,7 @@ class Users extends \Mw\User
         }
 
         $return_after_login = false;
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], site_url())) {
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], mw_site_url())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             mw('user')->session_set('user_after_login', $return_after_login);
 
@@ -482,7 +482,7 @@ class Users extends \Mw\User
 
         if ($provider != false and isset($params) and !empty($params)) {
 
-            $api = new \Mw\Auth\Social();
+            $api = new \Microweber\Auth\Social();
 
             try {
 
@@ -523,7 +523,7 @@ class Users extends \Mw\User
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            mw('Mw\Notifications')->save($notif);
+                            mw('Microweber\Notifications')->save($notif);
 
                             save_log($notif);
 
@@ -566,7 +566,7 @@ class Users extends \Mw\User
     {
         set_exception_handler('social_login_exception_handler');
 
-        $api = new \Mw\Auth\Social();
+        $api = new \Microweber\Auth\Social();
         $api->process();
 
         // d($err);
@@ -625,7 +625,7 @@ if (!function_exists('social_login_exception_handler')) {
         if ($after_log != false) {
             mw('url')->redirect($after_log);
         } else {
-            mw('url')->redirect(site_url());
+            mw('url')->redirect(mw_site_url());
         }
 
     }

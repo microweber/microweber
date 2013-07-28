@@ -1,5 +1,5 @@
 <?php
-namespace Mw\email;
+namespace Microweber\email;
 
 interface  iMwEmail {
 

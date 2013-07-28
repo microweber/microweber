@@ -2,7 +2,7 @@
 
 
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 
 class Captcha
@@ -68,7 +68,7 @@ class Captcha
         if (function_exists('imagettftext')) {
             imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
         } else if (function_exists('imagestring')) {
-            $font = INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
+            $font = MW_INCLUDES_DIR . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
             $font = normalize_path($font, 0);
             $font = imageloadfont($font);
             imagestring($image, $font, 0, 0, $text, $black);

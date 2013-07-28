@@ -30,12 +30,12 @@ if ($installed != false) {
 
 function __mw_install_log($text)
 {
-    if (defined('CACHEDIR_ROOT')) {
-        if (!is_dir(CACHEDIR_ROOT)) {
-            mkdir(CACHEDIR_ROOT);
+    if (defined('MW_CACHE_ROOT_DIR')) {
+        if (!is_dir(MW_CACHE_ROOT_DIR)) {
+            mkdir(MW_CACHE_ROOT_DIR);
         }
     }
-    $log_file = CACHEDIR_ROOT . DIRECTORY_SEPARATOR . 'install_log.txt';
+    $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
     if (!is_file($log_file)) {
         @touch($log_file);
 
@@ -71,7 +71,7 @@ if (isset($to_save['is_installed'])) {
     __mw_install_log('Starting install');
 
     if (isset($to_save['is_installed'])) {
-        $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
+        $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
         $save_config = file_get_contents($f);
         __mw_install_log('Copying default config file');
         if (isset($to_save['custom_dsn'])) {
@@ -175,7 +175,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 if ($to_add_htaccess == true) {
-                    $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
+                    $f_htaccess = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
                     if (is_file($f_htaccess)) {
                         $f_htaccess_file_c = file_get_contents($f_htaccess);
                         if (strstr($f_htaccess_file_c, 'mw htaccess')) {
@@ -225,7 +225,7 @@ if (isset($to_save['is_installed'])) {
 
 
                         if ($to_add_webconfig_iis == true) {
-                            $f_htaccess = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
+                            $f_htaccess = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
                             if (is_file($f_htaccess)) {
                                 $f_htaccess_c = file_get_contents($f_htaccess);
                                 __mw_install_log('Adding Web.config');
@@ -248,17 +248,17 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Initializing users');
  
-                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
+                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
   
                 __mw_install_log('Initializing options');
 
-                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
-                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
+                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
+                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
                  
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
               
-                include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
+                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
                 
                 __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
@@ -304,7 +304,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 if (isset($to_save['with_default_content'])) {
-                    $default_content_folder = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR;
+                    $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
                     $default_content_file = $default_content_folder . 'mw_default_content.zip';
                     if (is_file($default_content_file)) {
                         __mw_install_log('Installing default content');
@@ -312,7 +312,7 @@ if (isset($to_save['is_installed'])) {
 
                         define("MW_NO_DEFAULT_CONTENT", true);
 
-                        $restore = new \Mw\Utils\Backup();
+                        $restore = new \Microweber\Utils\Backup();
                         $restore->backups_folder = $default_content_folder;
                         $restore->backup_file = 'mw_default_content.zip';
                         ob_start();
@@ -331,7 +331,7 @@ if (isset($to_save['is_installed'])) {
                 }
 
 
-                // mw('Mw\ContentUtils')->create_default_content('install');
+                // mw('Microweber\ContentUtils')->create_default_content('install');
                 print('done');
                 __mw_install_log('done');
 
@@ -344,7 +344,7 @@ if (isset($to_save['is_installed'])) {
             //var_dump($l);
         } else {
             $done = true;
-            $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'done.php';
+            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'done.php';
             include ($f);
             exit();
         }
@@ -364,6 +364,6 @@ if (!isset($to_save['IS_INSTALLED'])) {
         //
     }
     __mw_install_log('Preparing to install');
-    $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'main.php';
+    $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include ($f);
 }

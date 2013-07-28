@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
 class Categories extends Category {
@@ -200,7 +200,7 @@ class Categories extends Category {
                     $i++;
                 }
 
-                mw('Mw\DbUtils')->update_position_field($table, $indx);
+                mw('Microweber\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

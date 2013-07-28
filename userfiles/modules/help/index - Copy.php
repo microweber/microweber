@@ -7,7 +7,7 @@ $path = $path_here = $config['path_to_module'].'help'.DS;
 
 
 
-$basepath_modules = MODULES_DIR;
+$basepath_modules = MW_MODULES_DIR;
 
 $get_file = false;
 $get_path = false;
@@ -147,7 +147,7 @@ $(document).ready(function(){
           <li> <strong onclick="mw.tools.accordion(this.parentNode);" class="help-opener"><img  src="<?php  print($minfo['icon']); ?>" alt="" /><span class="help-title">
             <?php  print($item['name']); ?>
             </span></strong>
-            <?php // $module_help_pages = mw('Mw\Utils\Files')->dir_tree( $module_path_help);
+            <?php // $module_help_pages = mw('Microweber\Utils\Files')->dir_tree( $module_path_help);
 
 			  static_mw('content')->pages_tree('class=mw-accordion-content&dir_name='.$module_path_help.'&url='.$config['url_base'].'/module_help:'.module_name_encode($item['module']));
 

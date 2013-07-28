@@ -3,7 +3,7 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
 
-if (defined('MW_IS_INSTALLED') == true) {
+if (MW_IS_INSTALLED == true) {
     if (!defined('MW_TABLE_PREFIX')) {
         $pre = c('table_prefix');
 
@@ -126,7 +126,7 @@ if (defined('MW_IS_INSTALLED') == true) {
 $c_id = 'mw_init_all';
 $cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
 
-if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+if (MW_IS_INSTALLED == true) {
     if ($cache_content_init != 'yes') {
         exec_action('mw_db_init_default');
         exec_action('mw_db_init_options');
@@ -145,10 +145,10 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
     //d($curent_time_zone);
 }
 
-
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
 
-if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+
+if (MW_IS_INSTALLED == true) {
 
     if ($cache_content_init != 'yes') {
         exec_action('mw_db_init_modules');

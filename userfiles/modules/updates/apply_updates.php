@@ -3,7 +3,7 @@
 only_admin_access();
 
  	
-	 $update_api = new \Mw\Update();
+	 $update_api = new \Microweber\Update();
  
 	
 

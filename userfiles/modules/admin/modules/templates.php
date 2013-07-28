@@ -23,7 +23,7 @@ $mod_name = $params['parent-module'];
  $mod_name = rtrim($mod_name, DS);
   $mod_name = rtrim($mod_name, '/');
 
-  //$_dirs = glob(TEMPLATEFILES . '*', GLOB_ONLYDIR);
+  //$_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
  
  
 $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
@@ -43,7 +43,7 @@ $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
 <?php  foreach($site_templates as $site_template):   ?>
 <?php  if(isset( $site_template['dir_name'])): ?>
   <?php 
-   $template_dir = TEMPLATEFILES.$site_template['dir_name'];
+   $template_dir = MW_TEMPLATES_DIR.$site_template['dir_name'];
 $possible_dir = $template_dir . DS . 'modules' . DS .$mod_name .DS;
  $possible_dir = normalize_path($possible_dir,false)
   ?>

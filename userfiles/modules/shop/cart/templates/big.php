@@ -99,7 +99,7 @@ description: Full width cart template
   <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 	   $checkout_page_link = mw('content')->link($checkout_page).'/view:checkout';
    } else {
-	   $checkout_page_link = site_url('checkout');;
+	   $checkout_page_link = mw_site_url('checkout');;
    }
    ?>
   <a class="btn btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>

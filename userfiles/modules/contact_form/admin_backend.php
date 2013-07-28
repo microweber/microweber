@@ -3,11 +3,11 @@
     <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
       <?php $mw_notif =  (mw('url')->param('mw_notif'));
 if( $mw_notif != false){
- $mw_notif = mw('Mw\Notifications')->read( $mw_notif);
+ $mw_notif = mw('Microweber\Notifications')->read( $mw_notif);
 
 }
 
-mw('Mw\Notifications')->mark_as_read('contact_form');
+mw('Microweber\Notifications')->mark_as_read('contact_form');
 
 
   ?>
@@ -26,7 +26,7 @@ $(document).ready(function(){
       <?php endif; ?>
       <?php
 
-mw('Mw\Notifications')->mark_as_read('contact_form');
+mw('Microweber\Notifications')->mark_as_read('contact_form');
 
 
 $load_list = 'default';

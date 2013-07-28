@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 $mw_static_option_groups = array();
 class Files

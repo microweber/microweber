@@ -1332,7 +1332,7 @@ function get_all_functions_files_for_modules($options = false)
     if (isset($options['dir_name'])) {
         $dir_name = $options['dir_name'];
     } else {
-        $dir_name = normalize_path(MW_MODULES_DIR);
+        $dir_name = normalize_path(MODULES_DIR);
     }
 
     $disabled_files = array();
@@ -1557,7 +1557,7 @@ $params['skip_cache'] = true; // skip_cache
 
 $params['cache_group'] = 'modules/global'; // allows custom cache group
 $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
-$params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
+$params['is_elements'] = true;  //if true will list files from the ELEMENTS_DIR
 
 $data = modules_list($params);
 
@@ -1867,7 +1867,7 @@ function admin_url($add_string = false) {
 
     $admin_url = c('admin_url');
 
-    return mw_site_url($admin_url) . '/' . $add_string;
+    return site_url($admin_url) . '/' . $add_string;
 }
 
 
@@ -1892,7 +1892,7 @@ function mw_send_anonymous_server_data($params) {
 
         return $iudates;
     } else {
-        $params['site_url'] = mw_site_url();
+        $params['site_url'] = site_url();
         $result = $update_api->call('send_anonymous_server_data', $params);
         return $result;
     }

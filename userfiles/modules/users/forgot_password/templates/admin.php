@@ -14,7 +14,7 @@
     <div class="mw-ui-field-holder">
 
           <div class="mw-ui-field mw-ico-field">
-              <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
+              <img class="mw-captcha-img" src="<?php print mw_site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
               <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-ui-invisible-field" name="captcha">
           </div>
     </div>

@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Content;
+namespace Microweber\Content;
 
 
 class Ping
@@ -15,7 +15,7 @@ class Ping
      */
     public function content_ping_servers_async()
     {
-        $scheduler = new \Mw\Utils\Events();
+        $scheduler = new \Microweber\Utils\Events();
         $scheduler->registerShutdownEvent("content_ping_servers");
     }
 
@@ -39,7 +39,7 @@ class Ping
             return false;
         }
 
-        $fqdn = $this->is_fqdn(site_url());
+        $fqdn = $this->is_fqdn(mw_site_url());
 
 
         if ($fqdn != false) {
@@ -94,8 +94,8 @@ class Ping
 
                     }
                 }
-                $curl = new \Mw\Utils\Curl();
-                $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . site_url('sitemap.xml');
+                $curl = new \Microweber\Utils\Curl();
+                $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . mw_site_url('sitemap.xml');
                 $curl->timeout = 3;
                 $result1 = $curl->execute();
                 mw('cache')->delete('content/ping');

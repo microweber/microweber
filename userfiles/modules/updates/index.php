@@ -5,7 +5,7 @@ if(mw('url')->param('add_module')){
 }
 
 	$install = mw('url')->param('add_module');
-  mw('Mw\Notifications')->delete_for_module('updates');
+  mw('Microweber\Notifications')->delete_for_module('updates');
 
 
 

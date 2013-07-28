@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 $mw_static_option_groups = array();
 class StaticOption
@@ -19,7 +19,7 @@ class StaticOption
 
         $fname = $option_group . '.php';
 
-        $dir_name = DBPATH_FULL . 'options' . DS;
+        $dir_name = MW_STORAGE_DIR . 'options' . DS;
         $dir_name_and_file = $dir_name . $fname;
         $key = trim($key);
 
@@ -32,7 +32,7 @@ class StaticOption
         if (is_file($dir_name_and_file)) {
             $ops_array = file_get_contents($dir_name_and_file);
             if ($ops_array != false) {
-                $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
+                $ops_array = str_replace(MW_CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
                     if (is_array($ops_array)) {
@@ -77,9 +77,9 @@ class StaticOption
 
         $fname = $data['option_group'] . '.php';
 
-        //	$dir_name = DBPATH_FULL . 'options' . DS . $data['option_group'] . DS;
+        //	$dir_name = MW_STORAGE_DIR . 'options' . DS . $data['option_group'] . DS;
 
-        $dir_name = DBPATH_FULL . 'options' . DS;
+        $dir_name = MW_STORAGE_DIR . 'options' . DS;
         $dir_name_and_file = $dir_name . $fname;
         if (is_dir($dir_name) == false) {
             mkdir_recursive($dir_name);
@@ -88,7 +88,7 @@ class StaticOption
         if (is_file($dir_name_and_file)) {
             $ops_array = file_get_contents($dir_name_and_file);
             if ($ops_array != false) {
-                $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
+                $ops_array = str_replace(MW_CACHE_CONTENT_PREPEND, '', $ops_array);
                 if ($ops_array != '') {
                     $ops_array = unserialize($ops_array);
                     if (is_array($ops_array)) {
@@ -103,7 +103,7 @@ class StaticOption
         //	d($data_to_serialize);
         $data_to_serialize = serialize($data_to_serialize);
 
-        $option_save_string = CACHE_CONTENT_PREPEND . $data_to_serialize;
+        $option_save_string = MW_CACHE_CONTENT_PREPEND . $data_to_serialize;
 
         $cache = file_put_contents($dir_name_and_file, $option_save_string);
         return $cache;

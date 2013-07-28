@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Mw;
+namespace Microweber;
 
 
-class DbUtils extends \Mw\Db
+class DbUtils extends \Microweber\Db
 {
 
     /**
@@ -90,7 +90,7 @@ class DbUtils extends \Mw\Db
      * @example
      * <code>
      * //copy content with id 5
-     *  \mw('Mw\DbUtils')->copy_row_by_id('content', $id=5);
+     *  \mw('Microweber\DbUtils')->copy_row_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -141,7 +141,7 @@ class DbUtils extends \Mw\Db
      *
      * @example
      * <pre>
-     * \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+     * \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database
@@ -253,7 +253,7 @@ class DbUtils extends \Mw\Db
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+     *  \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB

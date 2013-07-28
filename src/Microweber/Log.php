@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 if (!defined("MW_DB_TABLE_LOG")) {
     define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
@@ -28,7 +28,7 @@ class Log
         $params['table'] = $table;
 
         if (is_admin() == false) {
-            $params['user_ip'] = USER_IP;
+            $params['user_ip'] = MW_USER_IP;
         }
 
         $q = \mw('db')->get($params);
@@ -63,7 +63,7 @@ class Log
         $params['table'] = $table;
 
         if (is_admin() == false) {
-            $params['user_ip'] = USER_IP;
+            $params['user_ip'] = MW_USER_IP;
         }
 
         $q = \mw('db')->get($params);
@@ -82,7 +82,7 @@ class Log
     {
         $params = parse_params($params);
 
-        $params['user_ip'] = USER_IP;
+        $params['user_ip'] = MW_USER_IP;
         $data_to_save = $params;
         $table = MW_DB_TABLE_LOG;
         mw_var('FORCE_SAVE', $table);

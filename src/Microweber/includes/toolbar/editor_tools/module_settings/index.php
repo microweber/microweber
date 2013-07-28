@@ -7,25 +7,25 @@
            <?php $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
            <?php endif; ?>
 
-          <script type="text/javascript" src="<?php   print(SITE_URL); ?>apijs"></script>
+          <script type="text/javascript" src="<?php   print(MW_SITE_URL); ?>apijs"></script>
           
           <script type="text/javascript">
 
             liveEditSettings = true;
 
-            mw.require("<?php   print(INCLUDES_URL); ?>js/jquery.js");
-  		    mw.require("<?php   print(INCLUDES_URL); ?>api/jquery-ui.js");
+            mw.require("<?php   print(MW_INCLUDES_URL); ?>js/jquery.js");
+  		    mw.require("<?php   print(MW_INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
 
 
 
           
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>default.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>api/api.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css?v=<?php print uniqid(); ?>"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/popup.css?v=<?php print uniqid(); ?>"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>api/api.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css?v=<?php print uniqid(); ?>"/>
+          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/popup.css?v=<?php print uniqid(); ?>"/>
 
 
 		   <script type="text/javascript">

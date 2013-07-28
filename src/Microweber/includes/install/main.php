@@ -5,11 +5,11 @@
 <title>Microweber Configuration</title>
 <meta charset="utf-8">
 <META HTTP-EQUIV="Content-Language" Content="en">
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>api/api.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/admin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
-<script type="text/javascript" src="<?php print INCLUDES_URL; ?>js/jquery.js"></script>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>api/api.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
+<script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>js/jquery.js"></script>
 <?php
 
     $rand = uniqid();
@@ -52,7 +52,7 @@ $(document).ready(function(){
       $('#mw_log').hide().empty();
      if(data != undefined){
      if(data == 'done'){
-       // window.location.href= '<?php print site_url('admin') ?>'
+       // window.location.href= '<?php print mw_site_url('admin') ?>'
 	         // window.location.href= window.location.href
 			 $('#mw-install-done').fadeIn();
 
@@ -83,7 +83,7 @@ function mw_start_progress(){
   $('.mw_install_progress').fadeIn();
   
   setInterval(function(){
-	  <?php $log_file = CACHEDIR_ROOT . DIRECTORY_SEPARATOR . 'install_log.txt'; 
+	  <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt'; 
 	  $log_file_url = mw('url')->link_to_file($log_file);
 	  
 	  ?>
@@ -277,28 +277,28 @@ if(defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILE
   $server_check_errors['MW_USERFILES'] =  _e("The directory ". MW_USERFILES ." must be writable", true);
 }
 
-if(defined('CACHEDIR_ROOT') and is_dir(CACHEDIR_ROOT) and !is_writable(CACHEDIR_ROOT)){
+if(defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)){
   $check_pass = false;
-  $must_be = CACHEDIR_ROOT;
-  $server_check_errors['CACHEDIR_ROOT'] =  _e("The directory ". CACHEDIR_ROOT ." must be writable", true);
+  $must_be = MW_CACHE_ROOT_DIR;
+  $server_check_errors['MW_CACHE_ROOT_DIR'] =  _e("The directory ". MW_CACHE_ROOT_DIR ." must be writable", true);
 }
 
 
-if(defined('CACHEDIR_ROOT') and is_dir(CACHEDIR_ROOT) and !is_writable(CACHEDIR_ROOT)){
+if(defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)){
   $check_pass = false;
-  $must_be = CACHEDIR_ROOT;
-  $server_check_errors['CACHEDIR_ROOT'] =  _e("The directory ". CACHEDIR_ROOT ." must be writable", true);
+  $must_be = MW_CACHE_ROOT_DIR;
+  $server_check_errors['MW_CACHE_ROOT_DIR'] =  _e("The directory ". MW_CACHE_ROOT_DIR ." must be writable", true);
 }
 
-if(defined('MEDIAFILES') and is_dir(MEDIAFILES) and !is_writable(MEDIAFILES)){
+if(defined('MW_MEDIA_DIR') and is_dir(MW_MEDIA_DIR) and !is_writable(MW_MEDIA_DIR)){
   $check_pass = false;
-  $must_be = MEDIAFILES;
-  $server_check_errors['MEDIAFILES'] =  _e("The directory ". MEDIAFILES ." must be writable", true);
+  $must_be = MW_MEDIA_DIR;
+  $server_check_errors['MW_MEDIA_DIR'] =  _e("The directory ". MW_MEDIA_DIR ." must be writable", true);
 }
-if(defined('MW_APPPATH_FULL') and is_dir(MW_APPPATH_FULL) and !is_writable(MW_APPPATH_FULL)){
+if(defined('MW_APP_PATH') and is_dir(MW_APP_PATH) and !is_writable(MW_APP_PATH)){
   $check_pass = false;
-  $must_be = MW_APPPATH_FULL;
-  $server_check_errors['MW_APPPATH_FULL'] =  _e("The directory ". MW_APPPATH_FULL ." must be writable", true);
+  $must_be = MW_APP_PATH;
+  $server_check_errors['MW_APP_PATH'] =  _e("The directory ". MW_APP_PATH ." must be writable", true);
 }
 
 
@@ -404,7 +404,7 @@ $hide_db_setup = 1;
                     <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password2'])== true and isset($data['admin_password2'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                   </div>
                 </div>
-                <?php 		$default_content_file = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+                <?php 		$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
                 <?php if(is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -436,9 +436,9 @@ $hide_db_setup = 1;
               <h2>
                 <?php _e("Done"); ?>
                 , </h2>
-              <a href="<?php print site_url('admin') ?>">
+              <a href="<?php print mw_site_url('admin') ?>">
               <?php _e("click here to to to admin"); ?>
-              </a> <a href="<?php print site_url() ?>">
+              </a> <a href="<?php print mw_site_url() ?>">
               <?php _e("click here to to to site"); ?>
               </a>
               <?php endif; ?>
@@ -448,9 +448,9 @@ $hide_db_setup = 1;
                 <?php _e("Installation is completed"); ?>
               </h2>
               <br />
-              <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">
+              <a href="<?php print mw_site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">
               <?php _e("Click here to go to Admin Panel"); ?>
-              </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left">
+              </a> <a href="<?php print mw_site_url() ?>" class="mw-ui-btn left">
               <?php _e("Click here visit your site"); ?>
               </a> </div>
           </div>

@@ -1,7 +1,7 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
-action_hook('mw_db_init', mw('Mw\User')->db_init());
+action_hook('mw_db_init', mw('Microweber\User')->db_init());
 
 class User
 {
@@ -114,18 +114,18 @@ class User
             }
             $url = mw('url')->current(1);
 
-            $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . USER_IP);
+            $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
 
             if ($check == 5) {
 
                 $url_href = "<a href='$url' target='_blank'>$url</a>";
-                save_log("title=User IP " . USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . USER_IP);
+                save_log("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
             }
             if ($check > 5) {
                 $check = $check - 1;
                 return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
             }
-            $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . USER_IP);
+            $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
             if ($check2 > 25) {
 
                 return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
@@ -594,7 +594,7 @@ class User
     public function login_set_failed_attempt()
     {
 
-        save_log("title=Failed login&is_system=y&rel=login_failed&user_ip=" . USER_IP);
+        save_log("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
     }
 
@@ -777,10 +777,10 @@ class User
         $fields_to_add[] = array('website_url', 'TEXT default NULL');
         $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
-        \mw('Mw\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = MW_DB_TABLE_LOG;
@@ -808,7 +808,7 @@ class User
         $fields_to_add[] = array('session_id', 'longtext default NULL');
         $fields_to_add[] = array('is_system', "char(1) default 'n'");
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -829,7 +829,7 @@ class User
                 session_set_cookie_params(86400);
                 ini_set('session.gc_maxlifetime', 86400);
                 session_start();
-                $_SESSION['ip'] = USER_IP;
+                $_SESSION['ip'] = MW_USER_IP;
             }
             if ($val == false) {
                 mw('user')->session_del($name);
@@ -838,7 +838,7 @@ class User
                 if ($is_the_same != $val) {
                     $_SESSION[$name] = $val;
                     //session_write_close();
-                    //$_SESSION['ip']=USER_IP;
+                    //$_SESSION['ip']=MW_USER_IP;
                 }
             }
         }
@@ -852,7 +852,7 @@ class User
                     //return false;
                     session_start();
                     //d($_SESSION);
-                    $_SESSION['ip'] = USER_IP;
+                    $_SESSION['ip'] = MW_USER_IP;
                 }
             }
             // probable timout here?!
@@ -862,8 +862,8 @@ class User
 
 
             if (!isset($_SESSION['ip'])) {
-                $_SESSION['ip'] = USER_IP;
-            } else if ($_SESSION['ip'] != USER_IP) {
+                $_SESSION['ip'] = MW_USER_IP;
+            } else if ($_SESSION['ip'] != MW_USER_IP) {
 
                 mw('user')->session_end();
                 return false;

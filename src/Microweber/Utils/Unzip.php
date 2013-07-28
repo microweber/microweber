@@ -1,6 +1,6 @@
 <?php
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 /**
  * UnZip Class

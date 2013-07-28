@@ -9,7 +9,7 @@ $(document).ready(function(){
 
       /*
 
-      var source = new EventSource('<?php print site_url('api/event_stream')?>');
+      var source = new EventSource('<?php print mw_site_url('api/event_stream')?>');
       source.onmessage = function (event) {
         mw.$('#mw-admin-manage-orders').html(event.data);
       };
@@ -49,7 +49,7 @@ function mw_delete_shop_order($p_id){
      });
 }
 </script>
-<?php  mw('Mw\Notifications')->mark_as_read('shop');  ?>
+<?php  mw('Microweber\Notifications')->mark_as_read('shop');  ?>
 <div class="mw-simple-rotator" style="width: 960px;padding: 20px;">
     <div class="mw-simple-rotator-container" id="orders-rotator">
       <module type="shop/orders/manage"  id="mw-admin-manage-orders"  />

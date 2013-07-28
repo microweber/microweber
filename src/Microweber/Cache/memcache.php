@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Cache;
+namespace Microweber\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
@@ -72,7 +72,7 @@ class memcache implements \iMwCache {
 		}
 		$cache_id = $cache_id . $cache_group;
 		$data_to_cache = serialize($data_to_cache);
-		$cache = CACHE_CONTENT_PREPEND . $data_to_cache;
+		$cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
 		return $this -> connected_server -> set($cache_id, $cache, false, APC_EXPIRES);
 
 	}
@@ -142,7 +142,7 @@ class memcache implements \iMwCache {
 		if ($cache) {
 			if (isset($cache) and strval($cache) != '') {
 
-				$search = CACHE_CONTENT_PREPEND;
+				$search = MW_CACHE_CONTENT_PREPEND;
 
 				$replace = '';
 

@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 if (!defined("MW_DB_TABLE_MODULES")) {
     define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
 }
@@ -43,7 +43,7 @@ class Layouts {
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
-                $check_dir = TEMPLATEFILES . '' . $tmpl;
+                $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
@@ -52,7 +52,7 @@ class Layouts {
             } else {
                 $the_active_site_template = mw('option')->get('curent_template');
             }
-            $path = normalize_path(TEMPLATEFILES . $the_active_site_template);
+            $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
         } else {
             $path = $options['path'];
         }
@@ -90,14 +90,14 @@ class Layouts {
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
 
-            $_dirs = glob(TEMPLATEFILES . '*', GLOB_ONLYDIR);
+            $_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
             $dir = array();
             foreach ($_dirs as $item) {
                 $possible_dir = $item . DS . 'modules' . DS . 'layout' . DS;
 
                 if (is_dir($possible_dir)) {
                     $template_dirs[] = $item;
-                    $dir2 = mw('Mw\Utils\Files')->rglob($possible_dir . '*.php', 0);
+                    $dir2 = mw('Microweber\Utils\Files')->rglob($possible_dir . '*.php', 0);
                     // d($dir2);
                     if (!empty($dir2)) {
                         foreach ($dir2 as $dir_glob) {
@@ -115,7 +115,7 @@ class Layouts {
 
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
-                $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $path);
+                $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $path);
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];
@@ -152,7 +152,7 @@ class Layouts {
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
 
-                        $templ_dir = str_replace(TEMPLATEFILES, '', $here_dir);
+                        $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
                         if ($templ_dir != '') {
                             $templ_dir = explode(DS, $templ_dir);
                             //d($templ_dir);
@@ -234,7 +234,7 @@ class Layouts {
                                 }
                             }
 
-                            //   $layout_file = str_replace(TEMPLATEFILES, '', $layout_file);
+                            //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
 
 
                             // d(  $layout_file);
@@ -320,7 +320,7 @@ class Layouts {
         }
 
         $page_url_segment_1 = mw('url')->segment(0);
-        $td = TEMPLATEFILES . $page_url_segment_1;
+        $td = MW_TEMPLATES_DIR . $page_url_segment_1;
         $td_base = $td;
 
         $page_url_segment_2 = mw('url')->segment(1);
@@ -330,7 +330,7 @@ class Layouts {
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
             //$page_url_segment_1 =	$the_active_site_template = mw('option')->get('curent_template');
-            //$td_base = TEMPLATEFILES .  $the_active_site_template.DS;
+            //$td_base = MW_TEMPLATES_DIR .  $the_active_site_template.DS;
         } else {
 
         }
@@ -340,7 +340,7 @@ class Layouts {
             $page_url_segment_str = $page_url_segment_3[0];
         }
         //$page_url_segment_str = implode('/', $page_url_segment_3);
-        $fn = site_url($page_url_segment_str . '/' . $fn);
+        $fn = mw_site_url($page_url_segment_str . '/' . $fn);
         //d($page_url_segment_3);
 
         //set cache in memory

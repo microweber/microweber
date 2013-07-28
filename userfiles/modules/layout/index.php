@@ -27,7 +27,7 @@ if(!strstr($layout_dot_php,'.php')){
 	$layout_dot_php = $layout_dot_php.'.php';
 }
 $layout_dot_php = str_replace('..','',$layout_dot_php);
-$layout_indefault_file = ELEMENTS_DIR . $layout_dot_php;
+$layout_indefault_file = MW_ELEMENTS_DIR . $layout_dot_php;
 $layout_indefault_file = normalize_path($layout_indefault_file, false);
 
 if(!strstr($layout_dot_php, TEMPLATES_DIR)){

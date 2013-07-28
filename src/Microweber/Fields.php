@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 api_expose('CustomFields/delete');
 api_expose('CustomFields/reorder');
@@ -300,7 +300,7 @@ class Fields
 
             if (isset($data_to_save['copy_rel_id'])) {
 
-                $cp = \mw('Mw\DbUtils')->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
+                $cp = \mw('Microweber\DbUtils')->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
                 //$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -442,7 +442,7 @@ class Fields
                     $i++;
                 }
 
-                \mw('Mw\DbUtils')->update_position_field($table, $indx);
+                \mw('Microweber\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -609,7 +609,7 @@ class Fields
         $data = mw('url')->replace_site_url_back($data);
 
 
-        $dir = INCLUDES_DIR;
+        $dir = MW_INCLUDES_DIR;
         $dir = $dir . DS . 'custom_fields' . DS;
         $field_type = str_replace('..', '', $field_type);
         if ($settings == true or isset($data['settings'])) {
@@ -627,7 +627,7 @@ class Fields
         }
 
         if (is_file($file)) {
-            $l = new \Mw\View($file);
+            $l = new \Microweber\View($file);
             //
             $l->settings = $settings;
 

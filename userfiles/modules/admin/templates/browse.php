@@ -110,7 +110,7 @@ $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
         <img src="<?php print $item['image'] ?>" />
   <?php } else {; ?>
        <iframe
-              src="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
+              src="<?php print mw_site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
               frameborder="0"
               scrolling="no"
               >
@@ -125,7 +125,7 @@ $cur_template = mw('option')->get('data-template', $params['parent-module-id']);
         onclick="modulePreview(this); return false;"
         title="<?php print $item['name'] ?>"
         id="skin_num_<?php print $i.md5($curent_module); ?>"
-        href="<?php print site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
+        href="<?php print mw_site_url('clean') ?>/preview_module:<?php print ($curent_module_url) ?>/preview_module_template:<?php print module_name_encode($item['layout_file']) ?>/preview_module_id:skin_num_<?php print $i.md5($curent_module); ?>"
         class="mw-ui-btn mw-ui-btn-blue right"><?php _e("Preview"); ?></a>
 
   </div>

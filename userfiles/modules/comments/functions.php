@@ -12,7 +12,7 @@ function mw_print_admin_dashboard_comments_btn() {
 		$cls = ' class="active" ';
 	}
 	$notif_html = '';
-	$notif_count = mw('Mw\Notifications')->get('module=comments&is_read=n&count=1');
+	$notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
 	if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}
@@ -31,7 +31,7 @@ function mw_print_admin_comments_settings_link() {
 $mname = module_name_encode('comments/settings');
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Comments</a></li>";
 
-	//$notif_count = mw('Mw\Notifications')->get('module=comments&is_read=n&count=1');
+	//$notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}*/
@@ -189,7 +189,7 @@ function post_comment($data) {
 		$notif['title'] = "You have new comment";
 		$notif['description'] = "New comment is posted on " . mw('url')->current(1);
 		$notif['content'] = mw('format')->limit($data['comment_body'], 800);
-		mw('Mw\Notifications')->save($notif);
+		mw('Microweber\Notifications')->save($notif);
 
 		$email_on_new_comment = mw('option')->get('email_on_new_comment', 'comments') == 'y';
 		$email_on_new_comment_value = mw('option')->get('email_on_new_comment_value', 'comments');
@@ -211,9 +211,9 @@ function post_comment($data) {
 
 
 			$message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
-			$message .= "IP:" . USER_IP . ' <br /> ';
+			$message .= "IP:" . MW_USER_IP . ' <br /> ';
 			$message .=mw('format')->array_to_ul($data3);
-			\Mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+			\Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
 		}
 
 

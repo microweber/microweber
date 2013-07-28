@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
 class ContentUtils
@@ -128,7 +128,7 @@ class ContentUtils
 
 
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
-            $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
+            $data_to_save['url'] = str_replace(mw_site_url(), '', $data_to_save['url']);
         }
 
 
@@ -326,7 +326,7 @@ class ContentUtils
         }
 
 
-        if (isset($data_to_save['url']) and $data_to_save['url'] == site_url()) {
+        if (isset($data_to_save['url']) and $data_to_save['url'] == mw_site_url()) {
             unset($data_to_save['url']);
         }
 
@@ -486,7 +486,7 @@ class ContentUtils
             if ($ref_page == false) {
 
 
-                $guess_page_data = new \Mw\Controller();
+                $guess_page_data = new \Microweber\Controller();
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
@@ -1024,7 +1024,7 @@ class ContentUtils
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == site_url()) {
+            if (trim($url) == '' or trim($url) == mw_site_url()) {
                 //$page = get_content_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
@@ -1402,7 +1402,7 @@ class ContentUtils
             return $cache_content;
         }
 
-        $path = TEMPLATEFILES;
+        $path = MW_TEMPLATES_DIR;
         $path_to_layouts = $path;
         $layout_path = $path;
         //	print $path;
@@ -1678,7 +1678,7 @@ class ContentUtils
                     $i++;
                 }
 
-                \mw('Mw\DbUtils')->update_position_field($table, $indx);
+                \mw('Microweber\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -1858,7 +1858,7 @@ class ContentUtils
 
             $lang = current_lang();
 
-            $cust_dir = $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+            $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
             if (!is_dir($cust_dir)) {
                 mkdir_recursive($cust_dir);
             }

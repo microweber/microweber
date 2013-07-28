@@ -163,7 +163,7 @@ function api($function_name, $params = false)
         if (!defined('MW_API_RAW')) {
             define('MW_API_RAW', true);
         }
-        $c = new \Mw\Controller();
+        $c = new \Microweber\Controller();
 
     }
     $res = $c->api($function_name, $params);
@@ -303,7 +303,7 @@ function execute_document_ready($l)
 
 /* JS Usage:
  *
- * var source = new EventSource('<?php print site_url('api/event_stream')?>');
+ * var source = new EventSource('<?php print mw_site_url('api/event_stream')?>');
  *	source.onmessage = function (event) {
  *
  * 	mw.$('#mw-admin-manage-orders').html(event.data);
@@ -400,7 +400,7 @@ function mw_cron()
 {
 
 
-    $file_loc = CACHEDIR_ROOT . "cron" . DS;
+    $file_loc = MW_CACHE_ROOT_DIR . "cron" . DS;
     $file_loc_hour = $file_loc . 'cron_lock' . '.php';
 
     $time = time();
@@ -415,17 +415,17 @@ function mw_cron()
 
 
     // touch($file_loc_hour);
-    $cron = new \Mw\Utils\Cron;
+    $cron = new \Microweber\Utils\Cron;
     //$cron->run();
 
-    $scheduler = new \Mw\Utils\Events();
+    $scheduler = new \Microweber\Utils\Events();
 
     // schedule a global scope function:
-    //$scheduler->registerShutdownEvent("\Mw\Utils\Backup", $params);
+    //$scheduler->registerShutdownEvent("\Microweber\Utils\Backup", $params);
 
     $scheduler->registerShutdownEvent(array($cron, 'run'));
 
-    $file_loc = CACHEDIR_ROOT . "cron" . DS;
+    $file_loc = MW_CACHE_ROOT_DIR . "cron" . DS;
 
     $some_hour = date('Ymd');
     $file_loc_hour = $file_loc . 'cron_lock' . $some_hour . '.php';

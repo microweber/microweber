@@ -1,11 +1,11 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 class Url
 {
     public $site_url_var;
 
-    public function site_url($add_string = false)
+    public function mw_site_url($add_string = false)
     {
         $site_url = $this->site_url_var;
         if ($site_url == false) {
@@ -160,7 +160,7 @@ class Url
 
         //if ($u == false) {
 
-        $u2 = $this->site_url();
+        $u2 = $this->mw_site_url();
 
 
         $u1 = rtrim($u1, '\\');
@@ -189,7 +189,7 @@ class Url
     {
         static $u1;
         if ($u1 == false) {
-            $valid_domain = parse_url($this->site_url());
+            $valid_domain = parse_url($this->mw_site_url());
             if (isset($valid_domain['host'])) {
                 $host = str_ireplace('www.', null, $valid_domain['host']);
                 $u1 = $host;
@@ -225,7 +225,7 @@ class Url
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         //var_dump($path);
-        return $this->site_url($path);
+        return $this->mw_site_url($path);
     }
 
     function to_path($path)
@@ -234,7 +234,7 @@ class Url
             return false;
         }
 
-        $path = str_ireplace($this->site_url(), MW_ROOTPATH, $path);
+        $path = str_ireplace($this->mw_site_url(), MW_ROOTPATH, $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
 
@@ -283,7 +283,7 @@ class Url
 
         $url = $this->current($skip_ajax);
 
-        $rem = $this->site_url();
+        $rem = $this->mw_site_url();
 
         $url = str_ireplace($rem, '', $url);
 
@@ -356,7 +356,7 @@ class Url
         if ($url == false) {
             $url = $this->string();
         }
-        $site = $this->site_url();
+        $site = $this->mw_site_url();
 
         $url = str_ireplace($site, '', $url);
 
@@ -420,7 +420,7 @@ class Url
             $postdata = false;
 
         }
-        $ref = site_url();
+        $ref = mw_site_url();
 
         $opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n" . 'Referer: ' . $ref . "\r\n", 'content' => $postdata));
         $requestUrl = str_replace(' ', '%20', $requestUrl);
@@ -428,8 +428,8 @@ class Url
         if (function_exists('curl_init')) {
             $ch = curl_init($requestUrl);
 
-            curl_setopt($ch, CURLOPT_COOKIEJAR, CACHEDIR . "global/cookie.txt");
-            curl_setopt($ch, CURLOPT_COOKIEFILE, CACHEDIR . "global/cookie.txt");
+            curl_setopt($ch, CURLOPT_COOKIEJAR, MW_CACHE_DIR . "global/cookie.txt");
+            curl_setopt($ch, CURLOPT_COOKIEFILE, MW_CACHE_DIR . "global/cookie.txt");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Microweber " . MW_VERSION . ";)");
@@ -459,7 +459,7 @@ class Url
 
     public function replace_site_url($arr)
     {
-        $site = $this->site_url();
+        $site = $this->mw_site_url();
 
         if (is_string($arr)) {
 
@@ -506,7 +506,7 @@ class Url
                 $ret = $ch;
             } else {
 
-                $site = $this->site_url();
+                $site = $this->mw_site_url();
 
                 $ret = str_replace('{SITE_URL}', $site, $arr);
                 mw_var($parser_mem_crc, $ret);
@@ -537,7 +537,7 @@ class Url
 
     public function api_link($str = '') {
         $str = ltrim($str, '/');
-        return $this->site_url('api/' . $str);
+        return $this->mw_site_url('api/' . $str);
     }
 
 }

@@ -18,7 +18,7 @@ if(isset($params['limit'])){
 
 $notif_params["order_by"] = 'created_on desc';
 $notif_params["order_by"] = 'is_read desc, created_on desc';
-$data = mw('Mw\Notifications')->get($notif_params);
+$data = mw('Microweber\Notifications')->get($notif_params);
 
 
 ?>
@@ -26,7 +26,7 @@ $data = mw('Mw\Notifications')->get($notif_params);
 mw.notif_item_delete = function($item_id){
 
 
-	 $.get("<?php print site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
+	 $.get("<?php print mw_site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
 		 	mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
 
 	  });

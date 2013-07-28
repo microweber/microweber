@@ -70,6 +70,6 @@ $providers['Yahoo']["enabled"] = $enable_user_yahoo_registration;
 $providers['Yahoo']["keys"] = array("key" => $yahoo_app_id, "secret" => $yahoo_app_secret);
 
  
-$config = array("base_url" => $base_url_here, "providers" => $providers, "debug_mode" => false, "debug_file" => CACHEDIR_ROOT.'fb.txt');
+$config = array("base_url" => $base_url_here, "providers" => $providers, "debug_mode" => false, "debug_file" => MW_CACHE_ROOT_DIR.'fb.txt');
 
 return $config;

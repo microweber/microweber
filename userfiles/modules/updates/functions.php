@@ -13,7 +13,7 @@ function mw_print_admin_updates_settings_link() {
 $mname = module_name_encode('updates');
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">" . _e("Updates", true) . "</a></li>";
 
-	//$notif_count = mw('Mw\Notifications')->get('module=comments&is_read=n&count=1');
+	//$notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
 	/*if ($notif_count > 0) {
 		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
 	}*/

@@ -36,7 +36,7 @@ $(document).ready(function(){
               var form = this;
               $(form).addClass('loading');
               mw.tools.disable(form.submit);
-              mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print site_url('api') ?>/user_send_forgot_password', function(a){
+              mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print mw_site_url('api') ?>/user_send_forgot_password', function(a){
                   mw.response('#form-holder{rand}',this);
                   formenabled = true;
                   $(form).removeClass('loading');

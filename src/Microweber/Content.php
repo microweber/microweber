@@ -1,7 +1,7 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
-action_hook('mw_db_init', mw('Mw\Content')->db_init());
+action_hook('mw_db_init', mw('Microweber\Content')->db_init());
 
 /**
  * This file holds useful functions to work with content
@@ -84,14 +84,14 @@ class Content
             }
         }
         if ($id == 0) {
-            return site_url();
+            return mw_site_url();
         }
 
         $link = mw('content')->get_by_id($id);
         if (strval($link['url']) == '') {
             $link = mw('content')->get_by_url($id);
         }
-        $link = site_url($link['url']);
+        $link = mw_site_url($link['url']);
         return $link;
     }
 
@@ -277,7 +277,7 @@ class Content
 
             if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
                 if (isset($get['url'])) {
-                    $get['url'] = site_url($get['url']);
+                    $get['url'] = mw_site_url($get['url']);
                 }
                 if (isset($get['title'])) {
                     //$item['url'] = page_link($item['id']);
@@ -290,7 +290,7 @@ class Content
                 foreach ($get as $item) {
                     if (isset($item['url'])) {
                         //$item['url'] = page_link($item['id']);
-                        $item['url'] = site_url($item['url']);
+                        $item['url'] = mw_site_url($item['url']);
                     }
                     if (isset($item['title'])) {
                         //$item['url'] = page_link($item['id']);
@@ -797,16 +797,16 @@ class Content
             // d($the_active_site_template );
         }
 
-        $the_active_site_template_dir = normalize_path(TEMPLATEFILES . $the_active_site_template . DS);
+        $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {
 
-            define('DEFAULT_TEMPLATE_DIR', TEMPLATEFILES . 'default' . DS);
+            define('DEFAULT_TEMPLATE_DIR', MW_TEMPLATES_DIR . 'default' . DS);
         }
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . 'default/'));
+            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/default/';
         }
 
 
@@ -835,7 +835,7 @@ class Content
                                 $the_active_site_template = $par_page['active_site_template'];
                                 $page['layout_file'] = $par_page['layout_file'];
                                 $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = TEMPLATEFILES . $page['active_site_template'] . DS . $page['layout_file'];
+                                $template_view = MW_TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
 
 
                             }
@@ -847,11 +847,11 @@ class Content
 
                         if (defined('THIS_TEMPLATE_DIR') == false) {
 
-                            define('THIS_TEMPLATE_DIR', TEMPLATEFILES . $the_active_site_template . DS);
+                            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
                         }
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+                            $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
                             $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
@@ -887,7 +887,7 @@ class Content
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+            $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
             if (defined('THIS_TEMPLATE_URL') == false) {
@@ -912,10 +912,10 @@ class Content
 
         if (defined('TEMPLATES_DIR') == false) {
 
-            define('TEMPLATES_DIR', TEMPLATEFILES);
+            define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
         }
 
-        $the_template_url = site_url('userfiles/' . TEMPLATEFILES_DIRNAME . '/' . $the_active_site_template);
+        $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
@@ -956,7 +956,7 @@ class Content
         }
 
         $u1 = $url;
-        $u2 = site_url();
+        $u2 = mw_site_url();
 
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
@@ -978,7 +978,7 @@ class Content
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
 
-            $u1 = site_url();
+            $u1 = mw_site_url();
             $u2 = str_replace($u1, '', $url);
             $current_url = explode('?', $u2);
             $u2 = $current_url[0];
@@ -2241,7 +2241,7 @@ class Content
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('Mw\DbUtils')->build_table()
+     * @uses \mw('Microweber\DbUtils')->build_table()
      */
     public function db_init()
     {
@@ -2307,11 +2307,11 @@ class Content
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
 
-        \mw('Mw\DbUtils')->add_table_index('url', $table_name, array('url(255)'));
-        \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('url', $table_name, array('url(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2327,11 +2327,11 @@ class Content
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $fields_to_add[] = array('field', 'longtext default NULL');
         $fields_to_add[] = array('value', 'TEXT default NULL');
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('Mw\DbUtils')->add_table_index('field', $table_name, array('field(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('Microweber\DbUtils')->add_table_index('field', $table_name, array('field(55)'));
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -2339,11 +2339,11 @@ class Content
         $fields_to_add[] = array('url', 'TEXT default NULL');
 
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('Mw\DbUtils')->add_table_index('field', $table_name, array('field(56)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('Microweber\DbUtils')->add_table_index('field', $table_name, array('field(56)'));
 
 
         $table_name = MW_DB_TABLE_MEDIA;
@@ -2366,14 +2366,14 @@ class Content
         $fields_to_add[] = array('filename', 'TEXT default NULL');
 
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('Mw\DbUtils')->add_table_index('media_type', $table_name, array('media_type(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('media_type', $table_name, array('media_type(55)'));
 
-        //\mw('Mw\DbUtils')->add_table_index('url', $table_name, array('url'));
-        //\mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+        //\mw('Microweber\DbUtils')->add_table_index('url', $table_name, array('url'));
+        //\mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title'));
 
 
         $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
@@ -2413,11 +2413,11 @@ class Content
         $fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        \mw('Mw\DbUtils')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = MW_DB_TABLE_MENUS;
@@ -2434,7 +2434,7 @@ class Content
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('url', 'TEXT default NULL');
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
 
         $table_name = MW_DB_TABLE_TAXONOMY;
@@ -2465,11 +2465,11 @@ class Content
         $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
 
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('Mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('Microweber\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
@@ -2481,11 +2481,11 @@ class Content
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
         $fields_to_add[] = array('data_type', 'TEXT default NULL');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        //\mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('Mw\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        //\mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('Microweber\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -2694,7 +2694,7 @@ class Content
 
             $active_class = '';
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
-                $surl = site_url();
+                $surl = mw_site_url();
                 $cur_url = mw('url')->current(1);
                 $item['url'] = mw('format')->replace_once('{SITE_URL}', $surl, $item['url']);
                 if ($item['url'] == $cur_url) {
@@ -2897,7 +2897,7 @@ class Content
     {
         //if (c('debug_mode')) {
 
-        return include(ADMIN_VIEWS_PATH . 'debug.php');
+        return include(MW_ADMIN_VIEWS_DIR . 'debug.php');
         // }
     }
 
@@ -2985,11 +2985,11 @@ class Content
 
         $lang = current_lang();
 
-        $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+        $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
         $lang_file = normalize_path($lang_file, false);
 
-        $lang_file2 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
-        $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+        $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
+        $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
 
         if (is_file($lang_file2)) {

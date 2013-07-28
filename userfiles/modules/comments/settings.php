@@ -32,7 +32,7 @@
 	padding-left: 40px;
 }
 .avatartype-mysteryman {
- background: url(<?php print INCLUDES_URL; ?>img/avatars.jpg) no-repeat;
+ background: url(<?php print MW_INCLUDES_URL; ?>img/avatars.jpg) no-repeat;
 }
 .avatartype-randomcolor {
 	background: #9F41AA;
@@ -42,7 +42,7 @@
 	-o-transition: background-color 0.2;
 }
 .avatartype-mwuser {
- background: url(<?php print INCLUDES_URL;?>img/avatars.jpg) no-repeat 0 -70px;
+ background: url(<?php print MW_INCLUDES_URL;?>img/avatars.jpg) no-repeat 0 -70px;
 }
 .avatartype-upload {
 	width:30px;

@@ -52,7 +52,7 @@
         <?php $path .=html_entity_decode($_GET['from_path']).DS;  ?>
         <?php endif; ?>
         <?php  
- $dirs =  mw('Mw\Utils\Files')->dir_tree($path);
+ $dirs =  mw('Microweber\Utils\Files')->dir_tree($path);
   $dirs = str_replace($base_path, '', $dirs);
    $dirs = str_replace("ul class='directory_tree'","ul class='nav nav-list'", $dirs);
  print $dirs  ;

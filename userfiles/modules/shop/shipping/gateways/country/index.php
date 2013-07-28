@@ -13,7 +13,7 @@
   if(is_array($data)){
 	foreach($data as $key => $item){
 			if(trim(strtolower($item['shiping_country']))  == 'worldwide' ){
-				 $countries_all = mw('Mw\Forms')->countries_list();
+				 $countries_all = mw('Microweber\Forms')->countries_list();
 				 unset($data[$key]);
 				  if(is_array($countries_all)){
 

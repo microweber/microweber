@@ -2,8 +2,8 @@
 <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>default.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
@@ -20,25 +20,25 @@
         mwAdmin = true;
         admin_url  = '<?php print admin_url(); ?>';
     </script>
-    <script type="text/javascript" src="<?php print site_url(); ?>apijs"></script>
+    <script type="text/javascript" src="<?php print mw_site_url(); ?>apijs"></script>
     <script type="text/javascript">
-      mw.require("<?php print INCLUDES_URL; ?>js/jquery-1.9.1.js");
+      mw.require("<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js");
       mw.require("liveadmin.js");
       mw.require("jquery-ui.js");
-      mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
-      mw.require("<?php print INCLUDES_URL; ?>css/admin.css");
+      mw.require("<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css");
+      mw.require("<?php print MW_INCLUDES_URL; ?>css/admin.css");
       mw.require("wysiwyg.js");
       mw.require("tools.js");
       mw.require("url.js");
       mw.require("options.js");
       mw.require("events.js");
       mw.require("admin.js");
-      mw.require("<?php print INCLUDES_URL; ?>api/editor_externals.js");
+      mw.require("<?php print MW_INCLUDES_URL; ?>api/editor_externals.js");
       mw.require("keys.js");
       mw.require("css_parser.js");
       mw.require("custom_fields.js");
       mw.require("session.js");
-     /* mw.require("<?php print INCLUDES_URL; ?>css/helpinfo.css");
+     /* mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
       mw.require("helpinfo.js");  */
     </script>
     <?php if(!isset($_REQUEST['no_toolbar'])): ?>

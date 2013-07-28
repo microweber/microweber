@@ -1,6 +1,6 @@
 <?php
-namespace Mw;
-class Modules extends \Mw\Module
+namespace Microweber;
+class Modules extends \Microweber\Module
 {
 
     public function reorder_modules($data)
@@ -21,7 +21,7 @@ class Modules extends \Mw\Module
                     $i++;
                 }
 
-                mw('\Mw\DbUtils')->update_position_field($table, $indx);
+                mw('\Microweber\DbUtils')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -190,7 +190,7 @@ class Modules extends \Mw\Module
                 if (trim($module_name) == '') {
                     return false;
                 }
-                //            $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
+                //            $uninstall_lock = MW_STORAGE_DIR . 'disabled_modules' . DS;
                 //            if (!is_dir($uninstall_lock)) {
                 //                mkdir_recursive($uninstall_lock);
                 //            }
@@ -291,7 +291,7 @@ class Modules extends \Mw\Module
 
         }
 
-        //    $uninstall_lock = DBPATH_FULL . 'disabled_modules' . DS;
+        //    $uninstall_lock = MW_STORAGE_DIR . 'disabled_modules' . DS;
         //    if (!is_dir($uninstall_lock)) {
         //        mkdir_recursive($uninstall_lock);
         //    }
@@ -327,7 +327,7 @@ class Modules extends \Mw\Module
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
-                            mw('\Mw\DbUtils')->build_table($table, $fields_to_add);
+                            mw('\Microweber\DbUtils')->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -417,9 +417,9 @@ class Modules extends \Mw\Module
 
         //mw('cache')->flush();
         //clearstatcache();
-        $dir_name_mods = MODULES_DIR;
+        $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;
-        $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $dir_name_mods);
+        $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $dir_name_mods);
 
         if (!empty($dir)) {
             $configs = array();
@@ -433,7 +433,7 @@ class Modules extends \Mw\Module
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
                                 $table = db_get_real_table_name($key1);
-                                mw('\Mw\DbUtils')->build_table($table, $fields_to_add);
+                                mw('\Microweber\DbUtils')->build_table($table, $fields_to_add);
                             }
                         }
                     }
@@ -522,7 +522,7 @@ class Modules extends \Mw\Module
         }
 
         $options['is_elements'] = 1;
-        $options['dir_name'] = normalize_path(ELEMENTS_DIR);
+        $options['dir_name'] = normalize_path(MW_ELEMENTS_DIR);
 
         return scan_for_modules($options);
 
@@ -552,7 +552,7 @@ class Modules extends \Mw\Module
             $cache_group = 'elements/global';
             //
         } else {
-            $dir_name = normalize_path(MODULES_DIR);
+            $dir_name = normalize_path(MW_MODULES_DIR);
             $list_as_element = false;
             $cache_group = 'modules/global';
         }
@@ -626,9 +626,9 @@ class Modules extends \Mw\Module
         //clearstatcache();
 
         $modules_remove_old = false;
-        $dir = mw('Mw\Utils\Files')->rglob($glob_patern, 0, $dir_name);
-        $dir_name_mods = MODULES_DIR;
-        $dir_name_mods2 = ELEMENTS_DIR;
+        $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $dir_name);
+        $dir_name_mods = MW_MODULES_DIR;
+        $dir_name_mods2 = MW_ELEMENTS_DIR;
 
         if (!empty($dir)) {
             $configs = array();
@@ -659,7 +659,7 @@ class Modules extends \Mw\Module
                     //d( $value_fn);
                     //  $value_fn = reduce_double_slashes($value_fn);
 
-                    $def_icon = MODULES_DIR . 'default.png';
+                    $def_icon = MW_MODULES_DIR . 'default.png';
 
                     ob_start();
 
@@ -678,7 +678,7 @@ class Modules extends \Mw\Module
                     $config['module_base'] = str_replace('admin/', '', $value_fn);
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
-                        $t1 = MODULES_DIR . $config['module'] . DS . $bname;
+                        $t1 = MW_MODULES_DIR . $config['module'] . DS . $bname;
 
                         $try_icon = $t1 . '.png';
 
@@ -696,7 +696,7 @@ class Modules extends \Mw\Module
                     }
                     //   $config ['installed'] = install_module($config ['module']);
                     // $mmd5 = mw('url')->slug($config ['module']);
-                    //   $check_if_uninstalled = MODULES_DIR . '_system/' . $mmd5 . '.php';
+                    //   $check_if_uninstalled = MW_MODULES_DIR . '_system/' . $mmd5 . '.php';
                     //                if (is_file($check_if_uninstalled)) {
                     //                    $config ['uninstalled'] = true;
                     //                    $config ['installed'] = false;

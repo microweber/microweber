@@ -1,18 +1,18 @@
 <?php
 
 
-namespace Mw;
+namespace Microweber;
 
 
 if (!defined('DB_IS_SQLITE')) {
     define('DB_IS_SQLITE', false);
 }
 
-if (!defined('USER_IP')) {
+if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
-        define("USER_IP", $_SERVER["REMOTE_ADDR"]);
+        define("MW_USER_IP", $_SERVER["REMOTE_ADDR"]);
     } else {
-        define("USER_IP", '127.0.0.1');
+        define("MW_USER_IP", '127.0.0.1');
 
     }
 }
@@ -396,7 +396,7 @@ class Db
             //$data['url'] = $url;
         }
 
-        $data['user_ip'] = USER_IP;
+        $data['user_ip'] = MW_USER_IP;
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
             $l = $this->last_id($table);

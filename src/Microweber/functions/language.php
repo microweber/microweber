@@ -23,7 +23,7 @@ function __store_lang_file()
 
     $lang = current_lang();
 
-    $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $language_content2 = array();
     if (is_array($language_content)) {
 
@@ -158,7 +158,7 @@ function _e($k, $to_return = false)
             $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
 
 
-            $scheduler = new \Mw\Utils\Events();
+            $scheduler = new \Microweber\Utils\Events();
             // schedule a global scope function:
             $scheduler->registerShutdownEvent("__store_lang_file");
 
@@ -220,7 +220,7 @@ function save_language_file_content($data)
 
         $lang = current_lang();
 
-        $cust_dir = $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+        $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
         if (!is_dir($cust_dir)) {
             mkdir_recursive($cust_dir);
         }
@@ -270,11 +270,11 @@ function get_language_file_content()
 
     $lang = current_lang();
 
-    $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
 	
-	 $lang_file2 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
-	 $lang_file3 = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+	 $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
+	 $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
  
    if (is_file($lang_file2)) {
@@ -349,7 +349,7 @@ function get_available_languages()
         return $mw_all_langs;
     }
 
-    $lang_dir = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
+    $lang_dir = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
 
 
     $files = array();
@@ -385,8 +385,8 @@ function show_help($section = 'main')
     }
 
 
-    $lang_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
-    $lang_file_en = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file_en = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
 
     if (is_file($lang_file)) {

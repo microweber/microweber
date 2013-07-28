@@ -1,6 +1,6 @@
 <?php $mw_notif =  (mw('url')->param('mw_notif'));
 if( $mw_notif != false){
- $mw_notif = mw('Mw\Notifications')->read( $mw_notif);
+ $mw_notif = mw('Microweber\Notifications')->read( $mw_notif);
 
 }
 
@@ -29,12 +29,12 @@ window.location.href = '<?php print admin_url() ?>view:shop/action:orders/#viewo
 $here = dirname(__FILE__);
 $here = $here.DS.'admin_views'.DS;
   $active_action = mw('url')->param('action'); ?>
-<?php //mw('Mw\ContentUtils')->create_default_content('shop'); ?>
+<?php //mw('Microweber\ContentUtils')->create_default_content('shop'); ?>
 <?php include($here .'nav.php'); ?>
 <?php $is_shop = 'y'; ?>
 <?php
 
-$display_file = ADMIN_VIEWS_PATH .'content.php';
+$display_file = MW_ADMIN_VIEWS_DIR .'content.php';
 if($active_action != false){
 	$vf = $here.$active_action.'.php' ;
 

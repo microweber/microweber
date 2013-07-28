@@ -25,7 +25,7 @@ $(document).ready(function(){
      if(!subm.hasClass("disabled")){
        mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
 
- mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print site_url('api/user_login') ?>', function(a, b){
+ mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print mw_site_url('api/user_login') ?>', function(a, b){
 
 			  mw.response('#user_login_<?php print $params['id'] ?>',this);
 			 if(typeof this.success === 'string'){

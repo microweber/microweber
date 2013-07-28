@@ -1,5 +1,5 @@
 <?php
-namespace \Mw\Auth;
+namespace \Microweber\Auth;
 use Hybrid_Auth;
 use Hybrid_Endpoint;
 use Hybrid_Error;

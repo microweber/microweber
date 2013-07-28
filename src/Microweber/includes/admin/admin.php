@@ -1,4 +1,4 @@
-<?php include (ADMIN_VIEWS_PATH . 'header.php'); ?>
+<?php include (MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
@@ -21,7 +21,7 @@
         $v_mod = module_name_decode($v1);
         
          if(is_module($v_mod)){
-			  include_once (ADMIN_VIEWS_PATH . 'module_nav.php'); 
+			  include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php'); 
              $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
              print $mod ;
          } else {
@@ -31,12 +31,12 @@
         
          ?>
   <?php else : ?>
-  <?php include_once (ADMIN_VIEWS_PATH . 'header_nav.php'); ?>
+  <?php include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
   <?php 
         
         
         
-        $vf = ADMIN_VIEWS_PATH . $v. '.php';
+        $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
         $vf = str_replace('..', '', $vf);
         if(is_file($vf)){
         //d($vf);	
@@ -57,11 +57,11 @@
 			 print $mod ;
          } else {
              
-             include (ADMIN_VIEWS_PATH . 'index.php');
+             include (MW_ADMIN_VIEWS_DIR . 'index.php');
          }
         
          } ?>
   <?php endif; ?>
 </div>
 <?php endif; ?>
-<?php	include (ADMIN_VIEWS_PATH . 'footer.php'); ?>
+<?php	include (MW_ADMIN_VIEWS_DIR . 'footer.php'); ?>

@@ -4,9 +4,9 @@
 
 {head}
 
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/mw_framework.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/liveadmin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print INCLUDES_URL; ?>css/wysiwyg.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
 <script>
     mwAdmin = true;
 </script>
@@ -199,7 +199,7 @@ delete_module = function(inner_node){
  ?>
 
 <div class="mw-admin-editor">
- <?php include INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus">{content}</div>
 </div>
 <?php mw_var('plain_modules', false); ?>

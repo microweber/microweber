@@ -1,6 +1,6 @@
 <?php
-namespace Mw;
-action_hook('mw_db_init_default', mw('Mw\Shop')->db_init());
+namespace Microweber;
+action_hook('mw_db_init_default', mw('Microweber\Shop')->db_init());
 
 /**
  *
@@ -185,11 +185,11 @@ class Shop
                     }
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                        $scheduler = new \Mw\Utils\Events();
+                        $scheduler = new \Microweber\Utils\Events();
                         // schedule a global scope function:
-                        $scheduler->registerShutdownEvent("\Mw\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
-                        //\Mw\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        //\Microweber\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
 
                 }
@@ -382,7 +382,7 @@ class Shop
 
                 if ($data['payment_gw'] != 'none') {
 
-                    $gw_process = MODULES_DIR . $data['payment_gw'] . '_process.php';
+                    $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_process.php';
 
                     $mw_return_url = mw('url')->api_link('checkout') . '?mw_payment_success=1' . $return_url_after;
                     $mw_cancel_url = mw('url')->api_link('checkout') . '?mw_payment_failure=1' . $return_url_after;
@@ -874,7 +874,7 @@ class Shop
 
         //$shop_dir = module_dir('shop');
         //$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
-        $gw_process = MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
+        $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
         $update_order = array();
         //$update_order['id'] = $ord;
         if (is_file($gw_process)) {
@@ -1059,13 +1059,13 @@ class Shop
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
         $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        // \mw('Mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw('Microweber\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('Mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        \mw('Microweber\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
 
         $table_name = MODULE_DB_SHOP_ORDERS;
 
@@ -1142,13 +1142,13 @@ class Shop
         $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
         $fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        // \mw('Mw\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // \mw('Microweber\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('Mw\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        \mw('Microweber\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
 
 
         $table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;
@@ -1166,7 +1166,7 @@ class Shop
         $fields_to_add[] = array('position', 'int(11) default NULL');
 
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
@@ -1291,7 +1291,7 @@ class Shop
 
         $row = 1;
 
-        $cur_file = MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
+        $cur_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'libs' . DS . 'currencies.csv';
         //d($cur_file);
         if (is_file($cur_file)) {
             if (($handle = fopen($cur_file, "r")) !== FALSE) {

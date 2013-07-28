@@ -65,7 +65,7 @@
             <?php if(mw('option')->get('disable_captcha', $params['id']) =='y'): ?>   checked="checked"  <?php endif; ?>
       />
       <span></span> <span><?php _e("Disable Code Verification ex"); ?>.:</span> </label>
-    <img src="<?php print INCLUDES_URL; ?>img/code_verification_example.jpg" class="relative" style="top: 7px;left:10px;" alt="" />
+    <img src="<?php print MW_INCLUDES_URL; ?>img/code_verification_example.jpg" class="relative" style="top: 7px;left:10px;" alt="" />
     <div class="vSpace"></div>
     <hr>
     <div class="vSpace"></div>

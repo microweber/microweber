@@ -1,8 +1,8 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
-action_hook('mw_db_init', mw('Mw\Notifications')->db_init());
+action_hook('mw_db_init', mw('Microweber\Notifications')->db_init());
 
 class Forms
 {
@@ -222,7 +222,7 @@ class Forms
         if (isset($params['module_name'])) {
 
             $pp_arr = $params;
-            $pp_arr['ip'] = USER_IP;
+            $pp_arr['ip'] = MW_USER_IP;
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel'])) {
                 unset($pp_arr['rel']);
@@ -251,7 +251,7 @@ class Forms
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
             $notif['content'] = "You have new form entry from " . mw('url')->current(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
-            mw('Mw\Notifications')->save($notif);
+            mw('Microweber\Notifications')->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
                 $email_to = mw('option')->get('email_from', 'email');
@@ -286,14 +286,14 @@ class Forms
                         }
                     }
                 }
-                $scheduler = new \Mw\Utils\Events();
+                $scheduler = new \Microweber\Utils\Events();
                 // schedule a global scope function:
 
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
-                        //\Mw\email\Sender::send($value,$mail_sj,$mail_autoresp );
-                        $scheduler->registerShutdownEvent("\Mw\email\Sender::send", $value, $mail_sj, $mail_autoresp);
+                        //\Microweber\email\Sender::send($value,$mail_sj,$mail_autoresp );
+                        $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $value, $mail_sj, $mail_autoresp);
 
                     }
                 }
@@ -431,11 +431,11 @@ class Forms
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $fields_to_add[] = array('user_ip', 'TEXT default NULL');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Mw\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('Mw\DbUtils')->add_table_index('list_id', $table_name, array('list_id'));
+        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('list_id', $table_name, array('list_id'));
 
         $table_name = MW_DB_TABLE_FORMS_LISTS;
 
@@ -452,14 +452,14 @@ class Forms
         $fields_to_add[] = array('last_export', 'datetime default NULL');
         $fields_to_add[] = array('last_sent', 'datetime default NULL');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title(55)'));
+        \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title(55)'));
 
 
-        $table_sql = INCLUDES_PATH . 'install' . DS . 'countries.sql';
+        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
 
-        \mw('Mw\DbUtils')->import_sql_file($table_sql);
+        \mw('Microweber\DbUtils')->import_sql_file($table_sql);
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -525,7 +525,7 @@ class Forms
                 }
             }
             $filename = 'export' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
-            $filename_path = CACHEDIR . 'forms_data' . DS . 'global' . DS;
+            $filename_path = MW_CACHE_DIR . 'forms_data' . DS . 'global' . DS;
             if (!is_dir($filename_path)) {
                 mkdir_recursive($filename_path);
             }
@@ -561,7 +561,7 @@ class Forms
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+     *  \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -677,7 +677,7 @@ class Forms
      *
      * @example
      * <pre>
-     * \mw('Mw\DbUtils')->add_table_index('title', $table_name, array('title'));
+     * \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

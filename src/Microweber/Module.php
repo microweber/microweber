@@ -1,9 +1,9 @@
 <?php
-namespace Mw;
+namespace Microweber;
 
 
 $_mw_modules_info_register = array();
-action_hook('mw_db_init', mw('Mw\Module')->db_init());
+action_hook('mw_db_init', mw('Microweber\Module')->db_init());
 
 
 $mw_mod_counter = 0;
@@ -129,13 +129,13 @@ class Module
             $try_file1 = $module_in_template_file;
         } else {
 
-            $module_in_default_dir = MODULES_DIR . $module_name . '';
+            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
-            $module_in_default_file = MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
+            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
+            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
 
-            $element_in_default_file = ELEMENTS_DIR . $module_name . '.php';
+            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
@@ -204,8 +204,8 @@ class Module
 
             $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
 
-            $config['module_api'] = site_url('api/' . $module_name);
-            $config['module_view'] = site_url('module/' . $module_name);
+            $config['module_api'] = mw_site_url('api/' . $module_name);
+            $config['module_view'] = mw_site_url('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = module_css_class($module_name);
             $config['url_to_module'] = mw('url')->link_to_file($config['path_to_module']);
@@ -246,7 +246,7 @@ class Module
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
 
-            $l1 = new \Mw\View($try_file1);
+            $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             if (!empty($config)) {
                 foreach ($config as $key1 => $value1) {
@@ -295,8 +295,8 @@ class Module
             //	$l1 = null;
             unset($l1);
             if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
-                $lic_l1_try_file1 = ADMIN_VIEWS_PATH . 'activate_license.php';
-                $lic_l1 = new \Mw\View($lic_l1_try_file1);
+                $lic_l1_try_file1 = MW_ADMIN_VIEWS_DIR . 'activate_license.php';
+                $lic_l1 = new \Microweber\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;
@@ -384,7 +384,7 @@ class Module
 
                 $tf = $module_name_l . $template_name;
                 $tf_theme = $module_name_l_theme . $template_name;
-                $tf_from_other_theme = TEMPLATEFILES . $template_name;
+                $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
 
@@ -548,7 +548,7 @@ class Module
         $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
         $module_in_template_file = normalize_path($module_in_template_file, false);
         //d($module_in_template_dir);
-        $module_in_default_file12 = MODULES_DIR . $module_name . '.php';
+        $module_in_default_file12 = MW_MODULES_DIR . $module_name . '.php';
 
         $try_file1 = false;
 
@@ -567,13 +567,13 @@ class Module
             //	d($try_file1);
         } else {
 
-            $module_in_default_dir = MODULES_DIR . $module_name . '';
+            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             //  d($module_in_default_dir);
-            $module_in_default_file = MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MODULES_DIR . $module_name . '_' . $custom_view . '.php';
+            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
+            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
 
-            $element_in_default_file = ELEMENTS_DIR . $module_name . '.php';
+            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
@@ -747,17 +747,17 @@ class Module
 
         $fields_to_add[] = array('notifications', 'int(11) default 0');
 
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
-        \mw('Mw\DbUtils')->add_table_index('module', $table_name, array('module(255)'));
-        \mw('Mw\DbUtils')->add_table_index('module_id', $table_name, array('module_id(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('module', $table_name, array('module(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('module_id', $table_name, array('module_id(255)'));
 
-        \mw('Mw\DbUtils')->build_table($table_name2, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name2, $fields_to_add);
 
-        \mw('Mw\DbUtils')->add_table_index('module', $table_name2, array('module(255)'));
-        \mw('Mw\DbUtils')->add_table_index('module_id', $table_name2, array('module_id(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('module', $table_name2, array('module(255)'));
+        \mw('Microweber\DbUtils')->add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
@@ -767,7 +767,7 @@ class Module
         $fields_to_add[] = array('module_id', 'TEXT default NULL');
         $fields_to_add[] = array('name', 'TEXT default NULL');
         $fields_to_add[] = array('module', 'TEXT default NULL');
-        \mw('Mw\DbUtils')->build_table($table_name3, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name3, $fields_to_add);
 
         mw('cache')->save(true, $function_cache_id, $cache_group = 'db', 'files');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));

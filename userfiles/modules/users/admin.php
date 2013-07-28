@@ -172,9 +172,9 @@ function mw_admin_delete_user_by_id($user_id){
 
 <?php $mw_notif = (mw('url')->param('mw_notif'));
     if( $mw_notif != false){
-        $mw_notif = mw('Mw\Notifications')->read( $mw_notif);
+        $mw_notif = mw('Microweber\Notifications')->read( $mw_notif);
     }
-    mw('Mw\Notifications')->mark_as_read('users');
+    mw('Microweber\Notifications')->mark_as_read('users');
 ?>
 <?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">

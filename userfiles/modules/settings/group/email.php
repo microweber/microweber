@@ -13,7 +13,7 @@ mw.email_send_test = function(){
 	email_to.to = $('#test_email_to').val();
 	email_to.subject = $('#test_email_subject').val();
 
-	 $.post("<?php print site_url('api_html/mw/email/Sender/test'); ?>", email_to, function(msg){
+	 $.post("<?php print mw_site_url('api_html/mw/email/Sender/test'); ?>", email_to, function(msg){
 		mw.tools.modal.init({
 			html:"<pre>"+msg+"</pre>",	
 			title:"Email send results..."

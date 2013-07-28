@@ -13,7 +13,7 @@ only_admin_access();
 <?php
   // Explore the files via a web interface.
   $script = $config['url']; // the name of this script
-  $path   =   MEDIAFILES; // the path the script should access
+  $path   =   MW_MEDIA_DIR; // the path the script should access
   $path_restirct   =   MW_USERFILES; // the path the script should access
  if(isset($params['path']) and trim($params['path']) != '' and trim($params['path']) != 'false'){
 
@@ -26,7 +26,7 @@ only_admin_access();
 
  $path = str_replace($path_restirct,'',$path);
 
- //$data = mw('Mw\Utils\Files')->rglob($path);
+ //$data = mw('Microweber\Utils\Files')->rglob($path);
   $params_get_files = array();
    $params_get_files['directory']  =  $path_restirct.$path;
 
@@ -47,7 +47,7 @@ only_admin_access();
   mw('format')->notif('Your folder is not writable. You wont be able to upload in it.', 'warning');
  }
   //  $params['keyword']
- $data = mw('Mw\Utils\Files')->get($params_get_files);
+ $data = mw('Microweber\Utils\Files')->get($params_get_files);
 
  $path_nav = explode(DS,$path);
 

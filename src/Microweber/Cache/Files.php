@@ -1,31 +1,36 @@
 <?php
 
-namespace Mw\Cache;
+namespace Microweber\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
 
-if (!defined('APC_CACHE')) {
+if (!defined('MW_USE_APC_CACHE')) {
 
     $apc_exists = function_exists('apc_fetch');
     
     //$apc_exists = false;
   
-    define("APC_CACHE", $apc_exists);
+    define("MW_USE_APC_CACHE", $apc_exists);
 
     if (!defined('APC_EXPIRES')) {
         define("APC_EXPIRES", 60);
     }
 
 
-    if (defined('APC_CACHE') and APC_CACHE == true) {
+    if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
 
     }
 
 
 }
-
+if (!defined('MW_CACHE_FILES_EXTENSION')) {
+    define('MW_CACHE_FILES_EXTENSION', '.php');
+}
+if (!defined('MW_CACHE_CONTENT_PREPEND')) {
+    define('MW_CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
+}
 
 class Files
 {
@@ -50,10 +55,10 @@ class Files
 	    
 	   
 	    $apc_obj = false;
-        if (defined('APC_CACHE') and APC_CACHE == true) {
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
             if ($this->apc == false) {
-                $apc_obj = new \Mw\Cache\Apc();
+                $apc_obj = new \Microweber\Cache\Apc();
                 $this->apc = $apc_obj;
             } else {
                 $apc_obj = $this->apc;
@@ -156,6 +161,9 @@ class Files
         }
     }
 
+
+  
+
     function cache_write_to_file($cache_id, $content, $cache_group = 'global')
     {
 
@@ -174,13 +182,14 @@ class Files
 
             return false;
         } else {
-            $cache_index = CACHEDIR . 'index.php';
+            $cache_index = MW_CACHE_DIR . 'index.php';
 
-            $cache_content1 = CACHE_CONTENT_PREPEND;
+            $cache_content1 = MW_CACHE_CONTENT_PREPEND;
 
             if ($cache_content1) {
 
                 if (is_file($cache_index) == false) {
+                    $this->_mkdirs(dirname($cache_index));
                     @touch($cache_index);
                 }
 
@@ -188,19 +197,19 @@ class Files
 
             $see_if_dir_is_there = dirname($cache_file);
 
-            $content1 = CACHE_CONTENT_PREPEND . $content;
+            $content1 = MW_CACHE_CONTENT_PREPEND . $content;
             if (is_dir($see_if_dir_is_there) == false) {
-                mkdir_recursive($see_if_dir_is_there);
+                $this->_mkdirs($see_if_dir_is_there);
             }
             try {
                 $is_cleaning_now = mw_var('is_cleaning_now');
 
                 // if ($is_cleaning_now == false) {
-                $cache_file_temp = CACHEDIR . DS . 'tmp' . uniqid() . '.php';
+                $cache_file_temp = MW_CACHE_DIR . DS . 'tmp' . uniqid() . '.php';
 
                 $cacheDir_temp = dirname($cache_file_temp);
                 if (!is_dir($cacheDir_temp)) {
-                    mkdir_recursive($cacheDir_temp);
+                    $this->_mkdirs($cacheDir_temp);
                 }
 
                 $cache = file_put_contents($cache_file_temp, $content1);
@@ -236,7 +245,7 @@ class Files
 
 
 
-        if (defined('APC_CACHE') and APC_CACHE == true) {
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
             if ($this->apc != false) {
 
                 $this->apc->delete($cache_group);
@@ -265,7 +274,7 @@ class Files
 
         $dir_lock = $this->cache_get_dir('delete_lock');
         if (!is_dir($dir_lock)) {
-            mkdir_recursive($dir_lock);
+            $this->_mkdirs($dir_lock);
         }
         $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
         //@touch($cache_group_lock);
@@ -352,13 +361,13 @@ class Files
             }
             $cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
 
-            $cacheDir = CACHEDIR . $cache_group;
+            $cacheDir = MW_CACHE_DIR . $cache_group;
 
             //$cacheDir = str_replace(':','_',$cacheDir);
 
 //$cacheDir = str_replace(':','_',$cacheDir.DIRECTORY_SEPARATOR);
             // if (!is_dir($cacheDir)) {
-            // mkdir_recursive($cacheDir);
+            // $this->_mkdirs($cacheDir);
             // }
 
 
@@ -379,7 +388,7 @@ class Files
     function cache_get_file_path($cache_id, $cache_group = 'global')
     {
         $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
-        $f = $this->cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . CACHE_FILES_EXTENSION;
+        $f = $this->cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
 
         return $f;
     }
@@ -389,7 +398,7 @@ class Files
 
         $debug = array();
         $debug['files_cache'] = $this->cache_get_content_from_memory(true);
-        if (defined('APC_CACHE') and APC_CACHE == true) {
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
             if ($this->apc != false) {
                 $debug['apc_cache'] = $this->apc->debug();
@@ -413,10 +422,10 @@ class Files
 
 
         $apc_obj = false;
-        if (defined('APC_CACHE') and APC_CACHE == true) {
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
             if ($this->apc == false) {
-                $apc_obj = new \Mw\Cache\Apc();
+                $apc_obj = new \Microweber\Cache\Apc();
                 $this->apc = $apc_obj;
             } else {
                 $apc_obj = $this->apc;
@@ -598,7 +607,7 @@ class Files
 
         if (isset($cache) and strval($cache) != '') {
 
-            $search = CACHE_CONTENT_PREPEND;
+            $search = MW_CACHE_CONTENT_PREPEND;
 
             $replace = '';
 
@@ -688,8 +697,8 @@ class Files
     public function purge()
     {
         $apc_obj = false;
-        if (defined('APC_CACHE') and APC_CACHE == true) {
-            $apc_obj = new \Mw\Cache\Apc();
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
+            $apc_obj = new \Microweber\Cache\Apc();
             $apc_obj_gt = $apc_obj->purge();
         }
 
@@ -702,7 +711,7 @@ class Files
 
         if (MW_IS_INSTALLED == false) {
 
-            $this->recursive_remove_from_cache_index(CACHEDIR, true);
+            $this->recursive_remove_from_cache_index(MW_CACHE_DIR, true);
             return true;
         }
         if (is_admin() == false) {
@@ -710,9 +719,9 @@ class Files
 
         }
 
-        $this->recursive_remove_from_cache_index(CACHEDIR, true);
+        $this->recursive_remove_from_cache_index(MW_CACHE_DIR, true);
 
-        $this->recursive_remove_from_cache_index(CACHEDIR_ROOT, true);
+        $this->recursive_remove_from_cache_index(MW_CACHE_ROOT_DIR, true);
 
 
 
@@ -726,14 +735,14 @@ class Files
         static $recycle_bin;
 
         //   if ($recycle_bin == false) {
-        //       $recycle_bin = CACHEDIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
+        //       $recycle_bin = MW_CACHE_DIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
         //       if (!is_dir($recycle_bin)) {
-        //           mkdir_recursive($recycle_bin, false);
+        //           $this->_mkdirs($recycle_bin, false);
         //           @touch($recycle_bin . 'index.php');
-        //           @touch(CACHEDIR . '_recycle_bin' . DS . 'index.php');
+        //           @touch(MW_CACHE_DIR . '_recycle_bin' . DS . 'index.php');
         //       }
         //   }
-        mw('Mw\Utils\Files')->rmdir($directory);
+        $this->_rmdirs($directory);
         foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
 
             //@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
@@ -832,7 +841,7 @@ class Files
     }
 
     /**
-     * Writes the cache file in the CACHEDIR directory.
+     * Writes the cache file in the MW_CACHE_DIR directory.
      *
      * @param string $cache_id
      *            of the cache
@@ -856,7 +865,7 @@ class Files
             $cache_group_clean = "cache_index_global";
         }
 
-        $cache_group_index = CACHEDIR . $cache_group_clean . '.php';
+        $cache_group_index = MW_CACHE_DIR . $cache_group_clean . '.php';
         return $cache_group_index;
     }
 
@@ -866,10 +875,90 @@ class Files
         static $recycle_bin;
 
         if ($recycle_bin == false) {
-            $recycle_bin = CACHEDIR . '_recycle_bin' . DS;
+            $recycle_bin = MW_CACHE_DIR . '_recycle_bin' . DS;
             if (is_dir($recycle_bin)) {
-                mw('Mw\Utils\Files')->rmdir($recycle_bin, false);
+                $this->_rmdirs($recycle_bin, false);
             }
+        }
+    }
+
+
+    /**
+     * Makes directory recursive, returns TRUE if exists or made and false on error
+     *
+     * @param string $pathname
+     *            The directory path.
+     * @return boolean
+     *          returns TRUE if exists or made or FALSE on failure.
+     *
+     * @package Utils
+     * @category Files
+     */
+    private function _mkdirs($pathname)
+    {
+        if ($pathname == '') {
+            return false;
+        }
+        is_dir(dirname($pathname)) || $this->_mkdirs(dirname($pathname));
+        return is_dir($pathname) || @mkdir($pathname);
+    }
+
+
+    private function _rmdirs($directory, $empty = true)
+    {
+        // if the path has a slash at the end we remove it here
+        if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
+            $directory = substr($directory, 0, -1);
+        }
+
+        // if the path is not valid or is not a directory ...
+        if (!file_exists($directory) || !is_dir($directory)) {
+            // ... we return false and exit the function
+            return FALSE;
+
+            // ... if the path is not readable
+        } elseif (!is_readable($directory)) {
+            // ... we return false and exit the function
+            return FALSE;
+
+            // ... else if the path is readable
+        } else {
+            // we open the directory
+            $handle = opendir($directory);
+
+            // and scan through the items inside
+            while (FALSE !== ($item = readdir($handle))) {
+                // if the filepointer is not the current directory
+                // or the parent directory
+                if ($item != '.' && $item != '..') {
+                    // we build the new path to delete
+                    $path = $directory . DIRECTORY_SEPARATOR . $item;
+
+                    // if the new path is a directory
+                    if (is_dir($path)) {
+                        // we call this function with the new path
+                        $this->_rmdirs($path, $empty);
+                        // if the new path is a file
+                    } else {
+                        //   $path = normalize_path($path, false);
+                        try {
+                            @unlink($path);
+                        } catch (Exception $e) {
+                        }
+                    }
+                }
+            }
+
+            // close the directory
+            closedir($handle);
+
+            // if the option to empty is not set to true
+            if ($empty == FALSE) {
+                @rmdir($directory);
+              
+            }
+ 
+            return TRUE;
         }
     }
 

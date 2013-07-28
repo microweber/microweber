@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 //FROM 
 class Sitemap {

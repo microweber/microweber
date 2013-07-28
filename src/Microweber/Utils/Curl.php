@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Utils;
+namespace Microweber\Utils;
 /**
  * @original_author    Jason Michels https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
  */

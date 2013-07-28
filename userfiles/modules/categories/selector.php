@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<?php include_once( INCLUDES_DIR . 'api/treerenderer.php'); ?>
+<?php include_once( MW_INCLUDES_DIR . 'api/treerenderer.php'); ?>
 </script>
 <?php
 

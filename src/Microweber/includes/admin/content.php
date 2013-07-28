@@ -58,7 +58,7 @@ if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 
 
 
-<?php   include_once( INCLUDES_DIR . 'api/treerenderer.php');
+<?php   include_once( MW_INCLUDES_DIR . 'api/treerenderer.php');
  ?>
 
 

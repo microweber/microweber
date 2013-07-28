@@ -1,5 +1,5 @@
 <?php
-namespace Mw;
+namespace Microweber;
 $passed_reps = array();
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
@@ -26,12 +26,12 @@ class Parser
 //    }
 
         $use_apc = false;
-        if (defined('APC_CACHE') and APC_CACHE == true) {
+        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
             $use_apc = true;
 
 
             if (!is_object($parser_cache_object)) {
-                $parser_cache_object = new \Mw\Cache\Apc();
+                $parser_cache_object = new \Microweber\Cache\Apc();
 
             }
 
@@ -133,21 +133,21 @@ class Parser
 
             switch ($parse_mode) {
                 case 1 :
-                    include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
 
                     break;
 
                 case 2 :
-                    include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
+                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
 
                     break;
                 case 3 :
-                    include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
+                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
 
                     break;
 
                 case 4 :
-                    include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_default.php');
+                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_default.php');
 
                     break;
 
@@ -162,7 +162,7 @@ class Parser
                     preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
                     // d($layoutmatches);
                     if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
-                        // include (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
+                        // include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
 
                         $layout = $this->_replace_editable_fields($layout);
 
@@ -170,7 +170,7 @@ class Parser
                     break;
 
                 case 345434536 :
-                    include (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '06_default.php');
+                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '06_default.php');
 
                     break;
 
@@ -636,9 +636,9 @@ class Parser
         global $mw_rand;
         //	$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
         $layout = str_replace('{rand}', uniqid(), $layout);
-        $layout = str_replace('{SITE_URL}', site_url(), $layout);
-        $layout = str_replace('{SITEURL}', site_url(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', site_url(), $layout);
+        $layout = str_replace('{SITE_URL}', mw_site_url(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', mw_site_url(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', mw_site_url(), $layout);
 
         $checker[$d] = 1;
 
@@ -654,7 +654,7 @@ class Parser
             return $layout;
         }
 
-        require_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
         $replaced_scripts = array();
@@ -725,7 +725,7 @@ class Parser
 
     public function modify_html($layout, $selector, $content = "", $action = 'append')
     {
-        require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($layout);
 
@@ -782,7 +782,7 @@ class Parser
 
     public function isolate_content_field($l)
     {
-        require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = phpQuery::newDocument($l);
 
         $isolated_head = pq('head')->eq(0)->html();
@@ -844,7 +844,7 @@ class Parser
 
                 $layout = $ch;
             } else {
-                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 $layout = htmlspecialchars_decode($layout);

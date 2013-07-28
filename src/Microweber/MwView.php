@@ -67,8 +67,8 @@ class MwView {
 		if ($ext == 'md') {
 			$content = file_get_contents($this -> v);
 			$rel_url = mw('url')->link_to_file(dirname($this -> v)) . '/';
-			//$content = \Mw\Content\Markdown::defaultTransform($content);
-			$parser = new \Mw\Content\MarkdownExtra;
+			//$content = \Microweber\Content\Markdown::defaultTransform($content);
+			$parser = new \Microweber\Content\MarkdownExtra;
 
 			$parser -> no_markup = true;
 			 $parser -> no_entities = true;
@@ -84,7 +84,7 @@ class MwView {
 			$imgs = $dom_md -> getElementsByTagName('img');
 			foreach ($imgs as $img) {
 				$src = $img -> getAttribute('src');
-				if (strpos($src, site_url()) !== 0) {
+				if (strpos($src, mw_site_url()) !== 0) {
 					$img -> setAttribute('src', $rel_url . $src);
 				}
 			}

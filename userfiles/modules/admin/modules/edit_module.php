@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 	 mw.$('#module_admin_settings_form_<?php print $params['id']; ?>').submit(function() {
 
-     mw.form.post(mw.$('#module_admin_settings_form_<?php print $params['id']; ?>') , '<?php print site_url('api') ?>/save_settings_md', function(){
+     mw.form.post(mw.$('#module_admin_settings_form_<?php print $params['id']; ?>') , '<?php print mw_site_url('api') ?>/save_settings_md', function(){
 
 	 });
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	 mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function() {
        var for_module = {}
        for_module.id =  $(this).attr('data-module-id');
-       $.post('<?php print site_url('api') ?>/uninstall_module/', for_module, function(data) {
+       $.post('<?php print mw_site_url('api') ?>/uninstall_module/', for_module, function(data) {
 
        });
        return false;
@@ -49,7 +49,7 @@ $(document).ready(function(){
 	 mw.$('#module_install_<?php print $params['id']; ?>').click(function() {
          var for_module = {}
          for_module.for_module =  $(this).attr('data-module-name');
-         $.post('<?php print site_url('api') ?>/install_module/', for_module,  function(data) {
+         $.post('<?php print mw_site_url('api') ?>/install_module/', for_module,  function(data) {
 
          });
 

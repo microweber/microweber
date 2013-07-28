@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Mw;
+namespace Microweber;
 // magic quotes fix
 // http://php.net/manual/en/function.get-magic-quotes-gpc.php
 // http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
@@ -49,7 +49,7 @@ class Controller
 
         //create_mw_default_options();
         define_constants();
-        $l = new \Mw\View(ADMIN_VIEWS_PATH . 'admin.php');
+        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
         exec_action('on_load');
@@ -132,9 +132,9 @@ class Controller
 
         //d($mod_api_class);
 
-        $mod_api_class1 = normalize_path(MODULES_DIR . $mod_api_class, false) . '.php';
-        $mod_api_class_native = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class, false) . '.php';
-        $mod_api_class_native_global_ns = normalize_path(MW_APPPATH_FULL . 'classes' . DS . $mod_api_class2, false) . '.php';
+        $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
+        $mod_api_class_native = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class, false) . '.php';
+        $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
 
 
 
@@ -512,7 +512,7 @@ class Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == site_url()) {
+            if (trim($url) == '' or trim($url) == mw_site_url()) {
                 //$page = mw('content')->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
@@ -529,7 +529,7 @@ class Controller
 
         if ($custom_display == true) {
 
-            $u2 = site_url();
+            $u2 = mw_site_url();
             $u1 = str_replace($u2, '', $url);
             $this->render_this_url = $u1;
             $this->isolate_by_html_id = $custom_display_id;
@@ -600,7 +600,7 @@ class Controller
         if ($module_info) {
             if ($_REQUEST['module']) {
                 $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-                $try_config_file = MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
+                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
                 $try_config_file = normalize_path($try_config_file, false);
                 if (is_file($try_config_file)) {
                     include ($try_config_file);
@@ -611,7 +611,7 @@ class Controller
 
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
-                        $config['icon'] = MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
                         $config['icon'] = mw('url')->link_to_file($config['icon']);
                     }
                     print json_encode($config);
@@ -766,7 +766,7 @@ class Controller
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, site_url())) {
+            if (strstr($get_arr_from_ref, mw_site_url())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -784,17 +784,17 @@ class Controller
         $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
         if ($embed != false) {
-            $p_index = INCLUDES_PATH . 'api/index.php';
+            $p_index = MW_INCLUDES_DIR . 'api/index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \Mw\View($p_index);
+            $l = new \Microweber\View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
 
         if (isset($_REQUEST['live_edit'])) {
-            $p_index = INCLUDES_PATH . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \Mw\View($p_index);
+            $l = new \Microweber\View($p_index);
             $l->params = $data;
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
@@ -872,7 +872,7 @@ class Controller
                 //sleep(1);
 
 
-                //mw('url')->redirect(site_url($page_url));
+                //mw('url')->redirect(mw_site_url($page_url));
                 //exit();
             } else {
 
@@ -888,7 +888,7 @@ class Controller
                         //exit();
 
                     }
-                    mw('url')->redirect(site_url($page_url));
+                    mw('url')->redirect(mw_site_url($page_url));
                     exit();
                 } else {
                     $is_editmode = false;
@@ -1049,7 +1049,7 @@ class Controller
                     if (empty($page)) {
                         $the_new_page_file = false;
                         $page_url_segment_1 = mw('url')->segment(0, $page_url);
-                        $td = TEMPLATEFILES . $page_url_segment_1;
+                        $td = MW_TEMPLATES_DIR . $page_url_segment_1;
                         $td_base = $td;
 
                         $page_url_segment_2 = mw('url')->segment(1, $page_url);
@@ -1058,7 +1058,7 @@ class Controller
 
                         if (!is_dir($td_base)) {
                             $page_url_segment_1 = $the_active_site_template = mw('option')->get('curent_template');
-                            $td_base = TEMPLATEFILES . $the_active_site_template . DS;
+                            $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
                             //d($page_url_segment_3);
@@ -1099,7 +1099,7 @@ class Controller
                                         $the_new_page_file = $td_fd;
                                         $simply_a_file = $directly_to_file = $td_fd;
                                     } else {
-                                        $td_basedef = TEMPLATEFILES . 'default' . DS . $page_url_segment_3_str;
+                                        $td_basedef = MW_TEMPLATES_DIR . 'default' . DS . $page_url_segment_3_str;
                                         if (is_file($td_basedef)) {
                                             $the_new_page_file = $td_basedef;
                                             $simply_a_file = $directly_to_file = $td_basedef;
@@ -1280,7 +1280,7 @@ class Controller
         if ($render_file) {
 
 
-            $l = new \Mw\View($render_file);
+            $l = new \Microweber\View($render_file);
 
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
@@ -1311,7 +1311,7 @@ class Controller
             if (isset($_REQUEST['isolate_content_field'])) {
                 //d($_REQUEST);
 
-                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
@@ -1328,9 +1328,9 @@ class Controller
                 $is_admin = is_admin();
                 if ($is_admin == true) {
 
-                    $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
+                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new \Mw\View($tb);
+                    $layout_toolbar = new \Microweber\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -1363,7 +1363,7 @@ class Controller
             }
             if (isset($_REQUEST['embed_id'])) {
                 $find_embed_id = trim($_REQUEST['embed_id']);
-                require_once (MW_APPPATH_FULL . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $pq = \phpQuery::newDocument($l);
                 //	$isolated_head = pq('head') -> eq(0) -> html();
@@ -1389,9 +1389,9 @@ class Controller
                 //$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
                 if (isset($iaaaasolated_el) and $isolated_el != false) {
 
-                    $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
+                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new \Mw\View($tb);
+                    $layout_toolbar = new \Microweber\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -1423,12 +1423,12 @@ class Controller
 
             //	mw_var('get_module_template_settings_from_options', 0);
 
-            $apijs_loaded = site_url('apijs');
+            $apijs_loaded = mw_site_url('apijs');
 
-            $apijs_loaded = site_url('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = mw_site_url('apijs') . '?id=' . CONTENT_ID;
 
             $is_admin = is_admin();
-            $default_css = '<link rel="stylesheet" href="' . INCLUDES_URL . 'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
             exec_action('site_header', TEMPLATE_NAME);
 
 
@@ -1454,9 +1454,9 @@ class Controller
 
                 if ($is_admin == true) {
 
-                    $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
+                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar.php';
 
-                    $layout_toolbar = new \Mw\View($tb);
+                    $layout_toolbar = new \Microweber\View($tb);
                     $is_editmode_basic = false;
                     $user_data = get_user();
                     if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
@@ -1481,7 +1481,7 @@ class Controller
                     $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live-edit.php';
                     $custom_live_edit = normalize_path($custom_live_edit, false);
                     if (is_file($custom_live_edit)) {
-                        $layout_live_edit = new \Mw\View($custom_live_edit);
+                        $layout_live_edit = new \Microweber\View($custom_live_edit);
                         $layout_live_edit = $layout_live_edit->__toString();
                         if ($layout_live_edit != '') {
                             //$layout_live_edit = mw('parser')->process($layout_live_edit, $options = array('no_apc' => 1));
@@ -1497,9 +1497,9 @@ class Controller
                     //d($_REQUEST);
                     $back_to_editmode = mw('user')->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
-                        $tb = INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
+                        $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
-                        $layout_toolbar = new \Mw\View($tb);
+                        $layout_toolbar = new \Microweber\View($tb);
                         $layout_toolbar = $layout_toolbar->__toString();
                         if ($layout_toolbar != '') {
                             $layout_toolbar = mw('parser')->process($layout_toolbar, $options = array('no_apc' => 1));
@@ -1592,7 +1592,7 @@ class Controller
             if ($this->isolate_by_html_id != false) {
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
-                //require_once (MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                //require_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = phpQuery::newDocument($l);
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
@@ -1653,7 +1653,7 @@ class Controller
     {
 
 
-        $sm_file = CACHEDIR . 'sitemap.xml';
+        $sm_file = MW_CACHE_DIR . 'sitemap.xml';
 
         $skip = false;
         if (is_file($sm_file)) {
@@ -1667,8 +1667,8 @@ class Controller
 
 
         if ($skip == false) {
-            $map = new \Mw\Utils\Sitemap($sm_file);
-            $map->file = CACHEDIR . 'sitemap.xml';
+            $map = new \Microweber\Utils\Sitemap($sm_file);
+            $map->file = MW_CACHE_DIR . 'sitemap.xml';
 
             $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
 
@@ -1719,13 +1719,13 @@ class Controller
         define_constants($ref_page);
 
 
-        $l = new \Mw\View(INCLUDES_PATH . 'api' . DS . 'api.js');
+        $l = new \Microweber\View(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
         $l = $l->__toString();
         // var_dump($l);
         //session_write_close();
-        $l = str_replace('{SITE_URL}', site_url(), $l);
-        $l = str_replace('{SITEURL}', site_url(), $l);
-        $l = str_replace('%7BSITE_URL%7D', site_url(), $l);
+        $l = str_replace('{SITE_URL}', mw_site_url(), $l);
+        $l = str_replace('{MW_SITE_URL}', mw_site_url(), $l);
+        $l = str_replace('%7BSITE_URL%7D', mw_site_url(), $l);
         //$l = mw('parser')->process($l, $options = array('parse_only_vars' => 1));
         print $l;
         exit();
@@ -1734,7 +1734,7 @@ class Controller
     function plupload()
     {
         define_constants();
-        $f = MW_APPPATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
+        $f = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
         require ($f);
         exit();
     }
@@ -1744,12 +1744,12 @@ class Controller
         $installed = MW_IS_INSTALLED;
 
         if ($installed == false) {
-            $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
             require ($f);
             exit();
         } else {
             if (is_admin() == true) {
-                $f = INCLUDES_PATH . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+                $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
                 require ($f);
                 exit();
             } else {
@@ -1782,7 +1782,7 @@ class Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == site_url()) {
+            if (trim($url) == '' or trim($url) == mw_site_url()) {
                 //$page = mw('content')->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
@@ -1797,18 +1797,18 @@ class Controller
         define_constants($page);
         $tool = str_replace('..', '', $tool);
 
-        $p_index = INCLUDES_PATH . 'toolbar/editor_tools/index.php';
+        $p_index = MW_INCLUDES_DIR . 'toolbar/editor_tools/index.php';
         $p_index = normalize_path($p_index, false);
 
-        $p = INCLUDES_PATH . 'toolbar/editor_tools/' . $tool . '/index.php';
+        $p = MW_INCLUDES_DIR . 'toolbar/editor_tools/' . $tool . '/index.php';
         $p = normalize_path($p, false);
 
-        $l = new \Mw\View($p_index);
+        $l = new \Microweber\View($p_index);
         $layout = $l->__toString();
         // var_dump($l);
 
         if (is_file($p)) {
-            $p = new \Mw\View($p);
+            $p = new \Microweber\View($p);
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);
 
@@ -1828,14 +1828,14 @@ class Controller
         exit();
         //
         //header("HTTP/1.0 404 Not Found");
-        //$v = new \Mw\View(ADMIN_VIEWS_PATH . '404.php');
+        //$v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
         //echo $v;
     }
 
     function show_404()
     {
         header("HTTP/1.0 404 Not Found");
-        $v = new \Mw\View(ADMIN_VIEWS_PATH . '404.php');
+        $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
         echo $v;
     }
 

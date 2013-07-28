@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Content;
+namespace Microweber\Content;
 
 
 class StaticPages {
@@ -46,7 +46,7 @@ class StaticPages {
         $params['url_param'] = 'page';
 
 
-        mw('Mw\Utils\Files')->dir_tree($dir_name, $params);
+        mw('Microweber\Utils\Files')->dir_tree($dir_name, $params);
 
 
     }
@@ -101,7 +101,7 @@ class StaticPages {
 
             if ($load_file != false) {
 
-                $static_page = new \Mw\View($load_file);
+                $static_page = new \Microweber\View($load_file);
                 $config = array();
                 $config['dir_name'] = $dir_name;
                 $config['filename'] = $load_file;

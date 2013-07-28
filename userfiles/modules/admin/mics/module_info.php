@@ -2,11 +2,11 @@
 $config = false;
 if($params['module_info']){
 				$params['module_info']= str_replace('..', '', $params['module_info']);
-				$try_config_file = MODULES_DIR . '' . $params['module_info'] . '_config.php';
+				$try_config_file = MW_MODULES_DIR . '' . $params['module_info'] . '_config.php';
 				if(is_file($try_config_file)){
 					include($try_config_file);
 					if($config['icon'] == false){
-					$config['icon'] = MODULES_DIR . '' . $params['module_info'] .'.png';;
+					$config['icon'] = MW_MODULES_DIR . '' . $params['module_info'] .'.png';;
 					$config['icon'] = mw('url')->link_to_file($config['icon']);
 					}
 					 

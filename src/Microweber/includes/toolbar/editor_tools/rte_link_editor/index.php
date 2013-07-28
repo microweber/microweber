@@ -312,7 +312,7 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 2 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
+                <div data-value="<?php print mw_site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
                     <span class="mw_dropdown_val"><?php _e("Click here to select"); ?></span>
                     <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
                     <div class="mw_dropdown_fields">

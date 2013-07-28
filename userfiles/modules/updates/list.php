@@ -1,7 +1,7 @@
 <?php
 
  only_admin_access();
- $update_api = new \Mw\Update();
+ $update_api = new \Microweber\Update();
  $forced = false;
  if(isset($params['force'])){
 	  $forced = 1;
@@ -68,7 +68,7 @@ $(document).ready(function(){
       <td><label class="mw-ui-check">
           <input type="checkbox" name="mw_version" value="<?php print $iudates["version"] ?>"  />
           <span></span></label></td>
-      <td><img src="<?php print INCLUDES_URL; ?>img/mw_system.png" alt="Microweber" /><br>
+      <td><img src="<?php print MW_INCLUDES_URL; ?>img/mw_system.png" alt="Microweber" /><br>
         <span class="update-version"><?php print MW_VERSION ?></span></td>
       <td><h2> New version <?php print $iudates["version"] ?>
           <?php if(isset($item["description"])) : ?>
@@ -91,7 +91,7 @@ $(document).ready(function(){
       <td><?php if(isset($item["icon"])) : ?>
         <img src="<?php print $item["icon"] ?>" alt="" /> <br>
         <?php else: ?>
-        <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
+        <img src="<?php print MW_INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
         <span class="update-version"><?php print $item["version"] ?></span></td>
       <td><h2> <?php print $item["name"] ?>
@@ -116,7 +116,7 @@ $(document).ready(function(){
       <td><?php if(isset($item["icon"])) : ?>
         <img src="<?php print $item["icon"] ?>" alt="" /> <br>
         <?php else: ?>
-        <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
+        <img src="<?php print MW_INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
         <span class="update-version"><?php print $item["version"] ?></span></td>
       <td><h2> <strong>"<?php print $item["name"]; ?>"</strong> template of "<?php print $item["module"] ?>".
@@ -141,7 +141,7 @@ $(document).ready(function(){
       <td><?php if(isset($item["icon"])) : ?>
         <img src="<?php print $item["icon"] ?>" alt="" /> <br>
         <?php else: ?>
-        <img src="<?php print INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
+        <img src="<?php print MW_INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
         <span class="update-version"><?php print $item["version"] ?></span></td>
       <td><h2> <?php print $item["name"] ?>

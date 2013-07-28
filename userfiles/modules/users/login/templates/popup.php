@@ -49,7 +49,7 @@ $(document).ready(function(){
 mw.$("#pop-up-login").submit(function(){
 
 
-     mw.form.post($(this) , '<?php print site_url('api/user_login') ?>', function(a, b){
+     mw.form.post($(this) , '<?php print mw_site_url('api/user_login') ?>', function(a, b){
 
 			  mw.response('#user_login_<?php print $params['id'] ?>',this);
 			 if(typeof this.success === 'string'){

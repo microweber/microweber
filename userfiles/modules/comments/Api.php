@@ -159,7 +159,7 @@ class Api {
             $notif['title'] = "You have new comment";
             $notif['description'] = "New comment is posted on " . mw('url')->current(1);
             $notif['content'] = mw('format')->limit($data['comment_body'], 800);
-            mw('Mw\Notifications')->save($notif);
+            mw('Microweber\Notifications')->save($notif);
 
             $email_on_new_comment = mw('option')->get('email_on_new_comment', 'comments') == 'y';
             $email_on_new_comment_value = mw('option')->get('email_on_new_comment_value', 'comments');
@@ -181,9 +181,9 @@ class Api {
 
 
                 $message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
-                $message .= "IP:" . USER_IP . ' <br /> ';
+                $message .= "IP:" . MW_USER_IP . ' <br /> ';
                 $message .=mw('format')->array_to_ul($data3);
-                \Mw\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+                \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 

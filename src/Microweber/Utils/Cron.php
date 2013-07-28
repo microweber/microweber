@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 /**
  * Makes virtual cronjobs from php
@@ -12,12 +12,12 @@ namespace Mw\Utils;
  *
  * The jobs are executed with the register_shutdown_function and have minimum impact on the performance.
  *
- * @package Mw\Utils
+ * @package Microweber\Utils
  * @link http://microweber.com
  * @author Peter Ivanov
  * @example
  * <pre>
- * $cron = new \Mw\Utils\Cron();
+ * $cron = new \Microweber\Utils\Cron();
  *
  * //you can execute any php function like that
  * $cron->job('another_job', '1 min', 'some_function', array('param1'=>'value'));
@@ -27,10 +27,10 @@ namespace Mw\Utils;
  * $cron->job('run_something', '5 sec', array('myClass','Method'), array('some_param'=>'some_value'));
  *
  * //you can even run it on namespaced objects
- * $cron->job('make_full_backup', '5 sec', array('\Mw\Utils\Backup','cronjob_exec'), array('param1'=>'value'));
+ * $cron->job('make_full_backup', '5 sec', array('\Microweber\Utils\Backup','cronjob_exec'), array('param1'=>'value'));
  *
  * //you can run functions only once
- * $cron->job('run_something_once', 0, array('\Mw\Utils\Backup','cronjob'));
+ * $cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
  * </pre>
  *
  */

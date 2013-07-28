@@ -42,7 +42,7 @@ if (is_admin() == false) {
 	
 	if(isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"])  and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false'){
 
-			$cfid = Mw\CustomFields::get_by_id(intval($_REQUEST["custom_field_id"]));
+			$cfid = Microweber\CustomFields::get_by_id(intval($_REQUEST["custom_field_id"]));
 			if($cfid == false){
 			 die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
 
@@ -224,7 +224,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 // Settings
-$target_path = MEDIAFILES . DS;
+$target_path = MW_MEDIA_DIR . DS;
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct   =   MW_USERFILES; // the path the script should access
@@ -301,13 +301,13 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 
 if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])) {
 	$filename_log = mw('url')->slug($fileName);
-	$check = get_log("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . USER_IP);
+	$check = get_log("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . MW_USER_IP);
 	$upl_size_log = $_SERVER["CONTENT_LENGTH"];
 	if (is_array($check) and isset($check['id'])) {
 		$upl_size_log = intval($upl_size_log) + intval($check['value']);
-		save_log("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . USER_IP. "&id=" . $check['id']);
+		save_log("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP. "&id=" . $check['id']);
 	} else {
-		save_log("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . USER_IP);
+		save_log("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP);
 	}
 }
 

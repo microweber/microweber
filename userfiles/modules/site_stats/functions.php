@@ -70,7 +70,7 @@ function stats_append_image($layout = false) {
 		stats_insert();
 		//$selector = '/<\/body>/si';
 		////$rand = date("Y-m-d");
-		//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
+		//$layout = modify_html($layout, $selector, '<img src="' . mw_site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
 	}
 	//}
 	//$layout = mw_dom($layout, 'ul.mw-quick-links:last', '<li><a href="#"><span class="ico ihelp"></span><span>I am dynamic</span></a></li>');
@@ -103,7 +103,7 @@ function stats_insert() {
 
 	$function_cache_id = false;
 	$uip = $_SERVER['REMOTE_ADDR'];
-	$function_cache_id = $function_cache_id . $uip . USER_IP;
+	$function_cache_id = $function_cache_id . $uip . MW_USER_IP;
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 $few_mins_ago_visit_date = date("Y-m-d H:i:s");
@@ -184,7 +184,7 @@ function stats_insert_cookie_based() {
 
 	$function_cache_id = false;
 	$uip = $_SERVER['REMOTE_ADDR'];
-	$function_cache_id = $function_cache_id . $uip . USER_IP;
+	$function_cache_id = $function_cache_id . $uip . MW_USER_IP;
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 

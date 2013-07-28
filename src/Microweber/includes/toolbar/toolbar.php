@@ -2,13 +2,13 @@
 <script type="text/javascript">
   //document.body.className+=' loading';
 
-  //mw.require("<?php print( INCLUDES_URL);  ?>js/jquery.js");
+  //mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery.js");
 
   mw.settings.liveEdit = true;
 
-  typeof jQuery == 'undefined' ? mw.require("<?php print INCLUDES_URL; ?>js/jquery-1.9.1.js") : '' ;
+  typeof jQuery == 'undefined' ? mw.require("<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js") : '' ;
   mw.require("liveadmin.js");
-  mw.require("<?php print( INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
+  mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
   mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");
@@ -25,14 +25,14 @@
 
 
 </script>
-<link href="<?php   print( INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <?php /*  */ ?>
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>
-<script src="<?php   print( INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
-<script src="<?php   print( INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
+<script src="<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js" type="text/javascript"></script>
+<script src="<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 
@@ -102,7 +102,7 @@ mw_save_draft_int = self.setInterval(function(){
 <?php
 
 
-			 $back_url = site_url().'admin/view:content';
+			 $back_url = mw_site_url().'admin/view:content';
 			 if(defined('CONTENT_ID')){
 				 $back_url .= '#action=editpage:'.CONTENT_ID;
 			 }
@@ -241,7 +241,7 @@ mw_save_draft_int = self.setInterval(function(){
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
+            data-src="<?php print mw_site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
             src="#"> </iframe>
     </div>
     <div id="tab_help" class="mw_toolbar_tab">
@@ -256,8 +256,8 @@ mw_save_draft_int = self.setInterval(function(){
 
     <?php endif; ?>
 
-    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-    <?php include INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
+    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
+    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
 
     <div id="mw-saving-loader"></div>
 
@@ -269,7 +269,7 @@ mw_save_draft_int = self.setInterval(function(){
 <?php exec_action('mw_after_editor_toolbar'); ?>
 <!-- /end mw_holder -->
 
-<?php   include INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
+<?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
 <?php   //include "UI.php"; ?>
 
 <?php } else { ?>

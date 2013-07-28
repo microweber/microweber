@@ -94,7 +94,7 @@ $(document).ready(function(){
 	 mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function() {
 
  // set_category_parent_<?php print $form_rand_id ?>();
- mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/save_category') ?>', function(){
+ mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print mw_site_url('api/save_category') ?>', function(){
 	 mw.reload_module('[data-type="categories"]');
      mw.$('[data-type="pages"]').removeClass("activated");
 	  mw.reload_module('[data-type="pages"]', function(){

@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Content;
+namespace Microweber\Content;
 
 #
 # Markdown  -  A text-to-HTML conversion tool for web writers
@@ -1526,7 +1526,7 @@ class Markdown {
 # one.
 #
 
-class MarkdownExtra_TmpImpl extends \Mw\Content\Markdown {
+class MarkdownExtra_TmpImpl extends \Microweber\Content\Markdown {
 
 	### Configuration Variables ###
 

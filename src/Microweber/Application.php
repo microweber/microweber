@@ -1,6 +1,6 @@
 <?php
 
-namespace Mw;
+namespace Microweber;
 
 
 class Application
@@ -25,6 +25,49 @@ class Application
     }
 
 
+    public function c($k, $no_static = false)
+    {
+
+        if ($no_static == true) {
+            $this->config = false;
+        }
+
+        if (isset($this->config[$k])) {
+            return $this->config[$k];
+        } else {
+            $load_cfg = false;
+            if ($this->loaded_config_file_path != false
+                and is_file($this->loaded_config_file_path)
+            ) {
+                $load_cfg = $this->loaded_config_file_path;
+            } else
+                if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+                    //try to get from the constant
+                    $load_cfg = MW_CONFIG_FILE;
+                }
+
+            if ($load_cfg != false) {
+                include_once ($load_cfg);
+                if (isset($config)) {
+                    $this->config = $config;
+                    if (isset($this->config[$k])) {
+
+                        return $this->config[$k];
+                    }
+                } else {
+                    include (MW_CONFIG_FILE);
+                    if (isset($config)) {
+                        $this->config = $config;
+                        if (isset($this->config[$k])) {
+
+                            return $this->config[$k];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function loadConfigFromFile($path_to_file)
     {
         if ($this->loaded_config_file_path != $path_to_file
@@ -46,7 +89,17 @@ class Application
         if (property_exists($this, $property)) {
             return $this->$property;
         } else {
-            return $this->$property = new $property($this);
+
+            try {
+                $mw = '\Microweber\\' . $property;
+                $mw= str_replace('Microweber\Microweber', 'Microweber' ,$mw);
+                $prop = new $mw($this);
+            } catch (Exception $e) {
+                $prop = new $property($this);
+            }
+            if (isset($prop)) {
+                return $this->$property = $prop;
+            }
 
         }
     }

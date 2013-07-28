@@ -1,12 +1,12 @@
 <?php
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
 if (!defined("MODULE_DB_IP2COUNTRY")) {
     define('MODULE_DB_IP2COUNTRY', MW_TABLE_PREFIX . 'ip2country');
 }
 
-action_hook('mw_db_init', '\Mw\Utils\Ip2Country\db_init');
+action_hook('mw_db_init', '\Microweber\Utils\Ip2Country\db_init');
 
 class Ip2Country
 {
@@ -14,7 +14,7 @@ class Ip2Country
     static function get($ip = false, $key = 'country_name')
     {
         if ($ip == false) {
-            $ip = USER_IP;
+            $ip = MW_USER_IP;
         }
 
 
@@ -71,7 +71,7 @@ class Ip2Country
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('Mw\DbUtils')->build_table()
+     * @uses \mw('Microweber\DbUtils')->build_table()
      */
     static function db_init()
     {
@@ -104,7 +104,7 @@ class Ip2Country
         $fields_to_add[] = array('city', 'TEXT default NULL');
         $fields_to_add[] = array('latitude', 'TEXT default NULL');
         $fields_to_add[] = array('longitude', 'TEXT default NULL');
-        \mw('Mw\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
 
 

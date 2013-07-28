@@ -74,7 +74,7 @@ if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
 	$is_shop = 1;
 }
 
-		$dir_name = normalize_path(MODULES_DIR);
+		$dir_name = normalize_path(MW_MODULES_DIR);
 $posts_mod =  $dir_name.'posts'.DS.'admin_live_edit_tab1.php';;
  ?>
 <?php 

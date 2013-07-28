@@ -1,95 +1,214 @@
 <?php
 
-defined('T') or die("You cannot call this file on its own. Include index.php first.");
+defined('MW_ROOTPATH') or die("You cannot call this file on its own. Please define 'MW_ROOTPATH' constant first.");
 
-if (!defined('__DIR__')) {
-	define('__DIR__', dirname(__FILE__));
-}
+
+
 if (!defined('MW_VERSION')) {
-	define('MW_VERSION', 0.7287);
+    define('MW_VERSION', 0.7287);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
-  exit("Error: You must have PHP version 5.3 or greater to run Microweber");
+    exit("Error: You must have PHP version 5.3 or greater to run Microweber");
 }
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
+if (!defined('MW_SITE_URL')) {
+    // please add backslash to the url if you define it
+    // like http://localhost/mw/
+    define('MW_SITE_URL', mw_site_url());
+}
+
+if (!defined('MW_APP_PATH')) {
+    define('MW_APP_PATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
+}
+if (!defined('MW_INCLUDES_DIR')) {
+    define('MW_INCLUDES_DIR', MW_APP_PATH . 'includes' . DS);
+}
+if (!defined('MW_INCLUDES_DIR')) {
+    define('MW_INCLUDES_DIR', MW_APP_PATH . 'includes' . DS);
+}
+if (!defined('MW_INCLUDES_URL')) {
+    define('MW_INCLUDES_URL', mw_path_to_url(MW_INCLUDES_DIR));
+}
+
+if (!defined('MW_ADMIN_VIEWS_DIR')) {
+    define('MW_ADMIN_VIEWS_DIR', MW_INCLUDES_DIR . 'admin' . DS);
+}
+
+
+if (!defined('MW_TEMPLATES_FOLDER_NAME')) {
+    define('MW_TEMPLATES_FOLDER_NAME', 'templates');
+}
+if (!defined('MW_USERFILES_FOLDER_NAME')) {
+    define('MW_USERFILES_FOLDER_NAME', 'userfiles');
+}
+
+if (!defined('MW_CACHE_ROOT_DIR')) {
+    define('MW_CACHE_ROOT_DIR', MW_ROOTPATH . 'cache' . DS);
+}
+if (!defined('MW_CACHE_DIR')) {
+    $mw_cache_subfolder = 'mw_cache';
+    if (isset($_SERVER["SERVER_NAME"])) {
+        $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
+    }
+    define('MW_CACHE_DIR', MW_CACHE_ROOT_DIR . $mw_cache_subfolder . DS);
+}
+if (!defined('MW_USERFILES')) {
+    define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_FOLDER_NAME . DS);
+}
+if (!defined('MW_USERFILES_URL')) {
+    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME . '/');
+}
+if (!defined('MW_MEDIA_URL')) {
+    define("MW_MEDIA_URL", MW_USERFILES_URL . 'media/');
+}
+
+if (!defined('MW_MODULES_DIR')) {
+    define("MW_MODULES_DIR", MW_USERFILES . 'modules' . DS);
+}
+
+if (!defined('MW_TEMPLATES_DIR')) {
+    define('MW_TEMPLATES_DIR', MW_USERFILES . MW_TEMPLATES_FOLDER_NAME . DS);
+}
+
+if (!defined('MW_MEDIA_DIR')) {
+    define('MW_MEDIA_DIR', MW_USERFILES . 'media' . DS);
+}
+
+if (!defined('MW_ELEMENTS_DIR')) {
+    define('MW_ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
+}
+if (!defined('MW_ELEMENTS_DIR')) {
+    define('MW_ELEMENTS_DIR', MW_USERFILES . 'elements' . DS);
+}
+if (!defined('MW_ELEMENTS_URL')) {
+    define('MW_ELEMENTS_URL', MW_USERFILES_URL . 'elements/');
+}
+if (!defined('MW_MODULES_URL')) {
+    define('MW_MODULES_URL', MW_USERFILES_URL . 'modules/');
+}
+if (!defined('MW_USER_IP')) {
+    if (isset($_SERVER["REMOTE_ADDR"])) {
+        define("MW_USER_IP", $_SERVER["REMOTE_ADDR"]);
+    } else {
+        define("MW_USER_IP", '127.0.0.1');
+    }
+}
+
+
+if (!defined('MW_STORAGE_DIR')) {
+    define('MW_STORAGE_DIR', MW_APP_PATH . 'storage' . DS);
+}
+if (!defined('T')) {
+    $mtime = microtime();
+    $mtime = explode(" ", $mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    define('T', $mtime);
 }
 /*
 * Microweber autoloader
 * Loads up classes with namespaces
 * Add more dicectories with set_include_path
  */
-set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MW_APPPATH_FULL . 'classes' . DS .'Microweber' . DS . PATH_SEPARATOR.MW_APPPATH_FULL . 'controllers' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
+$mw_get_prev_dir = dirname(MW_APP_PATH);
+set_include_path($mw_get_prev_dir . PATH_SEPARATOR.
+    MW_APP_PATH . PATH_SEPARATOR .
+    MW_APP_PATH . 'controllers' . DS .
+    PATH_SEPARATOR . MW_MODULES_DIR .
+    PATH_SEPARATOR . get_include_path());
 
-function mw_autoload($className) {
-	$className = ltrim($className, '\\');
-	$fileName = '';
-	$namespace = '';
+function mw_autoload($className)
+{
+    $className = ltrim($className, '\\');
+    $fileName = '';
+    $namespace = '';
 
-	if ($lastNsPos = strripos($className, '\\')) {
-		$namespace = substr($className, 0, $lastNsPos);
-		$className = substr($className, $lastNsPos + 1);
-		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-	}
+    if ($lastNsPos = strripos($className, '\\')) {
+        $namespace = substr($className, 0, $lastNsPos);
+        $className = substr($className, $lastNsPos + 1);
+        $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+    }
 
 
+    if ($className != '') {
 
-
-	if ($className != '') {
-
-       // set_include_path( MODULES_DIR .strtolower($className). PATH_SEPARATOR . get_include_path());
-
+        // set_include_path( MW_MODULES_DIR .strtolower($className). PATH_SEPARATOR . get_include_path());
 
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-		include_once($fileName);
-	}
+        include_once($fileName);
+    }
 
 }
-
-
 
 
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
-function mw($class, $constructor_params=false)
+function mw($class, $constructor_params = false)
 {
-   if($class != false){
-    global $_mw_registry;
+    global $mw;
+    if(is_object($mw)){
+        $constructor_params = $mw;
+    }
 
-    $class_name = strtolower($class);
+    if ($class != false) {
+        global $_mw_registry;
 
-    $class = ucfirst($class);
-    $class = str_replace('/','\\',$class);
+        $class_name = strtolower($class);
+
+        $class = ucfirst($class);
+        $class = str_replace('/', '\\', $class);
 
 
-    if(!isset($_mw_registry[$class_name])){
-        if($constructor_params == false){
-            $_mw_registry[$class_name] = new $class($constructor_params);
+        if (!isset($_mw_registry[$class_name])) {
+            if ($constructor_params == false) {
 
-        } else {
-            $_mw_registry[$class_name] = new $class;
+                try {
+                    $mw = '\Microweber\\' . $class;
+                    $mw= str_replace('Microweber\Microweber', 'Microweber' ,$mw);
+                    $prop = new $mw($constructor_params);
+                } catch (Exception $e) {
+                    $prop = new $class($constructor_params);
+                }
+                if (isset($prop)) {
+                    $_mw_registry[$class_name] = $prop;
+                }
+
+
+
+
+            } else {
+                $_mw_registry[$class_name] = new $class;
+
+            }
 
         }
 
+        //  if(is_callable($_mw_registry[$class_name])){
+        return $_mw_registry[$class_name];
+        //}
+    } else {
+
+        return new stdClass;
     }
-
-     //  if(is_callable($_mw_registry[$class_name])){
-    return $_mw_registry[$class_name];
-       //}
-   } else {
-
-       return new stdClass;
-   }
 
 }
 
-//require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
+function mw_error_handler()
+{
+
+    if(!headers_sent()){
+        header("Content-Type:text/plain");
+
+    }
+    print_r(debug_backtrace());
+}
+
+set_error_handler('mw_error_handler');
+//require(MW_APP_PATH . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
 /*
  spl_autoload_register(function($className) {
@@ -99,132 +218,247 @@ function mw($class, $constructor_params=false)
  */
 
 // Basic system functions
-function p($f) {
-	return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
+function p($f)
+{
+    return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
 }
 
-function load_file($f) {
-	return ( str_replace('..', '', $f));
-	//return  strtolower ( str_replace ( '_', '/', "/$f.php" ) );
+function load_file($f)
+{
+    return (str_replace('..', '', $f));
+    //return  strtolower ( str_replace ( '_', '/', "/$f.php" ) );
 }
 
-function v(&$v, $d = NULL) {
-	return isset($v) ? $v : $d;
+function v(&$v, $d = NULL)
+{
+    return isset($v) ? $v : $d;
 }
-
 
 
 $_mw_config_file_values = array();
-function _reload_c($new_config = false) {
-global $_mw_config_file_values;
+function _reload_c($new_config = false)
+{
+    global $_mw_config_file_values;
 
-	if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+    if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 
-		include (MW_CONFIG_FILE);
-		if (isset($config)) {
-			$_mw_config_file_values = $config;
+        include (MW_CONFIG_FILE);
+        if (isset($config)) {
+            $_mw_config_file_values = $config;
 
- 		}
-	}
+        }
+    }
 }
 
-function c($k, $no_static = false) {
+function c($k, $no_static = false)
+{
 
-	if ($no_static == false) {
-		global $_mw_config_file_values;
-	} else {
-		$_mw_config_file_values = false;
-	}
+    if ($no_static == false) {
+        global $_mw_config_file_values;
+    } else {
+        $_mw_config_file_values = false;
+    }
 
-	if (isset($_mw_config_file_values[$k])) {
-		return $_mw_config_file_values[$k];
-	} else {
-		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+    if (isset($_mw_config_file_values[$k])) {
+        return $_mw_config_file_values[$k];
+    } else {
+        if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 
-			//if (is_file(MW_CONFIG_FILE)) {
-			include_once (MW_CONFIG_FILE);
-			if (isset($config)) {
-				$_mw_config_file_values = $config;
-				if (isset($_mw_config_file_values[$k])) {
+            //if (is_file(MW_CONFIG_FILE)) {
+            include_once (MW_CONFIG_FILE);
+            if (isset($config)) {
+                $_mw_config_file_values = $config;
+                if (isset($_mw_config_file_values[$k])) {
 
-					return $_mw_config_file_values[$k];
-				}
-			} else {
-			 include (MW_CONFIG_FILE);
-			  if(isset($config)){
-			 $_mw_config_file_values = $config;
-				if (isset($_mw_config_file_values[$k])) {
+                    return $_mw_config_file_values[$k];
+                }
+            } else {
+                include (MW_CONFIG_FILE);
+                if (isset($config)) {
+                    $_mw_config_file_values = $config;
+                    if (isset($_mw_config_file_values[$k])) {
 
-					return $_mw_config_file_values[$k];
-				}
-			  }
-			}
-		}
-		//	}
-		//d(MW_CONFIG_FILE);
+                        return $_mw_config_file_values[$k];
+                    }
+                }
+            }
+        }
+        //	}
+        //d(MW_CONFIG_FILE);
 
-	}
+    }
 }
 
-function d($v) {
-	return dump($v);
+function d($v)
+{
+    return dump($v);
 }
 
-function dbg($q) {
+function dbg($q)
+{
 
-	static $index = array();
-	if (is_bool($q)) {
-		$index = array_unique($index);
-		return $index;
-	} else {
+    static $index = array();
+    if (is_bool($q)) {
+        $index = array_unique($index);
+        return $index;
+    } else {
 
-		$index[] = $q;
-	}
+        $index[] = $q;
+    }
 
-	//if (isset($_REQUEST['debug'])) {
-	//if (is_admin()) {
-	//return dump($v);
-	//}
-	//}
+    //if (isset($_REQUEST['debug'])) {
+    //if (is_admin()) {
+    //return dump($v);
+    //}
+    //}
 }
 
-function dump($v) {
-	return '<pre>' . var_dump($v) . '</pre>';
+function dump($v)
+{
+    return '<pre>' . var_dump($v) . '</pre>';
 }
 
-function _log($m) {
-	file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
+function _log($m)
+{
+    file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
 }
 
-function h($s) {
-	return htmlspecialchars($s, ENT_QUOTES, 'utf-8');
+function h($s)
+{
+    return htmlspecialchars($s, ENT_QUOTES, 'utf-8');
 }
 
-function redirect($u = '', $r = 0, $c = 302) {
-	header($r ? "Refresh:0;url=$u" : "Location: $u", TRUE, $c);
+function redirect($u = '', $r = 0, $c = 302)
+{
+    header($r ? "Refresh:0;url=$u" : "Location: $u", TRUE, $c);
 }
 
-function registry($k, $v = null) {
-	static $o;
-	return (func_num_args() > 1 ? $o[$k] = $v : (isset($o[$k]) ? $o[$k] : NULL));
+function registry($k, $v = null)
+{
+    static $o;
+    return (func_num_args() > 1 ? $o[$k] = $v : (isset($o[$k]) ? $o[$k] : NULL));
 }
 
-function utf8($s, $f = 'UTF-8') {
-	return @iconv($f, $f, $s);
+function utf8($s, $f = 'UTF-8')
+{
+    return @iconv($f, $f, $s);
 }
-
 
 
 //set_error_handler('error');
 
 function error($e, $f = false, $l = false)
 {
-    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+    include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
-    $v = new \Mw\View(ADMIN_VIEWS_PATH . 'error.php');
+    $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;
     // _log($e -> getMessage() . ' ' . $e -> getFile());
     die($v);
 }
+
+
+if (!isset($mw_site_url)) {
+    $mw_site_url = false;
+}
+function mw_site_url($add_string = false)
+{
+    global $mw_site_url;
+    if ($mw_site_url == false) {
+        $pageURL = 'http';
+        if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
+            $pageURL .= "s";
+        }
+
+        $subdir_append = false;
+        if (isset($_SERVER['PATH_INFO'])) {
+            // $subdir_append = $_SERVER ['PATH_INFO'];
+        } elseif (isset($_SERVER['REDIRECT_URL'])) {
+            $subdir_append = $_SERVER['REDIRECT_URL'];
+        } else {
+            //  $subdir_append = $_SERVER ['REQUEST_URI'];
+        }
+
+        $pageURL .= "://";
+        //error_log(serialize($_SERVER));
+        if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
+        } elseif (isset($_SERVER["SERVER_NAME"])) {
+            $pageURL .= $_SERVER["SERVER_NAME"];
+        } else if (isset($_SERVER["HOSTNAME"])) {
+            $pageURL .= $_SERVER["HOSTNAME"];
+        }
+        $pageURL_host = $pageURL;
+        $pageURL .= $subdir_append;
+
+        $d = '';
+        if (isset($_SERVER['SCRIPT_NAME'])) {
+            $d = dirname($_SERVER['SCRIPT_NAME']);
+            $d = trim($d, DIRECTORY_SEPARATOR);
+        }
+
+        if ($d == '') {
+            $pageURL = $pageURL_host;
+        } else {
+
+            $pageURL_host = rtrim($pageURL_host, '/') . '/';
+            $d = ltrim($d, '/');
+            $d = ltrim($d, DIRECTORY_SEPARATOR);
+
+            $pageURL = $pageURL_host . $d;
+
+        }
+        //
+        if (isset($_SERVER['QUERY_STRING'])) {
+            $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
+        }
+
+        if (isset($_SERVER['REDIRECT_URL'])) {
+            //  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
+        }
+
+        $uz = parse_url($pageURL);
+        if (isset($uz['query'])) {
+            $pageURL = str_replace($uz['query'], '', $pageURL);
+            $pageURL = rtrim($pageURL, '?');
+        }
+
+        $url_segs = explode('/', $pageURL);
+
+        $i = 0;
+        $unset = false;
+        foreach ($url_segs as $v) {
+            if ($unset == true and $d != '') {
+
+                unset($url_segs[$i]);
+            }
+            if ($v == $d and $d != '') {
+
+                $unset = true;
+            }
+
+            $i++;
+        }
+        $url_segs[] = '';
+        $mw_site_url = implode('/', $url_segs);
+
+    }
+
+
+    return $mw_site_url . $add_string;
+}
+
+
+function mw_path_to_url($path)
+{
+    // var_dump($path);
+    $path = str_ireplace(MW_ROOTPATH, '', $path);
+    $path = str_replace('\\', '/', $path);
+    $path = str_replace('//', '/', $path);
+    //var_dump($path);
+    return mw_site_url($path);
+}
+
+require_once (MW_APP_PATH . 'functions' . DS . 'mw_functions.php');

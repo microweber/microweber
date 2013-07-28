@@ -36,7 +36,7 @@
     <div class="mw-v-cell">
 <?php
 if(isset($_COOKIE['last_page'])){
-	$past_page = site_url($_COOKIE['last_page']);
+	$past_page = mw_site_url($_COOKIE['last_page']);
   if($past_page != false){
     $cont_by_url = mw('content')->get_by_url($past_page );
    }
@@ -54,7 +54,7 @@ $past_page = mw('content')->link($past_page[0]['id']);
     <?php _e("Go Live Edit"); ?>
     </a>
     <div class="mw-toolbar-notification">
-      <?php $notif_count = mw('Mw\Notifications')->get('is_read=n&count=1'); ?>
+      <?php $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1'); ?>
       <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
       <?php if( $notif_count > 0): ?>
       <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>

@@ -1,5 +1,5 @@
 <?php
-namespace Mw\Cache;
+namespace Microweber\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
 
@@ -19,7 +19,7 @@ class Apc   {
 
 		$data_to_cache = serialize($data_to_cache);
 
-		$cache = CACHE_CONTENT_PREPEND . $data_to_cache;
+		$cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
 		//@apc_delete($cache_id); 
 		@apc_store($cache_id, $cache, APC_EXPIRES);
 
@@ -78,7 +78,7 @@ class Apc   {
 		if ($cache) {
 			if (isset($cache) and strval($cache) != '') {
 
-				$search = CACHE_CONTENT_PREPEND;
+				$search = MW_CACHE_CONTENT_PREPEND;
 
 				$replace = '';
 
