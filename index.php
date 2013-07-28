@@ -46,6 +46,25 @@ if ($default_timezone == false or $default_timezone == '{default_timezone}') {
 }
 
 
+
+
+
+$mw = new \Mw\Application(MW_CONFIG_FILE);
+d($mw);
+//$app_test = $mw->Url->site_url();
+$app_test1 = $mw->Modules->get();
+d($app_test1);
+
+$app_test = $mw->call('Mw\Url')->site_url();
+$app_test1 = $mw->call('Mw\Url')->hostname();
+d($app_test1);
+print $app_test;
+exit;
+
+
+
+
+
 if (!defined('MW_BARE_BONES')) {
 
 

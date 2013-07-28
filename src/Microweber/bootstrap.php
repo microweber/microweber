@@ -1,0 +1,230 @@
+<?php
+
+defined('T') or die("You cannot call this file on its own. Include index.php first.");
+
+if (!defined('__DIR__')) {
+	define('__DIR__', dirname(__FILE__));
+}
+if (!defined('MW_VERSION')) {
+	define('MW_VERSION', 0.7287);
+}
+
+if (version_compare(phpversion(), "5.3.0", "<=")) {
+  exit("Error: You must have PHP version 5.3 or greater to run Microweber");
+}
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+/*
+* Microweber autoloader
+* Loads up classes with namespaces
+* Add more dicectories with set_include_path
+ */
+set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MW_APPPATH_FULL . 'classes' . DS .'Microweber' . DS . PATH_SEPARATOR.MW_APPPATH_FULL . 'controllers' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
+
+function mw_autoload($className) {
+	$className = ltrim($className, '\\');
+	$fileName = '';
+	$namespace = '';
+
+	if ($lastNsPos = strripos($className, '\\')) {
+		$namespace = substr($className, 0, $lastNsPos);
+		$className = substr($className, $lastNsPos + 1);
+		$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+	}
+
+
+
+
+	if ($className != '') {
+
+       // set_include_path( MODULES_DIR .strtolower($className). PATH_SEPARATOR . get_include_path());
+
+
+
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+		include_once($fileName);
+	}
+
+}
+
+
+
+
+spl_autoload_register('mw_autoload');
+$_mw_registry = array();
+function mw($class, $constructor_params=false)
+{
+   if($class != false){
+    global $_mw_registry;
+
+    $class_name = strtolower($class);
+
+    $class = ucfirst($class);
+    $class = str_replace('/','\\',$class);
+
+
+    if(!isset($_mw_registry[$class_name])){
+        if($constructor_params == false){
+            $_mw_registry[$class_name] = new $class($constructor_params);
+
+        } else {
+            $_mw_registry[$class_name] = new $class;
+
+        }
+
+    }
+
+     //  if(is_callable($_mw_registry[$class_name])){
+    return $_mw_registry[$class_name];
+       //}
+   } else {
+
+       return new stdClass;
+   }
+
+}
+
+//require(MW_APPPATH_FULL . 'classes' . DS.'mw'. DS.'_core_functions.php');
+
+/*
+ spl_autoload_register(function($className) {
+
+ require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
+ });
+ */
+
+// Basic system functions
+function p($f) {
+	return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
+}
+
+function load_file($f) {
+	return ( str_replace('..', '', $f));
+	//return  strtolower ( str_replace ( '_', '/', "/$f.php" ) );
+}
+
+function v(&$v, $d = NULL) {
+	return isset($v) ? $v : $d;
+}
+
+
+
+$_mw_config_file_values = array();
+function _reload_c($new_config = false) {
+global $_mw_config_file_values;
+
+	if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+
+		include (MW_CONFIG_FILE);
+		if (isset($config)) {
+			$_mw_config_file_values = $config;
+
+ 		}
+	}
+}
+
+function c($k, $no_static = false) {
+
+	if ($no_static == false) {
+		global $_mw_config_file_values;
+	} else {
+		$_mw_config_file_values = false;
+	}
+
+	if (isset($_mw_config_file_values[$k])) {
+		return $_mw_config_file_values[$k];
+	} else {
+		if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
+
+			//if (is_file(MW_CONFIG_FILE)) {
+			include_once (MW_CONFIG_FILE);
+			if (isset($config)) {
+				$_mw_config_file_values = $config;
+				if (isset($_mw_config_file_values[$k])) {
+
+					return $_mw_config_file_values[$k];
+				}
+			} else {
+			 include (MW_CONFIG_FILE);
+			  if(isset($config)){
+			 $_mw_config_file_values = $config;
+				if (isset($_mw_config_file_values[$k])) {
+
+					return $_mw_config_file_values[$k];
+				}
+			  }
+			}
+		}
+		//	}
+		//d(MW_CONFIG_FILE);
+
+	}
+}
+
+function d($v) {
+	return dump($v);
+}
+
+function dbg($q) {
+
+	static $index = array();
+	if (is_bool($q)) {
+		$index = array_unique($index);
+		return $index;
+	} else {
+
+		$index[] = $q;
+	}
+
+	//if (isset($_REQUEST['debug'])) {
+	//if (is_admin()) {
+	//return dump($v);
+	//}
+	//}
+}
+
+function dump($v) {
+	return '<pre>' . var_dump($v) . '</pre>';
+}
+
+function _log($m) {
+	file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
+}
+
+function h($s) {
+	return htmlspecialchars($s, ENT_QUOTES, 'utf-8');
+}
+
+function redirect($u = '', $r = 0, $c = 302) {
+	header($r ? "Refresh:0;url=$u" : "Location: $u", TRUE, $c);
+}
+
+function registry($k, $v = null) {
+	static $o;
+	return (func_num_args() > 1 ? $o[$k] = $v : (isset($o[$k]) ? $o[$k] : NULL));
+}
+
+function utf8($s, $f = 'UTF-8') {
+	return @iconv($f, $f, $s);
+}
+
+
+
+//set_error_handler('error');
+
+function error($e, $f = false, $l = false)
+{
+    include_once (MW_APPPATH_FULL . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+
+    $v = new \Mw\View(ADMIN_VIEWS_PATH . 'error.php');
+    $v->e = $e;
+    $v->f = $f;
+    $v->l = $l;
+    // _log($e -> getMessage() . ' ' . $e -> getFile());
+    die($v);
+}

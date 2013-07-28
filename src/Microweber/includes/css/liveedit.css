@@ -1,0 +1,386 @@
+
+html,body{
+  min-height: 100%;
+  -ms-overflow-style:scrollbar;
+}
+
+body.mw-live-edit.dragStart .edit{
+    /*
+  padding-top: 20px;
+  padding-bottom: 20px;     */
+}
+
+
+
+#mw-saving-loader{
+	height:48px;
+	width:48px;
+	background-image: url(images/saving.gif);
+	background-color:#FFFFB9 !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	  display:none;
+	position:absolute;
+	bottom:10px;
+	right:30px;
+}
+
+#mw_tabs li.active a{padding:15px 20px;}
+
+
+.sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-top:10px;
+	margin-bottom:10px;
+	background-image: url(images/drop.png);
+	background-color:#FFFFB9 !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	outline: 1px dashed #a5b3ac;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #000;
+	text-decoration: none;
+	font-style: normal;
+	line-height: 11px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	height:  55px;
+	min-height:  50px;
+	width:100%;	
+	opacity:0.9;
+	 
+	/*padding-right: 3%;
+	padding-left: 3%;    */     
+}
+.empty-column {
+	width:95%;
+	height:30px;
+	margin-bottom:30px;
+	madasdasdrgin-bottom:-40px;
+	padding-bottom:-20px;
+	margin-top:30px;
+	height: 150px;
+}
+
+
+.empty-element-edit-area{
+	 background-color:#FF0000 !important;
+	display:none !important;
+	height:  15px !important;
+	visibility:hidden;
+	opacity:0.1;
+
+}
+
+
+.empty-element-edit-area:hover,.empty-element-column:hover {
+	 
+	 visibility:visible;
+
+}
+
+.element{
+  min-height: 14px;
+}
+
+.empty-element {
+	/*background-image: url(images/drop.png); */
+	background-color:transparent !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	font-size: 11px;
+	font-style: normal;
+	line-height: 11px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	width:100%;
+    min-height: 40px;
+    display: none;
+
+}
+
+body.dragStart .empty-element { display: block; }
+
+.empty-element:hover, .empty-element.hover {
+  background-color:#FFFFB9 !important;
+}
+
+
+.mw-col .mw_drag_current:first-child+.empty-element{
+  min-height: 100% !important;
+  position: absolute !important;
+  top: 0;
+
+}
+
+
+.empty-columasdn {
+	width:95%;
+	height:20px;
+	margin:1%;
+	margin:5px;
+	padding-bottom:-20px;
+	margin-top:-55px;
+	padding-top:65px;
+	margin-bottom:60px;
+}
+.empty-column-big {
+	height:150px;
+	margin-top:10px;
+	margin-bottom:45px;
+}
+.empty-column:hover {
+}
+.empty-column span {
+	color: #AAAAAA;
+	font-size: 20px;
+	text-align: center;
+}
+.empty {
+	width:100%;
+	line-height:20px !important;
+	margin-top:20px;
+	margin-bottom:20px;
+	background-image: none;
+	background-color:#CCCCCC !important;
+	clear: both !important;
+	display:block !important;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+
+
+
+
+.ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; }
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
+
+
+
+body .mw-col > .ui-resizable-e {
+	width: 20px;
+	right: 0;
+	right: -15px;
+	top: 0;
+	height: 100%;
+    background-image: url(../img/resize_color.gif);
+    background-position:  center;
+    background-repeat: repeat-y;
+    /*cursor: url(http://pecata/1k/application/includes/img/blank.gif), url(http://pecata/1k/application/includes/img/blank.cur), none;*/
+    cursor: none;
+}
+body .mw-col > .ui-resizable-e *{
+  cursor: none;
+}
+
+
+
+.resize_arrows{
+  display: block;
+  position: absolute;
+
+  left: 12px;
+  left: 3px;
+  top: 0;
+  margin-top: -14px;
+  background: url(../img/resize_arrows.png) no-repeat;
+  width: 13px;
+  height: 14px;
+  visibility: hidden;
+}
+.ui-resizable-e:hover .resize_arrows{
+  visibility: visible;
+}
+
+.ui-resizable-e { cursor: e-resize; width: 1px; right: -1px; top: 0; height: 100%;}
+
+.mw_image_resizer .ui-resizable-w { cursor: w-resize; width: 1px; left: -1px; top: 0; height: 100%; }
+.mw_image_resizer .ui-resizable-se { cursor: se-resize; width: 9px; height: 9px; right: -5px; bottom: -5px; }
+.mw_image_resizer .ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.mw_image_resizer .ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.mw_image_resizer .ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}/*!
+ * jQuery UI Selectable 1.8.20
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Selectable#theming
+ */
+.ui-selectable-helper { position: absolute; z-index: 100; border:1px dotted black; }
+
+
+
+#mw_toolbar_nav .back_to_admin{
+  margin-right: 160px;
+  float: right;
+}
+
+.mw-horizontal-resizer{
+  position: absolute !important;
+  margin-top: 20px;
+  z-index: 998;
+  width: 12px;
+  height: 12px;
+  background: rgba(170, 170, 170, 1);
+  cursor: e-resize;
+}
+.mw-vertical-resizer{
+  position: absolute !important;
+  margin-top: 20px;
+  z-index: 998;
+  width: 12px;
+  height: 12px;
+  background: rgba(170, 170, 170, 1);
+  cursor: n-resize;
+}
+
+
+
+.edit .module_loading{
+   transform:scale(0,0);
+  -ms-transform:scale(0,0);
+  -moz-transform:scale(0,0);
+  -webkit-transform:scale(0,0);
+  -o-transform:scale(0,0);
+
+}
+.edit .module_activated{
+    transition: transform 0.3s;
+  -moz-transition: -moz-transform 0.3s;
+  -webkit-transition: -webkit-transform 0.3s;
+  -o-transition: -o-transform 0.3s;
+  -ms-transition: -ms-transform 0.3s;
+  transform:scale(1,1);
+  -ms-transform:scale(1,1);
+  -moz-transform:scale(1,1);
+  -webkit-transform:scale(1,1);
+  -o-transform:scale(1,1);
+}
+
+
+
+
+
+
+
+.mw_dropable:after{
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: #FFFFB9;
+    content: "";
+    opacity:.8;
+    pointer-events:none;
+}
+
+.mw_dropable_arr_up:after{
+    top: auto;
+    bottom: 2px;
+}
+.mw_dropable_vertical:after{
+    top: 0;
+    width: 30px;
+    left: -30px;
+    height: 100%;
+}
+
+.mw_dropable_arr_rigt:after{
+    top: 0;
+    width: 30px;
+    left: 2px;
+    height: 100%;
+}
+
+.mw_dropable_arr{
+  z-index: 10;
+}
+
+
+#module-modal-settings-menu-holder{
+  float: right;
+  margin-right: 37px;
+  margin-top: -3px;
+}
+
+#module-modal-settings-menu-holder .mw-ui-btn-small{
+  padding: 3px 10px;
+}
+
+#module-modal-settings-menu-holder .mw-dropdown-content{
+  left: auto;
+  right: 0;
+}
+
+.mw-empty{
+  display: none;
+}
+
+.mw-col-container .mw-empty:first-child:empty{
+    background: #FFFFB9;
+    color: #0088CC;
+    position: relative;
+    min-height: 100px;
+    display: block;
+}
+.mw-col-container .mw-empty:first-child:empty:before{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 100px;
+  font-size: 11px;
+  text-align: center;
+  display: block;
+  content: "Drop here";
+}
+
+body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-container .mw-empty.currentDragMouseOver{
+  background: #DBFFDB;
+  outline: 2px dashed #65D769;
+}
+
+
+.mw-open-module-settings{
+  cursor: pointer;
+}
+
+.mw-inline-bar{
+  position: absolute;
+  z-index: 999;
+  padding: 5px;
+  background: white;
+  box-shadow: 1px 1px 2px #111111;
+  box-shadow: 1px 1px 2px -1px #111111;
+  min-width: 150px;
+}
+
+.tc-activecell{
+  outline: 1px solid #3399FF;
+}
+
+#mw-inline-tableControl{
+  height: 28px;
+}
+
+
+
+
+
+
+
+
+
+

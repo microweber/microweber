@@ -19,7 +19,7 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 * Loads up classes with namespaces
 * Add more dicectories with set_include_path
  */
-set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR .MW_APPPATH_FULL . 'controllers' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
+set_include_path(MW_APPPATH_FULL . 'classes' . DS . PATH_SEPARATOR . MW_APPPATH_FULL . 'classes' . DS .'Microweber' . DS . PATH_SEPARATOR.MW_APPPATH_FULL . 'controllers' . DS . PATH_SEPARATOR . MODULES_DIR . PATH_SEPARATOR . get_include_path());
 
 function mw_autoload($className) {
 	$className = ltrim($className, '\\');
