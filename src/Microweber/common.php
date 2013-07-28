@@ -687,37 +687,37 @@ api_expose('system_log_reset');
 
 function system_log_reset($data = false)
 {
-    return \Microweber\Log::reset();
+    return mw('log')->reset();
 }
 
 api_expose('delete_log_entry');
 
 function delete_log_entry($data)
 {
-    return \Microweber\Log::delete_entry($data);
+    return mw('log')->delete_entry($data);
 }
 
 function delete_log($params)
 {
-    return \Microweber\Log::delete($params);
+    return mw('log')->delete($params);
 }
 
 function save_log($params)
 {
-    return \Microweber\Log::save($params);
+    return mw('log')->save($params);
 }
 
 function get_log_entry($id)
 {
 
-    return \Microweber\Log::get_entry_by_id($id);
+    return mw('log')->get_entry_by_id($id);
 
 }
 
 
 function get_log($params)
 {
-    return \Microweber\Log::get($params);
+    return mw('log')->get($params);
 
 }
 

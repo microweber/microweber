@@ -23,7 +23,11 @@ if (is_file($config_file_for_site)) {
 }
 
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
+
+
 $mw = new \Microweber\Application(MW_CONFIG_FILE);
+// or
+//$mw = mw('app');
 
 
 $installed = $mw->c('installed');
@@ -35,129 +39,30 @@ if (strval($installed) != 'yes') {
 }
 
 
-
 $router = new \Microweber\Router();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-exit('1111111');
 if (!isset($controller) or !is_object($controller)) {
     $controller = new\Microweber\Controller($mw);
 }
+$router->map($controller);
+$router->hello_world = function () {
+    echo "Hello world!";
+};
 
+
+$controller->functions['test/route/*'] = function () {
+    echo "You can use wildcards!";
+};
+$controller->functions['test/api/user_login*'] = function () {
+    echo "My user_login";
+};
 
 if (MW_IS_INSTALLED != true) {
     $controller->install();
     exit();
 }
+$router->run();
 
-$method_full = mw('url')->string();
-$m1 = mw('url')->segment(0);
-
-if ($m1) {
-    $m1 = str_replace('.', '', $m1);
-    $method = $m1;
-} else {
-    $method = 'index';
-}
+exit();
 
 
 
-$params_for_route = mw('url')->segment();
-//loading custom routes
-$routes_file = MW_ROOTPATH . 'routes.php';
-if (is_file($routes_file)) {
-    include_once($routes_file);
-}
-
-
-//    $perform_routing = route_exec($method);
-//    if($perform_routing != false){
-//        return $perform_routing;
-//    }
-
-
-$admin_url = c('admin_url');
-if ($method == 'admin' or $method == $admin_url) {
-    if ($admin_url == $method) {
-
-        if (!defined('IN_ADMIN')) {
-            define('IN_ADMIN', true);
-        }
-
-        $controller->admin();
-
-        exit();
-    } else {
-
-        error('No access allowed to admin');
-        exit();
-    }
-}
-
-if ($method == 'api.js') {
-    $method = 'apijs';
-}
-
-
-//perform custom routing
-
-$is_custom_controller_called = false;
-if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {
-    //$params_for_route = mw('url')->segment();
-
-    if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
-
-        $is_custom_controller_called = true;
-        call_user_func($controller->functions[$method]);
-
-    } else if (isset($controller->functions[$method_full]) and is_callable($controller->functions[$method_full])) {
-        $is_custom_controller_called = true;
-
-        call_user_func($controller->functions[$method_full]);
-        // exit();
-    } elseif (is_array($controller->functions) and !empty($controller->functions)) {
-        $attached_routes = $controller->functions;
-        //routing wildcard urls
-        foreach ($attached_routes as $k => $v) {
-            if (strstr($k, '*')) {
-                $if_route_found = preg_match(sprintf('#%s\d*#', $k), $method_full);
-                if ($if_route_found == true) {
-                    $is_custom_controller_called = true;
-
-                    call_user_func($controller->functions[$k]);
-                    //   exit();
-                }
-            }
-
-        }
-
-
-    }
-}
-
-
-if ($is_custom_controller_called == false) {
-    if (method_exists($controller, $method)) {
-
-        $controller->$method();
-
-    } else {
-
-        $controller->index();
-
-    }
-
-
-}

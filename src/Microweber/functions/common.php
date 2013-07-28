@@ -687,37 +687,37 @@ api_expose('system_log_reset');
 
 function system_log_reset($data = false)
 {
-    return \Log::reset();
+    return mw('log')->reset();
 }
 
 api_expose('delete_log_entry');
 
 function delete_log_entry($data)
 {
-    return \Log::delete_entry($data);
+    return mw('log')->delete_entry($data);
 }
 
 function delete_log($params)
 {
-    return \Log::delete($params);
+    return mw('log')->delete($params);
 }
 
 function save_log($params)
 {
-    return \Log::save($params);
+    return mw('log')->save($params);
 }
 
 function get_log_entry($id)
 {
 
-    return \Log::get_entry_by_id($id);
+    return mw('log')->get_entry_by_id($id);
 
 }
 
 
 function get_log($params)
 {
-    return \Log::get($params);
+    return mw('log')->get($params);
 
 }
 
@@ -1775,7 +1775,7 @@ api_expose('mw_apply_updates');
 function mw_apply_updates($params) {
     only_admin_access();
     $params = parse_params($params);
-    $update_api = new \Update();
+    $update_api = mw('update');
     $res = array();
     $upd_params = array();
     if (is_array($params)) {
@@ -1852,8 +1852,7 @@ function mw_check_for_update() {
     global $mw_avail_updates;
     if ($mw_avail_updates == false) {
 
-        $update_api = new \Update();
-
+        $update_api = mw('update');
         $iudates = $update_api -> check();
         $mw_avail_updates = $iudates;
 
@@ -1876,7 +1875,7 @@ function admin_url($add_string = false) {
 // function used do send us the language files
 function mw_send_anonymous_server_data($params) {
     only_admin_access();
-    $update_api = new \Update();
+    $update_api = mw('update');
 
 
 

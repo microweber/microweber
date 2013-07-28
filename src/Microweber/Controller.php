@@ -36,12 +36,37 @@ class Controller
     public $isolate_by_html_id = false;
     public $functions = array();
     public $vars = array();
+    public $app;
+
+    public function __construct($app=null)
+    {
+        //$this->app = $app;
+
+        if(is_object($app)){
+            $this->app = $app;
+        } else {
+            $this->app = mw('app');
+        }
+
+        /*
+                if (!defined('MW_IS_INSTALLED')) {
+
+                    $installed =  $this->app->c('installed');
+
+                     if (strval($installed) != 'yes') {
+                        define('MW_IS_INSTALLED', false);
+                    } else {
+                        define('MW_IS_INSTALLED', true);
+                    }
+                }*/
+
+    }
 
     public function index()
     {
 
-        if ($this->render_this_url == false and mw('url')->is_ajax() == FALSE) {
-            $page_url = mw('url')->string();
+        if ($this->render_this_url == false and $this->app->Url->is_ajax() == FALSE) {
+            $page_url = $this->app->Url->string();
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
@@ -63,37 +88,37 @@ class Controller
         if (isset($_GET['view'])) {
             $is_custom_view = $_GET['view'];
         } else {
-            $is_custom_view = mw('url')->param('view');
+            $is_custom_view = $this->app->Url->param('view');
             if ($is_custom_view and $is_custom_view != false) {
 
-                $page_url = mw('url')->param_unset('view', $page_url);
+                $page_url = $this->app->Url->param_unset('view', $page_url);
 
             }
 
         }
 
-        $is_editmode = mw('url')->param('editmode');
-        $is_no_editmode = mw('url')->param('no_editmode');
+        $is_editmode = $this->app->Url->param('editmode');
+        $is_no_editmode = $this->app->Url->param('no_editmode');
 
 
         if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
             if ($is_editmode == 'n') {
                 $is_editmode = false;
-                $page_url = mw('url')->param_unset('editmode', $page_url);
+                $page_url = $this->app->Url->param_unset('editmode', $page_url);
 
                 mw('user')->session_set('back_to_editmode', true);
                 mw('user')->session_set('editmode', false);
                 //sleep(1);
 
 
-                //mw('url')->redirect(mw_site_url($page_url));
+                //$this->app->Url->redirect(mw_site_url($page_url));
                 //exit();
             } else {
 
                 $editmode_sess = mw('user')->session_get('editmode');
 
-                $page_url = mw('url')->param_unset('editmode', $page_url);
+                $page_url = $this->app->Url->param_unset('editmode', $page_url);
                 if ($is_admin == true) {
                     if ($editmode_sess == false) {
                         mw('user')->session_set('editmode', true);
@@ -103,7 +128,7 @@ class Controller
                         //exit();
 
                     }
-                    mw('url')->redirect(mw_site_url($page_url));
+                    $this->app->Url->redirect(mw_site_url($page_url));
                     exit();
                 } else {
                     $is_editmode = false;
@@ -118,30 +143,30 @@ class Controller
 
         } else {
             $is_editmode = false;
-            $page_url = mw('url')->param_unset('no_editmode', $page_url);
+            $page_url = $this->app->Url->param_unset('no_editmode', $page_url);
 
         }
 
-        $is_preview_template = mw('url')->param('preview_template');
+        $is_preview_template = $this->app->Url->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
         } else {
 
-            $page_url = mw('url')->param_unset('preview_template', $page_url);
+            $page_url = $this->app->Url->param_unset('preview_template', $page_url);
         }
 
         $preview_module = false;
         $preview_module_template = false;
         $preview_module_id = false;
-        $is_preview_module = mw('url')->param('preview_module');
+        $is_preview_module = $this->app->Url->param('preview_module');
 
         if ($is_preview_module != false) {
             if (is_admin()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
 
-                    $is_preview_module_skin = mw('url')->param('preview_module_template');
-                    $preview_module_id = mw('url')->param('preview_module_id');
+                    $is_preview_module_skin = $this->app->Url->param('preview_module_template');
+                    $preview_module_id = $this->app->Url->param('preview_module_id');
                     $preview_module = $is_preview_module;
                     if ($is_preview_module_skin != false) {
                         $preview_module_template = module_name_decode($is_preview_module_skin);
@@ -152,12 +177,12 @@ class Controller
             // d($is_preview_module);
         }
 
-        $is_layout_file = mw('url')->param('preview_layout');
+        $is_layout_file = $this->app->Url->param('preview_layout');
         if (!$is_layout_file) {
             $is_layout_file = false;
         } else {
 
-            $page_url = mw('url')->param_unset('preview_layout', $page_url);
+            $page_url = $this->app->Url->param_unset('preview_layout', $page_url);
         }
 
         if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
@@ -181,7 +206,7 @@ class Controller
                     $page['parent'] = intval($_GET['parent_id']);
                 }
 
-                //$page['url'] = mw('url')->string();
+                //$page['url'] = $this->app->Url->string();
                 if (isset($is_preview_template) and $is_preview_template != false) {
                     $page['active_site_template'] = $is_preview_template;
                 } else {
@@ -229,7 +254,7 @@ class Controller
                 $page_exact = mw('content')->get_by_url($page_url, true);
 
                 $the_active_site_template = mw('option')->get('curent_template');
-                $page_url_segment_1 = mw('url')->segment(0, $page_url);
+                $page_url_segment_1 = $this->app->Url->segment(0, $page_url);
 
                 if ($preview_module != false) {
                     $page_url = $preview_module;
@@ -241,7 +266,7 @@ class Controller
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
                     $page['parent'] = '0';
-                    $page['url'] = mw('url')->string();
+                    $page['url'] = $this->app->Url->string();
                     $page['active_site_template'] = $the_active_site_template;
                     $mod_params = '';
                     if ($preview_module_template != false) {
@@ -263,13 +288,13 @@ class Controller
 
                     if (empty($page)) {
                         $the_new_page_file = false;
-                        $page_url_segment_1 = mw('url')->segment(0, $page_url);
+                        $page_url_segment_1 = $this->app->Url->segment(0, $page_url);
                         $td = MW_TEMPLATES_DIR . $page_url_segment_1;
                         $td_base = $td;
 
-                        $page_url_segment_2 = mw('url')->segment(1, $page_url);
+                        $page_url_segment_2 = $this->app->Url->segment(1, $page_url);
                         $directly_to_file = false;
-                        $page_url_segment_3 = mw('url')->segment(-1, $page_url);
+                        $page_url_segment_3 = $this->app->Url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
                             $page_url_segment_1 = $the_active_site_template = mw('option')->get('curent_template');
@@ -365,7 +390,7 @@ class Controller
                                 $page['id'] = 0;
                                 $page['content_type'] = 'page';
                                 $page['parent'] = '0';
-                                $page['url'] = mw('url')->string();
+                                $page['url'] = $this->app->Url->string();
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
@@ -381,7 +406,7 @@ class Controller
                                         $page['id'] = 0;
                                         $page['content_type'] = 'page';
                                         $page['parent'] = '0';
-                                        $page['url'] = mw('url')->string();
+                                        $page['url'] = $this->app->Url->string();
                                         $page['active_site_template'] = $page_url_segment_1;
                                         $page['content'] = '<module type="' . $mvalue . '" />';
                                         $page['simply_a_file'] = 'clean.php';
@@ -400,7 +425,7 @@ class Controller
                             $page['id'] = 0;
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
-                            $page['url'] = mw('url')->string();
+                            $page['url'] = $this->app->Url->string();
                             $page['active_site_template'] = $page_url_segment_1;
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
@@ -454,7 +479,7 @@ class Controller
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = mw('url')->string();
+                $page_non_active['url'] = $this->app->Url->string();
                 $page_non_active['content'] = 'This page is not published!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -468,7 +493,7 @@ class Controller
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = mw('url')->string();
+                $page_non_active['url'] = $this->app->Url->string();
                 $page_non_active['content'] = 'This page is deleted!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -733,7 +758,7 @@ class Controller
             $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
             $meta = array();
             $meta['content_image'] = '';
-            $meta['content_url'] = mw('url')->current(1);
+            $meta['content_url'] = $this->app->Url->current(1);
             $meta['og_description'] = mw('option')->get('website_description', 'website');
             $meta['og_type'] = 'website';
 
@@ -796,7 +821,7 @@ class Controller
 
             exec_action('frontend');
 
-            $is_embed = mw('url')->param('embed');
+            $is_embed = $this->app->Url->param('embed');
 
             if ($is_embed != false) {
                 $this->isolate_by_html_id = $is_embed;
@@ -917,7 +942,7 @@ class Controller
         $caller_commander = false;
         define_constants();
         if ($api_function == false) {
-            $api_function_full = mw('url')->string();
+            $api_function_full = $this->app->Url->string();
             $api_function_full = mw('format')->replace_once('api_html', '', $api_function_full);
             $api_function_full = mw('format')->replace_once('api', '', $api_function_full);
             //$api_function_full = substr($api_function_full, 4);
@@ -979,12 +1004,12 @@ class Controller
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
         if ($api_function == false) {
-            $api_function = mw('url')->segment(1);
+            $api_function = $this->app->Url->segment(1);
         }
 
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
-                $url_segs = mw('url')->segment(-1);
+                $url_segs = $this->app->Url->segment(-1);
                 // $api_function = ;
                 //d($api_functioan);
                 //d($try_class);
@@ -999,10 +1024,10 @@ class Controller
                 if ($params != false) {
                     $data = $params;
                 } else if (!$_POST and !$_GET) {
-                    //  $data = mw('url')->segment(2);
-                    $data = mw('url')->params(true);
+                    //  $data = $this->app->Url->segment(2);
+                    $data = $this->app->Url->params(true);
                     if (empty($data)) {
-                        $data = mw('url')->segment(2);
+                        $data = $this->app->Url->segment(2);
                     }
                 } else {
                     $data = $_REQUEST;
@@ -1108,10 +1133,10 @@ class Controller
                             if ($params != false) {
                                 $data = $params;
                             } else if (!$_POST and !$_GET) {
-                                //  $data = mw('url')->segment(2);
-                                $data = mw('url')->params(true);
+                                //  $data = $this->app->Url->segment(2);
+                                $data = $this->app->Url->params(true);
                                 if (empty($data)) {
-                                    $data = mw('url')->segment(2);
+                                    $data = $this->app->Url->segment(2);
                                 }
                             } else {
                                 $data = $_REQUEST;
@@ -1184,10 +1209,10 @@ class Controller
                 //
                 if ($mod_class_api_called == false) {
                     if (!$_POST and !$_GET) {
-                        //  $data = mw('url')->segment(2);
-                        $data = mw('url')->params(true);
+                        //  $data = $this->app->Url->segment(2);
+                        $data = $this->app->Url->params(true);
                         if (empty($data)) {
-                            $data = mw('url')->segment(2);
+                            $data = $this->app->Url->segment(2);
                         }
                     } else {
                         $data = $_REQUEST;
@@ -1199,7 +1224,7 @@ class Controller
 
                     } elseif (class_exists($api_function, false)) {
                         //
-                        $segs = mw('url')->segment();
+                        $segs = $this->app->Url->segment();
                         $mmethod = array_pop($segs);
 
                         $res = new $api_function($data);
@@ -1270,7 +1295,7 @@ class Controller
             $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
 
             if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = mw('url')->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+                $_REQUEST['id'] = $this->app->Url->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
             }
 
         }
@@ -1325,7 +1350,7 @@ class Controller
 
             }
         } else {
-            $url = mw('url')->string();
+            $url = $this->app->Url->string();
         }
 
         define_constants($page);
@@ -1341,15 +1366,15 @@ class Controller
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
-            $url = mw('url')->string(0);
+            $url = $this->app->Url->string(0);
             if ($url == __FUNCTION__) {
-                $url = mw('url')->string(0);
+                $url = $this->app->Url->string(0);
             }
             /*
-             $is_ajax = mw('url')->is_ajax();
+             $is_ajax = $this->app->Url->is_ajax();
 
              if ($is_ajax == true) {
-             $url = mw('url')->string(true);
+             $url = $this->app->Url->string(true);
              }*/
 
             $url = mw('format')->replace_once('module/', '', $url);
@@ -1398,7 +1423,7 @@ class Controller
             }
         }
 
-        $module_info = mw('url')->param('module_info', true);
+        $module_info = $this->app->Url->param('module_info', true);
 
         if ($module_info) {
             if ($_REQUEST['module']) {
@@ -1415,7 +1440,7 @@ class Controller
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
                         $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = mw('url')->link_to_file($config['icon']);
+                        $config['icon'] = $this->app->Url->link_to_file($config['icon']);
                     }
                     print json_encode($config);
                     exit();
@@ -1423,10 +1448,10 @@ class Controller
             }
         }
 
-        $admin = mw('url')->param('admin', true);
+        $admin = $this->app->Url->param('admin', true);
 
-        $mod_to_edit = mw('url')->param('module_to_edit', true);
-        $embed = mw('url')->param('embed', true);
+        $mod_to_edit = $this->app->Url->param('module_to_edit', true);
+        $embed = $this->app->Url->param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -1438,7 +1463,7 @@ class Controller
         if (($_POST)) {
             $data = $_POST;
         } else {
-            $url = mw('url')->segment();
+            $url = $this->app->Url->segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -1454,22 +1479,22 @@ class Controller
             //	$data['id'] = $_REQUEST['id'];
         }
 
-        $is_page_id = mw('url')->param('page_id', true);
+        $is_page_id = $this->app->Url->param('page_id', true);
         if ($is_page_id != '') {
             //s  $data['page_id'] = $is_page_id;
         }
 
-        $is_REQUEST_id = mw('url')->param('post_id', true);
+        $is_REQUEST_id = $this->app->Url->param('post_id', true);
         if ($is_REQUEST_id != '') {
             //  $data['post_id'] = $is_REQUEST_id;
         }
 
-        $is_category_id = mw('url')->param('category_id', true);
+        $is_category_id = $this->app->Url->param('category_id', true);
         if ($is_category_id != '') {
             //   $data['category_id'] = $is_category_id;
         }
 
-        $is_rel = mw('url')->param('rel', true);
+        $is_rel = $this->app->Url->param('rel', true);
         if ($is_rel != '') {
             //   $data['rel'] = $is_rel;
 
@@ -1555,7 +1580,7 @@ class Controller
         }
         if ($has_id == false) {
 
-            //	$mod_n = mw('url')->slug($mod_n) . '-' . date("YmdHis");
+            //	$mod_n = $this->app->Url->slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
 
@@ -1606,7 +1631,7 @@ class Controller
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = mw('url')->replace_site_url_back($res);
+            $res = $this->app->Url->replace_site_url_back($res);
             print $res;
         }
 
@@ -1759,7 +1784,7 @@ class Controller
             //  exec_action('mw_cron');
         }
 
-        $tool = mw('url')->segment(1);
+        $tool = $this->app->Url->segment(1);
 
         if ($tool) {
 
@@ -1781,7 +1806,7 @@ class Controller
                 $page = mw('content')->get_by_url($url);
             }
         } else {
-            $url = mw('url')->string();
+            $url = $this->app->Url->string();
         }
 
         define_constants($page);
