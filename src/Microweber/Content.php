@@ -806,7 +806,7 @@ class Content
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/default/';
+            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
         }
 
 

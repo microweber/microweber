@@ -6,7 +6,7 @@
  * @param string append_to_link
  *        	You can pass any string to be appended to all pages urls
  * @param string link
- *        	Replace the link href with your own. Ex: link="<?php print site_url('page_id:{id}'); ?>"
+ *        	Replace the link href with your own. Ex: link="<?php print mw_site_url('page_id:{id}'); ?>"
  * @return string prints the site tree
  * @uses pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"

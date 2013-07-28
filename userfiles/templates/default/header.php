@@ -19,14 +19,14 @@
 
     <script type="text/javascript">
 
-        mw.require("<?php print( INCLUDES_URL); ?>js/jquery-1.9.1.js");
+        mw.require("<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js");
     </script>
     <script type="text/javascript">
 
 
         mw.require("url.js");
         mw.require("tools.js");
-        mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
+        mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
     <?php if(isset($custom_head)): ?>
@@ -52,7 +52,7 @@
         <div class="mw-row">
             <div class="mw-col" style="width: 20%">
                 <div class="mw-col-container">
-                    <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">New World</a></div>
+                    <div class="brand element" id="logo"><a href="<?php print mw_site_url(); ?>">New World</a></div>
                 </div>
             </div>
             <div class="mw-col" style="width: 60%">

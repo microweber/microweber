@@ -10,21 +10,28 @@
  */
 
 
-namespace Mw\Utils;
+namespace Microweber\Utils;
 
+if (!defined('USER_IP')) {
+    if (isset($_SERVER["REMOTE_ADDR"])) {
+        define("USER_IP", $_SERVER["REMOTE_ADDR"]);
+    } else {
+        define("USER_IP", '127.0.0.1');
 
+    }
+}
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
-api_expose('mw\utils\Backup\delete');
-api_expose('mw\utils\Backup\create');
-api_expose('mw\utils\Backup\download');
-api_expose('mw\utils\Backup\create_full');
-api_expose('mw\utils\Backup\move_uploaded_file_to_backup');
+api_expose('Microweber\Utils\Backup\delete');
+api_expose('Microweber\Utils\Backup\create');
+api_expose('Microweber\Utils\Backup\download');
+api_expose('Microweber\Utils\Backup\create_full');
+api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
 
-api_expose('mw\utils\Backup\restore');
-api_expose('mw\utils\Backup\cronjob');
+api_expose('Microweber\Utils\Backup\restore');
+api_expose('Microweber\Utils\Backup\cronjob');
 
 
 class Backup
@@ -77,7 +84,7 @@ class Backup
 
         $back_log_action = "Restoring backup";
         self::log_bg_action($back_log_action);
-        $api = new \mw\utils\Backup();
+        $api = new \Microweber\Utils\Backup();
         $api->exec_restore($params);
 
     }
@@ -90,7 +97,7 @@ class Backup
         } else {
             $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
-            if (isarr($check) and isset($check['id'])) {
+            if (is_array($check) and isset($check['id'])) {
                 save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
             } else {
                 save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
@@ -152,7 +159,7 @@ class Backup
                 $this->log_action($back_log_action);
 
                 $exract_folder = md5(basename($filename));
-                $unzip = new \mw\utils\Unzip();
+                $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = CACHEDIR . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
@@ -342,7 +349,7 @@ class Backup
         } else {
             $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
-            if (isarr($check) and isset($check['id'])) {
+            if (is_array($check) and isset($check['id'])) {
                 save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
             } else {
                 save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
@@ -414,7 +421,7 @@ class Backup
 
         if (!defined('MW_BACKUP_BG_WORKER_STARTED')) {
             define('MW_BACKUP_BG_WORKER_STARTED', 1);
-            $backup_api = new \mw\utils\Backup();
+            $backup_api = new \Microweber\Utils\Backup();
             $backup_api->exec_create_full();
             unset($backup_api);
         } else {
@@ -464,7 +471,7 @@ class Backup
 
         $db_file = $this->create();
 
-        $zip = new \mw\utils\Zip($filename);
+        $zip = new \Microweber\Utils\Zip($filename);
         $zip->setZipFile($filename);
         $zip->setComment("Microweber backup of the userfiles folder and db.
 				\n The Microweber version at the time of backup was {MW_VERSION}
@@ -769,10 +776,10 @@ class Backup
         //Yes... flush again.
         session_write_close();
 
-        $scheduler = new \mw\utils\Events();
+        $scheduler = new \Microweber\Utils\Events();
 
         // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker_restore", $params);
+        $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker_restore", $params);
 
         exit();
     }
@@ -834,7 +841,7 @@ if($cache_state == 'opened'){
             cache_save(false, $cache_id_loc, 'backup');
             cache_save(false, $cache_id, 'backup');
 
-            $cron = new \mw\utils\Cron();
+            $cron = new \Microweber\Utils\Cron();
             $cron->delete_job('make_full_backup');
             return true;
         } else {
@@ -848,7 +855,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 
             if ($cache_lock == false or !is_array($cache_lock)) {
 
-
+ 
                 $cache_lock = array();
                 $cache_lock['processed'] = 0;
                 $cache_lock['files_count'] = count($cache_content);
@@ -1075,7 +1082,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
             if (is_array($backup_actions)) {
                 $i = 0;
                 // if (!isset($zip)) {
-                // $zip = new  \mw\utils\ZipStream($filename);
+                // $zip = new  \Microweber\Utils\ZipStream($filename);
 
                 cache_save($filename, $cache_id_loc, 'backup');
 //                $zip = new \ZipArchive;
@@ -1097,7 +1104,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 //
 //                }
 
-                //   $zip = new \mw\utils\Zip($filename);
+                //   $zip = new \Microweber\Utils\Zip($filename);
                 //  if (is_file($filename)) {
                 // $stream=$zip->getZipData();
                 // $stream=$zip->openStream($filename);
@@ -1221,7 +1228,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
             set_time_limit(600);
         }
 
-        $cron = new \mw\utils\Cron();
+        $cron = new \Microweber\Utils\Cron();
 
         $backup_actions = array();
         $backup_actions[] = 'make_db_backup';
@@ -1273,13 +1280,13 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
         cache_save($backup_actions, $cache_id, 'backup');
         cache_save(false, $cache_id_loc, 'backup');
         cache_save(false, $cache_state_id, 'backup');
-        //$cron->Register('make_full_backup', 0, '\mw\utils\Backup::cronjob_exec');
-        // $cron->job('make_full_backup', 0, array('\mw\utils\Backup','cronjob_exec'));
+        //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
+        // $cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
 
-        //$cron->job('run_something_once', 0, array('\mw\utils\Backup','cronjob'));
+        //$cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
 
 
-        // $cron->job('make_full_backup', '1 sec', array('\mw\utils\Backup', 'cronjob'), array('type' => 'full'));
+        // $cron->job('make_full_backup', '1 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
 
@@ -1309,10 +1316,10 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
         //Yes... flush again.
         session_write_close();
 
-        $scheduler = new \mw\utils\Events();
+        $scheduler = new \Microweber\Utils\Events();
 
         // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\mw\utils\Backup::bgworker");
+        $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker");
 
         exit();
     }

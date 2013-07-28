@@ -26,14 +26,15 @@ if (is_file($config_file_for_site)) {
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 $mw = new \Microweber\Application(MW_CONFIG_FILE);
 
-print $mw->Url->domain();
-exit;
+//print $mw->Url->site();
+//exit;
 
 
 
 
 
 $installed = $mw->c('installed');
+
 if (strval($installed) != 'yes') {
     define('MW_IS_INSTALLED', false);
 } else {

@@ -149,7 +149,7 @@ description: Mega comments template
 
             <div class="box pull-left box-field">
                 <div class="box-content">
-                  <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);">
+                  <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print mw_site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);">
                   <input type="text" name="captcha" required class="invisible-field" placeholder="<?php _e("Enter text"); ?>">
                 </div>
             </div>
@@ -161,6 +161,6 @@ description: Mega comments template
     </form>
   </div>
   <?php else :  ?>
-  <div class="alert"> <?php _e("You have to"); ?> <a href='<?php print site_url(); ?>login' class="comments-login-link"><?php _e("log in"); ?></a> <?php _e("or"); ?> <a class="comments-register-link" href='<?php print site_url(); ?>register'><?php _e("register"); ?></a> <?php _e("to post a comment"); ?>. </div>
+  <div class="alert"> <?php _e("You have to"); ?> <a href='<?php print mw_site_url(); ?>login' class="comments-login-link"><?php _e("log in"); ?></a> <?php _e("or"); ?> <a class="comments-register-link" href='<?php print mw_site_url(); ?>register'><?php _e("register"); ?></a> <?php _e("to post a comment"); ?>. </div>
   <?php endif; ?>
 </div>

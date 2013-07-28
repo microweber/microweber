@@ -1311,7 +1311,7 @@ class Controller
             if (isset($_REQUEST['isolate_content_field'])) {
                 //d($_REQUEST);
 
-                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
@@ -1363,7 +1363,7 @@ class Controller
             }
             if (isset($_REQUEST['embed_id'])) {
                 $find_embed_id = trim($_REQUEST['embed_id']);
-                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $pq = \phpQuery::newDocument($l);
                 //	$isolated_head = pq('head') -> eq(0) -> html();

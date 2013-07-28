@@ -211,11 +211,9 @@ class Files
                 if (!is_dir($cacheDir_temp)) {
                     $this->_mkdirs($cacheDir_temp);
                 }
+d($cache_file);
+                $cache = file_put_contents($cache_file, $content1);
 
-                $cache = file_put_contents($cache_file_temp, $content1);
-                @rename($cache_file_temp, $cache_file);
-                //mw_var('is_cleaning_now',false);
-                //}
 
             } catch (Exception $e) {
                 // $this -> cache_storage[$cache_id] = $content;
@@ -387,7 +385,11 @@ class Files
 
     function cache_get_file_path($cache_id, $cache_group = 'global')
     {
-        $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
+      //  $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
+
+        $cache_group = str_replace(array('/',';',':','.'), array(DIRECTORY_SEPARATOR,'_','_','_'), $cache_group);
+
+
         $f = $this->cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
 
         return $f;
@@ -942,7 +944,9 @@ class Files
                     } else {
                         //   $path = normalize_path($path, false);
                         try {
+                            if(is_file($path)){
                             @unlink($path);
+                            }
                         } catch (Exception $e) {
                         }
                     }

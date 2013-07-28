@@ -170,6 +170,7 @@ class User
                     $data['is_active'] = 'y';
 
 
+
                     $data['search_in_fields'] = 'password,email';
 
                     $data = $this->get_all($data);
@@ -422,7 +423,7 @@ class User
     {
         $params = parse_params($params);
 
-        $table = MW_TABLE_PREFIX . 'users';
+        $table = MW_DB_TABLE_USERS;
 
         $data = mw('format')->clean_html($params);
         $orig_data = $data;
@@ -460,7 +461,7 @@ class User
             $count_only = $data['count'];
         }
 
-        // $data ['no_cache'] = 1;
+        $data ['no_cache'] = 1;
 
         if (isset($data['username']) and $data['username'] == null) {
             unset($data['username']);

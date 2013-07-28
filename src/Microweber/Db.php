@@ -433,7 +433,7 @@ class Db
          //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
-        $criteria = mw('url')->replace_site_url($criteria);
+        $criteria = mw('url')->replace_mw_site_url($criteria);
 
         //  }
 

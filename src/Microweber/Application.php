@@ -92,7 +92,10 @@ class Application
 
             try {
                 $mw = '\Microweber\\' . $property;
-                $mw= str_replace('Microweber\Microweber', 'Microweber' ,$mw);
+                $mw = str_replace(array('\\\\','Microweber\Microweber'), array('\\','Microweber'), $mw);
+
+
+
                 $prop = new $mw($this);
             } catch (Exception $e) {
                 $prop = new $property($this);

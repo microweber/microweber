@@ -80,7 +80,7 @@ window.onerror = function(a,b,c){
     mw.required = [];
     mw.require = function(url, inHead) {
       var inHead = inHead || false;
-      var url = url.contains('//') ? url : "<?php print( INCLUDES_URL ); ?>api/" + url;
+      var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
         mw.required.push(url);
         var t = url.split('.').pop();
@@ -160,7 +160,7 @@ window.onerror = function(a,b,c){
     debug: true,
     site_url: '<?php print site_url(); ?>',
     //mw.settings.site_url
-    includes_url: '<?php   print( INCLUDES_URL);  ?>',
+    includes_url: '<?php   print( MW_INCLUDES_URL);  ?>',
     upload_url: '<?php print site_url(); ?>api/upload/',
 
     api_url: '<?php print site_url(); ?>api/',

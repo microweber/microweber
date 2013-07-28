@@ -1,5 +1,5 @@
 <?php
-static $link;
+static $db_link;
 
 
 
@@ -7,7 +7,7 @@ $is_mysqli = function_exists('mysqli_connect');
 //$is_mysqli = false;
 if ($is_mysqli != false) {
 
-    if ($link == false or $link == NULL) {
+    if ($db_link == false or $db_link == NULL) {
         if(isset($db['host'])){
             $port_check  = explode(":",$db['host']);
             if(isset($port_check[1])){
@@ -22,18 +22,18 @@ if ($is_mysqli != false) {
 
         if (isset($db['pass']) and $db['pass'] != '') {
             if(isset($port_num) and $port_num != false){
-                $link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'],$port_num);
+                $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'],$port_num);
             } else {
-                $link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+                $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
             }
 
 
         } else {
             if(isset($port_num) and $port_num != false){
-                $link = new mysqli($db['host'], $db['user'], false, $db['dbname'],$port_num);
+                $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname'],$port_num);
 
             } else {
-                $link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
+                $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
 
             }
 
@@ -47,7 +47,7 @@ if ($is_mysqli != false) {
 
     }
 
-    if ($result = $link->query($q)) {
+    if ($result = $db_link->query($q)) {
         // d($result);
         $nwq = array();
         /* fetch associative array */
@@ -71,10 +71,10 @@ if ($is_mysqli != false) {
 
     }
 
-    //$result = $link -> query($q);
+    //$result = $db_link -> query($q);
 
     if (!$result) {
-        $error['error'][] = $link->error;
+        $error['error'][] = $db_link->error;
 
         return $error;
         // throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
@@ -92,14 +92,14 @@ if ($is_mysqli != false) {
     }
 } else {
 
-    if ($link == false or $link == NULL) {
+    if ($db_link == false or $db_link == NULL) {
 
 
         if (isset($db['pass']) and $db['pass'] != '') {
-            $link = mysql_connect($db['host'], $db['user'], $db['pass']);
+            $db_link = mysql_connect($db['host'], $db['user'], $db['pass']);
 
         } else {
-            $link = mysql_connect($db['host'], $db['user']);
+            $db_link = mysql_connect($db['host'], $db['user']);
 
         }
 
@@ -108,7 +108,7 @@ if ($is_mysqli != false) {
             return $error;
         }
     }
-    if ($link == false) {
+    if ($db_link == false) {
         $error['error'][] = 'Could not connect: ' . mysql_error();
         return $error;
     }
@@ -174,6 +174,6 @@ if ($is_mysqli != false) {
         }
     }
     // Closing connection
-    // mysql_close($link);
+    // mysql_close($db_link);
     // $result = null;
 }

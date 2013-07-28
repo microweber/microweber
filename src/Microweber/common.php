@@ -1867,7 +1867,7 @@ function admin_url($add_string = false) {
 
     $admin_url = c('admin_url');
 
-    return site_url($admin_url) . '/' . $add_string;
+    return mw_site_url($admin_url) . '/' . $add_string;
 }
 
 
@@ -1892,7 +1892,7 @@ function mw_send_anonymous_server_data($params) {
 
         return $iudates;
     } else {
-        $params['site_url'] = site_url();
+        $params['site_url'] = mw_site_url();
         $result = $update_api->call('send_anonymous_server_data', $params);
         return $result;
     }

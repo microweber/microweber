@@ -4,7 +4,7 @@ namespace Microweber;
 action_hook('mw_db_init', mw('Microweber\Option')->db_init());
 
 
-action_hook('mw_db_init_options', 'create_mw_default_options');
+action_hook('mw_db_init_options', mw('Microweber\Option')->db_init());
 api_expose('save_option');
 $_mw_global_options_mem = array();
 class Option
@@ -444,7 +444,7 @@ class Option
                 }
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
-                    $data['option_value'] = mw('url')->replace_site_url($data['option_value']);
+                    $data['option_value'] = mw('url')->replace_mw_site_url($data['option_value']);
                     //d($data['option_value']);
                 }
 

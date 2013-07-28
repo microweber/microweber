@@ -9,6 +9,9 @@ class Parser
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
+
+
+
         static $checker = array();
         global $passed_reps;
         global $parser_cache_object;
@@ -725,7 +728,7 @@ class Parser
 
     public function modify_html($layout, $selector, $content = "", $action = 'append')
     {
-        require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($layout);
 
@@ -782,7 +785,7 @@ class Parser
 
     public function isolate_content_field($l)
     {
-        require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = phpQuery::newDocument($l);
 
         $isolated_head = pq('head')->eq(0)->html();
@@ -844,7 +847,7 @@ class Parser
 
                 $layout = $ch;
             } else {
-                require_once (MW_APP_PATH . 'classes' . DIRECTORY_SEPARATOR . 'Mw' . DIRECTORY_SEPARATOR . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
                 $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 $layout = htmlspecialchars_decode($layout);

@@ -9,10 +9,10 @@
   <link href="<?php print TEMPLATE_URL; ?>style.css" rel="stylesheet">
   <link href="<?php print TEMPLATE_URL; ?>style.responsive.css" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <script src="<?php print site_url(); ?>apijs"></script>
+  <script src="<?php print mw_site_url(); ?>apijs"></script>
   <script>
-      mw.require("<?php print INCLUDES_URL; ?>css/mw.ui.css");
-      mw.require("<?php print INCLUDES_URL; ?>css/mw_framework.css");
+      mw.require("<?php print MW_INCLUDES_URL; ?>css/mw.ui.css");
+      mw.require("<?php print MW_INCLUDES_URL; ?>css/mw_framework.css");
       mw.require("tools.js");
       mw.require("url.js");
   </script><script src="<?php print TEMPLATE_URL; ?>siteapi.js"></script>

@@ -5,6 +5,11 @@ class Url
 {
     public $site_url_var;
 
+    public function site($add_string = false)
+    {
+return $this->mw_site_url();
+    }
+
     public function mw_site_url($add_string = false)
     {
         $site_url = $this->site_url_var;
@@ -457,7 +462,7 @@ class Url
         return false;
     }
 
-    public function replace_site_url($arr)
+    public function replace_mw_site_url($arr)
     {
         $site = $this->mw_site_url();
 
@@ -476,7 +481,7 @@ class Url
 
                 if (is_array($v)) {
 
-                    $v = $this->replace_site_url($v);
+                    $v = $this->replace_mw_site_url($v);
                 } else {
 
                     $v = str_ireplace($site, '{SITE_URL}', $v);
@@ -535,7 +540,8 @@ class Url
     }
 
 
-    public function api_link($str = '') {
+    public function api_link($str = '')
+    {
         $str = ltrim($str, '/');
         return $this->mw_site_url('api/' . $str);
     }

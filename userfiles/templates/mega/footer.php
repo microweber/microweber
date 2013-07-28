@@ -107,7 +107,7 @@
     <div class="span3 relative">
          <div class="text-center" id="copyright">
              <p>All right reserverd 2013</p>
-             <a href="<?php print site_url(); ?>" id="logo-footer" title="Microweber">Powered By Microweber</a>
+             <a href="<?php print mw_site_url(); ?>" id="logo-footer" title="Microweber">Powered By Microweber</a>
          </div>
     </div>
     </div>

@@ -162,13 +162,22 @@ function mw($class, $constructor_params = false)
         $class = ucfirst($class);
         $class = str_replace('/', '\\', $class);
 
+        $mw = '\Microweber\\' . $class;
+        $mw = str_replace(array('\\\\','Microweber\Microweber'), array('\\','Microweber'), $mw);
 
         if (!isset($_mw_registry[$class_name])) {
             if ($constructor_params == false) {
 
                 try {
-                    $mw = '\Microweber\\' . $class;
-                    $mw= str_replace('Microweber\Microweber', 'Microweber' ,$mw);
+                 $prop = new $mw($constructor_params);
+                } catch (Exception $e) {
+                    $prop = new $class($constructor_params);
+                }
+                if (isset($prop)) {
+                    $_mw_registry[$class_name] = $prop;
+                }
+           } else {
+                try {
                     $prop = new $mw($constructor_params);
                 } catch (Exception $e) {
                     $prop = new $class($constructor_params);
@@ -176,12 +185,6 @@ function mw($class, $constructor_params = false)
                 if (isset($prop)) {
                     $_mw_registry[$class_name] = $prop;
                 }
-
-
-
-
-            } else {
-                $_mw_registry[$class_name] = new $class;
 
             }
 

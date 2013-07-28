@@ -55,7 +55,7 @@ class Update
 
         $data = array();
         $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = site_url();
+        $data['mw_update_check_site'] = mw_site_url();
 
         $t = templates_list();
         $data['templates'] = $t;
@@ -232,7 +232,7 @@ class Update
         }
 
         $params['core_update'] = $new_version;
-        $params['mw_update_check_site'] = site_url();
+        $params['mw_update_check_site'] = mw_site_url();
 
         $result = $this->call('get_download_link', $params);
         //d($result);
@@ -519,7 +519,7 @@ class Update
             $params = array();
         }
 
-        $params['site_url'] = site_url();
+        $params['site_url'] = mw_site_url();
         $result = $this->call('send_anonymous_server_data', $params);
         return $result;
     }
@@ -546,7 +546,7 @@ class Update
         if (!is_array($post_params)) {
          //   $post_params = array();
         }
-        $post_params['site_url'] = site_url();
+        $post_params['site_url'] = mw_site_url();
         $post_params['api_function'] = $method;
 
         if ($post_params != false and is_array($post_params)) {

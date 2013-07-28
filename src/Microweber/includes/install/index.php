@@ -6,20 +6,19 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 
 
 $autoinstall = false;
- 
-
-  if (defined('MW_INSTALL_FROM_CONFIG')) {
-
-               
-              $autoinstall =  mw_var('mw_autoinstall');
 
 
-            }
+if (defined('MW_INSTALL_FROM_CONFIG')) {
 
 
+    $autoinstall = mw_var('mw_autoinstall');
 
-defined('T') or die();
-$installed = MW_IS_INSTALLED;
+
+}
+$installed = false;
+if (defined('MW_IS_INSTALLED')) {
+    $installed = MW_IS_INSTALLED;
+}
 
 if ($installed != false) {
     if (function_exists('is_admin') and is_admin() == false) {
@@ -93,7 +92,7 @@ if (isset($to_save['is_installed'])) {
 
             define('MW_TABLE_PREFIX', (trim($to_save['table_prefix'])));
 
-        }  
+        }
 
         //$to_save['IS_INSTALLED'] = 'yes';
 
@@ -191,7 +190,7 @@ if (isset($to_save['is_installed'])) {
                                 $dnht = str_replace(' ', '%20', $dnht);
                                 if ($dnht != '/' and $dnht != '.' and $dnht != './' and$dnht != DIRECTORY_SEPARATOR) {
                                     // $f_htaccess_file_c = str_ireplace('/your_sub_folder/', $dnht, $f_htaccess_file_c);
- 
+
                                     $f_htaccess_file_c = str_ireplace('#RewriteBase /your_sub_folder/', 'RewriteBase ' . $dnht . '/', $f_htaccess_file_c);
 
 
@@ -247,19 +246,15 @@ if (isset($to_save['is_installed'])) {
                 _reload_c();
 
                 __mw_install_log('Initializing users');
- 
-                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
-  
+
+
                 __mw_install_log('Initializing options');
 
-                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'options.php');
-                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
-                 
+
                 exec_action('mw_db_init_options');
                 exec_action('mw_db_init_users');
-              
-                include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'modules.php');
-                
+
+
                 __mw_install_log('Creating default database tables');
                 exec_action('mw_db_init_default');
 

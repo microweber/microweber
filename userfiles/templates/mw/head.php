@@ -22,7 +22,7 @@
 
         mw.require("url.js");
         mw.require("tools.js");
-        mw.require("<?php print( INCLUDES_URL); ?>css/mw.ui.css");
+        mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
 
     </script>
 
