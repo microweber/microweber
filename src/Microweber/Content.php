@@ -87,9 +87,9 @@ class Content
             return mw_site_url();
         }
 
-        $link = mw('content')->get_by_id($id);
+        $link = $this->get_by_id($id);
         if (strval($link['url']) == '') {
-            $link = mw('content')->get_by_url($id);
+            $link = $this->get_by_url($id);
         }
         $link = mw_site_url($link['url']);
         return $link;
@@ -322,14 +322,14 @@ class Content
      * @example
      * <pre>
      * Get by id
-     * $page = mw('content')->get_page(1);
+     * $page = $this->get_page(1);
      * var_dump($page);
      * </pre>
      * @example
      * <pre>
      * Get by url
      *
-     * $page = mw('content')->get_page('home');
+     * $page = $this->get_page('home');
      * var_dump($page);
      *</pre>
      */
@@ -341,10 +341,10 @@ class Content
 
         // $CI = get_instance ();
         if (intval($id) != 0) {
-            $page = mw('content')->get_by_id($id);
+            $page = $this->get_by_id($id);
 
             if (empty($page)) {
-                $page = mw('content')->get_by_url($id);
+                $page = $this->get_by_url($id);
             }
         } else {
             if (empty($page)) {
@@ -372,7 +372,7 @@ class Content
      *
      * @example
      * <pre>
-     * $content = mw('content')->get_by_id(1);
+     * $content = $this->get_by_id(1);
      * var_dump($content);
      * </pre>
      *
@@ -421,7 +421,7 @@ class Content
         return $content;
     }
 
-    static function custom_fields($content_id, $full = true, $field_type = false)
+    public function custom_fields($content_id, $full = true, $field_type = false)
     {
 
         return mw('fields')->get('content', $content_id, $full, false, false, $field_type);
@@ -673,7 +673,7 @@ class Content
      * @example
      * <code>
      *  Define constants for some page
-     *  $ref_page = mw('content')->get_by_id(1);
+     *  $ref_page = $this->get_by_id(1);
      *  define_constants($ref_page);
      *  print PAGE_ID;
      *  print POST_ID;
@@ -701,7 +701,7 @@ class Content
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page != '') {
-                    $ref_page = mw('content')->get_by_url($ref_page);
+                    $ref_page = $this->get_by_url($ref_page);
                     if (!empty($ref_page)) {
                         $content = $ref_page;
 
@@ -712,7 +712,7 @@ class Content
 //
         if (is_array($content)) {
             if (isset($content['id']) and $content['id'] != 0) {
-                $content = mw('content')->get_by_id($content['id']);
+                $content = $this->get_by_id($content['id']);
                 $page = $content;
 
             } else if (isset($content['id']) and $content['id'] == 0) {
@@ -726,7 +726,7 @@ class Content
             if ($page['content_type'] == "post") {
                 $content = $page;
 
-                $page = mw('content')->get_by_id($page['parent']);
+                $page = $this->get_by_id($page['parent']);
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);
                 }
@@ -827,9 +827,9 @@ class Content
                     }
                     if (isset($page)) {
                         if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
-                            $par_page = mw('content')->get_inherited_parent($page['id']);
+                            $par_page = $this->get_inherited_parent($page['id']);
                             if ($par_page != false) {
-                                $par_page = mw('content')->get_by_id($par_page);
+                                $par_page = $this->get_by_id($par_page);
                             }
                             if (isset($par_page['layout_file'])) {
                                 $the_active_site_template = $par_page['active_site_template'];
@@ -1060,7 +1060,7 @@ class Content
                     $test = array_reverse($test);
 
                     if (isset($test[0])) {
-                        $url = mw('content')->get_by_url($test[0], true);
+                        $url = $this->get_by_url($test[0], true);
                     }
                     if (!empty($url)) {
                         $mw_precached_links[$link_hash] = $url;
@@ -1075,7 +1075,7 @@ class Content
             if (isset($content['id']) and intval($content['id']) != 0) {
                 $content['id'] = ((int)$content['id']);
             }
-            //$get_by_id = mw('content')->get_by_id($content['id']);
+            //$get_by_id = $this->get_by_id($content['id']);
             $mw_precached_links[$link_hash] = $content;
             return $content;
         }
@@ -1092,7 +1092,7 @@ class Content
      * @example
      * <code>
      *  //get the layout file for content
-     *  $content = mw('content')->get_by_id($id=1);
+     *  $content = $this->get_by_id($id=1);
      *  $render_file = get_layout_for_page($content);
      *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
      * </code>
@@ -1168,7 +1168,7 @@ class Content
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
-                        $par_c = mw('content')->get_by_id($value);
+                        $par_c = $this->get_by_id($value);
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
 
                             $page['layout_file'] = $par_c['layout_file'];
@@ -1203,7 +1203,7 @@ class Content
             $look_for_post = $page;
             if (isset($page['parent'])) {
 
-                $par_page = mw('content')->get_by_id($page['parent']);
+                $par_page = $this->get_by_id($page['parent']);
 
                 if (is_array($par_page)) {
                     $page = $par_page;
@@ -2209,7 +2209,7 @@ class Content
      * @package Content
      * @subpackage Advanced
      * @uses $this->get_parents()
-     * @uses mw('content')->get_by_id()
+     * @uses $this->get_by_id()
      */
     public function get_inherited_parent($content_id)
     {
@@ -2221,7 +2221,7 @@ class Content
         if (!empty($inherit_from)) {
             foreach ($inherit_from as $value) {
                 if ($found == 0) {
-                    $par_c = mw('content')->get_by_id($value);
+                    $par_c = $this->get_by_id($value);
                     if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
                         return $par_c['id'];
                         $found = 1;
@@ -2650,7 +2650,7 @@ class Content
             $url = '';
             $is_active = true;
             if (intval($item['content_id']) > 0) {
-                $cont = mw('content')->get_by_id($item['content_id']);
+                $cont = $this->get_by_id($item['content_id']);
                 if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
                     $is_active = false;
                     $cont = false;

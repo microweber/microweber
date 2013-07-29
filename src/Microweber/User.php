@@ -26,8 +26,8 @@ class User
      *
      * @param array|string $params You can pass parameter as string or as array.
      * @param mixed|string $params['email'] optional If you set  it will use this email for login
-     * @param mixed|string $params['password'] optional Use password for login, it gets trough hash_user_pass() function
-     * @param mixed|string $params['password_hashed'] optional Use hashed password for login, it does NOT go trough hash_user_pass() function
+     * @param mixed|string $params['password'] optional Use password for login, it gets trough $this->hash_pass() function
+     * @param mixed|string $params['password_hashed'] optional Use hashed password for login, it does NOT go trough $this->hash_pass() function
      *
      *
      * @example
@@ -59,13 +59,13 @@ class User
      * </code>
      * @package Users
      * @category Users
-     * @uses hash_user_pass()
+     * @uses $this->hash_pass()
      * @uses parse_str()
      * @uses $this->get_all()
      * @uses $this->session_set()
-     * @uses get_log()
-     * @uses save_log()
-     * @uses user_login_set_failed_attempt()
+     * @uses mw('log')->get()
+     * @uses mw('log')->save()
+     * @uses $this->login_set_failed_attempt()
      * @uses user_update_last_login_time()
      * @uses event_trigger()
      * @function user_login()
@@ -102,7 +102,7 @@ class User
             $email = isset($params['email']) ? $params['email'] : false;
             $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
 
-            $pass = hash_user_pass($pass);
+            $pass = $this->hash_pass($pass);
             if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
                 $pass = $pass2;
             }
@@ -114,18 +114,18 @@ class User
             }
             $url = mw('url')->current(1);
 
-            $check = get_log("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check = mw('log')->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
 
             if ($check == 5) {
 
                 $url_href = "<a href='$url' target='_blank'>$url</a>";
-                save_log("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
+                mw('log')->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
             }
             if ($check > 5) {
                 $check = $check - 1;
                 return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
             }
-            $check2 = get_log("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check2 = mw('log')->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
             if ($check2 > 25) {
 
                 return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
@@ -180,7 +180,7 @@ class User
                         $data = $data[0];
                     } else {
 
-                        user_login_set_failed_attempt();
+                        $this->login_set_failed_attempt();
                         return array('error' => 'Please enter right username and password!');
 
                     }
@@ -208,7 +208,7 @@ class User
                 }
             }
             if (!is_array($data)) {
-                user_login_set_failed_attempt();
+                $this->login_set_failed_attempt();
 
                 $user_session = array();
                 $user_session['is_logged'] = 'no';
@@ -226,7 +226,7 @@ class User
 
 
                 }
-                user_set_logged($data['id']);
+                $this->make_logged($data['id']);
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
                         event_trigger('user_login_admin');
@@ -595,7 +595,7 @@ class User
     public function login_set_failed_attempt()
     {
 
-        save_log("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+        mw('log')->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
     }
 

@@ -33,12 +33,12 @@ class Users extends \Microweber\User
         $pass = isset($params['password']) ? $params['password'] : false;
         $email = isset($params['email']) ? $params['email'] : false;
         $pass2 = $pass;
-        $pass = hash_user_pass($pass);
+        $pass = $this->hash_pass($pass);
 
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = mw('user')->session_get('captcha');
+            $cap = $this->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -75,7 +75,7 @@ class Users extends \Microweber\User
                 $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
                 // $data ['is_active'] = 'y';
-                $user_data = get_users($data);
+                $user_data = $this->get_all($data);
 
 
                 if (empty($user_data)) {
@@ -87,7 +87,7 @@ class Users extends \Microweber\User
                     $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
                     // $data ['is_active'] = 'y';
-                    $user_data = get_users($data);
+                    $user_data = $this->get_all($data);
                 }
 
                 if (empty($user_data)) {
@@ -110,7 +110,7 @@ class Users extends \Microweber\User
                     \mw('db')->q($q);
                     mw('cache')->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
-                    mw('user')->session_del('captcha');
+                    $this->session_del('captcha');
 
                     $notif = array();
                     $notif['module'] = "users";
@@ -121,7 +121,7 @@ class Users extends \Microweber\User
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
                     mw('Microweber\Notifications')->save($notif);
 
-                    save_log($notif);
+                    mw('log')->save($notif);
 
 
                     $params = $data;
@@ -239,7 +239,7 @@ class Users extends \Microweber\User
 
         if (isset($data_to_save['password'])) {
             if ($no_hash == false) {
-                $data_to_save['password'] = hash_user_pass($data_to_save['password']);
+                $data_to_save['password'] = $this->hash_pass($data_to_save['password']);
             } else {
                 mw_var('save_user_no_pass_hash', false);
             }
@@ -285,7 +285,7 @@ class Users extends \Microweber\User
             mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
             $save = \mw('db')->save($table, $data_to_save);
 
-            delete_log("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+            mw('log')->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -297,7 +297,7 @@ class Users extends \Microweber\User
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = mw('user')->session_get('captcha');
+            $cap = $this->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -331,7 +331,7 @@ class Users extends \Microweber\User
         $data1['password_reset_hash'] = mw('db')->escape_string($params['password_reset_hash']);
         $table = MW_DB_TABLE_USERS;
 
-        $check = get_users("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
+        $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
         if (!is_array($check)) {
             return array('error' => 'Invalid data or expired link!');
         } else {
@@ -339,7 +339,7 @@ class Users extends \Microweber\User
             $data1['password_reset_hash'] = '';
 
 
-            $data1['password'] = hash_user_pass($data1['password']);
+            $data1['password'] = $this->hash_pass($data1['password']);
 
 
         }
@@ -355,7 +355,7 @@ class Users extends \Microweber\User
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
-        save_log($notif);
+        mw('log')->save($notif);
 
         return array('success' => 'Your password have been changed!');
 
@@ -367,7 +367,7 @@ class Users extends \Microweber\User
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $cap = mw('user')->session_get('captcha');
+            $cap = $this->session_get('captcha');
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -391,7 +391,7 @@ class Users extends \Microweber\User
                 $data = array();
                 $data_res = false;
                 if (trim($user != '')) {
-                    $data = get_users($data1);
+                    $data = $this->get_all($data1);
                 }
 
                 if (isset($data[0])) {
@@ -402,7 +402,7 @@ class Users extends \Microweber\User
                     $data1['email'] = $user;
                     //$data1['oauth_uid'] = '[null]';
                     //$data1['oauth_provider'] = '[null]';
-                    $data = get_users($data1);
+                    $data = $this->get_all($data1);
                     if (isset($data[0])) {
                         $data_res = $data[0];
 
@@ -447,7 +447,7 @@ class Users extends \Microweber\User
                         $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                         $notif['description'] = $content_notif;
 
-                        save_log($notif);
+                        mw('log')->save($notif);
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
@@ -469,7 +469,7 @@ class Users extends \Microweber\User
 
     public function  social_login($params)
     {
-        set_exception_handler('social_login_exception_handler');
+        set_exception_handler('mw_social_login_exception_handler');
         $params2 = array();
 
         if (is_string($params)) {
@@ -480,7 +480,7 @@ class Users extends \Microweber\User
         $return_after_login = false;
         if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], mw_site_url())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
-            mw('user')->session_set('user_after_login', $return_after_login);
+            $this->session_set('user_after_login', $return_after_login);
 
         }
 
@@ -503,7 +503,7 @@ class Users extends \Microweber\User
                     $data['oauth_provider'] = $provider;
                     $data['oauth_uid'] = $authenticate['identifier'];
 
-                    $data_ex = get_users($data);
+                    $data_ex = $this->get_all($data);
                     if (empty($data_ex)) {
                         $data_to_save = $data;
                         $data_to_save['first_name'] = $authenticate['firstName'];
@@ -535,13 +535,13 @@ class Users extends \Microweber\User
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
                             mw('Microweber\Notifications')->save($notif);
 
-                            save_log($notif);
+                            mw('log')->save($notif);
 
                         }
                         //d($save);
                     }
 
-                    $data_ex = get_users($data);
+                    $data_ex = $this->get_all($data);
 
                     if (isset($data_ex[0])) {
                         $data = $data_ex[0];
@@ -551,7 +551,7 @@ class Users extends \Microweber\User
                         if (!defined('USER_ID')) {
                             define("USER_ID", $data['id']);
                         }
-                        user_set_logged($data['id']);
+                        $this->make_logged($data['id']);
 
                         if ($return_after_login != false) {
                             mw('url')->redirect($return_after_login);
@@ -574,7 +574,7 @@ class Users extends \Microweber\User
 
     public function social_login_process()
     {
-        set_exception_handler('social_login_exception_handler');
+        set_exception_handler('mw_social_login_exception_handler');
 
         $api = new \Microweber\Auth\Social();
         $api->process();
@@ -594,7 +594,7 @@ class Users extends \Microweber\User
      * @params $params['password'] string password for user
      *
      *
-     * @usage get_users('email=my_email');
+     * @usage $this->get_all('email=my_email');
      *
      *
      * @return array of users;
@@ -614,7 +614,7 @@ class Users extends \Microweber\User
         // $options ['no_cache'] = true;
         $options['cache_group'] = 'users/global/';
 
-        $data = get_users($options);
+        $data = $this->get_all($options);
 
         return $data;
     }
@@ -623,15 +623,15 @@ class Users extends \Microweber\User
 
 }
 
-if (!function_exists('social_login_exception_handler')) {
-    function social_login_exception_handler($exception)
+ 
+    function mw_social_login_exception_handler($exception)
     {
 
         if (mw('url')->is_ajax()) {
             return array('error' => $exception->getMessage());
         }
 
-        $after_log = mw('user')->session_get('user_after_login');
+        $after_log = $this->session_get('user_after_login');
         if ($after_log != false) {
             mw('url')->redirect($after_log);
         } else {
@@ -639,4 +639,4 @@ if (!function_exists('social_login_exception_handler')) {
         }
 
     }
-}
+ 

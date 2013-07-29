@@ -46,7 +46,7 @@ if(typeof __smart_field_opener !== 'function'){
 
   if(isset($params['save_to_content_id'])){
 		 //
-			 $diff = get_custom_fields($for,$params['save_to_content_id'],1,false,false);
+			 $diff = mw('fields')->get($for,$params['save_to_content_id'],1,false,false);
 
 		  }
 
@@ -60,7 +60,7 @@ if(isset($params['default-fields'])){
 	make_default_custom_fields($for,$params['for_module_id'],$params['default-fields']);
 }
 
-	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
+	$more = mw('fields')->get($for,$params['for_module_id'],1,false,false);
 
  //d($more);
  // d($diff);

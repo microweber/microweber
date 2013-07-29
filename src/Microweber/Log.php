@@ -16,7 +16,7 @@ class Log
         $params['id'] = intval($id);
         $params['one'] = true;
 
-        $get = get_log($params);
+        $get = mw('log')->get($params);
         return $get;
 
     }

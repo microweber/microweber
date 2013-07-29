@@ -46,7 +46,7 @@ $for_id =$params['rel_id'];
 }
 
 
- $more = get_custom_fields($for ,$for_id,1); 
+ $more = mw('fields')->get($for ,$for_id,1); 
  
  ?>
 

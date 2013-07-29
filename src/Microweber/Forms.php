@@ -42,7 +42,7 @@ class Forms
                 //d($item);
                 //
 
-                $fields = get_custom_fields('forms_data', $item['id'], 1);
+                $fields = mw('fields')->get('forms_data', $item['id'], 1);
 
                 if (is_array($fields)) {
                     ksort($fields);
@@ -161,7 +161,7 @@ class Forms
 
         $to_save = array();
         $fields_data = array();
-        $more = get_custom_fields($for, $for_id, 1);
+        $more = mw('fields')->get($for, $for_id, 1);
         $cf_to_save = array();
         if (!empty($more)) {
             foreach ($more as $item) {
@@ -347,7 +347,7 @@ class Forms
             $c_id = intval($data['id']);
 
 
-            $fields = get_custom_fields('forms_data', $data['id'], 1);
+            $fields = mw('fields')->get('forms_data', $data['id'], 1);
 
             if (is_array($fields)) {
 

@@ -2,7 +2,7 @@
 namespace Microweber;
 
 
-class ContentUtils
+class ContentUtils extends \Microweber\Content
 {
 
 
@@ -234,7 +234,7 @@ class ContentUtils
         $par_page = false;
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
             if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
-                $par_page = mw('content')->get_by_id($data_to_save['parent']);
+                $par_page = $this->get_by_id($data_to_save['parent']);
             }
 
 
@@ -503,7 +503,7 @@ class ContentUtils
                 // d($ref_page_url);
             } else {
                 $page_id = $ref_page['id'];
-                $ref_page['custom_fields'] = mw('content')->custom_fields($page_id, false);
+                $ref_page['custom_fields'] = $this->custom_fields($page_id, false);
             }
         }
         $save_as_draft = false;
@@ -606,7 +606,7 @@ class ContentUtils
                             $save_layout = false;
                             $content_id = $page_id;
 
-                            $inh = mw('content')->get_inherited_parent($page_id);
+                            $inh = $this->get_inherited_parent($page_id);
                             if ($inh != false) {
                                 $content_id_for_con_field = $content_id = $inh;
 
@@ -1007,11 +1007,7 @@ class ContentUtils
 
 
 
-    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
-    {
-        return \mw('content')->get_parents($id , $without_main_parrent, $data_type);
 
-    }
 
 
     public function edit_field_draft($data)

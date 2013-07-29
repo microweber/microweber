@@ -261,7 +261,7 @@ class Notifications
             if ($is_log == 'log_') {
                 $is_sys_log = 1;
                 $is_log_id = str_ireplace('log_', '', $params['id']);
-                $log_entr = get_log_entry($is_log_id);
+                $log_entr = mw('log')->get_entry_by_id($is_log_id);
                 if ($log_entr != false and isset($params['one'])) {
                     return $log_entr;
 

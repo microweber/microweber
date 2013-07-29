@@ -17,7 +17,7 @@ if(isset($params['limit'])){
 }*/
 $log_params["is_system"] = 'n';
 $log_params["order_by"] = 'created_on desc';
-$data = get_log($log_params);
+$data = mw('log')->get($log_params);
  
 
 ?>

@@ -700,29 +700,12 @@ function delete_log_entry($data)
     return mw('log')->delete_entry($data);
 }
 
-function delete_log($params)
-{
-    return mw('log')->delete($params);
-}
-
-function save_log($params)
-{
-    return mw('log')->save($params);
-}
-
-function get_log_entry($id)
-{
-
-    return mw('log')->get_entry_by_id($id);
-
-}
 
 
-function get_log($params)
-{
-    return mw('log')->get($params);
 
-}
+
+
+
 
 api_expose('delete_user');
 
@@ -732,11 +715,7 @@ function delete_user($data)
 }
 
 
-function hash_user_pass($pass)
-{
-    return mw('user')->hash_pass($pass);
 
-}
 
 
 api_expose('captcha');
@@ -748,12 +727,7 @@ function captcha()
 }
 
 
-function user_update_last_login_time()
-{
 
-  //  return mw('user')->update_last_login_time();
-
-}
 
 api_expose('social_login_process');
 function social_login_process()
@@ -780,12 +754,7 @@ function user_send_forgot_password($params)
 
 }
 
-function user_login_set_failed_attempt()
-{
 
-    return mw('user')->login_set_failed_attempt();
-
-}
 
 api_expose('is_logged');
 
@@ -797,12 +766,7 @@ function is_logged()
 
 }
 
-function user_set_logged($user_id)
-{
 
-    return mw('user')->make_logged($user_id);
-
-}
 
 function user_id()
 {
@@ -892,39 +856,6 @@ function get_user($id = false)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function get_custom_field_by_id($field_id) {
-
-    return mw('fields')->get_by_id($field_id);
-
-
-}
-
-function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
-    return mw('fields')->get($table, $id, $return_full, $field_for, $debug , $field_type , $for_session );
-}
-
-/*document_ready('test_document_ready_api');
-
- function test_document_ready_api($layout) {
-
- //   $layout = modify_html($layout, $selector = '.editor_wrapper', 'append', 'ivan');
- //$layout = modify_html2($layout, $selector = '<div class="editor_wrapper">', '');
- return $layout;
- }*/
 
 /**
  * make_custom_field
@@ -2079,7 +2010,4 @@ function strleft($s1, $s2) {
 }
 
 
-
-
-
-
+ 

@@ -620,7 +620,7 @@ class Shop
         }
 
         $cfs = array();
-        $cfs = get_custom_fields($for, $for_id, 1);
+        $cfs = mw('fields')->get($for, $for_id, 1);
         if ($cfs == false) {
 
             mw_error('Invalid data');

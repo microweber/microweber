@@ -330,7 +330,7 @@ if (!empty($content)){
  		 }
 
 		if(isset($post_params['subtype']) and $post_params['subtype'] == 'product'){
-		$item['prices'] = get_custom_fields("field_type=price&for=content&for_id=".$item['id']);
+		$item['prices'] = mw('fields')->get("field_type=price&for=content&for_id=".$item['id']);
 		
 		} else {
 		$item['prices'] = false;
