@@ -77,7 +77,7 @@ if(isset($params["active-site-template"])){
 
 if(isset($data["id"])){
 	if(!defined('ACTIVE_SITE_TEMPLATE')){
-	 define_constants($data);
+	 mw('content')->define_constants($data);
 	}
  }
 
@@ -87,7 +87,7 @@ if(isset($data["active_site_template"]) and ($data["active_site_template"] == fa
  
  
 
-$templates= templates_list();
+$templates= mw('ContentUtils')->templates_list();
 
 $layout_options = array();
 $layout_options  ['no_cache'] = 1;

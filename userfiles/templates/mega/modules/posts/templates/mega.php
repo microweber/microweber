@@ -37,7 +37,7 @@ description: Mega
                              <span><?php print user_name($item['created_by']); ?> </span>
                          </span>
 
-                         <?php $cats = get_categories_for_content($item['id']);  ?>
+                         <?php $cats = mw('category')->get_for_content($item['id']);  ?>
 
                          <?php
                              if(is_array($cats)){

@@ -14,7 +14,7 @@ error('parent-module-id is required');
 	
 }
  
-$site_templates = templates_list();
+$site_templates = mw('ContentUtils')->templates_list();
  
  $templates = module_templates($params['parent-module']);
  
