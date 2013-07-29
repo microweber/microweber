@@ -813,7 +813,7 @@ class ContentUtils
 
 
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (!is_array($data)) {
@@ -846,7 +846,7 @@ class ContentUtils
 
 
         if (!isset($data['rel']) or !isset($data['rel_id'])) {
-            error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
@@ -888,7 +888,7 @@ class ContentUtils
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $to_trash = true;
@@ -1505,12 +1505,12 @@ class ContentUtils
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
 
         if (!isset($params['id'])) {
-            error('Error: id param is required.');
+            mw_error('Error: id param is required.');
         }
 
         $id = $params['id'];
@@ -1532,7 +1532,7 @@ class ContentUtils
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $id = intval($id);
 
@@ -1548,7 +1548,7 @@ class ContentUtils
 
         $id = is_admin();
         if ($id == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data_to_save['menu_id'])) {
@@ -1623,7 +1623,7 @@ class ContentUtils
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MODULE_DB_MENUS;
@@ -1643,7 +1643,7 @@ class ContentUtils
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = MODULE_DB_MENUS;
 
@@ -1709,7 +1709,7 @@ class ContentUtils
     {
         $id = is_admin();
         if ($id == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $content_id = intval($content_id);
         if ($content_id == 0) {

@@ -1,7 +1,7 @@
 <?php
  
  if(is_admin() == false){
-	 error('Must be admin');
+	 mw_error('Must be admin');
  }
  $data= array();
  if(isset($data['id'])){

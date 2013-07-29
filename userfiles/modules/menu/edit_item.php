@@ -1,7 +1,7 @@
 <?php
 $rand = uniqid();
 if(is_admin() == false){
-    error('Must be admin');
+    mw_error('Must be admin');
 }
 $id = false;
 if(isset($params['item-id'])){

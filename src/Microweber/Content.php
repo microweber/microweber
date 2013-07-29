@@ -473,7 +473,7 @@ class Content
         }
 
         if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-            error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {

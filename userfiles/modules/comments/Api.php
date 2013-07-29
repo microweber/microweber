@@ -59,13 +59,13 @@ class Api {
 
         if (isset($data['id'])) {
             if ($adm == false) {
-                error('Error: Only admin can edit comments!');
+                mw_error('Error: Only admin can edit comments!');
             }
         }
 
         if (isset($data['action']) and isset($data['id'])) {
             if ($adm == false) {
-                error('Error: Only admin can edit comments!');
+                mw_error('Error: Only admin can edit comments!');
             } else {
                 $action = strtolower($data['action']);
 

@@ -1,4 +1,4 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
+<?php if(!is_admin()){mw_error("must be admin");}; ?>
 <?php
 
  //$rand = uniqid(); ?>

@@ -504,7 +504,7 @@ class Shop
     {
 
         if (!isset($data['id'])) {
-            error('Invalid data');
+            mw_error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
             session_start();
@@ -534,11 +534,11 @@ class Shop
     {
 
         if (!isset($data['id'])) {
-            error('Invalid data');
+            mw_error('Invalid data');
         }
 
         if (!isset($data['qty'])) {
-            error('Invalid data');
+            mw_error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
             session_start();
@@ -587,7 +587,7 @@ class Shop
 
         if (!isset($data['for']) or !isset($data['for_id'])) {
 
-            error('Invalid data');
+            mw_error('Invalid data');
         }
 
         $data['for'] = mw('db')->assoc_table_name($data['for']);
@@ -599,14 +599,14 @@ class Shop
 
         if ($for_id == 0) {
 
-            error('Invalid data');
+            mw_error('Invalid data');
         }
 
         if ($data['for'] == 'content') {
             $cont = mw('content')->get_by_id($for_id);
 
             if ($cont == false) {
-                error('Invalid product?');
+                mw_error('Invalid product?');
             } else {
                 if (is_array($cont) and isset($cont['title'])) {
                     $data['title'] = $cont['title'];
@@ -623,7 +623,7 @@ class Shop
         $cfs = get_custom_fields($for, $for_id, 1);
         if ($cfs == false) {
 
-            error('Invalid data');
+            mw_error('Invalid data');
         }
 
         $add = array();
@@ -747,7 +747,7 @@ class Shop
         }
         if ($found_price == false) {
             // $found_price = 0;
-            error('Invalid data: Please post a "price" field with <input name="price"> ');
+            mw_error('Invalid data: Please post a "price" field with <input name="price"> ');
         }
 
         if (is_array($prices)) {
@@ -791,7 +791,7 @@ class Shop
             $cart_s = \mw('db')->save($table, $cart);
             return ($cart_s);
         } else {
-            error('Invalid cart items');
+            mw_error('Invalid cart items');
         }
 
         //  d($data);
@@ -965,7 +965,7 @@ class Shop
         }
         if (is_admin() == false) {
 
-            error("You must be admin");
+            mw_mw_error("You must be admin");
         }
 
         $table = MODULE_DB_SHOP_ORDERS;
@@ -981,7 +981,7 @@ class Shop
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = MODULE_DB_SHOP_ORDERS;
 
@@ -1002,7 +1002,7 @@ class Shop
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MODULE_DB_SHOP_ORDERS;

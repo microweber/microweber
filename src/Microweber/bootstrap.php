@@ -202,42 +202,40 @@ function mw_error_handler($errno, $errstr, $errfile, $errline)
 {
 
 
+    if (!(error_reporting() & $errno)) {
+        // This error code is not included in error_reporting
+        return;
+    }
 
+    switch ($errno) {
+        case E_USER_ERROR:
+            if (!headers_sent()) {
+                header("Content-Type:text/plain");
 
-        if (!(error_reporting() & $errno)) {
-            // This error code is not included in error_reporting
-            return;
-        }
+            }
+            echo "<b>ERROR</b> [$errno] $errstr<br />\n";
+            echo "  Fatal error on line $errline in file $errfile";
+            echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+            print_r(debug_backtrace());
+            echo "Aborting...<br />\n";
+            exit(1);
+            break;
 
-        switch ($errno) {
-            case E_USER_ERROR:
-                if (!headers_sent()) {
-                    header("Content-Type:text/plain");
+        case E_USER_WARNING:
+            echo "<b>WARNING</b> [$errno] $errstr<br />\n";
+            break;
 
-                }
-                echo "<b>ERROR</b> [$errno] $errstr<br />\n";
-                echo "  Fatal error on line $errline in file $errfile";
-                echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-                print_r(debug_backtrace());
-                echo "Aborting...<br />\n";
-                exit(1);
-                break;
+        case E_USER_NOTICE:
+            // echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+            break;
 
-            case E_USER_WARNING:
-                echo "<b>WARNING</b> [$errno] $errstr<br />\n";
-                break;
+        default:
+            // echo "Unknown error type: [$errno] $errstr<br />\n";
+            break;
+    }
 
-            case E_USER_NOTICE:
-              // echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-                break;
-
-            default:
-               // echo "Unknown error type: [$errno] $errstr<br />\n";
-                break;
-        }
-
-        /* Don't execute PHP internal error handler */
-        return true;
+    /* Don't execute PHP internal error handler */
+    return true;
 
 
 }
@@ -326,10 +324,15 @@ function c($k, $no_static = false)
 
 function d($v)
 {
-    return dump($v);
+
+    $wrap = " \n\n\ ";
+    $ret = $wrap . '<pre>' . var_dump($v) . '</pre>' . $wrap;
+
+    return $ret;
+    //return dump($v);
 }
 
-function dbg($q)
+function mwdbg($q)
 {
 
     static $index = array();
@@ -341,52 +344,12 @@ function dbg($q)
         $index[] = $q;
     }
 
-    //if (isset($_REQUEST['debug'])) {
-    //if (is_admin()) {
-    //return dump($v);
-    //}
-    //}
-}
-
-function dump($v)
-{
-
-    $wrap = "############## \n\n\ ";
-    $ret = '<pre>' . var_dump($v) . '</pre>';
-    $ret = $wrap . $ret . $wrap;
-    return $ret;
-}
-
-function _log($m)
-{
-    file_put_contents(__DIR__ . '/log/.' . date('Y-m-d'), time() . ' ' . getenv('REMOTE_ADDR') . " $m\n", FILE_APPEND);
-}
-
-function h($s)
-{
-    return htmlspecialchars($s, ENT_QUOTES, 'utf-8');
-}
-
-function redirect($u = '', $r = 0, $c = 302)
-{
-    header($r ? "Refresh:0;url=$u" : "Location: $u", TRUE, $c);
-}
-
-function registry($k, $v = null)
-{
-    static $o;
-    return (func_num_args() > 1 ? $o[$k] = $v : (isset($o[$k]) ? $o[$k] : NULL));
-}
-
-function utf8($s, $f = 'UTF-8')
-{
-    return @iconv($f, $f, $s);
 }
 
 
 //set_error_handler('error');
 
-function error($e, $f = false, $l = false)
+function mw_error($e, $f = false, $l = false)
 {
     include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
@@ -405,6 +368,11 @@ if (!isset($mw_site_url)) {
 function mw_site_url($add_string = false)
 {
     global $mw_site_url;
+
+    if (defined('MW_SITE_URL')) {
+        $mw_site_url = MW_SITE_URL;
+
+    }
     if ($mw_site_url == false) {
         $pageURL = 'http';
         if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {

@@ -463,7 +463,7 @@ class Files
                 $this -> mw_cache_lock_time = filemtime($cache_group_lock);
             }
             if ($this -> mw_cache_lock_time > time() - $this -> mw_cache_lock_timeout) {
-                dbg($cache_group_lock);
+                mwdbg($cache_group_lock);
                 // print 'aQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa';
                 return false;
             } else {

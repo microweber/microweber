@@ -207,7 +207,7 @@ class Users extends \Microweber\User
 
                     }
 
-                    // error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                    // mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
 
                 } else {
                     mw_var('force_save_user', false);
@@ -218,7 +218,7 @@ class Users extends \Microweber\User
 
 
                 if ($force == false) {
-                    error('COMLETE ME!!!! ');
+                    mw_error('COMLETE ME!!!! ');
                 } else {
                     mw_var('force_save_user', false);
                 }
@@ -247,7 +247,7 @@ class Users extends \Microweber\User
     {
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {

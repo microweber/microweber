@@ -11,7 +11,7 @@ class Categories extends Category {
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Ony admin can save category');
+            mw_error('Ony admin can save category');
         }
 
         $table = MW_TABLE_PREFIX . 'categories';
@@ -163,7 +163,7 @@ class Categories extends Category {
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
         }
 
         if (isset($data['id'])) {
@@ -187,7 +187,7 @@ class Categories extends Category {
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
         }
 
         $table = MW_TABLE_PREFIX . 'categories';

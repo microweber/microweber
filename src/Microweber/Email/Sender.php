@@ -188,7 +188,7 @@ class Sender
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $res = self::email_get_transport_object();
         if (is_object($res)) {

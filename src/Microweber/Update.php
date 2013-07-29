@@ -25,7 +25,7 @@ class Update
     {
         $a = is_admin();
         if ($a == false) {
-            error('Must be admin!');
+            mw_error('Must be admin!');
         }
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
@@ -276,7 +276,7 @@ class Update
         $to_be_unzipped = array();
         $a = is_admin();
         if ($a == false) {
-            error('Must be admin!');
+            mw_error('Must be admin!');
         }
         print __FILE__ . __LINE__;
 

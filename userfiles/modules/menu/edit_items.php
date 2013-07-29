@@ -1,6 +1,6 @@
 <?php
  if(is_admin() == false){
-	 error('Must be admin');
+	 mw_error('Must be admin');
  }
  $id = false;
  if(isset($params['menu-id'])){

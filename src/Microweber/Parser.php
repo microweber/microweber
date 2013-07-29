@@ -1052,7 +1052,7 @@ class Parser
                             $cont_field = get_content_field("rel={$rel}&field={$field}");
 
 
-                            //dbg($cont_field);
+                            //mwdbg($cont_field);
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
                                     //$field_content = __FILE__ . __LINE__;

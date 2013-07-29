@@ -61,7 +61,7 @@ Cache hits <?php $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?>
   
  
 		 	<b>Debug</b>
-  <pre><?php print print_r(dbg(true)); ?></pre>
+  <pre><?php print print_r(mwdbg(true)); ?></pre>
   
  <?php } ?>
 </div>

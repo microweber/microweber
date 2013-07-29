@@ -11,7 +11,7 @@ if(is_array($ord[0])){
 
 } else {
 
-error("Invalid order id");
+mw_error("Invalid order id");
 }
 
 

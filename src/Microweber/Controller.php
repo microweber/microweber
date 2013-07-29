@@ -280,7 +280,7 @@ class Controller
                     $page['simply_a_file'] = 'clean.php';
                     $page['layout_file'] = 'clean.php';
                     template_var('content', $page['content']);
-                    dbg($page);
+                    mwdbg($page);
                     template_var('new_page', $page);
                 }
 
@@ -1173,7 +1173,7 @@ class Controller
                             }
 
                         } else {
-                            error('The api class ' . $try_class . '  does not exist');
+                            mw_error('The api class ' . $try_class . '  does not exist');
 
                         }
 
@@ -1254,7 +1254,7 @@ class Controller
                 // print $api_function;
             } else {
 
-                error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+                mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
 
             }
 
@@ -1768,7 +1768,7 @@ class Controller
                 require ($f);
                 exit();
             } else {
-                error('You must login as admin');
+                mw_error('You must login as admin');
             }
         }
     }

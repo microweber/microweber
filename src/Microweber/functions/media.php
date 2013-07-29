@@ -71,7 +71,7 @@ function upload_progress_check()
 {
     if (is_admin() == false) {
 
-        error('not logged in as admin');
+        mw_error('not logged in as admin');
     }
     if (isset($_SERVER["HTTP_REFERER"])) {
         $ref_str = md5($_SERVER["HTTP_REFERER"]);
@@ -115,7 +115,7 @@ function upload($data)
 {
     if (is_admin() == false) {
 
-        error('not logged in as admin');
+        mw_error('not logged in as admin');
     }
     ini_set("upload_max_filesize", "2500M");
     ini_set("memory_limit", "256M");
@@ -171,7 +171,7 @@ function upload($data)
             $extension = end(explode(".", $item["name"]));
             if (in_array($extension, $allowedExts)) {
                 if ($item["error"] > 0) {
-                    error("Error: " . $item["error"]);
+                    mw_mw_error("Error: " . $item["error"]);
                 } else {
                     $upl = mw('cache')->save($item, $cache_id, $cache_group);
 
@@ -190,7 +190,7 @@ function upload($data)
                     }
                 }
             } else {
-                error("Invalid file ext");
+                mw_mw_error("Invalid file ext");
             }
 
             //
@@ -241,7 +241,7 @@ function reorder_media($data)
 
     $adm = is_admin();
     if ($adm == false) {
-        error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
     }
 
     $table = MW_TABLE_PREFIX . 'media';
@@ -268,7 +268,7 @@ function delete_media($data)
 
     $adm = is_admin();
     if ($adm == false) {
-        error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
     }
 
     if (isset($data['id'])) {
@@ -391,7 +391,7 @@ function save_media($data)
         $s = \mw('db')->save($table, $s);
         return ($s);
     } else {
-        error('Invalid data');
+        mw_error('Invalid data');
     }
 }
 

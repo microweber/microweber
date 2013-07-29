@@ -83,7 +83,7 @@ class Ping
                                 $file = @file_get_contents($line, false, $context);
                                 $response = xmlrpc_decode($file);
                                 if ($response && xmlrpc_is_fault($response)) {
-                                    // trigger_error("xmlrpc: $response[faultString] ($response[faultCode])");
+                                    // trigger_mw_error("xmlrpc: $response[faultString] ($response[faultCode])");
                                 } else {
                                     //print_r($response);
                                 }

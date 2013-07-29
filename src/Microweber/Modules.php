@@ -8,7 +8,7 @@ class Modules extends \Microweber\Module
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MW_TABLE_PREFIX . 'modules';
@@ -476,7 +476,7 @@ class Modules extends \Microweber\Module
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {

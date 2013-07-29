@@ -88,7 +88,7 @@ $active = array();
 
     $adm = is_admin();
     if ($adm == false) {
-        error('Error: not logged in as admin.'.__FILE__.__LINE__);
+        mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
     }
  
 	$table =  $this -> table;

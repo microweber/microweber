@@ -138,11 +138,11 @@ if ($is_mysqli != false) {
             $result = mysql_query($query);
             if (!$result) {
                 $err = mysql_error();
-                error('Query failed: ' . $err);
+                mw_error('Query failed: ' . $err);
             }
         } else {
 
-            error('Query failed: ' . $err);
+            mw_error('Query failed: ' . $err);
         }
         return false;
     }

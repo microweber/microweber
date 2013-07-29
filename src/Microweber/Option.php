@@ -252,7 +252,7 @@ class Option
                 }
             }
         } else {
-            error('$this->set_default $data param must be array');
+            mw_error('$this->set_default $data param must be array');
         }
         return $changes;
     }

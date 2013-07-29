@@ -53,7 +53,7 @@ class DbUtils extends \Microweber\Db
                 }
             }
         } else {
-            error('could not find table');
+            mw_error('could not find table');
         }
         if (!empty($upd)) {
             $cg = $this->assoc_table_name($test['table']);

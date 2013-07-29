@@ -80,7 +80,7 @@ class Module
 
         if ($custom_view != false and strtolower($custom_view) == 'admin') {
             if (is_admin() == false) {
-                error('Not logged in as admin');
+                mw_error('Not logged in as admin');
             }
         }
 

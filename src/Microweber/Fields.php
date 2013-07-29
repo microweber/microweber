@@ -264,11 +264,11 @@ class Fields
 
         $id = user_id();
         if ($id == 0) {
-            error('Error: not logged in.');
+            mw_error('Error: not logged in.');
         }
         $id = is_admin();
         if ($id == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $data_to_save = ($data);
 
@@ -428,7 +428,7 @@ class Fields
 
         $adm = is_admin();
         if ($adm == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MW_TABLE_PREFIX . 'custom_fields';
@@ -453,7 +453,7 @@ class Fields
     {
         $uid = user_id();
         if ($uid == 0) {
-            error('Error: not logged in.');
+            mw_error('Error: not logged in.');
         }
         $uid = is_admin();
         if ($uid == false) {
@@ -499,7 +499,7 @@ class Fields
                 return $this->make($field_id);
 
                 //
-                // error('no permission to get data');
+                // mw_error('no permission to get data');
                 //  $form_data = \mw('db')->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }}

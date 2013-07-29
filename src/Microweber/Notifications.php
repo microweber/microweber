@@ -83,7 +83,7 @@ class Notifications
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
@@ -101,7 +101,7 @@ class Notifications
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
