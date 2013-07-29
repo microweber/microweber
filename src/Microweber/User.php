@@ -461,7 +461,7 @@ class User
             $count_only = $data['count'];
         }
 
-        $data ['no_cache'] = 1;
+        //$data ['no_cache'] = 1;
 
         if (isset($data['username']) and $data['username'] == null) {
             unset($data['username']);

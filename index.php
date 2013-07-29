@@ -2,7 +2,7 @@
 
 date_default_timezone_set('UTC');
 define('M', memory_get_usage());
-//define('MW_USE_APC_CACHE', false);
+ define('MW_USE_APC_CACHE', false);
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }

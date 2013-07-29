@@ -7,7 +7,7 @@ class Router
 
     public $functions = array();
     public $vars = array();
-    public $callback;
+
     public $controller;
 
     function __get($name)
@@ -72,10 +72,7 @@ class Router
         }
 
 
-        if (is_object($this->functions[$method_full])) {
-            d($method_full);
-            exit();
-        }
+
         $controller = $this->controller;
 
 //perform custom routing
