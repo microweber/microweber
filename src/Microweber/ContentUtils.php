@@ -45,7 +45,7 @@ class ContentUtils extends \Microweber\Content
 
             $theurl = $q;
 
-            $more_categories_to_delete = get_categories_for_content($data['id'], 'categories');
+            $more_categories_to_delete = mw('category')->get_for_content($data['id'], 'categories');
         } else {
             if (isset($data['url'])) {
                 $theurl = $data['url'];
@@ -340,7 +340,7 @@ class ContentUtils extends \Microweber\Content
         // mw('cache')->delete('content/global');
         //mw('cache')->delete('content/'.$save);
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
-            $new_category = get_categories_for_content($save);
+            $new_category = mw('category')->get_for_content($save);
 
             if ($new_category == false) {
                 //$new_category_id = intval($new_category);
@@ -1032,7 +1032,7 @@ class ContentUtils extends \Microweber\Content
             $url = mw('url')->string();
         }
 
-        define_constants($page);
+        $this->define_constants($page);
 
 
         $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;

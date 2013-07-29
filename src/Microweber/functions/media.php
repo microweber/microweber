@@ -394,7 +394,7 @@ function save_media($data)
         mw_error('Invalid data');
     }
 }
-
+api_expose('pixum_img');
 function pixum_img()
 {
     $mime_type = "image/jpg";
@@ -605,18 +605,6 @@ function thumbnail_img($params)
 
     exit;
 
-
-    if (file_exists($cache_path)) {
-
-        //$cache_path = mw('url')->link_to_file($cache_path);
-        //$cache_path = file_get_contents($cache_path);
-        //
-        //
-        return $cache_path;
-    } else {
-        return pixum($width, $height);
-    }
-    return false;
 
 }
 

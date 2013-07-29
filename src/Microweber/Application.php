@@ -14,16 +14,22 @@ class Application
 
     public function __construct($config = false)
     {
-        if (is_string($config)) {
-            $this->loadConfigFromFile($config);
-        } else if (!empty($config)) {
-            $this->config = $config;
-        } else {
-            //leave config for later
+
+
+        if ($config != false) {
+            if (is_string($config)) {
+                $this->loadConfigFromFile($config);
+            } else if (!empty($config)) {
+                $this->config = $config;
+            }
         }
 
     }
 
+    public function config($k, $no_static = false)
+    {
+        return $this->c($k, $no_static);
+    }
 
     public function c($k, $no_static = false)
     {
@@ -86,14 +92,16 @@ class Application
 
     public function __get($property)
     {
+
         if (property_exists($this, $property)) {
             return $this->$property;
         } else {
-
+            $property_orig_case = $property;
+            $property = ucfirst($property);
             try {
-                $mw = '\Microweber\\' . $property;
-                $mw = str_replace(array('\\\\','Microweber\Microweber'), array('\\','Microweber'), $mw);
 
+                $mw = '\Microweber\\' . $property;
+                $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
 
 
                 $prop = new $mw($this);
@@ -101,7 +109,7 @@ class Application
                 $prop = new $property($this);
             }
             if (isset($prop)) {
-                return $this->$property = $prop;
+                return $this->$property = $this->$property_orig_case = $prop;
             }
 
         }
@@ -132,15 +140,51 @@ class Application
         }
     }
 
-    public function __call($method, $args)
+    public function __call($class, $constructor_params)
     {
 
 
-        if (!method_exists($this, $method)) {
-            print '111';
-            $this->$method = new $method($args);
+        if (!method_exists($this, $class)) {
 
-            exit();
+
+            $class_name = strtolower($class);
+
+            $class = ucfirst($class);
+            $class = str_replace('/', '\\', $class);
+
+            $mw = '\Microweber\\' . $class;
+            $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+
+            if (!isset($this->providers[$class_name])) {
+                if ($constructor_params == false) {
+
+                    try {
+                        $prop = new $mw($constructor_params);
+                    } catch (Exception $e) {
+                        $prop = new $class($constructor_params);
+                    }
+                    if (isset($prop)) {
+                        $this->providers[$class_name] = $prop;
+                    }
+                } else {
+
+                    try {
+                        $prop = new $mw($constructor_params);
+
+                    } catch (Exception $e) {
+                        $prop = new $class($constructor_params);
+                    }
+                    if (isset($prop)) {
+
+                        $this->providers[$class_name] = $prop;
+                    }
+
+                }
+
+            }
+            return $this->providers[$class_name];
+
+
         }
 
 

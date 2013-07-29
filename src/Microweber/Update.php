@@ -57,7 +57,7 @@ class Update
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = mw_site_url();
 
-        $t = templates_list();
+        $t = mw('ContentUtils')->templates_list();
         $data['templates'] = $t;
 
         //	$t = scan_for_modules("cache_group=modules/global");

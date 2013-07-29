@@ -108,7 +108,7 @@ class Module
         }
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            define_constants();
+            mw('content')->define_constants();
         }
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
@@ -533,7 +533,7 @@ class Module
     {
 
         if (!defined("ACTIVE_TEMPLATE_DIR")) {
-            define_constants();
+            mw('content')->define_constants();
         }
 
         $module_name = trim($module_name);

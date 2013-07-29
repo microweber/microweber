@@ -146,9 +146,9 @@ function mw_autoload($className)
 
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
+$_mw_global_object = null;
 function mw($class, $constructor_params = false)
 {
-
     if ($class != false) {
         global $_mw_registry;
 

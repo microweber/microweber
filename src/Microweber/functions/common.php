@@ -23,7 +23,7 @@ function get_content_admin($params)
 
 api_expose('content_link');
 
-api_expose('pixum_img');
+
 function content_link($id = false)
 {
     return mw('content')->link($id);
@@ -72,40 +72,6 @@ function get_posts($params = false)
 
 
 
-/**
- * Defines all constants that are needed to parse the page layout
- *
- * It accepts array or $content that must have  $content['id'] set
- *
- * @example
- * <code>
- *  Define constants for some page
- *  $ref_page = mw('content')->get_by_id(1);
- *  define_constants($ref_page);
- *  print PAGE_ID;
- *  print POST_ID;
- *  print CATEGORY_ID;
- *  print MAIN_PAGE_ID;
- *  print DEFAULT_TEMPLATE_DIR;
- *  print DEFAULT_TEMPLATE_URL;
- * </code>
- *
- * @package Content
- * @subpackage Advanced
- * @const  PAGE_ID Defines the current page id
- * @const  POST_ID Defines the current post id
- * @const  CATEGORY_ID Defines the current category id if any
- * @const  ACTIVE_PAGE_ID Same as PAGE_ID
- * @const  CONTENT_ID current post or page id
- * @const  MAIN_PAGE_ID the parent page id
- * @const DEFAULT_TEMPLATE_DIR the directory of the site's default template
- * @const DEFAULT_TEMPLATE_URL the url of the site's default template
- */
-function define_constants($content = false)
-{
-
-    return mw('content')->define_constants($content);
-}
 
 
 /**
@@ -350,19 +316,6 @@ function template_headers_src()
 
 }
 
-/**
- * @desc  Get the template layouts info under the layouts subdir on your active template
- * @param $options
- * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
- * @return array
- * @author    Microweber Dev Team
- * @since Version 1.0
- */
-function templates_list($options = false)
-{
-    return \mw('ContentUtils')->templates_list($options);
-
-}
 
 function layout_link($options = false)
 {
@@ -2010,4 +1963,3 @@ function strleft($s1, $s2) {
 }
 
 
- 
