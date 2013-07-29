@@ -93,6 +93,13 @@ class Application
     public function __get($property)
     {
 
+
+
+
+
+
+
+
         if (property_exists($this, $property)) {
             return $this->$property;
         } else {
@@ -192,8 +199,13 @@ class Application
 
     public function __set($property, $value)
     {
-        if (property_exists($this, $property)) {
+
+
+        $property = ucfirst($property);
+        if ( property_exists($this, $property)) {
+
             $this->$property = $value;
+
         }
 
         return $this;

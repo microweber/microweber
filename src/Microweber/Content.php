@@ -205,7 +205,7 @@ class Content
         }
 
         if (defined('PAGE_ID') == false) {
-            define_constants();
+            $this->define_constants();
         }
 
 
@@ -674,7 +674,7 @@ class Content
      * <code>
      *  Define constants for some page
      *  $ref_page = $this->get_by_id(1);
-     *  define_constants($ref_page);
+     *  $this->define_constants($ref_page);
      *  print PAGE_ID;
      *  print POST_ID;
      *  print CATEGORY_ID;
@@ -1133,7 +1133,7 @@ class Content
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
-                define_constants($page);
+                $this->define_constants($page);
             }
         }
 
@@ -1530,7 +1530,7 @@ class Content
             }
         }
         if (!defined('CONTENT_ID')) {
-            define_constants();
+            $this->define_constants();
         }
         $function_cache_id = false;
         $args = func_get_args();
