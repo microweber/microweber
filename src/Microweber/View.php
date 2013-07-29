@@ -6,16 +6,16 @@ class View {
 	var $v;
 
 	function __construct($v) {
-		$this -> v = $v;
+		$this->v = $v;
 	}
 
 	function set($a) {
 		foreach ($a as $k => $v)
-			$this -> $k = $v;
+			$this->$k = $v;
 	}
 
 	function assign($var, $val) {
-		$this -> $var = $val;
+		$this->$var = $val;
 	}
 
 	function __get_vars() {
@@ -25,13 +25,13 @@ class View {
 		extract((array)$this);
 
 		//$old_dir = getcwd();
-		$file_dir = dirname($this -> v) . DS;
+		$file_dir = dirname($this->v) . DS;
 		//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
 
-		// $ext = strtolower(get_file_extension($this -> v));
+		// $ext = strtolower(get_file_extension($this->v));
 
-		require ($this -> v);
+		require ($this->v);
 
 		$content = ob_get_clean();
 		unset($content);
@@ -55,18 +55,18 @@ class View {
         ob_start();
 
 
-		//	set_include_path(dirname($this -> v) . DS . PATH_SEPARATOR . get_include_path());
+		//	set_include_path(dirname($this->v) . DS . PATH_SEPARATOR . get_include_path());
 		//$old_dir = getcwd();
-		$file_dir = dirname($this -> v) . DS;
+		$file_dir = dirname($this->v) . DS;
 
-		$ext = strtolower(get_file_extension($this -> v));
+		$ext = strtolower(get_file_extension($this->v));
 
 		//	set_include_path($file_dir . PATH_SEPARATOR . get_include_path());
 		//chdir($file_dir);
 
 		if ($ext == 'md') {
-			$content = file_get_contents($this -> v);
-			$rel_url = mw('url')->link_to_file(dirname($this -> v)) . '/';
+			$content = file_get_contents($this->v);
+			$rel_url = mw('url')->link_to_file(dirname($this->v)) . '/';
 			//$content = \Microweber\Content\Markdown::defaultTransform($content);
 			$parser = new \Microweber\Content\MarkdownExtra;
 
@@ -95,7 +95,7 @@ class View {
 			unset($parser);
 
 		} else {
-			require ($this -> v);
+			require ($this->v);
 			$content = ob_get_clean();
 		}
 

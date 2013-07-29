@@ -4,34 +4,24 @@
 
 
 
-function api($function_name, $params = false)
-{
-    static $c;
+//function api($function_name, $params = false)
+//{
+//    static $c;
+//
+//    if ($c == false) {
+//        if (!defined('MW_API_RAW')) {
+//            define('MW_API_RAW', true);
+//        }
+//        $c = new \Microweber\Controller();
+//
+//    }
+//    $res = $c->api($function_name, $params);
+//    return $res;
+//
+//}
 
-    if ($c == false) {
-        if (!defined('MW_API_RAW')) {
-            define('MW_API_RAW', true);
-        }
-        $c = new \Microweber\Controller();
 
-    }
-    $res = $c->api($function_name, $params);
-    return $res;
-
-}
-
-function api_expose($function_name)
-{
-    static $index = ' ';
-    if (is_bool($function_name)) {
-
-        return $index;
-    } else {
-        $index .= ' ' . $function_name;
-    }
-}
-
-function exec_action($api_function, $data = false)
+function event_trigger($api_function, $data = false)
 {
     global $mw_action_hook_index;
     $hooks = $mw_action_hook_index;
@@ -80,7 +70,7 @@ function exec_action($api_function, $data = false)
 }
 
 $mw_action_hook_index = array();
-function action_hook($function_name, $next_function_name = false)
+function event_bind($function_name, $next_function_name = false)
 {
     global $mw_action_hook_index;
 
@@ -95,6 +85,16 @@ function action_hook($function_name, $next_function_name = false)
         $mw_action_hook_index[$function_name][] = $next_function_name;
 
         //  $index .= ' ' . $function_name;
+    }
+}
+function api_expose($function_name)
+{
+    static $index = ' ';
+    if (is_bool($function_name)) {
+
+        return $index;
+    } else {
+        $index .= ' ' . $function_name;
     }
 }
 
@@ -150,30 +150,6 @@ function execute_document_ready($l)
     return $l;
 }
 
-/* JS Usage:
- *
- * var source = new EventSource('<?php print mw_site_url('api/event_stream')?>');
- *	source.onmessage = function (event) {
- *
- * 	mw.$('#mw-admin-manage-orders').html(event.data);
- *	};
- *
- *
- *  */
-api_expose('event_stream');
-function event_stream()
-{
-
-    header("Content-Type: text/event-stream\n\n");
-
-    for ($i = 0; $i < 10; $i++) {
-
-        echo 'data: ' . $i . rand() . rand() . rand() . rand() . rand() . rand() . "\n";
-
-    }
-
-    exit();
-}
 
 function array_to_module_params($params, $filter = false)
 {
@@ -243,7 +219,7 @@ function mw_var($key, $new_val = false)
 }
 
 
-action_hook('mw_cron', 'mw_cron');
+event_bind('mw_cron', 'mw_cron');
 api_expose('mw_cron');
 function mw_cron()
 {

@@ -41,6 +41,8 @@ $mtime = microtime();
 
 
 ?>
+    <b>Debug</b>
+    <pre><?php print print_r(mwdbg(true)); ?></pre>
   <?php if(!empty($_SESSION)) { ?>
   <b>Session Data</b> <?php print '<pre>';print_r($_SESSION);print '</pre>'; ?>
   <?php } ?>
@@ -50,18 +52,12 @@ $mtime = microtime();
 <?php print implode("\n", $included_files); ?>
 </pre>
 
-<?php if(function_exists('cache_debug')){ ?>
+
 <b>
 
-Cache hits <?php $ch = cache_debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
+Cache hits <?php $ch = mw('cache')->debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
   <pre><?php print_r( $ch) ?></pre>
  
-   
- 
-  
- 
-		 	<b>Debug</b>
-  <pre><?php print print_r(mwdbg(true)); ?></pre>
-  
- <?php } ?>
+
+
 </div>

@@ -20,11 +20,14 @@ function get_content_admin($params)
 
 
 
+
 api_expose('content_link');
 
-
 api_expose('pixum_img');
-
+function content_link($id = false)
+{
+    return mw('content')->link($id);
+}
 
 function page_link($id = false)
 {
@@ -432,7 +435,7 @@ function layouts_list($options = false)
  
 
 
-action_hook('mw_db_init_options', 'create_mw_shop_default_options');
+event_bind('mw_db_init_options', 'create_mw_shop_default_options');
 function create_mw_shop_default_options()
 {
 
@@ -440,7 +443,7 @@ function create_mw_shop_default_options()
 
 }
 
-action_hook('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
+event_bind('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
 
 function mw_print_admin_menu_shop_btn()
 {
@@ -452,7 +455,7 @@ function mw_print_admin_menu_shop_btn()
     print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">' . _e('Online Shop', true) . '</a></li>';
 }
 
-action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
+event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
 
 function mw_print_admin_dashboard_orders_btn()
 {
@@ -1087,7 +1090,7 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
 }
 
 function get_page_for_category($category_id) {
-    return \mw('category')->mw('content')->get_page($category_id);
+    return \mw('category')->get_page($category_id);
 
 
 }
@@ -1098,7 +1101,7 @@ function get_page_for_category($category_id) {
 
 
 
-action_hook('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
+event_bind('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
 
 function mw_print_admin_menu_selector($params = false)
 {
@@ -1487,7 +1490,7 @@ function uninstall_module($params)
 
 }
 
-action_hook('mw_db_init_modules', 're_init_modules_db');
+event_bind('mw_db_init_modules', 're_init_modules_db');
 
 function re_init_modules_db()
 {
@@ -1569,14 +1572,14 @@ function modules_list($options = false)
     return \mw('Modules')->scan_for_modules($options);
 }
 
-action_hook('mw_scan_for_modules', 'scan_for_modules');
+event_bind('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
     return \mw('Modules')->scan_for_modules($options);
 
 }
 
-action_hook('mw_scan_for_modules', 'get_elements');
+event_bind('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array())
 {
@@ -1716,7 +1719,7 @@ function post_form($params)
 
 
 
-action_hook('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
+event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
 
 function mw_print_admin_backup_settings_link() {
 
@@ -1759,9 +1762,9 @@ function mw_post_update() {
         mw('cache')->delete('modules/global');
         scan_for_modules();
         get_elements();
-        exec_action('mw_db_init_default');
-        exec_action('mw_db_init_modules');
-        exec_action('mw_db_init');
+        event_trigger('mw_db_init_default');
+        event_trigger('mw_db_init_modules');
+        event_trigger('mw_db_init');
 
     }
 
@@ -1923,7 +1926,7 @@ function array_trim($Input)
 }
 
 
-action_hook('rte_image_editor_image_search', 'mw_print_rte_image_editor_image_search');
+event_bind('rte_image_editor_image_search', 'mw_print_rte_image_editor_image_search');
 
 function mw_print_rte_image_editor_image_search() {
     $active = mw('url')->param('view');
@@ -2074,4 +2077,9 @@ function db_escape_string($value)
 function strleft($s1, $s2) {
     return substr($s1, 0, strpos($s1, $s2));
 }
+
+
+
+
+
 

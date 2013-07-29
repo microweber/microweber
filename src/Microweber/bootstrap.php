@@ -331,17 +331,18 @@ function d($v)
     return $ret;
     //return dump($v);
 }
-
+$mwdbg = array();
 function mwdbg($q)
 {
 
-    static $index = array();
+    global $mwdbg;
     if (is_bool($q)) {
-        $index = array_unique($index);
-        return $index;
+
+        return $mwdbg;
     } else {
 
-        $index[] = $q;
+        $mwdbg[] = $q;
+        return $mwdbg;
     }
 
 }

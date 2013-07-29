@@ -126,9 +126,9 @@ if ($is_mysqli != false) {
             }
 
             if (function_exists('exec_action')) {
-                exec_action('mw_db_init');
-                exec_action('mw_db_init_default');
-                exec_action('mw_db_init_modules');
+                event_trigger('mw_db_init');
+                event_trigger('mw_db_init_default');
+                event_trigger('mw_db_init_modules');
             }
 
             if (function_exists('re_init_modules_db')) {

@@ -5,13 +5,23 @@ namespace Microweber;
 
 class Users extends \Microweber\User
 {
-    function __construct()
+
+    public $app;
+
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_USERS")) {
             define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
         }
         if (!defined("MW_DB_TABLE_LOG")) {
             define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+        }
+
+
+        if(is_object($app)){
+            $this->app = $app;
+        } else {
+            $this->app = mw('application');
         }
     }
 
@@ -37,7 +47,7 @@ class Users extends \Microweber\User
             }
         }
 
-        $override = exec_action('before_user_register', $params);
+        $override = event_trigger('before_user_register', $params);
 
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -119,7 +129,7 @@ class Users extends \Microweber\User
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    exec_action('after_user_register', $params);
+                    event_trigger('after_user_register', $params);
                     //user_login('email='.$email.'&password='.$pass);
 
 
@@ -537,7 +547,7 @@ class Users extends \Microweber\User
                         $data = $data_ex[0];
                         $user_session['is_logged'] = 'yes';
                         $user_session['user_id'] = $data['id'];
-                        exec_action('after_user_register', $data);
+                        event_trigger('after_user_register', $data);
                         if (!defined('USER_ID')) {
                             define("USER_ID", $data['id']);
                         }

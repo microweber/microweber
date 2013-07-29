@@ -810,7 +810,7 @@ load_preview();
         </select>
       </div>
     </div>
-    <?php exec_action('mw_edit_page_admin_menus', $data); ?>
+    <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
   </div>
   <div class="vSpace"></div>
   <?php endif; ?>
@@ -1062,11 +1062,11 @@ if(intval($data['id']) == 0){
     <module type="pictures/admin" for="content" for-id=<?php print $data['id'] ?>  />
   </div>
   <?php endif; ?>
-  <?php exec_action('mw_edit_content_admin', $data); ?>
+  <?php event_trigger('mw_edit_content_admin', $data); ?>
   <?php if($edit_post_mode != false): ?>
-  <?php exec_action('mw_edit_post_admin', $data); ?>
+  <?php event_trigger('mw_edit_post_admin', $data); ?>
   <?php else: ?>
-  <?php exec_action('mw_edit_page_admin', $data); ?>
+  <?php event_trigger('mw_edit_page_admin', $data); ?>
   <?php endif; ?>
   <input name="content_type"  type="hidden"  value="<?php print $data['content_type'] ?>" >
   <?php if($edit_post_mode != false): ?>

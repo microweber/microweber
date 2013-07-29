@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-action_hook('mw_db_init', mw('Microweber\User')->db_init());
+event_bind('mw_db_init', mw('Microweber\User')->db_init());
 
 class User
 {
@@ -54,8 +54,8 @@ class User
      *
      * <code>
      * Here is example:
-     * action_hook('before_user_login', 'custom_login_function'); //executed before making login query
-     * action_hook('on_user_login', 'custom_after_login_function'); //executed after successful login
+     * event_bind('before_user_login', 'custom_login_function'); //executed before making login query
+     * event_bind('on_user_login', 'custom_after_login_function'); //executed after successful login
      * </code>
      * @package Users
      * @category Users
@@ -67,7 +67,7 @@ class User
      * @uses save_log()
      * @uses user_login_set_failed_attempt()
      * @uses user_update_last_login_time()
-     * @uses exec_action()
+     * @uses event_trigger()
      * @function user_login()
      * @see _table() For the database table fields
      */
@@ -76,7 +76,7 @@ class User
         $params2 = array();
 
 
-        $override = exec_action('before_user_login', $params);
+        $override = event_trigger('before_user_login', $params);
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
@@ -229,7 +229,7 @@ class User
                 user_set_logged($data['id']);
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                        exec_action('user_login_admin');
+                        event_trigger('user_login_admin');
                         $p = mw('content')->get_page();
                         if (!empty($p)) {
                             $link = page_link($p['id']);
@@ -563,7 +563,7 @@ class User
 
 
                     }
-                    exec_action('user_login', $data);
+                    event_trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
                     user_update_last_login_time();

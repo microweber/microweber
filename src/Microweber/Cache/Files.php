@@ -75,11 +75,11 @@ class Files
 
         /*if (is_file($cache_group_lock)) {
 
-            if ($this -> mw_cache_lock_time == false) {
-                $this -> mw_cache_lock_time = filemtime($cache_group_lock);
+            if ($this->mw_cache_lock_time == false) {
+                $this->mw_cache_lock_time = filemtime($cache_group_lock);
             }
 
-            if ($this -> mw_cache_lock_time > time() - $this -> mw_cache_lock_timeout) {
+            if ($this->mw_cache_lock_time > time() - $this->mw_cache_lock_timeout) {
                 //	d($cache_group_lock);
                 //	print 'aaaaa';
                 return false;
@@ -216,7 +216,7 @@ class Files
 
 
             } catch (Exception $e) {
-                // $this -> cache_storage[$cache_id] = $content;
+                // $this->cache_storage[$cache_id] = $content;
                 $cache = false;
             }
         }
@@ -455,14 +455,14 @@ class Files
         }
 
 
-        /*$dir_lock = $this -> cache_get_dir('delete_lock');
+        /*$dir_lock = $this->cache_get_dir('delete_lock');
         $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
 
         if (is_file($cache_group_lock)) {
-            if ($this -> mw_cache_lock_time == false) {
-                $this -> mw_cache_lock_time = filemtime($cache_group_lock);
+            if ($this->mw_cache_lock_time == false) {
+                $this->mw_cache_lock_time = filemtime($cache_group_lock);
             }
-            if ($this -> mw_cache_lock_time > time() - $this -> mw_cache_lock_timeout) {
+            if ($this->mw_cache_lock_time > time() - $this->mw_cache_lock_timeout) {
                 mwdbg($cache_group_lock);
                 // print 'aQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa';
                 return false;

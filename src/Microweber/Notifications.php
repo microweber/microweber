@@ -1,14 +1,14 @@
 <?php
 namespace Microweber;
 
-//action_hook('mw_db_init_default', '\Microweber\Notifications\db_init');
+//event_bind('mw_db_init_default', '\Microweber\Notifications\db_init');
 
 
 api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
 
-action_hook('mw_db_init', mw('Microweber\Notifications')->db_init());
+event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
 
 
 class Notifications
@@ -179,7 +179,7 @@ class Notifications
         \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
         \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        mw('cache')->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;
 
     }

@@ -4,7 +4,7 @@ if (!defined("MODULE_DB_USERS_ONLINE")) {
 	define('MODULE_DB_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
 }
 
-action_hook('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
+event_bind('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
 
 function mw_print_stats_on_dashboard() {
 	$active = mw('url')->param('view');
@@ -59,7 +59,7 @@ function mw_uninstall_stats_module() {
 
 //document_ready('stats_append_image');
 
-action_hook('frontend', 'stats_append_image');
+event_bind('frontend', 'stats_append_image');
 
 function stats_append_image($layout = false) {
 

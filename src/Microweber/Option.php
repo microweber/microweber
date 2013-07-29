@@ -1,10 +1,10 @@
 <?php
 namespace Microweber;
 
-action_hook('mw_db_init', mw('Microweber\Option')->db_init());
+event_bind('mw_db_init', mw('Microweber\Option')->db_init());
 
 
-action_hook('mw_db_init_options', mw('Microweber\Option')->db_init());
+event_bind('mw_db_init_options', mw('Microweber\Option')->db_init());
 api_expose('save_option');
 $_mw_global_options_mem = array();
 class Option

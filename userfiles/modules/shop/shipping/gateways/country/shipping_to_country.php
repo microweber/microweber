@@ -16,7 +16,7 @@ class shipping_to_country {
 	// private constructor function
 	// to prevent external instantiation
 	function __construct() {
-		$this -> table = MW_TABLE_PREFIX . 'cart_shipping';
+		$this->table = MW_TABLE_PREFIX . 'cart_shipping';
 	}
 	
 	
@@ -42,7 +42,7 @@ class shipping_to_country {
 			if (isset($data['id']) and intval($data['id']) > 0) {
 				
 				} else {
-			$check = $this ->mw('db')->get('shiping_country=' . $data['shiping_country']);
+			$check = mw('db')->get('shiping_country=' . $data['shiping_country']);
 			if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
 				$data['id'] = $check[0]['id'];
 			}
@@ -52,7 +52,7 @@ class shipping_to_country {
 			 
 		
 
-		$data = mw('db')->save($this -> table, $data);
+		$data = mw('db')->save($this->table, $data);
 		return ($data);
 	}
 
@@ -67,7 +67,7 @@ class shipping_to_country {
 			$params = $params2;
 		}
 
-		$params['table'] = $this -> table;
+		$params['table'] = $this->table;
 
 		if (!isset($params['order_by'])) {
 		 $params['order_by'] = 'position ASC';
@@ -87,7 +87,7 @@ class shipping_to_country {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id($this -> table, $c_id);
+		db_delete_by_id($this->table, $c_id);
 
 		//d($c_id);
 	}
@@ -135,7 +135,7 @@ class shipping_to_country {
         mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
     }
  
-	$table =  $this -> table;
+	$table =  $this->table;
 
     
     foreach ($data as $value) {

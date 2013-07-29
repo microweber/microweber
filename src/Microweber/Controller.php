@@ -38,27 +38,16 @@ class Controller
     public $vars = array();
     public $app;
 
-    public function __construct($app=null)
+    public function __construct($app = null)
     {
         //$this->app = $app;
 
-        if(is_object($app)){
+        if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = mw('app');
+            $this->app = mw('application');
         }
 
-        /*
-                if (!defined('MW_IS_INSTALLED')) {
-
-                    $installed =  $this->app->c('installed');
-
-                     if (strval($installed) != 'yes') {
-                        define('MW_IS_INSTALLED', false);
-                    } else {
-                        define('MW_IS_INSTALLED', true);
-                    }
-                }*/
 
     }
 
@@ -187,8 +176,8 @@ class Controller
 
         if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
 
-            if (isset($_GET['content_id']) and intval($_GET['content_id']) != 0) {
-                $page = mw('content')->get_by_id($_GET['content_id']);
+            if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
+                $page = mw('content')->get_by_id($_REQUEST['content_id']);
 
             } else {
 
@@ -466,6 +455,19 @@ class Controller
 
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
+            if ($is_layout_file == 'inherit') {
+                if (isset($_REQUEST['inherit_template_from']) and intval($_REQUEST['inherit_template_from']) != 0) {
+                    $inherit_layout_from_this_page = mw('content')->get_by_id($_REQUEST['inherit_template_from']);
+
+                    if (isset($inherit_layout_from_this_page['layout_file']) and $inherit_layout_from_this_page['layout_file'] != 'inherit') {
+                        $is_layout_file = $inherit_layout_from_this_page['layout_file'];
+                    }
+
+                    if (isset($inherit_layout_from_this_page['layout_file']) and $inherit_layout_from_this_page['layout_file'] != 'inherit') {
+                        $is_layout_file = $inherit_layout_from_this_page['layout_file'];
+                    }
+                }
+            }
             $content['layout_file'] = $is_layout_file;
         }
         if ($is_custom_view and $is_custom_view != false) {
@@ -592,7 +594,7 @@ class Controller
                 }
 
             }
-            exec_action('on_load', $content);
+            event_trigger('on_load', $content);
 
             //mw('content')->debug_info();
             $l = mw('parser')->process($l, $options = false);
@@ -667,7 +669,7 @@ class Controller
 
             $is_admin = is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
-            exec_action('site_header', TEMPLATE_NAME);
+            event_trigger('site_header', TEMPLATE_NAME);
 
 
             if (function_exists('template_headers_src')) {
@@ -819,7 +821,7 @@ class Controller
 
             $l = execute_document_ready($l);
 
-            exec_action('frontend');
+            event_trigger('frontend');
 
             $is_embed = $this->app->Url->param('embed');
 
@@ -830,7 +832,7 @@ class Controller
             if ($this->isolate_by_html_id != false) {
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
-                //require_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                //require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = phpQuery::newDocument($l);
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
@@ -878,8 +880,8 @@ class Controller
             define('MW_BACKEND', true);
         }
         if (MW_IS_INSTALLED == true) {
-            //exec_action('mw_db_init');
-            // exec_action('mw_cron');
+            //event_trigger('mw_db_init');
+            // event_trigger('mw_cron');
         }
 
         //create_mw_default_options();
@@ -887,7 +889,7 @@ class Controller
         $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
-        exec_action('on_load');
+        event_trigger('on_load');
 
         $layout = mw('parser')->process($l, $options = false);
         $layout = execute_document_ready($layout);
@@ -907,7 +909,7 @@ class Controller
     public function rss()
     {
         if (MW_IS_INSTALLED == true) {
-            exec_action('mw_cron');
+            event_trigger('mw_cron');
         }
     }
 
@@ -1780,8 +1782,8 @@ class Controller
         }
 
         if (MW_IS_INSTALLED == true) {
-            //exec_action('mw_db_init');
-            //  exec_action('mw_cron');
+            //event_trigger('mw_db_init');
+            //  event_trigger('mw_cron');
         }
 
         $tool = $this->app->Url->segment(1);

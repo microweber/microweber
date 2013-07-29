@@ -461,8 +461,8 @@ class Update
             //d($data);
             mw('cache')->delete('update/global');
             mw('cache')->delete('db');
-            exec_action('mw_db_init_default');
-            exec_action('mw_db_init_modules');
+            event_trigger('mw_db_init_default');
+            event_trigger('mw_db_init_modules');
 
         }
         return $result;
@@ -551,7 +551,7 @@ class Update
 
         if ($post_params != false and is_array($post_params)) {
 
-            //$post_params = $this -> http_build_query_for_curl($post_params);
+            //$post_params = $this->http_build_query_for_curl($post_params);
 
             $post_paramsbase64 = base64_encode(serialize($post_params));
             $post_paramssjon = base64_encode(json_encode($post_params));

@@ -44,7 +44,7 @@ class memcache implements \iMwCache {
 						if ($available && @$memcache -> connect($host, $port)) {
 							// memcache is there
 							$conn = 1;
-							$this -> connected_server = $memcache;
+							$this->connected_server = $memcache;
 
 						} else {
 							$conn = false;
@@ -55,11 +55,11 @@ class memcache implements \iMwCache {
 
 		} else {
 			//falling back to the files cache
-			$this -> cache_fallback = new files;
+			$this->cache_fallback = new files;
 
 		}
-		if ($this -> connected_server == false) {
-			$this -> cache_fallback = new files;
+		if ($this->connected_server == false) {
+			$this->cache_fallback = new files;
 		}
 		//d($this->servers);
 
@@ -67,32 +67,32 @@ class memcache implements \iMwCache {
 
 	public function save($data_to_cache, $cache_id, $cache_group = 'global') {
 
-		if ($this -> connected_server == false) {
-			return $this -> cache_fallback -> save($data_to_cache, $cache_id, $cache_group);
+		if ($this->connected_server == false) {
+			return $this->cache_fallback -> save($data_to_cache, $cache_id, $cache_group);
 		}
 		$cache_id = $cache_id . $cache_group;
 		$data_to_cache = serialize($data_to_cache);
 		$cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
-		return $this -> connected_server -> set($cache_id, $cache, false, APC_EXPIRES);
+		return $this->connected_server -> set($cache_id, $cache, false, APC_EXPIRES);
 
 	}
 
 	public function delete($cache_group = 'global') {
-		if ($this -> connected_server == false) {
-			return $this -> cache_fallback -> delete($cache_group);
+		if ($this->connected_server == false) {
+			return $this->cache_fallback -> delete($cache_group);
 		}
 
-		return $this -> connected_server -> flush();
+		return $this->connected_server -> flush();
 
 	}
 
 	public function debug() {
 
-		if ($this -> connected_server == false) {
-			return $this -> cache_fallback -> debug();
+		if ($this->connected_server == false) {
+			return $this->cache_fallback -> debug();
 		}
 
-		$status = $this -> connected_server -> getStats();
+		$status = $this->connected_server -> getStats();
 
 		echo "<table border='1'>";
 
@@ -132,12 +132,12 @@ class memcache implements \iMwCache {
 
 	public function get($cache_id, $cache_group = 'global', $time = false) {
 
-		if ($this -> connected_server == false) {
-			return $this -> cache_fallback -> get($cache_id, $cache_group, $time);
+		if ($this->connected_server == false) {
+			return $this->cache_fallback -> get($cache_id, $cache_group, $time);
 		}
 
 		$cache_id_saved = $cache_id . $cache_group;
-		$cache = $this -> connected_server -> get($cache_id_saved);
+		$cache = $this->connected_server -> get($cache_id_saved);
 
 		if ($cache) {
 			if (isset($cache) and strval($cache) != '') {
@@ -159,10 +159,10 @@ class memcache implements \iMwCache {
 	}
 
 	public function purge() {
-		if ($this -> connected_server == false) {
-			return $this -> cache_fallback -> purge();
+		if ($this->connected_server == false) {
+			return $this->cache_fallback -> purge();
 		}
-		return $this -> connected_server -> flush();
+		return $this->connected_server -> flush();
 	}
 
 	//$mw_cache_mem = array();

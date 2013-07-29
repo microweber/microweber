@@ -2,7 +2,7 @@
 namespace Microweber;
 
 
-action_hook('mw_db_init', mw('Microweber\Notifications')->db_init());
+event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
 
 class Forms
 {

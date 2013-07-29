@@ -3,7 +3,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
 	define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
 
-action_hook('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
+event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn() {
 	$active = mw('url')->param('view');
@@ -19,7 +19,7 @@ function mw_print_admin_dashboard_comments_btn() {
 	print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">' . $notif_html . '</span><span>Comments</span></a></li>';
 }
 
-//action_hook('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
+//event_bind('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
 
 function mw_print_admin_comments_settings_link() {
 	$active = mw('url')->param('view');

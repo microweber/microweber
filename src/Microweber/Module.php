@@ -3,7 +3,7 @@ namespace Microweber;
 
 
 $_mw_modules_info_register = array();
-action_hook('mw_db_init', mw('Microweber\Module')->db_init());
+event_bind('mw_db_init', mw('Microweber\Module')->db_init());
 
 
 $mw_mod_counter = 0;

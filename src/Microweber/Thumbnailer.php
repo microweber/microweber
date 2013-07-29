@@ -36,7 +36,7 @@ class Thumbnailer {
 
 
 		if ($image) {
-			$this -> setImage($image);
+			$this->setImage($image);
 		}
 
 
@@ -46,8 +46,8 @@ class Thumbnailer {
 	}
 
 	public function setImage($image) {
-		if (is_file($image) && ($this -> sizes = getimagesize($image)))
-			$this -> image = $image;
+		if (is_file($image) && ($this->sizes = getimagesize($image)))
+			$this->image = $image;
 	}
 
 	/*  createThumb creates and saves a thumbnail
@@ -56,10 +56,10 @@ class Thumbnailer {
 	 */
 
 	public function createThumb(Array $specifications, $outputPath) {
-		if (!strlen($this -> image))
+		if (!strlen($this->image))
 			return;
-		$sizes = $this -> sizes;
-		$originalImage = $this -> loadImage($this -> image, $sizes['mime']);
+		$sizes = $this->sizes;
+		$originalImage = $this->loadImage($this->image, $sizes['mime']);
 		$newWidth = 0;
 		$newHeight = 0;
 
@@ -99,7 +99,7 @@ class Thumbnailer {
 			//to preserve transpacency
 			//  $outputPath = str_replace('.gif', '.png', $outputPath);
 		}
-		$this -> saveImage($im, $outputPath, $type);
+		$this->saveImage($im, $outputPath, $type);
 
 		// Free up memory
 		imagedestroy($im);
@@ -125,14 +125,14 @@ class Thumbnailer {
 	private function loadImage($imgname, $type) {
 		switch ($type) {
 			case 'image/gif' :
-				$im = $this -> LoadGif($imgname);
+				$im = $this->LoadGif($imgname);
 				break;
 			case 'image/jpeg' :
 			case 'image/jpg' :
-				$im = $this -> LoadJpeg($imgname);
+				$im = $this->LoadJpeg($imgname);
 				break;
 			case 'image/png' :
-				$im = $this -> LoadPNG($imgname);
+				$im = $this->LoadPNG($imgname);
 		}
 		return $im;
 	}
@@ -152,7 +152,7 @@ class Thumbnailer {
 		$im = @imagecreatefromjpeg($imgname);
 		/* Attempt to open */
 		if (!$im) {/* See if it failed */
-			$im = $this -> imageerror();
+			$im = $this->imageerror();
 		}
 		return $im;
 	}
@@ -161,7 +161,7 @@ class Thumbnailer {
 		$im = @imagecreatefromgif($imgname);
 		/* Attempt to open */
 		if (!$im) {/* See if it failed */
-			$im = $this -> imageerror();
+			$im = $this->imageerror();
 		}
 		return $im;
 	}
@@ -171,7 +171,7 @@ class Thumbnailer {
 
 		/* Attempt to open */
 		if (!$im) {/* See if it failed */
-			$im = $this -> imageerror();
+			$im = $this->imageerror();
 		}
 		return $im;
 	}

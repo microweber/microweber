@@ -136,9 +136,9 @@ $cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
 
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
     if ($cache_content_init != 'yes') {
-        exec_action('mw_db_init_default');
-        exec_action('mw_db_init_options');
-        exec_action('mw_db_init_users');
+        event_trigger('mw_db_init_default');
+        event_trigger('mw_db_init_options');
+        event_trigger('mw_db_init_users');
     }
     $curent_time_zone = mw('option')->get('time_zone', 'website');
     if ($curent_time_zone != false and $curent_time_zone != '') {
@@ -159,7 +159,7 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
     if ($cache_content_init != 'yes') {
-        exec_action('mw_db_init_modules');
+        event_trigger('mw_db_init_modules');
     }
 
 }
@@ -182,7 +182,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
     if (MW_IS_INSTALLED == true) {
 
         if (($cache_content_init) == false) {
-            exec_action('mw_db_init');
+            event_trigger('mw_db_init');
             //mw('cache')->save('true', $c_id, 'db');
 
             $installed = array();
@@ -193,7 +193,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 
         }
 
-        //exec_action('mw_cron');
+        //event_trigger('mw_cron');
     }
 }
 

@@ -10,7 +10,7 @@ class api {
 			mkdir($cookie);
 		}
 		$cookie_file = $cookie . 'cookie.txt';
-		$requestUrl = $this -> remote_api_url;
+		$requestUrl = $this->remote_api_url;
 		if ($method != false) {
 			$requestUrl = $requestUrl . '?numia_api_function=' . $method;
 		}
@@ -24,7 +24,7 @@ class api {
 
 		if ($post_params != false and is_array($post_params)) {
 
-			$post_params = $this -> http_build_query_for_curl($post_params);
+			$post_params = $this->http_build_query_for_curl($post_params);
 
 			curl_setopt($ch, CURLOPT_POST, count($post_params));
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
@@ -44,7 +44,7 @@ class api {
 		foreach ($arrays AS $key => $value) {
 			$k = isset($prefix) ? $prefix . '[' . $key . ']' : $key;
 			if (is_array($value) OR is_object($value)) {
-				$this -> http_build_query_for_curl($value, $new, $k);
+				$this->http_build_query_for_curl($value, $new, $k);
 			} else {
 				$new[$k] = $value;
 			}

@@ -7,7 +7,7 @@ if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }
 
-
+error_reporting(E_ALL);
 if (!isset($_SERVER["SERVER_NAME"])) {
     $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
 } else {
@@ -27,7 +27,7 @@ require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 
 $mw = new \Microweber\Application(MW_CONFIG_FILE);
 // or
-//$mw = mw('app');
+//$mw = mw('application');
 
 
 $installed = $mw->c('installed');

@@ -72,7 +72,7 @@ class Events {
 	// array to store user callbacks
 
 	public function __construct() {
-		$this -> callbacks = array();
+		$this->callbacks = array();
 		register_shutdown_function(array($this, 'callRegisteredShutdown'));
 	}
 
@@ -87,7 +87,7 @@ class Events {
 			trigger_error('Invalid callback passed to the ' .$callback[0]. __FUNCTION__ . ' method', E_USER_ERROR);
 			return false;
 		}
-		$this -> callbacks[] = $callback;
+		$this->callbacks[] = $callback;
 		return true;
 	}
 

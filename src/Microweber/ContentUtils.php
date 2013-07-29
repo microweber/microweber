@@ -290,7 +290,7 @@ class ContentUtils
                 unset($data_to_save['content']);
                 //
             } else {
-                $data_to_save['content'] = make_microweber_tags($data_to_save['content']);
+                $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
             }
         }
 
@@ -418,7 +418,7 @@ class ContentUtils
             }
         }
 
-        exec_action('mw_save_content');
+        event_trigger('mw_save_content');
         //session_write_close();
         return $save;
 
@@ -627,7 +627,7 @@ class ContentUtils
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content = make_microweber_tags($html_to_save);
+                        $html_to_save = $content = mw('parser')->make_tags($html_to_save);
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
 
@@ -718,7 +718,7 @@ class ContentUtils
                             }
 
 
-                            $cont_field['value'] = make_microweber_tags($html_to_save);
+                            $cont_field['value'] = mw('parser')->make_tags($html_to_save);
                             ;
                             if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];

@@ -2,7 +2,7 @@
 
  
 
-action_hook('mw_admin_shop_link', 'mw_admin_accounting_link');
+event_bind('mw_admin_shop_link', 'mw_admin_accounting_link');
 
 function mw_admin_accounting_link() {
 	$active_action = mw('url')->param('view');

@@ -169,7 +169,7 @@
 
             </div>
 
-             <?php exec_action('mw_editor_btn'); ?>
+             <?php event_trigger('mw_editor_btn'); ?>
             
             
         </div>

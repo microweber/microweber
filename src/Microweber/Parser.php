@@ -3,6 +3,7 @@ namespace Microweber;
 $passed_reps = array();
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
+$replaced_modules = array();
 class Parser
 {
 
@@ -12,66 +13,12 @@ class Parser
 
 
 
-        static $checker = array();
-        global $passed_reps;
-        global $parser_cache_object;
+        global $replaced_modules;
 
 
 
-        $d = 1;
-        $parser_mem_crc = 'parser_' . crc32($layout);
-
-//	if (isset($passed_reps[$parser_mem_crc])) {
-//
-//	    return $layout;
-//	} else {
-//       $passed_reps[$parser_mem_crc] = true;
-//    }
-
-        $use_apc = false;
-        if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
-            $use_apc = true;
 
 
-            if (!is_object($parser_cache_object)) {
-                $parser_cache_object = new \Microweber\Cache\Apc();
-
-            }
-
-
-        }
-
-
-        if (is_array($options)) {
-            // d($options);
-            if (isset($options['no_apc'])) {
-                $use_apc = false;
-            }
-        }
-        //
-        //    if ($use_apc == true) {
-        //
-        //        $function_cache_id = false;
-        //
-        //        $args = func_get_args();
-        //
-        //        foreach ($args as $k => $v) {
-        //
-        //            $function_cache_id = serialize($k) . serialize($v) . $coming_from_parent_id;
-        //        }
-        //
-        //        $function_cache_id = __FUNCTION__ . crc32($layout);
-        //
-        //        $quote = false;
-        //
-        //        $quote = apc_fetch($function_cache_id);
-        //
-        //
-        //        if ($quote) {
-        //
-        //            return $quote;
-        //        }
-        //    }
 
         if (!isset($options['parse_only_vars'])) {
 
@@ -94,12 +41,10 @@ class Parser
                         $v1 = crc32($value);
                         $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
-                        // $layout = str_replace_count($value, $v1, $layout,1);
-                        if (!isset($replaced_scripts[$v1])) {
+                         if (!isset($replaced_scripts[$v1])) {
                             $replaced_scripts[$v1] = $value;
                         }
-                        // p($value);
-                    }
+                     }
                 }
             }
 
@@ -113,72 +58,21 @@ class Parser
                         $v1 = crc32($value);
                         $v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
-                        // $layout = str_replace_count($value, $v1, $layout,1);
-                        if (!isset($replaced_scripts[$v1])) {
+                         if (!isset($replaced_scripts[$v1])) {
                             $replaced_codes[$v1] = $value;
                         }
-                        //  p($replaced_codes);
-                    }
+                     }
                 }
             }
 
 
-            $parse_mode = 4;
-            if (isset($options['parse_only_modules'])) {
-                $parse_mode = false;
-            }
-
-            $parse_mode = 5;
-            if (isset($options['parse_mode'])) {
-                $parse_mode = intval($options['parse_mode']);
-            }
 
 
-            switch ($parse_mode) {
-                case 1 :
-                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '01_default.php');
+            preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
+             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
 
-                    break;
+                $layout = $this->_replace_editable_fields($layout);
 
-                case 2 :
-                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '02_default.php');
-
-                    break;
-                case 3 :
-                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '03_default.php');
-
-                    break;
-
-                case 4 :
-                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '04_default.php');
-
-                    break;
-
-                case 5 :
-//                $mtime = microtime();
-//                $mtime = explode(" ", $mtime);
-//                $mtime = $mtime[1] + $mtime[0];
-//                $endtime = $mtime;
-//                $totaltime = ($endtime - T);
-//                echo "This page was created in " . $totaltime . " seconds";
-//
-                    preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
-                    // d($layoutmatches);
-                    if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
-                        // include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '05_default.php');
-
-                        $layout = $this->_replace_editable_fields($layout);
-
-                    }
-                    break;
-
-                case 345434536 :
-                    include (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . '06_default.php');
-
-                    break;
-
-                default :
-                    break;
             }
 
 
@@ -187,7 +81,7 @@ class Parser
             $layout = str_replace('></module>', '/>', $layout);
             $script_pattern = "/<module[^>]*>/Uis";
             //$script_pattern = "/<module.*.[^>]*>/is";
-            $replaced_modules = array();
+
             preg_match_all($script_pattern, $layout, $mw_script_matches);
 
             if (!empty($mw_script_matches)) {
@@ -207,82 +101,7 @@ class Parser
                     }
                 }
             }
-            // mw('content')->debug_info();
-//print_r(debug_backtrace());
 
-
-            /*
-             $layout = str_replace('<mw ', '<module ', $layout);
-             $layout = str_replace('<editable ', '<div class="edit" ', $layout);
-             $layout = str_replace('</editable>', '</div>', $layout);
-
-             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
-             $layout = str_replace('</microweber>', '', $layout);
-             $layout = str_replace('></module>', '/>', $layout);
-             $script_pattern = "/<module[^>]*>/Uis";
-
-             //$script_pattern = "/<module.*.[^>]*>/is";
-             preg_match_all($script_pattern, $layout, $mw_script_matches);
-
-             if (!empty($mw_script_matches)) {
-             $matches1 = $mw_script_matches[0];
-             foreach ($matches1 as $key => $value) {
-             if ($value != '') {
-             $v1 = crc32($value);
-             $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
-             $layout = str_replace($value, $v1, $layout);
-             // $layout = str_replace_count($value, $v1, $layout,1);
-             if (!isset($replaced_modules[$v1])) {
-
-             $replaced_modules[$v1] = $value;
-             }
-             // p($value);
-             }
-             }
-             }*/
-
-            //  echo $dom->output();
-
-            /*
-             */
-
-            /*
-             * foreach($pq['mw'] as $elem) { $name = pq($elem)->attr('module');
-             * $attributes = array(); $ats = $elem->attributes; $module_html = "<module
-             * "; if (!empty($ats)) { foreach($ats as $attribute_name =>
-             * $attribute_node) { $v = $attribute_node->nodeValue; $module_html .= "
-             * {$attribute_name}='{$v}' "; } } $module_html. ' />';
-             * pq($elem)->replaceWith($module_html) ; } $els = $pq['footer']; //$els =
-             * pq('module')->filter(':not(script)'); foreach ($els as $elem) { $name =
-             * pq($elem) -> attr('module'); $attrs = $elem -> attributes; $z = 0;
-             * foreach ($attrs as $attribute_node) { $nn = $attribute_node -> nodeName;
-             * $v = $nv = $attribute_node -> nodeValue; if ($z == 0) { $module_name =
-             * $nn; } else { } $mod_attributes[$nn] = $nv; if ($nn == 'module') {
-             * $module_name = $nv; } if ($nn == 'type') { $module_name = $nv; } if ($nn
-             * == 'data-type') { $module_name = $nv; } if ($nn == 'data-module') {
-             * $module_name = $nv; } $z++; } // $mod_content = load_module($module_name,
-             * $attrs); $mod_content = mw('parser')->process($mod_content); if
-             * ($mod_content != false) { $module_html = "<div class='module' "; if
-             * (!empty($attrs)) { foreach ($attrs as $attribute_name => $attribute_node)
-             * { $v = $attribute_node -> nodeValue; $module_html .= "
-             * {$attribute_name}='{$v}' "; } } $module_html .= '>' . $mod_content .
-             * '</div>'; pq($elem) -> replaceWith($module_html); } } if
-             * ($options['mw_embed']) { $em = trim($options['mw_embed']); if ($em != '')
-             * { foreach ($pq['#'.$em] as $elem) { pq($elem) -> parents('body') ->
-             * replaceWith($elem); } } }
-             */
-            // $layout = $pq;
-            // $layout = str_replace('<mw-script ', '<script ', $layout);
-            // $layout = str_replace('</mw-script', '</script', $layout);
-            // .$layout = html_entity_decode($layout, ENT_NOQUOTES, "UTF-8");
-            // if (!empty($scripts)) {
-            // if(!empty($mw_script_matches)){
-            // $mw_script_matches = $mw_script_matches[0];
-            // }
-            //
-            //
-
-            //
 
             if (!empty($replaced_scripts)) {
                 foreach ($replaced_scripts as $key => $value) {
@@ -312,6 +131,7 @@ class Parser
                 //$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
                 $attrs = array();
                 foreach ($replaced_modules as $key => $value) {
+                    unset($replaced_modules[$key]);
                     if ($value != '') {
 
 
@@ -545,7 +365,7 @@ class Parser
 
                                 $mod_content = load_module($module_name, $attrs);
 
-
+                               // mwdbg($module_name);
                                 $plain_modules = mw_var('plain_modules');
                                 if ($plain_modules != false) {
                                     //d($plain_modules);
@@ -593,6 +413,7 @@ class Parser
 
                                 }
 
+                             //   $proceed_with_parse = 1;
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -621,7 +442,7 @@ class Parser
                         }
                         //
                     }
-                    unset($replaced_modules[$replace_key]);
+
                     // $layout = str_replace($key, $value, $layout);
                 }
             }
@@ -643,7 +464,6 @@ class Parser
         $layout = str_replace('{MW_SITE_URL}', mw_site_url(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', mw_site_url(), $layout);
 
-        $checker[$d] = 1;
 
 
         return $layout;
@@ -656,9 +476,6 @@ class Parser
         if ($layout == '') {
             return $layout;
         }
-
-        require_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'parser' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
         $replaced_scripts = array();
         preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -831,6 +648,7 @@ class Parser
 
             if ($no_cache == false) {
                 $cache = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser');
+
                 if ($cache != false) {
 
 

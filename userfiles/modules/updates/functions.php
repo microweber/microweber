@@ -1,7 +1,7 @@
 <?php
 
 
-action_hook('mw_admin_settings_menu', 'mw_print_admin_updates_settings_link');
+event_bind('mw_admin_settings_menu', 'mw_print_admin_updates_settings_link');
 
 function mw_print_admin_updates_settings_link() {
 	$active = mw('url')->param('view');

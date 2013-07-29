@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-action_hook('mw_db_init', mw('Microweber\Content')->db_init());
+event_bind('mw_db_init', mw('Microweber\Content')->db_init());
 
 /**
  * This file holds useful functions to work with content

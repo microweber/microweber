@@ -251,15 +251,17 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Initializing options');
 
 
-                exec_action('mw_db_init_options');
-                exec_action('mw_db_init_users');
+                event_trigger('mw_db_init_options');
+                event_trigger('mw_db_init_users');
 
 
                 __mw_install_log('Creating default database tables');
-                exec_action('mw_db_init_default');
+                event_trigger('mw_db_init_default');
+                event_trigger('mw_db_init');
+
 
                 __mw_install_log('Creating modules database tables');
-                exec_action('mw_db_init_modules');
+                event_trigger('mw_db_init_modules');
 
 
                 if (MW_IS_INSTALLED != true) {
@@ -284,7 +286,7 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Loading modules');
 
-                exec_action('mw_scan_for_modules');
+                event_trigger('mw_scan_for_modules');
 
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'yes';
@@ -319,7 +321,7 @@ if (isset($to_save['is_installed'])) {
                         ob_get_clean();
                         __mw_install_log('Default content is installed');
 
-                        // exec_action('mw_scan_for_modules');
+                        // event_trigger('mw_scan_for_modules');
                         //d($to_save['with_default_content']);
                     }
 
