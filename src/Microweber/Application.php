@@ -24,6 +24,12 @@ class Application
             }
         }
 
+        global $_mw_global_object;
+        if(!is_object($_mw_global_object)){
+            $_mw_global_object = $this;
+        }
+
+
     }
 
     public function config($k, $no_static = false)

@@ -40,6 +40,7 @@ class Media
 
     public function get_picture($content_id, $for = 'post', $full = false)
     {
+
         $arr = array();
         $arr['rel'] = 'content';
         $arr['limit'] = '1';
