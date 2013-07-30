@@ -77,7 +77,7 @@ class Sender
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = "notifications/email";
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if ($no_cache == false and ($cache_content) != false) {
 
@@ -103,7 +103,7 @@ class Sender
                 }
 
                 $res -> exec_send($to, $subject, $message);
-                mw('cache')->save(true, $function_cache_id, $cache_group);
+                $this->app->cache->save(true, $function_cache_id, $cache_group);
                 return true;
             } else {
                 return false;

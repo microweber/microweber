@@ -179,7 +179,7 @@ class Cache
      * @example
      * <code>
      * //delete all cache
-     *  mw('cache')->flush();
+     *  $this->app->cache->flush();
      * </code>
      * @return boolean
      * @package Cache

@@ -5,6 +5,21 @@ namespace Microweber\Content;
 class Ping
 {
 
+    public $app;
+
+    function __construct($app=null)
+    {
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+    }
     /**
      * Async caller for content_ping_servers
      * @category Content
@@ -98,7 +113,7 @@ class Ping
                 $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . mw_site_url('sitemap.xml');
                 $curl->timeout = 3;
                 $result1 = $curl->execute();
-                mw('cache')->delete('content/ping');
+                $this->app->cache->delete('content/ping');
             }
         }
     }

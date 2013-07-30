@@ -21,6 +21,25 @@ class Db
 {
 
 
+    public $app;
+    function __construct($app=null)
+    {
+
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+
+                $this->app = mw('application');
+            }
+
+        }
+
+
+    }
+
     /**
      * Get items from the database
      *
@@ -116,7 +135,7 @@ class Db
         foreach ($params as $k => $v) {
             if ($k == 'table') {
                 $table = guess_table_name($v);
-                ;
+
             }
 
             if ($k == 'what' and !isset($params['rel'])) {
@@ -124,7 +143,7 @@ class Db
             }
 
             if ($k == 'for' and !isset($params['rel'])) {
-                $v = mw('db')->assoc_table_name($v);
+                $v = $this->assoc_table_name($v);
                 $k = 'rel';
             }
 
@@ -163,8 +182,8 @@ class Db
 
         if (!isset($table)) {
             print "error no table found in params";
-            
-             return false;
+
+            return false;
 
         }
 
@@ -310,7 +329,7 @@ class Db
      * </code>
      * @package Database
      */
-    public function save($table, $data=false, $data_to_save_options = false)
+    public function save($table, $data = false, $data_to_save_options = false)
     {
 
         if (is_array($data) == false) {
@@ -337,12 +356,12 @@ class Db
 
                 foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
 
-                    mw('cache')->delete($item);
+                    $this->app->cache->delete($item);
                 }
             }
         }
-        if (isset($_SESSION) and !empty($_SESSION)) {
-            $user_session = $_SESSION;
+        if (isset($_SESSION) and !empty($_SESSION) and isset($_SESSION["user_session"])) {
+            $user_session = $_SESSION["user_session"];
 
         } else {
             $user_session = false;
@@ -360,6 +379,12 @@ class Db
                 $user_sid = session_id();
             }
         }
+
+        if (isset($user_session['user_id'])) {
+            $the_user_id = $user_session['user_id'];
+
+        }
+
         if (!isset($data['session_id']) and isset($_SESSION)) {
             if ($user_sid != false) {
                 $data['session_id'] = $user_sid;
@@ -405,7 +430,7 @@ class Db
             $original_data['new_id'] = $data['new_id'];
         }
 
-        if(!isset($the_user_id)){
+        if (!isset($the_user_id)) {
             $the_user_id = 0;
         }
         //
@@ -430,7 +455,7 @@ class Db
         $criteria_orig = $data;
 
         $criteria = $this->map_array_to_table($table, $data);
-         //
+        //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
         $criteria = mw('url')->replace_mw_site_url($criteria);
@@ -517,34 +542,38 @@ class Db
                 }
             }
             $user_sidq = '';
-
+            $q = rtrim($q, ',');
             $user_createdq = '';
             $user_createdq1 = '';
-
+            $idq = '';
             if ((mw_var('FORCE_ANON_UPDATE') != false and $table == mw_var('FORCE_ANON_UPDATE')) or (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE)) {
-                $user_createdq1 = " id={$data ['id']} ";
+                $idq = " id={$data['id']} ";
             } else {
+                if ($the_user_id != 0) {
+                    if (isset($data['created_by'])) {
+                        $user_createdq = " AND created_by=$the_user_id ";
+                    }
 
-                if (isset($data['created_by'])) {
-                    $user_createdq = " AND created_by=$the_user_id ";
+                    if (isset($data['edited_by'])) {
+                        $user_createdq1 = " edited_by=$the_user_id ";
+                    } else {
+                        $user_createdq1 = " id={$data ['id']} ";
+                    }
                 }
 
-                if (isset($data['edited_by'])) {
-                    $user_createdq1 = " edited_by=$the_user_id ";
-                } else {
-                    $user_createdq1 = " id={$data ['id']} ";
-                }
+
+            }
+            if ($user_createdq1 == '') {
                 if (isset($_SESSION)) {
                     if (isset($data['session_id'])) {
                         if ($user_sid != false) {
                             $user_sidq = " AND session_id='{$user_sid}' ";
                         }
                     }
+
                 }
-
             }
-
-            $q .= " $user_createdq1 WHERE id={$data ['id']} {$user_sidq}  {$user_createdq} limit 1";
+            $q .= " $user_createdq1 WHERE id={$data ['id']} {$idq} {$user_sidq}  {$user_createdq} limit 1";
 
             $id_to_return = $data['id'];
         }
@@ -552,7 +581,7 @@ class Db
         if ($dbg != false) {
             var_dump($q);
         }
-
+      
         $this->q($q);
 
         if ($id_to_return == false) {
@@ -562,20 +591,20 @@ class Db
         $cg = $this->assoc_table_name($table);
 
 
-        mw('cache')->delete($cg . '/global');
-        mw('cache')->delete($cg . '/' . $id_to_return);
+        $this->app->cache->delete($cg . '/global');
+        $this->app->cache->delete($cg . '/' . $id_to_return);
 
 
         if ($skip_cache == false) {
             $cg = $this->assoc_table_name($table);
 
 
-            mw('cache')->delete($cg . '/global');
-            mw('cache')->delete($cg . '/' . $id_to_return);
+            $this->app->cache->delete($cg . '/global');
+            $this->app->cache->delete($cg . '/' . $id_to_return);
 
             if (isset($criteria['parent_id'])) {
                 //d($criteria['parent_id']);
-                mw('cache')->delete($cg . '/' . intval($criteria['parent_id']));
+                $this->app->cache->delete($cg . '/' . intval($criteria['parent_id']));
             }
         }
         return $id_to_return;
@@ -628,7 +657,7 @@ class Db
             // $results =false;
 
             $cache_id = $cache_id . crc32($q);
-            $results = mw('cache')->get($cache_id, $cache_group);
+            $results = $this->app->cache->get($cache_id, $cache_group);
 
             if ($results != false) {
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
@@ -652,7 +681,7 @@ class Db
             $db = $connection_settigns;
 
         } else {
-               $db = c('db');
+            $db = c('db');
         }
 
 
@@ -696,7 +725,7 @@ class Db
         if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
             if ($cache_id != false) {
 
-                mw('cache')->save('---empty---', $cache_id, $cache_group);
+                $this->app->cache->save('---empty---', $cache_id, $cache_group);
             }
             return false;
         }
@@ -705,15 +734,15 @@ class Db
             if ($cache_id != false and $cache_group != false) {
                 if (is_array($q) and !empty($q)) {
 
-                    mw('cache')->save($q, $cache_id, $cache_group);
+                    $this->app->cache->save($q, $cache_id, $cache_group);
                 } else {
-                    mw('cache')->save('---empty---', $cache_id, $cache_group);
+                    $this->app->cache->save('---empty---', $cache_id, $cache_group);
                 }
             }
         }
         // }
         if ($cache_id != false) {
-            mw('cache')->save($q, $cache_id, $cache_group);
+            $this->app->cache->save($q, $cache_id, $cache_group);
         }
         return $q;
         //remove below
@@ -750,9 +779,9 @@ class Db
 
         if ($cache_id != false) {
             if (!empty($result)) {
-                //    mw('cache')->save($result, $cache_id, $cache_group);
+                //    $this->app->cache->save($result, $cache_id, $cache_group);
             } else {
-                mw('cache')->save('---empty---', $cache_id, $cache_group);
+                $this->app->cache->save('---empty---', $cache_id, $cache_group);
             }
         }
         return $result;
@@ -1075,7 +1104,7 @@ class Db
                 }
             }
 
-             if (is_string($limit) or is_int($limit)) {
+            if (is_string($limit) or is_int($limit)) {
                 $items_per_page = intval($limit);
 
                 if ($count_only == false) {
@@ -1124,7 +1153,7 @@ class Db
             if (is_string($criteria['fields'])) {
                 $criteria['fields'] = explode(',', $criteria['fields']);
                 $only_those_fields = $criteria['fields'];
-                 unset($criteria['fields']);
+                unset($criteria['fields']);
             } else {
                 unset($criteria['fields']);
             }
@@ -1160,7 +1189,7 @@ class Db
             }
 
             $only_custom_fieldd_ids = array();
-             foreach ($criteria ['custom_fields_criteria'] as $k => $v) {
+            foreach ($criteria ['custom_fields_criteria'] as $k => $v) {
 
                 if (is_array($v) == false) {
 
@@ -1231,7 +1260,7 @@ class Db
                         // }
                         //
                     }
-                }  
+                }
             }
         }
 
@@ -1418,7 +1447,7 @@ class Db
 
             $original_cache_id = $cache_id;
 
-            //  $cache_content = mw('cache')->get($original_cache_id, $original_cache_group);
+            //  $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
             $cache_content = false;
             if (($cache_content) != false) {
 
@@ -1567,7 +1596,7 @@ class Db
         }
 
         if (!empty($includeIds)) {
-             $includeIds_idds = false;
+            $includeIds_idds = false;
             $includeIds_i = implode(',', $includeIds);
             $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
         } else {
@@ -1670,7 +1699,7 @@ class Db
 
         if ($where_search != '') {
             $where_search = " AND ({$where_search}) ";
-         }
+        }
 
         if (!empty($criteria)) {
 
@@ -1784,7 +1813,7 @@ class Db
                     $where .= " AND id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
                 }
             }
-         }
+        }
 
         if (!isset($idds)) {
             $idds = '';
@@ -1898,10 +1927,10 @@ class Db
 
             if (is_array($return)) {
 
-                //mw('cache')->save($return, $original_cache_id, $original_cache_group);
+                //$this->app->cache->save($return, $original_cache_id, $original_cache_group);
             } else {
 
-                //  mw('cache')->save('---empty---', $original_cache_id, $original_cache_group);
+                //  $this->app->cache->save('---empty---', $original_cache_id, $original_cache_group);
             }
         }
         //
@@ -1939,7 +1968,7 @@ class Db
 
         $cg = $this->assoc_table_name($table);
 
-        mw('cache')->delete($cg);
+        $this->app->cache->delete($cg);
         $q = $this->q($q);
 
         $table1 = MW_TABLE_PREFIX . 'categories';
@@ -1948,10 +1977,10 @@ class Db
         $q = "DELETE FROM $table1 WHERE rel_id='$id'  AND  rel='$table'  ";
 
         $q = $this->q($q);
-        //  mw('cache')->delete('categories');
+        //  $this->app->cache->delete('categories');
 
         $q = "DELETE FROM $table_items WHERE rel_id='$id'  AND  rel='$table'  ";
-         $q = $this->q($q);
+        $q = $this->q($q);
 
 
         if (defined("MW_DB_TABLE_NOTIFICATIONS")) {
@@ -2033,7 +2062,7 @@ class Db
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
             $ex_fields_static[$table] = $cache_content;
@@ -2048,7 +2077,6 @@ class Db
         } else {
             $sql = "show columns from $table";
         }
-
 
 
         $query = $this->query($sql);
@@ -2096,7 +2124,7 @@ class Db
             }
         }
         $ex_fields_static[$table] = $fields;
-        mw('cache')->save($fields, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save($fields, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return $fields;
     }
@@ -2232,15 +2260,13 @@ $_mw_assoc_table_names = array();
 $mw_escaped_strings = array();
 
 
-
-
 function db_get_table_name($assoc_name)
 {
 
     $assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
     return $assoc_name;
 }
- 
+
 
 $_mw_db_get_real_table_names = array();
 function db_get_real_table_name($assoc_name)

@@ -7,7 +7,22 @@ $replaced_modules = array();
 $replaced_modules_values = array();
 class Parser
 {
+    public $app;
+    function __construct($app=null)
+    {
 
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+    }
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
@@ -476,6 +491,8 @@ class Parser
         if ($layout == '') {
             return $layout;
         }
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
         $replaced_scripts = array();
         preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -517,6 +534,7 @@ class Parser
 
     public function modify_html_preg($layout, $preg_match_all, $content = "", $action = 'append')
     {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $string_html = $layout;
 
@@ -600,8 +618,9 @@ class Parser
         return $html_to_save;
     }
 
-    public function get_by_id($layout, $html_element_id = false)
+    public function get_by_id($html_element_id = false, $layout)
     {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         if ($html_element_id == false) {
             if (isset($_REQUEST['embed_id'])) {
@@ -628,22 +647,27 @@ class Parser
         }
         return $layout;
     }
+    public function isolate_head($l)
+    {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        $pq = \phpQuery::newDocument($l);
 
+        $l = pq('head')->eq(0)->html();
+
+
+
+        return $l;
+    }
 
     public function isolate_content_field($l)
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-        $pq = phpQuery::newDocument($l);
+        $pq = \phpQuery::newDocument($l);
 
-        $isolated_head = pq('head')->eq(0)->html();
 
-        // d($isolated_head);
-        $found_field = false;
-        if (isset($_REQUEST['isolate_content_field'])) {
-            foreach ($pq ['[field=content]'] as $elem) {
-                //d($elem);
-                $isolated_el = $l = pq($elem)->htmlOuter();
-            }
+        foreach ($pq ['[field=content]'] as $elem) {
+
+            $l = pq($elem)->htmlOuter();
         }
 
 
@@ -677,7 +701,7 @@ class Parser
             }
 
             if ($no_cache == false) {
-                $cache = mw('cache')->get($parser_mem_crc, 'content_fields/global/parser');
+                $cache = $this->app->cache->get($parser_mem_crc, 'content_fields/global/parser');
 
                 if ($cache != false) {
 
@@ -1040,13 +1064,13 @@ class Parser
                     // $mw_to_cache = base64_encode(serialize($mw_to_cache));
 
 
-                    //mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+                    //$this->app->cache->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
                 } else {
                     $mw_to_cache['new'] = $layout;
                     //as of beta
 
-                    //mw('cache')->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
+                    //$this->app->cache->save($mw_to_cache, $parser_mem_crc, 'content_fields/global/parser');
 
                 }
             }
@@ -1123,7 +1147,7 @@ class Parser
 
             }
             if ($no_cache == false) {
-                mw('cache')->save($layout, $parser_mem_crc, 'content_fields/global/parser');
+                $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
             //
         }

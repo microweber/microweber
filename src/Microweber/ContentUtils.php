@@ -284,8 +284,8 @@ class ContentUtils extends \Microweber\Content
 
         $save = $this->app->db->save($table, $data_to_save);
 
-        // mw('cache')->delete('content/global');
-        //mw('cache')->delete('content/'.$save);
+        // $this->app->cache->delete('content/global');
+        //$this->app->cache->delete('content/'.$save);
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
             $new_category = $this->app->category->get_for_content($save);
 
@@ -323,7 +323,7 @@ class ContentUtils extends \Microweber\Content
 
 
         $this->app->db->q($clean);
-        mw('cache')->delete('custom_fields');
+        $this->app->cache->delete('custom_fields');
 
         $media_table = MW_TABLE_PREFIX . 'media';
 
@@ -337,29 +337,29 @@ class ContentUtils extends \Microweber\Content
 	";
 
 
-        mw('cache')->delete('media/global');
+        $this->app->cache->delete('media/global');
 
         $this->app->db->q($clean);
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
-            mw('cache')->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
+            $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
         }
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
-            mw('cache')->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
+            $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
-        mw('cache')->delete('content' . DIRECTORY_SEPARATOR . 'global');
-        mw('cache')->delete('content' . DIRECTORY_SEPARATOR . '0');
-        mw('cache')->delete('content_fields/global');
+        $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache->delete('content_fields/global');
 
         if ($cats_modified != false) {
 
-            mw('cache')->delete('categories/global');
-            mw('cache')->delete('categories_items/global');
+            $this->app->cache->delete('categories/global');
+            $this->app->cache->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
                     if ($item > 0) {
-                        mw('cache')->delete('categories/' . $item);
+                        $this->app->cache->delete('categories/' . $item);
                     }
                 }
             }
@@ -406,8 +406,8 @@ class ContentUtils extends \Microweber\Content
         }
         $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
         if ($ref_page != '') {
-            // $ref_page = $the_ref_page = get_content_by_url($ref_page_url);
-            $ref_page2 = $ref_page = get_content_by_url($ref_page_url, true);
+            // $ref_page = $the_ref_page = $this->get_by_url($ref_page_url);
+            $ref_page2 = $ref_page = $this->get_by_url($ref_page_url, true);
 
 
             if ($ref_page2 == false) {
@@ -730,7 +730,7 @@ class ContentUtils extends \Microweber\Content
             }
         }
         if (isset($opts_saved)) {
-            mw('cache')->delete('options');
+            $this->app->cache->delete('options');
         }
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
@@ -746,7 +746,7 @@ class ContentUtils extends \Microweber\Content
         //save_history($history_to_save);
         // }
         print $json_print;
-        //mw('cache')->delete('global/blocks');
+        //$this->app->cache->delete('global/blocks');
         exit();
     }
 
@@ -810,15 +810,15 @@ class ContentUtils extends \Microweber\Content
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->db->q($del_q);
-            //mw('cache')->delete($cache_group);
+            //$this->app->cache->delete($cache_group);
 
-            //mw('cache')->delete('content_fields/global');
+            //$this->app->cache->delete('content_fields/global');
 
         }
         if (isset($data['rel']) or isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            mw('cache')->delete($cache_group);
-            mw('cache')->delete('content_fields/global');
+            $this->app->cache->delete($cache_group);
+            $this->app->cache->delete('content_fields/global');
         }
 
         //}
@@ -941,11 +941,11 @@ class ContentUtils extends \Microweber\Content
                 }
 
 
-                mw('cache')->delete('content/' . $c_id);
+                $this->app->cache->delete('content/' . $c_id);
             }
 
-            mw('cache')->delete('content');
-            mw('cache')->delete('categories/global');
+            $this->app->cache->delete('content');
+            $this->app->cache->delete('categories/global');
 
 
         }
@@ -969,12 +969,12 @@ class ContentUtils extends \Microweber\Content
             $url = $url[0];
 
             if (trim($url) == '' or trim($url) == mw_site_url()) {
-                //$page = get_content_by_url($url);
+                //$page = $this->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
             } else {
 
-                $page = get_content_by_url($url);
+                $page = $this->get_by_url($url);
             }
         } else {
             $url = $this->app->url->string();
@@ -1042,7 +1042,7 @@ class ContentUtils extends \Microweber\Content
         $i = 1;
         foreach ($ids as $id) {
             $id = intval($id);
-            mw('cache')->delete('content/' . $id);
+            $this->app->cache->delete('content/' . $id);
             //$max_date_str = $max_date_str - $i;
             //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
             //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
@@ -1054,8 +1054,8 @@ class ContentUtils extends \Microweber\Content
         }
         //
         // var_dump($q);
-        mw('cache')->delete('content/global');
-        mw('cache')->delete('categories/global');
+        $this->app->cache->delete('content/global');
+        $this->app->cache->delete('categories/global');
         return true;
     }
 
@@ -1199,9 +1199,9 @@ class ContentUtils extends \Microweber\Content
                     }
                     //  d($add_page);
                     $new_shop = $this->app->db->save('content', $add_page);
-                    mw('cache')->delete('content');
-                    mw('cache')->delete('categories');
-                    mw('cache')->delete('custom_fields');
+                    $this->app->cache->delete('content');
+                    $this->app->cache->delete('categories');
+                    $this->app->cache->delete('custom_fields');
 
                     //
                 } else {
@@ -1222,8 +1222,8 @@ class ContentUtils extends \Microweber\Content
                     $add_page['subtype'] = "product";
 
                     //$new_shop = save_content($add_page);
-                    //mw('cache')->delete('content');
-                    //mw('cache')->flush();
+                    //$this->app->cache->delete('content');
+                    //$this->app->cache->flush();
                 }
 
 
@@ -1269,9 +1269,9 @@ class ContentUtils extends \Microweber\Content
                     }
                     //  d($add_page);
                     $new_shop = $this->app->db->save('content', $add_page);
-                    mw('cache')->delete('content');
-                    mw('cache')->delete('categories');
-                    mw('cache')->delete('content_fields');
+                    $this->app->cache->delete('content');
+                    $this->app->cache->delete('categories');
+                    $this->app->cache->delete('content_fields');
 
 
                     //
@@ -1339,7 +1339,7 @@ class ContentUtils extends \Microweber\Content
 
         $cache_group = 'templates';
 
-        $cache_content = mw('cache')->get($cache_id, $cache_group, 'files');
+        $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
 
         if (($cache_content) != false) {
 
@@ -1398,7 +1398,7 @@ class ContentUtils extends \Microweber\Content
 
             //p($filename);
         }
-        mw('cache')->save($to_return, $function_cache_id, $cache_group, 'files');
+        $this->app->cache->save($to_return, $function_cache_id, $cache_group, 'files');
 
         return $to_return;
     }
@@ -1434,7 +1434,7 @@ class ContentUtils extends \Microweber\Content
 
             $save = $this->app->db->save($table, $data_to_save);
 
-            mw('cache')->delete('menus/global');
+            $this->app->cache->delete('menus/global');
 
             return $save;
         }
@@ -1465,7 +1465,7 @@ class ContentUtils extends \Microweber\Content
 
         $this->app->db->delete_by_id($table, trim($id), $field_name = 'id');
 
-        mw('cache')->delete('menus/global');
+        $this->app->cache->delete('menus/global');
 
         return true;
 
@@ -1497,7 +1497,7 @@ class ContentUtils extends \Microweber\Content
 
         if (isset($data_to_save['menu_id'])) {
             $data_to_save['id'] = intval($data_to_save['menu_id']);
-            mw('cache')->delete('menus/' . $data_to_save['id']);
+            $this->app->cache->delete('menus/' . $data_to_save['id']);
 
         }
 
@@ -1507,7 +1507,7 @@ class ContentUtils extends \Microweber\Content
 
         if (isset($data_to_save['id'])) {
             $data_to_save['id'] = intval($data_to_save['id']);
-            mw('cache')->delete('menus/' . $data_to_save['id']);
+            $this->app->cache->delete('menus/' . $data_to_save['id']);
         }
 
         if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
@@ -1546,7 +1546,7 @@ class ContentUtils extends \Microweber\Content
 
         if (isset($data_to_save['parent_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
-            mw('cache')->delete('menus/' . $data_to_save['parent_id']);
+            $this->app->cache->delete('menus/' . $data_to_save['parent_id']);
         }
 
         $table = MODULE_DB_MENUS;
@@ -1556,7 +1556,7 @@ class ContentUtils extends \Microweber\Content
         // d($data_to_save);
         $save = $this->app->db->save($table, $data_to_save);
 
-        mw('cache')->delete('menus/global');
+        $this->app->cache->delete('menus/global');
 
         return $save;
 
@@ -1574,7 +1574,7 @@ class ContentUtils extends \Microweber\Content
 
         $this->app->db->delete_by_id($table, intval($id), $field_name = 'id');
 
-        mw('cache')->delete('menus/global');
+        $this->app->cache->delete('menus/global');
 
         return true;
 
@@ -1606,7 +1606,7 @@ class ContentUtils extends \Microweber\Content
 				";
                     // d($sql);
                     $q = $this->app->db->q($sql);
-                    mw('cache')->delete('menus/' . $k);
+                    $this->app->cache->delete('menus/' . $k);
                 }
 
             }
@@ -1677,7 +1677,7 @@ class ContentUtils extends \Microweber\Content
 				AND content_id={$content_id}
 				";
                     //d($sql);
-                    mw('cache')->delete('menus');
+                    $this->app->cache->delete('menus');
                     $q = $this->app->db->q($sql);
                     return;
                 }
@@ -1713,7 +1713,7 @@ class ContentUtils extends \Microweber\Content
                     $this->app->db->save($menus, $save);
                 }
             }
-            mw('cache')->delete('menus/global');
+            $this->app->cache->delete('menus/global');
         }
 
     }

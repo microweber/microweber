@@ -42,12 +42,17 @@ class Router
         if (is_object($controller)) {
 
             $class_methods = get_class_methods($controller);
+            if (!empty($class_methods)) {
+                foreach ($class_methods as $method_name) {
 
-            foreach ($class_methods as $method_name) {
-                $this->functions[$method_name] = call_user_func($controller->$method_name);
+                    if (is_string($method_name) and is_callable($controller->$method_name)) {
 
+                        $this->functions[$method_name] = call_user_func($controller->$method_name);
+                    }
+
+                }
             }
-            $this->controller = $controller ;
+            $this->controller = $controller;
 
         }
 
@@ -70,7 +75,6 @@ class Router
         if ($method == 'api.js') {
             $method = 'apijs';
         }
-
 
 
         $controller = $this->controller;

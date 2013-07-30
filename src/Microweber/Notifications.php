@@ -13,7 +13,9 @@ event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
 
 class Notifications
 {
-    function __construct()
+    public $app;
+
+    function __construct($app = null)
     {
 
         if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -22,6 +24,17 @@ class Notifications
 
         if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
             define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
+        }
+
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
     }
 
@@ -39,8 +52,8 @@ class Notifications
             $save['is_read'] = 'y';
             $table = MW_DB_TABLE_NOTIFICATIONS;
             mw_var('FORCE_SAVE', $table);
-            $data = mw('db')->save($table, $save);
-            mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $data = $this->app->db->save($table, $save);
+            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         }
 
@@ -60,7 +73,7 @@ class Notifications
             $get_params['table'] = 'table_notifications';
             $get_params['is_read'] = 'n';
             $get_params['fields'] = 'id';
-            $get_params['module'] = mw('db')->escape_string($module);
+            $get_params['module'] = $this->app->db->escape_string($module);
 
             $data = $this->get($get_params);
             if (is_array($data)) {
@@ -73,7 +86,7 @@ class Notifications
                 }
             }
 
-            mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
             return $data;
         }
     }
@@ -89,8 +102,8 @@ class Notifications
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
         $q = "UPDATE $table SET is_read='n'";
-        mw('db')->q($q);
-        mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->db->q($q);
+        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
 
@@ -108,7 +121,7 @@ class Notifications
 
         db_delete_by_id($table, intval($id), $field_name = 'id');
 
-        mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
 
@@ -126,17 +139,17 @@ class Notifications
             $get_params = array();
             $get_params['table'] = 'table_notifications';
             $get_params['fields'] = 'id';
-            $get_params['module'] = mw('db')->escape_string($module);
+            $get_params['module'] = $this->app->db->escape_string($module);
 
             $data = $this->get($get_params);
             if (is_array($data)) {
                 $ids = mw('format')->array_values($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
-                mw('db')->q($cleanup);
+                $this->app->db->q($cleanup);
             }
 
-            mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
             return true;
         }
     }
@@ -151,7 +164,7 @@ class Notifications
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
         if (($cache_content) != false) {
 
             return $cache_content;
@@ -179,7 +192,7 @@ class Notifications
         \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
         \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
-        mw('cache')->save($fields_to_add, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -204,16 +217,16 @@ class Notifications
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "DELETE FROM $table WHERE created_on < '{$old}'";
-        mw('db')->q($cleanup);
+        $this->app->db->q($cleanup);
 
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
                 unset($params['replace']);
-                $rel1 = mw('db')->escape_string($params['rel']);
-                $module1 = mw('db')->escape_string($params['module']);
-                $rel_id1 = mw('db')->escape_string($params['rel_id']);
+                $rel1 = $this->app->db->escape_string($params['rel']);
+                $module1 = $this->app->db->escape_string($params['module']);
+                $rel_id1 = $this->app->db->escape_string($params['rel_id']);
                 $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
-                mw('db')->q($cleanup);
+                $this->app->db->q($cleanup);
 
 
             }
@@ -221,7 +234,7 @@ class Notifications
         }
 
 
-        mw('cache')->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         $data = save($table, $params);
         return $data;
@@ -236,7 +249,7 @@ class Notifications
 
             }
 
-            $params['id'] = mw('db')->escape_string($id);
+            $params['id'] = $this->app->db->escape_string($id);
             $params['one'] = true;
 
             $get = $this->get($params);
@@ -276,7 +289,7 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             $params['table'] = $table;
 
-            $return = mw('db')->get($params);
+            $return = $this->app->db->get($params);
         }
         return $return;
     }

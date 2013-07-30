@@ -12,7 +12,8 @@ $mw_loaded_mod_memory = array();
 $mw_defined_module_classes = array();
 class Module
 {
-    function __construct()
+    public $app;
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_MODULES")) {
             define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
@@ -29,6 +30,16 @@ class Module
 
         if (!defined('EMPTY_MOD_STR')) {
             define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
+        }
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
     }
 
@@ -62,7 +73,7 @@ class Module
             unset($params['ui']);
         }
 
-        return mw('db')->get($params);
+        return $this->app->db->get($params);
     }
 
     public function load($module_name, $attrs = array())
@@ -423,7 +434,7 @@ class Module
 
         $cache_group = 'modules/global';
 
-        $cache_content = mw('cache')->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -447,7 +458,7 @@ class Module
             }
         }
 
-        mw('cache')->save($checked[$module_name], $function_cache_id, $cache_group);
+        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
 
         return $checked[$module_name];
 
@@ -498,7 +509,7 @@ class Module
 
         $cache_group = 'modules/global';
 
-        $cache_content = mw('cache')->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -522,7 +533,7 @@ class Module
             }
         }
 
-        mw('cache')->save($checked[$module_name], $function_cache_id, $cache_group, 'files');
+        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group, 'files');
 
         return $checked[$module_name];
 
@@ -704,7 +715,7 @@ class Module
 
         $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db', 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db', 'files');
 
         if (($cache_content) != false) {
 
@@ -769,7 +780,7 @@ class Module
         $fields_to_add[] = array('module', 'TEXT default NULL');
         \mw('Microweber\DbUtils')->build_table($table_name3, $fields_to_add);
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db', 'files');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db', 'files');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 

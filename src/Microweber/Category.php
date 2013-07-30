@@ -4,7 +4,9 @@ namespace Microweber;
 
 class Category
 {
-    function __construct()
+    public $app;
+
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_TAXONOMY")) {
             define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
@@ -13,6 +15,18 @@ class Category
         if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
         }
+
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
 
     }
 
@@ -44,7 +58,7 @@ class Category
         //$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
         //$data['only_those_fields'] = array('parent_id');
 
-        $data = mw('db')->get($data);
+        $data = $this->app->db->get($data);
         return $data;
 
         $results = false;
@@ -55,7 +69,7 @@ class Category
             }
             $results = array_unique($results);
         }
-        //mw('cache')->save($results, $function_cache_id, $cache_group);
+        //$this->app->cache->save($results, $function_cache_id, $cache_group);
         return $results;
     }
 
@@ -80,7 +94,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -113,13 +127,13 @@ class Category
                 }
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
-                    mw('db')->delete_by_id($table, $id);
+                    $this->app->db->delete_by_id($table, $id);
                 }
             }
 
             if (isset($url) != false) {
                 $url = $url . '/category:' . $id;
-                mw('cache')->save($url, $function_cache_id, $cache_group);
+                $this->app->cache->save($url, $function_cache_id, $cache_group);
 
                 return $url;
             }
@@ -142,7 +156,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -174,7 +188,7 @@ class Category
 
             $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
             //p($q,1);
-            $q = mw('db')->query($q, __FUNCTION__ . crc32($q), $cache_group);
+            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
 
             //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -183,7 +197,7 @@ class Category
             $url = false;
 
             $parent_ids = $this->get_parents($data['id']);
-         //   $parent_ids = array_rpush($parent_ids, $data['id']);
+            //   $parent_ids = array_rpush($parent_ids, $data['id']);
             $parent_ids = array_pad($parent_ids, -(count($parent_ids) + 1), $data['id']);
             foreach ($parent_ids as $item) {
 
@@ -197,7 +211,7 @@ class Category
 
                 $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
                 //p($q);
-                $q = mw('db')->query($q, __FUNCTION__ . crc32($q), $cache_group);
+                $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
 
                 //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -232,7 +246,7 @@ class Category
                 }
 
                 //if ($url != false) {
-                mw('cache')->save($url, $function_cache_id, $cache_group);
+                $this->app->cache->save($url, $function_cache_id, $cache_group);
                 return $url;
                 //}
             }
@@ -270,7 +284,7 @@ class Category
 
         }
 
-        $data = mw('db')->get($data);
+        $data = $this->app->db->get($data);
         return $data;
 
     }
@@ -307,7 +321,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
         $cache_content = false;
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -320,13 +334,13 @@ class Category
 
         $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
-        $q = mw('db')->query($q);
+        $q = $this->app->db->query($q);
 
         $q = $q[0];
 
         if (!empty($q)) {
 
-            mw('cache')->save($q, $function_cache_id, $cache_group);
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
 
             return $q;
         } else {
@@ -387,7 +401,7 @@ class Category
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id . serialize($params));
 
         $cache_group = 'categories/global';
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
         //  $cache_content = false;
 
 
@@ -395,9 +409,9 @@ class Category
         if (($cache_content) != false) {
             print $cache_content;
             return;
-         }
+        }
 
-         $link = isset($params['link']) ? $params['link'] : false;
+        $link = isset($params['link']) ? $params['link'] : false;
 
         if ($link == false) {
             $link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
@@ -491,11 +505,11 @@ class Category
             }
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
 
-                $table_assoc_name = mw('db')->assoc_table_name($params['for']);
+                $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
                 $skip123 = true;
 
                 $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
-                $fors = mw('db')->get($str0);
+                $fors = $this->app->db->get($str0);
 
             }
 
@@ -503,7 +517,7 @@ class Category
                 $skip123 = true;
 
                 $str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = mw('db')->get($str1);
+                $fors1 = $this->app->db->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
@@ -544,11 +558,11 @@ class Category
 
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
 
-            $table_assoc_name = mw('db')->assoc_table_name($params['rel']);
+            $table_assoc_name = $this->app->db->assoc_table_name($params['rel']);
             $skip123 = true;
 
             $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
-            $fors = mw('db')->get($str0);
+            $fors = $this->app->db->get($str0);
 
         }
 
@@ -558,7 +572,7 @@ class Category
 
         ob_start();
 
-        //  mw('cache')->save($fields, $function_cache_id, $cache_group = 'db');
+        //  $this->app->cache->save($fields, $function_cache_id, $cache_group = 'db');
 
         if ($skip123 == false) {
 
@@ -575,7 +589,7 @@ class Category
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
 
-        mw('cache')->save($content, $function_cache_id, $cache_group);
+        $this->app->cache->save($content, $function_cache_id, $cache_group);
         //}
         ob_end_clean();
         print $content;
@@ -719,8 +733,8 @@ class Category
         //
 
         //
-        $q = mw('db')->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
-        //$q = mw('db')->query($sql);
+        $q = $this->app->db->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
+        //$q = $this->app->db->query($sql);
 
         // $q = $this->core_model->dbQuery ( $sql, $cache_id =
         // 'self::html_tree_parent_cats_q_' . md5 ( $sql ),
@@ -1021,7 +1035,7 @@ class Category
         $id = intval($id);
         $q = " select id, parent_id  from $table where id = $id and  data_type='{$data_type}' " . $with_main_parrent_q;
 
-        $taxonomies = mw('db')->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
         //var_dump($q);
         //  var_dump($taxonomies);
@@ -1113,7 +1127,7 @@ class Category
         //var_dump($q);
         $q_cache_id = __FUNCTION__ . crc32($q);
         //var_dump($q_cache_id);
-        $save = mw('db')->query($q, $q_cache_id, $cache_group);
+        $save = $this->app->db->query($q, $q_cache_id, $cache_group);
 
         //$save = $this->getSingleItem ( $parent_id );
         if (empty($save)) {
@@ -1192,7 +1206,7 @@ class Category
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -1220,7 +1234,7 @@ class Category
 
         $q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id  " . $data_type_q;
         // var_dump($q);
-        $data = mw('db')->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
+        $data = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
         // var_dump ( $data );
         $results = false;
         if (!empty($data)) {
@@ -1230,7 +1244,7 @@ class Category
             }
             $results = array_unique($results);
         }
-        mw('cache')->save($results, $function_cache_id, $cache_group);
+        $this->app->cache->save($results, $function_cache_id, $cache_group);
         return $results;
     }
 

@@ -10,19 +10,22 @@ $_mw_global_options_mem = array();
 class Option
 {
 
-
-    function __construct($application)
+    public $app;
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_OPTIONS")) {
             define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
         }
 
-        if(!is_object($application)){
-            $this->app = new \Microweber\Application();
-        } else {
-            $this->app = $application;
-        }
+        if (!is_object($this->app)) {
 
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
 
     }
 
@@ -166,24 +169,24 @@ class Option
         $ok1 = '';
         $ok2 = '';
         if ($option_group != false) {
-            $option_group = mw('db')->escape_string($option_group);
+            $option_group = $this->app->db->escape_string($option_group);
             $ok1 = " AND option_group='{$option_group}' ";
         }
 
         if ($module != false) {
-            $module = mw('db')->escape_string($module);
+            $module = $this->app->db->escape_string($module);
             $data['module'] = $module;
             $ok1 = " AND module='{$module}' ";
         }
         $data['limit'] = 1;
-        // $get = mw('db')->get_long($table, $data, $cache_group);
-        $ok = mw('db')->escape_string($data['option_key']);
+        // $get = $this->app->db->get_long($table, $data, $cache_group);
+        $ok = $this->app->db->escape_string($data['option_key']);
 
         //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
         $q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
         //d($q);
         $q_cache_id = crc32($q);
-        $get_all = mw('db')->query($q, $q_cache_id, $cache_group);
+        $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
         if (!is_array($get_all)) {
             $this->app->Cache->save('--false--', $function_cache_id, $cache_group);
 
@@ -268,7 +271,7 @@ class Option
         $q = "SELECT * FROM $table WHERE id={$id} LIMIT 1 ";
         $function_cache_id = __FUNCTION__ . crc32($q);
         $res1 = false;
-        $res = mw('db')->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
+        $res = $this->app->db->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
         if (is_array($res) and !empty($res)) {
             return $res[0];
         }
@@ -292,7 +295,7 @@ class Option
 
         //d($q);
 
-        $res = mw('db')->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
+        $res = $this->app->db->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {
             $res1 = array();
             foreach ($res as $item) {
@@ -317,7 +320,7 @@ class Option
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
         }
-        $get = mw('db')->get_long($table, $data, $cache_group = 'options/global');
+        $get = $this->app->db->get_long($table, $data, $cache_group = 'options/global');
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -423,11 +426,11 @@ class Option
             }
 
             if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
-                //$m = mw('db')->escape_string($data['module']);
-                $opt_gr = mw('db')->escape_string($data['option_group']);
-                $opt_key = mw('db')->escape_string($data['option_key']);
+                //$m = $this->app->db->escape_string($data['module']);
+                $opt_gr = $this->app->db->escape_string($data['option_group']);
+                $opt_key = $this->app->db->escape_string($data['option_key']);
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
-                mw('db')->q($clean);
+                $this->app->db->q($clean);
                 $cache_group = 'options/' . $opt_gr;
                 $this->app->Cache->delete($cache_group);
 
@@ -448,7 +451,7 @@ class Option
                     //d($data['option_value']);
                 }
 
-                $save = mw('db')->save($table, $data);
+                $save = $this->app->db->save($table, $data);
 
                 if ($option_group != false) {
 
@@ -481,17 +484,17 @@ class Option
 
     public function delete($key, $option_group = false, $module_id = false)
     {
-        $key = mw('db')->escape_string($key);
+        $key = $this->app->db->escape_string($key);
 
         $table = MW_DB_TABLE_OPTIONS;
         $option_group_q1 = '';
         if ($option_group != false) {
-            $option_group = mw('db')->escape_string($option_group);
+            $option_group = $this->app->db->escape_string($option_group);
             $option_group_q1 = "and option_group='{$option_group}'";
         }
         $module_id_q1 = '';
         if ($module_id != false) {
-            $module_id = mw('db')->escape_string($module_id);
+            $module_id = $this->app->db->escape_string($module_id);
             $module_id_q1 = "and module='{$module_id}'";
         }
 
@@ -499,7 +502,7 @@ class Option
         $q = "DELETE FROM $table WHERE option_key='$key' " . $option_group_q1 . $module_id_q1;
         $q = trim($q);
 
-        mw('db')->q($q);
+        $this->app->db->q($q);
 
         $this->app->Cache->delete('options');
 

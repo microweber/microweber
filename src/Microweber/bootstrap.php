@@ -166,7 +166,7 @@ function mw($class, $constructor_params = false)
     $class_name = strtolower($class);
 
     if (isset($_mw_global_object->providers[$class])) {
-         
+
         return  $_mw_global_object->providers[$class];
     } else
     if (property_exists($_mw_global_object, $class_name) or property_exists($_mw_global_object, $class)) {
@@ -277,7 +277,7 @@ function mw_error_handler($errno, $errstr, $errfile, $errline)
 
 }
 
-set_error_handler('mw_error_handler');
+//set_error_handler('mw_error_handler');
 //require(MW_APP_PATH . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
 /*

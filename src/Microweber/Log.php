@@ -9,19 +9,37 @@ if (!defined("MW_DB_TABLE_LOG")) {
 class Log
 {
 
-    static function get_entry_by_id($id)
+    public $app;
+
+    function __construct($app=null)
+    {
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+
+    }
+
+    public function get_entry_by_id($id)
     {
 
         $params = array();
         $params['id'] = intval($id);
         $params['one'] = true;
 
-        $get = mw('log')->get($params);
+        $get = $this->get($params);
         return $get;
 
     }
 
-    static function get($params)
+    public function get($params)
     {
         $params = parse_params($params);
         $table = MW_DB_TABLE_LOG;
@@ -31,12 +49,12 @@ class Log
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = \mw('db')->get($params);
+        $q = \$this->app->db->get($params);
 
         return $q;
     }
 
-    static function reset()
+    public function reset()
     {
         $adm = is_admin();
         if ($adm == false) {
@@ -49,14 +67,14 @@ class Log
 
         $cg = guess_cache_group($table);
 
-        mw('cache')->delete($cg);
-        $q = \mw('db')->q($q);
+        $this->app->cache->delete($cg);
+        $q = \$this->app->db->q($q);
         return array('success' => 'System log is cleaned up.');
 
         //return $data;
     }
 
-    static function delete($params)
+    public function delete($params)
     {
         $params = parse_params($params);
         $table = MW_DB_TABLE_LOG;
@@ -66,19 +84,19 @@ class Log
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = \mw('db')->get($params);
+        $q = \$this->app->db->get($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
-                \mw('db')->delete_by_id('log', $c_id);
+                \$this->app->db->delete_by_id('log', $c_id);
             }
 
         }
-        mw('cache')->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return true;
     }
 
-    static function save($params)
+    public function save($params)
     {
         $params = parse_params($params);
 
@@ -86,13 +104,13 @@ class Log
         $data_to_save = $params;
         $table = MW_DB_TABLE_LOG;
         mw_var('FORCE_SAVE', $table);
-        $save = \mw('db')->save($table, $params);
+        $save = \$this->app->db->save($table, $params);
         $id = $save;
-        mw('cache')->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;
     }
 
-    static function delete_entry($data)
+    public function delete_entry($data)
     {
         $adm = is_admin();
         if ($adm == false) {
@@ -101,12 +119,12 @@ class Log
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            \mw('db')->delete_by_id('log', $c_id);
+            \$this->app->db->delete_by_id('log', $c_id);
             $table = MW_DB_TABLE_LOG;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
             $q = "DELETE FROM $table WHERE created_on < '{$old}'";
 
-            $q = \mw('db')->q($q);
+            $q = \$this->app->db->q($q);
 
             return $c_id;
 

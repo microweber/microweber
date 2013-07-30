@@ -10,10 +10,20 @@ class Update
 
     private $remote_api_url = 'http://api.microweber.net/service/update/';
 
-    function __construct()
+    public $app;
+
+    function __construct($app=null)
     {
 
+        if (!is_object($this->app)) {
 
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
     }
 
     function get_modules()
@@ -42,7 +52,7 @@ class Update
 
         if ($skip_cache == false) {
 
-            $cache_content = mw('cache')->get($c_id, 'update/global');
+            $cache_content = $this->app->cache->get($c_id, 'update/global');
             //
             if (($cache_content) != false) {
 
@@ -50,7 +60,7 @@ class Update
             }
 
         } else {
-            mw('cache')->delete('update/global');
+            $this->app->cache->delete('update/global');
         }
 
         $data = array();
@@ -195,7 +205,7 @@ class Update
 
 
 		 if ($result != false) {
-            mw('cache')->save($result, $c_id, 'update/global');
+            $this->app->cache->save($result, $c_id, 'update/global');
         }
 
 
@@ -372,8 +382,8 @@ class Update
             }
         }
         $this->post_update();
-        //mw('cache')->delete('update/global');
-        //mw('cache')->flush();
+        //$this->app->cache->delete('update/global');
+        //$this->app->cache->flush();
         return $unzipped;
     }
 
@@ -459,8 +469,8 @@ class Update
 
             $data = modules_list($params);
             //d($data);
-            mw('cache')->delete('update/global');
-            mw('cache')->delete('db');
+            $this->app->cache->delete('update/global');
+            $this->app->cache->delete('db');
             event_trigger('mw_db_init_default');
             event_trigger('mw_db_init_modules');
 

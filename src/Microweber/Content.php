@@ -55,10 +55,14 @@ class Content
         }
 
 
-        if(is_object($app)){
-            $this->app = $app;
-        } else {
-            $this->app = mw('application');
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
 
 
@@ -244,7 +248,7 @@ class Content
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_content = false;
-        // $cache_content = mw('cache')->get($function_cache_id, $cache_group = 'content/global');
+        // $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'content/global');
         if (($cache_content) == '--false--') {
             //return false;
         }
@@ -311,11 +315,11 @@ class Content
                     $data2[] = $item;
                 }
                 $get = $data2;
-                //  mw('cache')->save($get, $function_cache_id, $cache_group = 'content/global');
+                //  $this->app->cache->save($get, $function_cache_id, $cache_group = 'content/global');
 
                 return $get;
             } else {
-                // mw('cache')->save('--false--', $function_cache_id, $cache_group = 'content/global');
+                // $this->app->cache->save('--false--', $function_cache_id, $cache_group = 'content/global');
 
                 return FALSE;
             }
@@ -1131,7 +1135,7 @@ class Content
         } else {
             $cache_group = 'content/global';
         }
-        $cache_content = mw('cache')->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -1442,7 +1446,7 @@ class Content
 
             }
         }
-        mw('cache')->save($render_file, $cache_id, $cache_group);
+        $this->app->cache->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
     }
@@ -1562,7 +1566,7 @@ class Content
 
         //
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
         // $cache_content = false;
 //	if (!isset($_GET['debug'])) {
         if (($cache_content) != false) {
@@ -2133,7 +2137,7 @@ class Content
 
         $content = ob_get_contents();
 //	if (!isset($_GET['debug'])) {
-        mw('cache')->save($content, $function_cache_id, $cache_group);
+        $this->app->cache->save($content, $function_cache_id, $cache_group);
         //}
         ob_end_clean();
 
@@ -2267,7 +2271,7 @@ class Content
 
         $function_cache_id = 'content_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -2498,7 +2502,7 @@ class Content
         \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
         \mw('Microweber\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -2859,7 +2863,7 @@ class Content
 
         // print "[[ $time ]]seconds\n";
         $to_print .= '</' . $ul_tag . '>';
-        // mw('cache')->save($to_print, $function_cache_id, $cache_group);
+        // $this->app->cache->save($to_print, $function_cache_id, $cache_group);
         return $to_print;
     }
 

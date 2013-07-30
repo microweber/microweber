@@ -2,8 +2,23 @@
 namespace Microweber\Content;
 
 
-class StaticPages {
+class StaticPages
+{
+    public $app;
 
+    function __construct($app = null)
+    {
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+    }
 
     /**
      *  Generates static pages navigation from directory of files
@@ -30,14 +45,14 @@ class StaticPages {
 
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
         $cache_content = false;
-        //$cache_content = mw('cache')->get($function_cache_id, 'content/static');
+        //$cache_content = $this->app->cache->get($function_cache_id, 'content/static');
 
         if (($cache_content) != false) {
 
             $tree = $cache_content;
         } else {
 
-            //mw('cache')->save($tree, $function_cache_id, $cache_group = 'content/static');
+            //$this->app->cache->save($tree, $function_cache_id, $cache_group = 'content/static');
         }
         if (!isset($url)) {
             $url = mw('url')->current(true, true);
@@ -50,7 +65,6 @@ class StaticPages {
 
 
     }
-
 
 
     /**

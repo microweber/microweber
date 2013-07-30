@@ -16,8 +16,9 @@ event_bind('mw_db_init_default', mw('Microweber\Shop')->db_init());
 
 class Shop
 {
+    public $app;
 
-    function __construct()
+    function __construct($app=null)
     {
         if (!defined("MODULE_DB_SHOP")) {
             define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
@@ -32,6 +33,15 @@ class Shop
         }
         if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
             define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+        }
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
     }
 
@@ -71,7 +81,7 @@ class Shop
             }
         }
 
-        $get = mw('db')->get($params);
+        $get = $this->app->db->get($params);
         //return $get;
 
         $return = array();
@@ -135,7 +145,7 @@ class Shop
         $params['table'] = $table;
 
 
-        return mw('db')->get($params);
+        return $this->app->db->get($params);
 
     }
 
@@ -223,7 +233,7 @@ class Shop
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   AND session_id='{$sid}'  ";
                 //d($q);
-                \mw('db')->q($q);
+                $this->app->db->q($q);
                 checkout_confirm_email_send($ord);
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
@@ -231,14 +241,14 @@ class Shop
 			id='{$ord}' AND
 			session_id='{$sid}'  ";
                 //d($q);
-                \mw('db')->q($q);
+                $this->app->db->q($q);
 
                 checkout_confirm_email_send($ord);
 
             }
 
-            mw('cache')->delete('cart/global');
-            mw('cache')->delete('cart_orders/global');
+            $this->app->cache->delete('cart/global');
+            $this->app->cache->delete('cart_orders/global');
             if (isset($_GET['return_to'])) {
                 $return_to = urldecode($_GET['return_to']);
                 mw('url')->redirect($return_to);
@@ -367,7 +377,7 @@ class Shop
 
             define('FORCE_SAVE', $table_orders);
 
-            $temp_order = \mw('db')->save($table_orders, $place_order);
+            $temp_order = $this->app->db->save($table_orders, $place_order);
             if ($temp_order != false) {
                 $place_order['id'] = $temp_order;
             } else {
@@ -404,19 +414,19 @@ class Shop
                 }
                 // $q = " DELETE FROM $table_orders  	where order_completed='n'  and session_id='{$sid}' and is_paid='n' ";
 
-                // \mw('db')->q($q);
+                // $this->app->db->q($q);
                 if (!empty($checkout_errors)) {
 
                     return array('error' => $checkout_errors);
                 }
 
-                $ord = \mw('db')->save($table_orders, $place_order);
+                $ord = $this->app->db->save($table_orders, $place_order);
 
                 $q = " UPDATE $cart_table SET
 		order_id='{$ord}'
 		WHERE order_completed='n'  AND session_id='{$sid}'  ";
 
-                \mw('db')->q($q);
+                $this->app->db->q($q);
 
                 if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
                     $q = " UPDATE $cart_table SET
@@ -424,18 +434,18 @@ class Shop
 
 			WHERE order_completed='n'  AND session_id='{$sid}' ";
 
-                    \mw('db')->q($q);
+                    $this->app->db->q($q);
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
                         $q = " UPDATE $table_orders SET
 				order_completed='y'
 				WHERE order_completed='n' AND
 				id='{$ord}' AND session_id='{$sid}' ";
-                        \mw('db')->q($q);
+                        $this->app->db->q($q);
                     }
 
-                    mw('cache')->delete('cart/global');
-                    mw('cache')->delete('cart_orders/global');
+                    $this->app->cache->delete('cart/global');
+                    $this->app->cache->delete('cart_orders/global');
                     after_checkout($ord);
                     //$_SESSION['mw_payment_success'] = true;
                 }
@@ -524,7 +534,7 @@ class Shop
         if ($checkz != false and is_array($checkz)) {
             // d($checkz);
             $table = MODULE_DB_SHOP;
-            \mw('db')->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            $this->app->db->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
         }
@@ -561,9 +571,9 @@ class Shop
             $table = MODULE_DB_SHOP;
             mw_var('FORCE_SAVE', $table);
 
-            $cart_s = \mw('db')->save($table, $cart);
+            $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
-            //   \mw('db')->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            //   $this->app->db->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
         }
@@ -590,7 +600,7 @@ class Shop
             mw_error('Invalid data');
         }
 
-        $data['for'] = mw('db')->assoc_table_name($data['for']);
+        $data['for'] = $this->app->db->assoc_table_name($data['for']);
 
         $for = $data['for'];
         $for_id = intval($data['for_id']);
@@ -788,7 +798,7 @@ class Shop
             //
             mw_var('FORCE_SAVE', $table);
 
-            $cart_s = \mw('db')->save($table, $cart);
+            $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
         } else {
             mw_error('Invalid cart items');
@@ -848,18 +858,18 @@ class Shop
         $cache_gr = 'ipn';
         $cache_id = $hostname . md5(serialize($data));
 
-        mw('cache')->save($data, $cache_id, $cache_gr);
+        $this->app->cache->save($data, $cache_id, $cache_gr);
 
-        //$data = mw('cache')->get($cache_id, $cache_gr);
+        //$data = $this->app->cache->get($cache_id, $cache_gr);
 
         //d($payment_verify_token);
         $ord_data = get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
         // d($ord_data);.
-        $payment_verify_token = mw('db')->escape_string($payment_verify_token);
+        $payment_verify_token = $this->app->db->escape_string($payment_verify_token);
         $table = MODULE_DB_SHOP_ORDERS;
         $q = " SELECT  * FROM $table WHERE payment_verify_token='{$payment_verify_token}'  AND transaction_id IS NULL  LIMIT 1";
 
-        $ord_data = \mw('db')->query($q);
+        $ord_data = $this->app->db->query($q);
 
         if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
             return array('error' => 'Order is completed or expired.');
@@ -893,7 +903,7 @@ class Shop
             //$update_order['debug'] = 1;
             //d($update_order);
             //d($data);
-            $ord = \mw('db')->save($table_orders, $update_order);
+            $ord = $this->app->db->save($table_orders, $update_order);
             checkout_confirm_email_send($ord);
             if ($ord > 0) {
 
@@ -901,16 +911,16 @@ class Shop
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   ";
                 //d($q);
-                \mw('db')->q($q);
+                $this->app->db->q($q);
 
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
                 //	 d($q);
-                \mw('db')->q($q);
-                mw('cache')->delete('cart/global');
-                mw('cache')->delete('cart_orders/global');
+                $this->app->db->q($q);
+                $this->app->cache->delete('cart/global');
+                $this->app->cache->delete('cart_orders/global');
                 return true;
             }
         }
@@ -929,7 +939,7 @@ class Shop
         $amount = floatval(0.00);
         $cart = MODULE_DB_SHOP;
         $sumq = " SELECT  price, qty FROM $cart WHERE order_completed='n'  AND session_id='{$sid}'  ";
-        $sumq = \mw('db')->query($sumq);
+        $sumq = $this->app->db->query($sumq);
         if (is_array($sumq)) {
             foreach ($sumq as $value) {
                 $diferent_items = $diferent_items + $value['qty'];
@@ -972,7 +982,7 @@ class Shop
         $params['table'] = $table;
 
         //  d($params);
-        return \mw('db')->save($table, $params);
+        return $this->app->db->save($table, $params);
 
     }
 
@@ -986,11 +996,11 @@ class Shop
         $table = MODULE_DB_SHOP_ORDERS;
 
         if (isset($data['email'])) {
-            $c_id = mw('db')->escape_string($data['email']);
+            $c_id = $this->app->db->escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = \mw('db')->q($q);
-            //\mw('db')->delete_by_id($table, $c_id, 'email');
-            mw('cache')->delete('cart_orders/global');
+            $res = $this->app->db->q($q);
+            //$this->app->db->delete_by_id($table, $c_id, 'email');
+            $this->app->cache->delete('cart_orders/global');
             return $res;
             //d($c_id);
         }
@@ -1009,10 +1019,10 @@ class Shop
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            \mw('db')->delete_by_id($table, $c_id);
+            $this->app->db->delete_by_id($table, $c_id);
             $table2 = MODULE_DB_SHOP;
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = \mw('db')->q($q);
+            $res = $this->app->db->q($q);
             return $c_id;
             //d($c_id);
         }
@@ -1032,7 +1042,7 @@ class Shop
 
         $function_cache_id = 'shop' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -1169,7 +1179,7 @@ class Shop
         \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
 
         return true;
 
@@ -1182,7 +1192,7 @@ class Shop
 
         $function_cache_id = __FUNCTION__;
 
-        $cache_content = mw('cache')->get($function_cache_id, $cache_group = 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db');
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -1238,9 +1248,9 @@ class Shop
         }
         if ($changes == true) {
 
-            mw('cache')->delete('options/global');
+            $this->app->cache->delete('options/global');
         }
-        mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db');
 
         return true;
     }

@@ -57,7 +57,7 @@ class DbUtils extends \Microweber\Db
         }
         if (!empty($upd)) {
             $cg = $this->assoc_table_name($test['table']);
-            mw('cache')->delete($cg);
+            $this->app->cache->delete($cg);
             return $upd;
         } else {
             return false;
@@ -132,7 +132,7 @@ class DbUtils extends \Microweber\Db
         $cg = $this->assoc_table_name($table);
         //
         // d($cg);
-        mw('cache')->delete($cg);
+        $this->app->cache->delete($cg);
     }
 
 
@@ -279,7 +279,7 @@ class DbUtils extends \Microweber\Db
 
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db/' . $table_name, false);
+        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name, false);
 
         if (($cache_content) != false) {
 
@@ -361,7 +361,7 @@ class DbUtils extends \Microweber\Db
 
         }
 
-        mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, false);
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, false);
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
         //set_db_tables
@@ -484,7 +484,7 @@ class DbUtils extends \Microweber\Db
                 //d($sql);
                 $qz = $this->q($sql);
             }
-            //mw('cache')->delete('db');
+            //$this->app->cache->delete('db');
             return true;
         } else {
             return false;

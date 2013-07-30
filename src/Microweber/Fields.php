@@ -8,6 +8,28 @@ api_expose('CustomFields/make');
 class Fields
 {
 
+    public $app;
+
+    function __construct($app=null)
+    {
+
+
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+
+    }
+
+
+
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
     {
         //defined in common.php
@@ -22,7 +44,7 @@ class Fields
             if (!is_array($params2) or (is_array($params2) and count($params2) < 2)) {
 
                 $id = trim($id);
-                $table = mw('db')->escape_string($table);
+                $table = $this->app->db->escape_string($table);
 
                 if ($table != false) {
                     $table_assoc_name = db_get_table_name($table);
@@ -36,7 +58,7 @@ class Fields
 
                 }
                 if ($table_assoc_name == false) {
-                    $table_assoc_name = mw('db')->assoc_table_name($table_assoc_name);
+                    $table_assoc_name = $this->app->db->assoc_table_name($table_assoc_name);
 
                 }
             } else {
@@ -45,17 +67,17 @@ class Fields
         }
 
         if (isset($params['for'])) {
-            $table_assoc_name = mw('db')->assoc_table_name($params['for']);
+            $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
         }
         if (isset($params['debug'])) {
             $debug = $params['debug'];
         }
         if (isset($params['for_id'])) {
-            $id = mw('db')->escape_string($params['for_id']);
+            $id = $this->app->db->escape_string($params['for_id']);
         }
 
         if (isset($params['field_type'])) {
-            $field_type = mw('db')->escape_string($params['field_type']);
+            $field_type = $this->app->db->escape_string($params['field_type']);
         }
         if (isset($params['return_full'])) {
             $return_full = $params['return_full'];
@@ -100,7 +122,7 @@ class Fields
                 $field_type_q = ' ';
 
             } else {
-                $field_type = mw('db')->escape_string($field_type);
+                $field_type = $this->app->db->escape_string($field_type);
                 $field_type_q = ' and custom_field_type="' . $field_type . '"  ';
                 $field_type_q .= ' and custom_field_type!=""  ';
             }
@@ -151,7 +173,7 @@ class Fields
 
             $cache_id = __FUNCTION__ . '_' . $crc;
 
-            $q = \mw('db')->query($q, $cache_id, 'custom_fields/global');
+            $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
             if ($debug != false) {
                 //d($q);
             }
@@ -281,7 +303,7 @@ class Fields
             $data_to_save['id'] = intval($data_to_save['cf_id']);
 
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-            $form_data_from_id = \mw('db')->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+            $form_data_from_id = $this->app->db->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
                 if (!isset($data_to_save['rel'])) {
                     $data_to_save['rel'] = $form_data_from_id['rel'];
@@ -311,7 +333,7 @@ class Fields
         if (!isset($data_to_save['rel'])) {
             $data_to_save['rel'] = 'content';
         }
-        $data_to_save['rel'] = mw('db')->assoc_table_name($data_to_save['rel']);
+        $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['rel']);
         if (!isset($data_to_save['rel_id'])) {
             $data_to_save['rel_id'] = '0';
         }
@@ -325,8 +347,8 @@ class Fields
         if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
 
         } else {
-            $save = \mw('db')->save($table_custom_field, $data_to_save);
-            mw('cache')->delete('custom_fields');
+            $save = $this->app->db->save($table_custom_field, $data_to_save);
+            $this->app->cache->delete('custom_fields');
 
             return $save;
         }
@@ -339,7 +361,7 @@ class Fields
     {
 
         if ($field_id != 0) {
-            $data = \mw('db')->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             if (isset($data['options'])) {
                 $data['options'] = mw('format')->base64_to_array($data['options']);
             }
@@ -380,7 +402,7 @@ class Fields
 
         if (isset($rel)) {
             $rel = guess_table_name($rel);
-            $rel_id = mw('db')->escape_string($rel_id);
+            $rel_id = $this->app->db->escape_string($rel_id);
 
             $fields_csv_str = explode(',', $fields_csv_str);
             $fields_csv_str = array_trim($fields_csv_str);
@@ -478,9 +500,9 @@ class Fields
         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
 
-        \mw('db')->q($q);
+        $this->app->db->q($q);
 
-        mw('cache')->delete('custom_fields');
+        $this->app->cache->delete('custom_fields');
 
         return true;
     }
@@ -500,7 +522,7 @@ class Fields
 
                 //
                 // mw_error('no permission to get data');
-                //  $form_data = \mw('db')->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                //  $form_data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }}
 
@@ -525,7 +547,7 @@ class Fields
             }
         } else {
             if ($field_id != 0) {
-                $data = \mw('db')->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
@@ -538,7 +560,7 @@ class Fields
             if (is_admin() == true) {
 
                 $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-                $form_data = \mw('db')->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+                $form_data = $this->app->db->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
                 if (is_array($form_data)) {
 
                     $field_type = $form_data['custom_field_type'];
@@ -566,7 +588,7 @@ class Fields
             //d($form_data);
         } else if (isset($data['field_id'])) {
 
-            $data = \mw('db')->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+            $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
         if (isset($data['custom_field_type'])) {
@@ -668,8 +690,8 @@ class Fields
 
     static  function names_for_table($table)
     {
-        $table = mw('db')->escape_string($table);
-        $table1 = mw('db')->assoc_table_name($table);
+        $table = $this->app->db->escape_string($table);
+        $table1 = $this->app->db->assoc_table_name($table);
 
         $table = MW_DB_TABLE_CUSTOM_FIELDS;
         $q = false;
@@ -681,7 +703,7 @@ class Fields
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $results = \mw('db')->query($q, $cache_id, 'custom_fields/global');
+        $results = $this->app->db->query($q, $cache_id, 'custom_fields/global');
 
         if (is_array($results)) {
             return $results;

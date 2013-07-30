@@ -6,8 +6,9 @@ event_bind('mw_db_init', mw('Microweber\User')->db_init());
 class User
 {
 
+    public $app;
 
-    function __construct()
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_USERS")) {
             define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
@@ -15,7 +16,17 @@ class User
         if (!defined("MW_DB_TABLE_LOG")) {
             define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
         }
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
     }
+
 
     /**
      * Allows you to login a user into the system
@@ -474,12 +485,12 @@ class User
         $data['table'] = $table;
         //  $data ['cache_group'] = $cache_group;
 
-        $get = \mw('db')->get($data);
+        $get = $this->app->db->get($data);
 
-        //$get = \mw('db')->get_long($table, $criteria = $data, $cache_group);
-        // $get = \mw('db')->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
-        //  mw('cache')->save($get, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
 
         return $get;
     }
@@ -551,7 +562,7 @@ class User
 
             $table = MW_DB_TABLE_USERS;
             mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
-            $save = \mw('db')->save($table, $data_to_save);
+            $save = $this->app->db->save($table, $data_to_save);
 
             mw('log')->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
@@ -604,7 +615,7 @@ class User
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = mw('db')->escape_string($hash);
+            $hash = $this->app->db->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -631,7 +642,7 @@ class User
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = mw('db')->escape_string($api_key);
+                $api_key = $this->app->db->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {
@@ -742,7 +753,7 @@ class User
 
         $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -830,7 +841,7 @@ class User
 
         \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }

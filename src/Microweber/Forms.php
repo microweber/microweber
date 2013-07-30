@@ -6,8 +6,8 @@ event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
 
 class Forms
 {
-
-    function __construct()
+    public $app;
+    function __construct($app=null)
     {
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
             define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
@@ -18,6 +18,16 @@ class Forms
 
         if (!defined("MW_DB_TABLE_FORMS_DATA")) {
             define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
+        }
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
     }
 
@@ -34,7 +44,7 @@ class Forms
 
 
         //$params['debug'] = $table;
-        $data = \mw('db')->get($params);
+        $data = $this->app->db->get($params);
         $ret = array();
         if (is_array($data)) {
 
@@ -79,7 +89,7 @@ class Forms
         }
 
         $params['table'] = $table;
-        $id = \mw('db')->save($table, $params);
+        $id = $this->app->db->save($table, $params);
         if (isset($params['for_module_id'])) {
             $opts = array();
             $data['module'] = $params['module_name'];
@@ -199,7 +209,7 @@ class Forms
             $to_save['form_values'] = $params['form_values'];
         }
 
-        $save = \mw('db')->save($table, $to_save);
+        $save = $this->app->db->save($table, $to_save);
 
         if (!empty($cf_to_save)) {
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -215,7 +225,7 @@ class Forms
                 $value['rel_id'] = $save;
                 $value['rel'] = 'forms_data';
 
-                $cf_save = \mw('db')->save($table_custom_field, $value);
+                $cf_save = $this->app->db->save($table_custom_field, $value);
             }
         }
 
@@ -311,7 +321,7 @@ class Forms
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
 
-        return mw('db')->get($params);
+        return $this->app->db->get($params);
     }
 
     public function  countries_list()
@@ -321,7 +331,7 @@ class Forms
 
         $sql = "SELECT name AS country_name FROM $table   ";
 
-        $q = \mw('db')->query($sql, __FUNCTION__ . crc32($sql), 'db');
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'db');
         $res = array();
         if (is_array($q)) {
             foreach ($q as $value) {
@@ -359,7 +369,7 @@ class Forms
                         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
 
-                        \mw('db')->q($q);
+                        $this->app->db->q($q);
 
 
                     }
@@ -368,12 +378,12 @@ class Forms
                 }
 
 
-                mw('cache')->delete('custom_fields');
+                $this->app->cache->delete('custom_fields');
 
             }
 
 
-            \mw('db')->delete_by_id('forms_data', $c_id);
+            $this->app->db->delete_by_id('forms_data', $c_id);
         }
     }
 
@@ -387,8 +397,8 @@ class Forms
         $table = MW_DB_TABLE_FORMS_LISTS;
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            \mw('db')->delete_by_id('forms_lists', $c_id);
-            \mw('db')->delete_by_id('forms_data', $c_id, 'list_id');
+            $this->app->db->delete_by_id('forms_lists', $c_id);
+            $this->app->db->delete_by_id('forms_data', $c_id, 'list_id');
 
         }
     }
@@ -406,7 +416,7 @@ class Forms
 
         $function_cache_id = 'forms' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -461,7 +471,7 @@ class Forms
 
         \mw('Microweber\DbUtils')->import_sql_file($table_sql);
 
-        mw('cache')->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -587,14 +597,14 @@ class Forms
 
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db/' . $table_name, 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name, 'files');
 
         if (($cache_content) != false) {
 
             return $cache_content;
         }
 
-        $query = \mw('db')->query("show tables like '$table_name'");
+        $query = $this->app->db->query("show tables like '$table_name'");
 
         if (!is_array($query)) {
             $sql = "CREATE TABLE " . $table_name . " (
@@ -607,7 +617,7 @@ class Forms
             //
             //if (isset($_GET['debug'])) {
             //	d($sql);
-            \mw('db')->q($sql);
+            $this->app->db->q($sql);
             //}
         }
 
@@ -617,7 +627,7 @@ class Forms
 
             $sql = "show columns from $table_name";
 
-            $columns = \mw('db')->query($sql);
+            $columns = $this->app->db->query($sql);
 
             $exisiting_fields = array();
             $no_exisiting_fields = array();
@@ -644,7 +654,7 @@ class Forms
                         $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
                     if ($sql) {
-                        \mw('db')->q($sql);
+                        $this->app->db->q($sql);
 
                     }
                 }
@@ -656,7 +666,7 @@ class Forms
                 $sql = false;
                 if (isset($exisiting_fields[$the_field[0]]) != true) {
                     $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
-                    \mw('db')->q($sql);
+                    $this->app->db->q($sql);
                 } else {
                     //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
 
@@ -666,7 +676,7 @@ class Forms
 
         }
 
-        mw('cache')->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, 'files');
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, 'files');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
         //set_db_tables
@@ -692,7 +702,7 @@ class Forms
     {
         $columns = implode(',', $aOnColumns);
 
-        $query = \mw('db')->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
+        $query = $this->app->db->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
 
         if ($indexType != false) {
 
@@ -706,7 +716,7 @@ class Forms
         if ($query == false) {
             $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
             // var_dump($q);
-            \mw('db')->q($q);
+            $this->app->db->q($q);
         }
 
     }
@@ -722,7 +732,7 @@ class Forms
      */
     public function set_table_engine($aTable, $aEngine = 'MyISAM')
     {
-        \mw('db')->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
+        $this->app->db->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
 
 
@@ -741,7 +751,7 @@ class Forms
      */
     public function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
     {
-        $query = \mw('db')->query("
+        $query = $this->app->db->query("
 		SELECT
 		*
 		FROM
@@ -764,7 +774,7 @@ class Forms
             $q .= " FOREIGN KEY(" . $columns . ") ";
             $q .= " {$onDelete} ";
             $q .= " {$onUpdate} ";
-            \mw('db')->q($q);
+            $this->app->db->q($q);
         }
 
     }

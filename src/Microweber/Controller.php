@@ -40,14 +40,15 @@ class Controller
 
     public function __construct($app = null)
     {
-        //$this->app = $app;
+        if (!is_object($this->app)) {
 
-        if (is_object($app)) {
-            $this->app = $app;
-        } else {
-            $this->app = mw('application');
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
         }
-
 
     }
 
@@ -70,7 +71,7 @@ class Controller
 
         $page = false;
         $page_url = rtrim($page_url, '/');
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
 
         $simply_a_file = false;
         // if this is a file path it will load it
@@ -150,7 +151,7 @@ class Controller
         $is_preview_module = $this->app->url->param('preview_module');
 
         if ($is_preview_module != false) {
-            if (is_admin()) {
+            if ($this->app->user->is_admin()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
 
@@ -184,7 +185,7 @@ class Controller
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
                 if (isset($_GET['content_type'])) {
-                    $page['content_type'] = mw('db')->escape_string($_GET['content_type']);
+                    $page['content_type'] = $this->app->db->escape_string($_GET['content_type']);
                 }
                 //d($_GET);
 
@@ -476,7 +477,7 @@ class Controller
 
         if (isset($content['is_active']) and $content['is_active'] == 'n') {
 
-            if (is_admin() == false) {
+            if ($this->app->user->is_admin() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
@@ -490,7 +491,7 @@ class Controller
             }
 
         } else if (isset($content['is_deleted']) and $content['is_deleted'] == 'y') {
-            if (is_admin() == false) {
+            if ($this->app->user->is_admin() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
@@ -527,49 +528,23 @@ class Controller
             $l->post_id = PAGE_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $content;
-            $l->assign('app', $this->app)  ;
+            $l->assign('app', $this->app);
 
 
-
-           // $l->app($this->app);
-            // $l->set($l);
+             // $l->set($l);
 
 
             $l = $l->__toString();
 
-            // $domain = TEMPLATE_URL;
-            // preg_match_all('/href\="(.*?)"/im', $l, $matches);
-            // foreach ($matches[1] as $n => $link) {
-            // if (substr($link, 0, 4) != 'http')
-            // $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
-            // }
-            // preg_match_all('/src\="(.*?)"/im', $l, $matches);
-            // foreach ($matches[1] as $n => $link) {
-            // if (substr($link, 0, 4) != 'http')
-            // $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
-            // }
 
-            // d($l);
-            //exit();
 
             if (isset($_REQUEST['isolate_content_field'])) {
-                //d($_REQUEST);
 
-                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-                $pq = \phpQuery::newDocument($l);
+                $isolated_head = $this->app->parser->isolate_head($l);
 
-                $isolated_head = pq('head')->eq(0)->html();
-
-                // d($isolated_head);
-                $found_field = false;
-                if (isset($_REQUEST['isolate_content_field'])) {
-                    foreach ($pq ['[field=content]'] as $elem) {
-                        //d($elem);
-                        $isolated_el = $l = pq($elem)->htmlOuter();
-                    }
-                }
-
-                $is_admin = is_admin();
+                $l = $this->app->parser->isolate_content_field($l);
+ 
+                $is_admin = $this->app->user->is_admin();
                 if ($is_admin == true) {
 
                     $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
@@ -607,49 +582,15 @@ class Controller
             }
             if (isset($_REQUEST['embed_id'])) {
                 $find_embed_id = trim($_REQUEST['embed_id']);
-                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-
-                $pq = \phpQuery::newDocument($l);
-                //	$isolated_head = pq('head') -> eq(0) -> html();
-                //	$isolated_body = pq('body') -> eq(0) -> html();
-
-                foreach ($pq ['#' . $find_embed_id] as $elem) {
-
-                    $isolated_el = pq($elem)->htmlOuter();
-                    $isolated_body = pq('body')->eq(0)->html($isolated_el);
-                    $body_new = $isolated_body->htmlOuter();
-                     
-                    $l = pq(0)->htmlOuter();
-
-                }
-
-
-//                if (isset($isolated_el) and $isolated_el != false) {
-//
-//                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
-//                    //$layout_toolbar = file_get_contents($filename);
-//                    $layout_toolbar = new $this->app->view($tb);
-//                    $layout_toolbar = $layout_toolbar->__toString();
-//                    if ($layout_toolbar != '') {
-//                        if (strpos($layout_toolbar, '{content}')) {
-//
-//                            $l = str_replace('{content}', $isolated_el, $layout_toolbar);
-//
-//                        }
-//
-//                    }
-//
-//                 }
-
-
+                $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
             //mw_var('get_module_template_settings_from_options', 1);
-             //	mw_var('get_module_template_settings_from_options', 0);
+            //	mw_var('get_module_template_settings_from_options', 0);
             $apijs_loaded = mw_site_url('apijs');
             $apijs_loaded = mw_site_url('apijs') . '?id=' . CONTENT_ID;
 
-            $is_admin = is_admin();
+            $is_admin = $this->app->user->is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
             event_trigger('site_header', TEMPLATE_NAME);
 
@@ -835,7 +776,7 @@ class Controller
 
             if (isset($_GET['debug'])) {
 
-                $is_admin = is_admin();
+                $is_admin = $this->app->user->is_admin();
                 // if ($is_admin == true) {
                 $this->app->content->debug_info();
                 // }
@@ -851,7 +792,7 @@ class Controller
 
             //  d($template_view);
             //d($page);
-            mw('cache')->purge();
+            $this->app->cache->purge();
             exit();
         }
 
@@ -881,7 +822,7 @@ class Controller
 
         if (isset($_GET['debug'])) {
             $this->app->content->debug_info();
-            $is_admin = is_admin();
+            $is_admin = $this->app->user->is_admin();
             if ($is_admin == true) {
 
             }
@@ -937,7 +878,7 @@ class Controller
         $api_function_full = str_replace('..', '', $api_function_full);
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
-        $api_function_full = mw('db')->escape_string($api_function_full);
+        $api_function_full = $this->app->db->escape_string($api_function_full);
 
         $mod_api_class = explode('/', $api_function_full);
         $try_class_func = array_pop($mod_api_class);
@@ -1748,7 +1689,7 @@ class Controller
             require ($f);
             exit();
         } else {
-            if (is_admin() == true) {
+            if ($this->app->user->is_admin() == true) {
                 $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
                 require ($f);
                 exit();

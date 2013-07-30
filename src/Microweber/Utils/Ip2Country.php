@@ -11,7 +11,23 @@ event_bind('mw_db_init', '\Microweber\Utils\Ip2Country\db_init');
 class Ip2Country
 {
 
-    static function get($ip = false, $key = 'country_name')
+    public $app;
+    function __construct($app=null)
+    {
+      
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+    }
+    public function get($ip = false, $key = 'country_name')
     {
         if ($ip == false) {
             $ip = MW_USER_IP;
@@ -23,7 +39,7 @@ class Ip2Country
         $params['table'] = $table;
         $params['ip'] = $ip;
         $params['limit'] = 1;
-        $get = \mw('db')->get($params);
+        $get = $this->app->db->get($params);
         if ($get == false) {
             $remote_host = 'http://api.microweber.net';
             $service = "/service/ip2country/?ip=" . $ip;
@@ -46,7 +62,7 @@ class Ip2Country
                         $params['country_name'] = "Unknown";
                     }
                     //d($params);
-                    $s = \mw('db')->save($table, $params);
+                    $s = $this->app->db->save($table, $params);
                     $get = $params;
                 }
             }
@@ -73,7 +89,7 @@ class Ip2Country
      * @subpackage  Advanced
      * @uses \mw('Microweber\DbUtils')->build_table()
      */
-    static function db_init()
+    public function db_init()
     {
         $function_cache_id = false;
 
@@ -86,7 +102,7 @@ class Ip2Country
 
         $function_cache_id = 'ip2country_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = mw('cache')->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 

@@ -46,18 +46,18 @@ class Categories extends Category {
             $cs['id'] = intval($data['rel_id']);
             $cs['subtype'] = 'dynamic';
             $table_c = MW_TABLE_PREFIX . 'content';
-            $save = mw('db')->save($table_c, $cs);
+            $save = $this->app->db->save($table_c, $cs);
 
         }
 
-        $save = mw('db')->save($table, $data);
+        $save = $this->app->db->save($table, $data);
 
-        mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . $save);
+        $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
-            mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
         if (isset($data['parent_id'])) {
-            mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
         }
         if (intval($save) == 0) {
 
@@ -80,8 +80,8 @@ class Categories extends Category {
 	";
 
 
-        mw('db')->q($clean);
-        mw('cache')->clear('custom_fields');
+        $this->app->db->q($clean);
+        $this->app->cache->clear('custom_fields');
 
         $media_table =  MW_TABLE_PREFIX . 'media';
 
@@ -95,9 +95,9 @@ class Categories extends Category {
 	";
 
 
-        mw('cache')->clear('media');
+        $this->app->cache->clear('media');
 
-        mw('db')->q($clean);
+        $this->app->db->q($clean);
 
 
 
@@ -119,7 +119,7 @@ class Categories extends Category {
 
             // p($q,1);
 
-            mw('db')->q($q);
+            $this->app->db->q($q);
 
             foreach ($content_ids as $id) {
 
@@ -135,9 +135,9 @@ class Categories extends Category {
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = mw('db')->save($table_items, $item_save);
+                $item_save = $this->app->db->save($table_items, $item_save);
 
-                mw('cache')->clear('content' . DIRECTORY_SEPARATOR . $id);
+                $this->app->cache->clear('content' . DIRECTORY_SEPARATOR . $id);
             }
         }
 
@@ -151,9 +151,9 @@ class Categories extends Category {
 
         if ($preserve_cache == false) {
 
-            mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . $save);
-            mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . '0');
-            mw('cache')->clear('categories' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . '0');
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . 'global');
         }
 
         return $save;
@@ -168,11 +168,11 @@ class Categories extends Category {
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            mw('db')->delete_by_id('categories', $c_id);
-            mw('db')->delete_by_id('categories', $c_id, 'parent_id');
-            mw('db')->delete_by_id('categories_items', $c_id, 'parent_id');
+            $this->app->db->delete_by_id('categories', $c_id);
+            $this->app->db->delete_by_id('categories', $c_id, 'parent_id');
+            $this->app->db->delete_by_id('categories_items', $c_id, 'parent_id');
             if (defined("MODULE_DB_MENUS")) {
-                mw('db')->delete_by_id('menus', $c_id, 'categories_id');
+                $this->app->db->delete_by_id('menus', $c_id, 'categories_id');
             }
 
 

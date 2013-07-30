@@ -61,17 +61,17 @@ class Modules extends \Microweber\Module
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
 
-                        $save = mw('db')->save($table, $s);
+                        $save = $this->app->db->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
-                        $mname_clen = mw('db')->escape_string($mname_clen);
+                        $mname_clen = $this->app->db->escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            mw('db')->q($del);
+                            $this->app->db->q($del);
                         }
                     } else {
 
-                        $save = mw('db')->save($table, $s);
+                        $save = $this->app->db->save($table, $s);
                     }
                 } else {
 
@@ -79,18 +79,18 @@ class Modules extends \Microweber\Module
 
             } else {
 
-                $save = mw('db')->save($table, $s);
+                $save = $this->app->db->save($table, $s);
             }
 
             //
             //d($s);
         }
-        mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
+        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
         if (!isset($data_to_save['keep_cache'])) {
             if ($save != false) {
-                //   mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
-                // mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . 'global');
-                //mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . '');
+                //   $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
+                // $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'global');
+                //$this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
             }
         }
         return $save;
@@ -108,14 +108,14 @@ class Modules extends \Microweber\Module
         $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
         $q = "DELETE FROM $table WHERE id={$id}";
-        mw('db')->q($q);
+        $this->app->db->q($q);
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
-        mw('db')->q($q);
-        mw('cache')->delete('categories' . DIRECTORY_SEPARATOR . '');
-        // mw('cache')->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+        $this->app->db->q($q);
+        $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
+        // $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-        mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . '');
+        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
 
@@ -130,17 +130,17 @@ class Modules extends \Microweber\Module
             $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            mw('db')->q($q);
+            $this->app->db->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
-            mw('db')->q($q);
+            $this->app->db->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
-            mw('db')->q($q);
-            mw('cache')->delete('categories' . DIRECTORY_SEPARATOR . '');
-            mw('cache')->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+            $this->app->db->q($q);
+            $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
         }
     }
 
@@ -243,7 +243,7 @@ class Modules extends \Microweber\Module
                 // delete_module_by_id($id);
             }
         }
-        mw('cache')->delete('modules' . DIRECTORY_SEPARATOR . '');
+        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
 
         // d($params);
     }
@@ -367,7 +367,7 @@ class Modules extends \Microweber\Module
 
                         if ($changes == true) {
 
-                            mw('cache')->delete('options/global');
+                            $this->app->cache->delete('options/global');
                         }
                     }
 
@@ -389,7 +389,7 @@ class Modules extends \Microweber\Module
 
                         if ($changes == true) {
 
-                            mw('cache')->delete('options/global');
+                            $this->app->cache->delete('options/global');
                         }
                     }
 
@@ -415,7 +415,7 @@ class Modules extends \Microweber\Module
             $glob_patern = 'config.php';
         }
 
-        //mw('cache')->flush();
+        //$this->app->cache->flush();
         //clearstatcache();
         $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;
@@ -458,7 +458,7 @@ class Modules extends \Microweber\Module
 
         $params['table'] = $table;
 
-        $data = mw('db')->get($params);
+        $data = $this->app->db->get($params);
         return $data;
     }
 
@@ -481,13 +481,13 @@ class Modules extends \Microweber\Module
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            mw('db')->delete_by_id($table, $c_id);
+            $this->app->db->delete_by_id($table, $c_id);
         }
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                mw('db')->delete_by_id($table, $c_id);
+                $this->app->db->delete_by_id($table, $c_id);
             }
 
         }
@@ -507,7 +507,7 @@ class Modules extends \Microweber\Module
 
         if (!empty($data_to_save)) {
             $s = $data_to_save;
-            $save = mw('db')->save($table, $s);
+            $save = $this->app->db->save($table, $s);
         }
 
         return $save;
@@ -589,14 +589,14 @@ class Modules extends \Microweber\Module
                     //	delete_elements_from_db();
                 }
 
-                mw('cache')->delete('categories');
-                mw('cache')->delete('categories_items');
+                $this->app->cache->delete('categories');
+                $this->app->cache->delete('categories_items');
             }
         }
 
         if (isset($options['skip_cache']) == false) {
 
-            $cache_content = mw('cache')->get($cache_id, $cache_group, 'files');
+            $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
 
             if (($cache_content) != false) {
 
@@ -622,7 +622,7 @@ class Modules extends \Microweber\Module
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
         }
-        //mw('cache')->flush();
+        //$this->app->cache->flush();
         //clearstatcache();
 
         $modules_remove_old = false;
@@ -772,7 +772,7 @@ class Modules extends \Microweber\Module
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            mw('db')->q($q);
+                            $this->app->db->q($q);
                         }
                         //	d($ism);
                     }
@@ -781,7 +781,7 @@ class Modules extends \Microweber\Module
 
             $c2 = array_merge($cfg_ordered, $cfg);
 
-            mw('cache')->save($c2, $cache_id, $cache_group, 'files');
+            $this->app->cache->save($c2, $cache_id, $cache_group, 'files');
 
             return $c2;
         }

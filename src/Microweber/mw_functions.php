@@ -175,7 +175,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 
         if (($cache_content_init) == false) {
             event_trigger('mw_db_init');
-            //mw('cache')->save('true', $c_id, 'db');
+            //$this->app->cache->save('true', $c_id, 'db');
 
             $installed = array();
             $installed['option_group'] = ('mw_system');

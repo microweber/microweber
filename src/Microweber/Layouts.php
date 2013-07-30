@@ -16,7 +16,23 @@ if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
 
 class Layouts {
 
+    public $app;
 
+    function __construct($app=null)
+    {
+       
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+
+    }
 
     /**
      * Lists the layout files from a given directory
@@ -37,7 +53,7 @@ class Layouts {
      *
      *
      */
-    static function scan($options = false)
+    public function scan($options = false)
     {
         $options = parse_params($options);
         if (!isset($options['path'])) {
@@ -78,7 +94,7 @@ class Layouts {
 
             $cache_group = 'templates';
 
-            $cache_content = mw('cache')->get($cache_id, $cache_group, 'files');
+            $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
 
             if (($cache_content) != false) {
 
@@ -254,18 +270,18 @@ class Layouts {
 
             if (!empty($configs)) {
                 if (!isset($options['no_cache'])) {
-                    mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
+                    $this->app->cache->save($configs, $function_cache_id, $cache_group, 'files');
                 }
                 return $configs;
             } else {
-                //mw('cache')->save(false, $function_cache_id, $cache_group);
+                //$this->app->cache->save(false, $function_cache_id, $cache_group);
             }
         } else {
-            //mw('cache')->save(false, $function_cache_id, $cache_group);
+            //$this->app->cache->save(false, $function_cache_id, $cache_group);
         }
     }
 
-   static function get($params = false)
+   public function get($params = false)
     {
 
         $table = MW_DB_TABLE_ELEMENTS;
@@ -288,11 +304,11 @@ class Layouts {
             //   $params['ui'] = 1;
         }
 
-        $s = \mw('db')->get($params);
+        $s = $this->app->db->get($params);
         // d($params); d( $s);
         return $s;
     }
-    static function get_link($options = false)
+    public function get_link($options = false)
     {
         $args = func_get_args();
         $function_cache_id = '';
@@ -348,7 +364,7 @@ class Layouts {
 
         return $fn;
     }
-    static function save($data_to_save)
+    public function save($data_to_save)
     {
 
         if (is_admin() == false) {
@@ -376,13 +392,13 @@ class Layouts {
                     $save = self::get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
-                        $save = \mw('db')->save($table, $s);
+                        $save = $this->app->db->save($table, $s);
                     } else {
-                        $save = \mw('db')->save($table, $s);
+                        $save = $this->app->db->save($table, $s);
                     }
                 }
             } else {
-                $save = \mw('db')->save($table, $s);
+                $save = $this->app->db->save($table, $s);
             }
 
             //
@@ -391,8 +407,8 @@ class Layouts {
 
         if ($save != false) {
 
-            mw('cache')->delete('elements' . DIRECTORY_SEPARATOR . '');
-            mw('cache')->delete('elements' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . 'global');
         }
         return $save;
     }
@@ -400,7 +416,7 @@ class Layouts {
 
 
 
-    static function delete_all()
+    public function delete_all()
     {
         if (is_admin() == false) {
             return false;
@@ -413,19 +429,19 @@ class Layouts {
 
             $q = "delete from $table ";
             //   d($q);
-            \mw('db')->q($q);
+            $this->app->db->q($q);
 
             $q = "delete from $db_categories where rel='elements' and data_type='category' ";
             // d($q);
-            \mw('db')->q($q);
+            $this->app->db->q($q);
 
             $q = "delete from $db_categories_items where rel='elements' and data_type='category_item' ";
             // d($q);
-            \mw('db')->q($q);
-            mw('cache')->delete('categories' . DIRECTORY_SEPARATOR . '');
-            mw('cache')->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+            $this->app->db->q($q);
+            $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            mw('cache')->delete('elements' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
         }
     }
 
