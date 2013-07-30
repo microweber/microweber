@@ -428,7 +428,7 @@ class Parser
                                 //	$module_html = '';
                                 //}
                                 $replaced_modules_values[$replace_key] = $module_html;
- 
+
                                  $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
 

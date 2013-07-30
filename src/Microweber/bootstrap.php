@@ -149,6 +149,28 @@ $_mw_registry = array();
 $_mw_global_object = null;
 function mw($class, $constructor_params = false)
 {
+
+
+    global $_mw_global_object;
+    if(!is_object($_mw_global_object)){
+        $_mw_global_object = new \Microweber\Application();
+    }
+
+
+    $class_name = strtolower($class);
+
+    $class = ucfirst($class);
+    $class = str_replace('/', '\\', $class);
+    if (!isset($_mw_registry[$class_name])) {
+        $_mw_registry[$class_name] = $_mw_global_object->$class($_mw_global_object);
+
+    }
+
+    return $_mw_registry[$class_name];
+
+
+
+
     if ($class != false) {
         global $_mw_registry;
 
@@ -164,6 +186,7 @@ function mw($class, $constructor_params = false)
             if ($constructor_params == false) {
 
                 try {
+                    mwdbg($class);
                     $prop = new $mw($constructor_params);
                 } catch (Exception $e) {
                     $prop = new $class($constructor_params);
