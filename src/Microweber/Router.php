@@ -84,12 +84,14 @@ class Router
             if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
 
                 $is_custom_controller_called = true;
-                call_user_func($controller->functions[$method]);
+                return call_user_func($controller->functions[$method]);
+
 
             } else if (isset($controller->functions[$method_full]) and is_callable($controller->functions[$method_full])) {
                 $is_custom_controller_called = true;
 
-                call_user_func($controller->functions[$method_full]);
+                return call_user_func($controller->functions[$method_full]);
+
                 // exit();
             } elseif (is_array($controller->functions) and !empty($controller->functions)) {
                 $attached_routes = $controller->functions;
@@ -100,7 +102,8 @@ class Router
                         if ($if_route_found == true) {
                             $is_custom_controller_called = true;
 
-                            call_user_func($controller->functions[$k]);
+                            return call_user_func($controller->functions[$k]);
+
                             //   exit();
                         }
                     }
@@ -115,11 +118,11 @@ class Router
         if ($is_custom_controller_called == false) {
             if (method_exists($controller, $method)) {
 
-                $controller->$method();
+                return $controller->$method();
 
             } else {
 
-                $controller->index();
+                return $controller->index();
 
             }
 

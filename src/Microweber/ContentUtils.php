@@ -433,7 +433,8 @@ class ContentUtils extends \Microweber\Content
             if ($ref_page == false) {
 
 
-                $guess_page_data = new \Microweber\Controller();
+                 $guess_page_data = new \Microweber\Controller();
+               // $guess_page_data =  new  $this->app->controller($this->app);
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;

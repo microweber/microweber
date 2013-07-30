@@ -4,6 +4,7 @@ $passed_reps = array();
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
 $replaced_modules = array();
+$replaced_modules_values = array();
 class Parser
 {
 
@@ -15,7 +16,7 @@ class Parser
 
         global $replaced_modules;
 
-
+        global $replaced_modules_values;
 
 
 
@@ -41,10 +42,10 @@ class Parser
                         $v1 = crc32($value);
                         $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
-                         if (!isset($replaced_scripts[$v1])) {
+                        if (!isset($replaced_scripts[$v1])) {
                             $replaced_scripts[$v1] = $value;
                         }
-                     }
+                    }
                 }
             }
 
@@ -58,10 +59,10 @@ class Parser
                         $v1 = crc32($value);
                         $v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
-                         if (!isset($replaced_scripts[$v1])) {
+                        if (!isset($replaced_scripts[$v1])) {
                             $replaced_codes[$v1] = $value;
                         }
-                     }
+                    }
                 }
             }
 
@@ -69,7 +70,7 @@ class Parser
 
 
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
-             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
+            if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
 
                 $layout = $this->_replace_editable_fields($layout);
 
@@ -90,13 +91,13 @@ class Parser
                     if ($value != '') {
                         // d($value);
                         $v1 = crc32($value);
-                        $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
+                        $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
                         // $layout = str_replace_count($value, $v1, $layout,1);
-                        if (!isset($replaced_modules[$v1])) {
+                      if (!isset($replaced_modules[$v1])) {
 
                             $replaced_modules[$v1] = $value;
-                        }
+                       }
                         // p($value);
                     }
                 }
@@ -131,7 +132,7 @@ class Parser
                 //$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
                 $attrs = array();
                 foreach ($replaced_modules as $key => $value) {
-                    unset($replaced_modules[$key]);
+                    //unset($replaced_modules[$key]);
                     if ($value != '') {
 
 
@@ -365,7 +366,7 @@ class Parser
 
                                 $mod_content = load_module($module_name, $attrs);
 
-                               // mwdbg($module_name);
+                                // mwdbg($module_name);
                                 $plain_modules = mw_var('plain_modules');
                                 if ($plain_modules != false) {
                                     //d($plain_modules);
@@ -412,8 +413,8 @@ class Parser
                                     }
 
                                 }
-
-                             //   $proceed_with_parse = 1;
+                                unset($replaced_modules[$key]);
+                                //   $proceed_with_parse = 1;
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -426,24 +427,18 @@ class Parser
                                 //} else {
                                 //	$module_html = '';
                                 //}
-
-
-                                $layout = str_replace($value, $module_html, $layout);
+                                $replaced_modules_values[$replace_key] = $module_html;
+ 
+                                 $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
-                                if ($module_name == 'comments') {
-//                               d($replace_key);
-//                               d($value);
-//                           d($module_html);
-//                               d($layout);
-//                            exit();
-                                }
+
                                 //
                             }
                         }
                         //
                     }
 
-                    // $layout = str_replace($key, $value, $layout);
+                      $layout = str_replace($key, $value, $layout);
                 }
             }
         }
@@ -457,9 +452,20 @@ class Parser
                 unset($replaced_codes[$key]);
             }
         }
-        global $mw_rand;
-        //	$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-        $layout = str_replace('{rand}', uniqid(), $layout);
+
+
+        if (!empty($replaced_modules_values)) {
+            foreach ($replaced_modules_values as $key => $value) {
+                if ($value != '') {
+
+                    $layout = str_replace($key, $value, $layout);
+                }
+                //unset($replaced_modules_values[$key]);
+            }
+        }
+
+
+          $layout = str_replace('{rand}', uniqid(), $layout);
         $layout = str_replace('{SITE_URL}', mw_site_url(), $layout);
         $layout = str_replace('{MW_SITE_URL}', mw_site_url(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', mw_site_url(), $layout);

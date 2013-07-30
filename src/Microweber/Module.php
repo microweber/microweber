@@ -54,7 +54,7 @@ class Module
         }
         if (!isset($params['ui'])) {
             $params['ui'] = 1;
-            //$params['debug'] = 1;
+            //
         }
 
         if (isset($params['ui']) and $params['ui'] == 'any') {
