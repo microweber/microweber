@@ -2,7 +2,7 @@
 
 date_default_timezone_set('UTC');
 define('M', memory_get_usage());
-define('MW_USE_APC_CACHE', false);
+  define('MW_USE_APC_CACHE', false);
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }
@@ -25,9 +25,11 @@ if (is_file($config_file_for_site)) {
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 
 
-$application = new \Microweber\Application(MW_CONFIG_FILE);
+ $application = new \Microweber\Application(MW_CONFIG_FILE);
+//$application = new \Microweber\MyApp(MW_CONFIG_FILE);
+
 // or
-// $application = mw('application',MW_CONFIG_FILE);
+ $application = mw('application',MW_CONFIG_FILE);
 
 $installed = $application->config('installed');
 
@@ -47,6 +49,7 @@ $router->hello_world = function () {
     echo "Hello world!";
 };
 
+//$temp = $application->content->get_layout($page_non_active);
 
 $controller->functions['test/route/*'] = function () {
     echo "You can use wildcards!";
@@ -59,7 +62,8 @@ if (MW_IS_INSTALLED != true) {
     $controller->install();
     exit();
 }
-$router->run();
+$outp =$router->run();
+
 
 exit();
 

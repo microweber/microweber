@@ -28,6 +28,9 @@ if(isset($params['layout_type'])){
 
 }
 
+
+
+
  ?>
 
  <script type="text/javascript">
