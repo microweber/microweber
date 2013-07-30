@@ -976,7 +976,7 @@ class Shop
         }
         if (is_admin() == false) {
 
-            mw_mw_error("You must be admin");
+            mw_error("You must be admin");
         }
 
         $table = MODULE_DB_SHOP_ORDERS;
