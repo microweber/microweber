@@ -78,7 +78,7 @@ class Update
         if (is_array($t)) {
             foreach ($t as $value) {
                 if (isset($value['module'])) {
-                    $module_templates = module_templates($value['module']);
+                    $module_templates = $this->app->module->templates($value['module']);
                     $mod_tpls = array();
                     if (is_array($module_templates)) {
                         foreach ($module_templates as $key1 => $value1) {
@@ -88,7 +88,7 @@ class Update
                                 $options['no_cache'] = 1;
                                 $options['for_modules'] = 1;
                                 $options['filename'] = $value1['filename'];
-                                $module_templates_for_this = layouts_list($options);
+                                $module_templates_for_this = $this->app->layouts->scan($options);
                                 if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
                                     $mod_tpls[$key1] = $module_templates_for_this[0];
                                 }
@@ -108,7 +108,7 @@ class Update
             }
         }
 
-        $t = get_layouts_from_db();
+        $t = $this->app->layouts->get();
         $data['elements'] = $t;
 
         $result = $this->call('check_for_update', $data);
@@ -392,7 +392,7 @@ class Update
 
         $params = array();
 
-        $skin_file = module_templates($module, $layout);
+        $skin_file = $this->app->module->templates($module, $layout);
 
         if (is_file($skin_file)) {
 
@@ -400,7 +400,7 @@ class Update
             $options['no_cache'] = 1;
             $options['for_modules'] = 1;
             $options['filename'] = $skin_file;
-            $skin_data = layouts_list($options);
+            $skin_data = $this->app->layouts->scan($options);
 
             if ($skin_data != false) {
                 $skin_data['module_template'] = $module;
@@ -467,7 +467,7 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = modules_list($params);
+            $data = $this->app->modules->get($params);
             //d($data);
             $this->app->cache->delete('update/global');
             $this->app->cache->delete('db');
@@ -510,7 +510,7 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = modules_list($params);
+            $data = $this->app->modules->get($params);
             //d($data);
 
         }

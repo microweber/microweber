@@ -1179,7 +1179,7 @@ class ContentUtils extends \Microweber\Content
                     $add_page['subtype'] = 'dynamic';
                     $add_page['is_shop'] = 'y';
                     $add_page['active_site_template'] = 'default';
-                    $find_layout = layouts_list();
+                    $find_layout = $this->app->layouts->scan();
                     if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (isset($item['layout_file']) and isset($item['is_shop'])) {
@@ -1238,7 +1238,7 @@ class ContentUtils extends \Microweber\Content
                     $add_page['subtype'] = 'dynamic';
                     $add_page['is_shop'] = 'n';
                     $add_page['active_site_template'] = 'default';
-                    $find_layout = layouts_list();
+                    $find_layout = $this->app->layouts->scan();
                     if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {

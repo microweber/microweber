@@ -355,11 +355,11 @@ class Module
                 $options['no_cache'] = 1;
                 $options['for_modules'] = 1;
                 $options['path'] = $module_name_l;
-                $module_name_l = layouts_list($options);
+                $module_name_l = $this->app->layouts->scan($options);
                 if (is_dir($module_name_l_theme)) {
                     $options['path'] = $module_name_l_theme;
                     //d($options);
-                    $module_skins_from_theme = layouts_list($options);
+                    $module_skins_from_theme = $this->app->layouts->scan($options);
                     //	d($module_skins_from_theme);
                     if (is_array($module_skins_from_theme)) {
                         if (!is_array($module_name_l)) {

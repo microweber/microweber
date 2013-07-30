@@ -288,7 +288,7 @@ class Fields
         if ($id == 0) {
             mw_error('Error: not logged in.');
         }
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -375,7 +375,7 @@ class Fields
   public function make_default($rel, $rel_id, $fields_csv_str)
     {
 
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             return false;
         }
@@ -448,7 +448,7 @@ class Fields
     public function reorder($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -477,7 +477,7 @@ class Fields
         if ($uid == 0) {
             mw_error('Error: not logged in.');
         }
-        $uid = is_admin();
+        $uid = $this->app->user->is_admin();
         if ($uid == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

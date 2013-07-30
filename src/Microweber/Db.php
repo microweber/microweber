@@ -458,7 +458,7 @@ class Db
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
-        $criteria = $this->app->url->replace_mw_site_url($criteria);
+        $criteria = $this->app->url->replace_site_url($criteria);
 
         //  }
 

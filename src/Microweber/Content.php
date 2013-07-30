@@ -1273,7 +1273,7 @@ class Content
             }
         }
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
-            $layouts_list = layouts_list('site_template=' . $page['active_site_template']);
+            $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
 
             if (is_array($layouts_list)) {
                 foreach ($layouts_list as $layout_item) {

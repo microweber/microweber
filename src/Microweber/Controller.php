@@ -102,7 +102,7 @@ class Controller
                 //sleep(1);
 
 
-                //$this->app->url->redirect(mw_site_url($page_url));
+                //$this->app->url->redirect($this->app->url->site_url($page_url));
                 //exit();
             } else {
 
@@ -118,7 +118,7 @@ class Controller
                         //exit();
 
                     }
-                    $this->app->url->redirect(mw_site_url($page_url));
+                    $this->app->url->redirect($this->app->url->site_url($page_url));
                     exit();
                 } else {
                     $is_editmode = false;
@@ -270,7 +270,7 @@ class Controller
                     $page['simply_a_file'] = 'clean.php';
                     $page['layout_file'] = 'clean.php';
                     template_var('content', $page['content']);
-                    mwdbg($page);
+
                     template_var('new_page', $page);
                 }
 

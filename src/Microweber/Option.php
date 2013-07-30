@@ -447,7 +447,7 @@ class Option
                 }
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
-                    $data['option_value'] = $this->app->url->replace_mw_site_url($data['option_value']);
+                    $data['option_value'] = $this->app->url->replace_site_url($data['option_value']);
                     //d($data['option_value']);
                 }
 
