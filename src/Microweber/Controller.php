@@ -250,7 +250,7 @@ class Controller
                     $page_url = $preview_module;
                 }
 
-                if ($page_exact == false and $found_mod == false and is_module_installed($page_url)) {
+                if ($page_exact == false and $found_mod == false and $this->app->module->is_installed($page_url)) {
 
                     $found_mod = true;
                     $page['id'] = 0;
@@ -390,7 +390,7 @@ class Controller
                             if (is_array($page_url_segment_3)) {
 
                                 foreach ($page_url_segment_3 as $mvalue) {
-                                    if ($found_mod == false and is_module_installed($mvalue)) {
+                                    if ($found_mod == false and $this->app->module->is_installed($mvalue)) {
                                         //d($mvalue);
                                         $found_mod = true;
                                         $page['id'] = 0;
@@ -522,32 +522,18 @@ class Controller
 
 
             $l = $this->app->view($render_file);
-
+            $l->app = $this->app;
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $content;
 
-            // $l->set($l);
+
 
 
             $l = $l->__toString();
 
-            // $domain = TEMPLATE_URL;
-            // preg_match_all('/href\="(.*?)"/im', $l, $matches);
-            // foreach ($matches[1] as $n => $link) {
-            // if (substr($link, 0, 4) != 'http')
-            // $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
-            // }
-            // preg_match_all('/src\="(.*?)"/im', $l, $matches);
-            // foreach ($matches[1] as $n => $link) {
-            // if (substr($link, 0, 4) != 'http')
-            // $l = str_replace($matches[1][$n], $domain . $matches[1][$n], $l);
-            // }
-
-            // d($l);
-            //exit();
 
             if (isset($_REQUEST['isolate_content_field'])) {
                 //d($_REQUEST);

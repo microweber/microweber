@@ -66,7 +66,7 @@ class User
      * @uses mw('log')->get()
      * @uses mw('log')->save()
      * @uses $this->login_set_failed_attempt()
-     * @uses user_update_last_login_time()
+     * @uses $this->update_last_login_time()
      * @uses event_trigger()
      * @function user_login()
      * @see _table() For the database table fields
@@ -84,7 +84,7 @@ class User
                 }
             }
         }
-        
+
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
@@ -538,7 +538,26 @@ class User
             return $res;
         }
     }
+    public function update_last_login_time()
+    {
 
+        $uid = user_id();
+        if (intval($uid) > 0) {
+
+            $data_to_save = array();
+            $data_to_save['id'] = $uid;
+            $data_to_save['last_login'] = date("Y-m-d H:i:s");
+            $data_to_save['last_login_ip'] = MW_USER_IP;
+
+            $table = MW_DB_TABLE_USERS;
+            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
+            $save = \mw('db')->save($table, $data_to_save);
+
+            mw('log')->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+
+        }
+
+    }
     public function make_logged($user_id)
     {
 
@@ -566,7 +585,7 @@ class User
                     event_trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
-                    user_update_last_login_time();
+                    $this->update_last_login_time();
                     $user_session['success'] = "You are logged in!";
                     return $user_session;
                 }

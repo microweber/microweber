@@ -16,8 +16,8 @@ event_bind('mw_db_init', mw('Microweber\Content')->db_init());
 
 class Content
 {
-
-    function __construct()
+    public $app;
+    function __construct($app=null)
     {
 
         if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -53,6 +53,17 @@ class Content
         if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
         }
+
+
+        if(is_object($app)){
+            $this->app = $app;
+        } else {
+            $this->app = mw('application');
+        }
+
+
+
+
     }
 
     /**
@@ -158,7 +169,7 @@ class Content
      * $params['subtype'] = 'product'; //get by subtype
      * $params['title'] = 'my title'; //get by title
      *
-     * $data = get_content($params);
+     * $data = $this->app->content->get($params);
      * var_dump($data);
      *
      * </code>
@@ -166,7 +177,7 @@ class Content
      * @example
      * #### Get by params as string
      * <code>
-     *  $data = get_content('is_active=y');
+     *  $data = $this->app->content->get('is_active=y');
      *  var_dump($data);
      * </code>
      *
@@ -174,19 +185,19 @@ class Content
      * #### Ordering and sorting
      * <code>
      *  //Order by position
-     *  $data = get_content('content_type=post&is_active=y&order_by=position desc');
+     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=position desc');
      *  var_dump($data);
      *
      *  //Order by date
-     *  $data = get_content('content_type=post&is_active=y&order_by=updated_on desc');
+     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=updated_on desc');
      *  var_dump($data);
      *
      *  //Order by title
-     *  $data = get_content('content_type=post&is_active=y&order_by=title asc');
+     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=title asc');
      *  var_dump($data);
      *
      *  //Get content from last week
-     *  $data = get_content('created_on=[mt]-1 week&is_active=y&order_by=title asc');
+     *  $data = $this->app->content->get('created_on=[mt]-1 week&is_active=y&order_by=title asc');
      *  var_dump($data);
      * </code>
      *
@@ -272,7 +283,7 @@ class Content
             }
             $params['table'] = $table;
             $params['cache_group'] = $cache_group;
-            $get = mw('db')->get($params);
+            $get = $this->app->db->get($params);
 
 
             if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -281,7 +292,7 @@ class Content
                 }
                 if (isset($get['title'])) {
                     //$item['url'] = page_link($item['id']);
-                    $get['title'] = mw('format')->clean_html($get['title']);
+                    $get['title'] = $this->app->format->clean_html($get['title']);
                 }
                 return $get;
             }
@@ -294,7 +305,7 @@ class Content
                     }
                     if (isset($item['title'])) {
                         //$item['url'] = page_link($item['id']);
-                        $item['title'] = mw('format')->clean_html($item['title']);
+                        $item['title'] = $this->app->format->clean_html($item['title']);
                     }
 
                     $data2[] = $item;
@@ -351,7 +362,7 @@ class Content
                 $page = array();
                 $page['layout_name'] = trim($id);
 
-                $page = get_content($page);
+                $page = $this->app->content->get($page);
                 $page = $page[0];
             }
         }
@@ -403,14 +414,14 @@ class Content
         $params['cache_group'] = 'content/' . $id;
 
 
-        $q = mw('db')->get($params);
+        $q = $this->app->db->get($params);
 
-        //  $q = mw('db')->get_long($table, $params, $cache_group = 'content/' . $id);
-        //  $q = mw('db')->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        //  $q = $this->app->db->get_long($table, $params, $cache_group = 'content/' . $id);
+        //  $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
         if (isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
-                $content['title'] = mw('format')->clean_html($content['title']);
+                $content['title'] = $this->app->format->clean_html($content['title']);
             }
         } else {
 
@@ -490,7 +501,7 @@ class Content
 
         $data['table'] = $table;
 
-        $get = mw('db')->get($data);
+        $get = $this->app->db->get($data);
 
 
         if (!isset($data['full']) and isset($get['value'])) {
@@ -550,7 +561,7 @@ class Content
         if (isset($params['paging_param'])) {
             $paging_param = $params['paging_param'];
         }
-        $curent_page_from_url = mw('url')->param($paging_param);
+        $curent_page_from_url = $this->app->url->param($paging_param);
 
         if (isset($params['curent_page'])) {
             $curent_page_from_url = $params['curent_page'];
@@ -594,8 +605,8 @@ class Content
                 // $base_url =  full_url(true);
             }*/
 
-            if (mw('url')->is_ajax() == false) {
-                $base_url = mw('url')->current(1);
+            if ($this->app->url->is_ajax() == false) {
+                $base_url = $this->app->url->current(1);
 
             } else {
                 if ($_SERVER['HTTP_REFERER'] != false) {
@@ -935,7 +946,7 @@ class Content
 
         if (defined('LAYOUTS_URL') == false) {
 
-            $layouts_url = reduce_double_slashes(mw('url')->link_to_file($layouts_dir) . '/');
+            $layouts_url = reduce_double_slashes($this->app->url->link_to_file($layouts_dir) . '/');
 
             define("LAYOUTS_URL", $layouts_url);
         } else {
@@ -952,7 +963,7 @@ class Content
     {
         if (strval($url) == '') {
 
-            $url = mw('url')->string();
+            $url = $this->app->url->string();
         }
 
         $u1 = $url;
@@ -971,8 +982,8 @@ class Content
         $table = MW_TABLE_PREFIX . 'content';
 
         // $url = strtolower($url);
-        //  $url = mw('format')->clean_html($url);
-        $url = mw('db')->escape_string($url);
+        //  $url = $this->app->format->clean_html($url);
+        $url = $this->app->db->escape_string($url);
         $url = addslashes($url);
 
         $url12 = parse_url($url);
@@ -1029,7 +1040,7 @@ class Content
 
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = mw('db')->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 
         $result = $q;
 
@@ -1147,7 +1158,7 @@ class Content
             }
         }
         if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
-            $url_file = mw('url')->string(1, 1);
+            $url_file = $this->app->url->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
             $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
@@ -1452,7 +1463,7 @@ class Content
 
         $sql = "SELECT * FROM $table WHERE is_home='y'  ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = mw('db')->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         // var_dump($q);
         $result = $q;
 
@@ -1589,7 +1600,7 @@ class Content
 
         $is_shop = '';
         if (isset($params['is_shop'])) {
-            $is_shop = mw('db')->escape_string($params['is_shop']);
+            $is_shop = $this->app->db->escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
 
@@ -1640,7 +1651,7 @@ class Content
         $cid = __FUNCTION__ . crc32($sql);
         $cidg = 'content/' . $parent;
 
-        //$q = mw('db')->query($sql, $cid, $cidg);
+        //$q = $this->app->db->query($sql, $cid, $cidg);
         if (!is_array($params)) {
             $params = array();
         }
@@ -1756,10 +1767,10 @@ class Content
         }
 
         if ($include_first_set != false) {
-            $q = get_content("id=" . $include_first_set);
+            $q = $this->app->content->get("id=" . $include_first_set);
 
         } else {
-            $q = get_content($params2);
+            $q = $this->app->content->get($params2);
 
         }
 
@@ -2105,7 +2116,7 @@ class Content
                         }
                         //d($cat_params);
                         //d($cat_params);
-                        mw('category')->tree($cat_params);
+                        $this->app->category->tree($cat_params);
 
                     }
                 }
@@ -2160,7 +2171,7 @@ class Content
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $taxonomies = mw('db')->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         //var_dump($q);
         //  var_dump($taxonomies);
@@ -2506,7 +2517,7 @@ class Content
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
-        return mw('db')->get($params);
+        return $this->app->db->get($params);
     }
 
 
@@ -2528,7 +2539,7 @@ class Content
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = mw('db')->get($params);
+        $menus = $this->app->db->get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -2584,9 +2595,9 @@ class Content
         $menu_params['table'] = $menus;
         $menu_params['orderby'] = "position ASC";
 
-        //$q = mw('db')->get($menu_params);
+        //$q = $this->app->db->get($menu_params);
         // d($q);
-        $q = mw('db')->query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
         // $data = $q;
         if (empty($q)) {
@@ -2667,12 +2678,12 @@ class Content
 
                 }
             } else if (intval($item['categories_id']) > 0) {
-                $cont = get_category_by_id($item['categories_id']);
+                $cont = $this->app->category->get_by_id($item['categories_id']);
                 if (is_array($cont)) {
                     $title = $cont['title'];
                     $url = category_link($cont['id']);
                 } else {
-                    mw('db')->delete_by_id($menus, $item['id']);
+                    $this->app->db->delete_by_id($menus, $item['id']);
                     $title = false;
                     $item['title'] = false;
                 }
@@ -2695,8 +2706,8 @@ class Content
             $active_class = '';
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
                 $surl = mw_site_url();
-                $cur_url = mw('url')->current(1);
-                $item['url'] = mw('format')->replace_once('{SITE_URL}', $surl, $item['url']);
+                $cur_url = $this->app->url->current(1);
+                $item['url'] = $this->app->format->replace_once('{SITE_URL}', $surl, $item['url']);
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
                 } else {

@@ -193,7 +193,7 @@ function mw($class, $constructor_params = false)
         //}
     } else {
 
-        return new stdClass;
+       // return new stdClass;
     }
 
 }

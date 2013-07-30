@@ -2,13 +2,12 @@
 namespace Microweber;
 
 
-
 class Users extends \Microweber\User
 {
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
         if (!defined("MW_DB_TABLE_USERS")) {
             define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
@@ -18,7 +17,7 @@ class Users extends \Microweber\User
         }
 
 
-        if(is_object($app)){
+        if (is_object($app)) {
             $this->app = $app;
         } else {
             $this->app = mw('application');
@@ -267,28 +266,6 @@ class Users extends \Microweber\User
 
         }
         return $data;
-    }
-
-
-    public function update_last_login_time()
-    {
-
-        $uid = user_id();
-        if (intval($uid) > 0) {
-
-            $data_to_save = array();
-            $data_to_save['id'] = $uid;
-            $data_to_save['last_login'] = date("Y-m-d H:i:s");
-            $data_to_save['last_login_ip'] = MW_USER_IP;
-
-            $table = MW_DB_TABLE_USERS;
-            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
-            $save = \mw('db')->save($table, $data_to_save);
-
-            mw('log')->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-        }
-
     }
 
 
@@ -620,23 +597,22 @@ class Users extends \Microweber\User
     }
 
 
-
 }
 
- 
-    function mw_social_login_exception_handler($exception)
-    {
 
-        if (mw('url')->is_ajax()) {
-            return array('error' => $exception->getMessage());
-        }
+function mw_social_login_exception_handler($exception)
+{
 
-        $after_log = $this->session_get('user_after_login');
-        if ($after_log != false) {
-            mw('url')->redirect($after_log);
-        } else {
-            mw('url')->redirect(mw_site_url());
-        }
-
+    if (mw('url')->is_ajax()) {
+        return array('error' => $exception->getMessage());
     }
+
+    $after_log = $this->session_get('user_after_login');
+    if ($after_log != false) {
+        mw('url')->redirect($after_log);
+    } else {
+        mw('url')->redirect(mw_site_url());
+    }
+
+}
  
