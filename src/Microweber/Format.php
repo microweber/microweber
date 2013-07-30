@@ -57,7 +57,7 @@ class Format
                 $key = ucwords($key);
 
                 if (is_array($val)) {
-                    $retStr .= '<li>' . $key . ': ' . mw('format')->array_to_ul($val) . '</li>';
+                    $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
                 } else {
                     $retStr .= '<li>' . $key . ': ' . $val . '</li>';
                 }
@@ -135,7 +135,7 @@ class Format
     {
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = mw('format')->clean_html($val);
+                $output[$key] = $this->clean_html($val);
             }
         } else {
             $var = html_entity_decode($var);
@@ -183,7 +183,7 @@ class Format
      * @return string Your encoded $var
      * @package Utils
      * @category Strings
-     * @see mw('format')->base64_to_array()
+     * @see $this->base64_to_array()
      */
     function array_to_base64($var)
     {
@@ -203,7 +203,7 @@ class Format
      * @return string|array Your encoded $var
      * @package Utils
      * @category Strings
-     * @see mw('format')->array_to_base64()
+     * @see $this->array_to_base64()
      */
     function base64_to_array($var)
     {

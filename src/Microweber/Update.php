@@ -65,13 +65,13 @@ class Update
 
         $data = array();
         $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = mw_site_url();
+        $data['mw_update_check_site'] = $this->app->url->site();
 
         $t = mw('ContentUtils')->templates_list();
         $data['templates'] = $t;
 
         //	$t = scan_for_modules("cache_group=modules/global");
-        $t = get_modules_from_db("ui=any");
+        $t = $this->app->module->get("ui=any");
         // d($t);
         $data['modules'] = $t;
         $data['module_templates'] = array();
@@ -242,7 +242,7 @@ class Update
         }
 
         $params['core_update'] = $new_version;
-        $params['mw_update_check_site'] = mw_site_url();
+        $params['mw_update_check_site'] = $this->app->url->site();
 
         $result = $this->call('get_download_link', $params);
         //d($result);
@@ -375,7 +375,7 @@ class Update
                         // d($value2);
 
                         if ($key == 'modules') {
-                            install_module($key2);
+                            $this->app->modules->install($key2);
                         }
                     }
                 }
@@ -529,7 +529,7 @@ class Update
             $params = array();
         }
 
-        $params['site_url'] = mw_site_url();
+        $params['site_url'] = $this->app->url->site();
         $result = $this->call('send_anonymous_server_data', $params);
         return $result;
     }
@@ -556,7 +556,7 @@ class Update
         if (!is_array($post_params)) {
          //   $post_params = array();
         }
-        $post_params['site_url'] = mw_site_url();
+        $post_params['site_url'] = $this->app->url->site();
         $post_params['api_function'] = $method;
 
         if ($post_params != false and is_array($post_params)) {

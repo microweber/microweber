@@ -401,7 +401,7 @@ class Users extends \Microweber\User
 
                         $security = array();
                         $security['ip'] = MW_USER_IP;
-                        $security['hash'] = mw('format')->array_to_base64($data_res);
+                        $security['hash'] = $this->app->format->array_to_base64($data_res);
                         $function_cache_id = md5(serialize($security)) . uniqid() . rand();
                         //$this->app->cache->save($security, $function_cache_id, $cache_group = 'password_reset');
                         if (isset($data_res['id'])) {
@@ -455,7 +455,7 @@ class Users extends \Microweber\User
         }
 
         $return_after_login = false;
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], mw_site_url())) {
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             $this->session_set('user_after_login', $return_after_login);
 

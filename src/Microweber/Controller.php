@@ -587,8 +587,8 @@ class Controller
 
             //mw_var('get_module_template_settings_from_options', 1);
             //	mw_var('get_module_template_settings_from_options', 0);
-            $apijs_loaded = mw_site_url('apijs');
-            $apijs_loaded = mw_site_url('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->url->site('apijs');
+            $apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user->is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
@@ -701,7 +701,7 @@ class Controller
                 if (isset($meta['description']) and $meta['description'] != '') {
                     $meta['og_description'] = $meta['description'];
                 } else {
-                    $meta['og_description'] = trim(mw('format')->limit(mw('format')->clean_html($meta['content']), 300));
+                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html($meta['content']), 300));
                 }
 
             } else {
@@ -869,8 +869,8 @@ class Controller
         $this->app->content->define_constants();
         if ($api_function == false) {
             $api_function_full = $this->app->url->string();
-            $api_function_full = mw('format')->replace_once('api_html', '', $api_function_full);
-            $api_function_full = mw('format')->replace_once('api', '', $api_function_full);
+            $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
+            $api_function_full = $this->app->format->replace_once('api', '', $api_function_full);
             //$api_function_full = substr($api_function_full, 4);
         } else {
             $api_function_full = $api_function;
@@ -1266,7 +1266,7 @@ class Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == mw_site_url()) {
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->app->content->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
@@ -1283,7 +1283,7 @@ class Controller
 
         if ($custom_display == true) {
 
-            $u2 = mw_site_url();
+            $u2 = $this->app->url->site();
             $u1 = str_replace($u2, '', $url);
             $this->render_this_url = $u1;
             $this->isolate_by_html_id = $custom_display_id;
@@ -1303,9 +1303,9 @@ class Controller
              $url = $this->app->url->string(true);
              }*/
 
-            $url = mw('format')->replace_once('module/', '', $url);
-            $url = mw('format')->replace_once('module_api/', '', $url);
-            $url = mw('format')->replace_once('m/', '', $url);
+            $url = $this->app->format->replace_once('module/', '', $url);
+            $url = $this->app->format->replace_once('module_api/', '', $url);
+            $url = $this->app->format->replace_once('m/', '', $url);
 
             if (is_module($url)) {
                 $_REQUEST['module'] = $url;
@@ -1497,7 +1497,7 @@ class Controller
                 }
 
                 if (is_array($v)) {
-                    $v1 = mw('format')->array_to_base64($v);
+                    $v1 = $this->app->format->array_to_base64($v);
                     $tags .= "{$k}=\"$v1\" ";
                 } else {
                     $tags .= "{$k}=\"$v\" ";
@@ -1520,7 +1520,7 @@ class Controller
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, mw_site_url())) {
+            if (strstr($get_arr_from_ref, $this->app->url->site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -1664,9 +1664,9 @@ class Controller
         $l = $l->__toString();
         // var_dump($l);
         //session_write_close();
-        $l = str_replace('{SITE_URL}', mw_site_url(), $l);
-        $l = str_replace('{MW_SITE_URL}', mw_site_url(), $l);
-        $l = str_replace('%7BSITE_URL%7D', mw_site_url(), $l);
+        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
         //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
         print $l;
         exit();
@@ -1723,7 +1723,7 @@ class Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == mw_site_url()) {
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->app->content->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);

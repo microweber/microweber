@@ -205,7 +205,7 @@ class Fields
                         //  $it['baseline'] = "undefined";
 
                         if (isset($it['options'])) {
-                            $it['options'] = mw('format')->base64_to_array($it['options']);
+                            $it['options'] = $this->app->format->base64_to_array($it['options']);
                         }
 
                         $it['title'] = $it['custom_field_name'];
@@ -338,7 +338,7 @@ class Fields
             $data_to_save['rel_id'] = '0';
         }
         if (isset($data['options'])) {
-            $data_to_save['options'] = mw('format')->array_to_base64($data['options']);
+            $data_to_save['options'] = $this->app->format->array_to_base64($data['options']);
         }
 
         $data_to_save['session_id'] = session_id();
@@ -363,7 +363,7 @@ class Fields
         if ($field_id != 0) {
             $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             if (isset($data['options'])) {
-                $data['options'] = mw('format')->base64_to_array($data['options']);
+                $data['options'] = $this->app->format->base64_to_array($data['options']);
             }
             return $data;
         }
@@ -624,7 +624,7 @@ class Fields
             }
         }
         if (isset($data['options']) and is_string($data['options'])) {
-            $data['options'] = mw('format')->base64_to_array($data['options']);
+            $data['options'] = $this->app->format->base64_to_array($data['options']);
 
         }
 

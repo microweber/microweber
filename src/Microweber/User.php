@@ -436,7 +436,7 @@ class User
 
         $table = MW_DB_TABLE_USERS;
 
-        $data = mw('format')->clean_html($params);
+        $data = $this->app->format->clean_html($params);
         $orig_data = $data;
 
         if (isset($data['ids']) and is_array($data['ids'])) {

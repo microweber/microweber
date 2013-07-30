@@ -55,7 +55,7 @@ class Modules extends \Microweber\Module
             if (!isset($s["id"]) and isset($s["module"])) {
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
-                    $save = get_modules_from_db('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
+                    $save = $this->get('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
                     //  d($s);
                     //
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
@@ -180,7 +180,7 @@ class Modules extends \Microweber\Module
         }
         if (isset($params['id'])) {
             $id = intval($params['id']);
-            $this_module = get_modules_from_db('ui=any&one=1&id=' . $id);
+            $this_module = $this->get('ui=any&one=1&id=' . $id);
             if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
                 $module_name = $this_module['module'];
                 if (is_admin() == false) {
@@ -198,9 +198,9 @@ class Modules extends \Microweber\Module
                 //            $unistall_file = $uninstall_lock . $unistall_file . '.php';
                 //            touch($unistall_file);
                 //  d($unistall_file);
-                $loc_of_config = locate_module($module_name, 'config');
+                $loc_of_config = $this->locate($module_name, 'config');
                 $res = array();
-                $loc_of_functions = locate_module($module_name, 'functions');
+                $loc_of_functions = $this->locate($module_name, 'functions');
                 $cfg = false;
                 if (is_file($loc_of_config)) {
                     include ($loc_of_config);
@@ -239,7 +239,7 @@ class Modules extends \Microweber\Module
                 //   $to_save['module'] = $module_name;
 
                 //d($to_save);
-                save_module_to_db($to_save);
+                $this->save($to_save);
                 // delete_module_by_id($id);
             }
         }
@@ -278,10 +278,10 @@ class Modules extends \Microweber\Module
             }
         }
 
-        $loc_of_config = locate_module($module_name, 'config', 1);
+        $loc_of_config = $this->locate($module_name, 'config', 1);
         //d($loc_of_config);
         $res = array();
-        $loc_of_functions = locate_module($module_name, 'functions', 1);
+        $loc_of_functions = $this->locate($module_name, 'functions', 1);
         $cfg = false;
         if ($loc_of_config != false and is_file($loc_of_config)) {
             include ($loc_of_config);
@@ -302,7 +302,7 @@ class Modules extends \Microweber\Module
         //        unlink($unistall_file);
         //    }
 
-        $this_module = get_modules_from_db('no_cache=1&ui=any&one=1&module=' . $module_name);
+        $this_module = $this->get('no_cache=1&ui=any&one=1&module=' . $module_name);
 
         if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
             $to_save = array();
@@ -399,7 +399,7 @@ class Modules extends \Microweber\Module
             $to_save['keep_cache'] = '1';
             //   $to_save['module'] = $module_name;
 
-            save_module_to_db($to_save);
+            $this->save($to_save);
         }
 
         // d($loc_of_functions);
@@ -694,7 +694,7 @@ class Modules extends \Microweber\Module
                     } else {
                         $config['icon'] = $this->app->url->link_to_file($def_icon);
                     }
-                    //   $config ['installed'] = install_module($config ['module']);
+                    //   $config ['installed'] = $this->install($config ['module']);
                     // $mmd5 = $this->app->url->slug($config ['module']);
                     //   $check_if_uninstalled = MW_MODULES_DIR . '_system/' . $mmd5 . '.php';
                     //                if (is_file($check_if_uninstalled)) {
@@ -718,11 +718,11 @@ class Modules extends \Microweber\Module
 
                             if ($list_as_element == true) {
 
-                                save_element_to_db($config);
+                                $this->app->layouts->save($config);
                             } else {
                                 //d($config);
                                 //if (isset($options['dir_name'])) {
-                                save_module_to_db($config);
+                                $this->save($config);
                                 $modules_remove_old = true;
                                 $config['installed'] = 'auto';
 
@@ -730,7 +730,7 @@ class Modules extends \Microweber\Module
                                 if (!defined('MW_FORCE_MOD_INSTALLED')) {
                                     define('MW_FORCE_MOD_INSTALLED', 1);
                                 }
-                                install_module($config);
+                                $this->install($config);
 
                                 //}
                             }
@@ -763,7 +763,7 @@ class Modules extends \Microweber\Module
             if ($modules_remove_old == true) {
 
                 $table = MW_DB_TABLE_OPTIONS;
-                $uninstall_lock = get_modules_from_db('ui=any');
+                $uninstall_lock = $this->get('ui=any');
                 if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
                     foreach ($uninstall_lock as $value) {
                         $ism = is_module($value['module']);

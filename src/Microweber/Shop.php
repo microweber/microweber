@@ -18,7 +18,7 @@ class Shop
 {
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
         if (!defined("MODULE_DB_SHOP")) {
             define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
@@ -88,7 +88,7 @@ class Shop
         if (is_array($get)) {
             foreach ($get as $item) {
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item['custom_fields_data'] = mw('format')->base64_to_array($item['custom_fields_data']);
+                    $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
 
                     $tmp_val = '';
                     if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
@@ -149,10 +149,10 @@ class Shop
 
     }
 
-    public function checkout_confirm_email_send($order_id, $to = false, $no_cache = false)
+    public function  confirm_email_send($order_id, $to = false, $no_cache = false)
     {
 
-        $ord_data = get_orders('one=1&id=' . $order_id);
+        $ord_data = $this->get_orders('one=1&id=' . $order_id);
         if (is_array($ord_data)) {
 
             $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
@@ -173,8 +173,8 @@ class Shop
                 if ($order_email_content != false and trim($order_email_subject) != '') {
 
                     if (!empty($ord_data)) {
-                        $cart_items = get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
-                        $order_items_html = mw('format')->array_to_ul($cart_items);
+                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
+                        $order_items_html = $this->app->format->array_to_ul($cart_items);
 
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
 
@@ -234,7 +234,7 @@ class Shop
 			WHERE order_completed='n'   AND session_id='{$sid}'  ";
                 //d($q);
                 $this->app->db->q($q);
-                checkout_confirm_email_send($ord);
+                $this->confirm_email_send($ord);
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
@@ -243,7 +243,7 @@ class Shop
                 //d($q);
                 $this->app->db->q($q);
 
-                checkout_confirm_email_send($ord);
+                $this->confirm_email_send($ord);
 
             }
 
@@ -490,7 +490,7 @@ class Shop
                         $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
                         $value['gw_file'] = $title;
 
-                        $mod_infp = get_modules_from_db('ui=any&one=1&module=' . $title);
+                        $mod_infp = $this->app->module->get('ui=any&one=1&module=' . $title);
 
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;
@@ -769,7 +769,7 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
-            $cart['custom_fields_data'] = mw('format')->array_to_base64($add);
+            $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
             //$cart['one'] = 1;
@@ -809,7 +809,7 @@ class Shop
     }
 
 
-    static function checkout_confirm_email_test($params)
+    public function checkout_confirm_email_test($params)
     {
 
         if (!isset($params['to'])) {
@@ -821,14 +821,15 @@ class Shop
             $email_from = $params['to'];
 
         }
-        $ord_data = get_orders('order_completed=y&limit=50');
+        $ord_data = $this->get_orders('order_completed=y&limit=50');
         if (is_array($ord_data[0])) {
             shuffle($ord_data);
             $ord_test = $ord_data[0];
-            checkout_confirm_email_send($ord_test['id'], $to = $email_from, true);
+            $this->confirm_email_send($ord_test['id'], $to = $email_from, true);
         }
 
     }
+
 
     public function checkout_ipn($data)
     {
@@ -854,7 +855,7 @@ class Shop
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
-        $hostname = get_domain_from_str($_SERVER['REMOTE_ADDR']);
+        $hostname = $this->get_domain_from_str($_SERVER['REMOTE_ADDR']);
         $cache_gr = 'ipn';
         $cache_id = $hostname . md5(serialize($data));
 
@@ -863,7 +864,7 @@ class Shop
         //$data = $this->app->cache->get($cache_id, $cache_gr);
 
         //d($payment_verify_token);
-        $ord_data = get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
+        $ord_data = $this->get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
         // d($ord_data);.
         $payment_verify_token = $this->app->db->escape_string($payment_verify_token);
         $table = MODULE_DB_SHOP_ORDERS;
@@ -904,7 +905,7 @@ class Shop
             //d($update_order);
             //d($data);
             $ord = $this->app->db->save($table_orders, $update_order);
-            checkout_confirm_email_send($ord);
+            $this->confirm_email_send($ord);
             if ($ord > 0) {
 
                 $q = " UPDATE $cart_table SET
@@ -1374,6 +1375,72 @@ class Shop
         }
         return $ret;
 
+    }
+
+
+    private function domain_name($domainb)
+    {
+        $bits = explode('/', $domainb);
+        if ($bits[0] == 'http:' || $bits[0] == 'https:') {
+            $domainb = $bits[2];
+        } else {
+            $domainb = $bits[0];
+        }
+        unset($bits);
+        $bits = explode('.', $domainb);
+        $idz = count($bits);
+        $idz -= 3;
+        if (strlen($bits[($idz + 2)]) == 2) {
+            $url = $bits[$idz] . '.' . $bits[($idz + 1)] . '.' . $bits[($idz + 2)];
+        } else if (strlen($bits[($idz + 2)]) == 0) {
+            $url = $bits[($idz)] . '.' . $bits[($idz + 1)];
+        } else {
+            $url = $bits[($idz + 1)] . '.' . $bits[($idz + 2)];
+        }
+        return $url;
+    }
+
+    private function get_domain_from_str($address)
+    {
+        //$address = 'clients1.sub3.google.co.uk';
+        $address = gethostbyaddr($address);
+        $parsed_url = parse_url($address);
+        if (!isset($parsed_url['host'])) {
+            if (isset($parsed_url['path'])) {
+                $parsed_url['host'] = $parsed_url['path'];
+            }
+        }
+        $check = $this->esip($parsed_url['host']);
+        $host = $parsed_url['host'];
+        if ($check == FALSE) {
+            if ($host != "") {
+                $host = $this->domain_name($host);
+            } else {
+                $host = $this->domain_name($address);
+            }
+        } else {
+
+
+        }
+        return $host;
+    }
+
+    private function esip($ip_addr)
+    {
+        //first of all the format of the ip address is matched
+        if (preg_match("/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/", $ip_addr)) {
+            //now all the intger values are separated
+            $parts = explode(".", $ip_addr);
+            //now we need to check each part can range from 0-255
+            foreach ($parts as $ip_parts) {
+                if (intval($ip_parts) > 255 || intval($ip_parts) < 0)
+                    return FALSE;
+                //if number is not within range of 0-255
+            }
+            return TRUE;
+        } else
+            return FALSE;
+        //if format of ip address doesn't matches
     }
 
 

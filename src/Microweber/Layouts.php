@@ -356,7 +356,7 @@ class Layouts {
             $page_url_segment_str = $page_url_segment_3[0];
         }
         //$page_url_segment_str = implode('/', $page_url_segment_3);
-        $fn = mw_site_url($page_url_segment_str . '/' . $fn);
+        $fn = $this->app->url->site($page_url_segment_str . '/' . $fn);
         //d($page_url_segment_3);
 
         //set cache in memory

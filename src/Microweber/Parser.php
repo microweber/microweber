@@ -380,7 +380,7 @@ class Parser
                                 $plain_modules = mw_var('plain_modules');
                                 if ($plain_modules != false) {
                                     //d($plain_modules);
-                                    $module_db_data = get_modules_from_db('one=1&ui=any&module=' . $module_name);
+                                    $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
                                     $mod_content = '';
                                     if (is_array($module_db_data)) {
                                         if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
@@ -476,9 +476,9 @@ class Parser
 
 
         $layout = str_replace('{rand}', uniqid(), $layout);
-        $layout = str_replace('{SITE_URL}', mw_site_url(), $layout);
-        $layout = str_replace('{MW_SITE_URL}', mw_site_url(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', mw_site_url(), $layout);
+        $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $layout);
 
 
         return $layout;

@@ -143,7 +143,7 @@ class Notifications
 
             $data = $this->get($get_params);
             if (is_array($data)) {
-                $ids = mw('format')->array_values($data);
+                $ids = $this->app->format->array_values($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
                 $this->app->db->q($cleanup);

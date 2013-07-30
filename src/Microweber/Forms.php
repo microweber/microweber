@@ -258,7 +258,7 @@ class Forms
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content'] = "You have new form entry from " . $this->app->url->current(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
+            $notif['content'] = "You have new form entry from " . $this->app->url->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
             $this->app->notifications->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
@@ -276,7 +276,7 @@ class Forms
                     $mail_autoresp = $email_autorespond;
                 }
 
-                $mail_autoresp = $mail_autoresp . mw('format')->array_to_ul($pp_arr);
+                $mail_autoresp = $mail_autoresp . $this->app->format->array_to_ul($pp_arr);
 
                 $user_mails = array();
                 $user_mails[] = $email_to;
@@ -508,7 +508,7 @@ class Forms
                 $csv_output .= 'created_on,';
                 $csv_output .= 'user_ip,';
                 foreach ($custom_fields as $k => $item) {
-                    $csv_output .= mw('format')->no_dashes($k) . ",";
+                    $csv_output .= $this->app->format->no_dashes($k) . ",";
                     $csv_output .= "\t";
                 }
                 $csv_output .= "\n";

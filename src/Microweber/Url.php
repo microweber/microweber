@@ -7,10 +7,9 @@ class Url
 
     public function site($add_string = false)
     {
-return $this->mw_site_url();
+        return $this->site_url($add_string);
     }
-
-    public function mw_site_url($add_string = false)
+    public function site_url($add_string = false)
     {
         $site_url = $this->site_url_var;
         if ($site_url == false) {
@@ -165,7 +164,7 @@ return $this->mw_site_url();
 
         //if ($u == false) {
 
-        $u2 = $this->mw_site_url();
+        $u2 = $this->site_url();
 
 
         $u1 = rtrim($u1, '\\');
@@ -194,7 +193,7 @@ return $this->mw_site_url();
     {
         static $u1;
         if ($u1 == false) {
-            $valid_domain = parse_url($this->mw_site_url());
+            $valid_domain = parse_url($this->site_url());
             if (isset($valid_domain['host'])) {
                 $host = str_ireplace('www.', null, $valid_domain['host']);
                 $u1 = $host;
@@ -230,7 +229,7 @@ return $this->mw_site_url();
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         //var_dump($path);
-        return $this->mw_site_url($path);
+        return $this->site_url($path);
     }
 
     function to_path($path)
@@ -239,7 +238,7 @@ return $this->mw_site_url();
             return false;
         }
 
-        $path = str_ireplace($this->mw_site_url(), MW_ROOTPATH, $path);
+        $path = str_ireplace($this->site_url(), MW_ROOTPATH, $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
 
@@ -288,7 +287,7 @@ return $this->mw_site_url();
 
         $url = $this->current($skip_ajax);
 
-        $rem = $this->mw_site_url();
+        $rem = $this->site_url();
 
         $url = str_ireplace($rem, '', $url);
 
@@ -320,7 +319,7 @@ return $this->mw_site_url();
 
                             // $the_param1 = base64_decode ( $the_param );
 
-                            $the_param1 = mw('format')->base64_to_array($the_param);
+                            $the_param1 = $this->app->format->base64_to_array($the_param);
 
                             return $the_param1;
                         }
@@ -361,7 +360,7 @@ return $this->mw_site_url();
         if ($url == false) {
             $url = $this->string();
         }
-        $site = $this->mw_site_url();
+        $site = $this->site_url();
 
         $url = str_ireplace($site, '', $url);
 
@@ -425,7 +424,7 @@ return $this->mw_site_url();
             $postdata = false;
 
         }
-        $ref = mw_site_url();
+        $ref = site_url();
 
         $opts = array('http' => array('method' => 'POST', 'header' => "User-Agent: Microweber/" . MW_VERSION . "\r\n" . 'Content-type: application/x-www-form-urlencoded' . "\r\n" . 'Referer: ' . $ref . "\r\n", 'content' => $postdata));
         $requestUrl = str_replace(' ', '%20', $requestUrl);
@@ -462,9 +461,9 @@ return $this->mw_site_url();
         return false;
     }
 
-    public function replace_mw_site_url($arr)
+    public function replace_site_url($arr)
     {
-        $site = $this->mw_site_url();
+        $site = $this->site_url();
 
         if (is_string($arr)) {
 
@@ -481,7 +480,7 @@ return $this->mw_site_url();
 
                 if (is_array($v)) {
 
-                    $v = $this->replace_mw_site_url($v);
+                    $v = $this->replace_site_url($v);
                 } else {
 
                     $v = str_ireplace($site, '{SITE_URL}', $v);
@@ -511,7 +510,7 @@ return $this->mw_site_url();
                 $ret = $ch;
             } else {
 
-                $site = $this->mw_site_url();
+                $site = $this->site_url();
 
                 $ret = str_replace('{SITE_URL}', $site, $arr);
                 mw_var($parser_mem_crc, $ret);
@@ -543,7 +542,7 @@ return $this->mw_site_url();
     public function api_link($str = '')
     {
         $str = ltrim($str, '/');
-        return $this->mw_site_url('api/' . $str);
+        return $this->site_url('api/' . $str);
     }
 
 }

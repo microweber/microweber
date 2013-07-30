@@ -177,7 +177,6 @@ class ContentUtils extends \Microweber\Content
         }
 
 
-
         $par_page = false;
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
             if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
@@ -273,7 +272,7 @@ class ContentUtils extends \Microweber\Content
         }
 
 
-        if (isset($data_to_save['url']) and $data_to_save['url'] == mw_site_url()) {
+        if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url->site()) {
             unset($data_to_save['url']);
         }
 
@@ -433,8 +432,8 @@ class ContentUtils extends \Microweber\Content
             if ($ref_page == false) {
 
 
-                 $guess_page_data = new \Microweber\Controller();
-               // $guess_page_data =  new  $this->app->controller($this->app);
+                $guess_page_data = new \Microweber\Controller();
+                // $guess_page_data =  new  $this->app->controller($this->app);
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
@@ -444,7 +443,7 @@ class ContentUtils extends \Microweber\Content
                     $save_page = $pd;
                     $save_page['url'] = $this->app->url->string(1);
                     $save_page['title'] = $this->app->url->slug($this->app->url->string(1));
-                    $page_id = save_content($save_page);
+                    $page_id = $this->save_content($save_page);
                 }
                 //
 
@@ -628,7 +627,7 @@ class ContentUtils extends \Microweber\Content
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
 
-                           //   $to_save['debug'] = $content_id;
+                                //   $to_save['debug'] = $content_id;
 
                                 //$to_save['page_element_id'] = $page_element_id;
 
@@ -643,7 +642,7 @@ class ContentUtils extends \Microweber\Content
                                 if ($is_no_save != true and $is_draft == false) {
                                     $json_print[] = $to_save;
 
-                                    $saved = save_content($to_save);
+                                    $saved = $this->save_content($to_save);
 
 
                                 }
@@ -777,7 +776,7 @@ class ContentUtils extends \Microweber\Content
 
             $history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
             if (is_array($history_files)) {
-                $history_files_ids = mw('format')->array_values($history_files);
+                $history_files_ids = $this->app->format->array_values($history_files);
             }
             if (isset($history_files_ids) and is_array($history_files_ids)) {
                 $history_files_ids_impopl = implode(',', $history_files_ids);
@@ -952,11 +951,6 @@ class ContentUtils extends \Microweber\Content
     }
 
 
-
-
-
-
-
     public function edit_field_draft($data)
     {
         only_admin_access();
@@ -967,7 +961,7 @@ class ContentUtils extends \Microweber\Content
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == mw_site_url()) {
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->get_by_url($url);
                 $page = get_homepage();
                 // var_dump($page);
@@ -1069,7 +1063,7 @@ class ContentUtils extends \Microweber\Content
      * @package Content
      * @subpackage Advanced
      *
-     * @uses save_content()
+     * @uses $this->save_content()
      * @see content_set_unpublished()
      * @example
      * <code>
@@ -1101,7 +1095,7 @@ class ContentUtils extends \Microweber\Content
                 $save['id'] = intval($params['id']);
                 $save['is_active'] = 'n';
 
-                $save_data = save_content($save);
+                $save_data = $this->save_content($save);
                 return ($save_data);
             }
 
@@ -1121,7 +1115,7 @@ class ContentUtils extends \Microweber\Content
      * @package Content
      * @subpackage Advanced
      *
-     * @uses save_content()
+     * @uses $this->save_content()
      * @see content_set_unpublished()
      * @example
      * <code>
@@ -1153,7 +1147,7 @@ class ContentUtils extends \Microweber\Content
                 $save['id'] = intval($params['id']);
                 $save['is_active'] = 'y';
 
-                $save_data = save_content($save);
+                $save_data = $this->save_content($save);
                 return ($save_data);
             }
 
@@ -1220,7 +1214,7 @@ class ContentUtils extends \Microweber\Content
                     $add_page['content_type'] = "post";
                     $add_page['subtype'] = "product";
 
-                    //$new_shop = save_content($add_page);
+                    //$new_shop = $this->save_content($add_page);
                     //$this->app->cache->delete('content');
                     //$this->app->cache->flush();
                 }
@@ -1305,7 +1299,7 @@ class ContentUtils extends \Microweber\Content
                     //$add_page['debug'] = 1;
                     $add_page['is_home'] = 'y';
                     $add_page['active_site_template'] = 'default';
-                    $new_shop = save_content($add_page);
+                    $new_shop = $this->save_content($add_page);
                 }
 
                 break;
@@ -1324,7 +1318,7 @@ class ContentUtils extends \Microweber\Content
      * @author    Microweber Dev Team
      * @since Version 1.0
      */
-   public function templates_list($options = false)
+    public function templates_list($options = false)
     {
 
         $args = func_get_args();
@@ -1401,10 +1395,6 @@ class ContentUtils extends \Microweber\Content
 
         return $to_return;
     }
-
-
-
-
 
 
     public function menu_create($data_to_save)
@@ -1580,7 +1570,6 @@ class ContentUtils extends \Microweber\Content
     }
 
 
-
     public function menu_items_reorder($data)
     {
 
@@ -1648,7 +1637,7 @@ class ContentUtils extends \Microweber\Content
     }
 
 
-    public function add_content_to_menu($content_id, $menu_id=false)
+    public function add_content_to_menu($content_id, $menu_id = false)
     {
         $id = is_admin();
         if ($id == false) {
@@ -1659,7 +1648,7 @@ class ContentUtils extends \Microweber\Content
             return;
         }
 
-        if($menu_id != false){
+        if ($menu_id != false) {
             $_REQUEST['add_content_to_menu'] = $menu_id;
         }
 
@@ -1718,7 +1707,6 @@ class ContentUtils extends \Microweber\Content
     }
 
 
-
     public function _decode_entities($text)
     {
         $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
@@ -1726,8 +1714,6 @@ class ContentUtils extends \Microweber\Content
         $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
         return $text;
     }
-
-
 
 
 // ------------------------------------------------------------------------
@@ -1780,8 +1766,6 @@ class ContentUtils extends \Microweber\Content
     }
 
 
-
-
     /**
      * Saves your custom language translation
      * @internal its used via ajax in the admin panel under Settings->Language
@@ -1790,7 +1774,7 @@ class ContentUtils extends \Microweber\Content
     function lang_file_save($data)
     {
 
-        if(isset($_POST) and !empty($_POST)){
+        if (isset($_POST) and !empty($_POST)) {
             $data = $_POST;
         }
         if (is_admin() == true) {

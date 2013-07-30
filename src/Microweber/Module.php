@@ -215,8 +215,8 @@ class Module
 
             $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
 
-            $config['module_api'] = mw_site_url('api/' . $module_name);
-            $config['module_view'] = mw_site_url('module/' . $module_name);
+            $config['module_api'] = $this->app->url->site('api/' . $module_name);
+            $config['module_view'] = $this->app->url->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = module_css_class($module_name);
             $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
@@ -341,7 +341,7 @@ class Module
     public function templates($module_name, $template_name = false)
     {
         $module_name = str_replace('admin', '', $module_name);
-        $module_name_l = locate_module($module_name);
+        $module_name_l = $this->locate($module_name);
 
         $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
 
@@ -444,7 +444,7 @@ class Module
         static $checked = array();
 
         if (!isset($checked[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
+            $ch = $this->locate($module_name, $custom_view = false);
 
             if ($ch != false) {
                 $ch = dirname($ch);
@@ -479,7 +479,7 @@ class Module
         $params['module'] = $module_name;
         $params['ui'] = 'any';
         $params['limit'] = 1;
-        $data = get_modules_from_db($params);
+        $data = $this->get($params);
         if (isset($data[0])) {
             $_mw_modules_info_register[$module_name] = $data[0];
             return $data[0];
@@ -519,7 +519,7 @@ class Module
         $checked = array();
 
         if (!isset($checked[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
+            $ch = $this->locate($module_name, $custom_view = false);
 
             if ($ch != false) {
                 $ch = dirname($ch);
@@ -648,7 +648,7 @@ class Module
 
 
         if (!isset($mw_loaded_mod_memory[$module_name])) {
-            $ch = locate_module($module_name, $custom_view = false);
+            $ch = $this->locate($module_name, $custom_view = false);
             if ($ch != false) {
                 $mw_loaded_mod_memory[$module_name] = true;
             } else {

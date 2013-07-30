@@ -99,14 +99,14 @@ class Content
             }
         }
         if ($id == 0) {
-            return mw_site_url();
+            return $this->app->url->site();
         }
 
         $link = $this->get_by_id($id);
         if (strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
-        $link = mw_site_url($link['url']);
+        $link = $this->app->url->site($link['url']);
         return $link;
     }
 
@@ -292,7 +292,7 @@ class Content
 
             if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
                 if (isset($get['url'])) {
-                    $get['url'] = mw_site_url($get['url']);
+                    $get['url'] = $this->app->url->site($get['url']);
                 }
                 if (isset($get['title'])) {
                     //$item['url'] = page_link($item['id']);
@@ -305,7 +305,7 @@ class Content
                 foreach ($get as $item) {
                     if (isset($item['url'])) {
                         //$item['url'] = page_link($item['id']);
-                        $item['url'] = mw_site_url($item['url']);
+                        $item['url'] = $this->app->url->site($item['url']);
                     }
                     if (isset($item['title'])) {
                         //$item['url'] = page_link($item['id']);
@@ -971,7 +971,7 @@ class Content
         }
 
         $u1 = $url;
-        $u2 = mw_site_url();
+        $u2 = $this->app->url->site();
 
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
@@ -993,7 +993,7 @@ class Content
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
 
-            $u1 = mw_site_url();
+            $u1 = $this->app->url->site();
             $u2 = str_replace($u1, '', $url);
             $current_url = explode('?', $u2);
             $u2 = $current_url[0];
@@ -2709,7 +2709,7 @@ class Content
 
             $active_class = '';
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
-                $surl = mw_site_url();
+                $surl = $this->app->url->site();
                 $cur_url = $this->app->url->current(1);
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $surl, $item['url']);
                 if ($item['url'] == $cur_url) {
