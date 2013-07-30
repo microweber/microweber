@@ -7,10 +7,10 @@ class Application
 {
 
 
-    protected $config = array();
-    protected $loaded_config_file_path; //indicates if config is being loaded from file
+    public $config = array();
+    public $loaded_config_file_path; //indicates if config is being loaded from file
 
-    public $providers = array();
+    public  $providers = array();
 
     public function __construct($config = false)
     {
@@ -25,9 +25,9 @@ class Application
         }
 
         global $_mw_global_object;
-        if(!is_object($_mw_global_object)){
+      //  if (!is_object($_mw_global_object)) {
             $_mw_global_object = $this;
-        }
+        //}
 
 
     }
@@ -100,17 +100,32 @@ class Application
     public function __get($property)
     {
 
+        $property_orig_case = $property;
         $property = ucfirst($property);
-        if (isset($this->providers[$property])) {
+        $property2 = strtolower($property);
+        if (isset($this->$property2)) {
+
+            return $this->$property2;
+        } else if (isset($this->$property)) {
+
+            return $this->$property;
+        } else if (isset($this->providers[$property])) {
 
             return $this->providers[$property];
+        } elseif (isset($this->providers[$property2])) {
+
+            return $this->providers[$property2];
+        } else if (property_exists($this, $property2)) {
+            return $this->$property2;
         }
 
 
         if (property_exists($this, $property)) {
             return $this->$property;
+        } else if (property_exists($this, $property2)) {
+            return $this->$property2;
         } else {
-            $property_orig_case = $property;
+
 
             try {
 
@@ -132,6 +147,7 @@ class Application
 
     public function call($provider, $args = null)
     {
+
 
 
         if (!method_exists($this, $provider)) {
@@ -206,20 +222,8 @@ class Application
 
     public function __set($property, $value)
     {
-        $property = ucfirst($property);
-        if (isset($this->providers[$property])) {
 
-            return $this->providers[$property];
-        }
-
-
-        $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
-
-
-        $property = ucfirst($property);
-
-
-        if ($property == 'Application') {
+        if (strtolower($property) == 'application') {
 
 
             return;
@@ -229,10 +233,49 @@ class Application
         }
 
 
-        if (property_exists($this, $property)) {
+        if (!property_exists($this, $property) and !isset($this->providers[$property])) {
 
+            $property = ucfirst($property);
+            $property2 = strtolower($property);
+
+            return $this->$property = $this->$property2 =$this->providers[$property] =$this->providers[$property2] = $value;
+
+        }
+    }
+
+    public function __seddddt($property, $value)
+    {
+
+        if (strtolower($property) == 'application') {
+
+
+            return;
+
+            //prevent recursion ?
+            return $this;
+        }
+        if (!is_object($value)) {
+            $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
+
+            $property = ucfirst($property);
+            $property2 = strtolower($property);
+
+            if (isset($this->providers[$property])) {
+
+                return $this->$property = $this->$property2 = $this->providers[$property];
+            } else if (isset($this->providers[$property2])) {
+
+                return $this->$property = $this->$property2 = $this->providers[$property2];
+            }
+
+
+            if (!property_exists($this, $property)) {
+
+                $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
+                //   return $this->$property;
+            }
+        } else {
             $this->$property = $this->providers[$property] = $value;
-
         }
 
         return $this;

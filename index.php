@@ -25,8 +25,8 @@ if (is_file($config_file_for_site)) {
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 
 
- $application = new \Microweber\Application(MW_CONFIG_FILE);
-//$application = new \Microweber\MyApp(MW_CONFIG_FILE);
+ //$application = new \Microweber\Application(MW_CONFIG_FILE);
+  //$application = new \Microweber\MyApp(MW_CONFIG_FILE);
 
 // or
  $application = mw('application',MW_CONFIG_FILE);
@@ -48,7 +48,8 @@ $router->map($controller);
 $router->hello_world = function () {
     echo "Hello world!";
 };
-
+//$temp = $application->media->thumbnail(2);
+//d($temp);
 //$temp = $application->content->get_layout($page_non_active);
 
 $controller->functions['test/route/*'] = function () {

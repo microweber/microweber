@@ -512,7 +512,7 @@ class Media
         }
 
         if (!isset($src) or $src == false) {
-            return pixum($width, $height);
+            return $this->pixum($width, $height);
         }
 
 
@@ -645,8 +645,10 @@ class Media
 
     public function thumbnail($src, $width = 200, $height = 200)
     {
+
+
         if ($src == false) {
-            return pixum($width, $height);
+            return $this->pixum($width, $height);
         }
         $src = html_entity_decode($src);
         $src = htmlspecialchars_decode($src);
@@ -735,7 +737,7 @@ class Media
             //
             // }
             if ($src == false) {
-                return pixum($width, $height);
+                return $this->pixum($width, $height);
             }
         }
         $cd = MW_CACHE_DIR . 'thumbnail' . DS;
@@ -791,7 +793,7 @@ class Media
             $cache_path = $this->app->url->link_to_file($cache_path);
             return $cache_path;
         } else {
-            return pixum($width, $height);
+            return $this->pixum($width, $height);
         }
         return false;
         //d($src);

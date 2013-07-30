@@ -7,26 +7,31 @@ class MyApp extends \Microweber\Application
 {
 
 
-    public $content;
 
     public function __construct($config = false)
     {
-        $this->content = new MyContent();
 
+
+       // $this->media = new  MyMedia;
+//d($this->media);
+       // $this->media = new MyMedia;
+       //. $this->media= new MyMedia;
+        $this->providers['medigga'] = new \Microweber\MyMedia;
     }
 
 
 }
 
-class MyContent extends \Microweber\Content
+class MyMedia extends \Microweber\Media
 {
-
-    function ______get_layout($params)
+    function thumbnail($src,$w=100)
     {
-        print 'my layout return logic ';
-        var_dump($params);
-        return 'me_path_to_layout.php';
+
+       print 111111111111;
+        return 'http://54.225.125.50/geo-bootstrap-master/img/test/mchammer.gif';
     }
+
 }
+
 
 
