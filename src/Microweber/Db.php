@@ -417,7 +417,7 @@ class Db
         }
 
         if (isset($data['url']) == false) {
-            //$url = mw('url')->string();
+            //$url = $this->app->url->string();
             //$data['url'] = $url;
         }
 
@@ -458,7 +458,7 @@ class Db
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
-        $criteria = mw('url')->replace_mw_site_url($criteria);
+        $criteria = $this->app->url->replace_mw_site_url($criteria);
 
         //  }
 
@@ -551,13 +551,13 @@ class Db
             } else {
                 if ($the_user_id != 0) {
                     if (isset($data['created_by'])) {
-                        $user_createdq = " AND created_by=$the_user_id ";
+                        $user_createdq = " , created_by=$the_user_id ";
                     }
 
                     if (isset($data['edited_by'])) {
-                        $user_createdq1 = " edited_by=$the_user_id ";
+                        $user_createdq1 = " , edited_by=$the_user_id ";
                     } else {
-                        $user_createdq1 = " id={$data ['id']} ";
+                        $user_createdq1 = " , id={$data ['id']} ";
                     }
                 }
 
@@ -567,7 +567,7 @@ class Db
                 if (isset($_SESSION)) {
                     if (isset($data['session_id'])) {
                         if ($user_sid != false) {
-                            $user_sidq = " AND session_id='{$user_sid}' ";
+                            $user_createdq1 = " AND session_id='{$user_sid}'  ";
                         }
                     }
 
@@ -581,7 +581,7 @@ class Db
         if ($dbg != false) {
             var_dump($q);
         }
-      
+
         $this->q($q);
 
         if ($id_to_return == false) {
@@ -1069,7 +1069,7 @@ class Db
             static $cfg_default_limit;
             if ($cfg_default_limit == false) {
                 if (function_exists('get_option')) {
-                    $cfg_default_limit = mw('option')->get('items_per_page ', 'website');
+                    $cfg_default_limit = $this->app->option->get('items_per_page ', 'website');
                 }
             }
             if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
@@ -1462,7 +1462,7 @@ class Db
 
                     return $ret;
                 } else {
-                    //  $cache_content = mw('url')->replace_site_url_back($cache_content);
+                    //  $cache_content = $this->app->url->replace_site_url_back($cache_content);
                     // $cache_content = $this->stripslashes_array($cache_content);
 
                     return $cache_content;
@@ -1857,7 +1857,6 @@ class Db
 
             var_dump($table, $q, $is_in_table);
         }
-
         if ($to_search != false) {
 
         }
@@ -1919,7 +1918,7 @@ class Db
         $return = array();
 
         if (!empty($result)) {
-            $result = mw('url')->replace_site_url_back($result);
+            $result = $this->app->url->replace_site_url_back($result);
             $return = $result;
 
         }

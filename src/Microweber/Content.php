@@ -808,7 +808,7 @@ class Content
 
             $the_active_site_template = $page['active_site_template'];
         } else {
-            $the_active_site_template = mw('option')->get('curent_template');
+            $the_active_site_template = $this->app->option->get('curent_template');
             // d($the_active_site_template );
         }
 
@@ -2946,7 +2946,7 @@ class Content
             }
         }
         if (!isset($lang) or $lang == false) {
-            $def_language = mw('option')->get('language', 'website');
+            $def_language = $this->app->option->get('language', 'website');
             if ($def_language != false) {
                 $lang = $def_language;
             }

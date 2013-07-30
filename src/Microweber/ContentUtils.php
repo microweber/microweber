@@ -628,7 +628,7 @@ class ContentUtils extends \Microweber\Content
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
 
-                                // $to_save['debug'] = $content_id;
+                           //   $to_save['debug'] = $content_id;
 
                                 //$to_save['page_element_id'] = $page_element_id;
 
@@ -640,10 +640,9 @@ class ContentUtils extends \Microweber\Content
                                     //$to_save['custom_fields'][$field] = ($html_to_save);
                                 }
 
-
                                 if ($is_no_save != true and $is_draft == false) {
                                     $json_print[] = $to_save;
-                                    //d($to_save);
+
                                     $saved = save_content($to_save);
 
 

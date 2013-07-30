@@ -74,8 +74,8 @@ class User
      * @uses parse_str()
      * @uses $this->get_all()
      * @uses $this->session_set()
-     * @uses mw('log')->get()
-     * @uses mw('log')->save()
+     * @uses $this->app->log->get()
+     * @uses $this->app->log->save()
      * @uses $this->login_set_failed_attempt()
      * @uses $this->update_last_login_time()
      * @uses event_trigger()
@@ -123,20 +123,20 @@ class User
                 return array('error' => 'Please enter username and password!');
 
             }
-            $url = mw('url')->current(1);
+            $url = $this->app->url->current(1);
 
-            $check = mw('log')->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check = $this->app->log->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
 
             if ($check == 5) {
 
                 $url_href = "<a href='$url' target='_blank'>$url</a>";
-                mw('log')->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
+                $this->app->log->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
             }
             if ($check > 5) {
                 $check = $check - 1;
                 return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
             }
-            $check2 = mw('log')->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check2 = $this->app->log->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
             if ($check2 > 25) {
 
                 return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
@@ -245,18 +245,18 @@ class User
                         if (!empty($p)) {
                             $link = page_link($p['id']);
                             $link = $link . '/editmode:y';
-                            mw('url')->redirect($link);
+                            $this->app->url->redirect($link);
                         }
                     }
                 }
 
-                $aj = mw('url')->is_ajax();
+                $aj = $this->app->url->is_ajax();
 
                 if ($aj == false and $api_key == false) {
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         //	d($user_session);
                         //exit();
-                        mw('url')->redirect($_SERVER["HTTP_REFERER"]);
+                        $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
                         exit();
                     } else {
                         $user_session['success'] = "You are logged in!";
@@ -282,7 +282,7 @@ class User
         }
 
         // static $uid;
-        $aj = mw('url')->is_ajax();
+        $aj = $this->app->url->is_ajax();
         mw('user')->session_end();
 
         if (isset($_COOKIE['editmode'])) {
@@ -291,7 +291,7 @@ class User
 
         if ($aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
-                mw('url')->redirect($_SERVER["HTTP_REFERER"]);
+                $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
     }
@@ -564,7 +564,7 @@ class User
             mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
             $save = $this->app->db->save($table, $data_to_save);
 
-            mw('log')->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -625,7 +625,7 @@ class User
     public function login_set_failed_attempt()
     {
 
-        mw('log')->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+        $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
     }
 

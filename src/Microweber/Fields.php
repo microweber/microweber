@@ -275,7 +275,7 @@ class Fields
 
         $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
-         $result = mw('url')->replace_site_url_back($result);
+         $result = $this->app->url->replace_site_url_back($result);
         //d($result);
         return $result;
     }
@@ -392,7 +392,7 @@ class Fields
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
 
-        $is_made = mw('option')->get($function_cache_id, 'make_default_custom_fields');
+        $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
         if ($is_made == 'yes') {
             return;
         }
@@ -430,7 +430,7 @@ class Fields
                 $option['option_value'] = 'yes';
                 $option['option_key'] = $function_cache_id;
                 $option['option_group'] = 'make_default_custom_fields';
-                mw('option')->save($option);
+                $this->app->option->save($option);
 
 
             }
@@ -628,7 +628,7 @@ class Fields
 
         }
 
-        $data = mw('url')->replace_site_url_back($data);
+        $data = $this->app->url->replace_site_url_back($data);
 
 
         $dir = MW_INCLUDES_DIR;

@@ -83,7 +83,7 @@ class Format
         if ($date_format == false) {
 
 
-            $date_format = mw('option')->get('date_format', 'website');
+            $date_format = $this->app->option->get('date_format', 'website');
 
             if ($date_format == false) {
                 $date_format = "Y-m-d H:i:s";

@@ -155,12 +155,12 @@ class Shop
         $ord_data = get_orders('one=1&id=' . $order_id);
         if (is_array($ord_data)) {
 
-            $order_email_enabled = mw('option')->get('order_email_enabled', 'orders');
+            $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
 
             if ($order_email_enabled == true) {
-                $order_email_subject = mw('option')->get('order_email_subject', 'orders');
-                $order_email_content = mw('option')->get('order_email_content', 'orders');
-                $order_email_cc = mw('option')->get('order_email_cc', 'orders');
+                $order_email_subject = $this->app->option->get('order_email_subject', 'orders');
+                $order_email_content = $this->app->option->get('order_email_content', 'orders');
+                $order_email_cc = $this->app->option->get('order_email_cc', 'orders');
 
                 if ($order_email_subject == false or trim($order_email_subject) == '') {
                     $order_email_subject = "Thank you for your order!";
@@ -251,14 +251,14 @@ class Shop
             $this->app->cache->delete('cart_orders/global');
             if (isset($_GET['return_to'])) {
                 $return_to = urldecode($_GET['return_to']);
-                mw('url')->redirect($return_to);
+                $this->app->url->redirect($return_to);
             }
         }
         $checkout_errors = array();
         $check_cart = get_cart($cart);
         if (!is_array($check_cart)) {
 
-            if (mw('url')->is_ajax()) {
+            if ($this->app->url->is_ajax()) {
                 //json_error('Your cart is empty');
 
             } else { //	error('Your cart is empty');
@@ -321,14 +321,14 @@ class Shop
             //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
             $return_url_after = '';
-            if (mw('url')->is_ajax()) {
-                $place_order['url'] = mw('url')->current(true);
+            if ($this->app->url->is_ajax()) {
+                $place_order['url'] = $this->app->url->current(true);
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
                 $place_order['url'] = $_SERVER['HTTP_REFERER'];
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } else {
-                $place_order['url'] = mw('url')->current();
+                $place_order['url'] = $this->app->url->current();
 
             }
 
@@ -354,7 +354,7 @@ class Shop
             }
 
             $place_order['amount'] = $amount;
-            $place_order['currency'] = mw('option')->get('currency', 'payments');
+            $place_order['currency'] = $this->app->option->get('currency', 'payments');
 
             if (isset($data['shipping_gw'])) {
                 $place_order['shipping_service'] = $data['shipping_gw'];
@@ -394,9 +394,9 @@ class Shop
 
                     $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_process.php';
 
-                    $mw_return_url = mw('url')->api_link('checkout') . '?mw_payment_success=1' . $return_url_after;
-                    $mw_cancel_url = mw('url')->api_link('checkout') . '?mw_payment_failure=1' . $return_url_after;
-                    $mw_ipn_url = mw('url')->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
+                    $mw_return_url = $this->app->url->api_link('checkout') . '?mw_payment_success=1' . $return_url_after;
+                    $mw_cancel_url = $this->app->url->api_link('checkout') . '?mw_payment_failure=1' . $return_url_after;
+                    $mw_ipn_url = $this->app->url->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
@@ -478,7 +478,7 @@ class Shop
 
         }
 
-        $providers = mw('option')->get('option_group=payments' . $option_key_q);
+        $providers = $this->app->option->get('option_group=payments' . $option_key_q);
         $str = 'payment_gw_';
         $l = strlen($str);
         if (is_array($providers)) {
@@ -813,7 +813,7 @@ class Shop
     {
 
         if (!isset($params['to'])) {
-            $email_from = mw('option')->get('email_from', 'email');
+            $email_from = $this->app->option->get('email_from', 'email');
             if ($email_from == false) {
                 return array('error' => 'You must set up your email');
             }
@@ -1240,7 +1240,7 @@ class Shop
         $changes = false;
         foreach ($datas as $val) {
 
-            $ch = mw('option')->set_default($val);
+            $ch = $this->app->option->set_default($val);
             if ($ch == true) {
 
                 $changes = true;
@@ -1261,7 +1261,7 @@ class Shop
 
 
         if ($curr == false) {
-            $curr = mw('option')->get('currency', 'payments');
+            $curr = $this->app->option->get('currency', 'payments');
         }
 
 
@@ -1336,7 +1336,7 @@ class Shop
         $service = "/service/currency/?from=" . $from . "&to=" . $to;
         $remote_host_s = $remote_host . $service;
         // d($remote_host_s);
-        $get_remote = mw('url')->download($remote_host_s);
+        $get_remote = $this->app->url->download($remote_host_s);
         if ($get_remote != false) {
             return floatval($get_remote);
         }
@@ -1349,7 +1349,7 @@ class Shop
 
         if ($curr == false) {
 
-            $curr = mw('option')->get('currency', 'payments');
+            $curr = $this->app->option->get('currency', 'payments');
         }
 
 

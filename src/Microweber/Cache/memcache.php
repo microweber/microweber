@@ -17,7 +17,7 @@ class memcache implements \iMwCache {
 
 		if ($memcache_enabled == true) {
 
-			$memcache_servers = mw('option')->get_static('memcache_servers', 'server');
+			$memcache_servers = $this->app->option->get_static('memcache_servers', 'server');
 			if ($memcache_servers != false) {
 				$memcache_servers = trim($memcache_servers);
 				$memcache_servers = explode(',', $memcache_servers);

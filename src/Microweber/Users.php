@@ -118,9 +118,9 @@ class Users extends \Microweber\User
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    mw('Microweber\Notifications')->save($notif);
+                    $this->app->notifications->save($notif);
 
-                    mw('log')->save($notif);
+                    $this->app->log->save($notif);
 
 
                     $params = $data;
@@ -332,7 +332,7 @@ class Users extends \Microweber\User
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
-        mw('log')->save($notif);
+        $this->app->log->save($notif);
 
         return array('success' => 'Your password have been changed!');
 
@@ -397,7 +397,7 @@ class Users extends \Microweber\User
                         $content = "Hello, {$data_res['username']} <br> ";
                         $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
 
-                        //$content .= "on " . mw('url')->current(1) . "<br><br> ";
+                        //$content .= "on " . $this->app->url->current(1) . "<br><br> ";
 
                         $security = array();
                         $security['ip'] = MW_USER_IP;
@@ -414,7 +414,7 @@ class Users extends \Microweber\User
 
                             $save = $this->app->db->save($table, $data_to_save);
                         }
-                        $pass_reset_link = mw('url')->current(1) . '?reset_password_link=' . $function_cache_id;
+                        $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
                         $notif = array();
                         $notif['module'] = "users";
@@ -424,7 +424,7 @@ class Users extends \Microweber\User
                         $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                         $notif['description'] = $content_notif;
 
-                        mw('log')->save($notif);
+                        $this->app->log->save($notif);
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
@@ -510,9 +510,9 @@ class Users extends \Microweber\User
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            mw('Microweber\Notifications')->save($notif);
+                            $this->app->notifications->save($notif);
 
-                            mw('log')->save($notif);
+                            $this->app->log->save($notif);
 
                         }
                         //d($save);
@@ -531,7 +531,7 @@ class Users extends \Microweber\User
                         $this->make_logged($data['id']);
 
                         if ($return_after_login != false) {
-                            mw('url')->redirect($return_after_login);
+                            $this->app->url->redirect($return_after_login);
                             exit();
                         }
 
@@ -603,15 +603,15 @@ class Users extends \Microweber\User
 function mw_social_login_exception_handler($exception)
 {
 
-    if (mw('url')->is_ajax()) {
+    if ($this->app->url->is_ajax()) {
         return array('error' => $exception->getMessage());
     }
 
     $after_log = $this->session_get('user_after_login');
     if ($after_log != false) {
-        mw('url')->redirect($after_log);
+        $this->app->url->redirect($after_log);
     } else {
-        mw('url')->redirect(mw_site_url());
+        $this->app->url->redirect(mw_site_url());
     }
 
 }

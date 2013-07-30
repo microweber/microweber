@@ -243,7 +243,7 @@ class Controller
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
 
-                $the_active_site_template = mw('option')->get('curent_template');
+                $the_active_site_template = $this->app->option->get('curent_template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
 
                 if ($preview_module != false) {
@@ -287,7 +287,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = mw('option')->get('curent_template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -685,7 +685,7 @@ class Controller
             $meta = array();
             $meta['content_image'] = '';
             $meta['content_url'] = $this->app->url->current(1);
-            $meta['og_description'] = mw('option')->get('website_description', 'website');
+            $meta['og_description'] = $this->app->option->get('website_description', 'website');
             $meta['og_type'] = 'website';
 
             if (CONTENT_ID > 0) {
@@ -705,27 +705,27 @@ class Controller
                 }
 
             } else {
-                $meta['title'] = mw('option')->get('website_title', 'website');
-                $meta['description'] = mw('option')->get('website_description', 'website');
-                $meta['content_meta_keywords'] = mw('option')->get('website_keywords', 'website');
+                $meta['title'] = $this->app->option->get('website_title', 'website');
+                $meta['description'] = $this->app->option->get('website_description', 'website');
+                $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
 
             }
-            $meta['og_site_name'] = mw('option')->get('website_title', 'website');
+            $meta['og_site_name'] = $this->app->option->get('website_title', 'website');
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
                     $meta['title'] = $meta['content_meta_title'];
                 } else if (isset($meta['title']) and $meta['title'] != '') {
 
                 } else {
-                    $meta['title'] = mw('option')->get('website_title', 'website');
+                    $meta['title'] = $this->app->option->get('website_title', 'website');
                 }
                 if (isset($meta['description']) and $meta['description'] != '') {
                 } else {
-                    $meta['description'] = mw('option')->get('website_description', 'website');
+                    $meta['description'] = $this->app->option->get('website_description', 'website');
                 }
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
-                    $meta['content_meta_keywords'] = mw('option')->get('website_keywords', 'website');
+                    $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
                 $l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
                 $l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);

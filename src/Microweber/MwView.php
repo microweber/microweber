@@ -66,7 +66,7 @@ class MwView {
 
 		if ($ext == 'md') {
 			$content = file_get_contents($this->v);
-			$rel_url = mw('url')->link_to_file(dirname($this->v)) . '/';
+			$rel_url = $this->app->url->link_to_file(dirname($this->v)) . '/';
 			//$content = \Microweber\Content\Markdown::defaultTransform($content);
 			$parser = new \Microweber\Content\MarkdownExtra;
 

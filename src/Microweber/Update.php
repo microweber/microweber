@@ -160,11 +160,11 @@ class Update
                 $notif['title'] = "New updates are available";
                 $notif['description'] = "There are $count new updates are available";
 
-                mw('Microweber\Notifications')->save($notif);
+                $this->app->notifications->save($notif);
             }
 
 
-        /*if(function_exists('mw('Microweber\Notifications')->save')){
+        /*if(function_exists('$this->app->notifications->save')){
 
 
                $count = 0;
@@ -188,7 +188,7 @@ class Update
            $notif['title'] = "New updates are avaiable";
            $notif['description'] = "There are $count new updates are available";
            // d($notif);
-           //mw('Microweber\Notifications')->save($notif);
+           //$this->app->notifications->save($notif);
            }
 
        }*/
@@ -256,7 +256,7 @@ class Update
             }
             $dl_file = $dir_c . $fname;
             if (!is_file($dl_file)) {
-                $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
+                $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
                 $unzip = new \Microweber\Utils\Unzip();
@@ -297,10 +297,10 @@ class Update
             mkdir_recursive($down_dir);
         }
         if (isset($updates['mw_new_version_download'])) {
-            $loc_fn = mw('url')->slug($updates['mw_new_version_download']) . '.zip';
+            $loc_fn = $this->app->url->slug($updates['mw_new_version_download']) . '.zip';
             $loc_fn_d = $down_dir . $loc_fn;
             if (!is_file($loc_fn_d)) {
-                $loc_fn_d1 = mw('url')->download($updates['mw_new_version_download'], false, $loc_fn_d);
+                $loc_fn_d1 = $this->app->url->download($updates['mw_new_version_download'], false, $loc_fn_d);
             }
             if (is_file($loc_fn_d)) {
                 $to_be_unzipped['root'][] = $loc_fn_d;
@@ -321,11 +321,11 @@ class Update
 
                 foreach ($updates[$what_nex] as $key => $value) {
 
-                    $loc_fn = mw('url')->slug($value) . '.zip';
+                    $loc_fn = $this->app->url->slug($value) . '.zip';
                     $loc_fn_d = $down_dir2 . $loc_fn;
 
                     if (!is_file($loc_fn_d)) {
-                        $loc_fn_d1 = mw('url')->download($value, false, $loc_fn_d);
+                        $loc_fn_d1 = $this->app->url->download($value, false, $loc_fn_d);
                     }
                     if (is_file($loc_fn_d)) {
                         $to_be_unzipped[$what_nex][$key] = $loc_fn_d;
@@ -417,7 +417,7 @@ class Update
                         }
                         $dl_file = $dir_c . $fname;
                         if (!is_file($dl_file)) {
-                            $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
+                            $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
                         }
                         if (is_file($dl_file)) {
                             $unzip = new \Microweber\Utils\Unzip();
@@ -454,7 +454,7 @@ class Update
                 }
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
@@ -497,7 +497,7 @@ class Update
 
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = mw('url')->download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();

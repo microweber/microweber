@@ -194,7 +194,7 @@ class Modules extends \Microweber\Module
                 //            if (!is_dir($uninstall_lock)) {
                 //                mkdir_recursive($uninstall_lock);
                 //            }
-                //            $unistall_file = mw('url')->slug($module_name);
+                //            $unistall_file = $this->app->url->slug($module_name);
                 //            $unistall_file = $uninstall_lock . $unistall_file . '.php';
                 //            touch($unistall_file);
                 //  d($unistall_file);
@@ -295,7 +295,7 @@ class Modules extends \Microweber\Module
         //    if (!is_dir($uninstall_lock)) {
         //        mkdir_recursive($uninstall_lock);
         //    }
-        //    $unistall_file = mw('url')->slug($module_name);
+        //    $unistall_file = $this->app->url->slug($module_name);
         //    $unistall_file = $uninstall_lock . $unistall_file . '.php';
         //    // d($unistall_file);
         //    if (is_file($unistall_file)) {
@@ -358,7 +358,7 @@ class Modules extends \Microweber\Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = mw('option')->set_default($value);
+                            $ch = $this->app->option->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;
@@ -380,7 +380,7 @@ class Modules extends \Microweber\Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = mw('option')->set_default($value);
+                            $ch = $this->app->option->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;
@@ -690,12 +690,12 @@ class Modules extends \Microweber\Module
 
                     if (is_file($try_icon)) {
 
-                        $config['icon'] = mw('url')->link_to_file($try_icon);
+                        $config['icon'] = $this->app->url->link_to_file($try_icon);
                     } else {
-                        $config['icon'] = mw('url')->link_to_file($def_icon);
+                        $config['icon'] = $this->app->url->link_to_file($def_icon);
                     }
                     //   $config ['installed'] = install_module($config ['module']);
-                    // $mmd5 = mw('url')->slug($config ['module']);
+                    // $mmd5 = $this->app->url->slug($config ['module']);
                     //   $check_if_uninstalled = MW_MODULES_DIR . '_system/' . $mmd5 . '.php';
                     //                if (is_file($check_if_uninstalled)) {
                     //                    $config ['uninstalled'] = true;

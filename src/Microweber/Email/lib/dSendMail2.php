@@ -387,7 +387,7 @@ class dSendMail2 extends htmlMimeMail {
 			$importImages = false;
 		$body2 = str_ireplace('{SITE_URL}', '', $body);
 		//$body2 = str_ireplace('{SITE_URL}', '', $body);
-		//$body2 = mw('url')->replace_site_url_back($body);
+		//$body2 = $this->app->url->replace_site_url_back($body);
 		$this->setMessage($body2, true, false);
 		// body, html, force_nl2br
 		if ($importImages) {

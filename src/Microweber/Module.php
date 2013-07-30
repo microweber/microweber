@@ -206,7 +206,7 @@ class Module
             $config['module_name'] = dirname($module_name);
 
             $config['module_name_url_safe'] = module_name_encode($module_name);
-            $find_base_url = mw('url')->current(1);
+            $find_base_url = $this->app->url->current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 //	d($pos);
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
@@ -219,7 +219,7 @@ class Module
             $config['module_view'] = mw_site_url('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = module_css_class($module_name);
-            $config['url_to_module'] = mw('url')->link_to_file($config['path_to_module']);
+            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
             $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
 
@@ -245,7 +245,7 @@ class Module
                 global $mw_mod_counter;
                 $mw_mod_counter++;
 
-                $attrs1 = crc32(serialize($attrs) . mw('url')->segment(0) . $mw_mod_counter);
+                $attrs1 = crc32(serialize($attrs) . $this->app->url->segment(0) . $mw_mod_counter);
 
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
@@ -448,7 +448,7 @@ class Module
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                $ch = mw('url')->link_to_file($ch);
+                $ch = $this->app->url->link_to_file($ch);
                 $ch = $ch . '/';
                 //	$ch = trim($ch,'\//');
 
@@ -523,7 +523,7 @@ class Module
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                //$ch = mw('url')->link_to_file($ch);
+                //$ch = $this->app->url->link_to_file($ch);
                 $ch = normalize_path($ch, 1);
                 //	$ch = trim($ch,'\//');
 

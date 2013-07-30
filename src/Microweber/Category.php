@@ -237,7 +237,7 @@ class Category
 
                             $string1 = ($str);
 
-                            $url = $url . '/' . mw('url')->slug($string1) . '/categories:' . $data['id'];
+                            $url = $url . '/' . $this->app->url->slug($string1) . '/categories:' . $data['id'];
 
                             //$url = $url . '/categories:' . $data ['id'];
                         }

@@ -63,10 +63,10 @@ class Layouts {
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = mw('option')->get('curent_template');
+                    $the_active_site_template = $this->app->option->get('curent_template');
                 }
             } else {
-                $the_active_site_template = mw('option')->get('curent_template');
+                $the_active_site_template = $this->app->option->get('curent_template');
             }
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
         } else {
@@ -210,7 +210,7 @@ class Layouts {
 
                                 $possible = $here_dir . $to_return_temp['icon'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['icon'] = mw('url')->link_to_file($possible);
+                                    $to_return_temp['icon'] = $this->app->url->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['icon']);
                                 }
@@ -222,7 +222,7 @@ class Layouts {
                                 $to_return_temp['image'] = trim($result);
                                 $possible = $here_dir . $to_return_temp['image'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['image'] = mw('url')->link_to_file($possible);
+                                    $to_return_temp['image'] = $this->app->url->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['image']);
                                 }
@@ -335,17 +335,17 @@ class Layouts {
             $fn = key($options);
         }
 
-        $page_url_segment_1 = mw('url')->segment(0);
+        $page_url_segment_1 = $this->app->url->segment(0);
         $td = MW_TEMPLATES_DIR . $page_url_segment_1;
         $td_base = $td;
 
-        $page_url_segment_2 = mw('url')->segment(1);
+        $page_url_segment_2 = $this->app->url->segment(1);
         $directly_to_file = false;
-        $page_url_segment_3 = mw('url')->segment();
+        $page_url_segment_3 = $this->app->url->segment();
 
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
-            //$page_url_segment_1 =	$the_active_site_template = mw('option')->get('curent_template');
+            //$page_url_segment_1 =	$the_active_site_template = $this->app->option->get('curent_template');
             //$td_base = MW_TEMPLATES_DIR .  $the_active_site_template.DS;
         } else {
 

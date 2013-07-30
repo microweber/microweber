@@ -8,7 +8,7 @@ api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
 
-event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
+event_bind('mw_db_init', mw('notifications')->db_init());
 
 
 class Notifications
@@ -274,7 +274,7 @@ class Notifications
             if ($is_log == 'log_') {
                 $is_sys_log = 1;
                 $is_log_id = str_ireplace('log_', '', $params['id']);
-                $log_entr = mw('log')->get_entry_by_id($is_log_id);
+                $log_entr = $this->app->log->get_entry_by_id($is_log_id);
                 if ($log_entr != false and isset($params['one'])) {
                     return $log_entr;
 

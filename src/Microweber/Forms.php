@@ -2,8 +2,6 @@
 namespace Microweber;
 
 
-event_bind('mw_db_init', mw('Microweber\Notifications')->db_init());
-
 class Forms
 {
     public $app;
@@ -96,7 +94,7 @@ class Forms
             $data['option_group'] = $params['for_module_id'];
             $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
-            mw('option')->save($data);
+            $this->app->option->save($data);
         }
 
         return array('success' => 'List is updated', $params);
@@ -136,7 +134,7 @@ class Forms
             $for_id = $params['rel_id'];
         }
 
-        $dis_cap = mw('option')->get('disable_captcha', $for_id) == 'y';
+        $dis_cap = $this->app->option->get('disable_captcha', $for_id) == 'y';
 
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
@@ -157,13 +155,13 @@ class Forms
         }
 
         if ($for == 'module') {
-            $list_id = mw('option')->get('list_id', $for_id);
+            $list_id = $this->app->option->get('list_id', $for_id);
         }
-        $email_to = mw('option')->get('email_to', $for_id);
-        $email_bcc = mw('option')->get('email_bcc', $for_id);
-        $email_autorespond = mw('option')->get('email_autorespond', $for_id);
+        $email_to = $this->app->option->get('email_to', $for_id);
+        $email_bcc = $this->app->option->get('email_bcc', $for_id);
+        $email_autorespond = $this->app->option->get('email_autorespond', $for_id);
 
-        $email_autorespond_subject = mw('option')->get('email_autorespond_subject', $for_id);
+        $email_autorespond_subject = $this->app->option->get('email_autorespond_subject', $for_id);
 
         if ($list_id == false) {
             $list_id = 0;
@@ -260,11 +258,11 @@ class Forms
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content'] = "You have new form entry from " . mw('url')->current(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
-            mw('Microweber\Notifications')->save($notif);
+            $notif['content'] = "You have new form entry from " . $this->app->url->current(1) . '<br />' . mw('format')->array_to_ul($pp_arr);
+            $this->app->notifications->save($notif);
             //	d($cf_to_save);
             if ($email_to == false) {
-                $email_to = mw('option')->get('email_from', 'email');
+                $email_to = $this->app->option->get('email_from', 'email');
 
             }
             if ($email_to != false) {
@@ -541,7 +539,7 @@ class Forms
             }
             $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);
-            $download = mw('url')->link_to_file($filename_path_full);
+            $download = $this->app->url->link_to_file($filename_path_full);
             return array('success' => 'Your file has been exported!', 'download' => $download);
 
         }

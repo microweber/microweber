@@ -211,7 +211,7 @@ class Option
                 $get = $get[0]['option_value'];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = mw('url')->replace_site_url_back($get['option_value']);
+                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
                 }
                 $_mw_global_options_mem[$function_cache_id] = $get;
                 return $get;
@@ -220,7 +220,7 @@ class Option
                 $get = $get[0];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = mw('url')->replace_site_url_back($get['option_value']);
+                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
                 }
 
                 if (isset($get['field_values']) and $get['field_values'] != false) {
@@ -388,7 +388,7 @@ class Option
 
                         if (isset($data['id']) and intval($data['id']) > 0) {
 
-                            $chck = mw('option')->get('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
+                            $chck = $this->get('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
                             if (isset($chck[0]) and isset($chck[0]['id'])) {
 
                                 $data['id'] = $chck[0]['id'];
@@ -447,7 +447,7 @@ class Option
                 }
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
-                    $data['option_value'] = mw('url')->replace_mw_site_url($data['option_value']);
+                    $data['option_value'] = $this->app->url->replace_mw_site_url($data['option_value']);
                     //d($data['option_value']);
                 }
 

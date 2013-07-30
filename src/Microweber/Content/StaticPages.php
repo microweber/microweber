@@ -55,7 +55,7 @@ class StaticPages
             //$this->app->cache->save($tree, $function_cache_id, $cache_group = 'content/static');
         }
         if (!isset($url)) {
-            $url = mw('url')->current(true, true);
+            $url = $this->app->url->current(true, true);
         }
         $params['url'] = $url;
         $params['url_param'] = 'page';
@@ -86,8 +86,8 @@ class StaticPages
 
 
         $load_file = false;
-        $url = mw('url')->current(true, true);
-        $page_url = mw('url')->param('page');
+        $url = $this->app->url->current(true, true);
+        $page_url = $this->app->url->param('page');
         if ($page_url != false and $page_url != '') {
             $page_url = urldecode($page_url);
             $page_url = str_replace("--", "/", $page_url);

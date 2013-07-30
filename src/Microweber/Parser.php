@@ -303,7 +303,7 @@ class Parser
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
                                     $mw_mod_counter1 = crc32(serialize($attrs));
-                                    $attrs['id'] = $module_class . '-' . mw('url')->segment(0) . ($mw_mod_counter1);
+                                    $attrs['id'] = $module_class . '-' . $this->app->url->segment(0) . ($mw_mod_counter1);
                                     $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
                                 } else {
@@ -334,7 +334,7 @@ class Parser
                                     // $module_html = str_replace('__WRAP_NO_WRAP__', 'element', $module_html);
                                     $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                                 }
-                                $module_name_url = mw('url')->slug($module_name);
+                                $module_name_url = $this->app->url->slug($module_name);
 
                                 if ($mod_as_element == false) {
                                     if (strstr($module_name, 'text')) {
@@ -928,7 +928,7 @@ class Parser
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
                                     //$field_content = __FILE__ . __LINE__;
-                                    //$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
+                                    //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
                                     $field_content = get_content_field("rel={$option_group}&field={$field}");
 
                                     //
@@ -936,7 +936,7 @@ class Parser
                                     $field_content = get_content_field("rel={$option_group}&field={$field}");
 
                                     //$field_content = __FILE__ . __LINE__;
-                                    //$field_content = mw('option')->get($field, $option_group, $return_full = false, $orderby = false);
+                                    //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
                                 }
 
                             } else {
