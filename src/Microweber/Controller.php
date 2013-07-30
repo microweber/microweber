@@ -620,41 +620,26 @@ class Controller
                     $body_new = $isolated_body->htmlOuter();
                      
                     $l = pq(0)->htmlOuter();
-                    
 
-                    // $body_new = pq('body') ->  eq(0) -> replaceWith('asdasd');
-                    //$l = $isolated_head.$body_new;
-
-                    //$l= $isolated_head.$l;
                 }
 
-                //
 
-                //$isolated_el = $l = pq('*') -> attr('id', $find_embed_id) -> html();
-                if (isset($isolated_el) and $isolated_el != false) {
-
-                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
-                    //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new $this->app->view($tb);
-                    $layout_toolbar = $layout_toolbar->__toString();
-                    if ($layout_toolbar != '') {
-
-                        // if (strstr($layout_toolbar, '{head}')) {
-                        // if ($isolated_head != false) {
-                        // //	d($isolated_head);
-                        // $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
-                        // }
-                        // }
-
-                        if (strpos($layout_toolbar, '{content}')) {
-
-                            $l = str_replace('{content}', $isolated_el, $layout_toolbar);
-
-                        }
-
-                    }
-
-                 }
+//                if (isset($isolated_el) and $isolated_el != false) {
+//
+//                    $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'embed.php';
+//                    //$layout_toolbar = file_get_contents($filename);
+//                    $layout_toolbar = new $this->app->view($tb);
+//                    $layout_toolbar = $layout_toolbar->__toString();
+//                    if ($layout_toolbar != '') {
+//                        if (strpos($layout_toolbar, '{content}')) {
+//
+//                            $l = str_replace('{content}', $isolated_el, $layout_toolbar);
+//
+//                        }
+//
+//                    }
+//
+//                 }
 
 
             }

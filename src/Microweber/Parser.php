@@ -13,12 +13,9 @@ class Parser
     {
 
 
-
         global $replaced_modules;
 
         global $replaced_modules_values;
-
-
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -67,8 +64,6 @@ class Parser
             }
 
 
-
-
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
 
@@ -94,10 +89,10 @@ class Parser
                         $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
                         // $layout = str_replace_count($value, $v1, $layout,1);
-                      if (!isset($replaced_modules[$v1])) {
+                        if (!isset($replaced_modules[$v1])) {
 
                             $replaced_modules[$v1] = $value;
-                       }
+                        }
                         // p($value);
                     }
                 }
@@ -429,7 +424,7 @@ class Parser
                                 //}
                                 $replaced_modules_values[$replace_key] = $module_html;
 
-                                 $layout = str_replace($value, $module_html, $layout);
+                                $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
 
                                 //
@@ -438,7 +433,7 @@ class Parser
                         //
                     }
 
-                      $layout = str_replace($key, $value, $layout);
+                    $layout = str_replace($key, $value, $layout);
                 }
             }
         }
@@ -465,11 +460,10 @@ class Parser
         }
 
 
-          $layout = str_replace('{rand}', uniqid(), $layout);
+        $layout = str_replace('{rand}', uniqid(), $layout);
         $layout = str_replace('{SITE_URL}', mw_site_url(), $layout);
         $layout = str_replace('{MW_SITE_URL}', mw_site_url(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', mw_site_url(), $layout);
-
 
 
         return $layout;
@@ -605,6 +599,36 @@ class Parser
 
         return $html_to_save;
     }
+
+    public function get_by_id($layout, $html_element_id = false)
+    {
+
+        if ($html_element_id == false) {
+            if (isset($_REQUEST['embed_id'])) {
+                $html_element_id = trim($_REQUEST['embed_id']);
+
+            }
+        }
+
+        if ($html_element_id != false and trim($html_element_id) != '') {
+            require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+            $pq = \phpQuery::newDocument($layout);
+
+            foreach ($pq ['#' . $html_element_id] as $elem) {
+
+                $isolated_el = pq($elem)->htmlOuter();
+                $isolated_body = pq('body')->eq(0)->html($isolated_el);
+                $body_new = $isolated_body->htmlOuter();
+
+                $layout = pq(0)->htmlOuter();
+
+            }
+
+        }
+        return $layout;
+    }
+
 
     public function isolate_content_field($l)
     {
@@ -1110,4 +1134,6 @@ class Parser
 
 
     }
+
+
 }

@@ -8,7 +8,7 @@ class Application
 
 
     protected $config = array();
-    private $loaded_config_file_path; //indicates if config is being loaded from file
+    protected $loaded_config_file_path; //indicates if config is being loaded from file
 
     public $providers = array();
 
@@ -79,6 +79,7 @@ class Application
         if ($this->loaded_config_file_path != $path_to_file
             and is_file($path_to_file)
         ) {
+
             include_once ($path_to_file);
             $this->loaded_config_file_path = $path_to_file;
             if (isset($config)) {
@@ -93,22 +94,22 @@ class Application
     public function __get($property)
     {
 
+        $property = ucfirst($property);
+        if (isset($this->providers[$property])) {
 
-
-
-
-
+            return $this->providers[$property];
+        }
 
 
         if (property_exists($this, $property)) {
             return $this->$property;
         } else {
             $property_orig_case = $property;
-            $property = ucfirst($property);
+
             try {
 
                 $mw = '\Microweber\\' . $property;
-                $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+                $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
 
 
                 $prop = new $mw($this);
@@ -116,7 +117,8 @@ class Application
                 $prop = new $property($this);
             }
             if (isset($prop)) {
-                return $this->$property = $this->$property_orig_case = $prop;
+
+                return $this->$property = $this->providers[$property] = $this->$property_orig_case = $prop;
             }
 
         }
@@ -124,21 +126,20 @@ class Application
 
     public function call($provider, $args = null)
     {
-        $providers = $this->providers;
 
 
         if (!method_exists($this, $provider)) {
-            if (!isset($providers[$provider])) {
+            if (!isset($this->providers[$provider])) {
                 if (!is_object($provider)) {
                     if ($args != null) {
-                        $providers[$provider] = new $provider($args);
+                        $this->providers[$provider] = new $provider($args);
 
                     } else {
-                        $providers[$provider] = new $provider;
+                        $this->providers[$provider] = new $provider;
 
                     }
                 }
-                return $providers[$provider];
+                return $this->providers[$provider];
 
             } else {
 
@@ -199,12 +200,32 @@ class Application
 
     public function __set($property, $value)
     {
+        $property = ucfirst($property);
+        if (isset($this->providers[$property])) {
+
+            return $this->providers[$property];
+        }
+
+
+        $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
 
 
         $property = ucfirst($property);
-        if ( property_exists($this, $property)) {
 
-            $this->$property = $value;
+
+        if ($property == 'Application') {
+
+
+            return;
+
+            //prevent recursion ?
+            return $this;
+        }
+
+
+        if (property_exists($this, $property)) {
+
+            $this->$property = $this->providers[$property] = $value;
 
         }
 

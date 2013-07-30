@@ -150,10 +150,10 @@ $_mw_global_object = null;
 function mw($class, $constructor_params = false)
 {
 
-
+    global $_mw_registry;
     global $_mw_global_object;
     if(!is_object($_mw_global_object)){
-        $_mw_global_object = new \Microweber\Application();
+        $_mw_global_object = new \Microweber\Application($constructor_params);
     }
 
 
@@ -161,8 +161,22 @@ function mw($class, $constructor_params = false)
 
     $class = ucfirst($class);
     $class = str_replace('/', '\\', $class);
+
+    $class = str_replace(array('\\\\', '\Microweber', 'Microweber\\'), array('\\', '', ''), $class);
+    $class_name = strtolower($class);
+
+    if (isset($_mw_global_object->providers[$class])) {
+         
+        return  $_mw_global_object->providers[$class];
+    } else
+    if (property_exists($_mw_global_object, $class_name) or property_exists($_mw_global_object, $class)) {
+        return  $_mw_global_object->$class;
+    }
+
+
     if (!isset($_mw_registry[$class_name])) {
-        $_mw_registry[$class_name] = $_mw_global_object->$class($_mw_global_object);
+
+        $_mw_registry[$class_name] = $_mw_global_object->providers[$class] = $_mw_global_object->$class($_mw_global_object);
 
     }
 
