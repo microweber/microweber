@@ -128,8 +128,8 @@ class Application
             try {
 
                 $mw = '\Microweber\\' . $property;
-                $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
-
+              //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+                $mw = str_ireplace(array('/','\\\\', 'Microweber\Microweber'), array('\\','\\', 'Microweber'), $mw);
 
                 $prop = new $mw($this);
             } catch (Exception $e) {

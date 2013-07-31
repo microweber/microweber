@@ -72,14 +72,9 @@ class Router
         }
 
 
-        if ($method == 'api.js') {
-            $method = 'apijs';
-        }
-
-
         $controller = $this->controller;
 
-//perform custom routing
+        //perform custom routing
 
         $is_custom_controller_called = false;
         if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {

@@ -58,7 +58,7 @@ if (!defined('MW_USERFILES')) {
     define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_FOLDER_NAME . DS);
 }
 if (!defined('MW_USERFILES_URL')) {
-    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME . '/');
+    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME );
 }
 if (!defined('MW_MEDIA_URL')) {
     define("MW_MEDIA_URL", MW_USERFILES_URL . 'media/');
