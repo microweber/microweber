@@ -1627,7 +1627,7 @@ class ContentUtils extends \Microweber\Content
 
         $menu_id = intval($menu_id);
         $content_id = intval($content_id);
-        $check = get_menu_items("limit=1&count=1&parent_id={$menu_id}&content_id=$content_id");
+        $check = $this->get_menu_items("limit=1&count=1&parent_id={$menu_id}&content_id=$content_id");
         $check = intval($check);
         if ($check > 0) {
             return true;
@@ -1689,7 +1689,7 @@ class ContentUtils extends \Microweber\Content
             $q = $this->app->db->q($sql);
 
             foreach ($add_to_menus_int as $value) {
-                $check = get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
                 //d($check);
                 if ($check == 0) {
                     $save = array();

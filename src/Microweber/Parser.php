@@ -33,6 +33,35 @@ class Parser
         global $replaced_modules_values;
 
 
+
+
+        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
+        $layout = str_replace('</microweber>', '', $layout);
+        $layout = str_replace('></module>', '/>', $layout);
+        $script_pattern = "/<module[^>]*>/Uis";
+        //$script_pattern = "/<module.*.[^>]*>/is";
+
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            $matches1 = $mw_script_matches[0];
+            foreach ($matches1 as $key => $value) {
+                if ($value != '') {
+                     $v1 = crc32($value);
+                    $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
+                    $layout = str_replace($value, $v1, $layout);
+                     if (!isset($replaced_modules[$v1])) {
+                          $replaced_modules[$v1] = $value;
+                    }
+                 }
+            }
+        }
+
+
+
+
+
+
         if (!isset($options['parse_only_vars'])) {
 
             $layout = str_replace('<mw ', '<module ', $layout);
@@ -424,7 +453,7 @@ class Parser
 
                                 }
                                 unset($replaced_modules[$key]);
-                                //   $proceed_with_parse = 1;
+                                // $proceed_with_parse = 1;
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -475,7 +504,8 @@ class Parser
         }
 
 
-        $layout = str_replace('{rand}', uniqid(), $layout);
+        $layout = str_replace('{rand}', uniqid().rand(), $layout);
+
         $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $layout);

@@ -4,6 +4,26 @@ namespace Microweber;
 class Format
 {
 
+    public $app;
+
+    function __construct($app=null)
+    {
+
+
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+
+        }
+
+
+    }
+
     /**
      *
      * Limits a string to a number of characters

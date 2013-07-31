@@ -37,7 +37,7 @@ class Module
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+               $this->app = mw('application');
             }
 
         }
@@ -218,8 +218,7 @@ class Module
             $config['module_api'] = $this->app->url->site('api/' . $module_name);
             $config['module_view'] = $this->app->url->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
-            $config['module_class'] = module_css_class($module_name);
-            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+            $config['module_class'] = $this->css_class($module_name);            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
             $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
 

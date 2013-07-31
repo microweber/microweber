@@ -167,7 +167,85 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 
-if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
+
+function get_all_functions_files_for_modules($options = false)
+{
+    $args = func_get_args();
+    $function_cache_id = '';
+
+    $function_cache_id = serialize($options);
+
+    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'modules';
+
+    $cache_content = mw('cache')->get($cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
+    //d($uninstall_lock);
+    if (isset($options['glob'])) {
+        $glob_patern = $options['glob'];
+    } else {
+        $glob_patern = '*functions.php';
+    }
+
+    if (isset($options['dir_name'])) {
+        $dir_name = $options['dir_name'];
+    } else {
+        $dir_name = normalize_path(MW_MODULES_DIR);
+    }
+
+    $disabled_files = array();
+
+    $uninstall_lock = get_modules_from_db('ui=any&installed=[int]0');
+
+    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
+        foreach ($uninstall_lock as $value) {
+            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
+            $disabled_files[] = $value1;
+        }
+    }
+
+    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
+
+    if (!empty($dir)) {
+        $configs = array();
+        foreach ($dir as $key => $value) {
+
+            if (is_string($value)) {
+                $value = normalize_path($value, false);
+
+                $found = false;
+                foreach ($disabled_files as $disabled_file) {
+                    //d($disabled_file);
+                    if (strtolower($value) == strtolower($disabled_file)) {
+                        $found = 1;
+                    }
+                }
+                if ($found == false) {
+                    $configs[] = $value;
+                }
+            }
+            //d($value);
+            //if ($disabled_files !== null and !in_array($value, $disabled_files,1)) {
+            //
+            //}
+        }
+
+        mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
+
+        return $configs;
+    } else {
+        return false;
+    }
+}
+
+
+if (function_exists('get_all_functions_files_for_modules')) {
     $module_functions = get_all_functions_files_for_modules();
     if ($module_functions != false) {
         if (is_array($module_functions)) {
@@ -179,22 +257,22 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
             }
         }
     }
-    if (MW_IS_INSTALLED == true) {
-
-        if (($cache_content_init) == false) {
-            event_trigger('mw_db_init');
-            //mw('cache')->save('true', $c_id, 'db');
-
-            $installed = array();
-            $installed['option_group'] = ('mw_system');
-            $installed['option_key'] = ('is_installed');
-            $installed['option_value'] = 'yes';
-            mw('option')->save_static($installed);
-
-        }
-
-        //event_trigger('mw_cron');
-    }
+//    if (MW_IS_INSTALLED == true) {
+//
+//        if (($cache_content_init) == false) {
+//            event_trigger('mw_db_init');
+//            //mw('cache')->save('true', $c_id, 'db');
+//
+//            $installed = array();
+//            $installed['option_group'] = ('mw_system');
+//            $installed['option_key'] = ('is_installed');
+//            $installed['option_value'] = 'yes';
+//            mw('option')->save_static($installed);
+//
+//        }
+//
+//        //event_trigger('mw_cron');
+//    }
 }
 
 

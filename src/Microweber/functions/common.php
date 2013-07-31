@@ -111,6 +111,35 @@ function get_homepage()
 
 
 
+/**
+ * category_tree
+ *
+ * @desc prints category_tree of UL and LI
+ * @access      public
+ * @category    categories
+ * @author      Microweber
+ * @param $params = array();
+ * @param  $params['parent'] = false; //parent id
+ * @param  $params['link'] = false; // the link on for the <a href
+ * @param  $params['active_ids'] = array(); //ids of active categories
+ * @param  $params['active_code'] = false; //inserts this code for the active ids's
+ * @param  $params['remove_ids'] = array(); //remove those caregory ids
+ * @param  $params['ul_class_name'] = false; //class name for the ul
+ * @param  $params['include_first'] = false; //if true it will include the main parent category
+ * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
+ * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
+ * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+ * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
+ * @param  $params['list_tag'] = 'select';
+ * @param  $params['list_item_tag'] = "option";
+ *
+ *
+ */
+function category_tree($params = false) {
+
+    return mw('category')->tree($params);
+}
+
 
 
 api_expose('reorder_content');
@@ -126,10 +155,27 @@ function reorder_content($params)
 
 
 
+function is_arr($var)
+{
+    return isarr($var);
+}
+
+function isarr($var)
+{
+    if (is_array($var) and !empty($var)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 
 
+
+function url_param($param, $skip_ajax = false) {
+   return mw('url')->param($param, $skip_ajax);
+}
 
 
 api_expose('save_edit');
@@ -714,7 +760,33 @@ api_expose('is_logged');
 function is_logged()
 {
 
-    return mw('user')->is_logged();
+    if (defined('USER_ID')) {
+        // print USER_ID;
+        return USER_ID;
+    } else {
+
+        $user_session = $_SESSION;
+        if ($user_session == FALSE) {
+
+
+            return false;
+        } else {
+            if(isset($user_session['user_session'])){
+                $user_session = $user_session['user_session'];
+            }
+
+        }
+        $res = false;
+        if (isset($user_session['user_id'])) {
+            $res = $user_session['user_id'];
+        }
+
+        if ($res != false) {
+            // $res = $sess->get ( 'user_id' );
+            define("USER_ID", $res);
+        }
+        return $res;
+    }
 
 
 }
@@ -907,6 +979,13 @@ function save_category($data, $preserve_cache = false) {
 
 }
 
+function get_categories($data) {
+
+    return \mw('categories')->get($data);
+
+}
+
+
 api_expose('delete_category');
 
 function delete_category($data) {
@@ -997,11 +1076,14 @@ function mw_print_admin_menu_selector($params = false)
     print module('view=edit_page_menus&type=menu' . $add);
 }
 
-function get_menu_items($params = false)
+function get_content_by_id($params = false)
 {
-    return mw('content')->get_menu_items($params);
+    return mw('content')->get_by_id($params);
 }
-
+function get_user_by_id($params = false)
+{
+    return mw('user')->get_by_id($params);
+}
 
 
 function get_menu($params = false)
@@ -1191,81 +1273,6 @@ function module($params)
     return $res;
 }
 
-function get_all_functions_files_for_modules($options = false)
-{
-    $args = func_get_args();
-    $function_cache_id = '';
-
-    $function_cache_id = serialize($options);
-
-    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-    $cache_group = 'modules/functions';
-
-    $cache_content = mw('cache')->get($cache_id, $cache_group);
-
-    if (($cache_content) != false) {
-
-        return $cache_content;
-    }
-
-    //d($uninstall_lock);
-    if (isset($options['glob'])) {
-        $glob_patern = $options['glob'];
-    } else {
-        $glob_patern = '*functions.php';
-    }
-
-    if (isset($options['dir_name'])) {
-        $dir_name = $options['dir_name'];
-    } else {
-        $dir_name = normalize_path(MW_MODULES_DIR);
-    }
-
-    $disabled_files = array();
-
-    $uninstall_lock = get_modules_from_db('ui=any&installed=[int]0');
-
-    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
-        foreach ($uninstall_lock as $value) {
-            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
-            $disabled_files[] = $value1;
-        }
-    }
-
-    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
-
-    if (!empty($dir)) {
-        $configs = array();
-        foreach ($dir as $key => $value) {
-
-            if (is_string($value)) {
-                $value = normalize_path($value, false);
-
-                $found = false;
-                foreach ($disabled_files as $disabled_file) {
-                    //d($disabled_file);
-                    if (strtolower($value) == strtolower($disabled_file)) {
-                        $found = 1;
-                    }
-                }
-                if ($found == false) {
-                    $configs[] = $value;
-                }
-            }
-            //d($value);
-            //if ($disabled_files !== null and !in_array($value, $disabled_files,1)) {
-            //
-            //}
-        }
-
-        mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
-
-        return $configs;
-    } else {
-        return false;
-    }
-}
 
 
 function get_layouts_from_db($params = false)
@@ -1963,3 +1970,86 @@ function strleft($s1, $s2) {
 }
 
 
+
+
+if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
+    $module_functions = get_all_functions_files_for_modules();
+    if ($module_functions != false) {
+        if (is_array($module_functions)) {
+            foreach ($module_functions as $item) {
+                if (is_file($item)) {
+
+                    include_once ($item);
+                }
+            }
+        }
+    }
+    if (MW_IS_INSTALLED == true) {
+
+        if (($cache_content_init) == false) {
+            event_trigger('mw_db_init');
+            //mw('cache')->save('true', $c_id, 'db');
+
+            // $installed = array();
+//            $installed['option_group'] = ('mw_system');
+//            $installed['option_key'] = ('is_installed');
+//            $installed['option_value'] = 'yes';
+//            mw('option')->save_static($installed);
+
+        }
+
+        //event_trigger('mw_cron');
+    }
+}
+
+
+
+
+
+/**
+ *
+ * Settings module api
+ *
+ * @package     modules
+ * @subpackage      settings
+ * @since       Version 0.1
+ */
+
+// ------------------------------------------------------------------------
+event_bind('mw_admin_header_menu', 'mw_print_admin_menu_settings_btn');
+
+function mw_print_admin_menu_settings_btn() {
+    $active = mw('url')->param('view');
+    $cls = '';
+    if($active == 'settings'){
+        $cls = ' class="active" ';
+    }
+    print '<li'.$cls.'><a href="'.admin_url().'view:settings">' . _e("Settings", true) . '</a></li>';
+}
+
+
+
+
+
+
+/**
+ *
+ * Getting options from the database
+ *
+ * @param $key array|string - if array it will replace the db params
+ * @param $option_group string - your option group
+ * @param $return_full bool - if true it will return the whole db row as array rather then just the value
+ * @param $module string - if set it will store option for module
+ * Example usage:
+ * get_option('my_key', 'my_group');
+ *
+ *
+ *
+ */
+$_mw_global_options_mem = array();
+function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
+{
+    $update_api = mw('option');
+    $iudates = $update_api ->get_option($key, $option_group, $return_full, $orderby, $module);
+
+}

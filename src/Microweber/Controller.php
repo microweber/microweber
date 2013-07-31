@@ -810,12 +810,12 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
-        $l = new $this->app->view(MW_ADMIN_VIEWS_DIR . 'admin.php');
+        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
         event_trigger('on_load');
-
         $layout = $this->app->parser->process($l, $options = false);
+       // $layout = $this->app->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
 
         print $layout;
