@@ -212,7 +212,7 @@ class Files
                     $this->_mkdirs($cacheDir_temp);
                 }
 
-                $cache = file_put_contents($cache_file, $content1);
+                $cache = @file_put_contents($cache_file, $content1);
 
 
             } catch (Exception $e) {

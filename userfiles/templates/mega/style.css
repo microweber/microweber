@@ -841,9 +841,11 @@
      font-size: 12px;
      background: none;
      padding: 11px;
+     opacity: 0.8;
    }
    #header .nav a:hover{
-     text-decoration: underline
+     text-decoration: underline;
+     opacity: 1;
    }
    .nav-icon-btn, #header .nav .nav-icon-btn a{
      text-decoration: none;
@@ -855,6 +857,7 @@
    #header .nav a.active:hover{
      font-weight: bold;
      text-decoration: none;
+     opacity: 1; 
    }
 
    #header .nav a#header-login{

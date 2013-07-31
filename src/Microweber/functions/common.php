@@ -68,11 +68,17 @@ function get_posts($params = false)
     return mw('content')->get($params);
 }
 
+function site_url($str = '') {
+
+    return mw_site_url($str);
+}
 
 
 
-
-
+function api_url($str = '') {
+    $str = ltrim($str, '/');
+    return mw_site_url('api/' . $str);
+}
 
 /**
  * Return the path to the layout file that will render the page
@@ -2050,6 +2056,6 @@ $_mw_global_options_mem = array();
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
 {
     $update_api = mw('option');
-    $iudates = $update_api ->get_option($key, $option_group, $return_full, $orderby, $module);
+    $iudates = $update_api ->get($key, $option_group, $return_full, $orderby, $module);
 
 }
