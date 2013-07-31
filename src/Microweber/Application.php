@@ -10,7 +10,7 @@ class Application
     public $config = array();
     public $loaded_config_file_path; //indicates if config is being loaded from file
 
-    public  $providers = array();
+    public $providers = array();
 
     public function __construct($config = false)
     {
@@ -25,8 +25,8 @@ class Application
         }
 
         global $_mw_global_object;
-      //  if (!is_object($_mw_global_object)) {
-            $_mw_global_object = $this;
+        //  if (!is_object($_mw_global_object)) {
+        $_mw_global_object = $this;
         //}
 
 
@@ -110,10 +110,8 @@ class Application
 
             return $this->$property;
         } else if (isset($this->providers[$property])) {
-
             return $this->providers[$property];
         } elseif (isset($this->providers[$property2])) {
-
             return $this->providers[$property2];
         } else if (property_exists($this, $property2)) {
             return $this->$property2;
@@ -147,7 +145,6 @@ class Application
 
     public function call($provider, $args = null)
     {
-
 
 
         if (!method_exists($this, $provider)) {
@@ -238,7 +235,7 @@ class Application
             $property = ucfirst($property);
             $property2 = strtolower($property);
 
-            return $this->$property = $this->$property2 =$this->providers[$property] =$this->providers[$property2] = $value;
+            return $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
 
         }
     }

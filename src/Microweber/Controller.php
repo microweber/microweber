@@ -1077,7 +1077,7 @@ class Controller
                                 if (method_exists($res, $try_class_func2)) {
                                     $try_class_func = $try_class_func2;
                                 }
-                                //	d($res);
+
                                 //exit();
                                 $res = $res->$try_class_func($data);
                                 $mod_class_api_called = true;

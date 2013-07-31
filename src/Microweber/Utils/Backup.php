@@ -17,14 +17,7 @@ use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
-api_expose('Microweber\Utils\Backup\delete');
-api_expose('Microweber\Utils\Backup\create');
-api_expose('Microweber\Utils\Backup\download');
-api_expose('Microweber\Utils\Backup\create_full');
-api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
 
-api_expose('Microweber\Utils\Backup\restore');
-api_expose('Microweber\Utils\Backup\cronjob');
 
 
 class Backup
@@ -46,6 +39,15 @@ class Backup
     function __construct()
     {
 
+        api_expose('Microweber\Utils\Backup\delete');
+        api_expose('Microweber\Utils\Backup\create');
+        api_expose('Microweber\Utils\Backup\download');
+        api_expose('Microweber\Utils\Backup\create_full');
+        api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
+
+        api_expose('Microweber\Utils\Backup\restore');
+        api_expose('Microweber\Utils\Backup\cronjob');
+
         if (!defined('USER_IP')) {
             if (isset($_SERVER["REMOTE_ADDR"])) {
                 define("USER_IP", $_SERVER["REMOTE_ADDR"]);
@@ -53,6 +55,8 @@ class Backup
                 define("USER_IP", '127.0.0.1');
 
             }
+
+
         }
         //var_dump($_SERVER);
         //	print 1;

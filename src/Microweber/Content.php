@@ -17,7 +17,8 @@ event_bind('mw_db_init', mw('Microweber\Content')->db_init());
 class Content
 {
     public $app;
-    function __construct($app=null)
+
+    function __construct($app = null)
     {
 
         if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -66,8 +67,6 @@ class Content
         }
 
 
-
-
     }
 
     /**
@@ -98,15 +97,19 @@ class Content
                 $id = PAGE_ID;
             }
         }
+
+
         if ($id == 0) {
             return $this->app->url->site();
         }
 
         $link = $this->get_by_id($id);
+
+
         if (strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
-        $link = $this->app->url->site($link['url']);
+        $link = site_url($link['url']);
         return $link;
     }
 
@@ -209,16 +212,6 @@ class Content
     public function get($params = false)
     {
 
-        if (defined('MW_API_CALL')) {
-            if (isset($_REQUEST['api_key']) and is_admin() == 0) {
-                api_login($_REQUEST['api_key']);
-                if (is_admin() == 0) {
-                    return false;
-                }
-            }
-
-        }
-
         if (defined('PAGE_ID') == false) {
             $this->define_constants();
         }
@@ -237,93 +230,45 @@ class Content
         }
 
 
-        $function_cache_id = false;
+        $cache_group = 'content/global';
+        if (isset($params['cache_group'])) {
+            $cache_group = $params['cache_group'];
+        }
+        $table = MW_DB_TABLE_CONTENT;
+        if (!isset($params['is_deleted'])) {
+            $params['is_deleted'] = 'n';
+        }
+        $params['table'] = $table;
+        $params['cache_group'] = $cache_group;
+        $get = $this->app->db->get($params);
 
-        $args = func_get_args();
 
-        foreach ($args as $k => $v) {
+        if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+            if (isset($get['url'])) {
+                $get['url'] = $this->app->url->site($get['url']);
+            }
+            if (isset($get['title'])) {
+                $get['title'] = $this->app->format->clean_html($get['title']);
+            }
+            return $get;
+        }
+        if (is_array($get)) {
+            $data2 = array();
+            foreach ($get as $item) {
+                if (isset($item['url'])) {
+                    $item['url'] = $this->app->url->site($item['url']);
+                }
+                if (isset($item['title'])) {
+                    $item['title'] = $this->app->format->clean_html($item['title']);
+                }
 
-            $function_cache_id = $function_cache_id . serialize($params);
+                $data2[] = $item;
+            }
+            $get = $data2;
+
+            return $get;
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = false;
-        // $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'content/global');
-        if (($cache_content) == '--false--') {
-            //return false;
-        }
-        // $cache_content = false;
-        if (($cache_content) != false) {
-
-            //	return $cache_content;
-        } else {
-
-            // $params['orderby'];
-            if (isset($params['orderby'])) {
-                $orderby = $params['orderby'];
-            } else {
-                //$params['orderby'] = 'position desc, id desc';
-
-            }
-
-            $cache_group = 'content/global';
-            if (isset($params['cache_group'])) {
-                $cache_group = $params['cache_group'];
-            }
-
-
-            if (isset($params['limit'])) {
-                // $limit = $params['limit'];
-            } else {
-//            $limit = array();
-//            $limit[0] = '0';
-//
-//            $limit[1] = '30';
-            }
-
-            $table = MW_TABLE_PREFIX . 'content';
-            if (!isset($params['is_deleted'])) {
-                $params['is_deleted'] = 'n';
-            }
-            $params['table'] = $table;
-            $params['cache_group'] = $cache_group;
-            $get = $this->app->db->get($params);
-
-
-            if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-                if (isset($get['url'])) {
-                    $get['url'] = $this->app->url->site($get['url']);
-                }
-                if (isset($get['title'])) {
-                    //$item['url'] = page_link($item['id']);
-                    $get['title'] = $this->app->format->clean_html($get['title']);
-                }
-                return $get;
-            }
-            if (is_array($get)) {
-                $data2 = array();
-                foreach ($get as $item) {
-                    if (isset($item['url'])) {
-                        //$item['url'] = page_link($item['id']);
-                        $item['url'] = $this->app->url->site($item['url']);
-                    }
-                    if (isset($item['title'])) {
-                        //$item['url'] = page_link($item['id']);
-                        $item['title'] = $this->app->format->clean_html($item['title']);
-                    }
-
-                    $data2[] = $item;
-                }
-                $get = $data2;
-                //  $this->app->cache->save($get, $function_cache_id, $cache_group = 'content/global');
-
-                return $get;
-            } else {
-                // $this->app->cache->save('--false--', $function_cache_id, $cache_group = 'content/global');
-
-                return FALSE;
-            }
-        }
     }
 
     /**
@@ -401,7 +346,7 @@ class Content
         }
 
         // ->'content';
-        $table = MW_TABLE_PREFIX . 'content';
+        $table = MW_DB_TABLE_CONTENT;
 
         $id = intval($id);
         if ($id == 0) {
@@ -439,7 +384,7 @@ class Content
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
 
-        return mw('fields')->get('content', $content_id, $full, false, false, $field_type);
+        return $this->app->fields->get('content', $content_id, $full, false, false, $field_type);
 
 
     }
@@ -596,18 +541,8 @@ class Content
     public function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword')
     {
 
-        // getCurentURL()
+
         if ($base_url == false) {
-            /*if (PAGE_ID != false and CATEGORY_ID == false) {
-                $base_url = page_link(PAGE_ID);
-
-                // p($base_url);
-            } elseif (PAGE_ID != false and CATEGORY_ID != false) {
-                $base_url = category_link(CATEGORY_ID);
-            } else {
-
-                // $base_url =  full_url(true);
-            }*/
 
             if ($this->app->url->is_ajax() == false) {
                 $base_url = $this->app->url->current(1);
@@ -643,7 +578,6 @@ class Content
 
         for ($x = 1; $x <= $pages_count; $x++) {
 
-            //$new_url = array();
 
             $new = array();
 
@@ -661,7 +595,6 @@ class Content
 
             $new_url = implode('/', $new);
 
-            // var_dump ( $new_url);
 
             $page_links[$x] = $new_url . $append_to_links;
         }
@@ -821,7 +754,7 @@ class Content
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
+            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
         }
 
 
@@ -866,7 +799,7 @@ class Content
 
                         }
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+                            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
                             $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
@@ -886,10 +819,7 @@ class Content
                 }
             }
 
-        } else {
-            //d($the_active_site_template);
         }
-
 
         if (defined('ACTIVE_TEMPLATE_DIR') == false) {
 
@@ -902,7 +832,7 @@ class Content
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
             if (defined('THIS_TEMPLATE_URL') == false) {
@@ -930,7 +860,7 @@ class Content
             define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
         }
 
-        $the_template_url = MW_USERFILES_URL.'/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+        $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
@@ -953,9 +883,6 @@ class Content
             $layouts_url = reduce_double_slashes($this->app->url->link_to_file($layouts_dir) . '/');
 
             define("LAYOUTS_URL", $layouts_url);
-        } else {
-
-            // $layouts_url = LAYOUTS_URL;
         }
 
 
@@ -981,12 +908,8 @@ class Content
         $u1 = str_replace($u2, '', $u1);
         $u1 = ltrim($u1, '/');
         $url = $u1;
-//d($url);
-        // ->'content';
-        $table = MW_TABLE_PREFIX . 'content';
+        $table = MW_DB_TABLE_CONTENT;
 
-        // $url = strtolower($url);
-        //  $url = $this->app->format->clean_html($url);
         $url = $this->app->db->escape_string($url);
         $url = addslashes($url);
 
@@ -1024,9 +947,7 @@ class Content
                 if (in_array($skip_page_url, $segs)) {
                     return false;
                 }
-                /* if (0 !== stripos($url, $skip_page_url) or 0 !== stripos($url, $skip_page_url.'/')){
 
-                }*/
             }
 
         }
@@ -1052,8 +973,6 @@ class Content
 
         if (!empty($content)) {
 
-
-            //$get_by_id = $content;
             $mw_precached_links[$link_hash] = $content;
             return $content;
         }
@@ -1462,7 +1381,7 @@ class Content
     {
 
         // ->'content';
-        $table = MW_TABLE_PREFIX . 'content';
+        $table = MW_DB_TABLE_CONTENT;
 
 
         $sql = "SELECT * FROM $table WHERE is_home='y'  ORDER BY updated_on DESC LIMIT 0,1 ";
@@ -1631,7 +1550,7 @@ class Content
         ob_start();
 
 
-        $table = MW_TABLE_PREFIX . 'content';
+        $table = MW_DB_TABLE_CONTENT;
         $par_q = '';
         if ($parent == false) {
 
@@ -2260,6 +2179,7 @@ class Content
      */
     public function db_init()
     {
+
         $function_cache_id = false;
 
         $args = func_get_args();
@@ -2698,8 +2618,7 @@ class Content
 
             if (trim($item['url'] != '')) {
                 $url = $item['url'];
-                //d($url);
-            }
+             }
 
             if ($item['title'] == '') {
                 $item['title'] = $title;
@@ -2753,7 +2672,6 @@ class Content
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $to_print .= $menu_link;
-                //	$to_print .= '<a data-item-id="' . $item['id'] . '" class="menu_element_link ' . ' ' . $active_class . '" href="' . $url . '">' . $title . '</a>';
 
                 $ext_classes = '';
                 if ($res_count == 0) {
@@ -2771,11 +2689,9 @@ class Content
                     if ($maxdepth == false) {
 
                         if (isset($params) and is_array($params)) {
-                            //$menu_params = $params;
-                            //d($params);
+
                             $menu_params['menu_id'] = $item['id'];
                             $menu_params['link'] = $link;
-                            //	$menu_params['link'] = $link;
                             if (isset($menu_params['item_parent'])) {
                                 unset($menu_params['item_parent']);
                             }
@@ -2807,18 +2723,17 @@ class Content
                                 $menu_params['li_class_deep'] = $li_class_deep;
                             }
 
-                            //$depth++;
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
 
 
-                            $test1 = menu_tree($menu_params);
+                            $test1 = $this->menu_tree($menu_params);
                         } else {
-                            $test1 = menu_tree($item['id']);
+                            $test1 = $this->menu_tree($item['id']);
 
                         }
-                        //$test1 = menu_tree($item['id']);
+
 
                     } else {
 
@@ -2856,14 +2771,11 @@ class Content
             }
 
             $passed_ids[] = $item['id'];
-            // }
-            // }
+
             $cur_depth++;
         }
 
-        // print "[[ $time ]]seconds\n";
         $to_print .= '</' . $ul_tag . '>';
-        // $this->app->cache->save($to_print, $function_cache_id, $cache_group);
         return $to_print;
     }
 
@@ -2982,8 +2894,6 @@ class Content
     }
 
 
-
-
     /**
      * Gets all the language file contents
      * @internal its used via ajax in the admin panel under Settings->Language
@@ -2993,7 +2903,7 @@ class Content
     {
         global $mw_language_content;
 
-        if(!empty($mw_language_content)){
+        if (!empty($mw_language_content)) {
             return $mw_language_content;
         }
 
@@ -3003,7 +2913,7 @@ class Content
         $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
         $lang_file = normalize_path($lang_file, false);
 
-        $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
+        $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . $lang . '.php';
         $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
 
@@ -3011,7 +2921,7 @@ class Content
             include ($lang_file2);
 
             if (isset($language) and is_array($language)) {
-                foreach($language as $k => $v){
+                foreach ($language as $k => $v) {
                     if (isset($mw_language_content[$k]) == false) {
                         $mw_language_content[$k] = $v;
                     }
@@ -3024,7 +2934,7 @@ class Content
             include ($lang_file);
 
             if (isset($language) and is_array($language)) {
-                foreach($language as $k => $v){
+                foreach ($language as $k => $v) {
                     if (isset($mw_language_content[$k]) == false) {
 
                         $mw_language_content[$k] = $v;
@@ -3036,7 +2946,7 @@ class Content
             include ($lang_file3);
 
             if (isset($language) and is_array($language)) {
-                foreach($language as $k => $v){
+                foreach ($language as $k => $v) {
                     if (isset($mw_language_content[$k]) == false) {
 
                         $mw_language_content[$k] = $v;
@@ -3050,6 +2960,7 @@ class Content
 
     }
 }
+
 $mw_language_content = array();
 $mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow
 $mw_precached_links = array();
