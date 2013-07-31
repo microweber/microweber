@@ -1,5 +1,8 @@
 <?php include "head.php"; ?>
-<body>
+<?php if(isset($bodyclass)){
+  $b = $bodyclass;
+} else{$b='';} ?>
+<body class="<?php print $b; ?>">
 <div id="header">
     <div class="container">
         <a href="<?php print mw_site_url(); ?>" id="logo" title="Microweber">Microweber</a>

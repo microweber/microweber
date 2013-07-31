@@ -152,6 +152,12 @@ function mw($class, $constructor_params = false)
 
     global $_mw_registry;
     global $_mw_global_object;
+    global $application;
+    if(is_object($application)){
+        $_mw_global_object = $application;
+    }
+
+
     if(!is_object($_mw_global_object)){
         $_mw_global_object = new \Microweber\Application($constructor_params);
     }

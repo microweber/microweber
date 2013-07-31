@@ -3,6 +3,7 @@
 namespace Microweber;
 
 
+
 class MyApp extends \Microweber\Application
 {
 
@@ -12,11 +13,11 @@ class MyApp extends \Microweber\Application
     {
 
 
-       // $this->media = new  MyMedia;
+        $this->media = new  MyMedia;
 //d($this->media);
-       // $this->media = new MyMedia;
-       //. $this->media= new MyMedia;
-        $this->providers['medigga'] = new \Microweber\MyMedia;
+        // $this->media = new MyMedia;
+        //. $this->media= new MyMedia;
+
     }
 
 
@@ -27,11 +28,8 @@ class MyMedia extends \Microweber\Media
     function thumbnail($src,$w=100)
     {
 
-       print 111111111111;
+
         return 'http://54.225.125.50/geo-bootstrap-master/img/test/mchammer.gif';
     }
 
 }
-
-
-

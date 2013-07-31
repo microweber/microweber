@@ -7,7 +7,7 @@ if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }
 
-error_reporting(E_ALL);
+
 if (!isset($_SERVER["SERVER_NAME"])) {
     $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
 } else {
@@ -24,12 +24,15 @@ if (is_file($config_file_for_site)) {
 
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 
+error_reporting(E_ALL);
+  $application = new \Microweber\Application(MW_CONFIG_FILE);
+ // or
+ //$application = mw('application',MW_CONFIG_FILE);
+ 
+ // you can extend every function of MW try this
+ //$application = new \Microweber\MyApp(MW_CONFIG_FILE);
 
- //$application = new \Microweber\Application(MW_CONFIG_FILE);
-  //$application = new \Microweber\MyApp(MW_CONFIG_FILE);
-
-// or
- $application = mw('application',MW_CONFIG_FILE);
+ 
 
 $installed = $application->config('installed');
 
@@ -48,8 +51,8 @@ $router->map($controller);
 $router->hello_world = function () {
     echo "Hello world!";
 };
-//$temp = $application->media->thumbnail(2);
-//d($temp);
+  //$temp = $application->media->thumbnail(2);
+ //d($temp);
 //$temp = $application->content->get_layout($page_non_active);
 
 $controller->functions['test/route/*'] = function () {

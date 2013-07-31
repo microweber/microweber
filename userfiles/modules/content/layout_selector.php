@@ -94,7 +94,7 @@ $layout_options  ['no_cache'] = 1;
 $layout_options  ['site_template'] = $data['active_site_template'];
 
 $layouts = layouts_list($layout_options);
-
+ 
 ?>
 <script>
 

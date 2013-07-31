@@ -1,11 +1,11 @@
 <?php $menus = get_menu(); ?>
-    <?php //$rand = uniqid(); ?>
+    <?php  $rand = uniqid(); ?>
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Add to Navigation"); ?>
   </label>
   <div class="relative">
-    <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-{rand}" style="width: 605px;">
+    <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-<?php print $rand; ?>" style="width: 605px;">
         <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to navigation"); ?>" />
     </div>
     <?php
@@ -16,7 +16,7 @@ $content_id = false;
 
 $menu_name = false;
  if(is_array($menus )): ?>
-    <ul id="mw-menu-selector-list-{rand}" class="mw-menu-selector-list">
+    <ul id="mw-menu-selector-list-<?php print $rand; ?>" class="mw-menu-selector-list">
       <?php foreach($menus  as $item): ?>
       <li>
           <label class="mw-ui-check">
@@ -32,9 +32,9 @@ $menu_name = false;
 
           $(document).ready(function(){
               mw.tools.tag({
-                  tagholder:'#mw-selected-menus-{rand}',
+                  tagholder:'#mw-selected-menus-<?php print $rand; ?>',
                   items: ".mw-ui-check",
-                  itemsWrapper: mwd.getElementById('mw-menu-selector-list-{rand}'),
+                  itemsWrapper: mwd.getElementById('mw-menu-selector-list-<?php print $rand; ?>'),
                   method:'prepend'
               });
           });

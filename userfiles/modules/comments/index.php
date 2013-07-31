@@ -1,5 +1,5 @@
 <?php
-
+require_once(dirname(__FILE__).DS.'functions.php');
 if(mw('option')->get('enable_comments', 'comments')=='y'){
 
   $login_required = mw('option')->get('user_must_be_logged', 'comments')=='y';

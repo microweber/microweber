@@ -81,8 +81,7 @@ class Notifications
                     $save['is_read'] = 'y';
                     $save['id'] = $value['id'];
                     $save['table'] = 'table_notifications';
-                    save('table_notifications', $save);
-
+                    $this->app->db->save('table_notifications', $save);
                 }
             }
 
@@ -236,7 +235,7 @@ class Notifications
 
         $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
-        $data = save($table, $params);
+        $data = $this->app->db->save($table, $params);
         return $data;
     }
 
