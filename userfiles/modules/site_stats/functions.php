@@ -129,9 +129,9 @@ $few_mins_ago_visit_date = date("Y-m-d H:i:s");
 	 
 	if (!isset($_COOKIE[$cookie_name_time])) {
 	
-
-		setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
-
+		if(!headers_sent()){
+				setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
+		}
 		$data = array();
 		$data['visit_date'] = date("Y-m-d");
 		$data['visit_time'] = date("H:i:s");

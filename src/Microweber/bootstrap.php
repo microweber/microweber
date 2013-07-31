@@ -147,21 +147,25 @@ function mw_autoload($className)
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
 $_mw_global_object = null;
-function mw($class, $constructor_params = false)
+function mw($class = null, $constructor_params = false)
 {
 
     global $_mw_registry;
     global $_mw_global_object;
     global $application;
-    if(is_object($application)){
+    if (is_object($application)) {
         $_mw_global_object = $application;
     }
 
 
-    if(!is_object($_mw_global_object)){
+    if (!is_object($_mw_global_object)) {
         $_mw_global_object = new \Microweber\Application($constructor_params);
     }
-
+    if ($class == null or $class == false or strtolower($class) == 'application') {
+        return $_mw_global_object;
+    } else {
+        return $_mw_global_object->$class;
+    }
 
     $class_name = strtolower($class);
 
@@ -173,11 +177,11 @@ function mw($class, $constructor_params = false)
 
     if (isset($_mw_global_object->providers[$class])) {
 
-        return  $_mw_global_object->providers[$class];
+        return $_mw_global_object->providers[$class];
     } else
-    if (property_exists($_mw_global_object, $class_name) or property_exists($_mw_global_object, $class)) {
-        return  $_mw_global_object->$class;
-    }
+        if (property_exists($_mw_global_object, $class_name) or property_exists($_mw_global_object, $class)) {
+            return $_mw_global_object->$class;
+        }
 
 
     if (!isset($_mw_registry[$class_name])) {
@@ -187,8 +191,6 @@ function mw($class, $constructor_params = false)
     }
 
     return $_mw_registry[$class_name];
-
-
 
 
     if ($class != false) {
@@ -236,7 +238,7 @@ function mw($class, $constructor_params = false)
         //}
     } else {
 
-       // return new stdClass;
+        // return new stdClass;
     }
 
 }
@@ -374,6 +376,7 @@ function d($v)
     return $ret;
     //return dump($v);
 }
+
 $mwdbg = array();
 function mwdbg($q)
 {

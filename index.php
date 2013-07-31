@@ -2,7 +2,7 @@
 
 date_default_timezone_set('UTC');
 define('M', memory_get_usage());
-  define('MW_USE_APC_CACHE', false);
+define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }
@@ -25,36 +25,51 @@ if (is_file($config_file_for_site)) {
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 
 error_reporting(E_ALL);
-  $application = new \Microweber\Application(MW_CONFIG_FILE);
- // or
- //$application = mw('application',MW_CONFIG_FILE);
- 
- // you can extend every function of MW try this
- //$application = new \Microweber\MyApp(MW_CONFIG_FILE);
-
- 
-
-$installed = $application->config('installed');
-
-if (strval($installed) != 'yes') {
-    define('MW_IS_INSTALLED', false);
-} else {
-    define('MW_IS_INSTALLED', true);
-}
 
 
+// Starting MW
+
+
+$application = new \Microweber\Application(MW_CONFIG_FILE);
+
+
+// you can extend every function of MW try this
+// $application = new \Microweber\MyApp(MW_CONFIG_FILE);
+
+
+
+/*
+
+ After start you can use the methods of your application trough
+ the mw() function, which returns the latest application instance
+
+ $temp = mw()->content->get();
+ var_dump($temp);
+
+ $temp = $application->users->get();
+ var_dump($temp);
+
+*/
+
+
+// Starting Router
 $router = new \Microweber\Router();
 
+
+// Starting Controller
 $controller = new\Microweber\Controller($application);
 
+
+// Automatically map the Router to all controller functions
 $router->map($controller);
-$router->hello_world = function () {
+
+
+// Extend and override the Controller
+$controller->hello_world = function () {
     echo "Hello world!";
 };
-  //$temp = $application->media->thumbnail(2);
- //d($temp);
-//$temp = $application->content->get_layout($page_non_active);
 
+// Map more complex routes with regex, the Router is using preg_match
 $controller->functions['test/route/*'] = function () {
     echo "You can use wildcards!";
 };
@@ -62,11 +77,24 @@ $controller->functions['test/api/user_login*'] = function () {
     echo "My user_login";
 };
 
-if (MW_IS_INSTALLED != true) {
+
+
+// Check if installed
+$installed = $application->config('installed');
+
+if (strval($installed) != 'yes') {
+    define('MW_IS_INSTALLED', false);
     $controller->install();
     exit();
+} else {
+    define('MW_IS_INSTALLED', true);
 }
-$outp =$router->run();
+
+
+
+
+// Run the website
+$router->run();
 
 
 exit();
