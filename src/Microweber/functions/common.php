@@ -18,9 +18,6 @@ function get_content_admin($params)
 }
 
 
-
-
-
 api_expose('content_link');
 
 
@@ -38,6 +35,7 @@ function post_link($id = 0)
 {
     return mw('content')->link($id);
 }
+
 /**
  * Return array of posts specified by $params
  *
@@ -68,14 +66,15 @@ function get_posts($params = false)
     return mw('content')->get($params);
 }
 
-function site_url($str = '') {
+function site_url($str = '')
+{
 
     return mw_site_url($str);
 }
 
 
-
-function api_url($str = '') {
+function api_url($str = '')
+{
     $str = ltrim($str, '/');
     return mw_site_url('api/' . $str);
 }
@@ -115,8 +114,6 @@ function get_homepage()
 }
 
 
-
-
 /**
  * category_tree
  *
@@ -141,11 +138,11 @@ function get_homepage()
  *
  *
  */
-function category_tree($params = false) {
+function category_tree($params = false)
+{
 
     return mw('category')->tree($params);
 }
-
 
 
 api_expose('reorder_content');
@@ -156,9 +153,7 @@ function reorder_content($params)
     return \mw('ContentUtils')->reorder($params);
 
 
-
 }
-
 
 
 function is_arr($var)
@@ -176,11 +171,9 @@ function isarr($var)
 }
 
 
-
-
-
-function url_param($param, $skip_ajax = false) {
-   return mw('url')->param($param, $skip_ajax);
+function url_param($param, $skip_ajax = false)
+{
+    return mw('url')->param($param, $skip_ajax);
 }
 
 
@@ -246,12 +239,10 @@ function get_content_field($data, $debug = false)
 {
 
 
-    return mw('content')->edit_field($data,$debug);
+    return mw('content')->edit_field($data, $debug);
 
 
 }
-
-
 
 
 api_expose('content_set_published');
@@ -317,46 +308,6 @@ function content_set_unpublished($params)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function template_header($script_src)
 {
     return mw('content')->template_header($script_src);
@@ -400,32 +351,6 @@ function layouts_list($options = false)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  *
  * Shop module api
@@ -436,8 +361,6 @@ function layouts_list($options = false)
  */
 
 // ------------------------------------------------------------------------
-
- 
 
 
 event_bind('mw_db_init_options', 'create_mw_shop_default_options');
@@ -601,16 +524,6 @@ function payment_options($option_key = false)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 function user_login($params)
 {
     return mw('user')->login($params);
@@ -706,21 +619,12 @@ function delete_log_entry($data)
 }
 
 
-
-
-
-
-
-
 api_expose('delete_user');
 
 function delete_user($data)
 {
     return mw('users')->save($data);
 }
-
-
-
 
 
 api_expose('captcha');
@@ -730,8 +634,6 @@ function captcha()
 {
     return Microweber\Utils\Captcha::render();
 }
-
-
 
 
 api_expose('social_login_process');
@@ -760,7 +662,6 @@ function user_send_forgot_password($params)
 }
 
 
-
 api_expose('is_logged');
 
 function is_logged()
@@ -777,7 +678,7 @@ function is_logged()
 
             return false;
         } else {
-            if(isset($user_session['user_session'])){
+            if (isset($user_session['user_session'])) {
                 $user_session = $user_session['user_session'];
             }
 
@@ -796,7 +697,6 @@ function is_logged()
 
 
 }
-
 
 
 function user_id()
@@ -885,9 +785,6 @@ function get_user($id = false)
 }
 
 
-
-
-
 /**
  * make_custom_field
  *
@@ -901,33 +798,39 @@ function get_user($id = false)
  * @param array $settings
  */
 api_expose('make_custom_field');
-function custom_field_names_for_table($table) {
+function custom_field_names_for_table($table)
+{
     return mw('fields')->names_for_table($table);
 }
 
-function make_default_custom_fields($rel, $rel_id, $fields_csv_str) {
+function make_default_custom_fields($rel, $rel_id, $fields_csv_str)
+{
     return mw('fields')->make_default($rel, $rel_id, $fields_csv_str);
 }
 
-function make_custom_field($field_id = 0, $field_type = 'text', $settings = false) {
+function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
+{
     return mw('fields')->make_field($field_id, $field_type, $settings);
 }
 
 api_expose('save_custom_field');
 
-function save_custom_field($data) {
+function save_custom_field($data)
+{
     return mw('fields')->save($data);
 }
 
 api_expose('reorder_custom_fields');
 
-function reorder_custom_fields($data) {
+function reorder_custom_fields($data)
+{
     return mw('fields')->reorder($data);
 }
 
 api_expose('remove_field');
 
-function remove_field($id) {
+function remove_field($id)
+{
     return mw('fields')->delete($id);
 }
 
@@ -943,12 +846,11 @@ function remove_field($id) {
  * @param string $field_id
  * @param array $settings
  */
-function make_field($field_id = 0, $field_type = 'text', $settings = false) {
-    return mw('fields')->make($field_id, $field_type, $settings );
+function make_field($field_id = 0, $field_type = 'text', $settings = false)
+{
+    return mw('fields')->make($field_id, $field_type, $settings);
 
 }
-
-
 
 
 /**
@@ -958,10 +860,10 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
  * options for more flexibility
  *
  * @param
- *        	array
+ *            array
  *
  * @param
- *        	boolean
+ *            boolean
  *
  * @author Peter Ivanov
  *
@@ -970,22 +872,24 @@ function make_field($field_id = 0, $field_type = 'text', $settings = false) {
  * @since Version 1.0
  *
  */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false) {
-    return \mw('category')->html_tree($parent, $link , $active_ids , $active_code, $remove_ids, $removed_ids_code, $ul_class_name , $include_first , $content_type , $li_class_name , $add_ids , $orderby , $only_with_content , $visible_on_frontend , $depth_level_counter , $max_level, $list_tag , $list_item_tag , $active_code_tag );
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
+{
+    return \mw('category')->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 
 }
-
 
 
 api_expose('save_category');
 
-function save_category($data, $preserve_cache = false) {
-    return \mw('categories')->save(   $data, $preserve_cache);
+function save_category($data, $preserve_cache = false)
+{
+    return \mw('categories')->save($data, $preserve_cache);
 
 
 }
 
-function get_categories($data) {
+function get_categories($data)
+{
 
     return \mw('categories')->get($data);
 
@@ -994,26 +898,25 @@ function get_categories($data) {
 
 api_expose('delete_category');
 
-function delete_category($data) {
+function delete_category($data)
+{
 
     return \mw('categories')->delete($data);
 
 }
 
 
-
-
-
-
 api_expose('reorder_categories');
 
-function reorder_categories($data) {
+function reorder_categories($data)
+{
 
     return \mw('categories')->reorder($data);
 
 }
 
-function get_categories_for_content($content_id, $data_type = 'categories') {
+function get_categories_for_content($content_id, $data_type = 'categories')
+{
     if (intval($content_id) == 0) {
 
         return false;
@@ -1022,7 +925,8 @@ function get_categories_for_content($content_id, $data_type = 'categories') {
     return \mw('category')->get_for_content($content_id, $data_type);
 }
 
-function category_link($id) {
+function category_link($id)
+{
 
     if (intval($id) == 0) {
 
@@ -1034,40 +938,31 @@ function category_link($id) {
 }
 
 /**
-
  * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-
  * @param int
-
  * @return array
-
  * @author      Peter Ivanov
-
  * @version 1.0
-
  * @since Version 1.0
-
  */
-function get_category_by_id($id = 0) {
+function get_category_by_id($id = 0)
+{
     return \mw('category')->get_by_id($id);
 
 }
 
-function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
+function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false)
+{
 
-    return \mw('category')->get_children($parent_id, $type , $visible_on_frontend);
+    return \mw('category')->get_children($parent_id, $type, $visible_on_frontend);
 }
 
-function get_page_for_category($category_id) {
+function get_page_for_category($category_id)
+{
     return \mw('category')->get_page($category_id);
 
 
 }
-
-
-
-
-
 
 
 event_bind('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
@@ -1086,6 +981,7 @@ function get_content_by_id($params = false)
 {
     return mw('content')->get_by_id($params);
 }
+
 function get_user_by_id($params = false)
 {
     return mw('user')->get_by_id($params);
@@ -1134,7 +1030,6 @@ function edit_menu_item($data_to_save)
     return \mw('ContentUtils')->menu_item_save($data_to_save);
 
 
-
 }
 
 api_expose('reorder_menu_items');
@@ -1148,26 +1043,25 @@ function reorder_menu_items($data)
 
 function menu_tree($menu_id, $maxdepth = false)
 {
-    return mw('content')->menu_tree($menu_id, $maxdepth );
+    return mw('content')->menu_tree($menu_id, $maxdepth);
 
 
 }
 
 function is_in_menu($menu_id = false, $content_id = false)
 {
-    return \mw('ContentUtils')->is_in_menu($menu_id,$content_id);
+    return \mw('ContentUtils')->is_in_menu($menu_id, $content_id);
 
 }
 
 api_hook('save_content', 'add_content_to_menu');
 
-function add_content_to_menu($content_id, $menu_id=false)
+function add_content_to_menu($content_id, $menu_id = false)
 {
-    return \mw('ContentUtils')->add_content_to_menu($content_id,$menu_id);
+    return \mw('ContentUtils')->add_content_to_menu($content_id, $menu_id);
 
 
 }
-
 
 
 api_expose('reorder_modules');
@@ -1280,7 +1174,6 @@ function module($params)
 }
 
 
-
 function get_layouts_from_db($params = false)
 {
 
@@ -1340,7 +1233,7 @@ function is_module_installed($module_name)
 
 function module_ico_title($module_name, $link = true)
 {
-    return mw('module')->is_installed($module_name,$link);
+    return mw('module')->is_installed($module_name, $link);
 }
 
 $_mw_modules_info_register = array();
@@ -1354,7 +1247,6 @@ function is_module($module_name)
 {
     return mw('module')->exists($module_name);
 }
-
 
 
 function module_dir($module_name)
@@ -1432,7 +1324,6 @@ function delete_module_as_template($data)
     return \mw('Modules')->delete_module_as_template($data);
 
 
-
 }
 
 api_expose('save_module_as_template');
@@ -1506,10 +1397,6 @@ function module_css_class($module_name)
 }
 
 
-
-
-
-
 function template_var($key, $new_val = false)
 {
     static $defined = array();
@@ -1528,9 +1415,6 @@ function template_var($key, $new_val = false)
     }
     return false;
 }
-
-
-
 
 
 /**
@@ -1557,13 +1441,10 @@ function save_option($data)
 }
 
 
-
-
-
 api_expose('save_form_list');
 function save_form_list($params)
 {
-    return mw('Forms')-> save_list($params);
+    return mw('Forms')->save_list($params);
 
 }
 
@@ -1572,14 +1453,14 @@ api_expose('delete_forms_list');
 
 function delete_forms_list($data)
 {
-    return mw('Forms')-> delete_list($data);
+    return mw('Forms')->delete_list($data);
 }
 
 api_expose('delete_form_entry');
 
 function delete_form_entry($data)
 {
-    return mw('Forms')-> delete_entry($data);
+    return mw('Forms')->delete_entry($data);
 
 }
 
@@ -1588,7 +1469,7 @@ function forms_list_export_to_excel($params)
 {
 
 
-    return mw('Forms')-> export_to_excel($params);
+    return mw('Forms')->export_to_excel($params);
 
 
 }
@@ -1596,41 +1477,40 @@ function forms_list_export_to_excel($params)
 
 function get_form_entires($params)
 {
-    return mw('Forms')-> get_entires($params);
+    return mw('Forms')->get_entires($params);
 
 }
 
 function get_form_lists($params)
 {
-    return mw('Forms')-> get_lists($params);
+    return mw('Forms')->get_lists($params);
 }
 
 api_expose('post_form');
 function post_form($params)
 {
-    return mw('Forms')-> post($params);
+    return mw('Forms')->post($params);
 
 
 }
 
 
-
-
 event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
 
-function mw_print_admin_backup_settings_link() {
+function mw_print_admin_backup_settings_link()
+{
 
-    if(is_module_installed('admin/backup')){
+    if (is_module_installed('admin/backup')) {
 
         $active = mw('url')->param('view');
         $cls = '';
         $mname = module_name_encode('admin/backup/small');
-        if ($active == $mname ) {
+        if ($active == $mname) {
             $cls = ' class="active" ';
         }
         $notif_html = '';
-        $url = admin_url('view:modules/load_module:'.$mname);
-        print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Backup</a></li>";
+        $url = admin_url('view:modules/load_module:' . $mname);
+        print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\">Backup</a></li>";
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
     //$notif_count = mw('Notifications')->get('module=comments&is_read=n&count=1');
@@ -1641,13 +1521,9 @@ function mw_print_admin_backup_settings_link() {
 }
 
 
-
-
-
-
-
 api_expose('mw_post_update');
-function mw_post_update() {
+function mw_post_update()
+{
 
     $a = is_admin();
     if ($a != false) {
@@ -1668,11 +1544,10 @@ function mw_post_update() {
 }
 
 
-
-
 api_expose('mw_apply_updates');
 
-function mw_apply_updates($params) {
+function mw_apply_updates($params)
+{
     only_admin_access();
     $params = parse_params($params);
     $update_api = mw('update');
@@ -1696,29 +1571,29 @@ function mw_apply_updates($params) {
             }
 
             if (isset($upd_params['mw_version'])) {
-                $res[] = $update_api -> install_version($upd_params['mw_version']);
+                $res[] = $update_api->install_version($upd_params['mw_version']);
 
             }
             if (isset($upd_params['elements']) and is_array($upd_params['elements'])) {
                 foreach ($param['elements'] as $item) {
-                    $res[] = $update_api -> install_element($item);
+                    $res[] = $update_api->install_element($item);
                 }
             }
             if (isset($upd_params['modules']) and is_array($upd_params['modules'])) {
                 foreach ($param['modules'] as $item) {
-                    $res[] = $update_api -> install_module($item);
+                    $res[] = $update_api->install_module($item);
                 }
             }
             if (isset($upd_params['module_templates']) and is_array($upd_params['module_templates'])) {
                 foreach ($upd_params['module_templates'] as $k => $item) {
                     if (is_array($item)) {
                         foreach ($item as $layout_file) {
-                            $res[] = $update_api -> install_module_template($k, $layout_file);
+                            $res[] = $update_api->install_module_template($k, $layout_file);
 
                         }
 
                     } elseif (is_string($item)) {
-                        $res[] = $update_api -> install_module_template($k, $item);
+                        $res[] = $update_api->install_module_template($k, $item);
                     }
                 }
             }
@@ -1735,10 +1610,11 @@ function mw_apply_updates($params) {
 
 }
 
-function mw_updates_count() {
+function mw_updates_count()
+{
     $count = 0;
     $upd_count = mw_check_for_update();
-    if(isset($upd_count['count'])){
+    if (isset($upd_count['count'])) {
         return intval($upd_count['count']);
     } else {
         return false;
@@ -1748,12 +1624,13 @@ function mw_updates_count() {
 }
 
 $mw_avail_updates = false;
-function mw_check_for_update() {
+function mw_check_for_update()
+{
     global $mw_avail_updates;
     if ($mw_avail_updates == false) {
 
         $update_api = mw('update');
-        $iudates = $update_api -> check();
+        $iudates = $update_api->check();
         $mw_avail_updates = $iudates;
 
     }
@@ -1762,7 +1639,8 @@ function mw_check_for_update() {
 }
 
 
-function admin_url($add_string = false) {
+function admin_url($add_string = false)
+{
 
     $admin_url = c('admin_url');
 
@@ -1770,13 +1648,12 @@ function admin_url($add_string = false) {
 }
 
 
-
 //api_expose('mw_send_anonymous_server_data');
 // function used do send us the language files
-function mw_send_anonymous_server_data($params) {
+function mw_send_anonymous_server_data($params)
+{
     only_admin_access();
     $update_api = mw('update');
-
 
 
     if ($params != false) {
@@ -1786,8 +1663,8 @@ function mw_send_anonymous_server_data($params) {
     }
 
 
-    if(method_exists($update_api,'send_anonymous_server_data')){
-        $iudates = $update_api -> send_anonymous_server_data($params);
+    if (method_exists($update_api, 'send_anonymous_server_data')) {
+        $iudates = $update_api->send_anonymous_server_data($params);
 
         return $iudates;
     } else {
@@ -1797,10 +1674,7 @@ function mw_send_anonymous_server_data($params) {
     }
 
 
-
 }
-
-
 
 
 /**
@@ -1825,16 +1699,15 @@ function array_trim($Input)
 
 event_bind('rte_image_editor_image_search', 'mw_print_rte_image_editor_image_search');
 
-function mw_print_rte_image_editor_image_search() {
+function mw_print_rte_image_editor_image_search()
+{
     $active = mw('url')->param('view');
     $cls = '';
-    if($active == 'shop'){
+    if ($active == 'shop') {
         $cls = ' class="active" ';
     }
     print '<module type="files/admin" />';
 }
-
-
 
 
 /**
@@ -1905,8 +1778,6 @@ function reduce_double_slashes($str)
 }
 
 
-
-
 /**
  * Returns extension from a filename
  *
@@ -1971,11 +1842,11 @@ function db_escape_string($value)
     $mw_escaped_strings[$value] = $new;
     return $new;
 }
-function strleft($s1, $s2) {
+
+function strleft($s1, $s2)
+{
     return substr($s1, 0, strpos($s1, $s2));
 }
-
-
 
 
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
@@ -2009,9 +1880,6 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 }
 
 
-
-
-
 /**
  *
  * Settings module api
@@ -2024,18 +1892,15 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 // ------------------------------------------------------------------------
 event_bind('mw_admin_header_menu', 'mw_print_admin_menu_settings_btn');
 
-function mw_print_admin_menu_settings_btn() {
+function mw_print_admin_menu_settings_btn()
+{
     $active = mw('url')->param('view');
     $cls = '';
-    if($active == 'settings'){
+    if ($active == 'settings') {
         $cls = ' class="active" ';
     }
-    print '<li'.$cls.'><a href="'.admin_url().'view:settings">' . _e("Settings", true) . '</a></li>';
+    print '<li' . $cls . '><a href="' . admin_url() . 'view:settings">' . _e("Settings", true) . '</a></li>';
 }
-
-
-
-
 
 
 /**
@@ -2056,6 +1921,6 @@ $_mw_global_options_mem = array();
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
 {
     $update_api = mw('option');
-    $iudates = $update_api ->get($key, $option_group, $return_full, $orderby, $module);
+    $iudates = $update_api->get($key, $option_group, $return_full, $orderby, $module);
 
 }

@@ -12,14 +12,7 @@
 
 namespace Microweber\Utils;
 
-if (!defined('USER_IP')) {
-    if (isset($_SERVER["REMOTE_ADDR"])) {
-        define("USER_IP", $_SERVER["REMOTE_ADDR"]);
-    } else {
-        define("USER_IP", '127.0.0.1');
 
-    }
-}
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -52,6 +45,15 @@ class Backup
 
     function __construct()
     {
+
+        if (!defined('USER_IP')) {
+            if (isset($_SERVER["REMOTE_ADDR"])) {
+                define("USER_IP", $_SERVER["REMOTE_ADDR"]);
+            } else {
+                define("USER_IP", '127.0.0.1');
+
+            }
+        }
         //var_dump($_SERVER);
         //	print 1;
     }
@@ -318,7 +320,7 @@ class Backup
 
         $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
 
-        $here2 = module_option('backup_location', 'admin/backup');
+        $here2 = mw('option')->get('backup_location', 'admin/backup');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
             $here2 = normalize_path($here2, true);
 
@@ -555,7 +557,7 @@ class Backup
         set_time_limit(0);
         // Generate the filename for the backup file
         $index1 = $here . 'index.php';
-        if($filename == false){
+        if ($filename == false) {
             $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
         } else {
             $filename_to_return = $filename;
@@ -563,7 +565,7 @@ class Backup
 
         $filess = $here . $filename_to_return;
 
-        if(is_file($filess)){
+        if (is_file($filess)) {
             return false;
         }
 
@@ -829,10 +831,10 @@ class Backup
         $here = $this->get_bakup_location();
 
 
- //d($cache_state);
-if($cache_state == 'opened'){
-    return true;
-}
+        //d($cache_state);
+        if ($cache_state == 'opened') {
+            return true;
+        }
 
 
         //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
@@ -847,15 +849,13 @@ if($cache_state == 'opened'){
         } else {
 
 
-
-
-$bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
+            $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 
             $filename = $here . $bak_fn . '.zip';
 
             if ($cache_lock == false or !is_array($cache_lock)) {
 
- 
+
                 $cache_lock = array();
                 $cache_lock['processed'] = 0;
                 $cache_lock['files_count'] = count($cache_content);
@@ -864,39 +864,21 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
                 cache_save($cache_lock, $cache_id_loc, 'backup');
                 // return false;
             } else {
-                if(isset($cache_lock['filename'])){
-                    $filename =$cache_lock['filename'];
+                if (isset($cache_lock['filename'])) {
+                    $filename = $cache_lock['filename'];
                 }
 
             }
 
-            if(isset($cache_lock['time'])){
-                $time_sec = intval( $cache_lock['time']);
+            if (isset($cache_lock['time'])) {
+                $time_sec = intval($cache_lock['time']);
 
-                if(($time - 3) < $time_sec){
+                if (($time - 3) < $time_sec) {
                     // print 'time lock';
                     return false;
                 }
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             $backup_actions = $cache_content;
@@ -929,7 +911,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
                         $cache_lock['filename'] = $filename;
 
 
-                        $precent = ( $cache_lock['processed'] / $cache_lock['files_count']) * 100;
+                        $precent = ($cache_lock['processed'] / $cache_lock['files_count']) * 100;
                         $precent = round($precent);
                         $cache_lock['percent'] = $precent;
 
@@ -940,10 +922,8 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
                         cache_save($cache_lock, $cache_id_loc, 'backup');
 
 
-
-
                         if ($item == 'make_db_backup') {
-                            $db_file = $this->create($bak_fn.'.sql');
+                            $db_file = $this->create($bak_fn . '.sql');
                             if (isset($db_file['filename'])) {
                                 $filename2 = $here . $db_file['filename'];
                                 if (is_file($filename2)) {
@@ -964,7 +944,7 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
                             if (is_dir($item)) {
                                 $mw_backup_zip_obj->addEmptyDir($relative_loc);
                             } elseif (is_file($item)) {
-                               // d($item);
+                                // d($item);
                                 //$relative_loc_dn = dirname($relative_loc);
 
                                 //$mw_backup_zip_obj->addFromString($relative_loc, file_get_contents($item));
@@ -1245,9 +1225,6 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 //        }
 
 
-
-
-
         $folders = rglob($userfiles_folder . '*', GLOB_NOSORT);
         if (!empty($folders)) {
             $text_files = array();
@@ -1255,8 +1232,8 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 
             foreach ($folders as $fold) {
 
-                if(strstr($fold, '.php') or strstr($fold, '.js')  or strstr($fold, '.css')){
-                    $text_files[]  = $fold;
+                if (strstr($fold, '.php') or strstr($fold, '.js')  or strstr($fold, '.css')) {
+                    $text_files[] = $fold;
                 } else {
                     $backup_actions[] = $fold;
 
@@ -1265,11 +1242,11 @@ $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
 
             }
 
-            if(!empty($text_files)){
-                $backup_actions = array_merge($text_files,$backup_actions);
+            if (!empty($text_files)) {
+                $backup_actions = array_merge($text_files, $backup_actions);
             }
 
-        //    rsort($backup_actions);
+            //    rsort($backup_actions);
 
         }
         $cache_id = 'backup_queue';

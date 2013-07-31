@@ -89,6 +89,8 @@ function event_bind($function_name, $next_function_name = false)
 }
 function api_expose($function_name)
 {
+
+
     static $index = ' ';
     if (is_bool($function_name)) {
 
@@ -101,6 +103,8 @@ function api_expose($function_name)
 $mw_api_hooks = array();
 function api_hook($function_name, $next_function_name = false)
 {
+
+
     //static $index = array();
     global $mw_api_hooks;
     if (is_bool($function_name)) {

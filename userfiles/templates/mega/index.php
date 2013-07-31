@@ -176,7 +176,7 @@
                     <div id="premium-support-circle">
                         <div class="ps-circle"></div>
                         <div id="ps-segment"></div>
-                        <div class="ps-circle" id="ps-circle-tomorph"><div></div><span>$</span> <big>49</big> <small>/ mo</small> </div>
+                        <div class="ps-circle" id="ps-circle-tomorph"><div></div><span>$</span> <big>149</big> <small>/ mo</small> only from </div>
                     </div>
 
                     <div class="home-premium-support-info">

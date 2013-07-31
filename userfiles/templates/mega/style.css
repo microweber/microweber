@@ -857,7 +857,7 @@
    #header .nav a.active:hover{
      font-weight: bold;
      text-decoration: none;
-     opacity: 1; 
+     opacity: 1;
    }
 
    #header .nav a#header-login{
@@ -1004,11 +1004,15 @@
     width: 50%;
     position: relative;
     z-index: 1;
-    padding-top: 59px;
+    padding-top: 49px;
+    right: 50px;
   }
 
   #home-rotator-1-peter{
-    position: absolute;left:50px;bottom: 0;max-width: 55%;
+    position: absolute;
+    left:100px;
+    bottom: 0;
+    max-width: 55%;
   }
 
   #home-rotator-1-right h1,
@@ -1018,7 +1022,7 @@
   }
 
   #home-rotator-1-right .text-center {
-    padding-top: 70px;
+    padding-top: 50px;
   }
 
   #home-rotator-1-right .person-title{
@@ -1033,7 +1037,9 @@
   }
 
   #home-rotator-1 .mw-free{
-    position: relative;top: -10px;left: 5px
+    position: relative;
+    top: -10px;
+    left: 5px;
   }
 
 
@@ -1207,14 +1213,15 @@
     width: 180px;
     height: 178px;
     font-size: 22px;
+    font-weight: 100;
   }
 
   #ps-circle-tomorph.activated span{ font-size: 16px;  }
-  #ps-circle-tomorph.activated big{ font-size: 53px;  }
+  #ps-circle-tomorph.activated big{ font-size: 53px; font-weight: 400; }
   #ps-circle-tomorph.activated small{ font-size: 11px;  }
 
   #ps-circle-tomorph div{ height: 0px;overflow: hidden;  }
-  #ps-circle-tomorph.activated div{ height: 50px;  }
+  #ps-circle-tomorph.activated div{ height: 34px;  }
 
   #tabs-premium-support{
     margin: 30px 0 50px;
@@ -1476,6 +1483,9 @@
 
    #mw-plans{
      padding-top: 25px;
+     padding-bottom: 45px;
+     max-width: 900px;
+     margin: auto;
    }
 
    #mw-plans .plan-white{

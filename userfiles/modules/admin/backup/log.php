@@ -1,8 +1,17 @@
 <?php only_admin_access(); ?>
 <img class="xhidden" style="visibility: hidden;" src="<?php print api_url('mw_cron') ?>?rand=<?php print rand() ?>" />
 <?php
+
+       if (!defined('USER_IP')) {
+    if (isset($_SERVER["REMOTE_ADDR"])) {
+        define("USER_IP", $_SERVER["REMOTE_ADDR"]);
+    } else {
+        define("USER_IP", '127.0.0.1');
+
+    }
+}
  // mw_cron();
-	$check = get_log("order_by=created_on desc&one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&user_ip=" . USER_IP);
+	$check = mw('log')->get("order_by=created_on desc&one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&user_ip=" . USER_IP);
 	if(isset($check['value'])){
 		  //mw_notif("Uploaded: ".file_size_nice($check['value']));
 	}
@@ -10,7 +19,7 @@
 
 
 
-	$check = get_log("order_by=created_on desc&one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+	$check = mw('log')->get("order_by=created_on desc&one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 	if(isset($check['value'])){
 		if($check['value'] == 'reload'){
 			?>

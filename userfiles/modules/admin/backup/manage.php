@@ -48,7 +48,7 @@ d($backs);
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = api('mw/utils/Backup/get');
+      <?php $backups = mw('Utils/Backup')->get();
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;

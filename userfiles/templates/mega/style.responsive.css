@@ -64,6 +64,12 @@
 
 
 @media (max-width: 1200px) {
+  #home-rotator-1-peter{
+    left: 0;
+  }
+  #home-rotator-1-right{
+    right: 0;
+  }
 
 }
 
@@ -71,9 +77,6 @@
 @media (max-width: 980px) {
 
 
-#home-rotator-1-peter{
-  left: 0;
-}
 
 }
 
