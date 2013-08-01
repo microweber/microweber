@@ -137,7 +137,7 @@
 						<div class="yellow-box">
 							<div class="pad text-center">
 								<h6>Want to know which plan is best for you?</h6>
-								<h6>Call on our sales team at 1-514-286-4342</h6>
+								<h6>Call on our sales team at <?php print $phone; ?></h6>
 							</div>
 						</div>
 					</div>

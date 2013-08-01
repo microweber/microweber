@@ -287,7 +287,7 @@ mw.wysiwyg = {
       var items = $(".element").not(".module");
       $(mwd.body).bind("paste", function(event){
         if(event.target.isContentEditable){
-            mw.wysiwyg.paste(event);
+            //mw.wysiwyg.paste(event);
         }
       });
 
@@ -1201,7 +1201,18 @@ $(window).load(function(){
   }
 
 
+
+
+
+
   });
+
+  $(mwd.body).bind("paste", function(event){
+
+        if(event.target.isContentEditable){
+            mw.wysiwyg.paste(event);
+        }
+      });
 
 
 

@@ -116,29 +116,19 @@ class Router
 
         if ($is_custom_controller_called == false) {
             if (method_exists($controller, $method)) {
-
                 return $controller->$method();
-
             } else {
-
                 return $controller->index();
-
             }
-
-
         }
 
 
         if (isset($this->functions[$method])  and is_callable($this->functions[$method])) {
-
             $is_custom_controller_called = true;
             return $this->callback = call_user_func($this->functions[$method]);
-
         } else if (isset($this->functions[$method_full]) and is_callable($this->functions[$method_full])) {
             $is_custom_controller_called = true;
-
             return $this->callback = call_user_func($this->functions[$method_full]);
-            // exit();
         } elseif (!empty($this->functions)) {
             $attached_routes = $this->functions;
             //routing wildcard urls
@@ -152,10 +142,7 @@ class Router
                         //   exit();
                     }
                 }
-
             }
-
-
         }
     }
 }

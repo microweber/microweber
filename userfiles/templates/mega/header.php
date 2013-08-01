@@ -21,7 +21,6 @@
           <?php } else {   ?>
             <li class="pull-right nav-icon-btn"><a href="<?php print mw_site_url(); ?>api/logout" title="Logout"><i class="icon-off"></i></a></li>
             <li><a href="<?php print mw_site_url() ?>profile" id="header-profile"><i class="icon-user"></i>&nbsp;&nbsp;<span>Account</span></a></li>
-
         <?php  } ?>
         </ul>
     </div> <!-- /#header > .container -->

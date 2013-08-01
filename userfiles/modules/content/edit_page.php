@@ -512,7 +512,7 @@ function mw_before_content_save<?php print $rand; ?>(){
   mw.reload_module('#admin_edit_page_form_<?php print $rand; ?> .module[data-type="custom_fields"]');
   if( typeof $id =='string'){
    $id = $id.replace(/"/g, "");
-   $.get('<?php print mw_site_url('api_html/content_link/') ?>'+$id, function(data) {
+   $.get('<?php print mw_site_url('api_html/content_link/?id=') ?>'+$id, function(data) {
      window.top.location.href = data+'/editmode:y';
 
    });

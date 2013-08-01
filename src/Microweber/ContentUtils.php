@@ -774,7 +774,7 @@ class ContentUtils extends \Microweber\Content
         if (isset($data['is_draft']) and isset($data['url'])) {
             $fld_remove = $this->app->db->escape_string($data['url']);
 
-            $history_files = get_content_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
+            $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
             }
@@ -981,14 +981,22 @@ class ContentUtils extends \Microweber\Content
         $data = parse_params($data);
         $data['is_draft'] = 1;
         $data['full'] = 1;
+        $data['all'] = 1;
+        $ret = array();
+        $results = $this->edit_field($data);
+        foreach ($results as $item) {
 
+            $i = 0;
 
-        $ret = get_content_field($data);
+            if (isset($item['value'])) {
+                $field_content = htmlspecialchars_decode($item['value']);
+                 $field_content = $this->_decode_entities($field_content);
+                $item['value'] = mw('parser')->process($field_content, $options = false);
 
-        if (isset($ret['value'])) {
-            $field_content = htmlspecialchars_decode($ret['value']);
-            $field_content = $this->_decode_entities($field_content);
-            $ret['value'] = mw('parser')->process($field_content, $options = false);
+            }
+
+            $ret[$i] = $item;
+            $i++;
 
         }
 

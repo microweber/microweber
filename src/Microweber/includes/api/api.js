@@ -86,7 +86,9 @@ mw.askusertostay = false;
         if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
            mwd.write(string);
         } else {
-          $(mwd.getElementsByTagName('head')[0]).append(string);
+          //$(mwd.getElementsByTagName('head')[0]).append(string);
+          alert(string)
+          mwd.getElementsByTagName('head')[0].appendChild(string);
         }
       }
     }

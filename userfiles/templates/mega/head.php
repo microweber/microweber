@@ -1,6 +1,12 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+<head><?php
+
+
+    $phone = '+1-213-342 8525';
+
+
+ ?>
   <title>Microweber</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic">

@@ -22,7 +22,8 @@ class Db
 
 
     public $app;
-    function __construct($app=null)
+
+    function __construct($app = null)
     {
 
 
@@ -416,10 +417,6 @@ class Db
             $queue_id = $data['queue_id'];
         }
 
-        if (isset($data['url']) == false) {
-            //$url = $this->app->url->string();
-            //$data['url'] = $url;
-        }
 
         $data['user_ip'] = MW_USER_IP;
         if (isset($data['id']) == false or $data['id'] == 0) {
@@ -588,6 +585,12 @@ class Db
             $id_to_return = $this->last_id($table);
         }
 
+        $data['table'] = $table;
+        $data['id'] = $id_to_return;
+
+        $this->save_extended_data($data);
+
+
         $cg = $this->assoc_table_name($table);
 
 
@@ -608,6 +611,332 @@ class Db
             }
         }
         return $id_to_return;
+
+    }
+
+
+    public function save_extended_data($original_data)
+    {
+
+        if (!defined("MW_TABLE_PREFIX")) {
+            return false;
+        }
+        if (!isset($original_data['table'])) {
+            return false;
+        }
+        if (!isset($original_data['id'])) {
+            return false;
+        }
+
+        $id_to_return = $original_data['id'];
+        $table_assoc_name = $original_data['table'];
+        $table_assoc_name = $this->assoc_table_name($table_assoc_name);
+        if (defined("MW_DB_TABLE_TAXONOMY")) {
+            $custom_field_table = MW_DB_TABLE_TAXONOMY;
+        } else {
+            $custom_field_table = MW_TABLE_PREFIX . 'categories';
+        }
+
+
+
+        if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+            $categories_table = MW_DB_TABLE_CUSTOM_FIELDS;
+        } else {
+            $categories_table = MW_TABLE_PREFIX . 'custom_fields';
+        }
+        if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+            $table_cats_items = $categories_items_table = MW_DB_TABLE_TAXONOMY_ITEMS;
+        } else {
+            $table_cats_items = $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
+        }
+
+        if (isset($original_data['categories'])) {
+
+            $is_a = $this->app->user->has_access('save_category');
+            $from_save_cats = $original_data['categories'];
+            if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
+                if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
+                    // exit('__EMPTY_CATEGORIES__');
+
+                    $clean_q = "DELETE
+				FROM $categories_items_table WHERE
+				data_type='category_item' AND
+				rel='{$table_assoc_name}' AND
+				rel_id={$id_to_return}  ";
+                    $cats_data_items_modified = true;
+                    $cats_data_modified = true;
+                    $this->q($clean_q);
+                } else {
+
+                    if (is_string($original_data['categories'])) {
+                        $original_data['categories'] = str_replace('/', ',', $original_data['categories']);
+                        $cz = explode(',', $original_data['categories']);
+                        $j = 0;
+                        $cz_int = array();
+                        foreach ($cz as $cname_check) {
+
+                            if (intval($cname_check) == 0) {
+                                $cname_check = trim($cname_check);
+                                $cname_check = $this->escape_string($cname_check);
+
+                                if ($cname_check != '') {
+
+                                    $cncheckq = "SELECT id
+								FROM $categories_table WHERE
+								data_type='category'
+								AND   rel='{$table_assoc_name}'
+								AND   title='{$cname_check}'   ";
+                                    // d($cncheckq);
+                                    $is_ex = db_query($cncheckq);
+
+                                    if (empty($is_ex)) {
+                                        $clean_q = "INSERT INTO
+									$categories_table SET
+									title='{$cname_check}',
+									parent_id=0,
+									position=999,
+									data_type='category',
+									rel='{$table_assoc_name}'
+									";
+                                        $cats_data_items_modified = true;
+                                        $cats_data_modified = true;
+
+                                        $this->q($clean_q);
+
+                                    }
+                                }
+
+                                //$is_ex = get($str1);
+                                if (!empty($is_ex) and isarr($is_ex[0])) {
+                                    $cz[$j] = $is_ex[0]['id'];
+                                    $cz_int[] = intval($is_ex[0]['id']);
+                                    //	d($cz_int);
+                                }
+
+                            }
+                            $j++;
+                        }
+
+                        $parnotin = '';
+                        if (!empty($cz_int)) {
+                            $parnotin = implode(',', $cz_int);
+                            $parnotin = " parent_id NOT IN ({$parnotin}) and";
+                        }
+
+                        $original_data['categories'] = implode(',', $cz);
+
+
+                        $clean_q = "delete from " . $categories_items_table . " where ";
+                        $clean_q .= " data_type='category_item' and ";
+                        $clean_q .= " rel='{$table_assoc_name}' and ";
+                        $clean_q .= $parnotin;
+                        $clean_q .= " rel_id={$id_to_return}";
+
+
+                        $cats_data_items_modified = true;
+                        $cats_data_modified = true;
+
+                        $this->q($clean_q);
+
+                        $original_data['categories'] = explode(',', $original_data['categories']);
+                    }
+                    if (!empty($cz_int)) {
+                        $cat_names_or_ids = array_trim($cz_int);
+                    } else {
+                        $cat_names_or_ids = $original_data['categories'];
+                        if (is_string($from_save_cats)) {
+                            $from_save_cats = explode(',', $from_save_cats);
+                        }
+
+
+                        if (isarr($from_save_cats)) {
+                            $cat_names_or_ids = $from_save_cats;
+                        }
+
+                    }
+                    $cats_data_modified = false;
+                    $cats_data_items_modified = false;
+                    $keep_thosecat_items = array();
+                    foreach ($cat_names_or_ids as $cat_name_or_id) {
+                        $cat_name_or_id = $this->escape_string(trim($cat_name_or_id));
+                        if ($cat_name_or_id != '') {
+                            $q_cat1 = "INSERT INTO $categories_items_table  SET
+
+						parent_id='{$cat_name_or_id}',
+						rel='{$table_assoc_name}',
+						data_type='category_item',
+						rel_id='{$id_to_return}'
+						";
+
+                            $this->q($q_cat1);
+                        }
+
+
+                    }
+                }
+                if (!empty($keep_thosecat_items)) {
+                    $id_in = implode(',', $keep_thosecat_items);
+                    $clean_fq = "DELETE
+				FROM $categories_items_table WHERE                            data_type='category_item' AND
+				rel='{$table_assoc_name}' AND
+				rel_id='{$id_to_return}' AND
+				parent_id NOT IN ($id_in) ";
+                    $cats_data_items_modified = true;
+                    $cats_data_modified = true;
+                    //$this->q($clean_q);
+                    //   d($clean_q);
+                }
+
+                if ($cats_data_modified == TRUE) {
+                    $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . 'global');
+                    if (isset($parent_id)) {
+                        $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . $parent_id);
+                    }
+                    //$this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+                }
+                if ($cats_data_items_modified == TRUE) {
+                    $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+                }
+            }
+
+
+        }
+
+        // adding custom fields
+        $table_assoc_name = $this->assoc_table_name($table_assoc_name);
+
+        if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
+
+            $custom_field_to_save = array();
+
+            foreach ($original_data as $k => $v) {
+
+                if (stristr($k, 'custom_field_') == true) {
+
+                    // if (strval ( $v ) != '') {
+                    $k1 = str_ireplace('custom_field_', '', $k);
+
+                    if (trim($k) != '') {
+
+                        $custom_field_to_save[$k1] = $v;
+                    }
+
+                    // }
+                }
+            }
+
+            if (is_array($original_data['custom_fields']) and !empty($original_data['custom_fields'])) {
+                $custom_field_to_save = array_merge($custom_field_to_save, $original_data['custom_fields']);
+            }
+
+            if (!empty($custom_field_to_save)) {
+
+
+                $custom_field_to_delete['rel'] = $table_assoc_name;
+
+                $custom_field_to_delete['rel_id'] = $id_to_return;
+
+                if (isset($original_data['skip_custom_field_save']) == false) {
+
+                    $custom_field_to_save = $this->app->url->replace_site_url($custom_field_to_save);
+                    $custom_field_to_save = $this->addslashes_array($custom_field_to_save);
+
+                    foreach ($custom_field_to_save as $cf_k => $cf_v) {
+
+                        if (($cf_v != '')) {
+                            $cf_v = replace_site_vars($cf_v);
+                            //d($cf_v);
+                            if ($cf_k != '') {
+                                $clean = " DELETE FROM $custom_field_table WHERE
+							rel =\"{$table_assoc_name}\"
+							AND
+							rel_id =\"{$id_to_return}\"
+							AND
+							custom_field_name =\"{$cf_k}\"
+
+
+							";
+
+                                //	d($clean);
+                                $this->q($clean);
+                            }
+                            $cfvq = '';
+                            $custom_field_to_save['custom_field_name'] = $cf_k;
+                            if (is_array($cf_v)) {
+                                $cf_k_plain = $this->app->url->slug($cf_k);
+                                $cf_k_plain = $this->escape_string($cf_k_plain);
+                                $cf_k_plain = str_replace('-', '_', $cf_k_plain);
+                                $custom_field_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
+                                $custom_field_to_save['custom_field_values_plain'] = $this->escape_string(array_pop(array_values($cf_v)));
+                                $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
+                                $cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
+                                $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
+
+                            } else {
+                                $cf_v = $this->escape_string($cf_v);
+                            }
+                            $custom_field_to_save['custom_field_value'] = $cf_v;
+
+                            $custom_field_to_save['rel'] = $table_assoc_name;
+
+                            $custom_field_to_save['rel_id'] = $id_to_return;
+                            $custom_field_to_save['skip_custom_field_save'] = true;
+
+
+                            $next_id = intval($this->last_id($custom_field_table) + 1);
+
+                            $add = " insert into $custom_field_table set
+						id =\"{$next_id}\",
+						custom_field_name =\"{$cf_k}\",
+						$cfvq
+						custom_field_value =\"" . $custom_field_to_save['custom_field_value'] . "\",
+						rel =\"" . $custom_field_to_save['rel'] . "\",
+						rel_id =\"" . $custom_field_to_save['rel_id'] . "\"
+						";
+
+                            $add = " INSERT INTO $custom_field_table SET
+						id ='{$next_id}',
+						custom_field_name ='{$cf_k}',
+						$cfvq
+						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+						custom_field_type = 'content',
+						rel ='{$custom_field_to_save ['rel']}',
+						rel_id ='{$custom_field_to_save ['rel_id']}'
+						";
+
+                            $add = " INSERT INTO $custom_field_table SET
+
+						custom_field_name ='{$cf_k}',
+						$cfvq
+						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+						custom_field_type = 'content',
+						rel ='{$custom_field_to_save ['rel']}',
+						rel_id ='{$custom_field_to_save ['rel_id']}'
+						";
+
+                            $cf_to_save = array();
+                            $cf_to_save['id'] = $next_id;
+                            $cf_to_save['custom_field_name'] = $cf_k;
+                            $cf_to_save['rel'] = $custom_field_to_save['rel'];
+                            $cf_to_save['rel_id'] = $custom_field_to_save['rel_id'];
+                            $cf_to_save['custom_field_value'] = $custom_field_to_save['custom_field_value'];
+
+                            if (isset($custom_field_to_save['custom_field_values'])) {
+                                $cf_to_save['custom_field_values'] = $custom_field_to_save['custom_field_values'];
+                            }
+                            $cf_to_save['custom_field_name'] = $cf_k;
+                            $cf_to_save['custom_field_name'] = $cf_k;
+
+                            $this->q($add);
+
+                        }
+                    }
+                    $this->app->cache->delete('custom_fields/global');
+
+                }
+            }
+        }
+
 
     }
 

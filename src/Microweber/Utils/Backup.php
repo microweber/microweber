@@ -36,7 +36,10 @@ class Backup
     private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
     private $prefix_placeholder = '/* MW_PREFIX_PLACEHOLDER */';
 
-    function __construct()
+    public $app;
+
+
+    function __construct($app = null)
     {
 
         api_expose('Microweber\Utils\Backup\delete');
@@ -55,11 +58,20 @@ class Backup
                 define("USER_IP", '127.0.0.1');
 
             }
+        }
 
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
 
         }
-        //var_dump($_SERVER);
-        //	print 1;
+
+
     }
 
     static function bgworker_restore($params)
@@ -99,14 +111,14 @@ class Backup
     {
 
         if ($back_log_action == false) {
-            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+           mw()->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
         } else {
-            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+            $check = mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
             } else {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
             }
         }
 
@@ -200,7 +212,7 @@ class Backup
             $back_log_action = "Restoring database";
             $this->log_action($back_log_action);
 
-            $db = c('db');
+            $db = mw()->config('db');
             $filename = $sql_file;
             // Settings
             $table = '*';
@@ -351,14 +363,14 @@ class Backup
     {
 
         if ($back_log_action == false) {
-            delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
+            $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
         } else {
-            $check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+            $check =  mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
             } else {
-                save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
             }
         }
 
@@ -533,7 +545,7 @@ class Backup
             only_admin_access();
 
         }
-        $temp_db = $db = c('db');
+        $temp_db = $db = mw()->config('db');
 
         // Settings
         $table = '*';

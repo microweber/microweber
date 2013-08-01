@@ -92,6 +92,12 @@ class Content
         if (is_string($id)) {
             // $link = page_link_to_layout ( $id );
         }
+
+        if (is_array($id)) {
+            extract($id);
+        }
+
+
         if ($id == false or $id == 0) {
             if (defined('PAGE_ID') == true) {
                 $id = PAGE_ID;
@@ -141,26 +147,26 @@ class Content
      *
      * .[params-table]
      *|-----------------------------------------------------------------------------
-     *| Field Name     | Description      | Values
+     *| Field Name          | Description               | Values
      *|------------------------------------------------------------------------------
-     *| id            | the id of the content |
-     *| is_active        | flag published or unpublished content | "y" or "n"
-     *| parent            | get content with parent  | any id or 0
-     *| created_by        | get by author id  | any user id
-     *| created_on        | the date of creation  |
-     *| updated_on        | the date of last edit  |
-     *| content_type    | the type of the content | "page" or "post", anything custom
-     *| subtype            | subtype of the content | "static","dynamic","post","product", anything custom
-     *| url                | the link to the content |
-     *| title            | Title of the content |
-     *| content            | The html content saved in the database |
-     *| description     | Description used for the content list |
-     *| position        | The order position |
-     *| active_site_template        | Current template for the content |
-     *| layout_file        | Current layout from the template directory |
-     *| is_deleted        | flag for deleted content |  "n" or "y"
-     *| is_home        | flag for homepage |  "n" or "y"
-     *| is_shop        | flag for shop page |  "n" or "y"
+     *| id                  | the id of the content     |
+     *| is_active           | published or unpublished  | "y" or "n"
+     *| parent              | get content with parent   | any id or 0
+     *| created_by          | get by author id          | any user id
+     *| created_on          | the date of creation      |
+     *| updated_on          | the date of last edit     |
+     *| content_type        | the type of the content   | "page" or "post", anything custom
+     *| subtype             | subtype of the content    | "static","dynamic","post","product", anything custom
+     *| url                 | the link to the content   |
+     *| title               | Title of the content      |
+     *| content             | The html content saved in the database |
+     *| description         | Description used for the content list |
+     *| position            | The order position        |
+     *| active_site_template   | Current template for the content |
+     *| layout_file         | Current layout from the template directory |
+     *| is_deleted          | flag for deleted content  |  "n" or "y"
+     *| is_home             | flag for homepage         |  "n" or "y"
+     *| is_shop             | flag for shop page        |  "n" or "y"
      *
      *
      * @return array|bool|mixed Array of content or false if nothing is found
@@ -322,6 +328,360 @@ class Content
         // $link['id'] );
     }
 
+
+    /**
+     * Return the path to the layout file that will render the page
+     *
+     * It accepts array $page that must have  $page['id'] set
+     *
+     * @example
+     * <code>
+     *  //get the layout file for content
+     *  $content = $this->get_by_id($id=1);
+     *  $render_file = get_layout_for_page($content);
+     *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
+     * </code>
+     * @package Content
+     * @subpackage Advanced
+     */
+    public function get_layout($page = array())
+    {
+
+
+        $function_cache_id = '';
+        if (is_array($page)) {
+            ksort($page);
+        }
+
+
+        $function_cache_id = $function_cache_id . serialize($page);
+
+
+        $cache_id = __FUNCTION__ . crc32($function_cache_id);
+        if (isset($page['id']) and intval($page['id']) != 0) {
+            $cache_group = 'content/' . $page['id'];
+
+
+        } else {
+            $cache_group = 'content/global';
+        }
+        $cache_content = $this->app->cache->get($cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $render_file = false;
+        $look_for_post = false;
+        $template_view_set_inner = false;
+
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            if (isset($page['id'])) {
+                $this->define_constants($page);
+            }
+        }
+
+
+        if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
+            $test_file = str_replace('___', DS, $page['layout_file']);
+            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
+
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            }
+        }
+        if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
+            $url_file = $this->app->url->string(1, 1);
+            $test_file = str_replace('___', DS, $url_file);
+            $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
+            $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
+
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            } elseif (is_file($render_file_temp2)) {
+                $render_file = $render_file_temp2;
+            }
+        }
+
+
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
+
+            $inherit_from = $this->get_parents($page['id']);
+
+            $found = 0;
+            if (!empty($inherit_from)) {
+                foreach ($inherit_from as $value) {
+                    if ($found == 0 and $value != $page['id']) {
+                        $par_c = $this->get_by_id($value);
+                        if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+
+                            $page['layout_file'] = $par_c['layout_file'];
+                            $page['active_site_template'] = $par_c['active_site_template'];
+                            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+
+                            if (is_file($render_file_temp)) {
+                                $render_file = $render_file_temp;
+                            } else {
+
+                                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
+                                if (is_file($render_file_temp)) {
+                                    $render_file = $render_file_temp;
+
+                                    //d(THIS_TEMPLATE_DIR);
+
+                                }
+                            }
+
+                            //$page = $par_c;
+                            //
+                            $found = 1;
+                        }
+                    }
+                }
+            }
+            //d($inherit_from);
+        }
+
+
+        if ($render_file == false and isset($page['content_type']) and $page['content_type'] == 'post') {
+            $look_for_post = $page;
+            if (isset($page['parent'])) {
+
+                $par_page = $this->get_by_id($page['parent']);
+
+                if (is_array($par_page)) {
+                    $page = $par_page;
+                } else {
+                    $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+                    $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
+
+
+                }
+            } else {
+                $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
+                $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
+
+
+            }
+        }
+
+        if ($render_file == false and isset($page['simply_a_file'])) {
+
+
+            $simply_a_file2 = ACTIVE_TEMPLATE_DIR . $page['simply_a_file'];
+            $simply_a_file3 = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['simply_a_file'];
+
+            if ($render_file == false and  is_file($simply_a_file3) == true) {
+                $render_file = $simply_a_file3;
+
+            }
+
+
+            if ($render_file == false and  is_file($simply_a_file2) == true) {
+                $render_file = $simply_a_file2;
+
+            }
+
+
+            if ($render_file == false and is_file($page['simply_a_file']) == true) {
+                $render_file = $page['simply_a_file'];
+            }
+            //
+
+
+        }
+        if (!isset($page['active_site_template'])) {
+            $page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+        }
+        if ($render_file == false and isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
+
+            $use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
+
+            if (is_file($use_default_layouts)) {
+                $page['active_site_template'] = 'default';
+            }
+        }
+        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
+            $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
+
+            if (is_array($layouts_list)) {
+                foreach ($layouts_list as $layout_item) {
+                    if ($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] == $layout_item['content_type']) {
+
+                        $page['layout_file'] = $layout_item['layout_file'];
+                        $render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+                    }
+
+                }
+            }
+
+
+        }
+
+
+        if ($render_file == false and isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
+            if ($look_for_post != false) {
+                $f1 = $page['layout_file'];
+
+
+                $stringA = $f1;
+                $stringB = "_inner";
+                $length = strlen($stringA);
+                $temp1 = substr($stringA, 0, $length - 4);
+                $temp2 = substr($stringA, $length - 4, $length);
+                $f1 = $temp1 . $stringB . $temp2;
+
+
+                if (strtolower($page['active_site_template']) == 'default') {
+                    $template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
+                } else {
+
+                    $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
+                }
+
+
+//.
+
+
+                if (is_file($template_view) == true) {
+
+                    $render_file = $template_view;
+                } else {
+
+
+                    $dn = dirname($template_view);
+                    $dn1 = $dn . DS;
+                    $f1 = $dn1 . 'inner.php';
+
+                    if (is_file($f1) == true) {
+                        $render_file = $f1;
+                    } else {
+                        $dn = dirname($dn);
+                        $dn1 = $dn . DS;
+                        $f1 = $dn1 . 'inner.php';
+
+                        if (is_file($f1) == true) {
+                            $render_file = $f1;
+                        } else {
+                            $dn = dirname($dn);
+                            $dn1 = $dn . DS;
+                            $f1 = $dn1 . 'inner.php';
+
+                            if (is_file($f1) == true) {
+                                $render_file = $f1;
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+
+            if ($render_file == false) {
+                if (strtolower($page['active_site_template']) == 'default') {
+
+                    $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
+                } else {
+                    $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+                }
+
+                if (is_file($template_view) == true) {
+                    $render_file = $template_view;
+                } else {
+
+
+                    if (trim($page['active_site_template']) != 'default') {
+                        $use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
+
+
+                        if (is_file($use_default_layouts)) {
+                            $page['active_site_template'] = 'default';
+
+                        }
+
+
+                    }
+
+
+                }
+            }
+
+        }
+
+
+        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
+            $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+
+        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+            $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+            $template_view = ACTIVE_TEMPLATE_DIR . 'index.html';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+
+        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+            $template_view = ACTIVE_TEMPLATE_DIR . 'index.htm';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+
+        if ($render_file == false and $template_view_set_inner != false) {
+
+            if (isset($template_view_set_inner2)) {
+                $template_view_set_inner2 = normalize_path($template_view_set_inner2, false);
+                if (is_file($template_view_set_inner2) == true) {
+                    $render_file = $template_view_set_inner2;
+                }
+            }
+
+            $template_view_set_inner = normalize_path($template_view_set_inner, false);
+            if ($render_file == false and is_file($template_view_set_inner) == true) {
+                $render_file = $template_view_set_inner;
+            }
+
+
+        }
+
+        if (isset($page['custom_view']) and isset($render_file)) {
+            $check_custom = dirname($render_file) . DS;
+            $cv = trim($page['custom_view']);
+            $cv = str_replace('..', '', $cv);
+            $cv = str_ireplace('.php', '', $cv);
+            $check_custom_f = $check_custom . $cv . '.php';
+            if (is_file($check_custom_f)) {
+                $render_file = $check_custom_f;
+            }
+
+        }
+        if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
+            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
+            $template_view = normalize_path($template_view, false);
+
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            } else {
+
+            }
+        }
+        $this->app->cache->save($render_file, $cache_id, $cache_group);
+
+        return $render_file;
+    }
+
+
     /**
      * Get single content item by id from the content_table
      *
@@ -381,6 +741,201 @@ class Content
         return $content;
     }
 
+
+    public function get_by_url($url = '', $no_recursive = false)
+    {
+        if (strval($url) == '') {
+
+            $url = $this->app->url->string();
+        }
+
+        $u1 = $url;
+        $u2 = $this->app->url->site();
+
+        $u1 = rtrim($u1, '\\');
+        $u1 = rtrim($u1, '/');
+
+        $u2 = rtrim($u2, '\\');
+        $u2 = rtrim($u2, '/');
+        $u1 = str_replace($u2, '', $u1);
+        $u1 = ltrim($u1, '/');
+        $url = $u1;
+        $table = MW_DB_TABLE_CONTENT;
+
+        $url = $this->app->db->escape_string($url);
+        $url = addslashes($url);
+
+        $url12 = parse_url($url);
+        if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
+
+            $u1 = $this->app->url->site();
+            $u2 = str_replace($u1, '', $url);
+            $current_url = explode('?', $u2);
+            $u2 = $current_url[0];
+            $url = ($u2);
+        } else {
+            $current_url = explode('?', $url);
+            $u2 = $current_url[0];
+            $url = ($u2);
+        }
+        $url = rtrim($url, '?');
+        $url = rtrim($url, '#');
+
+        global $mw_skip_pages_starting_with_url;
+
+        if (1 !== stripos($url, 'http://') && 1 !== stripos($url, 'https://')) {
+            // $url = 'http://' . $url;
+            // return false;
+
+        }
+        if (defined('MW_BACKEND')) {
+            return false;
+
+        }
+        if (is_array($mw_skip_pages_starting_with_url)) {
+            $segs = explode('/', $url);
+
+            foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
+                if (in_array($skip_page_url, $segs)) {
+                    return false;
+                }
+
+            }
+
+        }
+
+
+        global $mw_precached_links;
+
+
+        $link_hash = 'link' . crc32($url);
+
+        if (isset($mw_precached_links[$link_hash])) {
+            return $mw_precached_links[$link_hash];
+        }
+
+
+        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
+
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+
+        $result = $q;
+
+        $content = $result[0];
+
+        if (!empty($content)) {
+
+            $mw_precached_links[$link_hash] = $content;
+            return $content;
+        }
+
+        if ($no_recursive == false) {
+
+            if (empty($content) == true) {
+
+                // /var_dump ( $url );
+
+                $segs = explode('/', $url);
+
+                $segs_qty = count($segs);
+
+                for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
+
+                    $test = array_slice($segs, 0, $segs_qty - $counter);
+
+                    $test = array_reverse($test);
+
+                    if (isset($test[0])) {
+                        $url = $this->get_by_url($test[0], true);
+                    }
+                    if (!empty($url)) {
+                        $mw_precached_links[$link_hash] = $url;
+                        return $url;
+                    }
+
+
+                }
+            }
+        } else {
+
+            if (isset($content['id']) and intval($content['id']) != 0) {
+                $content['id'] = ((int)$content['id']);
+            }
+            //$get_by_id = $this->get_by_id($content['id']);
+            $mw_precached_links[$link_hash] = $content;
+            return $content;
+        }
+        $mw_precached_links[$link_hash] = false;
+        return false;
+    }
+
+
+    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
+    {
+
+        if (intval($id) == 0) {
+
+            return FALSE;
+        }
+
+        $table = MW_DB_TABLE_CONTENT;
+
+        $ids = array();
+
+        $data = array();
+
+        if (isset($without_main_parrent) and $without_main_parrent == true) {
+
+            $with_main_parrent_q = " and parent<>0 ";
+        } else {
+
+            $with_main_parrent_q = false;
+        }
+        $id = intval($id);
+        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
+
+        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+
+        //var_dump($q);
+        //  var_dump($taxonomies);
+        //  exit;
+
+        if (!empty($taxonomies)) {
+
+            foreach ($taxonomies as $item) {
+
+                if (intval($item['id']) != 0) {
+
+                    $ids[] = $item['parent'];
+                }
+                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
+                    $next = $this->get_parents($item['parent'], $without_main_parrent);
+
+                    if (!empty($next)) {
+
+                        foreach ($next as $n) {
+
+                            if ($n != '' and $n != 0) {
+
+                                $ids[] = $n;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($ids)) {
+
+            $ids = array_unique($ids);
+
+            return $ids;
+        } else {
+
+            return false;
+        }
+    }
+
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
 
@@ -405,7 +960,7 @@ class Content
         if (!is_array($data)) {
             $data = array();
         }
-        // d($data);
+
 
 
         if (isset($data['is_draft'])) {
@@ -444,7 +999,7 @@ class Content
 
         }
         if (!isset($data['all'])) {
-            // $data['one'] = 1;
+            $data['one'] = 1;
             $data['limit'] = 1000;
         }
 
@@ -887,487 +1442,6 @@ class Content
 
 
         return true;
-    }
-
-
-    public function get_by_url($url = '', $no_recursive = false)
-    {
-        if (strval($url) == '') {
-
-            $url = $this->app->url->string();
-        }
-
-        $u1 = $url;
-        $u2 = $this->app->url->site();
-
-        $u1 = rtrim($u1, '\\');
-        $u1 = rtrim($u1, '/');
-
-        $u2 = rtrim($u2, '\\');
-        $u2 = rtrim($u2, '/');
-        $u1 = str_replace($u2, '', $u1);
-        $u1 = ltrim($u1, '/');
-        $url = $u1;
-        $table = MW_DB_TABLE_CONTENT;
-
-        $url = $this->app->db->escape_string($url);
-        $url = addslashes($url);
-
-        $url12 = parse_url($url);
-        if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
-
-            $u1 = $this->app->url->site();
-            $u2 = str_replace($u1, '', $url);
-            $current_url = explode('?', $u2);
-            $u2 = $current_url[0];
-            $url = ($u2);
-        } else {
-            $current_url = explode('?', $url);
-            $u2 = $current_url[0];
-            $url = ($u2);
-        }
-        $url = rtrim($url, '?');
-        $url = rtrim($url, '#');
-
-        global $mw_skip_pages_starting_with_url;
-
-        if (1 !== stripos($url, 'http://') && 1 !== stripos($url, 'https://')) {
-            // $url = 'http://' . $url;
-            // return false;
-
-        }
-        if (defined('MW_BACKEND')) {
-            return false;
-
-        }
-        if (is_array($mw_skip_pages_starting_with_url)) {
-            $segs = explode('/', $url);
-
-            foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
-                if (in_array($skip_page_url, $segs)) {
-                    return false;
-                }
-
-            }
-
-        }
-
-
-        global $mw_precached_links;
-
-
-        $link_hash = 'link' . crc32($url);
-
-        if (isset($mw_precached_links[$link_hash])) {
-            return $mw_precached_links[$link_hash];
-        }
-
-
-        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
-
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-
-        $result = $q;
-
-        $content = $result[0];
-
-        if (!empty($content)) {
-
-            $mw_precached_links[$link_hash] = $content;
-            return $content;
-        }
-
-        if ($no_recursive == false) {
-
-            if (empty($content) == true) {
-
-                // /var_dump ( $url );
-
-                $segs = explode('/', $url);
-
-                $segs_qty = count($segs);
-
-                for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
-
-                    $test = array_slice($segs, 0, $segs_qty - $counter);
-
-                    $test = array_reverse($test);
-
-                    if (isset($test[0])) {
-                        $url = $this->get_by_url($test[0], true);
-                    }
-                    if (!empty($url)) {
-                        $mw_precached_links[$link_hash] = $url;
-                        return $url;
-                    }
-
-
-                }
-            }
-        } else {
-
-            if (isset($content['id']) and intval($content['id']) != 0) {
-                $content['id'] = ((int)$content['id']);
-            }
-            //$get_by_id = $this->get_by_id($content['id']);
-            $mw_precached_links[$link_hash] = $content;
-            return $content;
-        }
-        $mw_precached_links[$link_hash] = false;
-        return false;
-    }
-
-
-    /**
-     * Return the path to the layout file that will render the page
-     *
-     * It accepts array $page that must have  $page['id'] set
-     *
-     * @example
-     * <code>
-     *  //get the layout file for content
-     *  $content = $this->get_by_id($id=1);
-     *  $render_file = get_layout_for_page($content);
-     *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
-     * </code>
-     * @package Content
-     * @subpackage Advanced
-     */
-    public function get_layout($page = array())
-    {
-
-
-        $function_cache_id = '';
-        if (is_array($page)) {
-            ksort($page);
-        }
-
-
-        $function_cache_id = $function_cache_id . serialize($page);
-
-
-        $cache_id = __FUNCTION__ . crc32($function_cache_id);
-        if (isset($page['id']) and intval($page['id']) != 0) {
-            $cache_group = 'content/' . $page['id'];
-
-
-        } else {
-            $cache_group = 'content/global';
-        }
-        $cache_content = $this->app->cache->get($cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $render_file = false;
-        $look_for_post = false;
-        $template_view_set_inner = false;
-
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            if (isset($page['id'])) {
-                $this->define_constants($page);
-            }
-        }
-
-
-        if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
-            $test_file = str_replace('___', DS, $page['layout_file']);
-            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
-
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            }
-        }
-        if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
-            $url_file = $this->app->url->string(1, 1);
-            $test_file = str_replace('___', DS, $url_file);
-            $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
-            $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
-
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            } elseif (is_file($render_file_temp2)) {
-                $render_file = $render_file_temp2;
-            }
-        }
-
-
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
-
-            $inherit_from = $this->get_parents($page['id']);
-
-            $found = 0;
-            if (!empty($inherit_from)) {
-                foreach ($inherit_from as $value) {
-                    if ($found == 0 and $value != $page['id']) {
-                        $par_c = $this->get_by_id($value);
-                        if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-
-                            $page['layout_file'] = $par_c['layout_file'];
-                            $page['active_site_template'] = $par_c['active_site_template'];
-                            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-
-                            if (is_file($render_file_temp)) {
-                                $render_file = $render_file_temp;
-                            } else {
-
-                                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                                if (is_file($render_file_temp)) {
-                                    $render_file = $render_file_temp;
-
-                                    //d(THIS_TEMPLATE_DIR);
-
-                                }
-                            }
-
-                            //$page = $par_c;
-                            //
-                            $found = 1;
-                        }
-                    }
-                }
-            }
-            //d($inherit_from);
-        }
-
-
-        if ($render_file == false and isset($page['content_type']) and $page['content_type'] == 'post') {
-            $look_for_post = $page;
-            if (isset($page['parent'])) {
-
-                $par_page = $this->get_by_id($page['parent']);
-
-                if (is_array($par_page)) {
-                    $page = $par_page;
-                } else {
-                    $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
-                    $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
-
-
-                }
-            } else {
-                $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
-                $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
-
-
-            }
-        }
-
-        if ($render_file == false and isset($page['simply_a_file'])) {
-
-
-            $simply_a_file2 = ACTIVE_TEMPLATE_DIR . $page['simply_a_file'];
-            $simply_a_file3 = ACTIVE_TEMPLATE_DIR . 'layouts' . DS . $page['simply_a_file'];
-
-            if ($render_file == false and  is_file($simply_a_file3) == true) {
-                $render_file = $simply_a_file3;
-
-            }
-
-
-            if ($render_file == false and  is_file($simply_a_file2) == true) {
-                $render_file = $simply_a_file2;
-
-            }
-
-
-            if ($render_file == false and is_file($page['simply_a_file']) == true) {
-                $render_file = $page['simply_a_file'];
-            }
-            //
-
-
-        }
-        if (!isset($page['active_site_template'])) {
-            $page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-        }
-        if ($render_file == false and isset($page['active_site_template']) and trim($page['active_site_template']) != 'default') {
-
-            $use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
-
-            if (is_file($use_default_layouts)) {
-                $page['active_site_template'] = 'default';
-            }
-        }
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
-            $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
-
-            if (is_array($layouts_list)) {
-                foreach ($layouts_list as $layout_item) {
-                    if ($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] == $layout_item['content_type']) {
-
-                        $page['layout_file'] = $layout_item['layout_file'];
-                        $render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-                    }
-
-                }
-            }
-
-
-        }
-
-
-        if ($render_file == false and isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
-            if ($look_for_post != false) {
-                $f1 = $page['layout_file'];
-
-
-                $stringA = $f1;
-                $stringB = "_inner";
-                $length = strlen($stringA);
-                $temp1 = substr($stringA, 0, $length - 4);
-                $temp2 = substr($stringA, $length - 4, $length);
-                $f1 = $temp1 . $stringB . $temp2;
-
-
-                if (strtolower($page['active_site_template']) == 'default') {
-                    $template_view = ACTIVE_TEMPLATE_DIR . DS . $f1;
-                } else {
-
-                    $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
-                }
-
-
-//.
-
-
-                if (is_file($template_view) == true) {
-
-                    $render_file = $template_view;
-                } else {
-
-
-                    $dn = dirname($template_view);
-                    $dn1 = $dn . DS;
-                    $f1 = $dn1 . 'inner.php';
-
-                    if (is_file($f1) == true) {
-                        $render_file = $f1;
-                    } else {
-                        $dn = dirname($dn);
-                        $dn1 = $dn . DS;
-                        $f1 = $dn1 . 'inner.php';
-
-                        if (is_file($f1) == true) {
-                            $render_file = $f1;
-                        } else {
-                            $dn = dirname($dn);
-                            $dn1 = $dn . DS;
-                            $f1 = $dn1 . 'inner.php';
-
-                            if (is_file($f1) == true) {
-                                $render_file = $f1;
-                            }
-                        }
-                    }
-
-
-                }
-            }
-
-
-            if ($render_file == false) {
-                if (strtolower($page['active_site_template']) == 'default') {
-
-                    $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
-                } else {
-                    $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-                }
-
-                if (is_file($template_view) == true) {
-                    $render_file = $template_view;
-                } else {
-
-
-                    if (trim($page['active_site_template']) != 'default') {
-                        $use_default_layouts = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
-
-
-                        if (is_file($use_default_layouts)) {
-                            $page['active_site_template'] = 'default';
-
-                        }
-
-
-                    }
-
-
-                }
-            }
-
-        }
-
-
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
-
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . 'index.html';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
-
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
-            $template_view = ACTIVE_TEMPLATE_DIR . 'index.htm';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
-
-        if ($render_file == false and $template_view_set_inner != false) {
-
-            if (isset($template_view_set_inner2)) {
-                $template_view_set_inner2 = normalize_path($template_view_set_inner2, false);
-                if (is_file($template_view_set_inner2) == true) {
-                    $render_file = $template_view_set_inner2;
-                }
-            }
-
-            $template_view_set_inner = normalize_path($template_view_set_inner, false);
-            if ($render_file == false and is_file($template_view_set_inner) == true) {
-                $render_file = $template_view_set_inner;
-            }
-
-
-        }
-
-        if (isset($page['custom_view']) and isset($render_file)) {
-            $check_custom = dirname($render_file) . DS;
-            $cv = trim($page['custom_view']);
-            $cv = str_replace('..', '', $cv);
-            $cv = str_ireplace('.php', '', $cv);
-            $check_custom_f = $check_custom . $cv . '.php';
-            if (is_file($check_custom_f)) {
-                $render_file = $check_custom_f;
-            }
-
-        }
-        if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
-            $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
-            $template_view = normalize_path($template_view, false);
-
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            } else {
-
-            }
-        }
-        $this->app->cache->save($render_file, $cache_id, $cache_group);
-
-        return $render_file;
     }
 
 
@@ -2070,71 +2144,6 @@ class Content
         return false;
     }
 
-    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
-    {
-
-        if (intval($id) == 0) {
-
-            return FALSE;
-        }
-
-        $table = MW_DB_TABLE_CONTENT;
-
-        $ids = array();
-
-        $data = array();
-
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-
-            $with_main_parrent_q = " and parent<>0 ";
-        } else {
-
-            $with_main_parrent_q = false;
-        }
-        $id = intval($id);
-        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
-
-        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
-
-        //var_dump($q);
-        //  var_dump($taxonomies);
-        //  exit;
-
-        if (!empty($taxonomies)) {
-
-            foreach ($taxonomies as $item) {
-
-                if (intval($item['id']) != 0) {
-
-                    $ids[] = $item['parent'];
-                }
-                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
-                    $next = $this->get_parents($item['parent'], $without_main_parrent);
-
-                    if (!empty($next)) {
-
-                        foreach ($next as $n) {
-
-                            if ($n != '' and $n != 0) {
-
-                                $ids[] = $n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($ids)) {
-
-            $ids = array_unique($ids);
-
-            return $ids;
-        } else {
-
-            return false;
-        }
-    }
 
     /**
      *  Get the first parent that has layout
@@ -2618,7 +2627,7 @@ class Content
 
             if (trim($item['url'] != '')) {
                 $url = $item['url'];
-             }
+            }
 
             if ($item['title'] == '') {
                 $item['title'] = $title;

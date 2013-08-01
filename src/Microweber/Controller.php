@@ -187,7 +187,7 @@ class Controller
                 if (isset($_GET['content_type'])) {
                     $page['content_type'] = $this->app->db->escape_string($_GET['content_type']);
                 }
-                //d($_GET);
+
 
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';

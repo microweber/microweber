@@ -51,7 +51,7 @@
             <div id="call">
                 <small>Call us toll-free</small>
                 <i class="icon-mobile-phone"></i>
-                <span>+1 514-286-4342</span>
+                <span><?php print $phone; ?></span>
             </div>
            <div id="footer-social">
                 <span> Find us on </span>
