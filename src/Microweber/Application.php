@@ -128,8 +128,8 @@ class Application
             try {
 
                 $mw = '\Microweber\\' . $property;
-              //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
-                $mw = str_ireplace(array('/','\\\\', 'Microweber\Microweber'), array('\\','\\', 'Microweber'), $mw);
+                //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+                $mw = str_ireplace(array('/', '\\\\', 'Microweber\Microweber'), array('\\', '\\', 'Microweber'), $mw);
 
                 $prop = new $mw($this);
             } catch (Exception $e) {
@@ -141,6 +141,12 @@ class Application
             }
 
         }
+    }
+
+    public function get($provider, $args = null)
+    {
+        // A.k.a call
+        return $this->call($provider, $args);
     }
 
     public function call($provider, $args = null)
@@ -165,6 +171,14 @@ class Application
                 return $this->$provider($args);
             }
         }
+
+        if (isset($this->$provider)) {
+            return $this->$provider;
+        } elseif (isset($this->providers[$provider])) {
+            return $this->providers[$provider];
+        }
+
+
     }
 
     public function __call($class, $constructor_params)
@@ -220,14 +234,12 @@ class Application
     public function __set($property, $value)
     {
 
-        if (strtolower($property) == 'application') {
-
-
-            return;
-
-            //prevent recursion ?
-            return $this;
-        }
+//        if (strtolower($property) == strtolower(__CLASS__)) {
+//
+//            //prevent recursion ?
+//            return;
+//
+//        }
 
 
         if (!property_exists($this, $property) and !isset($this->providers[$property])) {
@@ -240,43 +252,43 @@ class Application
         }
     }
 
-    public function __seddddt($property, $value)
-    {
-
-        if (strtolower($property) == 'application') {
-
-
-            return;
-
-            //prevent recursion ?
-            return $this;
-        }
-        if (!is_object($value)) {
-            $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
-
-            $property = ucfirst($property);
-            $property2 = strtolower($property);
-
-            if (isset($this->providers[$property])) {
-
-                return $this->$property = $this->$property2 = $this->providers[$property];
-            } else if (isset($this->providers[$property2])) {
-
-                return $this->$property = $this->$property2 = $this->providers[$property2];
-            }
-
-
-            if (!property_exists($this, $property)) {
-
-                $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
-                //   return $this->$property;
-            }
-        } else {
-            $this->$property = $this->providers[$property] = $value;
-        }
-
-        return $this;
-    }
+//    public function __set($property, $value)
+//    {
+//
+//        if (strtolower($property) == 'application') {
+//
+//
+//            return;
+//
+//            //prevent recursion ?
+//            return $this;
+//        }
+//        if (!is_object($value)) {
+//            $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
+//
+//            $property = ucfirst($property);
+//            $property2 = strtolower($property);
+//
+//            if (isset($this->providers[$property])) {
+//
+//                return $this->$property = $this->$property2 = $this->providers[$property];
+//            } else if (isset($this->providers[$property2])) {
+//
+//                return $this->$property = $this->$property2 = $this->providers[$property2];
+//            }
+//
+//
+//            if (!property_exists($this, $property)) {
+//
+//                $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
+//                //   return $this->$property;
+//            }
+//        } else {
+//            $this->$property = $this->providers[$property] = $value;
+//        }
+//
+//        return $this;
+//    }
 
 
 }

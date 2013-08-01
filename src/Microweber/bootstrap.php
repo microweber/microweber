@@ -193,54 +193,6 @@ function mw($class = null, $constructor_params = false)
     return $_mw_registry[$class_name];
 
 
-    if ($class != false) {
-        global $_mw_registry;
-
-        $class_name = strtolower($class);
-
-        $class = ucfirst($class);
-        $class = str_replace('/', '\\', $class);
-
-        $mw = '\Microweber\\' . $class;
-        $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
-
-        if (!isset($_mw_registry[$class_name])) {
-            if ($constructor_params == false) {
-
-                try {
-                    mwdbg($class);
-                    $prop = new $mw($constructor_params);
-                } catch (Exception $e) {
-                    $prop = new $class($constructor_params);
-                }
-                if (isset($prop)) {
-                    $_mw_registry[$class_name] = $prop;
-                }
-            } else {
-
-                try {
-                    $prop = new $mw($constructor_params);
-
-                } catch (Exception $e) {
-                    $prop = new $class($constructor_params);
-                }
-                if (isset($prop)) {
-
-                    $_mw_registry[$class_name] = $prop;
-                }
-
-            }
-
-        }
-
-        //  if(is_callable($_mw_registry[$class_name])){
-        return $_mw_registry[$class_name];
-        //}
-    } else {
-
-        // return new stdClass;
-    }
-
 }
 
 function mw_error_handler($errno, $errstr, $errfile, $errline)

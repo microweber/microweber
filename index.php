@@ -36,14 +36,15 @@ $application = new \Microweber\Application(MW_CONFIG_FILE);
 // you can extend every function of MW try this
 // $application = new \Microweber\MyApp(MW_CONFIG_FILE);
 
-
-
 /*
 
  After start you can use the methods of your application trough
  the mw() function, which returns the latest application instance
 
- $temp = mw()->content->get();
+ $temp = mw()->content->get("is_active=y");
+ var_dump($temp);
+
+ $temp = mw()->media->get();
  var_dump($temp);
 
  $temp = $application->users->get();
@@ -78,7 +79,6 @@ $controller->functions['test/api/user_login*'] = function () {
 };
 
 
-
 // Check if installed
 $installed = $application->config('installed');
 
@@ -89,8 +89,6 @@ if (strval($installed) != 'yes') {
 } else {
     define('MW_IS_INSTALLED', true);
 }
-
-
 
 
 // Run the website
