@@ -50,8 +50,13 @@ $application = new \Microweber\Application(MW_CONFIG_FILE);
  $temp = $application->users->get();
  var_dump($temp);
 
-*/
 
+
+*/
+//if (isset($_GET['debug'])) {
+//    $temp = mw()->modules->scan_for_modules();
+//    var_dump($temp);
+//}
 
 // Starting Router
 $router = new \Microweber\Router();

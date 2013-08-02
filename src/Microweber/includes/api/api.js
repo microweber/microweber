@@ -76,24 +76,21 @@ mw.askusertostay = false;
 (function() {
     mw.required = [];
     mw.require = function(url, inHead) {
-      var inHead = inHead || false;
-      var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
-      if (!~mw.required.indexOf(url)) {
-        mw.required.push(url);
-        var t = url.split('.').pop();
-        var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
-        var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
-           mwd.write(string);
-        } else {
-          //$(mwd.getElementsByTagName('head')[0]).append(string);
-          alert(string)
-          mwd.getElementsByTagName('head')[0].appendChild(string);
+        var inHead = inHead || false;
+        var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
+        if (!~mw.required.indexOf(url)) {
+            mw.required.push(url);
+            var t = url.split('.').pop();
+            var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+            var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+            if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
+                mwd.write(string);
+            } else {
+                $(mwd.getElementsByTagName('head')[0]).append(string);
+            }
         }
-      }
     }
 })();
-
 
 
 

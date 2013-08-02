@@ -40,6 +40,7 @@ mw.require('forms.js');
 mw.require('files.js');
 </script>
 <script  type="text/javascript">
+d(mw.files)
 _mw_admin_save_user_form<?php  print $data['id']; ?> = function(){
 
     if(mwd.getElementById("reset_password").value == ''){

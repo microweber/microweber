@@ -26,7 +26,7 @@ only_admin_access();
 
  $path = str_replace($path_restirct,'',$path);
 
- //$data = mw('Microweber\Utils\Files')->rglob($path);
+ //$data = rglob($path);
   $params_get_files = array();
    $params_get_files['directory']  =  $path_restirct.$path;
 

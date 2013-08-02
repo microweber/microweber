@@ -14,8 +14,8 @@
     <meta property="og:image" content="{content_image}">
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
-   
-    
+
+
 
     <script type="text/javascript">
 
