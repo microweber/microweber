@@ -539,17 +539,28 @@ class Controller
 
 
             if (isset($_REQUEST['isolate_content_field'])) {
+                //d($_REQUEST);
 
-                $isolated_head = $this->app->parser->isolate_head($l);
+                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                $pq = \phpQuery::newDocument($l);
 
-                $l = $this->app->parser->isolate_content_field($l);
- 
-                $is_admin = $this->app->user->is_admin();
-                if ($is_admin == true) {
+                $isolated_head = pq('head')->eq(0)->html();
+
+                // d($isolated_head);
+                $found_field = false;
+                if (isset($_REQUEST['isolate_content_field'])) {
+                    foreach ($pq ['[field=content]'] as $elem) {
+                        //d($elem);
+                        $isolated_el = $l = pq($elem)->htmlOuter();
+                    }
+                }
+
+                $is_admin = is_admin();
+                if ($is_admin == true and isset($isolated_el) != false) {
 
                     $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new $this->app->view($tb);
+                    $layout_toolbar = new \Microweber\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -565,11 +576,9 @@ class Controller
                             $l = str_replace('{content}', $l, $layout_toolbar);
 
                         }
-                        //$layout_toolbar = $this->app->parser->process($layout_toolbar, $options = array('no_apc' => 1));
+                        //$layout_toolbar = mw('parser')->process($layout_toolbar, $options = array('no_apc' => 1));
 
                     }
-                } else {
-
                 }
 
             }
@@ -577,6 +586,7 @@ class Controller
 
             //$this->app->content->debug_info();
             $l = $this->app->parser->process($l, $options = false);
+
             if ($preview_module_id != false) {
                 $_REQUEST['embed_id'] = $preview_module_id;
             }

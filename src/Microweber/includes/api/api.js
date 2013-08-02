@@ -76,21 +76,22 @@ mw.askusertostay = false;
 (function() {
     mw.required = [];
     mw.require = function(url, inHead) {
-        var inHead = inHead || false;
-        var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
-        if (!~mw.required.indexOf(url)) {
-            mw.required.push(url);
-            var t = url.split('.').pop();
-            var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
-            var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-            if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
-                mwd.write(string);
-            } else {
-                $(mwd.getElementsByTagName('head')[0]).append(string);
-            }
+      var inHead = inHead || false;
+      var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
+      if (!~mw.required.indexOf(url)) {
+        mw.required.push(url);
+        var t = url.split('.').pop();
+        var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+        var string = t !== "css" ? "<script type='text/javascript' src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
+           mwd.write(string);
+        } else {
+          $(mwd.getElementsByTagName('head')[0]).append(string);
         }
+      }
     }
 })();
+
 
 
 
@@ -158,14 +159,14 @@ mw.askusertostay = false;
   mw.settings = {
     liveEdit:false,
     debug: true,
-    site_url: '<?php print mw_site_url(); ?>',
+    site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
     //mw.settings.site_url
-    includes_url: '<?php   print( MW_INCLUDES_URL);  ?>',
-    upload_url: '<?php print mw_site_url(); ?>api/upload/',
+    includes_url: '<?php   print( INCLUDES_URL);  ?>',
+    upload_url: '<?php print site_url(); ?>api/upload/',
 
-    api_url: '<?php print mw_site_url(); ?>api/',
-    api_html: '<?php print mw_site_url(); ?>api_html/',
+    api_url: '<?php print site_url(); ?>api/',
+    api_html: '<?php print site_url(); ?>api_html/',
 
 
     page_id: '<?php print intval(PAGE_ID) ?>',
@@ -541,7 +542,6 @@ mw._response = {
     $(holder).show();
   }
 }
-
 
 
 

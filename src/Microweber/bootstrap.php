@@ -31,7 +31,9 @@ if (!defined('MW_INCLUDES_DIR')) {
 if (!defined('MW_INCLUDES_URL')) {
     define('MW_INCLUDES_URL', mw_path_to_url(MW_INCLUDES_DIR));
 }
-
+if (!defined('INCLUDES_URL')) {
+    define('INCLUDES_URL', MW_INCLUDES_URL);
+}
 if (!defined('MW_ADMIN_VIEWS_DIR')) {
     define('MW_ADMIN_VIEWS_DIR', MW_INCLUDES_DIR . 'admin' . DS);
 }

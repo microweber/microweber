@@ -22,7 +22,7 @@
     </script>
     <script type="text/javascript" src="<?php print mw_site_url(); ?>apijs"></script>
     <script type="text/javascript">
-      mw.require("<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js");    
+      mw.require("<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js");
       mw.require("liveadmin.js");
       mw.require("jquery-ui.js");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css");
