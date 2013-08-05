@@ -113,7 +113,7 @@ class Layouts {
 
                 if (is_dir($possible_dir)) {
                     $template_dirs[] = $item;
-                    $dir2 = mw('Microweber\Utils\Files')->rglob($possible_dir . '*.php', 0);
+                    $dir2 = rglob($possible_dir . '*.php', 0);
                     // d($dir2);
                     if (!empty($dir2)) {
                         foreach ($dir2 as $dir_glob) {
@@ -131,7 +131,7 @@ class Layouts {
 
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
-                $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $path);
+                $dir = rglob($glob_patern, 0, $path);
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];

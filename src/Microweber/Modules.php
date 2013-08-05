@@ -419,7 +419,7 @@ class Modules extends \Microweber\Module
         //clearstatcache();
         $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;
-        $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $dir_name_mods);
+        $dir = rglob($glob_patern, 0, $dir_name_mods);
 
         if (!empty($dir)) {
             $configs = array();
@@ -626,7 +626,7 @@ class Modules extends \Microweber\Module
         //clearstatcache();
 
         $modules_remove_old = false;
-        $dir = mw('Microweber\Utils\Files')->rglob($glob_patern, 0, $dir_name);
+        $dir = rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = MW_MODULES_DIR;
         $dir_name_mods2 = MW_ELEMENTS_DIR;
 
