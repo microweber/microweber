@@ -329,7 +329,8 @@ class Forms
 
         $sql = "SELECT name AS country_name FROM $table   ";
 
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'db');
+        $q = $this->app->db->query($sql, 'get_countries_list' . crc32($sql), 'forms');
+
         $res = array();
         if (is_array($q)) {
             foreach ($q as $value) {
@@ -337,7 +338,7 @@ class Forms
             }
             return $res;
         } else {
-            self::db_init();
+            $this->db_init();
             return false;
         }
 
@@ -475,6 +476,9 @@ class Forms
     }
 
 
+
+
+
     public function export_to_excel($params)
     {
         //this function is experimental
@@ -595,7 +599,7 @@ class Forms
 
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name, 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name);
 
         if (($cache_content) != false) {
 
@@ -674,7 +678,7 @@ class Forms
 
         }
 
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, 'files');
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name);
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
         //set_db_tables
