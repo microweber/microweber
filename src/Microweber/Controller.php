@@ -68,7 +68,7 @@ class Controller
         if (strtolower($page_url) == 'index.php') {
             $page_url = '';
         }
-       
+
         $page = false;
         $page_url = rtrim($page_url, '/');
         $is_admin = $this->app->user->is_admin();
@@ -114,8 +114,6 @@ class Controller
                         $this->app->user->session_set('editmode', true);
                         $this->app->user->session_set('back_to_editmode', false);
                         $is_editmode = false;
-                        //	d($user_data);
-                        //exit();
 
                     }
                     $this->app->url->redirect($this->app->url->site_url($page_url));

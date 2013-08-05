@@ -199,8 +199,10 @@ reset_password = function(y){
         <td><label class="mw-ui-label"><?php _e("Last Name"); ?></label></td>
         <td><input type="text" class="mw-ui-field" name="last_name" value="<?php  print $data['last_name']; ?>"></td>
       </tr>
+
+    <?php if (is_admin()){ ?>
       <tr>
-        <td><label class="mw-ui-label"><?php _e("Is Active"); ?>?</label></td>
+        <td><label class="mw-ui-label"><?php _e("Is Active"); ?></label></td>
         <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['is_active'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
             <label><?php _e("Yes"); ?>
               <input type="radio" value="y" name="is_active" <?php if($data['is_active'] == 'y'): ?> checked="checked" <?php endif; ?>>
@@ -233,7 +235,7 @@ reset_password = function(y){
             </label>
           </div></td>
       </tr>
-      
+     <?php }  ?>
       
       <tr>
         <td><label class="mw-ui-label"><?php _e("Api key"); ?></label></td>

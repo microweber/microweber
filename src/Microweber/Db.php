@@ -208,7 +208,7 @@ class Db
         if (isset($no_cache) and $no_cache == true) {
             $mode = 2;
         }
-
+        //$mode = 2;
         switch ($mode) {
             case 1 :
                 static $results_map = array();
@@ -429,6 +429,7 @@ class Db
 
         if (!isset($the_user_id)) {
             $the_user_id = 0;
+            $the_user_id = null;
         }
         //
         if (intval($data['id']) == 0) {
@@ -452,6 +453,8 @@ class Db
         $criteria_orig = $data;
 
         $criteria = $this->map_array_to_table($table, $data);
+
+
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
@@ -472,6 +475,7 @@ class Db
             $criteria['id'] = 0;
         }
         $criteria['id'] = intval($criteria['id']);
+
 
         if (intval($criteria['id']) == 0) {
 
@@ -564,7 +568,7 @@ class Db
                 if (isset($_SESSION)) {
                     if (isset($data['session_id'])) {
                         if ($user_sid != false) {
-                            $user_createdq1 = " AND session_id='{$user_sid}'  ";
+                            $user_sidq = " AND session_id='{$user_sid}'  ";
                         }
                     }
 
@@ -636,7 +640,6 @@ class Db
         } else {
             $custom_field_table = MW_TABLE_PREFIX . 'categories';
         }
-
 
 
         if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
@@ -804,10 +807,10 @@ class Db
 
         // adding custom fields
         $table_assoc_name = $this->assoc_table_name($table_assoc_name);
+        $custom_field_to_save = array();
 
         if (!isset($original_data['skip_custom_field_save']) and isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields') {
 
-            $custom_field_to_save = array();
 
             foreach ($original_data as $k => $v) {
 
@@ -1044,7 +1047,7 @@ class Db
 
         }
 
-        include (MW_DB_ADAPTER_DIR . 'mysql.php');
+        require (MW_DB_ADAPTER_DIR . 'mysql.php');
 
 
         if ($only_query != false) {
@@ -1108,7 +1111,7 @@ class Db
 
         if ($cache_id != false) {
             if (!empty($result)) {
-                //    $this->app->cache->save($result, $cache_id, $cache_group);
+                $this->app->cache->save($result, $cache_id, $cache_group);
             } else {
                 $this->app->cache->save('---empty---', $cache_id, $cache_group);
             }
@@ -2201,7 +2204,7 @@ class Db
             $result = $this->query($q, false, false);
 
         }
-
+        //
 
         if (isset($result[0]['qty']) == true and $count_only == true) {
 
@@ -2245,7 +2248,7 @@ class Db
         }
 
         $return = array();
-
+//d($result);
         if (!empty($result)) {
             $result = $this->app->url->replace_site_url_back($result);
             $return = $result;
@@ -2261,6 +2264,13 @@ class Db
                 //  $this->app->cache->save('---empty---', $original_cache_id, $original_cache_group);
             }
         }
+
+
+        if (empty($return)) {
+            return $result;
+
+        }
+
         //
         return $return;
     }
@@ -2514,9 +2524,13 @@ class Db
                 if (is_array($v)) {
                     $v = $this->addslashes_array($v);
                 } else {
+                    if ($k == 'id') {
+                        $v = intval($v);
+                    } else {
+                        $v = addslashes($v);
+                        $v = htmlspecialchars($v);
+                    }
 
-                    $v = addslashes($v);
-                    $v = htmlspecialchars($v);
                 }
 
                 $ret[$k] = ($v);

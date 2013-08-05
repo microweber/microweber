@@ -1,6 +1,7 @@
 <?php
 
-function api($function_name, $params = false) {
+function api($function_name, $params = false)
+{
     static $c;
 
     if ($c == false) {
@@ -10,28 +11,12 @@ function api($function_name, $params = false) {
         $c = new \Microweber\Controller();
 
     }
-    $res = $c -> api($function_name, $params);
+    $res = $c->api($function_name, $params);
     return $res;
 
 }
 
 
-
-//function api($function_name, $params = false)
-//{
-//    static $c;
-//
-//    if ($c == false) {
-//        if (!defined('MW_API_RAW')) {
-//            define('MW_API_RAW', true);
-//        }
-//        $c = new \Microweber\Controller();
-//
-//    }
-//    $res = $c->api($function_name, $params);
-//    return $res;
-//
-//}
 
 
 function event_trigger($api_function, $data = false)
@@ -100,6 +85,7 @@ function event_bind($function_name, $next_function_name = false)
         //  $index .= ' ' . $function_name;
     }
 }
+
 function api_expose($function_name)
 {
 

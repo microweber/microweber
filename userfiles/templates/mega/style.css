@@ -1,6 +1,7 @@
   *{
     margin: 0;
     padding: 0;
+
   }
 
   body{
@@ -13,7 +14,7 @@
     border: none;
   }
 
-  a{ color: #1D2225;  }
+  a { color: #1D2225;  }
 
   strong{
     font-weight: 600;
@@ -348,6 +349,8 @@
     height: 100%;
     top: 0;
     left: 0;
+  }
+  body.loaded .rotator-method-cssFade .RotatorItem{
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
     -ms-transition: all 0.5s;

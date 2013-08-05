@@ -49,9 +49,6 @@ class Shop
     {
 
         $params2 = array();
-        if (!isset($_SESSION)) {
-            return false;
-        }
 
         if (is_string($params)) {
             $params = parse_str($params, $params2);
@@ -87,6 +84,7 @@ class Shop
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
+                $i = 0;
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
 
@@ -111,13 +109,15 @@ class Shop
                     }
 
                 }
-                $return[] = $item;
+
+                $return[$i] = $item;
+                $i++;
             }
 
+        } else {
+            $return = $get;
         }
-        if (empty($return)) {
-            $return = false;
-        }
+
 
         return $return;
         //  d($params);
@@ -255,7 +255,7 @@ class Shop
             }
         }
         $checkout_errors = array();
-        $check_cart = get_cart($cart);
+        $check_cart = $this->get_cart($cart);
         if (!is_array($check_cart)) {
 
             if ($this->app->url->is_ajax()) {
@@ -529,7 +529,7 @@ class Shop
 
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $checkz = get_cart($cart);
+        $checkz = $this->get_cart($cart);
 
         if ($checkz != false and is_array($checkz)) {
             // d($checkz);
@@ -563,7 +563,7 @@ class Shop
 
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $checkz = get_cart($cart);
+        $checkz = $this->get_cart($cart);
 
         if ($checkz != false and is_array($checkz)) {
             // d($checkz);
@@ -655,31 +655,7 @@ class Shop
                         if (isset($cf['custom_field_name']) and ($cf['custom_field_name'] == $k or $key1 == $key2)) {
                             $k = str_replace('_', ' ', $k);
                             $found = true;
-                            /*
-                             if ($item== 'ala' and is_array($item)) {
 
-                             if (is_array($cf['custom_field_values'])) {
-
-                             $vi = 0;
-                             foreach ($item as $ik => $item_value) {
-
-                             if (in_array($item_value, $cf['custom_field_values'])) {
-
-                             //	$cf1 = $cf;
-                             //$cf1['custom_field_values'] = $item_value;
-                             $item[$ik] = $item_value;
-
-                             } else {
-                             unset($item[$ik]);
-                             }
-
-                             $vi++;
-                             }
-                             }
-                             // d($item);
-                             } else {*/
-
-                            //if($cf['custom_field_type'] != 'price'){
                             if (is_array($cf['custom_field_values'])) {
                                 if (in_array($item, $cf['custom_field_values'])) {
                                     $found = true;
@@ -690,16 +666,9 @@ class Shop
                             if ($found == false and $cf['custom_field_value'] != $item) {
                                 unset($item);
                             }
-                            //}
-                        } else {
-                            //	$skip_keys[] = $k;
-                            //break(1);
-                            //	unset($item );
+
                         }
 
-                        //   d($k);
-                        //
-                        //}
                     } elseif (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
                         if ($cf['custom_field_value'] != '') {
 
@@ -769,16 +738,20 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
-            $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+           // if (!empty($add)) {
+                $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+          // }
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
-            //$cart['one'] = 1;
+            //  $cart['one'] = 1;
             $cart['limit'] = 1;
-            //  $cart['no_cache'] = 1;
-            $checkz = get_cart($cart);
-            // d($checkz);
+            //$cart['debug'] = 1;
+            //     $cart['no_cache'] = 1;
+            $checkz = $this->get_cart($cart);
+
+
             if ($checkz != false and is_array($checkz) and isset($checkz[0])) {
-                //    d($check);
+
                 $cart['id'] = $checkz[0]['id'];
                 if ($update_qty > 0) {
                     $cart['qty'] = $checkz[0]['qty'] + $update_qty;
@@ -795,16 +768,18 @@ class Shop
                     $cart['qty'] = 1;
                 }
             }
-            //
-            mw_var('FORCE_SAVE', $table);
 
+
+
+            mw_var('FORCE_SAVE', $table);
+               $cart['debug'] = 1;
             $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
         } else {
             mw_error('Invalid cart items');
         }
 
-        //  d($data);
+
         exit;
     }
 

@@ -1547,16 +1547,16 @@ module_settings: function(a) {
    */
   delete_element: function(idobj) {
     var id = mw.is.obj(idobj) ? $(idobj).data("curr").id : idobj;
-    if (confirm(mw.settings.sorthandle_delete_confirmation_text)) {
-      if (id == "") {
-        id = mw.settings.element_id;
-      }
-
-      $(mw.tools.firstParentWithClass(mw.$('#' + id)[0], 'edit')).addClass("changed");
-      mw.$('#' + id).remove();
-      $(mw.handle_module).css({left:'', top:''});
-	  mw.drag.fix_placeholders(true);
-    }
+    mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function(){
+        if (id == "") {
+          id = mw.settings.element_id;
+        }
+        $(mw.tools.firstParentWithClass(mw.$('#' + id)[0], 'edit')).addClass("changed");
+        mw.$('#' + id).remove();
+        mw.$('#module-settings-' + id).remove();
+        $(mw.handle_module).css({left:'', top:''});
+  	  mw.drag.fix_placeholders(true);
+    });
   },
 
     /**

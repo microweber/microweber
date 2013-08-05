@@ -194,7 +194,7 @@ mw.css3fx = {
   },
   set_obj:function(element, option, value){
 
-    if(mw.is.defined(element.attributes["data-mwfx"])){
+    if(typeof element.attributes["data-mwfx"] !== 'undefined'){
 
      var json = mw.css3fx.read(element);
 
@@ -224,7 +224,7 @@ mw.css3fx = {
   read:function(el){
     var el = $(el);
     var attr = el.dataset("mwfx");
-    if(mw.is.defined(attr)){
+    if(typeof attr !== 'undefined'){
       var attr = attr.replace(/XX/g, '"');
       var attr = attr.replace(/undefined/g, '');
       var json = $.parseJSON('{'+attr+'}');
@@ -479,9 +479,6 @@ $(window).bind("onBodyClick", function(){
   mw.onLive(function(){
 
   var shadow_pos  = $("#ed_shadow").canvasCTRL();
-
-
-
 
   shadow_pos.bind("change", function(event, val){
       if(mw.current_element_styles.boxShadow !="none"){
