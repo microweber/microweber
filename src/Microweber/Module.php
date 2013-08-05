@@ -256,6 +256,11 @@ class Module
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
 
+
+
+
+
+
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             if (!empty($config)) {

@@ -1,5 +1,5 @@
 <?php
-
+ 
 if(!isset($params['parent-module'])){
 error('parent-module is required');	
 	
@@ -9,6 +9,10 @@ if(!isset($params['parent-module-id'])){
 error('parent-module-id is required');	
 	
 }
+
+
+
+
  $templates = module_templates($params['parent-module']);
 //$params['type'];
 

@@ -8,7 +8,8 @@ $replaced_modules_values = array();
 class Parser
 {
     public $app;
-    function __construct($app=null)
+
+    function __construct($app = null)
     {
 
 
@@ -34,7 +35,7 @@ class Parser
 
 
         $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-       // $layout = html_entity_decode($layout, ENT_COMPAT);
+        // $layout = html_entity_decode($layout, ENT_COMPAT);
         $layout = htmlspecialchars_decode($layout);
 
 
@@ -50,19 +51,15 @@ class Parser
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                     $v1 = crc32($value);
+                    $v1 = crc32($value);
                     $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
-                     if (!isset($replaced_modules[$v1])) {
-                          $replaced_modules[$v1] = $value;
+                    if (!isset($replaced_modules[$v1])) {
+                        $replaced_modules[$v1] = $value;
                     }
-                 }
+                }
             }
         }
-
-
-
-
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -389,24 +386,33 @@ class Parser
 
                                 $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
                                 $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
+                                if ($coming_from_parent == false and isset($module_name) == true) {
+                                    $coming_from_parentz = $module_name;
+                                } else {
+                                    $coming_from_parentz = $coming_from_parent;
 
-                                $coming_from_parentz = $module_name;
+                                }
                                 $coming_from_parent_str = false;
-                                $coming_from_parent_strz1 = false;
-                                if ($coming_from_parent == true) {
+                                 if ($coming_from_parent == true) {
                                     $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
                                 }
 
 
-                                if (isset($attrs['id']) == true) {
-
+                                if ($coming_from_parent_id == false and isset($attrs['id']) == true) {
                                     $coming_from_parent_strz1 = $attrs['id'];
+                                } else {
+                                    $coming_from_parent_strz1 = $coming_from_parent_id;
+
                                 }
                                 if ($coming_from_parent_strz1 == true) {
-                                    //   $attrs['data-parent-module'] = $coming_from_parentz;
+                                     $attrs['data-parent-module'] = $coming_from_parent;
+                                }
+                                if ($coming_from_parent_id == true) {
+                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
 
-                                $mod_content = load_module($module_name, $attrs);
+                                $mod_content = $this->app->module->load($module_name, $attrs);
+
 
                                 // mwdbg($module_name);
                                 $plain_modules = mw_var('plain_modules');
@@ -456,7 +462,7 @@ class Parser
 
                                 }
                                 unset($replaced_modules[$key]);
-                                // $proceed_with_parse = 1;
+
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -507,7 +513,7 @@ class Parser
         }
 
 
-        $layout = str_replace('{rand}', uniqid().rand(), $layout);
+        $layout = str_replace('{rand}', uniqid() . rand(), $layout);
 
         $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
@@ -680,13 +686,13 @@ class Parser
         }
         return $layout;
     }
+
     public function isolate_head($l)
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
 
         $l = pq('head')->eq(0)->html();
-
 
 
         return $l;
