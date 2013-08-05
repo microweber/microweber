@@ -18,14 +18,14 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
 
-api_expose('Microweber\Utils\Backup\delete');
+api_expose('Utils\Backup\delete');
 api_expose('Utils\Backup\create');
-api_expose('Microweber\Utils\Backup\download');
-api_expose('Microweber\Utils\Backup\create_full');
-api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
+api_expose('Utils\Backup\download');
+api_expose('Utils\Backup\create_full');
+api_expose('Utils\Backup\move_uploaded_file_to_backup');
 
-api_expose('Microweber\Utils\Backup\restore');
-api_expose('Microweber\Utils\Backup\cronjob');
+api_expose('Utils\Backup\restore');
+api_expose('Utils\Backup\cronjob');
 
 class Backup
 {
@@ -118,7 +118,7 @@ class Backup
     {
 
         if ($back_log_action == false) {
-           mw()->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
+            mw()->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
         } else {
             $check = mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
@@ -372,7 +372,7 @@ class Backup
         if ($back_log_action == false) {
             $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
         } else {
-            $check =  mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+            $check = mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
                 mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
@@ -543,6 +543,11 @@ class Backup
 
     function create($filename = false)
     {
+        if (is_array($filename)) {
+            $filename = false;
+        }
+
+
         ignore_user_abort(true);
         $start = microtime_float();
 
@@ -572,10 +577,11 @@ class Backup
         $here = $this->get_bakup_location();
 
         if (!is_dir($here)) {
-            if (!mkdir($here)) {
+            if (!mkdir_recursive($here)) {
                 return false;
             }
         }
+
         ini_set('memory_limit', '512M');
         set_time_limit(0);
         // Generate the filename for the backup file

@@ -2067,3 +2067,45 @@ function lipsum($number_of_characters = false)
 
 
 }
+
+
+
+
+/**
+ * Returns the current microtime
+ *
+ * @return bool|string $date The current microtime
+ *
+ * @package Utils
+ * @category Date
+ * @link http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
+ */
+function microtime_float () {
+    list ($msec, $sec) = explode(' ', microtime());
+    $microtime = (float)$msec + (float)$sec;
+    return $microtime;
+}
+
+
+
+/**
+ * Returns a human readable filesize
+ * @package Utils
+ * @category Files
+ * @author      wesman20 (php.net)
+ * @author      Jonas John
+ * @version     0.3
+ * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
+ */
+function file_size_nice($size) {
+    // Adapted from: http://www.php.net/manual/en/function.filesize.php
+
+    $mod = 1024;
+
+    $units = explode(' ', 'B KB MB GB TB PB');
+    for ($i = 0; $size > $mod; $i++) {
+        $size /= $mod;
+    }
+
+    return round($size, 2) . ' ' . $units[$i];
+}

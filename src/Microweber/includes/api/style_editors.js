@@ -61,6 +61,7 @@ mw.css3fx = {
 
 $(document).ready(function(){
    mw.css3fx.init_css();
+   alert(mw.JSPrefix)
 });
 
 
@@ -76,28 +77,7 @@ Registered_Sliders = ['margin', 'opacity', 'padding'];
 mw.border_which = 'border';
 
 
-mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms', "Khtml"];
 
-_Prefixtest = false;
-
-
-
-  mw.JSPrefix = function(property){
-    ! _Prefixtest ? _Prefixtest = mwd.body.style : '';
-    if(_Prefixtest[property]!==undefined){
-      return property;
-    }
-    else{
-       var property = property.charAt(0).toUpperCase() + property.slice(1),
-           len = mw._JSPrefixes.length,
-           i = 0;
-       for( ; i<len ;i++){
-         if(_Prefixtest[mw._JSPrefixes[i]+property] !== undefined){
-            return mw._JSPrefixes[i]+property;
-         }
-       }
-    }
-  }
 
 
 
