@@ -100,6 +100,8 @@ mw.askusertostay = false;
 
 
 
+
+
   Wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {
       Wait(a, b), 52
@@ -536,6 +538,12 @@ mw._response = {
     $(holder).show();
   }
 }
+
+ window.onload = function(){
+mw.require("style_editors.js");
+
+ }
+
 
 
 

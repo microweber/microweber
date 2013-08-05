@@ -30,14 +30,15 @@ $layout_dot_php = str_replace('..','',$layout_dot_php);
 $layout_indefault_file = MW_ELEMENTS_DIR . $layout_dot_php;
 $layout_indefault_file = normalize_path($layout_indefault_file, false);
 
-if(!strstr($layout_dot_php, TEMPLATES_DIR)){
-	$layout_intheme = TEMPLATES_DIR . $layout_dot_php;
+if(!strstr($layout_dot_php, MW_TEMPLATES_DIR)){
+	$layout_intheme = MW_TEMPLATES_DIR . $layout_dot_php;
 
 } else {
 	$layout_intheme =  $layout_dot_php;
 }
 $layout_intheme = normalize_path($layout_intheme, false);
  
+
  if(is_file($layout_intheme)){
 	include($layout_intheme); 
  }

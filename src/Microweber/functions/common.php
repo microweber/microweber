@@ -1151,10 +1151,10 @@ function module_templates($module_name, $template_name = false)
  * @author    Microweber Dev Team
  * @since Version 1.0
  */
-function templates_list($options=false)
+function site_templates($options=false)
 {
 
-    return mw('ContentUtils')->templates_list($options);
+    return mw('ContentUtils')->site_templates($options);
 }
 
 

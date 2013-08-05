@@ -16,7 +16,7 @@ error('parent-module-id is required');
 
 
  
-$site_templates =  templates_list();
+$site_templates =  site_templates();
  
  $templates = module_templates($params['parent-module']);
  

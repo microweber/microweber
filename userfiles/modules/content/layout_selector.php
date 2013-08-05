@@ -87,7 +87,7 @@ if(isset($data["active_site_template"]) and ($data["active_site_template"] == fa
  
  
 
-$templates= mw('ContentUtils')->templates_list();
+$templates= mw('ContentUtils')->site_templates();
 
 $layout_options = array();
 $layout_options  ['no_cache'] = 1;

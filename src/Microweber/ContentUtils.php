@@ -1326,7 +1326,7 @@ class ContentUtils extends \Microweber\Content
      * @author    Microweber Dev Team
      * @since Version 1.0
      */
-    public function templates_list($options = false)
+    public function site_templates($options = false)
     {
 
         $args = func_get_args();

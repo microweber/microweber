@@ -59,9 +59,12 @@ mw.css3fx = {
 
 
 
+$(document).ready(function(){
+   mw.css3fx.init_css();
+});
 
 
-
+mw.onLive(function(){
 
 
 
@@ -399,10 +402,6 @@ if($(".ts_action:isVisible").length==0){
   mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
 
-
-
-
-
   $(".es_item").trigger("change");
 
   if(e.type=='onImageClick'){
@@ -567,6 +566,10 @@ $(window).bind("onBodyClick", function(){
     });
 
 });
+
+
+
+});//onlive
 
 
 
