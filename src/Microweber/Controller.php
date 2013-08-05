@@ -529,11 +529,10 @@ class Controller
             $l->assign('app', $this->app);
 
 
-             // $l->set($l);
+            // $l->set($l);
 
 
             $l = $l->__toString();
-
 
 
             if (isset($_REQUEST['isolate_content_field'])) {
@@ -823,7 +822,7 @@ class Controller
         // var_dump($l);
         event_trigger('on_load');
         $layout = $this->app->parser->process($l, $options = false);
-       // $layout = $this->app->parser->process($l, $options = false);
+        // $layout = $this->app->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
 
         print $layout;
@@ -901,7 +900,7 @@ class Controller
         //d($mod_api_class);
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
-        $mod_api_class_native = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class, false) . '.php';
+        $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
         $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
 
 
@@ -911,6 +910,8 @@ class Controller
             $mod_class_api_class_exist = true;
         } else {
             //
+
+
             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
@@ -921,7 +922,10 @@ class Controller
             } else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
+
             }
+
+
         }
 
 
@@ -937,6 +941,8 @@ class Controller
         $api_exposed = explode(' ', $api_exposed);
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
+
+
         if ($api_function == false) {
             $api_function = $this->app->url->segment(1);
         }
@@ -1023,7 +1029,12 @@ class Controller
                             foreach ($api_exposed as $api_exposed_value) {
                                 //d($api_exposed_value);
                                 if ($mod_api_err == true) {
+
+
                                     if ($api_exposed_value == $try_class_full) {
+                                        $mod_api_err = false;
+                                    } else if (strtolower('\\' . $api_exposed_value) == strtolower($try_class_full)) {
+
                                         $mod_api_err = false;
                                     } else if ($api_exposed_value == $try_class_full2) {
 
@@ -1038,6 +1049,8 @@ class Controller
                                             $mod_api_err = false;
                                         }
                                     }
+
+
                                 }
                             }
                         } else {
@@ -1062,6 +1075,14 @@ class Controller
                             }
 
                         }
+
+
+                        if (!class_exists($try_class, false)) {
+                            $try_class_mw = ltrim($try_class, '/');
+                            $try_class_mw = ltrim($try_class_mw, '\\');
+                            $try_class = '\\Microweber\\' . $try_class_mw;
+                        }
+
 
                         if (class_exists($try_class, false)) {
                             if ($params != false) {

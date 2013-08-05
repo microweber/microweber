@@ -18,7 +18,14 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
 
+api_expose('Microweber\Utils\Backup\delete');
+api_expose('Utils\Backup\create');
+api_expose('Microweber\Utils\Backup\download');
+api_expose('Microweber\Utils\Backup\create_full');
+api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
 
+api_expose('Microweber\Utils\Backup\restore');
+api_expose('Microweber\Utils\Backup\cronjob');
 
 class Backup
 {
