@@ -1,6 +1,19 @@
 <?php
 
+function api($function_name, $params = false) {
+    static $c;
 
+    if ($c == false) {
+        if (!defined('MW_API_RAW')) {
+            define('MW_API_RAW', true);
+        }
+        $c = new \Microweber\Controller();
+
+    }
+    $res = $c -> api($function_name, $params);
+    return $res;
+
+}
 
 
 

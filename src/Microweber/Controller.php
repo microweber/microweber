@@ -68,7 +68,7 @@ class Controller
         if (strtolower($page_url) == 'index.php') {
             $page_url = '';
         }
-
+       
         $page = false;
         $page_url = rtrim($page_url, '/');
         $is_admin = $this->app->user->is_admin();

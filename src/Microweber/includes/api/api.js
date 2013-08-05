@@ -123,9 +123,6 @@ mw.askusertostay = false;
     string: function(obj) {
       return typeof obj === 'string';
     },
-    defined: function(obj) {
-       return typeof obj !== 'undefined';
-    },
     invisible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
@@ -267,9 +264,7 @@ mw.askusertostay = false;
 
   mw.reload_module = function($module_name, callback) {
     var done = callback || false;
-    if ($module_name == undefined) {
-
-    } else {
+    if (typeof $module_name != 'undefined') {
       if (typeof $module_name == 'object') {
         mw._({
           selector: $module_name,
@@ -281,17 +276,14 @@ mw.askusertostay = false;
         for (var i = 0; i < refresh_modules_explode.length; i++) {
           var $module_name = refresh_modules_explode[i];
 
-          if ($module_name != undefined) {
+          if (typeof $module_name != 'undefined') {
 			   $module_name = $module_name.replace(/##/g, '#');
 
-            //$mods = $(".module[data-type='" + $module_name + "']", '.edit');
             $mods = $(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
                 try {
                     $mods = $($module_name);
-                  } catch(err) {
-                  //Handle errors here
-                  }
+                  } catch(err) {}
              }
              $mods.each(function() {
                 mw._({
@@ -362,8 +354,8 @@ mw.askusertostay = false;
 
 
 
-      mw.is.defined(mw.resizable_columns) ? mw.resizable_columns() : '';
-      mw.is.defined(mw.drag) ? mw.drag.fix_placeholders(true) : '';
+      typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';
+      typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
 
       var m = mwd.getElementById(id);
 
@@ -476,7 +468,7 @@ mw.serializeFields =  function(id, ignorenopost){
 mw.response = function(form, data, messages_at_the_bottom){
     var messages_at_the_bottom = messages_at_the_bottom || false;
 
-    if(data == null ||  data == undefined ){
+    if(data == null  ||  typeof data == 'undefined' ){
       return false;
     }
 
