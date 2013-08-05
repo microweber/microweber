@@ -88,31 +88,8 @@ mw.askusertostay = false;
         if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
            mwd.write(string);
         } else {
-          //mw.rh.innerHTML = string;
-          //document.documentElement.appendChild(mw.rh.firstChild);
-          //$(mwhead).append(string)
 
-          var x = new XMLHttpRequest();
-          x.open("GET",url,true);
-          x.onreadystatechange=function(){
-              if (x.readyState === 4 && x.status === 200){
-                if(t !== "css"){
-                  var s = mwd.createElement('script');
-                 s.innerHTML = x.responseText;
-                }
-                else{
-                   var s = mwd.createElement('style');
-                   s.type = "text/css";
-                   s.innerHTML = x.responseText;
-                }
-
-                 mwhead.appendChild(s);
-              }
-          }
-          x.send();
-
-
-
+          $(mwhead).append(string)
         }
       }
     }

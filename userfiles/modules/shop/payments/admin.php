@@ -261,7 +261,11 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
           <h2>Currency settings</h2>
           <?php ?>
           <?php $cur = mw('option')->get('currency', 'payments');  ?>
-          <?php $curencies = mw('shop')->currency_get(); ?>
+          <?php $curencies = mw('shop')->currency_get(); 
+		  
+		  
+		  
+		  ?>
           <?php if(is_array($curencies )): ?>
           <div class="mw-ui-select">
             <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
