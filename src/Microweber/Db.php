@@ -1111,7 +1111,7 @@ class Db
 
         if ($cache_id != false) {
             if (!empty($result)) {
-                $this->app->cache->save($result, $cache_id, $cache_group);
+                //$this->app->cache->save($result, $cache_id, $cache_group);
             } else {
                 $this->app->cache->save('---empty---', $cache_id, $cache_group);
             }

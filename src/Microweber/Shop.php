@@ -61,6 +61,7 @@ class Shop
 
             if (is_admin() == false) {
                 $params['session_id'] = session_id();
+
             } else {
                 if (isset($params['session_id']) and is_admin() == true) {
 
@@ -77,6 +78,8 @@ class Shop
 
             }
         }
+        $params['limit'] = 10000;
+       // $params['debug'] = session_id();
 
         $get = $this->app->db->get($params);
         //return $get;
@@ -84,7 +87,7 @@ class Shop
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
-                $i = 0;
+
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
 
@@ -110,8 +113,8 @@ class Shop
 
                 }
 
-                $return[$i] = $item;
-                $i++;
+                $return[] = $item;
+
             }
 
         } else {
@@ -738,14 +741,16 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
+            //d($add);
            // if (!empty($add)) {
                 $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
           // }
+            //d($cart['custom_fields_data']);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
             //  $cart['one'] = 1;
             $cart['limit'] = 1;
-            //$cart['debug'] = 1;
+         //$cart['debug'] = 1;
             //     $cart['no_cache'] = 1;
             $checkz = $this->get_cart($cart);
 
@@ -772,7 +777,7 @@ class Shop
 
 
             mw_var('FORCE_SAVE', $table);
-               $cart['debug'] = 1;
+            //   $cart['debug'] = 1;
             $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
         } else {
