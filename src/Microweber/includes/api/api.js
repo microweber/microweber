@@ -47,7 +47,7 @@ mw.askusertostay = false;
 
 
   mw.onLive = function(callback) {
-    if (!window['mwAdmin'] && typeof Modules_List_modules === 'object') {
+    if (typeof mw.settings.liveEdit === 'boolean' && mw.settings.liveEdit) {
       callback.call(this)
     }
   }
