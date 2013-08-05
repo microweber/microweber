@@ -287,6 +287,7 @@ class Modules extends \Microweber\Module
             include ($loc_of_config);
             if (isset($config)) {
                 $cfg = $config;
+
             }
 
         }
@@ -320,7 +321,9 @@ class Modules extends \Microweber\Module
                 $to_save['installed'] = '1';
 
             }
-
+            if(isset($cfg['categories'])){
+            $to_save['categories'] = $cfg['categories'];
+            }
             if ($to_save['installed'] == '1') {
                 if (isset($config)) {
                     if (isset($config['tables']) and is_array($config['tables'])) {
@@ -396,7 +399,7 @@ class Modules extends \Microweber\Module
                     //
                 }
             }
-            $to_save['keep_cache'] = '1';
+           $to_save['keep_cache'] = '1';
             //   $to_save['module'] = $module_name;
 
             $this->save($to_save);

@@ -1,4 +1,4 @@
-<?php 
+<?php
  
 if(mw('url')->param('add_module')){
 
@@ -47,7 +47,7 @@ var obj =  (this);
 
 
 
-	 if(mw.is.defined(obj) && obj != null){
+	 if(typeof obj !== 'undefined' && obj != null){
 	 mw.$('#update_log_{rand}').empty();
 	 $.each(obj, function(index, value) { 
 	 

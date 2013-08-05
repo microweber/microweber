@@ -216,45 +216,45 @@ class Db
                 $criteria_id = (int)crc32($table . serialize($criteria));
 
                 if (isset($results_map[$criteria_id])) {
-                    $ge = $results_map[$criteria_id];
+                    $get_db_items = $results_map[$criteria_id];
                     //$results_map_hits[$criteria_id]++;
                 } else {
-                    $ge = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+                    $get_db_items = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
 
                     //$results_map_hits[$criteria_id] = 1;
-                    $results_map[$criteria_id] = $ge;
+                    $results_map[$criteria_id] = $get_db_items;
 
                 }
                 break;
             case 2 :
             default :
-                $ge = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+                $get_db_items = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
 
                 break;
         }
 
-        if (is_integer($ge)) {
+        if (is_integer($get_db_items)) {
 
 
-            return ($ge);
+            return ($get_db_items);
         }
 
-        if (empty($ge)) {
+        if (empty($get_db_items)) {
             return false;
         }
 
         if ($getone == true) {
 
-            if (is_array($ge)) {
+            if (is_array($get_db_items)) {
 
-                $one = array_shift($ge);
+                $one = array_shift($get_db_items);
 
                 return $one;
             }
         }
 
-        return $ge;
+        return $get_db_items;
     }
 
 
@@ -589,10 +589,13 @@ class Db
             $id_to_return = $this->last_id($table);
         }
 
-        $data['table'] = $table;
-        $data['id'] = $id_to_return;
 
-        $this->save_extended_data($data);
+
+
+        $original_data['table'] = $table;
+        $original_data['id'] = $id_to_return;
+
+        $this->save_extended_data($original_data);
 
 
         $cg = $this->assoc_table_name($table);
@@ -636,16 +639,16 @@ class Db
         $table_assoc_name = $original_data['table'];
         $table_assoc_name = $this->assoc_table_name($table_assoc_name);
         if (defined("MW_DB_TABLE_TAXONOMY")) {
-            $custom_field_table = MW_DB_TABLE_TAXONOMY;
+            $categories_table = MW_DB_TABLE_TAXONOMY;
         } else {
-            $custom_field_table = MW_TABLE_PREFIX . 'categories';
+            $categories_table = MW_TABLE_PREFIX . 'categories';
         }
 
 
         if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
-            $categories_table = MW_DB_TABLE_CUSTOM_FIELDS;
+            $custom_field_table = MW_DB_TABLE_CUSTOM_FIELDS;
         } else {
-            $categories_table = MW_TABLE_PREFIX . 'custom_fields';
+            $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
         }
         if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             $table_cats_items = $categories_items_table = MW_DB_TABLE_TAXONOMY_ITEMS;
@@ -655,7 +658,9 @@ class Db
 
         if (isset($original_data['categories'])) {
 
+
             $is_a = $this->app->user->has_access('save_category');
+
             $from_save_cats = $original_data['categories'];
             if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
                 if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
@@ -690,7 +695,7 @@ class Db
 								AND   rel='{$table_assoc_name}'
 								AND   title='{$cname_check}'   ";
                                     // d($cncheckq);
-                                    $is_ex = db_query($cncheckq);
+                                    $is_ex = $this->query($cncheckq);
 
                                     if (empty($is_ex)) {
                                         $clean_q = "INSERT INTO
@@ -709,7 +714,7 @@ class Db
                                     }
                                 }
 
-                                //$is_ex = get($str1);
+                                $is_ex = $this->query($cncheckq);
                                 if (!empty($is_ex) and isarr($is_ex[0])) {
                                     $cz[$j] = $is_ex[0]['id'];
                                     $cz_int[] = intval($is_ex[0]['id']);
@@ -760,6 +765,7 @@ class Db
                     $cats_data_modified = false;
                     $cats_data_items_modified = false;
                     $keep_thosecat_items = array();
+
                     foreach ($cat_names_or_ids as $cat_name_or_id) {
                         $cat_name_or_id = $this->escape_string(trim($cat_name_or_id));
                         if ($cat_name_or_id != '') {
