@@ -8,7 +8,7 @@ api_expose('/mw/Notifications/delete');
 api_expose('/mw/Notifications/save');
 api_expose('/mw/Notifications/reset');
 
-event_bind('mw_db_init', mw('notifications')->db_init());
+//event_bind('mw_db_init', mw('notifications')->db_init());
 
 
 class Notifications
@@ -36,6 +36,7 @@ class Notifications
             }
 
         }
+        $this->db_init();
     }
 
     public function read($id)

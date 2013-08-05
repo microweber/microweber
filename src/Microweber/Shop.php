@@ -79,7 +79,7 @@ class Shop
             }
         }
         $params['limit'] = 10000;
-       // $params['debug'] = session_id();
+        // $params['debug'] = session_id();
 
         $get = $this->app->db->get($params);
         //return $get;
@@ -449,7 +449,7 @@ class Shop
 
                     $this->app->cache->delete('cart/global');
                     $this->app->cache->delete('cart_orders/global');
-                    after_checkout($ord);
+                    $this->after_checkout($ord);
                     //$_SESSION['mw_payment_success'] = true;
                 }
 
@@ -742,15 +742,15 @@ class Shop
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
             //d($add);
-           // if (!empty($add)) {
-                $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
-          // }
+            // if (!empty($add)) {
+            $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+            // }
             //d($cart['custom_fields_data']);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
             //  $cart['one'] = 1;
             $cart['limit'] = 1;
-         //$cart['debug'] = 1;
+            //$cart['debug'] = 1;
             //     $cart['no_cache'] = 1;
             $checkz = $this->get_cart($cart);
 
@@ -775,7 +775,6 @@ class Shop
             }
 
 
-
             mw_var('FORCE_SAVE', $table);
             //   $cart['debug'] = 1;
             $cart_s = $this->app->db->save($table, $cart);
@@ -786,6 +785,36 @@ class Shop
 
 
         exit;
+    }
+
+    public function after_checkout($order_id, $suppress_output = true)
+    {
+        if ($suppress_output == true) {
+            ob_start();
+        }
+        if ($order_id == false or trim($order_id) == '') {
+            return array('error' => 'Invalid order ID');
+        }
+
+        $ord_data = $this->get_orders('one=1&id=' . $order_id);
+        if (isarr($ord_data)) {
+
+            $ord = $order_id;
+            $notif = array();
+            $notif['module'] = "shop";
+            $notif['rel'] = 'cart_orders';
+            $notif['rel_id'] = $ord;
+            $notif['title'] = "You have new order";
+            $notif['description'] = "New order is placed from " . $this->app->url->current(1);
+            $notif['content'] = "New order in the online shop. Order id: " . $ord;
+            $this->app->notifications->save($notif);
+            $this->app->log->save($notif);
+            $this->confirm_email_send($order_id);
+
+        }
+        if ($suppress_output == true) {
+            ob_end_clean();
+        }
     }
 
 

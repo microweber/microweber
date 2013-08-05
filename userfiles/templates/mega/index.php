@@ -182,7 +182,7 @@
                     <div class="home-premium-support-info">
 
                         <h1 class="text-center blue">Get Premium Support</h1>
-                        <p class="text-center">
+                        <p class="text-center edit" rel="content" field="content">
                             Our team of proffesionals will help you online, to<br>
                             create your unique website, blog or online shop.<br>
                             In this plan are included 5 hours of phone and chat <br>
