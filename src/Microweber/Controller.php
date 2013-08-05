@@ -764,8 +764,8 @@ class Controller
             if ($this->isolate_by_html_id != false) {
                 $id_sel = $this->isolate_by_html_id;
                 $this->isolate_by_html_id = false;
-                //require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . 'phpQuery.php');
-                $pq = phpQuery::newDocument($l);
+                require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                $pq = \phpQuery::newDocument($l);
                 foreach ($pq ['#' . $id_sel] as $elem) {
 
                     $l = pq($elem)->htmlOuter();
