@@ -230,7 +230,7 @@ $new = true;
           </span> </span> <span class="shipping-arrow"></span>
           <label>
             <?php _e("Shipping Price"); ?>
-            <b><?php print mw('currency')->symbol() ?></b></label>
+            <b><?php print mw('shop')->currency_symbol() ?></b></label>
           <span class="mw-help-field">
           <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"  onblur="mw.form.fixPrice(this);" name="shiping_cost" value="<?php print $item['shiping_cost']; ?>" onfocus="if(this.value==='0')this.value='';" />
           <span class="mw-ui-label-help">
@@ -259,7 +259,7 @@ $new = true;
           <span class="shipping-arrow"></span>
           <label>
             <?php _e("Shipping Price"); ?>
-            <b><?php print mw('currency')->symbol() ?></b></label>
+            <b><?php print mw('shop')->currency_symbol() ?></b></label>
           <span class="mw-help-field">
           <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shiping_cost_max" value="<?php print $item['shiping_cost_max']; ?>" onfocus="if(this.value=='0')this.value='';" />
           <span class="mw-ui-label-help">Type the price</span> </span>
