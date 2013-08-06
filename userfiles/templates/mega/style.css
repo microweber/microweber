@@ -793,7 +793,45 @@
     }
 
 
+  /* Tooltip Box */
 
+
+  .tip{
+    position: absolute;
+    display: inline-block;
+    padding: 10px;
+    min-width: 200px;
+    min-height: 30px;
+    background: #E7F1F9;
+    box-shadow: 0 0 6px #ccc;
+    font-size: 12px;
+    color: #1B73B5;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+
+  .tip:after{
+    display: block;
+    position: absolute;
+    content: "";
+    background-image: url(site/tiparr.png);
+    background-repeat: no-repeat;
+  }
+   /* Default */
+  .tip:after{
+    width: 24px;
+    height: 12px;
+    background-position: center bottom;
+    bottom: -12px;
+    left: 50%;
+    margin-left: -12px;
+  }
+
+
+  /* /Tooltip Box */
 
 
 
@@ -1948,6 +1986,11 @@
   }
 
   /*/Support*/
+
+
+
+
+
 
 
 

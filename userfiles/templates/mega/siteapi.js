@@ -102,6 +102,9 @@ mw.utils = {
   chatToggle:function(){
     if(typeof $zopim === 'undefined') { return false; }
     $zopim.livechat.window.toggle();
+  },
+  tip:function(){
+
   }
 }
 

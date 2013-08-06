@@ -424,6 +424,12 @@ class Option
             if (isset($data['field_values']) and $data['field_values'] != false) {
                 $data['field_values'] = base64_encode(serialize($data['field_values']));
             }
+            if (isset($data['module'])){
+                $data['module'] = str_ireplace('/admin', '',$data['module']);
+                 
+            }
+
+
 
             if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
                 //$m = $this->app->db->escape_string($data['module']);
