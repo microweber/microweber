@@ -426,7 +426,7 @@ class Option
             }
             if (isset($data['module'])){
                 $data['module'] = str_ireplace('/admin', '',$data['module']);
-                 
+
             }
 
 

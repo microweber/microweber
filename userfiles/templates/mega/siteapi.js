@@ -103,8 +103,18 @@ mw.utils = {
     if(typeof $zopim === 'undefined') { return false; }
     $zopim.livechat.window.toggle();
   },
-  tip:function(){
-
+  tipcreated:false,
+  tip:function(node, html, pos){
+    if(!mw.utils.tipcreated){
+       mw.utils.tipcreated = true;
+       mw.utils.tooltip = mwd.createElement('div');
+       mw.utils.tooltip.className = 'tip'
+    }
+    var html = html || $(node).dataset("tip");
+    var pos = pos || $(node).dataset("pos");
+    if(html=='' || typeof html=='undefined'){ return false; }
+    if(pos=='' || typeof pos=='undefined'){ 'centerbottom'; }
+    var off = $(node).offset();
   }
 }
 

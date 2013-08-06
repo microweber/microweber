@@ -409,6 +409,7 @@ class Fields
 
 
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
+
         if ($is_made == 'yes') {
             return;
         }
@@ -434,9 +435,11 @@ class Fields
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
                         $make_field['custom_field_name'] = ucfirst($field_type);
+                        $make_field['custom_field_value'] = false;
+
                         $make_field['custom_field_type'] = $field_type;
 
-                        $this->make_field($make_field);
+                        $this->save($make_field);
                         $pos++;
                     }
                 }
