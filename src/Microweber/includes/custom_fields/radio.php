@@ -1,4 +1,4 @@
-ssss<?php
+<?php
 
 //$rand = rand();
 

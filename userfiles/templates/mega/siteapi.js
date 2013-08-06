@@ -110,6 +110,7 @@ mw.utils = {
        mw.utils.tooltip = mwd.createElement('div');
        mw.utils.tooltip.className = 'tip'
     }
+    if(node===null){return false;}
     var html = html || $(node).dataset("tip");
     var pos = pos || $(node).dataset("pos");
     if(html=='' || typeof html=='undefined'){ return false; }
