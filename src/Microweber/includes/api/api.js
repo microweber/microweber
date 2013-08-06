@@ -96,7 +96,7 @@ mw.askusertostay = false;
 
 
 
-
+   /**/
 
 
 
@@ -320,12 +320,8 @@ mw.askusertostay = false;
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
-
     if(typeof $(obj.selector)[0] === 'undefined') { return false; }
-
-
     var attrs = $(obj.selector)[0].attributes;
-
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
       attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
@@ -353,8 +349,6 @@ mw.askusertostay = false;
       $(selector).after(data);
       var id = to_send.id || $(selector).next()[0].id;
       $(selector).remove();
-
-
 
       typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';

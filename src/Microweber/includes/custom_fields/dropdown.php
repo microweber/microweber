@@ -1,7 +1,10 @@
 <?php
+ 
+        
+
 //$rand = rand();
 if (!isset($data['id'])) {
-include('empty_field_vals.php');
+ include('empty_field_vals.php');
 }
 ?>
 <?php

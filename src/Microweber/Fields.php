@@ -350,13 +350,12 @@ class Fields
             $cf_v = $data_to_save['custom_field_value'];
             if (is_array($cf_v)) {
                 $cf_k_plain = $this->app->url->slug($cf_k);
-                $cf_k_plain =  $this->app->db->escape_string($cf_k_plain);
+                $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
                 $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
                 $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string(array_pop(array_values($cf_v)));
 
             } else {
-                $data_to_save['custom_field_value'] = $this->app->db->escape_string($cf_v);
             }
 
 
@@ -365,7 +364,8 @@ class Fields
 
 
 
-            $save = $this->app->db->save($table_custom_field, $data_to_save);
+
+          $save = $this->app->db->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields');
 
             return $save;
@@ -390,7 +390,7 @@ class Fields
 
     public function make_default($rel, $rel_id, $fields_csv_str)
     {
-
+       // return false;
         $id = $this->app->user->is_admin();
         if ($id == false) {
             return false;
@@ -523,6 +523,7 @@ class Fields
 
     public function make_field($field_id = 0, $field_type = 'text', $settings = false)
     {
+
         $data = false;
         $form_data = array();
         if (is_array($field_id)) {
@@ -647,10 +648,7 @@ class Fields
         }
 
         $data = $this->app->url->replace_site_url_back($data);
-        if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array' and is_array($data['custom_field_values'])) {
-            $data['custom_field_values'] = $data['custom_field_values'];
 
-        }
 
         $dir = MW_INCLUDES_DIR;
         $dir = $dir . DS . 'custom_fields' . DS;
@@ -681,7 +679,7 @@ class Fields
 
         if (is_file($file)) {
 
-            $l = $this->app->view($file);
+            $l =  new \Microweber\View($file);
 
             //
 

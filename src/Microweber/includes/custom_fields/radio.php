@@ -1,8 +1,8 @@
-<?php
+ssss<?php
 
 //$rand = rand();
 
-if (!isset($data['id'])) {
+if (!isset($data['id'])) { 
 include('empty_field_vals.php');
 }
 ?>
