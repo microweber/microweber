@@ -1,29 +1,24 @@
 <?php
 
-/*
+  /*
 
-type: layout
+    type: layout
 
-name: Mega
+    name: Mega
 
-description: Mega
+    description: Mega
 
-*/
+  */
 
 ?>
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 
-
 <script>
-
-gotoprofile = function(){
-  window.location.href =  "<?php print mw_site_url() ?>profile"
-}
-
-
+    gotoprofile = function(){
+      window.location.href =  "<?php print mw_site_url() ?>profile";
+    }
 </script>
-
 <div id="mw-login">
   <?php if($user != false): ?>
   <div class="well">
@@ -31,10 +26,9 @@ gotoprofile = function(){
   </div>
   <?php else:  ?>
   <div class="box-head">
-    <h2><?php _e("Login"); ?> </h2>
+    <h2><?php _e("Login"); ?></h2>
   </div>
   <hr>
-
   <?php if($have_social_login == true): ?>
   <h2 class="section-title">
     <hr class="left visible-desktop">
@@ -50,13 +44,9 @@ gotoprofile = function(){
     <div class="control-group" style="margin-bottom: 0;">
       <input  class="box"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
-    <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>');"><?php _e("Forgot password"); ?>?</a>
-
+    <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>', {template:'default'});"><?php _e("Forgot password"); ?>?</a>
     <div class="vSpace"></div>
     <div class="alert" style="display: none"></div>
-
-
-
     <div class="social-login">
       <label>Login with</label>
         <?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
@@ -79,18 +69,10 @@ gotoprofile = function(){
         <a href="<?php print mw_site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
-
-
     </div>
-
-   <span class="or-register">or <a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>', false, {template:'default'});"><?php _e("Register"); ?></a></span>
-
+   <span class="or-register">or <a href="javascript:mw.load_module('users/register', '#<?php print $params['id']; ?>', false, {template:'default'});"><?php _e("Register"); ?></a></span>
    <input class="btn btn-large pull-right" type="submit" value="<?php _e("Login"); ?>" />
-
-
-
   </form>
   </div>
   <?php endif;  ?>
-
 </div>

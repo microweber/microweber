@@ -907,7 +907,7 @@ class Db
 						id ='{$next_id}',
 						custom_field_name ='{$cf_k}',
 						$cfvq
-						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+						custom_field_value ='{$custom_field_to_save['custom_field_value']}',
 						custom_field_type = 'content',
 						rel ='{$custom_field_to_save ['rel']}',
 						rel_id ='{$custom_field_to_save ['rel_id']}'
@@ -917,7 +917,7 @@ class Db
 
 						custom_field_name ='{$cf_k}',
 						$cfvq
-						custom_field_value ='{$custom_field_to_save ['custom_field_value']}',
+						custom_field_value ='{$custom_field_to_save['custom_field_value']}',
 						custom_field_type = 'content',
 						rel ='{$custom_field_to_save ['rel']}',
 						rel_id ='{$custom_field_to_save ['rel_id']}'

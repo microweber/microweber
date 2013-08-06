@@ -342,6 +342,29 @@ class Fields
         if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
 
         } else {
+
+
+
+
+            $cf_k = $data_to_save['custom_field_name'];
+            $cf_v = $data_to_save['custom_field_value'];
+            if (is_array($cf_v)) {
+                $cf_k_plain = $this->app->url->slug($cf_k);
+                $cf_k_plain =  $this->app->db->escape_string($cf_k_plain);
+                $cf_k_plain = str_replace('-', '_', $cf_k_plain);
+                $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
+                $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string(array_pop(array_values($cf_v)));
+
+            } else {
+                $data_to_save['custom_field_value'] = $this->app->db->escape_string($cf_v);
+            }
+
+
+
+
+
+
+
             $save = $this->app->db->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields');
 
@@ -624,7 +647,10 @@ class Fields
         }
 
         $data = $this->app->url->replace_site_url_back($data);
+        if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array' and is_array($data['custom_field_values'])) {
+            $data['custom_field_values'] = $data['custom_field_values'];
 
+        }
 
         $dir = MW_INCLUDES_DIR;
         $dir = $dir . DS . 'custom_fields' . DS;
