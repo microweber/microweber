@@ -1296,7 +1296,9 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 				
 				<div class="mw-ui-select" style="width: 220px;">
 					<select name="subtype" >
-						<option value="<?php print $data['subtype'] ?>"  <?php if(isset($data['subtype']) and (trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static' ) ): ?>   selected="selected"  <?php endif; ?>><?php print $data['subtype'] ?></option>
+					<?php if(isset($data['subtype']) and (trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static' ) ): ?>
+						<option value="<?php print $data['subtype'] ?>"     selected="selected"  ><?php print $data['subtype'] ?></option>
+						<?php endif; ?>
 						<option value="static"   <?php if('static' === ($data['subtype'])): ?>   selected="selected"  <?php endif; ?>>
 						<?php _e("static"); ?>
 						</option>
