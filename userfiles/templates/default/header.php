@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html prefix="og: http://ogp.me/ns#">
     <head>
-    <script>START=new Date().getTime();</script>
+
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +17,9 @@
 
 
 
-    <script type="text/javascript">
+    <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js">
 
-        mw.require("<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js");
+
     </script>
     <script type="text/javascript">
 

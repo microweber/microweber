@@ -229,13 +229,24 @@ function mw_cron()
 
 
     $file_loc = MW_CACHE_ROOT_DIR . "cron" . DS;
+
+    if(!is_dir($file_loc)){
+        mkdir_recursive($file_loc);
+    }
+
+
     $file_loc_hour = $file_loc . 'cron_lock' . '.php';
 
     $time = time();
     if (!is_file($file_loc_hour)) {
-        @touch($file_loc_hour);
+          touch($file_loc_hour);
     } else {
-        if ((filemtime($file_loc_hour)) > $time - 5) {
+
+
+
+
+        if ((filemtime($file_loc_hour)) > $time - 4) {
+
             touch($file_loc_hour);
             return true;
         }

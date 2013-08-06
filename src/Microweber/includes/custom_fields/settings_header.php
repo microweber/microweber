@@ -1,8 +1,11 @@
-<?php
+ <?php
 
  $rand = rand();
-//$rand = round($rand);
 
+
+  $data_orig = $data;
+//$rand = round($rand);
+ 
 $add_remove_controls = ''.
 '<span class="ico iAdd2 mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
 '<span class="ico iRemove2 mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
@@ -38,9 +41,22 @@ if (!isset($data['id'])) {
     $data['id'] = 0;
 	
 }
+
+if($for == false and isset($data['rel'])){
+	$for = $data['rel'];
+}
+ 
+
+
 if (intval($data['id']) == 0) {
 include('empty_field_vals.php');
 }
+foreach ($data_orig as $key => $value) {
+	//$data[$key] =  $value;
+}
+ 
+
+
 if (!isset($data['custom_field_name'])) {
     $data['custom_field_name'] = '';
 }
@@ -119,30 +135,33 @@ if (!isset($data['custom_field_value'])) {
     $data['custom_field_value'] = '';
 }
 
-if (isset($params['for_module_id'])) {
-    $for_module_id = $params['for_module_id'] ;
-} else {
- $for_module_id = false ;	
+if(!isset($for_module_id) or $for_module_id == false){
+	if (isset($params['for_module_id'])) {
+	    $for_module_id = $params['for_module_id'] ;
+	} else {
+	 $for_module_id = false ;	
+	}
 }
-
+if(!isset($for) or $for == false){
 if (isset($data['rel'])) {
   $for = $data['rel'];
 	
+}
 }
 
 if (!isset($data['position'])) {
   $data['position'] = 0;
 	
 }
-
+if(!isset($for_module_id) or $for_module_id == false){
 if (isset($data['rel_id'])) {
   $for_module_id = $data['rel_id'];
 	
 }
+}
 
 
-
-if (isset($data['for_module_id'])) {
+if (!isset( $for_module_id) and isset($data['for_module_id'])) {
   $for_module_id = $data['for_module_id'];
 	
 }
@@ -151,23 +170,60 @@ if (isset($data['save_to_content_id'])) {
   $save_to_content_id = $data['save_to_content_id'];
 	
 }
+if($for_module_id == false){
+	if (isset($data_orig['rel_id'])) {
+  $for_module_id = $data_orig['rel_id'];
+		
+	}
+}
+
+if($for_module_id == false){
+	if (isset($data_orig['for_module_id'])) {
+  $for_module_id = $data_orig['for_module_id'];
+		
+	}
+}
+
+
+if($for == false){
+	if (isset($data_orig['rel'])) {
+  $for = $data_orig['rel'];
+		
+	}
+}
+
+
+
+if($for == false){
+	if (isset($data_orig['for'])) {
+  $for = $data_orig['for'];
+		
+	}
+}
+
+ 
+
+ 
 ?>
 
-<div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>" >
+
+
+   
+<div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>">
 <?php if (isset($data['id']) and intval($data['id']) != 0): ?>
 <input type="hidden" name="cf_id" value="<?php print intval($data['id']) ?>" />
 <?php endif; ?>
 <?php if (isset($data['for']) and $data['for'] != false): ?>
 <?php $db_t = $for; ?>
-<input type="hidden" name="rel" value="<?php print mw('db')->assoc_table_name(guess_table_name($db_t )); ?>" />
+<input type="hidden" name="rel" value="<?php print ($db_t); ?>" />
 <input type="hidden" name="rel_id" value="<?php print strval($for_module_id) ?>" />
 <?php endif; ?>
-<?php if (isset($save_to_content_id)): ?>
+<?php if (isset($save_to_content_id)): ?> 
 <input type="hidden" name="copy_rel_id" value="<?php print strval($save_to_content_id) ?>" />
 <?php endif; ?>
 <input type="hidden" name="custom_field_type" value="<?php print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
-
+ 
 
 
 <script>

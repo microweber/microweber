@@ -539,9 +539,7 @@ mw._response = {
   }
 }
 
- window.onload = function(){
-    mw.require("style_editors.js");
- }
+
 
 
 

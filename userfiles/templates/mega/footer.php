@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="span3">
-            <div id="start-chat" onclick="$zopim.livechat.window.toggle();">START LIVE CHAT</div>
+            <div id="start-chat" onclick="mw.utils.chatToggle();">START LIVE CHAT</div>
             <div id="call">
                 <small>Call us toll-free</small>
                 <i class="icon-mobile-phone"></i>

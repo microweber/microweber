@@ -15,34 +15,34 @@
 
 
 $(document).ready(function(){
-
-
-
 	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
-          var subm = mw.$('[type="submit"]', this);
-          d(subm)
-
-     if(!subm.hasClass("disabled")){
-       mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
-
- mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print mw_site_url('api/user_login') ?>', function(a, b){
-
-			  mw.response('#user_login_<?php print $params['id'] ?>',this);
-			 if(typeof this.success === 'string'){
-				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-				  window.location.reload();
-                  return false;
-			 }
-             mw.notification.msg(this, 5000);
-             mw.tools.enable(subm);
-	 });
-   }
-
- return false;
-
-
- });
-
+        var subm = mw.$('[type="submit"]', this);
+        if(!subm.hasClass("disabled")){
+             mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
+             mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print mw_site_url('api/user_login'); ?>', function(a, b){
+           		 mw.response('#user_login_<?php print $params['id'] ?>',this);
+      			 if(typeof this.success === 'string'){
+      			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
+      				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
+                        if(c == '' ){
+                          window.location.reload();
+                        }
+                        else{
+                          if(typeof window[c] === 'function'){
+                              window[c]();
+                          }
+                          else{
+                            window.location.reload();
+                          }
+                        }
+                        return false;
+      			 }
+                 mw.notification.msg(this, 5000);
+                 mw.tools.enable(subm);
+        	 });
+        }
+        return false;
+     });
 });
 </script>
 <?php

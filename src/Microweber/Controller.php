@@ -1109,6 +1109,7 @@ class Controller
 
                                 //exit();
                                 $res = $res->$try_class_func($data);
+
                                 $mod_class_api_called = true;
 
                                 if (defined('MW_API_RAW')) {
@@ -1182,7 +1183,8 @@ class Controller
                         $segs = $this->app->url->segment();
                         $mmethod = array_pop($segs);
 
-                        $res = new $api_function($data);
+                        $res = new $api_function($this->app);
+
                         if (method_exists($res, $mmethod)) {
                             $res = $res->$mmethod($data);
                         }
@@ -1235,8 +1237,10 @@ class Controller
         if (!defined('MW_API_CALL')) {
             //	define('MW_API_CALL', true);
         }
-        if (!isset($_SESSION)) {
-            session_start();
+        if (!defined("MW_NO_SESSION")) {
+            if (!isset($_SESSION)) {
+                session_start();
+            }
         }
         $page = false;
 

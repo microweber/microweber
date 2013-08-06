@@ -77,10 +77,10 @@ mw.custom_fields = {
    _create: function($selector, $type, $copy, $for_table, $for_id, callback, event){
       var copy_str = '';
       if($copy !== undefined && $copy !== false){
-        var copy_str = '/copy_from:'+ $copy;
+        var copy_str = '&copy_from='+ $copy;
       }
 
-      mw.$($selector).load(mw.settings.api_html+'make_custom_field/settings:y/basic:y/for_module_id:'+ $for_id + '/for:'+ $for_table +'/custom_field_type:'+$type + copy_str , function(){
+      mw.$($selector).load(mw.settings.api_html+'make_custom_field?settings=y&basic=y&for_module_id='+ $for_id + '&for='+ $for_table +'&custom_field_type='+$type + copy_str , function(){
         mw.is.func(callback) ? callback.call($type) : '';
       });
   },

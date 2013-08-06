@@ -15,15 +15,15 @@
   <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link href="<?php print TEMPLATE_URL; ?>style.css" rel="stylesheet">
   <link href="<?php print TEMPLATE_URL; ?>style.responsive.css" rel="stylesheet">
-   <script type="text/javascript">
-        mw.require("<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js");
-    </script>
-  <script src="<?php print mw_site_url(); ?>apijs"></script>
+   <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
+  
+   <script src="<?php print mw_site_url(); ?>apijs"></script>
   <script>
+
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw.ui.css");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw_framework.css");
       mw.require("tools.js");
       mw.require("url.js");
   </script><script src="<?php print TEMPLATE_URL; ?>siteapi.js"></script>
-  <script>mw.require("http://code.jquery.com/ui/1.10.3/jquery-ui.js");</script>
+
 </head>

@@ -729,6 +729,7 @@ function is_logged()
             // $res = $sess->get ( 'user_id' );
             define("USER_ID", $res);
         }
+
         return $res;
     }
 
@@ -834,7 +835,7 @@ function get_user($id = false)
  * @param string $field_id
  * @param array $settings
  */
-api_expose('make_custom_field');
+
 function custom_field_names_for_table($table)
 {
     return mw('fields')->names_for_table($table);
@@ -845,6 +846,7 @@ function make_default_custom_fields($rel, $rel_id, $fields_csv_str)
     return mw('fields')->make_default($rel, $rel_id, $fields_csv_str);
 }
 
+api_expose('make_custom_field');
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
 {
     return mw('fields')->make_field($field_id, $field_type, $settings);
@@ -854,6 +856,9 @@ api_expose('save_custom_field');
 
 function save_custom_field($data)
 {
+
+
+
     return mw('fields')->save($data);
 }
 
@@ -2108,4 +2113,146 @@ function file_size_nice($size) {
     }
 
     return round($size, 2) . ' ' . $units[$i];
+}
+
+
+
+
+$ex_fields_static = array();
+$_mw_real_table_names = array();
+$_mw_assoc_table_names = array();
+$mw_escaped_strings = array();
+
+
+function db_get_table_name($assoc_name)
+{
+
+    $assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+    return $assoc_name;
+}
+
+
+$_mw_db_get_real_table_names = array();
+function db_get_real_table_name($assoc_name)
+{
+    global $_mw_db_get_real_table_names;
+
+    if (isset($_mw_db_get_real_table_names[$assoc_name])) {
+
+        return $_mw_db_get_real_table_names[$assoc_name];
+    }
+
+
+    $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+    if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
+        $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
+    }
+    $_mw_db_get_real_table_names[$assoc_name] = $assoc_name_new;
+    return $assoc_name_new;
+}
+
+
+/**
+ * Get Relative table name from a string
+ *
+ * @package Database
+ * @subpackage Advanced
+ * @param string $for string Your table name
+ *
+ * @param bool $guess_cache_group If true, returns the cache group instead of the table name
+ *
+ * @return bool|string
+ * @example
+ * <code>
+ * $table = guess_table_name('content');
+ * </code>
+ */
+function guess_table_name($for, $guess_cache_group = false)
+{
+
+    if (stristr($for, 'table_') == false) {
+        switch ($for) {
+            case 'user' :
+            case 'users' :
+                $rel = 'users';
+                break;
+
+            case 'media' :
+            case 'picture' :
+            case 'video' :
+            case 'file' :
+                $rel = 'media';
+                break;
+
+            case 'comment' :
+            case 'comments' :
+                $rel = 'comments';
+                break;
+
+            case 'module' :
+            case 'modules' :
+            case 'modules' :
+            case 'modul' :
+                $rel = 'modules';
+                break;
+
+            case 'category' :
+            case 'categories' :
+            case 'cat' :
+            case 'categories' :
+            case 'tag' :
+            case 'tags' :
+                $rel = 'categories';
+                break;
+
+            case 'category_items' :
+            case 'cat_items' :
+            case 'tag_items' :
+            case 'tags_items' :
+                $rel = 'categories_items';
+                break;
+
+            case 'post' :
+            case 'page' :
+            case 'content' :
+
+            default :
+                $rel = $for;
+                break;
+        }
+        $for = $rel;
+    }
+    if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($for, MW_TABLE_PREFIX) == false) {
+        //$for = MW_TABLE_PREFIX.$for;
+    } else {
+
+    }
+    if ($guess_cache_group != false) {
+
+        $for = str_replace('table_', '', $for);
+        $for = str_replace(MW_TABLE_PREFIX, '', $for);
+    }
+
+    return $for;
+}
+
+/**
+ * Guess the cache group from a table name or a string
+ *
+ * @uses guess_table_name()
+ * @param bool|string $for Your table name
+ *
+ *
+ * @return string The cache group
+ * @example
+ * <code>
+ * $cache_gr = guess_cache_group('content');
+ * </code>
+ *
+ * @package Database
+ * @subpackage Advanced
+ */
+function guess_cache_group($for = false)
+{
+    return guess_table_name($for, true);
 }

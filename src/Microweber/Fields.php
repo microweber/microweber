@@ -10,9 +10,8 @@ class Fields
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
-
 
 
         if (!is_object($this->app)) {
@@ -27,7 +26,6 @@ class Fields
 
 
     }
-
 
 
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
@@ -47,16 +45,13 @@ class Fields
                 $table = $this->app->db->escape_string($table);
 
                 if ($table != false) {
-                    $table_assoc_name = db_get_table_name($table);
+                    $table_assoc_name = $this->app->db->get_table_name($table);
                 } else {
 
                     $table_assoc_name = "MW_ANY_TABLE";
                 }
 
-                if ((int)$table_assoc_name == 0) {
-                    $table_assoc_name = guess_table_name($table);
 
-                }
                 if ($table_assoc_name == false) {
                     $table_assoc_name = $this->app->db->assoc_table_name($table_assoc_name);
 
@@ -275,7 +270,7 @@ class Fields
 
         $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
-         $result = $this->app->url->replace_site_url_back($result);
+        $result = $this->app->url->replace_site_url_back($result);
         //d($result);
         return $result;
     }
@@ -297,7 +292,7 @@ class Fields
         $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
         if (isset($data_to_save['for'])) {
-            $data_to_save['rel'] = guess_table_name($data_to_save['for']);
+            $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['for']);
         }
         if (isset($data_to_save['cf_id'])) {
             $data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -343,7 +338,7 @@ class Fields
 
         $data_to_save['session_id'] = session_id();
 
-// $data_to_save['debug'] = 1;
+
         if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
 
         } else {
@@ -370,9 +365,7 @@ class Fields
     }
 
 
-
-
-  public function make_default($rel, $rel_id, $fields_csv_str)
+    public function make_default($rel, $rel_id, $fields_csv_str)
     {
 
         $id = $this->app->user->is_admin();
@@ -401,7 +394,7 @@ class Fields
         $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
         if (isset($rel)) {
-            $rel = guess_table_name($rel);
+            $rel = $this->app->db->assoc_table_name($rel);
             $rel_id = $this->app->db->escape_string($rel_id);
 
             $fields_csv_str = explode(',', $fields_csv_str);
@@ -443,8 +436,6 @@ class Fields
     }
 
 
-
-
     public function reorder($data)
     {
 
@@ -471,7 +462,7 @@ class Fields
         }
     }
 
-   public function delete($id)
+    public function delete($id)
     {
         $uid = user_id();
         if ($uid == 0) {
@@ -506,7 +497,9 @@ class Fields
 
         return true;
     }
-    public function make_field($field_id = 0, $field_type = 'text', $settings = false) {
+
+    public function make_field($field_id = 0, $field_type = 'text', $settings = false)
+    {
         $data = false;
         $form_data = array();
         if (is_array($field_id)) {
@@ -524,7 +517,8 @@ class Fields
                 // mw_error('no permission to get data');
                 //  $form_data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
-        }}
+        }
+    }
 
     /**
      * make_field
@@ -547,12 +541,13 @@ class Fields
             }
         } else {
             if ($field_id != 0) {
+
                 $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
 
-            $settings == true;
+            $settings = true;
         }
 
         if (isset($data['copy_from'])) {
@@ -634,6 +629,15 @@ class Fields
         $dir = MW_INCLUDES_DIR;
         $dir = $dir . DS . 'custom_fields' . DS;
         $field_type = str_replace('..', '', $field_type);
+
+
+
+
+
+
+
+
+
         if ($settings == true or isset($data['settings'])) {
             $file = $dir . $field_type . '_settings.php';
         } else {
@@ -647,11 +651,17 @@ class Fields
                 $file = $dir . $field_type . '.php';
             }
         }
+        $file = normalize_path($file, false);
 
         if (is_file($file)) {
-            $l = new \Microweber\View($file);
+
+            $l = $this->app->view($file);
+
             //
-            $l->settings = $settings;
+
+           $l->assign('settings', $settings);
+
+          //  $l->settings = $settings;
 
             if (isset($data) and !empty($data)) {
                 $l->data = $data;
@@ -659,8 +669,12 @@ class Fields
                 $l->data = array();
             }
 
-            $layout = $l->__toString();
+            $l->assign('data', $data);
 
+
+            //var_dump($data);
+            $layout = $l->__toString();
+//var_dump($layout);
             return $layout;
         }
     }
@@ -684,11 +698,10 @@ class Fields
      * @author      Microweber
      * @link        http://microweber.com
      * @param string $table
-
      */
 
 
-    static  function names_for_table($table)
+     public function names_for_table($table)
     {
         $table = $this->app->db->escape_string($table);
         $table1 = $this->app->db->assoc_table_name($table);

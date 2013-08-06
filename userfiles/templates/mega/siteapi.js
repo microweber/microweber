@@ -98,6 +98,10 @@ mw.utils = {
     var p = ["Webkit", "Moz", "O", "ms", "Khtml"], l = p.length, i=0;
     for( ; i<l;i++){  if( typeof mwd.body.style[p[i]] !== 'undefined' ){ return true; }}
     return false;
+  },
+  chatToggle:function(){
+    if(typeof $zopim === 'undefined') { return false; }
+    $zopim.livechat.window.toggle();
   }
 }
 

@@ -219,7 +219,7 @@ class Backup
             $back_log_action = "Restoring database";
             $this->log_action($back_log_action);
 
-            $db = mw()->config('db');
+            $db = $this->app->config('db');
             $filename = $sql_file;
             // Settings
             $table = '*';
@@ -372,12 +372,12 @@ class Backup
         if ($back_log_action == false) {
             $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
         } else {
-            $check = mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+            $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
-                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
             } else {
-                mw()->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
             }
         }
 
@@ -557,7 +557,7 @@ class Backup
             only_admin_access();
 
         }
-        $temp_db = $db = mw()->config('db');
+        $temp_db = $db = $this->app->config('db');
 
         // Settings
         $table = '*';
@@ -821,7 +821,13 @@ class Backup
         if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
             define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
         }
+        if (!defined("MW_NO_SESSION")) {
+            define("MW_NO_SESSION", true);
+        }
 
+        if (!defined("IS_ADMIN")) {
+            define("IS_ADMIN", true);
+        }
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
             ini_set('memory_limit', '512M');
@@ -829,7 +835,7 @@ class Backup
 
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(300);
+            set_time_limit(600);
         }
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ignore_user_abort')) {
@@ -847,11 +853,11 @@ class Backup
         $cache_id_loc = 'backup_progress';
         $cache_state_id = 'backup_zip_state';
 
-        $cache_content = cache_get_content($cache_id, 'backup');
-        $cache_lock = cache_get_content($cache_id_loc, 'backup');
-        $cache_state = cache_get_content($cache_state_id, 'backup');
+        $cache_content = $this->app->cache->get($cache_id, 'backup');
+        $cache_lock = $this->app->cache->get($cache_id_loc, 'backup');
+        $cache_state = $this->app->cache->get($cache_state_id, 'backup', 30);
 
-        //$cache_folders = cache_get_content($cache_id_folders, 'backup');
+        //$cache_folders = $this->app->cache->get($cache_id_folders, 'backup');
 
 
         //$fileTime = date("D, d M Y H:i:s T");
@@ -859,9 +865,10 @@ class Backup
         $time = time();
         $here = $this->get_bakup_location();
 
-
-        //d($cache_state);
+        session_write_close();
         if ($cache_state == 'opened') {
+
+
             return true;
         }
 
@@ -869,8 +876,8 @@ class Backup
         //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
 
         if ($cache_content == false or empty($cache_content)) {
-            cache_save(false, $cache_id_loc, 'backup');
-            cache_save(false, $cache_id, 'backup');
+            $this->app->cache->save(false, $cache_id_loc, 'backup');
+            $this->app->cache->save(false, $cache_id, 'backup');
 
             $cron = new \Microweber\Utils\Cron();
             $cron->delete_job('make_full_backup');
@@ -890,7 +897,7 @@ class Backup
                 $cache_lock['files_count'] = count($cache_content);
                 $cache_lock['time'] = $time;
                 $cache_lock['filename'] = $filename;
-                cache_save($cache_lock, $cache_id_loc, 'backup');
+                $this->app->cache->save($cache_lock, $cache_id_loc, 'backup');
                 // return false;
             } else {
                 if (isset($cache_lock['filename'])) {
@@ -920,19 +927,28 @@ class Backup
             if (is_array($backup_actions)) {
                 $i = 0;
 
-                cache_save($filename, $cache_id_loc, 'backup');
+                $this->app->cache->save($filename, $cache_id_loc, 'backup');
 
 
                 if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
                     return false;
                 }
-                cache_save('opened', $cache_state_id, 'backup');
+                $this->app->cache->save('opened', $cache_state_id, 'backup');
 
+                $limit_per_turn = 20;
 
                 foreach ($backup_actions as $key => $item) {
+                    $flie_ext = strtolower(get_file_extension($item));
 
-                    if ($i > 50 or $cache_lock == $item) {
+                    if ($flie_ext == 'php' or $flie_ext == 'css' or $flie_ext == 'js') {
+                        $limit_per_turn = 150;
 
+                    }
+
+
+                    if ($i > $limit_per_turn or $cache_lock == $item) {
+                        $mw_backup_zip_obj->close();
+                        $this->app->cache->save('closed', $cache_state_id, 'backup');
                     } else {
 
                         $cache_lock['processed']++;
@@ -945,14 +961,28 @@ class Backup
                         $cache_lock['percent'] = $precent;
 
 
-                        $back_log_action = "Progress {$precent}% ({$cache_lock['processed']}/{$cache_lock['files_count']}) ";
+                        $back_log_action = "Progress  {$precent}% ({$cache_lock['processed']}/{$cache_lock['files_count']}) <br><small>" . basename($item) . "</small>";
                         $this->log_action($back_log_action);
 
-                        cache_save($cache_lock, $cache_id_loc, 'backup');
+                        $this->app->cache->save($cache_lock, $cache_id_loc, 'backup');
 
 
                         if ($item == 'make_db_backup') {
+
+                            $limit_per_turn = 1;
+                            $mw_backup_zip_obj->close();
+                            $this->app->cache->save('closed', $cache_state_id, 'backup');
+
+
                             $db_file = $this->create($bak_fn . '.sql');
+
+
+                            if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
+                                return false;
+                            }
+                            $this->app->cache->save('opened', $cache_state_id, 'backup');
+
+
                             if (isset($db_file['filename'])) {
                                 $filename2 = $here . $db_file['filename'];
                                 if (is_file($filename2)) {
@@ -985,52 +1015,41 @@ class Backup
 
                         }
 
+
                         unset($backup_actions[$key]);
 
 
                         if (isset($new_backup_actions) and !empty($new_backup_actions)) {
                             $backup_actions = array_merge($backup_actions, $new_backup_actions);
                             array_unique($backup_actions);
-                            cache_save($backup_actions, $cache_id, 'backup');
+                            $this->app->cache->save($backup_actions, $cache_id, 'backup');
 
                         } else {
-                            cache_save($backup_actions, $cache_id, 'backup');
+                            $this->app->cache->save($backup_actions, $cache_id, 'backup');
 
                         }
                         //  d($backup_actions[$key]);
 
                         if (empty($backup_actions)) {
-                            cache_save(false, $cache_id, 'backup');
+                            $this->app->cache->save(false, $cache_id, 'backup');
 
                         }
 
-
-                        //  if (isset($backup_actions)) {
-                        //d($backup_actions);
-
-                        //  }
-                        // d($item);
-
-                        // break;
                     }
                     $i++;
                 }
 
                 $mw_backup_zip_obj->close();
-                cache_save('closed', $cache_state_id, 'backup');
+                $this->app->cache->save('closed', $cache_state_id, 'backup');
             }
         }
 
-        // cache_save(false, $cache_id_loc, 'backup');
+        // $this->app->cache->save(false, $cache_id_loc, 'backup');
         if (empty($backup_actions)) {
-            cache_save(false, $cache_id, 'backup');
+            $this->app->cache->save(false, $cache_id, 'backup');
 
         }
 
-        //d($params);
-
-
-        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
     }
 
     function DELcronjob($params = false)
@@ -1044,8 +1063,8 @@ class Backup
 
         $cache_id = 'backup_cron' . (USER_IP);
         $cache_id_loc = 'backup_cron_lock' . (USER_IP);
-        $cache_content = cache_get_content($cache_id, 'backup');
-        $cache_lock = cache_get_content($cache_id_loc, 'backup');
+        $cache_content = $this->app->cache->get($cache_id, 'backup');
+        $cache_lock = $this->app->cache->get($cache_id_loc, 'backup');
 
         //  d($folders);
 
@@ -1057,7 +1076,7 @@ class Backup
         $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
 
         if ($cache_lock == $filename) {
-            cache_save('false', $cache_id_loc, 'backup');
+            $this->app->cache->save('false', $cache_id_loc, 'backup');
             return false;
         }
 
@@ -1080,7 +1099,7 @@ class Backup
             }
 
             //$backup_actions[] = 'makesdfsdf_db_backup';
-            cache_save($backup_actions, $cache_id, 'backup');
+            $this->app->cache->save($backup_actions, $cache_id, 'backup');
         } else {
             $backup_actions = $cache_content;
 
@@ -1093,7 +1112,7 @@ class Backup
                 // if (!isset($zip)) {
                 // $zip = new  \Microweber\Utils\ZipStream($filename);
 
-                cache_save($filename, $cache_id_loc, 'backup');
+                $this->app->cache->save($filename, $cache_id_loc, 'backup');
 //                $zip = new \ZipArchive;
 //
 //                if ($zip->open($filename, ZipArchive::CREATE) === false) {
@@ -1195,7 +1214,7 @@ class Backup
                         d($item);
                         unset($backup_actions[$key]);
                         if (isset($backup_actions)) {
-                            cache_save($backup_actions, $cache_id, 'backup');
+                            $this->app->cache->save($backup_actions, $cache_id, 'backup');
                         }
                         //d($item);
 
@@ -1213,7 +1232,7 @@ class Backup
             // $zip->setZipFile($filename2);
         }
 
-        cache_save('false', $cache_id_loc, 'backup');
+        $this->app->cache->save('false', $cache_id_loc, 'backup');
         //d($params);
 
 
@@ -1283,23 +1302,23 @@ class Backup
 
         $cache_state_id = 'backup_zip_state';
         //$backup_actions[] = 'makesdfsdf_db_backup';
-        cache_save($backup_actions, $cache_id, 'backup');
-        cache_save(false, $cache_id_loc, 'backup');
-        cache_save(false, $cache_state_id, 'backup');
+        $this->app->cache->save($backup_actions, $cache_id, 'backup');
+        $this->app->cache->save(false, $cache_id_loc, 'backup');
+        $this->app->cache->save(false, $cache_state_id, 'backup');
         //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
-        // $cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
+        //$cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
 
-        //$cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
+        // $cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
+        if (!defined('MW_NO_SESSION')) {
+            define('MW_NO_SESSION', 1);
+        }
 
-
-        // $cron->job('make_full_backup', '1 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
+        $cron->job('make_full_backup', '25 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
 
 
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
+
         $this->log_action(false);
         //  $url = site_url();
         //header("Location: " . $url);

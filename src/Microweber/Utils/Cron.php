@@ -59,17 +59,21 @@ class Cron
     public function setDir($dir_name = false)
     {
 
-        if ($dir_name == false) {
+
+        if ($dir_name == false and defined('MW_STORAGE_DIR') != false) {
+            $dir_name = MW_STORAGE_DIR;
+        } else if ($dir_name == false) {
             $dir_name = dirname(__FILE__) . DIRECTORY_SEPARATOR;
         }
 
         if (!is_dir($dir_name)) {
-            mkdir($dir_name);
+            mkdir_recursive($dir_name);
         }
 
-        if (is_dir($dir_name)) {
+
             $this->dir = $dir_name;
-        }
+
+
     }
 
     static function set($name, $interval, $callback, $params)
@@ -147,6 +151,9 @@ class Cron
                 $array = $ini_array;
                 $modify = true;
             }
+        } else {
+            $array = $array;
+            $modify = true;
         }
 
 
@@ -181,6 +188,7 @@ class Cron
             $ini_content = implode("\r\n", $res);
             $ini_content = '; <?php exit(); __halt_compiler(); ?> ' . "\r\n" . $ini_content;
             touch($file);
+         //   d($file);
             file_put_contents($file, $ini_content);
 
         }

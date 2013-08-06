@@ -41,7 +41,7 @@
 		_mw_log_reload_int = false;
 		$(document).ready(function(){
 
-mw.load_module("#mw_backup_log", 'admin/backup/log');
+mw.load_module( 'admin/backup/log',"#mw_backup_log");
 
 
 			if(_mw_log_reload_int == false){

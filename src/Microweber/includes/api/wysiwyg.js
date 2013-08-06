@@ -5,6 +5,10 @@
 mw.require('css_parser.js');
 
 
+
+
+
+
 mw.wysiwyg = {
     globalTarget: mwd.body,
     action:{
@@ -653,9 +657,17 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = false;
         }
     },
+    containsNode:function(node, sel){
+        if(node === null || typeof node === 'undefined'){return false;}
+        var sel = sel || window.getSelection();
+        if( typeof Selection.prototype.containsNode !== 'undefined' ){
+          return sel.containsNode(node);
+        }
+        else{
 
+        }
+    },
     link:function(){
-
          mw.wysiwyg.save_selection();
          var modal = mw.tools.modal.frame({
           url:"rte_link_editor",
@@ -665,7 +677,6 @@ mw.wysiwyg = {
           width:430,
           height:300
         });
-
         var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
         if(!! link){
             modal.main.find("iframe").load(function(){
@@ -686,7 +697,6 @@ mw.wysiwyg = {
                  mw.wysiwyg.select_element(link);
                  mw.wysiwyg.execCommand('unlink', null, null);
             }
-
           }
           mw.$(".mw_editor_link").removeClass("mw_editor_btn_active");
     },
@@ -744,8 +754,6 @@ mw.wysiwyg = {
       $(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
-      d(html)
-
       var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
       if(isembed){
         var id = 'frame-'+mw.random();
@@ -774,13 +782,9 @@ mw.wysiwyg = {
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" contentEditable="false" onmouseenter="this.contentEditable=false;" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
-        //$("#"+id).attr("contenteditable", false);
+        $("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
-       // mw.disable_selection("#"+id);
-
-        //mw.wysiwyg.set_cursor('after', "#"+ id);
         mw.wysiwyg.save_selection();
-
         return id;
     },
     save_selection:function(){
@@ -886,14 +890,12 @@ mw.wysiwyg = {
         else if(where=='beginning'){
 
         }
-
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
     },
 	iframe_editor:function(textarea, iframe_url, content_to_set){
         var content_to_set = content_to_set || false;
-
 	    var id = $(textarea).attr("id");
 		$("#iframe_editor_"+id).remove();
 	    var url = iframe_url;
@@ -928,110 +930,53 @@ mw.wysiwyg = {
         $(textarea).hide();
 
     },
-    iframe_editor_old:function(textarea, id){
-        var url = mw.external_tool('wysiwyg?id='+id);
-        var iframe = mwd.createElement('iframe');
-        iframe.width = $(textarea).width();
-        iframe.height = $(textarea).height();
-        iframe.scrolling = "no";
-        iframe.setAttribute('frameborder', 0);
-        iframe.src = url;
-        iframe.style.resize = 'vertical';
-        iframe.onload = function(){
-          var b = $(this).contents().find("#mw-iframe-editor-area");
-          b[0].contentEditable = true;
-          b.bind("blur", function(){
-            textarea.value = $(this).html();
-          });
-        }
-        $(textarea).after(iframe);
-        $(textarea).hide();
-    },
-
     clean_word:function( html ){
-
         html = html.replace( /<td([^>]*)>/gi, '<td>' ) ;
         html = html.replace( /<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1">' ) ;
-
     	html = html.replace(/<o:p>\s*<\/o:p>/g, '') ;
     	html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;') ;
-
     	html = html.replace( /\s*mso-[^:]+:[^;"]+;?/gi, '' ) ;
-
     	html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*;/gi, '' ) ;
     	html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*"/gi, "\"" ) ;
-
     	html = html.replace( /\s*TEXT-INDENT: 0cm\s*;/gi, '' ) ;
     	html = html.replace( /\s*TEXT-INDENT: 0cm\s*"/gi, "\"" ) ;
-
     	html = html.replace( /\s*TEXT-ALIGN: [^\s;]+;?"/gi, "\"" ) ;
-
     	html = html.replace( /\s*PAGE-BREAK-BEFORE: [^\s;]+;?"/gi, "\"" ) ;
-
     	html = html.replace( /\s*FONT-VARIANT: [^\s;]+;?"/gi, "\"" ) ;
-
     	html = html.replace( /\s*tab-stops:[^;"]*;?/gi, '' ) ;
     	html = html.replace( /\s*tab-stops:[^"]*/gi, '' ) ;
-
         html = html.replace( /\s*face="[^"]*"/gi, '' ) ;
         html = html.replace( /\s*face=[^ >]*/gi, '' ) ;
         html = html.replace( /\s*FONT-FAMILY:[^;"]*;?/gi, '' ) ;
-
     	html = html.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3") ;
-
     	html = html.replace( /<STYLE[^>]*>[\s\S]*?<\/STYLE[^>]*>/gi, '' ) ;
     	html = html.replace( /<(?:META|LINK)[^>]*>\s*/gi, '' ) ;
-
     	html =  html.replace( /\s*style="\s*"/gi, '' ) ;
-
     	html = html.replace( /<SPAN\s*[^>]*>\s*&nbsp;\s*<\/SPAN>/gi, '&nbsp;' ) ;
-
     	html = html.replace( /<SPAN\s*[^>]*><\/SPAN>/gi, '' ) ;
-
     	html = html.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3") ;
-
     	html = html.replace( /<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '$1' ) ;
-
     	html = html.replace( /<FONT\s*>([\s\S]*?)<\/FONT>/gi, '$1' ) ;
-
     	html = html.replace(/<\\?\?xml[^>]*>/gi, '' ) ;
-
     	html = html.replace( /<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '' ) ;
-
     	html = html.replace(/<\/?\w+:[^>]*>/gi, '' ) ;
-
     	html = html.replace(/<\!--[\s\S]*?-->/g, '' ) ;
-
     	html = html.replace( /<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;' ) ;
-
     	html = html.replace( /<H\d>\s*<\/H\d>/gi, '' ) ;
-
     	html = html.replace( /<(\w+)[^>]*\sstyle="[^"]*DISPLAY\s?:\s?none[\s\S]*?<\/\1>/ig, '' ) ;
-
     	html = html.replace( /<(\w[^>]*) language=([^ |>]*)([^>]*)/gi, "<$1$3") ;
-
     	html = html.replace( /<(\w[^>]*) onmouseover="([^\"]*)"([^>]*)/gi, "<$1$3") ;
     	html = html.replace( /<(\w[^>]*) onmouseout="([^\"]*)"([^>]*)/gi, "<$1$3") ;
-
     	html = html.replace( /<H(\d)([^>]*)>/gi, '<h$1>' ) ;
-
         html = html.replace(/<font size=2>(.*)<\/font>/gi,'$1') ;
         html = html.replace(/<font size=3>(.*)<\/font>/gi,'$1') ;
-
         html = html.replace(/<a name=.*>(.*)<\/a>/gi,'$1') ;
-
         html = html.replace( /<H1([^>]*)>/gi, '<H2$1>' ) ;
         html = html.replace( /<\/H1\d>/gi, '<\/H2>' ) ;
-
-
         html = html.replace( /<span>/gi, '$1' ) ;
         html = html.replace( /<\/span\d>/gi, '' ) ;
-
         html = html.replace( /<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>' );
         html = html.replace( /<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>' );
-
-
-
     	return html ;
     }
 }
@@ -1169,11 +1114,13 @@ $(window).load(function(){
   $(window).bind("keydown paste mousedown mouseup", function(e){
     mw.wysiwyg.globalTarget = e.target;
     var selection = window.getSelection();
+
+
     if( mw.wysiwyg.globalTarget.isContentEditable
         && selection.containsNode(mw.wysiwyg.globalTarget, true)
         && !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'nodrop')
         && !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'nodrop')){
-        mw.wysiwyg.enableEditors();
+                mw.wysiwyg.enableEditors();
     }
     else{
         if(!mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_editor') &&
@@ -1186,6 +1133,7 @@ $(window).load(function(){
 
   if(e.ctrlKey && e.type =='keydown') {
         var code = e.keyCode;
+
         if( code == 66){
                mw.wysiwyg.execCommand('bold');
                e.preventDefault();

@@ -1,5 +1,8 @@
-<?php only_admin_access(); ?>
-<img class="xhidden" style="visibility: hidden;" src="<?php print api_url('mw_cron') ?>?rand=<?php print rand() ?>" />
+<div><iframe src="<?php print api_url('mw_cron') ?>?rand=<?php print rand() ?>" class="xhidden" style="visibility: hidden; display:inline" width="1" height="1"></iframe> </div>
+ 
+
+
+
 <?php
 
        if (!defined('USER_IP')) {

@@ -1,67 +1,9 @@
-mw.css3fx = {
-  perspective:function(a){
-      if(typeof mw.current_element === 'undefined') return false;
-      var el = mw.current_element;
-      var val = "perspective( "+$(el).width()+"px ) rotateY( "+a+"deg )";
-      el.style[mw.JSPrefix('transform')] = val;
-      $(el).addClass("mwfx");
-      mw.css3fx.set_obj(el, "transform", val);
-  },
-  rotate : function(a){
-      if(typeof mw.current_element === 'undefined') return false;
-      var el = mw.current_element;
-      var val = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + ","  + Math.cos(a) + ", 0, 0)";
-      el.style[mw.JSPrefix('transform')] = val;
-      $(el).addClass("mwfx");
-      mw.css3fx.set_obj(el, "transform", val);
-  },
-  set_obj:function(element, option, value){
 
-    if(typeof element.attributes["data-mwfx"] !== 'undefined'){
-
-     var json = mw.css3fx.read(element);
-
-     json[option] = value;
-
-     var string = JSON.stringify(json);
-
-     var string = string.replace(/{/g, "").replace(/}/g);
-     var string = string.replace(/"/g, "XX");
-
-     $(element).dataset("mwfx", string);
-    }
-    else{
-      $(element).dataset("mwfx", "XX"+option+"XX:XX"+value+"XX");
-    }
-  },
-  init_css:function(el){
-    var el = el || ".mwfx";
-    $(el).each(function(){
-      var elem = this;
-      var json = mw.css3fx.read(el);
-      $.each(json, function(a,b){
-         $(elem).css(mw.JSPrefix(a), b);
-      });
-    });
-  },
-  read:function(el){
-    var el = $(el);
-    var attr = el.dataset("mwfx");
-    if(typeof attr !== 'undefined'){
-      var attr = attr.replace(/XX/g, '"');
-      var attr = attr.replace(/undefined/g, '');
-      var json = $.parseJSON('{'+attr+'}');
-      return json;
-    }
-    else{return false;}
-  }
-}
 
 
 
 $(document).ready(function(){
    mw.css3fx.init_css();
-   alert(mw.JSPrefix)
 });
 
 
