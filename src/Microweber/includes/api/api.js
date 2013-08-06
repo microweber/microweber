@@ -321,6 +321,7 @@ mw.askusertostay = false;
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
     if(typeof $(obj.selector)[0] === 'undefined') { return false; }
+    mw.session.checkPause = true;
     var attrs = $(obj.selector)[0].attributes;
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
@@ -341,7 +342,7 @@ mw.askusertostay = false;
 
 
     $.post(url, to_send, function(data) {
-
+      mw.session.checkPause = false; 
       if(DONOTREPLACE){
           obj.done.call($(selector)[0], data);
           return false;

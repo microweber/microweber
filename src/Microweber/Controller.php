@@ -520,7 +520,7 @@ class Controller
 
 
             //$l = new $this->app->view($render_file);
-            $l = $this->app->view($render_file);
+            $l = new $this->app->view($render_file);
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;

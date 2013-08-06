@@ -16,6 +16,19 @@
 
 <body>
 
+<script>
+
+$(document).ready(function(){
+   mw.$(".mw-features tbody tr").hover(function(){
+        mw.utils.tip(this, 'oye :)');
+   }, function(){
+        mw.utils.tip("hide");
+   });
+});
+
+
+</script>
+
 <div id="header">
     <div class="container">
         <div id="get-started-header">
@@ -37,13 +50,7 @@
         </div>
 
 
-
     <module type="whmcs" template="microwebercom">
-
-
-
-
-
 
        <div class="vpad">
            <h4>Thinking for upgrades?</h4>

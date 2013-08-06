@@ -92,9 +92,15 @@ $(document).ready(function(){
 
 
 	 mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function() {
+  mw.notification.success("Saving...",10000);
 
  // set_category_parent_<?php print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print mw_site_url('api/save_category') ?>', function(){
+	 
+	 
+	   mw.notification.success("Category changes are saved");
+	 
+	 
 	 mw.reload_module('[data-type="categories"]');
      mw.$('[data-type="pages"]').removeClass("activated");
 	  mw.reload_module('[data-type="pages"]', function(){
@@ -124,39 +130,30 @@ $(document).ready(function(){
 <?php  //d($params);?>
 
 <form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="Off">
-  <input name="id" type="hidden" value="<?php print ($data['id'])?>" />
-  <input name="table" type="hidden" value="categories" />
-  <input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
-  <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
-  <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
-    <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
-
-  <div class="mw-ui-field-holder">
-
-
-
-<?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
-    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-
-    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php _e("Sub-category Name"); ?>" />
-<?php else: ?>
-
-<?php if(isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
-    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-
-<?php else: ?>
-   <span class="mw-title-field-label mw-title-field-label-category"></span>
-<?php endif; ?>
-    <input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php print ($data['title'])?>" />
-<?php endif; ?>
-
-
-  </div>
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">
-      <?php _e("Parent"); ?>
-    </label>
-    <?php
+	<input name="id" type="hidden" value="<?php print ($data['id'])?>" />
+	<input name="table" type="hidden" value="categories" />
+	<input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
+	<input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
+	<input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
+	<input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
+	<div class="mw-ui-field-holder">
+		<?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
+		<input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php _e("Sub-category Name"); ?>" />
+		<?php else: ?>
+		<?php if(isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
+		<?php else: ?>
+		<span class="mw-title-field-label mw-title-field-label-category"></span>
+		<?php endif; ?>
+		<input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php print ($data['title'])?>" />
+		<?php endif; ?>
+	</div>
+	<div class="mw-ui-field-holder">
+		<label class="mw-ui-label">
+			<?php _e("Parent"); ?>
+		</label>
+		<?php
       $is_shop = '';
     if (isset($params['is_shop'])) {
     	//$is_shop = '&is_shop=' . $params['is_shop'];
@@ -165,31 +162,66 @@ $(document).ready(function(){
 
 
        ?>
-    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
-      <module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio"   />
-    </div>
-  </div>
-  <script type="text/javascript">
+		<div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
+			<module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio"   />
+		</div>
+	</div>
+	<script type="text/javascript">
     $(mwd).ready(function(){
         mw.treeRenderer.appendUI('#edit_category_set_par_<?php print $form_rand_id ?>');
         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
     });
   </script>
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">
-      <?php _e("Description"); ?>
-    </label>
-    <textarea style="width: 600px;height: 50px;" class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
-  </div>
-  <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
-  <input type="submit" class="semi hidden" name="save" />
-<microweber module="custom_fields" view="admin" for="categories" id="<?php print ($data['id'])?>" />
-<div class="post-save-bottom">
-  <input type="submit" name="save" class="semi_hidden"  value="<?php _e("Save"); ?>" />
-  <div class="vSpace"></div>
-  <span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
-  <?php _e("Save"); ?>
-  </span> </div>
-
-  </form>
-
+	<div class="mw-ui-field-holder">
+		<label class="mw-ui-label">
+			<?php _e("Description"); ?>
+		</label>
+		<textarea style="width: 600px;height: 50px;" class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
+	</div>
+	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
+	<input type="submit" class="semi hidden" name="save" />
+	<microweber module="custom_fields" view="admin" for="categories" id="<?php print ($data['id'])?>" />
+	<div class="post-save-bottom">
+		<input type="submit" name="save" class="semi_hidden"  value="<?php _e("Save"); ?>" />
+		<div class="vSpace"></div>
+		<span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+		<?php _e("Save"); ?>
+		</span> </div>
+	<div class="vSpace"></div>
+	<div class="vSpace"></div>
+	<div class="advanced_settings">
+	<a href="javascript:;"  id="advanced-settings-toggler" onclick="mw.tools.toggle('.category_advanced_settings_holder', this);"   class="toggle_advanced_settings mw-ui-more">
+	<?php _e('Advanced Settings'); ?>
+	</a>
+	 
+	<div class="category_advanced_settings_holder" style="display:none">
+		<div class="vSpace"></div>
+		<div class="mw-ui-field-holder">
+			<?php if(!isset($data['users_can_create_content'])) {
+					$data['users_can_create_content'] = 'n';
+				}
+				
+				
+				?>
+			<div class="mw-ui-check-selector">
+				<div class="mw-ui-label left" style="width: 230px">
+					<?php _e("Can users create content"); ?>
+					<small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
+				<label class="mw-ui-check">
+					<input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+					<span></span><span>
+					<?php _e("No"); ?>
+					</span></label>
+				<label class="mw-ui-check">
+					<input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+					<span></span><span>
+					<?php _e("Yes"); ?>
+					</span></label>
+			</div>
+		</div>
+		<div class="clear vSpace"></div>
+		<div class="pictures-editor-holder" >
+			<module type="pictures/admin" for="categories" for-id=<?php print $data['id'] ?>  />
+		</div>
+	</div>
+</form>

@@ -41,7 +41,7 @@ if(isset($params['content-id'])){
 	$for_id = $for_module_id = $params['content-id'];
 	 $for = 'content';
 }
-
+ 
  ?>
 <?php  $rand = uniqid(); ?>
 <script  type="text/javascript">

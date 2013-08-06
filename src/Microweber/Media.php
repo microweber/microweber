@@ -814,7 +814,7 @@ class Media
             $params['rel'] = $this->app->db->assoc_table_name($params['for']);
         }
 
-        //$params['debug'] = $table;
+       // $params['debug'] = $table;
         $params['limit'] = 1000;
         $params['table'] = $table;
         $params['orderby'] = 'position ASC';

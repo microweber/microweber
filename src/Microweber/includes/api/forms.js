@@ -46,6 +46,7 @@ mw.form = {
     }
   },
   post:function(selector, url_to_post, callback, ignorenopost, callback_error){
+    mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
     }
@@ -66,13 +67,16 @@ mw.form = {
     if(is_form_valid){
         var obj = mw.form.serialize(selector, ignorenopost);
       	var xhr = $.post(url_to_post, obj, function(data){
+      	    mw.session.checkPause = false;
 			if(typeof callback === 'function'){
 				callback.call(data, mw.$(selector)[0]);
 			} else {
 				return data;
 			}
+
         });
         xhr.fail(function(a,b) {
+           mw.session.checkPause = false;
            if(typeof callback_error === 'function'){
               callback_error.call(a,b);
            }

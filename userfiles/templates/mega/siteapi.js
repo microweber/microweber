@@ -96,7 +96,7 @@ mw.utils = {
   supportsAnimation : function(){
     if( typeof mwd.body.style.animationName !== 'undefined' ) { return true; }
     var p = ["Webkit", "Moz", "O", "ms", "Khtml"], l = p.length, i=0;
-    for( ; i<l;i++){  if( typeof mwd.body.style[p[i]] !== 'undefined' ){ return true; }}
+    for( ; i<l; i++ ){  if( typeof mwd.body.style[p[i]] !== 'undefined' ){ return true; }}
     return false;
   },
   chatToggle:function(){
@@ -108,14 +108,48 @@ mw.utils = {
     if(!mw.utils.tipcreated){
        mw.utils.tipcreated = true;
        mw.utils.tooltip = mwd.createElement('div');
-       mw.utils.tooltip.className = 'tip'
+       mw.utils.tooltip.className = 'tip';
+       mw.utils.tooltip.show = function(){
+          mw.utils.tooltip.style.display = 'inline-block';
+       }
+       mw.utils.tooltip.hide = function(){
+          mw.utils.tooltip.style.display = 'none';
+       }
+       mw.utils.tooltip.hide();
+       mwd.body.appendChild(mw.utils.tooltip);
     }
     if(node===null){return false;}
+    if(node=='hide'){ mw.utils.tooltip.hide(); return false; }
     var html = html || $(node).dataset("tip");
     var pos = pos || $(node).dataset("pos");
     if(html=='' || typeof html=='undefined'){ return false; }
-    if(pos=='' || typeof pos=='undefined'){ 'centerbottom'; }
+    if(pos=='' || typeof pos=='undefined'){ 'topcenter'; }
     var off = $(node).offset();
+    mw.utils.tooltip.innerHTML = html;
+    mw.utils.positionTooltip(mw.utils.tooltip, off, pos, node);
+    mw.utils.tooltip.show();
+  },
+  positionTooltip:function(tip, off, pos, el){  //node must have methods .show() & .hide()
+    var pos = pos || 'topcenter';
+    var tip = tip || mw.utils.tooltip;
+    tip.style.opacity = 0;
+    tip.show();
+    var w = $(tip).outerWidth();
+    var h = $(tip).outerHeight();
+    var ew = $(el).outerWidth();
+    var eh = $(el).outerHeight();
+    if(pos == 'topcenter'){
+        $(tip).css({
+          top:off.top - 12,
+          left:off.left + w/2 - ew/2
+        });
+    }
+    else if(pos == ''){
+
+    }
+
+    tip.style.opacity = 1;
+    tip.hide();
   }
 }
 
