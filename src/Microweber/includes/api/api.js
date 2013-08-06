@@ -342,7 +342,7 @@ mw.askusertostay = false;
 
 
     $.post(url, to_send, function(data) {
-      mw.session.checkPause = false; 
+      mw.session.checkPause = false;
       if(DONOTREPLACE){
           obj.done.call($(selector)[0], data);
           return false;

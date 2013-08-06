@@ -138,10 +138,12 @@ mw.utils = {
     var h = $(tip).outerHeight();
     var ew = $(el).outerWidth();
     var eh = $(el).outerHeight();
+    d(w)
+    d(ew)
     if(pos == 'topcenter'){
         $(tip).css({
-          top:off.top - 12,
-          left:off.left + w/2 - ew/2
+          top:off.top - 12 - h,
+          left:off.left - w/2 + ew/2
         });
     }
     else if(pos == ''){

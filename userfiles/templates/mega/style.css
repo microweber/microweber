@@ -805,6 +805,7 @@
     background: #E7F1F9;
     box-shadow: 0 0 6px #ccc;
     font-size: 12px;
+    text-align: center;
     color: #1B73B5;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;

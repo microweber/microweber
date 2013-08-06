@@ -20,7 +20,7 @@
 
 $(document).ready(function(){
    mw.$(".mw-features tbody tr").hover(function(){
-        mw.utils.tip(this, 'oye :)');
+        mw.utils.tip(this, this.querySelector('td').innerHTML);
    }, function(){
         mw.utils.tip("hide");
    });
