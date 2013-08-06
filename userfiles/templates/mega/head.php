@@ -5,7 +5,7 @@
 
 
     $phone = '+1-213-342 8525';
-
+    $cdn = "http://microweber.com/cdn/";
 
  ?>
   <title>Microweber</title>
@@ -13,13 +13,11 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic">
   <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  <link href="<?php print TEMPLATE_URL; ?>style.css" rel="stylesheet">
-  <link href="<?php print TEMPLATE_URL; ?>style.responsive.css" rel="stylesheet">
-   <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
-  
-   <script src="<?php print mw_site_url(); ?>apijs"></script>
+  <link href="<?php print $cdn; ?>style.css" rel="stylesheet">
+  <link href="<?php print $cdn; ?>style.responsive.css" rel="stylesheet">
+  <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
+  <script src="<?php print mw_site_url(); ?>apijs"></script>
   <script>
-
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw.ui.css");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw_framework.css");
       mw.require("tools.js");

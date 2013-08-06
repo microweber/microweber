@@ -43,6 +43,3 @@ mw.session = {
   }
 }
 
-$(document).ready(function(){
-    mw.session.checkInit();
-});

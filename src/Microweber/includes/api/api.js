@@ -534,6 +534,8 @@ mw._response = {
   }
 }
 
+mw.require("session.js");
+
 
 
 

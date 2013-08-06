@@ -4,7 +4,7 @@ namespace Microweber;
 event_bind('mw_db_init', mw('Microweber\Option')->db_init());
 
 
-event_bind('mw_db_init_options', mw('Microweber\Option')->db_init());
+event_bind('mw_db_init_options', mw('Microweber\Option')->_create_mw_default_options());
 api_expose('save_option');
 $_mw_global_options_mem = array();
 class Option
@@ -76,7 +76,7 @@ class Option
 
         //\mw('Microweber\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
         //\mw('Microweber\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
-        $this->_create_mw_default_options();
+      //  $this->_create_mw_default_options();
         $this->app->Cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
@@ -515,7 +515,7 @@ class Option
         return true;
     }
 
-    private function _create_mw_default_options()
+    public function _create_mw_default_options()
     {
 
         $function_cache_id = __FUNCTION__;

@@ -16,7 +16,24 @@
 
 <script>
     gotoprofile = function(){
-      window.location.href =  "<?php print mw_site_url() ?>profile";
+ 
+		
+		 
+ 
+$.post('<?php print api_url('whm_get_user_info'); ?>', function(data){
+	
+	if(data.dologin != undefined){
+		window.location.href = data.dologin;
+	} else {
+	window.location.href =  "<?php print mw_site_url() ?>profile";	
+	}
+   
+  }, "json");
+		
+		
+		
+		
+      //
     }
 </script>
 <div id="mw-login">

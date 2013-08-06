@@ -1290,23 +1290,17 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 				<label class="mw-ui-label">
 					<?php _e("Page type"); ?>
 				</label>
-				
-			 
-				
-				
-				<div class="mw-ui-select" style="width: 220px;">
-					<select name="subtype" >
-					<?php if(isset($data['subtype']) and (trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static' ) ): ?>
-						<option value="<?php print $data['subtype'] ?>"     selected="selected"  ><?php print $data['subtype'] ?></option>
-						<?php endif; ?>
-						<option value="static"   <?php if('static' === ($data['subtype'])): ?>   selected="selected"  <?php endif; ?>>
-						<?php _e("static"); ?>
-						</option>
-						<option value="dynamic"   <?php if( 'dynamic' === ($data['subtype'])  ): ?>   selected="selected"  <?php endif; ?>>
-						<?php _e("dynamic"); ?>
-						</option>
-					</select>
-				</div>
+				<?php if(isset($data['subtype']) and (trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static' ) ): ?>
+				<label class="mw-ui-check">
+					<input name="subtype" type="radio"  value="<?php print $data['subtype'] ?>"    checked="checked"   />
+					<span></span><span> <?php print $data['subtype'] ?> </span></label>
+				<?php endif; ?>
+				<label class="mw-ui-check">
+					<input name="subtype" type="radio"  value="static"    <?php if('static' === ($data['subtype'])): ?>    checked="checked"  <?php endif; ?>  />
+					<span></span><span> Static </span></label>
+				<label class="mw-ui-check">
+					<input name="subtype" type="radio"  value="dynamic"    <?php if('dynamic' === ($data['subtype'])): ?>    checked="checked"  <?php endif; ?>  />
+					<span></span><span> Dynamic </span></label>
 			</div>
 			<input name="subtype_value"  type="hidden" value="<?php print ($data['subtype_value'])?>" />
 			<?php endif; ?>
