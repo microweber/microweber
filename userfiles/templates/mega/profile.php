@@ -17,10 +17,32 @@
   <script> window.location.href = "<?php print mw_site_url() ?>login"; </script>
  <?php } ?>
 
+
+
+
+
     <div class="container">
        <div class="main">
        <?php if( user_id() != false){  ?>
              <?php   $user = get_user(user_id());  ?>
+
+
+
+
+
+
+
+
+             <module type="whmcs" template="client_products" />
+
+   <br><br><br><br><br><br><br><br><br><br>
+   <br><br><br><br><br><br><br><br><br><br>
+
+
+
+
+
+
              <div class="row" id="user-profile-page">
                 <div class="span3" id="user-image">
                     <h5>Hello, <?php print user_name($user['id']); ?></h5>
@@ -42,7 +64,7 @@
                           </ul>
                           <div class="user-tab">
                               <h2>My Sites</h2>
-                              <module type="whmcs" template="client_products" />
+
                           </div>
                           <div class="user-tab" style="display: none">
                             <p>Account type: <strong class="blue">Free</strong>&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn btn-info btn-mini">Upgrade</a>  </p>

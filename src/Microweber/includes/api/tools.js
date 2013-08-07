@@ -1598,6 +1598,30 @@ mw.tools = {
     else{
       $(el).removeClass("mw-loading");
     }
+  },
+  inview:function(el){
+    var $el = $(el),
+        dt = $(window).scrollTop(),
+        db = dt + $(window).height(),
+        et = $el.offset().top;
+    return (et <= db);
+  },
+  wholeinview:function(el){
+    var $el = $(el),
+        dt = $(window).scrollTop(),
+        db = dt + $(window).height(),
+        et = $el.offset().top,
+        eb = et + $(el).height();
+    return ((eb <= db) && (et >= dt));
+  },
+  preload:function(u, c){
+    var im = new Image();
+    if(typeof c === 'function'){
+      im.onload = function(){
+        c.call(u);
+      }
+    }
+    im.src = u;
   }
 }
 
