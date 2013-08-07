@@ -700,9 +700,13 @@ class Content
     public function get_by_id($id)
     {
         global $mw_global_content_memory;
-
-        if (isset($mw_global_content_memory[$id])) {
-            return $mw_global_content_memory[$id];
+        if (!is_array($mw_global_content_memory)) {
+            $mw_global_content_memory = array();
+        }
+        if (!is_array($id)) {
+            if (isset($mw_global_content_memory[$id])) {
+                return $mw_global_content_memory[$id];
+            }
         }
 
         // ->'content';
@@ -733,11 +737,14 @@ class Content
                 $content['title'] = $this->app->format->clean_html($content['title']);
             }
         } else {
-
+            if (!is_array($id)) {
             $mw_global_content_memory[$id] = false;
+            }
             return false;
         }
+        if (!is_array($id)) {
         $mw_global_content_memory[$id] = $content;
+        }
         return $content;
     }
 
@@ -1232,6 +1239,7 @@ class Content
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);
                 }
+
             } else {
                 $content = $page;
                 if (defined('POST_ID') == false) {

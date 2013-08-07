@@ -10,15 +10,67 @@ class ContentUtils extends \Microweber\Content
     {
 
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT;
         $checks = mw_var('FORCE_SAVE_CONTENT');
 
         if ($checks != $table) {
             if ($adm == false) {
+
+                $stop = true;
+                if (!isset($data['captcha'])) {
+                    return array('error' => 'Please enter a captcha answer!');
+                } else {
+                    $cap = $this->app->user->session_get('captcha');
+                    if ($cap == false) {
+                        return array('error' => 'You must load a captcha first!');
+                    }
+                    if ($data['captcha'] != $cap) {
+                        return array('error' => 'Invalid captcha answer!');
+                    }
+                }
+                if (isset($data['categories'])) {
+                    $data['category'] = $data['categories'];
+                }
+
+                if (isset($data['category'])) {
+                    $cats_check = array();
+                    if(is_array($data['category'])){
+                        foreach($data['category'] as $cat){
+                            $cats_check[] = intval($cat);
+                        }
+                    } else {
+                        $cats_check[] = intval($data['category']);
+                    }
+
+                    $check_if_user_can_publish = $this->app->category->get('ids='.implode(',',$cats_check));
+                    if(!empty($check_if_user_can_publish)){
+
+                        $user_cats = array();
+                        foreach($check_if_user_can_publish as $item){
+                            if(isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y'){
+                                $user_cats[] = $item["id"];
+                            }
+
+                        }
+
+
+                        if(!empty($user_cats)){
+                            $stop = false;
+                            $data['categories'] = $user_cats;
+                        }
+                    }
+                   // d($check_if_user_can_publish);
+                }
+
+                if( $stop == true){
+
+
                 return array('error' => 'You are not logged in as admin to save content!');
+                }
             }
         }
+
         $cats_modified = false;
 
 
@@ -269,7 +321,47 @@ class ContentUtils extends \Microweber\Content
             if (!isset($data_to_save['parent'])) {
                 $data_to_save['parent'] = 0;
             }
+
+
+
+
+            if($data_to_save['parent'] == 0){
+                if (isset($data_to_save['categories'])){
+                    $first = false;
+                    if(is_array($data_to_save['categories'])){
+                        $temp = $data_to_save['categories'];
+                        $first = array_shift($temp);
+                    } else {
+                        $first = intval($data_to_save['categories']);
+                    }
+
+                    if($first != false){
+                        $first_par_for_cat = $this->app->category->get_page($first);
+                        if(!empty($first_par_for_cat) and isset($first_par_for_cat['id'])){
+                            $data_to_save['parent']  = $first_par_for_cat['id'];
+                            if (!isset($data_to_save['content_type'])) {
+                                $data_to_save['content_type'] = 'post';
+                            }
+
+                            if (!isset($data_to_save['subtype'])) {
+                                $data_to_save['subtype'] = 'post';
+                            }
+
+                        }
+
+
+
+
+                    }
+
+
+
+
+                }
+            }
+
         }
+
 
 
         if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url->site()) {
@@ -280,8 +372,7 @@ class ContentUtils extends \Microweber\Content
         if (isset($data_to_save['debug'])) {
 
         }
-
-        $save = $this->app->db->save($table, $data_to_save);
+         $save = $this->app->db->save($table, $data_to_save);
 
         // $this->app->cache->delete('content/global');
         //$this->app->cache->delete('content/'.$save);
@@ -373,7 +464,7 @@ class ContentUtils extends \Microweber\Content
 
     public function save_edit($post_data)
     {
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -751,7 +842,7 @@ class ContentUtils extends \Microweber\Content
     public function save_content_field($data, $delete_the_cache = true)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT_FIELDS;
         $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
 
@@ -832,7 +923,7 @@ class ContentUtils extends \Microweber\Content
     public function delete($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1009,7 +1100,7 @@ class ContentUtils extends \Microweber\Content
 
     public function reorder($params)
     {
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1416,7 +1507,7 @@ class ContentUtils extends \Microweber\Content
             $data_to_save = $params2;
         }
 
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             //error('Error: not logged in as admin.'.__FILE__.__LINE__);
         } else {
@@ -1444,7 +1535,7 @@ class ContentUtils extends \Microweber\Content
         $params = parse_params($id);
 
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1471,7 +1562,7 @@ class ContentUtils extends \Microweber\Content
     public function menu_item_get($id)
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1487,7 +1578,7 @@ class ContentUtils extends \Microweber\Content
     public function  menu_item_save($data_to_save)
     {
 
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1562,7 +1653,7 @@ class ContentUtils extends \Microweber\Content
     public function menu_item_delete($id)
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1581,7 +1672,7 @@ class ContentUtils extends \Microweber\Content
     public function menu_items_reorder($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1647,8 +1738,9 @@ class ContentUtils extends \Microweber\Content
 
     public function add_content_to_menu($content_id, $menu_id = false)
     {
-        $id = is_admin();
+        $id = $this->app->user->is_admin();
         if ($id == false) {
+            return;
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $content_id = intval($content_id);

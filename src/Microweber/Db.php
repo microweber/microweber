@@ -669,7 +669,7 @@ class Db
             }
 
             $is_a = $this->app->user->has_access('save_category');
-
+            $is_a = 1;
             $from_save_cats = $original_data['categories'];
             if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
                 if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {

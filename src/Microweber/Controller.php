@@ -524,8 +524,11 @@ class Controller
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;
-            $l->category_id = CATEGORY_ID;
+             $l->category_id = CATEGORY_ID;
             $l->content = $content;
+            $l->page = $page;
+
+
             $l->assign('app', $this->app);
 
 
