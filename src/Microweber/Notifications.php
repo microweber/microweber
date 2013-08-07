@@ -163,7 +163,7 @@ class Notifications
 
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id ='notifications_'.__FUNCTION__ . crc32($function_cache_id);
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
         if (($cache_content) != false) {
 

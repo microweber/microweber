@@ -64,19 +64,7 @@ class DbUtils extends \Microweber\Db
         }
     }
 
-    public function table_exist($table)
-    {
-        // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
-        $sql_check = "DESC {$table};";
 
-        $q = $this->query($sql_check);
-        if (isset($q['error'])) {
-            return false;
-        } else {
-            return $q;
-        }
-        // var_dump($q);
-    }
 
     /**
      * Copy entire database row

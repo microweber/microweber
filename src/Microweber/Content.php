@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-event_bind('mw_db_init', mw('Microweber\Content')->db_init());
+//event_bind('mw_db_init', mw('Microweber\Content')->db_init());
 
 /**
  * This file holds useful functions to work with content
@@ -65,7 +65,7 @@ class Content
             }
 
         }
-
+        $this->db_init();
 
     }
 
@@ -960,7 +960,6 @@ class Content
         if (!is_array($data)) {
             $data = array();
         }
-
 
 
         if (isset($data['is_draft'])) {

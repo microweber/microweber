@@ -98,7 +98,9 @@ if (isset($to_save['is_installed'])) {
 
         $save_config_orig = $save_config;
         foreach ($to_save as $k => $v) {
-            $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+            if (is_string($v)) {
+                $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+            }
         }
         $cfg = MW_CONFIG_FILE;
         //var_dump( $cfg);
@@ -157,9 +159,11 @@ if (isset($to_save['is_installed'])) {
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'no';
                 foreach ($to_save as $k => $v) {
-                    $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+                    if (is_string($v)) {
+                        $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+                    }
                 }
-                //
+
 
                 $default_htaccess_file = MW_ROOTPATH . '.htaccess';
 
@@ -244,12 +248,15 @@ if (isset($to_save['is_installed'])) {
                 clearstatcache();
                 mw('cache')->flush();
                 _reload_c();
-
-                __mw_install_log('Initializing users');
-
-
+                mw('option')->db_init();
                 __mw_install_log('Initializing options');
 
+
+
+
+
+                __mw_install_log('Initializing users');
+                mw('users')->db_init();
 
                 event_trigger('mw_db_init_options');
                 event_trigger('mw_db_init_users');
@@ -258,10 +265,19 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Creating default database tables');
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
+                mw('content')->db_init();
+                mw('notifications')->db_init();
+                mw('shop')->db_init();
+                mw('modules')->db_init();
+
 
 
                 __mw_install_log('Creating modules database tables');
                 event_trigger('mw_db_init_modules');
+                mw('modules')->scan_for_modules();
+                mw('modules')->update_db();
+
+
 
 
                 if (MW_IS_INSTALLED != true) {
@@ -291,7 +307,9 @@ if (isset($to_save['is_installed'])) {
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'yes';
                 foreach ($to_save as $k => $v) {
-                    $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+                    if (is_string($v)) {
+                        $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
+                    }
                 }
 
                 file_put_contents($cfg, $save_config);

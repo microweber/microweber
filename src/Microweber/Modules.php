@@ -26,6 +26,7 @@ class Modules extends \Microweber\Module
                 // d($indx);
             }
         }
+        $this->db_init();
     }
 
 

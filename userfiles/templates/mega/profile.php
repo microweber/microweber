@@ -32,11 +32,13 @@
                 <div class="span9">
                     <div class="bbox">
                       <div class="bbox-content">
+					  <a href="<?php print mw_site_url('get-started') ?>">+ Add website</a>
                           <ul class="nav nav-tabs" id="user-tabs-nav">
                               <li class="active"><a href="#">My Sites</a></li>
                               <li><a href="#">Account Information</a></li>
                               <li><a href="#">Payment Information</a></li>
                               <li><a href="#">Invoices</a></li>
+							   
                           </ul>
                           <div class="user-tab">
                               <h2>My Sites</h2>

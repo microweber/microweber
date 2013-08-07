@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-event_bind('mw_db_init', mw('Microweber\Option')->db_init());
+//event_bind('mw_db_init', mw('Microweber\Option')->db_init());
 
 
 event_bind('mw_db_init_options', mw('Microweber\Option')->_create_mw_default_options());
@@ -26,6 +26,7 @@ class Option
             }
 
         }
+        $this->db_init();
 
     }
 
@@ -41,7 +42,7 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'options_'.__FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->Cache->get($function_cache_id, 'db');
 

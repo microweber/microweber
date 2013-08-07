@@ -413,7 +413,7 @@ class Forms
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'forms' . __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 

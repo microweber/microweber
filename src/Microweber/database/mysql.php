@@ -2,15 +2,14 @@
 static $db_link;
 
 
-
 $is_mysqli = function_exists('mysqli_connect');
 //$is_mysqli = false;
 if ($is_mysqli != false) {
 
     if ($db_link == false or $db_link == NULL) {
-        if(isset($db['host'])){
-            $port_check  = explode(":",$db['host']);
-            if(isset($port_check[1])){
+        if (isset($db['host'])) {
+            $port_check = explode(":", $db['host']);
+            if (isset($port_check[1])) {
                 $port_num = intval($port_check[1]);
                 $db['host'] = $port_check[0];
             } else {
@@ -19,18 +18,17 @@ if ($is_mysqli != false) {
         }
 
 
-
         if (isset($db['pass']) and $db['pass'] != '') {
-            if(isset($port_num) and $port_num != false){
-                $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'],$port_num);
+            if (isset($port_num) and $port_num != false) {
+                $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'], $port_num);
             } else {
                 $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
             }
 
 
         } else {
-            if(isset($port_num) and $port_num != false){
-                $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname'],$port_num);
+            if (isset($port_num) and $port_num != false) {
+                $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname'], $port_num);
 
             } else {
                 $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
@@ -60,8 +58,6 @@ if ($is_mysqli != false) {
             // unset($result);
 
 
-
-
             $q = $nwq;
         } else {
             $q = $result;
@@ -75,7 +71,12 @@ if ($is_mysqli != false) {
 
     if (!$result) {
         $error['error'][] = $db_link->error;
-
+        mw('cache')->delete('db');
+        if (function_exists('event_trigger')) {
+            event_trigger('mw_db_init');
+            event_trigger('mw_db_init_default');
+            event_trigger('mw_db_init_modules');
+        }
         return $error;
         // throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
     } else {
@@ -120,20 +121,19 @@ if ($is_mysqli != false) {
     if (!$result) {
         $err = mysql_error();
         if (strstr($err, "doesn't exist") or strstr($err, "not exist")) {
-            if (function_exists('cache_clean_group')) {
-                mw('cache')->delete('db');
 
-            }
+            mw('cache')->delete('db');
 
-            if (function_exists('exec_action')) {
+
+            if (function_exists('event_trigger')) {
                 event_trigger('mw_db_init');
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init_modules');
             }
 
-            if (function_exists('re_init_modules_db')) {
-                re_init_modules_db();
-            }
+//            if (function_exists('re_init_modules_db')) {
+//                re_init_modules_db();
+//            }
             $query = $q;
             $result = mysql_query($query);
             if (!$result) {

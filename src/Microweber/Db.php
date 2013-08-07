@@ -590,8 +590,6 @@ class Db
         }
 
 
-
-
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
 
@@ -628,6 +626,11 @@ class Db
         if (!defined("MW_TABLE_PREFIX")) {
             return false;
         }
+
+
+        if (!defined("MW_IS_INSTALLED") or MW_IS_INSTALLED == false) {
+            return false;
+        }
         if (!isset($original_data['table'])) {
             return false;
         }
@@ -656,8 +659,14 @@ class Db
             $table_cats_items = $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
         }
 
-        if (isset($original_data['categories'])) {
 
+        if (isset($original_data['categories'])) {
+            if (!$this->table_exist($categories_table)) {
+                return false;
+            }
+            if (!$this->table_exist($table_cats_items)) {
+                return false;
+            }
 
             $is_a = $this->app->user->has_access('save_category');
 
@@ -839,7 +848,9 @@ class Db
             }
 
             if (!empty($custom_field_to_save)) {
-
+                if (!$this->table_exist($custom_field_table)) {
+                    return false;
+                }
 
                 $custom_field_to_delete['rel'] = $table_assoc_name;
 
@@ -2473,6 +2484,26 @@ class Db
         return $fields;
     }
 
+    public function table_exist($table)
+    {
+        // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
+        //$sql_check = "DESC {$table};";
+        $sql_check = "show tables like '$table'";
+
+
+
+        $q = $this->query($sql_check);
+
+        if (!is_array($q)) {
+            return false;
+        }
+        if (isset($q['error'])) {
+            return false;
+        } else {
+            return $q;
+        }
+        // var_dump($q);
+    }
 
     public function real_table_name($assoc_name)
     {
@@ -2602,8 +2633,7 @@ class Db
     }
 
 
-
-   public function get_table_name($assoc_name)
+    public function get_table_name($assoc_name)
     {
 
         $assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);

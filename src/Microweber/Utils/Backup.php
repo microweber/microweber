@@ -295,10 +295,25 @@ class Backup
 
         }
 
+
+        if (defined('MW_USERFILES')) {
+            if (!is_dir(MW_USERFILES)) {
+                mkdir_recursive(MW_USERFILES);
+            }
+        }
+
+
+        if (defined('MW_MEDIA_DIR')) {
+            if (!is_dir(MW_MEDIA_DIR)) {
+                mkdir_recursive(MW_MEDIA_DIR);
+            }
+        }
+
         if ($temp_dir_restore != false and is_dir($temp_dir_restore)) {
 
             $srcDir = $temp_dir_restore;
             $destDir = MW_USERFILES;
+
 
             $this->copyr($srcDir, $destDir);
 
@@ -369,18 +384,21 @@ class Backup
     function log_action($back_log_action)
     {
 
-        if ($back_log_action == false) {
-            $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
-        } else {
-            $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+        if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
-            if (is_array($check) and isset($check['id'])) {
-                $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+
+            if ($back_log_action == false) {
+                $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
             } else {
-                $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+                if (is_array($check) and isset($check['id'])) {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                } else {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                }
             }
         }
-
     }
 
     function copyr($source, $dest)
@@ -1316,7 +1334,6 @@ class Backup
         $cron->job('make_full_backup', '25 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
-
 
 
         $this->log_action(false);
