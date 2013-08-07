@@ -14,6 +14,9 @@
  <?php include "header.php"; ?>
  <?php include "community_header.php"; ?>
 
+
+ <?php if (!isset($_REQUEST['new-topic'])):?>
+
     <div class="container main">
         <?php  $url_cat = url_param('category');
         if(is_string($url_cat)){  ?>
@@ -63,12 +66,9 @@
               </a>
       <?php  }  } }  ?>
 
-
-
-
-
-
-
-
     </div>
+ <?php  else: ?>
+ <?php include "community_new_topic.php"; ?>
+ <?php  endif; ?>
+
  <?php include "footer.php"; ?>

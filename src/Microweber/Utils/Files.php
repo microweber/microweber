@@ -208,12 +208,12 @@ class Files
     public function get($params)
     {
         if (is_admin() == false) {
-            mw_mw_error("Must be admin");
+            mw_error("Must be admin");
         }
 
         $params = parse_params($params);
         if (!isset($params['directory'])) {
-            mw_mw_error("You must define directory");
+            mw_error("You must define directory");
         } else {
             $directory = $params['directory'];
         }

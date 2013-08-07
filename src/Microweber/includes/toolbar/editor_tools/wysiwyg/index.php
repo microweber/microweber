@@ -194,7 +194,7 @@ delete_module = function(inner_node){
 <body style="padding: 0;margin: 0;">
 <?php mw_var('plain_modules', true);
   if(is_admin() == false){
-    exit('Must be admin');
+    //exit('Must be admin');
   }
  ?>
 
