@@ -27,6 +27,18 @@
 
              
 				 mw.utils.stateloading(false);
+
+var $id  = this;
+   
+   $.get('<?php print mw_site_url('api_html/content_link/') ?>?id='+$id, function(data) {
+     window.top.location.href = data;
+
+   });
+
+
+
+
+
             });
             return false;
         });
@@ -42,14 +54,38 @@
         });
     });
 </script> 
+ <?php  
 
+$selected_cat = false;
+ $url_cat = url_param('category');
+if( $url_cat != false){
+   $selected_cat = get_category_by_id($url_cat);   
+   }
+  ?>
 
 
 	<div class="container main">
 		<h4>Great, open new discusion. It is easy</h4>
 		<br>
 		<form action="#" method="post" id="communuty-new-topic">
-			<div  class="mw_dropdown mw_dropdown_type_monster" data-value="-1"> <span class="mw_dropdown_val_holder"> <span class="mw_dropdown_val topic_cat_val">Select a category</span> <span class="dd_rte_arr"></span> </span>
+			<div  class="mw_dropdown mw_dropdown_type_monster" data-value="-1"> 
+
+
+			<span class="mw_dropdown_val_holder">
+<?php if($url_cat == false): ?>
+			 <span class="mw_dropdown_val topic_cat_val">Select a category</span> 
+<?php else: ?>
+
+				 <span class="mw_dropdown_val topic_cat_val"><?php print $selected_cat['title'] ?></span> 
+
+<?php endif; ?>
+
+			 <span class="dd_rte_arr"></span> 
+
+
+
+
+			 </span>
 				<div class="mw_dropdown_fields mw_dropdown_topic_cat">
 
 						<?php $cats = category_tree('link={title}&rel_id='.CONTENT_ID.'&rel=content&users_can_create_content=y');  ?>
@@ -62,9 +98,10 @@
 			<input type="text" class="box"  name="title" placeholder="New Discusion - Title" style="width: 100%;" />
 
 
+			<input type="hidden"  name="id"  value="0" />
 
 
-			<input type="hidden"  name="category" id="topic-seleceted-category" />
+			<input type="hidden"  name="category" id="topic-seleceted-category" <?php if($selected_cat != false): ?> value="<?php print $selected_cat['id'] ?>" <?php endif; ?> />
 			<div class="box" id="topic-editor-holder">
 				<textarea id="topic-editor" name="content"></textarea>
 			</div>
@@ -75,16 +112,22 @@
                   });
               </script>
 			<div id="new-topic-footer">
-				<label class="lcheck">
+				<!-- <label class="lcheck">
 					<input type="checkbox" checked="checked" />
-					<span>Notify me by e-mail on new answer</span></label>
-				<a href="javascript:;" class="mw-publish-forum-post orangebtn pull-right">Publish Topic</a> <a href="javascript:;" class="blue pull-right">Preview</a> </div>
+					<span>Notify me by e-mail on new answer</span></label> -->
+					<div class="box-content pull-left">
+            <img class="mw-captcha-img" src="<?php print mw_site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
+          <input type="text" placeholder="<?php _e("Enter the captcha"); ?>" class="box" name="captcha">
+        </div>
+
+				<a href="javascript:;" class="mw-publish-forum-post orangebtn pull-right">Publish Topic</a> <!-- <a href="javascript:;" class="blue pull-right">Preview</a> --> </div>
 		</form>
 
 
-<div id="new-topic-resp">
 
-</div>
 
 	</div>
+	<div id="new-topic-resp">
+
+</div>
 	 
