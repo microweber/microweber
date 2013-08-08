@@ -31,7 +31,7 @@ $(document).ready(function(){
 	 mw.$('#module_admin_settings_form_{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print mw_site_url('api') ?>/save_settings_el', function(){
+ mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print site_url('api') ?>/save_settings_el', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');

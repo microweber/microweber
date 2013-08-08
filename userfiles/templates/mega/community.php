@@ -21,35 +21,7 @@
         <?php  $url_cat = url_param('category');
         if(is_string($url_cat)){  ?>
             <h4>Discussions for <strong><?php  $cat = get_category_by_id($url_cat); print $cat['title']; ?></strong></h4>
-            <?php
-            $posts = get_content('category='.$url_cat);
-            if(is_array($posts)){
-              foreach($posts as $post){     ?>
-              <div class="bbox community-single-post">
-                <div class="bbox-content">
-                   <h5><a class="blue" href="<?php print $post['url']; ?>"><?php print $post['title']; ?></a>
-                   <a href="<?php print $post['url']; ?>#replies" class="pull-right">
-                     <?php
-                        $data = array( 'content_id' => $post['id'] );
-                        $comments = get_comments( $data );
-                        if(is_array($comments)){
-                          print sizeof( $comments );
-                        }
-                        else{ print 0; }
-                      ?>
-                     <i class="icon-comment"></i>
-                    </a>
-                    </h5>
-                </div>
-              </div>
-          <?php    }    }  else {    ?>
-                <div class="bbox">
-                  <div class="bbox-content">
-                      No topics for <strong><?php  print $cat['title']; ?></strong>,
-                      &nbsp;&nbsp;&nbsp;<a href="<?php print mw_site_url(); ?>community" class="blue"><em class="icon-double-angle-left"></em>&nbsp;Go back</a>
-                  </div>
-                </div>
-       <?php   }   ?>
+            <module type="posts" template="forum" />
 
          <?php } else { ?>
              <h4>Main categories of discusions</h4>

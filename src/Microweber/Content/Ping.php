@@ -54,7 +54,7 @@ class Ping
             return false;
         }
 
-        $fqdn = $this->is_fqdn(mw_site_url());
+        $fqdn = $this->is_fqdn(site_url());
 
 
         if ($fqdn != false) {

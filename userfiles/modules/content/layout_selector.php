@@ -278,7 +278,7 @@ if(layout != undefined){
 
 
 <?php if($data['id'] ==0){
-	$iframe_start = mw_site_url('home');
+	$iframe_start = site_url('home');
 } else {
 	$iframe_start = page_link($data['id']);
 }

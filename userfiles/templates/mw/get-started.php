@@ -175,7 +175,7 @@
                     mw.$('#user_registration_form').submit(function () {
 
 
-                        mw.form.post(mw.$('#user_registration_form'), '<?php print mw_site_url('api') ?>/user_register', function () {
+                        mw.form.post(mw.$('#user_registration_form'), '<?php print site_url('api') ?>/user_register', function () {
 
 
                             mw.response('#form-holder', this);
@@ -240,7 +240,7 @@
                         <div class="controls">
                             <div class="input-prepend" style="width: 100%;"><span style="width: 100px;background: white"
                                                                                   class="add-on"> <img
-                                        class="mw-captcha-img" src="<?php print mw_site_url('api/captcha') ?>"
+                                        class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>"
                                         onclick="mw.tools.refresh_image(this);"/> </span>
                                 <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-captcha-input"
                                        name="captcha">

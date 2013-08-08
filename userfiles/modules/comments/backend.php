@@ -88,7 +88,7 @@ mw.on.hashParam("comments_for_content", function(){
           if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
           if(conf){
               var id = form.attr('id');
-              mw.form.post('#'+id, '<?php print mw_site_url('api/post_comment'); ?>');
+              mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
 			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
 				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
 			  });
@@ -134,7 +134,7 @@ mw.on.hashParam("comments_for_content", function(){
 					
 					var mark_as_old = {}
 					mark_as_old.content_id = is_cont;
-					$.post('<?php print mw_site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
+					$.post('<?php print site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
 					   
 					});
 					

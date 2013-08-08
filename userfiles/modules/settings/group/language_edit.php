@@ -38,7 +38,7 @@
 
     mw.tools.disable(mwd.querySelector(".send-your-lang a"), "Sending...");
 
-    mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print mw_site_url('api/send_lang_form_to_microweber'); ?>',
+    mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print site_url('api/send_lang_form_to_microweber'); ?>',
       function(msg) {
 
         mw.notification.msg(this, 1000, true);
@@ -60,7 +60,7 @@
  function save_lang_form(){
 
 
- mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print mw_site_url('api/save_language_file_content'); ?>',
+ mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print site_url('api/save_language_file_content'); ?>',
 			function(msg) {
 mw.notification.msg(this);
 

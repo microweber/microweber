@@ -36,7 +36,7 @@
     <div class="mw-v-cell">
 <?php
 if(isset($_COOKIE['last_page'])){
-	$past_page = mw_site_url($_COOKIE['last_page']);
+	$past_page = site_url($_COOKIE['last_page']);
   if($past_page != false){
     $cont_by_url = mw('content')->get_by_url($past_page );
    }

@@ -119,7 +119,7 @@ body.module-settings-page #custom_link_controller {
 
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
-      $.post("<?php print mw_site_url('api/add_new_menu') ?>",  obj, function(data){
+      $.post("<?php print site_url('api/add_new_menu') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
       });
  }
@@ -153,7 +153,7 @@ var data = {}
 data.id = $id
 
 
-      $.post("<?php print mw_site_url('api/menu_delete') ?>",  data, function(resp){
+      $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
       });
 

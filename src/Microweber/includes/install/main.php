@@ -52,7 +52,7 @@ $(document).ready(function(){
       $('#mw_log').hide().empty();
      if(data != undefined){
      if(data == 'done'){
-       // window.location.href= '<?php print mw_site_url('admin') ?>'
+       // window.location.href= '<?php print site_url('admin') ?>'
 	         // window.location.href= window.location.href
 			 $('#mw-install-done').fadeIn();
 
@@ -436,9 +436,9 @@ $hide_db_setup = 1;
               <h2>
                 <?php _e("Done"); ?>
                 , </h2>
-              <a href="<?php print mw_site_url('admin') ?>">
+              <a href="<?php print site_url('admin') ?>">
               <?php _e("click here to to to admin"); ?>
-              </a> <a href="<?php print mw_site_url() ?>">
+              </a> <a href="<?php print site_url() ?>">
               <?php _e("click here to to to site"); ?>
               </a>
               <?php endif; ?>
@@ -448,9 +448,9 @@ $hide_db_setup = 1;
                 <?php _e("Installation is completed"); ?>
               </h2>
               <br />
-              <a href="<?php print mw_site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">
+              <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">
               <?php _e("Click here to go to Admin Panel"); ?>
-              </a> <a href="<?php print mw_site_url() ?>" class="mw-ui-btn left">
+              </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left">
               <?php _e("Click here visit your site"); ?>
               </a> </div>
           </div>

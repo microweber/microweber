@@ -98,7 +98,7 @@ mw.custom_fields.create = function($type, $copy, callback){
       if($copy !== undefined){
         var copy_str = '/copy_from:'+ $copy;
       }
-      mw.$('#custom-fields-form-wrap-{rand}').load('<?php print mw_site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><?php print $module_id; ?>/for:<?php print $for  ?>/custom_field_type:'+$type + copy_str, function(){
+      mw.$('#custom-fields-form-wrap-{rand}').load('<?php print site_url('api_html/make_custom_field/settings:y/basic:y/for_module_id:') ?><?php print $module_id; ?>/for:<?php print $for  ?>/custom_field_type:'+$type + copy_str, function(){
         mw.is.func(callback) ? callback.call($type) : '';
         mw.$("#create-custom-field-table").removeClass("semi_hidden");
       });
@@ -128,7 +128,7 @@ mw.custom_fields.create('price');
 
 mw.custom_fields.save = function(id){
     var obj = mw.form.serialize("#"+id);
-    $.post("<?php print mw_site_url('api_html/save_custom_field') ?>", obj, function(data) {
+    $.post("<?php print site_url('api_html/save_custom_field') ?>", obj, function(data) {
        $cfadm_reload = false;
 	 
 	   
@@ -180,7 +180,7 @@ mw.custom_fields.del = function(id){
     var q = "Are you sure you want to delete this?";
     mw.tools.confirm(q, function(){
       var obj = mw.form.serialize("#"+id);
-      $.post("<?php print mw_site_url('api/remove_field') ?>",  obj, function(data){
+      $.post("<?php print site_url('api/remove_field') ?>",  obj, function(data){
         $("#"+id).parents('.custom-field-table-tr').first().remove();
       });
     });
@@ -205,7 +205,7 @@ mw.custom_fields.sort_rows = function(){
             obj.cforder.push(id);
          });
 
-         $.post("<?php print mw_site_url('api/reorder_custom_fields'); ?>", obj, function(){});
+         $.post("<?php print site_url('api/reorder_custom_fields'); ?>", obj, function(){});
        },
        start:function(a,ui){
               $(this).height($(this).outerHeight());

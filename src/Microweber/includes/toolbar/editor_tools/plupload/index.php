@@ -73,7 +73,7 @@
                 debug : 1,
                 container: 'container',
 				chunk_size : '500kb',
-                url : '<?php print mw_site_url('plupload'); ?>',
+                url : '<?php print site_url('plupload'); ?>',
                 filters:filters,
                 multi_selection:multi
             });

@@ -14,7 +14,7 @@ mw.require('forms.js', true);
 
 $(document).ready(function(){
 	 mw.$('#user_reset_password_form<?php print $params['id'];  ?>').submit(function() {
- 		mw.form.post(mw.$('#user_reset_password_form<?php print $params['id'];  ?>') , '<?php print mw_site_url('api') ?>/user_reset_password_from_link', function(){
+ 		mw.form.post(mw.$('#user_reset_password_form<?php print $params['id'];  ?>') , '<?php print site_url('api') ?>/user_reset_password_from_link', function(){
 	    var is_new_pass =  mw.response('#user_reset_password_form<?php print $params['id'];  ?>',this);
 		
  		if(is_new_pass == true){
@@ -79,7 +79,7 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
         <div class="controls mw-ui-field-holder">
           <div class="input-prepend mw-ui-field mw-ico-field">
             <span style="width: 100px;background: white" class="add-on left">
-                <img class="mw-captcha-img" src="<?php print mw_site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
+                <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
             </span>
             <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-ui-invisible-field mw-captcha-input" name="captcha">
           </div>

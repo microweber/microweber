@@ -40,7 +40,7 @@ $(document).ready(function(){
 	 mw.$('#mw_form1_updates{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#mw_form1_updates{rand}') , '<?php print mw_site_url('api') ?>/mw_apply_updates', function(){
+ mw.form.post(mw.$('#mw_form1_updates{rand}') , '<?php print site_url('api') ?>/mw_apply_updates', function(){
 	 
 var obj =  (this);
 

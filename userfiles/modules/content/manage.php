@@ -269,7 +269,7 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print mw_site_url('api/reorder_content'); ?>", obj, function(){});
+       $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){});
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());

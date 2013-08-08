@@ -16,10 +16,10 @@ $(document).ready(function(){
 	 mw.$('.module-templates-action-btn').click(function() {
 	
 	var temp_form1 = mw.tools.firstParentWithClass(this, 'module-templates-add-new-holder');
-	var save_module_as_template_url = '<?php print mw_site_url('api') ?>/save_module_as_template';
+	var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
 	var is_del = $(this).attr('delete');
 	if(is_del != undefined){
-		var save_module_as_template_url = '<?php print mw_site_url('api') ?>/delete_module_as_template';
+		var save_module_as_template_url = '<?php print site_url('api') ?>/delete_module_as_template';
 	}
 	
 

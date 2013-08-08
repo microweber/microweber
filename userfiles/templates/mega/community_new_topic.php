@@ -22,18 +22,20 @@
     $(document).ready(function () {
         mw.$('#communuty-new-topic').bind("submit",function () {
             mw.utils.stateloading(true);
-            mw.form.post(mw.$('#communuty-new-topic'), '<?php print mw_site_url('api') ?>/save_content', function () {
+            mw.form.post(mw.$('#communuty-new-topic'), '<?php print site_url('api') ?>/save_content', function () {
                 mw.response('#new-topic-resp', this);
 
              
 				 mw.utils.stateloading(false);
 
+if(!this.error){
 var $id  = this;
    
-   $.get('<?php print mw_site_url('api_html/content_link/') ?>?id='+$id, function(data) {
+   $.get('<?php print site_url('api_html/content_link/') ?>?id='+$id, function(data) {
      window.top.location.href = data;
 
    });
+}
 
 
 
@@ -94,6 +96,8 @@ if( $url_cat != false){
 					 
 				</div>
 			</div>
+			
+			
 
 			<input type="text" class="box"  name="title" placeholder="New Discusion - Title" style="width: 100%;" />
 
@@ -116,7 +120,7 @@ if( $url_cat != false){
 					<input type="checkbox" checked="checked" />
 					<span>Notify me by e-mail on new answer</span></label> -->
 					<div class="box-content pull-left">
-            <img class="mw-captcha-img" src="<?php print mw_site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
+            <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" />
           <input type="text" placeholder="<?php _e("Enter the captcha"); ?>" class="box" name="captcha">
         </div>
 

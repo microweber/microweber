@@ -103,17 +103,18 @@ function get_posts($params = false)
     return mw('content')->get($params);
 }
 
-function site_url($str = '')
-{
 
-    return mw_site_url($str);
+function mw_site_url($str = '')
+{
+//old name will be removed soon
+    return site_url($str);
 }
 
 
 function api_url($str = '')
 {
     $str = ltrim($str, '/');
-    return mw_site_url('api/' . $str);
+    return site_url('api/' . $str);
 }
 
 /**
@@ -858,7 +859,6 @@ function save_custom_field($data)
 {
 
 
-
     return mw('fields')->save($data);
 }
 
@@ -1144,10 +1144,6 @@ function module_templates($module_name, $template_name = false)
 }
 
 
-
-
-
-
 /**
  * @desc  Get the template layouts info under the layouts subdir on your active template
  * @param $options
@@ -1156,15 +1152,11 @@ function module_templates($module_name, $template_name = false)
  * @author    Microweber Dev Team
  * @since Version 1.0
  */
-function site_templates($options=false)
+function site_templates($options = false)
 {
 
     return mw('ContentUtils')->site_templates($options);
 }
-
-
-
-
 
 
 function module_name_decode($module_name)
@@ -1710,7 +1702,7 @@ function admin_url($add_string = false)
 
     $admin_url = c('admin_url');
 
-    return mw_site_url($admin_url) . '/' . $add_string;
+    return site_url($admin_url) . '/' . $add_string;
 }
 
 
@@ -1734,7 +1726,7 @@ function mw_send_anonymous_server_data($params)
 
         return $iudates;
     } else {
-        $params['site_url'] = mw_site_url();
+        $params['site_url'] = site_url();
         $result = $update_api->call('send_anonymous_server_data', $params);
         return $result;
     }
@@ -2021,10 +2013,6 @@ function lipsum($number_of_characters = false)
 }
 
 
-
-
-
-
 /**
  *
  *
@@ -2044,15 +2032,15 @@ function lipsum($number_of_characters = false)
  * @return mixed
  * an array of files in the given path matching the pattern.
  */
-  function rglob($pattern = '*', $flags = 0, $path = '')
+function rglob($pattern = '*', $flags = 0, $path = '')
 {
     if (!$path && ($dir = dirname($pattern)) != '.') {
         if ($dir == '\\' || $dir == '/')
             $dir = '';
-        return  rglob(basename($pattern), $flags, $dir . DS);
+        return rglob(basename($pattern), $flags, $dir . DS);
     }
 
-    $path = normalize_path($path,1);
+    $path = normalize_path($path, 1);
     $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
     $files = glob($path . $pattern, $flags);
 
@@ -2074,8 +2062,6 @@ function lipsum($number_of_characters = false)
 }
 
 
-
-
 /**
  * Returns the current microtime
  *
@@ -2085,12 +2071,12 @@ function lipsum($number_of_characters = false)
  * @category Date
  * @link http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
  */
-function microtime_float () {
+function microtime_float()
+{
     list ($msec, $sec) = explode(' ', microtime());
     $microtime = (float)$msec + (float)$sec;
     return $microtime;
 }
-
 
 
 /**
@@ -2102,7 +2088,8 @@ function microtime_float () {
  * @version     0.3
  * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
  */
-function file_size_nice($size) {
+function file_size_nice($size)
+{
     // Adapted from: http://www.php.net/manual/en/function.filesize.php
 
     $mod = 1024;
@@ -2114,8 +2101,6 @@ function file_size_nice($size) {
 
     return round($size, 2) . ' ' . $units[$i];
 }
-
-
 
 
 $ex_fields_static = array();

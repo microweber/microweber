@@ -212,7 +212,7 @@ $(document).ready(function(){
 
    mw_before_content_save<?php print $rand; ?>();
 
-   mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print mw_site_url('api/save_content') ?>', function(){
+   mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print site_url('api/save_content') ?>', function(){
      <?php if(intval($data['id']) == 0): ?>
 
 
@@ -286,7 +286,7 @@ mw_on_save_complete<?php print $rand; ?>()
 
   mw.$('#admin_edit_page_form_<?php print $rand; ?> .go-live').click(function() {
     mw_before_content_save<?php print $rand; ?>();
-    mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print mw_site_url('api/save_content') ?>', function(){
+    mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print site_url('api/save_content') ?>', function(){
         mw_after_content_save<?php print $rand; ?>(this);
     });
     return false;
@@ -512,7 +512,7 @@ function mw_before_content_save<?php print $rand; ?>(){
   mw.reload_module('#admin_edit_page_form_<?php print $rand; ?> .module[data-type="custom_fields"]');
   if( typeof $id =='string'){
    $id = $id.replace(/"/g, "");
-   $.get('<?php print mw_site_url('api_html/content_link/?id=') ?>'+$id, function(data) {
+   $.get('<?php print site_url('api_html/content_link/?id=') ?>'+$id, function(data) {
      window.top.location.href = data+'/editmode:y';
 
    });
@@ -584,7 +584,7 @@ function mw_before_content_save<?php print $rand; ?>(){
 			<?php endif; ?>
 		</div>
 		<?php if(!isset($params['from_live_edit'])): ?>
-		<div class="edit-post-url"><span class="view-post-site-url"><?php print mw_site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
+		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
 			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
 			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
 		<?php endif; ?>

@@ -7,7 +7,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery.js"></script>
-<script type="text/javascript" src="<?php print( mw_site_url('apijs')); ?>"></script>
+<script type="text/javascript" src="<?php print( site_url('apijs')); ?>"></script>
 
 <!-- Le styles -->
 <link href="<?php print $config['url_to_module'] ?>static/css/bootstrap.css" rel="stylesheet">

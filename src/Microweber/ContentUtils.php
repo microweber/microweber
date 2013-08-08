@@ -180,7 +180,7 @@ class ContentUtils extends \Microweber\Content
 
 
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
-            $data_to_save['url'] = str_replace(mw_site_url(), '', $data_to_save['url']);
+            $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
         }
 
 

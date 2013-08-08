@@ -26,7 +26,7 @@
                       <h2><strong>WEBSITE, BLOG  & ONLINE SHOP</strong></h2>
                       <div class="text-center">
                           <a style="width:225px;"
-                             href="<?php print mw_site_url(); ?>get-started"
+                             href="<?php print site_url(); ?>get-started"
                              title="Get Started"
                              class="fbtn fitem-orange">Get Started</a>
                       </div>

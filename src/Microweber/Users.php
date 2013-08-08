@@ -611,7 +611,7 @@ function mw_social_login_exception_handler($exception)
     if ($after_log != false) {
         $this->app->url->redirect($after_log);
     } else {
-        $this->app->url->redirect(mw_site_url());
+        $this->app->url->redirect(site_url());
     }
 
 }

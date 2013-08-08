@@ -102,7 +102,7 @@ mw_save_draft_int = self.setInterval(function(){
 <?php
 
 
-			 $back_url = mw_site_url().'admin/view:content';
+			 $back_url = site_url().'admin/view:content';
 			 if(defined('CONTENT_ID')){
 				 $back_url .= '#action=editpage:'.CONTENT_ID;
 			 }
@@ -241,7 +241,7 @@ mw_save_draft_int = self.setInterval(function(){
             frameborder="0"
             scrolling="auto"
             id="mw_edit_pages"
-            data-src="<?php print mw_site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
+            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
             src="#"> </iframe>
     </div>
     <div id="tab_help" class="mw_toolbar_tab">

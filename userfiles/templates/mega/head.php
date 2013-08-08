@@ -16,7 +16,7 @@
   <link href="<?php print $cdn; ?>style.css" rel="stylesheet">
   <link href="<?php print $cdn; ?>style.responsive.css" rel="stylesheet">
   <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
-  <script src="<?php print mw_site_url(); ?>apijs"></script>
+  <script src="<?php print site_url(); ?>apijs"></script>
   <script>
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw.ui.css");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/mw_framework.css");

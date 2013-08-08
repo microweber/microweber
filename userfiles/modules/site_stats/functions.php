@@ -70,7 +70,7 @@ function stats_append_image($layout = false) {
 		stats_insert();
 		//$selector = '/<\/body>/si';
 		////$rand = date("Y-m-d");
-		//$layout = modify_html($layout, $selector, '<img src="' . mw_site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
+		//$layout = modify_html($layout, $selector, '<img src="' . site_url('api/stats_image?rand=' . $rand) . '" height="1" class="semi_hidden statts_img" />', 'prepend');
 	}
 	//}
 	//$layout = mw_dom($layout, 'ul.mw-quick-links:last', '<li><a href="#"><span class="ico ihelp"></span><span>I am dynamic</span></a></li>');

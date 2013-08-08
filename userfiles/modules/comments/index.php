@@ -251,7 +251,7 @@ var comm_module_id = "<?php print $params['id'] ?>";
 
         mw.$('form#comments-form-<?php print $params['id'] ?>').submit(function() {
 
-            mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print mw_site_url('api/post_comment'); ?>',
+            mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print site_url('api/post_comment'); ?>',
 			function(msg) {
 
 				var resp = this;

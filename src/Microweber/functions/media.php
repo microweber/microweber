@@ -59,7 +59,7 @@ function pixum_img()
 
 function pixum($width, $height)
 {
-    return mw_site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }
 
 api_expose('thumbnail_img');

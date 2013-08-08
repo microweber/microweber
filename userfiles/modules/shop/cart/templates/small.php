@@ -85,7 +85,7 @@ description: Small cart template
 
 	   $checkout_page_link = mw('content')->link($checkout_page).'/view:checkout';
    } else {
-	   $checkout_page_link = mw_site_url('checkout');
+	   $checkout_page_link = site_url('checkout');
 
    }
 

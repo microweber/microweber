@@ -1,8 +1,10 @@
 /* WYSIWYG Editor */
+/* ContentEditable Functions */
 
 
 
 mw.require('css_parser.js');
+mw.require('events.js');
 
 
 
@@ -43,7 +45,6 @@ mw.wysiwyg = {
                     this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
                     mw.askusertostay = true;
                 });
-
             });
         }
         else{

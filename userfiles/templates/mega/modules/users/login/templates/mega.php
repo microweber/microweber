@@ -15,10 +15,10 @@
 <?php if($user != false): ?>
 
 <h5>Redirecting to your account...</h5>
-<!--<h4><a href="<?php print mw_site_url() ?>profile">Click here to go to your profile</a></h4>
+<!--<h4><a href="<?php print site_url() ?>profile">Click here to go to your profile</a></h4>
 --> 
 <script>
-window.location.href =  "<?php print mw_site_url() ?>profile";		
+window.location.href =  "<?php print site_url() ?>profile";		
 
 </script>
 <?php else:  ?>
@@ -26,7 +26,7 @@ window.location.href =  "<?php print mw_site_url() ?>profile";
 <script>
     gotoprofile = function(){
  
-	window.location.href =  "<?php print mw_site_url() ?>profile";		
+	window.location.href =  "<?php print site_url() ?>profile";		
 		 
  
 /*$.post('<?php print api_url('whm_get_user_info'); ?>', function(data){
@@ -75,23 +75,23 @@ window.location.href =  "<?php print mw_site_url() ?>profile";
 			<div class="social-login">
 				<label>Login with</label>
 				<?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
-				<a href="<?php print mw_site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
+				<a href="<?php print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 				<?php if(get_option('enable_user_twitter_registration','users') =='y'): ?>
-				<a href="<?php print mw_site_url('api/user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
+				<a href="<?php print site_url('api/user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 				<?php if(get_option('enable_user_google_registration','users') =='y'): ?>
-				<a href="<?php print mw_site_url('api/user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
+				<a href="<?php print site_url('api/user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 				<?php if(get_option('enable_user_windows_live_registration','users') =='y'): ?>
-				<a href="<?php print mw_site_url('api/user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
+				<a href="<?php print site_url('api/user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 				<?php if(get_option('enable_user_github_registration','users') =='y'): ?>
-				<a href="<?php print mw_site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
+				<a href="<?php print site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 			</div>

@@ -1235,6 +1235,17 @@ class Content
             if ($page['content_type'] == "post") {
                 $content = $page;
 
+
+
+
+                $current_categorys = get_categories_for_content($page['id']);
+                if(!empty($current_categorys)){
+                    $current_category = array_shift($current_categorys);
+                    if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
+                        define('CATEGORY_ID', $current_category['id']);
+                    }
+                }
+
                 $page = $this->get_by_id($page['parent']);
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);

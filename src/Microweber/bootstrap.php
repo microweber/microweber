@@ -16,7 +16,7 @@ if (!defined('DS')) {
 if (!defined('MW_SITE_URL')) {
     // please add backslash to the url if you define it
     // like http://localhost/mw/
-    define('MW_SITE_URL', mw_site_url());
+    define('MW_SITE_URL', site_url());
 }
 
 if (!defined('MW_APP_PATH')) {
@@ -363,18 +363,18 @@ function mw_error($e, $f = false, $l = false)
 }
 
 
-if (!isset($mw_site_url)) {
-    $mw_site_url = false;
+if (!isset($site_url)) {
+    $site_url = false;
 }
-function mw_site_url($add_string = false)
+function site_url($add_string = false)
 {
-    global $mw_site_url;
+    global $site_url;
 
     if (defined('MW_SITE_URL')) {
-        $mw_site_url = MW_SITE_URL;
+        $site_url = MW_SITE_URL;
 
     }
-    if ($mw_site_url == false) {
+    if ($site_url == false) {
         $pageURL = 'http';
         if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
             $pageURL .= "s";
@@ -450,12 +450,12 @@ function mw_site_url($add_string = false)
             $i++;
         }
         $url_segs[] = '';
-        $mw_site_url = implode('/', $url_segs);
+        $site_url = implode('/', $url_segs);
 
     }
 
 
-    return $mw_site_url . $add_string;
+    return $site_url . $add_string;
 }
 
 
@@ -466,7 +466,7 @@ function mw_path_to_url($path)
     $path = str_replace('\\', '/', $path);
     $path = str_replace('//', '/', $path);
     //var_dump($path);
-    return mw_site_url($path);
+    return site_url($path);
 }
 
 require_once (MW_APP_PATH . 'functions' . DS . 'mw_functions.php');

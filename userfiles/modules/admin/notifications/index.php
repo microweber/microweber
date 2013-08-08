@@ -27,7 +27,7 @@ $data = mw('Microweber\Notifications')->get($notif_params);
 
 mw.notif_item_delete = function($item_id){
      mw.tools.confirm(mw.msg.del, function(){
-    	  $.get("<?php print mw_site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
+    	  $.get("<?php print site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
     		 	mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
     	  });
      });
@@ -35,7 +35,7 @@ mw.notif_item_delete = function($item_id){
 }
 
 mw.notif_reset_all = function(){
-	 $.get("<?php print mw_site_url('api/Notifications/reset'); ?>", function(){
+	 $.get("<?php print site_url('api/Notifications/reset'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
 	  });
 }

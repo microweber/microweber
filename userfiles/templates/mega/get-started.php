@@ -32,7 +32,7 @@ $(document).ready(function(){
 <div id="header">
     <div class="container">
         <div id="get-started-header">
-            <a href="<?php print mw_site_url(); ?>" id="logo" class="logomark" title="Microweber">Microweber</a>
+            <a href="<?php print site_url(); ?>" id="logo" class="logomark" title="Microweber">Microweber</a>
             <span>Make Web. Easy and Fun!</span>
         </div>
     </div> <!-- /#header > .container -->

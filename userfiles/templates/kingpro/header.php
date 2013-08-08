@@ -4,7 +4,7 @@
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php print mw_site_url('sitemap.xml'); ?>" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php print site_url('sitemap.xml'); ?>" />
 
     <meta property="og:title" content="{content_meta_title}">
     <meta name="keywords" content="{content_meta_keywords}">
@@ -71,7 +71,7 @@
                 <div class="mw-row">
                     <div class="mw-col" style="width: 20%">
                        <div class="element">
-                          <a href="<?php print mw_site_url(); ?>"><img src="{TEMPLATE_URL}img/logo.png" alt="" /></a>
+                          <a href="<?php print site_url(); ?>"><img src="{TEMPLATE_URL}img/logo.png" alt="" /></a>
                        </div>
                     </div>
                     <div class="mw-col" style="width: 50%">

@@ -60,7 +60,7 @@ if( $id != 0){
 
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
-    	 $.get("<?php print mw_site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
+    	 $.get("<?php print site_url('api/delete_menu_item'); ?>/"+$item_id, function(){
     		 	mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
 				
 				
@@ -142,7 +142,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
     			}
 			}
          });
-         $.post("<?php print mw_site_url('api/reorder_menu_items'); ?>", obj);
+         $.post("<?php print site_url('api/reorder_menu_items'); ?>", obj);
             if(self !== parent && typeof parent.mw !== 'undefined'){
 			    parent.mw.reload_module('menu');
 			 } else {

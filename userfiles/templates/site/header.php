@@ -36,20 +36,20 @@
     </head>
     <body>
 <div id="header" class="clearfix">
-      <div class="container"> <a href="<?php print mw_site_url('home') ?>" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
+      <div class="container"> <a href="<?php print site_url('home') ?>" id="logo" title="Microweber - Make Web">Microweber - Make Web</a>
     <ul id="main-menu" class="nav nav-pills mw-nav">
-          <li><a href="<?php print mw_site_url('home') ?>#home-video">Download</a></li>
-<!--          <li><a href="<?php print mw_site_url('home') ?>#how-to-use">How to use</a></li>
+          <li><a href="<?php print site_url('home') ?>#home-video">Download</a></li>
+<!--          <li><a href="<?php print site_url('home') ?>#how-to-use">How to use</a></li>
 -->
 
 
 <!--          <li><a href="javascript:;" id="doc-popup">How to install</a></li>
 -->          
 
-          <li><a href="<?php print mw_site_url('developers-help') ?>">How to...</a></li>
+          <li><a href="<?php print site_url('developers-help') ?>">How to...</a></li>
 
 
-<li><a href="<?php print mw_site_url('home') ?>#contact-us">Contacts</a></li>
+<li><a href="<?php print site_url('home') ?>#contact-us">Contacts</a></li>
         </ul>
     <div id="doc-modal" class="hide">
           <div align="left">
