@@ -44,7 +44,7 @@ class Option
 
         $function_cache_id = 'options_'.__FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->Cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -78,7 +78,7 @@ class Option
         //\mw('Microweber\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
         //\mw('Microweber\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
       //  $this->_create_mw_default_options();
-        $this->app->Cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
@@ -139,7 +139,7 @@ class Option
         }
 
 
-        $cache_content = $this->app->Cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
         if (($cache_content) == '--false--') {
             return false;
         }
@@ -189,7 +189,7 @@ class Option
         $q_cache_id = crc32($q);
         $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
         if (!is_array($get_all)) {
-            $this->app->Cache->save('--false--', $function_cache_id, $cache_group);
+            $this->app->cache->save('--false--', $function_cache_id, $cache_group);
 
             return false;
         }
@@ -232,7 +232,7 @@ class Option
             }
         } else {
 
-            //$this->app->Cache->save('--false--', $function_cache_id, $cache_group);
+            //$this->app->cache->save('--false--', $function_cache_id, $cache_group);
             $_mw_global_options_mem[$function_cache_id] = false;
             return FALSE;
         }
@@ -439,7 +439,7 @@ class Option
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
                 $this->app->db->q($clean);
                 $cache_group = 'options/' . $opt_gr;
-                $this->app->Cache->delete($cache_group);
+                $this->app->cache->delete($cache_group);
 
                 //d($clean);
             }
@@ -463,10 +463,10 @@ class Option
                 if ($option_group != false) {
 
                     $cache_group = 'options/' . $option_group;
-                    $this->app->Cache->delete($cache_group);
+                    $this->app->cache->delete($cache_group);
                 } else {
                     $cache_group = 'options/' . 'global';
-                    $this->app->Cache->delete($cache_group);
+                    $this->app->cache->delete($cache_group);
                 }
 
                 if (isset($data['id']) and intval($data['id']) > 0) {
@@ -475,14 +475,14 @@ class Option
 
                     if (isset($opt['option_group'])) {
                         $cache_group = 'options/' . $opt['option_group'];
-                        $this->app->Cache->delete($cache_group);
+                        $this->app->cache->delete($cache_group);
                     }
                     $cache_group = 'options/' . intval($data['id']);
-                    $this->app->Cache->delete($cache_group);
+                    $this->app->cache->delete($cache_group);
                 }
 
 
-                $this->app->Cache->delete('options/global');
+                $this->app->cache->delete('options/global');
 
                 return $save;
             }
@@ -511,7 +511,7 @@ class Option
 
         $this->app->db->q($q);
 
-        $this->app->Cache->delete('options');
+        $this->app->cache->delete('options');
 
         return true;
     }
@@ -521,7 +521,7 @@ class Option
 
         $function_cache_id = __FUNCTION__;
 
-        $cache_content = $this->app->Cache->get($function_cache_id, $cache_group = 'db', 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db', 'files');
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -620,9 +620,9 @@ class Option
         }
         if ($changes == true) {
             //var_dump($changes);
-            $this->app->Cache->delete('options/global');
+            $this->app->cache->delete('options/global');
         }
-        $this->app->Cache->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
 
         return true;
     }

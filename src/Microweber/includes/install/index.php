@@ -249,6 +249,7 @@ if (isset($to_save['is_installed'])) {
                 mw('cache')->flush();
                 _reload_c();
                 mw('option')->db_init();
+				 mw('option')->_create_mw_default_options();
                 __mw_install_log('Initializing options');
 
 

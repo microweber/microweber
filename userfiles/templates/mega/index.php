@@ -66,7 +66,7 @@
     <?php /*<div class="dots-holder" id="home-rotator-dots"></div>*/ ?>
     <div class="container">
         <div class="row" id="home-features">
-            <a href="javascript:;" class="span3 hf-drag-drop" data-index="0"><span></span>Feel Drag &amp; Drop</a>
+            <a href="javascript:;" class="span3 hf-drag-drop active" data-index="0"><span></span>Feel Drag &amp; Drop</a>
             <a href="javascript:;" class="span3 hf-create-content" data-index="1"><span></span>Create Content</a>
             <a href="javascript:;" class="span3 hf-sell-more" data-index="2"><span></span>Sell More</a>
             <a href="javascript:;" class="span3 hf-be-mobile" data-index="3"><span></span>Be Mobile</a>

@@ -54,7 +54,7 @@ mw.form = {
     var ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);
 
-	if(url_to_post == undefined){
+	if(typeof url_to_post == 'undefined'){
 
 		url_to_post = mw.settings.site_url+'api/post_form';
 
@@ -62,7 +62,7 @@ mw.form = {
 		url_to_post = url_to_post;
 	}
 
-  var is_form_valid = true;
+ // var is_form_valid = true;
 
     if(is_form_valid){
         var obj = mw.form.serialize(selector, ignorenopost);

@@ -1866,6 +1866,30 @@ function no_ext($filename)
 
 }
 
+function url2dir($path)
+{
+    if (trim($path) == '') {
+        return false;
+    }
+
+    $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+    $path = str_replace('\\', '/', $path);
+    $path = str_replace('//', '/', $path);
+
+    return normalize_path($path, false);
+}
+
+
+function dir2url($path)
+{
+    $path = str_ireplace(MW_ROOTPATH, '', $path);
+    $path = str_replace('\\', '/', $path);
+    $path = str_replace('//', '/', $path);
+    //var_dump($path);
+    return site_url($path);
+}
+
+
 /**
  * Makes directory recursive, returns TRUE if exists or made and false on error
  *

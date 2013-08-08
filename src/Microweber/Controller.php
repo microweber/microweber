@@ -285,7 +285,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template','template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -382,6 +382,8 @@ class Controller
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
+							 
+								
                             }
 
 
@@ -415,6 +417,11 @@ class Controller
                             $page['parent'] = '0';
                             $page['url'] = $this->app->url->string();
                             $page['active_site_template'] = $page_url_segment_1;
+							
+							
+							
+							
+							
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
 

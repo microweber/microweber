@@ -8,18 +8,13 @@
         <a href="<?php print site_url(); ?>" id="logo" title="Microweber">Microweber</a>
         <span class="hidden-desktop hidden-tablet pull-right fbtn fbtn-small fitem-blue" id="mobile-menu-toggle">Menu&nbsp;&nbsp;<span class="icon-align-justify"></span></span>
 		
-		
-		 <module type="menu" name="header_menu" class="pull-right" id="main-navigation" template="mega" />
+		 <ul class="nav nav-pills hidden-mobile hidden-phone pull-right">
+         <!--
 
-
-
-        <ul class="nav nav-pills hidden-mobile hidden-phone pull-right">
-         <!-- 
-		 
 		 <li class="active"><a href="<?php print site_url(); ?>">Home</a></li>
-	 
-		  
-		  
+
+
+
           <li class=""><a href="<?php print site_url(); ?>features">Features</a></li>
           <li><a href="<?php print site_url(); ?>plans">Plans</a></li>
           <li><a href="<?php print site_url(); ?>community">Community</a></li>
@@ -27,10 +22,10 @@
           <li><a href="<?php print site_url(); ?>blog">Blog</a></li>
           <li><a href="<?php print site_url(); ?>download">Download</a></li>
           <li><a href="<?php print site_url(); ?>apidocs">API &amp; Docs</a></li>-->
-		  
-		  
-		  
-		  
+
+
+
+
           <?php if(user_id() == false){ ?>
             <li><a href="<?php print site_url() ?>login" id="header-login">Login</a></li>
           <?php } else {   ?>
@@ -38,6 +33,11 @@
             <li><a href="<?php print site_url() ?>profile" id="header-profile"><i class="icon-user"></i>&nbsp;&nbsp;<span>Account</span></a></li>
         <?php  } ?>
         </ul>
+		 <module type="menu" name="header_menu" class="pull-right" id="main-navigation" template="mega" />
+
+
+
+
     </div> <!-- /#header > .container -->
 </div><!-- /# header -->
 <div id="content">
