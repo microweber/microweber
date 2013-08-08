@@ -44,19 +44,26 @@
                     </div>
                   </div>
             </div>
-            <div class="RotatorItem"  style="background-color: #3F9DCC">2</div>
-            <div class="RotatorItem"  style="background-color: #7CCCBC">2</div>
+
 
           </div>
+          <?php
+
+          /*
 
           <span class="rotator-left" onclick="mw.elementRotator.prev(document.getElementById('hrotator'))"></span>
           <span class="rotator-right" onclick="mw.elementRotator.next(document.getElementById('hrotator'))"></span>
+
+
+          */
+
+          ?>
 
         </div>
 
     </div>
     <hr style="margin-top: 0;">
-    <div class="dots-holder" id="home-rotator-dots"></div>
+    <?php /*<div class="dots-holder" id="home-rotator-dots"></div>*/ ?>
     <div class="container">
         <div class="row" id="home-features">
             <a href="javascript:;" class="span3 hf-drag-drop" data-index="0"><span></span>Feel Drag &amp; Drop</a>
@@ -67,31 +74,46 @@
 
         <div id="home-features-rotator">
             <div class="RotatorItem active">
+
+            <div style="background: black url(<?php print TEMPLATE_URL; ?>site/playvideo.jpg) no-repeat center;height:400px;"></div>
+
+
+
+
+            </div>
+            <div class="RotatorItem">
+                <iframe width="100%" height="400" src="//www.youtube.com/embed/yhsuzGavcNI?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="RotatorItem">
                 <div class="row">
                     <div class="span6"><img src="<?php print TEMPLATE_URL; ?>site/home-shop1.jpg" alt="" /> </div>
                     <div class="span6">
-
                     <h4 class="orange">Sell More</h4>
-
                     <p>Fackt you probably don’t know is that Monday is the best seller day on Internet. Each begining of the week is like the Black Friday in United States with more then Bilion of dollars sels profit.</p>
-
                     <p>It is time to join your Business with Microweber and start selling more that you are selling right now.</p>
-
                     <p>Get started with the default shop theme of MW and add your products. Very soon you will be able to change the styli of your shop with many differen layouts, product page and checkouts.</p>
-
                       <a href="javascript:;" class="orange pull-right">Continue Reading</a>
-
                     </div>
                 </div>
             </div>
             <div class="RotatorItem">
-                2
-            </div>
-            <div class="RotatorItem">
-                3
-            </div>
-            <div class="RotatorItem">
-                4
+                <div class="row">
+                    <div class="span6"><img src="<?php print TEMPLATE_URL; ?>site/home_mobile.png" alt="" /> </div>
+                    <div class="span6">
+
+                    <h4 class="orange">100% Responsive Website View!</h4>
+
+                        <p>
+                            More than 25 % of the whole traffic of internet is comming from mobile devices. The experts says for 2013 year this percent continues to grow and the predictions for year 2014 is are up-to 30% of the whole web traffic.
+                        <br>This means that every 3rd user use his phone or tablet to browse a website or buy somthing.</p>
+
+                        <p>
+                            For this reason each template of your Microweber website is developed to be 100% responsive to any mobile devices. This gives you a big advantage and definetly saves you money.
+                        </p>
+                      <a href="javascript:;" class="orange pull-right">Continue Reading</a>
+
+                    </div>
+                </div>
             </div>
         </div>
 </div>
@@ -142,8 +164,13 @@
            var home_features = mwd.getElementById('home-features-rotator');
            mw.elementRotator.init(home_features, 'cssFade');
 
-           mw.$("#home-features a").bind("mouseenter", function(){
-                mw.elementRotator.goto(home_features, parseFloat($(this).dataset("index")));
+           mw.$("#home-features a").bind("click", function(){
+                if(!$(this).hasClass("active")){
+                  mw.$("#home-features a").removeClass("active");
+                  $(this).addClass("active");
+                  mw.elementRotator.goto(home_features, parseFloat($(this).dataset("index")));
+                }
+                return false;
            });
 
            var home_tabs = mwd.getElementById('premium-support-rotator');
@@ -156,8 +183,6 @@
            mw.$("#tabs-premium-support a").bind("click", function(){
               mw.elementRotator.goto(home_tabs, parseFloat($(this).dataset("index")));
            });
-
-
 
       });
   </script>
@@ -178,9 +203,7 @@
                         <div id="ps-segment"></div>
                         <div class="ps-circle" id="ps-circle-tomorph"><div></div><span>$</span> <big>149</big> <small>/ mo</small> only from </div>
                     </div>
-
                     <div class="home-premium-support-info">
-
                         <h1 class="text-center blue">Get Premium Support</h1>
                         <p class="text-center edit" rel="content" field="content">
                             Our team of proffesionals will help you online, to<br>
@@ -212,7 +235,6 @@
     <div id="home-footer-get-started">
         <div class="container">
             <div class="dots-holder" id="home-bottom-dots"></div>
-
             <h2>OK, lets create your first website</h2>
             <a href="javascript:;" class="fbtn fitem-orange">START NOW</a>
         </div>

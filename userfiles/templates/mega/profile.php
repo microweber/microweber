@@ -12,37 +12,17 @@
 ?>
 
  <?php include "header.php"; ?>
-
  <?php if(  !user_id() ){   ?>
   <script> window.location.href = "<?php print site_url() ?>login"; </script>
  <?php } ?>
-
-
-
-
-
+   <?php if( user_id() != false){  ?>
+          <?php include "managesite_header.php"; ?>
+   <?php } ?>
     <div class="container">
        <div class="main">
        <?php if( user_id() != false){  ?>
              <?php   $user = get_user(user_id());  ?>
-
-
-
-
-
-
-
-
              <module type="whmcs" template="client_products" />
-
-   <br><br><br><br><br><br><br><br><br><br>
-   <br><br><br><br><br><br><br><br><br><br>
-
-
-
-
-
-
              <div class="row" id="user-profile-page">
                 <div class="span3" id="user-image">
                     <h5>Hello, <?php print user_name($user['id']); ?></h5>
@@ -60,12 +40,8 @@
                               <li><a href="#">Account Information</a></li>
                               <li><a href="#">Payment Information</a></li>
                               <li><a href="#">Invoices</a></li>
-							   
                           </ul>
-                          <div class="user-tab">
-                              <h2>My Sites</h2>
-
-                          </div>
+                          <div class="user-tab"><h2>My Sites</h2></div>
                           <div class="user-tab" style="display: none">
                             <p>Account type: <strong class="blue">Free</strong>&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn btn-info btn-mini">Upgrade</a>  </p>
                             <div class="controlls">
@@ -76,7 +52,6 @@
                                 <label>First Name</label>
                                 <input type="text" value="<?php print $user['first_name']; ?>" name="first_name" />
                             </div>
-
                             <div class="controlls">
                                 <label>Last Name</label>
                                 <input type="text" value="<?php print $user['last_name']; ?>" name="last_name"  />
@@ -101,26 +76,24 @@
                 mw.require("forms.js");
              </script>
              <script>
-             save_user_data = function(){
-               mw.form.post('#user-profile-page', mw.settings.api_url + "save_user");
-             }
-             $(document).ready(function(){
-                var upload_btn = mwd.getElementById('user-image-uploader');
-                var up = mw.files.uploader({
-                  multiple:"false"
-                });
-
-                $(up).bind("FileUploaded", function(a,b){
-                  mw.$("#profile-image").attr("src", b.src);
-                  mw.$("#thumbnail").val(b.src);
-                });
-
-                $(upload_btn).append(up);
-                mw.tools.tabGroup({
-                  nav:"#user-tabs-nav li",
-                  tabs:".user-tab",
-                });
-             });
+                 save_user_data = function(){
+                   mw.form.post('#user-profile-page', mw.settings.api_url + "save_user");
+                 }
+                 $(document).ready(function(){
+                    var upload_btn = mwd.getElementById('user-image-uploader');
+                    var up = mw.files.uploader({
+                      multiple:"false"
+                    });
+                    $(up).bind("FileUploaded", function(a,b){
+                      mw.$("#profile-image").attr("src", b.src);
+                      mw.$("#thumbnail").val(b.src);
+                    });
+                    $(upload_btn).append(up);
+                    mw.tools.tabGroup({
+                      nav:"#user-tabs-nav li",
+                      tabs:".user-tab",
+                    });
+                 });
              </script>
           <?php  } ?>
        </div>

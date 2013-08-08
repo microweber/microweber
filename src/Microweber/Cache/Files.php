@@ -8,9 +8,9 @@ $mw_skip_memory = array();
 if (!defined('MW_USE_APC_CACHE')) {
 
     $apc_exists = function_exists('apc_fetch');
-    
+
     //$apc_exists = false;
-  
+
     define("MW_USE_APC_CACHE", $apc_exists);
 
     if (!defined('APC_EXPIRES')) {
@@ -48,13 +48,13 @@ class Files
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
-		global $mw_cache_get_content_memory;
-		$mw_cache_get_content_memory[$cache_group][$cache_id] = $data_to_cache;
+        global $mw_cache_get_content_memory;
+        $mw_cache_get_content_memory[$cache_group][$cache_id] = $data_to_cache;
 
-       $this->mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
-	    
-	   
-	    $apc_obj = false;
+        $this->mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
+
+
+        $apc_obj = false;
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
             if ($this->apc == false) {
@@ -71,7 +71,7 @@ class Files
 
 
         $dir_lock = $this->cache_get_dir('delete_lock');
-       // $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
+        // $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
 
         /*if (is_file($cache_group_lock)) {
 
@@ -94,8 +94,6 @@ class Files
         if ($this->mw_cache_saved_files == null) {
             $this->mw_cache_saved_files = array();
         }
-
-
 
 
         if (!in_array($cache_id, $this->mw_cache_saved_files)) {
@@ -135,7 +133,7 @@ class Files
         if ($data_to_cache == false) {
             $cache_file = $this->cache_get_file_path($cache_id, $cache_group);
             $cache_file = normalize_path($cache_file, false);
-            if(is_file($cache_file)){
+            if (is_file($cache_file)) {
                 @unlink($cache_file);
             }
             return false;
@@ -161,8 +159,6 @@ class Files
         }
     }
 
-
-  
 
     function cache_write_to_file($cache_id, $content, $cache_group = 'global')
     {
@@ -236,11 +232,9 @@ class Files
 
         } else {
             //print $cache_group;
-            return  true;
+            return true;
             //	print $cache_id;
         }
-
-
 
 
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
@@ -385,11 +379,11 @@ class Files
 
     function cache_get_file_path($cache_id, $cache_group = 'global')
     {
-      //  $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
+        //  $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
 
-        $cache_group = str_replace(array('/',';',':','.'), array(DIRECTORY_SEPARATOR,'_','_','_'), $cache_group);
+        $cache_group = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_group);
 
-        $cache_id = str_replace(array('/',';',':','.'), array(DIRECTORY_SEPARATOR,'_','_','_'), $cache_id);
+        $cache_id = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_id);
 
         $f = $this->cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
 
@@ -417,11 +411,10 @@ class Files
     {
 
 
-		global $mw_cache_get_content_memory;
-		if(is_array($mw_cache_get_content_memory) and isset($mw_cache_get_content_memory[$cache_group]) and isset($mw_cache_get_content_memory[$cache_group][$cache_id])){
-			return $mw_cache_get_content_memory[$cache_group][$cache_id];
-		}
-	 
+        global $mw_cache_get_content_memory;
+        if (is_array($mw_cache_get_content_memory) and isset($mw_cache_get_content_memory[$cache_group]) and isset($mw_cache_get_content_memory[$cache_group][$cache_id])) {
+            return $mw_cache_get_content_memory[$cache_group][$cache_id];
+        }
 
 
         $apc_obj = false;
@@ -433,25 +426,23 @@ class Files
             } else {
                 $apc_obj = $this->apc;
             }
- 
+
 
             $apc_obj_gt = $apc_obj->get($cache_id, $cache_group, $time);
             //unset( $apc_obj );
             if ($apc_obj_gt != false) {
-				$mw_cache_get_content_memory[$cache_group][$cache_id] = $apc_obj_gt;
+                $mw_cache_get_content_memory[$cache_group][$cache_id] = $apc_obj_gt;
                 return $apc_obj_gt;
             }
         }
 
 
-
-
- 		if ($this->mw_cache_saved_files == null) {
+        if ($this->mw_cache_saved_files == null) {
             $this->mw_cache_saved_files = array();
         }
 
         if (in_array($cache_id, $this->mw_cache_saved_files)) {
- 		return false;
+            return false;
         }
 
 
@@ -471,7 +462,7 @@ class Files
             }
         }*/
         $ret = $this->cache_get_content($cache_id, $cache_group, $time);
-		$mw_cache_get_content_memory[$cache_group][$cache_id] = $ret;
+        $mw_cache_get_content_memory[$cache_group][$cache_id] = $ret;
 
         if ($apc_obj != false) {
             $apc_obj->save($ret, $cache_id, $cache_group);
@@ -727,7 +718,6 @@ class Files
         $this->recursive_remove_from_cache_index(MW_CACHE_ROOT_DIR, true);
 
 
-
         return array('success' => 'Cache is cleared');
 
     }
@@ -945,8 +935,8 @@ class Files
                     } else {
                         //   $path = normalize_path($path, false);
                         try {
-                            if(is_file($path)){
-                            @unlink($path);
+                            if (is_file($path)) {
+                                @unlink($path);
                             }
                         } catch (Exception $e) {
                         }
@@ -960,9 +950,9 @@ class Files
             // if the option to empty is not set to true
             if ($empty == FALSE) {
                 @rmdir($directory);
-              
+
             }
- 
+
             return TRUE;
         }
     }

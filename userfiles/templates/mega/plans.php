@@ -12,12 +12,60 @@
 ?>
 <?php include "header.php"; ?>
 	<div class="container">
+	<?php $hosting = whm_get_hosting_products(); 
+			
+			$plan1_id = false;
+			$plan2_id = false;
+			$plan3_id = false;
+			$plan4_id = false;
+			
+			
+			if(!empty($hosting)){
+				foreach($hosting as $host){
+					
+					if(isset( $host['name'])){
+						$name = strtolower($host['name']);
+						if(stristr($name,'free')){
+							$plan1_id = $host['id'];
+						}
+						if(stristr($name,'micro')){
+							$plan2_id = $host['id'];
+						}
+						if(stristr($name,'weber')){
+							$plan3_id = $host['id'];
+						}
+						if(stristr($name,'unlimited')){
+							$plan4_id = $host['id'];
+						}
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			
+			
+			?>
 		<div class="main">
 			<h1 class="text-center">Microweber is 14 days free for all plans</h1>
 			<h4 class="orange text-center">No Credit cart required! No Transaction fee!</h4>
 			<br>
 			<br>
 			<h6 class="text-center">Choose the plan that best fits to your needs. You can change it anytime.</h6>
+			
+			
+			<a href="<? print site_url('get-started') ?>?plan=<?php print $plan1_id; ?>">there is also free plan</a> 
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<div class="plans text-center" id="mw-plans">
 				<div class="plan plan-blue">
 					<div class="theplan">
@@ -33,7 +81,7 @@
 							<p><strong>NO</strong> Transaction fee</p>
 							<p><strong>5</strong> hours custom support</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=1" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan2_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>
@@ -53,7 +101,7 @@
 							<p>10 GB hours custom support</p>
 							<p>10 GB Pro Themes & Modules</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=2" class="fbtn fitem-orange no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan3_id; ?>" class="fbtn fitem-orange no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>
@@ -71,7 +119,7 @@
 							<p>Unlimited hours support</p>
 							<p>Unlimited Themes & Modules</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=3" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan4_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>
