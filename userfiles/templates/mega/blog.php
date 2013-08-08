@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="span9">
 
-                 <module type="posts" template="mega">
+                 <module type="posts" template="mega" data-page-id="<?php print $page_id; ?>">
 
 
                 </div>

@@ -391,7 +391,7 @@ class ContentUtils extends \Microweber\Content
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
                 //	 d($new_category);
-                $new_category = $this->app->category->save($new_category);
+                $new_category = $this->app->categories->save($new_category);
 
 
             }

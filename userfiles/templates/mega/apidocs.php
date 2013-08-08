@@ -30,10 +30,11 @@
                       <i class="vspace"></i>
                       <h6>Sections</h6>
                       <hr>
-                      <module type="categories" template="docs" rel_id="42" />
+					  
+                      <module type="categories" template="docs" rel_id="<?php print $page_id; ?>" />
                   </div>
                   <div class="span9">
-                    <module type="posts" template="apidocs" autodetect="true">
+                    <module type="posts" template="apidocs" data-page-id="<?php print $page_id; ?>">
                   </div>
               </div>
         </div>
