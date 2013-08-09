@@ -144,8 +144,9 @@ mw.tools = {
         container.append(html).height(height-padding);
 
         modal_object.css({top:($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(doc.defaultView).width()/2)-(width/2)});
+        modal_object.show();
         if(typeof $.fn.draggable === 'function'){
-            modal_object.show().draggable({
+            modal_object.draggable({
               handle:'.mw_modal_toolbar',
               containment:'window',
               iframeFix: false,
@@ -171,7 +172,10 @@ mw.tools = {
         typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';
         typeof name==='string'?$(modal_object).attr("name", name):'';
 
-        if(overlay==true)mw.tools.modal.overlay(modal.main);
+        if(overlay==true){
+           var ol = mw.tools.modal.overlay(modal.main);
+           modal_return.overlay = ol;
+        }
 
         return modal_return;
     },
