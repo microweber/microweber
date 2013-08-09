@@ -325,7 +325,39 @@ class Forms
     public function  countries_list()
     {
 
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache->get($function_cache_id, 'forms');
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+
         $table = MW_DB_TABLE_COUNTRIES;
+
+
+
+
+
+        if (!$this->app->db->table_exist($table)) {
+            $this->db_init();
+            return false;
+        }
+
+
+
+
 
         $sql = "SELECT name AS country_name FROM $table   ";
 
@@ -336,6 +368,8 @@ class Forms
             foreach ($q as $value) {
                 $res[] = $value['country_name'];
             }
+            $this->app->cache->save($res, $function_cache_id, $cache_group = 'forms');
+
             return $res;
         } else {
             $this->db_init();

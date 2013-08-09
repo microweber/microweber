@@ -9,6 +9,15 @@
 
  ?>
   <title>Microweber</title>
+
+  <style type="text/css">
+  @font-face {
+  	font-family: 'MW';
+  	src: url('//microweber.com/cdn/ex2.ttf');
+  	src: local('MW'), local('MW'), url('//microweber.com/cdn/ex2.ttf') format('truetype');
+  }
+  </style>
+
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic">
   <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
