@@ -4,7 +4,7 @@ namespace Microweber;
 //event_bind('mw_db_init', mw('Microweber\Option')->db_init());
 
 
-event_bind('mw_db_init_options', mw('Microweber\Option')->_create_mw_default_options());
+//event_bind('mw_db_init_options', mw('Microweber\Option')->_create_mw_default_options());
 api_expose('save_option');
 $_mw_global_options_mem = array();
 class Option
@@ -104,7 +104,7 @@ class Option
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED != true) {
-            return false;
+            return true;
         }
         if ($option_group != false) {
 

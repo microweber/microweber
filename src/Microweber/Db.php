@@ -1961,10 +1961,18 @@ class Db
             $to_search = str_replace('*', ' ', $to_search);
             $to_search = str_replace(';', ' ', $to_search);
 
+            $to_search = str_replace('{', ' ', $to_search);
+            $to_search = str_replace('}', ' ', $to_search);
+
+            $to_search = str_replace('\077', ' ', $to_search);
+            $to_search = str_replace('<?', ' ', $to_search);
+
+
         }
 
         if ($to_search != false and $to_search != '') {
             $fieals = $this->get_fields($table);
+
 
             $where_post = ' OR ';
 
@@ -2060,6 +2068,29 @@ class Db
                 $compare_sign = '=';
                 $is_val_str = true;
                 $is_val_int = false;
+
+
+                if (is_string($k) != false) {
+                    $k = $this->escape_string(strip_tags($k));
+                    $k = str_replace('[', ' ', $k);
+                    $k = str_replace(']', ' ', $k);
+                    $k = str_replace('*', ' ', $k);
+                    $k = str_replace(';', ' ', $k);
+                    $k = str_replace('\077', ' ', $k);
+                    $k = str_replace('<?', ' ', $k);
+                }
+
+                if (is_string($v) != false) {
+                    $v = $this->escape_string(strip_tags($v));
+                    $v = str_replace('{', ' ', $v);
+                    $v = str_replace('}', ' ', $v);
+                    $v = str_replace('*', ' ', $v);
+                    $v = str_replace(';', ' ', $v);
+                    $v = str_replace('\077', ' ', $v);
+                    $v = str_replace('<?', ' ', $v);
+                }
+
+
                 if (stristr($v, '[lt]')) {
                     $compare_sign = '<';
                     $v = str_replace('[lt]', '', $v);
@@ -2489,7 +2520,6 @@ class Db
         // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
         //$sql_check = "DESC {$table};";
         $sql_check = "show tables like '$table'";
-
 
 
         $q = $this->query($sql_check);
