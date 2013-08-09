@@ -38,7 +38,7 @@
 
     </div>
 
-<? if(isset($_SERVER['REMOTE_ADDR']) and $_SERVER['REMOTE_ADDR'] != '78.90.67.20'):  ?>
+<?php if(isset($_SERVER['REMOTE_ADDR']) and $_SERVER['REMOTE_ADDR'] != '78.90.67.20'):  ?>
 
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -75,6 +75,6 @@
   //-->
   </script><noscript><a href="http://www.tyxo.bg/?146467" title="Tyxo.bg counter"><img src="http://cnt.tyxo.bg/146467" width="1" height="1" border="0" alt="Tyxo.bg counter" /></a></noscript>
 <!-- / TYXO -->
-<? endif; ?>
+<?php endif; ?>
 </body>
 </html>

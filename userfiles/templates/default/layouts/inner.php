@@ -33,8 +33,19 @@ description: Post inner layout
 
     </div>
     <div class="span3 offset1">
-      <?php include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; ?>
-    </div>
+	
+	<?php 
+
+if(is_file(THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
+ include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; 
+ 
+} else if(is_file(DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
+	include DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php"; 
+}
+ ?>
+ 
+ 
+     </div>
   </div>
 </div>
 <?php include   TEMPLATE_DIR.  "footer.php"; ?>

@@ -11,5 +11,13 @@ description: Checkout layout
 
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "checkout.php"; ?>
+<?php
+
+if(is_file(THIS_TEMPLATE_DIR. "checkout.php")){
+ include THIS_TEMPLATE_DIR. "checkout.php"; 
+ 
+} else if(is_file(DEFAULT_TEMPLATE_DIR. "checkout.php")){
+	include DEFAULT_TEMPLATE_DIR. "checkout.php"; 
+}
+ ?>
  

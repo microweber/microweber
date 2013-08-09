@@ -56,7 +56,7 @@
 			<h6 class="text-center">Choose the plan that best fits to your needs. You can change it anytime.</h6>
 			
 			
-			<a href="<? print site_url('get-started') ?>?plan=<?php print $plan1_id; ?>">there is also free plan</a> 
+			<a href="<?php print site_url('get-started') ?>?plan=<?php print $plan1_id; ?>">there is also free plan</a> 
 			
 			
 			
@@ -81,7 +81,7 @@
 							<p><strong>NO</strong> Transaction fee</p>
 							<p><strong>5</strong> hours custom support</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan2_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<?php print site_url('get-started') ?>?plan=<?php print $plan2_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>
@@ -101,7 +101,7 @@
 							<p>10 GB hours custom support</p>
 							<p>10 GB Pro Themes & Modules</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan3_id; ?>" class="fbtn fitem-orange no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<?php print site_url('get-started') ?>?plan=<?php print $plan3_id; ?>" class="fbtn fitem-orange no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>
@@ -119,7 +119,7 @@
 							<p>Unlimited hours support</p>
 							<p>Unlimited Themes & Modules</p>
 							<p>FTP & cPanel access</p>
-							<div class="vpad"> <a href="<? print site_url('get-started') ?>?plan=<?php print $plan4_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
+							<div class="vpad"> <a href="<?php print site_url('get-started') ?>?plan=<?php print $plan4_id; ?>" class="fbtn fitem-blue no-shadow">Get Started Free</a> </div>
 						</div>
 					</div>
 				</div>

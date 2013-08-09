@@ -12,7 +12,9 @@ description: Page with right sidebar
  
 
 ?>
-<?php include TEMPLATE_DIR. "header.php"; ?>
+
+
+<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div id="content">
   <div class="container">
@@ -34,4 +36,4 @@ description: Page with right sidebar
     </div>
   </div>
 </div>
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>

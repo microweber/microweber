@@ -9,7 +9,7 @@ description: Post inner layout
 
 */
 ?>
-<? include THIS_TEMPLATE_DIR. "header.php"; ?> 
+<?php include THIS_TEMPLATE_DIR. "header.php"; ?> 
 
 <div class="container">
   <div class="row">
@@ -17,7 +17,7 @@ description: Post inner layout
       <h3 class="edit" field="title" rel="content">Page Title</h3>
       <div class="edit"  field="content" rel="content">
         <div class="clearfix post-comments">
-          <module data-type="pictures" data-template="slider" data-content-id="<? print CONTENT_ID; ?>"  />
+          <module data-type="pictures" data-template="slider" data-content-id="<?php print CONTENT_ID; ?>"  />
         </div>
   
           <div class="element" style="width:95%">
@@ -28,13 +28,13 @@ description: Post inner layout
           <div class="element">
             <hr class="visible-desktop column-hr">
           </div>
-        <module data-type="comments" data-template="default" data-content-id="<? print CONTENT_ID; ?>"  />
+        <module data-type="comments" data-template="default" data-content-id="<?php print CONTENT_ID; ?>"  />
       </div>
 
     </div>
     <div class="span3 offset1">
-      <? include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; ?>
+      <?php include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; ?>
     </div>
   </div>
 </div>
-<? include   TEMPLATE_DIR.  "footer.php"; ?>
+<?php include   TEMPLATE_DIR.  "footer.php"; ?>

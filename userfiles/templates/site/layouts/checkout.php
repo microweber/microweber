@@ -11,5 +11,5 @@ description: Checkout layout
 
 
 ?>
-<? include THIS_TEMPLATE_DIR. "checkout.php"; ?>
+<?php include THIS_TEMPLATE_DIR. "checkout.php"; ?>
  

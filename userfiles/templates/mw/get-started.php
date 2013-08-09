@@ -220,10 +220,10 @@
                                     </div>
                                 </div>
 
-                            <? endif; ?>
-                        <? endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
 
-                    <? endif; ?>
+                    <?php endif; ?>
 
                     <div class="control-group">
                         <div class="controls">
