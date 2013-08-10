@@ -2635,7 +2635,7 @@ class Db
                 $sql = false;
                 if ($column_to_move) {
                     if (!empty($column_for_not_drop)) {
-                        if (!in_array($columns[$i]['Field'], $column_for_not_drop)) {
+                        if (isset($columns[$i]) and is_array($columns[$i]) and !in_array($columns[$i]['Field'], $column_for_not_drop)) {
                             $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                         }
                     } else {

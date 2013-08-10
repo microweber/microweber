@@ -69,7 +69,7 @@ $router->map($controller);
 
 
 // Extend and override the Controller
-$controller->hello_world = function () {
+$controller->heldlo_world = function () {
     echo "Hello world!";
 };
 
@@ -77,9 +77,7 @@ $controller->hello_world = function () {
 $controller->functions['test/route/*'] = function () {
     echo "You can use wildcards!";
 };
-$controller->functions['test/api/user_login*'] = function () {
-    echo "My user_login";
-};
+
 
 
 // Run the website

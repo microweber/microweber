@@ -366,22 +366,23 @@ class Content
         } else {
             $cache_group = 'content/global';
         }
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            if (isset($page['id'])) {
+                $this->define_constants($page);
+            }
+        }
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
-            return $cache_content;
+             return $cache_content;
         }
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
 
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            if (isset($page['id'])) {
-                $this->define_constants($page);
-            }
-        }
+
 
 
         if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
@@ -503,6 +504,19 @@ class Content
                 $page['active_site_template'] = 'default';
             }
         }
+
+
+        if ($render_file == false and isset($page['active_site_template']) and trim($page['layout_file']) == '') {
+
+            $use_index = TEMPLATES_DIR . $page['active_site_template'] . DS . 'index.php';
+
+            if (is_file($use_index)) {
+
+
+                $render_file = $use_index;
+            }
+        }
+
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
             $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
 
@@ -1315,10 +1329,20 @@ class Content
 
             $the_active_site_template = $page['active_site_template'];
         } else {
-            $the_active_site_template = $this->app->option->get('curent_template');
-            // d($the_active_site_template );
+            $the_active_site_template = $this->app->option->get('curent_template','template');
+            //
         }
 
+        if($the_active_site_template == false){
+            $the_active_site_template = 'default';
+        }
+
+
+        if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
+
+            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
+
+        }
         $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {

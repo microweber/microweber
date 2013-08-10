@@ -50,6 +50,7 @@ class Controller
 
         }
 
+
         if (!defined('MW_IS_INSTALLED')) {
             // Check if installed
             $installed = $this->app->config('installed');
@@ -62,7 +63,6 @@ class Controller
                 define('MW_IS_INSTALLED', true);
             }
         }
-
 
     }
 
@@ -255,7 +255,7 @@ class Controller
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
 
-                $the_active_site_template = $this->app->option->get('curent_template');
+                $the_active_site_template = $this->app->option->get('curent_template','template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
 
                 if ($preview_module != false) {
@@ -299,7 +299,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template', 'template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template','template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -433,6 +433,9 @@ class Controller
                             $page['active_site_template'] = $page_url_segment_1;
 
 
+
+
+
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
 
@@ -527,7 +530,7 @@ class Controller
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
 
         $render_file = $this->app->content->get_layout($content);
-
+       //  d($page);
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
@@ -542,12 +545,12 @@ class Controller
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;
-            $l->category_id = CATEGORY_ID;
+             $l->category_id = CATEGORY_ID;
             $l->content = $content;
             $l->page = $page;
+            $l->application = $this->app;
 
-
-            $l->assign('app', $this->app);
+           // $l->assign('application', $this->app);
 
 
             // $l->set($l);

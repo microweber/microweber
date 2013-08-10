@@ -1342,7 +1342,7 @@ event_bind('mw_db_init_modules', 're_init_modules_db');
 function re_init_modules_db()
 {
 
-    return \mw('Modules')->update_db();
+    //return mw('modules')->update_db();
 
 }
 
@@ -2148,6 +2148,7 @@ function db_build_table($table_name, $fields_to_add, $column_for_not_drop = arra
     return mw('db')->build_table($table_name, $fields_to_add, $column_for_not_drop);
 
 }
+
 function db_get_table_name($assoc_name)
 {
 
