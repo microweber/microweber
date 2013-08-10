@@ -8,7 +8,6 @@ if (!defined('MW_ROOTPATH')) {
 }
 
 
-
 if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.7287);
 }
@@ -64,7 +63,7 @@ if (!defined('MW_USERFILES')) {
     define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_FOLDER_NAME . DS);
 }
 if (!defined('MW_USERFILES_URL')) {
-    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME );
+    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME);
 }
 if (!defined('MW_MEDIA_URL')) {
     define("MW_MEDIA_URL", MW_USERFILES_URL . 'media/');
@@ -124,6 +123,14 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     PATH_SEPARATOR . MW_MODULES_DIR .
     PATH_SEPARATOR . get_include_path());
 
+
+/*set_include_path(get_include_path().PATH_SEPARATOR.
+        $mw_get_prev_dir . PATH_SEPARATOR .
+        MW_APP_PATH . PATH_SEPARATOR .
+        MW_APP_PATH . 'controllers' . DS .
+        PATH_SEPARATOR . MW_MODULES_DIR
+);*/
+
 function mw_autoload($className)
 {
     $className = ltrim($className, '\\');
@@ -149,6 +156,11 @@ function mw_autoload($className)
 
 }
 
+function autoload_add($dirname)
+{
+    set_include_path($dirname .
+        PATH_SEPARATOR . get_include_path());
+}
 
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
@@ -422,6 +434,8 @@ function site_url($add_string = false)
             $pageURL = $pageURL_host . $d;
 
         }
+
+
         //
         if (isset($_SERVER['QUERY_STRING'])) {
             $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);

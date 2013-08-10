@@ -33,7 +33,7 @@ class Application
         if (!defined('MW_TABLE_PREFIX')) {
             if (isset($this->config['table_prefix'])) {
                 $pre = $this->config['table_prefix'];
- 
+
                 define('MW_TABLE_PREFIX', $pre);
             }
         }
@@ -154,9 +154,18 @@ class Application
 
             try {
 
-                $mw = '\Microweber\\' . $property;
-                //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
-                $mw = str_ireplace(array('/', '\\\\', 'Microweber\Microweber'), array('\\', '\\', 'Microweber'), $mw);
+               // d($property);
+
+                if(class_exists($property ,1)){
+
+                    $mw = $property;
+                } else {
+                    $mw = '\Microweber\\' . $property;
+                    //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+                    $mw = str_ireplace(array('/', '\\\\', 'Microweber\Microweber'), array('\\', '\\', 'Microweber'), $mw);
+
+                }
+
 
                 $prop = new $mw($this);
             } catch (Exception $e) {
