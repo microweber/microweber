@@ -61,7 +61,7 @@ $router = new \Microweber\Router();
 
 
 // Starting Controller
-$controller = new\Microweber\Controller($application);
+$controller = new \Microweber\Controller($application);
 
 
 // Automatically map the Router to all controller functions

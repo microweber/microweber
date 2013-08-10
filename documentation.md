@@ -76,11 +76,33 @@ When you call the function `$application->content->get()` the class `Content` wi
 
  
 ## Controllers and Routing
-
-
+Define a controller for your application and route to its methods
  
 ``` php
- 
 
+// Starting App
+$application = new \Microweber\Application();
+
+// Starting Controller
+$controller = new \Microweber\Controller($application);
+
+// Starting Router
+$router = new \Microweber\Router();
+
+// Automatically map the Router to all controller functions
+$router->map($controller);
+
+// Extend and override the Controller
+$controller->hello_world = function () {
+    echo "Hello world!";
+};
+
+// Map more complex routes with regex, the Router is using preg_match
+$controller->functions['test/route/*'] = function () {
+    echo "You can use wildcards!";
+};
+
+// Run the website
+$router->run();
 
 ```
