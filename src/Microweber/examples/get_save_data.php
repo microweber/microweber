@@ -1,5 +1,5 @@
 <?php
-exit('TO run this example remove line ' . __LINE__ . ' in file' . __FILE__);
+exit('To run this example remove line ' . __LINE__ . ' in file ' . basename(__FILE__));
 
 require_once ('../bootstrap.php');
 

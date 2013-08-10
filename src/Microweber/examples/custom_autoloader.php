@@ -1,4 +1,5 @@
 <?php
+exit('To run this example remove line ' . __LINE__ . ' in file ' . basename(__FILE__));
 
 $here = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $my_classes_dir = $here . 'classes' . DIRECTORY_SEPARATOR;
