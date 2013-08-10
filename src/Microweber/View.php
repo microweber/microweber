@@ -49,8 +49,8 @@ class View {
 		return $defined_vars;
 	}
 
-    function render(){
-        return $this->__toString();
+    function display(){
+        print $this->__toString();
     }
 	function __toString() {
         extract((array)$this);
