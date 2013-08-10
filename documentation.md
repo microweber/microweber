@@ -24,7 +24,7 @@ userfiles
 
 ## Starting
 
-To run mw you must include the `\src\Microweber\bootstrap.php` file which loads up the system and includes other files. 
+To run mw you must include the `\src\Microweber\bootstrap.php` file which loads up the system. 
 
 This file also contains the *autoloader* which load the classes of the app 
 
@@ -41,31 +41,46 @@ var_dump($content);
 
 ```
 
-## The Application Class
-You can think of this class as a container of your app and dependency injector. 
-
-It provides properties of the application via the autoloader.
-
-For example:
-When you call the function `$application->content->get()` the class `Content` will be loaded which provides the `get()` method
 
 
 ## Autloader
 
-The autoloader will require the needed classes automatic when you ask for them. 
+The autoloader will require the needed classes automatically when you ask for them. 
 
 There is no need to create any class. It will be done for you on the fly.
 
 By default the autoloader looks in the `\src\Microweber` folder, but you can change that.
 
+```php
+// You can add your custom classes folders
+// and completely override and replace any mw class
+
+$my_classes = MW_ROOTPATH . 'src/Microweber/examples/classes/';
+autoload_add($my_classes);
+
+//you can add as many directories as you want
+autoload_add($dirname);
+
+```
 
 
+## The Application Class
+You can think of this class as a container of your app and dependency injector. 
+
+It provides properties of the application via the autoloader with the magic methods `__get()` and `__set()`
+
+For example:
+
+When you call the function `$application->content->get()` the class `Content` will be loaded which provides the `get()` method
 
 
  
-## Routing
+## Controllers and Routing
+
 
  
 ``` php
  
+
+
 ```
