@@ -43,9 +43,9 @@ var_dump($content);
 
 
 
-## Autloader
+## Autoloader
 
-The autoloader will require the needed classes automatically when you ask for them. 
+The autoloader will include the needed classes automatically when you ask for them. 
 
 There is no need to create any class. It will be done for you on the fly.
 
@@ -65,7 +65,7 @@ autoload_add($dirname);
 
 
 ## The Application Class
-You can think of this class as a container of your app and dependency injector. 
+You can think of this class as a constructor of your app and dependency injector. 
 
 It provides properties of the application via the autoloader with the magic methods `__get()` and `__set()`
 
@@ -106,3 +106,28 @@ $controller->functions['test/route/*'] = function () {
 $router->run();
 
 ```
+
+
+## Views 
+
+As any MVC framework, Microweber allow you to separate the page layout from the "business logic" of your application
+
+**Creating a view**
+
+
+```php
+
+ $layout = new \Microweber\View('full_path_to_file.php');
+ $layout->content = 'Hello world!';
+ $layout->another_variable = array('test', 'test2');
+ 
+ 
+ // get output with $layout->render(); or print it
+  
+ print $layout;
+
+```
+
+ **PHP as a template language**
+ 
+We use plain php for the templates and you have all needed the flexibility with it
