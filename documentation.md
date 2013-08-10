@@ -9,6 +9,11 @@ Our goal is to make the creation of websites and web apps easy and enjoyable to 
 Microweber can be used as a CMS to manage your website or simply as a MVC framework that can power your custom applications. 
 
 
+Basicks
+
+folder structure:
+ 
+
 
 
 
@@ -17,6 +22,14 @@ Microweber can be used as a CMS to manage your website or simply as a MVC framew
 # Advanced Functionality
 
 ## Hooks
+### Rerouting
 
-Some available hooks
-`after_user_register`,`user_login`
+So let's get back to coding. You can declare a page obsolete and redirect your visitors to another site/page:-
+
+``` php
+$f3->route('GET|HEAD /obsoletepage',
+    function($f3) {
+        $f3->reroute('/newpage');
+    }
+);
+```
