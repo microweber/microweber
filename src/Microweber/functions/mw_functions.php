@@ -15,7 +15,7 @@ if (defined('MW_IS_INSTALLED') == true) {
 
     if (!defined('MW_TABLE_PREFIX')) {
 
-        define('MW_TABLE_PREFIX', strip_tags($_POST['table_prefix']));
+        define('MW_TABLE_PREFIX', strip_tags(escapeshellarg($_POST['table_prefix'])));
 
     }
 
@@ -121,15 +121,7 @@ if (defined('MW_IS_INSTALLED') == true) {
     }
 
 }
- if (!defined('MW_TABLE_PREFIX')) {
-    $pre = c('table_prefix');
 
-    define('MW_TABLE_PREFIX', $pre);
-
-}
-if (!defined('MW_TABLE_PREFIX')) {
-    define('MW_TABLE_PREFIX', null);
-}
 
 $c_id = 'mw_init_all';
 $cache_content_init = mw('option')->get_static('is_installed', 'mw_system');

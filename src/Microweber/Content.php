@@ -246,6 +246,7 @@ class Content
         }
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
+
         $get = $this->app->db->get($params);
 
 

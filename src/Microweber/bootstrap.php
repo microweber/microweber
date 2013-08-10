@@ -1,6 +1,12 @@
 <?php
 
-defined('MW_ROOTPATH') or die("You cannot call this file on its own. Please define 'MW_ROOTPATH' constant first.");
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+if (!defined('MW_ROOTPATH')) {
+    define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
+}
+
 
 
 if (!defined('MW_VERSION')) {
@@ -10,9 +16,7 @@ if (!defined('MW_VERSION')) {
 if (version_compare(phpversion(), "5.3.0", "<=")) {
     exit("Error: You must have PHP version 5.3 or greater to run Microweber");
 }
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
-}
+
 if (!defined('MW_SITE_URL')) {
     // please add backslash to the url if you define it
     // like http://localhost/mw/

@@ -15,14 +15,29 @@ class Application
     public function __construct($config = false)
     {
 
+        if (empty($this->config)) {
+            if ($config != false) {
+                if (is_string($config)) {
+                    $this->loadConfigFromFile($config);
+                } else if (!empty($config)) {
+                    $this->config = $config;
+                }
+            } else {
 
-        if ($config != false) {
-            if (is_string($config)) {
-                $this->loadConfigFromFile($config);
-            } else if (!empty($config)) {
-                $this->config = $config;
+                $this->loadConfigFromFile();
+            }
+
+        }
+
+
+        if (!defined('MW_TABLE_PREFIX')) {
+            if (isset($this->config['table_prefix'])) {
+                $pre = $this->config['table_prefix'];
+ 
+                define('MW_TABLE_PREFIX', $pre);
             }
         }
+
 
         global $_mw_global_object;
         //  if (!is_object($_mw_global_object)) {
@@ -51,6 +66,8 @@ class Application
             if ($this->loaded_config_file_path != false
                 and is_file($this->loaded_config_file_path)
             ) {
+
+
                 $load_cfg = $this->loaded_config_file_path;
             } else
                 if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
@@ -80,8 +97,18 @@ class Application
         }
     }
 
-    public function loadConfigFromFile($path_to_file)
+    public function loadConfigFromFile($path_to_file = false)
     {
+
+        if (defined('MW_CONFIG_FILE')) {
+            $path_to_file = MW_CONFIG_FILE;
+        } else {
+
+            $path_to_file = MW_ROOTPATH . 'config.php';
+            define('MW_CONFIG_FILE', $path_to_file);
+        }
+
+
         if ($this->loaded_config_file_path != $path_to_file
             and is_file($path_to_file)
         ) {

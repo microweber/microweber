@@ -1030,7 +1030,7 @@ class Db
             $db = $connection_settigns;
 
         } else {
-            $db = c('db');
+            $db =$this->app->config('db');
         }
 
 
