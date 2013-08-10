@@ -2142,7 +2142,12 @@ function get($params)
 
 }
 
+function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
+{
 
+    return mw('db')->build_table($table_name, $fields_to_add, $column_for_not_drop);
+
+}
 function db_get_table_name($assoc_name)
 {
 

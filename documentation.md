@@ -6,7 +6,59 @@ Microweber is a new generation drag and drop cms and application framework.
 It can be used to manage your websites or simply to power your custom applications. 
 
 
-Basics
+Working with templates
+===
+
+## Folder structure:
+
+The templates are stored in the following folders
+```
+userfiles
+-- templates                                              - the main directory for the templates
+-- templates/My theme                                     - directory for your template
+-- templates/My theme/layouts                             - the directory for your layouts
+-- modules/{$module_name}/templates/                      - each module's default skins
+-- templates/My theme/modules/{$module_name}/templates/   - custom modules skins for your template
+
+```
+
+
+**Requred template files**
+
+Each template must have the following files under its directory
+```
+userfiles
+-- templates
+    --  My new theme
+    	config.php
+    	header.php
+    	footer.php
+    	index.php
+    	layouts/clean.php
+```
+
+**Create template**
+
+To create a template make a `config.php` file in its directory and put your details
+
+```php
+// example template config stored in userfiles/templates/My new theme/config.php
+
+$config = array();
+$config['name'] = "Cyborg";
+$config['author'] = "Bootswatch";
+$config['version'] = 0.1;
+$config['url'] = "http://bootswatch.com/cyborg/";
+
+```
+
+After that your template should be visible in the admin panel.
+[See how default template is made](https://github.com/microweber/microweber/tree/master/userfiles/templates/default "")
+
+
+
+
+PHP Documentation
 ===
 
 
@@ -21,6 +73,7 @@ userfiles
 -- templates 
 -- elements 
 ```
+
 
 ## Starting
 
@@ -110,7 +163,11 @@ $router->run();
 
 ## Views 
 
-As any MVC framework, Microweber allow you to separate the page layout from the "business logic" of your application
+As any MVC framework, Microweber allows you to separate the page layout from the "business logic" of your application with Views
+
+The Views are simple php or html files that hold the layout of the information you want to display
+
+You can see working example in the file [src/Microweber/examples/creating_views.php](https://github.com/microweber/microweber/blob/master/src/Microweber/examples/creating_views.php "")
 
 **Creating a view**
 
@@ -120,14 +177,130 @@ As any MVC framework, Microweber allow you to separate the page layout from the 
  $layout = new \Microweber\View('full_path_to_file.php');
  $layout->content = 'Hello world!';
  $layout->another_variable = array('test', 'test2');
- 
- 
- // get output with $layout->render(); or print it
   
+ // display output with $layout->display(); or print it
  print $layout;
 
 ```
 
+**Calling from controller**
+
+You can call views from the *any file* or from your custom controller
+
+```php
+
+$controller->my_view = function () {
+    $view = new  \Microweber\View($full_path_to_file);
+    $view->set('content', 'I assigned variable to a view!');
+
+    print $view;
+}; 
+
+```
  **PHP as a template language**
  
 We use plain php for the templates and you have all needed the flexibility with it
+
+
+Functions and Classes
+===
+
+There are is a set of classes and functions that will help you do almost anything.
+
+Microweber may be coded in the OOP way, but **we still love procedural programming** because it offers **short syntax** and **readability**. 
+
+For this reason **we provide a procedural way of calling the same OOP methods** by alias functions.
+
+
+###Database
+ 
+
+Get and save data in the DB. You must configure your database access in index.php
+
+You need to create your db table first. 
+
+
+
+
+#### Get from the database 
+```php
+//get data
+
+// OOP Way
+$data = $application->db->get('table=my_table');
+
+//filter data
+$data = $application->db->get('table=my_table&url=my-url&order_by=title desc');
+
+//limit and paging
+$data = $application->db->get('table=my_table&limit=5&curent_page=1');
+
+//Procedural
+$data = get('table=my_table&id=5');
+
+```
+
+
+#### Save to the database 
+```php
+$data = array();
+$data['title'] = 'My title';
+$data['content'] = 'My content';
+$data['url'] = 'my-link';
+
+//OOP way
+$saved_id = $application->db->save('my_table',$data);
+
+//Procedural
+$saved_id = save('my_table',$data);
+```
+
+You can see working example in the file [src/Microweber/examples/get_save_data.php](https://github.com/microweber/microweber/blob/master/src/Microweber/examples/get_save_data.php "")
+ 
+
+#### Create database table
+```php
+//create db table
+$table_name = MW_TABLE_PREFIX . 'my_table'
+
+$fields_to_add = array();
+$fields_to_add[] = array('title', 'longtext default NULL');
+$fields_to_add[] = array('url', 'longtext default NULL');
+$fields_to_add[] = array('content', 'TEXT default NULL');
+
+//OOP way
+$create = $application->db->build_table($table_name, $fields_to_add);
+
+
+//Procedural
+$data = db_build_table($table_name, $fields_to_add);
+```
+
+###Cache
+Get and save data in the cache system. 
+
+```php
+$cache_id = 'my_id';
+$cache_group 'my_group';
+
+
+//get data - OOP way
+$cached_data = $application->cache->get($cache_id,$cache_group);
+
+
+//get data - Procedural
+$data = cache_get($cache_id,$cache_group);
+
+
+//save data
+$data = array('something'=>'some value');
+
+//OOP way
+$application->cache->save($data, $cache_id, $cache_group);
+
+//Procedural
+$data = cache_save($data, $cache_id, $cache_group);
+
+```
+
+
