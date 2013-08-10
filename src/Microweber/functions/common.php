@@ -2131,6 +2131,16 @@ $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
 $mw_escaped_strings = array();
+function save($table, $data)
+{
+    return mw('db')->save($table, $data);
+
+}
+function get($params)
+{
+    return mw('db')->get($params);
+
+}
 
 
 function db_get_table_name($assoc_name)

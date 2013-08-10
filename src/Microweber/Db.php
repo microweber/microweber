@@ -1079,8 +1079,7 @@ class Db
             return false;
         }
         if ($only_query == false) {
-            // $result = $q;
-            if ($cache_id != false and $cache_group != false) {
+             if ($cache_id != false and $cache_group != false) {
                 if (is_array($q) and !empty($q)) {
 
                     $this->app->cache->save($q, $cache_id, $cache_group);
