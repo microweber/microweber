@@ -17,7 +17,7 @@ src
 
 userfiles
 -- media  (folder to store the user pictures)
--- module 
+-- modules 
 -- templates 
 -- elements 
 ```
@@ -26,6 +26,20 @@ userfiles
 
 To run mw you must include the `\src\Microweber\bootstrap.php` file which loads up the system and includes other files. 
 
+This file also contains the *autoloader* which load the classes of the app 
+
+```php
+//from index.php
+
+require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
+
+$application = new \Microweber\Application($path_to_config);
+
+// get stuff
+$content = $application->content->get("is_active=y");
+var_dump($content);
+
+```
 
 
  

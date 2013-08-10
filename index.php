@@ -33,10 +33,11 @@ error_reporting(E_ALL);
 $application = new \Microweber\Application(MW_CONFIG_FILE);
 
 
-// you can extend every function of MW try this
-// $application = new \Microweber\MyApp(MW_CONFIG_FILE);
-
 /*
+
+  You can extend every function of MW try this
+  $application = new \Microweber\MyApp(MW_CONFIG_FILE);
+
 
  After start you can use the methods of your application trough
  the mw() function, which returns the latest application instance
@@ -53,10 +54,7 @@ $application = new \Microweber\Application(MW_CONFIG_FILE);
 
 
 */
-//if (isset($_GET['debug'])) {
-//    $temp = mw()->modules->scan_for_modules();
-//    var_dump($temp);
-//}
+
 
 // Starting Router
 $router = new \Microweber\Router();
@@ -82,18 +80,6 @@ $controller->functions['test/route/*'] = function () {
 $controller->functions['test/api/user_login*'] = function () {
     echo "My user_login";
 };
-
-
-// Check if installed
-$installed = $application->config('installed');
-
-if (strval($installed) != 'yes') {
-    define('MW_IS_INSTALLED', false);
-    $controller->install();
-    exit();
-} else {
-    define('MW_IS_INSTALLED', true);
-}
 
 
 // Run the website

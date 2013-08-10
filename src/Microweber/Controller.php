@@ -50,6 +50,20 @@ class Controller
 
         }
 
+        if (!defined('MW_IS_INSTALLED')) {
+            // Check if installed
+            $installed = $this->app->config('installed');
+
+            if (strval($installed) != 'yes') {
+                define('MW_IS_INSTALLED', false);
+                $this->install();
+                exit();
+            } else {
+                define('MW_IS_INSTALLED', true);
+            }
+        }
+
+
     }
 
     public function index()
@@ -285,7 +299,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template','template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template', 'template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -382,8 +396,8 @@ class Controller
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
-							 
-								
+
+
                             }
 
 
@@ -417,11 +431,8 @@ class Controller
                             $page['parent'] = '0';
                             $page['url'] = $this->app->url->string();
                             $page['active_site_template'] = $page_url_segment_1;
-							
-							
-							
-							
-							
+
+
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
 
@@ -531,7 +542,7 @@ class Controller
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;
-             $l->category_id = CATEGORY_ID;
+            $l->category_id = CATEGORY_ID;
             $l->content = $content;
             $l->page = $page;
 
