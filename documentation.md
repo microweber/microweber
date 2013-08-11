@@ -9,6 +9,14 @@ It can be used to manage your websites or simply to power your custom applicatio
 Working with templates
 ===
 
+We use [Twitter's Bootstrap](http://getbootstrap.com/ "Bootstrap") framework as a base for our templates. If you know Bootstrap you can already make Microweber templates.
+
+You can plug and play any existing bootstrap theme out there with [3 lines of code](https://github.com/microweber/microweber/blob/master/userfiles/templates/cyborg/header.php ""). Just copy [this folder](https://github.com/microweber/microweber/tree/master/userfiles/templates/cyborg "") and rename it, no need of futher coding.
+
+
+Of course you can also use you own CSS code. 
+
+
 ## Folder structure:
 
 The templates are stored in the following folders
@@ -42,13 +50,13 @@ userfiles
 To create a template make a `config.php` file in its directory and put your details
 
 ```php
-// example template config stored in userfiles/templates/My new theme/config.php
+// example template config stored in userfiles/templates/new_theme/config.php
 
 $config = array();
-$config['name'] = "Cyborg";
-$config['author'] = "Bootswatch";
+$config['name'] = "My new theme";
+$config['author'] = "Me";
 $config['version'] = 0.1;
-$config['url'] = "http://bootswatch.com/cyborg/";
+$config['url'] = "http://example.com";
 
 ```
 
@@ -109,6 +117,53 @@ After that your template should be visible in the admin panel.
     My editable content
     </div>
 <?php include TEMPLATE_DIR. "footer.php"; ?>
+
+```
+
+
+## Live edit
+You can define editable regions in your template where the user will be able to type text and *Drag and Drop* modules
+
+
+Example:
+```html
+<div class="edit"  field="your_region_name" rel="content">
+      <div class="element">Edit your content</div>
+</div>
+```
+
+To define your editable region you must set few parameters on the html element in your template
+
+* You must add class "edit"
+* Add attribute *field="some name"* and set the name of your field.
+* The main editable regionmust have  *field="content"*
+* Add attribute *rel="content"* and set the scope of your field.
+    * *rel="content"* this field changes for ever page or post
+    * *rel="global"* this field changes for the whole site
+    * *rel="page"* this field changes for every page
+    * *rel="post"* this field changes for every post
+    * *rel="inherit"* this field changes for every main page, but not is sup-pages and posts
+    * *rel="your_cutom_rel"* you can define your own scope
+
+
+# Modules
+
+
+The Microweber modules will help you to make easy modifications and add functionality to your pages.
+
+Every module is a PHP script or a program that executes when the user have dropped it into a page.
+It can be very simple, or it can be hugely complex, there are no limitations.
+
+
+The module works as a stand alone script, but it have access to all Microweber functions.
+
+It can also have editable regions and the user can edit the text into it.
+
+
+Modules are loaded with the \<module /> tag and each of them is located in `userfiles/modules/{$module_name}`: 
+```html
+
+      <module type="pictures" />
 
 ```
 
