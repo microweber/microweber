@@ -453,5 +453,5 @@ $data = cache_save($data, $cache_id, $cache_group);
 ```
 
 
-There is also little [documentation available here](http://help.microweber.com/apidocs/ "")
+There is a lot more. We are constantly updating this document.
 
