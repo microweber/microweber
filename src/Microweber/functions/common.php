@@ -560,7 +560,38 @@ function payment_options($option_key = false)
 
 
 }
+function session_set($name, $val)
+{
 
+
+    mw('user')->session_set($name, $val);
+}
+
+function session_get($name)
+{
+    mw('user')->session_get($name);
+
+}
+
+function session_del($name)
+{
+    mw('user')->session_del($name);
+}
+
+function session_end()
+{
+
+
+    return mw('user')->session_end();
+
+}
+function currency_format($amount, $curr = false)
+{
+
+    return mw('shop')->currency_format($amount, $curr);
+
+
+}
 
 function user_login($params)
 {

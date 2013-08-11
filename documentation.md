@@ -56,6 +56,61 @@ After that your template should be visible in the admin panel.
 [See how default template is made](https://github.com/microweber/microweber/tree/master/userfiles/templates/default "")
 
 
+####Sample header.php
+```php
+<!DOCTYPE HTML>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <title>{content_meta_title}</title>
+    <link rel="stylesheet" href="{TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{TEMPLATE_URL}js/functions.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="header" class="edit" field="header" rel="global">
+     <module data-type="menu" data-template="navbar">
+</div> 
+    <div id="content">
+```
+
+
+
+
+
+
+####Sample footer.php
+```php
+    </div> <!-- /#content -->
+
+<div id="footer" class="edit" field="footer" rel="global">
+     <div class="row">
+        <div class="span6">All rights reserved</div>
+        <div class="span6"> </div>
+    </div>
+</div> <!-- /#footer -->
+
+</body></html>
+```
+
+
+####Sample index.php
+```php
+<?php
+/*
+  type: layout
+  content_type: static
+  name: Home
+  description: Home layout
+  
+*/
+?>
+<?php include TEMPLATE_DIR. "header.php"; ?>
+    <div class="edit" field="content" rel="content">
+    My editable content
+    </div>
+<?php include TEMPLATE_DIR. "footer.php"; ?>
+
+```
 
 
 PHP Documentation
