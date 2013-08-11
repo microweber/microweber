@@ -42,7 +42,7 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'options_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'optionsdb_'.__FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -104,7 +104,7 @@ class Option
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED != true) {
-            return true;
+            return false;
         }
         if ($option_group != false) {
 
@@ -519,9 +519,9 @@ class Option
     public function _create_mw_default_options()
     {
 
-        $function_cache_id = __FUNCTION__;
+        $function_cache_id = 'default_opts';
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db', 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db' );
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -622,7 +622,7 @@ class Option
             //var_dump($changes);
             $this->app->cache->delete('options/global');
         }
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db', 'files');
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db' );
 
         return true;
     }

@@ -246,10 +246,14 @@ if (isset($to_save['is_installed'])) {
                 file_put_contents($cfg, $save_config);
                 __mw_install_log('Clearing cache');
                 clearstatcache();
+
+
+
                 mw('cache')->flush();
                 _reload_c();
                 mw('option')->db_init();
-				 mw('option')->_create_mw_default_options();
+				mw('option')->_create_mw_default_options();
+
                 __mw_install_log('Initializing options');
 
 
