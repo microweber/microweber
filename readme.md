@@ -6,10 +6,12 @@ You can easily manipulate the content and the layout of your pages without the n
 
 [Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
 
+[Download the lates version from here](https://github.com/microweber/microweber/archive/master.zip "")
 
 
 
 # How to install
+
 
 The following server requirements are needed:
 
@@ -20,6 +22,8 @@ The following server requirements are needed:
 * mod_rewrite must be enabled
 * lib-xml must be enabled, with DOM support
 * GD php extension must be loaded
+
+
 
 Unzip and upload the files in your server folder and
 open your browser to the index.php file
