@@ -224,6 +224,10 @@ Functions reference
 ===
 
 
+Microweber's core is coded in the OOP way, but **we still love procedural programming** because it offers **short syntax** and **readability**. 
+
+The functions below are just short-cuts to the corresponding OOP object and method. You can override them by extending the class that is responsible for each function. 
+
 ## DB Functions
 
 
@@ -494,20 +498,17 @@ Prints nested tree of categories and sub-categories
 ```php
 
 $params = array();
-$params['parent'] = false; //parent id
-$params['link'] = false; // the link on for the <a href
-$params['active_ids'] = array(); //ids of active categories
-$params['active_code'] = false; //inserts this code for the active ids's
-$params['remove_ids'] = array(); //remove those caregory ids
-$params['ul_class_name'] = false; //class name for the ul
+$params['parent'] = 0; //parent id
+$params['link'] = '<a href="#{id}">{title}</a>'; // the link on for the <a href
+$params['active_ids'] = array(5,6); //ids of active categories
+$params['active_code'] = "active"; //inserts this code for the active ids's
+$params['remove_ids'] = array(1,2); //remove those caregory ids
+$params['ul_class_name'] = 'nav'; //class name for the ul
 $params['include_first'] = false; //if true it will include the main parent category
-$params['content_type'] = false; //if this is set it will include only categories from desired type
-$params['add_ids'] = array(); //if you send array of ids it will add them to the category
-$params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
-$params['content_type'] = false; //if this is set it will include only categories from desired type
+$params['add_ids'] = array(10,11); //if you send array of ids it will add them to the category
+$params['orderby'] = array('created_on','asc'); //you can order by ant field ;
 $params['list_tag'] = 'select';
 $params['list_item_tag'] = "option";
-
 category_tree($params);
 ```
 
@@ -647,7 +648,7 @@ $controller->my_view = function () {
 We use plain php for the templates and you have all needed the flexibility with it
 
 
-Functions and Classes
+Classes
 ===
 
 There are is a set of classes and functions that will help you do almost anything.
