@@ -227,7 +227,7 @@ Functions reference
 ## DB Functions
 
 
-## function: *get($params)*
+### function: *get($params)*
 
 
 Allows you to get and filter data from the db, and caches the result.  
@@ -260,7 +260,7 @@ Parameters
 
 
 
-## function: *save($table, $data)*
+### function: *save($table, $data)*
 
 
 Allows you to save in the database
@@ -294,7 +294,7 @@ Parameters
 
 Those functions will help you work with the items from the `content` db table.
 
-## function: *get_content($params)*
+### function: *get_content($params)*
 
 
 Get array of content items (posts,pages,etc) from the content DB table
@@ -354,7 +354,7 @@ Parameters
 
 
 
-## function: *get_content_by_id($id)*
+### function: *get_content_by_id($id)*
 
 Does what it says - get content by id from the content db table
 
@@ -362,20 +362,20 @@ Does what it says - get content by id from the content db table
 $single_content = get_content_by_id($id=5);
 ```
 
-## function: *content_link($id)*
+### function: *content_link($id)*
 Return the url for a page or a post
 ```php
 $link = content_link($id=5);
 print $link;
 ```
 
-## function: *content_parents($id)*
+### function: *content_parents($id)*
 Returns array of parents ids
 ```php
 $link = content_parents($id=5);
 print $link;
 ```
-## function: *pages_tree($params)*
+### function: *pages_tree($params)*
 Prints nested tree of pages and sub-pages
 
 ```php
@@ -417,7 +417,7 @@ $pt_opts['active_class'] =  'active'; // set your own class name of the active i
 
 Those functions works with the the `categories` db table.
 
-## function: *get_categories_for_content($content_id)*
+### function: *get_categories_for_content($content_id)*
  
 Returns array of category ids
 ```php
@@ -426,7 +426,7 @@ print_r($categories);
 ``` 
 
 
-## function: *get_categories($params)*
+### function: *get_categories($params)*
  
 Returns array of categories
 ```php
@@ -456,7 +456,7 @@ Parameters
 | users_can_create_content   | flag if users can add content in this category  |  "n" or "y"
 
 
-## function: *get_category_by_id($id)*
+### function: *get_category_by_id($id)*
 
 Get single category by id
 
@@ -465,7 +465,7 @@ $category = get_category_by_id($id=1);
 ```
 
 
-## function: *get_category_children($id)*
+### function: *get_category_children($id)*
 
 Get all sub-categories
 
@@ -475,7 +475,7 @@ $category_children = get_category_children($id=1);
 
 
 
-## function: *category_link($id)*
+### function: *category_link($id)*
 
 Get link for a category
 
@@ -485,7 +485,7 @@ $category_url = category_link($id=1);
 
 
 
-## function: *category_tree($params)*
+### function: *category_tree($params)*
 
 Prints nested tree of categories and sub-categories
 
