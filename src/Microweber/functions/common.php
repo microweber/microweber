@@ -28,7 +28,7 @@ function content_link($id = false)
 }
 
 
-function content_get_parents($id = 0, $without_main_parrent = false)
+function content_parents($id = 0, $without_main_parrent = false)
 {
     return mw('content')->get_parents($id, $without_main_parrent);
 }

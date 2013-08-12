@@ -369,10 +369,10 @@ $link = content_link($id=5);
 print $link;
 ```
 
-## function: *content_get_parents($id)*
+## function: *content_parents($id)*
 Returns array of parents ids
 ```php
-$link = content_get_parents($id=5);
+$link = content_parents($id=5);
 print $link;
 ```
 ## function: *pages_tree($params)*
@@ -456,7 +456,22 @@ Parameters
 | users_can_create_content   | flag if users can add content in this category  |  "n" or "y"
 
 
+## function: *get_category_by_id($id)*
 
+Get single category by id
+
+```php
+$category = get_category_by_id($id=1);
+```
+
+
+## function: *get_category_children($id)*
+
+Get all sub-categories
+
+```php
+$category_children = get_category_children($id=1);
+```
 
 
 MVC Framework (For advanced users)
