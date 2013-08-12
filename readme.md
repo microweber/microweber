@@ -474,6 +474,50 @@ $category_children = get_category_children($id=1);
 ```
 
 
+
+## function: *category_link($id)*
+
+Get link for a category
+
+```php
+$category_url = category_link($id=1);
+```
+
+
+
+## function: *category_tree($params)*
+
+Prints nested tree of categories and sub-categories
+
+[See also pages_tree()](#function-pages_treeparams "pages_tree")
+
+```php
+
+$params = array();
+$params['parent'] = false; //parent id
+$params['link'] = false; // the link on for the <a href
+$params['active_ids'] = array(); //ids of active categories
+$params['active_code'] = false; //inserts this code for the active ids's
+$params['remove_ids'] = array(); //remove those caregory ids
+$params['ul_class_name'] = false; //class name for the ul
+$params['include_first'] = false; //if true it will include the main parent category
+$params['content_type'] = false; //if this is set it will include only categories from desired type
+$params['add_ids'] = array(); //if you send array of ids it will add them to the category
+$params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+$params['content_type'] = false; //if this is set it will include only categories from desired type
+$params['list_tag'] = 'select';
+$params['list_item_tag'] = "option";
+
+category_tree($params);
+```
+
+
+
+
+
+
+
+
 MVC Framework (For advanced users)
 ===
 ## Starting
