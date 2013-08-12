@@ -292,6 +292,7 @@ Parameters
 
 ## Content Functions
 
+Those functions will help you work with the items from the `content` db table.
 
 ## function: *get_content($params)*
 
@@ -408,9 +409,54 @@ $pt_opts['active_class'] =  'active'; // set your own class name of the active i
 
 
 // Placeholders you can use
-// {id}, {title}, {link}, {active_class}, {active_parent_class}, {exteded_classes}, {active_class}, {active_parent_class}, {nest_level}, {tn}
+// {id}, {title}, {link}, {tn}, {active_class}, 
+// {active_parent_class}, {exteded_classes}, {nest_level}
 ```
+
+## Category Functions
+
+Those functions works with the the `categories` db table.
+
+## function: *get_categories_for_content($content_id)*
  
+Returns array of category ids
+```php
+$categories = get_categories_for_content($content_id=5);
+print_r($categories);
+``` 
+
+
+## function: *get_categories($params)*
+ 
+Returns array of categories
+```php
+//get main categories for the content
+$categories = get_categories('rel=content&parent_id=0&orderby=position asc');
+ 
+//you can use the categories functuonality to for your custom data with the `rel` parameter
+$modules_categories = get_categories('rel=modules&parent_id=0');
+
+``` 
+
+Parameters
+
+|parameter  | description |  usage|
+|--------------|--------------|--------------|
+| id       | the id of the category| `get_categories('id=3');`
+| parent_id | the id of the parent category | `get_categories('parent_id=0');`
+| rel | the category relation to other db table | `get_categories('rel=content');`
+| rel_id | the item from the related db table | `get_categories('rel=content&rel_id=5');` gets categories for the content with id 5
+| created_by| get by author id|  `get_categories('created_by=1');`
+| created_on| the date of creation | `strtotime` compatible date
+| updated_on| the date of last edit| `strtotime` compatible date
+| title| Title of the category |
+| content   | The html content saved in the database |
+| description    | Description used for the content list |
+| position  | The order position   |
+| users_can_create_content   | flag if users can add content in this category  |  "n" or "y"
+
+
+
 
 
 MVC Framework (For advanced users)
