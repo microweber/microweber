@@ -6,7 +6,7 @@ You can easily manipulate the content and the layout of your pages without the n
 
 [Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
 
-[Download the lates version from here](https://github.com/microweber/microweber/archive/master.zip "")
+[Download the latest version from here](https://github.com/microweber/microweber/archive/master.zip "")
 
 
 
@@ -59,13 +59,22 @@ You can plug and play any existing bootstrap theme out there with [3 lines of co
 
 Of course you can also use you own CSS code. 
 
-
 ## Folder structure:
+
+
 
 The templates are stored in the following folders
 ```
+src
+-- Microweber  (this is the app folder)
+
 userfiles
--- templates                                              - the main directory for the templates
+-- media  (folder to store the user pictures)
+-- modules 
+-- elements 
+-- templates 
+
+userfiles/templates
 -- templates/My theme                                     - directory for your template
 -- templates/My theme/layouts                             - the directory for your layouts
 -- modules/{$module_name}/templates/                      - each module's default skins
@@ -211,23 +220,147 @@ Modules are loaded with the \<module /> tag and each of them is located in `user
 ```
 
 
-PHP Documentation
+Functions reference
 ===
 
 
-## Folder structure:
+## DB Functions
+
+
+## function: *save($table, $data)*
+
+
+Allows you to save in the database
+
+Usage of the `save($table, $data)` function
+
+ 
+```php
+$data = array();
+$data['id'] = 0;
+$data['title'] = 'My title';
+$data['content'] = 'My content';
+$saved_id = save('content',$data);
 ```
-src
--- Microweber  (this is the app folder)
 
-userfiles
--- media  (folder to store the user pictures)
--- modules 
--- templates 
--- elements 
+Parameters
+
+|parameter  | description |  usage|
+|--------------|--------------|--------------|
+|`$table`  | the name of your database table | `save('my_table',$data)`, `save('users',$data)` |
+|`$data`  | a key=>value array of your data to save | `$saved_id = save('content',array('id'=>5,'title'=>"My title"));` |
+ 
+
+
+## function: *get($params)*
+
+
+Allows you to get and filter data from the db, and caches the result.  
+
+Usage of the `get($params)` function
+
+ 
+```php
+//you can pass params as string
+$data = get('table=my_table&id=5');
+
+//or as array 
+$get_params = array('table'=>'content','id'=>5);
+$data = get($get_params);
+
 ```
 
+Parameters
 
+|parameter  | description |  usage|
+|--------------|--------------|--------------|
+|`table`  |  your database table | `get('table=content')` |
+|`single`  |  if set to true will return only the 1st row as array | `get('table=content&id=5&single=true')` |
+|`orderby`  |  you can order by any field name | `get('table=content&orderby=id desc')` |
+|`count`  | if set to true it will return the results count | `get('table=content&count=true')` |
+|`limit`  | set limit of the returned dataset  | `get('table=content&limit=10')` |
+|`curent_page`  | set offset of the returned dataset  | `get('table=content&limit=10&curent_page=2')` |
+| $fieldname  |  you can filter data by passing your fields as params| `get('table=content&my_field=value')` |
+
+
+
+
+
+
+
+
+
+
+## Content Functions
+
+
+## function: *get_content($params)*
+
+
+Get array of content items (posts,pages,etc) from the content DB table
+
+```php
+//you can pass params as string
+$data = get_content('is_active=y');
+
+//or pass params as as array 
+$params = array();
+$params['is_active'] = 'y'; //get only active content
+$params['parent'] = 2; //get by parent id
+$params['created_by'] = 1; //get by author id
+$params['content_type'] = 'post'; //get by content type
+$params['subtype'] = 'product'; //get by subtype
+$params['title'] = 'my title'; //get by title
+
+$data = get_content($params);
+
+//Order by position
+$data = get_content('content_type=post&is_active=y&order_by=position desc');
+
+//Order by date
+$data = get_content('content_type=post&is_active=y&order_by=updated_on desc');
+ 
+//Order by title
+$data = $get_content('content_type=post&is_active=y&order_by=title asc'); 
+
+//Get content from last week
+$data = get_content('created_on=[mt]-1 week&is_active=y&order_by=title asc');
+ 
+```
+
+Parameters
+
+|parameter  | description |  usage|
+|--------------|--------------|--------------|
+| id       | the id of the content|
+| is_active | published or unpublished  | "y" or "n"
+| parent    | get content with parent   | any id or 0
+| created_by| get by author id| any user id
+| created_on| the date of creation |
+| updated_on| the date of last edit|
+| content_type   | the type of the content   | "page" or "post", anything custom
+| subtype   | subtype of the content    | "static","dynamic","post","product", anything custom
+| url  | the link to the content   |
+| title| Title of the content |
+| content   | The html content saved in the database |
+| description    | Description used for the content list |
+| position  | The order position   |
+| active_site_template   | Current template for the content |
+| layout_file    | Current layout from the template directory |
+| is_deleted| flag for deleted content  |  "n" or "y"
+| is_home   | flag for homepage    |  "n" or "y"
+| is_shop   | flag for shop page   |  "n" or "y"
+
+
+
+
+
+
+
+
+
+MVC Framework (For advanced users)
+===
 ## Starting
 
 To run mw you must include the `\src\Microweber\bootstrap.php` file which loads up the system. 
@@ -360,7 +493,7 @@ Functions and Classes
 
 There are is a set of classes and functions that will help you do almost anything.
 
-Microweber may be coded in the OOP way, but **we still love procedural programming** because it offers **short syntax** and **readability**. 
+Microweber's core is coded in the OOP way, but **we still love procedural programming** because it offers **short syntax** and **readability**. 
 
 For this reason **we provide a procedural way of calling the same OOP methods** by alias functions.
 
