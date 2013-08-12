@@ -892,7 +892,7 @@ class Content
     }
 
 
-    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
+    public function get_parents($id = 0, $without_main_parrent = false)
     {
 
         if (intval($id) == 0) {

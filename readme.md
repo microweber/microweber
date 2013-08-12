@@ -227,31 +227,6 @@ Functions reference
 ## DB Functions
 
 
-## function: *save($table, $data)*
-
-
-Allows you to save in the database
-
-Usage of the `save($table, $data)` function
-
- 
-```php
-$data = array();
-$data['id'] = 0;
-$data['title'] = 'My title';
-$data['content'] = 'My content';
-$saved_id = save('content',$data);
-```
-
-Parameters
-
-|parameter  | description |  usage|
-|--------------|--------------|--------------|
-|`$table`  | the name of your database table | `save('my_table',$data)`, `save('users',$data)` |
-|`$data`  | a key=>value array of your data to save | `$saved_id = save('content',array('id'=>5,'title'=>"My title"));` |
- 
-
-
 ## function: *get($params)*
 
 
@@ -285,6 +260,30 @@ Parameters
 
 
 
+## function: *save($table, $data)*
+
+
+Allows you to save in the database
+
+Usage of the `save($table, $data)` function
+
+ 
+```php
+$data = array();
+$data['id'] = 0;
+$data['title'] = 'My title';
+$data['content'] = 'My content';
+$saved_id = save('content',$data);
+```
+
+Parameters
+
+|parameter  | description |  usage|
+|--------------|--------------|--------------|
+|`$table`  | the name of your database table | `save('my_table',$data)`, `save('users',$data)` |
+|`$data`  | a key=>value array of your data to save | `$saved_id = save('content',array('id'=>5,'title'=>"My title"));` |
+ 
+
 
 
 
@@ -311,7 +310,6 @@ $params['created_by'] = 1; //get by author id
 $params['content_type'] = 'post'; //get by content type
 $params['subtype'] = 'product'; //get by subtype
 $params['title'] = 'my title'; //get by title
-
 $data = get_content($params);
 
 //Order by position
@@ -336,8 +334,8 @@ Parameters
 | is_active | published or unpublished  | "y" or "n"
 | parent    | get content with parent   | any id or 0
 | created_by| get by author id| any user id
-| created_on| the date of creation |
-| updated_on| the date of last edit|
+| created_on| the date of creation | `strtotime` compatible date
+| updated_on| the date of last edit| `strtotime` compatible date
 | content_type   | the type of the content   | "page" or "post", anything custom
 | subtype   | subtype of the content    | "static","dynamic","post","product", anything custom
 | url  | the link to the content   |
@@ -355,8 +353,64 @@ Parameters
 
 
 
+## function: *get_content_by_id($id)*
+
+Does what it says - get content by id from the content db table
+
+```php
+$single_content = get_content_by_id($id=5);
+```
+
+## function: *content_link($id)*
+Return the url for a page or a post
+```php
+$link = content_link($id=5);
+print $link;
+```
+
+## function: *content_get_parents($id)*
+Returns array of parents ids
+```php
+$link = content_get_parents($id=5);
+print $link;
+```
+## function: *pages_tree($params)*
+Prints nested tree of pages and sub-pages
+
+```php
+// Example Usage:
+$pt_opts = array();
+$pt_opts['link'] = "<a href='{link}'>{title}</a>";
+$pt_opts['list_tag'] = "ol";
+$pt_opts['list_item_tag'] = "li";
+pages_tree($pt_opts);
+
+// Example Usage to make <select> with <option>:
+$pt_opts = array();
+$pt_opts['link'] = "{title}";
+$pt_opts['list_tag'] = " ";
+$pt_opts['list_item_tag'] = "option";
+$pt_opts['active_ids'] = 5; //those items will have the selected attribute
+$pt_opts['active_code_tag'] = '   selected="selected"  ';
+$pt_opts['ul_class'] = 'nav';
+$pt_opts['li_class'] = 'nav-item';
+print '<select>';
+pages_tree($pt_opts);
+print '</select>';
+
+// Other options
+$pt_opts['parent'] = "8";
+$pt_opts['include_first'] =  true; //includes the parent in the tree
+$pt_opts['id_prefix'] = 'my_id';
+$pt_opts['max_level'] =  2; //the max nesting level of the tree
+$pt_opts['include_categories'] =  true; //includes the categories in the tree
+$pt_opts['active_class'] =  'active'; // set your own class name of the active item
 
 
+// Placeholders you can use
+// {id}, {title}, {link}, {active_class}, {active_parent_class}, {exteded_classes}, {active_class}, {active_parent_class}, {nest_level}, {tn}
+```
+ 
 
 
 MVC Framework (For advanced users)

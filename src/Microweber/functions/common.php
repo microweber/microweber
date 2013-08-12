@@ -27,6 +27,12 @@ function content_link($id = false)
     return mw('content')->link($id);
 }
 
+
+function content_get_parents($id = 0, $without_main_parrent = false)
+{
+    return mw('content')->get_parents($id, $without_main_parrent);
+}
+
 function page_link($id = false)
 {
     return mw('content')->link($id);
@@ -35,6 +41,37 @@ function page_link($id = false)
 function post_link($id = false)
 {
     return mw('content')->link($id);
+}
+
+function pages_tree($params = false)
+{
+
+    return mw('content')->pages_tree($params);
+}
+
+/**
+ * `
+ *
+ * Prints the selected categories as an <UL> tree, you might pass several
+ * options for more flexibility
+ *
+ * @param
+ *            array
+ *
+ * @param
+ *            boolean
+ *
+ * @author Peter Ivanov
+ *
+ * @version 1.0
+ *
+ * @since Version 1.0
+ *
+ */
+function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
+{
+    return \mw('category')->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+
 }
 
 
@@ -560,6 +597,7 @@ function payment_options($option_key = false)
 
 
 }
+
 function session_set($name, $val)
 {
 
@@ -585,6 +623,7 @@ function session_end()
     return mw('user')->session_end();
 
 }
+
 function currency_format($amount, $curr = false)
 {
 
@@ -922,32 +961,6 @@ function remove_field($id)
 function make_field($field_id = 0, $field_type = 'text', $settings = false)
 {
     return mw('fields')->make($field_id, $field_type, $settings);
-
-}
-
-
-/**
- * `
- *
- * Prints the selected categories as an <UL> tree, you might pass several
- * options for more flexibility
- *
- * @param
- *            array
- *
- * @param
- *            boolean
- *
- * @author Peter Ivanov
- *
- * @version 1.0
- *
- * @since Version 1.0
- *
- */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
-{
-    return \mw('category')->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 
 }
 
@@ -2167,6 +2180,7 @@ function save($table, $data)
     return mw('db')->save($table, $data);
 
 }
+
 function get($params)
 {
     return mw('db')->get($params);
