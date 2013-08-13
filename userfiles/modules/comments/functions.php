@@ -174,7 +174,7 @@ function post_comment($data) {
 
 	// d( $require_moderation);
 
-  
+
 	$saved_data = mw('db')->save($table, $data);
 
 

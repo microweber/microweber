@@ -17,6 +17,10 @@ class shipping_to_country {
 	// to prevent external instantiation
 	function __construct() {
 		$this->table = MW_TABLE_PREFIX . 'cart_shipping';
+		
+		
+	 
+		
 	}
 	
 	

@@ -6,6 +6,14 @@ $payment_success = true;
 }
  
 ?>
+
+<script type="text/javascript">
+    mw.require("tools.js");
+	    mw.require("shop.js");
+
+  </script>
+
+
 <script type="text/javascript">
 
 function checkout_callback(data,selector){
@@ -54,9 +62,7 @@ $(document).ready(function(){
 <?php if($payment_success == false): ?>
   <div class="vSpace"></div>
 <form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print mw('url')->api_link('checkout') ?>" >
-  <script type="text/javascript">
-    mw.require("shop.js");
-  </script>
+  
   <?php $cart_show_enanbled =  mw('option')->get('data-show-cart', $params['id']); ?>
   <?php
   

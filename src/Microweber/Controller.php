@@ -255,7 +255,7 @@ class Controller
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
 
-                $the_active_site_template = $this->app->option->get('curent_template','template');
+                $the_active_site_template = $this->app->option->get('curent_template', 'template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
 
                 if ($preview_module != false) {
@@ -299,7 +299,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template','template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template', 'template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -433,9 +433,6 @@ class Controller
                             $page['active_site_template'] = $page_url_segment_1;
 
 
-
-
-
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
 
@@ -530,7 +527,7 @@ class Controller
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
 
         $render_file = $this->app->content->get_layout($content);
-       //  d($page);
+        //  d($page);
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
@@ -545,12 +542,12 @@ class Controller
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = PAGE_ID;
-             $l->category_id = CATEGORY_ID;
+            $l->category_id = CATEGORY_ID;
             $l->content = $content;
             $l->page = $page;
             $l->application = $this->app;
 
-           // $l->assign('application', $this->app);
+            // $l->assign('application', $this->app);
 
 
             // $l->set($l);
@@ -834,10 +831,6 @@ class Controller
         if (!defined('MW_BACKEND')) {
             define('MW_BACKEND', true);
         }
-        if (MW_IS_INSTALLED == true) {
-            //event_trigger('mw_db_init');
-            // event_trigger('mw_cron');
-        }
 
         //create_mw_default_options();
         $this->app->content->define_constants();
@@ -906,6 +899,10 @@ class Controller
         } else {
             $api_function_full = $api_function;
         }
+
+
+        //$api_function_full = str_ireplace('api/', '', $api_function_full);
+
         $api_function_full = str_replace('..', '', $api_function_full);
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
@@ -1177,9 +1174,23 @@ class Controller
             if (!in_array($api_function, $api_exposed)) {
                 $err = true;
             }
+
+
             if ($err == true) {
                 foreach ($api_exposed as $api_exposed_item) {
                     if ($api_exposed_item == $api_function) {
+                        $err = false;
+                    }
+                }
+            }
+
+
+            if (isset($api_function_full)) {
+                foreach ($api_exposed as $api_exposed_item) {
+                    $api_function_full = str_replace('\\', '/', $api_function_full);
+                    $api_function_full = ltrim($api_function_full, '/');
+                    if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
+
                         $err = false;
                     }
                 }
@@ -1213,9 +1224,26 @@ class Controller
                             $res = $res->$mmethod($data);
                         }
 
+                    } elseif (isset($api_function_full)) {
+
+                        $api_function_full = str_replace('\\', '/', $api_function_full);
+
+                        $api_function_full1 = explode('/', $api_function_full);
+                        $mmethod = array_pop($api_function_full1);
+                        $mclass = array_pop($api_function_full1);
+
+                        if (class_exists($mclass, false)) {
+                            $res = new $mclass($this->app);
+
+                            if (method_exists($res, $mmethod)) {
+                                $res = $res->$mmethod($data);
+                            }
+                        }
                     }
 
                 }
+
+
                 $hooks = api_hook(true);
 
                 if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {

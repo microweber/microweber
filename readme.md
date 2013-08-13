@@ -276,6 +276,7 @@ $data = array();
 $data['id'] = 0;
 $data['title'] = 'My title';
 $data['content'] = 'My content';
+$data['allow_html'] = true; //if true will allow you to save html
 $saved_id = save('content',$data);
 ```
 

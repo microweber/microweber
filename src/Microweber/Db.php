@@ -463,7 +463,7 @@ class Db
             $criteria = $this->app->format->clean_html($criteria);
             //d($criteria);
         }
-
+        $table = $this->app->format->clean_html($table);
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
 
@@ -510,6 +510,7 @@ class Db
                     if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
 
                         if (strtolower($k) != 'id') {
+                            $v = $this->app->format->clean_html($v);
 
                             $q .= "$k='$v',";
                         }
@@ -521,11 +522,12 @@ class Db
                 } else {
                     $n_id = "NULL";
                 }
-
+                $n_id = $this->app->format->clean_html($n_id);
                 if ($data_to_save_options['use_this_field_for_id'] != false) {
 
                     $q .= " " . $data_to_save_options['use_this_field_for_id'] . "={$n_id} ";
                 } else {
+
 
                     $q .= " id={$n_id} ";
                 }
@@ -623,8 +625,7 @@ class Db
             $this->app->cache->delete($cg . '/' . $id_to_return);
 
             if (isset($criteria['parent_id'])) {
-                //d($criteria['parent_id']);
-                $this->app->cache->delete($cg . '/' . intval($criteria['parent_id']));
+                 $this->app->cache->delete($cg . '/' . intval($criteria['parent_id']));
             }
         }
         return $id_to_return;

@@ -6,9 +6,8 @@ class Format
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
-
 
 
         if (!is_object($this->app)) {
@@ -151,21 +150,30 @@ class Format
     }
 
 
-    public function clean_html($var)
+    public function clean_html($var, $do_not_strip_tags = false)
     {
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_html($val);
+                $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
             $var = html_entity_decode($var);
-            $var = str_ireplace("<script>", ' ',$var);
-            $var = str_ireplace("</script>", ' ',$var);
-            $var = str_ireplace("javascript", ' ',$var);
+            $var = stripslashes($var);
 
-            $var = strip_tags(trim($var));
+            $var = str_ireplace("<script>", ' ', $var);
+            $var = str_ireplace("</script>", ' ', $var);
+            $var = str_ireplace("javascript:", ' ', $var);
+            $var = str_ireplace("vbscript:", ' ', $var);
+            $var = str_ireplace("livescript:", ' ', $var);
+            $var = str_ireplace("HTTP-EQUIV=", ' ', $var);
+            $var = str_ireplace("\0075\0072\\", ' ', $var);
 
-            $output = stripslashes($var);
+
+            if ($do_not_strip_tags == false) {
+                $var = strip_tags(trim($var));
+            }
+
+            $output = $var;
         }
         if (!empty($output))
             return $output;
