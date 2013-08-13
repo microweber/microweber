@@ -158,7 +158,7 @@ class Format
             }
         } else {
             $var = html_entity_decode($var);
-            $var = stripslashes($var);
+            //$var = stripslashes($var);
 
             $var = str_ireplace("<script>", ' ', $var);
             $var = str_ireplace("</script>", ' ', $var);

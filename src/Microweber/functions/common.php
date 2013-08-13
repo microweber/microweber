@@ -744,6 +744,140 @@ function captcha()
 }
 
 
+/**
+ *  Gets the data from the cache.
+ *
+ *  If data is not found it return false
+ *
+ *
+ * @example
+ * <code>
+ *
+ * $cache_id = 'my_cache_'.crc32($sql_query_string);
+ * $cache_content = cache_get_content($cache_id, 'my_cache_group');
+ *
+ * </code>
+ * @param string $cache_id id of the cache
+ * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
+ *
+ * @param bool $expiration_in_seconds You can pass custom cache object or leave false.
+ * @return  mixed returns array of cached data or false
+ * @package Cache
+ *
+ */
+
+function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false)
+{
+
+
+    return mw('cache')->get($cache_id, $cache_group, $expiration_in_seconds);
+
+
+}
+
+/**
+ * Stores your data in the cache.
+ * It can store any value that can be serialized, such as strings, array, etc.
+ *
+ * @example
+ * <code>
+ * //store custom data in cache
+ * $data = array('something' => 'some_value');
+ * $cache_id = 'my_cache_id';
+ * $cache_content = cache_save($data, $cache_id, 'my_cache_group');
+ * </code>
+ *
+ * @param mixed $data_to_cache
+ *            your data, anything that can be serialized
+ * @param string $cache_id
+ *            id of the cache, you must define it because you will use it later to
+ *            retrieve the cached content.
+ * @param string $cache_group
+ *            (default is 'global') - this is the subfolder in the cache dir.
+ *
+ * @param bool $expiration_in_seconds
+ * @return boolean
+ * @package Cache
+ */
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
+{
+    return mw('cache')->save($data_to_cache, $cache_id, $cache_group);
+
+
+}
+
+
+api_expose('clearcache');
+/**
+ * Clears all cache data
+ * @example
+ * <code>
+ * //delete all cache
+ *  clearcache();
+ * </code>
+ * @return boolean
+ * @package Cache
+ */
+function clearcache()
+{
+    return mw('cache')->clear();
+
+}
+
+
+/**
+ * Prints cache debug information
+ *
+ * @return array
+ * @package Cache
+ * @example
+ * <code>
+ * //get cache items info
+ *  $cached_items = cache_debug();
+ * print_r($cached_items);
+ * </code>
+ */
+function cache_debug()
+{
+    return mw('cache')->debug();
+
+}
+
+
+/**
+ * Deletes cache for given $cache_group recursively.
+ *
+ * @param string $cache_group
+ *            (default is 'global') - this is the subfolder in the cache dir.
+ * @param bool $expiration_in_seconds
+ * @return boolean
+ *
+ * @package Cache
+ * @example
+ * <code>
+ * //delete the cache for the content
+ *  cache_clear("content");
+ *
+ * //delete the cache for the content with id 1
+ *  cache_clear("content/1");
+ *
+ * //delete the cache for users
+ *  cache_clear("users");
+ *
+ * //delete the cache for your custom table eg. my_table
+ * cache_clear("my_table");
+ * </code>
+ *
+ */
+function cache_clear($cache_group = 'global', $cache_storage_type = false)
+{
+
+    return mw('cache')->delete($cache_group, $cache_storage_type);
+
+
+}
+
+
 api_expose('social_login_process');
 function social_login_process()
 {
@@ -2349,7 +2483,7 @@ function strip_tags_content($text, $tags = '', $invert = FALSE)
 function html_cleanup($s, $tags = false)
 {
     if (is_string($s) == true) {
-        if($tags != false){
+        if ($tags != false) {
             $s = strip_tags_content($s, $tags, $invert = FALSE);
         }
         return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
@@ -2357,12 +2491,12 @@ function html_cleanup($s, $tags = false)
     } elseif (is_array($s) == true) {
         foreach ($s as $k => $v) {
             if (is_string($v) == true) {
-                if($tags != false){
+                if ($tags != false) {
                     $v = strip_tags_content($v, $tags, $invert = FALSE);
                 }
                 $s[$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
             } elseif (is_array($v) == true) {
-                $s[$k] = html_cleanup($v,$tags);
+                $s[$k] = html_cleanup($v, $tags);
             }
         }
     }

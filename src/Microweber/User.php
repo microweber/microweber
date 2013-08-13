@@ -8,7 +8,7 @@ class User
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
         if (!defined("MW_DB_TABLE_USERS")) {
             define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
@@ -112,6 +112,7 @@ class User
             $pass = isset($params['password']) ? $params['password'] : false;
             $email = isset($params['email']) ? $params['email'] : false;
             $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
+            $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
 
             $pass = $this->hash_pass($pass);
             if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
@@ -181,7 +182,6 @@ class User
                     $data['is_active'] = 'y';
 
 
-
                     $data['search_in_fields'] = 'password,email';
 
                     $data = $this->get_all($data);
@@ -246,6 +246,7 @@ class User
                             $link = page_link($p['id']);
                             $link = $link . '/editmode:y';
                             $this->app->url->redirect($link);
+                            exit();
                         }
                     }
                 }
@@ -253,13 +254,29 @@ class User
                 $aj = $this->app->url->is_ajax();
 
                 if ($aj == false and $api_key == false) {
-                    if (isset($_SERVER["HTTP_REFERER"])) {
+                    if (isset($_SERVER["HTTP_REFERER"]) and $redirect_after == false) {
                         //	d($user_session);
                         //exit();
-                        $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
+                        if ($redirect_after != false) {
+                            $this->app->url->redirect($redirect_after);
+                            exit();
+                        } else {
+                            $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
+                            exit();
+                        }
+
+
+                        exit();
+                    } elseif ($redirect_after != false) {
+                        $this->app->url->redirect($redirect_after);
                         exit();
                     } else {
                         $user_session['success'] = "You are logged in!";
+                        if ($redirect_after != false) {
+                            $user_session['redirect'] = $redirect_after;
+                        }
+
+
                         return $user_session;
                     }
                 } else if ($aj == true) {
@@ -268,7 +285,14 @@ class User
 
                 return $user_session;
             }
+
+
+            if ($redirect_after != false) {
+                $this->app->url->redirect($redirect_after);
+                exit();
+            }
         }
+
 
         return false;
     }
@@ -503,7 +527,7 @@ class User
             return true;
         }
         if ($is != 0 or defined('USER_IS_ADMIN')) {
-             return $is;
+            return $is;
         } else {
             $usr = $this->id();
             if ($usr == false) {
@@ -549,6 +573,7 @@ class User
             return $res;
         }
     }
+
     public function update_last_login_time()
     {
 
@@ -569,6 +594,7 @@ class User
         }
 
     }
+
     public function make_logged($user_id)
     {
 
@@ -845,10 +871,6 @@ class User
         return true;
 
     }
-
-
-
-
 
 
     public function session_set($name, $val)

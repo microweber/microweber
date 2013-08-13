@@ -1,4 +1,4 @@
- <?
+<?php
 $custom_head = "<link href='{THIS_TEMPLATE_URL}swatch/bootstrap.min.css' rel='stylesheet' />";
 $custom_head .= "<link href='{THIS_TEMPLATE_URL}bootstrap/docs/assets/css/bootstrap-responsive.css' rel='stylesheet' />";
 $custom_head .= "<link href='{THIS_TEMPLATE_URL}bootstrap/docs/assets/js/google-code-prettify/prettify.css' rel='stylesheet' />";
