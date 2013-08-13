@@ -23,6 +23,18 @@ $(document).ready(function(){
 
  
  ?>
+ <?php  //d($data);
+if(!isset($data['id'])){
+$data['id'] = 0;	
+}
+if(!isset($data['option_value'])){
+$data['option_value'] = 'default';	
+}
+if(!isset($data['option_key'])){
+$data['option_key'] = 'curent_template';	
+}
+
+ ?>
 <script  type="text/javascript">
 
 
@@ -42,12 +54,12 @@ $(document).ready(function(){
      });
 
 </script>
-<?php  //d($data); ?>
+
 
 <div class="mw-site-theme-selector">
   <label class="control-label-title"> <?php _e("Website template"); ?> </label>
 
-  <input id="mw_curr_theme_val" name="<?php print  $data['option_key']; ?>"   class="mw_option_field mw-ui-field"   type="hidden" option-group="<?php print  $data['option_group']; ?>"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
+  <input id="mw_curr_theme_val" name="curent_template"   class="mw_option_field mw-ui-field"   type="hidden" option-group="template"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
   <module type="content/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1"  />
   <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply Template"); ?></button>
 </div>
