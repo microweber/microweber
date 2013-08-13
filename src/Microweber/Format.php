@@ -159,6 +159,10 @@ class Format
             }
         } else {
             $var = html_entity_decode($var);
+            $var = str_ireplace("<script>", ' ',$var);
+            $var = str_ireplace("</script>", ' ',$var);
+            $var = str_ireplace("javascript", ' ',$var);
+
             $var = strip_tags(trim($var));
 
             $output = stripslashes($var);

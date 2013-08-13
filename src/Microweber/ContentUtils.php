@@ -372,6 +372,9 @@ class ContentUtils extends \Microweber\Content
         if (isset($data_to_save['debug'])) {
 
         }
+
+        $data_to_save['allow_html'] = true;
+
          $save = $this->app->db->save($table, $data_to_save);
 
         // $this->app->cache->delete('content/global');
@@ -911,6 +914,7 @@ class ContentUtils extends \Microweber\Content
         }
 
         //}
+        $data['allow_html'] = true;
 
         $save = $this->app->db->save($table, $data);
 

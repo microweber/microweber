@@ -362,6 +362,7 @@ class Fields
 
 
 
+            $data_to_save['allow_html'] = true;
 
 
 

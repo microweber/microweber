@@ -425,7 +425,10 @@ mw.wysiwyg = {
         var s = window.getSelection();
         var r = s.getRangeAt(0);
         var c = r.cloneContents();
-        var a = r.commonAncestorContainer.querySelectorAll('*'), l = a.length, i=0;
+
+        var common =  mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+
+        var a = common.querySelectorAll('*'), l = a.length, i=0;
 
         for( ; i<l; i++ ){
           if(!!s.containsNode && s.containsNode(a[i], true)){
@@ -453,6 +456,14 @@ mw.wysiwyg = {
          }
 
       });
+    },
+    validateCommonAncestorContainer:function(c){
+        if(typeof c.querySelectorAll === 'function'){
+          return c;
+        }
+        else{
+          return mw.wysiwyg.validateCommonAncestorContainer(c.parentNode);
+        }
     },
     applier:function(tag, classname, style_object){
       if(mw.wysiwyg.isSelectionEditable()){

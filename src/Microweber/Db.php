@@ -404,6 +404,10 @@ class Db
         if (isset($data['screenshot_url'])) {
             $screenshot_url = $data['screenshot_url'];
         }
+        $allow_html = false;
+        if (isset($data['allow_html']) and (!isset($_REQUEST['allow_html']))) {
+            $allow_html = $data['allow_html'];
+        }
 
         if (isset($data['debug']) and $data['debug'] == true) {
             $dbg = 1;
@@ -453,7 +457,12 @@ class Db
         $criteria_orig = $data;
 
         $criteria = $this->map_array_to_table($table, $data);
+        if ($allow_html == false) {
+            //$allowed_tags = '<p><strong><div>';
 
+            $criteria = $this->app->format->clean_html($criteria);
+            //d($criteria);
+        }
 
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
@@ -468,6 +477,9 @@ class Db
         }
 
         // $criteria = $this->map_array_to_table ( $table, $data );
+
+
+
 
         $criteria = $this->addslashes_array($criteria);
 
@@ -1030,7 +1042,7 @@ class Db
             $db = $connection_settigns;
 
         } else {
-            $db =$this->app->config('db');
+            $db = $this->app->config('db');
         }
 
 
@@ -1079,7 +1091,7 @@ class Db
             return false;
         }
         if ($only_query == false) {
-             if ($cache_id != false and $cache_group != false) {
+            if ($cache_id != false and $cache_group != false) {
                 if (is_array($q) and !empty($q)) {
 
                     $this->app->cache->save($q, $cache_id, $cache_group);

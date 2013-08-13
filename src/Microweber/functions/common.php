@@ -2326,3 +2326,45 @@ function guess_cache_group($for = false)
 {
     return guess_table_name($for, true);
 }
+
+
+function strip_tags_content($text, $tags = '', $invert = FALSE)
+{
+
+    preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);
+    $tags = array_unique($tags[1]);
+
+    if (is_array($tags) AND count($tags) > 0) {
+        if ($invert == FALSE) {
+            return preg_replace('@<(?!(?:' . implode('|', $tags) . ')\b)(\w+)\b.*?>.*?</\1>@si', '', $text);
+        } else {
+            return preg_replace('@<(' . implode('|', $tags) . ')\b.*?>.*?</\1>@si', '', $text);
+        }
+    } elseif ($invert == FALSE) {
+        return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
+    }
+    return $text;
+}
+
+function html_cleanup($s, $tags = false)
+{
+    if (is_string($s) == true) {
+        if($tags != false){
+            $s = strip_tags_content($s, $tags, $invert = FALSE);
+        }
+        return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+
+    } elseif (is_array($s) == true) {
+        foreach ($s as $k => $v) {
+            if (is_string($v) == true) {
+                if($tags != false){
+                    $v = strip_tags_content($v, $tags, $invert = FALSE);
+                }
+                $s[$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+            } elseif (is_array($v) == true) {
+                $s[$k] = html_cleanup($v,$tags);
+            }
+        }
+    }
+    return $s;
+}
