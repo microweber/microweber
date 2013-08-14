@@ -11,6 +11,13 @@ class Application
     public $config_file; //indicates if config is being loaded from file
     public $table_prefix = null;
     public $providers = array();
+    public static $__instance;
+
+    public static function getInstance($constuctor_params = null)
+    {
+        if (self::$__instance == NULL) self::$__instance = new Application($constuctor_params);
+        return self::$__instance;
+    }
 
     public function __construct($config = false)
     {

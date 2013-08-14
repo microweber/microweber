@@ -177,39 +177,13 @@ function mw($class = null, $constructor_params = false)
 
 
     if (!is_object($_mw_global_object)) {
-        $_mw_global_object = new \Microweber\Application($constructor_params);
+        $_mw_global_object = \Microweber\Application::getInstance($constructor_params);
     }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;
     } else {
         return $_mw_global_object->$class;
     }
-
-    $class_name = strtolower($class);
-
-    $class = ucfirst($class);
-    $class = str_replace('/', '\\', $class);
-
-    $class = str_replace(array('\\\\', '\Microweber', 'Microweber\\'), array('\\', '', ''), $class);
-    $class_name = strtolower($class);
-
-    if (isset($_mw_global_object->providers[$class])) {
-
-        return $_mw_global_object->providers[$class];
-    } else
-        if (property_exists($_mw_global_object, $class_name) or property_exists($_mw_global_object, $class)) {
-            return $_mw_global_object->$class;
-        }
-
-
-    if (!isset($_mw_registry[$class_name])) {
-
-        $_mw_registry[$class_name] = $_mw_global_object->providers[$class] = $_mw_global_object->$class($_mw_global_object);
-
-    }
-
-    return $_mw_registry[$class_name];
-
 
 }
 

@@ -43,7 +43,7 @@ if ($is_mysqli != false) {
         return $error;
 
     }
- 
+
     if ($result = $db_link->query($q)) {
 
         $nwq = array();

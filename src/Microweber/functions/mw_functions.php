@@ -4,34 +4,9 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 
 
 if (defined('MW_IS_INSTALLED') == true) {
-    if (!defined('MW_TABLE_PREFIX')) {
-        $pre = c('table_prefix');
 
-     //   define('MW_TABLE_PREFIX', $pre);
-
-    }
-
-} elseif (isset($_POST['table_prefix'])) {
-
-    if (!defined('MW_TABLE_PREFIX')) {
-
-       // define('MW_TABLE_PREFIX', strip_tags(($_POST['table_prefix'])));
-
-    }
 
 } else {
-
-    /*
-        if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
-
-            define('MW_TABLE_PREFIX', null);
-
-        } else if (!defined('MW_TABLE_PREFIX')) {
-            $pre = c('table_prefix');
-
-            define('MW_TABLE_PREFIX', $pre);
-
-        }*/
 
 
     $autoinstall_cli = getopt("i:");
@@ -106,15 +81,12 @@ if (defined('MW_IS_INSTALLED') == true) {
 
 
     if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
-
-        // define('MW_TABLE_PREFIX', null);
-
     } else if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
 
         define('MW_TABLE_PREFIX', trim($_REQUEST['table_prefix']));
 
     } else if (!defined('MW_TABLE_PREFIX')) {
-        $pre = c('table_prefix');
+        $pre = mw()->config('table_prefix');
 
         define('MW_TABLE_PREFIX', $pre);
 
@@ -248,22 +220,6 @@ if (function_exists('get_all_functions_files_for_modules')) {
             }
         }
     }
-//    if (MW_IS_INSTALLED == true) {
-//
-//        if (($cache_content_init) == false) {
-//            event_trigger('mw_db_init');
-//            //mw('cache')->save('true', $c_id, 'db');
-//
-//            $installed = array();
-//            $installed['option_group'] = ('mw_system');
-//            $installed['option_key'] = ('is_installed');
-//            $installed['option_value'] = 'yes';
-//            mw('option')->save_static($installed);
-//
-//        }
-//
-//        //event_trigger('mw_cron');
-//    }
 }
 
 
