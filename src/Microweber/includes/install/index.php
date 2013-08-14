@@ -248,32 +248,28 @@ if (isset($to_save['is_installed'])) {
                 clearstatcache();
 
 
-
                 mw('cache')->flush();
-               // _reload_c();
+                // _reload_c();
 
                 mw('application')->loadConfigFromFile($cfg, true);
                 if (!defined('USER_ID')) {
 
-                   define('USER_ID',1);
+                    define('USER_ID', 1);
                 }
                 if (!defined('USER_IS_ADMIN')) {
 
-                    define('USER_IS_ADMIN',1);
+                    define('USER_IS_ADMIN', 1);
                 }
                 if (!defined('MW_FORCE_MOD_INSTALLED')) {
 
-                    define('MW_FORCE_MOD_INSTALLED',1);
+                    define('MW_FORCE_MOD_INSTALLED', 1);
                 }
 
 
                 mw('option')->db_init();
-				mw('option')->_create_mw_default_options();
+                mw('option')->_create_mw_default_options();
 
                 __mw_install_log('Initializing options');
-
-
-
 
 
                 __mw_install_log('Initializing users');
@@ -292,14 +288,10 @@ if (isset($to_save['is_installed'])) {
                 mw('modules')->db_init();
 
 
-
-
                 __mw_install_log('Creating modules database tables');
                 event_trigger('mw_db_init_modules');
                 mw('modules')->scan_for_modules("skip_cache=1");
                 mw('modules')->update_db();
-
-
 
 
                 if (MW_IS_INSTALLED != true) {

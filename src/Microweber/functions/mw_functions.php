@@ -7,7 +7,7 @@ if (defined('MW_IS_INSTALLED') == true) {
     if (!defined('MW_TABLE_PREFIX')) {
         $pre = c('table_prefix');
 
-        define('MW_TABLE_PREFIX', $pre);
+     //   define('MW_TABLE_PREFIX', $pre);
 
     }
 
@@ -15,7 +15,7 @@ if (defined('MW_IS_INSTALLED') == true) {
 
     if (!defined('MW_TABLE_PREFIX')) {
 
-        define('MW_TABLE_PREFIX', strip_tags(($_POST['table_prefix'])));
+       // define('MW_TABLE_PREFIX', strip_tags(($_POST['table_prefix'])));
 
     }
 
@@ -107,7 +107,7 @@ if (defined('MW_IS_INSTALLED') == true) {
 
     if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
 
-       // define('MW_TABLE_PREFIX', null);
+        // define('MW_TABLE_PREFIX', null);
 
     } else if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
 
@@ -142,7 +142,6 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
         }
 
     }
-    //d($curent_time_zone);
 }
 
 

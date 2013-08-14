@@ -65,6 +65,8 @@ class Content
             }
 
         }
+
+
         $this->db_init();
 
     }

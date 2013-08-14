@@ -8,8 +8,8 @@ class Application
 
 
     public $config = array();
-    public $loaded_config_file_path; //indicates if config is being loaded from file
-
+    public $config_file; //indicates if config is being loaded from file
+    public $table_prefix = null;
     public $providers = array();
 
     public function __construct($config = false)
@@ -31,11 +31,32 @@ class Application
 
 
         if (!defined('MW_TABLE_PREFIX')) {
-            if (isset($this->config['table_prefix'])) {
-                $pre = $this->config['table_prefix'];
 
-                define('MW_TABLE_PREFIX', $pre);
+            if (!defined('MW_TABLE_PREFIX')) {
+                if (!isset($this->config['installed']) or trim($this->config['installed']) != 'yes') {
+                    if (isset($_REQUEST['table_prefix'])) {
+                        $table_prefix = strip_tags($_REQUEST['table_prefix']);
+                        $table_prefix = str_replace(array(' ', '.', '*', ';'), '-', $table_prefix);
+                        define('MW_TABLE_PREFIX', $table_prefix);
+                    }
+                }
             }
+            if (!defined('MW_TABLE_PREFIX')) {
+                if (isset($this->config['table_prefix'])) {
+                    $pre = $this->config['table_prefix'];
+                    //var_dump($pre);
+                    //exit(1);
+                    define('MW_TABLE_PREFIX', $pre);
+                }
+            }
+
+            if (!defined('MW_TABLE_PREFIX')) {
+                define('MW_TABLE_PREFIX', null);
+            }
+        }
+
+        if (defined('MW_TABLE_PREFIX')) {
+            $this->table_prefix = MW_TABLE_PREFIX;
         }
 
 
@@ -53,7 +74,6 @@ class Application
     }
 
 
-
     public function c($k, $no_static = false)
     {
 
@@ -65,12 +85,12 @@ class Application
             return $this->config[$k];
         } else {
             $load_cfg = false;
-            if ($this->loaded_config_file_path != false
-                and is_file($this->loaded_config_file_path)
+            if ($this->config_file != false
+                and is_file($this->config_file)
             ) {
 
 
-                $load_cfg = $this->loaded_config_file_path;
+                $load_cfg = $this->config_file;
             } else
                 if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
                     //try to get from the constant
@@ -99,7 +119,7 @@ class Application
         }
     }
 
-    public function loadConfigFromFile($path_to_file = false, $reload=false)
+    public function loadConfigFromFile($path_to_file = false, $reload = false)
     {
 
         if (defined('MW_CONFIG_FILE')) {
@@ -111,20 +131,20 @@ class Application
         }
 
 
-        if ($reload == false and $this->loaded_config_file_path != $path_to_file
+        if ($reload == false and $this->config_file != $path_to_file
             and is_file($path_to_file)
         ) {
 
             include_once ($path_to_file);
-            $this->loaded_config_file_path = $path_to_file;
+            $this->config_file = $path_to_file;
             if (isset($config)) {
 
                 $this->config = $config;
                 return $this->config;
             }
-        } else  if ($reload == true and is_file($path_to_file)){
+        } else if ($reload == true and is_file($path_to_file)) {
             include  ($path_to_file);
-            $this->loaded_config_file_path = $path_to_file;
+            $this->config_file = $path_to_file;
             if (isset($config)) {
 
                 $this->config = $config;
@@ -165,9 +185,9 @@ class Application
 
             try {
 
-               // d($property);
 
-                if(class_exists($property ,1)){
+                //autoload the class
+                if (class_exists($property, 1)) {
 
                     $mw = $property;
                 } else {

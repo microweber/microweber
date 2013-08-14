@@ -251,6 +251,14 @@ if(!isset($post_params['content_type'])){
 // $post_params['subtype'] = 'post';
 }
 }
+if(!isset($post_params['subtype'])){
+$post_params['subtype'] ='post';
+}
+
+ 
+
+
+
 if(!isset($params['order_by'])){
 $post_params['orderby'] ='position desc';
 }
@@ -282,8 +290,8 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
 	unset($post_params['subtype']);
  	
 }
-//$post_params['debug'] = 'y';
- // d($post_params);
+  //$post_params['debug'] = 'y';
+//  d($post_params);
 $content   = get_content($post_params);
 $data = array();
 

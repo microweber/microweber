@@ -38,7 +38,7 @@
                   </div>
                   <div class="mw-col" style="width:40%;">
                       <div class="mw-col-container">
-                          <span class="muted pull-right">Powered by <a class="muted" title="Microweber - Drag and Drop Content Management System" href="http://microweber.com" target="_blank">Microweber</a> (<a class="MW" href="http://microweber.com" target="_blank">MW</a>) <a href="http://microweber.com" target="_blank">Make Web</a></span>
+                          <span class="muted pull-right">Powered by <a class="muted" title="Microweber - Drag and Drop Content Management System" href="http://microweber.com" target="_blank">Microweber</a> (<a class="MW" href="http://microweber.com" title="Free Website and Onine Shop" target="_blank">MW</a>) <a href="http://microweber.com" target="_blank">Make Web</a></span>
                       </div>
                   </div>
                </div>

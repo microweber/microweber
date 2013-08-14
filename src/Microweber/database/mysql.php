@@ -1,5 +1,5 @@
 <?php
-static $db_link;
+global $db_link;
 
 
 $is_mysqli = function_exists('mysqli_connect');
@@ -16,7 +16,6 @@ if ($is_mysqli != false) {
                 $port_num = 3306;
             }
         }
-
 
         if (isset($db['pass']) and $db['pass'] != '') {
             if (isset($port_num) and $port_num != false) {
@@ -44,9 +43,9 @@ if ($is_mysqli != false) {
         return $error;
 
     }
-
+ 
     if ($result = $db_link->query($q)) {
-        // d($result);
+
         $nwq = array();
         /* fetch associative array */
         if (is_object($result)) {

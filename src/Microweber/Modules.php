@@ -714,10 +714,10 @@ class Modules extends \Microweber\Module
                     //                        $config ['ui'] = 0;
                     //                    }
                     //                }
-                    // isset($config['name']) and
+                    //
                     $configs[] = $config;
 
-                    if ($skip_save !== true and $skip_module == false) {
+                    if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
                         if (trim($config['module']) != '') {
 
                             if ($list_as_element == true) {

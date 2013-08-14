@@ -479,8 +479,6 @@ class Db
         // $criteria = $this->map_array_to_table ( $table, $data );
 
 
-
-
         $criteria = $this->addslashes_array($criteria);
 
         if (!isset($criteria['id'])) {
@@ -625,7 +623,7 @@ class Db
             $this->app->cache->delete($cg . '/' . $id_to_return);
 
             if (isset($criteria['parent_id'])) {
-                 $this->app->cache->delete($cg . '/' . intval($criteria['parent_id']));
+                $this->app->cache->delete($cg . '/' . intval($criteria['parent_id']));
             }
         }
         return $id_to_return;
@@ -1370,12 +1368,18 @@ class Db
         $includeIds = array();
         if (!empty($criteria)) {
             if (isset($criteria['debug'])) {
-                $debug = true;
-                if (($criteria['debug'])) {
-                    $criteria['debug'] = false;
-                } else {
-                    unset($criteria['debug']);
+                if (isset($this->app->config['debug_mode'])) {
+
+
+                    $debug = $this->app->config['debug_mode'];
+                    if (($criteria['debug'])) {
+                        $criteria['debug'] = false;
+                    } else {
+                        unset($criteria['debug']);
+                    }
+
                 }
+
             }
             if (isset($criteria['cache_group'])) {
                 $cache_group = $criteria['cache_group'];
@@ -2457,8 +2461,8 @@ class Db
 
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $table = $this->escape_string($table);
+        $function_cache_id = __FUNCTION__ .$table. crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -2473,13 +2477,15 @@ class Db
         if (DB_IS_SQLITE != false) {
             $sql = "PRAGMA table_info('{$table}');";
         } else {
-            $sql = "show columns from $table";
+            $sql = " show columns from $table ";
         }
+
 
 
         $query = $this->query($sql);
 
         $fields = $query;
+
 
         $exisiting_fields = array();
         if ($fields == false or $fields == NULL) {
@@ -2488,6 +2494,7 @@ class Db
         }
 
         if (!is_array($fields)) {
+
             return false;
         }
         foreach ($fields as $fivesdraft) {
@@ -2531,10 +2538,13 @@ class Db
     {
         // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
         //$sql_check = "DESC {$table};";
+
+
+        $table = $this->escape_string($table);
         $sql_check = "show tables like '$table'";
+        $function_cache_id = 'table_exist'. $table.crc32($sql_check);
 
-
-        $q = $this->query($sql_check);
+        $q = $this->query($sql_check,$function_cache_id, 'db');
 
         if (!is_array($q)) {
             return false;

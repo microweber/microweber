@@ -22,6 +22,9 @@ class Users extends \Microweber\User
         } else {
             $this->app = mw('application');
         }
+
+
+
     }
 
     public function register($params)
