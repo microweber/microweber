@@ -154,7 +154,7 @@ if (isset($to_save['is_installed'])) {
                 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                     set_time_limit(0);
                 }
-
+                mw('cache')->flush();
 
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'no';
@@ -250,7 +250,23 @@ if (isset($to_save['is_installed'])) {
 
 
                 mw('cache')->flush();
-                _reload_c();
+               // _reload_c();
+
+                mw('application')->loadConfigFromFile($cfg, true);
+                if (!defined('USER_ID')) {
+
+                   define('USER_ID',1);
+                }
+                if (!defined('USER_IS_ADMIN')) {
+
+                    define('USER_IS_ADMIN',1);
+                }
+                if (!defined('MW_FORCE_MOD_INSTALLED')) {
+
+                    define('MW_FORCE_MOD_INSTALLED',1);
+                }
+
+
                 mw('option')->db_init();
 				mw('option')->_create_mw_default_options();
 
@@ -277,9 +293,10 @@ if (isset($to_save['is_installed'])) {
 
 
 
+
                 __mw_install_log('Creating modules database tables');
                 event_trigger('mw_db_init_modules');
-                mw('modules')->scan_for_modules();
+                mw('modules')->scan_for_modules("skip_cache=1");
                 mw('modules')->update_db();
 
 

@@ -42,7 +42,7 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'optionsdb_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'options_db_'.__FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -238,7 +238,7 @@ class Option
         }
     }
 
-    function set_default($data)
+    public function set_default($data)
     {
         $changes = false;
 
@@ -548,7 +548,7 @@ class Option
         $data = array();
         $data['option_group'] = 'website';
         $data['option_key'] = 'website_description';
-        $data['option_value'] = 'My website\'s description';
+        $data['option_value'] = 'My website description';
         $data['name'] = 'Website description';
         $data['help'] = 'Create Free Online Shop, Free Website and Free Blog with Microweber (MW)';
         $data['field_type'] = 'textarea';

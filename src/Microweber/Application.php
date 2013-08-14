@@ -52,6 +52,8 @@ class Application
         return $this->c($k, $no_static);
     }
 
+
+
     public function c($k, $no_static = false)
     {
 
@@ -97,7 +99,7 @@ class Application
         }
     }
 
-    public function loadConfigFromFile($path_to_file = false)
+    public function loadConfigFromFile($path_to_file = false, $reload=false)
     {
 
         if (defined('MW_CONFIG_FILE')) {
@@ -109,7 +111,7 @@ class Application
         }
 
 
-        if ($this->loaded_config_file_path != $path_to_file
+        if ($reload == false and $this->loaded_config_file_path != $path_to_file
             and is_file($path_to_file)
         ) {
 
@@ -120,6 +122,15 @@ class Application
                 $this->config = $config;
                 return $this->config;
             }
+        } else  if ($reload == true and is_file($path_to_file)){
+            include  ($path_to_file);
+            $this->loaded_config_file_path = $path_to_file;
+            if (isset($config)) {
+
+                $this->config = $config;
+                return $this->config;
+            }
+
         }
     }
 

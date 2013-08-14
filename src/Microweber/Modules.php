@@ -624,7 +624,7 @@ class Modules extends \Microweber\Module
             ini_set("set_time_limit", 0);
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(0);
+            set_time_limit(600);
         }
         //$this->app->cache->flush();
         //clearstatcache();
@@ -714,7 +714,7 @@ class Modules extends \Microweber\Module
                     //                        $config ['ui'] = 0;
                     //                    }
                     //                }
-                    //d( $config);
+                    // isset($config['name']) and
                     $configs[] = $config;
 
                     if ($skip_save !== true and $skip_module == false) {
