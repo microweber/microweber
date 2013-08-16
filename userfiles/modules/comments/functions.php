@@ -174,7 +174,19 @@ function post_comment($data) {
 
 	// d( $require_moderation);
 
+if(isset($data['comment_body'])){
+$comment_body = ($data['comment_body']);	
+ $data['allow_html'] = true;        
 
+
+            $data =  mw('format')->clean_html($data);
+$res_1 = htmlentities($comment_body, ENT_QUOTES, "UTF-8");
+
+$data['comment_body'] = $res_1;	
+
+
+
+}
 	$saved_data = mw('db')->save($table, $data);
 
 

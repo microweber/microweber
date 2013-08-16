@@ -457,7 +457,7 @@ mw.embed = {
   </div>
   <div class="tab">
 
-    <?php event_trigger('rte_image_editor_image_search'); ?>
+    <?php  event_trigger('rte_image_editor_image_search'); ?>
 
   </div>
 

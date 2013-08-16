@@ -1,5 +1,5 @@
 <?php
- if(is_admin() == false) { mw_error("Must be admin"); }
+ if(is_admin() == false) {return; }
  //$rand = uniqid(); ?>
 <script type="text/javascript">
 

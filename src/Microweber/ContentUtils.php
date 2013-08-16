@@ -32,6 +32,8 @@ class ContentUtils extends \Microweber\Content
                 if (isset($data['categories'])) {
                     $data['category'] = $data['categories'];
                 }
+									
+
 
                 if (isset($data['category'])) {
                     $cats_check = array();
@@ -50,6 +52,9 @@ class ContentUtils extends \Microweber\Content
                         foreach($check_if_user_can_publish as $item){
                             if(isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y'){
                                 $user_cats[] = $item["id"];
+								$cont_cat = $this->app->content->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
+								
+
                             }
 
                         }
@@ -58,6 +63,7 @@ class ContentUtils extends \Microweber\Content
                         if(!empty($user_cats)){
                             $stop = false;
                             $data['categories'] = $user_cats;
+							
                         }
                     }
                    // d($check_if_user_can_publish);
@@ -255,6 +261,9 @@ class ContentUtils extends \Microweber\Content
                 }
             }
             $c1 = false;
+			  if (isset($data_to_save['category']) and !isset($data_to_save['categories'])) {
+           $data_to_save['categories'] = $data_to_save['category'];
+        		}
             if (isset($data_to_save['categories']) and $par_page == false) {
                 if (is_string($data_to_save['categories'])) {
                     $c1 = explode(',', $data_to_save['categories']);
@@ -262,7 +271,7 @@ class ContentUtils extends \Microweber\Content
                         foreach ($c1 as $item) {
                             $item = intval($item);
                             if ($item > 0) {
-                                $cont_cat = $this->app->content->get('limit=1&content_type=page&subtype=dynamic&subtype_value=' . $item);
+                                $cont_cat = $this->app->content->get('limit=1&content_type=page&subtype_value=' . $item);
                                 //	d($cont_cat);
                                 if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];

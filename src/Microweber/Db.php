@@ -461,7 +461,7 @@ class Db
             //$allowed_tags = '<p><strong><div>';
 
             $criteria = $this->app->format->clean_html($criteria);
-            //d($criteria);
+          
         }
         $table = $this->app->format->clean_html($table);
         //
@@ -508,7 +508,7 @@ class Db
                     if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
 
                         if (strtolower($k) != 'id') {
-                            $v = $this->app->format->clean_html($v);
+                          //  $v = $this->app->format->clean_html($v);
 
                             $q .= "$k='$v',";
                         }

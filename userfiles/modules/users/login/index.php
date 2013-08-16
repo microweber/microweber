@@ -24,7 +24,22 @@ $(document).ready(function(){
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
       				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-                        if(c == '' ){
+					  
+					  if(c == undefined || c == ''){
+						 var c = mw.$('#<?php print $params['id'] ?>').dataset("callback");
+					  }
+					  
+					  
+                      
+					  <?php if(isset($params['return'])): ?>
+					   window.location.href('<?php print urldecode($params['return']); ?>');
+					  <?php else:  ?>
+					  
+					  
+					  
+					 
+					  
+					    if(c == '' ){
                           window.location.reload();
                         }
                         else{
@@ -35,6 +50,10 @@ $(document).ready(function(){
                             window.location.reload();
                           }
                         }
+						
+						
+						 <?php endif; ?>
+						
                         return false;
       			 }
                  mw.notification.msg(this, 5000);

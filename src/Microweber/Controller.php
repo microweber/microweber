@@ -8,11 +8,24 @@ namespace Microweber;
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
     @set_magic_quotes_runtime(0);
 }
-
+function params_stripslashes_array_walk($array)
+{
+    if (is_array($array)) {
+        foreach ($array as $k => $v) {
+            //$new_key =  stripslashes($array);
+            if (is_string($v)) {
+                $array[$k] = stripslashes($v);
+            } elseif (is_array($v)) {
+                $array[$k] = params_stripslashes_array_walk($v);
+            }
+        }
+    }
+    return $array;
+}
 
 function params_stripslashes_array($array)
 {
-    return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
+    return is_array($array) ? array_map('params_stripslashes_array_walk', $array) : stripslashes($array);
 }
 
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
