@@ -164,7 +164,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $disabled_files = array();
 
-    $uninstall_lock = get_modules_from_db('ui=any&installed=[int]0');
+    $uninstall_lock = mw('module')->get('ui=any&installed=[int]0');
 
     if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
         foreach ($uninstall_lock as $value) {

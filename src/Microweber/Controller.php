@@ -275,7 +275,7 @@ class Controller
                     $page_url = $preview_module;
                 }
 
-                if ($page_exact == false and $found_mod == false and is_module_installed($page_url)) {
+                if ($page_exact == false and $found_mod == false and $this->app->module->is_installed($page_url)) {
 
                     $found_mod = true;
                     $page['id'] = 0;
@@ -397,7 +397,7 @@ class Controller
                         }
 
                         if ($simply_a_file == false) {
-                            //$page = get_homepage();
+                            //$page = $this->app->content->homepage();
                             $page = false;
                             if (!is_array($page)) {
                                 $page = array();
@@ -417,7 +417,7 @@ class Controller
                             if (is_array($page_url_segment_3)) {
 
                                 foreach ($page_url_segment_3 as $mvalue) {
-                                    if ($found_mod == false and is_module_installed($mvalue)) {
+                                    if ($found_mod == false and $this->app->module->is_installed($mvalue)) {
                                         //d($mvalue);
                                         $found_mod = true;
                                         $page['id'] = 0;
@@ -919,10 +919,16 @@ class Controller
         $api_function_full = str_replace('..', '', $api_function_full);
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
-        $api_function_full = $this->app->db->escape_string($api_function_full);
 
-        $mod_api_class = explode('/', $api_function_full);
+        $api_function_full = $this->app->db->escape_string($api_function_full);
+        if (is_string($api_function_full)) {
+            $mod_api_class = explode('/', $api_function_full);
+        } else {
+            $mod_api_class = $api_function_full;
+
+        }
         $try_class_func = array_pop($mod_api_class);
+
         // $try_class_func2 = array_pop($mod_api_class);
         $mod_api_class_copy = $mod_api_class;
         $try_class_func2 = array_pop($mod_api_class_copy);
@@ -989,7 +995,13 @@ class Controller
                 //d($try_class);
             }
         } else {
-            $url_segs = explode('/', $api_function);
+            if (is_array($api_function)) {
+                $url_segs = $api_function;
+
+            } else {
+                $url_segs = explode('/', $api_function);
+
+            }
 
         }
 
@@ -1114,7 +1126,7 @@ class Controller
                         if (!class_exists($try_class, false)) {
                             $try_class_mw = ltrim($try_class, '/');
                             $try_class_mw = ltrim($try_class_mw, '\\');
-                            $try_class = '\\Microweber\\' . $try_class_mw;
+                            $try_class = '\\' . __NAMESPACE__ . '\\' . $try_class_mw;
                         }
 
 
@@ -1198,15 +1210,17 @@ class Controller
             }
 
 
-
             if (isset($api_function_full)) {
                 foreach ($api_exposed as $api_exposed_item) {
-                    $api_function_full = str_replace('\\', '/', $api_function_full);
-                    $api_function_full = ltrim($api_function_full, '/');
-                    if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
+                    if (is_string($api_exposed_item) and is_string($api_function_full)) {
+                        $api_function_full = str_replace('\\', '/', $api_function_full);
+                        $api_function_full = ltrim($api_function_full, '/');
+                        if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
 
-                        $err = false;
+                            $err = false;
+                        }
                     }
+
                 }
             }
 
@@ -1236,16 +1250,16 @@ class Controller
                         $segs = $this->app->url->segment();
                         $mmethod = array_pop($segs);
 
-                        $res = new $api_function($this->app);
+                        $class = new $api_function($this->app);
 
-                        if (method_exists($res, $mmethod)) {
-                            $res = $res->$mmethod($data);
+                        if (method_exists($class, $mmethod)) {
+                            $res = $class->$mmethod($data);
                         }
 
                     } else {
 
-                        $api_function_full_2 = str_replace(array('..','/'), array('','\\'), $api_function_full_2);
-                        $api_function_full_2  = __NAMESPACE__ . '\\' . $api_function_full_2;
+                        $api_function_full_2 = str_replace(array('..', '/'), array('', '\\'), $api_function_full_2);
+                        $api_function_full_2 = __NAMESPACE__ . '\\' . $api_function_full_2;
 
 
                         if (class_exists($api_function_full_2, false)) {
@@ -1254,10 +1268,11 @@ class Controller
                             $segs = $this->app->url->segment();
                             $mmethod = array_pop($segs);
 
-                            $res = new  $api_function_full_2($this->app);
+                            $class = new  $api_function_full_2($this->app);
 
-                            if (method_exists($res, $mmethod)) {
-                                $res = $res->$mmethod($data);
+                            if (method_exists($class, $mmethod)) {
+
+                                $res = $class->$mmethod($data);
                             }
 
                         } elseif (isset($api_function_full)) {
@@ -1269,10 +1284,10 @@ class Controller
                             $mclass = array_pop($api_function_full1);
 
                             if (class_exists($mclass, false)) {
-                                $res = new $mclass($this->app);
+                                $class = new $mclass($this->app);
 
-                                if (method_exists($res, $mmethod)) {
-                                    $res = $res->$mmethod($data);
+                                if (method_exists($class, $mmethod)) {
+                                    $res = $class->$mmethod($data);
                                 }
                             }
                         }
@@ -1283,7 +1298,7 @@ class Controller
 
                 $hooks = api_hook(true);
 
-                if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+                if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
@@ -1303,22 +1318,23 @@ class Controller
                 mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
 
             }
+            if (isset($res)) {
+                if (!defined('MW_API_HTML_OUTPUT')) {
 
-            if (!defined('MW_API_HTML_OUTPUT')) {
 
+                    if (!headers_sent()) {
+                        header('Content-Type: application/json');
 
-                if (!headers_sent()) {
-                    header('Content-Type: application/json');
+                        print json_encode($res);
+                    }
+                } else {
 
-                    print json_encode($res);
-                }
-            } else {
-                if (isset($res)) {
-                    if(is_array($res)) {
+                    if (is_array($res)) {
                         print_r($res);
                     } else {
-                    print($res);
+                        print($res);
                     }
+
                 }
             }
             exit();
@@ -1395,7 +1411,7 @@ class Controller
 
             if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->app->content->get_by_url($url);
-                $page = get_homepage();
+                $page = $this->app->content->homepage();
                 // var_dump($page);
             } else {
 
@@ -1852,7 +1868,7 @@ class Controller
 
             if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->app->content->get_by_url($url);
-                $page = get_homepage();
+                $page = $this->app->content->homepage();
                 // var_dump($page);
             } else {
 

@@ -72,30 +72,6 @@ function pages_tree($params = false)
     return mw('content')->pages_tree($params);
 }
 
-/**
- * `
- *
- * Prints the selected categories as an <UL> tree, you might pass several
- * options for more flexibility
- *
- * @param
- *            array
- *
- * @param
- *            boolean
- *
- * @author Peter Ivanov
- *
- * @version 1.0
- *
- * @since Version 1.0
- *
- */
-function content_helpers_getCaregoriesUlTree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
-{
-    return \mw('category')->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
-
-}
 
 
 /**
@@ -164,11 +140,6 @@ function get_posts($params = false)
 }
 
 
-function mw_site_url($str = '')
-{
-//old name will be removed soon
-    return site_url($str);
-}
 
 
 function api_url($str = '')
@@ -177,39 +148,10 @@ function api_url($str = '')
     return site_url('api/' . $str);
 }
 
-/**
- * Return the path to the layout file that will render the page
- *
- * It accepts array $page that must have  $page['id'] set
- *
- * @example
- * <code>
- *  //get the layout file for content
- *  $content = mw('content')->get_by_id($id=1);
- *  $render_file = get_layout_for_page($content);
- *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
- * </code>
- * @package Content
- * @subpackage Advanced
- */
-function get_layout_for_page($page = array())
-{
-    return mw('content')->get_layout($page);
-
-}
 
 
-/**
- * Returns the homepage as array
- *
- * @category Content
- * @package Content
- */
-function get_homepage()
-{
 
-    return mw('content')->homepage();
-}
+
 
 
 /**
@@ -243,15 +185,7 @@ function category_tree($params = false)
 }
 
 
-api_expose('reorder_content');
-function reorder_content($params)
-{
 
-
-    return \mw('content')->reorder($params);
-
-
-}
 
 
 function is_arr($var)
@@ -281,14 +215,6 @@ function save_edit($post_data)
     return \mw('content')->save_edit($post_data);
 }
 
-api_expose('delete_content');
-
-function delete_content($data)
-{
-
-    return \mw('content')->delete($data);
-
-}
 
 /**
  * Function to save content into the content_table
@@ -343,68 +269,6 @@ function get_content_field($data, $debug = false)
 }
 
 
-api_expose('content_set_published');
-
-
-/**
- * Set content to be published
- *
- * Set is_active flag 'y'
- *
- * @param string|array|bool $params
- * @return string The url of the content
- * @package Content
- * @subpackage Advanced
- *
- * @uses save_content()
- * @see content_set_unpublished()
- * @example
- * <code>
- * //set published the content with id 5
- * content_set_published(5);
- *
- * //alternative way
- * content_set_published(array('id' => 5));
- * </code>
- *
- */
-function content_set_published($params)
-{
-
-    return \mw('content')->set_published($params);
-
-}
-
-api_expose('content_set_unpublished');
-/**
- * Set content to be unpublished
- *
- * Set is_active flag 'n'
- *
- * @param string|array|bool $params
- * @return string The url of the content
- * @package Content
- * @subpackage Advanced
- *
- * @uses save_content()
- * @see content_set_unpublished()
- * @example
- * <code>
- * //set published the content with id 5
- * content_set_unpublished(5);
- *
- * //alternative way
- * content_set_unpublished(array('id' => 5));
- * </code>
- *
- */
-function content_set_unpublished($params)
-{
-
-    return \mw('content')->set_unpublished($params);
-
-}
-
 
 function template_header($script_src)
 {
@@ -418,35 +282,9 @@ function template_headers_src()
 }
 
 
-function layout_link($options = false)
-{
-    return \mw('Layouts')->get_link($options);
-}
 
 
-/**
- * Lists the layout files from a given directory
- *
- * You can use this function to get layouts from various folders in your web server.
- * It returns array of layouts with desctption, icon, etc
- *
- * This function caches the result in the 'templates' cache group
- *
- * @param bool|array|string $options
- * @return array|mixed
- *
- * @params $options['path'] if set i will look for layouts in this folder
- * @params $options['get_dynamic_layouts'] if set this function will scan for templates for the 'layout' module in all templates folders
- *
- *
- *
- *
- *
- */
-function layouts_list($options = false)
-{
-    return \mw('Layouts')->scan($options);
-}
+
 
 
 /**
@@ -1047,24 +885,6 @@ function get_user($id = false)
 }
 
 
-/**
- * make_custom_field
- *
- * @desc make_custom_field
- * @access      public
- * @category    forms
- * @author      Microweber
- * @link        http://microweber.com
- * @param string $field_type
- * @param string $field_id
- * @param array $settings
- */
-
-function custom_field_names_for_table($table)
-{
-    return mw('fields')->names_for_table($table);
-}
-
 function make_default_custom_fields($rel, $rel_id, $fields_csv_str)
 {
     return mw('fields')->make_default($rel, $rel_id, $fields_csv_str);
@@ -1429,67 +1249,18 @@ function module($params)
 }
 
 
-function get_layouts_from_db($params = false)
-{
 
 
-    return \mw('Layouts')->get($params);
 
 
-}
-
-function save_element_to_db($data_to_save)
-{
-    return \mw('Layouts')->save($data_to_save);
-
-}
-
-function get_modules_from_db($params = false)
-{
-
-    return mw('module')->get($params);
-}
-
-api_expose('save_settings_el');
-
-function save_settings_el($data_to_save)
-{
-    return save_element_to_db($data_to_save);
-}
-
-api_expose('save_settings_md');
-
-function save_settings_md($data_to_save)
-{
-    return save_module_to_db($data_to_save);
-}
+ 
 
 
-function delete_elements_from_db()
-{
-    return \mw('Layouts')->delete_all();
-}
 
-function delete_module_by_id($id)
-{
-    return \mw('module')->delete_module($id);
-}
 
-function delete_modules_from_db()
-{
-    return \mw('module')->delete_all();
-}
 
-function is_module_installed($module_name)
-{
 
-    return mw('module')->is_installed($module_name);
-}
 
-function module_ico_title($module_name, $link = true)
-{
-    return mw('module')->is_installed($module_name, $link);
-}
 
 $_mw_modules_info_register = array();
 function module_info($module_name)
@@ -1755,7 +1526,7 @@ event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
 function mw_print_admin_backup_settings_link()
 {
 
-    if (is_module_installed('admin/backup')) {
+    if (mw('module')->is_installed('admin/backup')) {
 
         $active = mw('url')->param('view');
         $cls = '';

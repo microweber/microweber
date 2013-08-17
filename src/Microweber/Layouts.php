@@ -13,7 +13,7 @@ if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
 }
 
 
-
+api_expose('layouts/save');
 class Layouts {
 
     public $app;
@@ -53,6 +53,10 @@ class Layouts {
      *
      *
      */
+    public function get_all($options = false)
+    {
+        return $this->scan($options);
+    }
     public function scan($options = false)
     {
         $options = parse_params($options);

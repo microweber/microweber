@@ -10,7 +10,7 @@ mw.content.publish = function($id) {
 	
 	  $.ajax({
         type: 'POST',
-        url: mw.settings.site_url + 'api/content_set_published',
+        url: mw.settings.site_url + 'api/content/set_published',
         data: master,
         datatype: "json",
         async: true,
@@ -35,7 +35,7 @@ mw.content.unpublish = function($id) {
 	
 	  $.ajax({
         type: 'POST',
-        url: mw.settings.site_url + 'api/content_set_unpublished',
+        url: mw.settings.site_url + 'api/content/set_unpublished',
         data: master,
         datatype: "json",
         async: true,

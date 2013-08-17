@@ -591,7 +591,7 @@ mw.tools = {
     },
     del : function(id){
         mw.tools.confirm(mw.msg.del, function(){
-           $.post(mw.settings.site_url + "api/delete_content", {id:id}, function(data) {
+           $.post(mw.settings.site_url + "api/content/delete", {id:id}, function(data) {
               var todelete =  mw.$(".item_" + id);
                todelete.fadeOut(function(){
                    todelete.remove();

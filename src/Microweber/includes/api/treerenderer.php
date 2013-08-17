@@ -65,7 +65,7 @@ mw.treeRenderer = {
             			cont_found = true;
                      });
             		 if(cont_found == true){
-            		     $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){
+            		     $.post("<?php print site_url('api/content/reorder'); ?>", obj, function(){
                     _mw_ui_will_init_tree = true;
 
 

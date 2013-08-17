@@ -288,7 +288,7 @@ function mw_cron()
 
             foreach ($opts as $item) {
 
-                if (isset($item['module']) and $item['module'] != '' and is_module_installed($item['module'])) {
+                if (isset($item['module']) and $item['module'] != '' and mw('module')->is_installed($item['module'])) {
                     if (isset($item['option_value']) and $item['option_value'] != 'n') {
                         $when = strtotime($item['option_value']);
                         if ($when != false) {

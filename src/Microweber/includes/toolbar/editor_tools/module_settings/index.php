@@ -4,7 +4,7 @@
 
           <?php  $module_info = false;
 		  if(isset($params['module'])): ?>
-           <?php $module_info = get_modules_from_db('one=1&ui=any&module=' . $params['module']);    ?>
+           <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']);    ?>
            <?php endif; ?>
 
           <script type="text/javascript" src="<?php   print(MW_SITE_URL); ?>apijs"></script>

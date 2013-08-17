@@ -22,6 +22,7 @@ class Db
 
 
     public $app;
+    private $mw_escaped_strings = array();
 
     function __construct($app = null)
     {
@@ -461,7 +462,7 @@ class Db
             //$allowed_tags = '<p><strong><div>';
 
             $criteria = $this->app->format->clean_html($criteria);
-          
+
         }
         $table = $this->app->format->clean_html($table);
         //
@@ -508,7 +509,7 @@ class Db
                     if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
 
                         if (strtolower($k) != 'id') {
-                          //  $v = $this->app->format->clean_html($v);
+                            //  $v = $this->app->format->clean_html($v);
 
                             $q .= "$k='$v',";
                         }
@@ -733,14 +734,14 @@ class Db
 
                                     }
                                 }
-
-                                $is_ex = $this->query($cncheckq);
-                                if (!empty($is_ex) and isarr($is_ex[0])) {
-                                    $cz[$j] = $is_ex[0]['id'];
-                                    $cz_int[] = intval($is_ex[0]['id']);
-                                    //	d($cz_int);
+                                if (isset($cncheckq) and $cncheckq != false) {
+                                    $is_ex = $this->query($cncheckq);
+                                    if (!empty($is_ex) and isarr($is_ex[0])) {
+                                        $cz[$j] = $is_ex[0]['id'];
+                                        $cz_int[] = intval($is_ex[0]['id']);
+                                        //	d($cz_int);
+                                    }
                                 }
-
                             }
                             $j++;
                         }
@@ -1440,7 +1441,7 @@ class Db
             }
 
 
-        //  d($cfg_default_limit);
+            //  d($cfg_default_limit);
 
             if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
                 $_default_limit = intval($cfg_default_limit);
@@ -2467,7 +2468,7 @@ class Db
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $table = $this->escape_string($table);
-        $function_cache_id = __FUNCTION__ .$table. crc32($function_cache_id);
+        $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -2484,7 +2485,6 @@ class Db
         } else {
             $sql = " show columns from $table ";
         }
-
 
 
         $query = $this->query($sql);
@@ -2547,9 +2547,9 @@ class Db
 
         $table = $this->escape_string($table);
         $sql_check = "show tables like '$table'";
-        $function_cache_id = 'table_exist'. $table.crc32($sql_check);
+        $function_cache_id = 'table_exist' . $table . crc32($sql_check);
 
-        $q = $this->query($sql_check,$function_cache_id, 'db');
+        $q = $this->query($sql_check, $function_cache_id, 'db');
 
         if (!is_array($q)) {
             return false;
@@ -2758,7 +2758,7 @@ class Db
                         $v = intval($v);
                     } else {
                         $v = addslashes($v);
-                       // $v = htmlentities($v, ENT_QUOTES, "UTF-8");
+                        // $v = htmlentities($v, ENT_QUOTES, "UTF-8");
 
                         // $v = htmlspecialchars($v);
                     }
@@ -2771,10 +2771,12 @@ class Db
             return $ret;
         }
     }
-    public function decode_entities($text) {
-        $text= html_entity_decode($text,ENT_QUOTES,"ISO-8859-1"); #NOTE: UTF-8 does not work!
-        $text= preg_replace('/&#(\d+);/me',"chr(\\1)",$text); #decimal notation
-        $text= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$text);  #hex notation
+
+    public function decode_entities($text)
+    {
+        $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
+        $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
+        $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
         return $text;
     }
 
@@ -2788,9 +2790,9 @@ class Db
                 if (is_array($v)) {
                     $v = $this->stripslashes_array($v);
                 } else {
-                   // $v = htmlspecialchars_decode($v);
-                   // $v = $this->decode_entities($v);
-                   // $v= html_entity_decode($v,ENT_QUOTES,"UTF-8"); #NOTE: UTF-8 does not work!
+                    // $v = htmlspecialchars_decode($v);
+                    // $v = $this->decode_entities($v);
+                    // $v= html_entity_decode($v,ENT_QUOTES,"UTF-8"); #NOTE: UTF-8 does not work!
 
                     $v = stripslashes($v);
                 }
@@ -2823,15 +2825,18 @@ class Db
 
     public function escape_string($value)
     {
-        global $mw_escaped_strings;
-        if (isset($mw_escaped_strings[$value])) {
-            return $mw_escaped_strings[$value];
+
+        if (!is_string($value)) {
+            return $value;
+        }
+        if (isset($this->mw_escaped_strings[$value])) {
+            return $this->mw_escaped_strings[$value];
         }
 
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
         $new = str_replace($search, $replace, $value);
-        $mw_escaped_strings[$value] = $new;
+        $this->mw_escaped_strings[$value] = $new;
         return $new;
     }
 
@@ -2900,7 +2905,6 @@ class Db
             return false;
         }
     }
-
 
 
     /**
@@ -3056,7 +3060,6 @@ class Db
         }
 
     }
-
 
 
     public function get_tables()

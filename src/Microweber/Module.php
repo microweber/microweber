@@ -3,13 +3,17 @@ namespace Microweber;
 
 
 $_mw_modules_info_register = array();
-event_bind('mw_db_init', mw('Microweber\Module')->db_init());
+//event_bind('mw_db_init', mw('Microweber\Module')->db_init());
 
 
 $mw_mod_counter = 0;
 $mw_mod_counter_array = array();
 $mw_loaded_mod_memory = array();
 $mw_defined_module_classes = array();
+
+
+api_expose('module/save');
+
 class Module
 {
     public $app;
@@ -1037,7 +1041,7 @@ class Module
 
                 //d($to_save);
                 $this->save($to_save);
-                // delete_module_by_id($id);
+                // $this->delete_module($id);
             }
         }
         $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
@@ -1572,7 +1576,7 @@ class Module
                     foreach ($uninstall_lock as $value) {
                         $ism = is_module($value['module']);
                         if ($ism == false) {
-                            delete_module_by_id($value['id']);
+                            $this->delete_module($value['id']);
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
