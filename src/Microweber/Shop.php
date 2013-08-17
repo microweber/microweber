@@ -59,11 +59,11 @@ class Shop
 
         if (!defined('MW_ORDERS_SKIP_SID')) {
 
-            if (is_admin() == false) {
+            if ($this->app->user->is_admin() == false) {
                 $params['session_id'] = session_id();
 
             } else {
-                if (isset($params['session_id']) and is_admin() == true) {
+                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
 
                 } else {
                     $params['session_id'] = session_id();
@@ -71,7 +71,7 @@ class Shop
                 }
             }
 
-            if (isset($params['no_session_id']) and is_admin() == true) {
+            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
                 unset($params['session_id']);
                 //	$params['session_id'] = session_id();
             } else {
@@ -138,7 +138,7 @@ class Shop
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             $params['session_id'] = session_id();
             if (!isset($params['payment_verify_token'])) {
             }
@@ -152,7 +152,7 @@ class Shop
 
     }
 
-    public function  confirm_email_send($order_id, $to = false, $no_cache = false)
+    public function confirm_email_send($order_id, $to = false, $no_cache = false)
     {
 
         $ord_data = $this->get_orders('one=1&id=' . $order_id);
@@ -525,7 +525,7 @@ class Shop
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             $cart['session_id'] = session_id();
         }
         $cart['order_completed'] = 'n';
@@ -559,7 +559,7 @@ class Shop
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        //if (is_admin() == false) {
+        //if ($this->app->user->is_admin() == false) {
         $cart['session_id'] = session_id();
         //}
         $cart['order_completed'] = 'n';
@@ -616,7 +616,7 @@ class Shop
         }
 
         if ($data['for'] == 'content') {
-            $cont = mw('content')->get_by_id($for_id);
+            $cont = $this->app->content->get_by_id($for_id);
 
             if ($cont == false) {
                 mw_error('Invalid product?');
@@ -633,7 +633,7 @@ class Shop
         }
 
         $cfs = array();
-        $cfs = mw('fields')->get($for, $for_id, 1);
+        $cfs = $this->app->fields->get($for, $for_id, 1);
         if ($cfs == false) {
 
             mw_error('Invalid data');
@@ -983,7 +983,7 @@ class Shop
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
 
             mw_error("You must be admin");
         }
@@ -999,7 +999,7 @@ class Shop
     public function delete_client($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1020,7 +1020,7 @@ class Shop
     public function delete_order($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1079,13 +1079,13 @@ class Shop
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
         $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
-        // \mw('Microweber\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        $this->app->db->add_table_index('rel', $table_name, array('rel'));
+        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('Microweber\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
 
         $table_name = MODULE_DB_SHOP_ORDERS;
 
@@ -1162,13 +1162,13 @@ class Shop
         $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
         $fields_to_add[] = array('skip_promo_code', "char(1) default 'n'");
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
-        // \mw('Microweber\DbUtils')->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
+        // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        $this->app->db->add_table_index('rel', $table_name, array('rel'));
+        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        \mw('Microweber\DbUtils')->add_table_index('session_id', $table_name, array('session_id'));
+        $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
 
 
         $table_name = MODULE_DB_SHOP_SHIPPING_TO_COUNTRY;
@@ -1186,7 +1186,7 @@ class Shop
         $fields_to_add[] = array('position', 'int(11) default NULL');
 
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');

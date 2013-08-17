@@ -317,7 +317,7 @@ class Fields
 
             if (isset($data_to_save['copy_rel_id'])) {
 
-                $cp = \mw('Microweber\DbUtils')->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
+                $cp = \mw('db')->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
                 //$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -482,7 +482,7 @@ class Fields
                     $i++;
                 }
 
-                \mw('Microweber\DbUtils')->update_position_field($table, $indx);
+                \mw('db')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

@@ -834,10 +834,10 @@ class User
         $fields_to_add[] = array('website_url', 'TEXT default NULL');
         $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('username', $table_name, array('username(255)'));
-        \mw('Microweber\DbUtils')->add_table_index('email', $table_name, array('email(255)'));
+        \mw('db')->add_table_index('username', $table_name, array('username(255)'));
+        \mw('db')->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = MW_DB_TABLE_LOG;
@@ -865,7 +865,7 @@ class User
         $fields_to_add[] = array('session_id', 'longtext default NULL');
         $fields_to_add[] = array('is_system', "char(1) default 'n'");
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;

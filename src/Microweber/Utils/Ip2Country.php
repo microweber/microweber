@@ -86,7 +86,7 @@ $this->db_init();
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('Microweber\DbUtils')->build_table()
+     * @uses \mw('db')->build_table()
      */
     public function db_init()
     {
@@ -119,7 +119,7 @@ $this->db_init();
         $fields_to_add[] = array('city', 'TEXT default NULL');
         $fields_to_add[] = array('latitude', 'TEXT default NULL');
         $fields_to_add[] = array('longitude', 'TEXT default NULL');
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
 
 

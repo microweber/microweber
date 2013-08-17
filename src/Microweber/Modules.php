@@ -21,7 +21,7 @@ class Modules extends \Microweber\Module
                     $i++;
                 }
 
-                mw('\Microweber\DbUtils')->update_position_field($table, $indx);
+                mw('db')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -331,7 +331,7 @@ class Modules extends \Microweber\Module
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
-                            mw('\Microweber\DbUtils')->build_table($table, $fields_to_add);
+                            mw('db')->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -437,7 +437,7 @@ class Modules extends \Microweber\Module
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
                                 $table = db_get_real_table_name($key1);
-                                mw('\Microweber\DbUtils')->build_table($table, $fields_to_add);
+                                mw('db')->build_table($table, $fields_to_add);
                             }
                         }
                     }

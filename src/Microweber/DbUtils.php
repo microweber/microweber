@@ -78,7 +78,7 @@ class DbUtils extends \Microweber\Db
      * @example
      * <code>
      * //copy content with id 5
-     *  \mw('Microweber\DbUtils')->copy_row_by_id('content', $id=5);
+     *  \mw('db')->copy_row_by_id('content', $id=5);
      * </code>
      *
      * @package Database
@@ -129,7 +129,7 @@ class DbUtils extends \Microweber\Db
      *
      * @example
      * <pre>
-     * \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title'));
+     * \mw('db')->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database

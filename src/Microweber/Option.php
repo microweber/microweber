@@ -73,10 +73,10 @@ class Option
         $fields_to_add[] = array('module', 'TEXT default NULL');
         $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        //\mw('Microweber\DbUtils')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-        //\mw('Microweber\DbUtils')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+        //\mw('db')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+        //\mw('db')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
       //  $this->_create_mw_default_options();
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -397,7 +397,7 @@ class Option
                             } else {
 
                                 $table = MW_DB_TABLE_OPTIONS;
-                                $copy = \mw('Microweber\DbUtils')->copy_row_by_id($table, $data['id']);
+                                $copy = \mw('db')->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                             }
 

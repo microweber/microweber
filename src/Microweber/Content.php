@@ -2229,7 +2229,7 @@ class Content
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('Microweber\DbUtils')->build_table()
+     * @uses \mw('db')->build_table()
      */
     public function db_init()
     {
@@ -2276,7 +2276,7 @@ class Content
         $fields_to_add[] = array('content_meta_keywords', 'TEXT default NULL');
         $fields_to_add[] = array('position', 'int(11) default 1');
 
-        $fields_to_add[] = array('content', 'TEXT default NULL');
+        $fields_to_add[] = array('content', 'LONGTEXT default NULL');
 
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('is_home', "char(1) default 'n'");
@@ -2296,11 +2296,11 @@ class Content
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
 
-        \mw('Microweber\DbUtils')->add_table_index('url', $table_name, array('url(255)'));
-        \mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title(255)'));
+        \mw('db')->add_table_index('url', $table_name, array('url(255)'));
+        \mw('db')->add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2315,12 +2315,12 @@ class Content
 
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $fields_to_add[] = array('field', 'longtext default NULL');
-        $fields_to_add[] = array('value', 'TEXT default NULL');
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        $fields_to_add[] = array('value', 'LONGTEXT default NULL');
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('Microweber\DbUtils')->add_table_index('field', $table_name, array('field(55)'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('db')->add_table_index('field', $table_name, array('field(55)'));
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -2328,11 +2328,11 @@ class Content
         $fields_to_add[] = array('url', 'TEXT default NULL');
 
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('Microweber\DbUtils')->add_table_index('field', $table_name, array('field(56)'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        //\mw('db')->add_table_index('field', $table_name, array('field(56)'));
 
 
         $table_name = MW_DB_TABLE_MEDIA;
@@ -2355,14 +2355,14 @@ class Content
         $fields_to_add[] = array('filename', 'TEXT default NULL');
 
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('Microweber\DbUtils')->add_table_index('media_type', $table_name, array('media_type(55)'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        \mw('db')->add_table_index('media_type', $table_name, array('media_type(55)'));
 
-        //\mw('Microweber\DbUtils')->add_table_index('url', $table_name, array('url'));
-        //\mw('Microweber\DbUtils')->add_table_index('title', $table_name, array('title'));
+        //\mw('db')->add_table_index('url', $table_name, array('url'));
+        //\mw('db')->add_table_index('title', $table_name, array('title'));
 
 
         $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
@@ -2402,11 +2402,11 @@ class Content
         $fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        \mw('db')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = MW_DB_TABLE_MENUS;
@@ -2423,7 +2423,7 @@ class Content
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('url', 'TEXT default NULL');
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
 
         $table_name = MW_DB_TABLE_TAXONOMY;
@@ -2454,11 +2454,11 @@ class Content
         $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
 
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('Microweber\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('db')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
@@ -2470,11 +2470,11 @@ class Content
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
         $fields_to_add[] = array('data_type', 'TEXT default NULL');
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        //\mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('Microweber\DbUtils')->add_table_index('parent_id', $table_name, array('parent_id'));
+        //\mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id'));
+        \mw('db')->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -3010,6 +3010,190 @@ class Content
         }
 
         return $mw_language_content;
+
+
+    }
+
+
+
+    public function add_content_to_menu($content_id, $menu_id = false)
+    {
+        $id = $this->app->user->is_admin();
+        if ($id == false) {
+            return;
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+        $content_id = intval($content_id);
+        if ($content_id == 0) {
+            return;
+        }
+
+        if ($menu_id != false) {
+            $_REQUEST['add_content_to_menu'] = $menu_id;
+        }
+
+
+        $menus = MODULE_DB_MENUS;
+        if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
+            $add_to_menus = $_REQUEST['add_content_to_menu'];
+            $add_to_menus_int = array();
+            foreach ($add_to_menus as $value) {
+                if ($value == 'remove_from_all') {
+                    $sql = "DELETE FROM {$menus}
+				WHERE
+				item_type='menu_item'
+				AND content_id={$content_id}
+				";
+                    //d($sql);
+                    $this->app->cache->delete('menus');
+                    $q = $this->app->db->q($sql);
+                    return;
+                }
+
+                $value = intval($value);
+                if ($value > 0) {
+                    $add_to_menus_int[] = $value;
+                }
+            }
+
+        }
+
+        if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
+            $add_to_menus_int_implode = implode(',', $add_to_menus_int);
+            $sql = "DELETE FROM {$menus}
+		WHERE parent_id NOT IN ($add_to_menus_int_implode)
+		AND item_type='menu_item'
+		AND content_id={$content_id}
+		";
+
+            $q = $this->app->db->q($sql);
+
+            foreach ($add_to_menus_int as $value) {
+                $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                //d($check);
+                if ($check == 0) {
+                    $save = array();
+                    $save['item_type'] = 'menu_item';
+                    //	$save['debug'] = $menus;
+                    $save['parent_id'] = $value;
+                    $save['url'] = '';
+                    $save['content_id'] = $content_id;
+                    $this->app->db->save($menus, $save);
+                }
+            }
+            $this->app->cache->delete('menus/global');
+        }
+
+    }
+
+
+    public function _decode_entities($text)
+    {
+        $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
+        $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
+        $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
+        return $text;
+    }
+
+
+// ------------------------------------------------------------------------
+
+    /**
+     * Create a Directory Map
+     *
+     *
+     * Reads the specified directory and builds an array
+     * representation of it.  Sub-folders contained with the
+     * directory will be mapped as well.
+     *
+     * @author        ExpressionEngine Dev Team
+     * @link        http://codeigniter.com/user_guide/helpers/directory_helper.html
+     * @access    public
+     * @param    string    path to source
+     * @param    int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+     * @return    array
+     */
+    function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full_path = false)
+    {
+        if ($fp = @opendir($source_dir)) {
+            $filedata = array();
+            $new_depth = $directory_depth - 1;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+            while (FALSE !== ($file = readdir($fp))) {
+                // Remove '.', '..', and hidden files [optional]
+                if (!trim($file, '.') OR ($hidden == FALSE && $file[0] == '.')) {
+                    continue;
+                }
+
+                if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)) {
+                    $filedata[$file] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
+                } else {
+                    if ($full_path == false) {
+                        $filedata[] = $file;
+                    } else {
+                        $filedata[] = $source_dir . $file;
+                    }
+
+                }
+            }
+
+            closedir($fp);
+            return $filedata;
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * Saves your custom language translation
+     * @internal its used via ajax in the admin panel under Settings->Language
+     * @package Language
+     */
+    function lang_file_save($data)
+    {
+
+        if (isset($_POST) and !empty($_POST)) {
+            $data = $_POST;
+        }
+        if (is_admin() == true) {
+            if (isset($data['unicode_temp_remove'])) {
+                unset($data['unicode_temp_remove']);
+            }
+
+
+            $lang = current_lang();
+
+            $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+            if (!is_dir($cust_dir)) {
+                mkdir_recursive($cust_dir);
+            }
+
+            $language_content = $data;
+
+            $lang_file = $cust_dir . $lang . '.php';
+
+            if (is_array($language_content)) {
+                $language_content = array_unique($language_content);
+
+                $lang_file_str = '<?php ' . "\n";
+                $lang_file_str .= ' $language=array();' . "\n";
+                foreach ($language_content as $key => $value) {
+
+                    $value = addslashes($value);
+                    $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
+
+                }
+                $language_content_saved = 1;
+                if (is_admin() == true) {
+                    file_put_contents($lang_file, $lang_file_str);
+                }
+            }
+            return array('success' => 'Language file [' . $lang . '] is updated');
+
+
+        }
 
 
     }

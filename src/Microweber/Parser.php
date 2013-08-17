@@ -34,9 +34,32 @@ class Parser
         global $replaced_modules_values;
 
 
-        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+       // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = html_entity_decode($layout, ENT_COMPAT);
-        $layout = htmlspecialchars_decode($layout);
+       // $layout = htmlspecialchars_decode($layout);
+
+
+        $layout = str_replace('<?','&lt;?', $layout);
+
+      //  preg_match_all("'<p class=\"review\">(.*?)</p>'si", $layout, $match);
+        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+       // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+
+                    $v1 = crc32($value);
+                    $v1 = '<!-- mw_replace_back_this_pre_' . $v1 . ' -->';
+                    $layout = str_replace($value, $v1, $layout);
+                    if (!isset($replaced_scripts[$v1])) {
+                      //  $replaced_scripts[$v1] = $value;
+
+                    }
+                }
+            }
+        }
 
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -60,6 +83,7 @@ class Parser
                 }
             }
         }
+
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -91,7 +115,6 @@ class Parser
             }
 
             $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
-            $replaced_codes = array();
             preg_match_all($script_pattern, $layout, $mw_script_matches);
 
             if (!empty($mw_script_matches)) {
@@ -108,21 +131,7 @@ class Parser
             }
 
 
-            $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
-             preg_match_all($script_pattern, $layout, $mw_script_matches);
 
-            if (!empty($mw_script_matches)) {
-                foreach ($mw_script_matches [0] as $key => $value) {
-                    if ($value != '') {
-                        $v1 = crc32($value);
-                        $v1 = '<!-- mw_replace_back_this_pte_' . $v1 . ' -->';
-                        $layout = str_replace($value, $v1, $layout);
-                        if (!isset($replaced_scripts[$v1])) {
-                            $replaced_codes[$v1] = $value;
-                        }
-                    }
-                }
-            }
            // d($layout);
 
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
@@ -544,10 +553,26 @@ class Parser
 
     public function make_tags($layout)
     {
+
+
         if ($layout == '') {
             return $layout;
         }
+        //$layout =htmlspecialchars_decode($layout ,  ENT_COMPAT );
+       // $layout = html_entity_decode($layout);
+
+       // $layout= html_entity_decode($layout,ENT_QUOTES,"UTF-8");
+        // $layout= html_entity_decode($layout,ENT_COMPAT);
+
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+
+        $layout = str_replace('<?php','<code language=php>', $layout);
+        $layout = str_replace('<?','<code language=php>', $layout);
+
+        $layout = str_replace('?>','</code>', $layout);
+        $layout = str_replace("\u00a0",' ', $layout);
+
 
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
         $replaced_scripts = array();
@@ -556,13 +581,54 @@ class Parser
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
-                    //	$v1 = crc32($value);
+
                     $v1 = ' ';
+                  //  $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+                  //..  $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
+
+                    $v1 = str_replace('<script','<code language=javascript ', $value);
+                    $v1 = str_replace('</script','</code', $v1);
+
                     $layout = str_replace($value, $v1, $layout);
 
                 }
             }
         }
+
+        $layout = str_replace('<script>','<code>', $layout);
+        $layout = str_replace('</script>','</code>', $layout);
+        $layout = str_replace('&lt;\/script','&lt;\/code', $layout);
+        $layout = str_replace('&lt;script','&lt;code', $layout);
+
+
+
+
+
+        $layout = str_replace('<script','&lt;pre', $layout);
+        $layout = str_replace('</script','&gt/pre', $layout);
+
+        $layout = str_replace('<?','&lt;?', $layout);
+        $layout = str_replace('?>','?&gt;', $layout);
+
+
+//        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+//        $replaced_scripts = array();
+//        preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//        if (!empty($mw_script_matches)) {
+//            foreach ($mw_script_matches [0] as $key => $value) {
+//                if ($value != '') {
+//
+//                    //	$v1 = crc32($value);
+//                    $v1 = ' ';
+//                   // $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+//                   // $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
+//
+//                    $layout = str_replace($value, $v1, $layout);
+//
+//                }
+//            }
+//        }
 
         $pq = \phpQuery::newDocument($layout);
         // print first list outer HTML
@@ -583,7 +649,11 @@ class Parser
             pq($elem)->replaceWith($module_html);
         }
 
-        return $pq->htmlOuter();
+
+
+        $layout= $pq->htmlOuter();
+       // d($layout);
+       // return $pq->htmlOuter();
 
         return $layout;
     }
@@ -777,8 +847,8 @@ class Parser
             } else {
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-                $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-                $layout = htmlspecialchars_decode($layout);
+                //$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+                //$layout = htmlspecialchars_decode($layout);
 
                 $pq = \phpQuery::newDocument($layout);
                 $els = $pq['.edit'];
@@ -963,7 +1033,7 @@ class Parser
 
                             }
                             if ($cont_field != false and is_string($cont_field)) {
-                                $cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
+                                //$cont_field = htmlspecialchars_decode(html_entity_decode($cont_field, ENT_COMPAT, "UTF-8"));
                             }
 
                         }
@@ -1055,7 +1125,7 @@ class Parser
 
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
 
-                        $field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
+                        //$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
 
 
                         //$field_content = htmlspecialchars_decode($field_content);
@@ -1162,7 +1232,7 @@ class Parser
                             //$layout = $ch;
                             $val_rep = $value;
                             // $options['nested'] = 1;
-                            $val_rep = htmlspecialchars_decode($val_rep);
+                          //  $val_rep = htmlspecialchars_decode($val_rep);
                             //$options['parse_only_modules'] = 1;
                             //$options['no_cache'] = 1;
                             // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
@@ -1185,7 +1255,7 @@ class Parser
                         $rep = 'mw_replace_back_this_editable_' . $elk . '';
                         //$modified_layout = $rep;
 
-                        $value = htmlspecialchars_decode($value);
+                     //   $value = htmlspecialchars_decode($value);
 
 
                         //$value = mw('parser')->process($value, $options, $coming_from_parent, $coming_from_parent_id);
@@ -1195,8 +1265,8 @@ class Parser
 
 
                 $layout = $modified_layout;
-                $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-                $layout = htmlspecialchars_decode($layout);
+               // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+            //    $layout = htmlspecialchars_decode($layout);
 
                 //}
             } elseif (isset($mw_to_cache['new'])) {

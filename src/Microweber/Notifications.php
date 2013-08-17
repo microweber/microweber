@@ -187,10 +187,10 @@ class Notifications
 
         $fields_to_add[] = array('is_read', "char(1) default 'n'");
 
-        \mw('Microweber\DbUtils')->build_table($table_name, $fields_to_add);
+        \mw('db')->build_table($table_name, $fields_to_add);
 
-        \mw('Microweber\DbUtils')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('Microweber\DbUtils')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
+        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
         $this->app->cache->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;

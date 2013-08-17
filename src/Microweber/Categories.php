@@ -200,7 +200,7 @@ class Categories extends Category {
                     $i++;
                 }
 
-                mw('Microweber\DbUtils')->update_position_field($table, $indx);
+                mw('db')->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
