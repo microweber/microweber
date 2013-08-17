@@ -1,10 +1,17 @@
 
 mwd.body.className = mwd.body.className + " mw-live-edit";
 
-
+ 
 mw.designTool = {
   position:function(rel){
     var rel = rel || mw.$("#design_bnav");
+	
+	if(rel.length == 0){
+		return false;
+		
+	}
+	
+	
     var ww = $(window).width();
     var wh = $(window).height();
 
@@ -516,7 +523,7 @@ PagesFrameSRCSet = false;
 
 $(document).ready(function(){
 
-    windowOnScroll.stop();
+
 
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
@@ -724,28 +731,7 @@ if(typeof mw.hasDraft === 'object'){
 });
 
 
-windowOnScroll = {
-    scrollcatcher : 0,
-    scrollcheck : 1,
-    int : null,
-    stop:function(){
-      $(window).scroll(function(){
-        windowOnScroll.scrollcatcher +=37;
-        if(!windowOnScroll.int){
-           windowOnScroll.int = setInterval(function(){
-               if(windowOnScroll.scrollcheck != windowOnScroll.scrollcatcher){
-                 windowOnScroll.scrollcheck = windowOnScroll.scrollcatcher;
-               }
-               else{
-                 clearInterval(windowOnScroll.int);
-                 windowOnScroll.int = null;
-                 //$(window).trigger("scrollstop");
-               }
-           }, 37);
-        }
-      });
-    }
-  }
+
 
 
 mw.toggle_subpanel = function(){

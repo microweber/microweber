@@ -23,18 +23,30 @@ $(document).ready(function(){
            		 mw.response('#user_login_<?php print $params['id'] ?>',this);
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
-      				  mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
 					  
 					  if(c == undefined || c == ''){
 						 var c = mw.$('#<?php print $params['id'] ?>').dataset("callback");
 					  }
-					  
+					  <?php if(!isset($params['return']) and isset($_REQUEST['return'])): ?>
+					   <?php $params['return'] = $_REQUEST['return']; ?>
+					   <?php endif; ?>
 					  
                       
 					  <?php if(isset($params['return'])): ?>
-					   window.location.href('<?php print urldecode($params['return']); ?>');
-					  <?php else:  ?>
 					  
+					  <?php 
+					  $goto =  urldecode($params['return']);
+					  
+					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
+						$goto = site_url($goto);  
+						  
+					  }?>
+					 
+					   window.location.href ='<?php print $goto; ?>';
+					   return false;
+					  <?php else:  ?>
+					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
+
 					  
 					  
 					 

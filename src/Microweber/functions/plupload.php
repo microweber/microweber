@@ -43,6 +43,23 @@ if (is_admin() != false) {
 	$allowed_to_upload = true;
 	
 } else {
+	$uid = user_id();
+	
+	
+	
+	
+	if($uid != 0){
+		
+	$user = mw('user')->get_by_id($uid);
+	
+		if(!empty($user) and isset($user["is_active"]) and $user["is_active"] == 'y'){
+			
+			 $are_allowed = 'img';
+			 $_REQUEST["path"] = 'media/user_uploads/user/'.DS.$user["id"].DS;
+			 $allowed_to_upload = 1;
+		}
+		
+	}
 	
 }
 

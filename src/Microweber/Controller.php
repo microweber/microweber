@@ -1846,7 +1846,15 @@ class Controller
         $layout = $l->__toString();
         // var_dump($l);
 
-        if (is_file($p)) {
+        if(isset($_REQUEST['plain'])){
+            if (is_file($p)) {
+                $p = new $this->app->view($p);
+                $layout = $p->__toString();
+                print $layout;
+                exit();
+
+            }
+        } else if (is_file($p)) {
             $p = new $this->app->view($p);
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);

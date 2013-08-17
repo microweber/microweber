@@ -10,6 +10,9 @@ class ContentUtils extends \Microweber\Content
     {
 
 
+
+		
+		
         $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT;
         $checks = mw_var('FORCE_SAVE_CONTENT');
@@ -18,17 +21,33 @@ class ContentUtils extends \Microweber\Content
             if ($adm == false) {
 
                 $stop = true;
-                if (!isset($data['captcha'])) {
-                    return array('error' => 'Please enter a captcha answer!');
-                } else {
-                    $cap = $this->app->user->session_get('captcha');
-                    if ($cap == false) {
-                        return array('error' => 'You must load a captcha first!');
-                    }
-                    if ($data['captcha'] != $cap) {
-                        return array('error' => 'Invalid captcha answer!');
-                    }
-                }
+				
+				
+				$author_id = user_id();
+				if(isset($data['id']) and $data['id'] != 0 and $author_id != 0){
+					 $page_data_to_check_author = $this->get_by_id($data['id']);
+					 if(!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] !=$author_id)){
+						  $stop = true;
+						  return array('error' => 'You dont have permission to edit this content');
+					 } else if(isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] ==$author_id)){
+						  $stop = false;
+					 }
+				}
+				
+				if($stop == true) {
+					if (!isset($data['captcha'])) {
+						return array('error' => 'Please enter a captcha answer!');
+					} else {
+						$cap = $this->app->user->session_get('captcha');
+						if ($cap == false) {
+							return array('error' => 'You must load a captcha first!');
+						}
+						if ($data['captcha'] != $cap) {
+							return array('error' => 'Invalid captcha answer!');
+						}
+					}
+			
+				}
                 if (isset($data['categories'])) {
                     $data['category'] = $data['categories'];
                 }
@@ -476,10 +495,8 @@ class ContentUtils extends \Microweber\Content
 
     public function save_edit($post_data)
     {
-        $id = $this->app->user->is_admin();
-        if ($id == false) {
-            exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+        $is_admin = $this->app->user->is_admin();
+       
         if ($post_data) {
             if (isset($post_data['json_obj'])) {
                 $obj = json_decode($post_data['json_obj'], true);
@@ -498,7 +515,9 @@ class ContentUtils extends \Microweber\Content
             }
             $the_field_data_all = $post_data;
         } else {
-            exit('Error: no POST?');
+        
+			return array('error' => 'no POST?');
+
         }
 
         $ustr2 = $this->app->url->string(1, 1);
@@ -542,7 +561,7 @@ class ContentUtils extends \Microweber\Content
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
 
-                if (is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
+                if ($is_admin == true and is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
                     $save_page = $pd;
                     $save_page['url'] = $this->app->url->string(1);
                     $save_page['title'] = $this->app->url->slug($this->app->url->string(1));
@@ -556,6 +575,24 @@ class ContentUtils extends \Microweber\Content
                 $ref_page['custom_fields'] = $this->custom_fields($page_id, false);
             }
         }
+		
+		
+		$author_id = user_id();
+		if($is_admin == false and $page_id != 0 and $author_id != 0){
+			 $page_data_to_check_author = $this->get_by_id($page_id);
+			 if(!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] !=$author_id)){
+				  return array('error' => 'You dont have permission to edit this content');
+			 }
+			 
+			 
+		} else if ($is_admin == false) {
+			return array('error' => 'Not logged in as admin');
+
+            //exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+		
+		
+		
         $save_as_draft = false;
         if (isset($post_data['save_draft'])) {
             $save_as_draft = true;
@@ -717,12 +754,12 @@ class ContentUtils extends \Microweber\Content
                                     $cont_field['rel'] = $rel_ch;
                                     $cont_field['url'] = $url;
 
-                                    $cont_field1 = save_content_field($cont_field);
+                                    $cont_field1 = $this->save_content_field($cont_field);
 
                                 } else {
                                     if ($field != 'content') {
 
-                                        $cont_field1 = save_content_field($cont_field);
+                                        $cont_field1 = $this->save_content_field($cont_field);
                                     }
                                 }
 
@@ -744,6 +781,8 @@ class ContentUtils extends \Microweber\Content
 
                                 if ($is_no_save != true and $is_draft == false) {
                                     $json_print[] = $to_save;
+									
+									 
 
                                     $saved = $this->save_content($to_save);
 
@@ -788,9 +827,9 @@ class ContentUtils extends \Microweber\Content
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url->string(true);
                                 //$cont_field['rel'] = $rel_ch;
-                                $cont_field_new = save_content_field($cont_field);
+                                $cont_field_new = $this->save_content_field($cont_field);
                             } else {
-                                $cont_field_new = save_content_field($cont_field);
+                                $cont_field_new = $this->save_content_field($cont_field);
 
                             }
 
@@ -851,7 +890,7 @@ class ContentUtils extends \Microweber\Content
         exit();
     }
 
-    public function save_content_field($data, $delete_the_cache = true)
+    public function  save_content_field($data, $delete_the_cache = true)
     {
 
         $adm = $this->app->user->is_admin();
@@ -862,6 +901,7 @@ class ContentUtils extends \Microweber\Content
 
 
         if ($adm == false) {
+			return false;
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
