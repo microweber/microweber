@@ -16,7 +16,7 @@ $(document).ready(function(){
 $here = dirname(__FILE__).DS.'gateways'.DS;
  $shipping_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 
-//$shipping_modules = get_modules_from_db('debug=1&ui=any&module=shop\shipping\gateways\*');
+//$shipping_modules = mw('module')->get('debug=1&ui=any&module=shop\shipping\gateways\*');
  // d($shipping_modules);
 
 // d($shipping_modules);
@@ -26,7 +26,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
     <?php if(is_array($shipping_modules )): ?>
     <?php foreach($shipping_modules  as $shipping_module): ?>
- <?php if(is_module_installed( $shipping_module['module'] )): ?>
+ <?php if(mw('module')->is_installed( $shipping_module['module'] )): ?>
 
     <div class="mw-o-box-header mw-set-shipping-options-swticher">
         <span class="ico itruck"></span><span><?php print $shipping_module['name'] ?></span>

@@ -7,7 +7,7 @@ $id = 	$params["data-module-id"];
 $data = array();
 if($id != false){
 
-	$data = get_modules_from_db('ui=any&limit=1&id='.$id);
+	$data = mw('module')->get('ui=any&limit=1&id='.$id);
 	if(isset($data[0])){
 	$data = $data[0];
 	}
@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 	 mw.$('#module_admin_settings_form_<?php print $params['id']; ?>').submit(function() {
 
-     mw.form.post(mw.$('#module_admin_settings_form_<?php print $params['id']; ?>') , '<?php print site_url('api') ?>/save_settings_md', function(){
+     mw.form.post(mw.$('#module_admin_settings_form_<?php print $params['id']; ?>') , '<?php print site_url('api') ?>/module/save', function(){
 
 	 });
 

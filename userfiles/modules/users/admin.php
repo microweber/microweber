@@ -190,7 +190,7 @@ function mw_admin_delete_user_by_id($user_id){
   <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
   <div class="mw-admin-sidebar">
   <?php $info = module_info($config['module']);  ?>
-    <?php module_ico_title($info['module']); ?>
+    <?php mw('module')->icon_with_title($info['module']); ?>
     <div class="vSpace"></div>
     <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn mw-ui-btn-green"> <span class="ico iplus"></span><span><?php _e("Add new user"); ?></span> </a>
     <div class="vSpace"></div>

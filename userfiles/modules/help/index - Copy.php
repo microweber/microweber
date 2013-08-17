@@ -62,7 +62,7 @@ $(document).ready(function(){
   <div id="mw_edit_page_left" class="mw_edit_page_default">
     <div class="mw-admin-sidebar">
       <?php $info = module_info($config['module']);  ?>
-      <?php module_ico_title($info['module']); ?>
+      <?php mw('module')->icon_with_title($info['module']); ?>
     </div>
     <div class="manage-items" id="main-help">
       <?php
@@ -77,7 +77,7 @@ $(document).ready(function(){
     <?php if($show_modules_help_nav == true): ?>
     <?php $module_categories = mw('category')->get('rel=modules') ?>
       
-    <?php $modules = get_modules_from_db('ui=1&parent_id=0&have=categories');
+    <?php $modules = mw('module')->get('ui=1&parent_id=0&have=categories');
 	$module_categories_ids = array();
  if(is_array($modules  )){
 	 foreach($modules  as $item){

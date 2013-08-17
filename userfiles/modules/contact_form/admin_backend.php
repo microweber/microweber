@@ -50,7 +50,7 @@ if((mw('url')->param('templates') != false)){
 ?>
       <div class="mw-admin-sidebar">
         <?php $info = module_info($config['module']);  ?>
-        <?php module_ico_title($info['module']); ?>
+        <?php mw('module')->icon_with_title($info['module']); ?>
         <div class="mw-admin-side-nav side-nav-max">
           <div class="vSpace"></div>
           <ul>

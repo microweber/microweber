@@ -17,14 +17,14 @@ $mod_obj_str = 'modules';
 if(isset($params['layout_type'])){
   $el_params['layout_type'] = $params['layout_type'];
 }
-  $modules = get_layouts_from_db($el_params);
-  $dynamic_layouts = layouts_list('no_cache=1&get_dynamic_layouts=1');
+  $modules = mw('layouts')->get($el_params);
+  $dynamic_layouts = mw('layouts')->get_all('no_cache=1&get_dynamic_layouts=1');
 
 
 										//
 }     else {
 
- $modules = get_modules_from_db();
+ $modules = mw('module')->get();
 
 }
 

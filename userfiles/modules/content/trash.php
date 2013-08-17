@@ -289,14 +289,14 @@ $pages_count = intval($pages);
 mw.post_del_forever = function(a, callback){
   var arr = $.isArray(a) ? a : [a];
   var obj = {ids:arr, forever:true}
-  $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+  $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
     typeof callback === 'function' ? callback.call(data) : '';
   });
 }
 mw.post_undelete = function(a, callback){
   var arr = $.isArray(a) ? a : [a];
   var obj = {ids:arr, undelete:true}
-  $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+  $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
     typeof callback === 'function' ? callback.call(data) : '';
   });
 }

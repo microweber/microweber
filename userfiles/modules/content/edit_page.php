@@ -114,13 +114,13 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
   $is_shop_exist = get_content('is_shop=y&count=1');
   if($is_shop_exist != 0){
    // $is_shop_exist = get_content('is_shop=y&count=1');
-    mw('Microweber\ContentUtils')->create_default_content('shop');
+    mw('content')->create_default_content('shop');
     $is_shop_exist = get_content('is_shop=y&limit=1');
     if(is_array($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
     }
   } else {
-     mw('Microweber\ContentUtils')->create_default_content('shop');
+     mw('content')->create_default_content('shop');
      $is_shop_exist = get_content('is_shop=y&limit=1');
     if(is_array($is_shop_exist)){
       $params['parent-page-id'] = $data['parent_id'] = $data['parent']=$is_shop_exist[0]['id'];
@@ -170,7 +170,7 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
       } else {
 
 
-       mw('Microweber\ContentUtils')->create_default_content('blog');
+       mw('content')->create_default_content('blog');
        $is_blog_exist = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1&no_cache=1');
      }
 
@@ -1330,7 +1330,7 @@ mw.del_curent_page = function(a, callback){
     mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
         var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids:arr}
-        $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+        $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
     	   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
            typeof callback === 'function' ? callback.call(data) : '';
         });

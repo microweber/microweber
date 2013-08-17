@@ -17,10 +17,10 @@ if(isset($params['category'])){
 }
 
 
- $mods = get_layouts_from_db($mod_params); 
+ $mods = mw('layouts')->get($mod_params); 
  if( $mods == false){
 	  $mods = get_elements('skip_cache=1'); 
-	  $mods = get_layouts_from_db($mod_params); 
+	  $mods = mw('layouts')->get($mod_params); 
  }
   //d( $params );
  

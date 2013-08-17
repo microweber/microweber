@@ -29,7 +29,7 @@ window.location.href = '<?php print admin_url() ?>view:shop/action:orders/#viewo
 $here = dirname(__FILE__);
 $here = $here.DS.'admin_views'.DS;
   $active_action = mw('url')->param('action'); ?>
-<?php //mw('Microweber\ContentUtils')->create_default_content('shop'); ?>
+<?php //mw('content')->create_default_content('shop'); ?>
 <?php include($here .'nav.php'); ?>
 <?php $is_shop = 'y'; ?>
 <?php

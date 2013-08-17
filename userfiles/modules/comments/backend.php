@@ -186,7 +186,7 @@ $(document).ready(function(){
 
 
 
-      <?php module_ico_title($info['module']); ?>
+      <?php mw('module')->icon_with_title($info['module']); ?>
 
       <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0"><?php _e("My Comments"); ?></a>
       <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="javascript:;"><?php _e("Settings"); ?></a>

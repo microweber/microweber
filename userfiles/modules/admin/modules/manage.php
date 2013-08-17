@@ -68,7 +68,7 @@ $result = $update_api -> call('get_modules', $params);
 	 $mods = $result;  
 	 
 } else {
-	 $mods = get_modules_from_db($mod_params); 
+	 $mods = mw('module')->get($mod_params); 
 }
 
  // $upds = mw_check_for_module_update();

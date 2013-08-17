@@ -64,7 +64,7 @@ if($params['page-id'] == 'global'){
    $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
  }
  else {
-   $page_info = get_homepage();
+   $page_info = mw('content')->homepage();
  }
 
 }
@@ -180,7 +180,7 @@ mw.post = {
   del:function(a, callback){
     var arr = $.isArray(a) ? a : [a];
     var obj = {ids:arr}
-    $.post(mw.settings.site_url + "api/delete_content", obj, function(data){
+    $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
       typeof callback === 'function' ? callback.call(data) : '';
     });
   },
@@ -188,7 +188,7 @@ mw.post = {
     var obj = {
       id:id
     }
-    $.post(mw.settings.api_url + 'content_set_published', obj, function(data){
+    $.post(mw.settings.api_url + 'api/content/set_published', obj, function(data){
         if(typeof c === 'function'){
           c.call(id, data);
         }
@@ -269,7 +269,7 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print site_url('api/reorder_content'); ?>", obj, function(){});
+       $.post("<?php print site_url('api/content/reorder'); ?>", obj, function(){});
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());

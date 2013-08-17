@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 	 mw.$('#module_admin_settings_form_{rand}').submit(function() {
 
-     mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print site_url('api') ?>/save_settings_md', function(){
+     mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print site_url('api') ?>/module/save', function(){
 
 	 });
 

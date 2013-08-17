@@ -59,7 +59,7 @@ $possible_dir = $template_dir . DS . 'modules' . DS .$mod_name .DS;
             
             $options['for_modules'] = 1;
             $options['path'] = $possible_dir;
-            $templates = layouts_list($options);
+            $templates = mw('layouts')->get_all($options);
  
  ?>
  <?php  if(is_array( $templates)): ?>

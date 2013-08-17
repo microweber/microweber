@@ -8,7 +8,7 @@ $id = 	$params["data-module-id"];
 $data = array();
 if($id != false){
 	
-	$data = get_layouts_from_db('limit=1&id='.$id);
+	$data = mw('layouts')->get('limit=1&id='.$id);
 	if(isset($data[0])){
 	$data = $data[0];	
 	}
@@ -31,7 +31,7 @@ $(document).ready(function(){
 	 mw.$('#module_admin_settings_form_{rand}').submit(function() { 
 
  
- mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print site_url('api') ?>/save_settings_el', function(){
+ mw.form.post(mw.$('#module_admin_settings_form_{rand}') , '<?php print site_url('api') ?>/layouts/save', function(){
 	 
 	 
 	// mw.reload_module('[data-type="categories"]');
