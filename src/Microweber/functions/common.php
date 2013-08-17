@@ -567,11 +567,7 @@ function checkout($data)
     return mw('shop')->checkout($data);
 }
 
-function checkout_confirm_email_send($order_id, $to = false, $no_cache = false)
-{
 
-    return mw('shop')->checkout_confirm_email_send($order_id, $to, $no_cache);
-}
 
 api_expose('checkout_confirm_email_test');
 function checkout_confirm_email_test($params)
