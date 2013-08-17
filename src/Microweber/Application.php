@@ -11,12 +11,12 @@ class Application
     public $config_file; //indicates if config is being loaded from file
     public $table_prefix = null;
     public $providers = array();
-    public static $__instance;
+    public static $instance;
 
     public static function getInstance($constuctor_params = null)
     {
-        if (self::$__instance == NULL) self::$__instance = new Application($constuctor_params);
-        return self::$__instance;
+        if (self::$instance == NULL) self::$instance = new Application($constuctor_params);
+        return self::$instance;
     }
 
     public function __construct($config = false)
@@ -198,9 +198,9 @@ class Application
 
                     $mw = $property;
                 } else {
-                    $mw = '\Microweber\\' . $property;
-                    //  $mw = str_ireplace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
-                    $mw = str_ireplace(array('/', '\\\\', 'Microweber\Microweber'), array('\\', '\\', 'Microweber'), $mw);
+                    $ns = __NAMESPACE__;
+                    $mw = $ns . '\\' . $property;
+                    $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
 
                 }
 
@@ -267,8 +267,11 @@ class Application
             $class = ucfirst($class);
             $class = str_replace('/', '\\', $class);
 
-            $mw = '\Microweber\\' . $class;
-            $mw = str_replace(array('\\\\', 'Microweber\Microweber'), array('\\', 'Microweber'), $mw);
+
+            $ns = __NAMESPACE__;
+            $mw = $ns . '\\' . $class;
+            $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
+
 
             if (!isset($this->providers[$class_name])) {
                 if ($constructor_params == false) {
@@ -308,13 +311,6 @@ class Application
     public function __set($property, $value)
     {
 
-//        if (strtolower($property) == strtolower(__CLASS__)) {
-//
-//            //prevent recursion ?
-//            return;
-//
-//        }
-
 
         if (!property_exists($this, $property) and !isset($this->providers[$property])) {
 
@@ -325,44 +321,6 @@ class Application
 
         }
     }
-
-//    public function __set($property, $value)
-//    {
-//
-//        if (strtolower($property) == 'application') {
-//
-//
-//            return;
-//
-//            //prevent recursion ?
-//            return $this;
-//        }
-//        if (!is_object($value)) {
-//            $property = str_ireplace(array('\\\\', 'Microweber', '\\'), array('\\', '', ''), $property);
-//
-//            $property = ucfirst($property);
-//            $property2 = strtolower($property);
-//
-//            if (isset($this->providers[$property])) {
-//
-//                return $this->$property = $this->$property2 = $this->providers[$property];
-//            } else if (isset($this->providers[$property2])) {
-//
-//                return $this->$property = $this->$property2 = $this->providers[$property2];
-//            }
-//
-//
-//            if (!property_exists($this, $property)) {
-//
-//                $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
-//                //   return $this->$property;
-//            }
-//        } else {
-//            $this->$property = $this->providers[$property] = $value;
-//        }
-//
-//        return $this;
-//    }
 
 
 }

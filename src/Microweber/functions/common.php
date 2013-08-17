@@ -1,5 +1,5 @@
 <?php
- 
+
 function get_content($params = false)
 {
 

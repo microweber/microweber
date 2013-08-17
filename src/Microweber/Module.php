@@ -1463,7 +1463,11 @@ class Module
 
                     ob_start();
 
+
+                    $is_mw_ignore = dirname($value).DS.'.mwignore';
+                    if(!is_file($is_mw_ignore)){
                     include ($value);
+                    }
 
                     $content = ob_get_contents();
                     ob_end_clean();
