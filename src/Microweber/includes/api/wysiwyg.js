@@ -452,6 +452,7 @@ mw.wysiwyg = {
                e.preventDefault();
                if(!e.shiftKey){
                  mw.wysiwyg.insert_html('<p class="element"></p>');
+                 return false;
                }
          }
 
