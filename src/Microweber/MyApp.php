@@ -14,9 +14,7 @@ class MyApp extends \Microweber\Application
 
 
         $this->media = new  MyMedia;
-//d($this->media);
-        // $this->media = new MyMedia;
-        //. $this->media= new MyMedia;
+
 
     }
 
@@ -29,7 +27,7 @@ class MyMedia extends \Microweber\Media
     {
 
 
-        return 'http://54.225.125.50/geo-bootstrap-master/img/test/mchammer.gif';
+        return 'http://code.divshot.com/geo-bootstrap/img/test/mchammer.gif';
     }
 
 }

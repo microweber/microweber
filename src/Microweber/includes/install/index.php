@@ -285,13 +285,13 @@ if (isset($to_save['is_installed'])) {
                 mw('content')->db_init();
                 mw('notifications')->db_init();
                 mw('shop')->db_init();
-                mw('modules')->db_init();
+                mw('module')->db_init();
 
 
                 __mw_install_log('Creating modules database tables');
                 event_trigger('mw_db_init_modules');
-                mw('modules')->scan_for_modules("skip_cache=1");
-                mw('modules')->update_db();
+                mw('module')->scan_for_modules("skip_cache=1");
+                mw('module')->update_db();
 
 
                 if (MW_IS_INSTALLED != true) {
@@ -360,7 +360,7 @@ if (isset($to_save['is_installed'])) {
                 }
 
 
-                // mw('Microweber\ContentUtils')->create_default_content('install');
+                // mw('content')->create_default_content('install');
                 print('done');
                 __mw_install_log('done');
 

@@ -67,7 +67,7 @@ class Update
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url->site();
 
-        $t = mw('ContentUtils')->site_templates();
+        $t = mw('content')->site_templates();
         $data['templates'] = $t;
 
         //	$t = scan_for_modules("cache_group=modules/global");
