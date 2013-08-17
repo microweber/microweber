@@ -148,11 +148,46 @@ class ContentUtils extends \Microweber\Content
 
 
         if (isset($data['url']) != false) {
+
+            $search_weird_chars = array('%E2%80%99',
+                '%E2%80%99',
+                '%E2%80%98',
+                '%E2%80%9C',
+                '%E2%80%9D'
+            );
+            $str = $data['url'];
+            $good[] = 9;  #tab
+            $good[] = 10; #nl
+            $good[] = 13; #cr
+            for($a=32;$a<127;$a++){
+                $good[] = $a;
+            }
+            $newstr = '';
+            $len = strlen($str);
+            for($b=0;$b < $len+1; $b++){
+                if(isset($str[$b]) and in_array(ord($str[$b]), $good)){
+                    $newstr .= $str[$b];
+                }//fi
+            }//rof
+            $newstr = str_replace('--','-',$newstr);
+            $newstr = str_replace('--','-',$newstr);
+            if($newstr == '-' or $newstr == '--'){
+                $newstr = 'post-'.date('YmdH');
+            }
+            $data['url'] = $newstr;
+
+
             // if (intval ( $data ['id'] ) == 0) {
             $data_to_save['url'] = $data['url'];
 
+
+
             // }
         }
+
+
+
+
 
         if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;

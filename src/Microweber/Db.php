@@ -2789,7 +2789,9 @@ class Db
                     $v = $this->stripslashes_array($v);
                 } else {
                    // $v = htmlspecialchars_decode($v);
-                    $v = $this->decode_entities($v);
+                   // $v = $this->decode_entities($v);
+                    $v= html_entity_decode($v,ENT_QUOTES,"UTF-8"); #NOTE: UTF-8 does not work!
+
                     $v = stripslashes($v);
                 }
 

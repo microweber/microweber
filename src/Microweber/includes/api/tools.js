@@ -1543,6 +1543,13 @@ mw.tools = {
         else{
           cont.html(area.html())
         }
+
+
+/*     var links = mwd.querySelectorAll('link'), l=links.length, i=0;
+      for( ; i<l; i++){
+        frame.contentWindow.mw.require(links[i].href);
+      }*/
+
     });
     $(frame).bind('change', function(e, val){
       if(area[0].tagName === 'TEXTAREA'){
