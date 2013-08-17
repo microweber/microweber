@@ -1198,6 +1198,7 @@ class Controller
             }
 
 
+
             if (isset($api_function_full)) {
                 foreach ($api_exposed as $api_exposed_item) {
                     $api_function_full = str_replace('\\', '/', $api_function_full);
@@ -1221,6 +1222,10 @@ class Controller
                     } else {
                         $data = $_REQUEST;
                     }
+                    $api_function_full_2 = explode('/', $api_function_full);
+                    unset($api_function_full_2[count($api_function_full_2) - 1]);
+                    $api_function_full_2 = implode('/', $api_function_full_2);
+
 
                     if (function_exists($api_function)) {
 
@@ -1237,19 +1242,38 @@ class Controller
                             $res = $res->$mmethod($data);
                         }
 
-                    } elseif (isset($api_function_full)) {
+                    } else {
 
-                        $api_function_full = str_replace('\\', '/', $api_function_full);
+                        $api_function_full_2 = str_replace(array('..','/'), array('','\\'), $api_function_full_2);
+                        $api_function_full_2  = __NAMESPACE__ . '\\' . $api_function_full_2;
 
-                        $api_function_full1 = explode('/', $api_function_full);
-                        $mmethod = array_pop($api_function_full1);
-                        $mclass = array_pop($api_function_full1);
 
-                        if (class_exists($mclass, false)) {
-                            $res = new $mclass($this->app);
+                        if (class_exists($api_function_full_2, false)) {
+                            //
+
+                            $segs = $this->app->url->segment();
+                            $mmethod = array_pop($segs);
+
+                            $res = new  $api_function_full_2($this->app);
 
                             if (method_exists($res, $mmethod)) {
                                 $res = $res->$mmethod($data);
+                            }
+
+                        } elseif (isset($api_function_full)) {
+
+                            $api_function_full = str_replace('\\', '/', $api_function_full);
+
+                            $api_function_full1 = explode('/', $api_function_full);
+                            $mmethod = array_pop($api_function_full1);
+                            $mclass = array_pop($api_function_full1);
+
+                            if (class_exists($mclass, false)) {
+                                $res = new $mclass($this->app);
+
+                                if (method_exists($res, $mmethod)) {
+                                    $res = $res->$mmethod($data);
+                                }
                             }
                         }
                     }
@@ -1289,8 +1313,13 @@ class Controller
                     print json_encode($res);
                 }
             } else {
-
-                print($res);
+                if (isset($res)) {
+                    if(is_array($res)) {
+                        print_r($res);
+                    } else {
+                    print($res);
+                    }
+                }
             }
             exit();
         }
@@ -1846,7 +1875,7 @@ class Controller
         $layout = $l->__toString();
         // var_dump($l);
 
-        if(isset($_REQUEST['plain'])){
+        if (isset($_REQUEST['plain'])) {
             if (is_file($p)) {
                 $p = new $this->app->view($p);
                 $layout = $p->__toString();

@@ -1,7 +1,7 @@
 <?php
 namespace Microweber\email;
 $_mw_email_transport_object = false;
-api_expose('/mw/email/Sender/test');
+api_expose('email/Sender/test');
 class Sender
 {
 
@@ -45,10 +45,10 @@ class Sender
         $email_from = mw('option')->get('email_from', 'email');
         if ($email_from == false or trim($email_from) == '') {
             if ($this->email_from_name != '') {
-                $email_from = mw('url')->slug($this->email_from_name) . "@" . mw('url')->hostname(();
+                $email_from = mw('url')->slug($this->email_from_name) . "@" . mw('url')->hostname();
 
             } else {
-                $email_from = "noreply@" . mw('url')->hostname(();
+                $email_from = "noreply@" . mw('url')->hostname();
 
             }
         }
@@ -77,7 +77,7 @@ class Sender
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = "notifications/email";
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = mw()->cache->get($function_cache_id, $cache_group);
 
         if ($no_cache == false and ($cache_content) != false) {
 
@@ -93,7 +93,7 @@ class Sender
             }
 
             if ($add_hostname_to_subject != false) {
-                $subject = '[' . mw('url')->hostname(() . '] ' . $subject;
+                $subject = '[' . mw('url')->hostname() . '] ' . $subject;
             }
 
             if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
@@ -103,7 +103,7 @@ class Sender
                 }
 
                 $res -> exec_send($to, $subject, $message);
-                $this->app->cache->save(true, $function_cache_id, $cache_group);
+                mw()->cache->save(true, $function_cache_id, $cache_group);
                 return true;
             } else {
                 return false;
