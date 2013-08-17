@@ -630,6 +630,7 @@ mw.drag = {
 
         $(window).bind("onElementOver", function(a, element){
           var el = $(element);
+          if(element.textContent.length < 2) return false;
           var o = el.offset();
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
@@ -2131,6 +2132,13 @@ mw.drop_regions = {
     }
   },
   is_in_region:function(regions, event){
+
+  /*  */
+
+  return 'none';
+
+  /*  */
+
     var l = regions.left;
     var r = regions.right;
     var mx = event.pageX;
