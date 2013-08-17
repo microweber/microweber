@@ -1659,12 +1659,17 @@ module_settings: function(a) {
    * @method mw.drag.save()
    */
 
-
   save: function(el, callback, is_draft) {
   var is_draft = is_draft || false;
   if( mw.isDrag || mw.pauseSave ) return false;
 
-if(typeof el === 'object'){
+
+
+
+
+
+
+if(typeof el === 'object' && el !==null){
   if($(el).hasClass('disabled')){
     return false;
   }
@@ -2133,11 +2138,8 @@ mw.drop_regions = {
   },
   is_in_region:function(regions, event){
 
-  /*  */
 
-  return 'none';
-
-  /*  */
+     return 'none';     /* Remove this Line to enable drop to left and right */
 
     var l = regions.left;
     var r = regions.right;
@@ -2177,13 +2179,6 @@ mw.drop_regions = {
     }
   }
 }
-
-
-
-
-
-
-
 
 
 mw.history = {

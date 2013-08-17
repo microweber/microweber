@@ -18,6 +18,29 @@ function get_content_admin($params)
 }
 
 
+/**
+ * paging
+ *
+ * paging
+ *
+ * @access public
+ * @category posts
+ * @author Microweber
+ * @link
+ *
+ * @param $params['num'] = 5; //the numer of pages
+ * @internal param $display =
+ *            'default' //sets the default paging display with <ul> and </li>
+ *            tags. If $display = false, the function will return the paging
+ *            array which is the same as $posts_pages_links in every template
+ *
+ * @return string - html string with ul/li
+ */
+function paging($params)
+{
+    return mw('content')->paging($params);
+
+}
 api_expose('content_link');
 
 

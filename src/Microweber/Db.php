@@ -1433,10 +1433,15 @@ class Db
             $_default_limit = 30;
             static $cfg_default_limit;
             if ($cfg_default_limit == false) {
-                if (function_exists('get_option')) {
+                if (defined("MW_IS_INSTALLED") and MW_IS_INSTALLED == true) {
                     $cfg_default_limit = $this->app->option->get('items_per_page ', 'website');
                 }
+
             }
+
+
+        //  d($cfg_default_limit);
+
             if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
                 $_default_limit = intval($cfg_default_limit);
             }
@@ -2753,7 +2758,9 @@ class Db
                         $v = intval($v);
                     } else {
                         $v = addslashes($v);
-                        $v = htmlspecialchars($v);
+                        $v = htmlentities($v, ENT_QUOTES, "UTF-8");
+
+                        // $v = htmlspecialchars($v);
                     }
 
                 }
@@ -2763,6 +2770,12 @@ class Db
 
             return $ret;
         }
+    }
+    public function decode_entities($text) {
+        $text= html_entity_decode($text,ENT_QUOTES,"ISO-8859-1"); #NOTE: UTF-8 does not work!
+        $text= preg_replace('/&#(\d+);/me',"chr(\\1)",$text); #decimal notation
+        $text= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$text);  #hex notation
+        return $text;
     }
 
 
@@ -2775,8 +2788,8 @@ class Db
                 if (is_array($v)) {
                     $v = $this->stripslashes_array($v);
                 } else {
-                    $v = htmlspecialchars_decode($v);
-
+                   // $v = htmlspecialchars_decode($v);
+                    $v = $this->decode_entities($v);
                     $v = stripslashes($v);
                 }
 

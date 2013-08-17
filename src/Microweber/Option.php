@@ -103,6 +103,7 @@ class Option
 
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
+
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED != true) {
             return false;
         }
@@ -183,9 +184,9 @@ class Option
         // $get = $this->app->db->get_long($table, $data, $cache_group);
         $ok = $this->app->db->escape_string($data['option_key']);
 
-        //  $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
-        $q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
-        //d($q);
+         $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
+        //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
+        // d($q);
         $q_cache_id = crc32($q);
         $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
         if (!is_array($get_all)) {
@@ -195,9 +196,9 @@ class Option
         }
         $get = array();
         foreach ($get_all as $get_opt) {
-            if (isset($get_opt['option_key']) and $ok == $get_opt['option_key']) {
+           // if (isset($get_opt['option_key']) and $ok == $get_opt['option_key']) {
                 $get[] = $get_opt;
-            }
+            //}
         }
 
 

@@ -216,7 +216,7 @@ mw.wysiwyg = {
     },
     paste:function(e){
        var text = '';
-       if (window.clipboardData) {
+       if ( window.clipboardData ) {
         var text = window.clipboardData.getData('Text');
         e.preventDefault();
        }
@@ -250,7 +250,7 @@ mw.wysiwyg = {
            if(mw.wysiwyg.hasContentFromWord(pro)){
              pro.innerHTML = mw.wysiwyg.clean_word(pro.innerHTML);
            }
-
+            /*
 
             $(pro.querySelectorAll("*")).each(function(){
                $(this).removeAttr("style");
@@ -267,7 +267,7 @@ mw.wysiwyg = {
               if(c[i].nodeType === 3){
                  $(c[i]).replaceWith("<p class='element'>" + c[i].nodeValue + "</p>");
               }
-            }
+            }  */
 
 
 
@@ -275,6 +275,7 @@ mw.wysiwyg = {
           $(pro).remove();
         }, 120);
     },
+
     hasContentFromWord:function(node){
         if(node.getElementsByTagName("o:p").length > 0 ||
            node.getElementsByTagName("v:shapetype").length > 0 ||
@@ -451,7 +452,19 @@ mw.wysiwyg = {
                }
                e.preventDefault();
                if(!e.shiftKey){
-                 mw.wysiwyg.insert_html('<p class="element"></p>');
+
+
+                var pre = mw.wysiwyg.findTagAcrossSelection('pre');
+                var code = mw.wysiwyg.findTagAcrossSelection('code');
+
+                 if(!!pre || !!code){
+                  //mw.wysiwyg.insert_html('');
+                 }
+                 else{
+                   mw.wysiwyg.insert_html('<p class="element"></p>');
+                 }
+
+
                  return false;
                }
          }
