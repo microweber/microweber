@@ -34,9 +34,9 @@ class Parser
         global $replaced_modules_values;
 
 
-       // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
         // $layout = html_entity_decode($layout, ENT_COMPAT);
-       // $layout = htmlspecialchars_decode($layout);
+      // $layout = htmlspecialchars_decode($layout);
 
 
         $layout = str_replace('<?','&lt;?', $layout);
@@ -847,7 +847,7 @@ class Parser
             } else {
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-                //$layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+               $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 //$layout = htmlspecialchars_decode($layout);
 
                 $pq = \phpQuery::newDocument($layout);
