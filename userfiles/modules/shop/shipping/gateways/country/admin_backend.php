@@ -13,18 +13,24 @@
 
 
 
-
+ $countries_used = array();
   $data[] = array();
 
      $countries =    mw('forms')->countries_list();
+	 if(!is_array($countries)){
+		 
 	 
-	 
-     $countries_used = array();
+		   $countries =    mw('forms')->countries_list(1);
+	 } else {
+		  
 	 array_unshift($countries, "Worldwide");
-
+	 }
+	 
+   
+if(is_array($countries)){
 asort($countries);
 
-
+}
 
 
 

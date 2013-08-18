@@ -322,7 +322,7 @@ class Forms
         return $this->app->db->get($params);
     }
 
-    public function  countries_list()
+    public function  countries_list($force=false)
     {
 
         $function_cache_id = false;
@@ -338,7 +338,7 @@ class Forms
 
         $cache_content = $this->app->cache->get($function_cache_id, 'forms');
 
-        if (($cache_content) != false) {
+        if ($force == false and ($cache_content) != false) {
 
             return $cache_content;
         }
@@ -352,7 +352,7 @@ class Forms
 
         if (!$this->app->db->table_exist($table)) {
             $this->db_init();
-            return false;
+           // return false;
         }
 
 
@@ -360,11 +360,12 @@ class Forms
 
 
         $sql = "SELECT name AS country_name FROM $table   ";
+		 
 
         $q = $this->app->db->query($sql, 'get_countries_list' . crc32($sql), 'forms');
 
         $res = array();
-        if (is_array($q)) {
+        if (is_array($q) and !empty($q)) {
             foreach ($q as $value) {
                 $res[] = $value['country_name'];
             }
@@ -373,6 +374,7 @@ class Forms
             return $res;
         } else {
             $this->db_init();
+            $this->app->cache->delete('forms');
             return false;
         }
 
@@ -439,7 +441,7 @@ class Forms
     public function db_init()
     {
         $function_cache_id = false;
-
+        $force=false;
         $args = func_get_args();
 
         foreach ($args as $k => $v) {
@@ -451,7 +453,7 @@ class Forms
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
-        if (($cache_content) != false) {
+        if ($force == false and ($cache_content) != false) {
 
             return $cache_content;
         }

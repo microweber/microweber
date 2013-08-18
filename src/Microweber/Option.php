@@ -104,8 +104,8 @@ class Option
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
 
-        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED != true) {
-            return false;
+        if (!defined('MW_DB_TABLE_OPTIONS') or MW_DB_TABLE_OPTIONS == false) {
+             return false;
         }
         if ($option_group != false) {
 
