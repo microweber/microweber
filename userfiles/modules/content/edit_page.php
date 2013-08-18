@@ -591,6 +591,12 @@ function mw_before_content_save<?php print $rand; ?>(){
 		<div class="edit_page_content_parent" id="admin_edit_page_form_content_parent_info<?php print $rand; ?>"></div>
 		<div class="mw_clear"></div>
 	</div>
+	
+	
+	  <?php event_trigger('mw_admin_edit_page_after_title', $data); ?>
+
+	
+	
 	<?php
 if(!isset($data['content'])){
   $data['content'] = '';
@@ -711,6 +717,11 @@ if(typeof mw.content_save_btn ==='undefined'){
 			<div class="iframe_fix"></div>
 		</div>
 	</div>
+	
+	
+	
+		  <?php event_trigger('mw_admin_edit_page_after_content', $data); ?>
+
 	<?php /* PAGES ONLY  */ ?>
 	<?php if($edit_post_mode == false): ?>
 	<script>
@@ -814,6 +825,13 @@ load_preview();
 	</div>
 	<div class="vSpace"></div>
 	<?php endif; ?>
+	
+	
+	
+			  <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+
+	
+	
 	<?php endif; ?>
 	<?php /* PAGES ONLY  */ ?>
 	<?php /* ONLY FOR POSTS  */ ?>
@@ -1006,6 +1024,8 @@ $(mwd).ready(function(){
 </script> 
 	</div>
 	<?php endif; ?>
+			  <?php event_trigger('mw_admin_edit_page_after_categories', $data); ?>
+
 	<?php /* ONLY FOR POSTS  */ ?>
 	<?php if($edit_post_mode != false): ?>
 	<?php
@@ -1202,6 +1222,10 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 	<div class="vSpace"></div>
 	<?php endif; ?>
 	<?php //endif; ?>
+	
+	
+			  <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+
 	<div class="mw_clear">&nbsp;</div>
 	<?php /* ONLY FOR POSTS  */ ?>
 	<div class="advanced_settings"> <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
@@ -1318,6 +1342,9 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 					)</small></label>
 				<input name="password" class="mw-ui-field" type="password" value="" />
 			</div>
+			
+					  <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
+
 			<?php if(isset($data['id']) and $data['id'] > 0): ?>
 			<br />
 			<small>
@@ -1373,6 +1400,8 @@ mw.del_curent_page = function(a, callback){
 			</div>
 			<?php endif; ?>
 			<?php /*  end of PRODUCTS ONLY  */ ?>
+					  <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
+
 		</div>
 		<div class="mw_clear vSpace"></div>
 	</div>

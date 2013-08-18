@@ -29,7 +29,14 @@ description: shop layout
       </div>
       <!------------ Sidebar -------------->
       <div class="span4">
-        <?php include_once ACTIVE_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; ?>
+        <?php
+		if(is_file(THIS_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php")){
+ include THIS_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; 
+ 
+} else if(is_file(DEFAULT_TEMPLATE_DIR.  'layouts' . DS."shop_sidebar.php")){
+	include DEFAULT_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php"; 
+}
+		  ?>
       </div>
     </div>
   </div>

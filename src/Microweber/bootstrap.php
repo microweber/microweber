@@ -146,12 +146,25 @@ function mw_autoload($className)
 
     if ($className != '') {
 
-        // set_include_path( MW_MODULES_DIR .strtolower($className). PATH_SEPARATOR . get_include_path());
-
+        // set_include_path(  get_include_path(). PATH_SEPARATOR .MW_MODULES_DIR .strtolower($className));
+        $try_module_first = MW_MODULES_DIR .$className.DS;
+        $try_module_first_lower = MW_MODULES_DIR .strtolower($className).DS;
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+//
+//
+        $try_file = $try_module_first.$fileName;
+        $try_file2 = $try_module_first_lower.$fileName;
 
-        include_once($fileName);
+        if(is_file($try_file)){
+            include_once($try_file);
+        } elseif(is_file($try_file2)){
+            include_once($try_file2);
+        } else {
+            include_once($fileName);
+        }
+
+
     }
 
 }
