@@ -54,7 +54,7 @@ class Parser
                     $v1 = '<!-- mw_replace_back_this_pre_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($replaced_scripts[$v1])) {
-                      //  $replaced_scripts[$v1] = $value;
+                        $replaced_codes[$v1] = $value;
 
                     }
                 }
