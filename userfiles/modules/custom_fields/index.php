@@ -6,10 +6,7 @@
 	$for = $params['for'];
  }
  
- if(isset($params['default-fields']) and isset($params['parent-module-id'])){
-	 
-	make_default_custom_fields($for,$params['parent-module-id'],$params['default-fields']);
-}
+
   if(isset($params['data-skip-type'])){
 	$skip_types = explode(',',$params['data-skip-type']);
 	$skip_types = array_trim($skip_types);
@@ -44,8 +41,18 @@ $for_id =$params['rel_id'];
 	$for_id = $params['content-id']; 
 	 $for = 'content';
 }
+if(((!isset($for_id) or intval($for_id) == 0) and isset($params['data-id']))){
+	$for_id = $params['data-id']; 
+ 
 
 
+ 
+}
+
+ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
+	 
+	mw('fields')->make_default($for,$for_id,$params['default-fields']);
+}
  $more = mw('fields')->get($for ,$for_id,1); 
  
  ?>

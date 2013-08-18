@@ -381,7 +381,7 @@ class Content
 
         if (($cache_content) != false) {
 
-             return $cache_content;
+            return $cache_content;
         }
 
         $render_file = false;
@@ -391,7 +391,25 @@ class Content
 
 
 
-        if (isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
+ 
+		if (isset($page['layout_file'])) {
+	
+	
+	
+	
+	
+            $test_file = str_replace('___', DS, $page['layout_file']);
+			 $test_file = str_replace('..', '', $test_file);
+            $render_file_temp =$test_file;
+
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+				 
+            }
+        }
+
+
+        if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
             $test_file = str_replace('___', DS, $page['layout_file']);
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
 

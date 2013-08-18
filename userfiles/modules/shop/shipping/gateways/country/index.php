@@ -111,21 +111,8 @@ $(document).ready(function(){
       <?php endforeach ; ?>
     </select>
   </div>
-  <label>
-    <?php _e("City"); ?>
-  </label>
-  <input name="city" class="field-full"  type="text" value="" />
-  <label>
-    <?php _e("State"); ?>
-  </label>
-  <input name="state" class="field-full"  type="text" value="" />
-  <label>
-    <?php _e("Zip/Postal Code"); ?>
-  </label>
-  <input name="zip" class="field-full" type="text" value="" />
-  <label>
-    <?php _e("Address"); ?>
-  </label>
-  <input name="address" class="field-full" type="text" value="" />
+   
+   <module type="custom_fields" data-id="shipping-info<?php print $params['id'] ?>" data-for="module"  default-fields="city,state,zip,street"   />
+
 </div>
 <?php endif; ?>

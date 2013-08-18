@@ -237,7 +237,7 @@ class Controller
                     if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
                         $page['active_site_template'] = $inherit_from['active_site_template'];
                         $is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
-                        ;
+                       
                     }
                 }
 
@@ -274,7 +274,10 @@ class Controller
                 if ($preview_module != false) {
                     $page_url = $preview_module;
                 }
-
+			
+				if($the_active_site_template == false or $the_active_site_template == ''){
+				$the_active_site_template ='default';	
+				}
                 if ($page_exact == false and $found_mod == false and $this->app->module->is_installed($page_url)) {
 
                     $found_mod = true;
@@ -412,6 +415,7 @@ class Controller
 
 
                             }
+	
 
 
                             if (is_array($page_url_segment_3)) {
@@ -443,8 +447,14 @@ class Controller
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
                             $page['url'] = $this->app->url->string();
-                            $page['active_site_template'] = $page_url_segment_1;
+                           
+							
+							
+							
+					
 
+
+ $page['active_site_template'] = $page_url_segment_1;
 
                             $page['layout_file'] = $the_new_page_file;
                             $page['simply_a_file'] = $simply_a_file;
@@ -482,7 +492,9 @@ class Controller
             $is_preview_template = str_replace('____', DS, $is_preview_template);
             $content['active_site_template'] = $is_preview_template;
         }
-
+		
+		
+			 
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
             if ($is_layout_file == 'inherit') {
@@ -540,6 +552,7 @@ class Controller
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
 
         $render_file = $this->app->content->get_layout($content);
+		 
         //  d($page);
         $content['render_file'] = $render_file;
 

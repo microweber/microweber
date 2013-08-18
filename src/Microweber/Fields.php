@@ -394,7 +394,7 @@ class Fields
        // return false;
         $id = $this->app->user->is_admin();
         if ($id == false) {
-            return false;
+            //return false;
         }
 
         $function_cache_id = false;
@@ -406,11 +406,11 @@ class Fields
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'fields_'.__FUNCTION__ . crc32($function_cache_id);
 
 
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
-
+ 
         if ($is_made == 'yes') {
             return;
         }
