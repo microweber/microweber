@@ -60,8 +60,8 @@ class Captcha
                 }
             }
         }
-        $x1 = mt_rand(15, 30);
-        $y1 = mt_rand(15, 20);
+        $x1 = mt_rand(15, 20);
+        $y1 = mt_rand(15, 15);
         $tsize = rand(13, 16);
 
 
