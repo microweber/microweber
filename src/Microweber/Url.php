@@ -9,6 +9,7 @@ class Url
     {
         return $this->site_url($add_string);
     }
+
     public function site_url($add_string = false)
     {
         $site_url = $this->site_url_var;
