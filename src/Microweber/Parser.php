@@ -5,6 +5,9 @@ $parser_cache_object = false; //if apc is found it will automacally use it; you 
 //$parse_micrwober_max_nest_level = 3;
 $replaced_modules = array();
 $replaced_modules_values = array();
+
+$replaced_codes = array();
+
 class Parser
 {
     public $app;
@@ -33,33 +36,33 @@ class Parser
 
         global $replaced_modules_values;
 
-
-        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+        global $replaced_codes; 
         // $layout = html_entity_decode($layout, ENT_COMPAT);
-      // $layout = htmlspecialchars_decode($layout);
+     //  $layout = htmlspecialchars_decode($layout);
+ //print $layout;
 
+        $layout = str_replace('<?', '&lt;?', $layout);
 
-        $layout = str_replace('<?','&lt;?', $layout);
-
-      //  preg_match_all("'<p class=\"review\">(.*?)</p>'si", $layout, $match);
+        //  preg_match_all("'<p class=\"review\">(.*?)</p>'si", $layout, $match);
         $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
-       // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
+         // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
 
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
 
                     $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_pre_' . $v1 . ' -->';
+                    $v1 = '<!-- mw_replace_back_this_process_pre_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
-                    if (!isset($replaced_scripts[$v1])) {
+                    if (!isset($replaced_codes[$v1])) {
                         $replaced_codes[$v1] = $value;
 
                     }
                 }
             }
         }
+        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -83,7 +86,6 @@ class Parser
                 }
             }
         }
-
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -131,8 +133,7 @@ class Parser
             }
 
 
-
-           // d($layout);
+            // d($layout);
 
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
@@ -559,19 +560,16 @@ class Parser
             return $layout;
         }
         //$layout =htmlspecialchars_decode($layout ,  ENT_COMPAT );
-       // $layout = html_entity_decode($layout);
+        // $layout = html_entity_decode($layout);
 
-       // $layout= html_entity_decode($layout,ENT_QUOTES,"UTF-8");
+        // $layout= html_entity_decode($layout,ENT_QUOTES,"UTF-8");
         // $layout= html_entity_decode($layout,ENT_COMPAT);
 
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 
-        $layout = str_replace('<?php','<code language=php>', $layout);
-        $layout = str_replace('<?','<code language=php>', $layout);
 
-        $layout = str_replace('?>','</code>', $layout);
-        $layout = str_replace("\u00a0",' ', $layout);
+        $layout = str_replace("\u00a0", ' ', $layout);
 
 
         $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
@@ -583,11 +581,11 @@ class Parser
                 if ($value != '') {
 
                     $v1 = ' ';
-                  //  $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
-                  //..  $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
+                    //  $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+                    //..  $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
 
-                    $v1 = str_replace('<script','<code language=javascript ', $value);
-                    $v1 = str_replace('</script','</code', $v1);
+                    $v1 = str_replace('<script', '<code language=javascript ', $value);
+                    $v1 = str_replace('</script', '</code', $v1);
 
                     $layout = str_replace($value, $v1, $layout);
 
@@ -595,20 +593,17 @@ class Parser
             }
         }
 
-        $layout = str_replace('<script>','<code>', $layout);
-        $layout = str_replace('</script>','</code>', $layout);
-        $layout = str_replace('&lt;\/script','&lt;\/code', $layout);
-        $layout = str_replace('&lt;script','&lt;code', $layout);
+        $layout = str_replace('<script>', '<code>', $layout);
+        $layout = str_replace('</script>', '</code>', $layout);
+        $layout = str_replace('&lt;\/script', '&lt;\/code', $layout);
+        $layout = str_replace('&lt;script', '&lt;code', $layout);
 
 
+        $layout = str_replace('<script', '&lt;pre', $layout);
+        $layout = str_replace('</script', '&gt/pre', $layout);
 
-
-
-        $layout = str_replace('<script','&lt;pre', $layout);
-        $layout = str_replace('</script','&gt/pre', $layout);
-
-        $layout = str_replace('<?','&lt;?', $layout);
-        $layout = str_replace('?>','?&gt;', $layout);
+        $layout = str_replace('<?', '&lt;?', $layout);
+        $layout = str_replace('?>', '?&gt;', $layout);
 
 
 //        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
@@ -650,10 +645,9 @@ class Parser
         }
 
 
-
-        $layout= $pq->htmlOuter();
-       // d($layout);
-       // return $pq->htmlOuter();
+        $layout = $pq->htmlOuter();
+        // d($layout);
+        // return $pq->htmlOuter();
 
         return $layout;
     }
@@ -785,6 +779,22 @@ class Parser
         return $l;
     }
 
+    public function get_html($l, $selector = 'body')
+    {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        $pq = \phpQuery::newDocument($l);
+
+
+        foreach ($pq [$selector] as $elem) {
+
+            $l = pq($elem)->htmlOuter();
+            return $l;
+        }
+
+
+        return false;
+    }
+
     public function isolate_content_field($l)
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
@@ -807,7 +817,13 @@ class Parser
         if ($layout != '') {
             global $mw_replaced_modules;
             global $passed_reps;
+            $replaced_codes = array();
+ 
 
+
+
+
+ 
 
             $mw_found_elems = '';
             $mw_found_elems_arr = array();
@@ -837,6 +853,72 @@ class Parser
 
             }
 
+
+
+
+
+
+
+
+
+                  $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+            // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
+
+            if (!empty($mw_script_matches)) {
+                foreach ($mw_script_matches [0] as $key => $value) {
+                    if ($value != '') {
+
+                        $v1 = crc32($value);
+                        $v1 = '<!-- mw_replace_back_this_pre_' . $v1 . ' -->';
+                        $layout = str_replace($value, $v1, $layout);
+                        if (!isset($replaced_codes[$v1])) {
+                            $replaced_codes[$v1] = $value;
+
+                        }
+                    }
+                }
+            }
+
+
+
+
+            $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+            preg_match_all($script_pattern, $layout, $mw_script_matches);
+            // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
+
+            if (!empty($mw_script_matches)) {
+                foreach ($mw_script_matches [0] as $key => $value) {
+                    if ($value != '') {
+
+                        $v1 = crc32($value);
+                        $v1 = '<!-- mw_replace_back_this_pre_code_' . $v1 . ' -->';
+                        $layout = str_replace($value, $v1, $layout);
+                        if (!isset($replaced_codes[$v1])) {
+                            $replaced_codes[$v1] = $value;
+
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             $ch = mw_var($parser_mem_crc);
             if ($cached != false) {
                 $mw_to_cache = $cached;
@@ -847,7 +929,7 @@ class Parser
             } else {
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-               $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+                $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 //$layout = htmlspecialchars_decode($layout);
 
                 $pq = \phpQuery::newDocument($layout);
@@ -1155,6 +1237,10 @@ class Parser
                         if ($ch2 == false) {
                             //$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
                             if ($field_content != false and $field_content != '') {
+
+
+
+
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 //$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
@@ -1232,13 +1318,17 @@ class Parser
                             //$layout = $ch;
                             $val_rep = $value;
                             // $options['nested'] = 1;
-                          //  $val_rep = htmlspecialchars_decode($val_rep);
+                            //  $val_rep = htmlspecialchars_decode($val_rep);
                             //$options['parse_only_modules'] = 1;
                             //$options['no_cache'] = 1;
                             // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
-
+     
 
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
+
+
+
+
                             //}
 
                             //$rep = '<!--mw_replace_back_this_editable_' . $elk.'-->';
@@ -1255,7 +1345,7 @@ class Parser
                         $rep = 'mw_replace_back_this_editable_' . $elk . '';
                         //$modified_layout = $rep;
 
-                     //   $value = htmlspecialchars_decode($value);
+                        //   $value = htmlspecialchars_decode($value);
 
 
                         //$value = mw('parser')->process($value, $options, $coming_from_parent, $coming_from_parent_id);
@@ -1265,13 +1355,25 @@ class Parser
 
 
                 $layout = $modified_layout;
-               // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
-            //    $layout = htmlspecialchars_decode($layout);
+                // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+                //    $layout = htmlspecialchars_decode($layout);
 
                 //}
             } elseif (isset($mw_to_cache['new'])) {
 
             }
+
+
+            if (!empty($replaced_codes)) {
+                foreach ($replaced_codes as $key => $value) {
+                    if ($value != '') {
+
+                        $layout = str_replace($key, $value, $layout);
+                    }
+                    unset($replaced_codes[$key]);
+                }
+            }
+
             if ($no_cache == false) {
                 $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }

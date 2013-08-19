@@ -1071,7 +1071,7 @@ function menu_delete($id = false)
 api_expose('delete_menu_item');
 function delete_menu_item($id)
 {
-
+ 
     return \mw('content')->menu_item_delete($id);
 
 }

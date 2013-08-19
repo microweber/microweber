@@ -156,13 +156,7 @@ function mw_autoload($className)
         $try_file = $try_module_first.$fileName;
         $try_file2 = $try_module_first_lower.$fileName;
 
-        if(is_file($try_file)){
-            include_once($try_file);
-        } elseif(is_file($try_file2)){
-            include_once($try_file2);
-        } else {
-            include_once($fileName);
-        }
+        include_once($fileName);
 
 
     }

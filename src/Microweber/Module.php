@@ -542,7 +542,7 @@ class Module
             }
         }
 
-        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group, 'files');
+        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
 
         return $checked[$module_name];
 
@@ -724,7 +724,7 @@ class Module
 
         $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db', 'files');
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -789,7 +789,7 @@ class Module
         $fields_to_add[] = array('module', 'TEXT default NULL');
         \mw('db')->build_table($table_name3, $fields_to_add);
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db', 'files');
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
@@ -1401,7 +1401,7 @@ class Module
 
         if (isset($options['skip_cache']) == false) {
 
-            $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
+            $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
 
@@ -1590,7 +1590,7 @@ class Module
 
             $c2 = array_merge($cfg_ordered, $cfg);
 
-            $this->app->cache->save($c2, $cache_id, $cache_group, 'files');
+            $this->app->cache->save($c2, $cache_id, $cache_group);
 
             return $c2;
         }

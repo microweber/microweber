@@ -1,8 +1,15 @@
 <?php
 
 date_default_timezone_set('UTC');
+if (!defined('M')) {
 define('M', memory_get_usage());
+}
+
+
+if (!defined('MW_USE_APC_CACHE')) {
 define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
+}
+
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
 }
@@ -14,13 +21,18 @@ if (!isset($_SERVER["SERVER_NAME"])) {
     $no_www = str_ireplace('www.', '', $_SERVER["SERVER_NAME"]);
     $config_file_for_site = MW_ROOTPATH . 'config_' . $no_www . '.php';
 }
-if (is_file($config_file_for_site)) {
-    define('MW_CONFIG_FILE', $config_file_for_site);
 
-} else {
-    define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
-    $config_file_for_site = MW_ROOTPATH . 'config.php';
+if (!defined('MW_CONFIG_FILE')) {
+	if (is_file($config_file_for_site)) {
+		define('MW_CONFIG_FILE', $config_file_for_site);
+	
+	} else {
+		define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
+		
+	}
+
 }
+
 
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
 

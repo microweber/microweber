@@ -702,15 +702,25 @@ mw.tools = {
     }
   },
   hasClass:function(classname, whattosearch){   //for strings
+    if(classname === null){return false;}
     if(typeof classname === 'string'){
       return classname.split(' ').indexOf(whattosearch) > -1;
+    }
+    else if(typeof classname === 'object'){
+      return mw.tools.hasClass(classname.className, whattosearch);
     }
     else{
       return false;
     }
   },
   addClass:function(el, cls){
-   if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);
+    if(el === null){return false;}
+    if(typeof el === 'object'){
+      if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);
+    }
+    if(typeof el === 'string'){
+      if( !mw.tools.hasClass(el, cls) ) el += (' ' + cls);
+    }
   },
   removeClass:function(el, cls){
    if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');

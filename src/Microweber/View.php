@@ -64,11 +64,16 @@ class View {
 
         if(is_array($this->v)){
             foreach($this->v as $item){
-                require ($item);
+                if(is_file($item)){
+                include ($item);
+                }
             }
         } elseif (is_string($this->v)){
-            require ($this->v);
+            if(is_file($this->v)){
+            include ($this->v);
+            }
         }
+
 
 
         $content = ob_get_clean();
