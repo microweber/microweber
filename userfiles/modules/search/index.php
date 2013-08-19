@@ -27,6 +27,14 @@ mw.search = function(key, holder, obj){
           .attr('content_type', opt.content_type)
           .attr('limit', opt.limit)
           .attr('ajax_paging', opt.ajax_paging)
+		  
+		  
+		 <?php if (isset($params['data-parent'])) { ?>
+     	 .attr('data-parent', '<?php print $params['data-parent'] ?>')
+		 <?php } ?>
+		  
+		  
+		  
           .attr('template', opt.template)
           .show();
 
