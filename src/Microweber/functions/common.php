@@ -201,7 +201,21 @@ function isarr($var)
         return false;
     }
 }
+function url_segment($k = -1, $page_url = false) {
+    return mw('url')->segment($k, $page_url);
 
+}
+
+
+
+/**
+ * Returns the curent url path, does not include the domain name
+ *
+ * @return string the url string
+ */
+function url_string($skip_ajax = false) {
+    return mw('url')->string($skip_ajax);
+}
 
 function url_param($param, $skip_ajax = false)
 {

@@ -980,9 +980,10 @@ mw.tools = {
       $(el).addClass('mw-focus');
     }
   },
-  scrollTo:function(el, callback, parent){
+  scrollTo:function(el, callback, minus){
+    var minus = minus || 0;
     if( $(el).length === 0) { return false; }
-    mw.$('html,body').animate({scrollTop:$(el).offset().top}, function(){
+    mw.$('html,body').animate({scrollTop:$(el).offset().top - minus}, function(){
         typeof callback === 'function' ? callback.call(el) : '';
     });
   },
