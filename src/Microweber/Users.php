@@ -9,12 +9,7 @@ class Users extends \Microweber\User
 
     function __construct($app = null)
     {
-        if (!defined("MW_DB_TABLE_USERS")) {
-            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
-        }
-        if (!defined("MW_DB_TABLE_LOG")) {
-            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
-        }
+
 
 
         if (is_object($app)) {
@@ -23,7 +18,12 @@ class Users extends \Microweber\User
             $this->app = mw('application');
         }
 
-
+        if (!defined("MW_DB_TABLE_USERS")) {
+            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+        }
+        if (!defined("MW_DB_TABLE_LOG")) {
+            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+        }
 
     }
 

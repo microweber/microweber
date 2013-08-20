@@ -273,7 +273,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 __mw_install_log('Initializing users');
-                mw('users')->db_init();
+                mw('user')->db_init();
 
                 event_trigger('mw_db_init_options');
                 event_trigger('mw_db_init_users');

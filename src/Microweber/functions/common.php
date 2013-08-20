@@ -473,18 +473,18 @@ function session_set($name, $val)
 {
 
 
-    mw('user')->session_set($name, $val);
+    return mw('user')->session_set($name, $val);
 }
 
 function session_get($name)
 {
-    mw('user')->session_get($name);
+    return mw('user')->session_get($name);
 
 }
 
 function session_del($name)
 {
-    mw('user')->session_del($name);
+    return mw('user')->session_del($name);
 }
 
 function session_end()
@@ -502,7 +502,7 @@ function currency_format($amount, $curr = false)
 
 
 }
-
+api_expose('user_login');
 function user_login($params)
 {
     return mw('user')->login($params);
@@ -518,7 +518,7 @@ function api_login($api_key = false)
 api_expose('user_social_login');
 function user_social_login($params)
 {
-    return mw('users')->social_login($params);
+    return mw('user')->social_login($params);
 }
 
 
@@ -538,7 +538,7 @@ function user_register($params)
 {
 
 
-    return mw('users')->register($params);
+    return mw('user')->register($params);
 
 
 }
@@ -580,7 +580,7 @@ api_expose('save_user');
  */
 function save_user($params)
 {
-    return mw('users')->save($params);
+    return mw('user')->save($params);
 }
 
 api_expose('system_log_reset');
@@ -602,7 +602,7 @@ api_expose('delete_user');
 
 function delete_user($data)
 {
-    return mw('users')->save($data);
+    return mw('user')->save($data);
 }
 
 
@@ -752,7 +752,7 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 api_expose('social_login_process');
 function social_login_process()
 {
-    return mw('users')->social_login_process();
+    return mw('user')->social_login_process();
 
 
 }
@@ -761,7 +761,7 @@ function social_login_process()
 api_expose('user_reset_password_from_link');
 function user_reset_password_from_link($params)
 {
-    return mw('users')->reset_password_from_link($params);
+    return mw('user')->reset_password_from_link($params);
 
 }
 
@@ -769,7 +769,7 @@ api_expose('user_send_forgot_password');
 function user_send_forgot_password($params)
 {
 
-    return mw('users')->send_forgot_password($params);
+    return mw('user')->send_forgot_password($params);
 
 
 }
