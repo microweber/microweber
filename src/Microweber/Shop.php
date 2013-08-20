@@ -1,15 +1,15 @@
 <?php
 namespace Microweber;
- //event_bind('mw_db_init_default', mw('Microweber\Shop')->db_init());
+    //event_bind('mw_db_init_default', mw('Microweber\Shop')->db_init());
 
-/**
- *
- * Shop module api
- *
- * @package        modules
- * @subpackage        shop
- * @since        Version 0.1
- */
+    /**
+     *
+     * Shop module api
+     *
+     * @package        modules
+     * @subpackage        shop
+     * @since        Version 0.1
+     */
 
 // ------------------------------------------------------------------------
 
@@ -152,14 +152,16 @@ class Shop
 
     }
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = false)
+    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
     {
 
         $ord_data = $this->get_orders('one=1&id=' . $order_id);
         if (is_array($ord_data)) {
-
-            $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
-
+            if ($skip_enabled_check == false) {
+                $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
+            } else {
+                $order_email_enabled = $skip_enabled_check;
+            }
             if ($order_email_enabled == true) {
                 $order_email_subject = $this->app->option->get('order_email_subject', 'orders');
                 $order_email_content = $this->app->option->get('order_email_content', 'orders');
@@ -196,13 +198,15 @@ class Shop
                         $cc = $order_email_cc;
 
                     }
+
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
                         $scheduler = new \Microweber\Utils\Events();
+                        $sender = new \Microweber\email\Sender();
                         // schedule a global scope function:
-                        $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                       // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
-                        //\Microweber\email\Sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
 
                 }
@@ -834,7 +838,8 @@ class Shop
         if (is_array($ord_data[0])) {
             shuffle($ord_data);
             $ord_test = $ord_data[0];
-            $this->confirm_email_send($ord_test['id'], $to = $email_from, true);
+
+            $this->confirm_email_send($ord_test['id'], $to = $email_from, true,true);
         }
 
     }
