@@ -8,7 +8,7 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 class Update
 {
 
-    private $remote_api_url = 'http://api.microweber.net/service/update/';
+    private $remote_api_url = 'http://api.microweber.com/service/update/';
 
     public $app;
 
