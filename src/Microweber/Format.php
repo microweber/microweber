@@ -160,13 +160,13 @@ class Format
             $var = html_entity_decode($var);
             //$var = stripslashes($var);
 
-            $var = str_ireplace("<script>", ' ', $var);
-            $var = str_ireplace("</script>", ' ', $var);
-            $var = str_ireplace("javascript:", ' ', $var);
-            $var = str_ireplace("vbscript:", ' ', $var);
-            $var = str_ireplace("livescript:", ' ', $var);
-            $var = str_ireplace("HTTP-EQUIV=", ' ', $var);
-            $var = str_ireplace("\0075\0072\\", ' ', $var);
+            $var = str_ireplace("<script>", '', $var);
+            $var = str_ireplace("</script>", '', $var);
+            $var = str_ireplace("javascript:", '', $var);
+            $var = str_ireplace("vbscript:", '', $var);
+            $var = str_ireplace("livescript:", '', $var);
+            $var = str_ireplace("HTTP-EQUIV=", '', $var);
+            $var = str_ireplace("\0075\0072\\", '', $var);
 
 
             if ($do_not_strip_tags == false) {
@@ -174,9 +174,10 @@ class Format
             }
 
             $output = $var;
-        }
-        if (!empty($output))
             return $output;
+        }
+        return $var;
+
     }
 
 

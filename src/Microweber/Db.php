@@ -417,7 +417,9 @@ class Db
 
             $dbg = false;
         }
-
+        if ($dbg != false) {
+            d($data);
+        }
         if (isset($data['queue_id']) != false) {
             $queue_id = $data['queue_id'];
         }
@@ -464,6 +466,7 @@ class Db
             $criteria = $this->app->format->clean_html($criteria);
 
         }
+
         $table = $this->app->format->clean_html($table);
         //
         //  if ($data_to_save_options ['do_not_replace_urls'] == false) {
@@ -478,8 +481,9 @@ class Db
         }
 
         // $criteria = $this->map_array_to_table ( $table, $data );
-
-
+        if ($dbg != false) {
+ d($criteria);
+        }
         $criteria = $this->addslashes_array($criteria);
 
         if (!isset($criteria['id'])) {
@@ -1978,16 +1982,16 @@ class Db
         $where_search = '';
         if ($to_search != false) {
             $to_search = $this->escape_string(strip_tags($to_search));
-            $to_search = str_replace('[', ' ', $to_search);
-            $to_search = str_replace(']', ' ', $to_search);
-            $to_search = str_replace('*', ' ', $to_search);
-            $to_search = str_replace(';', ' ', $to_search);
+            $to_search = str_replace('[', '', $to_search);
+            $to_search = str_replace(']', '', $to_search);
+            $to_search = str_replace('*', '', $to_search);
+            $to_search = str_replace(';', '', $to_search);
 
-            $to_search = str_replace('{', ' ', $to_search);
-            $to_search = str_replace('}', ' ', $to_search);
+            $to_search = str_replace('{', '', $to_search);
+            $to_search = str_replace('}', '', $to_search);
 
-            $to_search = str_replace('\077', ' ', $to_search);
-            $to_search = str_replace('<?', ' ', $to_search);
+            $to_search = str_replace('\077', '', $to_search);
+            $to_search = str_replace('<?', '', $to_search);
 
 
         }
@@ -2094,22 +2098,22 @@ class Db
 
                 if (is_string($k) != false) {
                     $k = $this->escape_string(strip_tags($k));
-                    $k = str_replace('[', ' ', $k);
-                    $k = str_replace(']', ' ', $k);
-                    $k = str_replace('*', ' ', $k);
-                    $k = str_replace(';', ' ', $k);
-                    $k = str_replace('\077', ' ', $k);
-                    $k = str_replace('<?', ' ', $k);
+                    $k = str_replace('{', '', $k);
+                    $k = str_replace('}', '', $k);
+                    $k = str_replace('*', '', $k);
+                    $k = str_replace(';', '', $k);
+                    $k = str_replace('\077', '', $k);
+                    $k = str_replace('<?', '', $k);
                 }
 
                 if (is_string($v) != false) {
                     $v = $this->escape_string(strip_tags($v));
-                    $v = str_replace('{', ' ', $v);
-                    $v = str_replace('}', ' ', $v);
-                    $v = str_replace('*', ' ', $v);
-                    $v = str_replace(';', ' ', $v);
-                    $v = str_replace('\077', ' ', $v);
-                    $v = str_replace('<?', ' ', $v);
+                    $v = str_replace('{', '', $v);
+                    $v = str_replace('}', '', $v);
+                    $v = str_replace('*', '', $v);
+                    $v = str_replace(';', '', $v);
+                    $v = str_replace('\077', '', $v);
+                    $v = str_replace('<?', '', $v);
                 }
 
 

@@ -415,6 +415,7 @@ class Media
 
         // ->'content';
         if (isset($s['rel']) and isset($s['rel_id'])) {
+            $s['rel_id'] = trim($s['rel_id']);
             $table = MW_DB_TABLE_MEDIA;
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);

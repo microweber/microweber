@@ -2366,7 +2366,7 @@ class Content
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
         $fields_to_add[] = array('rel', 'TEXT default NULL');
 
-        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
+        $fields_to_add[] = array('rel_id', "varchar(255)  default '0'");
         $fields_to_add[] = array('media_type', 'TEXT default NULL');
         $fields_to_add[] = array('position', 'int(11) default NULL');
         $fields_to_add[] = array('title', 'longtext default NULL');

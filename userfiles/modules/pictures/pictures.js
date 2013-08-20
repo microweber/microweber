@@ -52,11 +52,25 @@ mw.module_pictures = {
             type:"post",
             data:serial
           })
+		     
+			 
+			 
+			  
+			 
+			 
+			  if(window.parent != undefined && window.parent.mw != undefined){
+				
+				 window.parent.mw.reload_module('pictures');
+				   setTimeout(function(){
+					 window.parent.mw.reload_module('posts');    
+				  },100)
+				
+			}
+			 setTimeout(function(){
 		  mw.reload_module('pictures')
-		    
-		    if(window.parent != undefined && window.parent.mw != undefined){
-  	 window.parent.mw.reload_module('pictures');
- }
+		      },300)
+		
+ 
 	
  
  
