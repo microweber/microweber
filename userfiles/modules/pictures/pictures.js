@@ -34,8 +34,8 @@ mw.module_pictures = {
 		 $('.admin-thumb-item-'+$id).fadeOut(); 
         mw.reload_module('pictures');
 			    if(window.parent != undefined && window.parent.mw != undefined){
-  	 window.parent.mw.reload_module('pictures');
- }
+					 window.parent.mw.reload_module('pictures');
+				 }
      });
    }
   },
