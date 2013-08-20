@@ -414,3 +414,38 @@ $data = cache_save($data, $cache_id, $cache_group);
 ```
 
 
+
+Functions to be documented Draft:
+```
+//get url string without get params
+$url = mw('url')->string($skip_ajax = false);
+
+
+//get full url to thi page including get params
+$url = mw('url')->current();
+$url = mw('url')->param('user_id');
+
+
+
+
+
+
+<?php $posts = get_content('order_by=updated_on desc&created_by='.$user['id']); ?>
+<?php if(is_array($posts) and !empty($posts)):  ?>
+<h3>My posts</h3>
+<table class="table table-hover">
+	<tbody>
+		<?php foreach($posts as $item): ?>
+		<tr>
+			<td><?php print $item['id']; ?></td>
+			<td><?php print $item['title']; ?></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+<?php else: ?>
+<h4>You dont have any posts</h4>
+<?php endif; ?>
+
+```
+

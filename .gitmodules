@@ -1,0 +1,6 @@
+[submodule "wiki_repo"]
+	path = wiki_repo
+	url = https://github.com/microweber/microweber.wiki.git
+[submodule "wiki/wiki_repo"]
+	path = wiki/wiki_repo
+	url = https://github.com/microweber/microweber.wiki.git

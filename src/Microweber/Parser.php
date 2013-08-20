@@ -968,6 +968,10 @@ class Parser
                         $data_id = pq($elem)->attr('rel-id');
                     }
 
+                    if ($data_id == false) {
+                        $data_id = pq($elem)->attr('data-rel-id');
+                    }
+
                     $option_mod = pq($elem)->attr('data-module');
                     if ($option_mod == false) {
                         $option_mod = pq($elem)->attr('data-type');
