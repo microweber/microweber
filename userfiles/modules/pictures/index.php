@@ -37,9 +37,13 @@ if(mw('option')->get('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
 	 } else {
-		 	$params['content-id'] = PAGE_ID;
+		 	//$params['content-id'] = PAGE_ID;
 
 	 }
+} else {
+	 $params['rel_id'] = $params['id']; 
+	 $for = 'modules';
+
 }
  
 if(isset($params['content-id'])){
@@ -48,7 +52,7 @@ if(isset($params['content-id'])){
 }
 
 
-
+ 
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
   
