@@ -206,7 +206,14 @@ function url_segment($k = -1, $page_url = false) {
 
 }
 
-
+/**
+ * Returns the curent url path, does not include the domain name
+ *
+ * @return string the url string
+ */
+function url_path($skip_ajax = false) {
+    return mw('url')->string($skip_ajax);
+}
 
 /**
  * Returns the curent url path, does not include the domain name
