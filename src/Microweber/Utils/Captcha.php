@@ -60,9 +60,11 @@ class Captcha
                 }
             }
         }
-        $x1 = mt_rand(15, 20);
-        $y1 = mt_rand(15, 15);
-        $tsize = rand(13, 16);
+        $x1 = mt_rand(0, 5);
+        $y1 = mt_rand(20, 22);
+
+
+        $tsize = rand(12, 15);
 
 
         if (function_exists('imagettftext')) {
