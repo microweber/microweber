@@ -18,10 +18,12 @@ description: Admin login style
 <script>mw.require("session.js");</script>
 <script>
 
- mw.session.checkPause = true;
+ mw.session.checkPauseExplicitly = true;
 
 $(document).ready(function(){
   mw.tools.dropdown();
+
+   mw.session.checkPause = true;
 
 
   /* var lang = (navigator.language|| navigator.userLanguage).split("-")[0];
@@ -30,7 +32,10 @@ $(document).ready(function(){
   mw.$("#lang_selector").bind("change", function(){
     mw.cookie.set("lang", $(this).getDropdownValue());
   });
-})
+
+});
+
+
 
 </script>
 

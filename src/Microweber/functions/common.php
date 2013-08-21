@@ -609,7 +609,7 @@ api_expose('delete_user');
 
 function delete_user($data)
 {
-    return mw('user')->save($data);
+    return mw('user')->delete($data);
 }
 
 

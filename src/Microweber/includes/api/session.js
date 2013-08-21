@@ -1,8 +1,10 @@
 mw.session = {
   checkPause:false,
+  checkPauseExplicitly:false,
   check:function(callback){
     if(!mw.session.checkPause){
         mw.session.checkPause = true;
+        if(mw.session.checkPauseExplicitly){ return false; }
         $.post(mw.settings.api_url + "is_logged", function(data){
           if(data != false){
             callback.call(undefined, true);
