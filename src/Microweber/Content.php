@@ -1102,7 +1102,7 @@ class Content
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
 
-            $data['cache_group'] = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
         } else {
             $data['cache_group'] = guess_cache_group('content_fields/global');
 
@@ -1113,7 +1113,7 @@ class Content
         }
 
         $data['table'] = $table;
-
+ 
         $get = $this->app->db->get($data);
 
 
@@ -3884,7 +3884,7 @@ class Content
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache->delete('content_fields/global');
- $this->app->cache->delete('content');
+        $this->app->cache->delete('content');
         if ($cats_modified != false) {
 
             $this->app->cache->delete('categories/global');

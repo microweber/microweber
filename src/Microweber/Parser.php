@@ -969,6 +969,10 @@ class Parser
                     }
 
                     if ($data_id == false) {
+                        $data_id = pq($elem)->attr('rel_id');
+                    }
+
+                    if ($data_id == false) {
                         $data_id = pq($elem)->attr('data-rel-id');
                     }
 
@@ -1085,7 +1089,13 @@ class Parser
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
                             //
 
-                            $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+							
+							
+ 
+							
+							
+							
                             // and $rel == 'inherit'
                             if ($cont_field == false and $try_inherited == true) {
 
@@ -1095,7 +1105,7 @@ class Parser
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
 
-                                    $cont_field2 = get_content_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
                                         $data = mw('content')->get_by_id($inh);
@@ -1108,14 +1118,14 @@ class Parser
                         } else {
 
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
 
-                                $cont_field = get_content_field("rel={$rel}&field={$field}");
+                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
 
                             }
                             if ($cont_field != false and is_string($cont_field)) {
@@ -1132,20 +1142,25 @@ class Parser
 
                     if ($field_content == false) {
                         if ($get_global == true) {
-
-                            $cont_field = get_content_field("rel={$rel}&field={$field}");
-
+							if(isset($data_id)){
+							
+							 $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+							
+							}
+							if(isset($cont_field) and !empty($cont_field)){
+                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
+							}
 
                             //mwdbg($cont_field);
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
                                     //$field_content = __FILE__ . __LINE__;
                                     //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
-                                    $field_content = get_content_field("rel={$option_group}&field={$field}");
+                                    $field_content = mw('content')->edit_field("rel={$option_group}&field={$field}");
 
                                     //
                                 } else {
-                                    $field_content = get_content_field("rel={$option_group}&field={$field}");
+                                    $field_content = mw('content')->edit_field("rel={$option_group}&field={$field}");
 
                                     //$field_content = __FILE__ . __LINE__;
                                     //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
@@ -1183,7 +1198,7 @@ class Parser
 
 
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = get_content_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
@@ -1191,7 +1206,7 @@ class Parser
 
 
                         } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = get_content_field("rel={$rel}&field={$field}");
+                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
 
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
