@@ -105,7 +105,7 @@ function post_comment($data) {
 
 				break;
 				case 'unpublish' :
-				$data['is_moderated'] = 'n';
+				$data['is_moderated'] = 'n'; 
 
 				break;
 				case 'spam' :
@@ -114,7 +114,7 @@ function post_comment($data) {
 				break;
 
 				case 'delete' :
-				$del = db_delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+				$del = mw('db')->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
 				return $del;
 				break;
 

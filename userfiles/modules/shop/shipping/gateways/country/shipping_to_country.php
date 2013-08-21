@@ -91,7 +91,7 @@ class shipping_to_country {
 
 	if (isset($data['id'])) {
 		$c_id = intval($data['id']);
-		db_delete_by_id($this->table, $c_id);
+		mw('db')->delete_by_id($this->table, $c_id);
 
 		//d($c_id);
 	}

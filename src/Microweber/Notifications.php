@@ -119,7 +119,7 @@ class Notifications
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
-        db_delete_by_id($table, intval($id), $field_name = 'id');
+        $this->app->db->delete_by_id($table, intval($id), $field_name = 'id');
 
         $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 

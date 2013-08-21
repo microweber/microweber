@@ -6,6 +6,16 @@ function get_content($params = false)
     return mw('content')->get($params);
 }
 
+
+api_expose('delete_content');
+
+function delete_content($data)
+{
+
+    return mw('content')->delete($data);
+
+}
+
 api_expose('get_content_admin');
 
 function get_content_admin($params)
