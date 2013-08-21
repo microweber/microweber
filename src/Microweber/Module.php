@@ -432,6 +432,17 @@ class Module
             return false;
         }
 
+        $secure_connection = false;
+        if(isset($_SERVER['HTTPS']))
+        {
+            if ($_SERVER["HTTPS"] == "on")
+            {
+                $secure_connection = true;
+            }
+        }
+
+
+
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
@@ -468,6 +479,13 @@ class Module
         }
 
         $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
+
+
+        if($secure_connection == true){
+            $checked[$module_name] = str_ireplace('http://', 'https://',$checked[$module_name]);
+        }
+
+
 
         return $checked[$module_name];
 
