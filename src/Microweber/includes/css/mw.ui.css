@@ -69,6 +69,7 @@
 
 .mw-ui-row{
   display: table;
+  width: 100%;
 }
 .mw-ui-col{
   display: table-cell;
