@@ -826,6 +826,8 @@ class Category
                             $to_print = str_replace('{id}', $item['id'], $link);
 
                             $to_print = str_ireplace('{url}', category_link($item['id']), $to_print);
+                            $to_print = str_ireplace('{link}', category_link($item['id']), $to_print);
+
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 
                             $to_print = str_ireplace('{categories_url}', category_link($item['id']), $to_print);
