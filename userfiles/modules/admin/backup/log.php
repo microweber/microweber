@@ -4,7 +4,7 @@
 
 
 <?php
-
+ 
        if (!defined('USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
         define("USER_IP", $_SERVER["REMOTE_ADDR"]);

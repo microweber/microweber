@@ -49,6 +49,7 @@ class Backup
     function __construct($app = null)
     {
 
+ 
         api_expose('Microweber\Utils\Backup\delete');
         api_expose('Microweber\Utils\Backup\create');
         api_expose('Microweber\Utils\Backup\download');
@@ -68,7 +69,7 @@ class Backup
         }
 
 
-        if (!is_object($this->app)) {
+       // if (!is_object($this->app)) {
 
             if (is_object($app)) {
                 $this->app = $app;
@@ -76,7 +77,7 @@ class Backup
                 $this->app = mw('application');
             }
 
-        }
+       // }
 
 
     }
@@ -359,7 +360,7 @@ class Backup
         $here = MW_ROOTPATH . "backup" . DS . MW_TABLE_PREFIX . DS;
 
         $here2 = mw('option')->get('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default') {
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
             $here2 = normalize_path($here2, true);
 
             if (!is_dir($here2)) {
@@ -371,12 +372,23 @@ class Backup
             }
         }
 
+ 
         if (!is_dir($here)) {
-            if (!mkdir($here)) {
-                return false;
-            }
+          mkdir_recursive($here);
         }
+		
+		
+		
+		
+		
+		
         $loc = $here;
+		
+		
+		 
+		
+		
+		
         $this->backups_folder = $loc;
         return $here;
     }
@@ -596,8 +608,14 @@ class Backup
 
         if (!is_dir($here)) {
             if (!mkdir_recursive($here)) {
-                return false;
-            }
+                
+				$back_log_action = "Error the dir is not writable: " . $here;
+        		$this->log_action($back_log_action);
+				
+				
+            } else {
+				
+			}
         }
 
         ini_set('memory_limit', '512M');
@@ -1291,7 +1309,7 @@ class Backup
 //        }
 
 
-        $folders = rglob($userfiles_folder . '*', GLOB_NOSORT);
+        $folders = \rglob($userfiles_folder . '*', GLOB_NOSORT);
         if (!empty($folders)) {
             $text_files = array();
 
@@ -1330,7 +1348,7 @@ class Backup
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
-
+ 
         $cron->job('make_full_backup', '25 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
