@@ -1347,7 +1347,7 @@ class Shop
     {
 
 
-        $remote_host = 'http://api.microweber.net';
+        $remote_host = 'http://api.microweber.com';
         $service = "/service/currency/?from=" . $from . "&to=" . $to;
         $remote_host_s = $remote_host . $service;
         // d($remote_host_s);
