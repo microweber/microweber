@@ -234,6 +234,16 @@ class Controller
                 if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
                     $page['parent'] = intval($_GET['inherit_template_from']);
                     $inherit_from = $this->app->content->get_by_id($_GET["inherit_template_from"]);
+					
+					//$page['parent'] =  $inherit_from ;
+					if(isset($inherit_from["layout_file"]) and $inherit_from["layout_file"] == 'inherit'){
+						
+						$inherit_from_id = $this->app->content->get_inherited_parent($inherit_from["id"]);
+						 $inherit_from = $this->app->content->get_by_id($inherit_from_id);
+					} 
+					
+					
+					
                     if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
                         $page['active_site_template'] = $inherit_from['active_site_template'];
                         $is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];

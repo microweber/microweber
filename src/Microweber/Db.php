@@ -1674,7 +1674,7 @@ class Db
                 $includeIds[] = $itm;
             }
         }
-
+ 
         if (isset($criteria['category-id'])) {
             $criteria['category'] = $criteria['category-id'];
         }

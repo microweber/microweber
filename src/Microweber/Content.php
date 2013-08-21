@@ -31,7 +31,7 @@ class Content
         if (!defined("MW_DB_TABLE_CONTENT")) {
             define('MW_DB_TABLE_CONTENT', MW_TABLE_PREFIX . 'content');
         }
-
+ 
         if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
             define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
         }
@@ -916,6 +916,74 @@ class Content
     }
 
 
+    public function get_children($id = 0, $without_main_parrent = false)
+    {
+
+        if (intval($id) == 0) {
+
+            return FALSE;
+        }
+
+        $table = MW_DB_TABLE_CONTENT;
+
+        $ids = array();
+
+        $data = array();
+
+        if (isset($without_main_parrent) and $without_main_parrent == true) {
+
+            $with_main_parrent_q = " and parent<>0 ";
+        } else {
+
+            $with_main_parrent_q = false;
+        }
+        $id = intval($id);
+        $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
+
+        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+
+        //var_dump($q);
+        //  var_dump($taxonomies);
+        //  exit;
+
+        if (!empty($taxonomies)) {
+
+            foreach ($taxonomies as $item) {
+
+                if (intval($item['id']) != 0) {
+
+                    $ids[] = $item['id'];
+                }
+                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
+                    $next = $this->get_children($item['id'], $without_main_parrent);
+
+                    if (!empty($next)) {
+
+                        foreach ($next as $n) {
+
+                            if ($n != '' and $n != 0) {
+
+                                $ids[] = $n;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($ids)) {
+
+            $ids = array_unique($ids);
+
+            return $ids;
+        } else {
+
+            return false;
+        }
+    }
+
+
+
     public function get_parents($id = 0, $without_main_parrent = false)
     {
 
@@ -940,15 +1008,11 @@ class Content
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $content_parents = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
-        //var_dump($q);
-        //  var_dump($taxonomies);
-        //  exit;
+        if (!empty($content_parents)) {
 
-        if (!empty($taxonomies)) {
-
-            foreach ($taxonomies as $item) {
+            foreach ($content_parents as $item) {
 
                 if (intval($item['id']) != 0) {
 
@@ -1312,6 +1376,31 @@ class Content
                 define('PAGE_ID', $page['id']);
             }
             if (isset($page['parent'])) {
+				
+				
+				 $parent_page_check_if_inherited =$this->get_by_id($page['parent']);
+				 
+				if(isset($parent_page_check_if_inherited["layout_file"]) and $parent_page_check_if_inherited["layout_file"] == 'inherit'){
+						
+						$inherit_from_id = $this->get_inherited_parent($parent_page_check_if_inherited["id"]);
+						
+						 if (defined('MAIN_PAGE_ID') == false) {
+							define('MAIN_PAGE_ID', $inherit_from_id);
+						}
+						 //$inherit_from = $this->app->content->get_by_id($inherit_from_id);
+					} 
+				 
+				// d($parent_page_check_if_inherited);
+				 
+				 
+				//  $this->get_inherited_parent($page['id']);
+                           // if ($par_page != false) {
+                              //  $par_page = $this->get_by_id($page['parent']);
+                          //  }
+							
+							
+							
+				
                 if (defined('MAIN_PAGE_ID') == false) {
                     define('MAIN_PAGE_ID', $page['parent']);
                 }
@@ -3795,7 +3884,7 @@ class Content
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache->delete('content_fields/global');
-
+ $this->app->cache->delete('content');
         if ($cats_modified != false) {
 
             $this->app->cache->delete('categories/global');

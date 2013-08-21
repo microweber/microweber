@@ -31,6 +31,7 @@ mw.search = function(key, holder, obj){
 		  
 		 <?php if (isset($params['data-parent'])) { ?>
      	 .attr('data-parent', '<?php print $params['data-parent'] ?>')
+		 .attr('data-search-parent', '<?php print $params['data-parent'] ?>')
 		 <?php } ?>
 		  
 		  

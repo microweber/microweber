@@ -263,6 +263,9 @@ if(!isset($params['order_by'])){
 $post_params['orderby'] ='position desc';
 }
 
+
+
+
 $ord_by =  mw('option')->get('data-order-by', $params['id']);
 if($ord_by != false and trim($ord_by) != ''){
 	$post_params['orderby'] =$ord_by;
@@ -292,6 +295,19 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
 }
   //$post_params['debug'] = 'y';
 //  d($post_params);
+
+
+if(isset($params['search-parent'])){
+ $sub_content = mw('content')->get_children($params['search-parent']);
+  if(!empty($sub_content)){
+	  $post_params['ids']=$sub_content;
+	  unset($post_params['parent']);
+  }
+}
+
+
+
+
 $content   = get_content($post_params);
 $data = array();
 
