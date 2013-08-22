@@ -7,6 +7,15 @@ class Forms
     public $app;
     function __construct($app=null)
     {
+
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw('application');
+        }
+
+
+
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
             define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
         }
@@ -16,17 +25,14 @@ class Forms
 
         if (!defined("MW_DB_TABLE_FORMS_DATA")) {
             define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
+            $this->db_init();
         }
 
-        if (!is_object($this->app)) {
 
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw('application');
-            }
 
-        }
+
+
+
     }
 
     public function get_entires($params)
@@ -197,6 +203,7 @@ class Forms
         $to_save['list_id'] = $list_id;
         $to_save['rel_id'] = $for_id;
         $to_save['rel'] = $for;
+       // $to_save['allow_html'] = 1;
         //$to_save['custom_fields'] = $fields_data;
 
         if (isset($params['module_name'])) {
@@ -222,8 +229,10 @@ class Forms
                 }
                 $value['rel_id'] = $save;
                 $value['rel'] = 'forms_data';
-
+                $value['allow_html'] = 1;
+				// $value['debug'] = 1;
                 $cf_save = $this->app->db->save($table_custom_field, $value);
+				//d($cf_save);
             }
         }
 

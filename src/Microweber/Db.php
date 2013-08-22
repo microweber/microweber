@@ -465,6 +465,9 @@ class Db
 
             $criteria = $this->app->format->clean_html($criteria);
 
+        } else {
+            $criteria = $this->clean_input($criteria);
+
         }
 
         $table = $this->app->format->clean_html($table);
@@ -482,7 +485,7 @@ class Db
 
         // $criteria = $this->map_array_to_table ( $table, $data );
         if ($dbg != false) {
- d($criteria);
+            d($criteria);
         }
         $criteria = $this->addslashes_array($criteria);
 
@@ -3270,6 +3273,47 @@ class Db
             }
         }
         $output = preg_replace('/\x{EF}\x{BB}\x{BF}/', '', $output);
+        return $output;
+    }
+
+
+    function clean_input($input)
+    {
+
+        $search = array(
+            '@<script[^>]*?>.*?</script>@si', // Strip out javascript
+
+            '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
+        );
+
+        $output = preg_replace($search, '', $input);
+
+
+
+
+
+        return $output;
+    }
+
+
+    function sanitize($input)
+    {
+        if (is_array($input)) {
+            foreach ($input as $var => $val) {
+                $output[$var] = $this->sanitize($val);
+            }
+        } else {
+            if (get_magic_quotes_gpc()) {
+                $input = stripslashes($input);
+            }
+            $input = $this->clean_input($input);
+            if (function_exists('mysql_real_escape_string')) {
+                $output = mysql_real_escape_string($input);
+            } else {
+                $output = ($input);
+            }
+
+        }
         return $output;
     }
 }

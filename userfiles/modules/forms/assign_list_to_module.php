@@ -1,11 +1,14 @@
 <?php if(is_admin()==false) { 
 
 
-                return array('error' => 'Not logged in as admin');
+                return  false;
 
 
 
-   } ?>
+   }
+   
+   $rand = uniqid();
+    ?>
 <?php if(!isset($params['for-module']) or !isset($params['for-module-id'])): ?>
 <?php  print mw('format')->notif('Error: in module "'.$config['module'].'" - You must set "for-module" and "for-module-id" parameters on this module', 'error'); return; ?>
 <?php endif; ?>
@@ -19,11 +22,11 @@
 isCreating = false;
 
 
-function mw_create_new_list_{rand}(){
+function mw_create_new_list_<?php print $rand; ?>(){
   if(!isCreating){
 
       isCreating = true;
-	  mw.form.post('.mw_create_new_forms_list{rand}', '<?php print mw('url')->api_link('save_form_list'); ?>', function(){
+	  mw.form.post('.mw_create_new_forms_list<?php print $rand; ?>', '<?php print mw('url')->api_link('save_form_list'); ?>', function(){
 
 
 
@@ -57,24 +60,24 @@ $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-modu
     </select>
   </div>
   <div class="left">&nbsp;&nbsp;&nbsp;<strong><?php _e("or"); ?></strong>&nbsp;&nbsp;&nbsp;
-    <button class="mw-ui-btn" onclick="mw.$('.mw_create_new_forms_list{rand}, #form_dropdown_lists').toggle()"><?php _e("Create New"); ?></button>
+    <button class="mw-ui-btn" onclick="mw.$('.mw_create_new_forms_list<?php print $rand; ?>, #form_dropdown_lists').toggle()"><?php _e("Create New"); ?></button>
   </div>
 </div>
-<div class="mw_create_new_forms_list{rand}" style="display: none;">
+<div class="mw_create_new_forms_list<?php print $rand; ?>" style="display: none;">
   <div class="vSpace"></div>
   <label class="mw-ui-label"><?php _e("Name of the new list"); ?></label>
   <input type="hidden" name="for_module" value="<?php print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<?php print $params['for-module-id'] ?>"  />
   <input type="text" name="mw_new_forms_list" class="mw-ui-field" id="mw_new_form_list_title" value="" style="width: 200px;margin-right: 10px;"  />
-  <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()"><?php _e("Create"); ?></button>
-  &nbsp;<span class="mw-ui-delete" onclick="mw.$('.mw_create_new_forms_list{rand}, #form_dropdown_lists').toggle()"><?php _e("Cancel"); ?></span> </div>
+  <button class="mw-ui-btn" onclick="mw_create_new_list_<?php print $rand; ?>()"><?php _e("Create"); ?></button>
+  &nbsp;<span class="mw-ui-delete" onclick="mw.$('.mw_create_new_forms_list<?php print $rand; ?>, #form_dropdown_lists').toggle()"><?php _e("Cancel"); ?></span> </div>
 <div class="vSpace"></div>
 <?php else: ?>
-<div class="mw_create_new_forms_list{rand}" style="padding-bottom: 12px;">
+<div class="mw_create_new_forms_list<?php print $rand; ?>" style="padding-bottom: 12px;">
   <label class="mw-ui-label"><?php _e("Name of the new list"); ?></label>
   <input type="hidden" name="for_module" value="<?php print $params['for-module'] ?>"  />
   <input type="hidden" name="for_module_id" value="<?php print $params['for-module-id'] ?>"  />
   <input type="text" name="mw_new_forms_list" value="" class="mw-ui-field" style="width: 200px;margin-right: 10px;"  />
-  <button class="mw-ui-btn" onclick="mw_create_new_list_{rand}()"><?php _e("Create"); ?></button>
+  <button class="mw-ui-btn" onclick="mw_create_new_list_<?php print $rand; ?>()"><?php _e("Create"); ?></button>
 </div>
 <?php endif; ?>
