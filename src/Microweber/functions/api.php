@@ -17,8 +17,6 @@ function api($function_name, $params = false)
 }
 
 
-
-
 function event_trigger($api_function, $data = false)
 {
     global $mw_action_hook_index;
@@ -107,8 +105,11 @@ function api_hook($function_name, $next_function_name = false)
     //static $index = array();
     global $mw_api_hooks;
     if (is_bool($function_name)) {
-        $index = array_unique($mw_api_hooks);
-        return $index;
+        if (is_array($mw_api_hooks)) {
+            $index = ($mw_api_hooks);
+            return $index;
+        }
+
     } else {
         //d($function_name);
         $function_name = trim($function_name);
@@ -230,7 +231,7 @@ function mw_cron()
 
     $file_loc = MW_CACHE_ROOT_DIR . "cron" . DS;
 
-    if(!is_dir($file_loc)){
+    if (!is_dir($file_loc)) {
         mkdir_recursive($file_loc);
     }
 
@@ -239,10 +240,8 @@ function mw_cron()
 
     $time = time();
     if (!is_file($file_loc_hour)) {
-          touch($file_loc_hour);
+        touch($file_loc_hour);
     } else {
-
-
 
 
         if ((filemtime($file_loc_hour)) > $time - 4) {
