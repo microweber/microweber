@@ -123,7 +123,7 @@ mw_save_draft_int = self.setInterval(function(){
 
 
 <div class="mw-ui-dropdown right" id="history_dd">
-          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("History"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
+          <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("Drafts"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
           <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
             <ul class="mw-dropdown-list">
                 <li>

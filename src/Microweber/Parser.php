@@ -848,7 +848,7 @@ class Parser
                 if ($cache != false) {
 
 
-                    return $cache;
+                     return $cache;
                 }
 
             }

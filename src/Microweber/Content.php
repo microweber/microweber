@@ -3817,7 +3817,7 @@ class Content
         $data_to_save['allow_html'] = true;
 
         $save = $this->app->db->save($table, $data_to_save);
-
+   $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');
         //$this->app->cache->delete('content/'.$save);
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
@@ -3959,7 +3959,7 @@ class Content
                 return false;
             } elseif ($ustr2 == '' or $ustr2 == '/') {
 
-                $ref_page = get_homepage();
+                $ref_page = $this->app->content->homepage();
 
             }
 
@@ -4370,9 +4370,9 @@ class Content
         if (isset($data['rel']) or isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->cache->delete($cache_group);
-            $this->app->cache->delete('content_fields/global');
+         
         }
-
+   $this->app->cache->delete('content_fields/global');
         //}
         $data['allow_html'] = true;
 
@@ -4518,7 +4518,7 @@ class Content
 
             if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->get_by_url($url);
-                $page = get_homepage();
+                $page = $this->app->content->homepage();
                 // var_dump($page);
             } else {
 

@@ -1674,7 +1674,13 @@ if(typeof el === 'object' && el !==null){
     return false;
   }
   var html = el.innerHTML;
-  $(el).addClass('disabled').html('Saving...').dataset("html", html);
+    if(is_draft != undefined){
+		  $(el).addClass('disabled').html('Draft...').dataset("html", html);
+
+	} else {
+		  $(el).addClass('disabled').html('Saving...').dataset("html", html);
+
+	}
 }
 
  var doc = mw.tools.parseHtml(mwd.body.innerHTML);
