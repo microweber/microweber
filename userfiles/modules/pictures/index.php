@@ -20,29 +20,37 @@ if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and
 
 
 
-if(!isset($params['rel_id'])){
-	$params['rel_id'] = $params['id']; 
-}
+
 
 if(isset($params['for'])){
-	 $for = 'content';
+	 $for = $params['for'];
 } else {
  $for = 'modules';	
 }
 
 
- 
-
+/*if($for != 'content' and !isset($params['rel_id'])){
+	$params['rel_id'] = $params['id']; 
+} else if($for == 'content' and !isset($params['rel_id'])){
+	$params['rel_id'] = CONTENT_ID; 
+	$params['for'] = 'content';
+}
+*/
 if(mw('option')->get('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
 	 } else {
-		 	//$params['content-id'] = PAGE_ID;
+	 $params['content-id'] = PAGE_ID;
 
 	 }
 } else {
-	 $params['rel_id'] = $params['id']; 
+	
+	 if(!isset($params['for'])){
 	 $for = 'modules';
+	  $params['rel_id'] = $params['id']; 
+	 } else {
+		 $for = $params['for'];
+	 }
 
 }
  
@@ -51,8 +59,12 @@ if(isset($params['content-id'])){
 	 $for = 'content';
 }
 
-
- 
+$for_id = $params['rel_id'];
+ //d($for_id);
+   
+ //d($for);
+   
+// d($params);   
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
   

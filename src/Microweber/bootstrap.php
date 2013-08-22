@@ -9,7 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.806);
+    define('MW_VERSION', 0.807);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
