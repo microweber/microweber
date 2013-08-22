@@ -278,14 +278,15 @@ class Fields
     public function save($data)
     {
 
-
-        $id = user_id();
-        if ($id == 0) {
-            mw_error('Error: not logged in.');
-        }
-        $id = $this->app->user->is_admin();
-        if ($id == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (!defined('SKIP_CF_ADMIN_CHECK')) {
+            $id = user_id();
+            if ($id == 0) {
+                mw_error('Error: not logged in.');
+            }
+            $id = $this->app->user->is_admin();
+            if ($id == false) {
+                mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            }
         }
         $data_to_save = ($data);
 
@@ -344,8 +345,6 @@ class Fields
         } else {
 
 
-
-
             $cf_k = $data_to_save['custom_field_name'];
             $cf_v = $data_to_save['custom_field_value'];
             if (is_array($cf_v)) {
@@ -359,14 +358,10 @@ class Fields
             }
 
 
-
-
-
             $data_to_save['allow_html'] = true;
 
 
-
-          $save = $this->app->db->save($table_custom_field, $data_to_save);
+            $save = $this->app->db->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields');
 
             return $save;
@@ -391,7 +386,12 @@ class Fields
 
     public function make_default($rel, $rel_id, $fields_csv_str)
     {
-       // return false;
+
+        if (!defined('SKIP_CF_ADMIN_CHECK')) {
+            define('SKIP_CF_ADMIN_CHECK', 1);
+        }
+
+        // return false;
         $id = $this->app->user->is_admin();
         if ($id == false) {
             //return false;
@@ -406,11 +406,11 @@ class Fields
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'fields_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
 
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
- 
+
         if ($is_made == 'yes') {
             return;
         }
@@ -659,13 +659,6 @@ class Fields
         $field_type = str_replace('..', '', $field_type);
 
 
-
-
-
-
-
-
-
         if ($settings == true or isset($data['settings'])) {
             $file = $dir . $field_type . '_settings.php';
         } else {
@@ -683,13 +676,13 @@ class Fields
 
         if (is_file($file)) {
 
-            $l =  new \Microweber\View($file);
+            $l = new \Microweber\View($file);
 
             //
 
-           $l->assign('settings', $settings);
+            $l->assign('settings', $settings);
 
-          //  $l->settings = $settings;
+            //  $l->settings = $settings;
 
             if (isset($data) and !empty($data)) {
                 $l->data = $data;
@@ -729,7 +722,7 @@ class Fields
      */
 
 
-     public function names_for_table($table)
+    public function names_for_table($table)
     {
         $table = $this->app->db->escape_string($table);
         $table1 = $this->app->db->assoc_table_name($table);
