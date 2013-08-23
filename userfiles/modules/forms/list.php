@@ -66,6 +66,7 @@ if(is_array($data)){
    }
   }
 }
+
 ?>
 
 <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-admin-table">
@@ -104,6 +105,11 @@ if(is_array($data)){
         <?php  foreach ($item['custom_fields'] as $value) :  ?>
         <?php if(($value['custom_field_name']) == $cvk): ?>
         <?php
+		if($value['custom_field_values_plain'] == ''){
+			
+			$value['custom_field_values_plain'] = mw('format')->clean_html( $value['value']);;
+		}
+	 
              $max = 150;
              if(strlen($value['custom_field_values_plain']) > $max){
                 $first = substr($value['custom_field_values_plain'], 0, $max);

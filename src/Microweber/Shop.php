@@ -20,7 +20,17 @@ class Shop
 
     function __construct($app = null)
     {
-        if (!defined("MODULE_DB_SHOP")) {
+      
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw('application');
+            }
+			
+			
+			
+		  if (!defined("MODULE_DB_SHOP")) {
             define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
         }
 
@@ -33,16 +43,11 @@ class Shop
         }
         if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
             define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
+			$this->db_init();
         }
-        if (!is_object($this->app)) {
+       
 
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw('application');
-            }
-
-        }
+        
     }
 
     public function get_cart($params)
@@ -281,7 +286,7 @@ class Shop
                 //
             } else {
                 if ($mw_process_payment == true) {
-                    $gw_check = payment_options('payment_gw_' . $data['payment_gw']);
+                    $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
                     if (is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
@@ -485,7 +490,8 @@ class Shop
 
         }
 
-        $providers = $this->app->option->get('option_group=payments' . $option_key_q);
+        $providers = $this->app->option->get_all('option_group=payments' . $option_key_q);
+		//d( $providers);
         $str = 'payment_gw_';
         $l = strlen($str);
         if (is_array($providers)) {

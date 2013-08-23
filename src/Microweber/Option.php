@@ -13,9 +13,7 @@ class Option
     public $app;
     function __construct($app=null)
     {
-        if (!defined("MW_DB_TABLE_OPTIONS")) {
-            define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
-        }
+      
 
         if (!is_object($this->app)) {
 
@@ -26,7 +24,13 @@ class Option
             }
 
         }
-        $this->db_init();
+		
+		
+	    if (!defined("MW_DB_TABLE_OPTIONS")) {
+            define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
+			$this->db_init();
+        }
+        
 
     }
 
