@@ -582,8 +582,24 @@ class Files
         try {
 
             if ($get_file != false) {
+				
+				 
 
                 if (isset($get_file) == true and is_file($get_file)) {
+					
+					
+					
+                    if ($time != false and intval($time) > 0) {
+						
+						 
+						
+                        if (
+                            (time() - $time > filemtime($get_file))
+                        ) {
+
+                            return false;
+                        }
+                    }
 
                     $cache = @file_get_contents($cache_file);
 
