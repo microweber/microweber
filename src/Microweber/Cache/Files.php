@@ -6,24 +6,11 @@ $mw_skip_memory = array();
 
 
 if (!defined('MW_USE_APC_CACHE')) {
-
     $apc_exists = function_exists('apc_fetch');
-
-    //$apc_exists = false;
-
     define("MW_USE_APC_CACHE", $apc_exists);
-
     if (!defined('APC_EXPIRES')) {
         define("APC_EXPIRES", 60);
     }
-
-
-    if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
-
-
-    }
-
-
 }
 if (!defined('MW_CACHE_FILES_EXTENSION')) {
     define('MW_CACHE_FILES_EXTENSION', '.php');
@@ -50,10 +37,7 @@ class Files
 
         global $mw_cache_get_content_memory;
         $mw_cache_get_content_memory[$cache_group][$cache_id] = $data_to_cache;
-
         $this->mw_cache_mem[$cache_group][$cache_id] = $data_to_cache;
-
-
         $apc_obj = false;
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
@@ -63,47 +47,10 @@ class Files
             } else {
                 $apc_obj = $this->apc;
             }
-
-
             $apc_obj_gt = $apc_obj->save($data_to_cache, $cache_id, $cache_group);
-
         }
-
-
         $dir_lock = $this->cache_get_dir('delete_lock');
-        // $cache_group_lock = $dir_lock . DS . 'lock_' . trim(crc32($cache_group)) . '.php';
-
-        /*if (is_file($cache_group_lock)) {
-
-            if ($this->mw_cache_lock_time == false) {
-                $this->mw_cache_lock_time = filemtime($cache_group_lock);
-            }
-
-            if ($this->mw_cache_lock_time > time() - $this->mw_cache_lock_timeout) {
-                //	d($cache_group_lock);
-                //	print 'aaaaa';
-                return false;
-            } else {
-                @unlink($cache_group_lock);
-            }
-        }*/
-
-
         return $this->cache_save($data_to_cache, $cache_id, $cache_group);
-
-        if ($this->mw_cache_saved_files == null) {
-            $this->mw_cache_saved_files = array();
-        }
-
-
-        if (!in_array($cache_id, $this->mw_cache_saved_files)) {
-            $this->mw_cache_saved_files[] = $cache_id;
-            return $this->cache_save($data_to_cache, $cache_id, $cache_group);
-
-        } else {
-            //	print $cache_id;
-        }
-
 
     }
 
@@ -582,21 +529,13 @@ class Files
         try {
 
             if ($get_file != false) {
-				
-				 
+
 
                 if (isset($get_file) == true and is_file($get_file)) {
-					
-					
-					
-                    if ($time != false and intval($time) > 0) {
-						
-						 
-						
-                        if (
-                            (time() - $time > filemtime($get_file))
-                        ) {
-
+                    $t = intval($time);
+                    if ($time != false and  $t > 0) {
+                        if (time() - $t > filemtime($get_file)) {
+                            /// cache is expired
                             return false;
                         }
                     }
@@ -605,7 +544,6 @@ class Files
 
 
                 } else {
-                    //d($cache_file);
                     $this->cache_get_content_from_memory($cache_id, $cache_group, false);
 
                     return false;
@@ -627,14 +565,7 @@ class Files
         }
 
         if (isset($cache) and $cache != false and ($cache) != '') {
-            /*
-             if (! defined ( $cache_content )) {
-             if (strlen ( $cache_content ) < 50) {
-             define ( $cache_content, $cache );
-             }
-             } is */
 
-            //gc_collect_cycles();
             if ($use_apc == false) {
 
                 $this->cache_get_content_from_memory($cache_id, $cache_group, $cache);
@@ -655,9 +586,7 @@ class Files
             return $cache;
         }
 
-        /* 	if (! defined ( $cache_content )) {
-         //	define ( $cache_content, false );
-         } */
+
         return false;
     }
 
@@ -670,8 +599,7 @@ class Files
 
         $cache_id_o = $cache_id;
 
-        //$cache_group = 'gr' . crc32($cache_group);
-        // $cache_id = 'id' . crc32($cache_id);
+
         $mode = 2;
         switch ($mode) {
 
@@ -685,8 +613,7 @@ class Files
                     $this->mw_cache_mem[$key] = $replace_with_new;
 
                     $this->mw_cache_mem_hits[$cache_id_o] = 1;
-                    // ksort($mw_cache_mem);
-                    // ksort($mw_cache_mem_hits);
+
                 }
 
                 if (isset($this->mw_cache_mem[$key])) {
@@ -709,7 +636,7 @@ class Files
         $apc_obj = false;
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
             $apc_obj = new \Microweber\Cache\Apc();
-            $apc_obj_gt = $apc_obj->purge();
+            $apc_obj->purge();
         }
 
         return $this->clearcache();
@@ -719,7 +646,7 @@ class Files
     {
 
 
-        if (MW_IS_INSTALLED == false) {
+        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
             $this->recursive_remove_from_cache_index(MW_CACHE_DIR, true);
             return true;
@@ -743,93 +670,12 @@ class Files
         mw_var('is_cleaning_now', true);
         static $recycle_bin;
 
-        //   if ($recycle_bin == false) {
-        //       $recycle_bin = MW_CACHE_DIR . '_recycle_bin' . DS . date("Y-m-d-H") . DS;
-        //       if (!is_dir($recycle_bin)) {
-        //           $this->_mkdirs($recycle_bin, false);
-        //           @touch($recycle_bin . 'index.php');
-        //           @touch(MW_CACHE_DIR . '_recycle_bin' . DS . 'index.php');
-        //       }
-        //   }
-        $this->_rmdirs($directory);
-        foreach (glob($directory, GLOB_ONLYDIR + GLOB_NOSORT) as $filename) {
 
-            //@rename($filename, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999));
-        }
+        $this->_rmdirs($directory);
+
         mw_var('is_cleaning_now', false);
         return true;
 
-        // if the path has a slash at the end we remove it here
-        if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
-
-            $directory = substr($directory, 0, -1);
-        }
-
-        // if the path is not valid or is not a directory ...
-        if (!file_exists($directory) || !is_dir($directory)) {
-
-            // ... we return false and exit the function
-            return FALSE;
-
-            // ... if the path is not readable
-        } elseif (!is_readable($directory)) {
-
-            // ... we return false and exit the function
-            return FALSE;
-
-            // ... else if the path is readable
-        } else {
-
-            // we open the directory
-            $handle = opendir($directory);
-
-            // and scan through the items inside
-            while (FALSE !== ($item = readdir($handle))) {
-
-                // if the filepointer is not the current directory
-                // or the parent directory
-                if ($item != '.' && $item != '..') {
-
-                    // we build the new path to delete
-                    $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-                    // if the new path is a directory
-                    if (is_dir($path)) {
-                        // we call this function with the new path
-                        //recursive_remove_from_cache_index($path);
-                        // if the new path is a file
-                    } else {
-                        $path = normalize_path($path, false);
-                        try {
-                            rename($path, $recycle_bin . '_pls_delete_me_' . mt_rand(1, 99999) . mt_rand(1, 99999)) . '.php';
-                            //    $path_small = crc32($path);
-                            //file_put_contents($index_file, $path_small . ",", FILE_APPEND);
-                            // rename($index_file_rand, $index_file);
-                            //  d($path);
-                            //  unlink($path);
-                        } catch (Exception $e) {
-
-                        }
-                    }
-                }
-            }
-
-            // close the directory
-            closedir($handle);
-
-            if ($empty == FALSE) {
-
-                // try to delete the now empty directory
-                if (!rmdir($directory)) {
-
-                    // return false if not possible
-                    return FALSE;
-                }
-            }
-
-            // return success
-            return TRUE;
-        }
     }
 
     function cache_file_memory_storage($path)
