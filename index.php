@@ -1,32 +1,45 @@
 <?php
 
 date_default_timezone_set('UTC');
-if (!defined('M')) {
-define('M', memory_get_usage());
+
+if(!defined('M')) {
+	
+	define('M', memory_get_usage());
+	
 }
 
 
-if (!defined('MW_USE_APC_CACHE')) {
-define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
+if(!defined('MW_USE_APC_CACHE')) {
+	
+	define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
+
 }
 
-if (!defined('MW_ROOTPATH')) {
+if(!defined('MW_ROOTPATH')) {
+	
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
+    
 }
 
 
-if (!isset($_SERVER["SERVER_NAME"])) {
+if(!isset($_SERVER["SERVER_NAME"])) {
+	
     $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
+    
 } else {
-    $no_www = str_ireplace('www.', '', $_SERVER["SERVER_NAME"]);
-    $config_file_for_site = MW_ROOTPATH . 'config_' . $no_www . '.php';
+	
+    $config_file_for_site = MW_ROOTPATH . 'config_' . str_ireplace('www.', '', $_SERVER["SERVER_NAME"]) . '.php';
+    
 }
 
-if (!defined('MW_CONFIG_FILE')) {
-	if (is_file($config_file_for_site)) {
+if(!defined('MW_CONFIG_FILE')) {
+	
+	if(is_file($config_file_for_site)) {
+		
 		define('MW_CONFIG_FILE', $config_file_for_site);
 	
 	} else {
+		
 		define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
 		
 	}
@@ -35,15 +48,12 @@ if (!defined('MW_CONFIG_FILE')) {
 
 
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
-
 error_reporting(E_ALL);
 
 
 // Starting MW
 
-
 $application = new \Microweber\Application(MW_CONFIG_FILE);
-
 
 /*
 
@@ -90,13 +100,7 @@ $controller->functions['test/route/*'] = function () {
     echo "You can use wildcards!";
 };
 
-
-
 // Run the website
 $router->run();
 
-
 exit();
-
-
-
