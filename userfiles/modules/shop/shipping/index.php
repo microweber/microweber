@@ -22,7 +22,12 @@
       <?php endforeach; ?>
     </select>
   </div>
-  <h2 style="margin-top:0 "><?php _e("Shipping Information"); ?></h2>
+  
+   <h2 style="margin-top:0 " class="edit nodrop" field="checkout_shiping_information_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Shipping Information"); ?></h2>
+   
+   
+   
+  
   <hr />
   <?php if(isset($shipping_options[0]) and  isset($shipping_options[0]['module_base'])): ?>
   <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">

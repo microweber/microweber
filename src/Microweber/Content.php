@@ -4050,6 +4050,21 @@ class Content
                         if (!isset($the_field_data['attributes']['rel'])) {
                             $the_field_data['attributes']['rel'] = 'content';
                         }
+
+                        if (isset($the_field_data['attributes']['rel-id'])) {
+                            $content_id = $the_field_data['attributes']['rel-id'];
+                        } elseif (isset($the_field_data['attributes']['rel_id'])) {
+                            $content_id = $the_field_data['attributes']['rel_id'];
+                        } elseif (isset($the_field_data['attributes']['data-rel-id'])) {
+                            $content_id= $the_field_data['attributes']['data-rel-id'];
+                        } elseif (isset($the_field_data['attributes']['data-rel_id'])) {
+                            $content_id= $the_field_data['attributes']['data-rel_id'];
+                        }
+
+
+
+
+
                         $save_global = false;
                         if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {
                             $save_global = true;
@@ -4210,15 +4225,23 @@ class Content
 
                             $cont_field['rel'] = $the_field_data['attributes']['rel'];
                             $cont_field['rel_id'] = 0;
-                            if ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])) {
+                            if (isset($the_field_data['attributes']['rel-id'])) {
+                                $cont_field['rel_id'] = $the_field_data['attributes']['rel-id'];
+                            } elseif (isset($the_field_data['attributes']['rel_id'])) {
+                                $cont_field['rel_id'] = $the_field_data['attributes']['rel_id'];
+                            } elseif (isset($the_field_data['attributes']['data-rel-id'])) {
+                                $cont_field['rel_id'] = $the_field_data['attributes']['data-rel-id'];
+                            } elseif ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['content-id'];
-                            } else if ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['data-id'])) {
+                            } elseif ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['data-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['data-id'];
+                            } elseif (isset($the_field_data['attributes']['data-rel_id'])) {
+                                $cont_field['rel_id'] = $the_field_data['attributes']['data-rel_id'];
                             }
 
 
                             $cont_field['value'] = mw('parser')->make_tags($html_to_save);
-                            ;
+                            
                             if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }

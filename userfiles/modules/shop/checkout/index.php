@@ -74,7 +74,7 @@ $(document).ready(function(){
       <div class="span4">
         <div class="well">
           <?php $user = get_user(); ?>
-          <h2 style="margin-top:0 "><?php _e("Personal Information"); ?></h2>
+          <h2 style="margin-top:0 " class="edit nodrop" field="checkout_personal_inforomation_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Personal Information"); ?></h2>
           <hr />
           <label>
             <?php _e("First Name"); ?>

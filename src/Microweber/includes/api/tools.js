@@ -1480,8 +1480,10 @@ mw.tools = {
   },
   parseHtml: function(html){
     var doc = document.implementation.createHTMLDocument("");
-    doc.body.innerHTML = "&nbsp;";
-    doc.body.innerHTML = html;
+    doc.body.innerHTML = " ";
+    doc.body.firstChild.nodeValue = html;
+    Alert(doc.body.innerHTML)
+    //doc.body.innerHTML = html;
     return doc;
   },
   isEmpty:function(node){
