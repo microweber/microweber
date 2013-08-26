@@ -4012,6 +4012,7 @@ class Content
         }
 
 
+
         $json_print = array();
         foreach ($the_field_data_all as $the_field_data) {
             $save_global = false;
@@ -4140,8 +4141,12 @@ class Content
 
                             }
                         }
+
                         $html_to_save = $the_field_data['html'];
+
                         $html_to_save = $content = mw('parser')->make_tags($html_to_save);
+                        //d($html_to_save);
+
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
 
@@ -4241,7 +4246,7 @@ class Content
 
 
                             $cont_field['value'] = mw('parser')->make_tags($html_to_save);
-                            
+
                             if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }

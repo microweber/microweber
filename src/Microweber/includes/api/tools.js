@@ -1479,11 +1479,12 @@ mw.tools = {
     window[arr[0]] = t;
   },
   parseHtml: function(html){
+
     var doc = document.implementation.createHTMLDocument("");
-    doc.body.innerHTML = " ";
-    doc.body.firstChild.nodeValue = html;
-    Alert(doc.body.innerHTML)
-    //doc.body.innerHTML = html;
+
+
+
+
     return doc;
   },
   isEmpty:function(node){
