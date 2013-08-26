@@ -24,9 +24,14 @@
   </div>
   <h2 style="margin-top:0 "><?php _e("Shipping Information"); ?></h2>
   <hr />
+  <?php if(isset($shipping_options[0]) and  isset($shipping_options[0]['module_base'])): ?>
   <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
     <module type="<?php print $shipping_options[0]['module_base'] ?>"  />
   </div>
+  <?php endif;?>
+  
+  
+  
 </div>
 <?php else : ?>
 <?php print mw('format')->lnotif("Click here to edit Shipping Options"); ?>

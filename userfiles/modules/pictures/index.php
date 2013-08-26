@@ -89,17 +89,17 @@ if($module_template != false){
 } else {
     $template_file = module_templates( $config['module'], 'default');
 }
-
-//d($module_template );
+ 
 if(isset($no_img) and ($no_img) != false){
-     mw('format')->lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
+     print mw('format')->lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
 
 }
-else if(isset($template_file) and is_file($template_file) != false){
+else if($no_img  != true and !empty($data) and isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else  {
 	?>
-<?php print mw('format')->lnotif("No template found. Please choose template."); ?>
+	 
+<?php  print mw('format')->lnotif("No template found. Please choose template."); ?>
 
 <?php
 	

@@ -74,6 +74,10 @@ body.mw-preview{
     position: relative;
 }
 
+body.state-element .mw-row .element{
+  z-index: 91;
+}
+
 .mw-col-container{
   padding: 0px;
   margin: 6px 0;

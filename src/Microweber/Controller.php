@@ -1040,6 +1040,7 @@ class Controller
                     }
                 } else {
                     $data = $_REQUEST;
+
                 }
 
                 static $loaded_classes = array();
@@ -1259,6 +1260,7 @@ class Controller
                     } else {
                         $data = $_REQUEST;
                     }
+
                     $api_function_full_2 = explode('/', $api_function_full);
                     unset($api_function_full_2[count($api_function_full_2) - 1]);
                     $api_function_full_2 = implode('/', $api_function_full_2);

@@ -645,10 +645,11 @@ class Db
         if (!defined("MW_TABLE_PREFIX")) {
             return false;
         }
+        if (!defined("MW_FORCE_SAVE_EXTENDED")) {
 
-
-        if (!defined("MW_IS_INSTALLED") or MW_IS_INSTALLED == false) {
-            return false;
+            if (!defined("MW_IS_INSTALLED") or MW_IS_INSTALLED == false) {
+                return false;
+            }
         }
         if (!isset($original_data['table'])) {
             return false;
@@ -3287,9 +3288,6 @@ class Db
         );
 
         $output = preg_replace($search, '', $input);
-
-
-
 
 
         return $output;

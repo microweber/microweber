@@ -29,7 +29,10 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
  <?php if(mw('module')->is_installed( $shipping_module['module'] )): ?>
 
     <div class="mw-o-box-header mw-set-shipping-options-swticher">
-        <span class="ico itruck"></span><span><?php print $shipping_module['name'] ?></span>
+        <span class="ico itruck"></span><span><strong><?php print $shipping_module['name'] ?></strong></span>
+		
+		
+
 
 
         <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable right <?php if(mw('option')->get('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?>mw-switcher-off<?php else: ?>mw-switcher-on<?php endif; ?>">
@@ -46,6 +49,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
     <div style="padding: 15px;">
       <div class="mw-set-shipping-gw-options" >
+	  		
         <module type="<?php print $shipping_module['module'] ?>" view="admin" />
       </div>
     </div>

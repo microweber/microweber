@@ -17,6 +17,9 @@ mw.mouseDownOnEditor = false;
 mw.SmallEditorIsDragging = false;
 
 
+mw.states = {}
+
+
 /**
  * Makes Droppable area
  *
@@ -164,6 +167,26 @@ $(document).ready(function(){
    for( ; i<l; i++){
      $(t[i]).addClass("nodrop");
    }
+
+
+
+
+   $(mwd.body).bind("mousedown mouseup", function(e){
+     if(e.type == 'mousedown'){
+       if(!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')){
+          mw.tools.addClass(mwd.body, 'state-element')
+       }
+       else{
+          mw.tools.removeClass(mwd.body, 'state-element');
+       }
+     }
+     else{
+         mw.tools.removeClass(mwd.body, 'state-element');
+     }
+   });
+
+
+
 
 
 });
@@ -1687,6 +1710,9 @@ if(typeof el === 'object' && el !==null){
 
 
 
+
+
+
   mw.$('.element-current', doc).removeClass('element-current');
   mw.$('.element-active', doc).removeClass('element-active');
   mw.$('.disable-resize', doc).removeClass('disable-resize');
@@ -1745,7 +1771,8 @@ if(typeof el === 'object' && el !==null){
                       _el = $(this);
                       mw.tools.stopLoop(loop);
                     }
-                })
+                });
+
         		}
 
 

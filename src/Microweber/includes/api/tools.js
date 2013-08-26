@@ -1479,9 +1479,10 @@ mw.tools = {
     window[arr[0]] = t;
   },
   parseHtml: function(html){
-    var d = document.implementation.createHTMLDocument("");
-    d.body.innerHTML = html;
-    return d;
+    var doc = document.implementation.createHTMLDocument("");
+    doc.body.innerHTML = "&nbsp;";
+    doc.body.innerHTML = html;
+    return doc;
   },
   isEmpty:function(node){
     return ( node.innerHTML.trim() ).length === 0;

@@ -289,8 +289,13 @@ if (isset($to_save['is_installed'])) {
 
 
                 __mw_install_log('Creating modules database tables');
+                if (!defined('MW_FORCE_SAVE_EXTENDED')) {
+
+                    define('MW_FORCE_SAVE_EXTENDED', 1);
+                }
+
                 event_trigger('mw_db_init_modules');
-                mw('module')->scan_for_modules("skip_cache=1");
+                mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
                 mw('module')->update_db();
 
 
