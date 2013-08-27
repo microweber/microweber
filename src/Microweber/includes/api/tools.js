@@ -1649,6 +1649,31 @@ mw.tools = {
       }
     }
     im.src = u;
+  },
+  copyEvents:function(from, to){
+    $.each($._data(from, 'events'), function() {
+      $.each(this, function() {
+        $(to).bind(this.type, this.handler);
+      });
+    });
+  },
+  setTag:function(node, tag){
+    var el = mwd.createElement(tag);
+    mw.tools.copyAttributes(node, el);
+    el.innerHTML = node.innerHTML;
+    mw.tools.copyEvents(node, el);
+    $(node).replaceWith(el);
+    return el;
+  },
+  fixDeniedParagraphHierarchy:function(){
+    var s = 'p h1,p h2,p h3,p h4,p h5,p h6,p p,p ul,p ol,p header';
+    if(mwd.body.querySelector(s) !== null){
+        var all = mwd.body.querySelectorAll(s), l = all.length, i = 0;
+        for( ; i<l; i++){
+            var el = all[i];
+            var the_parent = mw.tools.firstParentWithTag(el, 'p');
+        }
+    }
   }
 }
 

@@ -576,7 +576,7 @@ class Media
 
             }
         }
-        $cd = MW_CACHE_DIR . 'thumbnail' . DS;
+        $cd = MW_MEDIA_DIR . 'thumbnail' . DS;
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
@@ -668,7 +668,7 @@ class Media
         if (!isset($height)) {
             $width = 200;
         }
-        $cd = MW_CACHE_DIR . 'thumbnail' . DS;
+        $cd = MW_MEDIA_DIR . 'thumbnail' . DS;
 
 
         $ext = strtolower(get_file_extension($base_src));
@@ -741,7 +741,7 @@ class Media
                 return $this->pixum($width, $height);
             }
         }
-        $cd = MW_CACHE_DIR . 'thumbnail' . DS;
+        $cd = MW_MEDIA_DIR . 'thumbnail' . DS;
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
