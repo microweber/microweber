@@ -31,7 +31,10 @@ function __mw_install_log($text)
 {
     if (defined('MW_CACHE_ROOT_DIR')) {
         if (!is_dir(MW_CACHE_ROOT_DIR)) {
-            mkdir(MW_CACHE_ROOT_DIR);
+			if (mkdir(MW_CACHE_ROOT_DIR) == false)
+			{
+				echo "<div>Couldn't create directory: " . MW_CACHE_ROOT_DIR . "</div>\n";
+			}
         }
     }
     $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
