@@ -184,7 +184,8 @@ class Media
             mkdir_recursive($target_path);
         }
         $rerturn = array();
-        if (!isset($_FILES) and isset($data['file'])) {
+
+        if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
             if (isset($data['name'])) {
                 $f = $target_path . $data['name'];
                 if (is_file($f)) {
@@ -199,10 +200,11 @@ class Media
                     //    d($data['file']);
                 }
 
-                $this->base64_to_file($data['file'], $f);
+                $up = $this->base64_to_file($data['file'], $f);
 
                 $rerturn['src'] = $this->app->url->link_to_file($f);
                 $rerturn['name'] = $data['name'];
+                exit(json_encode($rerturn));
             }
         } else {
 

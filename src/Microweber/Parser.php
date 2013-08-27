@@ -848,7 +848,7 @@ class Parser
                 if ($cache != false) {
 
 
-                     return $cache;
+                   //  return $cache;
                 }
 
             }
@@ -857,6 +857,14 @@ class Parser
 
 
 
+
+            $script_pattern ='<' . '?php?(.*?)(?:\\?>)([^\']*)\'@s';
+
+
+            $regex = '@(^|>[^<]*)+?(<\?php(.*?)(\?>))@s';
+            //preg_match_all($regex, $php, $matches);
+            //var_dump($matches);
+            $php = preg_replace($regex, '\\1<php><!-- \\3 --></php>', $layout);
 
 
 
@@ -874,7 +882,6 @@ class Parser
                         $layout = str_replace($value, $v1, $layout);
                         if (!isset($replaced_codes[$v1])) {
                             $replaced_codes[$v1] = $value;
-
                         }
                     }
                 }

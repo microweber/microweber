@@ -62,6 +62,9 @@ mw.wysiwyg = {
                     if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
                     }
+
+                    mw.wysiwyg.normalizeBase64Images(this);
+
                 });
                 $(this).mouseenter(function(){
                    if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
@@ -305,8 +308,8 @@ mw.wysiwyg = {
         mw.wysiwyg.editors_disabled = false;
     },
     disableEditors:function(){
-       mw.$(".mw_editor, #mw_small_editor").addClass("disabled");
-       mw.wysiwyg.editors_disabled = true;
+       //mw.$(".mw_editor, #mw_small_editor").addClass("disabled");
+       mw.wysiwyg.editors_disabled = false;
     },
     init:function(selector){
       var selector = selector || ".mw_editor_btn";
@@ -1004,6 +1007,31 @@ mw.wysiwyg = {
         html = html.replace( /<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>' );
         html = html.replace( /<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>' );
     	return html ;
+    },
+    normalizeBase64Image:function(node, callback){
+        if(typeof node.src !== 'undefined' && node.src.indexOf('data:image/') === 0){
+            var type = node.src.split('/')[1].split(';')[0];
+            var obj = {
+              file : node.src,
+              name: mw.random().toString(36) + "." + type
+            }
+            $.post(mw.settings.api_url + "media/upload", obj, function(data){
+                var data = $.parseJSON(data);
+                node.src =  data.src;
+                if(typeof callback === 'function'){
+                  callback.call(node);
+                }
+            });
+        }
+    },
+    normalizeBase64Images:function(root){
+        var root = root || mwd.body;
+        var all = root.querySelectorAll(".edit img[src*='data:image/']"), l = all.length, i = 0;
+        if(l > 0){
+          for( ; i<l; i++){
+            mw.wysiwyg.normalizeBase64Image(all[i]);
+          }
+        }
     }
 }
 
