@@ -1240,6 +1240,9 @@ mw.drag = {
 
 		});
         }//toremove
+
+
+
 	},
 	/**
 	 * Various fixes
@@ -1276,6 +1279,9 @@ mw.drag = {
 			el.height('auto');
             mw.tools.firstParentWithClass(this, 'mw-row').style.height = 'auto';
 			//el.parents('.mw-row:first').height('auto')
+
+
+            mw.tools.fixDeniedParagraphHierarchy();
 
 		}); }, 222);
 

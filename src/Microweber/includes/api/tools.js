@@ -1651,6 +1651,7 @@ mw.tools = {
     im.src = u;
   },
   copyEvents:function(from, to){
+    if(typeof $._data(from, 'events') === 'undefined') { return false; }
     $.each($._data(from, 'events'), function() {
       $.each(this, function() {
         $(to).bind(this.type, this.handler);
@@ -1665,17 +1666,21 @@ mw.tools = {
     $(node).replaceWith(el);
     return el;
   },
-  fixDeniedParagraphHierarchy:function(){
+  fixDeniedParagraphHierarchy:function(root){
+    var root = root || mwd.body;
     var s = 'p h1,p h2,p h3,p h4,p h5,p h6,p p,p ul,p ol,p header';
     if(mwd.body.querySelector(s) !== null){
-        var all = mwd.body.querySelectorAll(s), l = all.length, i = 0;
+        var all = root.querySelectorAll(s), l = all.length, i = 0;
         for( ; i<l; i++){
             var el = all[i];
             var the_parent = mw.tools.firstParentWithTag(el, 'p');
+            mw.tools.setTag(the_parent, 'div');
         }
     }
   }
 }
+
+
 
 
 
