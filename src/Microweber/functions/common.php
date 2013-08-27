@@ -2001,7 +2001,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 {
     $update_api = mw('option');
     $iudates = $update_api->get($key, $option_group, $return_full, $orderby, $module);
-
+return $iudates;
 }
 
 
