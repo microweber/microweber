@@ -1661,16 +1661,21 @@ mw.tools = {
   setTag:function(node, tag){
     var el = mwd.createElement(tag);
     mw.tools.copyAttributes(node, el);
-    el.innerHTML = node.innerHTML;
+    el.innerHTML = node.innerHTML;   // todo
     mw.tools.copyEvents(node, el);
     $(node).replaceWith(el);
     return el;
   },
+  _fixDeniedParagraphHierarchySelector:''
+    +'.edit p h1,.edit p h2,.edit p h3,'
+    +'.edit p h4,.edit p h5,.edit p h6,'
+    +'.edit p p,.edit p ul,.edit p ol,'
+    +'.edit p header,.edit p form,.edit p article,'
+    +'.edit p aside,.edit p blockquote,.edit p footer,.edit p div',
   fixDeniedParagraphHierarchy:function(root){
     var root = root || mwd.body;
-    var s = 'p h1,p h2,p h3,p h4,p h5,p h6,p p,p ul,p ol,p header';
-    if(mwd.body.querySelector(s) !== null){
-        var all = root.querySelectorAll(s), l = all.length, i = 0;
+    if(mwd.body.querySelector(mw.tools._fixDeniedParagraphHierarchySelector) !== null){
+        var all = root.querySelectorAll(mw.tools._fixDeniedParagraphHierarchySelector), l = all.length, i = 0;
         for( ; i<l; i++){
             var el = all[i];
             var the_parent = mw.tools.firstParentWithTag(el, 'p');
