@@ -245,7 +245,7 @@ if($new > 0){
 
         <?php else:  ?>
 
-        <span class="comment-notification comment-notification-silver "><?php print($new); ?></span>
+        <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comment-notification comment-notification-silver "><?php print($new); ?></a>
          <?php endif;?>
         <?php endif; ?>
 
