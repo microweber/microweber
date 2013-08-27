@@ -12,6 +12,9 @@ api_expose('save_media');
 api_expose('pixum_img');
 api_expose('thumbnail_img');
 api_expose('create_media_dir');
+
+api_expose('media/upload');
+
 class Media
 {
 
@@ -35,6 +38,9 @@ class Media
             }
 
         }
+
+
+
     }
 
 
@@ -193,7 +199,7 @@ class Media
                     //    d($data['file']);
                 }
 
-                // base64_to_file($data['file'], $f);
+                $this->base64_to_file($data['file'], $f);
 
                 $rerturn['src'] = $this->app->url->link_to_file($f);
                 $rerturn['name'] = $data['name'];

@@ -458,6 +458,14 @@ border-radius: 3px;
 }
 
 
+.wysiwyg-component-activated .wysiwyg-component-title{
+  display: inline-block;
+}
+.wysiwyg-component-activated .wysiwyg-component-items{
+  display: none;
+}
+
+
 @media (max-width: 1000px) {
   .wysiwyg-component-title{
     display: inline-block;
