@@ -18,8 +18,8 @@ if(isset($params['layout_type'])){
   $el_params['layout_type'] = $params['layout_type'];
 }
   $modules = mw('layouts')->get($el_params);
-  $dynamic_layouts = mw('layouts')->get_all('no_cache=1&get_dynamic_layouts=1');
-
+ // $dynamic_layouts = mw('layouts')->get_all('no_cache=1&get_dynamic_layouts=1');
+$dynamic_layouts = false;
 
 										//
 }     else {
