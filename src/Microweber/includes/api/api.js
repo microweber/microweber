@@ -81,7 +81,6 @@ mw.askusertostay = false;
       var inHead = inHead || false;
       var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
       if (!~mw.required.indexOf(url)) {
-        console.log(document.readyState);
         mw.required.push(url);
         var t = url.split('.').pop();
         var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;

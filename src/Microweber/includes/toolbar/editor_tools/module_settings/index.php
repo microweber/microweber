@@ -7,14 +7,14 @@
            <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']);    ?>
            <?php endif; ?>
 
+          <script type="text/javascript" src="<?php   print(MW_INCLUDES_URL); ?>js/jquery.js"></script>
+          <script type="text/javascript" src="<?php   print(MW_INCLUDES_URL); ?>api/jquery-ui.js"></script>
           <script type="text/javascript" src="<?php   print(MW_SITE_URL); ?>apijs"></script>
-          
+
           <script type="text/javascript">
 
             liveEditSettings = true;
 
-            mw.require("<?php   print(MW_INCLUDES_URL); ?>js/jquery.js");
-  		    mw.require("<?php   print(MW_INCLUDES_URL); ?>api/jquery-ui.js");
           </script>
 
 
