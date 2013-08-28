@@ -87,6 +87,11 @@ function __store_lang_file()
 function current_lang()
 {
 
+
+    if (!defined('MW_LANG') and isset($lang)) {
+        define('MW_LANG', $lang);
+    }
+
     if (defined('MW_LANG') and MW_LANG != false) {
         return MW_LANG;
     }

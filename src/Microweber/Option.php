@@ -11,7 +11,7 @@ class Option
 {
 
     public $app;
-    function __construct($app=null)
+    public function __construct($app=null)
     {
       
 
@@ -35,59 +35,6 @@ class Option
     }
 
 
-    public function db_init()
-    {
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'options_db_'.__FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = MW_DB_TABLE_OPTIONS;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-
-        $fields_to_add[] = array('option_key', 'TEXT default NULL');
-        $fields_to_add[] = array('option_value', 'longtext default NULL');
-        $fields_to_add[] = array('option_key2', 'TEXT default NULL');
-        $fields_to_add[] = array('option_value2', 'longtext default NULL');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-
-        $fields_to_add[] = array('option_group', 'TEXT default NULL');
-        $fields_to_add[] = array('name', 'TEXT default NULL');
-        $fields_to_add[] = array('help', 'TEXT default NULL');
-        $fields_to_add[] = array('field_type', 'TEXT default NULL');
-        $fields_to_add[] = array('field_values', 'TEXT default NULL');
-
-        $fields_to_add[] = array('module', 'TEXT default NULL');
-        $fields_to_add[] = array('is_system', 'int(1) default 0');
-
-        \mw('db')->build_table($table_name, $fields_to_add);
-
-        //\mw('db')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
-        //\mw('db')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
-      //  $this->_create_mw_default_options();
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
-        return true;
-
-        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
-    }
 
 
     /**
@@ -188,7 +135,7 @@ class Option
         // $get = $this->app->db->get_long($table, $data, $cache_group);
         $ok = $this->app->db->escape_string($data['option_key']);
 
-         $q = "select * from $table where option_key='{$ok}' {$ok1} {$ok2} ";
+         $q = "select * from $table where option_key='{$ok}'  ".$ok1 .$ok2;
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
         // d($q);
         $q_cache_id = crc32($q);
@@ -734,6 +681,60 @@ class Option
 
         $cache = file_put_contents($dir_name_and_file, $option_save_string);
         return $cache;
+    }
+
+    public function db_init()
+    {
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'options_db_'.__FUNCTION__ . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table_name = MW_DB_TABLE_OPTIONS;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+
+        $fields_to_add[] = array('option_key', 'TEXT default NULL');
+        $fields_to_add[] = array('option_value', 'longtext default NULL');
+        $fields_to_add[] = array('option_key2', 'TEXT default NULL');
+        $fields_to_add[] = array('option_value2', 'longtext default NULL');
+        $fields_to_add[] = array('position', 'int(11) default NULL');
+
+        $fields_to_add[] = array('option_group', 'TEXT default NULL');
+        $fields_to_add[] = array('name', 'TEXT default NULL');
+        $fields_to_add[] = array('help', 'TEXT default NULL');
+        $fields_to_add[] = array('field_type', 'TEXT default NULL');
+        $fields_to_add[] = array('field_values', 'TEXT default NULL');
+
+        $fields_to_add[] = array('module', 'TEXT default NULL');
+        $fields_to_add[] = array('is_system', 'int(1) default 0');
+
+        \mw('db')->build_table($table_name, $fields_to_add);
+
+        //\mw('db')->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
+        //\mw('db')->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");
+        //  $this->_create_mw_default_options();
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
+        return true;
+
+        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
     }
 
 

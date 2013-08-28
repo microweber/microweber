@@ -381,6 +381,8 @@ $(window).bind("onBodyClick", function(){
 
 
   /*
+
+
   $(".perspective-slider").slider({
     slide:function(event,ui){
         mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
@@ -394,7 +396,10 @@ $(window).bind("onBodyClick", function(){
     min:-180,
     max:180,
     value:0
-  });      */
+  });
+
+
+  */
 
 
 
@@ -436,15 +441,15 @@ $(window).bind("onBodyClick", function(){
 
 
     $(".slider_val input").keyup(function(event){
-      var el = $(this);
-      var _el = this;
-      var val = _el.value;
-      var val = val.replace(/[^-\d]/,'');
-      var val = val !=="" ? val : 0;
-      var val = parseFloat(val);
-      el.val(val);
-      var name = _el.name;
-      $("#"+name).slider("value", val);
+        var el = $(this);
+        var _el = this;
+        var val = _el.value;
+        var val = val.replace(/[^-\d]/,'');
+        var val = val !=="" ? val : 0;
+        var val = parseFloat(val);
+        el.val(val);
+        var name = _el.name;
+        $("#"+name).slider("value", val);
 
     });
 

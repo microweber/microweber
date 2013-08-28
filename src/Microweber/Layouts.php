@@ -14,13 +14,14 @@ if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
 
 
 api_expose('layouts/save');
-class Layouts {
+class Layouts
+{
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
-       
+
         if (!is_object($this->app)) {
 
             if (is_object($app)) {
@@ -57,6 +58,7 @@ class Layouts {
     {
         return $this->scan($options);
     }
+
     public function scan($options = false)
     {
         $options = parse_params($options);
@@ -247,8 +249,8 @@ class Layouts {
 
                             $layout_file = str_replace($path, '', $filename);
 
-                            if(isset($template_dirs) and !empty($template_dirs)){
-                                foreach($template_dirs as $template_dir){
+                            if (isset($template_dirs) and !empty($template_dirs)) {
+                                foreach ($template_dirs as $template_dir) {
                                     $layout_file = str_replace($template_dir, '', $layout_file);
 
                                 }
@@ -285,7 +287,7 @@ class Layouts {
         }
     }
 
-   public function get($params = false)
+    public function get($params = false)
     {
 
         $table = MW_DB_TABLE_ELEMENTS;
@@ -312,6 +314,7 @@ class Layouts {
         // d($params); d( $s);
         return $s;
     }
+
     public function get_link($options = false)
     {
         $args = func_get_args();
@@ -368,6 +371,7 @@ class Layouts {
 
         return $fn;
     }
+
     public function save($data_to_save)
     {
 
@@ -418,8 +422,6 @@ class Layouts {
     }
 
 
-
-
     public function delete_all()
     {
         if (is_admin() == false) {
@@ -431,15 +433,15 @@ class Layouts {
             $db_categories = MW_TABLE_PREFIX . 'categories';
             $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
 
-            $q = "delete from $table ";
+            $q = "DELETE FROM $table ";
             //   d($q);
             $this->app->db->q($q);
 
-            $q = "delete from $db_categories where rel='elements' and data_type='category' ";
+            $q = "DELETE FROM $db_categories WHERE rel='elements' AND data_type='category' ";
             // d($q);
             $this->app->db->q($q);
 
-            $q = "delete from $db_categories_items where rel='elements' and data_type='category_item' ";
+            $q = "DELETE FROM $db_categories_items WHERE rel='elements' AND data_type='category_item' ";
             // d($q);
             $this->app->db->q($q);
             $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
@@ -447,6 +449,181 @@ class Layouts {
 
             $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
         }
+    }
+
+
+    function template_save_css($params)
+    {
+
+        $is_admin = is_admin();
+        if ($is_admin == false) {
+            return false;
+        }
+
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        $ref_page = false;
+        if (!isset($params['content_id'])) {
+            if (isset($_SERVER['HTTP_REFERER'])) {
+
+                $ref_page_url = $_SERVER['HTTP_REFERER'];
+                if ($ref_page_url != '') {
+                    $ref_page = $this->app->content->get_by_url($ref_page_url, true);
+                }
+
+
+            }
+
+
+        } else {
+            $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
+        }
+
+        if (!is_array($ref_page) or empty($ref_page)) {
+            return false;
+        }
+        $pd = $ref_page;
+
+        if ($is_admin == true and is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
+            $save_page = $pd;
+
+            if (isset($save_page["layout_file"]) and $save_page["layout_file"] == 'inherit') {
+
+                $inherit_from_id = $this->app->content->get_inherited_parent($save_page["id"]);
+                $inherit_from = $this->app->content->get_by_id($inherit_from_id);
+                if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
+                    $save_page['active_site_template'] = $inherit_from['active_site_template'];
+                    $save_page['layout_file'] = $inherit_from['layout_file'];
+
+                }
+            }
+            $template = false;
+            if (!isset($save_page['active_site_template'])) {
+                $template = 'default';
+            } else if (isset($save_page['active_site_template'])) {
+                $template = $save_page['active_site_template'];
+            }
+            $final_file_blocks = array();
+            if ($template != false) {
+                if (isset($params['selector'])) {
+                    autoload_add(dirname(__FILE__) . DS . 'libs' . DS);
+
+
+                    $template_folder = MW_TEMPLATES_DIR . $template . DS;
+                    $live_edit_css = $template_folder . 'live_edit.css';
+
+                    if (!is_file($live_edit_css)) {
+                        touch($live_edit_css);
+                        $sText = '';
+                    } else {
+                        $sText = file_get_contents($live_edit_css);
+                    }
+
+
+                    $sMyId = $params['selector'];
+                    $oParser = new \Sabberworm\CSS\Parser($sText);
+                    $oCss = $oParser->parse();
+
+
+                    $selectors = $oCss->getAllRuleSets();
+                    $sel_found = false;
+                    foreach ($selectors as $oSelector) {
+
+                        $curr_sel_sre = $oSelector->getSelector();
+
+                        if (!empty($curr_sel_sre)) {
+                            foreach ($curr_sel_sre as $sel) {
+                                $sel_str = $sel->__toString();
+                                if (trim($sel_str) == trim($params['selector'])) {
+                                    $sel_found = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($sel_found == false) {
+                        $new_decl = new \Sabberworm\CSS\RuleSet\DeclarationBlock();
+                        $new_decl->setSelectors($params['selector']);
+                        //$oCss->append($new_decl);
+                        $selectors[] = $new_decl;
+                    }
+
+
+
+
+
+                    foreach ($selectors as $oSelector) {
+
+                        $curr_sel_sre = $oSelector->getSelector();
+
+                        if (!empty($curr_sel_sre)) {
+                            foreach ($curr_sel_sre as $sel) {
+                                $sel_str = $sel->__toString();
+                                if (trim($sel_str) == trim($params['selector'])) {
+                                    $tmp = $oSelector->getRules();
+
+
+                                    //d($tmp);
+                                    $found_rule = false;
+                                    foreach ($tmp as $nazwa => $attrib) {
+
+                                        $rule = $attrib->getRule();
+                                        $rule_val = $attrib->getValue();
+
+                                        if (isset($params['rule']) and isset($params['rule_val'])) {
+                                            if ($rule == $params['rule']) {
+                                                $found_rule = 1;
+                                                $attrib->setValue($params['rule_val']);
+                                            }
+
+
+                                        }
+                                        //echo "<br>$rule:$rule_val;";
+                                        // echo "<br>$rule:$rule_val;";
+                                        $last = $attrib;
+                                    }
+                                    if ($found_rule == false and isset($params['rule']) and isset($params['rule_val'])) {
+                                        $new = new \Sabberworm\CSS\Rule\Rule($params['rule']);
+
+                                        $new->setRule($params['rule']);
+                                        $new->setValue($params['rule_val']);
+                                        $oSelector->addRule($new);
+                                        //$curr_sel_sre->add
+                                    }
+
+
+                                }
+                            }
+                        }
+
+
+                        // $rs =  $oCss->getAllRuleSets($oSelector);
+                        // d($rs);
+                        //
+                        //Loop over all selector parts (the comma-separated strings in a selector) and prepend the id
+                        //$oSelector->setSelector($sMyId . ' ' . $oSelector->getSelector());
+                        $str = $oSelector->__toString();
+                        $final_file_blocks[] = $str;
+                    }
+
+
+                }
+
+                if (!empty($final_file_blocks) and isset($live_edit_css)) {
+                    $cont = implode("\n", $final_file_blocks);
+                    d($cont);
+                    file_put_contents($live_edit_css, $cont);
+                }
+                //d($final_file_blocks);
+            }
+
+
+            //  $save_page['url'] = $this->app->url->string(1);
+            //  $save_page['title'] = $this->app->url->slug($this->app->url->string(1));
+            //   $page_id = $this->save_content($save_page);
+        }
+
     }
 
 }

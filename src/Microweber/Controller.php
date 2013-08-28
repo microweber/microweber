@@ -675,7 +675,13 @@ class Controller
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
 
-                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+
+
+
+
+
+                //as of aug 28
+               // $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 

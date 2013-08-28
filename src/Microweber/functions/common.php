@@ -313,6 +313,14 @@ function template_headers_src()
 }
 
 
+api_expose('current_template_save_custom_css');
+function current_template_save_custom_css($data)
+{
+    return mw('layouts')->template_save_css($data);
+
+}
+
+
 
 
 

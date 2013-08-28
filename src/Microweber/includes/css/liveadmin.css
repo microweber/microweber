@@ -68,6 +68,14 @@ body#UnsupportedBrowser #download_browsers_holder{
 
 .mw-defaults{
   line-height: 1.5;
+  -moz-box-sizing: content-box;
+       box-sizing: content-box;
+}
+
+.mw-defaults * {
+  color: inherit;
+  -moz-box-sizing: inherit;
+       box-sizing: inherit;
 }
 
 .mw-defaults li{
