@@ -549,8 +549,23 @@ class Layouts
                         $selectors[] = $new_decl;
                     }
 
+                    if (isset($params['clear'])) {
 
+                        foreach ($selectors as $k => $oSelector) {
 
+                            $curr_sel_sre = $oSelector->getSelector();
+
+                            if (!empty($curr_sel_sre)) {
+                                foreach ($curr_sel_sre as $sel) {
+                                    $sel_str = $sel->__toString();
+                                    if (trim($sel_str) == trim($params['selector'])) {
+                                        unset($selectors[$k]);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
 
 
                     foreach ($selectors as $oSelector) {
@@ -574,7 +589,11 @@ class Layouts
                                         if (isset($params['rule']) and isset($params['rule_val'])) {
                                             if ($rule == $params['rule']) {
                                                 $found_rule = 1;
+
+
                                                 $attrib->setValue($params['rule_val']);
+
+
                                             }
 
 
