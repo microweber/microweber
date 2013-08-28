@@ -1135,6 +1135,9 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
 
 
 
+mw.$(".wysiwyg-component-title").bind("click", function(){
+
+});
 
 
 });

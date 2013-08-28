@@ -683,6 +683,37 @@ class Controller
                 //as of aug 28
                // $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
+
+
+
+            $custom_live_edit = TEMPLATE_DIR. DS . 'live_edit.css';
+
+            $custom_live_edit = normalize_path($custom_live_edit, false);
+            //d($custom_live_edit);
+            if (is_file($custom_live_edit)) {
+                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css" type="text/css" />';
+
+                $l = str_ireplace('</head>',  $liv_ed_css.'</head>', $l);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
                 if ($is_admin == true) {
@@ -712,7 +743,7 @@ class Controller
                     }
 
 
-                    $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live-edit.php';
+                    $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live_edit.php';
                     $custom_live_edit = normalize_path($custom_live_edit, false);
                     if (is_file($custom_live_edit)) {
                         $layout_live_edit = new $this->app->view($custom_live_edit);
@@ -723,6 +754,10 @@ class Controller
                         }
 
                     }
+
+
+
+
 
 
                 }

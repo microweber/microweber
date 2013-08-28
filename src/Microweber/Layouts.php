@@ -463,19 +463,19 @@ class Layouts
         if (is_string($params)) {
             $params = parse_params($params);
         }
+
+
         $ref_page = false;
         if (!isset($params['content_id'])) {
             if (isset($_SERVER['HTTP_REFERER'])) {
-
                 $ref_page_url = $_SERVER['HTTP_REFERER'];
                 if ($ref_page_url != '') {
-                    $ref_page = $this->app->content->get_by_url($ref_page_url, true);
+                    $ref_page1 = $this->app->content->get_by_url($ref_page_url, true);
+                    if (isset($ref_page1['id'])) {
+                        $ref_page = $this->app->content->get_by_id(intval($ref_page1['id']));
+                    }
                 }
-
-
             }
-
-
         } else {
             $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
         }
@@ -505,144 +505,57 @@ class Layouts
                 $template = $save_page['active_site_template'];
             }
             $final_file_blocks = array();
+
             if ($template != false) {
-                if (isset($params['selector'])) {
-                    autoload_add(dirname(__FILE__) . DS . 'libs' . DS);
+
+                $template_folder = MW_TEMPLATES_DIR . $template . DS;
+                $live_edit_css = $template_folder . 'live_edit.css';
+                $fcont = '';
+                if (is_file($live_edit_css)) {
+                    $fcont = file_get_contents($live_edit_css);
+                }
+
+                $css_cont = $fcont;
+                $css_cont_new = $css_cont;
+                foreach ($params as $item) {
+                    if (isset($item['selector'])) {
+                        $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
 
 
-                    $template_folder = MW_TEMPLATES_DIR . $template . DS;
-                    $live_edit_css = $template_folder . 'live_edit.css';
+                        $sel = $item['selector'];
+                        $css = $item["css"];
+                        $delim = "\n /* $sel */ \n";
+                        $item["css"] = str_ireplace('http://', '//', $item["css"]);
+                        $item["css"] = str_ireplace('https://', '//', $item["css"]);
 
-                    if (!is_file($live_edit_css)) {
-                        touch($live_edit_css);
-                        $sText = '';
-                    } else {
-                        $sText = file_get_contents($live_edit_css);
-                    }
+                        $is_existing = explode($delim, $css_cont_new);
+                        if (!empty($is_existing)) {
 
-
-                    $sMyId = $params['selector'];
-                    $oParser = new \Sabberworm\CSS\Parser($sText);
-                    $oCss = $oParser->parse();
-
-
-                    $selectors = $oCss->getAllRuleSets();
-                    $sel_found = false;
-                    foreach ($selectors as $oSelector) {
-
-                        $curr_sel_sre = $oSelector->getSelector();
-
-                        if (!empty($curr_sel_sre)) {
-                            foreach ($curr_sel_sre as $sel) {
-                                $sel_str = $sel->__toString();
-                                if (trim($sel_str) == trim($params['selector'])) {
-                                    $sel_found = true;
-                                }
+                            $srings = $this->app->format->string_between($css_cont_new, $delim, $delim);
+                            if ($srings != false) {
+                                $css_cont_new = str_ireplace($srings, '', $css_cont_new);
+                                $css_cont_new = str_ireplace($delim, '', $css_cont_new);
                             }
-                        }
-                    }
 
-                    if ($sel_found == false) {
-                        $new_decl = new \Sabberworm\CSS\RuleSet\DeclarationBlock();
-                        $new_decl->setSelectors($params['selector']);
-                        //$oCss->append($new_decl);
-                        $selectors[] = $new_decl;
-                    }
-
-                    if (isset($params['clear'])) {
-
-                        foreach ($selectors as $k => $oSelector) {
-
-                            $curr_sel_sre = $oSelector->getSelector();
-
-                            if (!empty($curr_sel_sre)) {
-                                foreach ($curr_sel_sre as $sel) {
-                                    $sel_str = $sel->__toString();
-                                    if (trim($sel_str) == trim($params['selector'])) {
-                                        unset($selectors[$k]);
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-
-
-                    foreach ($selectors as $oSelector) {
-
-                        $curr_sel_sre = $oSelector->getSelector();
-
-                        if (!empty($curr_sel_sre)) {
-                            foreach ($curr_sel_sre as $sel) {
-                                $sel_str = $sel->__toString();
-                                if (trim($sel_str) == trim($params['selector'])) {
-                                    $tmp = $oSelector->getRules();
-
-
-                                    //d($tmp);
-                                    $found_rule = false;
-                                    foreach ($tmp as $nazwa => $attrib) {
-
-                                        $rule = $attrib->getRule();
-                                        $rule_val = $attrib->getValue();
-
-                                        if (isset($params['rule']) and isset($params['rule_val'])) {
-                                            if ($rule == $params['rule']) {
-                                                $found_rule = 1;
-
-
-                                                $attrib->setValue($params['rule_val']);
-
-
-                                            }
-
-
-                                        }
-                                        //echo "<br>$rule:$rule_val;";
-                                        // echo "<br>$rule:$rule_val;";
-                                        $last = $attrib;
-                                    }
-                                    if ($found_rule == false and isset($params['rule']) and isset($params['rule_val'])) {
-                                        $new = new \Sabberworm\CSS\Rule\Rule($params['rule']);
-
-                                        $new->setRule($params['rule']);
-                                        $new->setValue($params['rule_val']);
-                                        $oSelector->addRule($new);
-                                        //$curr_sel_sre->add
-                                    }
-
-
-                                }
-                            }
                         }
 
 
-                        // $rs =  $oCss->getAllRuleSets($oSelector);
-                        // d($rs);
-                        //
-                        //Loop over all selector parts (the comma-separated strings in a selector) and prepend the id
-                        //$oSelector->setSelector($sMyId . ' ' . $oSelector->getSelector());
-                        $str = $oSelector->__toString();
-                        $final_file_blocks[] = $str;
+                        $css_cont_new .= $delim;
+                        $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                        $css_cont_new .= $delim;
                     }
 
 
                 }
-
-                if (!empty($final_file_blocks) and isset($live_edit_css)) {
-                    $cont = implode("\n", $final_file_blocks);
-                    d($cont);
-                    file_put_contents($live_edit_css, $cont);
+                if ($css_cont_new != '' and $css_cont != $css_cont_new) {
+                    d($css_cont_new);
+                    file_put_contents($live_edit_css, $css_cont_new);
                 }
-                //d($final_file_blocks);
             }
-
-
-            //  $save_page['url'] = $this->app->url->string(1);
-            //  $save_page['title'] = $this->app->url->slug($this->app->url->string(1));
-            //   $page_id = $this->save_content($save_page);
         }
 
+
     }
+
 
 }

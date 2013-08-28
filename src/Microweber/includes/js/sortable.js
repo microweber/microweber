@@ -1696,6 +1696,7 @@ module_settings: function(a) {
     if(mw.$(".edit.changed").length == 0){return false;}
   }
   else{
+    saveStaticElementsStyles();
     if(mw.$(".edit.orig_changed").length == 0){return false;}
   }
 

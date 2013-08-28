@@ -17,10 +17,8 @@
 
 
 
-    <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js">
-
-
-    </script>
+    <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<?php print site_url(); ?>apijs"></script>
     <script type="text/javascript">
 
 

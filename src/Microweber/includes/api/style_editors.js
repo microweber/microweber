@@ -169,6 +169,35 @@ width_slider_onstart = function(){
   mwd.getElementById('ed_auto_width').checked=false;
 }
 
+generateJSON4StaticElements = function(){
+  var all = mwd.querySelectorAll("[staticdesign]"), l=all.length,i=0,obj={};
+  if(l>0){
+    for( ; i<l; i++){
+        var el = all[i];
+        var selector = mw.tools.generateSelectorForNode(el);
+        var css = el.getAttribute("style");
+        if(el!==null){
+          obj[i] = {
+             selector:selector,
+             css:css
+          }
+        }
+    }
+  }
+  return obj;
+}
+
+saveStaticElementsStyles = function(callback){
+    var obj = generateJSON4StaticElements();
+    if(!mw.tools.isEmptyObject(obj)){
+      $.post(mw.settings.api_url + "current_template_save_custom_css", obj, function(data){
+            if(typeof callback === 'function'){
+              callback.call();
+            }
+      })
+    }
+}
+
 
 
 
@@ -349,7 +378,7 @@ if($(".ts_action:isVisible").length==0){
 
 
 
-$(window).bind("onBodyClick", function(){
+/*$(window).bind("onBodyClick", function(e){
   if($(".ts_action:isVisible").length==0){
     $(".element-current").removeClass("element-current");
     $(mwd.body).addClass("element-current");
@@ -360,8 +389,35 @@ $(window).bind("onBodyClick", function(){
     });
     $(".mw-designtype-element").show();
     $(".mw-designtype-image").hide();
-    mw.setCurrentStyles(mwd.body);
+        mw.setCurrentStyles(mwd.body);
     }
+});*/
+
+
+$(mwd.body).bind("click", function(e){
+  if(!mw.tools.hasClass(e.target.className, 'edit') && !mw.tools.hasParentsWithClass(e.target, 'edit') ){
+  if(!mw.tools.hasClass(e.target.className, 'mw-defaults') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults') ){
+
+    if($(".ts_action:isVisible").length==0){
+      $(".element-current").removeClass("element-current");
+      $(e.target).addClass("element-current");
+      mw.current_element =e.target;
+      $("#items_handle").css({
+        top:"",
+        left:""
+      });
+      $(".mw-designtype-element").show();
+      $(".mw-designtype-image").hide();
+      mw.setCurrentStyles(e.target);
+
+       $(e.target).attr('staticdesign', 'true');
+    }
+
+
+
+  }
+  }
+
 });
 
 

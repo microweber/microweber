@@ -192,7 +192,7 @@ mw.askusertostay = false;
     //handles
     handles: {
       module: "\
-        <div contenteditable='false' id='mw_handle_module' class='mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
+        <div contenteditable='false' id='mw_handle_module' class='mw-defaults mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
             <div class='mw_col_delete mw_edit_delete_element'>\
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;'><span></span></a>\
                 <a class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings();return false;'><span class='mw-element-name-handle'></span></a>\
@@ -200,7 +200,7 @@ mw.askusertostay = false;
             <span title='Click to select this module.' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
         </div>",
       row: "\
-        <div contenteditable='false' class='mw_master_handle' id='mw_handle_row'>\
+        <div contenteditable='false' class='mw-defaults mw_master_handle' id='mw_handle_row'>\
             <span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
@@ -210,7 +210,7 @@ mw.askusertostay = false;
             <a class='mw_edit_delete mw_edit_btn right' onclick='mw.drag.delete_element(mw.handle_row);' href='javascript:;'><span></span></a>\
         </div>",
       element: "\
-        <div contenteditable='false' id='mw_handle_element' class='mw_master_handle mw-sorthandle mw-sorthandle-element'>\
+        <div contenteditable='false' id='mw_handle_element' class='mw-defaults mw_master_handle mw-sorthandle mw-sorthandle-element'>\
             <div contenteditable='false' class='mw_col_delete mw_edit_delete_element'>\
                 <a contenteditable='false' class='mw_edit_btn mw_edit_delete'  onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\

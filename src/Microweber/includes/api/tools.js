@@ -1682,6 +1682,23 @@ mw.tools = {
             mw.tools.setTag(the_parent, 'div');
         }
     }
+  },
+  generateSelectorForNode:function(node){
+    if(node===null || node.nodeType===3){return false;}
+    if(node.nodeName === 'BODY'){ return 'body'; }
+    if(node.id != '') {return '#'+node.id;}
+    ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
+    mw.tools.foreachParents(node, function(loop){
+      if(this.id != '') {___final =  '#'+this.id + ' > ' + ___final; mw.tools.stopLoop(loop); return false }
+       if(this.className != '' ){
+           var n = this.nodeName.toLocaleLowerCase() + '.' + this.className.trim().split(' ').join('.');
+       }
+       else{
+           var n = this.nodeName.toLocaleLowerCase();
+       }
+       ___final = n + ' > ' + ___final;
+    });
+    return ___final;
   }
 }
 

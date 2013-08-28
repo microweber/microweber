@@ -181,6 +181,17 @@ class Format
     }
 
 
+    public function string_between($string, $start, $end)
+    {
+        $string = " " . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
+    }
+
+
     public function replace_once($needle, $replace, $haystack)
     {
         // Looks for the first occurence of $needle in $haystack
@@ -310,7 +321,7 @@ class Format
     public function notif($text, $class = 'success')
     {
         $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
-        $to_print =  $to_print. _e($text,true) . '</div></div>';
+        $to_print = $to_print . _e($text, true) . '</div></div>';
 
         return $to_print;
     }

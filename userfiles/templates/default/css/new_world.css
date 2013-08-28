@@ -189,9 +189,7 @@ input.large-field, textarea.large-field{
   color: white;
 }
 
-#main-navigation{
-  float: right;
-}
+ 
 
 #header .nav a:hover, #header .navbar .nav a, #header .nav-tabs a.active{
   color:#242B35;
