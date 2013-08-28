@@ -520,6 +520,7 @@ class Layouts
                 foreach ($params as $item) {
                     if (isset($item['selector'])) {
                         $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.mwfx', '', $item["selector"]);
 
 
                         $sel = $item['selector'];

@@ -780,6 +780,7 @@ mw.wysiwyg = {
       mw.wysiwyg.request_media('#set_bg_image');
     },
     set_bg_image:function(url){
+      d(url)
       $(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
