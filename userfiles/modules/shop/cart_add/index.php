@@ -71,7 +71,7 @@ if($module_template != false and $module_template != 'none'){
   <?php   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
-	mw('format')->lnotif( 'No default template for '.$config['module'].' is found');
+	print mw('format')->lnotif( 'No default template for '.$config['module'].' is found');
 }  ?>
 </span>
   <?php endif; ?>
