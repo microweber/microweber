@@ -99,7 +99,7 @@ function video_module_url2embed($u, $w, $h, $autoplay){
 }
 
   else{
-      print  mw('format')->lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
+      print mw('format')->lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
   }
 }
 

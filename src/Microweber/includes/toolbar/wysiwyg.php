@@ -18,7 +18,7 @@
 
             <div class="wysiwyg-component">
               <div class="mw_editor_btn">
-                <div class="wysiwyg-component-title">Font Style</div>
+                <div class="wysiwyg-component-title"> Font Style</div>
               </div>
               <div class="wysiwyg-component-items" style="width: 190px;">
                 <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>

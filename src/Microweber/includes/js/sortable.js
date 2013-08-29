@@ -1773,11 +1773,11 @@ if(typeof el === 'object' && el !==null){
                 var _el = $(this);
 
 
-        		if($(this).attr("rel")==undefined || $(this).attr("rel")==''){
+        		if(($(this).attr("rel")==undefined || $(this).attr("rel")=='') && $(this).dataset('rel') == ''){
 
                 mw.tools.foreachParents(this, function(loop){
                     var cls = this.className;
-                    if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && typeof this.attributes['rel'] !== 'undefined'){
+                    if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (typeof this.attributes['rel'] !== 'undefined' || $(this).dataset('rel') != '')){
                       _el = $(this);
                       mw.tools.stopLoop(loop);
                     }
@@ -1789,7 +1789,7 @@ if(typeof el === 'object' && el !==null){
 
 
 
-        if(typeof _el.attr("rel") != 'undefined' && _el.attr("rel")!=''){
+        if((typeof _el.attr("rel") != 'undefined' && _el.attr("rel")!='') || _el.dataset('rel') != ''){
 
             var content = _el.html();
 

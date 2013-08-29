@@ -366,10 +366,10 @@ if (!empty($content)){
 // }
 } else {
 	 if(isset($params['is_shop'])){
-		 	mw('format')->lnotif('Your products module is empty');
+		 	print mw('format')->lnotif('Your products module is empty');
 
 	 } else {
-		 	mw('format')->lnotif('Your posts module is empty');
+		 	print mw('format')->lnotif('Your posts module is empty');
 
 	 }
 }
@@ -475,7 +475,7 @@ if($template_file == false){
 
 	} else {
 
-		mw('format')->lnotif( 'No default template for '.  $config['module'] .' is found');
+		print mw('format')->lnotif( 'No default template for '.  $config['module'] .' is found');
 	}
 
 

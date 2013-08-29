@@ -29,7 +29,7 @@
         </div>
         <hr>
         <div id="footer-bottom">
-            <div class="edit">
+            <div class="edit" rel="global" field="sub-footer">
                 <div class="mw-row">
                   <div class="mw-col" style="width:60%">
                       <div class="mw-col-container">
