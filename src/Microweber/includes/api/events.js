@@ -83,6 +83,7 @@ DOMChange:function(element, callback, attr){
 
     var attr = attr || false;
     element.addEventListener("DOMCharacterDataModified", function(){
+      
         if( !mw.on.DOMChangePause ) { callback.call(this);  }
     }, false);
     element.addEventListener("DOMNodeInserted", function(){

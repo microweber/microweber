@@ -1482,7 +1482,7 @@ mw.tools = {
 
     var doc = document.implementation.createHTMLDocument("");
 
-
+     doc.body.innerHTML = html;
 
 
     return doc;

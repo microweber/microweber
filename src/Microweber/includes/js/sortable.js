@@ -1697,6 +1697,7 @@ module_settings: function(a) {
   }
   else{
     saveStaticElementsStyles();
+
     if(mw.$(".edit.orig_changed").length == 0){return false;}
   }
 
@@ -1719,15 +1720,7 @@ if(typeof el === 'object' && el !==null){
 	}
 }
 
- var doc = mw.tools.parseHtml("&nbsp;");
- var body = document.body.cloneNode();
- doc.body.parentNode.replaceChild(body, doc.body);
-
-
-
-
-
-
+ var doc = mw.tools.parseHtml(mwd.body.innerHTML);
 
 
   mw.$('.element-current', doc).removeClass('element-current');
