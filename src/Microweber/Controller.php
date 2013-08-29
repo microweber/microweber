@@ -674,11 +674,16 @@ class Controller
 
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
-                $custom_live_edit = TEMPLATES_DIR . DS .$content['active_site_template'].DS. 'live_edit.css';
+
+                if (!defined('CONTENT_TEMPLATE')) {
+                    define('CONTENT_TEMPLATE', $content['active_site_template']);
+                }
+
+
+                $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
             }
- 
 
 
             $custom_live_edit = normalize_path($custom_live_edit, false);

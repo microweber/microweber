@@ -22,6 +22,7 @@
     afterMediaIsInserted = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
 
 
+
       if(typeof todo =='undefined'){var todo = false;}
 
       if(url == false){
@@ -36,6 +37,7 @@
       if(!todo){
           if(hash!==''){
             if(hash=='editimage'){
+
               parent.mw.image.currentResizing.attr("src", url);
               parent.mw.image.currentResizing.css('height', 'auto');
             }
@@ -95,7 +97,13 @@
             var type = mw.url.type(this);
             GlobalEmbed = __generateEmbed(type, this);
             if(typeof parent.mw.iframecallbacks[hash] === 'function'){
-              parent.mw.iframecallbacks[hash](GlobalEmbed);
+              if(hash == 'editimage'){
+                parent.mw.iframecallbacks[hash](this);
+              }
+              else{
+                parent.mw.iframecallbacks[hash](GlobalEmbed);
+              }
+
             }
             else if(typeof parent[hash] === 'function'){
                parent[hash](GlobalEmbed)

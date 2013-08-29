@@ -37,7 +37,7 @@
               <span class="dd_rte_arr"></span>
                 Format
               </div></div>
-              <div class="wysiwyg-component-items" style="width: 355px;">
+              <div class="wysiwyg-component-items" style="width: 420px;">
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
                 <span class="mw_dropdown_val_holder">
@@ -122,8 +122,8 @@
             <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
 
 
-
-
+             <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
+             <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
             </div>
             </div>
 
@@ -148,20 +148,23 @@
 
             <span class="mw_dlm"></span>
 
-
-
+            <div class="wysiwyg-component">
+              <div class="mw_editor_btn">
+                <div class="wysiwyg-component-title"><span class="dd_rte_arr"></span> Links</div>
+              </div>
+             <div class="wysiwyg-component-items" style="width: 60px;">
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
+             </div> </div>
 
 
 
-            <span class="mw_dlm"></span>
 
 
 
-            <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
+
+
 
             <?php /* <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span>Design</span> */ ?>
 
@@ -191,12 +194,12 @@
             <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" style="border-radius:0;" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
 
 
-
+            <span  onclick="mw.drag.save(this)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn left" id="editor_save" style="display: none;margin-left:12px;">Save</span>
 
 
 
              <?php event_trigger('mw_editor_btn'); ?>
-            
+
             <span class="mwwysiwygscaleController"></span>
         </div>
 

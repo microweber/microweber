@@ -323,8 +323,8 @@ mw.image = {
 
         if(!mw.image._isrotating){
           mw.image._isrotating = true;
-        var img_object = img_object || document.querySelector("img.element-current");
-
+        var img_object = img_object || mwd.querySelector("img.element-current");
+        if(img_object === null ) {return false;}
         mw.image.preload(img_object.src, function(){
 
 
@@ -379,9 +379,38 @@ mw.image = {
            var data =  mw.image.Rotator.toDataURL("image/png");
            img_object.src = data;
            mw.image._isrotating = false;
+           mw.wysiwyg.normalizeBase64Image(img_object);
         });
         }
       },
+
+
+      grayscale:function(node){
+        var node = node || mwd.querySelector("img.element-current");
+        if(node === null ) {return false;}
+        mw.image.preload(node.src, function(){
+        var canvas = mwd.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.width = $(this).width();
+        canvas.height = $(this).height();
+        ctx.drawImage(node, 0, 0);
+        var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for(var y = 0; y < imgPixels.height; y++){
+            for(var x = 0; x < imgPixels.width; x++){
+                var i = (y * 4) * imgPixels.width + x * 4; //Why is this multiplied by 4?
+                var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+                imgPixels.data[i] = avg;
+                imgPixels.data[i + 1] = avg;
+                imgPixels.data[i + 2] = avg;
+            }
+        }
+        ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+        node.src = canvas.toDataURL();
+        mw.wysiwyg.normalizeBase64Image(node);
+
+        })
+    },
+
       _dragActivated : false,
       _dragcurrent : null,
       _dragparent : null,
@@ -435,8 +464,12 @@ mw.image = {
         img.className = 'semi_hidden';
         img.src = url;
         img.onload = function(){
-          callback.call(img);
-          $(img).remove();
+          setTimeout(function(){
+            if(typeof callback === 'function'){
+              callback.call(img);
+            }
+            $(img).remove();
+          },33);
         }
         mwd.body.appendChild(img);
       },
@@ -750,7 +783,8 @@ mw.toggle_subpanel = function(){
      });
      $(mwd.body).animate({paddingTop:170});
 
-
+     mw.$("#mw-toolbar-right").show();
+     mw.$("#editor_save").hide();
   }
   else{
     el.addClass("state-off");
@@ -763,9 +797,11 @@ mw.toggle_subpanel = function(){
     mw.$("#mw_toolbar_nav").slideUp(_speed, function(){
        mw.$("#mw-toolbar-right").css("top", 0);
        mw.$("#show_hide_sub_panel").css("top", 10);
+       mw.$("#editor_save").fadeIn();
     });
     //$(mwd.body).animate({paddingTop:0});
     $(mwd.body).animate({paddingTop:mw.$("#mw-text-editor").height()});
+    mw.$("#mw-toolbar-right").hide();
 
   }
 }

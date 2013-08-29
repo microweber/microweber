@@ -119,7 +119,7 @@ mw_save_draft_int = self.setInterval(function(){
 
 
 			  ?>
-<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info"><?php _e("Less"); ?></span></span>
+<span id="show_hide_sub_panel" onclick="mw.toggle_subpanel();"><span id="show_hide_sub_panel_slider"></span><span id="show_hide_sub_panel_info" style="left: auto"><?php _e("Less"); ?></span></span>
 
 
 <div id="mw-toolbar-right" class="mw-defaults">
