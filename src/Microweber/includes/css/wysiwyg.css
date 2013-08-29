@@ -87,6 +87,10 @@
 
 .editor_wrapper{
   padding: 4px 20px;
+
+}
+#mw-text-editor .editor_wrapper{
+   min-width: 830px;
 }
 
 .mw_editor_btn:hover, .mw_editor_btn_active{
@@ -298,6 +302,9 @@ border-radius: 3px;
    margin-right: 6px;
    margin-top: 12px;
 }
+.wysiwyg-component-title .dd_rte_arr {
+  margin:6px 3px 0 6px;
+}
 
 .mw_dropdown_type_wysiwyg .mw_dropdown_fields{
   top: 22px;
@@ -358,6 +365,7 @@ border-radius: 3px;
 
 #mw-admin-text-editor .editor_wrapper{
     padding: 4px 0 4px 5px;
+
 }
 
 .mw-admin-editor .mw-admin-editor-area{
@@ -466,23 +474,33 @@ border-radius: 3px;
 }
 
 
-@media (max-width: 1000px) {
-  .wysiwyg-component-title{
+
+
+
+
+.wg-1 .wysiwyg-component-title{
     display: inline-block;
   }
-  .wysiwyg-component-items{
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    padding: 10px;
-    background: #F5F5F5;
-    box-shadow: 0 0 3px #D2D2D2;
-  }
-  .wysiwyg-component-items.wysiwyg-component-active{
-    display: block;
-  }
+.wg-1 .wysiwyg-component-items{
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 10px;
+  background: #F5F5F5;
+  box-shadow: 0 0 3px #D2D2D2;
+}
+.wg-1 .wysiwyg-component-items.wysiwyg-component-active{
+  display: block;
+}
 
+
+.mwwysiwygscaleController{
+  position: absolute;
+  width:1px;
+  height:12px;
+  overflow: hidden;
+  outline: 1px solid red;
 }
 
 

@@ -14,6 +14,7 @@ if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
 
 
 api_expose('layouts/save');
+api_expose('layouts/template_remove_custom_css');
 class Layouts
 {
 
@@ -451,6 +452,55 @@ class Layouts
         }
     }
 
+    function template_check_for_custom_css($template_name)
+    {
+        $template = $template_name;
+        if (trim($template) == '') {
+            $template = 'default';
+        }
+        $final_file_blocks = array();
+
+        if ($template != false) {
+
+            $template_folder = MW_TEMPLATES_DIR . $template . DS;
+            $live_edit_css = $template_folder . 'live_edit.css';
+            $fcont = '';
+            if (is_file($live_edit_css)) {
+                return $live_edit_css;
+            }
+        }
+    }
+
+    function template_remove_custom_css($params)
+    {
+        $is_admin = is_admin();
+        if ($is_admin == false) {
+            return false;
+        }
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        $template = false;
+        if (isset($params['template'])) {
+
+            $template = $params['template'];
+        }
+
+        if($template != false){
+            $tf = $this->template_check_for_custom_css($template);
+            $tf2 = $tf.'.bak';
+
+
+            if(rename($tf, $tf2)){
+                return array('success' => 'Custom css is removed');
+            } else {
+                return array('error' => 'File could not be removed');
+            }
+
+        }
+
+        return $params;
+    }
 
     function template_save_css($params)
     {
@@ -480,12 +530,13 @@ class Layouts
             $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
         }
 
+
         if (!is_array($ref_page) or empty($ref_page)) {
             return false;
         }
         $pd = $ref_page;
 
-        if ($is_admin == true and is_array($pd) and (isset($pd["active_site_template"]) or isset($pd["layout_file"]))) {
+        if ($is_admin == true and is_array($pd)) {
             $save_page = $pd;
 
             if (isset($save_page["layout_file"]) and $save_page["layout_file"] == 'inherit') {
@@ -499,7 +550,7 @@ class Layouts
                 }
             }
             $template = false;
-            if (!isset($save_page['active_site_template'])) {
+            if (!isset($save_page['active_site_template']) or $save_page['active_site_template'] == '') {
                 $template = 'default';
             } else if (isset($save_page['active_site_template'])) {
                 $template = $save_page['active_site_template'];
@@ -521,6 +572,9 @@ class Layouts
                     if (isset($item['selector'])) {
                         $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.mwfx', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.mw_image_resizer', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.ui-resizable', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.ui-draggable', '', $item["selector"]);
 
 
                         $sel = $item['selector'];
@@ -548,6 +602,7 @@ class Layouts
 
 
                 }
+
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
                     d($css_cont_new);
                     file_put_contents($live_edit_css, $css_cont_new);

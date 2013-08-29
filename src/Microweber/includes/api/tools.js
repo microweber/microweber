@@ -2478,6 +2478,26 @@ $(document).ready(function(){
     else{return false;}
   });
    }
+
+
+_mwoldww = $(window).width();
+
+$(window).resize(function() {
+
+
+
+  if($(window).width() >_mwoldww){
+     $(window).trigger("increaseWidth");
+  }
+  else if($(window).width() < _mwoldww){
+     $(window).trigger("decreaseWidth");
+  }
+  $.noop();
+ _mwoldww = $(window).width();
+});
+
+
+
 });
 
 

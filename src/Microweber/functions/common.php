@@ -2332,3 +2332,14 @@ function html_cleanup($s, $tags = false)
 
 
 
+
+
+
+function notif($sting, $class = 'success'){
+    return mw('format')->notif($sting,$class);
+}
+
+function lnotif($sting, $class = 'success'){
+    return mw('format')->lnotif($sting,$class);
+}
+
