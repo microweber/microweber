@@ -10,7 +10,7 @@
    $rand = uniqid();
     ?>
 <?php if(!isset($params['for-module']) or !isset($params['for-module-id'])): ?>
-<?php  print mw('format')->notif('Error: in module "'.$config['module'].'" - You must set "for-module" and "for-module-id" parameters on this module', 'error'); return; ?>
+<?php  print notif('Error: in module "'.$config['module'].'" - You must set "for-module" and "for-module-id" parameters on this module', 'error'); return; ?>
 <?php endif; ?>
 <script  type="text/javascript">
   mw.require("forms.js",true);
@@ -42,7 +42,7 @@ function mw_create_new_list_<?php print $rand; ?>(){
 
 
 </script>
-<?php $selected_list = mw('option')->get('list_id', $params['for-module-id']);
+<?php $selected_list = get_option('list_id', $params['for-module-id']);
 $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-module']);;
   ?>
 <?php if(is_array($data )): ?>

@@ -34,12 +34,12 @@
 
 <?php 
 
-$paypal_is_test = (mw('option')->get('paypalpro_testmode', 'payments')) == 'y'; 
+$paypal_is_test = (get_option('paypalpro_testmode', 'payments')) == 'y'; 
  
 ?>
  
 <?php if($paypal_is_test == true and is_admin()): ?>
-<small><?php print mw('format')->notif("You are using Paypal Pro in test mode!"); ?></small>
+<small><?php print notif("You are using Paypal Pro in test mode!"); ?></small>
 <?php endif; ?>
 
 

@@ -79,8 +79,8 @@ $get_comments_params['is_new'] = 'y';
     <module type="admin/modules/templates"  />
   </div>
   <div class="tab semi_hidden">
-    <?php $display_comments_from =  mw('option')->get('display_comments_from', $params['id']); ?>
-    <?php $display_comments_from_which_post =  mw('option')->get('display_comments_from_which_post', $params['id']); ?>
+    <?php $display_comments_from =  get_option('display_comments_from', $params['id']); ?>
+    <?php $display_comments_from_which_post =  get_option('display_comments_from_which_post', $params['id']); ?>
     <label class="mw-ui-label"><?php _e("Display comments from"); ?></label>
     <div class="mw-ui-field-holder checkbox-plus-select">
       <label class="mw-ui-check">
@@ -134,14 +134,14 @@ $comment_modules['limit'] =  '200';
 	
 	 if(is_array($comment_modules )): ?>
       <?php foreach($comment_modules  as $item): ?>
-      <?php $comment_module_title =  mw('option')->get('form_title', $item['rel_id']); ?>
+      <?php $comment_module_title =  get_option('form_title', $item['rel_id']); ?>
       <?php // d( $comment_module_title); ?>
       <?php if($comment_module_title != false and trim($comment_module_title) != ''){
 	$comments_module_select[$item['rel_id']] = $comment_module_title ;
 }
 ?><?php endforeach ; ?>
       <?php endif; ?>
-      <?php   $curent_val = mw('option')->get('module_id', $params['id']); ?>
+      <?php   $curent_val = get_option('module_id', $params['id']); ?>
       <?php if(is_array($comments_module_select )): ?>
       <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
         <option value="<?php print $params['id'] ?>" <?php if($curent_val == $params['id']): ?> selected="selected" <?php endif; ?>><?php _e("This module"); ?></option>
@@ -156,7 +156,7 @@ $comment_modules['limit'] =  '200';
         <?php endforeach ; ?>
       </select>
       <?php else : ?>
-      <input type="text"  placeholder="<?php print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print mw('option')->get('module_id', $params['id']) ?>" />
+      <input type="text"  placeholder="<?php print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
       <?php endif; ?>
     </div>
     
@@ -169,15 +169,15 @@ $comment_modules['limit'] =  '200';
     <div class="mw_clear"></div>
     <hr>
     <label class="mw-ui-check">
-      <?php  $enable_comments_paging = mw('option')->get('enable_comments_paging',  $params['id'])=='y';  ?>
+      <?php  $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  ?>
       <input type="checkbox"   <?php if($enable_comments_paging): ?>   checked="checked"  <?php endif; ?> value="y" name="enable_comments_paging" class="mw_option_field" />
       <span></span> <span><?php _e("Show paging"); ?></span> </label>
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline"><?php _e("Comments per page"); ?></label>
-    <input type="text"  placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"  name="comments_per_page"   value="<?php print mw('option')->get('comments_per_page', $params['id']) ?>" />
+    <input type="text"  placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline"><?php _e("Form title"); ?> </label>
-    <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print mw('option')->get('form_title', $params['id']) ?>" />
+    <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
   </div>
 </div>
 <?php endif; ?>

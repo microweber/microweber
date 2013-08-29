@@ -10,7 +10,7 @@
     $content_id =  $params['content_id'];
 
 
-    $moderation_is_required =  mw('option')->get('require_moderation', 'comments')=='y';
+    $moderation_is_required =  get_option('require_moderation', 'comments')=='y';
 
 ?>
 

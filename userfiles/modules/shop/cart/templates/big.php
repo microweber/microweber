@@ -89,13 +89,13 @@ description: Full width cart template
   <?php endif ; ?>
   <?php
       if(!isset($params['checkout-link-enabled'])){
-    	  $checkout_link_enanbled =  mw('option')->get('data-checkout-link-enabled', $params['id']);
+    	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
       } else {
     	   $checkout_link_enanbled = $params['checkout-link-enabled'];
       }
    ?>
   <?php if($checkout_link_enanbled != 'n') :?>
-  <?php $checkout_page =mw('option')->get('data-checkout-page', $params['id']); ?>
+  <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
   <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 	   $checkout_page_link = mw('content')->link($checkout_page).'/view:checkout';
    } else {

@@ -122,7 +122,7 @@ if (isset($url1["query"]) and $url1["query"] != '') {
 $myPaypal = new Paypal();
 
 // Specify your paypal email
-$myPaypal -> addField('business', trim(mw('option')->get('paypalexpress_username', 'payments')));
+$myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'payments')));
 
 
 
@@ -133,8 +133,8 @@ $place_order['payment_amount'] = $amount;
 
 $place_order['payment_shipping'] = $place_order['shipping'];
 if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
-	 $payment_currency = mw('option')->get('payment_currency', 'payments');  
-  	$payment_currency_rate = mw('option')->get('payment_currency_rate', 'payments'); 
+	 $payment_currency = get_option('payment_currency', 'payments');  
+  	$payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
 	if($payment_currency_rate != false){
 	 $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
 	 $payment_currency_rate = floatval( $payment_currency_rate);
@@ -186,7 +186,7 @@ $myPaypal -> addField('shipping', $place_order['payment_shipping']);
 $myPaypal -> addField('total_items', $place_order['items_count']);
 // Enable test mode if needed
 
-$paypal_is_test = (mw('option')->get('paypalexpress_testmode', 'payments')) == 'y';
+$paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 if($paypal_is_test  == true){
 $myPaypal -> enableTestMode();
 }

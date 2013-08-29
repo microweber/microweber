@@ -34,7 +34,7 @@ mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post" >
   <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
             <div class="control-group">
-                <?php if(mw('option')->get('disable_captcha', $params['id']) !='y'): ?>
+                <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
                     <label><?php _e("Enter Security code"); ?></label>
                     <div class="captcha-holder">
                       <input name="captcha" type="text" required class="mw-captcha-input"/>

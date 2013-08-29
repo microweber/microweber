@@ -55,7 +55,7 @@ if (isset($post_params['data-show'])) {
 
     $show_fields = $post_params['data-show'];
 } else {
-    $show_fields = mw('option')->get('data-show', $params['id']);
+    $show_fields = get_option('data-show', $params['id']);
 }
 
 if ($show_fields != false and is_string($show_fields)) {
@@ -67,13 +67,13 @@ if ($show_fields != false and is_string($show_fields)) {
 
 
 if (!isset($post_params['data-limit'])) {
-    $post_params['limit'] = mw('option')->get('data-limit', $params['id']);
+    $post_params['limit'] = get_option('data-limit', $params['id']);
 }
 $cfg_page_id = false;
 if (isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
 } else {
-    $cfg_page_id = mw('option')->get('data-page-id', $params['id']);
+    $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
 $posts_parent_category = false;
@@ -88,7 +88,7 @@ if(isset($post_params['category'])){
 			$page_categories = false;
 			if(intval($cfg_page_id) != 0){
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
-					$page_categories = mw('db')->get($str0);
+					$page_categories = get($str0);
 					// d($page_categories);
 						if(is_array($page_categories)){
 						foreach ($page_categories as $item_cat){
@@ -144,7 +144,7 @@ if (isset($post_params['data-thumbnail-size'])) {
         $tn_size = $temp;
     }
 } else {
-    $cfg_page_item = mw('option')->get('data-thumbnail-size', $params['id']);
+    $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
     if ($cfg_page_item != false) {
         $temp = explode('x', strtolower($cfg_page_item));
 

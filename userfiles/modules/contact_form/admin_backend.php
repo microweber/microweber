@@ -1,7 +1,7 @@
 <div id="mw_edit_pages_content" style="width: auto">
   <div id="mw_index_contact_form">
     <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
-      <?php $mw_notif =  (mw('url')->param('mw_notif'));
+      <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
  $mw_notif = mw('Microweber\Notifications')->read( $mw_notif);
 
@@ -30,8 +30,8 @@ mw('Microweber\Notifications')->mark_as_read('contact_form');
 
 
 $load_list = 'default';
-if((mw('url')->param('load_list') != false)){
-    $load_list = mw('url')->param('load_list');
+if((url_param('load_list') != false)){
+    $load_list = url_param('load_list');
 }
 
 
@@ -39,8 +39,8 @@ if((mw('url')->param('load_list') != false)){
       <?php
 $templates = '';
 $load_templates = false;
-if((mw('url')->param('templates') != false)){
-    $templates = mw('url')->param('templates');
+if((url_param('templates') != false)){
+    $templates = url_param('templates');
 	if($templates == 'browse' or $templates == 'add_new'){
 		$load_list = false;
 		$load_templates = $templates;

@@ -26,7 +26,7 @@
       class="mw-ui-field mw_option_field"
       id="addr"
       type="text"
-      value="<?php print mw('option')->get('data-address', $params['id']) ?>" />
+      value="<?php print get_option('data-address', $params['id']) ?>" />
 </div>
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label" style="padding-bottom: 20px;"><?php _e("Zoom Level"); ?></label>
@@ -34,7 +34,7 @@
 <div
     data-type=""
     data-custom="zoommap"
-    data-value="<?php print mw('option')->get('data-zoom', $params['id']) ?>"
+    data-value="<?php print get_option('data-zoom', $params['id']) ?>"
     data-max="19"
     data-min="0"
     id="val_slider"
@@ -47,7 +47,7 @@
     name="data-zoom"
     class="mw-ui-field mw_option_field semi_hidden"
     type="text" id="zoom_level"
-    value="<?php print mw('option')->get('data-zoom', $params['id']) ?>" />
+    value="<?php print get_option('data-zoom', $params['id']) ?>" />
 </div>
 
 </div>

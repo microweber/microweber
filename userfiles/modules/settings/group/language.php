@@ -20,7 +20,7 @@ $(document).ready(function(){
     </small> </label>
   <div class="mw-ui-select">
     <?php
-        $def_language = mw('option')->get('language','website');
+        $def_language = get_option('language','website');
 
 if($def_language == false){
   $def_language = 'en';

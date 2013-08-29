@@ -251,7 +251,7 @@ $(document).ready(function(){
 <?php $menus = get_menu(); ?>
 <?php
 
-$menu_name = mw('option')->get('menu_name', $params['id']);
+$menu_name = get_option('menu_name', $params['id']);
 
 	if($menu_name  == false and isset( $params['menu_name'])){
  		$menu_name =  $params['menu_name'];

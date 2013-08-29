@@ -6,7 +6,7 @@ if(isset($params['name'])){
 } else {
 $params['menu-name'] = 'header_menu';	
 }
-  $menu_name = mw('option')->get('menu_name', $params['id']);
+  $menu_name = get_option('menu_name', $params['id']);
 
 if($menu_name != false){
 	$params['menu-name'] = $menu_name;
@@ -27,7 +27,7 @@ if(isset($params['menu-name'])){
 				$menu_filter['menu_id'] = intval($menu['id']);
 		
 		
-				$module_template = mw('option')->get('data-template',$params['id']);
+				$module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
 				}
@@ -61,12 +61,12 @@ if(isset($params['menu-name'])){
 		
 	} else {
 		//mw('content')->pages_tree($params);
-		   print mw('format')->lnotif("Click on settings to edit this menu");
+		   print lnotif("Click on settings to edit this menu");
 	}
 
 } else {
 	//mw('content')->pages_tree($params);
-	 print mw('format')->lnotif("Click on settings to edit this menu");
+	 print lnotif("Click on settings to edit this menu");
 }
 
 

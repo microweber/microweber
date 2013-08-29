@@ -176,7 +176,7 @@ $(document).ready(function(){
 <?php
 
 $page_path = $path_here;
-$module_help_url = mw('url')->param('module_help');
+$module_help_url = url_param('module_help');
 if($module_help_url != false and $module_help_url != ''){
 $module_help_url = module_name_decode($module_help_url);	
  $module_path  = module_path($module_help_url);

@@ -34,22 +34,22 @@
       <label class="mw-ui-label" style="padding-bottom: 0;"><span class="ico ismall_warn"></span><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email To"); ?></label>
-        <input placeholder="Your Email"  name="email_to"     value="<?php print mw('option')->get('email_to', $params['id']); ?>"     class="mw-ui-field mw_option_field" type="text" />
+        <input placeholder="Your Email"  name="email_to"     value="<?php print get_option('email_to', $params['id']); ?>"     class="mw-ui-field mw_option_field" type="text" />
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("BCC Email To"); ?></label>
-        <input placeholder="Your Email"  name="email_bcc"    value="<?php print mw('option')->get('email_bcc', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
+        <input placeholder="Your Email"  name="email_bcc"    value="<?php print get_option('email_bcc', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
       </div>
       
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Subject"); ?></label>
-        <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<?php print mw('option')->get('email_autorespond_subject', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
+        <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<?php print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
       </div>
       
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Message"); ?></label>
 		<textarea id="editorDEMO" name="email_autorespond" class="mw_option_field">
-			<?php print mw('option')->get('email_autorespond', $params['id']); ?>     
+			<?php print get_option('email_autorespond', $params['id']); ?>     
 		</textarea>
         <script>var editor = mw.tools.iframe_editor(mwd.getElementById('editorDEMO')); editor.style.width = '100%';</script>
         <label class="mw-ui-label"><span class="ico ismall_warn"></span><small><?php _e("Autorespond e-mail sent back to the user"); ?></small></label>
@@ -62,7 +62,7 @@
             name="disable_captcha"
             value="y"
             class="mw_option_field"
-            <?php if(mw('option')->get('disable_captcha', $params['id']) =='y'): ?>   checked="checked"  <?php endif; ?>
+            <?php if(get_option('disable_captcha', $params['id']) =='y'): ?>   checked="checked"  <?php endif; ?>
       />
       <span></span> <span><?php _e("Disable Code Verification ex"); ?>.:</span> </label>
     <img src="<?php print MW_INCLUDES_URL; ?>img/code_verification_example.jpg" class="relative" style="top: 7px;left:10px;" alt="" />

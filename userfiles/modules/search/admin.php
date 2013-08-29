@@ -1,5 +1,5 @@
 <?php $pages = get_content('content_type=page&subtype=dynamic&limit=1000');   ?>
-<?php $posts_parent_page =  mw('option')->get('data-content-id', $params['id']); ?>
+<?php $posts_parent_page =  get_option('data-content-id', $params['id']); ?>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">

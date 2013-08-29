@@ -17,7 +17,7 @@ if (isset($post_params['id'])) {
 if (isset($params['curent_page'])) {
 	$curent_page = $params['curent_page'];
 } else {
- $curent_page_from_url = mw('url')->param($paging_param);
+ $curent_page_from_url = url_param($paging_param);
 
  if($curent_page_from_url != false){
 	 	$curent_page = $curent_page_from_url;
@@ -45,7 +45,7 @@ if (isset($post_params['data-category-id'])) {
 
 if(!isset($config['template_file'])){
 
-//$config['template'] = mw('option')->get('data-template', $config['id']);
+//$config['template'] = get_option('data-template', $config['id']);
 	//$config['template_file'] =
 }
 
@@ -73,7 +73,7 @@ if (isset($post_params['data-show'])) {
 } else {
 
 }
-$show_fields1 = mw('option')->get('data-show', $params['id']);
+$show_fields1 = get_option('data-show', $params['id']);
 if ($show_fields1 != false  and is_string($show_fields1)  and trim($show_fields1) != '' ){
    $show_fields =$show_fields1;
 }
@@ -90,7 +90,7 @@ if (isset($post_params['data-limit'])) {
 
 
 if (!isset($post_params['data-limit'])) {
-    $lim = mw('option')->get('data-limit', $params['id']);
+    $lim = get_option('data-limit', $params['id']);
     if($lim != false){
     	$post_params['limit'] = $lim;
     }
@@ -98,21 +98,21 @@ if (!isset($post_params['data-limit'])) {
 
 }
 
- $posts_parent_category =  mw('option')->get('data-category-id', $params['id']);
+ $posts_parent_category =  get_option('data-category-id', $params['id']);
 
  $set_category_for_posts = false;
 
- $lim = mw('option')->get('data-limit', $params['id']);
+ $lim = get_option('data-limit', $params['id']);
     if($lim != false){
     	$post_params['data-limit'] = $post_params['limit'] = $lim;
     }
-$cfg_page_id = mw('option')->get('data-page-id', $params['id']);
+$cfg_page_id = get_option('data-page-id', $params['id']);
 if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
      $cfg_page_id =   intval($post_params['data-page-id']);
 } else if($cfg_page_id == false and isset($post_params['content_id'])) {
      $cfg_page_id =   intval($post_params['content_id']);
 } else {
-   // $cfg_page_id = mw('option')->get('data-page-id', $params['id']);
+   // $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
 
@@ -135,7 +135,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 			$page_categories = false;
 			if($posts_parent_category != false and intval($posts_parent_category) > 0 and intval($cfg_page_id) != 0){
 						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
-					$page_categories = mw('db')->get($str0);
+					$page_categories = get($str0);
 					// d($page_categories);
 						if(is_array($page_categories)){
 						foreach ($page_categories as $item_cat){
@@ -183,7 +183,7 @@ if (isset($post_params['data-thumbnail-size'])) {
         $tn_size = $temp;
     }
 } else {
-    $cfg_page_item = mw('option')->get('data-thumbnail-size', $params['id']);
+    $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
     if ($cfg_page_item != false) {
         $temp = explode('x', strtolower($cfg_page_item));
 
@@ -194,14 +194,14 @@ if (isset($post_params['data-thumbnail-size'])) {
 }
 
 $character_limit = 120;
-$cfg_character_limit = mw('option')->get('data-character-limit', $params['id']);
+$cfg_character_limit = get_option('data-character-limit', $params['id']);
 if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
 	$character_limit = intval($cfg_character_limit);
 } else if(isset($params['description-length'])){
 	$character_limit = intval($params['description-length']);
 }
  $title_character_limit = 200;
- $cfg_character_limit1 = mw('option')->get('data-title-limit', $params['id']);
+ $cfg_character_limit1 = get_option('data-title-limit', $params['id']);
 if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
 	$title_character_limit = intval($cfg_character_limit1);
 } else if(isset($params['title-length'])){
@@ -266,12 +266,12 @@ $post_params['orderby'] ='position desc';
 
 
 
-$ord_by =  mw('option')->get('data-order-by', $params['id']);
+$ord_by =  get_option('data-order-by', $params['id']);
 if($ord_by != false and trim($ord_by) != ''){
 	$post_params['orderby'] =$ord_by;
 }
 
- $date_format = mw('option')->get('date_format','website');
+ $date_format = get_option('date_format','website');
 if($date_format == false){
 $date_format = "Y-m-d H:i:s";
 }
@@ -283,7 +283,7 @@ if(isset($params['title'])){
 $post_params['is_active'] = 'y';
 $post_params['is_deleted'] = 'n';
 
-$cat_from_url = mw('url')->param('category');
+$cat_from_url = url_param('category');
 
 if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat_from_url != false and trim($cat_from_url) != ''){
 	$post_params['category'] = mw('db')->escape_string($cat_from_url);
@@ -366,10 +366,10 @@ if (!empty($content)){
 // }
 } else {
 	 if(isset($params['is_shop'])){
-		 	print mw('format')->lnotif('Your products module is empty');
+		 	print lnotif('Your products module is empty');
 
 	 } else {
-		 	print mw('format')->lnotif('Your posts module is empty');
+		 	print lnotif('Your posts module is empty');
 
 	 }
 }
@@ -380,7 +380,7 @@ $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
 //$post_params_paging['page_count'] = true;
 //$post_params_paging['data-limit'] = $post_params_paging['limit'] = false;
-$cfg_data_hide_paging = mw('option')->get('data-hide-paging', $params['id']);
+$cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
 
 if($cfg_data_hide_paging == false){
 	if(isset($post_params['hide-paging'])){
@@ -402,14 +402,14 @@ if (intval($pages_count) > 1){
 
 }
 
-$read_more_text = mw('option')->get('data-read-more-text',$params['id']);
+$read_more_text = get_option('data-read-more-text',$params['id']);
 
 
 
 
 if(!isset( $params['return'])){
 
-	$module_template = mw('option')->get('data-template',$params['id']);
+	$module_template = get_option('data-template',$params['id']);
 	if($module_template == false and isset($params['template'])){
 		$module_template =$params['template'];
 	}
@@ -475,7 +475,7 @@ if($template_file == false){
 
 	} else {
 
-		print mw('format')->lnotif( 'No default template for '.  $config['module'] .' is found');
+		print lnotif( 'No default template for '.  $config['module'] .' is found');
 	}
 
 

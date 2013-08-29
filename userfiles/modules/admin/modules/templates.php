@@ -28,7 +28,7 @@ $mod_name = $params['parent-module'];
   //$_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
  
  
-$cur_template = mw('option')->get('data-template', $params['parent-module-id']);
+$cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?php  if(is_array( $templates)): ?>
 <label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
 <div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >

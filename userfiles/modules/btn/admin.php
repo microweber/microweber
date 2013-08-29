@@ -2,12 +2,12 @@
 
 
 <?php
-    $style =  mw('option')->get('button_style', $params['id']);
-    $size =  mw('option')->get('button_size', $params['id']);
-    $action =  mw('option')->get('button_action', $params['id']);
-    $url =  mw('option')->get('url', $params['id']);
-    $popupcontent =  mw('option')->get('popupcontent', $params['id']);
-    $text =  mw('option')->get('text', $params['id']);
+    $style =  get_option('button_style', $params['id']);
+    $size =  get_option('button_size', $params['id']);
+    $action =  get_option('button_action', $params['id']);
+    $url =  get_option('url', $params['id']);
+    $popupcontent =  get_option('popupcontent', $params['id']);
+    $text =  get_option('text', $params['id']);
 	 
 ?>
 

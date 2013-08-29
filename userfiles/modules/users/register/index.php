@@ -6,13 +6,13 @@
 <?php elseif(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password" />
 <?php else:  ?>
-<?php $form_btn_title =  mw('option')->get('form_btn_title', $params['id']);
+<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) {
 		$form_btn_title = 'Register';
 		}
 
 
-$enable_user_fb_registration =  mw('option')->get('enable_user_fb_registration', $params['id']);
+$enable_user_fb_registration =  get_option('enable_user_fb_registration', $params['id']);
 if($enable_user_fb_registration == 'y') {
 $enable_user_fb_registration = true;
 } else {
@@ -20,12 +20,12 @@ $enable_user_fb_registration = false;
 }
 
 if($enable_user_fb_registration == true){
-	$enable_user_fb_registration_site =  mw('option')->get('enable_user_fb_registration', 'users');
+	$enable_user_fb_registration_site =  get_option('enable_user_fb_registration', 'users');
 	if($enable_user_fb_registration_site == 'y') {
 	$enable_user_fb_registration = true;
 
-	$fb_app_id  = mw('option')->get('fb_app_id','users');
-	$fb_app_secret  = mw('option')->get('fb_app_secret','users');
+	$fb_app_id  = get_option('fb_app_id','users');
+	$fb_app_secret  = get_option('fb_app_secret','users');
 
 	if($fb_app_id != false){
 	$fb_app_id = trim($fb_app_id);
@@ -52,7 +52,7 @@ if($enable_user_fb_registration == true){
 		 ?>
 <?php //$rand = uniqid(); ?>
 <?php
-$module_template = mw('option')->get('data-template',$params['id']);
+$module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
 				}

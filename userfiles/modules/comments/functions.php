@@ -6,7 +6,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
 event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn() {
-	$active = mw('url')->param('view');
+	$active = url_param('view');
 	$cls = '';
 	if ($active == 'comments') {
 		$cls = ' class="active" ';
@@ -22,7 +22,7 @@ function mw_print_admin_dashboard_comments_btn() {
 //event_bind('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
 
 function mw_print_admin_comments_settings_link() {
-	$active = mw('url')->param('view');
+	$active = url_param('view');
 	$cls = '';
 	if ($active == 'comments') {
 		$cls = ' class="active" ';
@@ -166,7 +166,7 @@ function post_comment($data) {
 	if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
 		$data['is_moderated'] = 'y';
 	} else {
-		$require_moderation = mw('option')->get('require_moderation', 'comments');
+		$require_moderation = get_option('require_moderation', 'comments');
 		if ($require_moderation != 'y') {
 			$data['is_moderated'] = 'y';
 		}
@@ -204,8 +204,8 @@ $data['comment_body'] = $res_1;
 		$notif['content'] = mw('format')->limit($data['comment_body'], 800);
 		mw('Microweber\Notifications')->save($notif);
 
-		$email_on_new_comment = mw('option')->get('email_on_new_comment', 'comments') == 'y';
-		$email_on_new_comment_value = mw('option')->get('email_on_new_comment_value', 'comments');
+		$email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
+		$email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
 
 		if ($email_on_new_comment == true) {
 			$subject = "You have new comment";
@@ -255,7 +255,7 @@ function get_comments($params) {
 	$table = MODULE_DB_COMMENTS;
 	$params['table'] = $table;
 
-	$comments = mw('db')->get($params);
+	$comments = get($params);
 
 	if(is_array($comments)){
 		$i = 0;

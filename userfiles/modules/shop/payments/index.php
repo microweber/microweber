@@ -38,5 +38,5 @@ $(document).ready(function(){
 
 </div>
 <?php else : ?>
-<?php print mw('format')->lnotif("Click here to edit Payment Options"); ?>
+<?php print lnotif("Click here to edit Payment Options"); ?>
 <?php endif;?>

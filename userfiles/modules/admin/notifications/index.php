@@ -126,7 +126,7 @@ mw.notif_reset_all = function(){
     <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green"><?php _e("Manage your Content"); ?></a>
    </p>
     <br>
-   <?php //print mw('format')->notif('No new notifications available!'); ?>
+   <?php //print notif('No new notifications available!'); ?>
 
 </div>
 </div>

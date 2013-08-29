@@ -155,7 +155,7 @@ $(document).ready(function(){
     <?php endif; ?>
     <?php if($is_up_to_date == true) : ?>
     <tr class="mw-table-head">
-      <td colspan="3"><?php print mw('format')->notif('Everything is up to date') ?></td>
+      <td colspan="3"><?php print notif('Everything is up to date') ?></td>
     </tr>
     <?php endif; ?>
   </table>

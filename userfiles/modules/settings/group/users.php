@@ -86,7 +86,7 @@ mw.tools.tabGroup({
 
  </style>
 <div class="<?php print $config['module_class'] ?>">
-  <?php  $curent_val = mw('option')->get('enable_user_registration','users'); ?>
+  <?php  $curent_val = get_option('enable_user_registration','users'); ?>
   <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
   <div class="mw-ui-select">
     <select name="enable_user_registration" class="mw_option_field"   type="text" option-group="users">
@@ -102,11 +102,11 @@ mw.tools.tabGroup({
 
   <?php
 
- $enable_user_fb_registration = mw('option')->get('enable_user_fb_registration','users');
- $enable_user_google_registration = mw('option')->get('enable_user_google_registration','users');
- $enable_user_github_registration = mw('option')->get('enable_user_github_registration','users');
- $enable_user_twitter_registration = mw('option')->get('enable_user_twitter_registration','users');
- $enable_user_windows_live_registration = mw('option')->get('enable_user_windows_live_registration','users');
+ $enable_user_fb_registration = get_option('enable_user_fb_registration','users');
+ $enable_user_google_registration = get_option('enable_user_google_registration','users');
+ $enable_user_github_registration = get_option('enable_user_github_registration','users');
+ $enable_user_twitter_registration = get_option('enable_user_twitter_registration','users');
+ $enable_user_windows_live_registration = get_option('enable_user_windows_live_registration','users');
 
 
  if($enable_user_fb_registration == false){
@@ -166,10 +166,10 @@ mw.tools.tabGroup({
     <li><?php _e("If asked for callback url - use"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Facebook') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("App ID/API Key"); ?></label>
-  <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print mw('option')->get('fb_app_id','users'); ?>" />
+  <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline"><?php _e("App Secret"); ?></label>
-  <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print mw('option')->get('fb_app_secret','users'); ?>" />
+  <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
 </div>
 
 
@@ -180,10 +180,10 @@ mw.tools.tabGroup({
     <li><?php _e("In redirect URI  please enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Google') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
-  <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print mw('option')->get('google_app_id','users'); ?>" />
+  <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('google_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
-  <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print mw('option')->get('google_app_secret','users'); ?>" />
+  <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('google_app_secret','users'); ?>" />
 
  </div>
 
@@ -196,10 +196,10 @@ mw.tools.tabGroup({
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Github') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
-  <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print mw('option')->get('github_app_id','users'); ?>" />
+  <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('github_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
-  <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print mw('option')->get('github_app_secret','users'); ?>" />
+  <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
 
   </div>
 
@@ -215,10 +215,10 @@ mw.tools.tabGroup({
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Twitter') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Consumer key"); ?></label>
-  <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print mw('option')->get('twitter_app_id','users'); ?>" />
+  <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('twitter_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline"><?php _e("Consumer secret"); ?></label>
-  <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print mw('option')->get('twitter_app_secret','users'); ?>" />
+  <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
 
  </div>
    <div class="group-logins">
@@ -228,10 +228,10 @@ mw.tools.tabGroup({
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print mw('url')->api_link('social_login_process?hauth.done=Live') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
-  <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print mw('option')->get('windows_live_app_id','users'); ?>" />
+  <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('windows_live_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
-  <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print mw('option')->get('windows_live_app_secret','users'); ?>" />
+  <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('windows_live_app_secret','users'); ?>" />
  </div>
 
 
@@ -244,7 +244,7 @@ mw.tools.tabGroup({
 
    <h2>Yahoo</h2>
   <label class="mw-ui-label">Enable Yahoo Login </label>
-  <?php   $enable_user_yahoo_registration = mw('option')->get('enable_user_yahoo_registration','users');
+  <?php   $enable_user_yahoo_registration = get_option('enable_user_yahoo_registration','users');
 
  if($enable_user_yahoo_registration == false){
   $enable_user_yahoo_registration = 'n';
@@ -265,10 +265,10 @@ mw.tools.tabGroup({
     <li>In Callback URL please enter <em><?php print mw('url')->api_link('social_login_process?hauth.done=Yahoo') ?></em></li>
   </ul>
   <label class="mw-ui-label-inline">Consumer key</label>
-  <input name="yahoo_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<?php print mw('option')->get('yahoo_app_id','users'); ?>" />
+  <input name="yahoo_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<?php print get_option('yahoo_app_id','users'); ?>" />
   <div class="vSpace"></div>
   <label class="mw-ui-label-inline">Consumer secret</label>
-  <input name="yahoo_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<?php print mw('option')->get('yahoo_app_secret','users'); ?>" />
+  <input name="yahoo_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<?php print get_option('yahoo_app_secret','users'); ?>" />
   <?php endif; ?>
   <div class="vSpace"></div>
   <div class="vSpace"></div>

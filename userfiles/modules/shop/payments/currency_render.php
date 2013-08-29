@@ -7,13 +7,13 @@ $curencies = mw('shop')->currency_get_for_paypal();
 
 
 
-$cur = mw('option')->get('currency', 'payments');  
+$cur = get_option('currency', 'payments');  
 //$num = rand(50,1000).'.'.rand(10,100);;
 $num = 1.00;
 ?>
 <?php if (!in_array(strtoupper($cur), $curencies)): ?>
-<?php $payment_currency = mw('option')->get('payment_currency', 'payments');  ?>
-<?php $payment_currency_rate = mw('option')->get('payment_currency_rate', 'payments'); 
+<?php $payment_currency = get_option('payment_currency', 'payments');  ?>
+<?php $payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
 if($payment_currency_rate != false){
  $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
  $payment_currency_rate = floatval( $payment_currency_rate);

@@ -42,9 +42,9 @@ only_admin_access();
 	}
 
  if(isset($params_get_files['directory']) and !is_dir($params_get_files['directory'])){
-  mw('format')->notif('You are trying to open invalid folder', 'error');
+  notif('You are trying to open invalid folder', 'error');
  }  else if(isset($params_get_files['directory']) and is_dir($params_get_files['directory']) and !is_writable($params_get_files['directory'])){
-  mw('format')->notif('Your folder is not writable. You wont be able to upload in it.', 'warning');
+  notif('Your folder is not writable. You wont be able to upload in it.', 'warning');
  }
   //  $params['keyword']
  $data = mw('Microweber\Utils\Files')->get($params_get_files);

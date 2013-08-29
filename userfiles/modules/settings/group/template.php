@@ -19,7 +19,7 @@ $(document).ready(function(){
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-<?php $data = mw('option')->get('curent_template', 'template',1);
+<?php $data = get_option('curent_template', 'template',1);
 
  
  ?>

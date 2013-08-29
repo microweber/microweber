@@ -39,5 +39,5 @@
   
 </div>
 <?php else : ?>
-<?php print mw('format')->lnotif("Click here to edit Shipping Options"); ?>
+<?php print lnotif("Click here to edit Shipping Options"); ?>
 <?php endif;?>

@@ -970,7 +970,7 @@ mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
 				<?php _e("Selected"); ?>
 				</a> </div>
 			<?php if(intval($data['id']) > 0): ?>
-			<?php $in_cats = mw('db')->get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
+			<?php $in_cats = get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
   if(is_array($in_cats)){
    foreach($in_cats as $in_cat){
     $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];

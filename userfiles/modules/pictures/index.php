@@ -36,7 +36,7 @@ if(isset($params['for'])){
 	$params['for'] = 'content';
 }
 */
-if(mw('option')->get('data-use-from-post', $params['id']) =='y'){
+if(get_option('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
 	 } else {
@@ -75,7 +75,7 @@ $for_id = $params['rel_id'];
          $no_img = true;
  }
  
-$module_template = mw('option')->get('data-template',$params['id']);
+$module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
 } 
@@ -91,7 +91,7 @@ if($module_template != false){
 }
  
 if(isset($no_img) and ($no_img) != false){
-     print mw('format')->lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
+     print lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
 
 }
 else if($no_img  != true and !empty($data) and isset($template_file) and is_file($template_file) != false){
@@ -99,7 +99,7 @@ else if($no_img  != true and !empty($data) and isset($template_file) and is_file
 } else  {
 	?>
 	 
-<?php  print mw('format')->lnotif("No template found. Please choose template."); ?>
+<?php  print lnotif("No template found. Please choose template."); ?>
 
 <?php
 	

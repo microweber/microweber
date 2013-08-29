@@ -6,7 +6,7 @@
 </script>
 <?php
 
-$paypal_is_test = (mw('option')->get('paypalexpress_testmode', 'payments')) == 'y';
+$paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 
 ?>
 
@@ -20,5 +20,5 @@ $paypal_is_test = (mw('option')->get('paypalexpress_testmode', 'payments')) == '
 
 
 <?php if($paypal_is_test == true and is_admin()): ?>
-  <small><?php print mw('format')->notif("You are using Paypal Express in test mode!"); ?></small>
+  <small><?php print notif("You are using Paypal Express in test mode!"); ?></small>
 <?php endif; ?>

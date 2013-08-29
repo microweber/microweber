@@ -50,7 +50,7 @@
 	border: 1px solid #CACACA;
 	background-repeat: no-repeat;
 	background-size: cover;
-    background-image: url(<?php print mw('option')->get('avatartype_custom', 'comments');
+    background-image: url(<?php print get_option('avatartype_custom', 'comments');
 ?>);
 }
 .avatars-holder {
@@ -137,7 +137,7 @@
             </div>
             <label class="mw-ui-label-inline"><?php _e("Default comments settings"); ?></label>
             <label class="mw-ui-check">
-              <?php  $are_enabled = mw('option')->get('enable_comments', 'comments')=='y';  ?>
+              <?php  $are_enabled = get_option('enable_comments', 'comments')=='y';  ?>
               <input
                 type="checkbox"
                 name="enable_comments"
@@ -164,7 +164,7 @@
                 value="y"
                 class="mw_option_field"
                 option-group="comments"
-                <?php if(mw('option')->get('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
+                <?php if(get_option('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
               />
                     <span></span><span><?php _e("Users must be registered and logged in to comment"); ?></span> </label>
                 </div>
@@ -177,7 +177,7 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <?php if(mw('option')->get('require_moderation', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
+              <?php if(get_option('require_moderation', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span><?php _e("New comments require moderation"); ?></span> </label>
                 </div>
@@ -189,14 +189,14 @@
               value="y"
               class="mw_option_field"
               option-group="comments"
-              <?php if(mw('option')->get('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
+              <?php if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span><?php _e("Set paging in the comments"); ?></span> </label>
                   <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
                     <select name="paging" option-group="comments" class="mw_option_field">
                     
                       <?php
-        $per_page = mw('option')->get('paging', 'comments');
+        $per_page = get_option('paging', 'comments');
           $found = false;
           for($i=5; $i<40; $i+=5){
               if($i == $per_page){
@@ -220,7 +220,7 @@
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
-                    <?php $email_enabled = mw('option')->get('email_on_new_comment', 'comments')=='y';  ?>
+                    <?php $email_enabled = get_option('email_on_new_comment', 'comments')=='y';  ?>
                     <input
               type="checkbox"
               name="email_on_new_comment"
@@ -231,7 +231,7 @@
             />
                     <span></span><span><?php _e("New comment"); ?></span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
-                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" class="mw-ui-field mw_option_field" value="<?php print mw('option')->get('email_on_new_comment_value', 'comments'); ?>" />
+                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
                   </div>
                 </div>
               </div>
@@ -241,7 +241,7 @@
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
-                    <?php $avatar_enabled = mw('option')->get('avatar_enabled', 'comments')=='y';  ?>
+                    <?php $avatar_enabled = get_option('avatar_enabled', 'comments')=='y';  ?>
                     <input
               type="checkbox"
               name="avatar_enabled"
@@ -265,7 +265,7 @@
         value="1"
         class="mw_option_field"
         option-group="comments"
-        <?php if(mw('option')->get('avatar_style', 'comments')=='1'): ?>   checked="checked"  <?php endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='1'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-mysteryman"></i><?php _e("Super User"); ?></span></label>
                 </div>
@@ -277,7 +277,7 @@
         value="2"
         class="mw_option_field"
         option-group="comments"
-        <?php if(mw('option')->get('avatar_style', 'comments')=='2'): ?>   checked="checked"  <?php endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='2'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-randomcolor"></i><?php _e("Random Color"); ?></span></label>
                 </div>
@@ -289,7 +289,7 @@
         value="3"
         class="mw_option_field"
         option-group="comments"
-        <?php if(mw('option')->get('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span><i class="avatartype avatartype-mwuser"></i><?php _e("MW User Picture"); ?></span></label>
                 </div>
@@ -301,10 +301,10 @@
         value="4"
         class="mw_option_field"
         option-group="comments"
-        <?php if(mw('option')->get('avatar_style', 'comments')=='4'): ?>   checked="checked"  <?php endif; ?>
+        <?php if(get_option('avatar_style', 'comments')=='4'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span>
-                    <input type="hidden" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print mw('option')->get('avatartype_custom', 'comments'); ?>" />
+                    <input type="hidden" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print get_option('avatartype_custom', 'comments'); ?>" />
                     <i class="avatartype avatartype-upload"></i> <?php _e("Upload Picture"); ?></span></label>
                 </div>
               </div>

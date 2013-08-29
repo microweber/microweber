@@ -95,6 +95,6 @@ print  make_field($field);
 <?php else: ?>
  <?php endif; ?>
 <?php if($prined_items_count == 0): ?>
-<?php print mw('format')->lnotif("Click on settings to edit your custom fields."); ?>
+<?php print lnotif("Click on settings to edit your custom fields."); ?>
 <?php endif; ?>
  

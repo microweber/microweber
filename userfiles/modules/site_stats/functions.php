@@ -7,7 +7,7 @@ if (!defined("MODULE_DB_USERS_ONLINE")) {
 event_bind('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
 
 function mw_print_stats_on_dashboard() {
-	$active = mw('url')->param('view');
+	$active = url_param('view');
 	$cls = '';
 	if ($active == 'shop') {
 		//   $cls = ' class="active" ';
@@ -138,7 +138,7 @@ $few_mins_ago_visit_date = date("Y-m-d H:i:s");
 		//   $data['debug'] = date("H:i:s");
 
 		$table = MODULE_DB_USERS_ONLINE;
-		$check = mw('db')->get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
 			$vc = 0;
@@ -230,7 +230,7 @@ function stats_insert_cookie_based() {
 		//   $data['debug'] = date("H:i:s");
 
 		$table = MODULE_DB_USERS_ONLINE;
-		$check = mw('db')->get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
 			$vc = 0;

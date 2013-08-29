@@ -89,7 +89,7 @@ if(!isset($tn[1])){
         <?php endif; ?>
         <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
         <?php
-                $add_cart_text = mw('option')->get('data-add-to-cart-text', $params['id']);
+                $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
 			  if( $add_cart_text == false){  $add_cart_text =  _e("Add to cart", true); }
 
         ?>

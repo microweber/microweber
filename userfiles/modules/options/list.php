@@ -3,7 +3,7 @@ $orig_params = $params;
 if(isset($params['id'])){
 unset($params['id']);	
 }
-$opts = mw('option')->get($params);
+$opts = get_option($params);
 //d($opts);
 ?>
 <?php if(is_array($opts)): ?>

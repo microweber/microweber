@@ -1,8 +1,8 @@
 <?php //$rand = uniqid(); ?>
 <?php $pages = get_content('content_type=page&limit=1000');   ?>
-<?php $posts_parent_page =  mw('option')->get('data-parent', $params['id']); ?>
-<?php $posts_maxdepth =  mw('option')->get('maxdepth', $params['id']); ?>
-<?php $include_categories =  mw('option')->get('include_categories', $params['id']); ?>
+<?php $posts_parent_page =  get_option('data-parent', $params['id']); ?>
+<?php $posts_maxdepth =  get_option('maxdepth', $params['id']); ?>
+<?php $include_categories =  get_option('include_categories', $params['id']); ?>
 
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">

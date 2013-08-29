@@ -12,7 +12,7 @@
 
 
 
-<?php $form_btn_title =  mw('option')->get('form_btn_title', $params['id']);
+<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		    $form_btn_title = _e("Reset password", true);
 		}
@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 <?php
 
-$module_template = mw('option')->get('data-template',$params['id']);
+$module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];
 				}

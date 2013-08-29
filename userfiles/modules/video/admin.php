@@ -5,7 +5,7 @@
     class="semi_hidden mw_option_field"
     type="text"
     data-reload="<?php print $params['data-type'] ?>"
-    value="<?php print mw('option')->get('prior', $params['id']) ?>"
+    value="<?php print get_option('prior', $params['id']) ?>"
   />
 
 
@@ -39,7 +39,7 @@
 
                   type="text"
                   data-reload="<?php print $params['data-type'] ?>"
-                  value="<?php print mw('option')->get('embed_url', $params['id']) ?>"
+                  value="<?php print get_option('embed_url', $params['id']) ?>"
             />
         </div>
 
@@ -48,7 +48,7 @@
   <div class="tab semi_hidden">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Upload Video from your computer"); ?></label>
-        <input  onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field left"  type="text" data-reload="<?php print $params['data-type'] ?>" value="<?php print mw('option')->get('upload', $params['id']) ?>" style="width:270px;" />
+        <input  onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field left"  type="text" data-reload="<?php print $params['data-type'] ?>" value="<?php print get_option('upload', $params['id']) ?>" style="width:270px;" />
         <span class="mw-ui-btn left"  id="upload_btn" style="width: 60px;margin-left:-1px;"><?php _e("Browse"); ?></span>
       </div>
 
@@ -74,7 +74,7 @@
             placeholder="450"
             class="mw-ui-field mw_option_field"
             type="text" data-reload="<?php print $params['data-type'] ?>"
-            value="<?php print mw('option')->get('width', $params['id']) ?>"
+            value="<?php print get_option('width', $params['id']) ?>"
        />
    </div>
    <div class="mw-ui-field-holder">
@@ -85,7 +85,7 @@
             style="width:50px;"
             class="mw-ui-field mw_option_field"
             type="text" data-reload="<?php print $params['data-type'] ?>"
-            value="<?php print mw('option')->get('height', $params['id']) ?>"
+            value="<?php print get_option('height', $params['id']) ?>"
         />
 
     </div>
@@ -98,7 +98,7 @@
             class="mw-ui-field mw_option_field"
             type="checkbox" data-reload="<?php print $params['data-type'] ?>"
             value="y"
-            <?php if(mw('option')->get('autoplay', $params['id']) == 'y'){ ?> checked='checked' <?php }?>
+            <?php if(get_option('autoplay', $params['id']) == 'y'){ ?> checked='checked' <?php }?>
         /><span></span></label>
 
     </div>

@@ -136,6 +136,6 @@ mw.syslog_log_reset_all = function(){
   </table>
 </div>
 <?php else: ?>
-<?php print mw('format')->notif("Your system log is empty") ?>
+<?php print notif("Your system log is empty") ?>
 <?php endif; ?>
  

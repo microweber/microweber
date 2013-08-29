@@ -46,7 +46,7 @@ class shipping_to_country {
 			if (isset($data['id']) and intval($data['id']) > 0) {
 				
 				} else {
-			$check = mw('db')->get('shiping_country=' . $data['shiping_country']);
+			$check = $this->get('shiping_country=' . $data['shiping_country']);
 			if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
 				$data['id'] = $check[0]['id'];
 			}
@@ -62,14 +62,7 @@ class shipping_to_country {
 
 	function get($params = false) {
 
-		$params2 = array();
-		if ($params == false) {
-			$params = array();
-		}
-		if (is_string($params)) {
-			$params = parse_str($params, $params2);
-			$params = $params2;
-		}
+		 $params = parse_params($params);
 
 		$params['table'] = $this->table;
 

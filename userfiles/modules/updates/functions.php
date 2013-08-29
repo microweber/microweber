@@ -4,7 +4,7 @@
 event_bind('mw_admin_settings_menu', 'mw_print_admin_updates_settings_link');
 
 function mw_print_admin_updates_settings_link() {
-	$active = mw('url')->param('view');
+	$active = url_param('view');
 	$cls = '';
 	if ($active == 'comments') {
 		$cls = ' class="active" ';

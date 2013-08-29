@@ -50,7 +50,7 @@ include_once($config['path_to_module'].'../posts/admin_live_edit_tab1.php'); ?>
   </div>
   <div class="tab">
 
- <?php $layout =  mw('option')->get('data-layout', $params['id']); ?>
+ <?php $layout =  get_option('data-layout', $params['id']); ?>
  <input name="data-layout" id="data-layout-set-val" class="mw_option_field semi_hidden" value="<?php print $layout; ?>" />
  <script>
 $(document).ready(function(){

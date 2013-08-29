@@ -51,8 +51,8 @@ $data_paging['page_count'] = 1;
 //$data['debug'] = 1;
 
  $data_paging = get_form_entires($data_paging);
-if((mw('url')->param('curent_page') != false)){
-$data['curent_page'] = mw('url')->param('curent_page');
+if((url_param('curent_page') != false)){
+$data['curent_page'] = url_param('curent_page');
 }
 
 

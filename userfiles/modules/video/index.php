@@ -1,16 +1,16 @@
 <?php
 
 
-$prior = mw('option')->get('prior', $params['id']);
+$prior = get_option('prior', $params['id']);
 
-$code = mw('option')->get('embed_url', $params['id']);
+$code = get_option('embed_url', $params['id']);
 
-$upload =  mw('option')->get('upload', $params['id']);
+$upload =  get_option('upload', $params['id']);
 
 
-$w = mw('option')->get('width', $params['id']);
-$h = mw('option')->get('height', $params['id']);
-$autoplay = mw('option')->get('autoplay', $params['id']) == 'y';
+$w = get_option('width', $params['id']);
+$h = get_option('height', $params['id']);
+$autoplay = get_option('autoplay', $params['id']) == 'y';
 
 
 if($w == '') {$w = '450';}
@@ -99,7 +99,7 @@ function video_module_url2embed($u, $w, $h, $autoplay){
 }
 
   else{
-      print mw('format')->lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
+      print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
   }
 }
 
@@ -116,16 +116,16 @@ else if($prior == '2'){
     else{
 
 
-      // print mw('format')->lnotif("Upload Video or paste URL or Embed Code.");
+      // print lnotif("Upload Video or paste URL or Embed Code.");
 
-       print mw('format')->lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
+       print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
 
     }
 }
 else{
 
-    print mw('format')->lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
+    print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>");
 
-  //print mw('format')->lnotif("Upload Video or paste URL or Embed Code.");
+  //print lnotif("Upload Video or paste URL or Embed Code.");
 }
  

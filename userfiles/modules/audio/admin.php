@@ -11,7 +11,7 @@
         <input
                 type="text"
                 name="data-audio-upload"
-                value="<?php print mw('option')->get('data-audio-upload', $params['id']) ?>"
+                value="<?php print get_option('data-audio-upload', $params['id']) ?>"
                 class="mw-ui-field mw_option_field left"
                 style="margin: 0 -1px 0 0;width: 295px;"
                 id="upload_value" />
@@ -39,11 +39,11 @@
                style="width: 365px;"
                id="audio"
                type="text"
-               value="<?php print mw('option')->get('data-audio-url', $params['id']) ?>" />
+               value="<?php print get_option('data-audio-url', $params['id']) ?>" />
 
   </div>
 
-  <input type="text" class="semi_hidden mw_option_field" name="prior" id="prior" value="<?php print mw('option')->get('prior', $params['id']) ?>"   />
+  <input type="text" class="semi_hidden mw_option_field" name="prior" id="prior" value="<?php print get_option('prior', $params['id']) ?>"   />
 
 </div>
 

@@ -3,8 +3,8 @@ add_module
 
 <?php
 
-if(mw('url')->param('add_module')){
-	$install = mw('url')->param('add_module');
+if(url_param('add_module')){
+	$install = url_param('add_module');
 } else if(isset($_REQUEST['add_module'])){
 		$install = $_REQUEST['add_module'];
 }	

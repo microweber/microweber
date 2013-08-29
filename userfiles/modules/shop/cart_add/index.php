@@ -22,7 +22,7 @@ if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and de
 	$for = 'content';
 }
 
-$module_template = mw('option')->get('data-template',$params['id']);
+$module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
 } 
@@ -71,7 +71,7 @@ if($module_template != false and $module_template != 'none'){
   <?php   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
-	print mw('format')->lnotif( 'No default template for '.$config['module'].' is found');
+	print lnotif( 'No default template for '.$config['module'].' is found');
 }  ?>
 </span>
   <?php endif; ?>

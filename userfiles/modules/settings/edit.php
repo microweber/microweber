@@ -2,7 +2,7 @@
 <?php
 $data = false;
  if($data == false and isset($orig_params) and isset($orig_params['for_module_id']) and isset($params['id']) ){
- 	$chck =   mw('option')->get('limit=1&id=' . $params['id']);
+ 	$chck =   get_option('limit=1&id=' . $params['id']);
 	if (isset($chck[0]) and isset($chck[0]['id'])) {
 	$data = $chck[0];
 	 
@@ -12,7 +12,7 @@ $data = false;
 
 
  if($data == false and isset($orig_params) and isset($orig_params['for_module_id']) ){
- 	$chck =   mw('option')->get('limit=1&module=' . $orig_params['for_module_id']);
+ 	$chck =   get_option('limit=1&module=' . $orig_params['for_module_id']);
 	if (isset($chck[0]) and isset($chck[0]['id'])) {
 	$data = $chck[0];
 	 
@@ -20,7 +20,7 @@ $data = false;
 	
 }
 if($data == false and isset($params['option_key']) and isset($params['option_group']) ){
-	$data =  mw('option')->get($key = $params['option_key'], $option_group = $params['option_group'], $return_full = true, $orderby = false);
+	$data =  get_option($key = $params['option_key'], $option_group = $params['option_group'], $return_full = true, $orderby = false);
 	
 } else {
 	

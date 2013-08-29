@@ -1,13 +1,13 @@
 
 <?php
     $id = "mwaudio-" . uniqid();
-    $prior =  mw('option')->get('prior', $params['id']);
+    $prior =  get_option('prior', $params['id']);
 
     if($prior == '1'){
-      $audio =  mw('option')->get('data-audio-upload', $params['id']);
+      $audio =  get_option('data-audio-upload', $params['id']);
     }
     else{
-      $audio =  mw('option')->get('data-audio-url', $params['id']);
+      $audio =  get_option('data-audio-url', $params['id']);
     }
 ?>
 
@@ -16,7 +16,7 @@
         <?php if( $audio != '' ){ ?>
             <embed wmode="transparent" autoplay="false" autostart="false" type="audio/mpeg"  width="100%" height="30" data="<?php print $audio; ?>" src="<?php print $audio; ?>"></embed>
         <?php } else{ ?>
-            <?php print mw('format')->lnotif("Upload Audio File or paste URL.");   ?>
+            <?php print lnotif("Upload Audio File or paste URL.");   ?>
         <?php } ?>
     </div>
 </div>

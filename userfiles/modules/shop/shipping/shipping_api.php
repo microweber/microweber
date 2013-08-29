@@ -37,7 +37,7 @@ class shipping_api
             if (isset($data['id']) and intval($data['id']) > 0) {
 
             } else {
-                $check = mw('db')->get('shiping_country=' . $data['shiping_country']);
+                $check = get('shiping_country=' . $data['shiping_country']);
                 if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
                     $data['id'] = $check[0]['id'];
                 }
@@ -54,7 +54,7 @@ class shipping_api
         $active = array();
         $m = $this->modules_list;
         foreach ($m as $item) {
-            if (mw('option')->get('shipping_gw_' . $item['module'], 'shipping') == 'y') {
+            if (get_option('shipping_gw_' . $item['module'], 'shipping') == 'y') {
                 $active [] = $item;
             }
         }
