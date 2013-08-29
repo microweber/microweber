@@ -17,8 +17,8 @@
             <span class="mw_dlm"></span>
 
             <div class="wysiwyg-component">
-              <div class="wysiwyg-component-title">
-                Font Style
+              <div class="mw_editor_btn">
+                <div class="wysiwyg-component-title">Font Style</div>
               </div>
               <div class="wysiwyg-component-items" style="width: 190px;">
                 <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
@@ -33,9 +33,9 @@
             <span class="mw_dlm"></span>
 
             <div class="wysiwyg-component">
-              <div class="wysiwyg-component-title">
+              <div class="mw_editor_btn"><div class="wysiwyg-component-title">
                 Format
-              </div>
+              </div></div>
               <div class="wysiwyg-component-items" style="width: 355px;">
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
@@ -134,9 +134,9 @@
 
 
             <div class="wysiwyg-component">
-              <div class="wysiwyg-component-title">
+              <div class="mw_editor_btn"><div class="wysiwyg-component-title">
                 Text Align
-              </div>
+              </div></div>
               <div class="wysiwyg-component-items" style="width: 120px;">
                 <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
                 <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
