@@ -472,7 +472,17 @@ border-radius: 3px;
   }
   .wysiwyg-component-items{
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px;
+    background: #F5F5F5;
+    box-shadow: 0 0 3px #D2D2D2;
   }
+  .wysiwyg-component-items.wysiwyg-component-active{
+    display: block;
+  }
+
 }
 
 

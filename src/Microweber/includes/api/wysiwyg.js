@@ -1137,7 +1137,14 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
 
 
 mw.$(".wysiwyg-component-title").bind("click", function(){
-
+   var el = this;
+   var all =  mwd.querySelectorAll("#mw-text-editor .wysiwyg-component-items"), l=all.length,i=0;
+   for(; i<l;i++){
+      if(all[i]!==el){
+         mw.tools.removeClass(all[i], 'wysiwyg-component-active')
+      }
+   }
+   $(this).next().toggleClass('wysiwyg-component-active');
 });
 
 

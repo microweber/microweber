@@ -20,7 +20,7 @@
               <div class="wysiwyg-component-title">
                 Font Style
               </div>
-              <div class="wysiwyg-component-items">
+              <div class="wysiwyg-component-items" style="width: 190px;">
                 <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
                 <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
                 <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
@@ -32,7 +32,11 @@
 
             <span class="mw_dlm"></span>
 
-
+            <div class="wysiwyg-component">
+              <div class="wysiwyg-component-title">
+                Format
+              </div>
+              <div class="wysiwyg-component-items" style="width: 355px;">
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
                 <span class="mw_dropdown_val_holder">
@@ -107,8 +111,7 @@
             </div>
 
 
-            <div class="wysiwyg-lower-res-hider">
-            <span class="mw_dlm"></span>
+               <span class="mw_dlm"></span>
 
 
             <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
@@ -117,15 +120,30 @@
             <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
 
+
+
+
+            </div>
             </div>
 
-            <span class="mw_dlm"></span>
-            <div class="wysiwyg-small-res-hider">
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
 
+
+
+
+            <span class="mw_dlm"></span>
+
+
+            <div class="wysiwyg-component">
+              <div class="wysiwyg-component-title">
+                Text Align
+              </div>
+              <div class="wysiwyg-component-items" style="width: 120px;">
+                <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
+                <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
+                <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
+                <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
+             </div>
+            </div>
 
             <span class="mw_dlm"></span>
 
@@ -174,7 +192,7 @@
 
 
 
-            </div>
+
 
              <?php event_trigger('mw_editor_btn'); ?>
             
