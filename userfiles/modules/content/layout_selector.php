@@ -253,9 +253,13 @@ generate:function(return_url){
 
    if(is_shop != undefined){
     if(is_shop != undefined && is_shop =='y'){
+		if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
      form.querySelector('input[name="is_shop"][value="y"]').checked = true;
+		}
    } else {
+	   if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
      form.querySelector('input[name="is_shop"][value="n"]').checked = true;
+	   }
    }
  }
 
