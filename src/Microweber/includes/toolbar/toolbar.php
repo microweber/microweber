@@ -236,21 +236,15 @@ mw_save_draft_int = self.setInterval(function(){
     </div>
     <div id="tab_help" class="mw_toolbar_tab">
 
-    <script>
-              mw.require("helpinfo.js", true);
-            mw.require("http://pecata/Microweber/src/Microweber/includes/css/helpinfo.css", true);
- mw.helpinfo.init();
 
-
-    </script>
     <script>
 
         var w = 660,
             h = 500
 
-        _newpage = function(el){
+        _newpage = function(){
 
-        /*
+
            mw.tools.modal.frame({
             url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
             template:'mw_modal_simple',
@@ -258,15 +252,11 @@ mw_save_draft_int = self.setInterval(function(){
             height:h,
             name:'quick_page',
             title:'New Page'
-           });  */
+           });
 
 
-          mw.helpinfo.position(el, "bottomleft", true);
-
-          var html = '<iframe frameborder="0" width="'+w+'" height="'+h+'" src="'+mw.settings.api_url+'module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page"></iframe>'
 
 
-          mw.$("#mw_info_helper_content", mw.helpinfo_helper).html(html);
 
         }
         _newpost = function(){
@@ -292,7 +282,7 @@ mw_save_draft_int = self.setInterval(function(){
 
     </script>
 
-       <div style="padding: 11px 20px;">
+       <div style="position: relative; z-index: 998; padding: 23px;">
          <a href="javascript:;" onclick="_newpage(this);" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipage"></span> Add Page</a>
          <a href="javascript:;" onclick="_newpost();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipost"></span> Add Post</a>
          <a href="javascript:;" onclick="_newproduct();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iproduct"></span> Add Product</a>
@@ -301,28 +291,27 @@ mw_save_draft_int = self.setInterval(function(){
 		 
 		 
 		  
-					<div class="mw-quick-pages-nav">
-					
+					<div class="mw-ui-dropdown mw-quick-pages-nav">
+                    <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-medium" href="http://pecata/Microweber/sekvi/editmode:n">Browse pages<span class="ico idownarr right"></span></a>
+
+                   <div class="mw-dropdown-content" style="width: 200px;height: 200px;overflow: auto">
 					<?php
-$pt_opts = array();
-$pt_opts['link'] = "<a href='{link}'>{title}</a>";
-$pt_opts['list_tag'] = "ul";
-$pt_opts['list_item_tag'] = "li";
- 
-
-         
-          $pt_opts['active_ids'] = CONTENT_ID;
-    
-          $pt_opts['active_code_tag'] = '   class="active"  ';
-
-
-
-          mw('content')->pages_tree($pt_opts);
-
-
-          ?>
+                        $pt_opts = array();
+                        $pt_opts['link'] = "<a href='{link}'>{title}</a>";
+                        $pt_opts['list_tag'] = "ul";
+                        $pt_opts['ul_class'] = "mw-dropdown-list";
+                        $pt_opts['list_item_tag'] = "li";
+                        $pt_opts['active_ids'] = CONTENT_ID;
+                        $pt_opts['active_code_tag'] = '   class="active"  ';
+                        mw('content')->pages_tree($pt_opts);
+                  ?></div>
 					
 					</div>
+
+
+
+
+
 				 
 		 
 		 

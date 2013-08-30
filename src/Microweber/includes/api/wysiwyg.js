@@ -162,9 +162,12 @@ mw.wysiwyg = {
       return external;
     },
     isSelectionEditable:function(){
+
         var node = window.getSelection().focusNode;
-        if(node.nodeType === 3 ){ return false;}
+
+        if(node===null || node.nodeType === 3 ){ return false;}
         return (node.isContentEditable || node.parentElement.isContentEditable) ? true : false;
+
     },
     execCommand:function(a,b,c){
         try{  // 0x80004005
