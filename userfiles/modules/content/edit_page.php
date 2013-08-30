@@ -778,7 +778,7 @@ load_preview();
 			</span> </div>
 			
 		<?php else: ?>		
-			<div class="mw-save-content-bar"> <span class="mw-ui-btn go-live mw-ui-btn-green">
+			<div class="mw-save-content-bar"> <span class="mw-ui-btn mw-ui-btn-large go-live mw-ui-btn-green">
 			<?php _e("Save"); ?>
 			</span>  </div>
 			
@@ -1287,7 +1287,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 	
 	
 	<?php if($quick_edit == true and $edit_post_mode != false): ?>
-	<div class="mw-save-content-bar"> <span class="mw-ui-btn go-live mw-ui-btn-green">
+	<div class="mw-save-content-bar"> <span class="mw-ui-btn mw-ui-btn-large go-live mw-ui-btn-green">
 			<?php _e("Save"); ?>
 			</span>  </div>
 	
