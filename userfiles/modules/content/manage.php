@@ -436,9 +436,3 @@ mw.on.moduleReload('#<?php print $params['id'] ?>', function(){   });
 
 
 </script>
-<?php
-
-
-
-
-
