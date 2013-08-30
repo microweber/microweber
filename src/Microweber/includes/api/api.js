@@ -295,7 +295,7 @@ mw.askusertostay = false;
           if (typeof $module_name != 'undefined') {
 			   $module_name = $module_name.replace(/##/g, '#');
 
-            $mods = $(".module[data-type='" + $module_name + "']");
+            $mods = mw.$(".module[data-type='" + $module_name + "']");
             if ($mods.length == 0) {
                 try {
                     $mods = $($module_name);

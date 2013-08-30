@@ -589,7 +589,7 @@ $(document).ready(function(){
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
 
-    set_pagetab_size();
+
 
     mw.on.hashParam("tab", function(){
       mw.tools.sidebar();
@@ -608,16 +608,6 @@ $(document).ready(function(){
       mw.$("#tab_"+tab).addClass("mw_tab_active");
       mw.$("#mw_tabs li").removeClass("active");
       mw.$("#mw_tabs li#t_"+tab).addClass("active");
-      if(tab=='pages'){
-        mw.$("html").addClass("mw_pages");
-        if(!PagesFrameSRCSet){
-          PagesFrameSRCSet = true;
-          mw.$("#mw_edit_pages").attr("src", mw.$("#mw_edit_pages").dataset("src"));
-        }
-      }
-      else{
-        mw.$("html").removeClass("mw_pages");
-      }
  });
 
 
@@ -834,18 +824,12 @@ mw.toggle_subpanel = function(){
   }
 }
 
-set_pagetab_size = function(){
-    mw.$("#mw_edit_pages").css({
-       width:window.innerWidth,
-       height:window.innerHeight-49
-     });
-}
+
 
 
 $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
-    set_pagetab_size();
     mw.designTool.position();
 });
 

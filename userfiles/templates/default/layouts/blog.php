@@ -25,7 +25,7 @@ description: Blog
 				</div>
 			</div>
 			<div class="span3 offset1" id="blog-sidebar">
-				<?php include_once TEMPLATE_DIR. 'layouts' . DS."blog_sidebar.php"; ?>
+				<?php include_once "blog_sidebar.php"; ?>
 			</div>
 		</div>
 	</div>

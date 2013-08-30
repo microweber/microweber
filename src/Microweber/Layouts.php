@@ -530,6 +530,23 @@ class Layouts
             $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
         }
 
+        if(isset($ref_page['id']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page'){
+            $ref_page_parent = $this->app->content->get_by_id(intval($ref_page['id']));
+            if(isset($ref_page_partent['parent']) and intval($ref_page_partent['parent']) != 0){
+                $ref_page = $this->app->content->get_by_id(intval($ref_page_partent['id']));
+
+            } else {
+                $ref_page_parents = $this->app->content->get_parents(intval($ref_page['id']));
+                if(!empty($ref_page_parents)){
+                    $ref_page_parent = array_pop($ref_page_parents);
+                    $ref_page = $this->app->content->get_by_id($ref_page_parent);
+
+
+                }
+            }
+        }
+
+
 
         if (!is_array($ref_page) or empty($ref_page)) {
             return false;

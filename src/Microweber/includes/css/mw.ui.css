@@ -566,6 +566,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   position: relative;
   background: #EEEEEE;
   cursor: move;
+  box-shadow: 0 0 2px #aaa;
 }
 
 .mw_modal_basic .mw_modal_toolbar{
@@ -693,6 +694,10 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   font-size: 11px;
   padding: 3px 10px;
 }
+
+.mw-dropdown-list li li a{ padding-left: 20px }
+.mw-dropdown-list li li li a{ padding-left: 30px }
+.mw-dropdown-list li li li li a{ padding-left: 40px }
 
 .mw-dropdown-list > li a:hover{
   background-color: #ACACAC;

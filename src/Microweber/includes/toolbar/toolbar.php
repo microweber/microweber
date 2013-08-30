@@ -174,9 +174,7 @@ mw_save_draft_int = self.setInterval(function(){
         <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
           <?php _e('Pages'); ?>
           </a> </li>
-        <li id="t_help"> <a href="#tab=help" onclick="mw.url.windowHashParam('tab', 'help');return false;">
-          <?php _e('Help'); ?>
-          </a> </li>
+
       </ul>
       <div class="mw-ui-dropdown media-small" id="mw_tabs_small">
         <span class="mw-ui-btn"><span class="ico icomobilemenu"></span><span id="mw_small_menu_text"><?php _e("Menu"); ?></span><span class="ico idownarr right"></span></span>
@@ -224,21 +222,79 @@ mw_save_draft_int = self.setInterval(function(){
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
     <div id="tab_pages" class="mw_toolbar_tab">
-      <p class="left"><?php _e("Here you can easely manage your website pages and posts. Try the functionality below."); ?> <a href="#"><?php _e("You can see the tutorials here"); ?></a>.</p>
-      <a href="#" class="right mw-ui-btn"><span class="mw-ui-btn-plus"></span><?php _e("Add New"); ?></a>
-      <iframe
-            onload="mw.tools.iframeLinksToParent(this);"
-            frameborder="0"
-            scrolling="auto"
-            id="mw_edit_pages"
-            data-src="<?php print site_url(); ?>admin/view:content?no_toolbar=1<?php if(defined('CONTENT_ID')) : ?>/#action=editpage:<?php print CONTENT_ID ?><?php endif; ?>"
-            src="#"> </iframe>
-    </div>
-    <div id="tab_help" class="mw_toolbar_tab">
 
-      <p style="padding: 31px;text-align: center">Currently Help section is under construction. Please visit <a target="_blank" class="mw-ui-link" href="http://microweber.com">www.microweber.com</a> for more information.</p>
 
+
+
+    <script>
+
+
+
+
+
+    mw.quick = {
+          w : 700,
+          h : 500,
+          page : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Page'
+           });
+        },
+        post : function(){
+            mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_post',
+              title:'New Post'
+            });
+        },
+        product : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-product&subtype=product",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_product',
+              title:'New Product'
+           });
+        }
+    }
+
+
+
+    </script>
+
+       <div style="position: relative; z-index: 998; padding: 23px;">
+         <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipage"></span> Add Page</a>
+         <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipost"></span> Add Post</a>
+         <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iproduct"></span> Add Product</a>
+
+					<div class="mw-ui-dropdown mw-quick-pages-nav">
+                        <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-medium" href="javascript:;">Browse pages<span class="ico idownarr right"></span></a>
+                       <div class="mw-dropdown-content" style="width: 200px;height: 200px;overflow: auto">
+    					<?php
+                            $pt_opts = array();
+                            $pt_opts['link'] = "<a href='{link}'>{title}</a>";
+                            $pt_opts['list_tag'] = "ul";
+                            $pt_opts['ul_class'] = "mw-dropdown-list";
+                            $pt_opts['list_item_tag'] = "li";
+                            $pt_opts['active_ids'] = CONTENT_ID;
+                            $pt_opts['limit'] = 1000;
+                            $pt_opts['active_code_tag'] = '   class="active"  ';
+                            mw('content')->pages_tree($pt_opts);
+                      ?></div>
+
+					</div>
+       </div>
     </div>
+
     <div id="tab_style_editor" class="mw_toolbar_tab">
       <?php //include( 'toolbar_tag_editor.php') ; ?>
     </div>

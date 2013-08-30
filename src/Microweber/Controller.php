@@ -552,10 +552,10 @@ class Controller
         $this->app->content->define_constants($content);
 
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
-
+//.. d($content);
         $render_file = $this->app->content->get_layout($content);
 
-        //  d($page);
+      // d($render_file);
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
@@ -978,13 +978,16 @@ class Controller
 
 
         $mod_api_class = implode(DS, $mod_api_class);
-
+		$mod_api_class_clean = ltrim($mod_api_class,'/');
+		$mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
         //d($mod_api_class);
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
         $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
-
+$mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, false) . '.php';
+        $mod_api_class_native_uc1 = normalize_path(MW_APP_PATH . $mod_api_class_clean_uc1, false) . '.php';
+        $mod_api_class_native_global_ns_uc1 = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
 
         $try_class = str_replace('/', '\\', $mod_api_class);
         if (class_exists($try_class, false)) {
@@ -992,16 +995,28 @@ class Controller
             $mod_class_api_class_exist = true;
         } else {
             //
-
-
+ 
+ 
             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
+            } else if (is_file($mod_api_class1_uc1)) {
+                 $mod_class_api = true;
+                include_once ($mod_api_class1_uc1);
+            } else if (is_file($mod_api_class_native_global_ns_uc1)) {
+                $try_class = str_replace('/', '\\', $mod_api_class2);
+                $mod_class_api = true;
+			
+                include_once ($mod_api_class_native_global_ns_uc1);
             } else if (is_file($mod_api_class_native_global_ns)) {
                 $try_class = str_replace('/', '\\', $mod_api_class2);
                 $mod_class_api = true;
                 include_once ($mod_api_class_native_global_ns);
-            } else if (is_file($mod_api_class_native)) {
+            } else if (is_file($mod_api_class_native_uc1)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class_native_uc1);
+
+            }else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
 
@@ -1341,6 +1356,7 @@ class Controller
 
 
                 $hooks = api_hook(true);
+			
 
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 

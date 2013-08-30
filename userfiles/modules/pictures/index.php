@@ -36,6 +36,11 @@ if(isset($params['for'])){
 	$params['for'] = 'content';
 }
 */
+
+
+ 
+
+
 if(get_option('data-use-from-post', $params['id']) =='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
@@ -43,6 +48,9 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 	 $params['content-id'] = PAGE_ID;
 
 	 }
+} elseif(get_option('data-use-from-post', $params['id']) ==''){
+	  $for = 'modules';
+	   $params['rel_id'] = $params['id']; 
 } else {
 	
 	 if(!isset($params['for'])){
@@ -60,9 +68,7 @@ if(isset($params['content-id'])){
 }
 
 $for_id = $params['rel_id'];
- //d($for_id);
-   
- //d($for);
+ 
    
 // d($params);   
  if(isset($params['rel_id']) == true): ?>
