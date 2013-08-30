@@ -552,10 +552,10 @@ class Controller
         $this->app->content->define_constants($content);
 
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
-
+//.. d($content);
         $render_file = $this->app->content->get_layout($content);
 
-        //  d($page);
+      // d($render_file);
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {

@@ -387,15 +387,35 @@ class Content
 
         if (($cache_content) != false) {
 
-            return $cache_content;
+        return $cache_content;
         }
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
+		 if (isset($page['active_site_template']) and isset($page['layout_file'])) {
+			  $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
+			   $page['layout_file'] = str_replace('..', '', $page['layout_file']);
+			   $render_file_temp = TEMPLATES_DIR.$page['active_site_template'].DS.$page['layout_file'];
+			   $render_use_default = TEMPLATES_DIR.$page['active_site_template'].DS.'use_default_layouts.php';
 
-
-        if (!isset($page['active_site_template']) and isset($page['layout_file'])) {
+			   
+			   
+				if (is_file($render_file_temp)) {
+						$render_file = $render_file_temp;
+					}elseif (is_file($render_use_default)) {
+						$render_file_temp = DEFAULT_TEMPLATE_DIR.$page['layout_file'];
+if (is_file($render_file_temp)) {
+						$render_file = $render_file_temp;
+					}
+					}
+					
+					
+					
+					
+		 }
+   
+        if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
 
 
             $test_file = str_replace('___', DS, $page['layout_file']);

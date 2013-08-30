@@ -484,6 +484,7 @@ table[class*='mw-wysiwyg-table']{
     border-collapse: collapse;
     border-spacing: 0;
     max-width: 100%;
+    table-layout: fixed;
 
 
 }
