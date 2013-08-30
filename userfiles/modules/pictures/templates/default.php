@@ -28,8 +28,8 @@ description: Pictures List
   <?php foreach($data  as $item): ?>
   <div class="mw-pictures-item mw-pictures-item-<?php print $item['id']; ?>">
     <div class="thumbnail">
-        <span class="valign">
-          <span class="valign-cell">
+        <span class="pic-valign">
+          <span class="pic-valign-cell">
               <img src="<?php print thumbnail( $item['filename'], 700); ?>" />
           </span>
         </span>

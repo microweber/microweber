@@ -104,8 +104,11 @@ mw.helpinfo = {
         //mwd.body.appendChild(mw.helpinfo_overlay);
       }
     },
-    position:function(el, pos){
+    position:function(el, pos, hideFooter){
        var pos = pos || 'bottomleft';
+       var hideFooter = hideFooter || false;
+
+       hideFooter ? mw.$("#mw_info_helper_footer").hide() :  mw.$("#mw_info_helper_footer").show();
 
        var off = $(el).offset();
        if(typeof off === 'undefined') { return false; }

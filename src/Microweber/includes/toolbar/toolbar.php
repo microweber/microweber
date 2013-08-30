@@ -236,6 +236,23 @@ mw_save_draft_int = self.setInterval(function(){
     </div>
     <div id="tab_help" class="mw_toolbar_tab">
 
+    <script>
+
+        _newpage = function(){
+           mw.tools.modal.frame({
+            url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post",
+            template:'mw_modal_basic',
+            width:$(window).width() - 120,
+            height:$(window).height() - 300
+           });
+        }
+
+    </script>
+
+
+       <a href="javascript:;" onclick="_newpage();" class="mw-ui-btn mw-ui-btn-large"><span class="ico iPage"></span> New Page</a>
+
+
       <p style="padding: 31px;text-align: center">Currently Help section is under construction. Please visit <a target="_blank" class="mw-ui-link" href="http://microweber.com">www.microweber.com</a> for more information.</p>
 
     </div>

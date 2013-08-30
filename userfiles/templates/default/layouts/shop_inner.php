@@ -47,7 +47,7 @@ description: shop layout
       </div>
       <!------------ Sidebar -------------->
       <div class="span3">
-        <?php include_once ACTIVE_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar_inner.php"; ?>
+        <?php include_once "shop_sidebar_inner.php"; ?>
       </div>
     </div>
   </div>
