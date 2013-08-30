@@ -1171,8 +1171,9 @@ $(window).load(function(){
         }
         else if( val == 'box' ){
             var div = mw.wysiwyg.applier('div', 'well element');
-            if(mw.wysiwyg.selection_length() < 2){
-               $(div).append("<br>");
+            d(mw.wysiwyg.selection_length())
+            if(mw.wysiwyg.selection_length() <= 2){
+               $(div).append("<p>&nbsp;</p>");
             }
         }
         else if( val == 'table' ){
