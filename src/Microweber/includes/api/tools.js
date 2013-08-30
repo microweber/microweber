@@ -1,11 +1,5 @@
 
 
-
-
-
-
-
-
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
@@ -46,6 +40,24 @@
         jQuery.browser = browser;
     }
 })();
+
+
+mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
+
+$.fn.dataset = function(dataset, val){
+  var el = this[0];
+  if(el === undefined) return false;
+  var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
+  if(!val){
+     var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-"+dataset);
+     return dataset !== undefined ? dataset : "";
+  }
+  else{
+    mw.datassetSupport ? el.dataset[_dataset] = val :  $(el).attr("data-"+dataset, val);
+    return $(el);
+  }
+}
+
 
 
 mw.controllers = {}
@@ -1748,21 +1760,7 @@ Wait('$', function(){
   };
 
 
-mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
 
-$.fn.dataset = function(dataset, val){
-  var el = this[0];
-  if(el === undefined) return false;
-  var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
-  if(!val){
-     var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-"+dataset);
-     return dataset !== undefined ? dataset : "";
-  }
-  else{
-    mw.datassetSupport ? el.dataset[_dataset] = val :  $(el).attr("data-"+dataset, val);
-    return $(el);
-  }
-}
 
 
 $.fn.commuter = function(a,b) {

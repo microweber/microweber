@@ -17,15 +17,12 @@
 
 
 
-    <script type="text/javascript" src="<?php print( MW_INCLUDES_URL); ?>js/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="<?php print site_url(); ?>apijs"></script>
+
+
     <script type="text/javascript">
-
-
         mw.require("url.js");
         mw.require("tools.js");
         mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
-
     </script>
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
