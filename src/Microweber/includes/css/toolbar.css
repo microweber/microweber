@@ -400,13 +400,7 @@ padding:0px !important;
 .mw_tab_active{
   position: static;
 }
-#tab_pages.mw_tab_active{
-  position: relative;
-  top: 0;
-  left: 0;
-  z-index: 11;
-  padding: 22px;
-}
+
 
 
 #mw_edit_pages{
