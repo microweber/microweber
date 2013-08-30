@@ -163,6 +163,7 @@ mw.wysiwyg = {
     },
     isSelectionEditable:function(){
         var node = window.getSelection().focusNode;
+        if(node.nodeType === 3 ){ return false;}
         return (node.isContentEditable || node.parentElement.isContentEditable) ? true : false;
     },
     execCommand:function(a,b,c){

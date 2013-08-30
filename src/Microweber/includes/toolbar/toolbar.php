@@ -237,23 +237,98 @@ mw_save_draft_int = self.setInterval(function(){
     <div id="tab_help" class="mw_toolbar_tab">
 
     <script>
+              mw.require("helpinfo.js", true);
+            mw.require("http://pecata/Microweber/src/Microweber/includes/css/helpinfo.css", true);
+ mw.helpinfo.init();
 
-        _newpage = function(){
+
+    </script>
+    <script>
+
+        var w = 660,
+            h = 500
+
+        _newpage = function(el){
+
+        /*
            mw.tools.modal.frame({
-            url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post",
-            template:'mw_modal_basic',
-            width:$(window).width() - 120,
-            height:$(window).height() - 300
+            url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
+            template:'mw_modal_simple',
+            width:w,
+            height:h,
+            name:'quick_page',
+            title:'New Page'
+           });  */
+
+
+          mw.helpinfo.position(el, "bottomleft", true);
+
+          var html = '<iframe frameborder="0" width="'+w+'" height="'+h+'" src="'+mw.settings.api_url+'module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page"></iframe>'
+
+
+          mw.$("#mw_info_helper_content", mw.helpinfo_helper).html(html);
+
+        }
+        _newpost = function(){
+           mw.tools.modal.frame({
+            url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
+            template:'mw_modal_simple',
+            width:w,
+            height:h,
+            name:'quick_post',
+            title:'New Post'
+           });
+        }
+         _newproduct = function(){
+           mw.tools.modal.frame({
+            url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=product",
+            template:'mw_modal_simple',
+            width:w,
+            height:h,
+            name:'quick_product',
+            title:'New Product'
            });
         }
 
     </script>
 
+       <div style="padding: 11px 20px;">
+         <a href="javascript:;" onclick="_newpage(this);" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipage"></span> Add Page</a>
+         <a href="javascript:;" onclick="_newpost();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipost"></span> Add Post</a>
+         <a href="javascript:;" onclick="_newproduct();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iproduct"></span> Add Product</a>
+		 
+		 
+		 
+		 
+		  
+					<div class="mw-quick-pages-nav">
+					
+					<?php
+$pt_opts = array();
+$pt_opts['link'] = "<a href='{link}'>{title}</a>";
+$pt_opts['list_tag'] = "ul";
+$pt_opts['list_item_tag'] = "li";
+ 
 
-       <a href="javascript:;" onclick="_newpage();" class="mw-ui-btn mw-ui-btn-large"><span class="ico iPage"></span> New Page</a>
+         
+          $pt_opts['active_ids'] = CONTENT_ID;
+    
+          $pt_opts['active_code_tag'] = '   class="active"  ';
 
 
-      <p style="padding: 31px;text-align: center">Currently Help section is under construction. Please visit <a target="_blank" class="mw-ui-link" href="http://microweber.com">www.microweber.com</a> for more information.</p>
+
+          mw('content')->pages_tree($pt_opts);
+
+
+          ?>
+					
+					</div>
+				 
+		 
+		 
+
+       </div>
+
 
     </div>
     <div id="tab_style_editor" class="mw_toolbar_tab">

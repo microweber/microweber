@@ -763,19 +763,32 @@ load_preview();
 
     </script> 
 	<a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">
-	<?php _e("Template"); ?>
+	<?php _e("Choose Template"); ?>
 	</a>
 	<div class="mw-layout-selector-holder" style="display: none;">
 		<module id="mw-layout-selector-module" data-type="content/layout_selector" <?php print
       $layout_from_parent ?> data-page-id="<?php print ($data['id'])?>"  autoload=1 />
+		
+		
+		<?php if($quick_edit == false): ?>
 		<div class="mw-save-content-bar"> <span class="mw-ui-btn go-live">
 			<?php _e("Go Live Edit"); ?>
 			</span> <span onclick="$(this).parents('form').submit();" style="min-width: 66px;" class="mw-ui-btn mw-ui-btn-green">
 			<?php _e("Save"); ?>
 			</span> </div>
+			
+		<?php else: ?>		
+			<div class="mw-save-content-bar"> <span class="mw-ui-btn go-live mw-ui-btn-green">
+			<?php _e("Save"); ?>
+			</span>  </div>
+			
+		<?php endif; ?>	
+			
+			
+			
 	</div>
 	<div class="vSpace"></div>
-	<?php if($edit_post_mode == false): ?>
+	<?php if($edit_post_mode == false and $quick_edit == false): ?>
 	<?php   //  d($data);
 
   $pt_opts = array();
@@ -847,6 +860,12 @@ load_preview();
 	<?php /* PAGES ONLY  */ ?>
 	<?php /* ONLY FOR POSTS  */ ?>
 	<?php if($edit_post_mode != false): ?>
+	
+	
+	
+	
+	
+	
 	<a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
 	<?php _e("Add to Page &amp; Category"); ?>
 	</a> &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
@@ -1114,17 +1133,21 @@ if(intval($data['id']) == 0){
 	
 	
 	
-	<?php if( $quick_edit == false): ?>
+	
+	<?php if( $quick_edit == false or trim($data['subtype']) == 'product'): ?>
 	
 	<?php if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>
 	<a href="javascript:;" class="mw-ui-more toggler-active" onclick="mw.tools.toggle('#custom_fields_for_post_<?php print $rand; ?>', this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>
-	<?php _e("Custom Fields"); ?>
+	<?php _e("Product properties"); ?>
 	</a>
 	<?php else: ?>
 	<a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>
-	<?php _e("Custom Fields"); ?>
+	<?php _e("Custom fields"); ?>
 	</a> &nbsp;&nbsp; <small class="mw-help" data-help="You can set custom properties for this <?php print $data['content_type'] ?>. ">(?)</small>
 	<?php endif; ?>
+	
+  
+	
 	<div class="vSpace"></div>
 	<?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
 	
@@ -1260,6 +1283,20 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 	</div>
 	<div class="vSpace"></div>
 	<?php endif; ?>
+	
+	
+	
+	<?php if($quick_edit == true and $edit_post_mode != false): ?>
+	<div class="mw-save-content-bar"> <span class="mw-ui-btn go-live mw-ui-btn-green">
+			<?php _e("Save"); ?>
+			</span>  </div>
+	
+	<?php endif; ?>
+	
+	
+	
+	
+	
 	<?php //endif; ?>
 	
 	
