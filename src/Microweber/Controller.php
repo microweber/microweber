@@ -666,10 +666,11 @@ class Controller
                 //$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-
-
+                 $default_css.='<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
+ 
+ 
                 //as of aug 28
-                // $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
 
 

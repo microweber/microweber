@@ -1,5 +1,13 @@
 
+if(typeof mw === 'undefined'){
+
+
+
 mw = {}
+
+
+
+
 
 mw.version = "<?php print MW_VERSION; ?>";
 
@@ -31,6 +39,9 @@ mw.askusertostay = false;
   mwd = document;
   mww = window;
   mwhead = mwd.head || mwd.getElementsByTagName('head')[0];
+  mw.rh = document.createElement('script');
+  mwhead.appendChild(mw.rh);
+
 
   mw.loaded = false;
 
@@ -74,9 +85,7 @@ mw.askusertostay = false;
 
 
 
-(function() {
-    mw.required = [];
-    mw.rh = mwd.createElement('div');
+    mw.required = typeof mw.required === 'undefined'?[]:mw.required;
     mw.require = function(url, inHead) {
       var inHead = inHead || false;
       var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
@@ -85,14 +94,19 @@ mw.askusertostay = false;
         var t = url.split('.').pop();
         var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
         var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if ((document.readyState === 'loading' || document.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
+        if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
            mwd.write(string);
         } else {
-          $(mwhead).append(string)
+
+
+
+        $(mwhead).append(string);
+
+
         }
       }
     }
-})();
+
 
 
 
@@ -535,6 +549,9 @@ mw._response = {
 }
 
 mw.require("session.js");
+
+
+}
 
 
 
