@@ -243,7 +243,7 @@ class User
                         event_trigger('user_login_admin');
                         $p = mw('content')->get_page();
                         if (!empty($p)) {
-                            $link = page_link($p['id']);
+                            $link = $this->app->content->link($p['id']);
                             $link = $link . '/editmode:y';
                             $this->app->url->redirect($link);
                             exit();

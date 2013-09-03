@@ -773,7 +773,7 @@ class Controller
 
             if (CONTENT_ID > 0) {
                 $meta = $this->app->content->get_by_id(CONTENT_ID);
-                $meta['content_image'] = get_picture(CONTENT_ID);
+                $meta['content_image'] = $this->app->media->get_picture(CONTENT_ID);
                 $meta['content_url'] = $this->app->content->link(CONTENT_ID);
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {

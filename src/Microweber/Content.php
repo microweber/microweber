@@ -4147,6 +4147,19 @@ if (is_file($render_file_temp)) {
 
                             }
 
+                        } else  if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'page') {
+
+
+                            $save_global = false;
+                            $save_layout = false;
+                            $content_id = $page_id;
+
+                            $inh = $this->get_inherited_parent($page_id);
+                            if ($inh != false) {
+                                $content_id_for_con_field = $content_id = $inh;
+
+                            }
+
                         }
 
 
@@ -4214,7 +4227,7 @@ if (is_file($render_file_temp)) {
                                         $cont_field1 = $this->save_content_field($cont_field);
                                     }
                                 }
-
+d($cont_field);
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;

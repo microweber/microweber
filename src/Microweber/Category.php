@@ -116,7 +116,7 @@ class Category
                 $url = $content['url'];
                 if ($content['content_type'] == 'page') {
                     if (function_exists('page_link')) {
-                        $url = page_link($content['id']);
+                        $url = $this->app->content->link($content['id']);
                     }
                 }
 
@@ -225,7 +225,7 @@ class Category
 
                     if ($content['content_type'] == 'page') {
                         if (function_exists('page_link')) {
-                            $url = page_link($content['id']);
+                            $url = $this->app->content->link($content['id']);
                             //$url = $url . '/category:' . $data ['title'];
 
                             $str = $data['title'];
