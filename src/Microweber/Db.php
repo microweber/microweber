@@ -3175,10 +3175,10 @@ class Db
         if (is_file($dbms_schema)) {
             $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
             $sql_query = str_ireplace('{MW_TABLE_PREFIX}', MW_TABLE_PREFIX, $sql_query);
-            $sql_query = self::remove_sql_remarks($sql_query);
+            $sql_query = $this->remove_sql_remarks($sql_query);
 
-            $sql_query = self::remove_comments_from_sql_string($sql_query);
-            $sql_query = self::split_sql_file($sql_query, ';');
+            $sql_query = $this->remove_comments_from_sql_string($sql_query);
+            $sql_query = $this->split_sql_file($sql_query, ';');
 
             $i = 1;
             foreach ($sql_query as $sql) {
