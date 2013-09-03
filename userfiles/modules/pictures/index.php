@@ -48,7 +48,7 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 	 $params['content-id'] = PAGE_ID;
 
 	 }
-} elseif(get_option('data-use-from-post', $params['id']) ==''){
+} elseif(!isset($params['for']) and get_option('data-use-from-post', $params['id']) ==''){
 	  $for = 'modules';
 	   $params['rel_id'] = $params['id']; 
 } else {
@@ -68,8 +68,7 @@ if(isset($params['content-id'])){
 }
 
 $for_id = $params['rel_id'];
- 
-   
+    
 // d($params);   
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
