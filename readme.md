@@ -1,5 +1,7 @@
 # Microweber: the Drag-and-Drop CMS
 
+![Live edit](http://new.microweber.com/cdn/docs/banner_modules.png "")
+
 Microweber is a content management system of new generation that allows you to make your website by drag and drop.
 
 You can easily manipulate the content and the layout of your pages without the need to write code.
@@ -48,4 +50,6 @@ Microweber is a new generation drag and drop cms and application framework.
 It can be used to manage your websites or simply to power your custom applications. 
 
 **Check out the existing documentation on [our website](http://microweber.com/api-docs "") or [on github](https://github.com/microweber/microweber/tree/master/wiki "").**
+
+
 
