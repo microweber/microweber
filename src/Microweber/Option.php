@@ -11,9 +11,10 @@ class Option
 {
 
     public $app;
-    public function __construct($app=null)
+
+    public function __construct($app = null)
     {
-      
+
 
         if (!is_object($this->app)) {
 
@@ -24,17 +25,21 @@ class Option
             }
 
         }
-		
-		
-	    if (!defined("MW_DB_TABLE_OPTIONS")) {
-            define('MW_DB_TABLE_OPTIONS', MW_TABLE_PREFIX . 'options');
-			$this->db_init();
+        $pref = false;
+        if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+            $pref = $_REQUEST['table_prefix'];
+        } else if (defined('MW_TABLE_PREFIX')) {
+            $pref = MW_TABLE_PREFIX;
         }
-        
+
+
+        if (!defined("MW_DB_TABLE_OPTIONS")) {
+            define('MW_DB_TABLE_OPTIONS', $pref . 'options');
+            $this->db_init();
+        }
+
 
     }
-
-
 
 
     /**
@@ -56,7 +61,7 @@ class Option
     {
 
         if (!defined('MW_DB_TABLE_OPTIONS') or MW_DB_TABLE_OPTIONS == false) {
-             return false;
+            return false;
         }
         if ($option_group != false) {
 
@@ -135,7 +140,7 @@ class Option
         // $get = $this->app->db->get_long($table, $data, $cache_group);
         $ok = $this->app->db->escape_string($data['option_key']);
 
-         $q = "select * from $table where option_key='{$ok}'  ".$ok1 .$ok2;
+        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2;
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
         // d($q);
         $q_cache_id = crc32($q);
@@ -147,8 +152,8 @@ class Option
         }
         $get = array();
         foreach ($get_all as $get_opt) {
-           // if (isset($get_opt['option_key']) and $ok == $get_opt['option_key']) {
-                $get[] = $get_opt;
+            // if (isset($get_opt['option_key']) and $ok == $get_opt['option_key']) {
+            $get[] = $get_opt;
             //}
         }
 
@@ -319,7 +324,7 @@ class Option
         }
 
 
-        // p($_POST);
+
         $option_group = false;
         if (is_array($data)) {
 
@@ -348,20 +353,20 @@ class Option
                             } else {
 
                                 $table = MW_DB_TABLE_OPTIONS;
-                                $copy =  $this->app->db->copy_row_by_id($table, $data['id']);
+                                $copy = $this->app->db->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                             }
 
                         }
                     }
 
-                    //d($ok1);
+
                 }
             }
 
             if (isset($data['option_type']) and trim($data['option_type']) == 'static') {
 
-                return mw('Microweber\Utils\StaticOption')->save($data);
+                return mw('Utils\StaticOption')->save($data);
 
             }
 
@@ -372,16 +377,15 @@ class Option
                     $this->delete($data['option_key'], $data['option_group']);
                 }
             }
-            //d($data);
+
             $table = MW_DB_TABLE_OPTIONS;
             if (isset($data['field_values']) and $data['field_values'] != false) {
                 $data['field_values'] = base64_encode(serialize($data['field_values']));
             }
-            if (isset($data['module'])){
-                $data['module'] = str_ireplace('/admin', '',$data['module']);
+            if (isset($data['module'])) {
+                $data['module'] = str_ireplace('/admin', '', $data['module']);
 
             }
-
 
 
             if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
@@ -393,11 +397,9 @@ class Option
                 $cache_group = 'options/' . $opt_gr;
                 $this->app->cache->delete($cache_group);
 
-                //d($clean);
-            }
-            //	$data['debug'] = 1;
 
-            //}
+            }
+
             if (strval($data['option_key']) != '') {
 
                 if (isset($data['option_group']) and strval($data['option_group']) == '') {
@@ -407,7 +409,7 @@ class Option
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
                     $data['option_value'] = $this->app->url->replace_site_url($data['option_value']);
-                    //d($data['option_value']);
+
                 }
 
                 $save = $this->app->db->save($table, $data);
@@ -473,7 +475,7 @@ class Option
 
         $function_cache_id = 'default_opts';
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db' );
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db');
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -574,7 +576,7 @@ class Option
             //var_dump($changes);
             $this->app->cache->delete('options/global');
         }
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db' );
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db');
 
         return true;
     }
@@ -694,7 +696,7 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'options_db_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'options_db_' . __FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -725,7 +727,7 @@ class Option
         $fields_to_add[] = array('module', 'TEXT default NULL');
         $fields_to_add[] = array('is_system', 'int(1) default 0');
 
-         $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
         // $this->app->db->add_table_index('option_group', $table_name, array('option_group'), "FULLTEXT");
         // $this->app->db->add_table_index('option_key', $table_name, array('option_key'), "FULLTEXT");

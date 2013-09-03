@@ -267,12 +267,12 @@ if (isset($to_save['is_installed'])) {
 
                     define('MW_FORCE_MOD_INSTALLED', 1);
                 }
-
-
-                mw('option')->db_init();
+                __mw_install_log('Initializing settings');
+                 mw('option')->db_init();
+                __mw_install_log('Setting default settings');
                 mw('option')->_create_mw_default_options();
 
-                __mw_install_log('Initializing options');
+
 
 
                 __mw_install_log('Initializing users');
@@ -286,19 +286,25 @@ if (isset($to_save['is_installed'])) {
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
                 mw('content')->db_init();
+                __mw_install_log('Creating log database tables');
                 mw('notifications')->db_init();
+                __mw_install_log('Creating online shop database tables');
                 mw('shop')->db_init();
+                mw('shop')->create_mw_shop_default_options();
+                __mw_install_log('Creating modules database tables');
+
                 mw('module')->db_init();
 
-
-                __mw_install_log('Creating modules database tables');
                 if (!defined('MW_FORCE_SAVE_EXTENDED')) {
 
                     define('MW_FORCE_SAVE_EXTENDED', 1);
                 }
 
                 event_trigger('mw_db_init_modules');
+                __mw_install_log('Scanning for modules');
+
                 mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
+                __mw_install_log('Installing modules');
                 mw('module')->update_db();
 
 
