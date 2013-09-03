@@ -2358,7 +2358,7 @@ if (is_file($render_file_temp)) {
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses \mw('db')->build_table()
+     * @uses  $this->app->db->build_table()
      */
     public function db_init()
     {
@@ -2425,11 +2425,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
 
-        \mw('db')->add_table_index('url', $table_name, array('url(255)'));
-        \mw('db')->add_table_index('title', $table_name, array('title(255)'));
+         $this->app->db->add_table_index('url', $table_name, array('url(255)'));
+         $this->app->db->add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
@@ -2445,11 +2445,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $fields_to_add[] = array('field', 'longtext default NULL');
         $fields_to_add[] = array('value', 'LONGTEXT default NULL');
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('db')->add_table_index('field', $table_name, array('field(55)'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        // $this->app->db->add_table_index('field', $table_name, array('field(55)'));
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
@@ -2457,11 +2457,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('url', 'TEXT default NULL');
 
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        //\mw('db')->add_table_index('field', $table_name, array('field(56)'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        // $this->app->db->add_table_index('field', $table_name, array('field(56)'));
 
 
         $table_name = MW_DB_TABLE_MEDIA;
@@ -2484,14 +2484,14 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('filename', 'TEXT default NULL');
 
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('db')->add_table_index('media_type', $table_name, array('media_type(55)'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+         $this->app->db->add_table_index('media_type', $table_name, array('media_type(55)'));
 
-        //\mw('db')->add_table_index('url', $table_name, array('url'));
-        //\mw('db')->add_table_index('title', $table_name, array('title'));
+        // $this->app->db->add_table_index('url', $table_name, array('url'));
+        // $this->app->db->add_table_index('title', $table_name, array('title'));
 
 
         $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
@@ -2531,11 +2531,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('copy_of_field', 'int(11) default NULL');
 
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        \mw('db')->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+         $this->app->db->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = MW_DB_TABLE_MENUS;
@@ -2552,7 +2552,7 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('url', 'TEXT default NULL');
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
 
         $table_name = MW_DB_TABLE_TAXONOMY;
@@ -2583,11 +2583,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('categories_silo_keywords', 'TEXT default NULL');
 
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('db')->add_table_index('parent_id', $table_name, array('parent_id'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+         $this->app->db->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
 
@@ -2599,11 +2599,11 @@ if (is_file($render_file_temp)) {
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
         $fields_to_add[] = array('data_type', 'TEXT default NULL');
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        //\mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id'));
-        \mw('db')->add_table_index('parent_id', $table_name, array('parent_id'));
+        // $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+         $this->app->db->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -4147,6 +4147,19 @@ if (is_file($render_file_temp)) {
 
                             }
 
+                        } else  if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'page') {
+
+
+                            $save_global = false;
+                            $save_layout = false;
+                            $content_id = $page_id;
+
+                            $inh = $this->get_inherited_parent($page_id);
+                            if ($inh != false) {
+                                $content_id_for_con_field = $content_id = $inh;
+
+                            }
+
                         }
 
 
@@ -4165,7 +4178,7 @@ if (is_file($render_file_temp)) {
                         $html_to_save = $the_field_data['html'];
 
                         $html_to_save = $content = mw('parser')->make_tags($html_to_save);
-                        //d($html_to_save);
+
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -4190,7 +4203,7 @@ if (is_file($render_file_temp)) {
                                 $history_to_save['id'] = $content_id;
                                 $history_to_save['value'] = $old;
                                 $history_to_save['field'] = $field;
-                                // p ( $history_to_save );
+
                                 if ($is_no_save != true) {
                                     //	save_history($history_to_save);
                                 }
@@ -4273,15 +4286,6 @@ if (is_file($render_file_temp)) {
                             $cont_field['field'] = $the_field_data['attributes']['field'];
 
 
-                            // d($cont_field);
-
-
-                            //if($field != 'content'){
-                            //
-                            //
-                            //
-                            //
-
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url->string(true);
@@ -4293,7 +4297,6 @@ if (is_file($render_file_temp)) {
                             }
 
 
-                            //}
 
 
                             if ($save_global == true and $save_layout == false) {
@@ -4385,11 +4388,7 @@ if (is_file($render_file_temp)) {
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
                 $this->app->db->q($del_q);
             }
-            //d($history_files_ids);
 
-
-//d($del_q );
-            //	$this->app->db->q($del_q);
         }
 
 
@@ -4871,7 +4870,7 @@ if (is_file($render_file_temp)) {
 
 
                     }
-                    //  d($add_page);
+
                     $new_shop = $this->app->db->save('content', $add_page);
                     $this->app->cache->delete('content');
                     $this->app->cache->delete('categories');
@@ -5066,7 +5065,6 @@ if (is_file($render_file_temp)) {
 
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
-        // d($data_to_save);
         $save = $this->app->db->save($table, $data_to_save);
 
         $this->app->cache->delete('menus/global');
@@ -5141,10 +5139,9 @@ if (is_file($render_file_temp)) {
                     $i++;
                 }
 
-                \mw('db')->update_position_field($table, $indx);
+                 $this->app->db->update_position_field($table, $indx);
                 return true;
-                // d($indx);
-            }
+             }
         }
         return false;
     }
@@ -5166,8 +5163,6 @@ if (is_file($render_file_temp)) {
             return false;
         }
     }
-
-
 }
 
 $mw_language_content = array();

@@ -116,7 +116,7 @@ class Category
                 $url = $content['url'];
                 if ($content['content_type'] == 'page') {
                     if (function_exists('page_link')) {
-                        $url = page_link($content['id']);
+                        $url = $this->app->content->link($content['id']);
                     }
                 }
 
@@ -225,7 +225,7 @@ class Category
 
                     if ($content['content_type'] == 'page') {
                         if (function_exists('page_link')) {
-                            $url = page_link($content['id']);
+                            $url = $this->app->content->link($content['id']);
                             //$url = $url . '/category:' . $data ['title'];
 
                             $str = $data['title'];
@@ -1254,7 +1254,7 @@ class Category
 
     public function save($data, $preserve_cache = false) {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Ony admin can save category');
         }
@@ -1406,7 +1406,7 @@ class Category
 
     public function delete($data) {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
         }
@@ -1430,7 +1430,7 @@ class Category
 
     public function reorder($data) {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
         }

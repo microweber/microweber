@@ -94,7 +94,7 @@ class Notifications
     public function reset()
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -112,7 +112,7 @@ class Notifications
     public function delete($id)
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -187,10 +187,10 @@ class Notifications
 
         $fields_to_add[] = array('is_read', "char(1) default 'n'");
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
         $this->app->cache->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;
@@ -207,7 +207,7 @@ class Notifications
         // $params['rel_id'] = $params['module'];
         // }
 
-        //$adm = is_admin();
+        //$adm = $this->app->user->is_admin();
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
         mw_var('FORCE_SAVE', $table);

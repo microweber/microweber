@@ -298,7 +298,7 @@ class Media
                     $i++;
                 }
 
-                \mw('db')->update_position_field($table, $indx);
+                 $this->app->db->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

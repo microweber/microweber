@@ -640,7 +640,12 @@ class Parser
                     $module_html .= " {$attribute_name}='{$v}'  ";
                 }
             }
+
+
+            //$module_html = str_replace(' clear element module', 'module',$module_html);
+
             $module_html .= ' />';
+
             pq($elem)->replaceWith($module_html);
         }
 
@@ -848,7 +853,7 @@ class Parser
                 if ($cache != false) {
 
 
-                    return $cache;
+                  return $cache;
                 }
 
             }
@@ -1019,6 +1024,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
+
                         $data = mw('content')->get_page($data_id);
 
                         //$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
@@ -1089,8 +1095,7 @@ class Parser
                             //
 
                             $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
-							
-							
+
  
 							
 							

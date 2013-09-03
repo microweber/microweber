@@ -56,7 +56,7 @@ class Log
 
     public function reset()
     {
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -112,7 +112,7 @@ class Log
 
     public function delete_entry($data)
     {
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

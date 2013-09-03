@@ -601,7 +601,7 @@ class Controller
                     }
                 }
 
-                $is_admin = is_admin();
+                $is_admin = $this->app->user->is_admin();
                 if ($is_admin == true and isset($isolated_el) != false) {
 
                     $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
@@ -704,7 +704,7 @@ class Controller
 
                     $layout_toolbar = new $this->app->view($tb);
                     $is_editmode_basic = false;
-                    $user_data = get_user();
+                    $user_data = $this->app->user->get();
                     if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
                         $is_editmode_basic = true;
                     }
@@ -773,7 +773,7 @@ class Controller
 
             if (CONTENT_ID > 0) {
                 $meta = $this->app->content->get_by_id(CONTENT_ID);
-                $meta['content_image'] = get_picture(CONTENT_ID);
+                $meta['content_image'] = $this->app->media->get_picture(CONTENT_ID);
                 $meta['content_url'] = $this->app->content->link(CONTENT_ID);
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {

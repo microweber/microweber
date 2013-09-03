@@ -8,10 +8,14 @@ if(!defined('M')) {
 	
 }
 
-
+if (!defined('MW_CACHE_EXPIRES')) {
+    // you can set cache expiration time,
+    // by default cache is stored forever until its deleted by some internal function
+    //define("MW_CACHE_EXPIRES", 600); //10 min
+}
 if(!defined('MW_USE_APC_CACHE')) {
 	
-	define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
+	 define('MW_USE_APC_CACHE', false); //mw will automatically use apc if its found, but you can turn it off
 
 }
 
