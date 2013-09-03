@@ -473,7 +473,7 @@ class Layouts
 
     function template_remove_custom_css($params)
     {
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             return false;
         }
@@ -505,7 +505,7 @@ class Layouts
     function template_save_css($params)
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             return false;
         }

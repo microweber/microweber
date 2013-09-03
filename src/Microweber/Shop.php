@@ -355,7 +355,7 @@ class Shop
 
                 }
             }
-            $amount = cart_sum();
+            $amount = $this->cart_sum();
             if ($amount == 0) {
                 $checkout_errors['cart_sum'] = 'Cart sum is 0?';
             }
@@ -380,7 +380,7 @@ class Shop
 
             $place_order['shipping'] = $shiping_cost;
 
-            $items_count = cart_sum(false);
+            $items_count = $this->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
             $cart_checksum = md5($sid . serialize($check_cart));

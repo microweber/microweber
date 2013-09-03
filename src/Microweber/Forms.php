@@ -76,7 +76,7 @@ class Forms
 
     public function save_list($params)
     {
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             exit('You must be admin');
         }
@@ -112,7 +112,7 @@ class Forms
     public function post($params)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
 
         $table = MW_DB_TABLE_FORMS_DATA;
         mw_var('FORCE_SAVE', $table);
@@ -392,7 +392,7 @@ class Forms
     public function delete_entry($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -434,7 +434,7 @@ class Forms
     public function delete_list($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -529,7 +529,7 @@ class Forms
         //this function is experimental
         set_time_limit(0);
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

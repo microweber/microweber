@@ -33,7 +33,7 @@ class Update
 
     function check($skip_cache = false)
     {
-        $a = is_admin();
+        $a = $this->app->user->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
@@ -284,7 +284,7 @@ class Update
         }
 
         $to_be_unzipped = array();
-        $a = is_admin();
+        $a = $this->app->user->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }

@@ -308,7 +308,7 @@ class Option
     {
 
         if (defined('MW_API_CALL')) {
-            $is_admin = is_admin();
+            $is_admin = $this->app->user->is_admin();
             if ($is_admin == false) {
                 return false;
             }

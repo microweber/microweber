@@ -94,7 +94,7 @@ class Notifications
     public function reset()
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -112,7 +112,7 @@ class Notifications
     public function delete($id)
     {
 
-        $is_admin = is_admin();
+        $is_admin = $this->app->user->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -207,7 +207,7 @@ class Notifications
         // $params['rel_id'] = $params['module'];
         // }
 
-        //$adm = is_admin();
+        //$adm = $this->app->user->is_admin();
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
         mw_var('FORCE_SAVE', $table);

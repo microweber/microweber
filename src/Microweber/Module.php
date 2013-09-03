@@ -825,7 +825,7 @@ class Module
     public function reorder_modules($data)
     {
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1297,7 +1297,7 @@ class Module
         $save = false;
         // d($table);
 
-        $adm = is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

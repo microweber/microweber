@@ -44,17 +44,17 @@ class User
      * @example
      * <code>
      * //login with username
-     * user_login('username=test&password=pass')
+     * $this->login('username=test&password=pass')
      * </code>
      * @example
      * <code>
      * //login with email
-     * user_login('email=my@email.com&password=pass')
+     * $this->login('email=my@email.com&password=pass')
      * </code>
      * @example
      * <code>
      * //login hashed password
-     * user_login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+     * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
      * </code>
      *
      * @return array|bool
@@ -79,7 +79,7 @@ class User
      * @uses $this->login_set_failed_attempt()
      * @uses $this->update_last_login_time()
      * @uses event_trigger()
-     * @function user_login()
+     * @function $this->login()
      * @see _table() For the database table fields
      */
     public function login($params)
@@ -605,7 +605,7 @@ class User
         }
 
         if (intval($user_id) > 0) {
-            $data = get_user($user_id);
+            $data = $this->get_by_id($user_id);
             if ($data == false) {
                 return false;
             } else {
@@ -684,7 +684,7 @@ class User
                             $data = $data[0];
 
                             if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return user_login($data);
+                                return $this->login($data);
 
                             }
 
@@ -1066,7 +1066,7 @@ class User
                         $params['password2'] = $pass2;
                     }
                     event_trigger('after_user_register', $params);
-                    //user_login('email='.$email.'&password='.$pass);
+                    //$this->login('email='.$email.'&password='.$pass);
 
 
                     return array('success' => 'You have registered successfully');
@@ -1076,9 +1076,9 @@ class User
 
                     if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
                         if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = user_login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
                         } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = user_login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
                         }
                         if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
                             return ($is_logged);
