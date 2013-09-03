@@ -70,12 +70,16 @@ class Layouts
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = $this->app->option->get('curent_template');
+                    $the_active_site_template = $this->app->option->get('curent_template','template');
                 }
             } else {
-                $the_active_site_template = $this->app->option->get('curent_template');
+                $the_active_site_template = $this->app->option->get('curent_template','template');
+            }
+            if($the_active_site_template == ''){
+                $the_active_site_template = 'default';
             }
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
+
         } else {
             $path = $options['path'];
         }
