@@ -18,7 +18,9 @@ if (!defined('MW_CACHE_FILES_EXTENSION')) {
 if (!defined('MW_CACHE_CONTENT_PREPEND')) {
     define('MW_CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
 }
-
+if (!defined('MW_CACHE_EXPIRES')) {
+    //define("MW_CACHE_EXPIRES", 600); //10 min
+}
 class Files
 {
 
@@ -356,7 +358,9 @@ class Files
 
     public function get($cache_id, $cache_group = 'global', $time = false)
     {
-
+        if ($time == false and defined('MW_CACHE_EXPIRES') and MW_CACHE_EXPIRES != false) {
+            $time = MW_CACHE_EXPIRES;
+        }
 
         global $mw_cache_get_content_memory;
         if (is_array($mw_cache_get_content_memory) and isset($mw_cache_get_content_memory[$cache_group]) and isset($mw_cache_get_content_memory[$cache_group][$cache_id])) {

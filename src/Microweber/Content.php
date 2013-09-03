@@ -4178,7 +4178,7 @@ if (is_file($render_file_temp)) {
                         $html_to_save = $the_field_data['html'];
 
                         $html_to_save = $content = mw('parser')->make_tags($html_to_save);
-                        //d($html_to_save);
+
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -4203,7 +4203,7 @@ if (is_file($render_file_temp)) {
                                 $history_to_save['id'] = $content_id;
                                 $history_to_save['value'] = $old;
                                 $history_to_save['field'] = $field;
-                                // p ( $history_to_save );
+
                                 if ($is_no_save != true) {
                                     //	save_history($history_to_save);
                                 }
@@ -4227,7 +4227,7 @@ if (is_file($render_file_temp)) {
                                         $cont_field1 = $this->save_content_field($cont_field);
                                     }
                                 }
-d($cont_field);
+
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
@@ -4286,15 +4286,6 @@ d($cont_field);
                             $cont_field['field'] = $the_field_data['attributes']['field'];
 
 
-                            // d($cont_field);
-
-
-                            //if($field != 'content'){
-                            //
-                            //
-                            //
-                            //
-
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url->string(true);
@@ -4306,7 +4297,6 @@ d($cont_field);
                             }
 
 
-                            //}
 
 
                             if ($save_global == true and $save_layout == false) {
@@ -4398,11 +4388,7 @@ d($cont_field);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
                 $this->app->db->q($del_q);
             }
-            //d($history_files_ids);
 
-
-//d($del_q );
-            //	$this->app->db->q($del_q);
         }
 
 
@@ -4884,7 +4870,7 @@ d($cont_field);
 
 
                     }
-                    //  d($add_page);
+
                     $new_shop = $this->app->db->save('content', $add_page);
                     $this->app->cache->delete('content');
                     $this->app->cache->delete('categories');
@@ -5079,7 +5065,6 @@ d($cont_field);
 
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
-        // d($data_to_save);
         $save = $this->app->db->save($table, $data_to_save);
 
         $this->app->cache->delete('menus/global');
@@ -5156,8 +5141,7 @@ d($cont_field);
 
                 \mw('db')->update_position_field($table, $indx);
                 return true;
-                // d($indx);
-            }
+             }
         }
         return false;
     }
@@ -5179,8 +5163,6 @@ d($cont_field);
             return false;
         }
     }
-
-
 }
 
 $mw_language_content = array();
