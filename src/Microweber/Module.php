@@ -785,17 +785,17 @@ class Module
 
         $fields_to_add[] = array('notifications', 'int(11) default 0');
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
-        \mw('db')->add_table_index('module', $table_name, array('module(255)'));
-        \mw('db')->add_table_index('module_id', $table_name, array('module_id(255)'));
+         $this->app->db->add_table_index('module', $table_name, array('module(255)'));
+         $this->app->db->add_table_index('module_id', $table_name, array('module_id(255)'));
 
-        \mw('db')->build_table($table_name2, $fields_to_add);
+         $this->app->db->build_table($table_name2, $fields_to_add);
 
-        \mw('db')->add_table_index('module', $table_name2, array('module(255)'));
-        \mw('db')->add_table_index('module_id', $table_name2, array('module_id(255)'));
+         $this->app->db->add_table_index('module', $table_name2, array('module(255)'));
+         $this->app->db->add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
@@ -805,7 +805,7 @@ class Module
         $fields_to_add[] = array('module_id', 'TEXT default NULL');
         $fields_to_add[] = array('name', 'TEXT default NULL');
         $fields_to_add[] = array('module', 'TEXT default NULL');
-        \mw('db')->build_table($table_name3, $fields_to_add);
+         $this->app->db->build_table($table_name3, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));

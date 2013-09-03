@@ -485,11 +485,11 @@ class Forms
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $fields_to_add[] = array('user_ip', 'TEXT default NULL');
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('rel', $table_name, array('rel(55)'));
-        \mw('db')->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        \mw('db')->add_table_index('list_id', $table_name, array('list_id'));
+         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+         $this->app->db->add_table_index('list_id', $table_name, array('list_id'));
 
         $table_name = MW_DB_TABLE_FORMS_LISTS;
 
@@ -506,14 +506,14 @@ class Forms
         $fields_to_add[] = array('last_export', 'datetime default NULL');
         $fields_to_add[] = array('last_sent', 'datetime default NULL');
 
-        \mw('db')->build_table($table_name, $fields_to_add);
+         $this->app->db->build_table($table_name, $fields_to_add);
 
-        \mw('db')->add_table_index('title', $table_name, array('title(55)'));
+         $this->app->db->add_table_index('title', $table_name, array('title(55)'));
 
 
         $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
 
-        \mw('db')->import_sql_file($table_sql);
+         $this->app->db->import_sql_file($table_sql);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -618,7 +618,7 @@ class Forms
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  \mw('db')->build_table($table_name, $fields_to_add);
+     *   $this->app->db->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -734,7 +734,7 @@ class Forms
      *
      * @example
      * <pre>
-     * \mw('db')->add_table_index('title', $table_name, array('title'));
+     *  $this->app->db->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database
