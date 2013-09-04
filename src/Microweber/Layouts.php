@@ -456,7 +456,7 @@ class Layouts
         }
     }
 
-    function template_check_for_custom_css($template_name)
+    function template_check_for_custom_css($template_name,$check_for_backup=false)
     {
         $template = $template_name;
         if (trim($template) == '') {
@@ -467,7 +467,11 @@ class Layouts
         if ($template != false) {
 
             $template_folder = MW_TEMPLATES_DIR . $template . DS;
+
             $live_edit_css = $template_folder . 'live_edit.css';
+            if($check_for_backup == true){
+                $live_edit_css = $live_edit_css.'.bak';
+            }
             $fcont = '';
             if (is_file($live_edit_css)) {
                 return $live_edit_css;
@@ -485,21 +489,49 @@ class Layouts
             $params = parse_params($params);
         }
         $template = false;
+        $return_styles = false;
         if (isset($params['template'])) {
 
             $template = $params['template'];
         }
 
+
+        if (isset($params['return_styles'])) {
+
+            $return_styles = $params['return_styles'];
+        }
+
+
+
+
+
+
+
         if($template != false){
-            $tf = $this->template_check_for_custom_css($template);
-            $tf2 = $tf.'.bak';
+
+            if($return_styles == true){
+                $tf = $this->template_check_for_custom_css($template,true);
+                $tf2 = str_ireplace('.bak','',$tf);
+                
 
 
-            if(rename($tf, $tf2)){
-                return array('success' => 'Custom css is removed');
+                if(rename($tf, $tf2)){
+                    return array('success' => 'Custom css is returned');
+                } else {
+                    return array('error' => 'File could not be returned');
+                }
             } else {
-                return array('error' => 'File could not be removed');
+                $tf = $this->template_check_for_custom_css($template);
+                $tf2 = $tf.'.bak';
+
+
+                if(rename($tf, $tf2)){
+                    return array('success' => 'Custom css is removed');
+                } else {
+                    return array('error' => 'File could not be removed');
+                }
             }
+
 
         }
 

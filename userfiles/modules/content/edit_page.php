@@ -227,6 +227,7 @@ $(document).ready(function(){
 
     if(window.parent != undefined && window.parent.mw != undefined){
 		//d(this);
+		window.parent.mw.askusertostay=false;
 		<?php if(isset($params['from_live_edit'])): ?>
  		  mw.$("#<?php print $params['id'] ?>").attr('data-content-id',this);
 		  mw.reload_module('#<?php print $params['id'] ?>');
@@ -261,7 +262,7 @@ $(document).ready(function(){
    window.parent.mw.reload_module('posts');
    window.parent.mw.reload_module('shop/products');
    window.parent.mw.reload_module('content');
-
+window.parent.mw.askusertostay=false;
 
 }
 
@@ -293,6 +294,15 @@ mw_on_save_complete<?php print $rand; ?>()
 
   mw.$('#admin_edit_page_form_<?php print $rand; ?> .go-live').click(function() {
     mw_before_content_save<?php print $rand; ?>();
+	
+	
+	 if(window.parent != undefined && window.parent.mw != undefined){
+window.parent.mw.askusertostay=false;
+
+ }
+	
+	
+	
     mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print site_url('api/save_content') ?>', function(){
         mw_after_content_save<?php print $rand; ?>(this);
     });
@@ -494,10 +504,11 @@ function mw_before_content_save<?php print $rand; ?>(){
 
 
  function mw_after_content_save<?php print $rand; ?>($id){
+ if(window.parent != undefined && window.parent.mw != undefined){
+window.parent.mw.askusertostay=false;
 
+ }
   mw.reload_module('[data-type="pages"]',  function(){
-
-
 
 
   });
@@ -767,7 +778,7 @@ load_preview();
 	</a>
 	<div class="mw-layout-selector-holder" style="display: none;">
 		<module id="mw-layout-selector-module" data-type="content/layout_selector" <?php print
-      $layout_from_parent ?> data-page-id="<?php print ($data['id'])?>"  autoload=1 />
+      $layout_from_parent ?> data-page-id="<?php print ($data['id'])?>"  autoload=1 live_edit_styles_check=1 />
 		
 		
 		<?php if($quick_edit == false): ?>
