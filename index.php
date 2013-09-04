@@ -52,7 +52,7 @@ if(!defined('MW_CONFIG_FILE')) {
 
 
 require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 
 // Starting MW

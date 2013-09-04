@@ -1156,7 +1156,7 @@ class Category
         }
 
 
-        $get_category_items = $this->get_items('&rel=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('rel=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
         if (!empty($get_category_items)) {
@@ -1188,8 +1188,10 @@ class Category
 
             //  d($get_category2 );
         }
-
-        array_unique($get_category);
+if(is_array($get_category)){
+	    array_unique($get_category);
+}
+    
         if (empty($get_category)) {
             return false;
         }
