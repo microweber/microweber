@@ -622,7 +622,7 @@ class Layouts
                 $css_cont = $fcont;
                 $css_cont_new = $css_cont;
                 foreach ($params as $item) {
-                    if (isset($item['selector'])) {
+                    if (isset($item['selector']) and trim($item['selector']) != '') {
                         $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.mwfx', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.mw_image_resizer', '', $item["selector"]);

@@ -176,6 +176,16 @@ generateJSON4StaticElements = function(){
         var el = all[i];
         var selector = mw.tools.generateSelectorForNode(el);
         var css = el.getAttribute("style");
+		
+		if(selector != undefined && (selector =='body' || selector =='BODY')){
+			if(css != undefined){
+				var css=css.replace("padding-top","mw-pad-top");
+
+			}
+			
+		}
+		
+		
         if(el!==null){
           obj[i] = {
              selector:selector,

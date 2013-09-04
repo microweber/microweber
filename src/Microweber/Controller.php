@@ -371,8 +371,7 @@ class Controller
                                             $the_new_page_file = $td_basedef;
                                             $simply_a_file = $directly_to_file = $td_basedef;
                                         }
-                                        // d($simply_a_file);
-                                    }
+                                     }
 
                                 }
 
@@ -430,8 +429,7 @@ class Controller
 
                                 foreach ($page_url_segment_3 as $mvalue) {
                                     if ($found_mod == false and $this->app->module->is_installed($mvalue)) {
-                                        //d($mvalue);
-                                        $found_mod = true;
+                                         $found_mod = true;
                                         $page['id'] = 0;
                                         $page['content_type'] = 'page';
                                         $page['parent'] = '0';
@@ -463,17 +461,16 @@ class Controller
                             $page['simply_a_file'] = $simply_a_file;
 
                             template_var('new_page', $page);
-                            //template_var('new_page');
-                        }
+                         }
 
                     }
 
-                    //
+
                 }
             }
         }
 
-        //
+
 
 
         if ($page['id'] != 0) {
@@ -548,15 +545,14 @@ class Controller
             }
         }
 
-//
+
         $this->app->content->define_constants($content);
 
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
-//.. d($content);
+
         $render_file = $this->app->content->get_layout($content);
 
-      // d($render_file);
-        $content['render_file'] = $render_file;
+         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
             return $content;
@@ -585,7 +581,6 @@ class Controller
 
 
             if (isset($_REQUEST['isolate_content_field'])) {
-                //d($_REQUEST);
 
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = \phpQuery::newDocument($l);
@@ -688,9 +683,9 @@ class Controller
 
 
             $custom_live_edit = normalize_path($custom_live_edit, false);
-            //d($custom_live_edit);
-            if (is_file($custom_live_edit)) {
-                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css" type="text/css" />';
+             if (is_file($custom_live_edit)) {
+                $custom_live_editmtime = filemtime($custom_live_edit);
+                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version='.$custom_live_editmtime.'" type="text/css" />';
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
