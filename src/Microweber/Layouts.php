@@ -512,7 +512,7 @@ class Layouts
             if($return_styles == true){
                 $tf = $this->template_check_for_custom_css($template,true);
                 $tf2 = str_ireplace('.bak','',$tf);
-                
+
 
 
                 if(rename($tf, $tf2)){
