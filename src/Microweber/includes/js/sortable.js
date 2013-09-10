@@ -653,7 +653,7 @@ mw.drag = {
 
         $(window).bind("onElementOver", function(a, element){
           var el = $(element);
-          if(element.textContent.length < 2) return false;
+          if(element.textContent.length < 2 && element.nodeName !== 'IMG') return false;
           var o = el.offset();
           var width = el.width();
           var pleft = parseFloat(el.css("paddingLeft"));
@@ -2188,7 +2188,7 @@ mw.drop_regions = {
   is_in_region:function(regions, event){
 
 
-     return 'none';     /* Remove this Line to enable drop to left and right */
+     return 'none';     /* Remove this Line to enable drop to left and Right sides */
 
     var l = regions.left;
     var r = regions.right;
@@ -2277,7 +2277,7 @@ mw.history = {
                         if(typeof data.field !== 'undefined' && typeof data.rel !== 'undefined'){
                           var field = data.field;
                           var rel = data.rel;
-                          $('.edit[rel="'+rel+'"][field="'+field+'"]').html(data.value);
+                          mw.$('.edit[rel="'+rel+'"][field="'+field+'"]').html(data.value);
                         }
                       }
                       mw.$(".edit.changed").removeClass("changed");

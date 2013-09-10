@@ -172,7 +172,9 @@ mw_save_draft_int = self.setInterval(function(){
           <?php _e('Layouts'); ?>
           </a> </li>
         <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
-          <?php _e('Pages'); ?>
+
+      <span class="mw-ui-btn-plus"></span> Add New
+          <?php //_e('Pages'); ?>
           </a> </li>
 
       </ul>
@@ -271,13 +273,13 @@ mw_save_draft_int = self.setInterval(function(){
 
     </script>
 
-       <div style="position: relative; z-index: 998; padding: 23px;">
-         <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipage"></span> Add Page</a>
-         <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico ipost"></span> Add Post</a>
-         <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iproduct"></span> Add Product</a>
+       <div id="liveedit_add_new_content">
+         <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> Add Page</a>
+         <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> Add Post</a>
+         <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span> Add Product</a>
 
-					<div class="mw-ui-dropdown mw-quick-pages-nav">
-                        <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-medium" href="javascript:;">Browse pages<span class="ico idownarr right"></span></a>
+					<div class="mw-ui-dropdown mw-quick-pages-nav" style="z-index: 17;">
+                        <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue " href="javascript:;">Browse pages<span class="ico idownarr right"></span></a>
                        <div class="mw-dropdown-content" style="width: 200px;height: 200px;overflow: auto">
     					<?php
                             $pt_opts = array();

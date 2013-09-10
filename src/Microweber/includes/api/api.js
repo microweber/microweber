@@ -96,13 +96,25 @@ mw.askusertostay = false;
         var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
         if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
            mwd.write(string);
-        } else {
-
-
-
-        $(mwhead).append(string);
-
-
+        }
+        else {
+            if(typeof $ === 'function'){
+                $(mwhead).append(string);
+            }
+            else{
+                if( t !== "css")  {
+                    var el = mwd.createElement('script');
+                    el.src = url;
+                    mwhead.appendChild(el);
+                }
+                else{
+                   var el = mwd.createElement('link');
+                   el.rel='stylesheet';
+                   el.type='text/css';
+                   el.href = url;
+                   mwhead.appendChild(el);
+                }
+            }
         }
       }
     }

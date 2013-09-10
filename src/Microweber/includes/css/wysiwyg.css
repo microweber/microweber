@@ -145,6 +145,19 @@
   display: inline-block;
 }
 
+.wyswyg-ico{
+  background-image: url(../img/editor.png);
+  background-repeat: no-repeat;
+  height: 19px;
+  width: 25px;
+  float: left;
+  display: inline-block;
+}
+
+.wyswyg-ico.mw_editor_bold{ background-position: -91px 0;}
+.wyswyg-ico.mw_editor_ol{ background-position: -401px 0;}
+.wyswyg-ico.mw_editor_justifyleft{ background-position: -525px 0;}
+
 
 
 .wysiwyg_external{
@@ -458,7 +471,6 @@ border-radius: 3px;
   position: relative;
   padding: 6px;
   font-size: 11px;
-  font-weight: bold;
 }
 .wysiwyg-component-items{
   display: inline-block;

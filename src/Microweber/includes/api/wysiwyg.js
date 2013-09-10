@@ -7,7 +7,11 @@ mw.require('css_parser.js');
 mw.require('events.js');
 
 
-
+if(typeof Selection.prototype.containsNode === 'undefined'){
+        Selection.prototype.containsNode = function(){
+            return true;
+        }
+}
 
 
 
@@ -162,15 +166,19 @@ mw.wysiwyg = {
       return external;
     },
     isSelectionEditable:function(){
-
         var node = window.getSelection().focusNode;
-
-        if(node===null || node.nodeType === 3 ){ return false;}
-        return (node.isContentEditable || node.parentElement.isContentEditable) ? true : false;
+        if(node===null){ return false;}
+        if(node.nodeType !== 3){
+           return (node.isContentEditable) ? true : false;
+        }
+        else{
+           return (node.parentElement.isContentEditable) ? true : false;
+        }
 
     },
     execCommand:function(a,b,c){
         try{  // 0x80004005
+
             if(document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()){
                 var b = b || false;
                 var c = c || false;
@@ -203,7 +211,7 @@ mw.wysiwyg = {
         mw.wysiwyg.execCommand('2D-Position', false, false);
         mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
 
-        if(mw.is.ie){  /*
+        if(mw.is.ie){   /*
             var all = document.querySelectorAll('.edit *:not(.disable-resize)');
             if(all.length>0){
                 for(var i=0;i<all.length;i++){
@@ -218,7 +226,7 @@ mw.wysiwyg = {
                        }, false);
                     }
                 }
-            } */
+            }  */
         }
     },
     paste:function(e){
@@ -342,7 +350,12 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(mwd.body).bind('mouseup keypress keydown', function(event){
+      $(mwd.body).bind('mouseup keyup keydown', function(event){
+
+
+
+
+
 
         if(event.target.isContentEditable){
           mw.wysiwyg.check_selection(event.target);
@@ -350,12 +363,25 @@ mw.wysiwyg = {
         else{
            mw.wysiwyg.check_selection();
         }
+
+
+
+
          if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
          }
 
 
-         if( (event.keyCode == 46 || event.keyCode == 8) && event.type == 'NOTkeydown' ){
+
+
+          if(event.type == 'keydown'){
+
+
+            /*
+
+
+
+         if( (event.keyCode == 46 || event.keyCode == 8)  ){
            $(mw.image_resizer).removeClass("active");
 
            if(event.target.tagName === 'IMG'){
@@ -365,6 +391,28 @@ mw.wysiwyg = {
            var sel = window.getSelection();
 
            var r = sel.getRangeAt(0);
+
+
+         if(event.keyCode == 46 || event.keyCode == 8){
+
+          if(r.cloneContents().querySelector(".module") !== null ){
+            var l = r.cloneContents().querySelectorAll(".module").length, word;
+            if(l == 1){
+              var word =  " module";
+            }
+            else{
+                var word =  " modules";
+            }
+            mw.tools.confirm("You are about to delete "+ l + word + ". Are you sure?", function(){
+                r.deleteContents();
+            });
+
+            mw.e.cancel(event, true);
+            return false;
+          }
+        }
+
+
 
            if(r.cloneContents().querySelectorAll('.edit, .mw-row, .mw-col, .mw-col-container, .module').length > 0){
                mw.e.cancel(event, true);
@@ -389,9 +437,10 @@ mw.wysiwyg = {
 
            if(event.keyCode == 46 && sel.isCollapsed){
              try{
-                sel.isCollapsed = false;
+
                 r.setEnd(r.commonAncestorContainer, r.endOffset + 1);
                 r.deleteContents();
+
               return false;
              }
              catch(e){
@@ -400,9 +449,11 @@ mw.wysiwyg = {
              mw.e.cancel(event, true);
            }
 
+
+
            if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){
              mw.e.cancel(event, true);
-             r.deleteContents()
+             r.deleteContents();
            }
 
            if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
@@ -419,6 +470,10 @@ mw.wysiwyg = {
                }
              }
            }
+         }
+
+
+         */
          }
 
 

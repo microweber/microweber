@@ -9,6 +9,7 @@ mw.CSSParser = function(el){
     }
 
     this.isit = function(){
+
         return {
           bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',
           italic:css.fontStyle=='italic'||css.fontStyle=='oblique',

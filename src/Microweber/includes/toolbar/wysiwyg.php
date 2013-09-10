@@ -18,7 +18,7 @@
 
             <div class="wysiwyg-component">
               <div class="mw_editor_btn">
-                <div class="wysiwyg-component-title"><span class="dd_rte_arr"></span> Font Style</div>
+                <div class="wysiwyg-component-title"><span class="wyswyg-ico mw_editor_bold"></span><span class="dd_rte_arr"></span> Font Style</div>
               </div>
               <div class="wysiwyg-component-items" style="width: 190px;">
                 <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
@@ -34,6 +34,7 @@
 
             <div class="wysiwyg-component">
               <div class="mw_editor_btn"><div class="wysiwyg-component-title">
+              <span class="wyswyg-ico mw_editor_ol"></span>
               <span class="dd_rte_arr"></span>
                 Format
               </div></div>
@@ -135,7 +136,9 @@
 
 
             <div class="wysiwyg-component">
-              <div class="mw_editor_btn"><div class="wysiwyg-component-title"> <span class="dd_rte_arr"></span>
+              <div class="mw_editor_btn"><div class="wysiwyg-component-title">
+              <span class="wyswyg-ico mw_editor_justifyleft"></span>
+              <span class="dd_rte_arr"></span>
                 Text Align
               </div></div>
               <div class="wysiwyg-component-items" style="width: 120px;">
