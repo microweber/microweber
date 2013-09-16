@@ -1298,6 +1298,7 @@ mw.drag = {
         }
 
 
+
 	},
     /**
 	 * fix_placeholders in the layout
