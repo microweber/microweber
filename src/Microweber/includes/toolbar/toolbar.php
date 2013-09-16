@@ -283,7 +283,7 @@ mw_save_draft_int = self.setInterval(function(){
                        <div class="mw-dropdown-content" style="width: 200px;height: 200px;overflow: auto">
     					<?php
                             $pt_opts = array();
-                            $pt_opts['link'] = "<a href='{link}'>{title}</a>";
+                            $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
                             $pt_opts['list_tag'] = "ul";
                             $pt_opts['ul_class'] = "mw-dropdown-list";
                             $pt_opts['list_item_tag'] = "li";

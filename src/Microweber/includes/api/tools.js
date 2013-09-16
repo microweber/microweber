@@ -353,14 +353,21 @@ mw.tools = {
         + '<td align="center" height="25"><span class="mw-cancel" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
         + '</tr>'
     + '</table>';
-    return  mw.tools.modal.init({
-      html:html,
-      width:400,
-      height:200,
-      overlay:false,
-      name:"mw_alert",
-      template:"mw_modal_basic"
-    });
+
+    if(mw.$("#mw_alert").length === 0){
+        mw.tools.modal.init({
+            html:html,
+            width:400,
+            height:200,
+            overlay:false,
+            name:"mw_alert",
+            template:"mw_modal_basic"
+        });
+    }
+    else{
+        mw.$("#mw_alert .mw_alert_holder").html(text);
+    }
+
   },
   dropdown:function(root){
     var root = root || mwd.body;
@@ -753,6 +760,18 @@ mw.tools = {
     d.toreturn = false;
     mw.tools.foreachParents(el, function(loop){
         if(this.nodeName === tag){
+            d.toreturn = true;
+            mw.tools.stopLoop(loop);
+        }
+    });
+    return d.toreturn;
+  },
+  hasHeadingParent:function(el){
+    var d = {};
+    d.toreturn = false;
+    var h = /^(h[1-6])$/i;
+    mw.tools.foreachParents(el, function(loop, i){
+        if(h.test(this.nodeName.toLowerCase())){
             d.toreturn = true;
             mw.tools.stopLoop(loop);
         }
