@@ -691,6 +691,10 @@ class Controller
             }
 
 
+            if ($is_editmode == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
                 if ($is_admin == true) {
@@ -1406,7 +1410,19 @@ $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, 
             if (!isset($_SESSION)) {
                 session_start();
             }
+
+
+            $editmode_sess = $this->app->user->session_get('editmode');
+            if($editmode_sess == true and !defined('IN_EDIT')){
+                define('IN_EDIT', true);
+            }
+
         }
+
+
+
+
+
         $page = false;
 
         $custom_display = false;

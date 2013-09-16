@@ -1730,6 +1730,17 @@ mw.tools = {
        ___final = n + ' > ' + ___final;
     });
     return ___final;
+  },
+  cloneObject:function(r){
+
+       var a = {}, i;
+       for (i in r) {
+        if (r.hasOwnProperty(i)) {
+         a[i] = r[i];
+        }
+       }
+       return a;
+
   }
 }
 

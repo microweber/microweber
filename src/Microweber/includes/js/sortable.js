@@ -305,13 +305,10 @@ mw.drag = {
 
                     var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
-                if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
+                  if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
                        $(window).trigger("onImageOver", mw.mm_target);
                     }
-
-
-
                   }
 
 
@@ -1389,9 +1386,12 @@ mw.drag = {
         mw.have_new_items = false;
 	},
 
+	module_view: function(view) {
+		var modal = mw.drag.module_settings(null,view)
+		return modal;
+	},
 
-
-module_settings: function(a) {
+module_settings: function(a,view) {
 
     var curr = a || $("#mw_handle_module").data("curr");
     var attributes = {};
@@ -1410,9 +1410,14 @@ module_settings: function(a) {
 
 
     data1 = attributes
+	
+	
+	var module_type = null
+	
   //  data1.view = 'admin';
   if(data1['data-type'] != undefined){
 	 // alert(1);
+	 module_type = data1['data-type'];
 	 data1['data-type'] = data1['data-type']+'/admin';
 
    }
@@ -1425,8 +1430,20 @@ module_settings: function(a) {
 
     if(data1['type'] != undefined){
 	 // alert(1);
+	  module_type = data1['type'];
 	 data1['type'] = data1['type']+'/admin';
+	 
   }
+
+
+	if(module_type != null && view != undefined){
+		
+		 data1['data-type'] = data1['type'] = module_type+'/'+view;
+	}
+
+
+
+
 
   if(data1.class != undefined){
 	  delete(data1.class);
@@ -1439,7 +1456,15 @@ module_settings: function(a) {
 	  delete(data1.contenteditable);
   }
 	data1.live_edit = 'true';
-	data1.view = 'admin';
+	
+	if(view != undefined){
+	
+	data1.view = view;
+	} else {
+	data1.view = 'admin';	
+	}
+
+
 
 
 	if(data1.from_url == undefined){

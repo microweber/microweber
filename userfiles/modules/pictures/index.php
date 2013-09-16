@@ -87,7 +87,13 @@ if($module_template == false and isset($params['template'])){
 
 
 
+?>
+<?php if(defined('IN_EDIT')): ?>
+	<a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a>
+<?php  endif; ?>
 
+
+<?php
 
 if($module_template != false){
     $template_file = module_templates( $config['module'], $module_template);
