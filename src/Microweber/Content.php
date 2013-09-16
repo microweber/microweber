@@ -3960,6 +3960,12 @@ if (is_file($render_file_temp)) {
         }
         $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
         if ($ref_page != '') {
+
+            //removing hash from url
+            if (strpos($ref_page_url, '#')) {
+                $ref_page= $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
+            }
+
             // $ref_page = $the_ref_page = $this->get_by_url($ref_page_url);
             $ref_page2 = $ref_page = $this->get_by_url($ref_page_url, true);
 
