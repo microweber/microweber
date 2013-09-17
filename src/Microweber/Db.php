@@ -1467,6 +1467,9 @@ class Db
             if ($curent_page == false) {
                 $curent_page = isset($criteria['data-curent-page']) ? $criteria['data-curent-page'] : false;
             }
+            if ($curent_page == false) {
+                $curent_page = isset($criteria['page']) ? $criteria['page'] : false;
+            }
 
             $offset = isset($criteria['offset']) ? $criteria['offset'] : false;
 

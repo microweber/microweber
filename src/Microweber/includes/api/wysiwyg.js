@@ -423,7 +423,7 @@ mw.wysiwyg = {
                 var a = sel.anchorNode;
                 var _s = mw.tools.cloneObject(sel);
                 if(event.keyCode == 46 ){
-                  if(typeof window.chrome === 'object'){
+                  //if(typeof window.chrome === 'object'){
                     if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
                       var next = sel.focusNode.nextSibling;
                       if(next !== null && next.nodeType !== 3){
@@ -435,7 +435,7 @@ mw.wysiwyg = {
                          }
                       }
                     }
-                  }
+                  //}
                   sel.modify('move', 'forward', 'character');
                   if( _s.anchorOffset === sel.anchorOffset ) return false;
                   if( mw.wysiwyg.selection_length() > 0 ) return false;
@@ -455,8 +455,6 @@ mw.wysiwyg = {
                       }
                     }
                   }
-
-
 
                     sel.modify('extend', 'backward', 'character');
                     if( mw.wysiwyg.selection_length() > 1 ) return false;

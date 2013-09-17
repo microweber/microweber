@@ -554,6 +554,11 @@ $(mwd.body).bind("click", function(e){
     }, function(){
          $(".element-current").width($("#width_slider").slider("value"));
     });
+     $("#ed_auto_height").commuter(function(){
+         $(".element-current").height('auto');
+    }, function(){
+         $(".element-current").height($("#height_slider").slider("value"));
+    });
 
 
     });
