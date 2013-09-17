@@ -1387,7 +1387,7 @@ mw.drag = {
 	},
 
 	module_view: function(view) {
-		var modal = mw.drag.module_settings(null,view)
+		var modal = mw.drag.module_settings(false,view)
 		return modal;
 	},
 
