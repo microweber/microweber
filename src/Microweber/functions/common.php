@@ -243,7 +243,7 @@ function url_param($param, $skip_ajax = false)
 api_expose('save_edit');
 function save_edit($post_data)
 {
-    return \mw('content')->save_edit($post_data);
+    return mw('content')->save_edit($post_data);
 }
 
 
@@ -270,7 +270,7 @@ function save_content($data, $delete_the_cache = true)
 {
 
 
-    return \mw('content')->save_content($data, $delete_the_cache);
+    return mw('content')->save_content($data, $delete_the_cache);
 
 }
 
@@ -280,14 +280,14 @@ function save_content($data, $delete_the_cache = true)
 function save_content_field($data, $delete_the_cache = true)
 {
 
-    return \mw('content')->save_content_field($data, $delete_the_cache);
+    return mw('content')->save_content_field($data, $delete_the_cache);
 
 }
 
 api_expose('get_content_field_draft');
 function get_content_field_draft($data)
 {
-    return \mw('content')->edit_field_draft($data);
+    return mw('content')->edit_field_draft($data);
 }
 
 function get_content_field($data, $debug = false)
@@ -981,7 +981,7 @@ api_expose('save_category');
 
 function save_category($data, $preserve_cache = false)
 {
-    return \mw('category')->save($data, $preserve_cache);
+    return mw('category')->save($data, $preserve_cache);
 
 
 }
@@ -989,7 +989,7 @@ function save_category($data, $preserve_cache = false)
 function get_categories($data)
 {
 
-    return \mw('category')->get($data);
+    return mw('category')->get($data);
 
 }
 
@@ -999,7 +999,7 @@ api_expose('delete_category');
 function delete_category($data)
 {
 
-    return \mw('category')->delete($data);
+    return mw('category')->delete($data);
 
 }
 
@@ -1009,7 +1009,7 @@ api_expose('reorder_categories');
 function reorder_categories($data)
 {
 
-    return \mw('category')->reorder($data);
+    return mw('category')->reorder($data);
 
 }
 
@@ -1020,7 +1020,7 @@ function get_categories_for_content($content_id, $data_type = 'categories')
         return false;
     }
 
-    return \mw('category')->get_for_content($content_id, $data_type);
+    return mw('category')->get_for_content($content_id, $data_type);
 }
 
 function category_link($id)
@@ -1031,7 +1031,7 @@ function category_link($id)
         return false;
     }
 
-    return \mw('category')->link($id);
+    return mw('category')->link($id);
 
 }
 
@@ -1045,19 +1045,19 @@ function category_link($id)
  */
 function get_category_by_id($id = 0)
 {
-    return \mw('category')->get_by_id($id);
+    return mw('category')->get_by_id($id);
 
 }
 
 function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false)
 {
 
-    return \mw('category')->get_children($parent_id, $type, $visible_on_frontend);
+    return mw('category')->get_children($parent_id, $type, $visible_on_frontend);
 }
 
 function get_page_for_category($category_id)
 {
-    return \mw('category')->get_page($category_id);
+    return mw('category')->get_page($category_id);
 
 
 }
@@ -1096,14 +1096,14 @@ function get_menu($params = false)
 api_expose('add_new_menu');
 function add_new_menu($data_to_save)
 {
-    return \mw('content')->menu_create($data_to_save);
+    return mw('content')->menu_create($data_to_save);
 
 }
 
 api_expose('menu_delete');
 function menu_delete($id = false)
 {
-    return \mw('content')->menu_delete($id);
+    return mw('content')->menu_delete($id);
 
 }
 
@@ -1111,21 +1111,21 @@ api_expose('delete_menu_item');
 function delete_menu_item($id)
 {
  
-    return \mw('content')->menu_item_delete($id);
+    return mw('content')->menu_item_delete($id);
 
 }
 
 function get_menu_item($id)
 {
 
-    return \mw('content')->menu_item_get($id);
+    return mw('content')->menu_item_get($id);
 
 }
 
 api_expose('edit_menu_item');
 function edit_menu_item($data_to_save)
 {
-    return \mw('content')->menu_item_save($data_to_save);
+    return mw('content')->menu_item_save($data_to_save);
 
 
 }
@@ -1135,7 +1135,7 @@ api_expose('reorder_menu_items');
 function reorder_menu_items($data)
 {
 
-    return \mw('content')->menu_items_reorder($data);
+    return mw('content')->menu_items_reorder($data);
 
 }
 
@@ -1148,7 +1148,7 @@ function menu_tree($menu_id, $maxdepth = false)
 
 function is_in_menu($menu_id = false, $content_id = false)
 {
-    return \mw('content')->is_in_menu($menu_id, $content_id);
+    return mw('content')->is_in_menu($menu_id, $content_id);
 
 }
 
@@ -1156,7 +1156,7 @@ api_hook('save_content', 'add_content_to_menu');
 
 function add_content_to_menu($content_id, $menu_id = false)
 {
-    return \mw('content')->add_content_to_menu($content_id, $menu_id);
+    return mw('content')->add_content_to_menu($content_id, $menu_id);
 
 
 }
@@ -1167,7 +1167,7 @@ api_expose('reorder_modules');
 function reorder_modules($data)
 {
 
-    return \mw('module')->reorder_modules($data);
+    return mw('module')->reorder_modules($data);
 }
 
 
@@ -1338,7 +1338,7 @@ function uninstall_module($params)
     if (is_admin() == false) {
         return false;
     }
-    return \mw('module')->uninstall($params);
+    return mw('module')->uninstall($params);
 
 }
 
@@ -1365,26 +1365,26 @@ function install_module($params)
         }
     }
 
-    return \mw('module')->install($params);
+    return mw('module')->install($params);
 
 }
 
 function save_module_to_db($data_to_save)
 {
-    return \mw('module')->save($data_to_save);
+    return mw('module')->save($data_to_save);
 
 }
 
 function get_saved_modules_as_template($params)
 {
-    return \mw('module')->get_saved_modules_as_template($params);
+    return mw('module')->get_saved_modules_as_template($params);
 }
 
 api_expose('delete_module_as_template');
 function delete_module_as_template($data)
 {
 
-    return \mw('module')->delete_module_as_template($data);
+    return mw('module')->delete_module_as_template($data);
 
 
 }
@@ -1393,7 +1393,7 @@ api_expose('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
 
-    return \mw('module')->save_module_as_template($data_to_save);
+    return mw('module')->save_module_as_template($data_to_save);
 }
 
 /**
@@ -1420,13 +1420,13 @@ $data = modules_list($params);
 function modules_list($options = false)
 {
 
-    return \mw('module')->scan_for_modules($options);
+    return mw('module')->scan_for_modules($options);
 }
 
 event_bind('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
-    return \mw('module')->scan_for_modules($options);
+    return mw('module')->scan_for_modules($options);
 
 }
 
@@ -1434,7 +1434,7 @@ event_bind('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array())
 {
-    return \mw('module')->get_layouts($options);
+    return mw('module')->get_layouts($options);
 
 
 }

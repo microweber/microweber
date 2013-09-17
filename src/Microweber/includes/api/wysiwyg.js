@@ -383,16 +383,9 @@ mw.wysiwyg = {
         else{
            mw.wysiwyg.check_selection();
         }
-
-
-
-
-         if( event.keyCode == 46  && event.type=='keydown'){
+        if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
-         }
-
-
-
+        }
 
           if(event.type == 'keydown'){
 
@@ -425,8 +418,17 @@ mw.wysiwyg = {
                 if(event.keyCode == 46 ){
                   //if(typeof window.chrome === 'object'){
                     if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
+
                       var next = sel.focusNode.nextSibling;
-                      if(next !== null && next.nodeType !== 3){
+                      if(next === null ){
+                        if(sel.focusNode.nodeType === 3){
+                            sel.modify('extend', 'forward', 'character');
+                            mw.wysiwyg.execCommand('delete');
+                        }
+                        return false;
+                      }
+                      if(next.nodeType !== 3){
+
                          if(next.nodeName === 'BR'){return false;}
                          var cnext =  mww.getComputedStyle(next, null);
                          if(cnext === null){ return false; }
@@ -435,6 +437,7 @@ mw.wysiwyg = {
                          }
                       }
                     }
+
                   //}
                   sel.modify('move', 'forward', 'character');
                   if( _s.anchorOffset === sel.anchorOffset ) return false;
@@ -445,7 +448,15 @@ mw.wysiwyg = {
                 if(typeof window.chrome === 'object'){
                     if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
                       var prev = sel.focusNode.previousSibling;
-                      if(prev !== null && prev.nodeType !== 3){
+
+                      if(prev === null ){
+                        if(sel.focusNode.nodeType === 3){
+                            sel.modify('extend', 'backward', 'character');
+                            mw.wysiwyg.execCommand('delete');
+                        }
+                        return false;
+                      }
+                      if(prev.nodeType !== 3){
                          if(prev.nodeName === 'BR'){return false;}
                          var cnext =  mww.getComputedStyle(prev, null);
                          if(cnext === null){ return false; }

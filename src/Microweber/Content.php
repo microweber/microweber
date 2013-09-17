@@ -3425,7 +3425,14 @@ if (is_file($render_file_temp)) {
         $table = MW_DB_TABLE_CONTENT;
         $checks = mw_var('FORCE_SAVE_CONTENT');
 
-        if ($checks != $table) {
+
+
+
+
+
+
+
+        if (defined('MW_API_CALL') and $checks != $table) {
             if ($adm == false) {
 
                 $stop = true;
