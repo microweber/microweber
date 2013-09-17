@@ -1608,10 +1608,15 @@ module_settings: function(a,view) {
           id = mw.settings.element_id;
         }
         $(mw.tools.firstParentWithClass(mw.$('#' + id)[0], 'edit')).addClass("changed");
-        mw.$('#' + id).remove();
-        mw.$('#module-settings-' + id).remove();
-        $(mw.handle_module).css({left:'', top:''});
-  	  mw.drag.fix_placeholders(true);
+
+        mw.$('#' + id).addClass("mwfadeout");
+        setTimeout(function(){
+            mw.$('#' + id).remove();
+            mw.$('#module-settings-' + id).remove();
+            $(mw.handle_module).css({left:'', top:''});
+            mw.drag.fix_placeholders(true);
+        }, 300);
+
     });
   },
 

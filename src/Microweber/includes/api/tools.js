@@ -121,7 +121,7 @@ mw.tools = {
       var template = template || 'mw_modal_default';
       var id = id || "modal_"+mw.random();
       var html = ''
-        + '<div class="mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
+        + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onclick="mw.tools.modal.remove(\''+id+'\')">Close</span>'
@@ -1732,15 +1732,13 @@ mw.tools = {
     return ___final;
   },
   cloneObject:function(r){
-
-       var a = {}, i;
-       for (i in r) {
-        if (r.hasOwnProperty(i)) {
-         a[i] = r[i];
-        }
-       }
-       return a;
-
+     var a = {}, i;
+     for (i in r) {
+      if (r.hasOwnProperty(i)) {
+       a[i] = r[i];
+      }
+     }
+     return a;
   }
 }
 

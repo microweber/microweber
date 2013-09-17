@@ -408,17 +408,14 @@ mw.wysiwyg = {
            }
 
            if(event.keyCode == 46 || event.keyCode == 8){
-              mw.e.cancel(event);
+              if( r.cloneContents().querySelector(".module") !== null ||
+                    mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
+                    mw.tools.hasParentsWithClass(r.commonAncestorContaner, 'module')){
+                  return false;
+              }
               if(typeof window.chrome === 'object'){
                 var n = sel.focusNode.nodeType !== 3 ? sel.focusNode : sel.focusNode.parentNode;
                 if(mw.tools.hasClass(n, 'module') || mw.tools.hasParentsWithClass(n, 'module')){
-                  return false;
-                }
-              }
-              else{
-                if( r.cloneContents().querySelector(".module") !== null ||
-                    mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
-                    mw.tools.hasParentsWithClass(r.commonAncestorContainer, 'module')){
                   return false;
                 }
               }
@@ -426,119 +423,69 @@ mw.wysiwyg = {
                 var a = sel.anchorNode;
                 var _s = mw.tools.cloneObject(sel);
                 if(event.keyCode == 46 ){
-                    sel.modify('move', 'forward', 'character');
-                    if( _s.anchorOffset === sel.anchorOffset ) return false;
+                  if(typeof window.chrome === 'object'){
+                    if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
+                      var next = sel.focusNode.nextSibling;
+                      if(next !== null && next.nodeType !== 3){
+                         if(next.nodeName === 'BR'){return false;}
+                         var cnext =  mww.getComputedStyle(next, null);
+                         if(cnext === null){ return false; }
+                         if(cnext.display === 'block'){
+                           return false;
+                         }
+                      }
+                    }
+                  }
+                  sel.modify('move', 'forward', 'character');
+                  if( _s.anchorOffset === sel.anchorOffset ) return false;
+                  if( mw.wysiwyg.selection_length() > 0 ) return false;
                 }
                 else if(event.keyCode == 8 ){
+
+                if(typeof window.chrome === 'object'){
+                    if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
+                      var prev = sel.focusNode.previousSibling;
+                      if(prev !== null && prev.nodeType !== 3){
+                         if(prev.nodeName === 'BR'){return false;}
+                         var cnext =  mww.getComputedStyle(prev, null);
+                         if(cnext === null){ return false; }
+                         if(cnext.display === 'block'){
+                           return false;
+                         }
+                      }
+                    }
+                  }
+
+
+
                     sel.modify('extend', 'backward', 'character');
-                    if( _s.anchorOffset === sel.anchorOffset ) return false;  
+                    if( mw.wysiwyg.selection_length() > 1 ) return false;
                 }
                 var b = sel.anchorNode;
-                if(a === b){
-                    mw.wysiwyg.execCommand('delete');
+                if(a === b || b.nodeType === 3){
+                     mw.wysiwyg.execCommand('delete');
+
+                }
+                else{
+                  var cb =  mww.getComputedStyle(b, null);
+                  if(cb === null){ return false; }
+                  if(cb.display !== "block"){
+
+                     mw.wysiwyg.execCommand('delete');
+                  }
+                  else{}
                 }
                 return false;
+              }
+              else{  /* If Not Colapsed */
+
               }
            }
 
 
 
 
-/*
 
-
-
-         if( (event.keyCode == 46 || event.keyCode == 8)  ){
-           $(mw.image_resizer).removeClass("active");
-
-           if(event.target.tagName === 'IMG'){
-              $(event.target).remove();
-           }
-
-
-
-
-         if(event.keyCode == 46 || event.keyCode == 8){
-
-          if(r.cloneContents().querySelector(".module") !== null ){
-            var l = r.cloneContents().querySelectorAll(".module").length, word;
-            if(l == 1){
-              var word =  " module";
-            }
-            else{
-                var word =  " modules";
-            }
-            mw.tools.confirm("You are about to delete "+ l + word + ". Are you sure?", function(){
-                r.deleteContents();
-            });
-
-            mw.e.cancel(event, true);
-            return false;
-          }
-        }
-
-
-
-           if(r.cloneContents().querySelectorAll('.edit, .mw-row, .mw-col, .mw-col-container, .module').length > 0){
-               mw.e.cancel(event, true);
-               return false;
-           }
-
-           if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling === null ){
-
-             if(mw.wysiwyg.selection_length() > 0){
-               mw.e.cancel(event, true);
-               window.getSelection().getRangeAt(0).deleteContents();
-             }
-             else{
-                 var k = window.getSelection();
-                 if(typeof k.modify === 'function'){  // for chrome
-                   mw.e.cancel(event, true);
-                   k.modify("extend", "backward", "character");
-                   k.getRangeAt(0).deleteContents();
-                 }
-             }
-           }
-
-           if(event.keyCode == 46 && sel.isCollapsed){
-             try{
-
-                r.setEnd(r.commonAncestorContainer, r.endOffset + 1);
-                r.deleteContents();
-
-              return false;
-             }
-             catch(e){
-                return false;
-             }
-             mw.e.cancel(event, true);
-           }
-
-
-
-           if(event.keyCode == 46 && r.commonAncestorContainer.nextSibling === null && mw.wysiwyg.selection_length() > 0 ){
-             mw.e.cancel(event, true);
-             r.deleteContents();
-           }
-
-           if(r.endOffset < 2 && r.commonAncestorContainer.nextSibling!==null && event.target.tagName !== 'IMG' && event.target.isContentEditable && self===top){
-
-             if(event.keyCode == 46 && r.endOffset == 0){
-
-               if(r.commonAncestorContainer.nextSibling.nodeName === 'DIV'){
-                  mw.e.cancel(event, true);
-               }
-             }
-             if(event.keyCode == 8 && r.commonAncestorContainer.previousSibling !== null){
-               if(r.commonAncestorContainer.previousSibling.nodeName === 'DIV'){
-                  mw.e.cancel(event, true);
-               }
-             }
-           }
-         }
-
-
-         */
          }
          }
 

@@ -391,9 +391,10 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
 }
 
 
-img[\_moz_resizing] {
-  -moz-outline: 0px solid black;
-}
+img.element[_moz_resizing] {  -moz-outline: 1px solid #9FCCEA; }
+
+
+
 
 
 
