@@ -387,10 +387,14 @@ mw.wysiwyg = {
             mw.tools.removeClass(mw.image_resizer, 'active');
         }
 
+          if(event.type == 'keyup'){
+             if(event.keyCode == 46 || event.keyCode == 8){
+
+          }
+          }
           if(event.type == 'keydown'){
 
-          var a = mwd.querySelectorAll(".module"), b=a.length, c=0;
-          for( ;c<b;c++ ){ a[c].contentEditable = false; }
+
 
            var sel = window.getSelection();
            if(sel.rangeCount > 0){
@@ -401,6 +405,7 @@ mw.wysiwyg = {
            }
 
            if(event.keyCode == 46 || event.keyCode == 8){
+
               if( r.cloneContents().querySelector(".module") !== null ||
                     mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
                     mw.tools.hasParentsWithClass(r.commonAncestorContaner, 'module')){
@@ -423,13 +428,17 @@ mw.wysiwyg = {
                       if(next === null ){
                         if(sel.focusNode.nodeType === 3){
                             sel.modify('extend', 'forward', 'character');
-                            mw.wysiwyg.execCommand('delete');
+                            var r = sel.getRangeAt(0);
+                            if(r.startContainer === r.endContainer){
+                              mw.wysiwyg.execCommand('delete');
+                            }
+
                         }
                         return false;
                       }
                       if(next.nodeType !== 3){
 
-                         if(next.nodeName === 'BR'){return false;}
+                         if(next.nodeName === 'BR'){ return false; }
                          var cnext =  mww.getComputedStyle(next, null);
                          if(cnext === null){ return false; }
                          if(cnext.display === 'block'){

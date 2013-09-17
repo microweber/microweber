@@ -1431,7 +1431,7 @@ module_settings: function(a,view) {
     if(data1['type'] != undefined){
 	 // alert(1);
 	  module_type = data1['type'];
-	 data1['type'] = data1['type']+'/admin';
+	  data1['type'] = data1['type']+'/admin';
 	 
   }
 
