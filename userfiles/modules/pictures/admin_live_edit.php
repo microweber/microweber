@@ -39,7 +39,7 @@ if(isset($params['content-id'])){
 	 $for = 'modules';
 }
   ?>
-
+ 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;" class="active"><?php _e("My pictures"); ?></a></li>

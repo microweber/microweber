@@ -104,7 +104,7 @@ $(document).ready(function(){
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
 <?php
 
-if(intval($for_id) >0){
+if(trim($for_id)  != '' and trim($for_id)  != '0'){
 $media = get_pictures("rel_id={$for_id}&rel={$for}");
 } else {
 	$sid = session_id();
