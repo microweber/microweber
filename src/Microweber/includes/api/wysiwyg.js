@@ -469,7 +469,13 @@ mw.wysiwyg = {
                       if(prev === null ){
                         if(sel.focusNode.nodeType === 3){
                             sel.modify('extend', 'backward', 'character');
+
+                            if(sel.toString().length === 1){
+                                mw.wysiwyg.insert_html(' ');
+                                return false;
+                            }
                             mw.wysiwyg.execCommand('delete');
+
                         }
                         return false;
                       }
@@ -485,6 +491,9 @@ mw.wysiwyg = {
 
 
                     sel.modify('extend', 'backward', 'character');
+
+
+
                     if( mw.wysiwyg.selection_length() > 1 ) return false;
                 }
                 var b = sel.anchorNode;
