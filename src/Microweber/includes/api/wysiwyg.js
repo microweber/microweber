@@ -411,17 +411,25 @@ mw.wysiwyg = {
                     mw.tools.hasParentsWithClass(r.commonAncestorContaner, 'module')){
                   return false;
               }
-              if(typeof window.chrome === 'object'){
+
                 var n = sel.focusNode.nodeType !== 3 ? sel.focusNode : sel.focusNode.parentNode;
                 if(mw.tools.hasClass(n, 'module') || mw.tools.hasParentsWithClass(n, 'module')){
                   return false;
                 }
-              }
-              if(sel.isCollapsed){
+
+              if(sel.isCollapsed && typeof window.chrome === 'object'){
                 var a = sel.anchorNode;
                 var _s = mw.tools.cloneObject(sel);
+                if(event.keyCode == 46 || event.keyCode == 8 ){
+                  if(a.innerHTML == '' || (a.childNodes.length === 1 && a.childNodes[0].nodeName === 'BR')){
+                    mw.wysiwyg.select_element(a);
+                    mw.wysiwyg.execCommand('delete');
+                   return false;
+                  }
+                }
+
                 if(event.keyCode == 46 ){
-                  //if(typeof window.chrome === 'object'){
+
                     if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
 
                       var next = sel.focusNode.nextSibling;
@@ -447,14 +455,14 @@ mw.wysiwyg = {
                       }
                     }
 
-                  //}
+
                   sel.modify('move', 'forward', 'character');
                   if( _s.anchorOffset === sel.anchorOffset ) return false;
                   if( mw.wysiwyg.selection_length() > 0 ) return false;
                 }
                 else if(event.keyCode == 8 ){
 
-                if(typeof window.chrome === 'object'){
+
                     if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
                       var prev = sel.focusNode.previousSibling;
 
@@ -474,7 +482,7 @@ mw.wysiwyg = {
                          }
                       }
                     }
-                  }
+
 
                     sel.modify('extend', 'backward', 'character');
                     if( mw.wysiwyg.selection_length() > 1 ) return false;
