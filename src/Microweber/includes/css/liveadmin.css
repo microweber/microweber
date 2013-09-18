@@ -1146,7 +1146,7 @@ body.loading:after, .mw-loading:after{
 body.loading:before, .mw-loading:before{
 
     background: #D8FFC2 url(../img/load.gif) no-repeat center center;
-    background:  url(../img/loader_dark.gif) no-repeat center center;
+
 
     background-size: 15px auto;
     border-bottom-left-radius: 5px;
@@ -1163,7 +1163,7 @@ body.loading:before, .mw-loading:before{
     position: fixed;
     text-align: left;
     top: 0;
-    top: 50%;
+
 
     width: 56px;
     height: 13px;

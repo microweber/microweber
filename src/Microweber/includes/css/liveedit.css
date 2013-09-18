@@ -391,7 +391,7 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
 }
 
 
-img.element[_moz_resizing], table[_moz_resizing] {  -moz-outline: 1px solid transparent;outline: 1px solid transparent; }
+img[_moz_resizing], table[_moz_resizing] {  -moz-outline: 0px none;outline: 0px none; }
 
 
 
