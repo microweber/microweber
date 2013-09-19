@@ -51,8 +51,11 @@ description: Masonry
 
   <?php foreach($data  as $item): ?>
 
-    <div class="masonry-item" style="width: 19%;margin-bottom: 5px;box-shadow: 0 2px 2px;">
+    <div class="masonry-item">
         <img src="<?php print thumbnail( $item['filename'], 300); ?>" width="100%" />
+        <?php if($item['title'] != '' ){  ?>
+        <div class="masonry-item-description"><?php print $item['title']; ?></div>
+        <?php } ?>
     </div>
 
   <?php endforeach;  ?>

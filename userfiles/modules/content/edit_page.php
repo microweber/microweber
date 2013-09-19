@@ -433,6 +433,9 @@ mw.$("#advanced-settings-toggle").addClass("toggler-active");
 mw.$('.ed_page_and_menus_opener_link').addClass('active');
 mw.$('.page_and_menus_holder').show();
 
+
+
+
 var sel_hl = mw.$('.mw_parent_page_sel_holder')[0];
 
 mw.tools.scrollTo(sel_hl)
@@ -759,17 +762,11 @@ if(typeof mw.content_save_btn ==='undefined'){
 
     }
 
-     <?php if(intval($data['id']) == 0): ?>
+
      $(document).ready(function(){
-//$("#layout-selector-toggle").show();
-//$(".mw-layout-selector-holder").show();
+        load_preview();
+     });
 
-mw.tools.toggle(".mw-layout-selector-holder", "#layout-selector-toggle");
-
-//mw.tools.toggle($("#layout-selector-toggle")[0]);
-load_preview();
-    })
-<?php endif; ?>
 
 
     </script> 
@@ -877,9 +874,15 @@ load_preview();
 	
 	
 	
-	<a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
+	<span  class="mw-ui-more toggler-active">
 	<?php _e("Add to Page &amp; Category"); ?>
-	</a> &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
+	</span>
+
+
+
+
+
+    &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
 	<div class="vSpace"></div>
 	<div id="edit_post_select_category" style="display: block">
 		<div class="mw-ui-field mw-tag-selector " id="mw-post-added-<?php print $rand; ?>">

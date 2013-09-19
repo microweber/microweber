@@ -481,6 +481,25 @@ a.rotator-paging-item-digit{
   white-space: normal;
 }
 
+/* Masonry */
+
+.masonry-item{
+  width: 19%;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 2px;
+  background: white;
+}
+
+.masonry-item-description{
+  padding: 7px;
+  font-size: 12px;
+  color: #353535;
+  text-align: center;
+}
+
+
+/* Masonry */
+
 
 
 

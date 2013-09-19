@@ -389,7 +389,7 @@ html.mw_pages #mw_tabs li.active a{
 
 .mw-template-selector{
   float:right;
-  width:235px;
+  width:205px;
 }
 
 
@@ -2125,9 +2125,10 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .layouts_box{
   padding: 10px;
-  min-height: 65px;
-  width: 215px;
-  max-height: 179px;
+  min-height: 359px;
+
+  width: 185px;
+  max-height: 359px;
   overflow-x:hidden;
   overflow-y:auto;
   background:#EDEDED;

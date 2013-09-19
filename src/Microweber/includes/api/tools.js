@@ -115,7 +115,8 @@ mw.tools = {
   modal:{
     settings:{
       width:600,
-      height:500
+      height:500,
+      centeringMethod:'default'
     },
     source:function(id, template){
       var template = template || 'mw_modal_default';

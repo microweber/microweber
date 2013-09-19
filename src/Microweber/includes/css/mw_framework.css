@@ -1357,17 +1357,18 @@ input.mw-title-field{
 }
 
 .mw-ui-more{
-  color: #235F99;
+  color: #A1A0A0;
+  font-size: 18px;
   font-weight: normal;
   white-space: nowrap;
-  padding-right: 20px;
+  padding: 3px 20px 3px 0;
   white-space: nowrap;
-  background: url(../img/advanced_arr.png) no-repeat 100% 5px;
+  background: url(../img/acfle_title_arr_right.png) no-repeat 100% 50%;
 }
 
 .mw-ui-more.toggler-active{
-  background-position: 100% -33px;
-  font-weight: bold;
+  background: url(../img/acfle_title_arr.png) no-repeat 100% 50%;
+   color: #3791E3;
 }
 
 
@@ -2738,6 +2739,37 @@ body.dragStart .empty-element.currentDragMouseOver:before{
 
 .edit li.module-item * {
   display: none;
+}
+
+
+
+.add-edit-page-post .toggle-active{
+    background:#FAFAFA;
+   /* border: 1px solid #D1D1D1;
+    box-shadow: 1px 1px 2px #A1A0A0;*/
+    margin: 10px 0 5px;
+    padding: 15px;
+}
+.add-edit-page-post .mw-layout-selector-holder{
+  background: none;
+  padding: 15px 0;
+}
+
+.add-edit-page-post .toggle-active:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.mw-scaleto-holder{
+  display: none !important;
+}
+
+#page_title_and_url{
+  padding-bottom: 20px;
 }
 
 

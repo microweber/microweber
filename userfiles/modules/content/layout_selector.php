@@ -402,7 +402,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 		<label class="mw-ui-label">
 			<?php _e("Template");   ?>
 		</label>
-		<div class="mw-ui-select" style="width: 235px">
+		<div class="mw-ui-select" style="width: 200px">
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
 				<?php if( trim($data['active_site_template']) != ''): ?>
@@ -441,7 +441,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			Inherit from parent
 			</option>
 		</select>
-		 
+
 	</div>
 	<div class="left">
 		<div class="preview_frame_wrapper loading left">
@@ -455,9 +455,10 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 			<?php else: ?>
 			<div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-				<div id="preview-edit-links"> <a class="mw-ui-btn mw-ui-btn-blue" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
+				<div id="preview-edit-links">
+                    <a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
-					</span> </a> <a class="mw-ui-btn" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>
+					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>
 					<?php _e("Go Live Edit"); ?>
 					</a> </div>
 			</div>
