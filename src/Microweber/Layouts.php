@@ -264,14 +264,22 @@ class Layouts
                             //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
 
 
-                            // d(  $layout_file);
+                           
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
-                            if (is_file($screen)) {
-                                $to_return_temp['screenshot'] = $screen;
+							$screen_jpg = str_ireplace('.php', '.jpg', $filename);
+							 if (is_file($screen_jpg)) {
+							   $to_return_temp['screenshot_file'] = $screen_jpg;
+
+							 } else if (is_file($screen)) {
+                                $to_return_temp['screenshot_file'] = $screen;
                             }
+							if(isset($to_return_temp['screenshot_file'])){
+							$to_return_temp['screenshot'] = $this->app->url->link_to_file($to_return_temp['screenshot_file']);
+								
+							}
 
                             $configs[] = $to_return_temp;
                         }

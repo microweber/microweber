@@ -5,7 +5,7 @@ mwd.body.className = mwd.body.className + " mw-live-edit";
 mw.designTool = {
   position:function(rel){
     var rel = rel || mw.$("#design_bnav");
-	
+
 	if(rel.length == 0){
 		return false;
 		
@@ -416,9 +416,9 @@ mw.image = {
         if(node === null ) {return false;}
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
-        mw.image.preload(node.src, function(){
-            canvas.width = $(this).width();
-            canvas.height = $(this).height();
+        mw.image.preload(node.src, function(w,h){
+            canvas.width = w;
+            canvas.height = h;
             ctx.drawImage(node, 0, 0);
             var imageData = ctx.getImageData(0,0,canvas.width,canvas.height), l=imageData.data.length, i=0;
             for ( ; i < l; i+=4) {
@@ -451,9 +451,6 @@ mw.image = {
           var y = e.pageY - mw.image._dragparent.offsetTop - mw.image._dragcurrent.startedY  - mw.image._dragcursorAt.y;
           mw.image._dragcurrent.style.top = y + 'px';
           mw.image._dragcurrent.style.left = x + 'px';
-
-
-
         }
       },
       text_object:function(tag, text){
@@ -483,7 +480,7 @@ mw.image = {
                 img_object.is_activated = true;
                 image.removeClass("element");
                 image.wrap("<div class='element mw_image_txt'></div>");
-                var obj = mw.image.text_object('span', "Lorem ipsum a asd a as asd");
+                var obj = mw.image.text_object('span', "Lorem ipsum");
                 image.before(obj);
           }
       },
@@ -494,9 +491,8 @@ mw.image = {
         img.onload = function(){
           setTimeout(function(){
             if(typeof callback === 'function'){
-              callback.call(img);
+              callback.call(img, $(img).width(), $(img).height());
             }
-            $(img).remove();
           },33);
         }
         mwd.body.appendChild(img);

@@ -16,28 +16,34 @@ description: Masonry
 <?php  $rand = uniqid(); ?>
 
 <script>mw.require("tools.js", true); </script>
-
 <script>mw.require("<?php print $config['url_to_module']; ?>js/masonry.pkgd.min.js", true); </script>
 <script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
 <script>
-
+    mw._masons = mw._masons || [];
     $(document).ready(function(){
-
         var m = mw.$('#mw-gallery-<?php print $rand; ?>');
         m.masonry({
           "itemSelector": '.masonry-item',
           "gutter":5
         });
-
-        mw.onLive(function(){
-           setInterval(function(){
-             m.masonry({
-              "itemSelector": '.masonry-item',
-              "gutter":5
+        mw._masons.push(m);
+        if(typeof mw._masons_binded === 'undefined'){
+            mw._masons_binded = true;
+            mw.onLive(function(){
+               setInterval(function(){
+                 var l = mw._masons.length, i=0;
+                 for( ; i<l; i++){
+                   var _m = mw._masons[i];
+                   if(mw.$(".masonry-item", _m[0]).length > 0){
+                       _m.masonry({
+                          "itemSelector": '.masonry-item',
+                          "gutter":5
+                       });
+                   }
+                 }
+               }, 500);
             });
-           }, 500);
-        });
-
+        }
     });
 </script>
 

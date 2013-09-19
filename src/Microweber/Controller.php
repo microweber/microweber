@@ -99,7 +99,7 @@ class Controller
         $page = false;
         $page_url = rtrim($page_url, '/');
         $is_admin = $this->app->user->is_admin();
-
+		$page_url_orig = $page_url;
         $simply_a_file = false;
         // if this is a file path it will load it
         if (isset($_GET['view'])) {
@@ -114,11 +114,20 @@ class Controller
 
         }
 
+
         $is_editmode = $this->app->url->param('editmode');
         $is_no_editmode = $this->app->url->param('no_editmode');
 
 
-        if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
+        
+
+     
+
+        $is_preview_template = $this->app->url->param('preview_template');
+        if (!$is_preview_template) {
+            $is_preview_template = false;
+			
+			if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
             if ($is_editmode == 'n') {
                 $is_editmode = false;
@@ -152,21 +161,19 @@ class Controller
         } else {
 
         }
-
-        if (isset($_SESSION) and !$is_no_editmode) {
+			   if (isset($_SESSION) and !$is_no_editmode) {
             $is_editmode = $this->app->user->session_get('editmode');
 
+				} else {
+					$is_editmode = false;
+					$page_url = $this->app->url->param_unset('no_editmode', $page_url);
+		
+				}
+
+			
+			
         } else {
             $is_editmode = false;
-            $page_url = $this->app->url->param_unset('no_editmode', $page_url);
-
-        }
-
-        $is_preview_template = $this->app->url->param('preview_template');
-        if (!$is_preview_template) {
-            $is_preview_template = false;
-        } else {
-
             $page_url = $this->app->url->param_unset('preview_template', $page_url);
         }
 
@@ -257,13 +264,27 @@ class Controller
                 template_var('new_page', $page);
             }
         }
-
+		$output_cache_timeout = false;
         if (isset($is_preview_template) and $is_preview_template != false) {
 
             if (!defined('MW_NO_SESSION')) {
                 define('MW_NO_SESSION', true);
             }
+			
+			$output_cache_timeout = 600; //10min
+		
         }
+		
+		 if ($output_cache_timeout != false) {
+			  	$output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']); 
+				$output_cache_group = 'content/preview';
+		    	$output_cache_content = $this->app->cache->get($output_cache_id, $output_cache_group,$output_cache_timeout);
+				if($output_cache_content != false){
+					 
+					 print $output_cache_content;
+					 exit();
+				}
+		 }
 
 
         if ($page == false or $this->create_new_page == true) {
@@ -371,7 +392,7 @@ class Controller
                                             $the_new_page_file = $td_basedef;
                                             $simply_a_file = $directly_to_file = $td_basedef;
                                         }
-                                     }
+                                    }
 
                                 }
 
@@ -429,7 +450,7 @@ class Controller
 
                                 foreach ($page_url_segment_3 as $mvalue) {
                                     if ($found_mod == false and $this->app->module->is_installed($mvalue)) {
-                                         $found_mod = true;
+                                        $found_mod = true;
                                         $page['id'] = 0;
                                         $page['content_type'] = 'page';
                                         $page['parent'] = '0';
@@ -461,7 +482,7 @@ class Controller
                             $page['simply_a_file'] = $simply_a_file;
 
                             template_var('new_page', $page);
-                         }
+                        }
 
                     }
 
@@ -469,8 +490,6 @@ class Controller
                 }
             }
         }
-
-
 
 
         if ($page['id'] != 0) {
@@ -488,8 +507,10 @@ class Controller
         }
 
 
-        if ($is_preview_template != false and $is_admin == true) {
+        if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
+			$is_preview_template = str_replace('..', '', $is_preview_template);
+
             $content['active_site_template'] = $is_preview_template;
         }
 
@@ -552,7 +573,7 @@ class Controller
 
         $render_file = $this->app->content->get_layout($content);
 
-         $content['render_file'] = $render_file;
+        $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
             return $content;
@@ -626,7 +647,13 @@ class Controller
             event_trigger('on_load', $content);
 
             //$this->app->content->debug_info();
+
+            
+
             $l = $this->app->parser->process($l, $options = false);
+
+
+
 
             if ($preview_module_id != false) {
                 $_REQUEST['embed_id'] = $preview_module_id;
@@ -661,9 +688,9 @@ class Controller
                 //$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                 $default_css.='<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
- 
- 
+                $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
+
+
                 //as of aug 28
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
@@ -683,9 +710,9 @@ class Controller
 
 
             $custom_live_edit = normalize_path($custom_live_edit, false);
-             if (is_file($custom_live_edit)) {
+            if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version='.$custom_live_editmtime.'" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" type="text/css" />';
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
@@ -852,6 +879,15 @@ class Controller
                     setcookie('last_page', $page_url, time() + 5400);
                 }
             }
+			
+			
+			if ($output_cache_timeout != false) {
+								
+				$this->app->cache->save($l, $output_cache_id, $output_cache_group);
+				 
+			}
+			
+			
             print $l;
             unset($l);
             //unset($content);
@@ -977,14 +1013,14 @@ class Controller
 
 
         $mod_api_class = implode(DS, $mod_api_class);
-		$mod_api_class_clean = ltrim($mod_api_class,'/');
-		$mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
+        $mod_api_class_clean = ltrim($mod_api_class, '/');
+        $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
         //d($mod_api_class);
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
         $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
-$mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, false) . '.php';
+        $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_uc1 = normalize_path(MW_APP_PATH . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_global_ns_uc1 = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
 
@@ -994,18 +1030,18 @@ $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, 
             $mod_class_api_class_exist = true;
         } else {
             //
- 
- 
+
+
             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
             } else if (is_file($mod_api_class1_uc1)) {
-                 $mod_class_api = true;
+                $mod_class_api = true;
                 include_once ($mod_api_class1_uc1);
             } else if (is_file($mod_api_class_native_global_ns_uc1)) {
                 $try_class = str_replace('/', '\\', $mod_api_class2);
                 $mod_class_api = true;
-			
+
                 include_once ($mod_api_class_native_global_ns_uc1);
             } else if (is_file($mod_api_class_native_global_ns)) {
                 $try_class = str_replace('/', '\\', $mod_api_class2);
@@ -1015,7 +1051,7 @@ $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, 
                 $mod_class_api = true;
                 include_once ($mod_api_class_native_uc1);
 
-            }else if (is_file($mod_api_class_native)) {
+            } else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
 
@@ -1355,7 +1391,7 @@ $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, 
 
 
                 $hooks = api_hook(true);
-			
+
 
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
@@ -1413,14 +1449,11 @@ $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, 
 
 
             $editmode_sess = $this->app->user->session_get('editmode');
-            if($editmode_sess == true and !defined('IN_EDIT')){
+            if ($editmode_sess == true and !defined('IN_EDIT')) {
                 define('IN_EDIT', true);
             }
 
         }
-
-
-
 
 
         $page = false;

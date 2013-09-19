@@ -662,6 +662,11 @@ mw.drag = {
           $(mw.handle_element).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
           mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+
+
+
+
         });
         $(window).bind("onModuleOver", function(a, element){
 
@@ -701,6 +706,11 @@ mw.drag = {
           });
           $(mw.handle_module).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
+
+
+
+
+
         });
         $(window).bind("onRowOver", function(a, element){
           var el = $(element);

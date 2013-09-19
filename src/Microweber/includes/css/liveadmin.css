@@ -1945,13 +1945,15 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 .preview_frame_wrapper{
   width:355px;
   height: 290px;
-  border: 6px solid #ededed;
+  border: 1px solid #ededed;
+  box-shadow: 0 0 6px #F3F3F3;
   position: relative;
   background-color:white;
   background-repeat: no-repeat;
   background-position: center center;
   overflow:hidden;
   margin-top: 5px;
+  padding: 10px;
 }
 
 
@@ -1961,6 +1963,13 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   height: 290px;
   overflow: hidden;
 }
+
+
+#mw-admin-container .preview_frame_container, #mw-admin-container .preview_frame_wrapper{
+   width:373px;
+   height: 460px;
+}
+
 .preview_frame_ctrls{
   position: absolute;
   z-index: 2;
@@ -1983,7 +1992,8 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 }
 
 .preview_frame_wrapper .mw-overlay-quick-link:hover{
-  background: rgba(198, 198, 198, 0.2);
+  /*background: rgba(198, 198, 198, 0.2); */
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .preview_frame_wrapper .mw-overlay-quick-link a{
@@ -2045,6 +2055,19 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   -o-transform-origin: 0 0;
   -webkit-transform: scale(0.376, 0.376);
   -webkit-transform-origin: 0 0;
+}
+
+
+#mw-admin-container .preview_frame_small{
+  -moz-transform: scale(0.29, 0.3);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.29, 0.3);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.29, 0.3);
+  -webkit-transform-origin: 0 0;
+
+  height: 1700px;
+    width: 1300px;
 }
 
  .preview_frame_small::-webkit-scrollbar {
@@ -2578,6 +2601,57 @@ a.module-icon-title{
 #mw-quick-product{
   padding-right: 20px;
 }
+
+
+
+
+.mw-admin-page-preview-page .mw-quick-links {
+  padding-left: 0px;
+}
+
+.mw-admin-page-preview-page .mw-quick-links li > a, .mw-admin-page-preview-page .mw-quick-links li > strong{
+  margin-right: 0;
+}
+
+.mw-admin-page-preview-page .mw-quick-links .ico{
+  margin-right: 3px;
+  margin-left: 14px;
+}
+
+
+[class*='tqpy-']{
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #fff;
+  border-radius:32px;
+  overflow: hidden;
+  background: url(../img/tqpyarr.png) no-repeat 45%;
+}
+
+
+.acfle-nav li{
+  list-style: none;
+}
+
+
+
+.acfle-nav a {
+  display: block;
+  padding: 10px;
+  text-align: center;
+}
+
+.acfle-nav a:hover, .acfle-nav a:focus{
+  background-color: #439DD9
+}
+.acfle-nav a.active{
+  background-color: #0D6AA6;
+}
+
+
+
+
 
 
 

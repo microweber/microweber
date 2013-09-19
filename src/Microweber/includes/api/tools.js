@@ -1739,6 +1739,21 @@ mw.tools = {
       }
      }
      return a;
+  },
+  notificationPermission:false,
+  notification:function(a,b,c){
+    var n = window.Notification || window.webkitNotification || window.mozNotification;
+    if(typeof n == 'undefined') { return false; }
+    if( n.permission == 'granted'){
+        new Notification("MW Update", {
+            tag : "update",
+            body : "There is a new version of Microweber",
+            icon : mw.settings.includes_url + "img/logomark.png"
+        });
+    }
+    else if(n.permission == 'default'){
+      Notification.requestPermission( function(result) { mw.tools.notificationPermission = result  } );
+    }
   }
 }
 

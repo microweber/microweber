@@ -247,6 +247,19 @@ mw_save_draft_int = self.setInterval(function(){
               title:'New Page'
            });
         },
+		
+		 page_2 : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Page'
+           });
+        },
+		
+		
         post : function(){
             mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
@@ -274,9 +287,12 @@ mw_save_draft_int = self.setInterval(function(){
     </script>
 
        <div id="liveedit_add_new_content">
+	            <a href="javascript:;" onclick="mw.quick.page_2();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span>Add new</a>
+
          <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> Add Page</a>
          <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> Add Post</a>
          <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span> Add Product</a>
+		 
 
 					<div class="mw-ui-dropdown mw-quick-pages-nav" style="z-index: 17;">
                         <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue " href="javascript:;">Browse pages<span class="ico idownarr right"></span></a>

@@ -352,7 +352,9 @@ class Fields
                 $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
                 $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
-                $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string(array_pop(array_values($cf_v)));
+				$val1_a = array_values($cf_v);
+				$val1_a = array_pop($val1_a);
+                $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string($val1_a);
 
             } else {
             }
