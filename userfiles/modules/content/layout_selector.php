@@ -30,7 +30,9 @@ if(!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval(
 //	$data = $params;
 }
 
-
+if(!isset($params["layout_file"]) and isset($params["layout-file"])){
+	$params["layout_file"] = $params["layout-file"];
+}
 if(!isset($params["layout_file"]) and $data == false or empty($data )){
   include('_empty_content_data.php');
 }
@@ -48,7 +50,9 @@ if(isset($params["layout_file"]) and trim($params["layout_file"]) != ''){
 
 $inherit_from = false;
  
-
+if(!isset($params["inherit_from"]) and isset($params["inherit-from"])){
+	$params["inherit_from"] = $params["inherit-from"];
+}
 if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'))){
 
   if(isset($params["inherit_from"]) and (trim($params["inherit_from"]) != '' or trim($params["inherit_from"]) != '0')){
@@ -81,7 +85,9 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
 }
 }
 
-
+if(!isset($params["active-site-template"]) and isset($params["site-template"])){
+	$params["active-site-template"] = $params["site-template"];
+}
 if(isset($params["active-site-template"])){
   $data['active_site_template'] = $params["active-site-template"] ;
 }
@@ -261,8 +267,13 @@ generate:function(return_url){
      form.querySelector('input[name="is_shop"][value="n"]').checked = true;
 	   }
    }
+ } else {
+	if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
+     form.querySelector('input[name="is_shop"][value="n"]').checked = true;
+	   }  
+	 
  }
-
+ 
  if(ctype != undefined && ctype =='dynamic'){
 
 
@@ -270,6 +281,9 @@ generate:function(return_url){
   ctype = 'static';
 }
 mw.$("select[name='subtype']", form).val(ctype);
+mw.$("input:hidden[name='subtype']", form).val(ctype);
+
+mw.$('input:radio[name="subtype"]', form).filter('[value="'+ctype+'"]').attr('checked', true);
 
 
 }

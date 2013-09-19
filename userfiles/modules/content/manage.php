@@ -109,14 +109,14 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 
 <div class="mw-admin-page-preview-holder">
   <div  class="mw-admin-page-preview-page">
-    <div style="width: 370px;margin-left: 30px;" class="left">
+    <div style="width: 395px;margin-left: 30px;" class="left">
       <?php if(is_array($page_info) and isset($page_info['title'])): ?>
       <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
       <h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
       <?php endif; ?>
       <div style="height:335px;" id="mw_page_layout_preview"></div>
     </div>
-    <div class="right" style="width: 210px;">
+    <div class="right" style="width: 200px;">
       <?php if(isset($page_info) and isset($page_info['title'])): ?>
       <?php  /*   <ul class="mw-quick-links mw-quick-links-blue">
     <li>
