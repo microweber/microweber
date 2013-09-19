@@ -747,8 +747,7 @@ if(typeof mw.content_save_btn ==='undefined'){
 	
 		  <?php event_trigger('mw_admin_edit_page_after_content', $data); ?>
 
-	<?php /* PAGES ONLY  */ ?>
-	<?php if($edit_post_mode == false): ?>
+	
 	<script>
 
     load_preview = function(){
@@ -765,15 +764,15 @@ if(typeof mw.content_save_btn ==='undefined'){
 
      $(document).ready(function(){
         load_preview();
-     });
+    });
 
 
 
     </script> 
-	<a class="toggle_advanced_settings mw-ui-more" data-for='.mw-layout-selector-holder' id="layout-selector-toggle" data-callback="load_preview" onclick="mw.tools.memoryToggle(this);load_preview();" href="javascript:;">
+	<span class="toggle_advanced_settings mw-ui-more toggler-active"  id="layout-selector-toggle" >
 	<?php _e("Choose Template"); ?>
-	</a>
-	<div class="mw-layout-selector-holder" style="display: none;">
+	</span>
+	<div class="mw-layout-selector-holder" style="display: block;">
 		<module id="mw-layout-selector-module" data-type="content/layout_selector" <?php print
       $layout_from_parent ?> data-page-id="<?php print ($data['id'])?>"  autoload=1 live_edit_styles_check=1 />
 		
@@ -795,6 +794,8 @@ if(typeof mw.content_save_btn ==='undefined'){
 			
 			
 	</div>
+  <?php /* PAGES ONLY  */ ?>
+  <?php if($edit_post_mode == false): ?>
 	<div class="vSpace"></div>
 	<?php if($edit_post_mode == false and $quick_edit == false): ?>
 	<?php   //  d($data);
@@ -874,15 +875,9 @@ if(typeof mw.content_save_btn ==='undefined'){
 	
 	
 	
-	<span  class="mw-ui-more toggler-active">
+	<a href="javascript:;" data-for='#edit_post_select_category' id="category-post-toggle" onclick="mw.tools.memoryToggle(this);" class="mw-ui-more toggler-active">
 	<?php _e("Add to Page &amp; Category"); ?>
-	</span>
-
-
-
-
-
-    &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
+	</a> &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
 	<div class="vSpace"></div>
 	<div id="edit_post_select_category" style="display: block">
 		<div class="mw-ui-field mw-tag-selector " id="mw-post-added-<?php print $rand; ?>">
@@ -1175,11 +1170,11 @@ if(intval($data['id']) == 0){
 		<div class="vSpace"></div>
 		<small>
 		<?php _e("Custom fields you may like to use"); ?>
-		<span class="" data-help="Those custom fields are from the page or categories you chose for this <?php print $data['subtype'] ?>.">(?)</span></small>
+		<span class="" data-help="Those custom fields are from the page or categories you chose for this <?php print $data['content_type']; ?>.">(?)</span></small>
 		<div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>" ></div>
 		<div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>" ></div>
 		
-		
+
 		
 		
 		<script  type="text/javascript">

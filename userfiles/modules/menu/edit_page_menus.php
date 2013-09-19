@@ -5,7 +5,7 @@
     <?php _e("Add to Navigation"); ?>
   </label>
   <div class="relative">
-    <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-<?php print $rand; ?>" style="width: 605px;">
+    <div class="mw-ui-field mw-tag-selector mw-selected-menus" id="mw-selected-menus-<?php print $rand; ?>" style="width: 575px;">
         <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to navigation"); ?>" />
     </div>
     <?php

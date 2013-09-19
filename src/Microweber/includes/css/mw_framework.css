@@ -1363,11 +1363,11 @@ input.mw-title-field{
   white-space: nowrap;
   padding: 3px 20px 3px 0;
   white-space: nowrap;
-  background: url(../img/acfle_title_arr_right.png) no-repeat 100% 50%;
+  background: url(../img/acfle_title_arr_right.png) no-repeat 100% 11px;
 }
 
 .mw-ui-more.toggler-active{
-  background: url(../img/acfle_title_arr.png) no-repeat 100% 50%;
+  background: url(../img/acfle_title_arr.png) no-repeat 100% 13px;
    color: #3791E3;
 }
 

@@ -743,6 +743,9 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   z-index: 9;
   border-radius:2px;
 }
+.mw-ui-more + .mw-help{
+  top: -2px;
+}
 
 [data-help]{
   position: relative;
