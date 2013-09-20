@@ -1308,7 +1308,7 @@ if(intval($data['id']) == 0){
 
   });
 
-    load_iframe_editor();
+    //load_iframe_editor();
 	/*if(window.parent == undefined && window.parent.mw == undefined){
 
 
