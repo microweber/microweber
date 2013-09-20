@@ -116,7 +116,7 @@ mw.tools = {
     settings:{
       width:600,
       height:500,
-      centeringMethod:'default'
+      draggable:true
     },
     source:function(id, template){
       var template = template || 'mw_modal_default';
@@ -134,7 +134,7 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
-    _init:function(html, width, height, callback, title, name, template, overlay, doc){
+    _init:function(html, width, height, callback, title, name, template, overlay, draggable){
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
@@ -142,23 +142,38 @@ mw.tools = {
 
         var modal = mw.tools.modal.source(name, template);
 
-        var doc = doc || document;
+        var doc = document;
 
         $(doc.body).append(modal.html);
+
         var modal_object = $(doc.getElementById(modal.id));
 
-        var container = modal_object.find(".mw_modal_container").eq(0);
+        var container = $(modal_object[0].querySelector(".mw_modal_container"));
+
         modal_object.width(width).height(height);
 
         var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
+
+
         var padding = container.offset().top - modal_object.offset().top;
 
 
         container.append(html).height(height-padding);
 
-        modal_object.css({top:($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 ,left:($(doc.defaultView).width()/2)-(width/2)});
+        if(!width.toString().contains("%")){
+           modal_object.css("left", ($(doc.defaultView).width()/2)-(width/2));
+        }
+        else{
+          modal_object.css("left", (100 - parseFloat(width))/2 + "%");
+        }
+        if(!height.toString().contains("%")){
+           modal_object.css("top", ($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
+        }
+        else{
+          modal_object.css("top", (100 - parseFloat(height))/2 + "%");
+        }
         modal_object.show();
-        if(typeof $.fn.draggable === 'function'){
+        if(typeof $.fn.draggable === 'function' && draggable){
             modal_object.draggable({
               handle:'.mw_modal_toolbar',
               containment:'window',
@@ -174,10 +189,20 @@ mw.tools = {
                   $(this).css("zIndex", mw_m_max);
                 }
               },
-              stop:function(){
+              stop:function(e,ui){
                  $(this).find(".iframe_fix").hide();
+                 var w = $(window).width();
+                 if(this.style.width.toString().contains("%")){
+
+                 }
+                 if(this.style.height.toString().contains("%")){
+
+                 }
               }
             });
+        }
+        else{
+           mw.$(".mw_modal_toolbar", doc.getElementById(modal.id)).css("cursor", "default");
         }
 
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
@@ -203,11 +228,11 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
-      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.doc);
+      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
     },
-    minimize:function(id, doc){
+    minimize:function(id){
 
-        var doc = doc || document;
+        var doc = document;
         var modal = mw.$("#"+id);
         var window_h = $(doc.defaultView).height();
         var window_w = $(doc.defaultView).width();
@@ -343,6 +368,33 @@ mw.tools = {
         }
         return overlay;
     }
+  },
+  fullscreenGallery:function(arr, start){  // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
+    if(arr === null || arr === undefined){return false;}
+    if(typeof arr.length !== 'number'){ return false; }
+    if(arr.length === 0){return false;}
+    var start = start || 0;
+
+
+    var ghtml = ''
+    +'<div class="mwf-gallery">'
+        +'<div class="mwf-gallery-container">'
+            +'<span class="mwf"></span>'
+        +'</div>'
+    +'</div>';
+
+    var modal = mw.tools.modal.init({
+      width:"90%",
+      height:"90%",
+      html:"",
+      draggable:false,
+      overlay:true,
+      template:'mw_modal_basic'
+    });
+
+
+
+
   },
   alert:function(text){
     var html = ''

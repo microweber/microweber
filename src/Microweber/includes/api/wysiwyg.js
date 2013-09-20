@@ -557,6 +557,9 @@ mw.wysiwyg = {
 
       $(mwd.body).keyup(function(e){
 
+
+        mw.tools.addClass(this, 'isTyping');
+
         if(mw.tools.isEmpty(e.target)){
             e.target.innerHTML = '&zwnj;&nbsp;';
          }

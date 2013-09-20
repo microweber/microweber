@@ -1169,8 +1169,7 @@ if(intval($data['id']) == 0){
 		<module type="custom_fields/admin"    for="content" rel_id="<?php print $data['id'] ?>" id="fields_for_post_<?php print $rand; ?>" content-subtype="<?php print $data['subtype'] ?>" />
 		<div class="vSpace"></div>
 		<small>
-		<?php _e("Custom fields you may like to use"); ?>
-		<span class="" data-help="Those custom fields are from the page or categories you chose for this <?php print $data['content_type']; ?>.">(?)</span></small>
+		 
 		<div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>" ></div>
 		<div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>" ></div>
 		

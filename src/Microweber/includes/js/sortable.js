@@ -248,6 +248,9 @@ mw.drag = {
 
          $(mwd.body).mousemove(function(event){
 
+
+            mw.tools.removeClass(this, 'isTyping');
+
             if(!mw.settings.resize_started){
 
            if(mw.mouseDownOnEditor){
