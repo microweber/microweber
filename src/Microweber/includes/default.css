@@ -551,10 +551,7 @@ table[class*='mw-wysiwyg-table'] td{
 
 /* /Tables */
 
-.mwf-gallery-container img{
-  max-height: 100%;
-  max-width: 100%;
-}
+
 .mw_modal_gallery .mwf-gallery-description{
   position: absolute;
   z-index: 9;
@@ -574,15 +571,25 @@ table[class*='mw-wysiwyg-table'] td{
   text-align: center;
 }
 
-.mwf-gallery-container{
+.mwf-gallery-modeHTML{
   display: inline-block;
-  text-align: center;
   box-shadow: 0 0 6px #111;
-  max-width: 95%;
-  max-height: 95%;
-  max-height: max-content;
+  position: relative;
   overflow: auto;
   background: #111;
+}
+.mwf-single{
+   box-shadow: 0 0 6px #111;
+   position: relative;
+   display: block;
+   background: #333;
+   margin: auto;
+   max-height: 90%;
+   max-width: 90%;
+   min-height: 200px;
+   min-width: 200px;
+   width: auto;
+   height: auto;
 }
 
 
@@ -604,6 +611,11 @@ table[class*='mw-wysiwyg-table'] td{
 }
 .mwf-gallery-container{
   overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 

@@ -7,10 +7,10 @@ mw.session = {
         if(mw.session.checkPauseExplicitly){ return false; }
         $.post(mw.settings.api_url + "is_logged", function(data){
           if(data != false){
-            callback.call(undefined, true);
+            if(typeof callback === 'function'){callback.call(undefined, true)};
           }
           else{
-            callback.call(undefined, false);
+            if(typeof callback === 'function'){callback.call(undefined, false)};
           }
           mw.session.checkPause = false;
         });
@@ -34,8 +34,9 @@ mw.session = {
     setInterval(function(){
       mw.session.check(function(is_logged){
         if(is_logged){
-          mw.$("#session_modal").remove();
-          mw.$(".mw_overlay").remove();
+          var m = mw.tools.modal.get("#session_modal")
+          mw.$(m.overlay).remove();
+          mw.$(m.main).remove();
         }
         else{
           mw.session.logRequest();

@@ -68,8 +68,8 @@ if(isset($params['content-id'])){
 }
 
 $for_id = $params['rel_id'];
-    
-// d($params);   
+      
+  
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
   

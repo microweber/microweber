@@ -211,7 +211,9 @@ mw.tools = {
         typeof name==='string'?$(modal_object).attr("name", name):'';
 
         if(overlay==true){
-           var ol = mw.tools.modal.overlay(modal.main);
+
+           var ol = mw.tools.modal.overlay(modal_object);
+           modal_object[0].overlay = ol;
            modal_return.overlay = ol;
         }
 
@@ -221,7 +223,8 @@ mw.tools = {
       if(mw.$(selector).find(".mw_modal_container").length>0){
         return {
           main:mw.$(selector),
-          container: mw.$(selector).find(".mw_modal_container")[0]
+          container: mw.$(selector).find(".mw_modal_container")[0],
+          overlay:mw.$(selector)[0].overlay
         }
       }
       else{return false;}
@@ -356,14 +359,14 @@ mw.tools = {
         }
 
     },
-    overlay:function(for_who, is_over_modal, doc){
-        var doc = doc || document;
+    overlay:function(for_who, is_over_modal){
+        var doc = document;
         var overlay = doc.createElement('div');
         overlay.className = 'mw_overlay';
         var id = for_who ? $(for_who).attr("id") : 'none';
         $(overlay).attr("rel",id);
         doc.body.appendChild(overlay);
-        if(is_over_modal!=undefined){
+        if(is_over_modal != undefined){
 
         }
         return overlay;
@@ -372,16 +375,16 @@ mw.tools = {
   gallery:{
     generateHTML:function(item){
         if(typeof item === 'string'){
-          return item;
+          return "<div class='mwf-gallery-modeHTML'>"+item+"</div>";
         }
         else if(typeof item === 'object' && item.constructor === {}.constructor){
           var img = item.img || item.image || item.url || item.src;
           var desc = item.description || item.title || item.name;
           if(typeof desc != 'undefined' && desc != ''){
-            return "<img src='"+img+"' /><div class='mwf-gallery-description'>"+desc+"</div>";
+            return "<img src='"+img+"' class='mwf-single' /><div class='mwf-gallery-description'>"+desc+"</div>";
           }
           else{
-            return "<img src='"+img+"' />";
+            return "<img src='"+img+"' class='mwf-single' />";
           }
         }
         else if(typeof item === 'object' && typeof item.nodeType === 'number'){
@@ -389,7 +392,7 @@ mw.tools = {
           e.appendChild(item.cloneNode());
           var html = e.innerHTML;
           var e = null;
-          return html;
+          return "<div class='mwf-gallery-modeHTML'>"+html+"</div>";
         }
     },
     next:function(modal){
@@ -400,7 +403,7 @@ mw.tools = {
       var html =  mw.tools.gallery.generateHTML(arr[next]);
       galeryContainer.html(html);
       modal.gallery.curr = next;
-
+      mw.tools.gallery.normalizer(modal);
     },
     prev:function(modal){
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
@@ -410,7 +413,7 @@ mw.tools = {
       var html =  mw.tools.gallery.generateHTML(arr[prev]);
       galeryContainer.html(html);
       modal.gallery.curr = prev;
-
+      mw.tools.gallery.normalizer(modal);
     },
     init:function(arr, start, modal){
         // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
@@ -454,12 +457,27 @@ mw.tools = {
         f.click(function(){
           mw.tools.fullscreen(modal.main)
         });
-        //Firefox
-        mw.$(".mwf-gallery-container", modal.container).css("maxHeight", $(window).height());
-        $(window).bind("resize", function(){
-            mw.$(".mwf-gallery-container", modal.container).css("maxHeight", $(this).height());
-        });
+        mw.tools.gallery.normalize(modal);
         return modal;
+    },
+    normalizer:function(modal){
+        var ht = mw.$(".mwf-gallery-modeHTML", modal.container);
+        var im = mw.$(".mwf-single", modal.container);
+        if(ht.length > 0){
+           ht.css("marginTop", $(window).height()/2 - ht.height()/2);
+        }
+        else if(im.length > 0){
+            im.css("marginTop", $(window).height()/2 - im.height()/2);
+        }
+    },
+    normalize:function(modal){
+         mw.tools.gallery.normalizer(modal);
+         if(typeof modal.normalized === 'undefined'){
+              modal.normalized = true;
+              $(window).bind("resize", function(){
+                  mw.tools.gallery.normalizer(modal);
+              });
+         }
     }
   },
   alert:function(text){

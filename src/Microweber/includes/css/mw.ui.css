@@ -624,6 +624,12 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 .mw_modal_gallery .mw_modal_container{
   padding: 0;
 }
+.mw_modal_gallery .mw_modal_toolbar{
+  position: absolute;
+  z-index: 12;
+  top: 0;
+  right: 0;
+}
 
 
 /* /Modal Window */

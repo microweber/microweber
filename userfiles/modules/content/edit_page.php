@@ -452,7 +452,14 @@ function __set_content_parent_info<?php print $rand; ?>(){
   mw.$('#admin_edit_page_form_content_parent_info<?php print $rand; ?>').empty();
   var el =$('#parent_page_select_<?php print $rand; ?> option:selected');
   if(el.length >0){
+	  
+	  
+	  
     var val = el.val();
+	
+	
+	 
+	
     var title = el.attr('title');
     if(title != undefined){
       mw.$('#admin_edit_page_form_content_parent_info<?php print $rand; ?>')
@@ -681,6 +688,35 @@ if(!isset($data['content'])){
 	<script>
 
 load_iframe_editor = function(content){
+	
+	 var selpage = $('#categorories_selector_for_post_<?php print $rand; ?>');
+
+
+
+ if(selpage.length > 0){
+  selpage_find = 	selpage.find('input[type="radio"]:checked').first().val();
+		//mw.log('pecata   '+selpage_find);
+		if(selpage_find != undefined){
+			   $('#mw-layout-selector-module').attr('inherit-from',selpage_find);
+
+      $('#mw-layout-selector-module').removeAttr('active-site-template');
+      $('#mw-layout-selector-module').removeAttr('data-active-site-template');
+      mw.reload_module('#mw-layout-selector-module');
+		}
+	//
+
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
  var area = mwd.getElementById('mw-editor<?php print $rand; ?>');
 
 
@@ -1262,7 +1298,7 @@ if(intval($data['id']) == 0){
 
 
      $(window).bind("templateChanged", function(e, el){
-      load_iframe_editor();
+    //  load_iframe_editor();
     });
 
 
