@@ -107,10 +107,39 @@ if(isset($data["active_site_template"]) and ($data["active_site_template"] == fa
 $templates= mw('content')->site_templates();
 
 $layout_options = array();
-$layout_options  ['no_cache'] = 1;
+ 
 $layout_options  ['site_template'] = $data['active_site_template'];
 
 $layouts = mw('layouts')->get_all($layout_options);
+
+
+ if(isset($params['content-type'])){
+	 foreach($layouts  as $k => $v){
+		 
+		  $ctypes = array();
+		  if(isset($v['content_type'])){
+			  $ctypes = explode(',',$v['content_type']);
+			  $ctypes = array_trim($ctypes);
+			   
+		  }
+		 
+		 if(isset($v['content_type']) 
+		 and 
+		 (
+		 trim($v['content_type']) == trim($params['content-type'])
+		 or (in_array($params['content-type'],$ctypes) == true)
+		 )
+		 ){
+			 
+		 } else {
+			 unset($layouts[$k]);
+		 }
+		 
+	 }
+	 
+ }
+
+
  
 ?>
 <script>
@@ -330,7 +359,13 @@ if(layout != undefined){
   preview_layout_param = '&preview_layout='+layout;
 }
 
-var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true'+preview_template_param+preview_layout_param+'&content_id=<?php print  $data['id'] ?>'+inherit_from_param
+var preview_layout_content_type_param = '';
+<?php if(isset($params['content-type'])): ?>
+var preview_layout_content_type_param = '&content_type=<?php print $params['content-type'] ?>';
+
+<?php endif; ?>
+
+var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true'+preview_template_param+preview_layout_param+'&content_id=<?php print  $data['id'] ?>'+inherit_from_param+preview_layout_content_type_param
 //d('iframe_url is '+iframe_url);
 if(return_url == undefined){
   $(window).trigger('templateChanged', iframe_url);
@@ -437,9 +472,11 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			</option>
 			<?php $i++; endforeach; ?>
 			<?php endif; ?>
+			<?php if(!isset($params['content-type'])): ?>
 			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if(trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <?php endif; ?>>
 			Inherit from parent
 			</option>
+			<?php endif; ?>
 		</select>
 
 	</div>

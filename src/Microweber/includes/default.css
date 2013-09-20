@@ -551,6 +551,61 @@ table[class*='mw-wysiwyg-table'] td{
 
 /* /Tables */
 
+.mwf-gallery-container img{
+  max-height: 100%;
+  max-width: 100%;
+}
+.mw_modal_gallery .mwf-gallery-description{
+  position: absolute;
+  z-index: 9;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  font-size: 13px;
+  color: white;
+  background: black;
+  background: rgba(10, 0, 0, 0.8);
+}
+
+.mwf-gallery{
+    height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.mwf-gallery-container{
+  display: inline-block;
+  text-align: center;
+  box-shadow: 0 0 6px #111;
+  max-width: 95%;
+  max-height: 95%;
+  max-height: max-content;
+  overflow: auto;
+  background: #111;
+}
+
+
+.mwf-next,
+.mwf-prev{
+  font-size: 40px;
+  color: #ccc;
+  color: rgba(204, 204, 204, 0.8);
+  text-shadow: 0 0 3px #ccc;
+  position: absolute;
+  top: 50%;
+  margin-top: -22px;
+  right:20px;
+  cursor: pointer;
+}
+.mwf-prev{
+  left: 20px;
+  right: auto;
+}
+.mwf-gallery-container{
+  overflow: auto;
+}
+
 
 
 

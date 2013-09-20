@@ -20,13 +20,17 @@ description: Masonry
 <script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
 <script>
     mw._masons = mw._masons || [];
+
     $(document).ready(function(){
         var m = mw.$('#mw-gallery-<?php print $rand; ?>');
         m.masonry({
           "itemSelector": '.masonry-item',
           "gutter":5
         });
+
         mw._masons.push(m);
+
+
         if(typeof mw._masons_binded === 'undefined'){
             mw._masons_binded = true;
             mw.onLive(function(){
@@ -49,9 +53,9 @@ description: Masonry
 
 <div class="mw-images-template-masonry" id="mw-gallery-<?php print $rand; ?>" style="position: relative;width: 100%;" >
 
-  <?php foreach($data  as $item): ?>
-
-    <div class="masonry-item">
+  <?php $count =-1; foreach($data  as $item): ?>
+        <?php $count++; ?>
+    <div class="masonry-item" onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)">
         <img src="<?php print thumbnail( $item['filename'], 300); ?>" width="100%" />
         <?php if($item['title'] != '' ){  ?>
         <div class="masonry-item-description"><?php print $item['title']; ?></div>
@@ -59,7 +63,25 @@ description: Masonry
     </div>
 
   <?php endforeach;  ?>
+
+
+
+
+
+
 </div>
+
+<script>
+
+ gallery<?php print $rand; ?> = [<?php foreach($data  as $item): ?>{image:"<?php print thumbnail( $item['filename'], 1000); ?>",description:"<?php print $item['title']; ?>"},<?php endforeach;  ?>];
+
+
+
+ gallery<?php print $rand; ?>.push('<iframe width="560" height="315" src="//www.youtube.com/embed/AI0gk2KJeho" frameborder="0" allowfullscreen></iframe>');
+    $(".edit").each(function(){
+      gallery<?php print $rand; ?>.push(this);
+    });
+</script>
 
 <?php else : ?>
 <?php endif; ?>

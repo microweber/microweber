@@ -369,32 +369,98 @@ mw.tools = {
         return overlay;
     }
   },
-  fullscreenGallery:function(arr, start){  // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
-    if(arr === null || arr === undefined){return false;}
-    if(typeof arr.length !== 'number'){ return false; }
-    if(arr.length === 0){return false;}
-    var start = start || 0;
+  gallery:{
+    generateHTML:function(item){
+        if(typeof item === 'string'){
+          return item;
+        }
+        else if(typeof item === 'object' && item.constructor === {}.constructor){
+          var img = item.img || item.image || item.url || item.src;
+          var desc = item.description || item.title || item.name;
+          if(typeof desc != 'undefined' && desc != ''){
+            return "<img src='"+img+"' /><div class='mwf-gallery-description'>"+desc+"</div>";
+          }
+          else{
+            return "<img src='"+img+"' />";
+          }
+        }
+        else if(typeof item === 'object' && typeof item.nodeType === 'number'){
+          var e = mwd.createElement('div');
+          e.appendChild(item.cloneNode());
+          var html = e.innerHTML;
+          var e = null;
+          return html;
+        }
+    },
+    next:function(modal){
+      var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
+      galeryContainer.empty();
+      var arr = modal.gallery.array, curr =  modal.gallery.curr;
+      var next = typeof arr[curr+1] !== 'undefined' ? curr+1 : 0;
+      var html =  mw.tools.gallery.generateHTML(arr[next]);
+      galeryContainer.html(html);
+      modal.gallery.curr = next;
 
+    },
+    prev:function(modal){
+      var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
+      galeryContainer.empty();
+      var arr = modal.gallery.array, curr =  modal.gallery.curr;
+      var prev = typeof arr[curr+1] !== 'undefined' ? curr-1 : arr.length - 1;
+      var html =  mw.tools.gallery.generateHTML(arr[prev]);
+      galeryContainer.html(html);
+      modal.gallery.curr = prev;
 
-    var ghtml = ''
-    +'<div class="mwf-gallery">'
-        +'<div class="mwf-gallery-container">'
-            +'<span class="mwf"></span>'
-        +'</div>'
-    +'</div>';
+    },
+    init:function(arr, start, modal){
+        // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
+        if(arr === null || arr === undefined){return false;}
+        if(typeof arr.length !== 'number'){ return false; }
+        if(arr.length === 0){return false;}
+        var start = start || 0;
+        var ghtml = ''
+        +'<div class="mwf-gallery">'
+            +'<div class="mwf-gallery-container">'
+            +'</div>'
+             +'<span class="mwf-next">&raquo;</span>'
+             +'<span class="mwf-prev">&laquo;</span>'
+             +'<span class="mwf-fullscreen">Fullscreen</span>'
+        +'</div>';
 
-    var modal = mw.tools.modal.init({
-      width:"90%",
-      height:"90%",
-      html:"",
-      draggable:false,
-      overlay:true,
-      template:'mw_modal_basic'
-    });
-
-
-
-
+        var modal = modal || mw.tools.modal.init({
+          width:"100%",
+          height:"100%",
+          html: '',
+          draggable:false,
+          overlay:true,
+          template:'mw_modal_gallery'
+        });
+        modal.container.innerHTML = ghtml;
+        modal.gallery = {
+            array:arr,
+            curr:start
+        }
+        var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
+        galeryContainer.html( mw.tools.gallery.generateHTML(arr[start]) )
+        var next =  mw.$('.mwf-next', modal.container);
+        var prev =  mw.$('.mwf-prev', modal.container);
+        var f =  mw.$('.mwf-fullscreen', modal.container);
+        next.click(function(){
+            mw.tools.gallery.next(modal);
+        });
+        prev.click(function(){
+           mw.tools.gallery.prev(modal);
+        });
+        f.click(function(){
+          mw.tools.fullscreen(modal.main)
+        });
+        //Firefox
+        mw.$(".mwf-gallery-container", modal.container).css("maxHeight", $(window).height());
+        $(window).bind("resize", function(){
+            mw.$(".mwf-gallery-container", modal.container).css("maxHeight", $(this).height());
+        });
+        return modal;
+    }
   },
   alert:function(text){
     var html = ''

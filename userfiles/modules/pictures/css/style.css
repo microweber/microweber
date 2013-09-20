@@ -486,8 +486,14 @@ a.rotator-paging-item-digit{
 .masonry-item{
   width: 19%;
   margin-bottom: 5px;
-  box-shadow: 0 2px 2px;
+  box-shadow: 0 2px 2px #999;
   background: white;
+  cursor: pointer;
+}
+
+.masonry-item:hover{
+    box-shadow: 0 3px 3px #555;
+    box-shadow: 0 6px 6px -2px #555;
 }
 
 .masonry-item-description{

@@ -83,22 +83,8 @@ if($data == false or empty($data )){
 }
 
 
+ 
 
- if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) != 0){
-  $parent_cont = mw('content')->get_by_id($params["parent-page-id"]);
-      if(is_array($parent_cont) and isset($parent_cont['active_site_template'])){
-
-//    $layout_from_parent = " inherit_from='{$params["parent-page-id"]}' ";
-
-
-
-
-
-
-
-
-      }
-   }
 }
 }
 if(isset($edit_post_mode) and $edit_post_mode == true){
@@ -189,6 +175,76 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
  }
 }
 }
+
+
+
+ if((intval($data['id']) == 0) and isset($edit_post_mode) and $edit_post_mode == true and isset($data['parent']) and intval($data['parent']) != 0){
+  $parent_cont = mw('content')->get_by_id($params["parent-page-id"]);
+      if(is_array($parent_cont) and isset($parent_cont['active_site_template'])){
+		  $ctlayouts = $data['content_type'];
+		  if(isset($params["data-subtype"]) and $params["data-subtype"] != $data['content_type']){
+     $ctlayouts = $params["data-subtype"];
+ 			 }
+
+   $layout_from_parent = " inherit-from='".$params["parent-page-id"]."' content-type='".$ctlayouts."' ";
+
+ 
+
+
+
+
+
+
+      }
+   } else if((intval($data['id']) != 0) and isset($edit_post_mode) and $edit_post_mode == true){
+
+$ctlayouts = $data['content_type'];
+		  if(isset($params["data-subtype"]) and $params["data-subtype"] != $data['content_type']){
+     $ctlayouts = $params["data-subtype"];
+ 			 }
+
+   $layout_from_parent = " inherit-from='".$data['id']."' content-type='".$ctlayouts."' ";
+
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
 //
 
@@ -1147,7 +1203,7 @@ if(intval($data['id']) == 0){
 	
 	<?php if(isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>
 	<a href="javascript:;" class="mw-ui-more toggler-active" onclick="mw.tools.toggle('#custom_fields_for_post_<?php print $rand; ?>', this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>
-	<?php _e("Product properties"); ?>
+	<?php _e("Product options"); ?>
 	</a>
 	<?php else: ?>
 	<a href="javascript:;" class="mw-ui-more" onclick="mw.tools.memoryToggle(this);" id="custom-fields-toggler" data-for='#custom_fields_for_post_<?php print $rand; ?>'>

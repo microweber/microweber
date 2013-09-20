@@ -2,7 +2,7 @@
 /*
 
 type: layout
-content_type: post
+content_type: post, product, page
 name: Post inner
 
 description: Post inner layout

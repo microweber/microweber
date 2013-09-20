@@ -31,7 +31,7 @@ function params_stripslashes_array($array)
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
 
 
-    $_GET = params_stripslashes_array($_GET);
+    $_REQUEST = params_stripslashes_array($_REQUEST);
     $_POST = params_stripslashes_array($_POST);
     $_COOKIE = params_stripslashes_array($_COOKIE);
     $_REQUEST = params_stripslashes_array($_REQUEST);
@@ -102,8 +102,8 @@ class Controller
 		$page_url_orig = $page_url;
         $simply_a_file = false;
         // if this is a file path it will load it
-        if (isset($_GET['view'])) {
-            $is_custom_view = $_GET['view'];
+        if (isset($_REQUEST['view'])) {
+            $is_custom_view = $_REQUEST['view'];
         } else {
             $is_custom_view = $this->app->url->param('view');
             if ($is_custom_view and $is_custom_view != false) {
@@ -196,7 +196,7 @@ class Controller
                     }
                 }
             }
-            // d($is_preview_module);
+             
         }
 
         $is_layout_file = $this->app->url->param('preview_layout');
@@ -216,16 +216,16 @@ class Controller
 
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
-                if (isset($_GET['content_type'])) {
-                    $page['content_type'] = $this->app->db->escape_string($_GET['content_type']);
+                if (isset($_REQUEST['content_type'])) {
+                    $page['content_type'] = $this->app->db->escape_string($_REQUEST['content_type']);
                 }
 
 
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
 
-                if (isset($_GET['parent_id']) and $_GET['parent_id'] != 0) {
-                    $page['parent'] = intval($_GET['parent_id']);
+                if (isset($_REQUEST['parent_id']) and $_REQUEST['parent_id'] != 0) {
+                    $page['parent'] = intval($_REQUEST['parent_id']);
                 }
 
                 //$page['url'] = $this->app->url->string();
@@ -238,9 +238,9 @@ class Controller
                     $page['layout_file'] = $is_layout_file;
                 }
 
-                if (isset($_GET['inherit_template_from']) and $_GET['inherit_template_from'] != 0) {
-                    $page['parent'] = intval($_GET['inherit_template_from']);
-                    $inherit_from = $this->app->content->get_by_id($_GET["inherit_template_from"]);
+                if (isset($_REQUEST['inherit_template_from']) and $_REQUEST['inherit_template_from'] != 0) {
+                    $page['parent'] = intval($_REQUEST['inherit_template_from']);
+                    $inherit_from = $this->app->content->get_by_id($_REQUEST["inherit_template_from"]);
 
                     //$page['parent'] =  $inherit_from ;
                     if (isset($inherit_from["layout_file"]) and $inherit_from["layout_file"] == 'inherit') {
@@ -256,8 +256,12 @@ class Controller
 
                     }
                 }
+                if (isset($_REQUEST['content_type']) and $_REQUEST['content_type'] != false) {
+                    $page['content_type'] = $_REQUEST['content_type'];
 
-                //$page['active_site_template'] = $page_url_segment_1;
+                }
+
+                    //$page['active_site_template'] = $page_url_segment_1;
                 //$page['layout_file'] = $the_new_page_file;
                 //$page['simply_a_file'] = $simply_a_file;
 
@@ -271,7 +275,7 @@ class Controller
                 define('MW_NO_SESSION', true);
             }
 			
-			$output_cache_timeout = 600; //10min
+			//$output_cache_timeout = 600; //10min
 		
         }
 		
@@ -766,7 +770,7 @@ class Controller
 
                 }
             } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
-                if (!isset($_GET['isolate_content_field']) and !isset($_GET['content_id'])) {
+                if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
                     //d($_REQUEST);
                     $back_to_editmode = $this->app->user->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
@@ -892,7 +896,7 @@ class Controller
             unset($l);
             //unset($content);
 
-            if (isset($_GET['debug'])) {
+            if (isset($_REQUEST['debug'])) {
 
                 $is_admin = $this->app->user->is_admin();
                 // if ($is_admin == true) {
@@ -934,7 +938,7 @@ class Controller
 
         print $layout;
 
-        if (isset($_GET['debug'])) {
+        if (isset($_REQUEST['debug'])) {
             $this->app->content->debug_info();
             $is_admin = $this->app->user->is_admin();
             if ($is_admin == true) {
@@ -1101,7 +1105,7 @@ class Controller
             case 'class_is_already_here' :
                 if ($params != false) {
                     $data = $params;
-                } else if (!$_POST and !$_GET) {
+                } else if (!$_POST and !$_REQUEST) {
                     //  $data = $this->app->url->segment(2);
                     $data = $this->app->url->params(true);
                     if (empty($data)) {
@@ -1226,7 +1230,7 @@ class Controller
                         if (class_exists($try_class, false)) {
                             if ($params != false) {
                                 $data = $params;
-                            } else if (!$_POST and !$_GET) {
+                            } else if (!$_POST and !$_REQUEST) {
                                 //  $data = $this->app->url->segment(2);
                                 $data = $this->app->url->params(true);
                                 if (empty($data)) {
@@ -1320,7 +1324,7 @@ class Controller
             if ($err == false) {
                 //
                 if ($mod_class_api_called == false) {
-                    if (!$_POST and !$_GET) {
+                    if (!$_POST and !$_REQUEST) {
                         //  $data = $this->app->url->segment(2);
                         $data = $this->app->url->params(true);
                         if (empty($data)) {
@@ -1891,8 +1895,8 @@ class Controller
 
         $ref_page = false;
 
-        if (isset($_GET['id'])) {
-            $ref_page = $this->app->content->get_by_id($_GET['id']);
+        if (isset($_REQUEST['id'])) {
+            $ref_page = $this->app->content->get_by_id($_REQUEST['id']);
         } else if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {

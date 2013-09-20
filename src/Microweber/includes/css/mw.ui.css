@@ -443,7 +443,7 @@
 
 .mw_modal{
   position: fixed;
-  z-index: 999;
+  z-index: 1001;
   top:0;
   left: 0;
   display: none;
@@ -547,7 +547,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 998;
+  z-index: 1000;
   width: 100%;
   height: 100%;
   background: black;
@@ -599,6 +599,30 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   position: relative;
   background: white;
   cursor: move;
+}
+
+.mw_modal_gallery .mw_modal_toolbar{
+  height: 0;
+}
+
+.mw_modal_gallery{
+  background: transparent
+}
+
+.mw_modal_gallery .mw_modal_close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url(../img/uiclose.png) no-repeat right top;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+.mw_modal_gallery .mw_modal_container{
+  padding: 0;
 }
 
 

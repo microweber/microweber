@@ -105,7 +105,7 @@ class Layouts
 
             $cache_group = 'templates';
 
-            $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
+            $cache_content = $this->app->cache->get($cache_id, $cache_group, 60);
 
             if (($cache_content) != false) {
 

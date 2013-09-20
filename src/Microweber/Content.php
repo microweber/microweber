@@ -387,7 +387,7 @@ class Content
 
         if (($cache_content) != false) {
 
-        return $cache_content;
+         return $cache_content;
         }
 
         $render_file = false;
@@ -414,7 +414,7 @@ if (is_file($render_file_temp)) {
 					
 					
 		 }
-   
+
         if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
 
 
@@ -437,6 +437,8 @@ if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
             }
         }
+
+
         if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
             $url_file = $this->app->url->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
@@ -449,7 +451,6 @@ if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp2;
             }
         }
-
 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
@@ -486,11 +487,11 @@ if (is_file($render_file_temp)) {
                     }
                 }
             }
-            //d($inherit_from);
+            //
         }
 
 
-        if ($render_file == false and isset($page['content_type']) and $page['content_type'] == 'post') {
+        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false) {
             $look_for_post = $page;
             if (isset($page['parent'])) {
 
