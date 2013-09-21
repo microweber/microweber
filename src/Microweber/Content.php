@@ -1472,7 +1472,7 @@ class Content
         if ($the_active_site_template == false) {
             $the_active_site_template = 'default';
         }
-        
+
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
 
             define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
