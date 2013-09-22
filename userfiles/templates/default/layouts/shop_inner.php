@@ -5,6 +5,8 @@
 type: layout
 content_type: product
 name: Product inner 
+is_default: true
+positon: 1
 description: shop layout
 
 */

@@ -4,7 +4,7 @@
 type: layout
 content_type: post, product, page
 name: Post inner
-
+positon: 2
 description: Post inner layout
 
 */

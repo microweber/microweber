@@ -192,11 +192,12 @@ class Module
                 $attrs2 = array();
                 foreach ($attrs as $attrs_k => $attrs_v) {
                     $attrs_k2 = substr($attrs_k, 0, 5);
-                    //d($attrs_k2);
-                    if (strtolower($attrs_k2) == 'data-') {
+                     if (strtolower($attrs_k2) == 'data-') {
                         $attrs_k21 = substr($attrs_k, 5);
                         $attrs2[$attrs_k21] = $attrs_v;
-                        //d($attrs_k21);
+                     }elseif(!isset($attrs['data-'.$attrs_k])){
+                        $attrs2['data-'.$attrs_k] = $attrs_v;
+
                     }
 
                     $attrs2[$attrs_k] = $attrs_v;
@@ -268,6 +269,7 @@ class Module
 
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
+            $l1->app = $this->app;
             if (!empty($config)) {
                 foreach ($config as $key1 => $value1) {
                     mw_var($key1, $value1);
