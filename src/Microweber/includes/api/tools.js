@@ -373,60 +373,58 @@ mw.tools = {
     }
   },
   gallery:{
-    preloadItems:function(parent, modal){
-        mw.$("img,iframe", parent).each(function(){
-           this.onload = function(){
-              mw.tools.gallery.normalizer(modal);
-           }
-        });
-    },
-    generateHTML:function(item){
+    generateHTML:function(item, callback){
         if(typeof item === 'string'){
-          return "<div class='mwf-gallery-modeHTML'>"+item+"</div>";
+          callback.call("<div class='mwf-gallery-modeHTML'>"+item+"</div>");
         }
         else if(typeof item === 'object' && item.constructor === {}.constructor){
           var img = item.img || item.image || item.url || item.src;
           var desc = item.description || item.title || item.name;
-          if(typeof desc != 'undefined' && desc != ''){
-            return "<div class='mwf-single-holder'><img src='"+img+"' class='mwf-single' /><div class='mwf-gallery-description'>"+desc+"</div></div>";
-          }
-          else{
-            return "<img src='"+img+"' class='mwf-single' />";
-          }
+          mw.image.preload(img, function(w,h){
+              if(typeof desc != 'undefined' && desc != ''){
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"' class='mwf-single' width='"+w+"' height='"+h+"'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>"+desc+"</div></div></div>");
+              }
+              else{
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  width='"+w+"' height='"+h+"' class='mwf-single' /></div>");
+              }
+          });
+
         }
         else if(typeof item === 'object' && typeof item.nodeType === 'number'){
           var e = mwd.createElement('div');
           e.appendChild(item.cloneNode());
           var html = e.innerHTML;
           var e = null;
-          return "<div class='mwf-gallery-modeHTML'>"+html+"</div>";
+          callback.call("<div class='mwf-gallery-modeHTML'>"+html+"</div>");
         }
     },
     next:function(modal){
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var next = typeof arr[curr+1] !== 'undefined' ? curr+1 : 0;
-      var html =  mw.tools.gallery.generateHTML(arr[next]);
-      galeryContainer.html(html);
-      modal.gallery.curr = next;
-      mw.tools.gallery.normalizer(modal);
-      mw.tools.gallery.preloadItems(galeryContainer[0],modal);
+      mw.tools.gallery.generateHTML(arr[next], function(){
+         galeryContainer.html(this);
+         modal.gallery.curr = next;
+         mw.tools.gallery.normalizer(modal);
+      });
+
     },
     prev:function(modal){
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var prev = typeof arr[curr+1] !== 'undefined' ? curr-1 : arr.length - 1;
-      var html =  mw.tools.gallery.generateHTML(arr[prev]);
-      galeryContainer.html(html);
-      modal.gallery.curr = prev;
-      mw.tools.gallery.normalizer(modal);
-      mw.tools.gallery.preloadItems(galeryContainer[0],modal);
+      mw.tools.gallery.generateHTML(arr[prev], function(){
+          galeryContainer.html(this);
+          modal.gallery.curr = prev;
+          mw.tools.gallery.normalizer(modal);
+      });
+
     },
     init:function(arr, start, modal){
         // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
         if(arr === null || arr === undefined){return false;}
         if(typeof arr.length !== 'number'){ return false; }
-        if(arr.length === 0){return false;}
+        if(arr.length === 0){ return false; }
         var start = start || 0;
 
         var ghtml = ''
@@ -453,33 +451,35 @@ mw.tools = {
             curr:start
         }
         var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
-        galeryContainer.html( mw.tools.gallery.generateHTML(arr[start]) )
-        mw.tools.gallery.preloadItems(galeryContainer[0],modal);
-        var next =  mw.$('.mwf-next', modal.container);
-        var prev =  mw.$('.mwf-prev', modal.container);
-        var f =  mw.$('.mwf-fullscreen', modal.main);
-        next.click(function(){
-            mw.tools.gallery.next(modal);
+
+        mw.tools.gallery.generateHTML(arr[start], function(){
+            galeryContainer.html(this)
+            var next =  mw.$('.mwf-next', modal.container);
+            var prev =  mw.$('.mwf-prev', modal.container);
+            var f =  mw.$('.mwf-fullscreen', modal.main);
+            next.click(function(){
+                mw.tools.gallery.next(modal);
+            });
+            prev.click(function(){
+               mw.tools.gallery.prev(modal);
+            });
+            f.click(function(){
+              mw.tools.toggleFullscreen(modal.main[0])
+            });
+            mw.tools.gallery.normalize(modal);
         });
-        prev.click(function(){
-           mw.tools.gallery.prev(modal);
-        });
-        f.click(function(){
-          mw.tools.toggleFullscreen(modal.main[0])
-        });
-        mw.tools.gallery.normalize(modal);
         return modal;
     },
     normalizer:function(modal){
-        var ht = mw.$(".mwf-gallery-modeHTML", modal.container);
-        var im = mw.$(".mwf-single", modal.container);
-        if(ht.length > 0){
-           ht.css("marginTop", $(window).height()/2 - ht.height()/2);
-        }
-        else if(im.length > 0){
-          d(im.height())
-            if(im.height() > 10){
-              im.css("marginTop", $(window).height()/2 - im.height()/2);
+        var img = modal.container.querySelector('.mwf-single');
+        var ww = $(window).width();
+        var wh = $(window).height();
+        if(img !== null ){
+            if((img.width > ww) || (img.height > wh) ){
+                img.style.width = 'auto';
+                img.style.height = 'auto';
+                img.style.maxHeight = wh-33 + 'px';
+                img.style.maxWidth = ww-33 + 'px';
             }
         }
     },
@@ -1858,10 +1858,11 @@ mw.tools = {
     var im = new Image();
     if(typeof c === 'function'){
       im.onload = function(){
-        c.call(u);
+        c.call(u, im);
       }
     }
     im.src = u;
+
   },
   copyEvents:function(from, to){
     if(typeof $._data(from, 'events') === 'undefined') { return false; }

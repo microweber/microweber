@@ -566,11 +566,16 @@ table[class*='mw-wysiwyg-table'] td{
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 20px;
+
   font-size: 13px;
   color: white;
   background: black;
   background: rgba(10, 0, 0, 0.8);
+}
+.mwf-gallery-description-holder{
+  padding: 20px;
+  max-height: 50px;
+  overflow: auto;
 }
 
 .mwf-gallery{
@@ -598,8 +603,8 @@ table[class*='mw-wysiwyg-table'] td{
    display: block;
    background: #333;
    margin: auto;
-   max-height: 90%;
-   max-width: 90%;
+   max-height: 100%;
+   max-width: 100%;
    min-height: 200px;
    min-width: 200px;
    width: auto;

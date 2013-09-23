@@ -387,7 +387,7 @@ class Content
 
         if (($cache_content) != false) {
 
-            //  return $cache_content;
+           return $cache_content;
         }
 
         $render_file = false;
@@ -713,12 +713,15 @@ class Content
 
         }
 
-        if (isset($page['custom_view']) and isset($render_file)) {
+        if ($render_file != false  and isset($page['custom_view'])) {
             $check_custom = dirname($render_file) . DS;
+            $check_custom_parent = dirname($render_file) . DS;
+
             $cv = trim($page['custom_view']);
             $cv = str_replace('..', '', $cv);
             $cv = str_ireplace('.php', '', $cv);
             $check_custom_f = $check_custom . $cv . '.php';
+
             if (is_file($check_custom_f)) {
                 $render_file = $check_custom_f;
             }
@@ -1342,7 +1345,7 @@ class Content
 //
         $page = false;
         if (is_array($content)) {
-            if (isset($content['id']) and $content['id'] != 0) {
+            if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
                 $content = $this->get_by_id($content['id']);
                 $page = $content;
 
@@ -1360,10 +1363,17 @@ class Content
 
         if (is_array($page)) {
             if (isset($page['content_type']) and $page['content_type'] == "post") {
+
+
+
+
+
+
+                if(isset($page['id']) and $page['id'] != 0){
                 $content = $page;
 
 
-                $current_categorys = get_categories_for_content($page['id']);
+                $current_categorys = $this->app->category->get_for_content($page['id']);
                 if (!empty($current_categorys)) {
                     $current_category = array_shift($current_categorys);
                     if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
@@ -1378,6 +1388,10 @@ class Content
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);
                 }
+
+                }
+
+
 
             } else {
                 $content = $page;
@@ -1472,7 +1486,10 @@ class Content
         }
 
 
-        if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
+        if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '') {
+
+            $the_active_site_template = $page['active_site_template'];
+        } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 
             $the_active_site_template = $page['active_site_template'];
         } else if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
@@ -1486,12 +1503,12 @@ class Content
         if ($the_active_site_template == false) {
             $the_active_site_template = 'default';
         }
-
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
 
             define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
         }
+
         $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {
@@ -3874,7 +3891,7 @@ class Content
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
                 //	 d($new_category);
-                $new_category = $this->app->categories->save($new_category);
+               // $new_category = $this->app->category->save($new_category);
 
 
             }
