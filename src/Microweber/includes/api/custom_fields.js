@@ -247,6 +247,12 @@ mw.custom_fields.del = function(id, toremove){
          window.parent.mw.reload_module('custom_fields');
 
        }
+	   
+	    if(typeof load_iframe_editor === 'function'){
+				load_iframe_editor();
+			}
+	   
+	   
 
          });
       });
@@ -269,6 +275,12 @@ mw.custom_fields.del = function(id, toremove){
             if(window.parent != undefined && window.parent.mw != undefined){
          window.parent.mw.reload_module('custom_fields');
        }
+	   
+	    if(typeof load_iframe_editor === 'function'){
+				load_iframe_editor();
+			}
+	   
+	   
                 });
             },
             containment: "parent"
@@ -297,8 +309,7 @@ __save = function(c){
                  if(typeof c === 'function'){
                    c.call()
                  }
-                  d($(".module-custom-fields-admin")[0])
-                 mw.tools.loading($(".module-custom-fields-admin")[0], false);
+                  mw.tools.loading($(".module-custom-fields-admin")[0], false);
 
                });
  
