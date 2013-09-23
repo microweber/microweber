@@ -26,9 +26,9 @@ mw.options = {
 
            //    mw.extend(el);
  				var orig_el = el;
-				var el = el;
+            	var el = el;
 
-				mw.extend(el);
+        		mw.extend(el);
 
 
 			  	var also_reload = el.attr('data-also-reload');

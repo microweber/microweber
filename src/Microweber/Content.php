@@ -1369,6 +1369,8 @@ class Content
                     if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                         define('CATEGORY_ID', $current_category['id']);
                     }
+
+
                 }
 
                 $page = $this->get_by_id($page['parent']);
@@ -1388,7 +1390,18 @@ class Content
                 define('ACTIVE_PAGE_ID', $page['id']);
             }
 
+
+            if (!defined('CATEGORY_ID')) {
+                //define('CATEGORY_ID', $current_category['id']);
+            }
+
             if (defined('CATEGORY_ID') == false) {
+                $cat_url = $this->app->url->param('category', $skip_ajax = true);
+                if($cat_url != false){
+                define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+            if (!defined('CATEGORY_ID')) {
                 define('CATEGORY_ID', false);
             }
 

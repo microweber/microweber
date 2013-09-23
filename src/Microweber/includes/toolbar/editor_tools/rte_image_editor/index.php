@@ -12,14 +12,14 @@
 
 <?php
 
-if(in_array('types', $_GET)){
+if(array_key_exists('types', $_GET)){
     $types =  explode(',', $_GET['types']);
 }
 else{
    $types = array('files','images','videos');
 }
 
-d( $_GET['types'])
+
 
 ?>
 <script type="text/javascript">

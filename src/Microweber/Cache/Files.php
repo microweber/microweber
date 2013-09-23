@@ -27,6 +27,7 @@ class Files
 
     public $mw_cache_saved_files = array();
     public $mw_cache_deleted_groups = array();
+    public $mw_cache_deleted_items = array();
     public $mw_cache_mem = array();
     public $mw_cache_mem_hits = array();
     public $apc = false;
@@ -790,10 +791,10 @@ class Files
             // and scan through the items inside
             while (FALSE !== ($item = readdir($handle))) {
 
-                if (!in_array($item, $this->mw_cache_deleted_groups)) {
+                if (!in_array($item, $this->mw_cache_deleted_items)) {
 
 
-                    $this->mw_cache_deleted_groups[] = $item;
+                    $this->mw_cache_deleted_items[] = $item;
                     // if the filepointer is not the current directory
                     // or the parent directory
                     if ($item != '.' && $item != '..') {

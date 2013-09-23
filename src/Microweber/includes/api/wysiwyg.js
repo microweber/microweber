@@ -865,9 +865,12 @@ mw.wysiwyg = {
     image_link:function(url){
         $("img.element-current").wrap("<a href='" + url + "'></a>");
     },
-    request_media:function(hash){
+    request_media:function(hash, types){
+        var types = types || false;
+        if( hash == '#editimage' ) { var types = 'images'; }
+        var url = !!types?"rte_image_editor?types="+types+''+hash:"rte_image_editor"+hash;
         mw.tools.modal.frame({
-          url:"rte_image_editor?types=images,videos"+hash,
+          url:url,
           //title:"Upload Picture",
           name:"mw_rte_image",
           width:430,

@@ -6,7 +6,7 @@ class Category
 {
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
         if (!defined("MW_DB_TABLE_TAXONOMY")) {
             define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
@@ -399,22 +399,27 @@ class Category
         $function_cache_id = false;
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id . serialize($params));
-
+        if (defined(PAGE_ID)) {
+            $function_cache_id .= PAGE_ID;
+        }
+        if (defined(CATEGORY_ID)) {
+            $function_cache_id .= CATEGORY_ID;
+        }
         $cache_group = 'categories/global';
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-        //  $cache_content = false;
+       // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+           $cache_content = false;
 
 
         //if (!isset($_GET['debug'])) {
-        if (($cache_content) != false) {
-            print $cache_content;
-            return;
-        }
+//        if (($cache_content) != false) {
+//            print $cache_content;
+//            return;
+//        }
 
         $link = isset($params['link']) ? $params['link'] : false;
 
         if ($link == false) {
-            $link = "<a href='{categories_url}' data-category-id='{id}'  class='{active_code} {nest_level}'  >{title}</a>";
+            $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'  >{title}</a>";
         }
         $link = str_replace('data-page-id', 'data-category-id', $link);
 
@@ -589,7 +594,7 @@ class Category
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
 
-        $this->app->cache->save($content, $function_cache_id, $cache_group);
+       // $this->app->cache->save($content, $function_cache_id, $cache_group);
         //}
         ob_end_clean();
         print $content;
@@ -764,12 +769,20 @@ class Category
                 if (trim($list_tag) != '') {
                     if ($ul_class_name == false) {
 
-                        $print1 = "<{$list_tag}  class='category_tree depth-{$depth_level_counter}'>";
+                        $print1 = "<{$list_tag}  class='{active_class} category_tree depth-{$depth_level_counter}'>";
                     } else {
 
-                        $print1 = "<{$list_tag} class='$ul_class_name depth-{$depth_level_counter}'>";
+                        $print1 = "<{$list_tag} class='{active_class} $ul_class_name depth-{$depth_level_counter}'>";
                     }
                 }
+
+
+                if (intval($parent) != 0 and intval($parent) == intval(CATEGORY_ID)) {
+                    $print1 = str_replace('{active_class}', 'active', $print1);
+
+                }
+
+
                 print $print1;
                 // print($type);
                 foreach ($result as $item) {
@@ -802,11 +815,19 @@ class Category
 
                         if ($li_class_name == false) {
 
-                            $output = "<{$list_item_tag} class='category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag}>";
+                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag}>";
                         } else {
 
-                            $output = "<{$list_item_tag} class='$li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag}  >";
+                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag}  >";
                         }
+                    }
+
+                    if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
+                        $output = str_replace('{active_class}', 'active', $output);
+
+                    } else {
+                        $output = str_replace('{active_class}', '', $output);
+
                     }
 
                     if ($do_not_show == false) {
@@ -881,7 +902,6 @@ class Category
                                     $to_print = str_replace('{active_code_tag}', $active_code_tag, $to_print);
                                     $output = str_replace('{active_code_tag}', $active_code_tag, $output);
 
-                                    //d($output);
 
                                 } else {
 
@@ -1188,10 +1208,10 @@ class Category
 
             //  d($get_category2 );
         }
-if(is_array($get_category)){
-	    array_unique($get_category);
-}
-    
+        if (is_array($get_category)) {
+            array_unique($get_category);
+        }
+
         if (empty($get_category)) {
             return false;
         }
@@ -1253,8 +1273,8 @@ if(is_array($get_category)){
     }
 
 
-
-    public function save($data, $preserve_cache = false) {
+    public function save($data, $preserve_cache = false)
+    {
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
@@ -1317,12 +1337,12 @@ if(is_array($get_category)){
 
         $id = $save;
 
-        $clean = " update $custom_field_table set
+        $clean = " UPDATE $custom_field_table SET
 	rel =\"categories\"
 	, rel_id =\"{$id}\"
-	where
+	WHERE
 	session_id =\"{$sid}\"
-	and (rel_id=0 or rel_id IS NULL) and rel =\"categories\"
+	AND (rel_id=0 OR rel_id IS NULL) AND rel =\"categories\"
 
 	";
 
@@ -1330,14 +1350,14 @@ if(is_array($get_category)){
         $this->app->db->q($clean);
         $this->app->cache->clear('custom_fields');
 
-        $media_table =  MW_TABLE_PREFIX . 'media';
+        $media_table = MW_TABLE_PREFIX . 'media';
 
-        $clean = " update $media_table set
+        $clean = " UPDATE $media_table SET
 
 	rel_id =\"{$id}\"
-	where
+	WHERE
 	session_id =\"{$sid}\"
-	and rel =\"categories\" and (rel_id=0 or rel_id IS NULL)
+	AND rel =\"categories\" AND (rel_id=0 OR rel_id IS NULL)
 
 	";
 
@@ -1345,8 +1365,6 @@ if(is_array($get_category)){
         $this->app->cache->clear('media');
 
         $this->app->db->q($clean);
-
-
 
 
         if (isset($content_ids) and !empty($content_ids)) {
@@ -1359,10 +1377,10 @@ if(is_array($get_category)){
 
             $content_ids_all = implode(',', $content_ids);
 
-            $q = "delete from $table where rel='content'
-		and content_type='post'
-		and parent_id=$save
-		and  data_type ='{$data_type}' ";
+            $q = "DELETE FROM $table WHERE rel='content'
+		AND content_type='post'
+		AND parent_id=$save
+		AND  data_type ='{$data_type}' ";
 
             // p($q,1);
 
@@ -1389,13 +1407,6 @@ if(is_array($get_category)){
         }
 
 
-
-
-
-
-
-
-
         if ($preserve_cache == false) {
 
             $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
@@ -1406,11 +1417,12 @@ if(is_array($get_category)){
         return $save;
     }
 
-    public function delete($data) {
+    public function delete($data)
+    {
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {
@@ -1428,13 +1440,12 @@ if(is_array($get_category)){
     }
 
 
-
-
-    public function reorder($data) {
+    public function reorder($data)
+    {
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = MW_TABLE_PREFIX . 'categories';

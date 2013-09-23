@@ -611,14 +611,23 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 
 .mw_modal_gallery .mw_modal_close{
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     display: block;
-    width: 12px;
-    height: 12px;
-    background: url(../img/uiclose.png) no-repeat right top;
+    width: 20px;
+    height: 20px;
+    background: white url(../img/galleryclose.png) no-repeat right top;
     text-indent: -9999px;
     overflow: hidden;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px #000;
+}
+.mw_modal_gallery .mw_modal_close:hover{
+  background-color:#CCCCCC;
+}
+
+.mw_modal_gallery .mw_modal_close:active{
+  box-shadow: inset 0px 0px 3px #707070;
 }
 
 .mw_modal_gallery .mw_modal_container{

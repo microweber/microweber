@@ -438,6 +438,7 @@ mw.tools = {
           overlay:true,
           template:'mw_modal_gallery'
         });
+        modal.overlay.style.opacity = 0.8;
         modal.container.innerHTML = ghtml;
         modal.gallery = {
             array:arr,
@@ -2192,7 +2193,7 @@ __mwextend = function(el){
               }
               else {return false};
           }
-          el.attr = function(name, value){
+          el.attr = el.attr || function(name, value){
             if(value===undefined){
               return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
             }
@@ -2201,11 +2202,11 @@ __mwextend = function(el){
               return el;
             }
           }
-          el.addClass = function(cls){
-            return mw.tools.addClass(el, cls)
+          el.addClass = el.addClass || function(cls){
+            return mw.tools.addClass(el, cls);
           }
-          el.removeClass = function(cls){
-            return mw.tools.removeClass(el, cls)
+          el.removeClass = el.removeClass || function(cls){
+            return mw.tools.removeClass(el, cls);
           }
       }
     return el;
