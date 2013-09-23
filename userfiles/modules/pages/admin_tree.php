@@ -43,8 +43,11 @@ if (isset($params['data-parent'])) {
 
 	 }
 }
+ 	if(!isset($params['parent'])){
+	//	$params['parent'] = 0;
+	}
 $include_categories = false;
-if (isset($params['data-include_categories'])) {
+if (isset($params['data-include_categories']) and isset($params['parent'])) {
      $params['include_categories'] = intval($params['parent']);
 } else {
 

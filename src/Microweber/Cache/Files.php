@@ -765,6 +765,8 @@ class Files
 
     private function _rmdirs($directory, $empty = true)
     {
+
+
         // if the path has a slash at the end we remove it here
         if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
             $directory = substr($directory, 0, -1);
@@ -787,27 +789,35 @@ class Files
 
             // and scan through the items inside
             while (FALSE !== ($item = readdir($handle))) {
-                // if the filepointer is not the current directory
-                // or the parent directory
-                if ($item != '.' && $item != '..') {
-                    // we build the new path to delete
-                    $path = $directory . DIRECTORY_SEPARATOR . $item;
 
-                    // if the new path is a directory
-                    if (is_dir($path)) {
-                        // we call this function with the new path
-                        $this->_rmdirs($path, $empty);
-                        // if the new path is a file
-                    } else {
-                        //   $path = normalize_path($path, false);
-                        try {
-                            if (is_file($path)) {
-                                @unlink($path);
+                if (!in_array($item, $this->mw_cache_deleted_groups)) {
+
+
+                    $this->mw_cache_deleted_groups[] = $item;
+                    // if the filepointer is not the current directory
+                    // or the parent directory
+                    if ($item != '.' && $item != '..') {
+                        // we build the new path to delete
+                        $path = $directory . DIRECTORY_SEPARATOR . $item;
+
+                        // if the new path is a directory
+                        if (is_dir($path)) {
+                            // we call this function with the new path
+                            $this->_rmdirs($path, $empty);
+                            // if the new path is a file
+                        } else {
+                            //   $path = normalize_path($path, false);
+                            try {
+                                if (is_file($path)) {
+                                    @unlink($path);
+                                }
+                            } catch (Exception $e) {
                             }
-                        } catch (Exception $e) {
                         }
                     }
                 }
+
+
             }
 
             // close the directory

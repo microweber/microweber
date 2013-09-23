@@ -867,7 +867,7 @@ mw.wysiwyg = {
     },
     request_media:function(hash){
         mw.tools.modal.frame({
-          url:"rte_image_editor"+hash,
+          url:"rte_image_editor?types=images,videos"+hash,
           //title:"Upload Picture",
           name:"mw_rte_image",
           width:430,

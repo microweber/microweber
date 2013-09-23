@@ -8,10 +8,20 @@
      mw.require("files.js");
      mw.require("tools.js");
      mw.require("url.js");
-
-
-
 </script>
+
+<?php
+
+if(in_array('types', $_GET)){
+    $types =  explode(',', $_GET['types']);
+}
+else{
+   $types = array('files','images','videos');
+}
+
+d( $_GET['types'])
+
+?>
 <script type="text/javascript">
 
     var hash = window.location.hash;
@@ -429,18 +439,21 @@ mw.embed = {
 
 
         <ul class="mw-upload-filetypes" id="">
+            <?php  if(in_array('images', $types)){  ?>
             <li class="mw-upload-filetype-image" data-type="images">
                 <div class="mw-upload-frame"></div>
                 <span><?php _e("Image"); ?></span>
             </li>
+            <?php }  if(in_array('videos', $types)){  ?>
             <li class="mw-upload-filetype-video" data-type="videos">
                 <div class="mw-upload-frame"></div>
                 <span><?php _e("Video"); ?></span></li>
+            <?php } if(in_array('files', $types)){  ?>
             <li class="mw-upload-filetype-file" data-type="files">
                 <div class="mw-upload-frame"></div>
                 <span><?php _e("Files"); ?></span>
             </li>
-
+            <?php } ?>
 
         </ul>
 
