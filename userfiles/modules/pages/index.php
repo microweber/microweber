@@ -58,8 +58,10 @@ if (isset($params['data-include_categories'])) {
 	 if($o != false and intval($o) >0){
 		 $params['maxdepth'] =  $o;
 	 }
-
-
+	 
+	 if(isset($params['parent']) and $params['parent']  != 0){
+$params['include_first'] =  true;
+	 }
  //
 	 if(is_admin() == false){
 	  $params['is_active'] = 'y';

@@ -302,7 +302,7 @@ mw.tools = {
     },
 
     remove:function(id){
-        if(typeof id == 'object') var id = $(id)[0].id;
+        if(typeof id === 'object') var id = $(id)[0].id;
         $(document.getElementById(id)).remove();
         //$("div.mw_overlay[rel='"+id+"']").remove();
         $("div.mw_overlay").remove();
@@ -373,6 +373,13 @@ mw.tools = {
     }
   },
   gallery:{
+    preloadItems:function(parent, modal){
+        mw.$("img,iframe", parent).each(function(){
+           this.onload = function(){
+              mw.tools.gallery.normalizer(modal);
+           }
+        });
+    },
     generateHTML:function(item){
         if(typeof item === 'string'){
           return "<div class='mwf-gallery-modeHTML'>"+item+"</div>";
@@ -397,23 +404,23 @@ mw.tools = {
     },
     next:function(modal){
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
-      galeryContainer.empty();
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var next = typeof arr[curr+1] !== 'undefined' ? curr+1 : 0;
       var html =  mw.tools.gallery.generateHTML(arr[next]);
       galeryContainer.html(html);
       modal.gallery.curr = next;
       mw.tools.gallery.normalizer(modal);
+      mw.tools.gallery.preloadItems(galeryContainer[0],modal);
     },
     prev:function(modal){
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
-      galeryContainer.empty();
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var prev = typeof arr[curr+1] !== 'undefined' ? curr-1 : arr.length - 1;
       var html =  mw.tools.gallery.generateHTML(arr[prev]);
       galeryContainer.html(html);
       modal.gallery.curr = prev;
       mw.tools.gallery.normalizer(modal);
+      mw.tools.gallery.preloadItems(galeryContainer[0],modal);
     },
     init:function(arr, start, modal){
         // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
@@ -446,9 +453,10 @@ mw.tools = {
         }
         var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
         galeryContainer.html( mw.tools.gallery.generateHTML(arr[start]) )
+        mw.tools.gallery.preloadItems(galeryContainer[0],modal);
         var next =  mw.$('.mwf-next', modal.container);
         var prev =  mw.$('.mwf-prev', modal.container);
-        var f =  mw.$('.mwf-fullscreen', modal.container);
+        var f =  mw.$('.mwf-fullscreen', modal.main);
         next.click(function(){
             mw.tools.gallery.next(modal);
         });
@@ -456,7 +464,7 @@ mw.tools = {
            mw.tools.gallery.prev(modal);
         });
         f.click(function(){
-          mw.tools.fullscreen(modal.main)
+          mw.tools.toggleFullscreen(modal.main[0])
         });
         mw.tools.gallery.normalize(modal);
         return modal;
@@ -468,7 +476,10 @@ mw.tools = {
            ht.css("marginTop", $(window).height()/2 - ht.height()/2);
         }
         else if(im.length > 0){
-            im.css("marginTop", $(window).height()/2 - im.height()/2);
+          d(im.height())
+            if(im.height() > 10){
+              im.css("marginTop", $(window).height()/2 - im.height()/2);
+            }
         }
     },
     normalize:function(modal){
@@ -1448,11 +1459,36 @@ mw.tools = {
     });
   },
   fullscreen:function(el){
-      if (el.webkitRequestFullScreen) {
+
+      if (el.requestFullScreen) {
+        el.requestFullScreen();
+      }
+      else if (el.webkitRequestFullScreen) {
         el.webkitRequestFullScreen();
-      } else if(el.mozRequestFullScreen){
+      }
+      else if(el.mozRequestFullScreen){
         el.mozRequestFullScreen();
       }
+      $(el).addClass("fullscreen-mode");
+  },
+  cancelFullscreen:function(el){
+    if(mwd.cancelFullScreen) {
+    mwd.cancelFullScreen();
+    } else if(mwd.mozCancelFullScreen) {
+      mwd.mozCancelFullScreen();
+    } else if(mwd.webkitCancelFullScreen) {
+      mwd.webkitCancelFullScreen();
+    }
+    mw.$(".fullscreen-mode").removeClass("fullscreen-mode");
+  },
+  toggleFullscreen:function(el){
+    var fullscreenEnabled = mwd.fullscreenEnabled || mwd.mozFullScreenEnabled || mwd.webkitFullscreenEnabled;
+    if(fullscreenEnabled){
+        mw.tools.cancelFullscreen()
+    }
+    else{
+       mw.tools.fullscreen(el)
+    }
   },
   get_filename:function(s) {
     if(s.contains('.')){
@@ -2028,8 +2064,29 @@ mw.recommend = {
     }
     var tostring = JSON.stringify(json);
     mw.cookie.set("recommend", tostring, false, "/");
+  },
+  orderRecommendObject:function(){
+    var obj = mw.recommend.get();
+    if(!mw.tools.isEmptyObject(obj)){
+      var arr = [];
+      for (var x in obj){
+           arr.push(x)
+           arr.sort(function(a, b) {return a[1] - b[1]})
+      }
+      return arr;
+    }
+  },
+  set:function(){
+    var arr = mw.recommend.orderRecommendObject(), l=arr.length, i=0;
+    for( ; i<l;i++){
+        var m = mw.$('#tab_modules .module-item[data-module-name="'+arr[i]+'"]')[0];
+        if(m !== null && typeof m !== 'undefined'){
+            mw.$('#tab_modules ul').prepend(m);
+        }
+    }
   }
 }
+
 
 String.prototype._exec = function(a,b,c){
 
@@ -2167,7 +2224,7 @@ mw.walker = function(context, callback){   //todo
     callback.call(walker.currentNode);
   }
 }
-Array.prototype.remove = function(what){
+Array.prototype.remove = Array.prototype.remove || function(what){
   var i=0, l=this.length;
   for( ; i<l; i++){
     this[i] === what ? this.splice(i, 1) : '';
@@ -2674,6 +2731,15 @@ $(window).resize(function() {
   $.noop();
  _mwoldww = $(window).width();
 });
+
+
+$(mwd.body).bind("keyup", function(e){
+  if(e.keyCode === 27){
+
+    mw.tools.modal.remove(mw.$(".mw_modal_gallery"))
+    mw.tools.cancelFullscreen()
+  }
+})
 
 
 

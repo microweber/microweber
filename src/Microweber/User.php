@@ -225,6 +225,15 @@ class User
                 $user_session['is_logged'] = 'no';
                 $this->session_set('user_session', $user_session);
 
+                $aj = $this->app->url->is_ajax();
+
+                if ($aj == false and $api_key == false) {
+                    if ($redirect_after != false) {
+                        $this->app->url->redirect($redirect_after);
+                        exit();
+                    }
+                }
+
                 return array('error' => 'Please enter the right username and password!');
 
             } else {

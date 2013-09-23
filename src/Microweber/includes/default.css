@@ -593,30 +593,47 @@ table[class*='mw-wysiwyg-table'] td{
 }
 
 
-.mwf-next,
-.mwf-prev{
+.mw_modal_gallery .mwf-next,
+.mw_modal_gallery .mwf-prev{
   font-size: 40px;
   color: #ccc;
-  color: rgba(204, 204, 204, 0.8);
-  text-shadow: 0 0 3px #ccc;
+  text-shadow: 0 0 3px #3B3B3B;
   position: absolute;
   top: 50%;
   margin-top: -22px;
   right:20px;
   cursor: pointer;
 }
-.mwf-prev{
+.mw_modal_gallery .mwf-prev{
   left: 20px;
   right: auto;
 }
 .mwf-gallery-container{
-  overflow: auto;
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
+.mwf-fullscreen{
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  text-indent: -9999px;
+  position: absolute;
+  background: white url(img/enter_fullscreen.png) no-repeat;
+  box-shadow: 1px 1px 2px #000;
+  top: 20px;
+  right: 41px;
+  cursor: pointer;
+}
+
+.mode-fullscreen .mwf-fullscreen{
+  background: white url(img/cancel_fullscreen.png) no-repeat;
+}
+
 
 
 

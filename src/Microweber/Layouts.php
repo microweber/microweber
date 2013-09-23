@@ -206,6 +206,19 @@ class Layouts
                                 $to_return_temp['name'] = trim($result);
                             }
 
+                            if (preg_match('/is_default:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('is_default:', '', $result);
+                                $to_return_temp['is_default'] = trim($result);
+                            }
+
+                            if (preg_match('/position:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('position:', '', $result);
+                                $to_return_temp['position'] = intval($result);
+                            } else {
+                                $to_return_temp['position'] = 99999;
+                            }
 
                             if (preg_match('/version:.+/', $fin, $regs)) {
                                 $result = $regs[0];
@@ -288,6 +301,38 @@ class Layouts
             }
 
             if (!empty($configs)) {
+
+
+                $sorted_by_pos = array();
+                $sorted_by_pos_items = array();
+                $pos =9999;
+                foreach($configs as $item){
+
+                    if(isset($item['position'])){
+                        $sorted_by_pos_items[$item['position']][] = $item;
+                    } else {
+                        $sorted_by_pos[$pos] = $item;
+                    }
+                    $pos++;
+                }
+
+                if (!empty($sorted_by_pos_items)) {
+                    ksort($sorted_by_pos_items);
+                    foreach($sorted_by_pos_items as $configs){
+                        $pos =0;
+                        foreach($configs as $item){
+                            $sorted_by_pos[] = $item;
+                            $pos++;
+                        }
+                    }
+
+                }
+                if (!empty($sorted_by_pos)) {
+                $configs = $sorted_by_pos;
+                }
+
+
+
                 if (!isset($options['no_cache'])) {
                     $this->app->cache->save($configs, $function_cache_id, $cache_group, 'files');
                 }
