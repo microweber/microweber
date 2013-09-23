@@ -21,7 +21,7 @@ description: Page with right sidebar
   <div class="container">
     <div class="row-fluid">
       <div class="span7">
-        <div class="edit"  field="content" rel="page">
+        <div class="edit"  field="content" rel="content">
           <h2>New page</h2>
           <p>You can edit this text</p>
         </div>

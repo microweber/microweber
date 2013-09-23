@@ -33,7 +33,7 @@ description: Masonry
 
         if(typeof mw._masons_binded === 'undefined'){
             mw._masons_binded = true;
-            mw.onLive(function(){
+           // mw.onLive(function(){
                setInterval(function(){
                  var l = mw._masons.length, i=0;
                  for( ; i<l; i++){
@@ -46,7 +46,7 @@ description: Masonry
                    }
                  }
                }, 500);
-            });
+            //});
         }
     });
 </script>
@@ -77,8 +77,7 @@ description: Masonry
 
 
 
- gallery<?php print $rand; ?>.push('<iframe width="560" height="315" src="//www.youtube.com/embed/AI0gk2KJeho" frameborder="0" allowfullscreen></iframe>');
-    $(".edit").each(function(){
+    $(".masonry-item-description").each(function(){
       gallery<?php print $rand; ?>.push(this);
     });
 </script>

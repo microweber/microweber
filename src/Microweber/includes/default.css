@@ -574,7 +574,7 @@ table[class*='mw-wysiwyg-table'] td{
 }
 .mwf-gallery-description-holder{
   padding: 20px;
-  max-height: 50px;
+  max-height: 75px;
   overflow: auto;
 }
 
@@ -584,12 +584,13 @@ table[class*='mw-wysiwyg-table'] td{
   text-align: center;
 }
 
-.mwf-gallery-modeHTML{
+.mw_modal_gallery .mwf-gallery-modeHTML{
   display: inline-block;
   box-shadow: 0 0 6px #111;
-  position: relative;
+  position: absolute;
   overflow: auto;
   background: #111;
+  color: white;
 }
 .mwf-single-holder{
   position: absolute;
@@ -609,6 +610,11 @@ table[class*='mw-wysiwyg-table'] td{
    min-width: 200px;
    width: auto;
    height: auto;
+}
+.semi_hidden{
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
 }
 
 

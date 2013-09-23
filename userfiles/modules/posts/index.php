@@ -293,8 +293,8 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
 	unset($post_params['subtype']);
  	
 }
-  //$post_params['debug'] = 'y';
-//  d($post_params);
+  
+  // d($post_params);
 
 
 if(isset($params['search-parent'])){
@@ -304,10 +304,11 @@ if(isset($params['search-parent'])){
 	  unset($post_params['parent']);
   }
 }
-
-
-
-
+ if(isset($params['data-id'])){
+	 unset($post_params['data-id']);
+ }
+ 
+ 
 $content   = get_content($post_params);
 $data = array();
 

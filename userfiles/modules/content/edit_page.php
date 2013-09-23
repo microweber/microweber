@@ -203,19 +203,23 @@ if(isset($params['is_shop']) and  $params['is_shop'] == 'y'){
 $ctlayouts = $data['content_type'];
 		  if(isset($params["data-subtype"]) and $params["data-subtype"] != $data['content_type']){
      $ctlayouts = $params["data-subtype"];
- 			 }
+	    $layout_from_parent = " inherit-from='".$data['id']."' content-type='".$ctlayouts."' ";
 
-   $layout_from_parent = " inherit-from='".$data['id']."' content-type='".$ctlayouts."' ";
+ 			 } else if(isset($data["content_type"]) and $data["content_type"]=='post' and isset($data["subtype"]) and $data["subtype"] != $data['content_type']){
+				      $ctlayouts = $data["subtype"];
+					   $layout_from_parent = " content-id='".$data['id']."'  ";
+					   if($ctlayouts != 'page' and $ctlayouts != 'static' and $ctlayouts != 'static'){
+						   $layout_from_parent .= " content-type='".$ctlayouts."'  ";
+					   }
+
+			 }
+
 
    }
    
    
    
-   
-   
-   
-   
-   
+ 
    
    
    
@@ -519,7 +523,9 @@ function mw_on_save_complete<?php print $rand; ?>(){
  mw.tools.enable(mwd.querySelector(".go-live"));
   mw.askusertostay = false;
 mw.is_saving_content = 0;
-
+if(typeof load_iframe_editor === 'function'){
+				load_iframe_editor();
+			}
 }
 
 
@@ -577,6 +583,11 @@ function mw_before_content_save<?php print $rand; ?>(){
 window.parent.mw.askusertostay=false;
 
  }
+ 
+ 
+   
+ 
+ 
   mw.reload_module('[data-type="pages"]',  function(){
 
 

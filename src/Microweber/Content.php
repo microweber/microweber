@@ -387,7 +387,7 @@ class Content
 
         if (($cache_content) != false) {
 
-           return $cache_content;
+          // return $cache_content;
         }
 
         $render_file = false;
@@ -760,6 +760,11 @@ class Content
      */
     public function get_by_id($id)
     {
+
+        if ($id == false) {
+            return false;
+        }
+
         global $mw_global_content_memory;
         if (!is_array($mw_global_content_memory)) {
             $mw_global_content_memory = array();
@@ -1485,10 +1490,9 @@ class Content
             define('MAIN_PAGE_ID', false);
         }
 
+        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit') {
 
-        if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '') {
-
-            $the_active_site_template = $page['active_site_template'];
+            $the_active_site_template = $content['active_site_template'];
         } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 
             $the_active_site_template = $page['active_site_template'];
@@ -1503,6 +1507,7 @@ class Content
         if ($the_active_site_template == false) {
             $the_active_site_template = 'default';
         }
+
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
 
             define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
@@ -3690,6 +3695,15 @@ class Content
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
             $sql = "UPDATE $table SET is_home='n'   ";
             $q = $this->app->db->query($sql);
+        }
+
+        if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
+            if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'static') {
+                $data_to_save['subtype'] = 'post';
+            } else if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
+                $data_to_save['subtype'] = 'post';
+
+            }
         }
 
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
