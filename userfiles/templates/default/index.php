@@ -5,6 +5,7 @@
   type: layout
   content_type: dynamic
   name: Home
+  position: 1
   description: Home layout
 
 */

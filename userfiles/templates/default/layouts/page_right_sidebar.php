@@ -4,8 +4,9 @@
 
 type: layout
 content_type: static
-name: Right sidebar
-
+name: Page with sidebar
+position: 1
+is_default: true
 description: Page with right sidebar
 
 */

@@ -210,6 +210,12 @@ mw.custom_fields.save = function(id, callback){
 				 window.parent.mw.reload_module('custom_fields');
 
 			 }
+			 
+			 
+			 
+			  if(typeof load_iframe_editor === 'function'){
+				load_iframe_editor();
+			}
 
 
     	mw.reload_module('custom_fields/list', function(){

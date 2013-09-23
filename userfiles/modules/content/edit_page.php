@@ -55,7 +55,8 @@ $active_site_template = '';
 $layout_file = '';
 $layout_from_parent = '';
 if(!isset($edit_post_mode) and $data == false or empty($data ) ){
-$layout_from_parent = ' layout_file="layouts/clean.php" ';
+//$layout_from_parent = ' layout_file="layouts/clean.php" ';
+ 
 }
 if($data == false or empty($data )){
   include('_empty_content_data.php');

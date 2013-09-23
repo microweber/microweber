@@ -1374,6 +1374,7 @@ class Content
                 }
 
                 $page = $this->get_by_id($page['parent']);
+
                 if (defined('POST_ID') == false) {
                     define('POST_ID', $content['id']);
                 }

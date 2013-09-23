@@ -63,13 +63,14 @@ if(get_option('data-use-from-post', $params['id']) =='y'){
 }
  
 if(isset($params['content-id'])){
-	$params['rel_id'] = $params['content-id']; 
+	$params['rel_id'] = intval($params['content-id']); 
 	 $for = 'content';
 }
-
+if($params['rel_id'] == false){
+$params['rel_id'] = 0;	
+}
 $for_id = $params['rel_id'];
-      
-  
+    
  if(isset($params['rel_id']) == true): ?>
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
   

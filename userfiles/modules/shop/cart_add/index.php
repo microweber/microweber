@@ -51,12 +51,12 @@ if($module_template != false and $module_template != 'none'){
 	$for_id =  CONTENT_ID;
 	 
  }
-
+ 
 ?>
-<?php if($for_id != false): ?>
+<?php if($for_id !== false): ?>
 
 <div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>">
-  <module type="custom_fields" data-content-id="<?php print $for_id ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
+  <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
   <?php $data = mw('fields')->get("field_type=price&for={$for}&for_id=".$for_id."");
 
 

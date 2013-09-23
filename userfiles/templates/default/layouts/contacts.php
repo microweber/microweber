@@ -7,7 +7,7 @@ content_type: static
 name: Contact Us
 
 description: Contact us layout
-
+position: 4
 */
 
 

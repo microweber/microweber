@@ -7,7 +7,7 @@ content_type: static
 name: About us
 
 description: About us layout
-
+position: 3
 */
 
 

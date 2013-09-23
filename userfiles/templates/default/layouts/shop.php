@@ -7,7 +7,7 @@ content_type: dynamic
 name: Shop
 is_shop: y
 description: shop layout
-
+position: 3
 */
 
 

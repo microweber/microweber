@@ -3,8 +3,8 @@
 
 type: layout
 content_type: post, product, page
-name: Post inner
-position: 2
+name: Blog post
+position: 4
 description: Post inner layout
 
 */

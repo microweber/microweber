@@ -5,7 +5,7 @@
 type: layout
 content_type: dynamic
 name: Blog
-
+position: 3
 description: Blog
 
 */

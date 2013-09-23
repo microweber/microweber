@@ -388,7 +388,7 @@ mw.tools = {
           var img = item.img || item.image || item.url || item.src;
           var desc = item.description || item.title || item.name;
           if(typeof desc != 'undefined' && desc != ''){
-            return "<img src='"+img+"' class='mwf-single' /><div class='mwf-gallery-description'>"+desc+"</div>";
+            return "<div class='mwf-single-holder'><img src='"+img+"' class='mwf-single' /><div class='mwf-gallery-description'>"+desc+"</div></div>";
           }
           else{
             return "<img src='"+img+"' class='mwf-single' />";
@@ -428,13 +428,14 @@ mw.tools = {
         if(typeof arr.length !== 'number'){ return false; }
         if(arr.length === 0){return false;}
         var start = start || 0;
+
         var ghtml = ''
         +'<div class="mwf-gallery">'
             +'<div class="mwf-gallery-container">'
             +'</div>'
              +'<span class="mwf-next">&raquo;</span>'
              +'<span class="mwf-prev">&laquo;</span>'
-             +'<span class="mwf-fullscreen">Fullscreen</span>'
+            + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen">Fullscreen</span>' : '')
         +'</div>';
 
         var modal = modal || mw.tools.modal.init({
@@ -1459,7 +1460,6 @@ mw.tools = {
     });
   },
   fullscreen:function(el){
-
       if (el.requestFullScreen) {
         el.requestFullScreen();
       }
@@ -1471,20 +1471,28 @@ mw.tools = {
       }
       $(el).addClass("fullscreen-mode");
   },
-  cancelFullscreen:function(el){
+  isFullscreenAvailable:function(){
+    var b = mwd.body;
+    return 'requestFullScreen' in b || 'webkitRequestFullScreen' in b || 'mozRequestFullScreen' in b || false;
+  },
+  cancelFullscreen:function(){
+
     if(mwd.cancelFullScreen) {
-    mwd.cancelFullScreen();
-    } else if(mwd.mozCancelFullScreen) {
-      mwd.mozCancelFullScreen();
-    } else if(mwd.webkitCancelFullScreen) {
-      mwd.webkitCancelFullScreen();
+        mwd.cancelFullScreen();
+    }
+    else if(mwd.mozCancelFullScreen) {
+        mwd.mozCancelFullScreen();
+    }
+    else if(mwd.webkitCancelFullScreen) {
+        mwd.webkitCancelFullScreen();
     }
     mw.$(".fullscreen-mode").removeClass("fullscreen-mode");
   },
   toggleFullscreen:function(el){
-    var fullscreenEnabled = mwd.fullscreenEnabled || mwd.mozFullScreenEnabled || mwd.webkitFullscreenEnabled;
-    if(fullscreenEnabled){
-        mw.tools.cancelFullscreen()
+    var infullscreen = mwd.fullScreen || mwd.webkitIsFullScreen || mwd.mozFullScreen || false;
+    d(infullscreen)
+    if(infullscreen){
+        mw.tools.cancelFullscreen();
     }
     else{
        mw.tools.fullscreen(el)

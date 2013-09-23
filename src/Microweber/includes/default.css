@@ -552,6 +552,14 @@ table[class*='mw-wysiwyg-table'] td{
 /* /Tables */
 
 
+.mw_modal_gallery, .mw_modal_gallery > *{
+    -moz-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+   user-select: none;
+}
+
 .mw_modal_gallery .mwf-gallery-description{
   position: absolute;
   z-index: 9;
@@ -578,6 +586,12 @@ table[class*='mw-wysiwyg-table'] td{
   overflow: auto;
   background: #111;
 }
+.mwf-single-holder{
+  position: absolute;
+  margin: auto;
+  display: inline-block;
+}
+
 .mwf-single{
    box-shadow: 0 0 6px #111;
    position: relative;
@@ -630,7 +644,7 @@ table[class*='mw-wysiwyg-table'] td{
   cursor: pointer;
 }
 
-.mode-fullscreen .mwf-fullscreen{
+.fullscreen-mode .mwf-fullscreen{
   background: white url(img/cancel_fullscreen.png) no-repeat;
 }
 

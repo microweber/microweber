@@ -506,7 +506,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<?php $i++; endforeach; ?>
 			<?php endif; ?>
 			<?php if(!isset($params['content-type'])): ?>
-			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if(trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <?php endif; ?>>
+			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if($is_chosen==false and trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <?php endif; ?>>
 			
 			Inherit from parent
 			
