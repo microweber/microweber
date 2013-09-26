@@ -1,24 +1,17 @@
 <!DOCTYPE HTML>
 <html prefix="og: http://ogp.me/ns#">
     <head>
-
     <title>{content_meta_title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="{content_meta_title}">
     <meta name="keywords" content="{content_meta_keywords}">
     <meta name="description" content="{content_meta_description}">
-
     <meta property="og:type" content="{og_type}">
     <meta property="og:url" content="{content_url}">
     <meta property="og:image" content="{content_image}">
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
-
-
-
-
-
     <script type="text/javascript">
         mw.require("url.js");
         mw.require("tools.js");
@@ -28,14 +21,9 @@
     <?php print $custom_head; ?>
     <?php else : ?>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
-<?php
-/*
-    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap3.css" type="text/css" media="all">    */  ?>
-   <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
+    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap.css" type="text/css" media="all">
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/bootstrap-responsive.css" type="text/css" media="all">
-
-
-    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/new_world.css" type="text/css" media="all">
+    <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/bootstrap.js"></script>
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
@@ -61,11 +49,7 @@
                 </div>
             </div>
         </div>
-
       </div>
-
-
-
   </div>
     </div>
 <!-- /#header --> 

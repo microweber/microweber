@@ -103,10 +103,13 @@
                 var _old = thismodal.main.height();
                 thismodal.main.scrollTop(0);
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, mw.$('#settings-container').height()+25, false);
-                var _new = thismodal.main.height();
-                if(_new>_old) {
-                   parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical');
-                }
+                setTimeout(function(){
+                    var _new = thismodal.main.height();
+                    if(_new>_old) {
+                        parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical');
+                    }
+                }, 400)
+
 
             }
 
@@ -178,6 +181,7 @@
                   setTimeout(function(){
                      __autoresize();
 
+
                   }, 99);
                 }).ajaxStop(function(){
                     setTimeout(function(){
@@ -206,6 +210,8 @@
 
             $(window).load(function () {
 
+
+
                    $(mwd.body).removeClass('mw-external-loading');
                 $(mwd.body).ajaxStop(function(){
                  $(mwd.body).removeClass('mw-external-loading');
@@ -220,6 +226,10 @@
 
 
         $(document).ready(function () {
+
+
+
+
 mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
  mw.$(".mw_option_field").bind("change", function (e) {
 

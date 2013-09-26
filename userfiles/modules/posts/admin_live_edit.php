@@ -1,12 +1,9 @@
 <style>
 .mw_posts_edit_live_edit form.mw_admin_edit_content_form {
-	width: 390px;
+	width: 650px;
 	padding: 0px;
 }
-.mw_posts_edit_live_edit form.mw_admin_edit_content_form {
-	width: 390px;
-	padding: 0;
-}
+
 .mw_posts_edit_live_edit .mw-title-field {
 	width: 320px;
 }
@@ -16,15 +13,7 @@
 .mw_posts_edit_live_edit #mw-scaleeditor, #mw_posts_add_live_edit .go-live {
 	display: none;
 }
-.mw_posts_edit_live_edit form.add-edit-page-post textarea {
-	width: 360px;
-}
-.mw_posts_edit_live_edit #post_pass_field input.mw-ui-field {
-	width: 360px;
-}
-.mw_posts_edit_live_edit #edit_post_select_category .mw-tag-selector {
-	width: 360px;
-}
+
 .mw_posts_edit_live_edit #edit_post_select_category .input {
 	width: 110px;
 }
@@ -35,7 +24,7 @@
 	max-width: 100%;
 }
 #mw_posts_add_live_edit form.mw_admin_edit_content_form {
-	width: 390px;
+	width: 650px;
 	padding: 0;
 }
 #mw_posts_add_live_edit .mw-title-field {
@@ -47,15 +36,8 @@
 #mw_posts_add_live_edit #mw-scaleeditor, #mw_posts_add_live_edit .go-live {
 	display: none;
 }
-#mw_posts_add_live_edit form.add-edit-page-post textarea {
-	width: 360px;
-}
-#mw_posts_add_live_edit #post_pass_field input.mw-ui-field {
-	width: 360px;
-}
-#mw_posts_add_live_edit #edit_post_select_category .mw-tag-selector {
-	width: 360px;
-}
+
+
 #mw_posts_add_live_edit #edit_post_select_category .input {
 	width: 110px;
 }
@@ -88,7 +70,7 @@ if(isset($params['global']) and $params['global'] != false){
 
 ?>
 <script type="text/javascript">
- 
+
  mw.add_new_content_live_edit = function($cont_type){
 	   $('#mw_posts_add_live_edit').removeAttr('data-content-id');
 	 	 $('#mw_posts_add_live_edit').attr('from_live_edit',1);
@@ -104,22 +86,28 @@ if(isset($params['global']) and $params['global'] != false){
 			 }
 			 $('#mw_posts_add_live_edit').attr('content_type',$cont_type);
 		 }
-      mw.load_module('content/edit_page', '#mw_posts_add_live_edit')
+      mw.load_module('content/edit_page', '#mw_posts_add_live_edit', function(){
+        parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
+      })
  	}
   mw.manage_live_edit_content = function($id){
 	  mw.simpletab.set(mwd.getElementById('manage_posts'));
 	   if($id != undefined){
 			 $('#mw_posts_manage_live_edit').attr('module-id',$id);
        }
-	   mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit')
+	   mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit', function(){
+             parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
+	   })
   }
   mw.edit_content_live_edit = function($cont_id){
 	   mw.simpletab.set(mwd.getElementById('edit_posts'));
 	     $('#mw_posts_edit_live_edit').attr('data-content-id', $cont_id);
 	 	 $('#mw_posts_edit_live_edit').attr('from_live_edit',1);
-	     mw.load_module('content/edit_page', '#mw_posts_edit_live_edit')
+	     mw.load_module('content/edit_page', '#mw_posts_edit_live_edit', function(){
+            parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
+	     });
   }
- 
+
  </script>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple"> 

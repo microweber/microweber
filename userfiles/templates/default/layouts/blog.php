@@ -21,7 +21,7 @@ description: Blog
 				<div class="edit"  field="content" rel="content">
 					<h2>Blog Page</h2>
 					<p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
-					<module data-type="posts" data-template="blog" data-page-id="<?php print CONTENT_ID ?>"  />
+					<module data-type="posts" data-template="masonry" data-page-id="<?php print CONTENT_ID ?>"  />
 				</div>
 			</div>
 			<div class="span3 offset1" id="blog-sidebar">

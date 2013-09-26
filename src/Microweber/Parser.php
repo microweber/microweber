@@ -36,17 +36,17 @@ class Parser
 
         global $replaced_modules_values;
 
-        global $replaced_codes; 
+        global $replaced_codes;
         // $layout = html_entity_decode($layout, ENT_COMPAT);
-     //  $layout = htmlspecialchars_decode($layout);
- //print $layout;
+        //  $layout = htmlspecialchars_decode($layout);
+        //print $layout;
 
         $layout = str_replace('<?', '&lt;?', $layout);
 
         //  preg_match_all("'<p class=\"review\">(.*?)</p>'si", $layout, $match);
         $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
-         // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
+        // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
 
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
@@ -823,12 +823,12 @@ class Parser
             global $mw_replaced_modules;
             global $passed_reps;
             $replaced_codes = array();
- 
 
 
 
 
- 
+
+
 
             $mw_found_elems = '';
             $mw_found_elems_arr = array();
@@ -853,7 +853,7 @@ class Parser
                 if ($cache != false) {
 
 
-                 //  return $cache;
+                    //  return $cache;
                 }
 
             }
@@ -866,8 +866,8 @@ class Parser
 
 
 
-                  $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
+            $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+            preg_match_all($script_pattern, $layout, $mw_script_matches);
             // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
 
             if (!empty($mw_script_matches)) {
@@ -1023,7 +1023,7 @@ class Parser
 
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
-                          //  $data_id = CONTENT_ID;
+                            //  $data_id = CONTENT_ID;
                         }
 
                         $data = mw('content')->get_page($data_id);
@@ -1097,10 +1097,10 @@ class Parser
 
                             $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
- 
-							
-							
-							
+
+
+
+
                             // and $rel == 'inherit'
                             if ($cont_field == false and $try_inherited == true) {
 
@@ -1147,14 +1147,14 @@ class Parser
 
                     if ($field_content == false) {
                         if ($get_global == true) {
-							if(isset($data_id)){
-							
-							 $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
-							
-							}
-							if(isset($cont_field) and !empty($cont_field)){
-                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
-							}
+                            if(isset($data_id)){
+
+                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+
+                            }
+                            if(isset($cont_field) and !empty($cont_field)){
+                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
+                            }
 
                             //mwdbg($cont_field);
                             if ($cont_field == false) {
@@ -1346,7 +1346,7 @@ class Parser
                             //$options['parse_only_modules'] = 1;
                             //$options['no_cache'] = 1;
                             // if(strstr($val_rep,'edit') or strstr($val_rep,'<module')  or strstr($val_rep,'<microweber')){
-     
+
 
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
 

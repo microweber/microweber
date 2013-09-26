@@ -387,7 +387,7 @@ class Content
 
         if (($cache_content) != false) {
 
-          // return $cache_content;
+            // return $cache_content;
         }
 
         $render_file = false;
@@ -1375,24 +1375,24 @@ class Content
 
 
                 if(isset($page['id']) and $page['id'] != 0){
-                $content = $page;
+                    $content = $page;
 
 
-                $current_categorys = $this->app->category->get_for_content($page['id']);
-                if (!empty($current_categorys)) {
-                    $current_category = array_shift($current_categorys);
-                    if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                        define('CATEGORY_ID', $current_category['id']);
+                    $current_categorys = $this->app->category->get_for_content($page['id']);
+                    if (!empty($current_categorys)) {
+                        $current_category = array_shift($current_categorys);
+                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
+                            define('CATEGORY_ID', $current_category['id']);
+                        }
+
+
                     }
 
+                    $page = $this->get_by_id($page['parent']);
 
-                }
-
-                $page = $this->get_by_id($page['parent']);
-
-                if (defined('POST_ID') == false) {
-                    define('POST_ID', $content['id']);
-                }
+                    if (defined('POST_ID') == false) {
+                        define('POST_ID', $content['id']);
+                    }
 
                 }
 
@@ -1418,7 +1418,7 @@ class Content
             if (defined('CATEGORY_ID') == false) {
                 $cat_url = $this->app->url->param('category', $skip_ajax = true);
                 if($cat_url != false){
-                define('CATEGORY_ID', intval($cat_url));
+                    define('CATEGORY_ID', intval($cat_url));
                 }
             }
             if (!defined('CATEGORY_ID')) {
@@ -3905,7 +3905,7 @@ class Content
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
                 //	 d($new_category);
-               // $new_category = $this->app->category->save($new_category);
+                // $new_category = $this->app->category->save($new_category);
 
 
             }

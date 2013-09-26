@@ -36,6 +36,11 @@
   overflow: hidden;
   position: relative;
   width:100%;
+  -webkit-transition: height 0.3s;
+  -moz-transition: height 0.3s;
+  -o-transition: height 0.3s;
+  transition: height 0.3s;
+
 
 }
 
@@ -90,6 +95,7 @@
   max-height: none !important;
   min-width: 100%;
   min-height: 100%;
+  cursor: pointer;
 }
 
 .rotator-reflection-original{
@@ -208,12 +214,12 @@ a.rotator-paging-item-digit{
   text-shadow:0 0 1px #fff;
   padding: 1px 4px;
   margin: 0 3px;
-  border-radius: 3px;
 
 }
-.mw-rotator-template-default a.rotator-paging-item-digit.active{
+a.rotator-paging-item-digit.active{
   color:#353535;
   text-decoration: underline;
+  background: rgba(169, 169, 169, 0.4)
 }
 .mw-rotator-template-default a.rotator-paging-item-thumbnail{
   display: inline-block;
@@ -251,6 +257,8 @@ a.rotator-paging-item-digit{
   width: calc(100% - 2px);
   min-height: calc(100% - 2px);
   height: calc(100% - 2px);
+
+
 }
 
 .mw-rotator-template-inner .rotator-next,
@@ -318,16 +326,7 @@ a.rotator-paging-item-digit{
 
 
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail.active {
-  transform:scale(1.2, 1.2);
-  -moz-transform:scale(1.2, 1.2);
-  -webkit-transform:scale(1.2, 1.2);
-  -o-transform:scale(1.2, 1.2);
-  -ms-transform:scale(1.2, 1.2);
-  transform-origin:50% 20%;
-  -moz-transform-origin:50% 20%;
-  -webkit-transform-origin:50% 20%;
-  -o-transform-origin:50% 20%;
-  -ms-transform-origin:50% 20%;
+    border-color: rgb(59, 141, 204);
 }
 
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail.active .rotator-reflection-original{
@@ -505,6 +504,26 @@ a.rotator-paging-item-digit{
 
 
 /* Masonry */
+
+
+
+.mw-rotator-description{
+    background: #111;
+    background: rgba(10, 0, 0, 0.8);
+    bottom: 0;
+    color: #FFFFFF;
+    font-size: 13px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 9;
+    display: block;
+}
+
+.mw-rotator-description-content{
+  padding: 15px;
+  display: block;
+}
 
 
 

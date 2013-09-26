@@ -25,13 +25,7 @@ description: Inner Slider
   <div class="autoscale mw-gallery-holder">
     <?php foreach($data  as $item): ?>
     <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
-
-
             <img  class="autoscale-x" src="<?php print thumbnail($item['filename'], 900); ?>" alt="" />
-
-
-
-
     </div>
     <?php endforeach ; ?>
   </div>
@@ -62,7 +56,7 @@ description: Inner Slider
             pagingMode:"thumbnails",
             next:true,
             prev:true,
-            reflection:true
+            reflection:false
         });
     }
   });

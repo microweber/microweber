@@ -15,6 +15,9 @@
 
 article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
 
+
+
+
 body.mw-preview{
   zoom: 0.36;
   -moz-transform: scale(0.36);
@@ -94,8 +97,7 @@ body.state-element .mw-row .element{
 
 .element {
     display: block;
-    clear: both !important;
-    max-width:100%;
+    clear: both;
     -moz-transition: none !important;
     -webkit-transition: none !important;
     -o-transition: color 0 ease-in !important;
@@ -118,11 +120,6 @@ img.element{
   margin-bottom: 12px;
 }
 
-.element-image {
-    display: inline-block;
-    clear: none;
-    max-width: 100%;
-}
 .edit:after, .mw-col:after, .element:after{
     clear: both;
     content: ".";
@@ -552,112 +549,21 @@ table[class*='mw-wysiwyg-table'] td{
 /* /Tables */
 
 
-.mw_modal_gallery, .mw_modal_gallery > *{
-    -moz-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  -khtml-user-select: none;
-   user-select: none;
-}
 
-.mw_modal_gallery .mwf-gallery-description{
-  position: absolute;
-  z-index: 9;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  font-size: 13px;
-  color: white;
-  background: black;
-  background: rgba(10, 0, 0, 0.8);
-}
-.mwf-gallery-description-holder{
-  padding: 20px;
-  max-height: 75px;
-  overflow: auto;
-}
-
-.mwf-gallery{
-    height: 100%;
-  width: 100%;
+.mw-cancel{
+  font-size: 11px;
+  color: #188DE7;
   text-align: center;
-}
-
-.mw_modal_gallery .mwf-gallery-modeHTML{
-  display: inline-block;
-  box-shadow: 0 0 6px #111;
-  position: absolute;
-  overflow: auto;
-  background: #111;
-  color: white;
-}
-.mwf-single-holder{
-  position: absolute;
-  margin: auto;
-  display: inline-block;
-}
-
-.mwf-single{
-   box-shadow: 0 0 6px #111;
-   position: relative;
-   display: block;
-   background: #333;
-   margin: auto;
-   max-height: 100%;
-   max-width: 100%;
-   min-height: 200px;
-   min-width: 200px;
-   width: auto;
-   height: auto;
-}
-.semi_hidden{
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-}
-
-
-.mw_modal_gallery .mwf-next,
-.mw_modal_gallery .mwf-prev{
-  font-size: 40px;
-  color: #ccc;
-  text-shadow: 0 0 3px #3B3B3B;
-  position: absolute;
-  top: 50%;
-  margin-top: -22px;
-  right:20px;
   cursor: pointer;
+  padding:5px 19px;
+  border: 1px solid transparent;
 }
-.mw_modal_gallery .mwf-prev{
-  left: 20px;
-  right: auto;
-}
-.mwf-gallery-container{
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.mwf-fullscreen{
-  display: block;
-  width: 20px;
-  height: 20px;
-  overflow: hidden;
-  text-indent: -9999px;
-  position: absolute;
-  background: white url(img/enter_fullscreen.png) no-repeat;
-  box-shadow: 1px 1px 2px #000;
-  top: 20px;
-  right: 41px;
-  cursor: pointer;
+.mw-cancel:hover{
+  background: #F3F3F3;
+  border-color:#D7D7D7;
 }
 
-.fullscreen-mode .mwf-fullscreen{
-  background: white url(img/cancel_fullscreen.png) no-repeat;
-}
+
 
 
 

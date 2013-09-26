@@ -49,7 +49,7 @@ class Backup
     function __construct($app = null)
     {
 
- 
+
         api_expose('Microweber\Utils\Backup\delete');
         api_expose('Microweber\Utils\Backup\create');
         api_expose('Microweber\Utils\Backup\download');
@@ -69,15 +69,15 @@ class Backup
         }
 
 
-       // if (!is_object($this->app)) {
+        // if (!is_object($this->app)) {
 
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw('application');
-            }
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw('application');
+        }
 
-       // }
+        // }
 
 
     }
@@ -372,23 +372,15 @@ class Backup
             }
         }
 
- 
+
         if (!is_dir($here)) {
-          mkdir_recursive($here);
+            mkdir_recursive($here);
         }
-		
-		
-		
-		
-		
-		
+
+
         $loc = $here;
-		
-		
-		 
-		
-		
-		
+
+
         $this->backups_folder = $loc;
         return $here;
     }
@@ -608,14 +600,14 @@ class Backup
 
         if (!is_dir($here)) {
             if (!mkdir_recursive($here)) {
-                
-				$back_log_action = "Error the dir is not writable: " . $here;
-        		$this->log_action($back_log_action);
-				
-				
+
+                $back_log_action = "Error the dir is not writable: " . $here;
+                $this->log_action($back_log_action);
+
+
             } else {
-				
-			}
+
+            }
         }
 
         ini_set('memory_limit', '512M');
@@ -1348,7 +1340,7 @@ class Backup
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
- 
+
         $cron->job('make_full_backup', '25 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
         //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
         exit();
@@ -1479,6 +1471,10 @@ class Backup
         $here = $this->get_bakup_location();
         $filename = $here . $id;
 
+
+        $id = str_replace('..', '', $id);
+        $filename = str_replace('..', '', $filename);
+
         if (is_file($filename)) {
 
             unlink($filename);
@@ -1500,7 +1496,7 @@ class Backup
         if (!is_admin()) {
             error("must be admin");
         }
-        ;
+
         ini_set('memory_limit', '512M');
         set_time_limit(0);
 
@@ -1511,6 +1507,8 @@ class Backup
         } else if (isset($_GET['file'])) {
             $id = $params['file'];
         }
+        $id = str_replace('..', '', $id);
+
 
         // Check if the file has needed args
         if ($id == NULL) {
@@ -1523,6 +1521,7 @@ class Backup
         // Generate filename and set error variables
 
         $filename = $here . $id;
+        $filename = str_replace('..','',$filename);
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existising filename to download.");
 
@@ -1546,6 +1545,10 @@ class Backup
 
     function readfile_chunked($filename, $retbytes = TRUE)
     {
+
+
+        $filename = str_replace('..','',$filename);
+
         $chunk_size = 1024 * 1024;
         $buffer = "";
         $cnt = 0;
@@ -1554,6 +1557,10 @@ class Backup
         if ($handle === false) {
             return false;
         }
+
+
+
+
         while (!feof($handle)) {
             $buffer = fread($handle, $chunk_size);
             echo $buffer;

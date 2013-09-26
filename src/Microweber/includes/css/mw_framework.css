@@ -991,7 +991,7 @@ right: 15px;
 
 button.mw-ui-btn,
 input.mw-ui-btn{
-  height: 33px;
+  
 }
 
 
@@ -2542,18 +2542,7 @@ body.mw-external-loading:after{
   padding: 16px 0;
 }
 
-.mw-cancel{
-  font-size: 11px;
-  color: #188DE7;
-  text-align: center;
-  cursor: pointer;
-  padding:5px 19px;
-  border: 1px solid transparent;
-}
-.mw-cancel:hover{
-  background: #F3F3F3;
-  border-color:#D7D7D7;
-}
+
 .mw-before-leave-container [class*='confirm-btn']{
   margin:10px 13px 8px;
   width: 145px;

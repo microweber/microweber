@@ -341,11 +341,11 @@ mw.tools = {
 
       if(center == true){mw.tools.modal.center(modal)};
     },
-    center:function(modal, only){
+    center:function(modal, only, w,h){
         var only = only || 'all';
         var modal = $(modal);
-        var h = modal.height();
-        var w = modal.width();
+        var h = h||modal.height();
+        var w = w||modal.width();
         if(only == 'all'){
           modal.css({top:($(window).height()/2)-(h/2),left:($(window).width()/2)-(w/2)});
         }
@@ -371,20 +371,23 @@ mw.tools = {
     }
   },
   gallery:{
-    generateHTML:function(item, callback){
+    generateHTML:function(item, callback, modal){
+        var modal = modal || false;
         if(typeof item === 'string'){
           callback.call("<div class='mwf-gallery-modeHTML'>"+item+"</div>");
         }
         else if(typeof item === 'object' && item.constructor === {}.constructor){
           var img = item.img || item.image || item.url || item.src;
           var desc = item.description || item.title || item.name;
+          if(!!modal){ $(modal.container).addClass('mw_gallery_loading'); }
           mw.image.preload(img, function(w,h){
               if(typeof desc != 'undefined' && desc != ''){
-                callback.call("<div class='mwf-single-holder'><img src='"+img+"' class='mwf-single' data-width='"+w+"' data-height='"+h+"'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>"+desc+"</div></div></div>");
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  class='mwf-single'  width='"+w+"' data-width='"+w+"' data-height='"+h+"' height='"+h+"' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\')[0].modal)'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>"+desc+"</div></div></div>");
               }
               else{
-                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  data-width='"+w+"' data-height='"+h+"' class='mwf-single' /></div>");
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  data-width='"+w+"' width='"+w+"' data-height='"+h+"' height='"+h+"' class='mwf-single' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal)' /></div>");
               }
+              $(modal.container).removeClass('mw_gallery_loading');
           });
         }
         else if(typeof item === 'object' && typeof item.nodeType === 'number'){
@@ -396,39 +399,66 @@ mw.tools = {
         }
     },
     next:function(modal){
+      var modal = modal || mw.$("#mw_gallery")[0].modal;
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var next = typeof arr[curr+1] !== 'undefined' ? curr+1 : 0;
       mw.tools.gallery.generateHTML(arr[next], function(){
          galeryContainer.html(this);
          modal.gallery.curr = next;
-         mw.tools.gallery.normalizer(modal);
-      });
+         mw.tools.gallery.normalize(modal);
+      }, modal);
     },
     prev:function(modal){
+      var modal = modal || mw.$("#mw_gallery")[0].modal;
       var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
       var arr = modal.gallery.array, curr =  modal.gallery.curr;
       var prev = typeof arr[curr-1] !== 'undefined' ? curr-1 : arr.length - 1;
       mw.tools.gallery.generateHTML(arr[prev], function(){
           galeryContainer.html(this);
           modal.gallery.curr = prev;
-          mw.tools.gallery.normalizer(modal);
-      });
-
+          mw.tools.gallery.normalize(modal);
+      }, modal);
+    },
+    go:function(modal, index){
+      var modal = modal || mw.$("#mw_gallery")[0].modal;
+      var index = index || 0;
+      if(modal.gallery.curr != index){
+          var galeryContainer =  mw.$('.mwf-gallery-container', modal.container);
+          var arr = modal.gallery.array;
+          mw.tools.gallery.generateHTML(arr[index], function(){
+              galeryContainer.html(this);
+              modal.gallery.curr = index;
+              mw.tools.gallery.normalize(modal);
+          }, modal);
+      }
+      else{
+        //
+      }
     },
     init:function(arr, start, modal){
-        // [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]
+        // "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList
         if(arr === null || arr === undefined){return false;}
         if(typeof arr.length !== 'number'){ return false; }
         if(arr.length === 0){ return false; }
         var start = start || 0;
 
+        if(mw.$("#mw_gallery").length > 0){
+            var m = mw.$("#mw_gallery")[0].modal;
+            m.gallery = {
+                array:arr,
+                curr:0
+            }
+            mw.tools.gallery.go(m, start);
+            return false;
+        }
+
         var ghtml = ''
         +'<div class="mwf-gallery">'
             +'<div class="mwf-gallery-container">'
             +'</div>'
-             +'<span class="mwf-next">&raquo;</span>'
-             +'<span class="mwf-prev">&laquo;</span>'
+             +'<span class="mwf-next">&rsaquo;</span>'
+             +'<span class="mwf-prev">&lsaquo;</span>'
             + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen">Fullscreen</span>' : '')
         +'</div>';
 
@@ -438,6 +468,7 @@ mw.tools = {
           html: '',
           draggable:false,
           overlay:true,
+          name:"mw_gallery",
           template:'mw_modal_gallery'
         });
         modal.overlay.style.opacity = 0.8;
@@ -463,10 +494,15 @@ mw.tools = {
               mw.tools.gallery.normalize(modal);
             });
             mw.tools.fullscreenChange(function(){
-              d(this.toString());
+              if(this==true){
+                mw.$(".mw_modal_gallery").addClass("fullscreen-mode");
+              }
+              else{
+                mw.$(".mw_modal_gallery").removeClass("fullscreen-mode");
+              }
             })
             mw.tools.gallery.normalize(modal);
-        });
+        }, modal);
         return modal;
     },
     normalizer:function(modal){
@@ -476,9 +512,13 @@ mw.tools = {
         if(img !== null ){
             var dw = parseFloat($(img).dataset("width"));
             var dh = parseFloat($(img).dataset("height"));
-            img.style.maxWidth = ((dw > ww) ? (ww-33) : dw) + 'px';
-            img.style.maxHeight = ((dh > wh) ? (wh-33) : dh) + 'px';
-            mw.tools.modal.center(img.parentNode);
+            var mxw = ((dw > ww) ? (ww-33) : dw);
+            var mxh = ((dh > wh) ? (wh-33) : dh);
+            img.style.maxWidth = mxw + 'px';
+            img.style.maxHeight = mxh + 'px';
+            var holder = img.parentNode;
+            mw.tools.modal.center(holder);
+
         }
         else{
             var holder = modal.container.querySelector('.mwf-gallery-modeHTML');
@@ -488,13 +528,16 @@ mw.tools = {
             $(holder).height($(holder).height())
             mw.tools.modal.center(holder);
         }
+
     },
     normalize:function(modal){
          mw.tools.gallery.normalizer(modal);
          if(typeof modal.normalized === 'undefined'){
               modal.normalized = true;
               $(window).bind("resize", function(){
-                  mw.tools.gallery.normalizer(modal);
+                    if(mwd.getElementById('mw_gallery') !== null){
+                        mw.tools.gallery.normalizer(modal);
+                    }
               });
          }
     }
@@ -1504,15 +1547,17 @@ mw.tools = {
     }
   },
   fullscreenChange:function(c){
-    document.addEventListener("fullscreenchange", function () {
-        c.call(document.fullscreen);
-    }, false);
-    document.addEventListener("mozfullscreenchange", function () {
-        c.call(document.mozFullScreen);
-    }, false);
-    document.addEventListener("webkitfullscreenchange", function () {
-        c.call(document.webkitIsFullScreen);
-    }, false);
+   if('addEventListener' in document){
+      document.addEventListener("fullscreenchange", function () {
+          c.call(document.fullscreen);
+      }, false);
+      document.addEventListener("mozfullscreenchange", function () {
+          c.call(document.mozFullScreen);
+      }, false);
+      document.addEventListener("webkitfullscreenchange", function () {
+          c.call(document.webkitIsFullScreen);
+      }, false);
+   }
   },
   get_filename:function(s) {
     if(s.contains('.')){
@@ -2255,6 +2300,13 @@ Array.prototype.remove = Array.prototype.remove || function(what){
   }
 }
 
+Array.prototype.exposeToHash = function(name, callback){
+    if(typeof name === 'undefined'){ return false; }
+    mw.on.hashParam(name, function(){
+       callback.call(this);
+    });
+}
+
 
 
 
@@ -2757,9 +2809,10 @@ $(window).resize(function() {
 });
 
 
-$(mwd.body).bind("keyup", function(e){
+$(mwd.body).bind("keydown", function(e){
   var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
   if(isgal){
+
       if(e.keyCode === 27){  //escape
         mw.tools.modal.remove(mw.$(".mw_modal_gallery"))
         mw.tools.cancelFullscreen()
@@ -2770,6 +2823,11 @@ $(mwd.body).bind("keyup", function(e){
       }
       else if(e.keyCode === 39){ //right
          mw.tools.gallery.next(  mw.$(".mw_modal_gallery")[0].modal )
+      }
+      else if(e.keyCode === 122){// F11
+        mw.e.cancel(e,true);
+        mw.tools.toggleFullscreen(mw.$(".mw_modal_gallery")[0]);
+        return false;
       }
   }
 
@@ -3304,6 +3362,9 @@ mw.image = {
       },
       preload:function(url, callback){
         var img = mwd.createElement('img');
+        if(typeof window.chrome === 'object'){
+          var img = new Image();
+        }
         img.className = 'semi_hidden';
         img.src = url;
         img.onload = function(){
