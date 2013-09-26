@@ -1,0 +1,54 @@
+/* Masonry */
+
+.masonry-item{
+  width: 19%;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 2px #999;
+  background: white;
+}
+.module-posts-template-masonry .masonry-item{
+  cursor: default;
+  width: 24%;
+}
+
+@media (max-width: 767px){
+ .module-posts-template-masonry .masonry-item{   width: 48%;  }
+}
+@media only screen and (max-width: 479px) {
+ .module-posts-template-masonry .masonry-item{   width: 98%;  }
+}
+
+.masonry-item:hover{
+    box-shadow: 0 3px 3px #555;
+    box-shadow: 0 6px 6px -2px #555;
+}
+
+.masonry-item-description{
+  padding: 7px;
+  font-size: 12px;
+  color: #353535;
+  text-align: center;
+}
+.masonry-item-container{
+  padding: 10px;
+  zoom:1;
+}
+.masonry-item-container:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.masonry-item-container .description{
+  font-size: 13px;
+}
+.masonry-item-container small.muted{
+  font-size: 11px;
+}
+
+
+
+
+/* Masonry */
