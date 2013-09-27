@@ -671,6 +671,15 @@ class Layouts
 
             if ($template != false) {
 
+                if (isset($_POST['save_template_settings'])) {
+                    $json = json_encode($_POST);
+                    $option = array();
+                    $option['option_value'] = $json;
+                    $option['option_key'] = 'template_settings';
+                    $option['option_group'] = 'template_' . $template;
+                    save_option($option);
+                }
+
                 $template_folder = MW_TEMPLATES_DIR . $template . DS;
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;

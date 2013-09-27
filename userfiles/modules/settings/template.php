@@ -26,7 +26,7 @@ if (isset($_POST['save_template_settings'])) {
 	if (isset($_POST['type'])) {
 	 unset($_POST['type']);
 	}
-    $json = json_encode($_POST);
+   
 	
 	 $live_edit_css_save_all = array();
     foreach($_POST as $a=>$b){
@@ -57,10 +57,10 @@ if (isset($_POST['save_template_settings'])) {
     }
 	
 	if(!empty($live_edit_css_save_all)){
-	  current_template_save_custom_css($live_edit_css_save_all);
+	//  current_template_save_custom_css($live_edit_css_save_all);
 	}
 
-$tpl_settings = TEMPLATE_DIR.'template_settings.css';
+//$tpl_settings = TEMPLATE_DIR.'template_settings.css';
  
  
   //$chmod = chmod("/userfiles/templates/default/settings/", 0755);
@@ -71,11 +71,11 @@ $tpl_settings = TEMPLATE_DIR.'template_settings.css';
 //fclose($fp);
 
 
-    $option = array();
+    /*$option = array();
     $option['option_value'] = $json;
     $option['option_key'] = 'template_settings';
     $option['option_group'] = 'template_'.THIS_TEMPLATE_FOLDER_NAME;
-    save_option($option);
+    save_option($option);*/
    //file_put_contents($tpl_settings,$css);
   
    return;
