@@ -76,7 +76,9 @@ if (!defined('MW_MODULES_DIR')) {
 if (!defined('MW_TEMPLATES_DIR')) {
     define('MW_TEMPLATES_DIR', MW_USERFILES . MW_TEMPLATES_FOLDER_NAME . DS);
 }
-
+if (!defined('MW_TEMPLATES_URL')) {
+    define('MW_TEMPLATES_URL', MW_USERFILES_URL .'/'. MW_TEMPLATES_FOLDER_NAME.'/');
+}
 if (!defined('MW_MEDIA_DIR')) {
     define('MW_MEDIA_DIR', MW_USERFILES . 'media' . DS);
 }

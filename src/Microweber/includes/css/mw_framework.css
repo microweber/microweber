@@ -991,7 +991,7 @@ right: 15px;
 
 button.mw-ui-btn,
 input.mw-ui-btn{
-  
+
 }
 
 
@@ -2759,6 +2759,22 @@ body.dragStart .empty-element.currentDragMouseOver:before{
 
 #page_title_and_url{
   padding-bottom: 20px;
+}
+
+#mw-template-settings-holder{
+  padding: 20px;
+}
+#mw-template-settings-holder:after, #mw-template-settings:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#mw-template-settings-holder, #mw-template-settings{
+  position: relative;
 }
 
 

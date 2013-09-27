@@ -336,6 +336,12 @@ mw_save_draft_int = self.setInterval(function(){
 <?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
 <?php   //include "UI.php"; ?>
 
+
+
+
+
+<span class="mw-ui-btn" onclick="mw.drag.module_settings('settings/template');">Template Settings</span>
+
 <?php } else { ?>
 <script>
 

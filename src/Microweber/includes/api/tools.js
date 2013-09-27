@@ -1702,6 +1702,14 @@ mw.tools = {
     node.src =  mw.url.set_param('refresh_image', mw.random(), node.src);
     return node;
   },
+  refresh:function(a){
+    if(a.src != '' && typeof a.src != 'undefined'){
+       a.src =  mw.url.set_param('mwrefresh', mw.random(), a.src);
+    }
+    else if(a.href != '' && typeof a.href != 'undefined'){
+       a.href =  mw.url.set_param('mwrefresh', mw.random(), a.href);
+    }
+  },
   getDiff : function(_new,_old){
         var diff = {}, x, y;
         for (x in _new){

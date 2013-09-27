@@ -99,7 +99,7 @@ class Controller
         $page = false;
         $page_url = rtrim($page_url, '/');
         $is_admin = $this->app->user->is_admin();
-		$page_url_orig = $page_url;
+        $page_url_orig = $page_url;
         $simply_a_file = false;
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])) {
@@ -119,59 +119,54 @@ class Controller
         $is_no_editmode = $this->app->url->param('no_editmode');
 
 
-        
-
-     
-
         $is_preview_template = $this->app->url->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
-			
-			if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
-            if ($is_editmode == 'n') {
-                $is_editmode = false;
-                $page_url = $this->app->url->param_unset('editmode', $page_url);
+            if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
-                $this->app->user->session_set('back_to_editmode', true);
-                $this->app->user->session_set('editmode', false);
-                //sleep(1);
+                if ($is_editmode == 'n') {
+                    $is_editmode = false;
+                    $page_url = $this->app->url->param_unset('editmode', $page_url);
+
+                    $this->app->user->session_set('back_to_editmode', true);
+                    $this->app->user->session_set('editmode', false);
+                    //sleep(1);
 
 
-                //$this->app->url->redirect($this->app->url->site_url($page_url));
-                //exit();
+                    //$this->app->url->redirect($this->app->url->site_url($page_url));
+                    //exit();
+                } else {
+
+                    $editmode_sess = $this->app->user->session_get('editmode');
+
+                    $page_url = $this->app->url->param_unset('editmode', $page_url);
+                    if ($is_admin == true) {
+                        if ($editmode_sess == false) {
+                            $this->app->user->session_set('editmode', true);
+                            $this->app->user->session_set('back_to_editmode', false);
+                            $is_editmode = false;
+
+                        }
+                        $this->app->url->redirect($this->app->url->site_url($page_url));
+                        exit();
+                    } else {
+                        $is_editmode = false;
+                    }
+                }
             } else {
 
-                $editmode_sess = $this->app->user->session_get('editmode');
-
-                $page_url = $this->app->url->param_unset('editmode', $page_url);
-                if ($is_admin == true) {
-                    if ($editmode_sess == false) {
-                        $this->app->user->session_set('editmode', true);
-                        $this->app->user->session_set('back_to_editmode', false);
-                        $is_editmode = false;
-
-                    }
-                    $this->app->url->redirect($this->app->url->site_url($page_url));
-                    exit();
-                } else {
-                    $is_editmode = false;
-                }
             }
-        } else {
+            if (isset($_SESSION) and !$is_no_editmode) {
+                $is_editmode = $this->app->user->session_get('editmode');
 
-        }
-			   if (isset($_SESSION) and !$is_no_editmode) {
-            $is_editmode = $this->app->user->session_get('editmode');
+            } else {
+                $is_editmode = false;
+                $page_url = $this->app->url->param_unset('no_editmode', $page_url);
 
-				} else {
-					$is_editmode = false;
-					$page_url = $this->app->url->param_unset('no_editmode', $page_url);
-		
-				}
+            }
 
-			
-			
+
         } else {
             $is_editmode = false;
             $page_url = $this->app->url->param_unset('preview_template', $page_url);
@@ -196,7 +191,7 @@ class Controller
                     }
                 }
             }
-             
+
         }
 
         $is_layout_file = $this->app->url->param('preview_layout');
@@ -261,34 +256,34 @@ class Controller
 
                 }
 
-                    //$page['active_site_template'] = $page_url_segment_1;
+                //$page['active_site_template'] = $page_url_segment_1;
                 //$page['layout_file'] = $the_new_page_file;
                 //$page['simply_a_file'] = $simply_a_file;
 
                 template_var('new_page', $page);
             }
         }
-		$output_cache_timeout = false;
+        $output_cache_timeout = false;
         if (isset($is_preview_template) and $is_preview_template != false) {
 
             if (!defined('MW_NO_SESSION')) {
                 define('MW_NO_SESSION', true);
             }
-			
-			//$output_cache_timeout = 600; //10min
-		
+
+            //$output_cache_timeout = 600; //10min
+
         }
-		
-		 if ($output_cache_timeout != false) {
-			  	$output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']); 
-				$output_cache_group = 'content/preview';
-		    	$output_cache_content = $this->app->cache->get($output_cache_id, $output_cache_group,$output_cache_timeout);
-				if($output_cache_content != false){
-					 
-					 print $output_cache_content;
-					 exit();
-				}
-		 }
+
+        if ($output_cache_timeout != false) {
+            $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
+            $output_cache_group = 'content/preview';
+            $output_cache_content = $this->app->cache->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+            if ($output_cache_content != false) {
+
+                print $output_cache_content;
+                exit();
+            }
+        }
 
 
         if ($page == false or $this->create_new_page == true) {
@@ -513,7 +508,7 @@ class Controller
 
         if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
-			$is_preview_template = str_replace('..', '', $is_preview_template);
+            $is_preview_template = str_replace('..', '', $is_preview_template);
 
             $content['active_site_template'] = $is_preview_template;
         }
@@ -652,11 +647,8 @@ class Controller
 
             //$this->app->content->debug_info();
 
-            
 
             $l = $this->app->parser->process($l, $options = false);
-
-
 
 
             if ($preview_module_id != false) {
@@ -698,7 +690,19 @@ class Controller
                 //as of aug 28
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
+          /*  if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
+                $custom_template_settings = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'template_settings.css';
+            } else {
+                $custom_template_settings = TEMPLATE_DIR . DS . 'template_settings.css';
+            }
+            $custom_template_settings = normalize_path($custom_template_settings, false);
+            if (is_file($custom_template_settings)) {
+                $custom_live_editmtime = filemtime($custom_template_settings);
+                $custom_template_settings_url = dir2url($custom_template_settings);
+                $liv_ed_css = '<link rel="stylesheet" href="' . $custom_template_settings_url . '?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
+                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+            }*/
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
 
@@ -716,7 +720,7 @@ class Controller
             $custom_live_edit = normalize_path($custom_live_edit, false);
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
@@ -883,15 +887,15 @@ class Controller
                     setcookie('last_page', $page_url, time() + 5400);
                 }
             }
-			
-			
-			if ($output_cache_timeout != false) {
-								
-				$this->app->cache->save($l, $output_cache_id, $output_cache_group);
-				 
-			}
-			
-			
+
+
+            if ($output_cache_timeout != false) {
+
+                $this->app->cache->save($l, $output_cache_id, $output_cache_group);
+
+            }
+
+
             print $l;
             unset($l);
             //unset($content);

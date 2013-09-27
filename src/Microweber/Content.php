@@ -1514,6 +1514,12 @@ class Content
 
         }
 
+        if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
+
+            define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
+
+        }
+
         $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {

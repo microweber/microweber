@@ -70,12 +70,12 @@ class Layouts
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = $this->app->option->get('curent_template','template');
+                    $the_active_site_template = $this->app->option->get('curent_template', 'template');
                 }
             } else {
-                $the_active_site_template = $this->app->option->get('curent_template','template');
+                $the_active_site_template = $this->app->option->get('curent_template', 'template');
             }
-            if($the_active_site_template == ''){
+            if ($the_active_site_template == '') {
                 $the_active_site_template = 'default';
             }
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
@@ -277,22 +277,21 @@ class Layouts
                             //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
 
 
-                           
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
-							$screen_jpg = str_ireplace('.php', '.jpg', $filename);
-							 if (is_file($screen_jpg)) {
-							   $to_return_temp['screenshot_file'] = $screen_jpg;
+                            $screen_jpg = str_ireplace('.php', '.jpg', $filename);
+                            if (is_file($screen_jpg)) {
+                                $to_return_temp['screenshot_file'] = $screen_jpg;
 
-							 } else if (is_file($screen)) {
+                            } else if (is_file($screen)) {
                                 $to_return_temp['screenshot_file'] = $screen;
                             }
-							if(isset($to_return_temp['screenshot_file'])){
-							$to_return_temp['screenshot'] = $this->app->url->link_to_file($to_return_temp['screenshot_file']);
-								
-							}
+                            if (isset($to_return_temp['screenshot_file'])) {
+                                $to_return_temp['screenshot'] = $this->app->url->link_to_file($to_return_temp['screenshot_file']);
+
+                            }
 
                             $configs[] = $to_return_temp;
                         }
@@ -305,10 +304,10 @@ class Layouts
 
                 $sorted_by_pos = array();
                 $sorted_by_pos_items = array();
-                $pos =9999;
-                foreach($configs as $item){
+                $pos = 9999;
+                foreach ($configs as $item) {
 
-                    if(isset($item['position'])){
+                    if (isset($item['position'])) {
                         $sorted_by_pos_items[$item['position']][] = $item;
                     } else {
                         $sorted_by_pos[$pos] = $item;
@@ -318,9 +317,9 @@ class Layouts
 
                 if (!empty($sorted_by_pos_items)) {
                     ksort($sorted_by_pos_items);
-                    foreach($sorted_by_pos_items as $configs){
-                        $pos =0;
-                        foreach($configs as $item){
+                    foreach ($sorted_by_pos_items as $configs) {
+                        $pos = 0;
+                        foreach ($configs as $item) {
                             $sorted_by_pos[] = $item;
                             $pos++;
                         }
@@ -328,9 +327,8 @@ class Layouts
 
                 }
                 if (!empty($sorted_by_pos)) {
-                $configs = $sorted_by_pos;
+                    $configs = $sorted_by_pos;
                 }
-
 
 
                 if (!isset($options['no_cache'])) {
@@ -509,7 +507,7 @@ class Layouts
         }
     }
 
-    function template_check_for_custom_css($template_name,$check_for_backup=false)
+    function template_check_for_custom_css($template_name, $check_for_backup = false)
     {
         $template = $template_name;
         if (trim($template) == '') {
@@ -522,8 +520,8 @@ class Layouts
             $template_folder = MW_TEMPLATES_DIR . $template . DS;
 
             $live_edit_css = $template_folder . 'live_edit.css';
-            if($check_for_backup == true){
-                $live_edit_css = $live_edit_css.'.bak';
+            if ($check_for_backup == true) {
+                $live_edit_css = $live_edit_css . '.bak';
             }
             $fcont = '';
             if (is_file($live_edit_css)) {
@@ -555,30 +553,24 @@ class Layouts
         }
 
 
+        if ($template != false) {
+
+            if ($return_styles == true) {
+                $tf = $this->template_check_for_custom_css($template, true);
+                $tf2 = str_ireplace('.bak', '', $tf);
 
 
-
-
-
-        if($template != false){
-
-            if($return_styles == true){
-                $tf = $this->template_check_for_custom_css($template,true);
-                $tf2 = str_ireplace('.bak','',$tf);
-
-
-
-                if(rename($tf, $tf2)){
+                if (rename($tf, $tf2)) {
                     return array('success' => 'Custom css is returned');
                 } else {
                     return array('error' => 'File could not be returned');
                 }
             } else {
                 $tf = $this->template_check_for_custom_css($template);
-                $tf2 = $tf.'.bak';
+                $tf2 = $tf . '.bak';
 
 
-                if(rename($tf, $tf2)){
+                if (rename($tf, $tf2)) {
                     return array('success' => 'Custom css is removed');
                 } else {
                     return array('error' => 'File could not be removed');
@@ -605,36 +597,50 @@ class Layouts
 
 
         $ref_page = false;
-        if (!isset($params['content_id'])) {
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                $ref_page_url = $_SERVER['HTTP_REFERER'];
-                if ($ref_page_url != '') {
-                    $ref_page1 = $this->app->content->get_by_url($ref_page_url, true);
-                    if (isset($ref_page1['id'])) {
-                        $ref_page = $this->app->content->get_by_id(intval($ref_page1['id']));
+
+
+        if (!isset($params['active_site_template'])) {
+            if (!isset($params['content_id'])) {
+                if (isset($_SERVER['HTTP_REFERER'])) {
+                    $ref_page_url = $_SERVER['HTTP_REFERER'];
+
+                    if ($ref_page_url != '') {
+                        $ref_page_url_rel = str_ireplace(site_url(), '', $ref_page_url);
+
+                        if ($ref_page_url_rel == '') {
+                            $ref_page1 = $this->app->content->homepage();
+
+                        } else {
+                            $ref_page1 = $this->app->content->get_by_url($ref_page_url, true);
+
+                        }
+                        if (isset($ref_page1['id'])) {
+                            $ref_page = $this->app->content->get_by_id(intval($ref_page1['id']));
+                        }
+                    }
+                }
+            } else {
+                $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
+            }
+
+            if (isset($ref_page['id']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page') {
+                $ref_page_parent = $this->app->content->get_by_id(intval($ref_page['id']));
+                if (isset($ref_page_partent['parent']) and intval($ref_page_partent['parent']) != 0) {
+                    $ref_page = $this->app->content->get_by_id(intval($ref_page_partent['id']));
+
+                } else {
+                    $ref_page_parents = $this->app->content->get_parents(intval($ref_page['id']));
+                    if (!empty($ref_page_parents)) {
+                        $ref_page_parent = array_pop($ref_page_parents);
+                        $ref_page = $this->app->content->get_by_id($ref_page_parent);
+
+
                     }
                 }
             }
         } else {
-            $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
+            $ref_page = $params;
         }
-
-        if(isset($ref_page['id']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page'){
-            $ref_page_parent = $this->app->content->get_by_id(intval($ref_page['id']));
-            if(isset($ref_page_partent['parent']) and intval($ref_page_partent['parent']) != 0){
-                $ref_page = $this->app->content->get_by_id(intval($ref_page_partent['id']));
-
-            } else {
-                $ref_page_parents = $this->app->content->get_parents(intval($ref_page['id']));
-                if(!empty($ref_page_parents)){
-                    $ref_page_parent = array_pop($ref_page_parents);
-                    $ref_page = $this->app->content->get_by_id($ref_page_parent);
-
-
-                }
-            }
-        }
-
 
 
         if (!is_array($ref_page) or empty($ref_page)) {
@@ -666,6 +672,9 @@ class Layouts
             if ($template != false) {
 
                 $template_folder = MW_TEMPLATES_DIR . $template . DS;
+                $template_url = MW_TEMPLATES_URL . $template . '/';
+                $this_template_url = THIS_TEMPLATE_URL;
+
                 $live_edit_css = $template_folder . 'live_edit.css';
                 $fcont = '';
                 if (is_file($live_edit_css)) {
@@ -675,35 +684,59 @@ class Layouts
                 $css_cont = $fcont;
                 $css_cont_new = $css_cont;
                 foreach ($params as $item) {
-                    if (isset($item['selector']) and trim($item['selector']) != '') {
+
+                    if (!isset($item["css"]) and isset($item["property"]) and isset($item['value'])) {
+                        $props = explode(',', $item['property']);
+                        $curr = "";
+                        foreach ($props as $prop) {
+                            $curr .= $prop . ":" . $item['value'] . ";";
+                        }
+                        $item["css"] = $curr;
+                    }
+
+
+                    if (isset($item['selector']) and trim($item['selector']) != '' and isset($item["css"])) {
                         $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.mwfx', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.mw_image_resizer', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.ui-resizable', '', $item["selector"]);
                         $item["selector"] = str_ireplace('.ui-draggable', '', $item["selector"]);
+                        $item["css"] = str_ireplace('background:url(;', '', $item["css"]);
+                        $item["css"] = str_ireplace('background:;', '', $item["css"]);
 
 
-                        $sel = $item['selector'];
-                        $css = $item["css"];
-                        $delim = "\n /* $sel */ \n";
-                        $item["css"] = str_ireplace('http://', '//', $item["css"]);
-                        $item["css"] = str_ireplace('https://', '//', $item["css"]);
+                        $sel = trim($item['selector']);
+                        $css = trim($item["css"]);
 
-                        $is_existing = explode($delim, $css_cont_new);
-                        if (!empty($is_existing)) {
+                        if (trim($sel) != '' and strlen($sel) > 2 and strlen($css) > 2) {
 
-                            $srings = $this->app->format->string_between($css_cont_new, $delim, $delim);
-                            if ($srings != false) {
-                                $css_cont_new = str_ireplace($srings, '', $css_cont_new);
-                                $css_cont_new = str_ireplace($delim, '', $css_cont_new);
+                            $delim = "\n /* $sel */ \n";
+
+
+                            $item["css"] = str_ireplace($this_template_url, '', $item["css"]);
+                            $item["css"] = str_ireplace($template_url, '', $item["css"]);
+
+                            $item["css"] = str_ireplace('http://', '//', $item["css"]);
+                            $item["css"] = str_ireplace('https://', '//', $item["css"]);
+
+                            $is_existing = explode($delim, $css_cont_new);
+
+                            if (!empty($is_existing)) {
+
+                                $srings = $this->app->format->string_between($css_cont_new, $delim, $delim);
+
+                                if ($srings != false) {
+                                    $css_cont_new = str_ireplace($srings, '', $css_cont_new);
+                                    $css_cont_new = str_ireplace($delim, '', $css_cont_new);
+                                }
+
                             }
 
+
+                            $css_cont_new .= $delim;
+                            $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                            $css_cont_new .= $delim;
                         }
-
-
-                        $css_cont_new .= $delim;
-                        $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
-                        $css_cont_new .= $delim;
                     }
 
 

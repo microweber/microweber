@@ -1406,6 +1406,31 @@ mw.drag = {
 
 module_settings: function(a,view) {
 
+
+    if(typeof a === 'string'){
+      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&type="+a;
+
+/*data-content-id=265
+data-mw-title=Comments
+data-template=default
+data-type=comments/admin
+from_url=http://pecata/Microweber/minterest#tab=modules
+id=-minterest-502506182
+live_edit=true
+view=admin*/
+
+      return mw.tools.modal.frame({
+        url:src,
+        width:532,
+        height:150,
+        name:'module-settings-'+a.replace(/\//g, '_'),
+        title:'',
+        callback:function(){
+           // $(this.container).attr('data-settings-for-module', curr.id);
+        }
+      });
+    }
+
     var curr = a || $("#mw_handle_module").data("curr");
     var attributes = {};
 
