@@ -712,6 +712,8 @@ class Layouts
                         $item["selector"] = str_ireplace('.ui-draggable', '', $item["selector"]);
                         $item["css"] = str_ireplace('background:url(;', '', $item["css"]);
                         $item["css"] = str_ireplace('background:;', '', $item["css"]);
+                        $item["css"] = str_ireplace('background-image:url(;', '', $item["css"]);
+
 
 
                         $sel = trim($item['selector']);

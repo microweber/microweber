@@ -3372,10 +3372,7 @@ mw.image = {
         var img = mwd.createElement('img');
         if(typeof window.chrome === 'object'){
           var img = new Image();
-		  
-		  
-		  
-			 $(mwd.body).append('<img src=\"'+url+'\" style=\"display:none;\">');
+		  $(mwd.body).append('<img src=\"'+url+'\" style=\"display:none;\">');
         }
         img.className = 'semi_hidden';
         img.src = url;

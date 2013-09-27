@@ -11,6 +11,10 @@
   width: 24%;
 }
 
+.masonry-item > img{
+  width: 100%;
+}
+
 @media (max-width: 767px){
  .module-posts-template-masonry .masonry-item{   width: 48%;  }
 }

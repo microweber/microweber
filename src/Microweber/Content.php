@@ -4465,22 +4465,42 @@ class Content
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->db->q($del_q);
-            //$this->app->cache->delete($cache_group);
+             $this->app->cache->delete($cache_group);
 
-            //$this->app->cache->delete('content_fields/global');
+            //
 
         }
-        if (isset($data['rel']) or isset($data['rel_id'])) {
+        if(isset($fld)){
+
+            $this->app->cache->delete('content_fields/'.$fld);
+            $this->app->cache->delete('content_fields/global/'.$fld);
+
+
+        }
+        $this->app->cache->delete('content_fields/global');
+        if (isset($data['rel']) and isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->cache->delete($cache_group);
 
         }
+        if (isset($data['rel'])){
+            $this->app->cache->delete('content_fields/'.$data['rel']);
+        }
+        if (isset($data['rel']) and isset($data['rel_id'])){
+            $this->app->cache->delete('content_fields/'.$data['rel']. '/' . $data['rel_id']);
+            $this->app->cache->delete('content_fields/global/'.$data['rel']. '/' . $data['rel_id']);
+        }
+        if (isset($data['field'])){
+            $this->app->cache->delete('content_fields/'.$data['field']);
+        }
+
         $this->app->cache->delete('content_fields/global');
         //}
         $data['allow_html'] = true;
 
         $save = $this->app->db->save($table, $data);
 
+        $this->app->cache->delete('content_fields');
 
         return $save;
 

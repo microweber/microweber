@@ -568,7 +568,6 @@ class Parser
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 
-
         $layout = str_replace("\u00a0", ' ', $layout);
 
 
@@ -825,11 +824,6 @@ class Parser
             $replaced_codes = array();
 
 
-
-
-
-
-
             $mw_found_elems = '';
             $mw_found_elems_arr = array();
 
@@ -853,17 +847,10 @@ class Parser
                 if ($cache != false) {
 
 
-                    //  return $cache;
+                     // return $cache;
                 }
 
             }
-
-
-
-
-
-
-
 
 
             $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
@@ -885,8 +872,6 @@ class Parser
             }
 
 
-
-
             $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
             preg_match_all($script_pattern, $layout, $mw_script_matches);
             // preg_match_all ("/<pre>([^`]*?)<\/pre>/", $layout, $mw_script_matches);
@@ -905,22 +890,6 @@ class Parser
                     }
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             $ch = mw_var($parser_mem_crc);
@@ -1015,9 +984,9 @@ class Parser
 
                         $get_global = false;
                         $data_id = intval($data_id);
-                        $data = mw('content')->get_by_id($data_id);
+                        $data = $this->app->content->get_by_id($data_id);
 
-                        //$data['custom_fields'] = mw('content')->custom_fields($data_id, 0, 'all');
+                        //$data['custom_fields'] = $this->app->content->custom_fields($data_id, 0, 'all');
 
                     } else if ($rel == 'page') {
 
@@ -1026,16 +995,16 @@ class Parser
                             //  $data_id = CONTENT_ID;
                         }
 
-                        $data = mw('content')->get_page($data_id);
+                        $data = $this->app->content->get_page($data_id);
 
-                        //$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
+                        //$data['custom_fields'] = $this->app->content->custom_fields($data['id'], 0, 'all');
                         $get_global = false;
                     } else if ($rel == 'post') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = POST_ID;
                         }
-                        $data = mw('content')->get_by_id($data_id);
+                        $data = $this->app->content->get_by_id($data_id);
 
                     } else if ($rel == 'inherit') {
                         $get_global = false;
@@ -1043,7 +1012,7 @@ class Parser
                             $data_id = PAGE_ID;
                         }
 
-                        $inh = mw('content')->get_inherited_parent($data_id);
+                        $inh = $this->app->content->get_inherited_parent($data_id);
 
                         if ($inh != false and intval($inh) != 0) {
 
@@ -1051,20 +1020,25 @@ class Parser
 
                             $data_id = $inh;
                             $rel = 'content';
-                            $data = mw('content')->get_by_id($data_id);
+                            $data = $this->app->content->get_by_id($data_id);
                         } else {
                             $rel = 'content';
-                            $data = mw('content')->get_page($data_id);
+                            $data = $this->app->content->get_page($data_id);
                             //d($data);
                             //
                         }
+
+                    } else if ($rel == 'global') {
+                        $get_global = 1;
+                        $cont_field = false;
+
 
                     } else if (isset($attr['post'])) {
                         $get_global = false;
                         $data = get_post($attr['post']);
                         if ($data == false) {
-                            $data = mw('content')->get_page($attr['post']);
-                            //$data['custom_fields'] = mw('content')->custom_fields($data['id'], 0, 'all');
+                            $data = $this->app->content->get_page($attr['post']);
+                            //$data['custom_fields'] = $this->app->content->custom_fields($data['id'], 0, 'all');
                         }
                     } else if (isset($attr['category'])) {
                         $get_global = false;
@@ -1095,25 +1069,22 @@ class Parser
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
                             //
 
-                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
-
-
-
+                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
 
                             // and $rel == 'inherit'
                             if ($cont_field == false and $try_inherited == true) {
 
-                                $inh = mw('content')->get_inherited_parent($data_id);
+                                $inh = $this->app->content->get_inherited_parent($data_id);
                                 //d($data_id . $field . $inh);
                                 //
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
 
-                                    $cont_field2 = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
-                                        $data = mw('content')->get_by_id($inh);
+                                        $data = $this->app->content->get_by_id($inh);
 
                                         $cont_field = $cont_field2;
                                     }
@@ -1123,14 +1094,14 @@ class Parser
                         } else {
 
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
 
-                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
 
                             }
                             if ($cont_field != false and is_string($cont_field)) {
@@ -1144,28 +1115,33 @@ class Parser
                             $field_content = $cont_field;
                         }
                     }
-
+                    if ($rel == 'global') {
+                        $field_content = false;
+                        $get_global = 1;
+                    }
                     if ($field_content == false) {
                         if ($get_global == true) {
-                            if(isset($data_id)){
 
-                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            if (isset($data_id)) {
+
+                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
                             }
-                            if(isset($cont_field) and !empty($cont_field)){
-                                $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
+
+                            if (isset($cont_field) and !empty($cont_field)) {
+                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
                             }
 
-                            //mwdbg($cont_field);
+
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
                                     //$field_content = __FILE__ . __LINE__;
                                     //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
-                                    $field_content = mw('content')->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
 
                                     //
                                 } else {
-                                    $field_content = mw('content')->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
 
                                     //$field_content = __FILE__ . __LINE__;
                                     //$field_content = $this->app->option->get($field, $option_group, $return_full = false, $orderby = false);
@@ -1203,7 +1179,7 @@ class Parser
 
 
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
 
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
@@ -1211,7 +1187,7 @@ class Parser
 
 
                         } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = mw('content')->edit_field("rel={$rel}&field={$field}");
+                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
 
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
@@ -1261,8 +1237,6 @@ class Parser
                         if ($ch2 == false) {
                             //$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
                             if ($field_content != false and $field_content != '') {
-
-
 
 
                                 $mw_found_elems = ',' . $parser_mem_crc2;
@@ -1349,8 +1323,6 @@ class Parser
 
 
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
-
-
 
 
                             //}
