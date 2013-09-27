@@ -781,6 +781,7 @@ class Category
                     $print1 = str_replace('{active_class}', 'active', $print1);
 
                 }
+                $print1 = str_replace('{active_class}', '', $print1);
 
 
                 print $print1;
@@ -855,15 +856,17 @@ class Category
                             $to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
 
                             $to_print = str_ireplace('{title}', $item['title'], $to_print);
+                            $active_class = ' ';
 
                             $active_parent_class = '';
                             //if(isset($item['parent']) and intval($item['parent']) != 0){
                             if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
                                 $active_parent_class = 'active-parent';
+                                $active_class = 'active';
+
                             } else {
                                 $active_parent_class = '';
                             }
-                            $active_class = 'active';
 
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);

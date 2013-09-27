@@ -26,6 +26,8 @@
       <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img2.jpg); "></span>
       <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img3.jpg); "></span>
 
+      <span class="mw-ui-btn mw-ui-btn-small" id="uploader">Upload Image</span>
+
 
       <input type="hidden"
              class="tpl-field"
@@ -88,7 +90,16 @@
         border-color: rgba(44, 121, 204, 1);
     }
 
+    #uploader{
+      float: left;
+      margin-left: 7px;
+      margin-top: 7px;
+    }
+
 </style>
+<script>
+mw.require("files.js");
+</script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -108,6 +119,19 @@ $(document).ready(function(){
             mw.tpl.save();
         }
     });
+
+    var uploader = mw.files.uploader({
+      filetypes:'images',
+      multiple:false
+    });
+    mw.$("#uploader").append(uploader);
+
+    $(uploader).bind("FileUploaded", function(a,b){
+            mw.$(".pattern.bgi").removeClass("active");
+            mw.$("#bodybg").val(b.src);
+            mw.tpl.save();
+    });
+
 });
 
 
