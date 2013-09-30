@@ -4,11 +4,13 @@ mw.CSSParser = function(el){
     if(el.nodeName === undefined || el.nodeName === '#text') return false;
     var css = window.getComputedStyle(el, null);
 
-    this.display = function(){
+    var f = {}
+
+    f.display = function(){
       return css.display;
     }
 
-    this.isit = function(){
+    f.isit = function(){
 
         return {
           bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',
@@ -16,7 +18,7 @@ mw.CSSParser = function(el){
           underlined:css.textDecoration=='underline'
         }
     }
-    this.font = function(){
+    f.font = function(){
       if(css===null) return false;
       return {
         size:css.fontSize,
@@ -27,14 +29,14 @@ mw.CSSParser = function(el){
         color:css.color
       }
     }
-    this.alignNormalize = function(){
+    f.alignNormalize = function(){
         if(!!css){
         var a = css.textAlign;
         var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
         return final;
       }
     }
-    this.border = function(parse){
+    f.border = function(parse){
         if(!parse){
           return {
               top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
@@ -53,10 +55,10 @@ mw.CSSParser = function(el){
         }
 
     }
-    this.width = function(){
+    f.width = function(){
         return css.width;
     }
-    this.background = function(){
+    f.background = function(){
         return {
             image:css.backgroundImage,
             color:css.backgroundColor,
@@ -64,7 +66,7 @@ mw.CSSParser = function(el){
             repeat:css.backgroundRepeat
         }
     }
-    this.margin = function(parse){
+    f.margin = function(parse){
       if(!parse){
         return {
           top:css.marginTop,
@@ -82,7 +84,7 @@ mw.CSSParser = function(el){
         }
       }
     }
-    this.padding = function(parse){
+    f.padding = function(parse){
       if(!parse){
         return {
           top:css.paddingTop,
@@ -100,9 +102,9 @@ mw.CSSParser = function(el){
         }
       }
     }
-    this.opacity = function(){return css.opacity}
+    f.opacity = function(){return css.opacity}
 
-    this.radius = function(parse){
+    f.radius = function(parse){
       if(!parse){
         return {
           tl:css.borderTopLeftRadius,
@@ -121,7 +123,7 @@ mw.CSSParser = function(el){
       }
     }
 
-    this.transform = function(){
+    f.transform = function(){
      var transform = mw.JSPrefix('transform');
      var transform = css[transform];
      if(transform==="" || transform==="none"){
@@ -133,7 +135,7 @@ mw.CSSParser = function(el){
      }
     }
 
-    this.shadow = function(){
+    f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
       var shadow = css[shadow].replace(/, /g, ",").split(" ");
       return {
@@ -147,6 +149,6 @@ mw.CSSParser = function(el){
     return {
         el:el,
         css:css,
-        get:this
+        get:f
     }
 }

@@ -185,6 +185,7 @@
                   <li value="hr"><a href="#" style="font-size: 10px"><?php _e("Horizontal Rule"); ?></a></li>
                   <li value="box"><a href="#" style="font-size: 10px"><?php _e("Box"); ?></a></li>
                   <li value="table"><a href="#" style="font-size: 10px"><?php _e("Table"); ?></a></li>
+                  <?php /*<li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>*/ ?>
                 </ul>
               </div>
             </div>

@@ -2660,6 +2660,98 @@ a.module-icon-title{
 }
 
 
+[class*="mwsico-"]{
+  display: block;
+  float: left;
+  margin: 2px 20px 0 0;
+  width: 30px;
+  height: 30px;
+  background: url(../img/shipping.png) no-repeat;
+}
+
+.mwsico-width{ background-position: 0 0; }
+.mwsico-height{ background-position: 0 -78px; }
+.mwsico-depth{ background-position: 0 -144px; }
+.mwsico-weight{ background-position: 0 -202px; }
+.mwsico-cost{ background-position: 0 -270px; }
+.mwsico-usd{ background-position: 0 -332px; margin-right: 5px;}
+
+
+
+#shipping-options{
+  padding-left: 40px;
+}
+
+#shipping-options .mw-ui-label{
+  padding-left: 50px;
+  font-weight: normal;
+  padding-bottom: 5px;
+}
+
+.mw-onoff{
+  display: inline-block;
+  position: relative;
+  height: 16px;
+  min-width: 65px;
+  border: 1px solid rgba(126, 113, 113, 0.7);
+  border-radius: 10px;
+  box-shadow: 3px 4px 5px rgba(17, 17, 17, 0.4) inset;
+  background: #DF4343;
+  cursor: pointer;
+  font-size: 11px;
+  color: white;
+  text-align: right;
+  transition: all 0.25s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -moz-transition:  all 0.25s;
+  -webkit-transition:  all 0.25s;
+  -o-transition:  all 0.25s;
+}
+
+.mw-onoff:hover, .mw-onoff:focus{
+  box-shadow: 3px 4px 5px rgba(17, 17, 17, 0) inset;
+}
+
+.mw-onoff:active{
+  box-shadow: inset 0 0 3px #777;
+}
+
+.mw-onoff > *{ visibility: hidden;font-style: normal; }
+.mw-onoff > *:first-child{ visibility: visible; }
+.mw-onoff.active > *:first-child{ visibility: hidden; }
+.mw-onoff.active > *:last-child{ visibility: visible; }
+
+.mw-onoff.active{
+    background-color: #2BBF4E;
+    text-align: left;
+}
+
+
+
+.mw-onoff:before{
+  display: block;
+  content:"";
+  width: 24px;
+  height: 25px;
+  background: url(../img/onoff.png) no-repeat;
+  left:-3px;
+  top: -4px;
+  position: absolute;
+  transition: all 0.25s;
+  -moz-transition:  all 0.25s;
+  -webkit-transition:  all 0.25s;
+  -o-transition:  all 0.25s;
+}
+.mw-onoff.active:before{
+  left: 75%;
+}
+
+
+
 
 
 

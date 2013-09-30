@@ -909,6 +909,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
+                  $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -927,6 +928,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
+                  $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -945,6 +947,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
+                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -961,6 +964,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
+                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -985,6 +989,7 @@ mw.drag = {
                 mw.dragCurrent = mw.GlobalModuleListHelper;
                 $(mwd.body).addClass("dragStart");
                 $(mw.image_resizer).removeClass("active");
+
             },
            stop:function(){
               mw.isDrag = false;

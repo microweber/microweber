@@ -1,33 +1,67 @@
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet">
+
+
+
+      <label class="mw-ui-label">Default Font</label>
+
+
+      <input type="hidden"
+             class="tpl-field"
+             data-selector="body, a"
+             value = "<?php if(isset($arr['font']) and isset($arr['font']['value'])){ print $arr['font']['value']; } ?>"
+             name="font"
+             id="font"
+             data-property="font-family" />
+
+
+
+<div title="Template Font" id="font_family" class="mw_dropdown mw_dropdown_type_navigation">
+    <span class="mw_dropdown_val_holder">
+        <span class="mw_dropdown_val" style="width: 130px;">Select</span>
+    </span>
+    <div class="mw_dropdown_fields" style="left: 0px;">
+      <ul>
+          <li value="Open Sans"><a style="font-family: Open Sans" href="#">Open Sans</a></li>
+          <li value="Arial"><a style="font-family: Arial" href="#">Arial</a></li>
+          <li value="Tahoma"><a style="font-family: Tahoma" href="#">Tahoma</a></li>
+          <li value="Verdana"><a style="font-family: Verdana" href="#">Verdana</a></li>
+          <li value="Georgia"><a style="font-family: Georgia" href="#">Georgia</a></li>
+          <li value="Segoe UI, Arial, sans-serif"><a style="font-family: Segoe UI, Arial, sans-serif" href="#">Segoe UI</a></li>
+          <li value="Times New Roman"><a style="font-family: Times New Roman" href="#">Times New Roman</a></li>
+      </ul>
+    </div>
+</div>
+
+<div class="vSpace"></div><hr>
+
+
 
 
       <label class="mw-ui-label">Site Background</label>
 
 
-      <label class="mw-ui-label-small">Patterns</label><hr>
-
-
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern1.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern2.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern3.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern4.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern5.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern6.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern7.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern8.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern9.png); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern10.png); "></span>
+      <div style="padding-left:20px">
+          <label class="mw-ui-label-small">Patterns</label><hr>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern1.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern2.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern3.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern4.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern5.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern6.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern7.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern8.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern9.png); "></span>
+          <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern10.png); "></span>
+      </div>
 
       <div class="vSpace"></div>
-
-      <label class="mw-ui-label-small">Images</label><hr>
-
-
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img1.jpg); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img2.jpg); "></span>
-      <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img3.jpg); "></span>
-
-      <span class="mw-ui-btn mw-ui-btn-small" id="uploader">Upload Image</span>
-
+      <div style="padding-left:20px">
+        <label class="mw-ui-label-small">Images</label><hr>
+        <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img1.jpg); "></span>
+        <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img2.jpg); "></span>
+        <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/img3.jpg); "></span>
+        <span class="mw-ui-btn mw-ui-btn-small" id="uploader">Upload Image</span>
+      </div>
 
       <input type="hidden"
              class="tpl-field"
@@ -41,9 +75,8 @@
 
       <div class="vSpace"></div><hr>
 
-      <label class="mw-ui-label">Header/Top Color</label>
+      <label class="mw-ui-label">Color Schemes</label>
 
-      <span class="pattern bgc" style="background-color: transparent;text-decoration: line-through"></span>
       <span class="pattern bgc" style="background-color: #A0CE4E;"></span>
       <span class="pattern bgc" style="background-color: #9DB668;"></span>
       <span class="pattern bgc" style="background-color: #E9A825;"></span>
@@ -58,11 +91,13 @@
 
       <input type="hidden"
              class="tpl-field"
-             data-selector="#header,#footer"
+             data-selector="h1,h2,h3,h4,h5,h6,.btn,h1 a,h2 a,h3 a,h4 a,h5 a,h6 a"
              value = "<?php if(isset($arr['headerbg']) and isset($arr['headerbg']['value'])){ print $arr['headerbg']['value']; } ?>"
              name="headerbg"
              id="headerbg"
-             data-property="background-color" />
+             data-property="color" />
+
+
 
 
 
@@ -84,7 +119,7 @@
       cursor: pointer;
     }
     .pattern:hover, .pattern:focus{
-        box-shadow: 1px 1px 2px #111;
+        box-shadow: 1px 1px 2px #8A8A8A;
     }
     .pattern.active{
         border-color: rgba(44, 121, 204, 1);
@@ -98,7 +133,8 @@
 
 </style>
 <script>
-mw.require("files.js");
+  mw.require("files.js");
+  mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
 </script>
 <script type="text/javascript">
 
@@ -131,6 +167,21 @@ $(document).ready(function(){
             mw.$("#bodybg").val(b.src);
             mw.tpl.save();
     });
+    mw.tools.dropdown();
+
+    mw.$("#font_family").bind("change", function(){
+        var val = $(this).getDropdownValue();
+        mw.$("#font").val(val);
+        mw.tpl.save();
+    });
+
+
+
+    mw.$("#font_family").setDropdownValue(mw.$("#font").val());
+
+
+
+
 
 });
 

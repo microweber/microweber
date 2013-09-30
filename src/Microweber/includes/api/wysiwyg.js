@@ -1301,6 +1301,13 @@ $(window).load(function(){
              table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
              table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
         }
+        else if( val == 'quote' ){
+            var div = mw.wysiwyg.applier('blockquote', 'element');
+
+
+              $(div).append("<cite>By Lorem Ipsum</cite>");
+
+        }
    }
 
   });

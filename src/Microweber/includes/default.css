@@ -95,7 +95,7 @@ body.state-element .mw-row .element{
 
 
 
-.element {
+.element, .module {
     display: block;
     clear: both;
     -moz-transition: none !important;
@@ -562,6 +562,10 @@ table[class*='mw-wysiwyg-table'] td{
   background: #F3F3F3;
   border-color:#D7D7D7;
 }
+
+
+
+
 
 
 

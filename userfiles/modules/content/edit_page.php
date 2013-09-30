@@ -1246,9 +1246,123 @@ if(intval($data['id']) == 0){
 	<?php /* ONLY FOR POSTS  */ ?>
 	<?php // if($edit_post_mode != false): ?>
 	
+
+
+
+
+
+
+    <a href="javascript:;" class="mw-ui-more" onclick="mw.tools.toggle('#shipping-options', this);" id="custom-fields-toggler"
+    data-for='#shipping-options'>
+	<?php _e("Shipping options"); ?>
+	</a>
+    <div id="shipping-options">
+
+
+<label class="mw-ui-label">Free Shipping</label>
+
+<span class="mw-onoff" onclick="$(this).toggleClass('active');">
+    <i>OFF</i>
+    <i>ON</i>
+</span>
+
+
+
+
+<div class="mw-ui-field-holder">
+  <label class="mw-ui-label">Width (Optional) Inches</label>
+  <span class="mwsico-width"></span>
+  <input type="text" name="shipping_width" class="mw-ui-field" />
+</div>
+
+<div class="mw-ui-field-holder">
+  <label class="mw-ui-label">Height (Optional) Inches</label>
+  <span class="mwsico-height"></span>
+  <input type="text" name="shipping_height" class="mw-ui-field" />
+</div>
+
+<div class="mw-ui-field-holder">
+  <label class="mw-ui-label">Depth (Optional) Inches </label>
+  <span class="mwsico-depth"></span>
+  <input type="text" name="shipping_depth" class="mw-ui-field" />
+</div>
+
+<div class="mw-ui-field-holder">
+<span class="left" style="margin-right:20px;">
+  <label class="mw-ui-label">Weight (Optional)
+
+  <span data-value=""
+     title="Format"
+     class="mw_dropdown mw_dropdown_type_wysiwyg" style="width:32px;float:none;position:relative;top:8px">
+  <span class="mw_dropdown_val_holder">
+    <span class="dd_rte_arr"></span>
+    <span class="mw_dropdown_val">lb</span>
+  </span>
+<span class="mw_dropdown_fields">
+  <ul style="width: 32px;">
+    <li value="lb"><a href="#">lb</a></li>
+    <li value="kg"><a href="#">kg</a></li>
+  </ul>
+</span>
+</span>
+
+<script>
+
+$(mwd).ready(function(){
+   mw.tools.dropdown();
+});
+
+</script>
+
+   </label>
+  <span class="mwsico-weight"></span>
+  <input type="text" name="shipping_weight" class="mw-ui-field" />
+    </span>
+   <?php /*<span class="left" style="margin-right:20px;">
+
+  <label class="mw-ui-label" style="padding-left: 35px;">1 qty/weight price</label>
+  <span class="mwsico-usd"></span>
+  <input type="text" name="price_per_quantity" class="mw-ui-field left" placeholder="0.00" style="width: 90px;" />
+   </span>*/ ?>
+</div>
+
+
+<div class="mw-ui-field-holder">
+
+
+
+
+    <label class="mw-ui-label">Fixed Shipping Cost (Optional) $</label>
+    <span class="mwsico-cost"></span>
+    <input type="text" name="shipping_cost" class="mw-ui-field left" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+    </div>
+
+
+ <div class="vSpace"></div>
+
+
+
 	
-	
-	
+
 	
 	<?php if( $quick_edit == false or trim($data['subtype']) == 'product'): ?>
 	
@@ -1263,7 +1377,7 @@ if(intval($data['id']) == 0){
 	<?php endif; ?>
 	
   
-	
+
 	<div class="vSpace"></div>
 	<?php /* <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.toggle('#the_custom_fields', this);"><span class="ico iSingleText"></span><?php _e("Custom Fields"); ?></a>  */ ?>
 	

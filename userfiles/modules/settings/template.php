@@ -106,7 +106,7 @@ $arr = array();
           <div class="vSpace"></div>
           <hr>
 
-          <button onclick="mw.tpl.save();" class="mw-ui-btn right">Save</button>
+          <?php /*<button onclick="mw.tpl.save();" class="mw-ui-btn right">Save</button>*/ ?>
 
          </div>
        </div>
@@ -123,9 +123,6 @@ mw.tpl = {
 		obj.module= "settings/template";
 		obj.save_template_settings= true;
 		obj.active_site_template= "<?php print $active_template_dir; ?>";
-
-		
-		
         obj[name] = {
             selector:$(this).dataset("selector"),
             value:this.value,
@@ -135,21 +132,23 @@ mw.tpl = {
     $.post(u,obj, function(){
       if(self !== parent){
         var css = parent.mw.$("#mw-template-settings")[0];
-		if(css == undefined){
-			  mw.askusertostay = false;
- 
-			  if(parent.mw){
-			  	 parent.mw.askusertostay = false;		 
-				  parent.window.location.reload();
-			  }
+		if(css === null){
+			  var l = parent.mwd.createElement('link');
+              l.href = mw.settings.template_url + "live_edit.css";
+              l.id = "mw-template-settings";
+              l.type = "text/css";
+              l.rel = "stylesheet";
+              parent.mwd.getElementsByTagName('head')[0].appendChild(l);
 
-			 
 		} else {
 			  mw.tools.refresh(css);
 		}
       
       }
     })
+  },
+  reset:function(){
+
   }
 }
 
