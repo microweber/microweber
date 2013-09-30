@@ -357,7 +357,7 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   clear: both;
   outline: none;
   background-color: white;
-  background-image:  url(../img/cf_middle_border.png), url(../img/shipping_supported.png);
+  background-image:  url(../img/cf_middle_border.png);
   background-position:  165px 50%, 5px 5px;
   background-repeat:  repeat-y, no-repeat;
 }
@@ -366,6 +366,32 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 }
 .country-id-0{
   display: none;
+}
+
+
+.shipping_dimensions {
+  clear: both;
+  float: right;
+  padding: 10px 20px ;
+  border: 1px solid #EDEDED;
+  box-shadow: 0 0 6px #F3F3F3;
+  margin:20px 60px 20px 0;
+}
+.shipping_dimensions .mw-ui-field{
+  width: 60px;
+}
+
+.shipping_dimensions:after{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.shipping_dimensions .mw-ui-label{
+  min-width: 190px;
 }
 
 .mw-shipping-items{
@@ -417,8 +443,8 @@ form .shipping-country-row:first-child{
 .shipping-handle-field{
   float: none;
   position: absolute;
-  right: 17px;
-  top: -8px;
+right: 20px;
+    top: -5px;
 }
 
 .shipping-country-row select{
@@ -442,8 +468,8 @@ form .shipping-country-row:first-child{
 
 .shipping-country-holder .mw-ui-delete-x{
   position: absolute;
-  top: 1px;
-  right: 2px;
+  top: 5px;
+  right: 5px;
 }
 
 .shipping-country-label{
@@ -471,11 +497,14 @@ form .shipping-country-row:first-child{
 .shipping-price-field{
   width: 60px;
 }
-.shipping-country-holder .mw-ui-btn-small{
-  margin: -11px 13px 0 0;
-  padding: 2px 10px;
+.shipping-country-holder .save_shipping_btn{
+  margin: 20px 20px 0;
   position: relative;
   float: right;
+}
+
+.shipping-country-holder.mw-focus .save_shipping_btn{
+    background:#d8ffc3
 }
 
 

@@ -410,9 +410,16 @@ $(window).load(function(){
     });
     mw.$("#mw-text-editor").mouseleave(function(){
         if(mw.mouseDownOnEditor){
-            mw.$("#mw_small_editor").visible();
-            mw.$("#mw-text-editor").invisible();
+            mw.$("#mw_small_editor").visible().draggable({ disabled: false });
+            mw.$("#mw-text-editor").invisible() ;
             mw.$("#mw-text-editor").removeClass("hover");
+            if(mwd.getElementById('mw_toolbar_nav').style.display == 'none'){
+              mwd.body.style.paddingTop = "";
+            }
+            else{
+                mwd.body.style.paddingTop = (mw.toolbar.max - mw.$("#mw-text-editor").height()) + 'px';
+            }
+
         }
     });
     $(document.body).mouseup(function(event){
@@ -482,7 +489,15 @@ mw.toggle_subpanel = function(){
         mw.$("#mw-toolbar-right").css("top", 6);
         mw.$("#show_hide_sub_panel").css("top", 16);
      });
-     $(mwd.body).animate({paddingTop:170});
+
+     if(mwd.getElementById('mw-text-editor').style.visibility == 'hidden'){
+        $(mwd.body).animate({paddingTop:mw.toolbar.max - mw.$("#mw-text-editor").height()});
+     }
+     else{
+        $(mwd.body).animate({paddingTop:mw.toolbar.max});
+     }
+
+
 
      mw.$("#mw-toolbar-right").show();
      mw.$("#editor_save").hide();
@@ -500,8 +515,18 @@ mw.toggle_subpanel = function(){
        mw.$("#show_hide_sub_panel").css("top", 10);
        mw.$("#editor_save").fadeIn();
     });
-    //$(mwd.body).animate({paddingTop:0});
-    $(mwd.body).animate({paddingTop:mw.$("#mw-text-editor").height()});
+
+
+
+
+    if(mwd.getElementById('mw-text-editor').style.visibility == 'hidden'){
+       $(mwd.body).animate({paddingTop:0});
+    }
+    else{
+      $(mwd.body).animate({paddingTop:mw.$("#mw-text-editor").height()});
+    }
+
+
     mw.$("#mw-toolbar-right").hide();
 
   }

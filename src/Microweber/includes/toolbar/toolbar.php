@@ -1,21 +1,21 @@
 <?php if(!isset($_GET['preview'])){ ?>
 
 <script type="text/javascript">
-  mw.settings.liveEdit = true;
-  mw.require("liveadmin.js");
-  mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
-  mw.require("events.js");
-  mw.require("url.js");
-  mw.require("tools.js");
-  mw.require("wysiwyg.js");
-  mw.require("css_parser.js");
-  mw.require("style_editors.js");
-  mw.require("forms.js");
-  mw.require("files.js");
-  mw.require("content.js", true);
-  mw.require("session.js");
-  mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
-  mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
+    mw.settings.liveEdit = true;
+    mw.require("liveadmin.js");
+    mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
+    mw.require("events.js");
+    mw.require("url.js");
+    mw.require("tools.js");
+    mw.require("wysiwyg.js");
+    mw.require("css_parser.js");
+    mw.require("style_editors.js");
+    mw.require("forms.js");
+    mw.require("files.js");
+    mw.require("content.js", true);
+    mw.require("session.js");
+    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
+    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
 </script>
 <link href="<?php   print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
@@ -28,20 +28,17 @@
 
 
         $(document).ready(function () {
+            mw.toolbar.max = 170;
 
-         // mw.drag.create();
- setTimeout(function(){
-
-  mw.history.init();
- }, 500);
+            document.body.style.paddingTop = mw.toolbar.max + 'px';
 
 
+            setTimeout(function(){
+                mw.history.init();
+            }, 500);
             mw.tools.module_slider.init();
             mw.tools.dropdown();
-
             mw.tools.toolbar_slider.init();
-
-
             $(".mw-ui-dropdown ul .mw-ui-btn").click(function(){
                var text = $(this).text();
                mw.$(".mw-ui-dropdown .mw-ui-btn .left").html(text);
@@ -53,8 +50,6 @@
 
                mw.tools.copyAttributes(this,first);
 
-
-
               $(this).parents("ul").invisible();
                   var el = $(this).parents("ul");
                   $(this).replaceWith(span)
@@ -64,21 +59,9 @@
                 }, 177);
             });
 
-
-
-
-
-mw_save_draft_int = self.setInterval(function(){
-
-
-   mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
-
-
-},1000);
-
-
-
-
+            mw_save_draft_int = self.setInterval(function(){
+               mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
+            },1000);
         });
 
 
