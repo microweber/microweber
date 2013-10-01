@@ -52,9 +52,7 @@ if($payment_currency_rate != false){
 <?php endif; ?>
 <?php endif; ?>
 <div class="vSpace"></div>
-<label class="mw-ui-label">
-	<?php _e("Example of how the price will be diplayed"); ?>
-	.</label>
+<label class="mw-ui-label"><?php _e("Example of how the price will be shown"); ?></label>
 <input  value="<?php print ( mw('shop')->currency_format($num, $cur)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <?php if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies) ): ?>
 <label class="mw-ui-label">

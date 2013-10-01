@@ -6,7 +6,7 @@
         <span class="mw_dropdown_val" style="width: 80px;"><?php _e("E-mail Values"); ?></span>
     </span>
   <div class="mw_dropdown_fields">
-      <ul>
+      <ul style="position: absolute;right: 0;width: 140px;">
         <li value="{id}"><a href="javascript:;"><?php _e("Order ID"); ?></a></li>
         <li value="{cart_items}"><a href="javascript:;"><?php _e("Cart items"); ?></a></li>
         <li value="{amount}"><a href="javascript:;"><?php _e("Amount"); ?></a></li>
