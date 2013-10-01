@@ -114,6 +114,18 @@ mw.$('.country-id-0').show()
     }
  });
 
+ mw.$(".mw-onoff").mousedown(function(){
+    var el = this;
+    if(mw.tools.hasClass(el, 'active')){
+       mw.tools.removeClass(el, 'active');
+       el.querySelector('.is_active_n').checked = true;
+    }
+    else{
+       mw.tools.addClass(el, 'active');
+       el.querySelector('.is_active_y').checked = true;
+    }
+ });
+
 
 });
 
@@ -261,24 +273,16 @@ $new = true;
                 <?php _e("Select country"); ?>
                 </span> </span> <span class="shipping-arrow"></span>
 
-                 <div class="mw-ui-check-selector">
-                  <div class="left" style=" margin-right: 10px;margin-top: 3px;">
-                    <?php _e("Is active?"); ?>
-                  </div>
-                  <?php if($new != false): ?>
-                  <input name="position" type="hidden"  value="<?php print $item['position'] ?>"  />
-                  <?php endif; ?>
-                  <label class="mw-ui-check">
-                    <input name="is_active" type="radio"  value="y" <?php if( 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                    <span></span><span>
-                    <?php _e("Yes"); ?>
-                    </span> </label>
-                  <label class="mw-ui-check">
-                    <input name="is_active" type="radio"  value="n" <?php if( '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                    <span></span><span>
-                    <?php _e("No"); ?>
-                    </span> </label>
-                </div>
+
+
+
+  <div class="left" style=" margin-right: 10px;margin-top: 3px;"><?php _e("Is active?"); ?></div>
+  <div class="mw-onoff<?php if( 'y' == trim($item['is_active'])): ?> active<?php endif; ?>">
+      <label>No<input name="is_active" type="radio" class="semi_hidden is_active_n"  value="n" <?php if( '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> /></label>
+      <label>Yes<input name="is_active" type="radio" class="semi_hidden is_active_y"  value="y" <?php if( 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> /></label>
+  </div>
+
+
 
 
 
@@ -302,7 +306,7 @@ $new = true;
            </span>
            <span class="shipping-arrow"></span>
 
-           <label><?php _e("Shipping Price"); ?><b><?php print mw('shop')->currency_symbol() ?></b></label>
+           <label><?php _e("Shipping Price"); ?>&nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
            <span class="mw-help-field">
                 <input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"  onblur="mw.form.fixPrice(this);" name="shiping_cost" value="<?php print $item['shiping_cost']; ?>" onfocus="if(this.value==='0')this.value='';" />
                 <span class="mw-ui-label-help">

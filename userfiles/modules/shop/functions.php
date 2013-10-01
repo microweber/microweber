@@ -13,13 +13,14 @@ function mw_print_admin_shop_settings_link() {
 	$notif_html = '';
 	
 	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Payments</a></li>";
-
-	//$notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
-	/*if ($notif_count > 0) {
-		$notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
-	}*/
-	//print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">' . $notif_html . '</span><span>Comments</span></a></li>';
 }
 
-
+event_bind('mw_edit_product_admin', 'mw_print_admin_shop_product_settings');
+function mw_print_admin_shop_product_settings($data = false) {
+	$content_id = 0;
+	if($data != false and isset($data['id'])){
+		$content_id =$data['id'];
+	}  
+	 print '<module data-type="shop/products/product_options" id="mw_admin_product_settings" data-content-id="'.$content_id.'" />';
+}
 
