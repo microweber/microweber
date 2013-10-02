@@ -943,6 +943,15 @@ function save_custom_field($data)
 
     return mw('fields')->save($data);
 }
+api_expose('save_content_data');
+function save_content_data($data)
+{
+
+
+    return mw('content')->save_content_data($data);
+}
+
+
 
 api_expose('reorder_custom_fields');
 
@@ -950,6 +959,13 @@ function reorder_custom_fields($data)
 {
     return mw('fields')->reorder($data);
 }
+
+function get_custom_fields($params)
+{
+    return mw('fields')->get($params);
+}
+
+
 
 api_expose('remove_field');
 
@@ -985,6 +1001,10 @@ function save_category($data, $preserve_cache = false)
 
 
 }
+
+
+
+
 
 function get_categories($data)
 {

@@ -26,6 +26,19 @@ scaleHeight = function(){
   $("#mw-iframe-editor-area").height(h)
 }
 
+PrepareEditor = function(){
+  if(window.name.contains("mweditor")){
+     HOLD = false;
+     mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
+          el = $(this);
+          typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
+               HOLD = setTimeout(function(){
+               parent.mw.$("iframe#"+window.name).trigger("change", el.html());
+          }, 600);
+     });
+  }
+}
+
 $(window).load(function(){
 
 scaleHeight()
@@ -106,21 +119,15 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
  });
 
 
-  if(window.name.contains("mweditor")){
-     HOLD = false;
-     mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
-          el = $(this);
-          typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
-               HOLD = setTimeout(function(){
-               parent.mw.$("iframe#"+window.name).trigger("change", el.html());
-          }, 600);
-     });
-  }
+
 
 
 
 
 });
+
+
+
 
 
 delete_module = function(inner_node){

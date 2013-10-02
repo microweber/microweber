@@ -194,7 +194,17 @@ mw.custom_fields.serialize = function(id){
 mw.custom_fields.save = function(id, callback){
     var obj = mw.custom_fields.serialize(id);
     $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
-         var $cfadm_reload = false;
+        
+		
+		if(data.error != undefined){
+			return false;
+		}
+		
+		
+		
+		
+		
+		 var $cfadm_reload = false;
          if(obj.cf_id === undefined){
       //      mw.reload_module('.edit [data-parent-module="custom_fields"]');
          }

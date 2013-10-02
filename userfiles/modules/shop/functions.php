@@ -12,7 +12,7 @@ function mw_print_admin_shop_settings_link() {
 	}
 	$notif_html = '';
 	
-	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Payments</a></li>";
+	print "<li><a class=\"item-".$mname."\" href=\"#option_group=".$mname."\">Shop</a></li>";
 }
 
 event_bind('mw_edit_product_admin', 'mw_print_admin_shop_product_settings');

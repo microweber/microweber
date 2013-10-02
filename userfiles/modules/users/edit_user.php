@@ -14,7 +14,7 @@ $user_params['id'] =intval($params['edit-user']);
 	  $data = get_users($user_params);
 
  } else {
-	$data = FALSE; 
+	$data = FALSE;
  }
 if(isset($data[0]) == false){
   $data = array();
@@ -40,7 +40,7 @@ mw.require('forms.js');
 mw.require('files.js');
 </script>
 <script  type="text/javascript">
-d(mw.files)
+
 _mw_admin_save_user_form<?php  print $data['id']; ?> = function(){
 
     if(mwd.getElementById("reset_password").value == ''){

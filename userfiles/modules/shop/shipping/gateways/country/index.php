@@ -12,13 +12,13 @@
  }
   if(is_array($data)){
 	foreach($data as $key => $item){
-			if(trim(strtolower($item['shiping_country']))  == 'worldwide' ){
-				 $countries_all = mw('Microweber\Forms')->countries_list();
+			if(trim(strtolower($item['shipping_country']))  == 'worldwide' ){
+				 $countries_all = mw('forms')->countries_list();
 				 unset($data[$key]);
 				  if(is_array($countries_all)){
 
 					  foreach($countries_all as  $countries_new){
-						  $data[] = array('shiping_country' =>  $countries_new);
+						  $data[] = array('shipping_country' =>  $countries_new);
 					  }
 
  					}
@@ -37,7 +37,7 @@
 		$skip = false;
 		if(is_array($data_disabled)){
 			foreach($data_disabled as $item_disabled){
-				if($item['shiping_country']  == $item_disabled['shiping_country'] ){
+				if($item['shipping_country']  == $item_disabled['shipping_country'] ){
 					$skip = 1;
 					unset($data[$key]);
 				}
@@ -62,9 +62,9 @@
     mw.form.post( '#<?php print $rand; ?>', '<?php print $config['module_api']; ?>/shipping_to_country/set',function() {
 	 mw.reload_module('shop/cart');
 
-	 if(this.shiping_country != undefined){
-		//d(this.shiping_country);
-		mw.$("[name='country']").val(this.shiping_country)
+	 if(this.shipping_country != undefined){
+		//d(this.shipping_country);
+		mw.$("[name='country']").val(this.shipping_country)
 	 }
 
 
@@ -92,7 +92,7 @@ $(document).ready(function(){
   <select name="country" class="shipping-country-select">
    <option value=""><?php _e("Choose country"); ?></option>
     <?php foreach($data  as $item): ?>
-    <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+    <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
     <?php endforeach ; ?>
   </select>
 </div>
@@ -103,11 +103,11 @@ $(document).ready(function(){
       <?php _e("Choose country:"); ?>
     </label>
 
-    <?php  $selected_country = mw('user')->session_get('shiping_country'); ?>
+    <?php  $selected_country = mw('user')->session_get('shipping_country'); ?>
     <select name="country" class="field-full">
 	 <option value=""><?php _e("Choose country"); ?></option>
       <?php foreach($data  as $item): ?>
-      <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($selected_country) and $selected_country == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+      <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
       <?php endforeach ; ?>
     </select>
   </div>

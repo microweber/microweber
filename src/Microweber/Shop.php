@@ -41,12 +41,9 @@ class Shop
         if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
             define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
         }
-        if (!defined("MODULE_DB_SHOP_SHIPPING_TO_COUNTRY")) {
-            define('MODULE_DB_SHOP_SHIPPING_TO_COUNTRY', MW_TABLE_PREFIX . 'cart_shipping');
-			$this->db_init();
-        }
-       
 
+
+        $this->db_init();
         
     }
 
@@ -297,21 +294,21 @@ class Shop
                 }
             }
 
-            $shiping_country = false;
-            $shiping_cost_max = false;
-            $shiping_cost = false;
-            $shiping_cost_above = false;
-            if (isset($_SESSION['shiping_country'])) {
-                $shiping_country = $_SESSION['shiping_country'];
+            $shipping_country = false;
+            $shipping_cost_max = false;
+            $shipping_cost = false;
+            $shipping_cost_above = false;
+            if (isset($_SESSION['shipping_country'])) {
+                $shipping_country = $_SESSION['shipping_country'];
             }
-            if (isset($_SESSION['shiping_cost_max'])) {
-                $shiping_cost_max = $_SESSION['shiping_cost_max'];
+            if (isset($_SESSION['shipping_cost_max'])) {
+                $shipping_cost_max = $_SESSION['shipping_cost_max'];
             }
-            if (isset($_SESSION['shiping_cost'])) {
-                $shiping_cost = $_SESSION['shiping_cost'];
+            if (isset($_SESSION['shipping_cost'])) {
+                $shipping_cost = $_SESSION['shipping_cost'];
             }
-            if (isset($_SESSION['shiping_cost_above'])) {
-                $shiping_cost_above = $_SESSION['shiping_cost_above'];
+            if (isset($_SESSION['shipping_cost_above'])) {
+                $shipping_cost_above = $_SESSION['shipping_cost_above'];
             }
 
             //post any of those on the form
@@ -372,13 +369,13 @@ class Shop
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
 
-            if (intval($shiping_cost_above) > 0 and intval($shiping_cost_max) > 0) {
-                if ($amount > $shiping_cost_above) {
-                    $shiping_cost = $shiping_cost_max;
+            if (intval($shipping_cost_above) > 0 and intval($shipping_cost_max) > 0) {
+                if ($amount > $shipping_cost_above) {
+                    $shipping_cost = $shipping_cost_max;
                 }
             }
 
-            $place_order['shipping'] = $shiping_cost;
+            $place_order['shipping'] = $shipping_cost;
 
             $items_count = $this->cart_sum(false);
             $place_order['items_count'] = $items_count;
@@ -1189,13 +1186,16 @@ class Shop
         $fields_to_add[] = array('created_on', 'datetime default NULL');
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
 
-        $fields_to_add[] = array('shiping_cost', 'float default NULL');
-        $fields_to_add[] = array('shiping_cost_max', 'float default NULL');
-        $fields_to_add[] = array('shiping_cost_above', 'float default NULL');
+        $fields_to_add[] = array('shipping_cost', 'float default NULL');
+        $fields_to_add[] = array('shipping_cost_max', 'float default NULL');
+        $fields_to_add[] = array('shipping_cost_above', 'float default NULL');
 
-        $fields_to_add[] = array('shiping_country', 'TEXT default NULL');
+        $fields_to_add[] = array('shipping_country', 'TEXT default NULL');
         $fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('shipping_type', 'TEXT default NULL');
 
+        $fields_to_add[] = array('shipping_price_per_size', 'float default NULL');
+        $fields_to_add[] = array('shipping_price_per_weight', 'float default NULL');
 
         $this->app->db->build_table($table_name, $fields_to_add);
 
@@ -1204,8 +1204,7 @@ class Shop
 
         return true;
 
-        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
-    }
+     }
 
 
     public function create_mw_shop_default_options()

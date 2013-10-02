@@ -109,7 +109,7 @@
       <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
-        <a title="Back to Admin" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
+
 
 
 
@@ -118,7 +118,13 @@
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
+
+            <li>
+                <a title="Back to Admin" class="mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
+                <div class="mw_clear"></div>
+            </li>
               <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>

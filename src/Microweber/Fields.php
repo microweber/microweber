@@ -1,10 +1,7 @@
 <?php
 namespace Microweber;
 
-api_expose('CustomFields/delete');
-api_expose('CustomFields/reorder');
-api_expose('CustomFields/save');
-api_expose('CustomFields/make');
+
 class Fields
 {
 
@@ -37,7 +34,7 @@ class Fields
         // $id = intval ( $id );
         if (is_string($table)) {
 
-            $params2 = parse_params($table);
+            $params = $params2 = parse_params($table);
 
             if (!is_array($params2) or (is_array($params2) and count($params2) < 2)) {
 
@@ -61,6 +58,13 @@ class Fields
             }
         }
 
+
+        if (isset($params['content_id'])) {
+            $params['for'] = 'content';
+            $params['for_id'] = $params['content_id'];
+
+        }
+
         if (isset($params['for'])) {
             $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
         }
@@ -73,10 +77,22 @@ class Fields
 
         if (isset($params['field_type'])) {
             $field_type = $this->app->db->escape_string($params['field_type']);
+        } else if (isset($params['custom_field_type'])) {
+            $field_type = $this->app->db->escape_string($params['custom_field_type']);
         }
         if (isset($params['return_full'])) {
             $return_full = $params['return_full'];
         }
+
+        if (isset($params['is_active']) and strtolower(trim($params['is_active'])) == 'any') {
+
+        } else if (isset($params['is_active']) and $params['is_active'] == 'n') {
+            $custom_field_is_active = 'n';
+        } else {
+            $custom_field_is_active = 'y';
+
+        }
+
 
         // ->'table_custom_fields';
         $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -87,6 +103,7 @@ class Fields
 
             if ($field_for != false) {
                 $field_for = trim($field_for);
+                $field_for = $this->app->db->escape_string($field_for);
                 $field_for_q = " and  (field_for='{$field_for} OR custom_field_name='{$field_for}')'";
             } else {
                 $field_for_q = " ";
@@ -146,9 +163,16 @@ class Fields
                 $idq1ttid = ' rel_id is not null ';
             }
 
+            $qt_is_active = '';
+            if (isset($custom_field_is_active)) {
+                $qt_is_active = " custom_field_is_active='{$custom_field_is_active}'   and ";
+            }
+
+
             $q = " SELECT
 		{$select_what} FROM  $table_custom_field WHERE
 		{$qt}
+		{$qt_is_active}
 		$idq1ttid
 		$field_for_q
 		$field_type_q
@@ -159,19 +183,18 @@ class Fields
             if ($debug != false) {
                 //
 
-
+//d($q);
             }
 
-            // $crc = crc32 ( $q );
 
             $crc = (crc32($q));
 
             $cache_id = __FUNCTION__ . '_' . $crc;
-
-            $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
             if ($debug != false) {
-                //d($q);
+                // d($q);
             }
+            $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
+
             if (!empty($q)) {
 
                 if ($return_full == true) {
@@ -275,6 +298,9 @@ class Fields
         return $result;
     }
 
+
+
+
     public function save($data)
     {
 
@@ -318,7 +344,7 @@ class Fields
 
             if (isset($data_to_save['copy_rel_id'])) {
 
-                $cp =  $this->app->db->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
+                $cp = $this->app->db->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
                 //$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -341,9 +367,15 @@ class Fields
 
 
         if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
-
+            return array('error' => 'You must set custom_field_type');
         } else {
+            if (!isset($data_to_save['custom_field_name'])) {
+                return array('error' => 'You must set custom_field_name');
+            }
 
+            if (!isset($data_to_save['custom_field_value'])) {
+                return array('error' => 'You must set custom_field_value');
+            }
 
             $cf_k = $data_to_save['custom_field_name'];
             $cf_v = $data_to_save['custom_field_value'];
@@ -352,8 +384,8 @@ class Fields
                 $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
                 $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
-				$val1_a = array_values($cf_v);
-				$val1_a = array_pop($val1_a);
+                $val1_a = array_values($cf_v);
+                $val1_a = array_pop($val1_a);
                 $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string($val1_a);
 
             } else {
@@ -484,7 +516,7 @@ class Fields
                     $i++;
                 }
 
-                 $this->app->db->update_position_field($table, $indx);
+                $this->app->db->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

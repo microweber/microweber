@@ -875,6 +875,8 @@ a:hover .mw_ed_tree_content{
     overflow: hidden;
     border-radius:2px;
     width: 622px;
+    max-height: 400px;
+    overflow: auto;
     display: none;
 }
 
@@ -1177,6 +1179,15 @@ a.mw-ui-btn, span.mw-ui-btn{
   outline: none;
   cursor: text;
 }
+.mw-ui-field-dropdown{
+  background: white url(../img/field-dropdown.png) no-repeat 98% 50%;
+  cursor: pointer;
+}
+
+.mw-ui-field-dropdown:hover, .mw-ui-field-dropdown:focus{
+  background: white url(../img/field-dropdown-active.png) no-repeat 98% 50%;
+}
+
 .mw-ui-field-full{
   width:96%;
   width:calc(100% - 22px);
@@ -1289,8 +1300,11 @@ div.mw-ui-field:after{
 
 div.mw-custom-fields-tags{
   background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  background: #EDEDED url(../img/tag_plus.png) no-repeat 98% 10px;
   margin-bottom: 14px;
   display: block;
+  cursor: pointer;
+  padding-right: 46px;
 }
 
 .mw-tag-selector .mw-ui-invisible-field{

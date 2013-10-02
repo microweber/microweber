@@ -1,3 +1,10 @@
+<?php 
+
+if(!is_admin()){
+return;	
+}
+
+?>
 <script  type="text/javascript">
  mw.require('options.js');
  </script>
@@ -119,64 +126,52 @@ mw.$("#available_providers").sortable({
 	width: 75px;
 	padding: 5px 0;
 }
-
-.payment-state-status{
-  padding: 12px;
-  display: inline-block;
-  margin-top: 12px;
-  transition: all 200ms;
-}
-
 .payment-state-status {
-  background: #F27E54;
-  color: white;
-
+	padding: 12px;
+	display: inline-block;
+	margin-top: 12px;
+	transition: all 200ms;
 }
-
+.payment-state-status {
+	background: #F27E54;
+	color: white;
+}
 .payment-state-status.active {
-  background: #D7FFC3;
-  color: #6C6C6C;
+	background: #D7FFC3;
+	color: #6C6C6C;
 }
-
-.payment-state-status .mw-ui-check:first-child{
-    margin-right: 12px;
+.payment-state-status .mw-ui-check:first-child {
+	margin-right: 12px;
 }
-
 .gateway-icon-title {
-  font-weight: normal;
-  font-size: 16px;
+	font-weight: normal;
+	font-size: 16px;
 }
-
-.gateway-icon-title img{
-  margin: 10px 22px 0 0;
-  max-height: 40px;
-  max-width: 130px;
-  float: left;
+.gateway-icon-title img {
+	margin: 10px 22px 0 0;
+	max-height: 40px;
+	max-width: 130px;
+	float: left;
 }
-.gateway-icon-title .gateway-title{
-  display: block;
-  float: right;
-  width: 530px;
-  padding-top: 10px;
-
+.gateway-icon-title .gateway-title {
+	display: block;
+	float: right;
+	width: 530px;
+	padding-top: 10px;
 }
-
-.mw-o-box-header .iMove{
-  visibility: hidden;
+.mw-o-box-header .iMove {
+	visibility: hidden;
 }
-.mw-o-box-header:hover .iMove{
-  visibility: visible;
+.mw-o-box-header:hover .iMove {
+	visibility: visible;
 }
-
-.available_providers_placeholder{
-  border: 2px dashed #ccc;
-  background:transparent;
-  height: 70px;
-  margin: 10px 0;
-  position: relative;
+.available_providers_placeholder {
+	border: 2px dashed #ccc;
+	background:transparent;
+	height: 70px;
+	margin: 10px 0;
+	position: relative;
 }
-
-
 </style>
 <?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
@@ -192,120 +187,150 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 
 ?>
 <div class="mw-admin-wrap">
-  <div class="mw-o-box has-options-bar">
-    <div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span><?php _e("Options"); ?></span> </div>
-    <div class="mw-o-box-content" style="padding: 0;">
-      <div class="options-bar" style="margin-right: 0;">
-        <div class="mw-admin-side-nav">
-          <ul>
-            <li><a class="payment-tab active" href="javascript:;" style="padding: 6px;"><?php _e("Payments"); ?></a></li>
-            <li><a class="payment-tab" href="javascript:;" style="padding: 6px;"><?php _e("Emails for order"); ?></a></li>
-          </ul>
-        </div>
-      </div>
-      <div style="float: right;width: 745px;" class="mw-set-payment-options">
-        <div class="otab" style="display: block">
-          <h2><?php _e("Payment providers"); ?> </h2>
-          <?php if(is_array($payment_modules )): ?>
-          <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
-            <?php foreach($payment_modules  as $payment_module): ?>
-            <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
-              <?php 
+	<div class="mw-o-box has-options-bar">
+		<div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
+			<?php _e("Options"); ?>
+			</span> </div>
+		<div class="mw-o-box-content" style="padding: 0;">
+			<div class="options-bar" style="margin-right: 0;">
+				<div class="mw-admin-side-nav">
+					<ul>
+						<li><a class="payment-tab active" href="javascript:;" style="padding: 6px;">
+							<?php _e("Payments"); ?>
+							</a></li>
+						<li><a class="payment-tab" href="javascript:;" style="padding: 6px;">
+							<?php _e("Emails for order"); ?>
+							</a></li>
+						<li><a class="payment-tab" href="javascript:;" style="padding: 6px;">
+							<?php _e("Shipping Units"); ?>
+							</a></li>
+					</ul>
+				</div>
+			</div>
+			<div style="float: right;width: 745px;" class="mw-set-payment-options">
+				<div class="otab" style="display: block">
+					<h2>
+						<?php _e("Payment providers"); ?>
+					</h2>
+					<?php if(is_array($payment_modules )): ?>
+					<div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
+						<?php foreach($payment_modules  as $payment_module): ?>
+						<div class="mw-o-box mw-o-box-accordion mw-accordion-active">
+							<?php 
 
 			
 			        $module_info = (module_info($payment_module['module']));
 
 			 
 			 ?>
-              <div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
-                   <div class="gateway-icon-title">
-                      <span class="ico iMove"></span>
-                      <img src="<?php print $payment_module['icon']; ?>" alt="" />
-                      <span class="gateway-title"><?php print $payment_module['name'] ?></span>
-                   </div>
-                <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
-                
-              </div>
-              <div class="mw-o-box-content mw-accordion-content">
-                <label class="mw-ui-label">
-                <h3><?php print $payment_module['name'] ?>:</h3>
-
-
-                <div class="mw-o-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
-                    <label class="mw-ui-check">
-                        <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
-                        <span></span>
-                        <span class="first"><?php _e("Enabled"); ?></span>
-                    </label>
-                    <label class="mw-ui-check">
-                      <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
-                      <span></span>
-                      <span class="second"><?php _e("Disabled"); ?></span>
-                    </label>
-                </div>
-                <div class="mw_clear"></div>
-                <div class="vSpace"></div>
-               <!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<?php endif; ?>"> <span class="mw-switch-handle"></span>
+							<div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
+								<div class="gateway-icon-title"> <span class="ico iMove"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?></span> </div>
+								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 
+								
+							</div>
+							<div class="mw-o-box-content mw-accordion-content">
+								<label class="mw-ui-label">
+								<h3><?php print $payment_module['name'] ?>:</h3>
+								<div class="mw-o-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
+									<label class="mw-ui-check">
+										<input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
+										<span></span> <span class="first">
+										<?php _e("Enabled"); ?>
+										</span> </label>
+									<label class="mw-ui-check">
+										<input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
+										<span></span> <span class="second">
+										<?php _e("Disabled"); ?>
+										</span> </label>
+								</div>
+								<div class="mw_clear"></div>
+								<div class="vSpace"></div>
+								<!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<?php endif; ?>"> <span class="mw-switch-handle"></span>
 
                 </div>-->
-                </label>
-                <div class="mw-set-payment-gw-options" >
-                  <module type="<?php print $payment_module['module'] ?>" view="admin" />
-                </div>
-              </div>
-            </div>
-            <?php endforeach ; ?>
-            <?php endif; ?>
-          </div>
-          <hr>
-          <h2>Currency settings</h2>
-          <?php ?>
-          <?php $cur = get_option('currency', 'payments');  ?>
-          <?php $curencies = mw('shop')->currency_get(); 
+								</label>
+								<div class="mw-set-payment-gw-options" >
+									<module type="<?php print $payment_module['module'] ?>" view="admin" />
+								</div>
+							</div>
+						</div>
+						<?php endforeach ; ?>
+						<?php endif; ?>
+					</div>
+					<hr>
+					<h2>Currency settings</h2>
+					<?php ?>
+					<?php $cur = get_option('currency', 'payments');  ?>
+					<?php $curencies = mw('shop')->currency_get(); 
 		  
 		  
 		  
 		  ?>
-          <?php if(is_array($curencies )): ?>
-          <div class="mw-ui-select">
-            <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
-              <?php foreach($curencies  as $item): ?>
-              <option  value="<?php print $item[1] ?>" <?php if($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
-              <?php endforeach ; ?>
-            </select>
-          </div>
-          <?php endif; ?>
-          <module type="shop/payments/currency_render" id="mw_curr_rend" />
-        </div>
-        <div class="otab">
-          <h2><?php _e("Send email to the client on new order"); ?></h2>
-          <label class="mw-ui-check">
-            <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
-            <span></span><span><?php _e("Yes"); ?></span></label>
-          <label class="mw-ui-check">
-            <input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="n"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') != 'y'): ?> checked="checked" <?php endif; ?> >
-            <span></span><span><?php _e("No"); ?></span></label>
-          <br />
-          <small><?php _e("You must have a working email setup in order to send emails"); ?>. <a class="mw-ui-link" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>" style="padding: 6px;"><?php _e("Setup email here"); ?>.</a></small>
-          <label class="mw-ui-label"><?php _e("Email subject"); ?></label>
-          <input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
-          <label class="mw-ui-label"><?php _e("Send copy email to"); ?></label>
-          <input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
-          <a class="mw-ui-btn" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);"><?php _e("Test"); ?></a>
-          <table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">
-            <tr>
-              <td><label class="mw-ui-label"><?php _e("Send test email to"); ?></label>
-                <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_to','email'); ?>"  />
-                <div class="vSpace"></div>
-                <span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn"><?php _e("Send test email"); ?></span></td>
-              <td><pre id="email_send_test_btn_output"></pre></td>
-            </tr>
-          </table>
-          <label class="mw-ui-label"><?php _e("Email content"); ?></label>
-          <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content"><?php print get_option('order_email_content', 'orders') ?></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
+					<?php if(is_array($curencies )): ?>
+					<div class="mw-ui-select">
+						<select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
+							<?php foreach($curencies  as $item): ?>
+							<option  value="<?php print $item[1] ?>" <?php if($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
+							<?php endforeach ; ?>
+						</select>
+					</div>
+					<?php endif; ?>
+					<module type="shop/payments/currency_render" id="mw_curr_rend" />
+				</div>
+				<div class="otab">
+					<h2>
+						<?php _e("Send email to the client on new order"); ?>
+					</h2>
+					<label class="mw-ui-check">
+						<input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
+						<span></span><span>
+						<?php _e("Yes"); ?>
+						</span></label>
+					<label class="mw-ui-check">
+						<input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="n"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') != 'y'): ?> checked="checked" <?php endif; ?> >
+						<span></span><span>
+						<?php _e("No"); ?>
+						</span></label>
+					<br />
+					<small>
+					<?php _e("You must have a working email setup in order to send emails"); ?>
+					. <a class="mw-ui-link" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>" style="padding: 6px;">
+					<?php _e("Setup email here"); ?>
+					.</a></small>
+					<label class="mw-ui-label">
+						<?php _e("Email subject"); ?>
+					</label>
+					<input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
+					<label class="mw-ui-label">
+						<?php _e("Send copy email to"); ?>
+					</label>
+					<input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
+					<a class="mw-ui-btn" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);">
+					<?php _e("Test"); ?>
+					</a>
+					<table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">
+						<tr>
+							<td><label class="mw-ui-label">
+									<?php _e("Send test email to"); ?>
+								</label>
+								<input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_to','email'); ?>"  />
+								<div class="vSpace"></div>
+								<span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn">
+								<?php _e("Send test email"); ?>
+								</span></td>
+							<td><pre id="email_send_test_btn_output"></pre></td>
+						</tr>
+					</table>
+					<label class="mw-ui-label">
+						<?php _e("Email content"); ?>
+					</label>
+					<textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content"><?php print get_option('order_email_content', 'orders') ?></textarea>
+				</div>
+				<div class="otab">
+					<module type="shop/shipping/set_units" id="mw_set_shipping_units" />
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="vSpace"></div>

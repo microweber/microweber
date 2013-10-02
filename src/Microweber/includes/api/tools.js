@@ -1840,6 +1840,11 @@ mw.tools = {
           cont.html(area.html())
         }
 
+        if(typeof frame.contentWindow.PrepareEditor === 'function'){
+          frame.contentWindow.PrepareEditor();
+        }
+
+
 
 /*     var links = mwd.querySelectorAll('link'), l=links.length, i=0;
       for( ; i<l; i++){
@@ -2005,6 +2010,80 @@ mw.tools = {
     else if(n.permission == 'default'){
       Notification.requestPermission( function(result) { mw.tools.notificationPermission = result  } );
     }
+  },
+  module_settings:function(a, view){
+  if(typeof a === 'string'){
+      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&type="+a;
+      return mw.tools.modal.frame({
+        url:src,
+        width:532,
+        height:150,
+        name:'module-settings-'+a.replace(/\//g, '_'),
+        title:'',
+        callback:function(){
+           // $(this.container).attr('data-settings-for-module', curr.id);
+        }
+      });
+    }
+    var curr = a || $("#mw_handle_module").data("curr");
+    var attributes = {};
+    if(mw.$('#module-settings-'+curr.id).length>0){
+      var m = mw.$('#module-settings-'+curr.id)[0];
+      m.scrollIntoView();
+      mw.tools.highlight(m);
+      return false;
+    }
+    $.each(curr.attributes, function(index, attr) {
+      attributes[attr.name] = attr.value;
+    });
+    data1 = attributes
+	var module_type = null
+    if(data1['data-type'] != undefined){
+  	 module_type = data1['data-type'];
+  	 data1['data-type'] = data1['data-type']+'/admin';
+    }
+    if(data1['data-module-name'] != undefined){
+      delete(data1['data-module-name']);
+    }
+    if(data1['type'] != undefined){
+  	  module_type = data1['type'];
+  	  data1['type'] = data1['type']+'/admin';
+    }
+	if(module_type != null && view != undefined){
+		 data1['data-type'] = data1['type'] = module_type+'/'+view;
+	}
+    if(data1.class != undefined){
+  	  delete(data1.class);
+    }
+    if(data1.style != undefined){
+  	  delete(data1.style);
+    }
+    if(data1.contenteditable != undefined){
+  	  delete(data1.contenteditable);
+    }
+	data1.live_edit = 'true';
+	if(view != undefined){
+	    data1.view = view;
+	}
+    else {
+	    data1.view = 'admin';
+	}
+	if(data1.from_url == undefined){
+	    data1.from_url = window.top.location;
+	}
+    var src = mw.settings.site_url + "api/module?"+json2url(data1);
+    var modal = mw.tools.modal.frame({
+      url:src,
+      width:532,
+      height:150,
+      name:'module-settings-'+curr.id,
+      title:'',
+      callback:function(){
+          //mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
+          $(this.container).attr('data-settings-for-module', curr.id);
+      }
+    });
+    return modal;
   }
 }
 

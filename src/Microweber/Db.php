@@ -2691,11 +2691,14 @@ class Db
                 $the_field[0] = strtolower($the_field[0]);
 
                 $sql = false;
-                if (isset($exisiting_fields[$the_field[0]]) != true) {
+                if (!isset($exisiting_fields[$the_field[0]])) {
+
                     $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
                     $this->q($sql);
                 } else {
-                    //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+//                     $sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+//                    d($sql);
+//                    $this->q($sql);
 
                 }
 
@@ -3284,13 +3287,27 @@ class Db
     function clean_input($input)
     {
 
-        $search = array(
-            '@<script[^>]*?>.*?</script>@si', // Strip out javascript
 
-            '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
-        );
+        if (is_array($input)) {
+            $output = array();
+            foreach ($input as $var => $val) {
+                $output[$var] = $this->clean_input($val);
+            }
+        } elseif(is_string($input)){
+            $search = array(
+                '@<script[^>]*?>.*?</script>@si', // Strip out javascript
 
-        $output = preg_replace($search, '', $input);
+                '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
+            );
+
+            $output = preg_replace($search, '', $input);
+        } else {
+            return $input;
+        }
+
+
+
+
 
 
         return $output;

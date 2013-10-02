@@ -924,9 +924,10 @@ form.add-edit-page-post textarea{
   position: relative;
 }
 
+
+
 .custom-field-edit-header{
   height: 25px;
-  background: url(../img/grad.php?top=D7EEFA&bot=B8DBF2);
   background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
 }
 .mw-custom-fields-from-page-title-text{
@@ -1731,6 +1732,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   border: 2px dashed #ccc;
   width: auto !important;
   display: block !important;
+  min-height: 400px;
 }
 
 .ui-state-highlight {
@@ -2663,7 +2665,7 @@ a.module-icon-title{
 [class*="mwsico-"]{
   display: block;
   float: left;
-  margin: 2px 20px 0 0;
+  margin: 2px 7px 0 0;
   width: 30px;
   height: 30px;
   background: url(../img/shipping.png) no-repeat;
@@ -2675,6 +2677,23 @@ a.module-icon-title{
 .mwsico-weight{ background-position: 0 -202px; }
 .mwsico-cost{ background-position: 0 -270px; }
 .mwsico-usd{ background-position: 0 -332px; margin-right: 5px;}
+.mwsico-instock{ background-position: 0 -389px;}
+
+
+#mw_admin_product_settings .mw-ui-field-holder{
+  float: left;
+  width:120px;
+}
+
+#mw_admin_product_settings .mw-ui-field-holder label{
+  padding-left: 37px;
+  font-weight: normal;
+}
+
+
+#mw_admin_product_settings .mw-ui-field-holder .mw-ui-field{
+  width: 48px;
+}
 
 
 
@@ -2720,7 +2739,7 @@ a.module-icon-title{
   box-shadow: inset 0 0 3px #777;
 }
 
-.mw-onoff > *{ visibility: hidden;font-style: normal; }
+.mw-onoff > *{ visibility: hidden;font-style: normal;font-weight: normal;cursor: pointer; }
 .mw-onoff > *:first-child{ visibility: visible; }
 .mw-onoff.active > *:first-child{ visibility: hidden; }
 .mw-onoff.active > *:last-child{ visibility: visible; }

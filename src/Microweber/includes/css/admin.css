@@ -357,7 +357,6 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   clear: both;
   outline: none;
   background-color: white;
-  background-image:  url(../img/cf_middle_border.png);
   background-position:  165px 50%, 5px 5px;
   background-repeat:  repeat-y, no-repeat;
 }
@@ -376,7 +375,18 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
   border: 1px solid #EDEDED;
   box-shadow: 0 0 6px #F3F3F3;
   margin:20px 60px 20px 0;
+  width: 490px;
 }
+
+.shipping_dimensions .mw-ui-field-holder{
+  float: left;
+  width: 245px;
+}
+
+.shipping_dimensions .mw-ui-label{
+  font-weight: normal;
+}
+
 .shipping_dimensions .mw-ui-field{
   width: 60px;
 }
@@ -391,7 +401,7 @@ a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
 }
 
 .shipping_dimensions .mw-ui-label{
-  min-width: 190px;
+  min-width: 342px;
 }
 
 .mw-shipping-items{
@@ -435,7 +445,7 @@ form .shipping-country-row:first-child{
 }
 
 
-.shipping-country-row label{
+.shipping-country-setting > label{
   white-space: nowrap;
   float: left;
   margin: 4px 7px 0 0;
@@ -450,7 +460,12 @@ right: 20px;
 .shipping-country-row select{
   width: 255px;
   float: left;
+  font-weight: bold;
 }
+.shipping-country-row select option{
+  font-weight: normal;
+}
+
 .same-as-country-selector{
   width: 255px;
   float: left;
@@ -459,6 +474,11 @@ right: 20px;
 .shipping-country-row input[type='text'], .shipping-country-row input[type='number']{
   float: left;
   padding: 5px 10px;
+}
+
+.shipping-country-setting .mw-onoff{
+  float: right;
+  margin: 3px 87px 0 0;
 }
 
 

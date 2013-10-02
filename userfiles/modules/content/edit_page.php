@@ -232,7 +232,7 @@ $ctlayouts = $data['content_type'];
    
    
    
-   
+
    
    
    
@@ -256,6 +256,10 @@ $ctlayouts = $data['content_type'];
 
 //$form_rand_id = //$rand = md5(serialize($data).serialize($params));
 ?>
+
+
+
+
 <script  type="text/javascript">
 mw.require('forms.js',true);
 mw.require('url.js',true);
@@ -955,7 +959,7 @@ if(typeof mw.content_save_btn ==='undefined'){
 	</a> &nbsp;&nbsp; <small class="mw-help" data-help="Please choose parent page and categories for this <?php print $data['content_type'] ?>.">(?)</small>
 	<div class="vSpace"></div>
 	<div id="edit_post_select_category" style="display: block">
-		<div class="mw-ui-field mw-tag-selector " id="mw-post-added-<?php print $rand; ?>">
+		<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown" id="mw-post-added-<?php print $rand; ?>">
 			<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" />
 		</div>
 		<script>
@@ -1125,8 +1129,11 @@ if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $
 
 
 ?>
-			<microweber module="categories/selector"   categories_active_ids="<?php print $categories_active_ids; ?>"  id="categorories_selector_for_post_<?php print $rand; ?>" rel_id="<?php print $data['id'] ?>"  active_ids="<?php print intval($data['parent']) ?>" for="content" <?php print $strz ?> <?php print $selected_parent_ategory_id ?> <?php print $shopstr ?> />
-			<?php endif; ?>
+			<microweber module="categories/selector"  categories_active_ids="<?php print $categories_active_ids; ?>"  id="categorories_selector_for_post_<?php print $rand; ?>" rel_id="<?php print $data['id'] ?>"  active_ids="<?php print intval($data['parent']) ?>" for="content" <?php print $strz ?> <?php print $selected_parent_ategory_id ?> <?php print $shopstr ?> />
+
+
+
+            <?php endif; ?>
 		</div>
 		<div class="vSpace"></div>
 		<script type="text/javascript">
@@ -1326,9 +1333,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 		<div class="vSpace"></div>
 	</div>
 	<?php endif; ?>
-	<?php if( $quick_edit == false and trim($data['subtype']) == 'product'): ?>
-	<?php event_trigger('mw_edit_product_admin', $data); ?>
-	<?php endif; ?>
+
 	<?php if($edit_post_mode == false and $quick_edit == false): ?>
 	<a class="toggle_advanced_settings mw-ui-more" data-for=".pictures-editor-holder" id="pictures-toggle" onclick="mw.tools.memoryToggle(this);" href="javascript:;">
 	<?php _e("Pictures Gallery"); ?>
@@ -1347,6 +1352,17 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
 	<div class="mw_clear">&nbsp;</div>
 	<?php /* ONLY FOR POSTS  */ ?>
+	
+	
+		<?php 
+	 
+		
+		if( $quick_edit == false and trim($data['subtype']) == 'product'): ?>
+	<?php event_trigger('mw_edit_product_admin', $data); ?>
+	<?php endif; ?>
+	
+	
+	
 	<?php if( $quick_edit == false): ?>
 	<div class="advanced_settings"> <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
 		<?php _e('Advanced Settings'); ?>
@@ -1430,7 +1446,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 					</span></label>
 			</div>
 			<div class="mw_clear vSpace"></div>
-			<div class="mw-ui-field-holder">
+			<!--<div class="mw-ui-field-holder">
 				<label class="mw-ui-label">
 					<?php _e("Page type"); ?>
 				</label>
@@ -1445,9 +1461,12 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 				<label class="mw-ui-check">
 					<input name="subtype" type="radio"  value="dynamic"    <?php if('dynamic' === ($data['subtype'])): ?>    checked="checked"  <?php endif; ?>  />
 					<span></span><span> Dynamic </span></label>
-			</div>
-			<input name="subtype_value"  type="hidden" value="<?php print ($data['subtype_value'])?>" />
+			</div>-->
+		
 			<?php endif; ?>
+				subtype<input name="subtype"  type="text" value="<?php print ($data['subtype'])?>" />
+
+			subtype_value<input name="subtype_value"  type="text" value="<?php print ($data['subtype_value'])?>" />
 			<?php
 		
 					  if(isset($data['position'])): ?>

@@ -315,12 +315,13 @@ generate:function(return_url){
 
 
  } else {
-  ctype = 'static';
+ // ctype = 'static';
 }
-mw.$("select[name='subtype']", form).val(ctype);
+/*mw.$("select[name='subtype']", form).val(ctype);
 mw.$("input:hidden[name='subtype']", form).val(ctype);
+mw.$("input:text[name='subtype']", form).val(ctype);
 
-mw.$('input:radio[name="subtype"]', form).filter('[value="'+ctype+'"]').attr('checked', true);
+mw.$('input:radio[name="subtype"]', form).filter('[value="'+ctype+'"]').attr('checked', true);*/
 
 
 }
