@@ -30,14 +30,14 @@ class shipping_api
 
         }
 
-        if (isset($data['shiping_country'])) {
-            if ($data['shiping_country'] == 'none') {
+        if (isset($data['shipping_country'])) {
+            if ($data['shipping_country'] == 'none') {
                 error('Please choose country');
             }
             if (isset($data['id']) and intval($data['id']) > 0) {
 
             } else {
-                $check = get('shiping_country=' . $data['shiping_country']);
+                $check = get('shipping_country=' . $data['shipping_country']);
                 if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
                     $data['id'] = $check[0]['id'];
                 }

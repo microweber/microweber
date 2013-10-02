@@ -950,6 +950,12 @@ function save_content_data($data)
 
     return mw('content')->save_content_data($data);
 }
+function content_data($content_id, $field_name = false)
+{
+
+
+    return mw('content')->data($content_id,$field_name);
+}
 
 
 

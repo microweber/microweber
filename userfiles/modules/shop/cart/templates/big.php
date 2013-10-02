@@ -77,11 +77,11 @@ description: Full width cart template
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <span class="shiping_cost"><?php print mw('shop')->currency_format(mw('user')->session_get('shiping_cost')); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <span class="shipping_cost"><?php print mw('shop')->currency_format(mw('user')->session_get('shipping_cost')); ?></span></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shiping_cost'))); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>

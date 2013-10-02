@@ -30,9 +30,10 @@ $(window).bind('load resize', function(){
 
     set_main_height();
     if(urlParams.view === 'dashboard' || urlParams.view === undefined){
+      /*
       var visitstable = mwd.getElementById('visits_info_table');
       var visitsnumb = mwd.getElementById('users_online');
-      mw.admin.scale(visitstable, visitsnumb);
+      mw.admin.scale(visitstable, visitsnumb);  */
     }
 
 });

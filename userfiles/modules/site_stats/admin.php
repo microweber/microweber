@@ -34,7 +34,6 @@ $v_monthly = get_visits('monthly');
 
 mw.stat = {
   draw:function(data, obj){
-
     var el = obj || mwd.getElementById('stats_{rand}');
     $(el).empty().removeClass('graph-initialised');
     Morris.Line({
@@ -82,11 +81,11 @@ $(document).ready(function(){
 
   $("#users_online").dblclick(function(){
     
-	   
-	   
-	   TEST = mw.reload_module_interval('#stats_dashboard_last', 1000);
-	   
-	   
+
+
+	 mw.reload_module_interval('#stats_dashboard_last', 1000);
+
+
 	   
    });
 
@@ -101,12 +100,21 @@ $(document).ready(function(){
     });
 
 
-       mw.stat.draw(mw.statdatas.day);
+    mw.stat.draw(mw.statdatas.day);
 
 
     $(window).resize(function(){
-        //var data = $("#stats_nav a.active").dataset("stat");
-        //mw.stat.draw(mw.statdatas[data]);
+         var w = $(window).width();
+         var h = $(window).height();
+         setTimeout(function(){
+            var w1 = $(window).width();
+            var h1 = $(window).height();
+            if(w==w1 && h==h1){
+               var data = $("#stats_nav a.active").dataset("stat");
+               mw.stat.draw(mw.statdatas[data]);
+            }
+         }, 299);
+
     });
 
 

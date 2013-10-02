@@ -23,19 +23,19 @@ description: Table
           <select name="country" class="shipping-country-select">
             <option value=""><?php _e("Choose country"); ?></option>
             <?php foreach($data  as $item): ?>
-            <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+            <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
             <?php endforeach ; ?>
           </select></td>
       </tr>
       <tr>
         <td colspan="3"></td>
         <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label>
-          <?php print mw('shop')->currency_format(mw('user')->session_get('shiping_cost')); ?></td>
+          <?php print mw('shop')->currency_format(mw('user')->session_get('shipping_cost')); ?></td>
       </tr>
       <tr>
         <td colspan="3"></td>
         <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label>
-          <?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shiping_cost'))); ?></td>
+          <?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></td>
       </tr>
     </tbody>
   </table>

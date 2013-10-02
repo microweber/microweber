@@ -11,13 +11,13 @@
  }
   if(is_array($data)){
 	foreach($data as $key => $item){
-			if(trim(strtolower($item['shiping_country']))  == 'worldwide' ){
+			if(trim(strtolower($item['shipping_country']))  == 'worldwide' ){
 				 $countries_all = mw('Microweber\Forms')->countries_list();
 				 unset($data[$key]);
 				  if(is_array($countries_all)){
 					  
 					  foreach($countries_all as  $countries_new){
-						  $data[] = array('shiping_country' =>  $countries_new);
+						  $data[] = array('shipping_country' =>  $countries_new);
 					  }
  	 
  					}
@@ -36,7 +36,7 @@
 		$skip = false;
 		if(is_array($data_disabled)){
 			foreach($data_disabled as $item_disabled){
-				if($item['shiping_country']  == $item_disabled['shiping_country'] ){
+				if($item['shipping_country']  == $item_disabled['shipping_country'] ){
 					$skip = 1;
 					unset($data[$key]);
 				}
@@ -59,6 +59,6 @@
   
   <select name="country" class="<?php print $class  ?>">
   <?php foreach($data  as $item): ?>
-  <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+  <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
   <?php endforeach ; ?>
 </select>

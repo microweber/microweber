@@ -812,6 +812,11 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   z-index: 10;
  }
 
+.mw-help-right:before, [data-help-right]:before{
+  left: auto;
+  right: -8px;
+}
+
 .mw-help:hover:before, [data-help]:hover:before{
   visibility: visible;
 }

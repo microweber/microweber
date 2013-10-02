@@ -36,6 +36,11 @@ class Content
             define('MW_DB_TABLE_CONTENT_FIELDS', MW_TABLE_PREFIX . 'content_fields');
         }
 
+
+        if (!defined("MW_DB_TABLE_CONTENT_DATA")) {
+            define('MW_DB_TABLE_CONTENT_DATA', MW_TABLE_PREFIX . 'content_data');
+        }
+
         if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
             define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', MW_TABLE_PREFIX . 'content_fields_drafts');
         }
@@ -1009,6 +1014,61 @@ class Content
         }
     }
 
+    public function data($content_id, $field_name = false)
+    {
+
+
+        $table = MW_DB_TABLE_CONTENT_DATA;
+
+
+        $data = array();
+
+
+        $data['table'] = $table;
+        $data['no_cache'] = $table;
+
+        $data['content_id'] = intval($content_id);
+        $res = array();
+        $get = $this->app->db->get($data);
+        if (!empty($get)) {
+            foreach ($get as $item) {
+                if (isset($item['field_name']) and isset($item['field_value'])) {
+                    $res[$item['field_name']] = $item['field_value'];
+                }
+            }
+        }
+        if (!empty($res)) {
+            return $res;
+        }
+        return $get;
+
+    }
+
+    public function get_content_data_fields($data, $debug = false)
+    {
+
+
+        $table = MW_DB_TABLE_CONTENT_DATA;
+
+
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+
+        if (!is_array($data)) {
+            $data = array();
+        }
+
+
+        $data['table'] = $table;
+        $data['no_cache'] = $table;
+
+
+        $get = $this->app->db->get($data);
+
+        return $get;
+
+    }
 
     public function get_parents($id = 0, $without_main_parrent = false)
     {
@@ -1370,11 +1430,7 @@ class Content
             if (isset($page['content_type']) and $page['content_type'] == "post") {
 
 
-
-
-
-
-                if(isset($page['id']) and $page['id'] != 0){
+                if (isset($page['id']) and $page['id'] != 0) {
                     $content = $page;
 
 
@@ -1397,7 +1453,6 @@ class Content
                 }
 
 
-
             } else {
                 $content = $page;
                 if (defined('POST_ID') == false) {
@@ -1417,7 +1472,7 @@ class Content
 
             if (defined('CATEGORY_ID') == false) {
                 $cat_url = $this->app->url->param('category', $skip_ajax = true);
-                if($cat_url != false){
+                if ($cat_url != false) {
                     define('CATEGORY_ID', intval($cat_url));
                 }
             }
@@ -2478,6 +2533,25 @@ class Content
         $this->app->db->add_table_index('title', $table_name, array('title(255)'));
 
 
+        $table_name = MW_DB_TABLE_CONTENT_DATA;
+
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('content_id', 'varchar(11) DEFAULT NULL');
+        $fields_to_add[] = array('field_name', 'LONGTEXT default NULL');
+        $fields_to_add[] = array('field_value', 'LONGTEXT default NULL');
+        $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+
+        $this->app->db->build_table($table_name, $fields_to_add);
+
+        $this->app->db->add_table_index('content_id', $table_name, array('rel(55)'));
+
+
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
 
         $fields_to_add = array();
@@ -3469,8 +3543,10 @@ class Content
 
         $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT;
-        $checks = mw_var('FORCE_SAVE_CONTENT');
+        $table_data = MW_DB_TABLE_CONTENT_DATA;
 
+        $checks = mw_var('FORCE_SAVE_CONTENT');
+        $orig_data = $data;
 
         if (defined('MW_API_CALL') and $checks != $table) {
             if ($adm == false) {
@@ -3896,6 +3972,31 @@ class Content
         $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');
         //$this->app->cache->delete('content/'.$save);
+
+
+        $data_fields = array();
+        if (!empty($orig_data)) {
+            $data_str = 'data_';
+            $data_str_l = strlen($data_str);
+            foreach ($orig_data as $k => $v) {
+
+                if (strlen($k) > $data_str_l) {
+                    $rest = substr($k, 0, $data_str_l);
+                    $left = substr($k, $data_str_l, strlen($k));
+                    if ($rest == $data_str) {
+                        $data_field = array();
+                        $data_field["content_id"] = $save;
+                        $data_field["field_name"] = $left;
+                        $data_field["field_value"] = $v;
+                        $data_field = $this->save_content_data_field($data_field);
+
+                    }
+                }
+
+            }
+        }
+
+
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
             $new_category = $this->app->category->get_for_content($save);
 
@@ -4408,6 +4509,66 @@ class Content
         exit();
     }
 
+
+    public function  save_content_data_field($data, $delete_the_cache = true)
+    {
+
+        $adm = $this->app->user->is_admin();
+        $table = MW_DB_TABLE_CONTENT_DATA;
+
+        //$checks = mw_var('FORCE_SAVE_CONTENT');
+
+
+        if ($adm == false) {
+            return false;
+
+        }
+
+        if (!is_array($data)) {
+            $data = parse_params($data);
+        }
+
+        if (!isset($data['id'])) {
+
+            if (!isset($data['field_name'])) {
+                return array('error' => "You must set 'field' parameter");
+            }
+            if (!isset($data['field_value'])) {
+                return array('error' => "You must set 'value' parameter");
+            }
+
+            if (!isset($data['content_id'])) {
+                return array('error' => "You must set 'content_id' parameter");
+            }
+        }
+
+
+        if (isset($data['field_name']) and isset($data['content_id'])) {
+            $is_existing_data = array();
+            $is_existing_data['field_name'] = $data['field_name'];
+            $is_existing_data['content_id'] = intval($data['content_id']);
+            $is_existing_data['one'] = true;
+
+            $is_existing = $this->get_content_data_fields($is_existing_data);
+            if (is_array($is_existing) and isset($is_existing['id'])) {
+                $data['id'] = $is_existing['id'];
+            }
+
+        }
+
+
+        $data['allow_html'] = true;
+
+        $save = $this->app->db->save($table, $data);
+
+        $this->app->cache->delete('content_data');
+
+        return $save;
+
+
+    }
+
+
     public function  save_content_field($data, $delete_the_cache = true)
     {
 
@@ -4465,15 +4626,15 @@ class Content
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->db->q($del_q);
-             $this->app->cache->delete($cache_group);
+            $this->app->cache->delete($cache_group);
 
             //
 
         }
-        if(isset($fld)){
+        if (isset($fld)) {
 
-            $this->app->cache->delete('content_fields/'.$fld);
-            $this->app->cache->delete('content_fields/global/'.$fld);
+            $this->app->cache->delete('content_fields/' . $fld);
+            $this->app->cache->delete('content_fields/global/' . $fld);
 
 
         }
@@ -4483,15 +4644,15 @@ class Content
             $this->app->cache->delete($cache_group);
 
         }
-        if (isset($data['rel'])){
-            $this->app->cache->delete('content_fields/'.$data['rel']);
+        if (isset($data['rel'])) {
+            $this->app->cache->delete('content_fields/' . $data['rel']);
         }
-        if (isset($data['rel']) and isset($data['rel_id'])){
-            $this->app->cache->delete('content_fields/'.$data['rel']. '/' . $data['rel_id']);
-            $this->app->cache->delete('content_fields/global/'.$data['rel']. '/' . $data['rel_id']);
+        if (isset($data['rel']) and isset($data['rel_id'])) {
+            $this->app->cache->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
         }
-        if (isset($data['field'])){
-            $this->app->cache->delete('content_fields/'.$data['field']);
+        if (isset($data['field'])) {
+            $this->app->cache->delete('content_fields/' . $data['field']);
         }
 
         $this->app->cache->delete('content_fields/global');

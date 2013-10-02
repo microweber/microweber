@@ -19,7 +19,7 @@ description: Default
     <select name="country" class="field-full">
       <option value=""><?php _e("Choose country"); ?></option>
       <?php foreach($data  as $item): ?>
-      <option value="<?php print $item['shiping_country'] ?>"  <?php if(isset($_SESSION['shiping_country']) and $_SESSION['shiping_country'] == $item['shiping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shiping_country'] ?></option>
+      <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
       <?php endforeach ; ?>
     </select>
   </div>

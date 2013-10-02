@@ -1,20 +1,37 @@
 <div id="main" class="liquid">
-  <?php event_trigger('mw_admin_dashboard_main'); ?>
-  <div class="mw_clear" style="padding-bottom: 20px;">&nbsp;</div>
-  <div class="quick-lists">
-    <div class="quick-links-case left">
-      <h2><?php _e("Quick Add"); ?></h2>
-      <ul class="mw-quick-links"> 
-        <li><a href="<?php print admin_url('view:content'); ?>#action=new:page"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico ipage"></span><span><?php _e("New Page"); ?></span></a></li>
-        <li><a href="<?php print admin_url('view:content'); ?>#action=new:post"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico ipost"></span><span><?php _e("New Post"); ?></span></a></li>
-        <li><a href="<?php print admin_url('view:content'); ?>#action=new:category"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico icategory"></span><span><?php _e("New Category"); ?></span></a></li>
-        <li><a href="<?php print admin_url('view:content'); ?>#action=new:product"><span class="mw-ui-btn-plus">&nbsp;</span><span class="ico iproduct"></span><span><?php _e("New Product"); ?></span></a></li>
-      </ul>
-    </div>
+
+
+ <div class="mw-ui-row">
+   <div class="mw-ui-col" style="width: 55%">
+
+          <?php event_trigger('mw_admin_dashboard_main'); ?>
+
+   </div>
+   <div class="mw-ui-col" style="width: 45%">
+
+   <div class="quick-add">
+
+
+      <?php /*  <module type="content/edit_page" live_edit="true" quick_edit="true" id="mw-quick-page" />  */ ?>
+
+
+        <module type="content/edit_page" live_edit="true"  subtype="post" id="mw-quick-page" />
+
+
+   </div>
+
+
+
+
+<div class="quick-lists">
+
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>
       <ul class="mw-quick-links left">
         <?php event_trigger('mw_admin_dashboard_quick_link'); ?>
+
+
+
         <li><a href="<?php print admin_url('view:settings'); ?>"><span class="ico imanage-website"></span><span><?php _e("Manage Website"); ?></span></a></li>
         <li><a href="<?php print admin_url('view:modules'); ?>"><span class="ico imanage-module"></span><span><?php _e("Manage Modules"); ?></span></a></li>
       </ul>
@@ -49,9 +66,17 @@
       </ul>
     </div>
   </div>
-  <br />
-  <br />
-  <br />
+
+
+   </div>
+ </div>
+
+
+
+
+
+
+
 </div>
 
 

@@ -39,14 +39,14 @@ class shipping_to_country {
 
 		}
 
-		if (isset($data['shiping_country'])) {
-			if($data['shiping_country'] == 'none'){
+		if (isset($data['shipping_country'])) {
+			if($data['shipping_country'] == 'none'){
 				error('Please choose country');
 			}
 			if (isset($data['id']) and intval($data['id']) > 0) {
 				
 				} else {
-			$check = $this->get('shiping_country=' . $data['shiping_country']);
+			$check = $this->get('shipping_country=' . $data['shipping_country']);
 			if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
 				$data['id'] = $check[0]['id'];
 			}
@@ -94,16 +94,16 @@ class shipping_to_country {
 		function set($params = false) {
 	 
 			if(isset($params['country'])){
-				$active = $this->get('fields=shiping_country,shiping_cost_max,shiping_cost,shiping_cost_above&one=1&is_active=y&shiping_country='.$params['country']);
+				$active = $this->get('fields=shipping_country,shipping_cost_max,shipping_cost,shipping_cost_above&one=1&is_active=y&shipping_country='.$params['country']);
 				if(is_array($active)){
 					foreach($active as $name => $val){
 						 mw('user')->session_set($name, $val);
 					}
 				} else {
-									$active_ww = $this->get('fields=shiping_country,shiping_cost_max,shiping_cost,shiping_cost_above&one=1&is_active=y&shiping_country=Worldwide');
+									$active_ww = $this->get('fields=shipping_country,shipping_cost_max,shipping_cost,shipping_cost_above&one=1&is_active=y&shipping_country=Worldwide');
 									if(is_array($active_ww)){
 										
-										$active_ww['shiping_country'] = $params['country'];
+										$active_ww['shipping_country'] = $params['country'];
 										
 										
 										
