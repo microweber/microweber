@@ -7,7 +7,6 @@ $id = false;
 if(isset($params['item-id'])){
 	$id = intval($params['item-id']);
 }
-
  
 
 if($id == 0){
@@ -17,7 +16,7 @@ if($id == 0){
 	if(isset($params['parent_id'])){
 		$data['parent_id'] = intval($params['parent_id']);
 	}else if(isset($params['menu-id'])){
-		$data['menu-id'] = intval($params['menu-id']);
+		$data['parent_id'] = intval($params['menu-id']);
 	}
 	if(!isset($params['content_id'])){
 		$data['content_id'] = '';
@@ -88,7 +87,13 @@ if( $id != 0){
     <h4>Edit menu item</h4>
     <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);"><?php _e("Delete"); ?></span></div>
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
-    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" />
+	
+    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" /> 
+	<?php  if(isset($params['menu-id'])): ?>
+    <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
+	<?php else: ?>
+ 
+    <?php endif; ?>
     <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
     <?php _e("Change"); ?>
     </button>
@@ -102,14 +107,12 @@ if( $id != 0){
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>'); </script>
     <?php endif; ?>
-    <?php  if(isset($params['menu-id']) and !isset($data['parent_id']) or $data['parent_id'] ==0): ?>
-    <input type="text" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
-    <?php endif; ?>
+   
   </div>
   <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?php  print $data['content_id'] ?>" />
   <input type="hidden" name="categories_id" value="<?php  print $data['categories_id'] ?>" />
-  <?php  if(isset($params['menu-id']) and  intval($data['id']) == 0): ?>
+  <?php  if(isset($params['menu-id'])): ?>
   <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
   <?php  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>
   <input type="hidden" name="parent_id" value="<?php  print $data['parent_id'] ?>" />

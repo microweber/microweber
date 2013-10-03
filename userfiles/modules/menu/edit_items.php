@@ -14,9 +14,15 @@
 	if(isset($menu['id'])){
 		$id = intval($menu['id']);
 
+	} else {
+		$menu = get_menu('one=1&limit=1&id='.$params['menu-name']);
+	if(isset($menu['id'])){
+		$id = intval($menu['id']);
+
+	}
 	}
  }
-
+ 
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
@@ -24,7 +30,7 @@ if( $id != 0){
 
     $data = menu_tree( $menu_params);
 }
- 
+ d($id);
 ?>
 <?php  $rand = uniqid(); ?>
 <?php if(isset($data) and $data != false): ?>
@@ -161,6 +167,8 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 
  $(document).ready(function(){
     mw.menu_items_sort_<?php print $rand; ?>();
+	mw.$("#add-custom-link-parent-id").val('<?php print $id ?>');
+
  });
  </script>
 

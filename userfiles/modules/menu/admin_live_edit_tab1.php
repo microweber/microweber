@@ -120,11 +120,10 @@ body.module-settings-page #custom_link_controller {
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
       $.post("<?php print site_url('api/add_new_menu') ?>",  obj, function(data){
-	   // window.location.href = window.location.href;
-	    //mw.$('#<?php print $params['id'] ?>').attr('data-type','<?php print $params['module'] ?>');
-	    mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
+	    window.location.href = window.location.href;
+ 	   /* mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
 		mw.reload_module('#<?php print $params['id'] ?>');
-		menuSelectorInit();
+		menuSelectorInit();*/
       });
  }
 
@@ -159,6 +158,7 @@ data.id = $id
 
       $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
+			   menuSelectorInit();
       });
 
  }
@@ -167,9 +167,11 @@ data.id = $id
 
   mw.menu_edit_items = function($menu_id, $selector){
 
-mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
-  mw.$($selector).attr('menu-name',$menu_id);
+   mw.$($selector).attr('menu-name',$menu_id);
+   
+   
    mw.load_module('menu/edit_items',$selector);
+    menuSelectorInit();
 
 
  }
@@ -244,6 +246,9 @@ $(document).ready(function(){
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print mw('url')->api_link('edit_menu_item'); ?>', function(){
+				
+				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
+
         		mw.reload_module('menu/edit_items');
 				
 				
@@ -276,7 +281,11 @@ $menu_name = get_option('menu_name', $params['id']);
 
 	$active_menu = $menu_name;
   $menu_id = false;
-  if($menu_name != false){
+  
+ 
+  
+  
+  if($menu_id == false and $menu_name != false){
   $menu_id = get_menu('one=1&title='.$menu_name);
 	  if($menu_id == false and isset($params['title'])){
 	  add_new_menu('id=0&title=' . $params['title']);
@@ -287,7 +296,7 @@ $menu_name = get_option('menu_name', $params['id']);
  if(isset($menu_id['title'])){
 	 $active_menu =   $menu_id['title'];
  }
-
+ 
  ?>
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
@@ -297,12 +306,12 @@ $menu_name = get_option('menu_name', $params['id']);
     <?php _e("Select the Menu you want to edit"); ?>
   </label>
   <div class="mw-ui-select" style="width:100%">
-    <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
+    <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
 		$active_menu =   $item['title'];
 	  }?>
-      <option <?php  if($menu_name == $item['title']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print $item['title'] ?></option>
+      <option <?php  if($menu_name == $item['title'] or $menu_id == $item['id']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print $item['title'] ?></option>
       <?php endforeach ; ?>
     </select>
   </div>
@@ -332,7 +341,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <input type="text" class="mw-ui-field" placeholder="<?php _e("Title"); ?>" name="title" />
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
-  <input type="hidden" name="parent_id" value="<?php  print   $menu_id ?>" />
+  <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
   <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');"><?php _e("Add to menu"); ?></button>
 </div>
 <div class="vSpace"></div>
@@ -347,7 +356,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
     <?php _e("Edit existing links/buttons"); ?>
   </label>
   <div class="vSpace"></div>
-  <module data-type="menu/edit_items"  menu-name="<?php  print $active_menu ?>"  />
+  <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  />
   <?php endif; ?>
 </div>
 
