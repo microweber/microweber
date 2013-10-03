@@ -120,7 +120,11 @@ body.module-settings-page #custom_link_controller {
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
       $.post("<?php print site_url('api/add_new_menu') ?>",  obj, function(data){
-	    window.location.href = window.location.href;
+	   // window.location.href = window.location.href;
+	    //mw.$('#<?php print $params['id'] ?>').attr('data-type','<?php print $params['module'] ?>');
+	    mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
+		mw.reload_module('#<?php print $params['id'] ?>');
+		menuSelectorInit();
       });
  }
 
@@ -163,7 +167,7 @@ data.id = $id
 
   mw.menu_edit_items = function($menu_id, $selector){
 
-
+mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
   mw.$($selector).attr('menu-name',$menu_id);
    mw.load_module('menu/edit_items',$selector);
 
@@ -241,6 +245,9 @@ $(document).ready(function(){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print mw('url')->api_link('edit_menu_item'); ?>', function(){
         		mw.reload_module('menu/edit_items');
+				
+				
+				
         		if(self!==parent && typeof parent.mw === 'object'){
         			parent.mw.reload_module('menu');
         		}
@@ -250,7 +257,7 @@ $(document).ready(function(){
 </script>
 <?php $menus = get_menu(); ?>
 <?php
-
+ 
 $menu_name = get_option('menu_name', $params['id']);
 
 	if($menu_name  == false and isset( $params['menu_name'])){
@@ -271,7 +278,7 @@ $menu_name = get_option('menu_name', $params['id']);
   $menu_id = false;
   if($menu_name != false){
   $menu_id = get_menu('one=1&title='.$menu_name);
-	  if($menu_id == false){
+	  if($menu_id == false and isset($params['title'])){
 	  add_new_menu('id=0&title=' . $params['title']);
 	    $menu_id = get_menu('one=1&title='.$menu_name);
 	  }

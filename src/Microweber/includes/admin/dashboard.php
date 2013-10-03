@@ -32,7 +32,7 @@
               .addClass("loading")
               .dataset("subtype", $(this.querySelector('span')).dataset("subtype"));
 
-          mw.reload_module("content/quick", function(){
+            mw.reload_module("content/quick", function(){
             mw.$("#mw-quick-content").height("auto");
             mwd.querySelector("#mw-quick-content iframe").onload = function(){
                  mw.$("#mw-quick-content").removeClass("loading")

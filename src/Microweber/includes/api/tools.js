@@ -111,7 +111,6 @@ mw.external_tool = function(url){
 
 
 mw.tools = {
-
   modal:{
     settings:{
       width:600,
@@ -138,32 +137,15 @@ mw.tools = {
         if(typeof name==='string' && $("#"+name).length>0){
             return false;
         }
-
-
         var modal = mw.tools.modal.source(name, template);
-
-
-
         var doc = document;
-
         $(doc.body).append(modal.html);
-
-
-
         var modal_object = $(doc.getElementById(modal.id));
-
         var container = $(modal_object[0].querySelector(".mw_modal_container"));
-
         modal_object.width(width).height(height);
-
         var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
-
-
         var padding = container.offset().top - modal_object.offset().top;
-
-
         container.append(html).height(height-padding);
-
         if(!width.toString().contains("%")){
            modal_object.css("left", ($(doc.defaultView).width()/2)-(width/2));
         }
@@ -177,7 +159,8 @@ mw.tools = {
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
         }
         modal_object.show();
-        if(typeof $.fn.draggable === 'function' && draggable){
+        var draggable = draggable || true;
+        if(typeof $.fn.draggable === 'function' && !!draggable){
             modal_object.draggable({
               handle:'.mw_modal_toolbar',
               containment:'window',
@@ -690,14 +673,7 @@ mw.tools = {
   },
 
   toolbar_slider:{
-    slide_left:function(item){
-       var item = $(item);
-        mw.tools.toolbar_slider.ctrl_show_hide();
-        var left = item.parent().find(".modules_bar").scrollLeft();
-       item.parent().find(".modules_bar").stop().animate({scrollLeft:left-120}, function(){
-            mw.tools.toolbar_slider.ctrl_show_hide();
-        });
-    },
+    off:function(){ return  $(".modules_bar").width() - 60; }, //120,
     ctrl_show_hide:function(){
       $(".modules_bar").each(function(){
           var el = $(this);
@@ -725,11 +701,19 @@ mw.tools = {
          $(this).removeClass("active");
        });
     },
+    slide_left:function(item){
+       var item = $(item);
+        mw.tools.toolbar_slider.ctrl_show_hide();
+        var left = item.parent().find(".modules_bar").scrollLeft();
+       item.parent().find(".modules_bar").stop().animate({scrollLeft:left-mw.tools.toolbar_slider.off()}, function(){
+            mw.tools.toolbar_slider.ctrl_show_hide();
+        });
+    },
     slide_right:function(item){
       var item = $(item);
        mw.tools.toolbar_slider.ctrl_show_hide();
        var left = item.parent().find(".modules_bar").scrollLeft();
-       item.parent().find(".modules_bar").stop().animate({scrollLeft:left+120}, function(){
+       item.parent().find(".modules_bar").stop().animate({scrollLeft:left+mw.tools.toolbar_slider.off()}, function(){
              mw.tools.toolbar_slider.ctrl_show_hide();
        });
     },
@@ -767,8 +751,9 @@ mw.tools = {
           var child_object = obj[item];
           var id = child_object.id;
           var title = child_object.title.toLowerCase();
+          var description = child_object.description || false;
           var item = $(document.getElementById(id))
-          if (title.contains(value)){
+          if (title.contains(value) || (!!description && description.toLowerCase().contains(value))){
              item.show();
           }
           else{
@@ -894,7 +879,7 @@ mw.tools = {
 
 		var is_checkbox = el.getElementsByTagName('input')[0];
 		if(is_checkbox.type != 'checkbox'){
-		return false;
+		    return false;
 		}
 
         var state = el.getElementsByTagName('input')[0].checked;

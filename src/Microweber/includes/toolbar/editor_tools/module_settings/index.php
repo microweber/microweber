@@ -340,7 +340,7 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
             <div id="settings-container">
 
 
-                  <div class="mw-module-live-edit-settings <?php print $params['id'] ?>" id="<?php print $params['id'] ?>">{content}</div>
+                  <div class="mw-module-live-edit-settings <?php print $params['id'] ?>" id="module-id-<?php print $params['id'] ?>">{content}</div>
 
 
             </div>

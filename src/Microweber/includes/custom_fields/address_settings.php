@@ -40,7 +40,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 }
 
 </style>
-    <?php $is_required = (isset($data['options']) == true and in_array('required',$data['options']) == true);
+    <?php $is_required = (isset($data['options']) == true and is_array($data['options']) == true and in_array('required',$data['options']) == true);
 
 
   

@@ -125,8 +125,8 @@ $module2['categories'] = implode(',',$module2['categories']);
   ?>
 
    <?php $module_id = $module2['name_clean'].'_'.uniqid(); ?>
-  <li  id="<?php print $module_id; ?>" data-module-name="<?php print $module2['module'] ?>" data-filter="<?php print $module2['name'] ?>" data-category="<?php isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <?php if(isset( $module2['as_element']) and intval($module2['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span class="mw_module_hold">
-
+  <li  id="<?php print $module_id; ?>" data-module-name="<?php print $module2['module'] ?>" data-filter="<?php print $module2['name'] ?>" data-category="<?php isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <?php if(isset( $module2['as_element']) and intval($module2['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span class="mw_module_hold" title="<?php print addslashes($module2["name"]); ?>. <?php print addslashes($module2["description"]) ?> - Drag and drop in your page">
+ 
   <script type="text/javascript">
       Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
        id:'<?php print($module_id); ?>',

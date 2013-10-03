@@ -3,7 +3,7 @@
     $rand = uniqid();
 ?>
 
-<form method="post" action="<?php print site_url(); ?>api/save_content">
+<form method="post" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
 
 <input type="hidden" name="id"  value="0" />
 <input type="hidden" name="is_active"  value="y" />
@@ -18,7 +18,7 @@
       class="mw-ui-field mw-title-field mw-ui-field-full"
       style="border-left: 1px solid #E6E6E6"
       placeholder="Create new <?php print $params['subtype']; ?>"
-      autofocus />
+      autofocus required />
 
 </div>
 
@@ -52,6 +52,7 @@
           type="custom_fields/admin"
           for="content"
           default-fields="price"
+          content-id="0"
           content-subtype="<?php print $params['subtype'] ?>" />
   </div>
 
@@ -70,27 +71,46 @@
 
 
 <script>
+    mw.require("content.js");
+</script>
+<script>
     $(document).ready(function(){
-
        var area = mwd.getElementById('quick_content');
-
        var editor = mw.tools.wysiwyg(area);
        editor.style.width = "100%";
        editor.style.height = "270px";
-
        mw.treeRenderer.appendUI('#mw-category-selector-<?php print $rand; ?>');
-
        mw.tools.tag({
           tagholder:'#mw-post-added-<?php print $rand; ?>',
           items: ".mw-ui-check",
           itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
           method:'parse',
       });
-
       mw.$("#quick-tag-field").keydown(function(e){
          if(e.keyCode == 9){
             $(editor).contents().find("#mw-iframe-editor-area").focus();
          }
+      });
+      mw.$("#quickform-<?php print $rand; ?>").submit(function(){
+        var el = this;
+        var module =  $(mw.tools.firstParentWithClass(el, 'module'));
+        var data = mw.serializeFields(el);
+        module.addClass('loading');
+        mw.content.save(data, {
+          onSuccess:function(){
+              module.removeClass('loading');
+          },
+          onError:function(){
+              module.removeClass('loading');
+              if(typeof this.title !== 'undefined'){
+                mw.notification.error('Please type your title')
+              }
+              if(typeof this.content !== 'undefined'){
+                mw.notification.error('Please type your content')
+              }
+          }
+        })
+        return false;
       });
 
 

@@ -8,7 +8,7 @@ if(isset($params['item-id'])){
 	$id = intval($params['item-id']);
 }
 
-
+ 
 
 if($id == 0){
 	$data = array();
@@ -16,6 +16,8 @@ if($id == 0){
 	$data['parent_id'] = 0;
 	if(isset($params['parent_id'])){
 		$data['parent_id'] = intval($params['parent_id']);
+	}else if(isset($params['menu-id'])){
+		$data['menu-id'] = intval($params['menu-id']);
 	}
 	if(!isset($params['content_id'])){
 		$data['content_id'] = '';

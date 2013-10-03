@@ -39,23 +39,23 @@ mw.content = mw.content || {
               }
             });
       },
-      save:function(o){
+      save:function(data, e){
           var master = {}
           var calc = {}
-          if(o.content == "" || typeof o.content === 'undefined'){
+          if(data.content == "" || typeof data.content === 'undefined'){
             calc.content = false;
           }
-          if(o.title == "" || typeof o.title === 'undefined'){
-             calc.title = false;
+          if(data.title == "" || typeof data.title === 'undefined'){
+            calc.title = false;
           }
-          if(!mw.tools.isEmptyObject()){
-            if(typeof o.onError === 'function'){
-                 o.onError.call(calc);
+          if(!mw.tools.isEmptyObject(calc)){
+            if(typeof e.onError === 'function'){
+                e.onError.call(calc);
             }
             return false;
           }
-          master.title = o.title;
-          master.content = o.content;
+          master.title = data.title;
+          master.content = data.content;
           $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/save_content',
@@ -63,13 +63,13 @@ mw.content = mw.content || {
               datatype: "json",
               async: true,
               success: function(data) {
-                if(typeof o.onSuccess === 'function'){
-                  o.onSuccess.call(data);
+                if(typeof e.onSuccess === 'function'){
+                  e.onSuccess.call(data);
                 }
               },
               error:function(data){
-                if(typeof o.onError === 'function'){
-                  o.onError.call(data);
+                if(typeof e.onError === 'function'){
+                  e.onError.call(data);
                 }
               }
             });
