@@ -106,15 +106,9 @@ class Option
             return $cache_content;
         }
 
-        // ->'table_options';
+
         $table = MW_DB_TABLE_OPTIONS;
 
-        if ($orderby == false) {
-
-            $orderby[0] = 'position';
-
-            $orderby[1] = 'ASC';
-        }
 
         $data = array();
 
@@ -139,8 +133,8 @@ class Option
         $data['limit'] = 1;
         // $get = $this->app->db->get_long($table, $data, $cache_group);
         $ok = $this->app->db->escape_string($data['option_key']);
-
-        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2;
+        $ob = " order by id desc ";
+        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2.$ob;
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
         // d($q);
         $q_cache_id = crc32($q);
@@ -324,7 +318,6 @@ class Option
         }
 
 
-
         $option_group = false;
         if (is_array($data)) {
 
@@ -373,8 +366,13 @@ class Option
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
-
-                    $this->delete($data['option_key'], $data['option_group']);
+                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
+                    // d($existing);
+                    if ($existing == false) {
+                        $this->delete($data['option_key'], $data['option_group']);
+                    } elseif (isset($existing['id'])) {
+                        $data['id'] = $existing['id'];
+                    }
                 }
             }
 

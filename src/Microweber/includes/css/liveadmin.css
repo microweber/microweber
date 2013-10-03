@@ -2770,6 +2770,11 @@ a.module-icon-title{
 }
 
 
+.quick-add > .module{
+    background: white;
+    padding: 10px;
+}
+
 
 
 

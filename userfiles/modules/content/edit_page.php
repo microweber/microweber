@@ -682,7 +682,7 @@ window.parent.mw.askusertostay=false;
 
 ?>
 			<span class="mw-title-field-label mw-title-field-label-<?php print strtolower(ucfirst( $t)); ?>"></span>
-			<input name="title" class="mw-ui-field mw-title-field"   type="text" value="<?php print ucfirst($t); ?> <?php if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><?php else : ?><?php _e("Name"); ?><?php endif ?>" />
+			<input name="title" class="mw-ui-field mw-title-field"   type="text" placeholder="<?php print ucfirst($t); ?> <?php if($data['content_type'] == 'post' and $data['subtype'] == 'post'):?><?php _e("Title"); ?><?php else : ?><?php _e("Name"); ?><?php endif ?>" />
 			<?php endif; ?>
 		</div>
 		<?php if(!isset($params['from_live_edit'])): ?>
@@ -968,79 +968,33 @@ if(typeof mw.content_save_btn ==='undefined'){
 
 
     mw.tools.tag({
-      tagholder:'#mw-post-added-<?php print $rand; ?>',
-      items: ".mw-ui-check",
-      itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
-      method:'parse',
-      onTag:function(){
-
-        mw_set_categories_from_tree()
-mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
-load_iframe_editor();
-
-
-        /*var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
-        if(curr_content != undefined){
-         load_iframe_editor(curr_content);
-       }
-       else{
-         load_iframe_editor();
-       }*/
-
-
-
-
-     },
-     onUntag:function(){
-
-    mw_set_categories_from_tree();
-
-mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
-load_iframe_editor();
-      /*var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
-      if(curr_content != undefined){
-       load_iframe_editor(curr_content);
-     }
-     else{
-       load_iframe_editor();
-     }
-*/
-
-
-
-
-
-
-   }
- });
-
-
-
-
-
+          tagholder:'#mw-post-added-<?php print $rand; ?>',
+          items: ".mw-ui-check",
+          itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
+          method:'parse',
+          onTag:function(){
+            mw_set_categories_from_tree()
+            mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
+            load_iframe_editor();
+         },
+         onUntag:function(){
+            mw_set_categories_from_tree();
+            mw_load_post_cutom_fields_from_categories<?php print $rand; ?>()
+            load_iframe_editor();
+         }
+     });
   });
 
 
 
   function mw_set_categories_from_tree(){
     var names = [];
-
-
-    /*
-    mw.$('#mw-category-selector-<?php print $rand; ?> .category_element .mw-ui-check-input-sel:checked').each(function() {
-      names.push($(this).val());
-    });       */
-
     var inputs = mwd.getElementById('mw-category-selector-<?php print $rand; ?>').querySelectorAll('input[type="checkbox"]'), i=0, l = inputs.length;
-
     for( ; i<l; i++){
       if(inputs[i].checked === true){
-         names.push(inputs[i].value)
+         names.push(inputs[i].value);
       }
     }
-
-
-
     if(names.length > 0){
       mw.$('#mw_cat_selected_for_post').val(names.join(',')).trigger("change");
     } else {
@@ -1049,11 +1003,9 @@ load_iframe_editor();
 }
 
   </script>
-		<?php
+  <?php
 
   $shopstr = '&is_shop=n';
-
-
   if(isset($params["subtype"]) and $params["subtype"] == 'product'){
     $shopstr = '&is_shop=y';
   }
@@ -1074,8 +1026,6 @@ load_iframe_editor();
   }
 
 
-
-
   if(isset($include_categories_in_cat_selector)): ?>
 		<?php
   $x = implode(',',$include_categories_in_cat_selector);
@@ -1089,16 +1039,14 @@ load_iframe_editor();
 				<?php _e("Selected"); ?>
 				</a> </div>
 			<?php if(intval($data['id']) > 0): ?>
-			<?php $in_cats = get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
-  if(is_array($in_cats)){
-   foreach($in_cats as $in_cat){
-    $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
-  }
-}
-
-
-
-?>
+			<?php
+              $in_cats = get('from=categories_items&fields=parent_id&rel=content&rel_id='.$data['id']);
+              if(is_array($in_cats)){
+                 foreach($in_cats as $in_cat){
+                  $categories_active_ids = $categories_active_ids.','.$in_cat['parent_id'];
+                }
+              }
+            ?>
 			<microweber module="categories/selector"  categories_active_ids="<?php print $categories_active_ids; ?>" for="content" id="categorories_selector_for_post_<?php print $rand; ?>" rel_id="<?php print $data['id'] ?>"  active_ids="<?php print intval($data['parent']) ?>" <?php print $strz ?> <?php print $shopstr ?> />
 			<?php else: ?>
 			<?php if(isset($params["parent-page-id"]) and intval($params["parent-page-id"]) > 0){
@@ -1268,9 +1216,7 @@ if(intval($data['id']) == 0){
 
 
 
-     $(window).bind("templateChanged", function(e, el){
-    //  load_iframe_editor();
-    });
+
 
 
 	//

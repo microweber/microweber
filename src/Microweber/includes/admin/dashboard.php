@@ -12,10 +12,12 @@
    <div class="quick-add">
 
 
-      <?php /*  <module type="content/edit_page" live_edit="true" quick_edit="true" id="mw-quick-page" />  */ ?>
 
 
-        <module type="content/edit_page" live_edit="true"  subtype="post" id="mw-quick-page" />
+
+
+
+        <module type="content/quick" live_edit="true" quick_edit="true" subtype="post" id="mw-quick-page" />
 
 
    </div>

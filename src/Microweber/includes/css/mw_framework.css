@@ -1188,7 +1188,18 @@ a.mw-ui-btn, span.mw-ui-btn{
   background: white url(../img/field-dropdown-active.png) no-repeat 98% 50%;
 }
 
-.mw-ui-field-full{
+input.mw-title-field{
+  font-size: 18px;
+  padding-top:5px;
+  padding-bottom: 5px;
+  width: 555px;
+  height: 23px;
+  border-left: none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.mw-ui-field-full, input.mw-ui-field-full{
   width:96%;
   width:calc(100% - 22px);
   width:-webkit-calc(100% - 22px);
@@ -1240,7 +1251,6 @@ input.mw-ui-field{
 
 input.mw-ui-field{
     font-family: inherit;
-    font-size: 100%;
     line-height: normal;
 }
 
@@ -1359,16 +1369,7 @@ textarea.mw-ui-field{
 
 
 
-input.mw-title-field{
-  font-size: 18px;
-  padding-top:5px;
-  padding-bottom: 5px;
-  width: 555px;
-  height: 23px;
-  border-left: none;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
+
 
 .mw-ui-more{
   color: #A1A0A0;
@@ -2767,9 +2768,7 @@ body.dragStart .empty-element.currentDragMouseOver:before{
     height: 0;
 }
 
-.mw-scaleto-holder{
-  display: none !important;
-}
+
 
 #page_title_and_url{
   padding-bottom: 20px;
