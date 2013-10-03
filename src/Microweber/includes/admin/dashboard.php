@@ -1,31 +1,32 @@
 <div id="main" class="liquid">
+ <div class="mw-ui-row" style="background:#F4F4F4">
+   <div class="mw-ui-col" style="width: 55%">
+        <module type="site_stats/admin" subtype="graph" />
+   </div>
+   <div class="mw-ui-col" style="width: 45%">
+       <div class="quick-add">
+            <ul class="quick-add-nav">
+                <li class="active"><span title="Create Post"><i class="mw-ui-btn-plus"></i><i class="ico ipost"></i></span></li>
+                <li><span title="Create Product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i></span></li>
+                <li><span title="Create Page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i></span></li>
+                <li><span title="Create Category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i></span></li>
+            </ul>
+            <div class="quick-add-module">
+                <module type="content/quick" live_edit="true" quick_edit="true" subtype="post" id="mw-quick-page" />
+            </div>
+       </div>
+   </div>
+ </div>
 
 
  <div class="mw-ui-row">
-   <div class="mw-ui-col" style="width: 55%">
+ <div class="mw-ui-col" style="width: 55%">
+      <module type="site_stats/admin"  />
 
-          <?php event_trigger('mw_admin_dashboard_main'); ?>
+ </div>
+ <div class="mw-ui-col" style="width: 45%">
 
-   </div>
-   <div class="mw-ui-col" style="width: 45%">
-
-   <div class="quick-add">
-
-
-
-
-
-
-
-        <module type="content/quick" live_edit="true" quick_edit="true" subtype="post" id="mw-quick-page" />
-
-
-   </div>
-
-
-
-
-<div class="quick-lists">
+      <div class="quick-lists">
 
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>
@@ -69,12 +70,12 @@
     </div>
   </div>
 
+ </div>
 
-   </div>
  </div>
 
 
-
+ <?php event_trigger('mw_admin_dashboard_main'); ?>
 
 
 

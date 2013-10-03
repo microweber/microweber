@@ -12,6 +12,17 @@ $v_monthly = get_visits('monthly');
 //print_r($v_monthly);
  ?>
 
+ <?php
+
+ if(!isset($params['subtype'])){
+   $params['subtype'] = 'table';
+ }
+
+ ?>
+
+
+ <?php  if($params['subtype'] == 'graph'){ ?>
+
 <div id="stats">
   <h2><?php _e("Traffic Statistic"); ?></h2>
   <ul id="stats_nav">
@@ -24,8 +35,8 @@ $v_monthly = get_visits('monthly');
 <div class="vSpace">&nbsp;</div>
 
 
- 
-<module="site_stats/dashboard_last" id="stats_dashboard_last" />
+
+
 <script  type="text/javascript">
 
 
@@ -79,17 +90,7 @@ mw.statdatas = {
 
 $(document).ready(function(){
 
-  $("#users_online").dblclick(function(){
-    
-
-
-	 mw.reload_module_interval('#stats_dashboard_last', 1000);
-
-
-	   
-   });
-
-     mw.$("#stats_nav a").click(function(){ 
+     mw.$("#stats_nav a").click(function(){
       var el = $(this);
       if(!el.hasClass("active")){
         mw.$("#stats_nav a").removeClass("active");
@@ -99,9 +100,7 @@ $(document).ready(function(){
       }
     });
 
-
     mw.stat.draw(mw.statdatas.day);
-
 
     $(window).resize(function(){
          var w = $(window).width();
@@ -114,14 +113,14 @@ $(document).ready(function(){
                mw.stat.draw(mw.statdatas[data]);
             }
          }, 299);
-
     });
-
-
 });
 
+</script>
+<?php  } else {?>
 
 
+<module="site_stats/dashboard_last" id="stats_dashboard_last" />
 
 
-</script> 
+<?php }?>

@@ -394,7 +394,9 @@ mw.wysiwyg = {
           }
           if(event.type == 'keydown'){
 
-
+           if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'TEXTAREA'){
+             return true;
+           }
 
            var sel = window.getSelection();
            if(sel.rangeCount > 0){
@@ -1002,7 +1004,7 @@ mw.wysiwyg = {
          mw.wysiwyg.undoRedoFixes()
       }
     },
-    set_cursor : function(where, element){     //return false;      //Currently disabled - gives errors
+    set_cursor : function(where, element){
         var el = $(element)[0];
         var range = document.createRange();
         if(where=='after'){
@@ -1394,6 +1396,12 @@ $(window).load(function(){
 
 
 mw.wysiwyg.decreaseController = function(editor){
+	
+	if(typeof editor  !== "undefined" && editor !== null){
+		return;
+	}
+	
+	
     var ex = 100;
     var i =  editor.querySelector('.mwwysiwygscaleController');
     var w = $(editor).width();
@@ -1406,6 +1414,12 @@ mw.wysiwyg.decreaseController = function(editor){
 }
 
 mw.wysiwyg.increaseController = function(editor){
+	
+	if(typeof editor  !== "undefined" && editor !== null){
+		return;
+	}
+	
+	
     var ex = 100;
     var i =  editor.querySelector('.mwwysiwygscaleController');
     var w = $(editor).width();

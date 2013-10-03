@@ -880,6 +880,17 @@ a:hover .mw_ed_tree_content{
     display: none;
 }
 
+.mw-ui-category-selector-abs{
+  position: absolute;
+  z-index: 99;
+  min-width: 100%;
+  width: auto;
+  left: 0;
+  top: 46px;
+  max-height: 300px;
+  box-shadow: 0 4px 10px -6px #999;
+}
+
 .mw-ui-gbox{
     padding: 15px;
     position: relative;
@@ -1199,6 +1210,13 @@ input.mw-title-field{
   border-bottom-left-radius: 0px;
 }
 
+
+.mw-tag-selector {
+  cursor: text;
+  width: auto;
+  display: block;
+}
+
 .mw-ui-field-full, input.mw-ui-field-full{
   width:96%;
   width:calc(100% - 22px);
@@ -1301,11 +1319,7 @@ div.mw-ui-field:after{
 }
 
 
-.mw-tag-selector {
-  cursor: text;
-  width: auto;
-  display: block;
-}
+
 
 
 div.mw-custom-fields-tags{

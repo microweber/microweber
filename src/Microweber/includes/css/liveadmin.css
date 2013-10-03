@@ -2770,9 +2770,66 @@ a.module-icon-title{
 }
 
 
+.quick-add{
+  margin: 25px;
+}
+
 .quick-add > .module{
     background: white;
     padding: 10px;
+}
+
+
+.quick-add-nav{
+  list-style: none;
+  position: relative;
+  z-index: 1;
+  top: 1px;
+}
+.quick-add-nav:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.quick-add-nav li{
+  float: left;
+  margin-right: -1px;
+}
+
+.quick-add-nav li > *{
+  display: inline-block;
+  background: #F7F7F7;
+  min-width: 55px;
+  padding: 5px 10px;
+  border: 1px solid #EDEDED;
+  border-bottom-color: #DFDFDF;
+  cursor: pointer;
+}
+.quick-add-nav li > *:hover,
+.quick-add-nav li > *:focus{
+  background-color: white;
+}
+
+.quick-add-nav li .mw-ui-btn-plus{
+  float: left;
+  margin-top: 10px;
+}
+
+.quick-add-nav li.active > *{
+  background: white;
+  padding: 10px;
+  border-collapse: #DFDFDF;
+}
+
+.quick-add-module{
+  padding: 12px;
+  background: white;
+  border:1px solid #DFDFDF;
+  clear: both;
 }
 
 
