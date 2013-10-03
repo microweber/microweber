@@ -571,16 +571,15 @@ mw.wysiwyg = {
                }
                e.preventDefault();
                if(!e.shiftKey){
-                var pre = mw.wysiwyg.findTagAcrossSelection('pre');
-                var code = mw.wysiwyg.findTagAcrossSelection('code');
+                //var pre = mw.wysiwyg.findTagAcrossSelection('pre');
+                //var code = mw.wysiwyg.findTagAcrossSelection('code');
+                var p = mw.wysiwyg.findTagAcrossSelection('p');
 
-                 if(!!pre || !!code){
-                  //mw.wysiwyg.insert_html('');
+                 if(!!p){
+                   //mw.is.ie?'':mw.wysiwyg.insert_html('<p class="element"></p>');
                  }
-                 else{
-                   mw.is.ie?'':mw.wysiwyg.insert_html('<p class="element"></p>');
-                 }
-                 return false;
+
+                 //return false;
                }
          }
 

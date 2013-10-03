@@ -941,6 +941,8 @@ mw.tools = {
     }
   },
   removeClass:function(el, cls){
+   if(el === null) { return false; }
+   if(typeof el === 'undefined') { return false; }
    if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
   },
   hasParentsWithClass:function(el, cls){
@@ -1334,7 +1336,8 @@ mw.tools = {
     }
   },
   tag:function(obj){
-    var o = this;
+
+    var o = {};
     var itemsWrapper = obj.itemsWrapper;
 
     if (itemsWrapper == null) return false;
@@ -1497,7 +1500,7 @@ mw.tools = {
        }
     });
 
-    return this;
+    return o;
 
   },
   iframeLinksToParent:function(iframe){

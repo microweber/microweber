@@ -1184,7 +1184,7 @@ if(intval($data['id']) == 0){
 		<div class="vSpace"></div>
 		<module type="custom_fields/admin"    for="content" rel_id="<?php print $data['id'] ?>" id="fields_for_post_<?php print $rand; ?>" content-subtype="<?php print $data['subtype'] ?>" />
 		<div class="vSpace"></div>
-		<small>
+
 		<div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>" ></div>
 		<div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>" ></div>
 		<script  type="text/javascript">
