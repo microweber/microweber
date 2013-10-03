@@ -20,7 +20,6 @@
        </div>
    </div>
  </div>
-
  <script>
  $(document).ready(function(){
     mw.$("#quick-add-nav li").click(function(){
@@ -47,15 +46,12 @@
  });
  </script>
 
-
  <div class="mw-ui-row">
  <div class="mw-ui-col" style="width: 55%">
       <module type="site_stats/admin"  />
-
  </div>
  <div class="mw-ui-col" style="width: 45%">
-
-      <div class="quick-lists" style="border: none">
+ <div class="quick-lists" style="border: none">
 
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>

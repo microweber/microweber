@@ -202,6 +202,12 @@ class Controller
             $page_url = $this->app->url->param_unset('preview_layout', $page_url);
         }
 
+
+        if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
+            $page = $this->app->content->get_by_id($_REQUEST['content_id']);
+
+        }
+
         if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
 
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
@@ -591,12 +597,6 @@ class Controller
             $l->page = $page;
             $l->application = $this->app;
 
-            // $l->assign('application', $this->app);
-
-
-            // $l->set($l);
-
-
             $l = $l->__toString();
 
 
@@ -659,8 +659,6 @@ class Controller
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
-            //mw_var('get_module_template_settings_from_options', 1);
-            //	mw_var('get_module_template_settings_from_options', 0);
             $apijs_loaded = $this->app->url->site('apijs');
             $apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
 
@@ -775,8 +773,7 @@ class Controller
                 }
             } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
-                    //d($_REQUEST);
-                    $back_to_editmode = $this->app->user->session_get('back_to_editmode');
+                   $back_to_editmode = $this->app->user->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
                         $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
@@ -912,12 +909,8 @@ class Controller
             exit();
         } else {
 
-            //  print 'NO LAYOUT IN ' . __FILE__;
+            print 'Error! Page is not found? Please login in the admin and make a page.';
 
-            print 'Error! Please try again later.';
-
-            //  d($template_view);
-            //d($page);
             $this->app->cache->purge();
             exit();
         }

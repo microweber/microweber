@@ -5,6 +5,11 @@
 
 <form method="post" action="<?php print site_url(); ?>api/save_content">
 
+<input type="hidden" name="id"  value="0" />
+<input type="hidden" name="is_active"  value="y" />
+<input type="hidden" name="subtype"  value="<?php print $params['subtype']; ?>" />
+<input type="hidden" name="content_type"  value="post" />
+
 
 <div class="mw-ui-field-holder">
 <input
@@ -72,8 +77,6 @@
        var editor = mw.tools.wysiwyg(area);
        editor.style.width = "100%";
        editor.style.height = "270px";
-
-
 
        mw.treeRenderer.appendUI('#mw-category-selector-<?php print $rand; ?>');
 

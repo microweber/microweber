@@ -3662,10 +3662,29 @@ class Content
             $thetitle = $data['title'];
         }
 
+        if (isset($data['id']) and intval($data['id']) == 0){
+            if (!isset($data['title']) or ($data['title']) == '') {
+
+                $data['title'] = "New page";
+                if (isset($data['content_type']) and ($data['content_type']) != 'page') {
+                    $data['title'] = "New ".$data['content_type'];
+                    if (isset($data['subtype']) and ($data['subtype']) != 'page' and ($data['subtype']) != 'post' and ($data['subtype']) != 'static' and ($data['subtype']) != 'dynamic') {
+                        $data['title'] = "New ".$data['subtype'];
+                    }
+                }
+
+            }
+        }
+
+
+
+
+
         if (isset($data['title'])) {
             $data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);
 
             $data['title'] = strip_tags($data['title']);
+            $data_to_save['title'] = $data['title'];
         }
 
         if (isset($data['url']) == false or $data['url'] == '') {
@@ -3698,9 +3717,9 @@ class Content
                 if (isset($str[$b]) and in_array(ord($str[$b]), $good)) {
                     $newstr .= $str[$b];
                 }
-                //fi
+
             }
-            //rof
+
             $newstr = str_replace('--', '-', $newstr);
             $newstr = str_replace('--', '-', $newstr);
             if ($newstr == '-' or $newstr == '--') {
