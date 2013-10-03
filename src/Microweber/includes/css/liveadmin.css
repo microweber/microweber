@@ -861,7 +861,7 @@ form.add-edit-page-post textarea{
 
 .quick-links-case{
   float: left;
-  width: 24%;
+  width: 32%;
 }
 
 .quick-links-case .mw-quick-links{
@@ -2832,6 +2832,7 @@ a.module-icon-title{
   padding: 10px 15px;
   border-color: #DFDFDF;
   border-bottom: none;
+  box-shadow: 0px -2px 8px -8px #111;
 }
 
 .quick-add-module{
@@ -2843,6 +2844,16 @@ a.module-icon-title{
 .dashboard-top-row{
   background:#F4F4F4;
   border-bottom: 1px solid #E5E5E5;
+}
+
+#mw-quick-content.loading > *{
+  visibility: hidden;
+}
+
+#mw-quick-content.loading{
+  background-image: url(../img/img_check_loading.gif);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 

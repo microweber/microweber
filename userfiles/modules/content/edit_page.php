@@ -1087,7 +1087,6 @@ if((!isset($categories_active_ids) or $categories_active_ids == '') and isset( $
 		<script type="text/javascript">
 $(mwd).ready(function(){
   if(!!mw.treeRenderer && mw.$("#categorories_selector_for_post_<?php print $rand; ?> .mw_del_tree_content").length === 0){
-
    mw.treeRenderer.appendUI('#categorories_selector_for_post_<?php print $rand; ?>');
   }
 });

@@ -6,12 +6,16 @@
    <div class="mw-ui-col" style="width: 45%">
        <div class="quick-add">
             <ul class="quick-add-nav" id="quick-add-nav">
-                <li class="active"><span title="Create Post"><i class="mw-ui-btn-plus"></i><i class="ico ipost"></i></span></li>
-                <li><span title="Create Product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i></span></li>
-                <li><span title="Create Page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i></span></li>
-                <li><span title="Create Category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i></span></li>
+                <li class="active">
+                    <span title="Create Post" data-subtype="post"><i class="mw-ui-btn-plus"></i><i class="ico ipost"></i></span></li>
+                <li>
+                    <span title="Create Product" data-subtype="product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i></span></li>
+                <li>
+                    <span title="Create Page" data-subtype="page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i></span></li>
+                <li>
+                    <span title="Create Category" data-subtype="category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i></span></li>
             </ul><div class="quick-add-module">
-                <module type="content/quick" live_edit="true" quick_edit="true" subtype="post" id="mw-quick-page" />
+                <module type="content/quick" quick_edit="true" data-subtype="post" id="mw-quick-content" />
             </div>
        </div>
    </div>
@@ -22,7 +26,22 @@
     mw.$("#quick-add-nav li").click(function(){
        if(!$(this).hasClass("active")){
           mw.$("#quick-add-nav li.active").removeClass("active");
-          $(this).addClass("active")
+          $(this).addClass("active");
+          mw.$("#mw-quick-content")
+              .height(mw.$("#mw-quick-content").height())
+              .empty()
+              .addClass("loading")
+              .dataset("subtype", $(this.querySelector('span')).dataset("subtype"));
+
+          mw.reload_module("content/quick", function(){
+            mw.$("#mw-quick-content").height("auto");
+            mwd.querySelector("#mw-quick-content iframe").onload = function(){
+                 mw.$("#mw-quick-content").removeClass("loading")
+            }
+            mwd.querySelector("#mw-quick-content iframe").onerror = function(){
+                 mw.$("#mw-quick-content").removeClass("loading")
+            }
+          });
        }
     });
  });

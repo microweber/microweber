@@ -4391,9 +4391,6 @@ class Content
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
 
-                                //   $to_save['debug'] = $content_id;
-
-                                //$to_save['page_element_id'] = $page_element_id;
 
                                 $is_native_fld = $this->app->db->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
@@ -4594,9 +4591,41 @@ class Content
 
         }
         if (isset($data['is_draft']) and isset($data['url'])) {
-            $fld_remove = $this->app->db->escape_string($data['url']);
 
-            $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=3&url=' . $fld_remove);
+            $draft_url = $this->app->db->escape_string($data['url']);
+            $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
+
+            $history_files_params = array();
+            $history_files_params['order_by'] = 'id desc';
+            $history_files_params['fields'] = 'id';
+            $history_files_params['field'] = $data['field'];
+            $history_files_params['rel'] = $data['rel'];
+            $history_files_params['rel_id'] = $data['rel_id'];
+
+            $history_files_params['is_draft'] = 1;
+            $history_files_params['limit'] = 20;
+            $history_files_params['url'] = $draft_url;
+            $history_files_params['created_on'] = '[mt]' . $last_saved_date;
+            $history_files = $this->edit_field($history_files_params);
+
+            // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
+            if (is_array($history_files)) {
+                $history_files_ids = $this->app->format->array_values($history_files);
+            }
+
+            if (isset($history_files_ids) and is_array($history_files_ids)) {
+                $history_files_ids_impopl = implode(',', $history_files_ids);
+                $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
+                $this->app->db->q($del_q);
+            }
+
+
+            $history_files_params['curent_page'] = 2;
+            unset($history_files_params['created_on']);
+            $history_files = $this->edit_field($history_files_params);
+           // d($history_files);
+           // d($history_files_params);
+            //$history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=10&url=' . $draft_url);
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
             }
@@ -4605,6 +4634,7 @@ class Content
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
                 $this->app->db->q($del_q);
             }
+
 
         }
 
