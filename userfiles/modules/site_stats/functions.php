@@ -286,7 +286,7 @@ function get_visits($range = 'daily') {
 
 		case 'weekly' :
 			$ago = date("Y-m-d", strtotime("-1 year"));
-			//
+
 
 			$q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) as total_visits,visit_date, DATE_FORMAT(visit_date, '%x %V') as weeks  FROM $table where visit_date > '$ago' group by weeks  ";
 
@@ -349,8 +349,9 @@ function get_visits($range = 'daily') {
 			$q = "SELECT COUNT(*) AS users_online FROM $table where visit_date='$ago2' and visit_time>'$ago'    ";
  
 			$results = mw('db')->query($q);
+            if(is_array($results)){
 			$results = intval($results[0]['users_online']);
-
+            }
 			//	$q = 'SELECT COUNT(*) AS count FROM ' . $table . ' WHERE visit_date > '';
 			//
 			break;

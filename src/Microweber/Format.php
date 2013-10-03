@@ -113,6 +113,10 @@ class Format
         return $date;
     }
 
+    public function autolink($string){
+        $string= preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
+        return $string;
+    }
 
     public function ago($time, $granularity = 2)
     {

@@ -1,22 +1,32 @@
 <div id="main" class="liquid">
- <div class="mw-ui-row" style="background:#F4F4F4">
+ <div class="mw-ui-row dashboard-top-row">
    <div class="mw-ui-col" style="width: 55%">
         <module type="site_stats/admin" subtype="graph" />
    </div>
    <div class="mw-ui-col" style="width: 45%">
        <div class="quick-add">
-            <ul class="quick-add-nav">
+            <ul class="quick-add-nav" id="quick-add-nav">
                 <li class="active"><span title="Create Post"><i class="mw-ui-btn-plus"></i><i class="ico ipost"></i></span></li>
                 <li><span title="Create Product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i></span></li>
                 <li><span title="Create Page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i></span></li>
                 <li><span title="Create Category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i></span></li>
-            </ul>
-            <div class="quick-add-module">
+            </ul><div class="quick-add-module">
                 <module type="content/quick" live_edit="true" quick_edit="true" subtype="post" id="mw-quick-page" />
             </div>
        </div>
    </div>
  </div>
+
+ <script>
+ $(document).ready(function(){
+    mw.$("#quick-add-nav li").click(function(){
+       if(!$(this).hasClass("active")){
+          mw.$("#quick-add-nav li.active").removeClass("active");
+          $(this).addClass("active")
+       }
+    });
+ });
+ </script>
 
 
  <div class="mw-ui-row">
@@ -26,7 +36,7 @@
  </div>
  <div class="mw-ui-col" style="width: 45%">
 
-      <div class="quick-lists">
+      <div class="quick-lists" style="border: none">
 
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>

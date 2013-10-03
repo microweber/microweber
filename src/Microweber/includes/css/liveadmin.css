@@ -2784,7 +2784,8 @@ a.module-icon-title{
   list-style: none;
   position: relative;
   z-index: 1;
-  top: 1px;
+  top: 5px;
+  height: 41px;
 }
 .quick-add-nav:after{
   content: ".";
@@ -2803,8 +2804,8 @@ a.module-icon-title{
 .quick-add-nav li > *{
   display: inline-block;
   background: #F7F7F7;
-  min-width: 55px;
-  padding: 5px 10px;
+
+  padding: 5px 15px;
   border: 1px solid #EDEDED;
   border-bottom-color: #DFDFDF;
   cursor: pointer;
@@ -2819,10 +2820,18 @@ a.module-icon-title{
   margin-top: 10px;
 }
 
+.quick-add-nav li.active{
+  margin-top: -10px;
+  position: relative;
+  z-index: 1;
+  top: 1px;
+}
+
 .quick-add-nav li.active > *{
   background: white;
-  padding: 10px;
-  border-collapse: #DFDFDF;
+  padding: 10px 15px;
+  border-color: #DFDFDF;
+  border-bottom: none;
 }
 
 .quick-add-module{
@@ -2830,6 +2839,10 @@ a.module-icon-title{
   background: white;
   border:1px solid #DFDFDF;
   clear: both;
+}
+.dashboard-top-row{
+  background:#F4F4F4;
+  border-bottom: 1px solid #E5E5E5;
 }
 
 

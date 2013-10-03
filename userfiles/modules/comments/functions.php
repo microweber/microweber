@@ -256,13 +256,22 @@ function get_comments($params) {
 	$params['table'] = $table;
 
 	$comments = get($params);
-
+ 
 	if(is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
 			if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
 				$comments[$i]['comment_name'] = user_name($item['created_by']);
 			}
+			
+			
+			if(isset($item['comment_body']) and ($item['comment_body'] != '')){
+				
+				$comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
+			}
+			
+			
+			
 			$i++;
 		}
 	}
