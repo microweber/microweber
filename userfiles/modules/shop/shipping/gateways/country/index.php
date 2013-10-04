@@ -86,33 +86,34 @@ $(document).ready(function(){
 
 
 </script>
-<?php if(isset($params['template']) and trim($params['template']) == 'select') : ?>
+<?php
+$module_template = 'default';
+if(isset($params['template'])){
+	$module_template = $params['template'];
+}
+if($module_template != false){
+	$template_file = module_templates( $config['module'], $module_template);
 
-<div class="<?php print $config['module_class'] ?>" id="<?php print $rand; ?>">
-  <select name="country" class="shipping-country-select">
-   <option value=""><?php _e("Choose country"); ?></option>
-    <?php foreach($data  as $item): ?>
-    <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
-    <?php endforeach ; ?>
-  </select>
-</div>
-<?php else: ?>
-<div class="<?php print $config['module_class'] ?>">
-  <div id="<?php print $rand; ?>">
-    <label>
-      <?php _e("Choose country:"); ?>
-    </label>
+} else {
+	$template_file = module_templates( $config['module'], 'default');
 
-    <?php  $selected_country = mw('user')->session_get('shipping_country'); ?>
-    <select name="country" class="field-full">
-	 <option value=""><?php _e("Choose country"); ?></option>
-      <?php foreach($data  as $item): ?>
-      <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
-      <?php endforeach ; ?>
-    </select>
-  </div>
-   
-   <module type="custom_fields" data-id="shipping-info<?php print $params['id'] ?>" data-for="module"  default-fields="city,state,zip,street"   />
+}
+ 
+ 
+if(isset($template_file) and ($template_file) != false and is_file($template_file) != false){
+	include($template_file);
+} else {
+	$template_file = module_templates( $config['module'], 'default');
+	if(($template_file) != false and is_file($template_file) != false){
+		include($template_file);
+	} else {
+		$complete_fallback = dirname(__FILE__).DS.'templates'.DS.'default.php';
+		 if(is_file($complete_fallback) != false){
+			include($complete_fallback);
+		}
+		 
+	}
+	//print 'No default template for '.  $config['module'] .' is found';
+}
 
-</div>
-<?php endif; ?>
+ 
