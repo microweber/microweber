@@ -266,6 +266,37 @@ $post_params['orderby'] ='position desc';
 
 
 
+
+
+$schema_org_item_type = false;
+$schema_org_item_type_tag = false;
+//http://schema.org/CreativeWork
+if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){
+	$schema_org_item_type = 'WebPage';
+	
+} else if(isset($post_params['content_type']) and $post_params['content_type'] == 'post'){
+	if(isset($post_params['subtype']) and $post_params['subtype'] != $post_params['content_type']){
+		$schema_org_item_type = $post_params['subtype'];
+		
+	} else {
+	$schema_org_item_type = 'Article';
+	}
+}
+
+
+
+
+
+
+if($schema_org_item_type != false){
+$schema_org_item_type = ucfirst($schema_org_item_type);	
+$schema_org_item_type_tag = ' itemtype="http://schema.org/'.$schema_org_item_type.'" ';
+$schema_org_item_type_tag = 'http://schema.org/'.$schema_org_item_type;
+
+
+}
+ 
+ 
 $ord_by =  get_option('data-order-by', $params['id']);
 if($ord_by != false and trim($ord_by) != ''){
 	$post_params['orderby'] =$ord_by;

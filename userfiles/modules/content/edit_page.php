@@ -1186,92 +1186,42 @@ if(intval($data['id']) == 0){
 
 		<div class="custom_fields_from_parent"  id="custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>" ></div>
 		<div class="custom_fields_from_parent_cat"  id="custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>" ></div>
-		<script  type="text/javascript">
-
+<script  type="text/javascript">
 
     $(document).ready(function(){
-
       mw_load_post_cutom_fields_from_categories<?php print $rand; ?>();
       mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[type="radio"]').bindMultiple('change', function(e){
         mw_load_post_cutom_fields_from_categories<?php print $rand; ?>();
       });
-
-
       <?php if($edit_post_mode != false): ?>
-
       <?php endif; ?>
-
-
-
       <?php if(intval($data['id']) == 0 and isset($data['subtype']) and trim($data['subtype']) == 'product'): ?>
-
-
       var is_price = $("#custom_fields_for_post_<?php print $rand; ?>").find('a.mw-field-type-price');
       if(is_price.length == 0){
-       createFieldPill(mwd.querySelector("#field-type-price a"));
-     }
-
+        createFieldPill(mwd.querySelector("#field-type-price a"));
+      }
      <?php endif; ?>
-
-
-
-
-
-
-	//
-
-		//}
-
   });
-
-    //load_iframe_editor();
-	/*if(window.parent == undefined && window.parent.mw == undefined){
-
-
-	} else {
-
-	   $(".is_admin").bind("mouseover", function(){
-
-	 load_iframe_editor();
-
-		$(this).unbind("mouseover");
-
-      });
-
-
-}*/
 
 function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
      var vals = mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[name="parent"]:checked').val();
      var holder1 = mw.$('#custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>');
      if(vals != undefined){
-      i = 1;
-
-      holder1.attr('for','content');
-      holder1.attr('save_to_content_id','<?php print $data['id'] ?>');
-      holder1.attr('rel_id',vals);
-      mw.load_module('custom_fields/list','#custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>', function(){
-          });
-    }
-
-
-        var vals = mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[type="checkbox"]:checked').val();
+        i = 1;
+        holder1.attr('for','content');
+        holder1.attr('save_to_content_id','<?php print $data['id'] ?>');
+        holder1.attr('rel_id',vals);
+        mw.load_module('custom_fields/list','#custom_fields_from_pages_selector_for_post_1<?php print $rand; ?>');
+     }
+    var vals = mw.$('#categorories_selector_for_post_<?php print $rand; ?> input[type="checkbox"]:checked').val();
      var holder1 = mw.$('#custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>');
      if(vals != undefined){
-      i = 1;
-
-      holder1.attr('rel','categories');
-      holder1.attr('save_to_content_id','<?php print $data['id'] ?>');
-      holder1.attr('rel_id',vals);
-      mw.load_module('custom_fields/list','#custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>', function(){
-          });
-    }
-
-
-
-
-
-// mw.log(vals);
+          i = 1;
+          holder1.attr('rel','categories');
+          holder1.attr('save_to_content_id','<?php print $data['id'] ?>');
+          holder1.attr('rel_id',vals);
+          mw.load_module('custom_fields/list','#custom_fields_from_cats_selector_for_post_1<?php print $rand; ?>');
+     }
 
 }
 </script>
@@ -1291,31 +1241,23 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 	<?php if($quick_edit == true and $edit_post_mode != false): ?>
 	<div class="mw-save-content-bar"> <span class="mw-ui-btn mw-ui-btn-large go-live mw-ui-btn-green">
 		<?php _e("Save"); ?>
-		</span> </div>
+		</span>
+    </div>
 	<?php endif; ?>
-	<?php //endif; ?>
 	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
 	<div class="mw_clear">&nbsp;</div>
-	<?php /* ONLY FOR POSTS  */ ?>
-	
-	
-		<?php 
-	 
-		
-		if( $quick_edit == false and trim($data['subtype']) == 'product'): ?>
-	<?php event_trigger('mw_edit_product_admin', $data); ?>
+		<?php  if( $quick_edit == false and trim($data['subtype']) == 'product'): ?>
+	    <?php event_trigger('mw_edit_product_admin', $data); ?>
 	<?php endif; ?>
 	
 	
 	
 	<?php if( $quick_edit == false): ?>
-	<div class="advanced_settings"> <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
-		<?php _e('Advanced Settings'); ?>
+	<div class="advanced_settings">
+        <a href="javascript:;" data-for='.advanced_settings_holder' id="advanced-settings-toggler" onclick="mw.tools.memoryToggle(this);"   class="toggle_advanced_settings mw-ui-more">
+		    <?php _e('Advanced Settings'); ?>
 		</a>
-		<?php /* <a href="javascript:;" onclick="mw.tools.toggle('.advanced_settings_holder', this);"  class="toggle_advanced_settings mw-ui-btn">
-			   <span class="ico ioptions"></span> <?php _e('Advanced Settings'); ?>
-			 </a> */ ?>
-		<div class="advanced_settings_holder">
+ 		<div class="advanced_settings_holder">
 			<div class="vSpace"></div>
 			<div class="mw-ui-field-holder">
 				<label class="mw-ui-label">
@@ -1355,7 +1297,6 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 					<?php _e("Yes"); ?>
 					</span></label>
 			</div>
-			<?php /* PAGES ONLY  */ ?>
 			<?php if($edit_post_mode == false and $quick_edit == false): ?>
 			<div class="vSpace"></div>
 			<div class="mw_clear vSpace"></div>
@@ -1391,22 +1332,7 @@ function mw_load_post_cutom_fields_from_categories<?php print $rand; ?>(){
 					</span></label>
 			</div>
 			<div class="mw_clear vSpace"></div>
-			<!--<div class="mw-ui-field-holder">
-				<label class="mw-ui-label">
-					<?php _e("Page type"); ?>
-				</label>
-				<?php if(isset($data['subtype']) and (trim($data['subtype']) != 'dynamic' and trim($data['subtype']) != 'static' ) ): ?>
-				<label class="mw-ui-check">
-					<input name="subtype" type="radio"  value="<?php print $data['subtype'] ?>"    checked="checked"   />
-					<span></span><span> <?php print $data['subtype'] ?> </span></label>
-				<?php endif; ?>
-				<label class="mw-ui-check">
-					<input name="subtype" type="radio"  value="static"    <?php if('static' === ($data['subtype'])): ?>    checked="checked"  <?php endif; ?>  />
-					<span></span><span> Static </span></label>
-				<label class="mw-ui-check">
-					<input name="subtype" type="radio"  value="dynamic"    <?php if('dynamic' === ($data['subtype'])): ?>    checked="checked"  <?php endif; ?>  />
-					<span></span><span> Dynamic </span></label>
-			</div>-->
+
 		
 			<?php endif; ?>
 				subtype<input name="subtype"  type="text" value="<?php print ($data['subtype'])?>" />

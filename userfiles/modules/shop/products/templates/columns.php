@@ -16,18 +16,18 @@ description: Columns
   <div class="row-fluid">
     <?php  $j=1;  foreach ($data as $item): ?>
     <?php $i=1 ; ?>
-    <div class="span4">
+    <div class="span4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
-      <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"><img src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /></span> </a>
+      <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>" itemprop="url"> <span class="valign"><img itemprop="image" src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /></span> </a>
       <?php endif; ?>
       <?php if($show_fields == false or in_array('title', $show_fields)): ?>
-      <h3><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
+      <h3 itemprop="name"><a class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
       <?php endif; ?> 
       <?php 
  
  
 	  if($show_fields == false or (is_array($show_fields) and  in_array('description', $show_fields))): ?>
-      <p class="description">
+      <p class="description" itemprop="description">
         <?php  print $item['description'] ?>
       </p>
       <?php endif; ?>

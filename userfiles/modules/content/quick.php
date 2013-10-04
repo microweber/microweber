@@ -89,6 +89,26 @@
     mw.require("files.js");
 </script>
 <script>
+
+
+
+    add_cats = function(){
+      var names = [];
+      var inputs = mwd.getElementById('mw-category-selector-<?php print $rand; ?>').querySelectorAll('input[type="checkbox"]'), i=0, l = inputs.length;
+      for( ; i<l; i++){
+        if(inputs[i].checked === true){
+           names.push(inputs[i].value);
+        }
+      }
+      if(names.length > 0){
+        mw.$('#mw_cat_selected_for_post').val(names.join(',')).trigger("change");
+      } else {
+        mw.$('#mw_cat_selected_for_post').val('__EMPTY_CATEGORIES__').trigger("change");
+      }
+    }
+
+
+
     $(document).ready(function(){
        var area = mwd.getElementById('quick_content');
        editor = mw.tools.wysiwyg(area);
@@ -100,6 +120,12 @@
           items: ".mw-ui-check",
           itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
           method:'parse',
+          onTag:function(){
+             add_cats()
+          },
+          onUntag:function(){
+             add_cats()
+          }
       });
       mw.$("#quickform-<?php print $rand; ?>").submit(function(){
         var el = this;

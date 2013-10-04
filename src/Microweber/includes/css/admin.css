@@ -237,30 +237,11 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   border-radius:100%;
 }
 
-#visits_info_table{
-  float: left;
-}
 
 
-.stats_table{
-  float: left;
-  width: 750px;
-}
 
-#main.liquid .stats_table{
-  width: auto;
-}
 
-#main.liquid #users_online{
-  width: 175px;
-}
-#main.liquid #visits_info_table{
-  width: 80%;
-}
 
-#main.liquid #visits_info_table table{
-  width: 99%;
-}
 
 
 

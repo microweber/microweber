@@ -14,11 +14,11 @@ description: Blog
 <div class="post-list">
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
-  <div class="well clearfix post-single">
+  <div class="well clearfix post-single" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
       <div class="row">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <div class="span3">
-                <a href="<?php print $item['link'] ?>"><img src="<?php print thumbnail($item['image'], 270); ?>" alt="" ></a>
+                <a  href="<?php print $item['link'] ?>" itemprop="url"><img src="<?php print thumbnail($item['image'], 270); ?>" alt="<?php print addslashes($item['title']); ?>" itemprop="image" ></a>
             </div>
           <?php endif; ?>
           <div class="span4">
@@ -31,7 +31,7 @@ description: Blog
                   <?php endif; ?>
               </div>
               <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                <p class="description"><?php print $item['description'] ?></p>
+                <p class="description" itemprop="headline"><?php print $item['description'] ?></p>
               <?php endif; ?>
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
