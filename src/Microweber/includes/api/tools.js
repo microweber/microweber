@@ -2072,8 +2072,31 @@ mw.tools = {
       }
     });
     return modal;
+  },
+  fav:function(a){
+    var canvas = document.createElement("canvas");
+    canvas.width = 16;
+    canvas.height = 16;
+    var context = canvas.getContext("2d");
+    context.fillStyle = "#EF3D25";
+    context.fillRect(0, 0, 16, 16);
+    context.font = "normal 10px Verdana";
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillStyle = "white";
+    context.fillText(a, 8, 8);
+    var im = canvas.toDataURL();
+    var l = document.createElement('link');
+    l.className = 'mwfav';
+    l.setAttribute('rel', 'icon');
+    l.setAttribute('type', 'image/png');
+    l.href = im;
+    mw.$(".mwfav").remove();
+    mwd.getElementsByTagName('head')[0].appendChild(l);
   }
 }
+
+
 
 
 
@@ -3480,6 +3503,9 @@ mw.image = {
         }
       }
     }
+
+
+
 
 
 

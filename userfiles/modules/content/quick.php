@@ -3,6 +3,10 @@
     $rand = uniqid();
 ?>
 
+
+
+
+
 <form method="post" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
 
 <input type="hidden" name="id"  value="0" />
@@ -62,9 +66,8 @@
 <?php } ?>
 
 <div class="mw-ui-field-holder">
-
+    <span class="mw-ui-btn-link" id="quick-add-gallery">Create Gallery</span>
     <button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
-
 </div>
 </form>
 
@@ -72,9 +75,21 @@
 
 <script>
     mw.require("content.js");
+    mw.require("files.js");
 </script>
 <script>
     $(document).ready(function(){
+
+
+       var up = mw.files.uploader({ filetypes:'images' });
+
+
+       mwd.getElementById('quick-add-gallery').appendChild(up);
+
+
+
+
+
        var area = mwd.getElementById('quick_content');
        var editor = mw.tools.wysiwyg(area);
        editor.style.width = "100%";
@@ -112,8 +127,5 @@
         })
         return false;
       });
-
-
-
     });
 </script>

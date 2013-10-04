@@ -754,7 +754,7 @@ class Layouts
                 }
 
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
-                    d($css_cont_new);
+
                     file_put_contents($live_edit_css, $css_cont_new);
                 }
             }

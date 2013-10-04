@@ -992,10 +992,11 @@ class Parser
 
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
-                            //  $data_id = CONTENT_ID;
+                          }
+                        if (!isset($data_id) or $data_id == false) {
+                            $data_id = CONTENT_ID;
                         }
-
-                        $data = $this->app->content->get_page($data_id);
+                        $data = $this->app->content->get_by_id($data_id);
 
                         //$data['custom_fields'] = $this->app->content->custom_fields($data['id'], 0, 'all');
                         $get_global = false;
@@ -1004,6 +1005,10 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = POST_ID;
                         }
+                        if (!isset($data_id) or $data_id == false) {
+                            $data_id = PAGE_ID;
+                        }
+                        
                         $data = $this->app->content->get_by_id($data_id);
 
                     } else if ($rel == 'inherit') {
@@ -1076,8 +1081,7 @@ class Parser
                             if ($cont_field == false and $try_inherited == true) {
 
                                 $inh = $this->app->content->get_inherited_parent($data_id);
-                                //d($data_id . $field . $inh);
-                                //
+
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
 
@@ -1115,10 +1119,14 @@ class Parser
                             $field_content = $cont_field;
                         }
                     }
+
+
+
                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
                     }
+
                     if ($field_content == false) {
                         if ($get_global == true) {
 

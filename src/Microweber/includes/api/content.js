@@ -63,6 +63,7 @@ mw.content = mw.content || {
               datatype: "json",
               async: true,
               success: function(data) {
+
                 if(typeof e.onSuccess === 'function'){
                   e.onSuccess.call(data);
                 }
