@@ -191,7 +191,7 @@ if(isset($params['menu-name'])): ?>
 <?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) : ?>
 <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">
-<?php _e("Delete"); ?>
+<?php _e("Delete"); ?>&nbsp;
 <?php print $menu['title']; ?></a></small>
 <?php endif ?>
 <?php endif ?>

@@ -1732,7 +1732,6 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   border: 2px dashed #ccc;
   width: auto !important;
   display: block !important;
-  min-height: 400px;
 }
 
 .ui-state-highlight {
