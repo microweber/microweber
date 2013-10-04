@@ -70,8 +70,15 @@ mw.content = mw.content || {
               datatype: "json",
               async: true,
               success: function(data) {
-                if(typeof e.onSuccess === 'function'){
-                  e.onSuccess.call(data);
+                if(typeof data === 'object' && typeof data.error != 'undefined'){
+                   if(typeof e.onError === 'function'){
+                      e.onError.call(data);
+                   }
+                }
+                else{
+                   if(typeof e.onSuccess === 'function'){
+                      e.onSuccess.call(data);
+                    }
                 }
               },
               error:function(data){

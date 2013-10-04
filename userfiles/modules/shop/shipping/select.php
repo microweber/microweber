@@ -4,4 +4,5 @@
 
  
   ?>
+ 
 <module type="<?php print $shipping_options[0]['module_base'] ?>" template="select"  />

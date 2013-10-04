@@ -17,7 +17,7 @@ class shipping_to_country
 
     // private constructor function
     // to prevent external instantiation
-    function __construct($app)
+    function __construct($app = false)
     {
         $this->table = MW_TABLE_PREFIX . 'cart_shipping';
         if (!is_object($this->app)) {
@@ -32,6 +32,95 @@ class shipping_to_country
 
     }
 
+    function get_cost()
+    {
+
+        // $defined_cost = $this->app->user->session_get('shipping_cost');
+        $shipping_country = $this->app->user->session_get('shipping_country');
+        $defined_cost = 0;
+        $shipping_country = $this->get('one=1&is_active=y&shipping_country=' . $shipping_country);
+
+
+        if ($shipping_country == false) {
+            return false;
+        }
+
+        if (isset($shipping_country['id'])) {
+            if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {
+                $defined_cost = floatval($shipping_country['shipping_cost']);
+
+            }
+
+
+        } else {
+            return false;
+        }
+
+        if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'dimensions') {
+            $total_shipping_weight = 0;
+            $total_shipping_volume = 0;
+
+            $items_cart_count = $this->app->shop->cart_sum(false);
+            if ($items_cart_count > 0) {
+                $items_items = $this->app->shop->get_cart();
+                if (!empty($items_items)) {
+                    foreach ($items_items as $item) {
+
+                        $content_data = $item['content_data'];
+                        if (isset($content_data['shipping_weight']) and $content_data['shipping_weight'] != '') {
+                            $weight = floatval($content_data['shipping_weight']);
+                            $weight = $weight * intval($item['qty']);
+                            $total_shipping_weight = $total_shipping_weight + $weight;
+
+                        }
+
+
+                        if (isset($content_data['shipping_width']) and $content_data['shipping_width'] != ''
+                            and  isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
+                                and  isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != ''
+                        ) {
+                            $volume = floatval($content_data['shipping_width']) * floatval($content_data['shipping_height']) * floatval($content_data['shipping_depth']);
+                            $volume = $volume * intval($item['qty']);
+                            $total_shipping_volume = $total_shipping_volume + $volume;
+
+                        }
+
+                    }
+                }
+            }
+
+
+            if (isset($shipping_country['shipping_price_per_weight']) and trim($shipping_country['shipping_price_per_weight']) != '') {
+                $calc = floatval($shipping_country['shipping_price_per_weight']);
+                $calc2 = $calc * $total_shipping_weight;
+                $defined_cost = $defined_cost + $calc2;
+            }
+            if (isset($shipping_country['shipping_price_per_size']) and trim($shipping_country['shipping_price_per_size']) != '') {
+                $calc = floatval($shipping_country['shipping_price_per_size']);
+                $calc2 = $calc * $total_shipping_weight;
+                $defined_cost = $defined_cost + $calc2;
+            }
+
+        }
+
+        $items_cart_amount = $this->app->shop->cart_sum();
+
+        if (isset($shipping_country['shipping_cost_above']) and intval($shipping_country['shipping_cost_above']) > 0) {
+            $shipping_cost_above = floatval($shipping_country['shipping_cost_above']);
+            if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
+                if ($items_cart_amount > $shipping_cost_above) {
+                    $defined_cost = floatval($shipping_country['shipping_cost_max']);
+                }
+            }
+        }
+        if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
+            $defined_cost = $defined_cost+floatval($shipping_country['shipping_cost']);
+        }
+
+          $this->app->user->session_set('shipping_cost',$defined_cost);
+
+        return $defined_cost;
+    }
 
     function test()
     {
@@ -108,12 +197,11 @@ class shipping_to_country
 
         if (isset($params['country'])) {
 
-//fields=shipping_country,shipping_cost_max,shipping_cost,shipping_cost_above&
             $active = $this->get('one=1&is_active=y&shipping_country=' . $params['country']);
             if (is_array($active)) {
                 foreach ($active as $name => $val) {
                     if ($name != 'id' and $name != 'created_on' and $name != 'updated_on') {
-                        mw('user')->session_set($name, $val);
+                        $this->app->user->session_set($name, $val);
                     }
                 }
             } else {
@@ -126,7 +214,7 @@ class shipping_to_country
                     foreach ($active_ww as $name => $val) {
                         if ($name != 'id' and $name != 'created_on' and $name != 'updated_on') {
 
-                            mw('user')->session_set($name, $val);
+                            $this->app->user->session_set($name, $val);
                         }
                     }
 
@@ -135,38 +223,7 @@ class shipping_to_country
 
             }
 
-            $total_shipping_weight = 0;
-            $total_shipping_volume = 0;
 
-            $items_cart_count = $this->app->shop->cart_sum(false);
-            if ($items_cart_count > 0) {
-                $items_items = $this->app->shop->get_cart();
-                if (!empty($items_items)) {
-                    foreach ($items_items as $item) {
-                        d($item);
-                        $content_data = $item['content_data'];
-                        if (isset($content_data['shipping_weight']) and $content_data['shipping_weight'] != '') {
-                            $weight = floatval($content_data['shipping_weight']);
-                            $weight = $weight * intval($item['qty']);
-                            $total_shipping_weight = $total_shipping_weight + $weight;
-
-                        }
-
-
-                        if (isset($content_data['shipping_width']) and $content_data['shipping_width'] != ''
-                          and  isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
-                          and  isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != '') {
-                            $volume = floatval($content_data['shipping_width']) * floatval($content_data['shipping_height']) * floatval($content_data['shipping_depth']);
-                            $volume = $volume * intval($item['qty']);
-                            $total_shipping_volume = $total_shipping_volume + $volume;
-
-                        }
-
-                    }
-                }
-            }
-            d($total_shipping_volume);
-            d($total_shipping_weight);
             return $active;
         }
 

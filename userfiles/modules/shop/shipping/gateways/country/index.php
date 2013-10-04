@@ -1,10 +1,11 @@
 <?php //  require_once($config['path_to_module'].'country_api.php'); ?>
-<?php  $rand = uniqid();
+<?php  $rand = 'shipping_country_'.uniqid();
 
 
  $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
  $data_disabled = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=n");
-
+ $shipping_cost = api('shop/shipping/gateways/country/shipping_to_country/get_cost');
+ $shipping_cost = floatval($shipping_cost);
  $countries_used = array();
   $countries_all = array();
  if( $data == false){
@@ -61,13 +62,14 @@
   function mw_shipping_<?php print $rand; ?>(){
     mw.form.post( '#<?php print $rand; ?>', '<?php print $config['module_api']; ?>/shipping_to_country/set',function() {
 	 mw.reload_module('shop/cart');
-
+ mw.reload_module('shop/shipping');
+ 
 	 if(this.shipping_country != undefined){
-		//d(this.shipping_country);
+		 
 		mw.$("[name='country']").val(this.shipping_country)
 	 }
 
-
+ mw.reload_module('<?php print $config['module']; ?>');
 
 
 	});
@@ -86,7 +88,7 @@ $(document).ready(function(){
 
 
 </script>
-<?php
+ <?php
 $module_template = 'default';
 if(isset($params['template'])){
 	$module_template = $params['template'];

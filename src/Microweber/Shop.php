@@ -20,17 +20,16 @@ class Shop
 
     function __construct($app = null)
     {
-      
 
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw('application');
-            }
-			
-			
-			
-		  if (!defined("MODULE_DB_SHOP")) {
+
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw('application');
+        }
+
+
+        if (!defined("MODULE_DB_SHOP")) {
             define('MODULE_DB_SHOP', MW_TABLE_PREFIX . 'cart');
         }
 
@@ -44,10 +43,10 @@ class Shop
 
 
         $this->db_init();
-        
+
     }
 
-    public function get_cart($params)
+    public function get_cart($params = false)
     {
 
         $params2 = array();
@@ -89,6 +88,12 @@ class Shop
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
+
+                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
+                    $item['content_data'] = $this->app->content->data($item['rel_id']);
+
+
+                }
 
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
@@ -206,7 +211,7 @@ class Shop
                         $scheduler = new \Microweber\Utils\Events();
                         $sender = new \Microweber\email\Sender();
                         // schedule a global scope function:
-                       // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
                         $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
@@ -311,6 +316,7 @@ class Shop
                 $shipping_cost_above = $_SESSION['shipping_cost_above'];
             }
 
+
             //post any of those on the form
             $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
 
@@ -369,11 +375,11 @@ class Shop
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
 
-            if (intval($shipping_cost_above) > 0 and intval($shipping_cost_max) > 0) {
-                if ($amount > $shipping_cost_above) {
-                    $shipping_cost = $shipping_cost_max;
-                }
-            }
+//            if (intval($shipping_cost_above) > 0 and intval($shipping_cost_max) > 0) {
+//                if ($amount > $shipping_cost_above) {
+//                    $shipping_cost = $shipping_cost_max;
+//                }
+//            }
 
             $place_order['shipping'] = $shipping_cost;
 
@@ -488,7 +494,7 @@ class Shop
         }
 
         $providers = $this->app->option->get_all('option_group=payments' . $option_key_q);
-		//d( $providers);
+        //d( $providers);
         $str = 'payment_gw_';
         $l = strlen($str);
         if (is_array($providers)) {
@@ -578,6 +584,11 @@ class Shop
         if ($checkz != false and is_array($checkz)) {
             // d($checkz);
             $cart['qty'] = intval($data['qty']);
+
+
+
+            $cart_s = $this->update_cart($cart);
+             return ($cart_s);
             $table = MODULE_DB_SHOP;
             mw_var('FORCE_SAVE', $table);
 
@@ -604,27 +615,71 @@ class Shop
         if (!isset($data['for'])) {
             $data['for'] = 'content';
         }
+        $update_qty = 0;
+        $update_qty_new = 0;
 
-        if (!isset($data['for']) or !isset($data['for_id'])) {
-
-            mw_error('Invalid data');
+        if (isset($data['qty'])) {
+            $update_qty_new = intval($data['qty']);
+            unset($data['qty']);
         }
+        if (!isset($data['for']) or !isset($data['for_id'])) {
+            if (!isset($data['id'])) {
+                mw_error('Invalid data');
+            } else {
+                $cart = array();
+                $cart['id'] = intval($data['id']);
+
+
+                $cart['limit'] = 1;
+                $data_existing = $this->get_cart($cart);
+                if(is_array($data_existing) and is_array($data_existing[0])){
+                   $data = $data_existing[0];
+
+                }
+            }
+
+        }
+
+        if (!isset($data['for']) and isset($data['rel'])) {
+            $data['for'] = $data['rel'];
+        }
+        if (!isset($data['for_id']) and isset($data['rel_id'])) {
+            $data['for_id'] = $data['rel_id'];
+        }
+
+
+        if (!isset($data['for']) and !isset($data['for_id'])) {
+            mw_error('Invalid for and for_id params');
+        }
+
 
         $data['for'] = $this->app->db->assoc_table_name($data['for']);
 
         $for = $data['for'];
         $for_id = intval($data['for_id']);
 
-        $update_qty = 0;
+
 
         if ($for_id == 0) {
 
             mw_error('Invalid data');
         }
+        $cont_data = false;
+
+
+        if (!isset($data['for']) and isset($data['id'])) {
+
+
+        }
+        if ($update_qty > 0) {
+            $data['qty'] = $update_qty;
+        }
+
+
 
         if ($data['for'] == 'content') {
             $cont = $this->app->content->get_by_id($for_id);
-
+            $cont_data = $this->app->content->data($for_id);
             if ($cont == false) {
                 mw_error('Invalid product?');
             } else {
@@ -632,12 +687,11 @@ class Shop
                     $data['title'] = $cont['title'];
                 }
             }
+
+
         }
 
-        if (isset($data['qty'])) {
-            $update_qty = intval($data['qty']);
-            unset($data['qty']);
-        }
+
 
         $cfs = array();
         $cfs = $this->app->fields->get($for, $for_id, 1);
@@ -767,6 +821,8 @@ class Shop
                 $cart['id'] = $checkz[0]['id'];
                 if ($update_qty > 0) {
                     $cart['qty'] = $checkz[0]['qty'] + $update_qty;
+                } elseif ($update_qty_new > 0) {
+                    $cart['qty'] =$update_qty_new;
                 } else {
                     $cart['qty'] = $checkz[0]['qty'] + 1;
                 }
@@ -780,7 +836,12 @@ class Shop
                     $cart['qty'] = 1;
                 }
             }
+            if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit') {
+                if (intval($cont_data['qty']) < intval($cart['qty'])  ) {
+                    $cart['qty'] = $cont_data['qty'];
+                }
 
+            }
 
             mw_var('FORCE_SAVE', $table);
             //   $cart['debug'] = 1;
@@ -842,7 +903,7 @@ class Shop
             shuffle($ord_data);
             $ord_test = $ord_data[0];
 
-            $this->confirm_email_send($ord_test['id'], $to = $email_from, true,true);
+            $this->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
         }
 
     }
@@ -1204,7 +1265,7 @@ class Shop
 
         return true;
 
-     }
+    }
 
 
     public function create_mw_shop_default_options()

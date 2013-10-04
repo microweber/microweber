@@ -65,19 +65,23 @@ description: Full width cart template
     </tbody>
   </table>
 
-   <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active');  ?>
+   <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active'); ?>
 	<?php if(is_array($shipping_options)) :?>
     <div>
-    <h3><?php _e("Continue Shopping or Complete Order"); ?></h3>
+    <h3><?php _e("Order summary"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">
         <tbody>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-country"><label><?php _e("Shipping to"); ?>:</label> <module type="shop/shipping/select" /></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-country">
+				
+				
+				
+				<label><?php _e("Shipping to"); ?>:</label> <module type="shop/shipping"  view="select" /></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <span class="shipping_cost"><?php print mw('shop')->currency_format(mw('user')->session_get('shipping_cost')); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <module type="shop/shipping"  view="cost" /> </td>
             </tr>
             <tr>
                 <td colspan="3"></td>

@@ -113,6 +113,46 @@ mw.external_tool = function(url){
 
 
 mw.tools = {
+  inlineModal:function(o){
+    /*
+    **********************************************
+
+      mw.tools.modal({
+        element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
+        content: string, Node or jQuery Object *: content for the 'inlineModal'.
+        template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
+      });
+
+    ***********************************************
+    */
+    var tpl = o.template || 'mw-inline-modal-default';
+    if(o.element === null || typeof o.element === 'undefined'){
+      return false;
+    }
+    if(o.content === null || typeof o.content === 'undefined'){
+      o.content = "";
+    }
+    var m = mwd.createElement('div'), c = mwd.createElement('div');
+    m.className = 'mw-inline-modal ' + tpl;
+    c.className = 'mw-inline-modal-container';
+    c.innerHTML = '<span class="mw-inline-modal-container-close" onclick="$(mw.tools.firstParentWithClass(this, \'mw-inline-modal\')).remove();"></span>';
+    m.innerHTML = '<div class="mw-inline-modal-overlay"></div>';
+    var pos = $(o.element).css("position");
+    if(pos != 'relative' && pos !='absolute' && pos !='fixed'){
+         $(o.element).css("position", "relative");
+    }
+    if(typeof o.content === 'object'){
+        o.content = $(o.content).clone(true);
+        o.content.show();
+    }
+    $(c).append(o.content);
+    m.appendChild(c);
+    $(o.element).append(m);
+    var h1 = $(o.element).outerHeight();
+    var h2 = $(c).outerHeight();
+    c.style.top = h1/2 - h2/2 + "px";
+    return m;
+  },
   modal:{
     settings:{
       width:600,

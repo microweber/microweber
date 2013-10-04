@@ -69,7 +69,7 @@
 
       <span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
       <div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
-          <div  class="mw-o-box-content"><module type="pictures/admin" content_id="0" /></div>
+          <div  class="mw-o-box-content"><module type="pictures/admin" content_id="0" rel="content" rel_id="0" /></div>
       </div>
 
     <button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
@@ -78,18 +78,20 @@
 
 
 
+<div class="quick_done_alert" style="display: none">
+    <h2><span style="text-transform: capitalize"><?php print $params['subtype'] ?></span> has been created.</h2>
+    <a href="javascript:;" class="mw-ui-link">Go to <?php print $params['subtype'] ?></a>
+    <span class="mw-ui-btn" onclick="$(mw.tools.firstParentWithClass(this, 'mw-inline-modal')).remove();">Create New</span>
+</div>
+
 <script>
     mw.require("content.js");
     mw.require("files.js");
 </script>
 <script>
     $(document).ready(function(){
-
-
-
-
        var area = mwd.getElementById('quick_content');
-       var editor = mw.tools.wysiwyg(area);
+       editor = mw.tools.wysiwyg(area);
        editor.style.width = "100%";
        editor.style.height = "270px";
        mw.treeRenderer.appendUI('#mw-category-selector-<?php print $rand; ?>');
@@ -99,29 +101,36 @@
           itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
           method:'parse',
       });
-      mw.$("#quick-tag-field").keydown(function(e){
-         if(e.keyCode == 9){
-            $(editor).contents().find("#mw-iframe-editor-area").focus();
-         }
-      });
       mw.$("#quickform-<?php print $rand; ?>").submit(function(){
         var el = this;
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
-        d(data);
-        return false;
         module.addClass('loading');
         mw.content.save(data, {
           onSuccess:function(){
-              module.removeClass('loading');
+              el.reset();
+              $(editor).contents().find("#mw-iframe-editor-area").empty();
+              mw.$(".quick_done_alert a").attr("href", mw.settings.site_url + "?content_id=" + this);
+              mw.reload_module("pictures/admin", function(){
+                  module.removeClass('loading');
+                  mw.tools.inlineModal({
+                    element: mw.$(".quick-add-module"),
+                    content: $(".quick_done_alert")
+                  });
+              });
           },
           onError:function(){
               module.removeClass('loading');
               if(typeof this.title !== 'undefined'){
-                mw.notification.error('Please type your title')
+                mw.notification.error('Please enter title');
               }
               if(typeof this.content !== 'undefined'){
-                mw.notification.error('Please type your content')
+                mw.notification.error('Please enter content');
+              }
+              if(typeof this.error !== 'undefined'){
+                mw.session.checkPause = false;
+                mw.session.checkPauseExplicitly = false;
+                mw.session.logRequest();
               }
           }
         })

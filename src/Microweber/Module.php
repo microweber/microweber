@@ -357,8 +357,10 @@ class Module
         $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
-        //	d($module_name_l_theme);
+        $module_name_l_theme = normalize_path($module_name_l_theme,1);
+
         if (!is_dir($module_name_l)) {
+
             return false;
         } else {
             if ($template_name == false) {
@@ -405,6 +407,7 @@ class Module
                 }
 
                 $tf = $module_name_l . $template_name;
+
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);

@@ -69,7 +69,6 @@ $(document).ready(function(){
    if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />
   <?php endif ;?>
-  <div style="margin-left: 0">
     <div class="row-fluid mw-cart-data-holder">
       <div class="span4">
         <div class="well">
@@ -94,8 +93,8 @@ $(document).ready(function(){
           <input name="phone" class="field-full"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
         </div>
       </div>
-      <module type="shop/shipping" class="span4" />
-      <module type="shop/payments" class="span4" />
+      <div class="span4"><module type="shop/shipping" />  </div>
+      <div class="span4"><module type="shop/payments" /></div>
     </div>
     <div class="alert hide"></div>
     <div class="mw-cart-action-holder">
@@ -107,7 +106,6 @@ $(document).ready(function(){
       <?php endif; ?>
       <div class="clear"></div>
     </div>
-  </div>
 </form>
 <div class="mw-checkout-responce"></div>
 <?php else: ?>
