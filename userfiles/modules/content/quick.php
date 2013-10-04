@@ -66,7 +66,12 @@
 <?php } ?>
 
 <div class="mw-ui-field-holder">
-    <span class="mw-ui-btn-link" id="quick-add-gallery">Create Gallery</span>
+
+      <span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
+      <div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
+          <div  class="mw-o-box-content"><module type="pictures/admin" content_id="0" /></div>
+      </div>
+
     <button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
 </div>
 </form>
@@ -79,13 +84,6 @@
 </script>
 <script>
     $(document).ready(function(){
-
-
-       var up = mw.files.uploader({ filetypes:'images' });
-
-
-       mwd.getElementById('quick-add-gallery').appendChild(up);
-
 
 
 
@@ -110,6 +108,8 @@
         var el = this;
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
+        d(data);
+        return false;
         module.addClass('loading');
         mw.content.save(data, {
           onSuccess:function(){

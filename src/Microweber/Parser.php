@@ -1008,7 +1008,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        
+
                         $data = $this->app->content->get_by_id($data_id);
 
                     } else if ($rel == 'inherit') {

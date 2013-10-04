@@ -2816,14 +2816,14 @@ class Content
 	WHERE parent_id=$menu_id
 
 	ORDER BY position ASC ";
-        //d($sql); and item_type='menu_item'
+        //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
         $menu_params['table'] = $menus;
         $menu_params['orderby'] = "position ASC";
 
         //$q = $this->app->db->get($menu_params);
-        // d($q);
+
         $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
 
         // $data = $q;
@@ -3567,7 +3567,13 @@ class Content
 
                 if ($stop == true) {
                     if (!isset($data['captcha'])) {
-                        return array('error' => 'Please enter a captcha answer!');
+                        if (isset($data['error_msg'])) {
+                            return array('error' => $data['error_msg']);
+
+                        } else {
+                            return array('error' => 'Please enter a captcha answer!');
+
+                        }
                     } else {
                         $cap = $this->app->user->session_get('captcha');
                         if ($cap == false) {
@@ -3662,22 +3668,19 @@ class Content
             $thetitle = $data['title'];
         }
 
-        if (isset($data['id']) and intval($data['id']) == 0){
+        if (isset($data['id']) and intval($data['id']) == 0) {
             if (!isset($data['title']) or ($data['title']) == '') {
 
                 $data['title'] = "New page";
                 if (isset($data['content_type']) and ($data['content_type']) != 'page') {
-                    $data['title'] = "New ".$data['content_type'];
+                    $data['title'] = "New " . $data['content_type'];
                     if (isset($data['subtype']) and ($data['subtype']) != 'page' and ($data['subtype']) != 'post' and ($data['subtype']) != 'static' and ($data['subtype']) != 'dynamic') {
-                        $data['title'] = "New ".$data['subtype'];
+                        $data['title'] = "New " . $data['subtype'];
                     }
                 }
 
             }
         }
-
-
-
 
 
         if (isset($data['title'])) {
@@ -4642,8 +4645,8 @@ class Content
             $history_files_params['curent_page'] = 2;
             unset($history_files_params['created_on']);
             $history_files = $this->edit_field($history_files_params);
-           // d($history_files);
-           // d($history_files_params);
+            // d($history_files);
+            // d($history_files_params);
             //$history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=10&url=' . $draft_url);
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
@@ -5349,8 +5352,10 @@ class Content
 
         $table = MODULE_DB_MENUS;
 
+
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
+
         $save = $this->app->db->save($table, $data_to_save);
 
         $this->app->cache->delete('menus/global');

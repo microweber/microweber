@@ -58,6 +58,9 @@ $past_page = mw('content')->link($past_page[0]['id']);
       <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
       <?php if( $notif_count > 0): ?>
       <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
+           <script>
+                mw.tools.fav( <?php if($notif_count < 100 ) { print $notif_count; } else { print "99+"; }; ?> );
+           </script>
       <?php endif; ?>
       </span> </span>
       <div class="mw-toolbar-notif-items-wrap mw-o-box">

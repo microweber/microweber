@@ -7,11 +7,10 @@ if(isset($params['name'])){
 $params['menu-name'] = 'header_menu';	
 }
   $menu_name = get_option('menu_name', $params['id']);
-
-if($menu_name != false){
+ if($menu_name != false){
 	$params['menu-name'] = $menu_name;
 }
-
+ 
 if(isset($params['menu-name'])){
 
 	$menu = get_menu('make_on_not_found=1&one=1&limit=1&title='.$params['menu-name']);

@@ -22,7 +22,7 @@
 	}
 	}
  }
- 
+
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
@@ -30,7 +30,7 @@ if( $id != 0){
 
     $data = menu_tree( $menu_params);
 }
- d($id);
+ 
 ?>
 <?php  $rand = uniqid(); ?>
 <?php if(isset($data) and $data != false): ?>
@@ -41,8 +41,6 @@ if( $id != 0){
 
   mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
  </script>
-
- 
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
@@ -167,7 +165,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 
  $(document).ready(function(){
     mw.menu_items_sort_<?php print $rand; ?>();
-	mw.$("#add-custom-link-parent-id").val('<?php print $id ?>');
+	
 
  });
  </script>
@@ -176,20 +174,24 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 <?php else: ?>
 <?php _e("This menu is empty, please add items."); ?>
 <?php endif; ?>
+<script  type="text/javascript">
+$(document).ready(function(){
+   $("#add-custom-link-parent-id").val('<?php print $id ?>');
+	
+
+ });
+
+ </script>
 <div>
-  <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
+	<module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
 </div>
 <div class="vSpace"></div>
-
 <?php
 if(isset($params['menu-name'])): ?>
- <?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
+<?php $menu = get_menu('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) : ?>
-  <small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');"><?php _e("Delete"); ?> <?php print $menu['title']; ?></a></small>
-
-	<?php endif ?>
- 
- 
-	<?php endif ?>
-
-
+<small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">
+<?php _e("Delete"); ?>
+<?php print $menu['title']; ?></a></small>
+<?php endif ?>
+<?php endif ?>

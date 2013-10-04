@@ -11,8 +11,10 @@
 	 $notif_html = '';
 	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
  	if( $notif_count > 0){
-    $notif_html = '<sup class="mw-notif-bubble">'.$notif_count.'</sup>';
-    }
+    $notif_html = '<sup class="mw-notif-bubble">'.$notif_count.'</sup>';  ?>
+
+
+   <?php }  ?>
  
   ?>
   <a href="<?php print $config['url']; ?>/action:orders" class="new-order-notification"> <strong><?php print intval( $orders); ?></strong>

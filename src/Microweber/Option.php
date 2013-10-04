@@ -90,17 +90,18 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'option_'.__FUNCTION__ .'_'.$option_group.'_'.crc32($function_cache_id);
         if (isset($_mw_global_options_mem[$function_cache_id])) {
             return $_mw_global_options_mem[$function_cache_id];
         }
 
 
         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
         if (($cache_content) == '--false--') {
             return false;
         }
-        // $cache_content = false;
+
         if (($cache_content) != false) {
 
             return $cache_content;
@@ -128,7 +129,7 @@ class Option
         if ($module != false) {
             $module = $this->app->db->escape_string($module);
             $data['module'] = $module;
-            $ok1 = " AND module='{$module}' ";
+          //  $ok1 = " AND module='{$module}' ";
         }
         $data['limit'] = 1;
         // $get = $this->app->db->get_long($table, $data, $cache_group);
@@ -136,9 +137,13 @@ class Option
         $ob = " order by id desc ";
         $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2.$ob;
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
-        // d($q);
+
         $q_cache_id = crc32($q);
-        $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
+      //  $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
+
+
+        $get_all = $this->app->db->query($q);
+
         if (!is_array($get_all)) {
             $this->app->cache->save('--false--', $function_cache_id, $cache_group);
 
@@ -369,7 +374,7 @@ class Option
                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
                     // d($existing);
                     if ($existing == false) {
-                        $this->delete($data['option_key'], $data['option_group']);
+                       // $this->delete($data['option_key'], $data['option_group']);
                     } elseif (isset($existing['id'])) {
                         $data['id'] = $existing['id'];
                     }
@@ -391,7 +396,7 @@ class Option
                 $opt_gr = $this->app->db->escape_string($data['option_group']);
                 $opt_key = $this->app->db->escape_string($data['option_key']);
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
-                $this->app->db->q($clean);
+                //$this->app->db->q($clean);
                 $cache_group = 'options/' . $opt_gr;
                 $this->app->cache->delete($cache_group);
 
@@ -415,11 +420,17 @@ class Option
                 if ($option_group != false) {
 
                     $cache_group = 'options/' . $option_group;
+
                     $this->app->cache->delete($cache_group);
                 } else {
                     $cache_group = 'options/' . 'global';
                     $this->app->cache->delete($cache_group);
                 }
+                if($save != false){
+                    $cache_group = 'options/' . $save;
+                    $this->app->cache->delete($cache_group);
+                }
+
 
                 if (isset($data['id']) and intval($data['id']) > 0) {
 

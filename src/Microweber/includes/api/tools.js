@@ -60,6 +60,8 @@ $.fn.dataset = function(dataset, val){
 
 
 
+
+
 mw.controllers = {}
 
 
@@ -2080,7 +2082,8 @@ mw.tools = {
     var context = canvas.getContext("2d");
     context.fillStyle = "#EF3D25";
     context.fillRect(0, 0, 16, 16);
-    context.font = "normal 10px Verdana";
+
+    context.font = "normal 10px Arial";
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillStyle = "white";
@@ -2095,6 +2098,10 @@ mw.tools = {
     mwd.getElementsByTagName('head')[0].appendChild(l);
   }
 }
+
+
+
+
 
 
 

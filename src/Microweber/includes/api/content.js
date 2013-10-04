@@ -40,8 +40,9 @@ mw.content = mw.content || {
             });
       },
       save:function(data, e){
-          var master = {}
-          var calc = {}
+          var master = {};
+          var calc = {};
+          var e = e || {};
           if(data.content == "" || typeof data.content === 'undefined'){
             calc.content = false;
           }
@@ -54,16 +55,21 @@ mw.content = mw.content || {
             }
             return false;
           }
+          if(typeof data.content_type === "undefined" || data.content_type == ""){
+            data.content_type = "post";
+          }
+          if(typeof data.id === "undefined" || data.id == ""){
+            data.id = 0;
+          }
           master.title = data.title;
           master.content = data.content;
           $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/save_content',
-              data: master,
+              data: data,
               datatype: "json",
               async: true,
               success: function(data) {
-
                 if(typeof e.onSuccess === 'function'){
                   e.onSuccess.call(data);
                 }

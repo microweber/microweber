@@ -264,7 +264,7 @@ $(document).ready(function(){
 <?php
  
 $menu_name = get_option('menu_name', $params['id']);
-
+ 
 	if($menu_name  == false and isset( $params['menu_name'])){
  		$menu_name =  $params['menu_name'];
 	}elseif($menu_name  == false and isset( $params['name'])){

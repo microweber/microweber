@@ -35,12 +35,7 @@ mw.notif_item_delete = function($item_id){
 <?php if(is_array($data )): ?>
 
 
-<script>
 
-mw.tools.fav(<?php if(sizeof($data) >0 ) {if(sizeof($data) < 100) {print sizeof($data);} else { print "99+"; }}; ?>);
-
-
-</script>
 
 <div class="mw-admin-notifications-holder">
   <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
