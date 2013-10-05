@@ -47,8 +47,22 @@
   });
  
  function mw_admin_set_order_type_filter(){
+	var v = $("#mw-admin-order-type-filter").val();
 	
-	  $('#mw-admin-manage-orders-list').attr('order-type',$("#mw-admin-order-type-filter").val() );
+	
+	if(v == 'carts'){
+		$('.mw-admin-order-sort-carts').show();
+		$('.mw-admin-order-sort-completed').hide();
+
+		
+	} else {
+		$('.mw-admin-order-sort-carts').hide();
+		$('.mw-admin-order-sort-completed').show();
+
+	}
+	
+	
+	  $('#mw-admin-manage-orders-list').attr('order-type',v );
 	  $('#mw-admin-manage-orders-list').removeAttr('keyword' );
 	  $('#mw-admin-manage-orders-list').removeAttr('order' );
 	  mw.reload_module("#mw-admin-manage-orders-list"); 
@@ -69,8 +83,13 @@
 		<option value="completed">Completed orders</option>
 		<option value="carts">Abandoned carts</option>
 	</select>
+	<div class="mw-table-sorting right mw-admin-order-sort-carts" style="display:none">
+	
+	<a class="mw-ui-btn" href="javascript:mw_admin_set_order_type_filter()">Refresh</a>
+	
+	</div>
 	<?php  if($is_orders != 0){    ?>
-	<div class="mw-table-sorting right">
+	<div class="mw-table-sorting right mw-admin-order-sort-completed">
 		<label>
 			<?php _e("Sort By"); ?>
 			:</label>
@@ -92,11 +111,15 @@
   onblur="mw.form.dstatic(event);"
   onfocus="mw.form.dstatic(event);"
   id="mw-search-field"
-  class="mw-ui-searchfield right"
+  class="mw-ui-searchfield right mw-admin-order-sort-completed"
   value="<?php _e("Search for orders"); ?>"
   data-default="<?php _e("Search for orders"); ?>"
   onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
    />
 	<?php  } ?>
+	
+	
+	
+	
 </div>
 <module type="shop/orders"  id="mw-admin-manage-orders-list"  />
