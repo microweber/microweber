@@ -80,6 +80,12 @@ class Shop
             }
         }
         $params['limit'] = 10000;
+        if (!isset($params['order_completed'])) {
+
+            $params['order_completed'] = 'n';
+        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
+            unset($params['order_completed']);
+        }
         // $params['debug'] = session_id();
 
         $get = $this->app->db->get($params);
@@ -586,9 +592,8 @@ class Shop
             $cart['qty'] = intval($data['qty']);
 
 
-
             $cart_s = $this->update_cart($cart);
-             return ($cart_s);
+            return ($cart_s);
             $table = MODULE_DB_SHOP;
             mw_var('FORCE_SAVE', $table);
 
@@ -632,8 +637,8 @@ class Shop
 
                 $cart['limit'] = 1;
                 $data_existing = $this->get_cart($cart);
-                if(is_array($data_existing) and is_array($data_existing[0])){
-                   $data = $data_existing[0];
+                if (is_array($data_existing) and is_array($data_existing[0])) {
+                    $data = $data_existing[0];
 
                 }
             }
@@ -659,7 +664,6 @@ class Shop
         $for_id = intval($data['for_id']);
 
 
-
         if ($for_id == 0) {
 
             mw_error('Invalid data');
@@ -676,7 +680,6 @@ class Shop
         }
 
 
-
         if ($data['for'] == 'content') {
             $cont = $this->app->content->get_by_id($for_id);
             $cont_data = $this->app->content->data($for_id);
@@ -690,7 +693,6 @@ class Shop
 
 
         }
-
 
 
         $cfs = array();
@@ -822,7 +824,7 @@ class Shop
                 if ($update_qty > 0) {
                     $cart['qty'] = $checkz[0]['qty'] + $update_qty;
                 } elseif ($update_qty_new > 0) {
-                    $cart['qty'] =$update_qty_new;
+                    $cart['qty'] = $update_qty_new;
                 } else {
                     $cart['qty'] = $checkz[0]['qty'] + 1;
                 }
@@ -837,7 +839,7 @@ class Shop
                 }
             }
             if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit') {
-                if (intval($cont_data['qty']) < intval($cart['qty'])  ) {
+                if (intval($cont_data['qty']) < intval($cart['qty'])) {
                     $cart['qty'] = $cont_data['qty'];
                 }
 
@@ -1255,8 +1257,11 @@ class Shop
         $fields_to_add[] = array('position', 'int(11) default NULL');
         $fields_to_add[] = array('shipping_type', 'TEXT default NULL');
 
+
         $fields_to_add[] = array('shipping_price_per_size', 'float default NULL');
         $fields_to_add[] = array('shipping_price_per_weight', 'float default NULL');
+        $fields_to_add[] = array('shipping_price_per_item', 'float default NULL');
+        $fields_to_add[] = array('shipping_price_custom', 'float default NULL');
 
         $this->app->db->build_table($table_name, $fields_to_add);
 

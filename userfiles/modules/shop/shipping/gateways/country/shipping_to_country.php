@@ -101,6 +101,28 @@ class shipping_to_country
                 $defined_cost = $defined_cost + $calc2;
             }
 
+        } else if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'per_item') {
+            if (isset($shipping_country['shipping_price_per_item']) and intval($shipping_country['shipping_price_per_item']) != 0) {
+                $calc = floatval($shipping_country['shipping_price_per_item']);
+                $calc2 = 0;
+
+                $items_cart_count = $this->app->shop->cart_sum(false);
+                if ($items_cart_count > 0) {
+                    $items_items = $this->app->shop->get_cart();
+                    if (!empty($items_items)) {
+                        foreach ($items_items as $item) {
+                            $volume = $calc * intval($item['qty']);
+
+                            $calc2 = $calc2 + $volume;
+                        }
+                    }
+
+
+                }
+                $defined_cost = $defined_cost + $calc2;
+            }
+
+
         }
 
         $items_cart_amount = $this->app->shop->cart_sum();
@@ -114,10 +136,10 @@ class shipping_to_country
             }
         }
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
-            $defined_cost = $defined_cost+floatval($shipping_country['shipping_cost']);
+            $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
         }
 
-          $this->app->user->session_set('shipping_cost',$defined_cost);
+        $this->app->user->session_set('shipping_cost', $defined_cost);
 
         return $defined_cost;
     }
@@ -198,31 +220,14 @@ class shipping_to_country
         if (isset($params['country'])) {
 
             $active = $this->get('one=1&is_active=y&shipping_country=' . $params['country']);
-            if (is_array($active)) {
-                foreach ($active as $name => $val) {
-                    if ($name != 'id' and $name != 'created_on' and $name != 'updated_on') {
-                        $this->app->user->session_set($name, $val);
-                    }
-                }
-            } else {
-
-
+            if (!is_array($active)) {
                 $active = $this->get('one=1&is_active=y&shipping_country=Worldwide');
-                if (is_array($active)) {
-                    $active_ww = $active;
-                    $active_ww['shipping_country'] = $params['country'];
-                    foreach ($active_ww as $name => $val) {
-                        if ($name != 'id' and $name != 'created_on' and $name != 'updated_on') {
-
-                            $this->app->user->session_set($name, $val);
-                        }
-                    }
-
-
-                }
+            }
+            if (is_array($active) and isset($active['shipping_country'])) {
+                $this->app->user->session_set('shipping_country', $active['shipping_country']);
+                $active['cost'] = $this->get_cost();
 
             }
-
 
             return $active;
         }

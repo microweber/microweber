@@ -17,5 +17,6 @@ $fields_to_add[] = array('user_ip', 'varchar(33)  default NULL ');
 $fields_to_add[] = array('visit_date', 'date default NULL');
 $fields_to_add[] = array('visit_time', 'time default NULL');
 $fields_to_add[] = array('last_page', 'varchar(255)  default NULL ');
- 
+$fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+
 $config['tables']['table_stats_users_online'] = $fields_to_add;

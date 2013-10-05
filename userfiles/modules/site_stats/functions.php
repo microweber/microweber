@@ -6,6 +6,15 @@ if (!defined("MODULE_DB_USERS_ONLINE")) {
 
 //event_bind('mw_admin_dashboard_main', 'mw_print_stats_on_dashboard');
 
+
+
+
+event_bind('mw_admin_quick_stats_by_session', 'mw_print_quick_stats_by_session');
+function mw_print_quick_stats_by_session($sid=false) {
+	 
+	print '<microweber module="site_stats" view="admin" data-subtype="quick" data-user-sid="'.$sid.'" />';
+}
+
 function mw_print_stats_on_dashboard() {
 	$active = url_param('view');
 	$cls = '';
@@ -271,7 +280,21 @@ function stats_insert_cookie_based() {
 	return true;
 
 }
+function get_visits_for_sid($sid) {
+	$table = MODULE_DB_USERS_ONLINE;
+	$q = false;
+	$results = false;
+	$data = array();
+	$data['table'] = $table;
+	$data['session_id'] = $sid;
+$data['limit'] = 10;
+$data['debug'] = 10;
 
+	$data['order_by'] = "visit_date desc,visit_time desc";
+	return get($data);
+	
+	
+}
 function get_visits($range = 'daily') {
 	$table = MODULE_DB_USERS_ONLINE;
 	$q = false;

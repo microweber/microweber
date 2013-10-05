@@ -4804,11 +4804,15 @@ class Content
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
                     }
-
-
                     if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
                         $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = $this->app->db->query($q);
+                    }
+
+                    if (defined("MW_DB_TABLE_CONTENT_DATA")) {
+                        $table1 = MW_DB_TABLE_CONTENT_DATA;
+                        $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
                         $q = $this->app->db->query($q);
                     }
 

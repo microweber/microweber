@@ -1,11 +1,5 @@
 <?php  //$rand = uniqid(); ?>
-<script  type="text/javascript">
-    $r1 = '<?php print $config['url_to_module'] ?>raphael-min.js';
-    mw.require($r1,1);
 
-    $r2 = '<?php print $config['url_to_module'] ?>morris.min.js';
-    mw.require($r2,1);
- </script>
 <?php $v = get_visits(); ?>
 <?php $v_weekly = get_visits('weekly');
 $v_monthly = get_visits('monthly');
@@ -17,11 +11,11 @@ $v_monthly = get_visits('monthly');
  if(!isset($params['subtype'])){
    $params['subtype'] = 'table';
  }
-
+ 
  ?>
 
 
- <?php  if($params['subtype'] == 'graph'){ ?>
+<?php  if($params['subtype'] == 'graph'){ ?>
 
 <div id="stats">
   <h2><?php _e("Traffic Statistic"); ?></h2>
@@ -35,7 +29,13 @@ $v_monthly = get_visits('monthly');
 <div class="vSpace">&nbsp;</div>
 
 
+<script  type="text/javascript">
+    $r1 = '<?php print $config['url_to_module'] ?>raphael-min.js';
+    mw.require($r1,1);
 
+    $r2 = '<?php print $config['url_to_module'] ?>morris.min.js';
+    mw.require($r2,1);
+ </script>
 
 <script  type="text/javascript">
 
@@ -117,6 +117,38 @@ $(document).ready(function(){
 });
 
 </script>
+<?php  } else if(isset($params['user-sid']) and $params['subtype'] == 'quick'){ ?>
+<?php $users_last5 = get_visits_for_sid($params['user-sid']);
+ 
+ ?>
+  <?php if(!empty($users_last5)): ?>
+  <table border="0" cellspacing="0" cellpadding="0" class="stats_table">
+    <thead>
+      <tr>
+        <th scope="col"><?php _e("Date"); ?></th>
+        <?php if(function_exists('ip2country')): ?>
+        <th scope="col"><?php _e("Country"); ?></th>
+        <?php endif; ?>
+        <th scope="col"><?php _e("IP"); ?></th>
+        <th scope="col"><?php _e("Last page"); ?></th>
+        <th scope="col"><?php _e("Page views"); ?></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php $i=0; foreach($users_last5 as $item) : ?>
+      <tr>
+        <td><?php print $item['visit_date'] ?> <?php print $item['visit_time'] ?></td>
+        <?php if(function_exists('ip2country')): ?>
+        <td><?php   print ip2country($item['user_ip']); ?></td>
+        <?php endif; ?>
+        <td><?php print $item['user_ip'] ?></td>
+        <td><?php print $item['last_page'] ?></td>
+        <td><?php print $item['view_count'] ?></td>
+      </tr>
+      <?php $i++; endforeach; ?>
+    </tbody>
+  </table>
+  <?php endif; ?>
 <?php  } else {?>
 
 

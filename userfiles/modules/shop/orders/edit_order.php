@@ -6,8 +6,10 @@ $ord = get_orders('id='.$params['order-id']);
 $cart_items = array();
 if(is_array($ord[0])){
 	$ord = $ord[0];
-	$cart_items = get_cart('order_completed=y&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
-
+	$cart_items = get_cart('order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
+	if(empty($cart_items)){
+	$cart_items = get_cart('no_session_id=true&order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
+	}
 
 } else {
 

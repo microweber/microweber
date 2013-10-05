@@ -1,7 +1,6 @@
 <?php $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
 
 <span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">CLICK</span>
-
 <?php
 
 
@@ -55,7 +54,7 @@ if(typeof thismodal !== 'undefined'){
 }
 
 
- </script>
+ </script> 
 <script  type="text/javascript">
 
 
@@ -101,9 +100,15 @@ mw.$('.country-id-0').show()
     var parent = mw.tools.firstParentWithTag(this, 'td');
     if($(this).val() == 'dimensions'){
       mw.$(".shipping_dimensions", parent).show()
-    }
-    else{
+	  mw.$(".shipping_per_item", parent).hide()
+    } else if($(this).val() == 'per_item'){
+	   mw.$(".shipping_dimensions", parent).hide()
+	   mw.$(".shipping_per_item", parent).show()
+		
+	} else{
       mw.$(".shipping_dimensions", parent).hide()
+	  mw.$(".shipping_per_item", parent).hide()
+
     }
  });
 
@@ -111,9 +116,15 @@ mw.$('.country-id-0').show()
     var parent = mw.tools.firstParentWithTag(this, 'td');
     if($(this).val() == 'dimensions'){
       mw.$(".shipping_dimensions", parent).slideDown()
-    }
-    else{
+	  mw.$(".shipping_per_item", parent).hide()
+
+    } else if($(this).val() == 'per_item'){
+	   mw.$(".shipping_dimensions", parent).hide()
+	   mw.$(".shipping_per_item", parent).show()
+	} else{
       mw.$(".shipping_dimensions", parent).slideUp()
+	   mw.$(".shipping_per_item", parent).hide()
+
     }
  });
 
@@ -160,7 +171,6 @@ $datas['data_active'] = $data_active;
 $datas['data_disabled'] = $data_disabled;
 
 ?>
-
 <div class="vSpace"></div>
 <div class="vSpace"></div>
 <?php
@@ -265,6 +275,9 @@ $item['shipping_price_per_size']= 0;
 if(!isset($item['shipping_price_per_weight'])){
 $item['shipping_price_per_weight']= 0;
 }
+if(!isset($item['shipping_price_per_item'])){
+$item['shipping_price_per_item']= 0;
+}
 
 $size_units = get_option('shipping_size_units', 'orders');
 $weight_units = get_option('shipping_weight_units', 'orders');
@@ -276,11 +289,6 @@ $weight_units= 'kg';
 }
 ?>
 	<?php //$rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
-
-
-
-
-
 	<div data-field-id="<?php print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<?php print $item['id']; ?>">
 		<form onsubmit="SaveShipping(this, '<?php if($new == false){ print $params['data-type'];} else{print 'new';} ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country"  data-field-id="<?php print $item['id']; ?>">
 			<table class="admin-shipping-table">
@@ -330,14 +338,13 @@ $weight_units= 'kg';
 				</tr>
 				<tr class="shipping-country-row">
 					<td class="shipping-country-label">Shipping type</td>
-					<td class="shipping-country-setting">
-                        <span class="mw-help-field left">
-    						<select name="shipping_type" class="mw-ui-simple-dropdown shipping_type_dropdown">
-    							<option value="fixed"  <?php if(isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> >Fixed</option>
-    							<option value="dimensions" <?php if(isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>>Dimensions or Weight</option>
-    						</select>
-						</span>
-                        <span class="shipping-arrow"></span>
+					<td class="shipping-country-setting"><span class="mw-help-field left">
+						<select name="shipping_type" class="mw-ui-simple-dropdown shipping_type_dropdown">
+							<option value="fixed"  <?php if(isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> >Fixed</option>
+							<option value="dimensions" <?php if(isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>>Dimensions or Weight</option>
+							<option value="per_item" <?php if(isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>>Per item</option>
+						</select>
+						</span> <span class="shipping-arrow"></span>
 						<label>
 							<?php _e("Shipping cost"); ?>
 							&nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
@@ -348,16 +355,27 @@ $weight_units= 'kg';
 						</span> </span>
 						<div class="shipping_dimensions" style="display: none">
 							<div class="mw-ui-field-holder">
-								<label class="mw-ui-label">Additional cost for 1 cubic <?php print $size_units ?> &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
+								<label class="mw-ui-label">Additional cost for <em>1 cubic <?php print $size_units ?></em> &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
 								<span class="mwsico-width"></span>
 								<input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>" class="mw-ui-field" />
 							</div>
 							<div class="mw-ui-field-holder">
-								<label class="mw-ui-label">Additional cost for 1 <?php print $weight_units ?> &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
+								<label class="mw-ui-label">Additional cost for <em>1 <?php print $weight_units ?></em> &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
 								<span class="mwsico-usd"></span>
 								<input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>" class="mw-ui-field" />
 							</div>
-						</div></td>
+						</div>
+						
+						<div class="shipping_per_item" style="display: none">
+							<div class="mw-ui-field-holder">
+								<label class="mw-ui-label">Cost for shipping <em>each item in the shopping cart</em> &nbsp;</label>
+								<span><b><?php print mw('shop')->currency_symbol() ?></b></span>
+								<input type="text" name="shipping_price_per_item" value="<?php print  floatval($item['shipping_price_per_item']); ?>" class="mw-ui-field" />
+							</div>
+							 
+						</div>
+						
+						</td>
 				</tr>
 				<tr class="shipping-country-row">
 					<td class="shipping-country-label"><?php _e("Shipping Discount"); ?></td>

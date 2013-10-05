@@ -331,6 +331,9 @@
 
 <span class="mw-ui-btn" onclick="mw.drag.module_settings('settings/template');">Template Settings</span>
 
+
+<span class="mw-ui-btn mw-ui-btn-small" id="edit_image_btn" style="display: none;position: absolute;z-index: 997">Edit Image</span>
+
 <?php } else { ?>
 <script>
 
