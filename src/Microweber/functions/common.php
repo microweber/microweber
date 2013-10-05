@@ -357,6 +357,15 @@ function mw_print_admin_menu_shop_btn()
     }
     print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">' . _e('Online Shop', true) . '</a></li>';
 }
+event_bind('recover_shopping_cart', 'mw_shop_recover_shopping_cart');
+
+function mw_shop_recover_shopping_cart($sid=false)
+{
+
+return mw('shop')->recover_shopping_cart($sid);
+}
+
+
 
 event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
 

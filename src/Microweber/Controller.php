@@ -280,6 +280,11 @@ class Controller
 
         }
 
+        if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
+        event_trigger('recover_shopping_cart', $_REQUEST['recart']);
+        }
+
+
         if ($output_cache_timeout != false) {
             $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
             $output_cache_group = 'content/preview';

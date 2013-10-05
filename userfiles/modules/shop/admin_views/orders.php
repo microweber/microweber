@@ -41,9 +41,13 @@ $(document).ready(function(){
 
 });
 
-function mw_delete_shop_order($p_id){
+function mw_delete_shop_order($p_id,$is_cart){
+    if($is_cart == undefined){
+      $is_cart = false;
+    }
+  
      mw.tools.confirm("<?php _e("Are you sure you want to delete this order"); ?>?", function(){
-        $.post("<?php print mw('url')->api_link('delete_order') ?>", { id: $p_id } ,function(data) {
+        $.post("<?php print api_url('delete_order') ?>", { id: $p_id,is_cart:$is_cart} ,function(data) {
             mw.reload_module('shop/orders');
         });
      });

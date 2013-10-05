@@ -21,7 +21,11 @@ $kw = '';
 	 if(isset($params['order-type']) and $params['order-type'] == 'carts'){
 	
 	 		$ordert_type = 'carts';
-	 		$orders = get_cart('group_by=session_id&no_session_id=true&order_completed=n&'); 
+			
+			 $ord = 'order_by=updated_on desc';
+			
+			
+	 		$orders = get_cart('limit=1000&group_by=session_id&no_session_id=true&order_completed=n&'.$ord); 
  
 	 
 	 
@@ -102,36 +106,42 @@ $kw = '';
 	<table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
 		<thead>
 			<tr>
-				<td><?php _e("Session"); ?></td>
 				<td><?php _e("Cart"); ?></td>
-			 
-				<td><?php _e("Delete"); ?></td>
+				<td><?php _e("User stats"); ?></td>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td><?php _e("Session"); ?></td>
 				<td><?php _e("Cart"); ?></td>
-			 
-				<td><?php _e("Delete"); ?></td>
+				<td><?php _e("User stats"); ?></td>
 			</tr>
 		</tfoot>
 		<tbody>
 			<?php foreach ($orders as $item) : ?>
 			<tr class="mw-order-item mw-order-item-<?php print $item['id'] ?>">
-			
-			<td class="mw-order-item-edit" width="180"><?php print $item['session_id'] ?>
-			
-			 <?php event_trigger('mw_admin_quick_stats_by_session',$item['session_id']); ?>
-			</td>
-			
-			       
-
-				<td><?php
-			$cart_items = get_cart('order_completed=n&session_id='.$item['session_id']);
-
-		?>
-					<?php if(is_array($cart_items)) :?>
+				<td  >
+					<?php $cart_items = get_cart('order_completed=n&session_id='.$item['session_id']); ?>
+					<?php if(is_array($cart_items) and !empty($cart_items)) :?>
+					<?php 
+					$recart_base =  site_url();
+					
+					if(is_array($cart_items[0]) and isset($cart_items[0]['rel_id'])) {
+						
+						$recart_base =  content_link($cart_items[0]['rel_id']);
+					 
+						
+					}
+					
+					
+					?>
+					
+					
+					<div>
+						Recover cart link: <a href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">&raquo;</a> <em><?php print $recart_base.'?recart='.$item['session_id'] ?></em>
+					</div>
+					
+					
+					
 					<div class="mw-order-images">
 						<?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
 						<?php $p = get_picture($cart_items[$i]['rel_id']); ?>
@@ -173,7 +183,6 @@ $kw = '';
 									<?php  endif ?></td>
 								<td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
 								<td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-								<?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>
 								<td class="mw-order-item-count" width="100"><?php print  mw('shop')->currency_format($item_total, $ord['currency']); ?></td>
 							</tr>
 							<?php endforeach; ?>
@@ -190,8 +199,14 @@ $kw = '';
 					<h2>
 						<?php _e("The cart is empty"); ?>
 					</h2>
-					<?php endif;?></td>
-				<td class="mw-order-item-edit" width="80" align="center"><span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span></td>
+					<?php endif;?>
+					<a class="mw-ui-btn" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);">delete cart</a></td>
+				<td><div> Session id: <em><?php print $item['session_id'] ?></em>
+				<br />
+				
+				Last cart action: <em title="<?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></em>
+				
+				</div><?php event_trigger('mw_admin_quick_stats_by_session',$item['session_id']); ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

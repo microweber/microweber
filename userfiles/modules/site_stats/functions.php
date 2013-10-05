@@ -264,7 +264,10 @@ function stats_insert_cookie_based() {
 		$data['last_page'] = $lp;
 		$data['skip_cache'] = 1;
 		//	 $data['debug'] = $lp;
-
+		if(isset($_SESSION) and !empty($_SESSION)){
+			
+		$data['session_id'] = session_id();
+		}
 		mw_var('FORCE_SAVE', $table);
 		mw_var('apc_no_clear', 1);
 		$save = mw('db')->save($table, $data);
@@ -288,7 +291,7 @@ function get_visits_for_sid($sid) {
 	$data['table'] = $table;
 	$data['session_id'] = $sid;
 $data['limit'] = 10;
-$data['debug'] = 10;
+ 
 
 	$data['order_by'] = "visit_date desc,visit_time desc";
 	return get($data);

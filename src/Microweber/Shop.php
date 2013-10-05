@@ -605,6 +605,89 @@ class Shop
         }
     }
 
+    public function recover_shopping_cart($sid = false)
+    {
+        if ($sid == false) {
+            return;
+        }
+
+        if (!session_id() and !headers_sent()) {
+            session_start();
+        }
+        $cur_sid = session_id();
+
+        if ($sid == $cur_sid) {
+            return;
+        } else {
+            if ($cur_sid != false) {
+                $c_id = $this->app->db->sanitize($sid);
+
+                $c_id = $this->app->db->escape_string($c_id);
+
+
+                $table = MODULE_DB_SHOP;
+
+
+                $params = array();
+                $params['order_completed'] = 'n';
+                $params['session_id'] = $c_id;
+                $params['table'] = $table;
+
+                $will_add = true;
+                $res = $this->app->db->get($params);
+                if (!empty($res)) {
+                    foreach ($res as $item) {
+                        if (isset($item['id'])) {
+                            $data = $item;
+                            unset($data['id']);
+                            if (isset($item['order_id'])) {
+                                unset($data['order_id']);
+                            }
+                            if (isset($item['created_by'])) {
+                                unset($data['created_by']);
+                            }
+                            if (isset($item['updated_on'])) {
+                                unset($data['updated_on']);
+                            }
+
+
+                            if (isset($item['rel']) and isset($item['rel_id'])) {
+                                $is_ex_params = array();
+                                $is_ex_params['order_completed'] = 'n';
+                                $is_ex_params['session_id'] = $cur_sid;
+                                $is_ex_params['table'] = $table;
+                                $is_ex_params['rel'] = $item['rel'];
+                                $is_ex_params['rel_id'] = $item['rel_id'];
+                                $is_ex_params['count'] = 1;
+
+                                $is_ex = $this->app->db->get($is_ex_params);
+
+                                if ($is_ex != false) {
+                                    $will_add = false;
+                                }
+                            }
+                            $data['order_completed'] = 'n';
+                            $data['session_id'] = $cur_sid;
+                            if ($will_add == true) {
+                                $s = $this->app->db->save($table, $data);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if ($will_add == true) {
+                    $this->app->cache->delete('cart');
+
+                    $this->app->cache->delete('cart_orders/global');
+                }
+            }
+        }
+
+    }
+
     public function update_cart($data)
     {
 
@@ -846,6 +929,7 @@ class Shop
             }
 
             mw_var('FORCE_SAVE', $table);
+           
             //   $cart['debug'] = 1;
             $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
@@ -1095,18 +1179,29 @@ class Shop
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-
         $table = MODULE_DB_SHOP_ORDERS;
+        if (isset($data['is_cart']) and $data['is_cart'] != false and isset($data['id'])) {
+            $c_id = $this->app->db->escape_string($data['id']);
+            $this->app->db->delete_by_id($table, $c_id);
+            $table2 = MODULE_DB_SHOP;
+            $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
+            $this->app->cache->delete('cart');
 
-        if (isset($data['id'])) {
+            $this->app->cache->delete('cart_orders/global');
+            $res = $this->app->db->q($q);
+            return $c_id;
+        } else if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->db->delete_by_id($table, $c_id);
             $table2 = MODULE_DB_SHOP;
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
             $res = $this->app->db->q($q);
+            $this->app->cache->delete('cart');
+            $this->app->cache->delete('cart_orders/global');
             return $c_id;
             //d($c_id);
         }
+
 
     }
 

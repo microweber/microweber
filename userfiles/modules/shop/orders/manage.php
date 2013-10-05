@@ -36,17 +36,24 @@
 
  $(document).ready(function(){
 	 
-	   mw.$(".mw-admin-order-type-filter").change(function(){
-     $('#mw-admin-manage-orders-list').attr('order-type',$(this).val() );
-		mw.reload_module("#mw-admin-manage-orders-list");
-    
-      
-  
- });
+	   mw.$("#mw-admin-order-type-filter").change(function(){
+   mw_admin_set_order_type_filter();
+ 		});
+		
+		
+		
  
  
   });
  
+ function mw_admin_set_order_type_filter(){
+	
+	  $('#mw-admin-manage-orders-list').attr('order-type',$("#mw-admin-order-type-filter").val() );
+	  $('#mw-admin-manage-orders-list').removeAttr('keyword' );
+	  $('#mw-admin-manage-orders-list').removeAttr('order' );
+	  mw.reload_module("#mw-admin-manage-orders-list"); 
+	 
+ }
  
 </script>
 <?php $is_orders = get_orders('count=1');
@@ -58,7 +65,7 @@
 	<h2 class="mw-side-main-title left" style="padding-top: 0"><span class="ico iorder-big"></span><span>
 		<?php _e("Orders List"); ?>
 		</span></h2>
-	<select name="order_type" class="mw-admin-order-type-filter">
+	<select name="order_type" id="mw-admin-order-type-filter">
 		<option value="completed">Completed orders</option>
 		<option value="carts">Abandoned carts</option>
 	</select>
