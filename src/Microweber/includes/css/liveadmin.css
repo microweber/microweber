@@ -90,6 +90,7 @@ body#UnsupportedBrowser #download_browsers_holder{
   color: #212121;
   text-decoration: none;
   outline: none;
+  font-family: Verdana, sans-serif;
 }
 
 .mw-defaults li, .mw-defaults ol, .mw-defaults ul{
@@ -2681,7 +2682,7 @@ a.module-icon-title{
 
 #mw_admin_product_settings .mw-ui-field-holder{
   float: left;
-  width:120px;
+  width:115px;
 }
 
 #mw_admin_product_settings .mw-ui-field-holder label{
@@ -2691,7 +2692,7 @@ a.module-icon-title{
 
 
 #mw_admin_product_settings .mw-ui-field-holder .mw-ui-field{
-  width: 48px;
+  width: 35px;
 }
 
 

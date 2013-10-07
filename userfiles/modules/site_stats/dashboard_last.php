@@ -31,7 +31,7 @@ $requests_num = false;
         <td><?php   print ip2country($item['user_ip']); ?></td>
         <?php endif; ?>
         <td><?php print $item['user_ip'] ?></td>
-        <td><?php print $item['last_page'] ?></td>
+        <td style="word-break: break-all;word-wrap: break-word"><a href="<?php print $item['last_page'] ?>"><u><?php print $item['last_page']; ?></u></a></td>
         <td><?php print $item['view_count'] ?></td>
       </tr>
       <?php $i++; endforeach; ?>

@@ -19,7 +19,7 @@ if (!defined('MW_CACHE_CONTENT_PREPEND')) {
     define('MW_CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
 }
 if (!defined('MW_CACHE_EXPIRES')) {
-    //define("MW_CACHE_EXPIRES", 600); //10 min
+    define("MW_CACHE_EXPIRES", 1200); //2 hours
 }
 class Files
 {

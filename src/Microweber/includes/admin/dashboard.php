@@ -46,12 +46,12 @@
  });
  </script>
 
- <div class="mw-ui-row">
+ <div class="mw-ui-row" style="padding: 50px 0 0;">
  <div class="mw-ui-col" style="width: 55%">
       <module type="site_stats/admin"  />
  </div>
  <div class="mw-ui-col" style="width: 45%">
- <div class="quick-lists" style="border: none">
+ <div class="quick-lists" style="border: none;padding: 0;">
 
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>
@@ -83,13 +83,23 @@
         <?php event_trigger('mw_admin_dashboard_quick_link2'); ?>
       </ul>
     </div>
-    <div class="quick-links-case">
+   <div class="quick-links-case">
       <ul class="mw-quick-links left">
-        <li><a href="http://api.microweber.net/service/frames/report.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico ireport"></span><span><?php _e("Report a Bug"); ?></span></a></li>
         <li><a href="http://api.microweber.net/service/frames/suggest.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico isuggest"></span><span><?php _e("Suggest a feature"); ?></span></a></li>
+        <?php
+
+        /*
+        <li><a href="http://api.microweber.net/service/frames/report.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;"><span class="ico ireport"></span><span><?php _e("Report a Bug"); ?></span></a></li>
+
         <?php if(is_module('help')): ?>
         <li><a href="<?php print admin_url(); ?>view:help"><span class="ico ihelp"></span><span><?php _e("Help &amp; Support"); ?></span></a></li>
         <?php endif; ?>
+
+        */
+
+
+        ?>
+
         <?php event_trigger('mw_admin_dashboard_help_link'); ?>
       </ul>
     </div>

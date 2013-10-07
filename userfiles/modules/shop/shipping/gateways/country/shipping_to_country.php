@@ -67,23 +67,38 @@ class shipping_to_country
                     foreach ($items_items as $item) {
 
                         $content_data = $item['content_data'];
-                        if (isset($content_data['shipping_weight']) and $content_data['shipping_weight'] != '') {
-                            $weight = floatval($content_data['shipping_weight']);
-                            $weight = $weight * intval($item['qty']);
-                            $total_shipping_weight = $total_shipping_weight + $weight;
 
+
+                        if (!isset($content_data['is_free_shipping']) or $content_data['is_free_shipping'] != 'y') {
+
+                            if (isset($content_data['additional_shipping_cost']) and intval($content_data['additional_shipping_cost']) > 0) {
+
+                                $volume = floatval($content_data['additional_shipping_cost']) * intval($item['qty']);
+
+                                $defined_cost = $defined_cost + $volume;
+
+                            } else {
+                                if (isset($content_data['shipping_weight']) and $content_data['shipping_weight'] != '') {
+                                    $weight = floatval($content_data['shipping_weight']);
+                                    $weight = $weight * intval($item['qty']);
+                                    $total_shipping_weight = $total_shipping_weight + $weight;
+
+                                }
+
+
+                                if (isset($content_data['shipping_width']) and $content_data['shipping_width'] != ''
+                                    and  isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
+                                        and  isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != ''
+                                ) {
+                                    $volume = floatval($content_data['shipping_width']) * floatval($content_data['shipping_height']) * floatval($content_data['shipping_depth']);
+                                    $volume = $volume * intval($item['qty']);
+                                    $total_shipping_volume = $total_shipping_volume + $volume;
+
+                                }
+
+                            }
                         }
 
-
-                        if (isset($content_data['shipping_width']) and $content_data['shipping_width'] != ''
-                            and  isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
-                                and  isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != ''
-                        ) {
-                            $volume = floatval($content_data['shipping_width']) * floatval($content_data['shipping_height']) * floatval($content_data['shipping_depth']);
-                            $volume = $volume * intval($item['qty']);
-                            $total_shipping_volume = $total_shipping_volume + $volume;
-
-                        }
 
                     }
                 }
@@ -101,8 +116,11 @@ class shipping_to_country
                 $defined_cost = $defined_cost + $calc2;
             }
 
+
         } else if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'per_item') {
             if (isset($shipping_country['shipping_price_per_item']) and intval($shipping_country['shipping_price_per_item']) != 0) {
+
+
                 $calc = floatval($shipping_country['shipping_price_per_item']);
                 $calc2 = 0;
 
@@ -111,15 +129,31 @@ class shipping_to_country
                     $items_items = $this->app->shop->get_cart();
                     if (!empty($items_items)) {
                         foreach ($items_items as $item) {
-                            $volume = $calc * intval($item['qty']);
+                            $content_data = $item['content_data'];
 
-                            $calc2 = $calc2 + $volume;
+                            if (!isset($content_data['is_free_shipping']) or $content_data['is_free_shipping'] != 'y') {
+                                if (isset($content_data['additional_shipping_cost']) and intval($content_data['additional_shipping_cost']) > 0) {
+
+                                    $volume = floatval($content_data['additional_shipping_cost']) * intval($item['qty']);
+
+                                    $defined_cost = $defined_cost + $volume;
+
+                                } else {
+                                    $volume = $calc * intval($item['qty']);
+
+                                    $calc2 = $calc2 + $volume;
+                                }
+                            }
+
+
                         }
                     }
 
 
                 }
                 $defined_cost = $defined_cost + $calc2;
+
+
             }
 
 

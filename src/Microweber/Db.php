@@ -1787,6 +1787,12 @@ class Db
         if (!isset($criteria['search_in_fields']) and isset($criteria['search_by_keyword_in_fields'])) {
             $to_search_in_those_fields = ($criteria['search_by_keyword_in_fields']);
         }
+        $search_data_fields = false;
+
+        if (isset($criteria['search_by_keyword']) and isset($criteria['search_in_content_data_fields'])) {
+            $search_data_fields = true;
+
+        }
         if (is_string($to_search_in_those_fields)) {
             $to_search_in_those_fields = explode(',', $to_search_in_those_fields);
             $to_search_in_those_fields = array_trim($to_search_in_those_fields);
@@ -2064,13 +2070,25 @@ class Db
                 }
             }
 
+            if (isset($search_data_fields) and $search_data_fields != false) {
+                if (defined('MW_DB_TABLE_CONTENT_DATA')) {
+                    $table_custom_fields =MW_DB_TABLE_CONTENT_DATA;
+
+                    $where_q1 = " id in (select content_id from $table_custom_fields where
+			 				field_value REGEXP '$to_search' ) OR ";
+                    $where_q .= $where_q1;
+                }
+
+            }
+
+
             if (isset($to_search) and $to_search != '') {
                 $table_custom_fields = MW_TABLE_PREFIX . 'custom_fields';
                 $table_assoc_name1 = $this->assoc_table_name($table_assoc_name);
 
                 $where_q1 = " id in (select rel_id from $table_custom_fields where
 				rel='$table_assoc_name1' and
-				custom_field_values_plain REGEXP '$to_search' )  ";
+				custom_field_values_plain REGEXP '$to_search' ) OR ";
                 $where_q .= $where_q1;
             }
 
@@ -3293,7 +3311,7 @@ class Db
             foreach ($input as $var => $val) {
                 $output[$var] = $this->clean_input($val);
             }
-        } elseif(is_string($input)){
+        } elseif (is_string($input)) {
             $search = array(
                 '@<script[^>]*?>.*?</script>@si', // Strip out javascript
 
@@ -3304,10 +3322,6 @@ class Db
         } else {
             return $input;
         }
-
-
-
-
 
 
         return $output;

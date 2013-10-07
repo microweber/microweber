@@ -239,7 +239,9 @@ function url_param($param, $skip_ajax = false)
     return mw('url')->param($param, $skip_ajax);
 }
 
-
+function url_current($skip_ajax = false, $no_get = false){
+    return mw('url')->current($skip_ajax,$no_get);
+}
 api_expose('save_edit');
 function save_edit($post_data)
 {

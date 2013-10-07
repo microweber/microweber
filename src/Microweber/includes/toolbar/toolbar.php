@@ -276,7 +276,7 @@
     </script>
 
        <div id="liveedit_add_new_content">
-	            <a href="javascript:;" onclick="mw.quick.page_2();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span>Add new</a>
+
 
          <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> Add Page</a>
          <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> Add Post</a>
@@ -329,10 +329,10 @@
 
 
 
-<span class="mw-ui-btn" onclick="mw.drag.module_settings('settings/template');">Template Settings</span>
 
 
-<span class="mw-ui-btn mw-ui-btn-small" id="edit_image_btn" style="display: none;position: absolute;z-index: 997">Edit Image</span>
+
+
 
 <?php } else { ?>
 <script>

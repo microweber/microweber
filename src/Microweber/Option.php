@@ -136,13 +136,16 @@ class Option
         $ok = $this->app->db->escape_string($data['option_key']);
         $ob = " order by id desc ";
         $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2.$ob;
+
+       // d($q);
+
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
 
         $q_cache_id = crc32($q);
-      //  $get_all = $this->app->db->query($q, $q_cache_id, $cache_group);
+        $get_all = $this->app->db->query($q, __FUNCTION__.$q_cache_id, $cache_group);
 
 
-        $get_all = $this->app->db->query($q);
+       // $get_all = $this->app->db->query($q);
 
         if (!is_array($get_all)) {
             $this->app->cache->save('--false--', $function_cache_id, $cache_group);
@@ -337,7 +340,7 @@ class Option
                 if (strstr($data['option_key'], '|for_module|')) {
                     $ok1 = explode('|for_module|', $data['option_key']);
                     if (isset($ok1[0])) {
-                        $data['option_key'] = $ok1[0];
+                     $data['option_key'] = $ok1[0];
                     }
                     if (isset($ok1[1])) {
                         $data['module'] = $ok1[1];
@@ -414,7 +417,7 @@ class Option
                     $data['option_value'] = $this->app->url->replace_site_url($data['option_value']);
 
                 }
-
+//
                 $save = $this->app->db->save($table, $data);
 
                 if ($option_group != false) {

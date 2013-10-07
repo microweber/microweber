@@ -46,6 +46,20 @@ class Shop
 
     }
 
+    public function order_items($order_id = false)
+    {
+        $order_id = intval($order_id);
+        if ($order_id == false) {
+            return;
+        }
+        $params = array();
+        $table = MODULE_DB_SHOP;
+        $params['table'] = $table;
+        $params['order_id'] = $order_id;
+        $get = $this->app->db->get($params);
+        return $get;
+    }
+
     public function get_cart($params = false)
     {
 
@@ -81,8 +95,9 @@ class Shop
         }
         $params['limit'] = 10000;
         if (!isset($params['order_completed'])) {
-
-            $params['order_completed'] = 'n';
+            if (!isset($params['order_id'])) {
+                $params['order_completed'] = 'n';
+            }
         } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
             unset($params['order_completed']);
         }
@@ -136,7 +151,21 @@ class Shop
 
 
         return $return;
-        //  d($params);
+
+
+    }
+
+    public function get_order_by_id($id = false)
+    {
+
+
+        $table = MODULE_DB_SHOP_ORDERS;
+        $params['table'] = $table;
+        $params['one'] = true;
+
+        $params['id'] = intval($id);
+
+        return $this->app->db->get($params);
 
     }
 
@@ -151,10 +180,12 @@ class Shop
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if ($this->app->user->is_admin() == false) {
-            $params['session_id'] = session_id();
+        if (defined('MW_API_CALL') and $this->app->user->is_admin() == false) {
+
             if (!isset($params['payment_verify_token'])) {
+                $params['session_id'] = session_id();
             }
+
         }
 
         $table = MODULE_DB_SHOP_ORDERS;
@@ -165,10 +196,54 @@ class Shop
 
     }
 
+    private function _mark_paid_by_user($order_id = false)
+    {
+        $order_id = intval($order_id);
+        if ($order_id == false) {
+            return;
+        }
+        $ord_data = $this->get_order_by_id($order_id);
+
+        $cart_data = $this->order_items($order_id);
+        if (!empty($cart_data)) {
+            foreach ($cart_data as $item) {
+
+
+                if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
+
+                    $data_fields = $this->app->content->data($item['rel_id']);
+                    if (isset($item['qty']) and isset($data_fields['qty'])) {
+                        $old_qty = $data_fields['qty'];
+
+                        $new_qty = $old_qty - $item['qty'];
+                        d($new_qty);
+                        d($old_qty);
+                        d($item);
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
+        $table = MODULE_DB_SHOP_ORDERS;
+        $params = array();
+        $params['table'] = $table;
+        $params['id'] = $order_id;
+        $params['is_paid'] = 'y';
+        $params['is_completed'] = 'y';
+
+        d($params);
+        return $this->app->db->save($table, $params);
+    }
+
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
     {
 
-        $ord_data = $this->get_orders('one=1&id=' . $order_id);
+        $ord_data = $this->get_order_by_id($order_id);
         if (is_array($ord_data)) {
             if ($skip_enabled_check == false) {
                 $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
@@ -232,6 +307,7 @@ class Shop
         if (!session_id() and !headers_sent()) {
             session_start();
         }
+        $exec_return = false;
         $sid = session_id();
         $cart = array();
         $cart_table = MODULE_DB_SHOP;
@@ -244,6 +320,11 @@ class Shop
             $mw_process_payment = false;
         }
         mw_var("FORCE_SAVE", $table_orders);
+
+        if (isset($_REQUEST['temp']) and intval($_REQUEST['temp']) > 0) {
+
+            $this->_mark_paid_by_user($_REQUEST['temp']);
+        }
         if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1 and isset($_SESSION['order_id'])) {
 
             $_SESSION['mw_payment_success'] = true;
@@ -252,28 +333,54 @@ class Shop
                 $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   AND session_id='{$sid}'  ";
-                //d($q);
                 $this->app->db->q($q);
+
+                /*if (isset($_REQUEST['token'])) {
+                    $tok = $this->app->db->escape_string($_REQUEST['token']);
+                    $q = " UPDATE $table_orders SET
+			is_paid='y'
+			WHERE id='{$ord}'   AND session_id='{$sid}'  AND payment_verify_token='{$tok}'  ";
+                    $this->app->db->q($q);
+
+                }*/
                 $this->confirm_email_send($ord);
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}' AND
 			session_id='{$sid}'  ";
-                //d($q);
                 $this->app->db->q($q);
-
                 $this->confirm_email_send($ord);
-
             }
+
 
             $this->app->cache->delete('cart/global');
             $this->app->cache->delete('cart_orders/global');
-            if (isset($_GET['return_to'])) {
-                $return_to = urldecode($_GET['return_to']);
-                $this->app->url->redirect($return_to);
+            //d($_REQUEST);
+            $exec_return = true;
+        } else if (isset($_REQUEST['mw_payment_failure']) and intval($_REQUEST['mw_payment_failure']) == 1) {
+            $cur_sid = session_id();
+
+            if ($cur_sid != false) {
+                $ord_id = $_SESSION['order_id'];
+                if (isset($_REQUEST['order_id']) and intval($_REQUEST['order_id']) == 0) {
+                    $ord_id = intval($_REQUEST['order_id']);
+                }
+
+                $this->recover_shopping_cart($cur_sid, $ord_id);
+            }
+            $exec_return = true;
+
+        }
+        if ($exec_return == true) {
+            if (isset($_REQUEST['return_to'])) {
+                $return_to = urldecode($_REQUEST['return_to']);
+                return $this->app->url->redirect($return_to);
+
             }
         }
+
+
         $checkout_errors = array();
         $check_cart = $this->get_cart($cart);
         if (!is_array($check_cart)) {
@@ -415,8 +522,8 @@ class Shop
 
                     $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_process.php';
 
-                    $mw_return_url = $this->app->url->api_link('checkout') . '?mw_payment_success=1' . $return_url_after;
-                    $mw_cancel_url = $this->app->url->api_link('checkout') . '?mw_payment_failure=1' . $return_url_after;
+                    $mw_return_url = $this->app->url->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_cancel_url = $this->app->url->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_ipn_url = $this->app->url->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
                     if (is_file($gw_process)) {
@@ -605,7 +712,7 @@ class Shop
         }
     }
 
-    public function recover_shopping_cart($sid = false)
+    public function recover_shopping_cart($sid = false, $ord_id = false)
     {
         if ($sid == false) {
             return;
@@ -616,7 +723,7 @@ class Shop
         }
         $cur_sid = session_id();
 
-        if ($sid == $cur_sid) {
+        if ($cur_sid == false) {
             return;
         } else {
             if ($cur_sid != false) {
@@ -632,9 +739,22 @@ class Shop
                 $params['order_completed'] = 'n';
                 $params['session_id'] = $c_id;
                 $params['table'] = $table;
+                if ($ord_id != false) {
+                    unset($params['order_completed']);
+                    $params['order_id'] = intval($ord_id);
+                    // $params['debug'] = intval($ord_id);
+
+                }
 
                 $will_add = true;
                 $res = $this->app->db->get($params);
+
+                if (empty($res)) {
+                    //$params['order_completed'] = 'y';
+                    //  $res = $this->app->db->get($params);
+                }
+
+
                 if (!empty($res)) {
                     foreach ($res as $item) {
                         if (isset($item['id'])) {
@@ -850,13 +970,13 @@ class Shop
                             if ($found_price == false) {
                                 $found_price = $item;
                             }
-                            // d($item);
+
                         } else {
                             // unset($item);
                         }
                     }
                     if ($found_price == false) {
-                        $found_price = $prices[0];
+                        $found_price = array_pop($prices);
 
                     }
 
@@ -929,7 +1049,7 @@ class Shop
             }
 
             mw_var('FORCE_SAVE', $table);
-           
+
             //   $cart['debug'] = 1;
             $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
@@ -1029,6 +1149,8 @@ class Shop
 
         //d($payment_verify_token);
         $ord_data = $this->get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
+        //  cache_save($ord_data,__FUNCTION__,'debug');
+
         // d($ord_data);.
         $payment_verify_token = $this->app->db->escape_string($payment_verify_token);
         $table = MODULE_DB_SHOP_ORDERS;
@@ -1049,6 +1171,10 @@ class Shop
 
         //$shop_dir = module_dir('shop');
         //$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+
+        $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+
+
         $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
         $update_order = array();
         //$update_order['id'] = $ord;
@@ -1065,9 +1191,7 @@ class Shop
             $update_order['payment_gw'] = $data['payment_gw'];
             mw_var('FORCE_SAVE', $table_orders);
             mw_var('FORCE_ANON_UPDATE', $table_orders);
-            //$update_order['debug'] = 1;
-            //d($update_order);
-            //d($data);
+
             $ord = $this->app->db->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
             if ($ord > 0) {
@@ -1146,7 +1270,6 @@ class Shop
         $table = MODULE_DB_SHOP_ORDERS;
         $params['table'] = $table;
 
-        //  d($params);
         return $this->app->db->save($table, $params);
 
     }
@@ -1180,9 +1303,10 @@ class Shop
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = MODULE_DB_SHOP_ORDERS;
-        if (isset($data['is_cart']) and $data['is_cart'] != false and isset($data['id'])) {
+
+        if (isset($data['is_cart']) and  trim($data['is_cart']) != 'false' and isset($data['id'])) {
             $c_id = $this->app->db->escape_string($data['id']);
-            $this->app->db->delete_by_id($table, $c_id);
+            //  $this->app->db->delete_by_id($table, $c_id);
             $table2 = MODULE_DB_SHOP;
             $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
             $this->app->cache->delete('cart');
@@ -1196,6 +1320,8 @@ class Shop
             $table2 = MODULE_DB_SHOP;
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
             $res = $this->app->db->q($q);
+
+
             $this->app->cache->delete('cart');
             $this->app->cache->delete('cart_orders/global');
             return $c_id;

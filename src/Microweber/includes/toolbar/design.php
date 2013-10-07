@@ -2,6 +2,9 @@
 <div id="design_bnav" class="mw-defaults toolbar_bnav" style="width: 160px;">
   <div id="design_bnav_handle"></div>
   <ul class="ts_main_ul">
+    <li class="ts_main_li mw-designtype-universal">
+        <a class="ts_main_a dd_tpl_settings" style="cursor: pointer" href="javascript:;" onclick="mw.drag.module_settings('settings/template');">Template Settings</a>
+    </li>
     <li class="ts_main_li mw-designtype-universal"> <a class="ts_main_a dd_design_size" href="javascript:;"><?php _e("Size"); ?></a>
       <div class="ts_action" style="width: 190px;top: 0;">
         <div class="ts_action_item"> <span class="ed_label left"><?php _e("Width"); ?></span>

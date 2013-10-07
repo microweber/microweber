@@ -79,7 +79,7 @@ mw.wysiwyg = {
 
                     mw.wysiwyg.normalizeBase64Images(this);
 
-                });
+                }, false, true);
                 $(this).mouseenter(function(){
                    if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
 

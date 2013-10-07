@@ -6,11 +6,14 @@ $ord = get_orders('id='.$params['order-id']);
 $cart_items = array();
 if(is_array($ord[0])){
 	$ord = $ord[0];
-	$cart_items = get_cart('order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
+	//$cart_items = get_cart('order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
+		$cart_items = false;
+
+	
 	if(empty($cart_items)){
 	$cart_items = get_cart('no_session_id=true&order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
 	}
-
+ 
 } else {
 
 mw_error("Invalid order id");
@@ -63,7 +66,22 @@ mw_error("Invalid order id");
         <tr
             data-index = "<?php print $index; ?>"
             class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
-          <td class="mw-order-item-id"><a href="<?php print mw('content')->link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a></td>
+          <td class="mw-order-item-id"><a href="<?php print mw('content')->link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
+		  
+		  
+		  <?php if($item['rel'] == 'content'): ?>
+		  <?php $data_fields = mw('content')->data($item['rel_id']); ?>
+		   <?php if(isset($data_fields['sku'])): ?>
+		   <small class="mw-ui-label-help">SKU: <?php print $data_fields['sku']; ?></small>
+		    <?php endif; ?>
+		   <?php endif; ?>
+		  
+		  
+		  
+		  
+		  
+		  
+		  </td>
           <td class="mw-order-item-fields"><?php 	if(isset($item['custom_fields'])): ?>
             <?php print $item['custom_fields'] ?>
             <?php  endif ?></td>
@@ -167,7 +185,8 @@ mw_error("Invalid order id");
     </div>
   </div>
   <div class="mw-o-box mw-o-box-client-info">
-    <div class="mw-o-box-header"> <a href="<?php print template_var('url'); ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
+  
+    <div class="mw-o-box-header"> <a href="<?php print url_current(true); ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
       <?php _e("Edit"); ?>
       </a> <span class="ico iusers"></span><span>
       <?php _e("Client Information"); ?>

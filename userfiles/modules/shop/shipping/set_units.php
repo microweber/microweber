@@ -1,8 +1,13 @@
 <script  type="text/javascript">
+mw.require('forms.js');
+mw.require('options.js');
+
+</script>
+<script  type="text/javascript">
 $(document).ready(function(){
 	
-  mw.options.form('.<?php print $config['module_class'] ?>', function(){
-      mw.notification.success("<?php _e("All changes are saved"); ?>.");
+  mw.options.form('#shipping-units-setup', function(){
+      mw.notification.success("<?php _e("Shipping units are saved!"); ?>");
     });
 });
 </script>
@@ -18,8 +23,9 @@ $(document).ready(function(){
           }
        });
 </script>
+ 
 
-<div class="shipping-units-setup">
+<div id="shipping-units-setup">
 	<h2>
 		<?php _e("Shipping units"); ?>
 	</h2>

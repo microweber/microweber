@@ -108,8 +108,8 @@
       float: left;
       display: block;
       border: 1px solid transparent;
-      width: 20px;
-      height: 20px;
+      width: 27px;
+      height: 27px;
       margin: 5px;
       background-color: transparent;
       background-repeat: no-repeat;

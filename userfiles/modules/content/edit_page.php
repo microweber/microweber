@@ -791,7 +791,7 @@ if(typeof mw.content_save_btn ==='undefined'){
 		if(mw.is_saving_content  == 0){
 			mw.is_saving_content = 1;
 			  if(!$(btn).hasClass("disabled")){
-				  
+
 				    mw.tools.disable(btn, 'Saving...');
 				     mw.$('#mw_edit_page_left .mw-tree.activated').removeClass('activated');
 
@@ -825,7 +825,7 @@ if(typeof mw.content_save_btn ==='undefined'){
 
 </script>
 	<?php if($quick_edit == false): ?>
-	<div class="mw-scaleto-holder">
+	<div class="mw-scaleto-holder" style="display: none">
 		<div id="mw-main-postpage-editor">
 			<div id="mw-main-postpage-editor-drag-handle"><span class="mw-close"></span></div>
 			<div id="mw-editor<?php print $rand; ?>" style="height: 310px;width:623px;"></div>
@@ -849,18 +849,15 @@ if(typeof mw.content_save_btn ==='undefined'){
 	<script>
 
     load_preview = function(){
-
       if(!!mw.templatePreview){
         if(!mw.templatePreview._once){
           mw.templatePreview._once = true;
           mw.templatePreview.generate();
         }
       }
-
     }
 
-
-     $(document).ready(function(){
+    $(document).ready(function(){
         load_preview();
     });
 
@@ -927,19 +924,15 @@ if(typeof mw.content_save_btn ==='undefined'){
           $pt_opts['list_item_tag'] = "option";
           $pt_opts['remove_ids'] = $data['id'];
           if(isset($params['is_shop'])){
-      //$pt_opts['is_shop'] = $params['is_shop'];
           }
-  			if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
+  		  if(!isset($pt_opts['active_ids']) and isset($params['parent-page-id']) and  intval($params['parent-page-id']) > 0){
   			 $pt_opts['active_ids'] = $data['parent']= $params['parent-page-id'];
-  			 }
+  		  }
 
 
           $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
-
-
           mw('content')->pages_tree($pt_opts);
-
 
           ?>
 				</select>

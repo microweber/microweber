@@ -99,7 +99,7 @@ if ($ack != "SUCCESS") {
 $place_order = $res;
 } else {
 
-	$place_order['success'] = 'Your payment was successful! Transaction id: ' . $resArray['TRANSACTIONID'];
+	
 	//$place_order['amount'] = $currencyCode . $resArray['AMT'];
 	$place_order['transaction_id'] = $resArray['TRANSACTIONID'];
 	if (isset($place_order['shipping']) and intval($place_order['shipping']) > 0) {
@@ -112,7 +112,7 @@ $place_order = $res;
 	$place_order['is_paid'] = 'y';
 	$place_order['order_completed'] = 'y';
 	$place_order['payment_currency'] = $currencyCode;
- 
+ $place_order['success'] = 'Your payment was successful! Transaction id: ' . $resArray['TRANSACTIONID'];
 }
  
 $result =  $place_order;

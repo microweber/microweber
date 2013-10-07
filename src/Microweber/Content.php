@@ -263,7 +263,11 @@ class Content
         }
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
+        if (isset($params['keyword'])) {
 
+            $params['search_in_content_data_fields'] = true;
+
+         }
         $get = $this->app->db->get($params);
 
 
@@ -1025,7 +1029,6 @@ class Content
 
 
         $data['table'] = $table;
-        $data['no_cache'] = $table;
 
         $data['content_id'] = intval($content_id);
         $res = array();
@@ -4529,7 +4532,7 @@ class Content
     }
 
 
-    public function  save_content_data_field($data, $delete_the_cache = true)
+    public function save_content_data_field($data, $delete_the_cache = true)
     {
 
         $adm = $this->app->user->is_admin();
@@ -4539,7 +4542,7 @@ class Content
 
 
         if ($adm == false) {
-            return false;
+            return array('error' => "You must be logged in as admin to use: ".__FUNCTION__);
 
         }
 

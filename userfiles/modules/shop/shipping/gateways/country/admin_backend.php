@@ -1,6 +1,7 @@
 <?php $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
-
-<span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">CLICK</span>
+ 
+	 
+<span class="mw-ui-btn right" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span>
 <?php
 
 
@@ -192,7 +193,18 @@ $truck_class = 'green';
 <?php if(is_array($data ) and !empty($data)): ?>
 <div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<?php print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<?php _e("Add Country"); ?>
-	</span> </div>
+	
+	</span> 
+	<br /><br />
+	 <?php if($truck_class == 'green'): ?>
+	<small class="mw-ui-label-help">Shipping to those countires is enabled. <br /><br />
+To disable it set <br />"<em>is active</em>" to "No".</small>
+	<?php else: ?>
+	
+	<small class="mw-ui-label-help">Shipping to those countires is disabled. <br /><br />
+To enable it set <br />"<em>is active</em>" to "Yes".</small>
+	<?php endif ?>
+	</div>
 <div class="mw-shipping-items <?php print $rand1 ?>" id="<?php print $rand1 ?>"> 
 	<script type="text/javascript">
 

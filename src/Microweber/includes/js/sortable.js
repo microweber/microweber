@@ -188,11 +188,7 @@ $(document).ready(function(){
 
 
 
-   mw.$("#edit_image_btn").click(function(){
-      mw.tools.modal.init({
-         html:"Image Settings"
-      });
-   });
+
 
 
 });
@@ -680,10 +676,7 @@ mw.drag = {
           mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
-          if(element.nodeName === 'IMG'){
-            var off = $(element).offset();
-            mw.$("#edit_image_btn").css(off).show();
-          }
+
 
 
         });
@@ -790,7 +783,7 @@ mw.drag = {
               top:"",
               left:""
             });
-             mw.$("#edit_image_btn").hide();
+
         });
         $(window).bind("onModuleLeave", function(e, target){
 

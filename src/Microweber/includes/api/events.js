@@ -77,27 +77,59 @@ hashParamEventInit:function(){
   mw.on._hashrec = params;
 },
 DOMChangePause:false,
-DOMChange:function(element, callback, attr){
+DOMChangeTime:1500,
+DOMChange:function(element, callback, attr, a){
 
-
+     
 
     var attr = attr || false;
-    element.addEventListener("DOMCharacterDataModified", function(){
-      
-        if( !mw.on.DOMChangePause ) { callback.call(this);  }
+    var a = a || false;
+    element.addEventListener("DOMCharacterDataModified", function(e){
+
+        if( !mw.on.DOMChangePause ) {
+            if(!a){
+              callback.call(this);
+            }
+            else{
+              clearInterval(element._int);
+              element._int = setTimeout(function(){
+                    callback.call(element);
+              }, 700);
+            }
+
+        }
     }, false);
     element.addEventListener("DOMNodeInserted", function(){
-        if( !mw.on.DOMChangePause ) { callback.call(this);  }
+        if( !mw.on.DOMChangePause ) {
+          if(!a){
+              callback.call(this);
+            }
+            else{
+              clearInterval(element._int);
+              element._int = setTimeout(function(){
+                    callback.call(element);
+              }, 700);
+            }
+        }
     }, false);
 
-   /* element.addEventListener("DOMSubtreeModified", function(){
-        callback.call(this);
-    }, false);*/
     if(attr){
       element.addEventListener("DOMAttrModified", function(e){
           var attr = e.attrName;
           if(attr != "contenteditable"){
-             if( !mw.on.DOMChangePause ) { callback.call(this);  }
+             if( !mw.on.DOMChangePause ) {
+
+             if(!a){
+              callback.call(this);
+            }
+            else{
+              clearInterval(element._int);
+              element._int = setTimeout(function(){
+                    callback.call(element);
+              }, 700);
+            }
+
+             }
           }
       }, false);
     }

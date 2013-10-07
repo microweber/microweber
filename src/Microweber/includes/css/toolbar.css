@@ -764,6 +764,7 @@ html.mw_pages #design_bnav{
 
 .ts_main_a{
   display: block;
+  cursor: default;
   text-decoration: none;
   color:#595959;
   font-size: 10px;
@@ -780,6 +781,7 @@ html.mw_pages #design_bnav{
 .dd_design_bg{background-position: 14px -195px;}
 .dd_design_fx {background-position: 13px -262px;}
 .dd_design_img{background-position: 13px -329px;}
+.dd_tpl_settings{background-position: 13px -404px;}
 
 
 
