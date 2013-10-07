@@ -350,44 +350,27 @@ mw_on_save_complete<?php print $rand; ?>()
 
 
 
- mw.$('#mw-save-content-btn').click(function() {
-	    mw.$('#admin_edit_page_form_<?php print $rand; ?>').submit()
-	 
-
+mw.$('#mw-save-content-btn').click(function() {
+    mw.$('#admin_edit_page_form_<?php print $rand; ?>').submit();
     return false;
+});
 
-
-  });
-
-  mw.$('#admin_edit_page_form_<?php print $rand; ?> .go-live').click(function() {
-    mw_before_content_save<?php print $rand; ?>();
-	
-	
+mw.$('#admin_edit_page_form_<?php print $rand; ?> .go-live').click(function() {
+     mw_before_content_save<?php print $rand; ?>();
 	 if(window.parent != undefined && window.parent.mw != undefined){
-window.parent.mw.askusertostay=false;
-
- }
-	
-	
-	
+        window.parent.mw.askusertostay = false;
+     }
     mw.form.post(mw.$('#admin_edit_page_form_<?php print $rand; ?>') , '<?php print site_url('api/save_content') ?>', function(){
         mw_after_content_save<?php print $rand; ?>(this);
     });
     return false;
   });
-
-
-
-
-  var el_par_page =$('#parent_page_select_<?php print $rand; ?>');
+  var el_par_page = $('#parent_page_select_<?php print $rand; ?>');
   if(el_par_page.length >0){
-   __set_content_parent_info<?php print $rand; ?>()
+   __set_content_parent_info<?php print $rand; ?>();
    el_par_page.bind('change', function() {
-
-     __set_content_parent_info<?php print $rand; ?>()
-
-   })
-
+     __set_content_parent_info<?php print $rand; ?>();
+   });
  }
 
 
@@ -400,13 +383,8 @@ window.parent.mw.askusertostay=false;
     mw.$("#mw-main-postpage-editor").draggable("enable");
   }
   else{mw.$("#mw-main-postpage-editor").draggable("disable");}
-
-  //mw.tools.scaleTo('#mw-main-postpage-editor', 950, 600);
   mw.tools.scaleTo('#mw-main-postpage-editor', "80%", "80%");
-
   span.toggleClass('no-fullscreen');
-
-
 });
 
 
@@ -415,11 +393,11 @@ window.parent.mw.askusertostay=false;
     && !$(e.target).hasClass('mw-scaleto')
     && !mw.tools.hasParentsWithClass(e.target, 'zoom')
     && !$(e.target).hasClass('zoom')){
-   mw.tools.scaleTo('#mw-main-postpage-editor', 'close');
- $('#mw-scaleeditor span').removeClass('no-fullscreen');
- if(mw.$('.preview_frame_wrapper iframe').length>0){
-  mw.templatePreview.zoom('out');
-}
+    mw.tools.scaleTo('#mw-main-postpage-editor', 'close');
+    $('#mw-scaleeditor span').removeClass('no-fullscreen');
+  if(mw.$('.preview_frame_wrapper iframe').length>0){
+    mw.templatePreview.zoom('out');
+  }
 
 }
 });

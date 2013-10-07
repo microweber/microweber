@@ -665,9 +665,9 @@ function mw_add_product(){
       <div style="padding-left: 0;">
         <div class="top_label">
 
-        <?php if(is_module('help')): ?>
+    <?php /*    <?php if(is_module('help')): ?>
         <a href="<?php print admin_url(); ?>view:help"><?php _e("See the tutorials here"); ?></a>
-        <?php endif; ?>
+        <?php endif; ?>*/ ?>
        </div>
         <div class="vSpace"></div>
       </div>

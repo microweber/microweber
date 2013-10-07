@@ -4581,7 +4581,7 @@ class Content
 
 
         $data['allow_html'] = true;
-       // $data['debug'] = true;
+        // $data['debug'] = true;
 
         $save = $this->app->db->save($table, $data);
 

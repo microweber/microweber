@@ -1076,7 +1076,9 @@ class Shop
                     $cart['qty'] = 1;
                 }
             }
+
             if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit') {
+
                 if (intval($cont_data['qty']) < intval($cart['qty'])) {
                     $cart['qty'] = $cont_data['qty'];
                 }
