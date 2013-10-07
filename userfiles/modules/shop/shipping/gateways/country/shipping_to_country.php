@@ -255,7 +255,7 @@ class shipping_to_country
                     $i++;
                 }
 
-                db_update_position($table, $indx);
+                $this->app->db->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
