@@ -288,6 +288,7 @@ class Notifications
         if ($is_sys_log == false) {
             $table = MW_DB_TABLE_NOTIFICATIONS;
             $params['table'] = $table;
+            $params['order_by'] = 'id desc';
 
             $return = $this->app->db->get($params);
         }

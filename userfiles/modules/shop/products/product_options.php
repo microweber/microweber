@@ -31,9 +31,9 @@ $data_fields = content_data($cont_id);
 
 
         <div class="mw-ui-field-holder" style="padding-left: 20px;width: 70px;">
-			<label class="mw-ui-label" style="padding-left: 0;" data-help="Set your shipping options">Shipping</label>
+			<label class="mw-ui-label mw-help-right" style="padding-left: 0;" data-help="Set your shipping options">Shipping</label>
 
-            <span class="mw-ui-btn" style="padding: 0 5px;" onclick="mw.$('#mw-admin-product-shipping-options').toggle();"><span class="mwsico-cost"  style="cursor:pointer;"></span></span>
+            <span class="mw-ui-btn" style="padding: 0 5px;" onclick="mw.$('#mw-admin-product-shipping-options').toggle();"><span class="mwsico-cost"  style="cursor:pointer;margin-right:0;"></span></span>
 
 		</div>
 
@@ -110,6 +110,7 @@ $data_fields = content_data($cont_id);
 
 
 	</div>
+</div>
 </div>
 <div class="vSpace"></div>
 

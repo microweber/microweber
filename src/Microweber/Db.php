@@ -568,7 +568,7 @@ class Db
             $user_createdq1 = '';
             $idq = '';
             if ((mw_var('FORCE_ANON_UPDATE') != false and $table == mw_var('FORCE_ANON_UPDATE')) or (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE)) {
-                $idq = " id={$data['id']} ";
+                $idq = " and id={$data['id']} ";
             } else {
                 if ($the_user_id != 0) {
                     if (isset($data['created_by'])) {
@@ -582,18 +582,18 @@ class Db
                     }
                 }
 
-
-            }
-            if ($user_createdq1 == '') {
-                if (isset($_SESSION)) {
-                    if (isset($data['session_id'])) {
-                        if ($user_sid != false) {
-                            $user_sidq = " AND session_id='{$user_sid}'  ";
+                if ($user_createdq1 == '') {
+                    if (isset($_SESSION)) {
+                        if (isset($data['session_id'])) {
+                            if ($user_sid != false) {
+                                $user_sidq = " AND session_id='{$user_sid}'  ";
+                            }
                         }
-                    }
 
+                    }
                 }
             }
+
             $q .= " $user_createdq1 WHERE id={$data ['id']} {$idq} {$user_sidq}  {$user_createdq} limit 1";
 
             $id_to_return = $data['id'];

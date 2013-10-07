@@ -79,9 +79,6 @@ hashParamEventInit:function(){
 DOMChangePause:false,
 DOMChangeTime:1500,
 DOMChange:function(element, callback, attr, a){
-
-     
-
     var attr = attr || false;
     var a = a || false;
     element.addEventListener("DOMCharacterDataModified", function(e){
@@ -94,7 +91,7 @@ DOMChange:function(element, callback, attr, a){
               clearInterval(element._int);
               element._int = setTimeout(function(){
                     callback.call(element);
-              }, 700);
+              }, mw.on.DOMChangeTime);
             }
 
         }
@@ -108,7 +105,7 @@ DOMChange:function(element, callback, attr, a){
               clearInterval(element._int);
               element._int = setTimeout(function(){
                     callback.call(element);
-              }, 700);
+              }, mw.on.DOMChangeTime);
             }
         }
     }, false);
@@ -118,17 +115,15 @@ DOMChange:function(element, callback, attr, a){
           var attr = e.attrName;
           if(attr != "contenteditable"){
              if( !mw.on.DOMChangePause ) {
-
-             if(!a){
-              callback.call(this);
-            }
-            else{
-              clearInterval(element._int);
-              element._int = setTimeout(function(){
-                    callback.call(element);
-              }, 700);
-            }
-
+                if(!a){
+                  callback.call(this);
+                }
+                else{
+                  clearInterval(element._int);
+                  element._int = setTimeout(function(){
+                        callback.call(element);
+                  }, mw.on.DOMChangeTime);
+                }
              }
           }
       }, false);

@@ -1029,6 +1029,7 @@ class Content
 
 
         $data['table'] = $table;
+        $data['cache_group'] = 'content_data';
 
         $data['content_id'] = intval($content_id);
         $res = array();
@@ -1064,7 +1065,7 @@ class Content
 
 
         $data['table'] = $table;
-        $data['no_cache'] = $table;
+        $data['cache_group'] = 'content_data';
 
 
         $get = $this->app->db->get($data);
@@ -4538,10 +4539,10 @@ class Content
         $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT_DATA;
 
-        //$checks = mw_var('FORCE_SAVE_CONTENT');
+        $check_force = mw_var('FORCE_SAVE_CONTENT_DATA_FIELD');
 
 
-        if ($adm == false) {
+        if ($check_force == false and $adm == false) {
             return array('error' => "You must be logged in as admin to use: ".__FUNCTION__);
 
         }
@@ -4580,6 +4581,7 @@ class Content
 
 
         $data['allow_html'] = true;
+       // $data['debug'] = true;
 
         $save = $this->app->db->save($table, $data);
 

@@ -66,24 +66,12 @@ if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 $(document).ready(function(){
 
 
-
-
-
-
     mw.treeRenderer.appendUI();
 
- mw.treeRenderer.appendUI('.page_posts_list_tree');
+    mw.treeRenderer.appendUI('.page_posts_list_tree');
     mw.on.hashParam("page-posts", function(){
         mw_set_edit_posts(this);
     });
-
-
-	if(mw.url.windowHashParam ("action") === undefined){
-
-
-
-	}
-
 
 
 
@@ -129,7 +117,7 @@ function mw_select_page_for_editing($p_id){
 
 
 
- 
+
 
   	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 

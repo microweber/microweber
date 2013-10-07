@@ -196,29 +196,67 @@ class Shop
 
     }
 
-    private function _mark_paid_by_user($order_id = false)
+    function update_quantities($order_id = false)
     {
         $order_id = intval($order_id);
         if ($order_id == false) {
             return;
         }
+        $res = false;
         $ord_data = $this->get_order_by_id($order_id);
 
         $cart_data = $this->order_items($order_id);
         if (!empty($cart_data)) {
+            $res = array();
             foreach ($cart_data as $item) {
 
 
                 if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
 
-                    $data_fields = $this->app->content->data($item['rel_id']);
-                    if (isset($item['qty']) and isset($data_fields['qty'])) {
-                        $old_qty = $data_fields['qty'];
+                    $data_fields = $this->app->content->data($item['rel_id'], 1);
 
-                        $new_qty = $old_qty - $item['qty'];
-                        d($new_qty);
-                        d($old_qty);
-                        d($item);
+                    if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
+                        $old_qty = intval($data_fields['qty']);
+
+                        $new_qty = $old_qty - intval($item['qty']);
+                        mw_var('FORCE_SAVE_CONTENT_DATA_FIELD', 1);
+                        $new_qty = intval($new_qty);
+
+
+                        if (defined('MW_DB_TABLE_CONTENT_DATA')) {
+
+                            $table_name_data = MW_DB_TABLE_CONTENT_DATA;
+                            $notify = false;
+                            mw_var('FORCE_ANON_UPDATE', $table_name_data);
+                            $new_q = array();
+                            $new_q['field_name'] = 'qty';
+                            $new_q['content_id'] = $item['rel_id'];
+                            if ($new_qty > 0) {
+
+                                $new_q['field_value'] = $new_qty;
+
+
+                            } else {
+                                $notify = true;
+                                $new_q['field_value'] = '0';
+
+
+                            }
+                            $res[] = $new_q;
+                            $upd_qty = $this->app->content->save_content_data_field($new_q);
+                            if ($notify) {
+                                $notif = array();
+                                //$notif['module'] = "content";
+                                $notif['rel'] = 'content';
+                                $notif['rel_id'] = $item['rel_id'];
+                                $notif['title'] = "Your item is out of stock!";
+                                $notif['description'] = "You sold all items you had in stock. Please update your quantity";
+                                $notif = $this->app->notifications->save($notif);
+
+                            }
+
+
+                        }
                     }
 
                 }
@@ -229,15 +267,7 @@ class Shop
         }
 
 
-        $table = MODULE_DB_SHOP_ORDERS;
-        $params = array();
-        $params['table'] = $table;
-        $params['id'] = $order_id;
-        $params['is_paid'] = 'y';
-        $params['is_completed'] = 'y';
-
-        d($params);
-        return $this->app->db->save($table, $params);
+        return $res;
     }
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
@@ -321,10 +351,7 @@ class Shop
         }
         mw_var("FORCE_SAVE", $table_orders);
 
-        if (isset($_REQUEST['temp']) and intval($_REQUEST['temp']) > 0) {
 
-            $this->_mark_paid_by_user($_REQUEST['temp']);
-        }
         if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1 and isset($_SESSION['order_id'])) {
 
             $_SESSION['mw_payment_success'] = true;
@@ -548,6 +575,7 @@ class Shop
                     return array('error' => $checkout_errors);
                 }
 
+
                 $ord = $this->app->db->save($table_orders, $place_order);
 
                 $q = " UPDATE $cart_table SET
@@ -574,6 +602,13 @@ class Shop
 
                     $this->app->cache->delete('cart/global');
                     $this->app->cache->delete('cart_orders/global');
+
+
+                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
+                        $this->update_quantities($ord);
+                    }
+
+
                     $this->after_checkout($ord);
                     //$_SESSION['mw_payment_success'] = true;
                 }
@@ -1192,8 +1227,20 @@ class Shop
             mw_var('FORCE_SAVE', $table_orders);
             mw_var('FORCE_ANON_UPDATE', $table_orders);
 
+
+
+
             $ord = $this->app->db->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
+
+
+
+
+
+
+            if (isset($update_order['is_paid']) and $update_order['is_paid'] == 'y') {
+                $this->update_quantities($ord);
+            }
             if ($ord > 0) {
 
                 $q = " UPDATE $cart_table SET
