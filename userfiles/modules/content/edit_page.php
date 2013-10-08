@@ -1,5 +1,5 @@
 <?php
-
+$is_quick=false;
 return include('quick.php');
 
 

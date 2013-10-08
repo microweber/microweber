@@ -1085,7 +1085,7 @@ mw.wysiwyg = {
         }
         $(textarea).after(iframe);
         $(textarea).hide();
-
+        return iframe;
     },
     clean_word:function( html ){
         html = html.replace( /<td([^>]*)>/gi, '<td>' ) ;

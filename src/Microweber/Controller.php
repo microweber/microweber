@@ -281,7 +281,7 @@ class Controller
         }
 
         if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
-        event_trigger('recover_shopping_cart', $_REQUEST['recart']);
+            event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
 
 
@@ -693,19 +693,19 @@ class Controller
                 //as of aug 28
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
-          /*  if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
-                $custom_template_settings = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'template_settings.css';
-            } else {
-                $custom_template_settings = TEMPLATE_DIR . DS . 'template_settings.css';
-            }
-            $custom_template_settings = normalize_path($custom_template_settings, false);
-            if (is_file($custom_template_settings)) {
-                $custom_live_editmtime = filemtime($custom_template_settings);
-                $custom_template_settings_url = dir2url($custom_template_settings);
-                $liv_ed_css = '<link rel="stylesheet" href="' . $custom_template_settings_url . '?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+            /*  if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
+                  $custom_template_settings = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'template_settings.css';
+              } else {
+                  $custom_template_settings = TEMPLATE_DIR . DS . 'template_settings.css';
+              }
+              $custom_template_settings = normalize_path($custom_template_settings, false);
+              if (is_file($custom_template_settings)) {
+                  $custom_live_editmtime = filemtime($custom_template_settings);
+                  $custom_template_settings_url = dir2url($custom_template_settings);
+                  $liv_ed_css = '<link rel="stylesheet" href="' . $custom_template_settings_url . '?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-            }*/
+                  $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+              }*/
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
 
@@ -778,7 +778,7 @@ class Controller
                 }
             } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
-                   $back_to_editmode = $this->app->user->session_get('back_to_editmode');
+                    $back_to_editmode = $this->app->user->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
                         $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
@@ -1971,7 +1971,9 @@ class Controller
             $tool = 'index';
         }
         $page = false;
-        if (isset($_SERVER["HTTP_REFERER"])) {
+        if (isset($_REQUEST["content_id"])) {
+            $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
+        } elseif (isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
             $url = explode('?', $url);
             $url = $url[0];
@@ -2016,6 +2018,10 @@ class Controller
 
         } else {
             $layout = str_replace('{content}', 'Not found!', $layout);
+        }
+        if (isset($page['content'])) {
+            $layout = str_replace('{content}', $page['content'], $layout);
+
         }
 
         $layout = $this->app->parser->process($layout, $options = false);

@@ -1844,9 +1844,12 @@ mw.tools = {
         return obj;
     }
   },
-  iframe_editor:function(area, params){
+  iframe_editor:function(area, params, k){
     var params = params || {};
-    var params = json2url(params);
+    var k = k || false;
+
+    var params = typeof params === 'object' ? json2url(params) : params;
+
     var area = mw.$(area);
     var frame = mwd.createElement('iframe');
     frame.src = mw.external_tool('wysiwyg?'+params);
@@ -1863,12 +1866,16 @@ mw.tools = {
         frame.contentWindow.thisframe = frame;
         var cont = $(frame).contents().find("#mw-iframe-editor-area");
         cont[0].contentEditable = true;
-        if(area[0].tagName === 'TEXTAREA'){
-          cont.html(area[0].value);
+
+        if(!k) {
+            if(area[0].tagName === 'TEXTAREA'){
+              cont.html(area[0].value);
+            }
+            else{
+              cont.html(area.html())
+            }
         }
-        else{
-          cont.html(area.html())
-        }
+
 
         if(typeof frame.contentWindow.PrepareEditor === 'function'){
           frame.contentWindow.PrepareEditor();
@@ -1895,8 +1902,9 @@ mw.tools = {
     });
     return frame;
   },
-  wysiwyg:function(area, params){
-    return mw.tools.iframe_editor(area, params);
+  wysiwyg:function(area, params, k){
+    var k = k || false;
+    return mw.tools.iframe_editor(area, params, k);
   },
 
   disable : function(el, text, global){

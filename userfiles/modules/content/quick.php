@@ -5,7 +5,9 @@ $rand = uniqid();
 $data = false;
 //$data = $params;
 $is_new_content = false;
-
+if(!isset($is_quick)){
+$is_quick=false;	
+}
 if(isset($params['page-id'])){
   $data = mw('content')->get_by_id(intval($params["page-id"]));
 } 
@@ -59,7 +61,7 @@ d($data['subtype']);
 			</div>
 		</div>
 	</div>
-	<?php if($data['subtype'] == 'post' or $data['subtype'] == 'product'){ ?>
+	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'){ ?>
 	<div class="mw-ui-field-holder">
 		<textarea class="semi_hidden" name="content" id="quick_content"></textarea>
 	</div>
@@ -108,17 +110,22 @@ load_iframe_editor = function(element_id){
 
 	 if(area !== null){
 		 var  ifr_ed_url = '<?php print mw('content')->link($data['id']) ?>?content_id=<?php print $data['id'] ?>';
-		 var  ifr_ed_url_more = '';
+		 var  ifr_ed_url_more = '&isolate_content_field=1&edit_post_mode=true&content_type=<?php print  $data['content_type'] ?>&subtype=<?php print  $data['subtype'] ?>';
 
 
 
 
-		var editor =  mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=true&content_type=<?php print  $data['content_type'] ?>'+ifr_ed_url_more);
-
+		//var editor =  mw.wysiwyg.iframe_editor(area, ifr_ed_url+ifr_ed_url_more);
+		var params = {};
+		params.content_id='<?php print $data['id'] ?>'
+		params.content_type='<?php print $data['content_type'] ?>'
+		params.subtype='<?php print $data['subtype'] ?>'
+		var editor =  mw.tools.wysiwyg(area,params ,true);
+ 
 
 
         editor.style.width = "100%";
-        editor.style.height = "270px";
+        editor.style.height = "470px";
 	 }
 
 }
@@ -178,15 +185,16 @@ load_iframe_editor = function(element_id){
         mw.content.save(data, {
           onSuccess:function(){
               el.reset();
-              $(editor).contents().find("#mw-iframe-editor-area").empty();
+             // $(editor).contents().find("#mw-iframe-editor-area").empty();
               mw.$(".quick_done_alert a").attr("href", mw.settings.site_url + "?content_id=" + this);
               mw.reload_module("pictures/admin", function(){
                   module.removeClass('loading');
-                  mw.tools.inlineModal({
+                 
+              });
+			   mw.tools.inlineModal({
                     element: mw.$(".quick-add-module"),
                     content: $(".quick_done_alert")
                   });
-              });
           },
           onError:function(){
               module.removeClass('loading');
