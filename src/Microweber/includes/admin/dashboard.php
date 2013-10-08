@@ -34,12 +34,19 @@
 
             mw.reload_module("content/quick", function(){
             mw.$("#mw-quick-content").height("auto");
-            mwd.querySelector("#mw-quick-content iframe").onload = function(){
-                 mw.$("#mw-quick-content").removeClass("loading")
+            var frame = mwd.querySelector("#mw-quick-content iframe");
+            if(frame !== null){
+                  frame.onload = function(){
+                       mw.$("#mw-quick-content").removeClass("loading")
+                  }
+                  frame.onerror = function(){
+                       mw.$("#mw-quick-content").removeClass("loading")
+                  }
             }
-            mwd.querySelector("#mw-quick-content iframe").onerror = function(){
-                 mw.$("#mw-quick-content").removeClass("loading")
+            else{
+                mw.$("#mw-quick-content").removeClass("loading");
             }
+
           });
        }
     });

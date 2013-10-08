@@ -43,6 +43,7 @@ mw.content = mw.content || {
           var master = {};
           var calc = {};
           var e = e || {};
+      //   data.subtype === 'category'
           if(data.content == "" || typeof data.content === 'undefined'){
             calc.content = false;
           }

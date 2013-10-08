@@ -1,4 +1,12 @@
 <?php
+
+return include('quick.php');
+
+
+
+
+ 
+
 $data = false;
 $quick_edit = false;
 if(!isset($edit_post_mode)){

@@ -2679,6 +2679,14 @@ a.module-icon-title{
 .mwsico-usd{ background-position: 0 -332px; margin-right: 5px;}
 .mwsico-instock{ background-position: 0 -389px;}
 
+.mws-btn span+span{
+  display: inline-block;
+  padding: 8px 6px;
+}
+
+#mw_admin_product_settings .mws-btn{
+  margin:27px 0 0 0px;
+}
 
 #mw_admin_product_settings .mw-ui-field-holder{
   float: left;
@@ -2833,10 +2841,12 @@ a.module-icon-title{
   border-color: #DFDFDF;
   border-bottom: none;
   box-shadow: 0px -2px 8px -8px #111;
+
 }
 
 .quick-add-module{
   padding: 12px;
+    min-height: 365px;
   background: white;
   border:1px solid #DFDFDF;
   clear: both;

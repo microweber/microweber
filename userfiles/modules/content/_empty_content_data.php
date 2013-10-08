@@ -7,7 +7,8 @@ $is_new = template_var('new_page');
 $data  = array();
 $data['id'] = 0;	
 $data['content_type'] = 'page';	
-$data['title'] = 'Title';	
+$data['title'] = false;	
+$data['content'] = false;	
 $data['url'] = '';	
 
 $data['thumbnail'] = '';	 
@@ -34,4 +35,34 @@ if($is_new == false){
 		 
 	 }
 	
+}
+
+
+if(!isset($title_placeholder)){
+$title_placeholder = false;	
+}
+
+
+if(isset($params['subtype'])){
+	$data['subtype'] = $params['subtype'];
+	$title_placeholder = "New {$data['subtype']} title";
+	if($params['subtype'] == 'product'){
+		$data['content_type'] = 'post';
+		$data['subtype'] = 'product';
+	} elseif($params['subtype'] == 'post'){
+		$data['content_type'] = 'post';
+		$data['subtype'] = 'post';
+		
+	}elseif($params['subtype'] == 'static' or $params['subtype'] == 'dynamic'){
+		$title_placeholder = "New page title";
+
+	}
+}
+if($title_placeholder == false and isset($params['content_type'])){
+$title_placeholder = "New ".$params['content_type'];
+} else if($title_placeholder == false and isset($data['subtype'])){
+$title_placeholder = "New ".$data['subtype'];
+if($data['subtype'] == 'static' or $data['subtype'] == 'dynamic'){
+$title_placeholder = "New page title";
+}
 }

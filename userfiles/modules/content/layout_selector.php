@@ -375,7 +375,7 @@ var preview_layout_content_type_param = '&content_type=<?php print $params['cont
 <?php endif; ?>
 
 var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true'+preview_template_param+preview_layout_param+'&content_id=<?php print  $data['id'] ?>'+inherit_from_param+preview_layout_content_type_param
-//d('iframe_url is '+iframe_url);
+ 
 if(return_url == undefined){
   $(window).trigger('templateChanged', iframe_url);
 
@@ -421,7 +421,7 @@ $(document).ready(function() {
 
 
   mw.templatePreview.prepare();
-  <?php if(isset($params["autoload"]) and intval($params["autoload"]) != 0) : ?>
+  <?php if(isset($params["autoload"])) : ?>
   mw.templatePreview.generate();
   <?php endif; ?>
 

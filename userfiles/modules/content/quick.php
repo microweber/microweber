@@ -1,92 +1,128 @@
-
 <?php
-    $rand = uniqid();
+
+
+$rand = uniqid(); 
+$data = false;
+//$data = $params;
+$is_new_content = false;
+
+if(isset($params['page-id'])){
+  $data = mw('content')->get_by_id(intval($params["page-id"]));
+} 
+if(isset($params['content-id'])){
+  $data = mw('content')->get_by_id(intval($params["content-id"]));
+}
+
+
+
+
+$title_placeholder = false;
+/* FILLING UP EMPTY CONTENT WITH DATA */
+if($data == false or empty($data )){
+   $is_new_content = true;
+   include('_empty_content_data.php');
+}
+/* END OF FILLING UP EMPTY CONTENT  */
+
+
+
+d($data['subtype']);
+
+ 
+
 ?>
-
-
-
-
-
+ 
 <form method="post" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
-
-<input type="hidden" name="id"  value="0" />
-<input type="hidden" name="is_active"  value="y" />
-<input type="hidden" name="subtype"  value="<?php print $params['subtype']; ?>" />
-<input type="hidden" name="content_type"  value="post" />
-
-
-<div class="mw-ui-field-holder">
-<input
+	<input type="hidden" name="id"  value="<?php print $data['id']; ?>" />
+	<input type="hidden" name="is_active"  value="y" />
+	<input type="hidden" name="subtype"  value="<?php print $data['subtype']; ?>" />
+	<input type="hidden" name="content_type"  value="<?php print $data['content_type']; ?>" />
+	<div class="mw-ui-field-holder">
+		<input
       type="text"
       name="title"
       class="mw-ui-field mw-title-field mw-ui-field-full"
       style="border-left: 1px solid #E6E6E6"
-      placeholder="Create new <?php print $params['subtype']; ?>"
+      placeholder="<?php print $title_placeholder; ?>"
+	  value="<?php print $data['title']; ?>" 
       autofocus required />
-
-</div>
-
-<div class="mw-ui-field-holder">
-
-        <div>
-       <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-			<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
-		</div>
-        <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-            <module
+	</div>
+	<div class="mw-ui-field-holder">
+		<div>
+			<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
+				<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
+			</div>
+			<div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
+				<module
                     type="categories/selector"
                     for="content" />
-        </div>
-        </div>
-
-</div>
-<div class="mw-ui-field-holder">
-
-<textarea class="semi_hidden" name="content" id="quick_content"></textarea>
-
-</div>
-
-<?php if($params['subtype'] == 'product'){ ?>
-
-
-
-
-  <div class="mw-ui-field-holder">
-  <module
+			</div>
+		</div>
+	</div>
+	<?php if($data['subtype'] == 'post' or $data['subtype'] == 'product'){ ?>
+	<div class="mw-ui-field-holder">
+		<textarea class="semi_hidden" name="content" id="quick_content"></textarea>
+	</div>
+	<?php } ?>
+	<?php if($data['content_type'] == 'page'){ ?>
+	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" content-id="<?php print $data['id']; ?>" />
+	<?php } ?>
+	<?php if($data['subtype'] == 'product'){ ?>
+	<div class="mw-ui-field-holder">
+		<module
           type="custom_fields/admin"
           for="content"
           default-fields="price"
           content-id="0"
-          content-subtype="<?php print $params['subtype'] ?>" />
-  </div>
-
-
-
-
-<?php } ?>
-
-<div class="mw-ui-field-holder">
-
-      <span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
-      <div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
-          <div  class="mw-o-box-content"><module type="pictures/admin" content_id="0" rel="content" rel_id="0" /></div>
-      </div>
-
-    <button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
-</div>
+          content-subtype="<?php print $data['subtype'] ?>" />
+	</div>
+	<?php } ?>
+	<div class="mw-ui-field-holder">
+		<?php if($data['subtype'] != 'category'){ ?>
+		<span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
+		<div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
+			<div  class="mw-o-box-content">
+				<module type="pictures/admin" content_id="0" rel="content" rel_id="0" />
+			</div>
+		</div>
+		<?php } ?>
+		<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
+	</div>
 </form>
-
-
-
 <div class="quick_done_alert" style="display: none">
-    <h2><span style="text-transform: capitalize"><?php print $params['subtype'] ?></span> has been created.</h2>
-    <a href="javascript:;" class="mw-ui-link">Go to <?php print $params['subtype'] ?></a>
-    <span class="mw-ui-btn" onclick="$(mw.tools.firstParentWithClass(this, 'mw-inline-modal')).remove();">Create New</span>
-</div>
-
+	<h2><span style="text-transform: capitalize"><?php print $data['subtype'] ?></span> has been created.</h2>
+	<a href="javascript:;" class="mw-ui-link">Go to <?php print $data['subtype'] ?></a> <span class="mw-ui-btn" onclick="$(mw.tools.firstParentWithClass(this, 'mw-inline-modal')).remove();">Create New</span> </div>
 <script>
     mw.require("content.js");
     mw.require("files.js");
+</script> 
+<script>
+
+load_iframe_editor = function(element_id){
+
+	 var element_id =  element_id || 'quick_content';
+
+	 var area = mwd.getElementById(element_id);
+
+
+
+	 if(area !== null){
+		 var  ifr_ed_url = '<?php print mw('content')->link($data['id']) ?>?content_id=<?php print $data['id'] ?>';
+		 var  ifr_ed_url_more = '';
+
+
+
+
+		var editor =  mw.wysiwyg.iframe_editor(area, ifr_ed_url+'&isolate_content_field=1&edit_post_mode=true&content_type=<?php print  $data['content_type'] ?>'+ifr_ed_url_more);
+
+
+
+        editor.style.width = "100%";
+        editor.style.height = "270px";
+	 }
+
+}
+
 </script>
 <script>
 
@@ -110,10 +146,17 @@
 
 
     $(document).ready(function(){
-       var area = mwd.getElementById('quick_content');
-       editor = mw.tools.wysiwyg(area);
-       editor.style.width = "100%";
-       editor.style.height = "270px";
+		 load_iframe_editor();
+       /*var area = mwd.getElementById('quick_content');
+       if(area !== null){
+           editor = mw.tools.wysiwyg(area);
+           editor.style.width = "100%";
+           editor.style.height = "270px";
+       }
+       else{
+         editor = undefined;
+       } */
+
        mw.treeRenderer.appendUI('#mw-category-selector-<?php print $rand; ?>');
        mw.tools.tag({
           tagholder:'#mw-post-added-<?php print $rand; ?>',
@@ -164,3 +207,18 @@
       });
     });
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
