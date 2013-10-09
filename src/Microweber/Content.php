@@ -267,7 +267,7 @@ class Content
 
             $params['search_in_content_data_fields'] = true;
 
-         }
+        }
         $get = $this->app->db->get($params);
 
 
@@ -380,13 +380,7 @@ class Content
 
 
         $cache_id = __CLASS__ . __FUNCTION__ . crc32($function_cache_id);
-        if (isset($page['id']) and intval($page['id']) != 0) {
-            $cache_group = 'content/' . $page['id'];
-
-
-        } else {
-            $cache_group = 'content/global';
-        }
+        $cache_group = 'content/global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
                 $this->define_constants($page);
@@ -396,7 +390,7 @@ class Content
 
         if (($cache_content) != false) {
 
-            // return $cache_content;
+         return $cache_content;
         }
 
         $render_file = false;
@@ -419,6 +413,53 @@ class Content
                 }
             }
 
+            if (isset($page['content_type'])) {
+                $page['content_type'] = str_replace('..', '', $page['content_type']);
+
+            }
+
+
+            if ($render_file != false and isset($page['content_type']) and ($page['content_type']) != 'page') {
+                $f1 = $render_file;
+                $f2 = $render_file;
+
+
+                $stringA = $f1;
+                $stringB = "_inner";
+                $length = strlen($stringA);
+                $temp1 = substr($stringA, 0, $length - 4);
+                $temp2 = substr($stringA, $length - 4, $length);
+                $f1 = $temp1 . $stringB . $temp2;
+                $f1 = normalize_path($f1, false);
+                if (is_file($f1)) {
+                    $render_file = $f1;
+                } else {
+                    $stringA = $f2;
+                    $stringB = '_' . $page['content_type'];
+                    $length = strlen($stringA);
+                    $temp1 = substr($stringA, 0, $length - 4);
+                    $temp2 = substr($stringA, $length - 4, $length);
+                    $f3 = $temp1 . $stringB . $temp2;
+                    $f3 = normalize_path($f3, false);
+                    if (is_file($f3)) {
+                        $render_file = $f3;
+                    } else {
+                        $check_inner = dirname($render_file);
+                        if (is_dir($check_inner)){
+                            $in_file =$check_inner . DS . 'inner.php';
+                            $in_file = normalize_path($in_file, false);
+                            if (is_file($in_file)) {
+                                $render_file = $in_file;
+                            }
+
+                        }
+                    }
+
+
+                }
+
+
+            }
 
         }
 
@@ -4543,7 +4584,7 @@ class Content
 
 
         if ($check_force == false and $adm == false) {
-            return array('error' => "You must be logged in as admin to use: ".__FUNCTION__);
+            return array('error' => "You must be logged in as admin to use: " . __FUNCTION__);
 
         }
 

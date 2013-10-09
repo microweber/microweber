@@ -343,7 +343,7 @@ else{
   if(slide){
       mw.loadModuleData(module,'#pages_edit_container', function(data){
           var div = document.createElement('div');
-          div.id = 'pages_edit_container';
+          div.id = 'pages_edit_container_data';
           div.style.left = '200px';
           div.innerHTML = data;
           var _this = this;

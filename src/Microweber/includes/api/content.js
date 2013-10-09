@@ -45,7 +45,7 @@ mw.content = mw.content || {
           var e = e || {};
       //   data.subtype === 'category'
           if(data.content == "" || typeof data.content === 'undefined'){
-            calc.content = false;
+           // calc.content = false;
           }
           if(data.title == "" || typeof data.title === 'undefined'){
             calc.title = false;

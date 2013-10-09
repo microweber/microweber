@@ -1321,6 +1321,7 @@ body.still-loading:before{
   position: relative;
   background: white;
   border-bottom:1px solid #E2E2E2;
+  min-width: 980px
 }
 
 .mw-admin-wrap{
@@ -2864,6 +2865,13 @@ a.module-icon-title{
   background-image: url(../img/img_check_loading.gif);
   background-position: center;
   background-repeat: no-repeat;
+}
+
+#shop-orders > tbody > tr > td{
+  vertical-align: top;
+  text-align: left;
+  background: white;
+  padding: 24px 10px;
 }
 
 

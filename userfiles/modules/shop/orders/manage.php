@@ -76,10 +76,10 @@
             ?>
 
 <div class="mw-table-sorting-controller" style="width: 960px;">
-	<h2 class="mw-side-main-title left" style="padding-top: 0"><span class="ico iorder-big"></span><span>
+	<h2 class="mw-side-main-title left" style="padding-top: 0;margin-right: 20px;"><span class="ico iorder-big"></span><span>
 		<?php _e("Orders List"); ?>
 		</span></h2>
-	<select name="order_type" id="mw-admin-order-type-filter">
+	<select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-simple-dropdown" autocomplete="off">
 		<option value="completed">Completed orders</option>
 		<option value="carts">Abandoned carts</option>
 	</select>
@@ -106,16 +106,16 @@
 		</ul>
 	</div>
 	<input
-  style="width: 230px;margin-right: 30px;"
-  type="text"
-  onblur="mw.form.dstatic(event);"
-  onfocus="mw.form.dstatic(event);"
-  id="mw-search-field"
-  class="mw-ui-searchfield right mw-admin-order-sort-completed"
-  value="<?php _e("Search for orders"); ?>"
-  data-default="<?php _e("Search for orders"); ?>"
-  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
-   />
+          style="width: 230px;margin-right: 30px;"
+          type="text"
+          onblur="mw.form.dstatic(event);"
+          onfocus="mw.form.dstatic(event);"
+          id="mw-search-field"
+          class="mw-ui-searchfield right mw-admin-order-sort-completed"
+          value="<?php _e("Search for orders"); ?>"
+          data-default="<?php _e("Search for orders"); ?>"
+          onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+    />
 	<?php  } ?>
 	
 	

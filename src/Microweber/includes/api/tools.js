@@ -1862,11 +1862,11 @@ mw.tools = {
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('allowtransparency', 'true');
         area.hide().after(frame);
+
     $(frame).load(function(){
         frame.contentWindow.thisframe = frame;
         var cont = $(frame).contents().find("#mw-iframe-editor-area");
         cont[0].contentEditable = true;
-
         if(!k) {
             if(area[0].tagName === 'TEXTAREA'){
               cont.html(area[0].value);

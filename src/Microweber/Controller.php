@@ -261,7 +261,7 @@ class Controller
                     $page['content_type'] = $_REQUEST['content_type'];
 
                 }
-
+                //  d($page);
                 //$page['active_site_template'] = $page_url_segment_1;
                 //$page['layout_file'] = $the_new_page_file;
                 //$page['simply_a_file'] = $simply_a_file;
@@ -297,7 +297,7 @@ class Controller
         }
 
 
-        if ($page == false or $this->create_new_page == true) {
+        if ($page == false) {
             if (trim($page_url) == '' and $preview_module == false) {
                 //
 
@@ -612,7 +612,7 @@ class Controller
 
                 $isolated_head = pq('head')->eq(0)->html();
 
-                // d($isolated_head);
+
                 $found_field = false;
                 if (isset($_REQUEST['isolate_content_field'])) {
                     foreach ($pq ['[field=content]'] as $elem) {
@@ -1972,7 +1972,18 @@ class Controller
         }
         $page = false;
         if (isset($_REQUEST["content_id"])) {
-            $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
+
+            if (intval($_REQUEST["content_id"]) == 0) {
+                $this->create_new_page = true;
+                $this->return_data = 1;
+                $page = $this->index();
+
+            } else {
+                $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
+
+            }
+
+
         } elseif (isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
             $url = explode('?', $url);
@@ -1981,7 +1992,6 @@ class Controller
             if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->app->content->get_by_url($url);
                 $page = $this->app->content->homepage();
-                // var_dump($page);
             } else {
 
                 $page = $this->app->content->get_by_url($url);
@@ -2019,7 +2029,20 @@ class Controller
         } else {
             $layout = str_replace('{content}', 'Not found!', $layout);
         }
+
+
+        if (isset($page['render_file'])) {
+            $l = new $this->app->view($page['render_file']);
+            $l = $l->__toString();
+            $page['content'] = $this->app->parser->isolate_content_field($l);
+
+
+        }
+
+
         if (isset($page['content'])) {
+
+
             $layout = str_replace('{content}', $page['content'], $layout);
 
         }

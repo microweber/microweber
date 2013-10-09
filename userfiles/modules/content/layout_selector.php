@@ -6,10 +6,12 @@
 
 
 $rand = uniqid().rand();
-if(!isset($params["data-page-id"])){
+if(!isset($params["data-page-id"]) and !isset($params["content-id"])){
 	$params["data-page-id"] = PAGE_ID;
 }
-
+if(!isset($params["data-page-id"]) and isset($params["content-id"])){
+	$params["data-page-id"] = $params["content-id"];
+}
 
 
 $live_edit_styles_check = false;
@@ -27,9 +29,10 @@ if(!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval(
 
  $data = mw('content')->get_by_id($params["data-page-id"]);
 } else {
+	 
 //	$data = $params;
 }
-
+ 
 if(!isset($params["layout_file"]) and isset($params["layout-file"])){
 	$params["layout_file"] = $params["layout-file"];
 }
@@ -296,16 +299,31 @@ generate:function(return_url){
 
    if(is_shop != undefined){
     if(is_shop != undefined && is_shop =='y'){
+		if(form != undefined && form.querySelector('input[name="is_shop"]') != null){
+		form.querySelector('input[name="is_shop"]').value = 'y'
+ 		}
+		
+		
 		if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
      form.querySelector('input[name="is_shop"][value="y"]').checked = true;
-		}
+ 		}
    } else {
-	   if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
+	   
+	   if(form != undefined && form.querySelector('input[name="is_shop"]') != null){
+		form.querySelector('input[name="is_shop"]').value = 'n'
+ 		}
+		
+		
+		
+	   if(form != undefined && form.querySelector('input[name="is_shop"][value="n"]') != null){
      form.querySelector('input[name="is_shop"][value="n"]').checked = true;
 	   }
    }
  } else {
-	if(form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null){
+	   if(form != undefined && form.querySelector('input[name="is_shop"]') != null){
+		form.querySelector('input[name="is_shop"]').value = 'n'
+ 		}
+	if(form != undefined && form.querySelector('input[name="is_shop"][value="n"]') != null){
      form.querySelector('input[name="is_shop"][value="n"]').checked = true;
 	   }  
 	 
@@ -317,6 +335,15 @@ generate:function(return_url){
  } else {
  // ctype = 'static';
 }
+
+
+if(ctype == 'static' && ctype == 'dynamic'){
+if(form != undefined && form.querySelector('input[name="subtype"]') != null){
+		form.querySelector('input[name="subtype"]').value = ctype
+ }
+}
+
+
 /*mw.$("select[name='subtype']", form).val(ctype);
 mw.$("input:hidden[name='subtype']", form).val(ctype);
 mw.$("input:text[name='subtype']", form).val(ctype);
@@ -433,6 +460,9 @@ $(document).ready(function() {
 <div class="layout_selector_wrap">
 	<div class="vSpace"></div>
 	<?php
+	 d($data['layout_file']);
+	 ?>
+	<?php
 if(defined('ACTIVE_SITE_TEMPLATE')){
  
 	if( !isset($data['active_site_template']) or (isset($data['active_site_template']) and trim($data['active_site_template'])== ''and defined('ACTIVE_SITE_TEMPLATE'))){
@@ -481,20 +511,21 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 	
 	?>
 	<?php endif; ?>
-	<?php
-	 
-	 ?>
+	
 	<div style="display: none">
 		<select name="layout_file"     id="active_site_layout_<?php print $rand; ?>"
     autocomplete="off">
 			<?php if(!empty($layouts)): ?>
+			
+			
+			 
 			<?php $i=0; $is_chosen=false; foreach($layouts as $item): ?>
 			<?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
 			<option value="<?php print $item['layout_file'] ?>"  onclick="mw.templatePreview.view('<?php print $i ?>');"  
 			data-index="<?php print $i ?>"  data-layout_file="<?php print $item['layout_file'] ?>"   
 			
 			<?php if(crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) ): ?> <?php $is_chosen=1; ?>  selected="selected"  <?php  endif; ?>
-			 <?php if(isset($item['is_default']) and $item['is_default'] != false ): ?>   
+			 <?php if( isset($item['is_default']) and $item['is_default'] != false ): ?>   
 			   data-is-default="<?php print $item['is_default'] ?>" <?php if($is_layout_file_set == false and $is_chosen==false): ?>   selected="selected" <?php $is_chosen=1; ?>  <?php endif; ?> <?php endif; ?>  
 			   <?php if(isset($item['is_recomended']) and $item['is_recomended'] != false ): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if($is_layout_file_set == false and $is_chosen==false): ?>   selected="selected" <?php $is_chosen=1; ?> <?php endif; ?>  <?php endif; ?>
 			 <?php if(isset($item['content_type']) ): ?>   data-content-type="<?php print $item['content_type'] ?>" <?php else: ?> data-content-type="static"  <?php endif; ?> 
@@ -507,10 +538,8 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<?php $i++; endforeach; ?>
 			<?php endif; ?>
 			<?php if(!isset($params['content-type'])): ?>
-			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if($is_chosen==false and trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit'): ?>   selected="selected"  <?php endif; ?>>
-			
+			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if($is_chosen==false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
 			Inherit from parent
-			
 			</option>
 			<?php endif; ?>
 		</select>

@@ -1,11 +1,30 @@
 <script type="text/javascript">
 <?php include_once( MW_INCLUDES_DIR . 'api/treerenderer.php'); ?>
 </script>
-<?php
+<?php 
+
+
+ 
+
+$field_name="categories";
+$selected = 0;
+
+
+if(isset($params['field-name'])){
+$field_name = $params['field-name'];
+}
+
+if(isset($params['selected-id'])){
+$selected = intval($params['selected-id']);
+}
+
+$rand=uniqid();
+
+ 
 
 $orig_params = ($params);
 
- $rand =  $params['id'];;
+ //$rand =  $params['id'];;
 if (!isset($params['for'])) {
 
 	$for = 'content';
@@ -34,7 +53,9 @@ if(isset($params['data-subtype']) and $params['data-subtype'] == 'product'){
 if (isset($params['is_shop'])) {
 	$is_shop = '&is_shop=' . $params['is_shop'];
 }
-
+if (!isset($params['rel_id']) and isset($params['rel-id'])) {
+	$params['rel_id'] = $params['rel-id'];
+}
 if (!isset($params['rel_id'])) {
 	$rel_id = '';
 	if (!isset($params['rel_id'])) {
@@ -77,7 +98,7 @@ if(is_array($is_ex)){
 ?>
 
  <script>
-
+/*
   $(document).ready(function(){
 
 
@@ -90,12 +111,12 @@ if(is_array($is_ex)){
         var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
         if(curr_content != undefined){
 			  if(typeof load_iframe_editor === 'function'){
-         	load_iframe_editor(curr_content);
+         	//load_iframe_editor(curr_content);
 			 }
        }
        else{
 		     if(typeof load_iframe_editor === 'function'){
-         	load_iframe_editor();
+         	//load_iframe_editor();
 			}
        }
      },
@@ -103,12 +124,12 @@ if(is_array($is_ex)){
       var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
       if(curr_content != undefined){
 		 if(typeof load_iframe_editor === 'function'){
-       		load_iframe_editor(curr_content);
+       		//load_iframe_editor(curr_content);
 		  }
      }
      else{
 		 if(typeof load_iframe_editor === 'function'){
-       			load_iframe_editor();
+       			//load_iframe_editor();
 		 }
      }
    }
@@ -118,7 +139,7 @@ if(is_array($is_ex)){
 
 
 
-  });
+  });*/
 
   </script>
 
@@ -129,9 +150,12 @@ $(document).ready(function(){
 
 	mw.$('#<?php print $params['id'] ?> .mw-ui-check').bind('click', function(e){
 			if(typeof mw_set_categories_from_tree === 'function'){
-		 		mw_set_categories_from_tree()
+		 		//mw_set_categories_from_tree()
 			}
   	});
+	
+	
+	
 
 });
 
@@ -225,6 +249,19 @@ if(isset($tree['is_shop'] )){
 
 	unset($tree['is_shop'] );
 }
+
+if(isset($params['subtype']) and $params['subtype'] == 'product'){
+
+	$tree['is_shop'] = 'y';
+}
+if(isset($params['subtype']) and $params['subtype'] == 'post'){
+ //  $tree['subtype'] = 'dynamic';
+   if(isset($tree['is_shop'] )){
+
+	unset($tree['is_shop'] );
+}
+} 
+
 mw('content')->pages_tree($tree);
 ?>
 <?php endif; ?>
@@ -260,4 +297,4 @@ mw('content')->pages_tree($tree);
 ?>
 <?php $cats_str = implode(',', $active_cats); ?>
 
-<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />
+<input type="text" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

@@ -16,6 +16,7 @@
           +"</p></div>";
           document.write(h);
           document.body.id = 'UnsupportedBrowser';
+          document.body.className = 'UnsupportedBrowser';
         }
         mwAdmin = true;
         admin_url  = '<?php print admin_url(); ?>';
