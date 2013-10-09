@@ -202,14 +202,13 @@ mw.askusertostay = false;
           mw.lib._required.push(name);
           if(typeof mw.settings.libs[name] === 'undefined') return false;
           if(mw.settings.libs[name].constructor !== [].constructor) return false;
-
           var path = mw.settings.libs_url + name + '/',
               arr = mw.settings.libs[name],
               l = arr.length,
               i = 0,
               c = 0;
           for( ; i<l ; i++){
-              mw.require(path + arr[i]);
+              (typeof arr[i] === 'string') ? mw.require(path + arr[i]) : (typeof arr[i] === 'function') ? arr[i].call() : '';
           }
     },
     get:function(name, done, error){
@@ -261,18 +260,25 @@ mw.askusertostay = false;
     template_url: '<?php print TEMPLATE_URL; ?>',
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url: '<?php print site_url(); ?>api/upload/',
-
     api_url: '<?php print site_url(); ?>api/',
     libs_url: '<?php   print( INCLUDES_URL);  ?>api/libs/',
     api_html: '<?php print site_url(); ?>api_html/',
-
-
     libs:{
+      jqueryui:['jquery-ui.min.css', 'jquery-ui.min.js'],
       morris:['morris.css', 'raphael.js', 'morris.js'],
-      bootstrap2:['', '', ''],
-      bootstrap3:['bootstrap.min.css', 'bootstrap.min.js']
+      bootstrap2:[function(){
+        var v = mwd.querySelector('meta[name="viewport"]');
+        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+        v.content = "width=device-width, initial-scale=1.0";
+        mwhead.appendChild(v);
+      }, 'css/bootstrap.min.css', 'css/bootstrap-responsive.min.css', 'js/bootstrap.min.js'],
+      bootstrap3:[function(){
+        var v = mwd.querySelector('meta[name="viewport"]');
+        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+        v.content = "width=device-width, initial-scale=1.0";
+        mwhead.appendChild(v);
+      }, 'bootstrap.min.css', 'bootstrap.min.js']
     },
-
     page_id: '<?php print intval(PAGE_ID) ?>',
     post_id: '<?php print intval(POST_ID) ?>',
     category_id: '<?php print intval(CATEGORY_ID) ?>',
@@ -285,11 +291,8 @@ mw.askusertostay = false;
     sorthandle_hover: false,
     resize_started: false,
     sorthandle_click: false,
-
     row_id: false,
-
     edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
-
     empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
 
     //handles

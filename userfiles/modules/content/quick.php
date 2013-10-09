@@ -17,7 +17,7 @@ if(isset($params['content-id'])){
 
 
 
-
+$categories_active_ids =false;
 $title_placeholder = false;
 /* FILLING UP EMPTY CONTENT WITH DATA */
 if($data == false or empty($data )){
@@ -26,11 +26,35 @@ if($data == false or empty($data )){
 }
 /* END OF FILLING UP EMPTY CONTENT  */
 
+
+
+/* SETTING PARENT AND ACTIVE CATEGORY */
+
 if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])){
 	
 	  $data['parent'] = $params['parent-page-id'];
+	  
+	  if(isset($params['subtype']) and $params['subtype'] == 'product'){
+		    $data['parent'] = 0;
+	  }
+	  
+	   if(isset($params['parent-category-id']) and $params['parent-category-id'] != 0){
+		   $categories_active_ids =$params['parent-category-id'];
+	   }
+
+} else if(intval($data['id']) != 0){
+    $categories  =get_categories_for_content($data['id']);
+   if(is_array($categories)){
+	   $c =array();
+	 foreach($categories as $category){
+		 $c[] = $category['id'];
+	 }
+ 	 $categories_active_ids = implode(',',$c);
+    }
 
 }
+/* END OF SETTING PARENT AND ACTIVE CATEGORY  */
+
  
 
 /* CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
@@ -124,11 +148,12 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                     for="content"
 					active_ids="<?php print $data['parent']; ?>"
 					subtype="<?php print $data['subtype']; ?>"
+					categories_active_ids="<?php print $categories_active_ids; ?>"
 					for-id="<?php print $data['id']; ?>" />
 					<?php } ?>
 					
 					
-					
+				 
 					
 			</div>
 		</div>
@@ -242,7 +267,19 @@ load_iframe_editor =   function(element_id){
 
 }
 
+content_after_save = function(){
 
+mw.reload_module('[data-type="pages"]', function(){
+
+        if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
+            mw.$("#pages_tree_toolbar").removeClass("activated");
+            mw.treeRenderer.appendUI('#pages_tree_toolbar');
+            mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+        }
+
+     });
+
+}
 
 set_parent_and_category = function(){
       /* FILLING UP THE HIDDEN FIELDS as you change category or parent page */	
@@ -318,31 +355,11 @@ set_parent_and_category = function(){
              // el.reset();
              // $(editor).contents().find("#mw-iframe-editor-area").empty();
 			 
-			 
+			 content_after_save();
 			 
 			 mw.$("#<?php print $module_id ?>").attr("content-id",this);
 			 mw.reload_module('#<?php print $module_id ?>');
-			 
-			   
-			 
-			 
-			 
-			 
-			 
-			 
-			 
-/*              mw.$(".quick_done_alert a").attr("href", mw.settings.site_url + "?content_id=" + this);
-              mw.reload_module("pictures/admin", function(){
-                  module.removeClass('loading');
-                 
-              });
-			   mw.tools.inlineModal({
-                    element: mw.$(".quick-add-module"),
-                    content: $(".quick_done_alert")
-                  });
-*/				  
-				  
-				  
+ 
 				  
 				  
 				  
@@ -378,21 +395,7 @@ set_parent_and_category = function(){
 			 load_iframe_editor();
 
   	});
-
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+ 
 	  
 	  
 	  

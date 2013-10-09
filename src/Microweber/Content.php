@@ -199,7 +199,7 @@ class Content
      * $params['subtype'] = 'product'; //get by subtype
      * $params['title'] = 'my title'; //get by title
      *
-     * $data = $this->app->content->get($params);
+     * $data = $this->get($params);
      * var_dump($data);
      *
      * </code>
@@ -207,7 +207,7 @@ class Content
      * @example
      * #### Get by params as string
      * <code>
-     *  $data = $this->app->content->get('is_active=y');
+     *  $data = $this->get('is_active=y');
      *  var_dump($data);
      * </code>
      *
@@ -215,19 +215,19 @@ class Content
      * #### Ordering and sorting
      * <code>
      *  //Order by position
-     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=position desc');
+     *  $data = $this->get('content_type=post&is_active=y&order_by=position desc');
      *  var_dump($data);
      *
      *  //Order by date
-     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=updated_on desc');
+     *  $data = $this->get('content_type=post&is_active=y&order_by=updated_on desc');
      *  var_dump($data);
      *
      *  //Order by title
-     *  $data = $this->app->content->get('content_type=post&is_active=y&order_by=title asc');
+     *  $data = $this->get('content_type=post&is_active=y&order_by=title asc');
      *  var_dump($data);
      *
      *  //Get content from last week
-     *  $data = $this->app->content->get('created_on=[mt]-1 week&is_active=y&order_by=title asc');
+     *  $data = $this->get('created_on=[mt]-1 week&is_active=y&order_by=title asc');
      *  var_dump($data);
      * </code>
      *
@@ -339,7 +339,7 @@ class Content
                 $page = array();
                 $page['layout_name'] = trim($id);
 
-                $page = $this->app->content->get($page);
+                $page = $this->get($page);
                 $page = $page[0];
             }
         }
@@ -390,7 +390,7 @@ class Content
 
         if (($cache_content) != false) {
 
-         return $cache_content;
+            return $cache_content;
         }
 
         $render_file = false;
@@ -445,8 +445,8 @@ class Content
                         $render_file = $f3;
                     } else {
                         $check_inner = dirname($render_file);
-                        if (is_dir($check_inner)){
-                            $in_file =$check_inner . DS . 'inner.php';
+                        if (is_dir($check_inner)) {
+                            $in_file = $check_inner . DS . 'inner.php';
                             $in_file = normalize_path($in_file, false);
                             if (is_file($in_file)) {
                                 $render_file = $in_file;
@@ -1544,7 +1544,7 @@ class Content
                     if (defined('MAIN_PAGE_ID') == false) {
                         define('MAIN_PAGE_ID', $inherit_from_id);
                     }
-                    //$inherit_from = $this->app->content->get_by_id($inherit_from_id);
+                    //$inherit_from = $this->get_by_id($inherit_from_id);
                 }
 
                 // d($parent_page_check_if_inherited);
@@ -1880,7 +1880,7 @@ class Content
         //
 
         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-        // $cache_content = false;
+        //$cache_content = false;
 //	if (!isset($_GET['debug'])) {
         if (($cache_content) != false) {
 
@@ -2084,12 +2084,15 @@ class Content
         }
 
         if ($include_first_set != false) {
-            $q = $this->app->content->get("id=" . $include_first_set);
+            $q = $this->get("id=" . $include_first_set);
 
         } else {
-            $q = $this->app->content->get($params2);
+            $q = $this->get($params2);
 
         }
+
+
+
 
         $result = $q;
 
@@ -3652,7 +3655,7 @@ class Content
                         foreach ($check_if_user_can_publish as $item) {
                             if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y') {
                                 $user_cats[] = $item["id"];
-                                $cont_cat = $this->app->content->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
+                                $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
 
 
                             }
@@ -3929,7 +3932,7 @@ class Content
                         foreach ($c1 as $item) {
                             $item = intval($item);
                             if ($item > 0) {
-                                $cont_cat = $this->app->content->get('limit=1&content_type=page&subtype_value=' . $item);
+                                $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item);
                                 //	d($cont_cat);
                                 if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];
@@ -4209,7 +4212,7 @@ class Content
                 return false;
             } elseif ($ustr2 == '' or $ustr2 == '/') {
 
-                $ref_page = $this->app->content->homepage();
+                $ref_page = $this->homepage();
 
             }
 
@@ -4904,7 +4907,7 @@ class Content
 
             if (trim($url) == '' or trim($url) == $this->app->url->site()) {
                 //$page = $this->get_by_url($url);
-                $page = $this->app->content->homepage();
+                $page = $this->homepage();
                 // var_dump($page);
             } else {
 
@@ -5114,7 +5117,7 @@ class Content
 
         switch ($what) {
             case 'shop' :
-                $is_shop = $this->app->content->get('content_type=page&is_shop=y');
+                $is_shop = $this->get('content_type=page&is_shop=y');
                 //$is_shop = false;
                 $new_shop = false;
                 if ($is_shop == false) {
@@ -5153,7 +5156,7 @@ class Content
                     }
                 }
 
-                $posts = $this->app->content->get('content_type=post&parent=' . $new_shop);
+                $posts = $this->get('content_type=post&parent=' . $new_shop);
                 if ($posts == false and $new_shop != false) {
                     $add_page = array();
                     $add_page['id'] = 0;
@@ -5173,7 +5176,7 @@ class Content
 
 
             case 'blog' :
-                $is_shop = $this->app->content->get('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
+                $is_shop = $this->get('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
                 //$is_shop = false;
                 $new_shop = false;
                 if ($is_shop == false) {
@@ -5229,7 +5232,7 @@ class Content
 
             case 'default' :
             case 'install' :
-                $any = $this->app->content->get('count=1&content_type=page&limit=1');
+                $any = $this->get('count=1&content_type=page&limit=1');
                 if (intval($any) == 0) {
 
 

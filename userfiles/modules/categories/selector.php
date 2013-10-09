@@ -261,7 +261,10 @@ if(isset($params['subtype']) and $params['subtype'] == 'post'){
 	unset($tree['is_shop'] );
 }
 } 
+if (isset($params['active_ids'])) {
+	 
 
+}
 mw('content')->pages_tree($tree);
 ?>
 <?php endif; ?>

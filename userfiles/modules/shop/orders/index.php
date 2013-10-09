@@ -228,7 +228,7 @@ $kw = '';
     <script>mw.lib.require("morris");</script>
     <script>
       $(document).ready(function(){
-         mw.on.moduleReload("mw-admin-manage-orders-list", function(){
+         mw.on.moduleReload("<?php print $params['id']; ?>", function(){
              OrdersChart = Morris.Donut({
                 element: 'orders_stat',
                 data: [
