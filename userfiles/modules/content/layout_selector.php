@@ -506,7 +506,8 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 	}
 	 
 	$data['layout_file'] = normalize_path($data['layout_file'], false); 
-	
+	 
+	 
 	?>
 	<?php endif; ?>
 	
@@ -553,8 +554,16 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<?php if( !isset($params['edit_page_id'])): ?>
 			<div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 			<?php else: ?>
-			<div class="mw-overlay mw-overlay-quick-link" onclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-				<div id="preview-edit-links"> <a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
+			<div class="mw-overlay mw-overlay-quick-link"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
+ 			
+				<div id="preview-edit-links"> 
+				
+				
+				<a onclick="mw.templatePreview.zoom();" class="mw-ui-btn" href="javascript:void(0);"> <span class="ico ieditpage"></span><span>
+					<?php _e("Zoom"); ?>
+					</span> </a>
+					
+				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
 					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>
 					<?php _e("Go Live Edit"); ?>

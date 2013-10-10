@@ -20,6 +20,9 @@ $no_parent_title = _e("None",1);;
 if(isset($params['no-parent-title'])){ 
 $no_parent_title = $params['no-parent-title'];
 }
+
+
+d($selected);
 ?> 
 
 <?php 
@@ -58,7 +61,8 @@ $(document).ready(function(){
           if(isset($params['remove_ids'])){
 			    $pt_opts['remove_ids'] = $params['remove_ids'];
           }
-  		  
+  		  			 
+
           $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
           mw('content')->pages_tree($pt_opts);

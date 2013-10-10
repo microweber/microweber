@@ -33,7 +33,7 @@ if($data == false or empty($data )){
 
 
 /* SETTING PARENT AND ACTIVE CATEGORY */
-
+ 
 if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])){
 	
 	  $data['parent'] = $params['parent-page-id'];
@@ -117,7 +117,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
  $module_id = $params['id'];
  
-?>
+?><?php print $data['parent']; ?>
 <?php if($just_saved!=false) : ?>
 
 Well done, you have saved your changes.
@@ -147,7 +147,7 @@ Go to see them at this link <a target="_top" href="<?php print content_link($dat
 		<div class="right"  >
 			<?php if($data['content_type'] == 'page'){ ?>
 			<div class="left">
-				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"   />
+				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>"  />
 			</div>
 			<?php } ?>
 			<div class="right">
