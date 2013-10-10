@@ -260,6 +260,8 @@ mw.tools = {
     },
     init:function(o){
       var o = $.extend({}, mw.tools.modal.settings, o);
+      if(typeof o.content !== 'undefined' && typeof o.html === 'undefined') { o.html = o.content; }
+      if(typeof o.id !== 'undefined' && typeof o.name === 'undefined') { o.name = o.id; }
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
     },
     minimize:function(id){

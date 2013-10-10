@@ -34,7 +34,7 @@
 
             mw.reload_module("content/quick", function(){
             mw.$("#mw-quick-content").height("auto");
-            var frame = mwd.querySelector("#mw-quick-content iframe");
+            var frame = mwd.querySelector("#mw-quick-content iframe.mw-iframe-editor");
             if(frame !== null){
                   frame.onload = function(){
                        mw.$("#mw-quick-content").removeClass("loading")

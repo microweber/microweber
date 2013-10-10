@@ -1,5 +1,5 @@
 <?php
-
+only_admin_access();
 
 $rand = uniqid(); 
 $data = false;
@@ -33,9 +33,14 @@ if($data == false or empty($data )){
 if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])){
 	
 	  $data['parent'] = $params['parent-page-id'];
-	  
+
 	  if(isset($params['subtype']) and $params['subtype'] == 'product'){
-		    $data['parent'] = 0;
+		  	$parent_content = get_content_by_id($params['parent-page-id']);
+			if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 'y'){
+				 $data['parent'] = 0;
+			}
+
+		   
 	  }
 	  
 	   if(isset($params['parent-category-id']) and $params['parent-category-id'] != 0){
@@ -109,18 +114,14 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
  $module_id = $params['id'];
  
 ?>
- 
+
 <form method="post" class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
 	<input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" />
 	<input type="hidden" name="is_active"  value="y" />
 	<input type="text" name="subtype" id="mw-content-subtype-value"   value="<?php print $data['subtype']; ?>" />
 	<input type="hidden" name="content_type" id="mw-content-type-value"   value="<?php print $data['content_type']; ?>" />
 	<input type="text" name="parent"  id="mw-parent-page-value" value="<?php print $data['parent']; ?>" />
-
-		<input type="text" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />
-
-	
-	
+	<input type="text" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />
 	<div class="mw-ui-field-holder">
 		<input
       type="text"
@@ -137,24 +138,18 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 				<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
 			</div>
 			<div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-				
-				
-					<?php if($data['content_type'] == 'page'){ ?>
-					<module type="content/selector" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"   />
-					<?php } ?>
-					<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
-					<module
+				<?php if($data['content_type'] == 'page'){ ?>
+				<module type="content/selector" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"   />
+				<?php } ?>
+				<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
+				<module
                     type="categories/selector"
                     for="content"
 					active_ids="<?php print $data['parent']; ?>"
 					subtype="<?php print $data['subtype']; ?>"
 					categories_active_ids="<?php print $categories_active_ids; ?>"
 					for-id="<?php print $data['id']; ?>" />
-					<?php } ?>
-					
-					
-				 
-					
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -176,28 +171,45 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
           content-subtype="<?php print $data['subtype'] ?>" />
 	</div>
 	<?php } ?>
-	<div class="mw-ui-field-holder">
-		<?php if($data['subtype'] != 'category'){ ?>
-		<span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
+	<div class="mw-ui-field-holder"> <span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
 		<div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
 			<div  class="mw-o-box-content">
-				<module type="pictures/admin" content_id="0" rel="content" rel_id="0" />
+				<module type="pictures/admin" content_id="<?php print $data['id']; ?>" rel="content" rel_id="<?php print $data['id']; ?>" />
 			</div>
 		</div>
-		<?php } ?>
-		
-		
+	</div>
+	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	<?php if($data['content_type'] == 'page'){ ?>
+	<?php if($is_quick==false){ ?>
+	<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+
+	<?php } ?>
+	
+	<?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+	<?php } ?>
+	
+	
+	<?php if($is_quick==false){ ?>
+	<module type="custom_fields/admin"    for="content" rel_id="<?php print $data['id'] ?>" id="fields_for_post_<?php print $rand; ?>" content-subtype="<?php print $data['subtype'] ?>" />
+	
+	<?php  if(trim($data['subtype']) == 'product'): ?>
+	    <?php event_trigger('mw_edit_product_admin', $data); ?>
+	<?php endif; ?>
+	<?php } ?>
+	
+		<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>" />
+
+	<?php if($is_quick==false){ ?>
+	
+	
+	
+	
+	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
+	<?php } ?>
+	
+	<div class="mw-ui-field-holder">
 		<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
 	</div>
 </form>
@@ -317,7 +329,7 @@ set_parent_and_category = function(){
 	
 /* END OF FUNCTIONS */	
 
-</script>
+</script> 
 <script>
 
 
@@ -400,19 +412,4 @@ set_parent_and_category = function(){
 	  
 	  
     });
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</script> 
