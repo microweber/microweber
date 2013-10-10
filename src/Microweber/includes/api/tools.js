@@ -719,55 +719,55 @@ mw.tools = {
   toolbar_slider:{
     off:function(){ return  $(".modules_bar").width() - 60; }, //120,
     ctrl_show_hide:function(){
-      $(".modules_bar").each(function(){
+      mw.$(".modules_bar").each(function(){
           var el = $(this);
           var parent = el.parent();
           if(el.scrollLeft()==0){
-            parent.find(".modules_bar_slide_left").hide();
+            mw.$(".modules_bar_slide_left", this.parentNode).hide();
           }
           else{
-            parent.find(".modules_bar_slide_left").show();
+            mw.$(".modules_bar_slide_left", this.parentNode).show();
           }
           var max = el.width() + el.scrollLeft();
           if(max==this.scrollWidth){
-             parent.find(".modules_bar_slide_right").hide();
+             mw.$(".modules_bar_slide_right", this.parentNode).hide();
           }
           else{
-             parent.find(".modules_bar_slide_right").show();
+             mw.$(".modules_bar_slide_right", this.parentNode).show();
           }
       });
     },
     ctrl_states:function(){
-       $(".modules_bar_slide_right,.modules_bar_slide_left").mousedown(function(){
+       mw.$(".modules_bar_slide_right,.modules_bar_slide_left").mousedown(function(){
          $(this).addClass("active");
        });
-       $(".modules_bar_slide_right,.modules_bar_slide_left").bind("mouseup mouseout",function(){
+       mw.$(".modules_bar_slide_right,.modules_bar_slide_left").bind("mouseup mouseout",function(){
          $(this).removeClass("active");
        });
     },
     slide_left:function(item){
        var item = $(item);
         mw.tools.toolbar_slider.ctrl_show_hide();
-        var left = item.parent().find(".modules_bar").scrollLeft();
-       item.parent().find(".modules_bar").stop().animate({scrollLeft:left-mw.tools.toolbar_slider.off()}, function(){
+        var left =  mw.$(".modules_bar", item[0].parentNode).scrollLeft();
+        mw.$(".modules_bar", item[0].parentNode) .stop().animate({scrollLeft:left-mw.tools.toolbar_slider.off()}, function(){
             mw.tools.toolbar_slider.ctrl_show_hide();
         });
     },
     slide_right:function(item){
       var item = $(item);
        mw.tools.toolbar_slider.ctrl_show_hide();
-       var left = item.parent().find(".modules_bar").scrollLeft();
-       item.parent().find(".modules_bar").stop().animate({scrollLeft:left+mw.tools.toolbar_slider.off()}, function(){
+       var left =  mw.$(".modules_bar", item[0].parentNode).scrollLeft();
+        mw.$(".modules_bar", item[0].parentNode).stop().animate({scrollLeft:left+mw.tools.toolbar_slider.off()}, function(){
              mw.tools.toolbar_slider.ctrl_show_hide();
        });
     },
     init:function(){
-        $(".modules_bar").scrollLeft(0);
+        mw.$(".modules_bar").scrollLeft(0);
         mw.tools.toolbar_slider.ctrl_show_hide();
-        $(".modules_bar_slide_left").click(function(){
+        mw.$(".modules_bar_slide_left").click(function(){
             mw.tools.toolbar_slider.slide_left(this);
         }).disableSelection();
-        $(".modules_bar_slide_right").click(function(){
+        mw.$(".modules_bar_slide_right").click(function(){
             mw.tools.toolbar_slider.slide_right(this);
         }).disableSelection();
         mw.tools.toolbar_slider.ctrl_states();

@@ -293,11 +293,21 @@ mw.toolbar = {
 }
 
 
-
+mw.setLiveEditor = function(){
+  $(mwd.querySelector('.editor_wrapper_tabled')).css({
+    marginLeft:$(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true),
+    marginRight:$(mwd.querySelector('#mw-toolbar-right')).outerWidth(true),
+    left:0,
+    width:$(window).width() - $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) - $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)
+  })
+}
 
 
 
 $(window).load(function(){
+
+
+mw.setLiveEditor();
 
 
 
@@ -311,30 +321,10 @@ $(window).load(function(){
 
     mw.toolbar.center_icons();
 
-
-  //mw.image.resize.init(".edit img");
   mw.image.resize.init(".element-image");
 
 
-
-    //mw.$("#live_edit_toolbar_holder").height(mw.$("#live_edit_toolbar").height());
-
-    $(window).bind("scrollstop",function(){
-      setTimeout(function(){
-      if(mw.isDrag && mw.$(".ui-draggable-dragging").css("position")=='relative'){
-        var curr_el = mw.$(".ui-draggable-dragging").css("position", "static");
-        var offset = curr_el.offset();
-        curr_el.css("position", "relative");
-        var scroll_top = $(window).scrollTop();
-        curr_el.css({
-          top:mw.mouse.y-offset.top+(scroll_top)+30
-        });
-      }  }, 100);
-    });
-
-
-
-    $(document.body).mousedown(function(event){
+    $(mwd.body).mousedown(function(event){
 
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
@@ -412,6 +402,7 @@ $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
     mw.designTool.position();
+    mw.setLiveEditor();
 });
 
 mw.preview = function(){

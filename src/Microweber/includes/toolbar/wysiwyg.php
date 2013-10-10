@@ -63,10 +63,8 @@
           </div>
 
 
-        <div class="editor_wrapper ">
+        <div class="editor_wrapper editor_wrapper_tabled">
             <div class="wysiwyyg-table">
-
-
                 <div class="wysiwyyg-cell">
                   <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
                   <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
@@ -74,16 +72,14 @@
                 <div class="wysiwyyg-cell">
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
-
-
-                  <div class="wysiwyyg-cell">
+                <div class="wysiwyyg-cell">
                     <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
-                  </div>
+                </div>
                 <div class="wysiwyyg-cell">
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
                         <span class="mw_dropdown_val_holder">
@@ -168,7 +164,7 @@
                       <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
                       <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
                </div>
-
+              <div class="wysiwyyg-cell">
                  <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
                     <span class="mw_dropdown_val_holder">
                         <span class="dd_rte_arr"></span>
@@ -183,9 +179,14 @@
                     </ul>
                   </div>
                 </div>
-                <span  onclick="mw.drag.save(this)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn left" id="editor_save" style="display: none;margin-left:12px;">Save</span>
+                </div>
+                <div class="wysiwyyg-cell">
+                <?php for($i=0;$i<100;$i++){  ?>
+                    <span data-command="removeformat" class="mw_editor_btn mw_editor_remove_formatting"><span class="ed-ico"></span></span>
+                 <?php } ?>
+                </div>
                  <?php event_trigger('mw_editor_btn'); ?>
-                <span class="mwwysiwygscaleController"></span>
+
             </div>
         </div>
 

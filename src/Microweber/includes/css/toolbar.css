@@ -1061,6 +1061,8 @@ li .ts_action_item:last-child{
 .toolbar-sections-tabs{
   float: left;
   position: relative;
+  z-index: 2;
+  background:  #F5F5F5;
 }
 
 [class*='tst-']{
@@ -1162,15 +1164,38 @@ li .ts_action_item:last-child{
 .live_editor_wrapper{
     margin: auto
 }
+
+.editor_wrapper_tabled{
+  display: inline-block;
+  position: absolute;
+}
+
 .wysiwyyg-table{
   display: table;
   padding-top: 12px;
+  position: relative;
+  left: 0;
 }
 .wysiwyyg-table > .wysiwyyg-cell{
   display: table-cell;
-  vertical-align: top;
+  vertical-align: middle;
   float: none;
   border-right: 1px solid #FFFFFF;
+  border-left: 1px solid #D1D1D1;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+
+.wysiwyyg-table > .wysiwyyg-cell:first-child{
+  border-left: none
+}
+.wysiwyyg-table > .wysiwyyg-cell:last-child{
+  border-right: none
+}
+
+
+.wysiwyyg-table > .wysiwyyg-cell > *{
+  float: none;
 }
 
 

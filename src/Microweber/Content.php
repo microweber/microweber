@@ -1865,7 +1865,7 @@ class Content
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . CONTENT_ID . PAGE_ID;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . CONTENT_ID . PAGE_ID.$parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
         } else {
@@ -1880,7 +1880,7 @@ class Content
         //
 
         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-        //$cache_content = false;
+     //   $cache_content = false;
 //	if (!isset($_GET['debug'])) {
         if (($cache_content) != false) {
 
@@ -2092,8 +2092,6 @@ class Content
         }
 
 
-
-
         $result = $q;
 
         if (is_array($result) and !empty($result)) {
@@ -2182,6 +2180,8 @@ class Content
                         //}
                         if ($item['id'] == CONTENT_ID) {
                             $active_class = 'active';
+                        } elseif (isset($active_ids) and !is_array($active_ids) and $item['id'] == $active_ids) {
+                            $active_class = 'active';
                         } elseif ($item['id'] == PAGE_ID) {
                             $active_class = 'active';
                         } elseif ($item['id'] == POST_ID) {
@@ -2252,36 +2252,34 @@ class Content
                             $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
                         }
                         $res_count++;
-                        if (is_array($active_ids) == true) {
-
+                        if (isset($active_ids) and is_array($active_ids) == true) {
                             $is_there_active_ids = false;
-
                             foreach ($active_ids as $active_id) {
-
                                 if (intval($item['id']) == intval($active_id)) {
-
                                     $is_there_active_ids = true;
-
                                     $to_print = str_ireplace('{active_code}', $active_code, $to_print);
                                     $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
                                     $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
                                     $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
                                 }
                             }
-
-                            if ($is_there_active_ids == false) {
-
-                                $to_print = str_ireplace('{active_code}', '', $to_print);
-                                $to_print = str_ireplace('{active_class}', '', $to_print);
-                                $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
-                                $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
+                        } else if (isset($active_ids) and !is_array($active_ids)) {
+                            if (intval($item['id']) == intval($active_ids)) {
+                                $is_there_active_ids = true;
+                                $to_print = str_ireplace('{active_code}', $active_code, $to_print);
+                                $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
+                                $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
+                                $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
                             }
-                        } else {
-
-                            $to_print = str_ireplace('{active_code}', '', $to_print);
-                            $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
-                            $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
                         }
+
+
+                        $to_print = str_ireplace('{active_code}', '', $to_print);
+                        $to_print = str_ireplace('{active_class}', '', $to_print);
+                        $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
+                        $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
+
+
                         $to_print = str_replace('{exteded_classes}', '', $to_print);
 
                         if (is_array($remove_ids) == true) {
