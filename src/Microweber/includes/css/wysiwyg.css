@@ -87,11 +87,9 @@
   padding: 0px 20px;
 
 }
-#mw-text-editor .editor_wrapper{
-   min-width: 830px;
-}
 
-.mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyg-component-active > .mw_editor_btn{
+
+.mw_editor_btn:hover, .mw_editor_btn_active{
   border: 1px solid #D2D2D2;
   padding: 0;
   background: url(../img/grad.php?top=F3F3F3&bot=E5E5E5);
@@ -301,9 +299,7 @@
    margin-right: 6px;
    margin-top: 12px;
 }
-.wysiwyg-component-title .dd_rte_arr {
-  margin:6px 3px 0 6px;
-}
+
 
 .mw_dropdown_type_wysiwyg .mw_dropdown_fields{
   top: 22px;
@@ -423,60 +419,9 @@
 
 
 
-.wysiwyg-component{
-  float: left;
-  display: inline-block;
-  position: relative;
-}
-
-.wysiwyg-component-title{
-  display: none;
-  cursor: pointer;
-  position: relative;
-  padding: 6px;
-  font-size: 11px;
-}
-.wysiwyg-component-items{
-  display: inline-block;
-  position: relative;
-}
-
-
-.wysiwyg-component-activated .wysiwyg-component-title{
-  display: inline-block;
-}
-.wysiwyg-component-activated .wysiwyg-component-items{
-  display: none;
-}
 
 
 
-
-
-
-.wg-1 .wysiwyg-component-title{
-    display: inline-block;
-  }
-.wg-1 .wysiwyg-component-items{
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  padding: 10px;
-  background: #F5F5F5;
-  box-shadow: 0 0 3px #D2D2D2;
-}
-.wg-1.wysiwyg-component-active .wysiwyg-component-items{
-  display: block;
-}
-
-
-.mwwysiwygscaleController{
-  position: absolute;
-  width:1px;
-  height:12px;
-  overflow: hidden;
-}
 
 
 /*  End WYSIWYG  */

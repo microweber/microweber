@@ -268,60 +268,18 @@ PagesFrameSRCSet = false;
 
 
 $(document).ready(function(){
-
-
-
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
-
-
-
-    mw.on.hashParam("tab", function(){
-      mw.tools.sidebar();
-      mw.$("#mw_tabs_small .mw-dropdown-list").hide();
-      setTimeout(function(){
-        mw.$("#mw_tabs_small .mw-dropdown-list").show();
-      }, 222);
-      var tab = this;
-      if(tab==false){
-        mw.url.windowHashParam('tab', 'modules');
-        mw.$("#mw_small_menu_text").html('Modules');
-        return false;
+    mw.$(".edit a, #mw-toolbar-right a").click(function(){
+      var el = this;
+      if(!el.isContentEditable){
+          if(el.onclick === null){
+            if(!(el.href.indexOf("javascript:") === 0 || el.href == '#' || $(el).attr("href").indexOf('#') == 0 || typeof el.attributes['href'] == 'undefined')){
+               return mw.beforeleave(this.href);
+            }
+          }
       }
-      mw.$("#mw_small_menu_text").html(this);
-      mw.$(".mw_toolbar_tab").removeClass("mw_tab_active");
-      mw.$("#tab_"+tab).addClass("mw_tab_active");
-      mw.$("#mw_tabs li").removeClass("active");
-      mw.$("#mw_tabs li#t_"+tab).addClass("active");
- });
-
-
-
-
-
-
-
- mw.$(".edit a, #mw-toolbar-right a").click(function(){
-  var el = this;
-
-  if(!el.isContentEditable){
-      if(el.onclick === null){
-        if(!(el.href.indexOf("javascript:") === 0 || el.href == '#' || $(el).attr("href").indexOf('#') == 0 || typeof el.attributes['href'] == 'undefined')){
-
-           return mw.beforeleave(this.href);
-      }
-      }
-
-  }
-
-
- });
-
-
-
-
-
-
+    });
 });
 
 mw.toolbar = {
@@ -415,13 +373,6 @@ $(window).load(function(){
             mw.$("#mw_small_editor").visible().draggable({ disabled: false });
             mw.$("#mw-text-editor").invisible() ;
             mw.$("#mw-text-editor").removeClass("hover");
-            if(mwd.getElementById('mw_toolbar_nav').style.display == 'none'){
-              mwd.body.style.paddingTop = "";
-            }
-            else{
-                mwd.body.style.paddingTop = (mw.toolbar.max - mw.$("#mw-text-editor").height()) + 'px';
-            }
-
         }
     });
     $(document.body).mouseup(function(event){
@@ -434,26 +385,10 @@ $(window).load(function(){
              mw.target.tag!='img' &&
              mw.target.item.className!='image_change' && $(mw.image_resizer).hasClass("active")){
            $(mw.image_resizer).removeClass("active");
-
-
-           //mw.$("#module_design_selector").setDropdownValue("#tb_el_style", true);
-
         }
     });
 
-
-
-
-
-   if(mw.hash()==='' || mw.url.getHashParams(mw.hash()).tab===undefined){
-     mw.url.windowHashParam("tab", "modules");
-   }
-
-
    mw.tools.sidebar();
-
-
-
 
 if(typeof mw.hasDraft === 'object'){
    var html = ""
@@ -473,28 +408,15 @@ if(typeof mw.hasDraft === 'object'){
 
 });
 
-
-
-
-
-
-
-
-
-
 $(window).resize(function(){
     mw.tools.module_slider.scale();
     mw.tools.toolbar_slider.ctrl_show_hide();
     mw.designTool.position();
 });
 
-
-
-
 mw.preview = function(){
     var url = mw.url.removeHash(window.location.href);
     var url = mw.url.set_param('preview', true, url);
-
     window.open(url, '_blank');
     window.focus();
 }
@@ -513,5 +435,53 @@ mw.iphonePreview = function(){
     });
     mw.tools.modal.overlay();
 }
+
+mw.quick = {
+          w : 700,
+          h : 500,
+          page : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Page'
+           });
+        },
+
+		 page_2 : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Page'
+           });
+        },
+
+
+        post : function(){
+            mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_post',
+              title:'New Post'
+            });
+        },
+        product : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-product&subtype=product",
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_product',
+              title:'New Product'
+           });
+        }
+    }
 
 

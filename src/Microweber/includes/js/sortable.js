@@ -268,12 +268,7 @@ mw.drag = {
                     mw.SmallEditorIsDragging = false;
                     mw.smallEditor.invisible();
                     mw.bigEditor.visible();
-                   if(mwd.getElementById('mw_toolbar_nav').style.display == 'none'){
-                      mwd.body.style.paddingTop = mw.$("#mw-text-editor").height() + 'px';
-                    }
-                    else{
-                        mwd.body.style.paddingTop = mw.toolbar.max + 'px';
-                    }
+
                    mw.smallEditor.draggable({ disabled: true });
                 }
            }

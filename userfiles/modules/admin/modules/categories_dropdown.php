@@ -1,21 +1,12 @@
-<?php $rand = crc32($params['id']);
+<?php
+$rand = crc32($params['id']);
 if(isset($params['data-for'])){
-	
-$for =  $for2 =	$params['data-for'];
-} else {
-$for = 'modules';
-$for2 = 'module';	
+    $for =  $for2 =	$params['data-for'];
 }
-
-
-
-
-
-
-
- 
-
-
+else {
+  $for = 'modules';
+  $for2 = 'module';
+}
 ?>
 
 <div class="mw_dropdown mw_dropdown_type_navigation left mw_dropdown_autocomplete" id="<?php print $for2 ?>_category_selector" data-value='all'>
@@ -23,15 +14,7 @@ $for2 = 'module';
 <input style="width: 102px;" type="text" id="dd_<?php print $for2 ?>_search" class="mw-ui-field dd_search" />
   <div class="mw_dropdown_fields">
     <ul>
-
       <li data-category-id="all"><a href="#"><?php _e("All"); ?></a></li>
-      
-
-
-
-
-
-
       <li class="dd_custom" style="display: none" value="-1"><a style="text-decoration: underline" href="#"></a></li>
       <li>
         <module

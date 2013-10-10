@@ -187,7 +187,19 @@ Go to see them at this link <a target="_top" href="<?php print content_link($dat
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php } ?>
 	<div class="mw-ui-field-holder">
-		<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
+		<span class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
+
+	<?php
+	
+	 
+	 if(intval($data['id']) != 0){ ?>
+	 	
+			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
+
+	<?php } else { ?>
+			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
+
+	<?php } ?>
 	</div>
 	<a class="mw-ui-more" onclick="mw.tools.toggle('#quick_init_gallery', this);"  href="javascript:;">
 	<?php _e('Pictures'); ?>
@@ -297,11 +309,36 @@ mw.edit_content.load_editor  = function(element_id){
 	 
 
 }
-
+mw.edit_content.before_save = function(){
+	mw.askusertostay=false;
+	if(window.parent != undefined && window.parent.mw != undefined){
+		window.parent.mw.askusertostay=false;
+	}
+}
 mw.edit_content.after_save = function(){
+	
+	mw.askusertostay=false;
+ 
+			
+			
+	var content_id =  mw.$('#mw-content-id-value').val();
+ 
+	if(content_id == 0){
+	mw.reload_module('#<?php print $module_id ?>');
+ 	}
+		
+		
+	if(window.parent != undefined && window.parent.mw != undefined){
+    window.parent.mw.reload_module('posts');
+    window.parent.mw.reload_module('shop/products');
+    window.parent.mw.reload_module('content');
+	window.parent.mw.reload_module('pages');
+
+	window.parent.mw.askusertostay=false;
+	
+	}		
 
 	mw.reload_module('[data-type="pages"]', function(){
-
         if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
             mw.$("#pages_tree_toolbar").removeClass("activated");
             mw.treeRenderer.appendUI('#pages_tree_toolbar');
@@ -309,6 +346,9 @@ mw.edit_content.after_save = function(){
         }
 
      });
+	 
+	 
+	 
 
 }
 
@@ -363,34 +403,17 @@ mw.edit_content.render_category_tree = function(){
 		}
 	
 }
-/* END OF FUNCTIONS */	
-
-</script> 
-<script>
 
 
+mw.edit_content.handle_form_submit = function(go_live){
+		var el = this;
+		var go_live_edit = go_live || false;
+		var el = mwd.getElementById('quickform-<?php print $rand; ?>');
+		if(el == null){
+		return;	
+		}
+		mw.edit_content.before_save();
 
-    
-/* ON DOCUMENT READY */	
-
-
-    $(document).ready(function(){
-		 mw.edit_content.load_editor();
-		 <?php if($just_saved!=false) : ?>
-		 mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
-		 mw.askusertostay=false;
-			if(window.parent != undefined && window.parent.mw != undefined){
-			window.parent.mw.askusertostay=false;
-			} 
-	
-	
-	
-		 <?php endif; ?>
-		 mw.edit_content.render_category_tree();
-
-	
-      mw.$("#quickform-<?php print $rand; ?>").submit(function(){
-        var el = this;
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
         module.addClass('loading');
@@ -398,17 +421,22 @@ mw.edit_content.render_category_tree = function(){
           onSuccess:function(){
              // el.reset();
              // $(editor).contents().find("#mw-iframe-editor-area").empty();
-			 
-			 mw.edit_content.after_save();
-			 
+	 
+			if(go_live_edit != false){
+				 
+				   
+				   $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
+					 window.top.location.href = data+'/editmode:y';
+				
+				   });
+				 
+			} else {
 			 mw.$("#<?php print $module_id ?>").attr("content-id",this);
 			 mw.$("#<?php print $module_id ?>").attr("just-saved",this);
-
-			 mw.reload_module('#<?php print $module_id ?>');
+			 mw.edit_content.after_save();
+			}
+			
  
-				  
-				  
-				  
 				  
           },
           onError:function(){
@@ -426,24 +454,33 @@ mw.edit_content.render_category_tree = function(){
               }
           }
         })
+	
+}
+/* END OF FUNCTIONS */	
+
+</script> 
+<script>
+    
+/* ON DOCUMENT READY */	
+    $(document).ready(function(){
+		 mw.edit_content.load_editor();
+		 <?php if($just_saved!=false) : ?>
+		 mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
+		 <?php endif; ?>
+		 mw.edit_content.render_category_tree();
+	
+      mw.$("#quickform-<?php print $rand; ?>").submit(function(){
+        mw.edit_content.handle_form_submit();
         return false;
       });
 	  
 	  
-	  
-	  
-	  
-	  
-	 /* reloading the layout selector on parent change */	
-	 mw.$('#mw-parent-page-value').bind('change', function(e){
- 			 mw.edit_content.load_editor();
-
-  	});
+		/* reloading the editor on parent change */	
+		 mw.$('#mw-parent-page-value').bind('change', function(e){
+				 mw.edit_content.load_editor();
 	
+		});
 	
-	
- 
-	  
 	  
 	  
     });

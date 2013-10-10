@@ -44,169 +44,41 @@
           $back_url = $_COOKIE['back_to_admin'];
     }
 ?>
-<div id="mw-toolbar-right" class="mw-defaults">
-    <div class="mw-ui-dropdown right" id="history_dd">
-      <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("Drafts"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
-      <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
-        <ul class="mw-dropdown-list">
-            <li>
-                <div id="mw-history-panel"></div>
-            </li>
-        </ul>
-      </div>
-    </div>
-    <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
-    <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
-      <div class="mw-dropdown-content" style="width: 155px;">
-        <ul class="mw-dropdown-list">
-        <li>
-            <a title="Back to Admin" class="mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
-            <div class="mw_clear"></div>
-        </li>
-          <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
-          <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
-          <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-          <?php $pub_or_inpub  = mw('content')->get_by_id(CONTENT_ID); ?>
-          <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
-          <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
-          <?php endif; ?>
-          <li><a href="<?php print mw('url')->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
-        </ul>
-      </div>
-    </div>
-</div>
-
-
 
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
-
-  <?php if(!$basic_mode): ?>
-
-
-
-
-
-
-
-
-
-
-
-    <div id="tab_pages" class="mw_toolbar_tab">
-
-
-
-
-    <script>
-
-
-
-
-
-    mw.quick = {
-          w : 700,
-          h : 500,
-          page : function(){
-           mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
-              template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              title:'New Page'
-           });
-        },
-		
-		 page_2 : function(){
-           mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
-              template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              title:'New Page'
-           });
-        },
-		
-		
-        post : function(){
-            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
-              template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_post',
-              title:'New Post'
-            });
-        },
-        product : function(){
-           mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-product&subtype=product",
-              template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_product',
-              title:'New Product'
-           });
-        }
-    }
-
-
-
-    </script>
-
-       <div id="liveedit_add_new_content">
-
-
-
-
-
-					
-       </div>
-    </div>
-
-    <div id="tab_style_editor" class="mw_toolbar_tab">
-      <?php //include( 'toolbar_tag_editor.php') ; ?>
-    </div>
-
-
-    <?php endif; ?>
-
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-
-
-
     <div id="modules-and-layouts">
+
+         <div class="toolbars-search">
+             <div class="mw-autocomplete">
+                <input type="mwautocomplete" class="mwtb-search" />
+             </div>
+             <div class="mw-autocomplete">
+                <input type="mwautocomplete" class="mwtb-search" />
+             </div>
+         </div>
+
         <div id="tab_modules" class="mw_toolbar_tab">
-           <?php /* <microweber module="admin/modules/categories_dropdown" no_wrap="true" template="liveedit_toolbar" /> */ ?>
             <div class ="modules_bar_slider bar_slider">
               <div class="modules_bar">
-                <microweber module="admin/modules/list" />
+                <module type="admin/modules/list" />
               </div>
               <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span>
             </div>
             <div class="mw_clear">&nbsp;</div>
         </div>
         <div id="tab_layouts" class="mw_toolbar_tab">
-         <?php /* <microweber module="admin/modules/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />   */?>
           <div class="modules_bar_slider bar_slider">
             <div class="modules_bar">
-              <microweber module="admin/modules/list_layouts" />
+              <module type="admin/modules/list_layouts" />
             </div>
             <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span>
           </div>
         </div>
     </div>
-
-
-
-
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
-
     <div id="mw-saving-loader"></div>
-
-
   </div>
 
   <!-- /end .mw -->

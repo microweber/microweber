@@ -375,20 +375,6 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
   height: 28px;
 }
 
-#liveedit_add_new_content{
-  position: relative;
-  padding: 17px 23px;
-}
-
-#liveedit_add_new_content a.mw-ui-btn{
-    margin-right: 12px;
-    height: 18px;
-    padding: 10px 10px 7px;
-}
-
-#liveedit_add_new_content > a.mw-ui-btn > .mw-ui-btn-plus{
-  margin-top: 5px;
-}
 
 
 img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
@@ -412,6 +398,13 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 .isTyping .mw-empty{
   visibility: hidden;
+}
+
+
+
+
+.mwtb-search{
+
 }
 
 

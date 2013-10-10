@@ -289,21 +289,8 @@ body.cross{
 }
 
 #mw-toolbar-right{
-  display: inline-block;
-  position: fixed;
-  top: 6px;
-  right: 80px;
-  z-index: 999;
-  width: 400px;
-}
-#mw-toolbar-right .mw-ui-btn{
-  margin: 4px 10px 0 0 ;
-  float: right;
-}
-
-html.mw_pages #show_hide_sub_panel,
-html.mw_pages #mw-toolbar-right{
-  display: none;
+    float: right;
+    background: #F5F5F5;
 }
 
 html.mw_pages #mw_toolbar_nav{

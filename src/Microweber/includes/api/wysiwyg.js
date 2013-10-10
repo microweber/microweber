@@ -1264,17 +1264,7 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
 
 
 
-mw.$(".wysiwyg-component-title").bind("click", function(){
-   var el = this;
-   var parent = mw.tools.firstParentWithClass(this, 'wysiwyg-component');
-   var all =  mwd.querySelectorAll("#mw-text-editor .wysiwyg-component"), l=all.length,i=0;
-   for(; i<l;i++){
-      if(all[i]!==parent){
-         mw.tools.removeClass(all[i], 'wysiwyg-component-active');
-      }
-   }
-   $(parent).toggleClass('wysiwyg-component-active');
-});
+
 
 
 });
@@ -1371,19 +1361,7 @@ $(window).load(function(){
   });
 
 
-  mw.onLive(function(){
-       mw.$("#mw-text-editor .editor_wrapper").width(9999)
-       mw.wysiwyg.decreaseController(mwd.getElementById('mw-text-editor'));
 
-       mw.$("#mw-text-editor .editor_wrapper").width('auto');
-
-       $(mww).bind("decreaseWidth", function(e){
-            mw.wysiwyg.decreaseController(mwd.getElementById('mw-text-editor'));
-       });
-       $(mww).bind("increaseWidth", function(e){
-               mw.wysiwyg.increaseController(mwd.getElementById('mw-text-editor'));
-       });
-  });
 
 
 
@@ -1395,42 +1373,6 @@ $(window).load(function(){
 
 
 
-mw.wysiwyg.decreaseController = function(editor){
-	
-	if(typeof editor  !== "undefined" && editor !== null){
-		return;
-	}
-	
-	
-    var ex = 100;
-    var i =  editor.querySelector('.mwwysiwygscaleController');
-    var w = $(editor).width();
-    var w1 = $(i).offset().left;
-    if((w1 + ex) >= w &&  typeof $(editor).data("wg1") =='undefined' && !$(editor).hasClass("decreased")){
-      $(editor).addClass("decreased");
-      $(editor).data("wg1", w);
-      mw.$(".wysiwyg-component", editor).addClass("wg-1");
-    }
-}
 
-mw.wysiwyg.increaseController = function(editor){
-	
-	if(typeof editor  !== "undefined" && editor !== null){
-		return;
-	}
-	
-	
-    var ex = 100;
-    var i =  editor.querySelector('.mwwysiwygscaleController');
-    var w = $(editor).width();
-    if(typeof  $(editor).data("wg1") !='undefined' && $(editor).data("wg1") < (w)){
-      $(editor).removeClass("decreased");
-      $.removeData(editor, "wg1")
-      mw.$(".wysiwyg-component", editor).removeClass("wg-1");
-    }
-     if(($(i).offset().left + ex) > w){
-         mw.wysiwyg.decreaseController(editor);
-      }
-}
 
 
