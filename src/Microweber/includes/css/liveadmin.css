@@ -183,10 +183,8 @@ body.cross{
 #mw_toolbar_nav{
     width: 100%;
     min-width: 700px;
-    height:52px;
     position: relative;
     z-index: 12;
-    background: url(../img/navbg.jpg) repeat-x;
 }
 
 #mw_toolbar_nav.mw-small-toolbar{

@@ -1,21 +1,27 @@
 <div id="mw-text-editor" class="mw-defaults mw_editor">
+        <div class="toolbar-sections-tabs">
+            <ul>
+              <li><a href="javascript:;" class="tst-logo" title="Microweber"><span>Microweber</span></a></li>
+              <li>
+                <a href="javascript:;" class="tst-add" title="Create or manage your content"><span>Create or manage your content</span></a>
+                <ul>
+                  <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
+                  <li><a href="javascript:;"onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
+                  <li><a href="javascript:;"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
+                  <li><a href="javascript:;"><span>BROWSE MY SITE</span></a></li>
+                </ul>
+              </li>
+              <li><a href="#tab=modules" onclick="mw.url.windowHashParam('tab', 'modules');return false;" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
+              <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
+            </ul>
+         </div>
         <div class="editor_wrapper">
-
-        <div class="low-res-hider">
-
             <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-
-
             <span class="mw_dlm"></span>
-
-
-        </div>
-
             <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
-
             <span class="mw_dlm"></span>
-
             <div class="wysiwyg-component">
               <div class="mw_editor_btn">
                 <div class="wysiwyg-component-title"><span class="wyswyg-ico mw_editor_bold"></span><span class="dd_rte_arr"></span> Font Style</div>
@@ -29,9 +35,7 @@
                 <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
               </div>
             </div>
-
             <span class="mw_dlm"></span>
-
             <div class="wysiwyg-component">
               <div class="mw_editor_btn"><div class="wysiwyg-component-title">
               <span class="wyswyg-ico mw_editor_ol"></span>
@@ -72,8 +76,6 @@
               </div>
             </div>*/ ?>
 
-
-
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw_dropdown_val_holder">
                   <span class="dd_rte_arr"></span>
@@ -89,12 +91,7 @@
                 </ul>
               </div>
             </div>
-
-
-
-
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
-
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val">10pt</span>
@@ -111,30 +108,16 @@
                 </ul>
               </div>
             </div>
-
-
-               <span class="mw_dlm"></span>
-
-
+            <span class="mw_dlm"></span>
             <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
-
             <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
-
-
              <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
              <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
             </div>
             </div>
-
-
-
-
-
             <span class="mw_dlm"></span>
-
-
             <div class="wysiwyg-component">
               <div class="mw_editor_btn"><div class="wysiwyg-component-title">
               <span class="wyswyg-ico mw_editor_justifyleft"></span>
@@ -160,22 +143,9 @@
             <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
 
              </div> </div>
-
-
-
-
-
-
-
-
-
-            <?php /* <span class="mw_editor_btn mw_editor_design mw_ex_tools" title="Show/Hide Design Tools" href="#design_bnav"><span class="ed-ico"></span>Design</span> */ ?>
-
-            <span class="mw_dlm"></span>
-
+           <span class="mw_dlm"></span>
              <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert"
              id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
-
                 <span class="mw_dropdown_val_holder">
                     <span class="dd_rte_arr"></span>
                     <span class="mw_dropdown_val"><?php _e("Insert"); ?></span>
@@ -192,22 +162,8 @@
 
 
             <span class="mw_dlm"></span>
-
-
-
-            <span class="mw-ui-btn mw-ui-btn-medium mw_ex_tools left" style="border-radius:0;" title="<?php _e("Show/Hide Design Tools"); ?>" href="#design_bnav"><span class="ico ico-extools"></span><?php _e("Design"); ?></span>
-
-
             <span  onclick="mw.drag.save(this)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn left" id="editor_save" style="display: none;margin-left:12px;">Save</span>
-
-
-
              <?php event_trigger('mw_editor_btn'); ?>
-
             <span class="mwwysiwygscaleController"></span>
         </div>
-
-
-
-
     </div>

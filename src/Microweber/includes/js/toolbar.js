@@ -477,62 +477,7 @@ if(typeof mw.hasDraft === 'object'){
 
 
 
-mw.toggle_subpanel = function(){
-  var _speed = 200;
-  var el = mw.$("#show_hide_sub_panel");
-  if(el.hasClass("state-off")){
-     el.removeClass("state-off");
-     mw.$("#show_hide_sub_panel_slider").animate({left:0}, _speed);
-     mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
-       $(this).css({left:'auto'}).html(mw.msg.less).fadeIn(_speed);
-     });
-     mw.$(".mw_tab_active").slideDown(_speed);
-     mw.$("#mw_toolbar_nav").slideDown(_speed, function(){
-        mw.$("#mw-toolbar-right").css("top", 6);
-        mw.$("#show_hide_sub_panel").css("top", 16);
-     });
 
-     if(mwd.getElementById('mw-text-editor').style.visibility == 'hidden'){
-        $(mwd.body).animate({paddingTop:mw.toolbar.max - mw.$("#mw-text-editor").height()});
-     }
-     else{
-        $(mwd.body).animate({paddingTop:mw.toolbar.max});
-     }
-
-
-
-     mw.$("#mw-toolbar-right").show();
-     mw.$("#editor_save").hide();
-  }
-  else{
-    el.addClass("state-off");
-    mw.$("#show_hide_sub_panel_slider").animate({left:35}, _speed);
-    mw.$("#show_hide_sub_panel_info").fadeOut(_speed, function(){
-      $(this).css({left:3}).html(mw.msg.more).fadeIn(_speed);
-    });
-
-    mw.$(".mw_tab_active").slideUp(_speed);
-    mw.$("#mw_toolbar_nav").slideUp(_speed, function(){
-       mw.$("#mw-toolbar-right").css("top", 0);
-       mw.$("#show_hide_sub_panel").css("top", 10);
-       mw.$("#editor_save").fadeIn();
-    });
-
-
-
-
-    if(mwd.getElementById('mw-text-editor').style.visibility == 'hidden'){
-       $(mwd.body).animate({paddingTop:0});
-    }
-    else{
-      $(mwd.body).animate({paddingTop:mw.$("#mw-text-editor").height()});
-    }
-
-
-    mw.$("#mw-toolbar-right").hide();
-
-  }
-}
 
 
 
@@ -552,20 +497,11 @@ mw.preview = function(){
 
     window.open(url, '_blank');
     window.focus();
-
-   /*
-    mw.tools.modal.frame({
-      url:url,
-      width:$(window).width(),
-      height:$(window).height()
-    }); */
 }
 
 mw.iphonePreview = function(){
     var url = mw.url.removeHash(window.location.href);
     var url = mw.url.set_param('preview', true, url);
-
-
     mw.tools.modal.frame({
       url:url,
       width:382,
@@ -575,7 +511,6 @@ mw.iphonePreview = function(){
       height:592,
       template:'modal-iphone'
     });
-
     mw.tools.modal.overlay();
 }
 

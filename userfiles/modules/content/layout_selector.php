@@ -459,9 +459,7 @@ $(document).ready(function() {
 
 <div class="layout_selector_wrap">
 	<div class="vSpace"></div>
-	<?php
-	 d($data['layout_file']);
-	 ?>
+	 
 	<?php
 if(defined('ACTIVE_SITE_TEMPLATE')){
  

@@ -16,8 +16,10 @@ $selected = intval($params['selected-id']);
 }
 
 $rand=uniqid();
-
-
+$no_parent_title = _e("None",1);;
+if(isset($params['no-parent-title'])){ 
+$no_parent_title = $params['no-parent-title'];
+}
 ?> 
 
 <?php 
@@ -43,9 +45,9 @@ $(document).ready(function(){
 	
 	
 <?php } ?> 
-<select name="<?php print $field_name ?>" class="selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>">
-	<option value="0"   <?php if((0 == intval($selected))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("None"); ?>">
-	<?php _e("None"); ?>
+<select name="<?php print $field_name ?>" class="selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>" title="Select a parent page">
+	<option value="0"   <?php if((0 == intval($selected))): ?>   selected="selected"  <?php endif; ?>>
+	<?php print $no_parent_title ?>
 	</option>
 	<?php
 		  $pt_opts  = array();

@@ -3,11 +3,15 @@ only_admin_access();
 
 $rand = uniqid(); 
 $data = false;
+$just_saved = false;
 //$data = $params;
 $is_new_content = false;
 if(!isset($is_quick)){
 $is_quick=false;	
 }
+if(isset($params['just-saved'])){
+  $just_saved = $params['just-saved'];
+} 
 if(isset($params['page-id'])){
   $data = mw('content')->get_by_id(intval($params["page-id"]));
 } 
@@ -114,14 +118,18 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
  $module_id = $params['id'];
  
 ?>
+<?php if($just_saved!=false) : ?>
 
+Well done, you have saved your changes.
+
+Go to see them at this link <a target="_top" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a> Or create new content  
+<?php endif; ?>
 <form method="post" class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
 	<input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" />
-	<input type="hidden" name="is_active"  value="y" />
-	<input type="text" name="subtype" id="mw-content-subtype-value"   value="<?php print $data['subtype']; ?>" />
+	<input type="hidden" name="subtype" id="mw-content-subtype-value"   value="<?php print $data['subtype']; ?>" />
 	<input type="hidden" name="content_type" id="mw-content-type-value"   value="<?php print $data['content_type']; ?>" />
-	<input type="text" name="parent"  id="mw-parent-page-value" value="<?php print $data['parent']; ?>" />
-	<input type="text" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />
+	<input type="hidden" name="parent"  id="mw-parent-page-value" value="<?php print $data['parent']; ?>" />
+	<input type="hidden" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />
 	<div class="mw-ui-field-holder">
 		<input
       type="text"
@@ -133,14 +141,30 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
       autofocus required />
 	</div>
 	<div class="mw-ui-field-holder">
+		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
+			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
+			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
+		<div class="right"  >
+			<?php if($data['content_type'] == 'page'){ ?>
+			<div class="left">
+				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"   />
+			</div>
+			<?php } ?>
+			<div class="right">
+				<select name="is_active">
+					<option <?php if($data['is_active'] != 'n'): ?> selected="selected" <?php endif; ?> value="y">Published</option>
+					<option <?php if($data['is_active'] == 'n'): ?> selected="selected" <?php endif; ?>value="n">Unpublished</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
+	<div class="mw-ui-field-holder">
 		<div>
 			<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
 				<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
 			</div>
 			<div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-				<?php if($data['content_type'] == 'page'){ ?>
-				<module type="content/selector" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"   />
-				<?php } ?>
 				<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
 				<module
                     type="categories/selector"
@@ -153,6 +177,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 			</div>
 		</div>
 	</div>
+	<?php } ?>
 	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'){ ?>
 	<div class="mw-ui-field-holder">
 		<textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
@@ -161,57 +186,57 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	<?php if($data['content_type'] == 'page'){ ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php } ?>
-	<?php if($data['subtype'] == 'product'){ ?>
-	<div class="mw-ui-field-holder">
-		<module
-          type="custom_fields/admin"
-          for="content"
-          default-fields="price"
-          content-id="0"
-          content-subtype="<?php print $data['subtype'] ?>" />
-	</div>
-	<?php } ?>
-	<div class="mw-ui-field-holder"> <span class="mw-ui-link relative" id="quick-add-gallery" onclick="mw.$('#quick_init_gallery').show();$(this).hide();">Create Gallery</span>
-		<div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
-			<div  class="mw-o-box-content">
-				<module type="pictures/admin" content_id="<?php print $data['id']; ?>" rel="content" rel_id="<?php print $data['id']; ?>" />
-			</div>
-		</div>
-	</div>
-	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
-
-	
-	<?php if($data['content_type'] == 'page'){ ?>
-	<?php if($is_quick==false){ ?>
-	<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-
-	<?php } ?>
-	
-	<?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-	<?php } ?>
-	
-	
-	<?php if($is_quick==false){ ?>
-	<module type="custom_fields/admin"    for="content" rel_id="<?php print $data['id'] ?>" id="fields_for_post_<?php print $rand; ?>" content-subtype="<?php print $data['subtype'] ?>" />
-	
-	<?php  if(trim($data['subtype']) == 'product'): ?>
-	    <?php event_trigger('mw_edit_product_admin', $data); ?>
-	<?php endif; ?>
-	<?php } ?>
-	
-		<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>" />
-
-	<?php if($is_quick==false){ ?>
-	
-	
-	
-	
-	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
-	<?php } ?>
-	
 	<div class="mw-ui-field-holder">
 		<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
 	</div>
+	<a class="mw-ui-more" onclick="mw.tools.toggle('#quick_init_gallery', this);"  href="javascript:;">
+	<?php _e('Pictures'); ?>
+	</a>
+	<div id="quick_init_gallery" class="mw-o-box" style="display: none;margin-bottom:20px;">
+		<div  class="mw-o-box-content">
+		<microweber module="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+		</div>
+	</div>
+	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+	<?php if($data['content_type'] == 'page'){ ?>
+	<?php if($is_quick==false){ ?>
+	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-menu-settings-holder-wrap', this);"  href="javascript:;">
+	<?php _e('Add to navigation menu'); ?>
+	</a>
+	<div id="edit-menu-settings-holder-wrap" style="display: none;">
+		<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+	</div>
+	<?php } ?>
+	<?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+	<?php } ?>
+	<?php if($is_quick==false){ ?>
+	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-custom-fields-holder-wrap', this);"  href="javascript:;">
+	<?php _e("Custom fields"); ?>
+	</a>
+	<div id="edit-custom-fields-holder-wrap" style="display: none;">
+		<module type="custom_fields/admin"    
+		<?php if(trim($data['subtype']) == 'product'): ?> default-fields="price" <?php endif; ?>
+		content-id="<?php print $data['id'] ?>" 
+		id="fields_for_post_<?php print $rand; ?>" 	 />
+	</div>
+	<?php  if(trim($data['subtype']) == 'product'): ?>
+	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-product-options-holder-wrap', this);"  href="javascript:;">
+	<?php _e("Product options"); ?>
+	</a>
+	<div id="edit-product-options-holder-wrap" style="display: none;">
+		<?php event_trigger('mw_edit_product_admin', $data); ?>
+	</div>
+	<?php endif; ?>
+	<?php } ?>
+	<?php if($is_quick==false){ ?>
+	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-advanced-settings-holder-wrap', this);"  href="javascript:;">
+	<?php _e('Advanced Settings'); ?>
+	</a>
+	<div id="edit-advanced-settings-holder-wrap" style="display: none;">
+	<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>" />
+	<div>
+	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
+	<?php } ?>
 </form>
 <div class="quick_done_alert" style="display: none">
 	<h2><span style="text-transform: capitalize"><?php print $data['subtype'] ?></span> has been created.</h2>
@@ -224,23 +249,22 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 /* FUNCTIONS */
 
 
-load_iframe_editor =   function(element_id){
+
+mw.edit_content = {};
+
+mw.edit_content.load_editor  = function(element_id){
 
 
 
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
 	 var area = mwd.getElementById(element_id);
 	 
-	 
-	 
 	 var parent_page =  mw.$('#mw-parent-page-value').val();
 	 var content_id =  mw.$('#mw-content-id-value').val();
 	 var content_type =  mw.$('#mw-content-type-value').val();
 	 var subtype =  mw.$('#mw-content-subtype-value').val();
 
-	 
-	
-
+	 	
 	 if(area !== null){
 		var params = {};
 		params.content_id=content_id
@@ -253,16 +277,11 @@ load_iframe_editor =   function(element_id){
 			  delete window.editor 
 			 
 		}
-		
-		
-		
-
+ 
 		editor =  mw.tools.wysiwyg(area,params ,true);
         editor.style.width = "100%";
         editor.style.height = "470px";
-		
-
-
+ 
 
 	 }
 	 
@@ -279,9 +298,9 @@ load_iframe_editor =   function(element_id){
 
 }
 
-content_after_save = function(){
+mw.edit_content.after_save = function(){
 
-mw.reload_module('[data-type="pages"]', function(){
+	mw.reload_module('[data-type="pages"]', function(){
 
         if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
             mw.$("#pages_tree_toolbar").removeClass("activated");
@@ -293,7 +312,7 @@ mw.reload_module('[data-type="pages"]', function(){
 
 }
 
-set_parent_and_category = function(){
+mw.edit_content.set_category = function(){
       /* FILLING UP THE HIDDEN FIELDS as you change category or parent page */	
 	  
 	  var names = [];
@@ -326,20 +345,7 @@ set_parent_and_category = function(){
 	  
     }
 	
-	
-/* END OF FUNCTIONS */	
-
-</script> 
-<script>
-
-
-
-    
-
-
-
-    $(document).ready(function(){
-		 load_iframe_editor();
+mw.edit_content.render_category_tree = function(){
 		if(mw.treeRenderer != undefined){
 			   mw.treeRenderer.appendUI('#mw-category-selector-<?php print $rand; ?>');
 			   mw.tools.tag({
@@ -348,15 +354,41 @@ set_parent_and_category = function(){
 				  itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
 				  method:'parse',
 				  onTag:function(){
-					 set_parent_and_category()
+					 mw.edit_content.set_category()
 				  },
 				  onUntag:function(){
-					 set_parent_and_category()
+					 mw.edit_content.set_category()
 				  }
 			  });
-		  
-		  
 		}
+	
+}
+/* END OF FUNCTIONS */	
+
+</script> 
+<script>
+
+
+
+    
+/* ON DOCUMENT READY */	
+
+
+    $(document).ready(function(){
+		 mw.edit_content.load_editor();
+		 <?php if($just_saved!=false) : ?>
+		 mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
+		 mw.askusertostay=false;
+			if(window.parent != undefined && window.parent.mw != undefined){
+			window.parent.mw.askusertostay=false;
+			} 
+	
+	
+	
+		 <?php endif; ?>
+		 mw.edit_content.render_category_tree();
+
+	
       mw.$("#quickform-<?php print $rand; ?>").submit(function(){
         var el = this;
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
@@ -367,9 +399,11 @@ set_parent_and_category = function(){
              // el.reset();
              // $(editor).contents().find("#mw-iframe-editor-area").empty();
 			 
-			 content_after_save();
+			 mw.edit_content.after_save();
 			 
 			 mw.$("#<?php print $module_id ?>").attr("content-id",this);
+			 mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+
 			 mw.reload_module('#<?php print $module_id ?>');
  
 				  
@@ -402,14 +436,17 @@ set_parent_and_category = function(){
 	  
 	 /* reloading the layout selector on parent change */	
 	 mw.$('#mw-parent-page-value').bind('change', function(e){
-			 //var val = $(this).val();
-			 //alert(val);
-			 load_iframe_editor();
+ 			 mw.edit_content.load_editor();
 
   	});
+	
+	
+	
  
 	  
 	  
 	  
     });
+	
+/* END OF ON DOCUMENT READY */		
 </script> 

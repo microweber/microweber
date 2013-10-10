@@ -116,8 +116,7 @@ $(document).ready(function(){
 <div class="<?php print $config['module_class'] ?>-holder">
 
 
-
-
+ 
 
 <module
     data-type="custom_fields/list"

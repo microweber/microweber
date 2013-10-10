@@ -79,14 +79,12 @@
   cursor: pointer;
   height: 25px;
   padding: 1px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
 }
 
 
 .editor_wrapper{
-  padding: 4px 20px;
+  padding: 0px 20px;
 
 }
 #mw-text-editor .editor_wrapper{
@@ -197,10 +195,6 @@
   background-position: center center;
 }
 
-
-
-
-
 .mw_editor_element .ed-ico{background-position: -637px 4px;}
 
 .mw_editor_design .ed-ico{background-position: -667px 4px;}
@@ -208,8 +202,6 @@
 .wysiwyg_checker{
   display: none;;
 }
-
-
 
 .mw_dlm{
   margin-left: 10px;
@@ -224,9 +216,7 @@
   height: 68px;
   border:1px solid #DCDCDC;
   background: #F5F5F5;
-  -webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
+  border-radius: 3px;
 }
 
 #mw_small_editor .mw_dlm{
@@ -246,10 +236,6 @@ border-radius: 3px;
 .mw_small_editor_top{
   border-bottom: 1px solid #DCDCDC;
 }
-
-
-
-
 
 .mw_dropdown_type_wysiwyg {
     height:25px;
@@ -272,10 +258,10 @@ border-radius: 3px;
   color: #125287;
 }
 
- .mw_dropdown_type_wysiwyg_blue:hover, .mw_dropdown_type_wysiwyg_blue.hovered{
+.mw_dropdown_type_wysiwyg_blue:hover, .mw_dropdown_type_wysiwyg_blue.hovered{
   background: url(../img/grad.php?top=CDE1FB&bot=81BDEF);
   border-color:#8EC4F0;
- }
+}
 
 .mw_dropdown_type_wysiwyg ul{
   padding: 0;
@@ -328,22 +314,17 @@ border-radius: 3px;
   padding: 5px 0;
   border:1px solid #D2D2D2;
   box-shadow:inset -2px -2px 2px #F6F6F6;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-   border-radius: 3px;
-   background: white;
-
-    max-height: 230px;
-    text-overflow:ellipsis;
-    overflow-x: hidden;
-    overflow-y: auto;
+  border-radius: 3px;
+  background: white;
+  max-height: 230px;
+  text-overflow:ellipsis;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-
 
 .mw_dropdown_action_font_size{
   width: 55px;
 }
-
 .mw_dropdown_action_font_size .mw_dropdown_val{
   width: 27px;
 }
@@ -435,24 +416,7 @@ border-radius: 3px;
 }
 
 
-/*
 
-@media (max-width: 1140px) {
-  .wysiwyg-low-res-hider{
-        display: none;
-  }
-}
-@media (max-width: 1030px) {
-  .wysiwyg-lower-res-hider{
-        display: none;
-  }
-}
-
-@media (max-width: 1000px) {
-  .wysiwyg-small-res-hider{
-        display: none;
-  }
-}  */
 
 
 

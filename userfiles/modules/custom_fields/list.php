@@ -60,12 +60,7 @@ if(isset($params['default-fields'])){
 }
 
 	$more = mw('fields')->get($for,$params['for_module_id'],1,false,false);
- if(isset($params['save_to_content_id']) and intval($params['save_to_content_id'] )== 0){
-	  // 	$more = mw('fields')->get($for,$params['for_module_id'],1,false,false, false, true);
-
-		   }
-
- // d($diff);
+ 
  $custom_custom_field_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
     $i=0;
