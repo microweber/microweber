@@ -16,10 +16,6 @@ mw.pauseSave = false;
 
 mw.askusertostay = false;
 
-
-
-
-
   if (top === self){
     window.onbeforeunload = function() {
 

@@ -502,12 +502,12 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 	
 	$is_layout_file_set = 1; 
 	if($data['layout_file'] == 'inherit'){
-		$is_layout_file_set = false;
+		$is_layout_file_set = 1;
 	}
 	 
 	$data['layout_file'] = normalize_path($data['layout_file'], false); 
-	 
-	 
+	
+	//d($data['layout_file']);
 	?>
 	<?php endif; ?>
 	
@@ -549,6 +549,11 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<div class="preview_frame_ctrls">
 				<?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
 				<span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
+			
+			<?php  else : ?>
+			<div class="preview_frame_ctrls">
+				 
+			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
 			<?php endif; ?>
 			<div class="preview_frame_container"></div>
 			<?php if( !isset($params['edit_page_id'])): ?>

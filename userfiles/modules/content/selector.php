@@ -22,7 +22,7 @@ $no_parent_title = $params['no-parent-title'];
 }
 
 
-d($selected);
+ 
 ?> 
 
 <?php 

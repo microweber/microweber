@@ -63,7 +63,7 @@
           </div>
 
 
-        <div class="editor_wrapper editor_wrapper_tabled">
+        <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
             <div class="wysiwyyg-table">
                 <div class="wysiwyyg-cell">
                   <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
@@ -73,18 +73,21 @@
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
                 <div class="wysiwyyg-cell">
-                    <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
+                    <div class="wysiwyyg-cell-limitter" style="width: 40px;overflow:hidden;white-space: nowrap" onmouseenter="$(this).width('auto');mw.$('.qqq', this).hide()" onmouseleave="$(this).width('40');mw.$('.qqq', this).show()">
+                        <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
+                        <span class="qqq" style="top: -7px;position: relative;left: -8px;">...</span>
+                        <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
+                    </div>
                 </div>
                 <div class="wysiwyyg-cell">
-                    <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
+                    <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val"><?php _e("Format"); ?></span>
+                            <span class="mw_dropdown_val" style="width: 65px;"><?php _e("Format"); ?></span>
                         </span>
                       <div class="mw_dropdown_fields">
                         <ul>
@@ -189,13 +192,17 @@
 
             </div>
         </div>
-
-
-
-
-
-
-
-
-
     </div>
+
+
+    <script>
+
+        mw.liveEditWYSIWYG = {
+          step:function(){ return  }
+        }
+
+
+
+
+
+    </script>

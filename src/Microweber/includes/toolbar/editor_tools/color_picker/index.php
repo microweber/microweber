@@ -84,6 +84,7 @@
             var color = mw.color.rgbToHex(document_colors[x]);
             if(color != 'transparent'){
               span.style.background = color;
+              span.title = color.toUpperCase();
               span.setAttribute('onclick', '_do("'+color.replace(/#/g, '')+'");');
             }
             f.appendChild(span);

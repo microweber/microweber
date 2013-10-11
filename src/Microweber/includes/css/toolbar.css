@@ -1194,7 +1194,7 @@ li .ts_action_item:last-child{
 }
 
 
-.wysiwyyg-table > .wysiwyyg-cell > *{
+.wysiwyyg-table > .wysiwyyg-cell > *, .wysiwyyg-table .wysiwyyg-cell-limitter > *{
   float: none;
 }
 
