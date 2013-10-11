@@ -51,7 +51,15 @@ if($module_template != false and $module_template != 'none'){
 	$for_id =  CONTENT_ID;
 	 
  }
+ $content_data = content_data($for_id);
+ $in_stock = true;
  
+ 
+ if(isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval($content_data['qty']) == 0){
+	 
+	 $in_stock = false; 
+ }
+  
 ?>
 <?php if($for_id !== false): ?>
 
