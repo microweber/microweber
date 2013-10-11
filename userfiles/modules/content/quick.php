@@ -1,6 +1,10 @@
 <?php
 only_admin_access();
 
+ 
+
+
+
 $rand = uniqid(); 
 $data = false;
 $just_saved = false;
@@ -117,19 +121,19 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
  $module_id = $params['id'];
  
-?><?php print $data['parent']; ?>
+?> 
 <?php if($just_saved!=false) : ?>
 
 Well done, you have saved your changes.
 
-Go to see them at this link <a target="_top" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a> Or create new content  
+Go to see them at this link <a target="_top" class="btn" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a> Or create new content  
 <?php endif; ?>
 <form method="post" class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
 	<input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" />
 	<input type="hidden" name="subtype" id="mw-content-subtype-value"   value="<?php print $data['subtype']; ?>" />
 	<input type="hidden" name="content_type" id="mw-content-type-value"   value="<?php print $data['content_type']; ?>" />
 	<input type="hidden" name="parent"  id="mw-parent-page-value" value="<?php print $data['parent']; ?>" />
-	<input type="hidden" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />
+<!--	<input type="hidden" name="is_shop"  id="mw-is-shop-value" value="<?php print $data['is_shop']; ?>" />-->
 	<div class="mw-ui-field-holder">
 		<input
       type="text"
@@ -187,7 +191,7 @@ Go to see them at this link <a target="_top" href="<?php print content_link($dat
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php } ?>
 	<div class="mw-ui-field-holder">
-		<span class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
+		
 
 	<?php
 	
@@ -200,6 +204,11 @@ Go to see them at this link <a target="_top" href="<?php print content_link($dat
 			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
 
 	<?php } ?>
+	
+	
+	<span class="mw-ui-btn go-live right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
+	
+	
 	</div>
 	<a class="mw-ui-more" onclick="mw.tools.toggle('#quick_init_gallery', this);"  href="javascript:;">
 	<?php _e('Pictures'); ?>

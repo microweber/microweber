@@ -408,6 +408,11 @@ mw.wysiwyg = {
 
            if(event.keyCode == 46 || event.keyCode == 8){
 
+           if(mw.current_element.innerHTML == ''){
+                 $(mw.current_element).remove();
+                 return false;
+           }
+
               if( r.cloneContents().querySelector(".module") !== null ||
                     mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
                     mw.tools.hasParentsWithClass(r.commonAncestorContaner, 'module')){

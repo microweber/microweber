@@ -31,8 +31,15 @@
               .empty()
               .addClass("loading")
               .dataset("subtype", $(this.querySelector('span')).dataset("subtype"));
-
-            mw.reload_module("content/quick", function(){
+			var module_to_load = "content/quick";
+			var st = $(this.querySelector('span')).dataset("subtype");
+			if(st == 'category'){
+			 var module_to_load = "categories/edit_category";
+			}
+			mw.$("#mw-quick-content").attr("data-type",module_to_load);
+			
+			
+            mw.reload_module('#mw-quick-content', function(){
             mw.$("#mw-quick-content").height("auto");
             var frame = mwd.querySelector("#mw-quick-content iframe.mw-iframe-editor");
             if(frame !== null){

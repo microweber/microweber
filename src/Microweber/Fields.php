@@ -444,7 +444,7 @@ class Fields
 
 
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
-
+//d($is_made);
         if ($is_made == 'yes') {
             return;
         }

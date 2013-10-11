@@ -28,6 +28,8 @@
               </li>
               <li><a href="javascript:;" onclick="mw.$('#tab_modules').toggleClass('active');" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
+              <li><a href="javascript:;" class="liveedit_wysiwyg_prev tst-" onclick="mw.liveEditWYSIWYG.slideLeft();"><b style="font-size:20px;position:relative;top:11px;">&lsaquo;</b></a></li>
+              <li><a href="javascript:;" class="liveedit_wysiwyg_next tst-" onclick="mw.liveEditWYSIWYG.slideRight();"><b style="font-size:20px;position:relative;top:11px;">&rsaquo;</b></a></li>
             </ul>
          </div>
           <div id="mw-toolbar-right" class="mw-defaults">
@@ -73,9 +75,8 @@
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
                 <div class="wysiwyyg-cell">
-                    <div class="wysiwyyg-cell-limitter" style="width: 40px;overflow:hidden;white-space: nowrap" onmouseenter="$(this).width('auto');mw.$('.qqq', this).hide()" onmouseleave="$(this).width('40');mw.$('.qqq', this).show()">
+                    <div class="wysiwyyg-cell-limitter" data-min="">
                         <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
-                        <span class="qqq" style="top: -7px;position: relative;left: -8px;">...</span>
                         <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
@@ -183,11 +184,7 @@
                   </div>
                 </div>
                 </div>
-                <div class="wysiwyyg-cell">
-                <?php for($i=0;$i<100;$i++){  ?>
-                    <span data-command="removeformat" class="mw_editor_btn mw_editor_remove_formatting"><span class="ed-ico"></span></span>
-                 <?php } ?>
-                </div>
+
                  <?php event_trigger('mw_editor_btn'); ?>
 
             </div>
@@ -196,13 +193,57 @@
 
 
     <script>
-
         mw.liveEditWYSIWYG = {
-          step:function(){ return  }
+          ed:mwd.getElementById('liveedit_wysiwyg'),
+          nextBTNS:mw.$(".liveedit_wysiwyg_next"),
+          prevBTNS:mw.$(".liveedit_wysiwyg_prev"),
+          step:function(){ return  $(mw.liveEditWYSIWYG.ed).width(); },
+          denied:false,
+          buttons:function(){
+            var b = mw.tools.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
+            if(b.left){
+               mw.liveEditWYSIWYG.prevBTNS.show();
+            }
+            else{
+              mw.liveEditWYSIWYG.prevBTNS.hide();
+            }
+            if(b.right){
+               mw.liveEditWYSIWYG.nextBTNS.show();
+            }
+            else{
+              mw.liveEditWYSIWYG.nextBTNS.hide();
+            }
+          },
+          slideLeft:function(){
+             if(!mw.liveEditWYSIWYG.denied){
+               mw.liveEditWYSIWYG.denied = true;
+               var el = mw.liveEditWYSIWYG.ed.firstElementChild;
+               var to = mw.tools.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+               $(el).animate({left: to}, function(){
+                 mw.liveEditWYSIWYG.denied = false;
+                 mw.liveEditWYSIWYG.buttons();
+               });
+             }
+          },
+          slideRight:function(){
+            if(!mw.liveEditWYSIWYG.denied){
+               mw.liveEditWYSIWYG.denied = true;
+               var el = mw.liveEditWYSIWYG.ed.firstElementChild;
+               var to = mw.tools.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+               $(el).animate({left: to}, function(){
+                    mw.liveEditWYSIWYG.denied = false;
+                    mw.liveEditWYSIWYG.buttons();
+               });
+            }
+          }
         }
-
-
-
-
-
+        $(document).ready(function(){
+          mw.liveEditWYSIWYG.buttons();
+          $(window).bind("resize", function(){
+              var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
+              if(!!n){
+                    mw.liveEditWYSIWYG.slideRight();
+              }
+          })
+        })
     </script>

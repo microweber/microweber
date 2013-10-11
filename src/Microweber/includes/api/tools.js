@@ -2132,7 +2132,6 @@ mw.tools = {
     var context = canvas.getContext("2d");
     context.fillStyle = "#EF3D25";
     context.fillRect(0, 0, 16, 16);
-
     context.font = "normal 10px Arial";
     context.textAlign = 'center';
     context.textBaseline = 'middle';
@@ -2146,7 +2145,67 @@ mw.tools = {
     l.href = im;
     mw.$(".mwfav").remove();
     mwd.getElementsByTagName('head')[0].appendChild(l);
-  }
+  },
+  calc:{
+    SliderButtonsNeeded:function(parent){
+        var t  = {left:false,right:false};
+        var el = parent.firstElementChild;
+        if( $(parent).width() > $(el).width() ) return t;
+        var a  = $(parent).offset().left + $(parent).width();
+        var b = $(el).offset().left + $(el).width();
+        if(b>a){
+          t.right = true;
+        }
+        if($(el).offset().left < $(parent).offset().left){
+          t.left = true;
+        }
+        return t;
+    },
+    SliderNormalize:function(parent){
+        var el = parent.firstElementChild;
+        var a = $(parent).offset().left + $(parent).width();
+        var b = $(el).offset().left + $(el).width();
+        if(b<a){
+            return (a-b);
+        }
+        return false;
+    },
+    SliderNext:function(parent, step){
+       var el = parent.firstElementChild;
+       if( $(parent).width() > $(el).width() ) return 0;
+       var a = $(parent).offset().left + $(parent).width();
+       var b = $(el).offset().left + $(el).width();
+       var step = step || $(parent).width();
+       var curr = parseFloat(window.getComputedStyle(el, null).left);
+       if(a<b){
+           if((b-step)>a){
+                return (curr-step);
+           }
+           else{
+               return curr-(b-a);
+           }
+       }
+       else{
+          return curr-(b-a);
+       }
+    },
+    SliderPrev:function(parent, step){
+       var el = parent.firstElementChild;
+       var step = step || $(parent).width();
+       var curr = parseFloat(window.getComputedStyle(el, null).left);
+       if(curr < 0){
+        if((curr+step) < 0 ){
+          return (curr+step);
+        }
+        else{
+           return 0;
+        }
+       }
+       else{
+         return 0;
+       }
+    }
+  } // .calc
 }
 
 

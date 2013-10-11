@@ -65,7 +65,7 @@ if($data == false or empty($data )){
 		<?php _e("Is Shop"); ?>
 		<small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
 	<label class="mw-ui-check">
-		<input name="is_shop" type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
+		<input name="is_shop"  type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
 		<span></span><span>
 		<?php _e("No"); ?>
 		</span></label>

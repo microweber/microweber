@@ -3,6 +3,7 @@ if(typeof mw === 'undefined'){
 
 
 
+
 mw = {}
 
 
@@ -480,6 +481,7 @@ mw.askusertostay = false;
   }
 
   mw.$ = function(selector, context) {
+    if(typeof selector === 'object'){ return jQuery(selector); }
     var context = context || mwd;
     if (typeof mwd.querySelector !== 'undefined') {
       if (typeof selector === 'string') {

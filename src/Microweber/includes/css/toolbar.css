@@ -1061,7 +1061,7 @@ li .ts_action_item:last-child{
 .toolbar-sections-tabs{
   float: left;
   position: relative;
-  z-index: 2;
+  z-index: 12;
   background:  #F5F5F5;
 }
 

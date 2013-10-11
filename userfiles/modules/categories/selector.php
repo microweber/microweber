@@ -265,6 +265,7 @@ if (isset($params['active_ids'])) {
 	 
 
 }
+ 
 mw('content')->pages_tree($tree);
 ?>
 <?php endif; ?>
@@ -300,4 +301,4 @@ mw('content')->pages_tree($tree);
 ?>
 <?php $cats_str = implode(',', $active_cats); ?>
 
-<input type="text" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />
+<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />
