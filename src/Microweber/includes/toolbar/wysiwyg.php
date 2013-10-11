@@ -21,18 +21,22 @@
                 <ul>
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
-                  <li><a href="javascript:;"onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
                   <li><a href="javascript:;"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
                   <li><a href="javascript:;"><span>BROWSE MY SITE</span></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span>Edit Current</span></a></li>
                 </ul>
               </li>
               <li><a href="javascript:;" onclick="mw.$('#tab_modules').toggleClass('active');" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
-              <li><a href="javascript:;" class="liveedit_wysiwyg_prev tst-" onclick="mw.liveEditWYSIWYG.slideLeft();"><b style="font-size:20px;position:relative;top:11px;">&lsaquo;</b></a></li>
-              <li><a href="javascript:;" class="liveedit_wysiwyg_next tst-" onclick="mw.liveEditWYSIWYG.slideRight();"><b style="font-size:20px;position:relative;top:11px;">&rsaquo;</b></a></li>
+
+              <li>
+                <span class="liveedit_wysiwyg_prev" id="liveedit_wysiwyg_main_prev"  title="<?php _e("Previous"); ?>" onclick="mw.liveEditWYSIWYG.slideLeft();"></span></li>
+
             </ul>
          </div>
           <div id="mw-toolbar-right" class="mw-defaults">
+              <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next"  title="<?php _e("Next"); ?>" onclick="mw.liveEditWYSIWYG.slideRight();"></span>
               <div class="mw-ui-dropdown right" id="history_dd">
                 <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("Drafts"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
                 <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
@@ -235,11 +239,15 @@
                     mw.liveEditWYSIWYG.buttons();
                });
             }
+          },
+          scale:function(){
+
           }
         }
-        $(document).ready(function(){
+        $(window).load(function(){
           mw.liveEditWYSIWYG.buttons();
           $(window).bind("resize", function(){
+            mw.liveEditWYSIWYG.buttons();
               var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
               if(!!n){
                     mw.liveEditWYSIWYG.slideRight();

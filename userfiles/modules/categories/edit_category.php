@@ -180,7 +180,10 @@ $(document).ready(function(){
 	</div>
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 	<input type="submit" class="semi hidden" name="save" />
-	<microweber module="custom_fields" view="admin" for="categories" id="<?php print ($data['id'])?>" />
+
+
+
+
 	<div class="post-save-bottom">
 		<input type="submit" name="save" class="semi_hidden"  value="<?php _e("Save"); ?>" />
 		<div class="vSpace"></div>

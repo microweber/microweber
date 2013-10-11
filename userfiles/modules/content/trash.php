@@ -4,48 +4,10 @@ $is_momodule_comments = is_module('comments');
 
 $post_params = $params;
 
-if (isset($post_params['id'])) {
-  $paging_param = 'curent_page' . crc32($post_params['id']);
-  unset($post_params['id']);
-} else {
-  $paging_param = 'curent_page';
-}
+ 
 
-if (isset($post_params['paging_param'])) {
-	$paging_param = $post_params['paging_param'];
-}
-
-
-if (isset($params['curent_page'])) {
-	$curent_page = $params['curent_page'];
-}
-
-if (isset($post_params['data-page-number'])) {
-
-  $post_params['curent_page'] = $post_params['data-page-number'];
-  unset($post_params['data-page-number']);
-}
-
-
-
-if (isset($post_params['data-category-id'])) {
-
-  $post_params['category'] = $post_params['data-category-id'];
-  unset($post_params['data-category-id']);
-}
-
-
-
-
-
-
-if (isset($params['data-paging-param'])) {
-
-  $paging_param = $params['data-paging-param'];
-
-}
-
-
+ 
+ 
 
 
 
@@ -76,62 +38,7 @@ if (isset($post_params['data-page-id'])) {
   $cfg_page_id = get_option('data-page-id', $params['id']);
 
 }
-$posts_parent_category = false;
-if(isset($post_params['category'])){
-	$posts_parent_category = $post_params['category'];
-}
-
-if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
- $sub_cats = array();
-
- if($posts_parent_category != false ){
-   $page_categories = false;
-   if(intval($cfg_page_id) != 0){
-    $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
-    $page_categories = get($str0);
-					// d($page_categories);
-    if(is_array($page_categories)){
-      foreach ($page_categories as $item_cat){
-							//d($item_cat);
-        $sub_cats[] = $item_cat['id'];
-        $more =    get_category_children($item_cat['id']);
-        if($more != false and is_array($more)){
-         foreach ($more as $item_more_subcat){
-          $sub_cats[] = $item_more_subcat;
-        }
-      }
-
-    }
-  }
-}
-
-if($posts_parent_category != false){
-  if(is_array($page_categories)){
-   $sub_cats = array();
-   foreach ($page_categories as $item_cat){
-    if(intval( $item_cat['id'] ) == intval($posts_parent_category) ){
-     $sub_cats = array($posts_parent_category);
-   }
- }
-} else {
-  $sub_cats = array($posts_parent_category);
-}
-}
-
-
-if(is_array($sub_cats)){
-  $post_params['category'] = $sub_cats;
-}
-
-
-}
-$post_params['parent'] = $cfg_page_id;
-
-
-
-
-}
-
+  
 
 
 
@@ -159,9 +66,9 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
-
+$post_params = array();
 $post_params['is_deleted'] = 'y';
-
+ 
 $content   =$data = get_content($post_params);
 ?>
 <?php

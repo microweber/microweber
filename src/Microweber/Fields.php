@@ -444,8 +444,11 @@ class Fields
 
 
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
-//d($is_made);
-        if ($is_made == 'yes') {
+
+
+
+
+        if ($rel_id != '0' and $is_made == 'yes') {
             return;
         }
 
@@ -479,13 +482,13 @@ class Fields
                     }
                 }
 
-
+                if ($rel_id != '0') {
                 $option = array();
                 $option['option_value'] = 'yes';
                 $option['option_key'] = $function_cache_id;
                 $option['option_group'] = 'make_default_custom_fields';
                 $this->app->option->save($option);
-
+                }
 
             }
 

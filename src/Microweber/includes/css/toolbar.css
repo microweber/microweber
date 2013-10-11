@@ -1200,6 +1200,45 @@ li .ts_action_item:last-child{
 
 
 
+#liveedit_wysiwyg_main_prev, #liveedit_wysiwyg_main_next{
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+  width: 25px;
+  height: 50px;
+  position: relative;
+  background-image: url("../img/editor.png");
+  background-repeat: no-repeat;
+}
+
+#liveedit_wysiwyg_main_prev:hover, #liveedit_wysiwyg_main_next:hover,
+#liveedit_wysiwyg_main_prev:focus, #liveedit_wysiwyg_main_next:focus{
+  background-color: #F7F7F7;
+}
+
+#liveedit_wysiwyg_main_prev:active, #liveedit_wysiwyg_main_next:active{
+  background-color: #EBEBEB;
+}
+
+
+#liveedit_wysiwyg_main_prev{
+  box-shadow:6px -4px 20px -9px #777;
+  background-position: -11px 16px;
+
+}
+
+#liveedit_wysiwyg_main_next{
+  box-shadow:-6px -4px 20px -9px #777;
+  background-position: -43px 15px;
+}
+
+
+
+
+
+
+
+
 
 
 

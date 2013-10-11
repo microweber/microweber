@@ -254,7 +254,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 	<?php _e('Advanced Settings'); ?>
 	</a>
 	<div id="edit-advanced-settings-holder-wrap" style="display: none;">
-	<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>" />
+	<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
 	<div>
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 	<?php } ?>

@@ -427,6 +427,9 @@ mw.iphonePreview = function(){
     mw.tools.modal.overlay();
 }
 
+
+
+
 mw.quick = {
           w : 700,
           h : 500,
@@ -440,7 +443,16 @@ mw.quick = {
               title:'New Page'
            });
         },
-
+        edit : function(id){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page&content-id="+id,
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Page'
+           });
+        },
 		 page_2 : function(){
            mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",

@@ -291,7 +291,7 @@ body.cross{
 #mw-toolbar-right{
     float: right;
     background: #F5F5F5;
-    padding: 10px;
+    padding: 0 10px 0px 0;
     position: relative;
     z-index: 12;
 }

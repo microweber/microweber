@@ -2521,6 +2521,10 @@ Array.prototype.exposeToHash = function(name, callback){
     });
 }
 
+Array.min = function(arr){
+    return Math.min.apply(Math, arr);
+};
+
 
 
 

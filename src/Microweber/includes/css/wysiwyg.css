@@ -171,8 +171,13 @@
 .mw_editor_font_color  .ed-ico {background-position: -181px 3px;width: 33px;}
 .mw_editor_font_background_color  .ed-ico {background-position: -215px 6px;width: 33px;}
 
-.mw_editor_undo .ed-ico{background-position: -12px 4px;}
-.mw_editor_redo .ed-ico{background-position: -42px 4px;}
+.mw_editor_undo .ed-ico{background-position: -802px 4px;}
+.mw_editor_redo .ed-ico{background-position: -756px 4px;}
+
+.mw_editor_prev .ed-ico{background-position: -12px 4px;}
+.mw_editor_next .ed-ico{background-position: -42px 4px;}
+
+
 .mw_editor_justifyleft .ed-ico{background-position: -525px 4px;}
 .mw_editor_justifycenter .ed-ico{background-position: -551px 4px;}
 .mw_editor_justifyright .ed-ico{background-position: -577px 4px;}

@@ -13,8 +13,11 @@ if($data == false or empty($data )){
    include('_empty_content_data.php');
 }
 /* END OF FILLING UP EMPTY CONTENT  */
-
-
+$show_page_settings = false;
+if(isset($params['content-type']) and $params['content-type'] == 'page'){
+$show_page_settings = 1;	
+}
+ 
 
 ?>
 
@@ -44,6 +47,7 @@ if($data == false or empty($data )){
 <div class="vSpace"></div>
 <div class="vSpace"></div>
 <div class="mw_clear vSpace"></div>
+<?php if($show_page_settings != false): ?>
 <div class="mw-ui-check-selector">
 	<div class="mw-ui-label left" style="width: 130px">
 		<?php _e("Is Home"); ?>
@@ -76,6 +80,7 @@ if($data == false or empty($data )){
 		</span></label>
 </div>
 <div class="mw_clear vSpace"></div>
+<?php endif; ?>
 <?php  if(isset($data['position'])): ?>
 <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 <?php endif; ?>
