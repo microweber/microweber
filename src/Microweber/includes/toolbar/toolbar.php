@@ -16,10 +16,10 @@
     mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
     mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
 </script>
-<link href="<?php   print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
+<link href="<?php print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
+<link href="<?php print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
+<link href="<?php print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
+<link href="<?php print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
     $(document).ready(function () {
         mw.toolbar.max = 170;
@@ -49,45 +49,37 @@
   <div  id="live_edit_toolbar">
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <div id="modules-and-layouts" style="">
-
-
-
          <div class="toolbars-search">
-
-
             <span
                  class="mw-pin mwt-pin"
-                 data-for="#modules-and-layouts, #tab_modules"></span>
-
+                 data-for="#modules-and-layouts, #tab_modules">
+            </span>
              <div class="mw-autocomplete left">
-                <input
+                 <input
                       type="mwautocomplete"
                       autocomplete="off"
                       id="modules_switcher"
                       data-for="modules"
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
-
-                     <div class="mw-autocomplete-cats mw-autocomplete-cats-modules">
-                        <module
-                            type="categories"
-                            data-no-wrap=1
-                            template="liveedit_toolbar"
-                            data-for="modules" />
-                     </div>
-                     <div class="mw-autocomplete-cats mw-autocomplete-cats-elements">
-                        <module
-                            type="categories"
-                            data-no-wrap=1
-                            template="liveedit_toolbar"
-                            data-for="elements" />
-                     </div>
-                     <div class="mw_clear"></div>
-                     <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
+                 <div class="mw-autocomplete-cats mw-autocomplete-cats-modules">
+                    <module
+                          type="categories"
+                          data-no-wrap=1
+                          template="liveedit_toolbar"
+                          data-for="modules" />
+                 </div>
+                 <div class="mw-autocomplete-cats mw-autocomplete-cats-elements">
+                    <module
+                          type="categories"
+                          data-no-wrap=1
+                          template="liveedit_toolbar"
+                          data-for="elements" />
+                 </div>
+                 <div class="mw_clear"></div>
+                 <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
              </div>
-
          </div>
-
         <div id="tab_modules" class="mw_toolbar_tab">
             <div class ="modules_bar_slider bar_slider">
               <div class="modules_bar">
@@ -109,35 +101,14 @@
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
     <div id="mw-saving-loader"></div>
   </div>
-
-  <!-- /end .mw -->
 </div>
 <?php event_trigger('mw_after_editor_toolbar'); ?>
-<!-- /end mw_holder -->
-
 <?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
-<?php   //include "UI.php"; ?>
-
-
-
-
-
-
-
-
-
-
 <?php } else { ?>
 <script>
-
-
-
-
-
   previewHTML = function(html, index){
       mw.$('.edit').eq(index).html(html);
   }
-
   window.onload = function(){
     if(window.opener !== null){
         window.opener.mw.$('.edit').each(function(i){
@@ -149,10 +120,8 @@
 
 </script>
 <style>
-
 .delete_column{
   display: none;
 }
-
 </style>
 <?php } ?>

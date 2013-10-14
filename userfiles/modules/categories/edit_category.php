@@ -74,6 +74,10 @@ mw.require('forms.js');
 
 
 $(document).ready(function(){
+	
+	
+	mw.category_is_saving = false;
+	
 	//
 	 <?php if(intval($data['id']) == 0): ?>
 	// onload_set_parent_<?php print $form_rand_id ?>();
@@ -92,16 +96,35 @@ $(document).ready(function(){
 
 
 	 mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function() {
-  mw.notification.success("Saving...",10000);
+		 
+		 
+		 
+		 if(mw.category_is_saving == true){
+			 return false;
+		 }
+		 
+		 mw.category_is_saving = true;
+		 $('.mw-cat-save-submit').addClass('disabled');
+		 
+  mw.notification.success("Saving category... Please wait...",10000);
 
  // set_category_parent_<?php print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/save_category') ?>', function(){
 	 
-	 
+	 mw.category_is_saving = false;
 	   mw.notification.success("Category changes are saved");
-	 
+	 		$('.mw-cat-save-submit').removeClass('disabled');
+
 	 
 	 mw.reload_module('[data-type="categories"]');
+	 if(window.parent != undefined && window.parent.mw != undefined){
+    window.parent.mw.reload_module('categories');
+	
+	 }
+	 
+	 
+	 
+	 mw.reload_module('[data-type="categories/manage"]');
      mw.$('[data-type="pages"]').removeClass("activated");
 	  mw.reload_module('[data-type="pages"]', function(){
 	    mw.treeRenderer.appendUI('[data-type="pages"]');
@@ -185,9 +208,9 @@ $(document).ready(function(){
 
 
 	<div class="post-save-bottom">
-		<input type="submit" name="save" class="semi_hidden"  value="<?php _e("Save"); ?>" />
+		<input type="submit" name="save" class="semi_hidden mw-cat-save-submit"    value="<?php _e("Save"); ?>" />
 		<div class="vSpace"></div>
-		<span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">
+		<span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-cat-save-submit">
 		<?php _e("Save"); ?>
 		</span> </div>
 	<div class="vSpace"></div>
