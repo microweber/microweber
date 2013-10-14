@@ -46,7 +46,7 @@ mw.notif_item_delete = function($item_id){
     	  $.get("<?php print site_url('api/Notifications/delete'); ?>?id="+$item_id, function(){
     		 	//mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
 						 	mw.reload_module('admin/notifications');
-							mw.reload_module('#<?php print $params['id'] ?>');
+							//mw.reload_module('#<?php print $params['id'] ?>');
 
     	  });
      });
@@ -59,7 +59,7 @@ mw.notif_item_delete = function($item_id){
 mw.notif_reset_all = function(){
 	 $.get("<?php print site_url('api/Notifications/reset'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
-										mw.reload_module('#<?php print $params['id'] ?>');
+									//	mw.reload_module('#<?php print $params['id'] ?>');
 
 	  });
 }
@@ -68,7 +68,7 @@ mw.notif_reset_all = function(){
 mw.notif_mark_all_as_read = function(){
 	 $.get("<?php print site_url('api/Notifications/mark_all_as_read'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
-										mw.reload_module('#<?php print $params['id'] ?>');
+									//	mw.reload_module('#<?php print $params['id'] ?>');
 
 	  });
 }
@@ -188,6 +188,7 @@ mw.notif_mark_all_as_read = function(){
 	<?php endif; ?>
 </div>
 <?php else : ?>
+<?php if($is_quick == false): ?>
 <div class="mw-o-box" style="width: 500px;text-align: center;margin: 60px auto;">
 	<div class="mw-o-box-header">
 		<h2>
@@ -208,4 +209,5 @@ mw.notif_mark_all_as_read = function(){
 		<?php //print notif('No new notifications available!'); ?>
 	</div>
 </div>
+<?php endif; ?>
 <?php endif; ?>

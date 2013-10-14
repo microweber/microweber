@@ -1147,21 +1147,28 @@ li .ts_action_item:last-child{
 .toolbars-search{
   position: absolute;
   top: 3px;
-  left: 12px;
+  left: 14px;
 }
 
 #modules-and-layouts{
+  position: absolute;
+  top: -9999px;
+}
+#modules-and-layouts.active{
   position: relative;
+  top: 0;
 }
 
 input.mwtb-search{
-  width: 56px;
+  width: 115px;
+  margin: 3px 0;
   border-radius: 0 2px 2px 0;
   padding: 6px 31px 6px 4px;
   border: 1px solid transparent;
   background: url(../img/modules_search.png) no-repeat right top;
   cursor: pointer;
   color: #383838;
+  border: 1px solid #DEDEDE;
 }
 
 .mwtb-search:hover, .mwtb-search:focus, .mwtb-search.active{
@@ -1255,6 +1262,60 @@ input.mwtb-search{
   background: rgba(239, 236, 236, 0.7);
 }
 
+.mw-autocomplete-cats{
+  position: absolute;
+  display: none;
+  top: 30px;
+  left: 0;
+  background: #EBEBEB;
+  z-index: 2;
+  min-width: 100%;
+  border-radius: 0 0 3px 3px;
+}
+.mw-autocomplete-cats li{
+  list-style: none
+}
+
+.mw-autocomplete-cats li a{
+  display: block;
+  padding: 2px 10px;
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.mw-autocomplete-cats li a:hover,
+.mw-autocomplete-cats li a:focus{
+  background: #F7F7F7
+}
+
+.mw-pin{
+  display: inline-block;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background-image: url(../img/pin.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+}
+
+.mw-pin:hover,
+.mw-pin:focus,
+.mw-pin.active{
+  opacity: 1;
+}
+.mw-pin.active{
+  background-image: url(../img/pin.active.png);
+}
+
+.mwt-pin{
+  background-color: #F7F7F7;
+  float: left;
+  width: 24px;
+  height: 31px;
+  margin-right: 5px;
+  margin-top: 3px;
+}
 
 
 

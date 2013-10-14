@@ -60,33 +60,7 @@ mw.$("#elements_category_selector").change(function(){
     (val!=-1&&val!="-1") ? mw.tools.toolbar_sorter(Modules_List_elements, val):'';
 });
 
-mw.$("#dd_module_search, #dd_elements_search").bind("keyup paste", function(event){
-       var val = this.value;
 
-
-       var a = this.parentNode.querySelector(".dd_custom a")
-       var li = a.parentNode;
-       if(val!=""){
-             $(li).show();
-             //$(li).attr("value", val);
-             a.innerHTML = val;
-       }
-       else{
-          $(li).hide();
-       }
-
-       $(mw.tools.firstParentWithClass(this, 'mw_dropdown')).setDropdownValue(-1, false);
-
-
-       var obj = this.id == 'dd_module_search'?Modules_List_modules:Modules_List_elements;
-       mw.tools.toolbar_searh(obj, val);
-
-
-       event.preventDefault();
-       event.stopPropagation();
-       return false;
-
-});
 
 
 mw.$("#module_category_selector .dd_custom a").mousedown(function(e){
@@ -336,6 +310,13 @@ mw.setLiveEditor();
         $("#historycontainer").hide()
       }
 
+      if(mw.$(".toolbars-search.active").length === 0){
+        mw.$(".mw-autocomplete-cats").hide();
+      }
+      else{
+        mw.$(".mw-autocomplete-cats").show();
+      }
+
     });
 
 
@@ -445,7 +426,7 @@ mw.quick = {
         },
         edit : function(id){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page&content-id="+id,
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&is-current=true&id=mw-quick-page&content-id="+id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,

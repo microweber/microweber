@@ -8,89 +8,55 @@ if(isset($notif_params['id'])){
 if(isset($notif_params['module'])){
 	unset($notif_params['module']);
 }
-
-/*if(isset($params['is_read'])){
-	$notif_params["is_read"] = $params['is_read'];
+if(!isset($notif_params['wrapper-id'])){
+	 $notif_params['wrapper-id'] = "mw-admin-toolbar-notif-list";
 }
-if(isset($params['limit'])){
-	$notif_params["is_read"] = $params['is_read'];
-}*/
-
-$notif_params["order_by"] = 'created_on desc';
-$notif_params["order_by"] = 'is_read desc, created_on desc';
-$data = mw('Microweber\Notifications')->get($notif_params);
-
-
-?>
-<script  type="text/javascript">
-mw.notif_item_delete = function($item_id){
-
-
-	 $.get("<?php print site_url('api/mw/Notifications/delete'); ?>/"+$item_id, function(){
-		 	mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
-
-	  });
+if(!isset($notif_params['quick'])){
+	 $notif_params['quick'] =true;
 }
-</script>
-<?php if(is_array($data )): ?>
+ ?>
+<?php $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1'); ?>
 
+<span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
+<?php if( $notif_count > 0): ?>
+<sup class="mw-notif-bubble"><?php print  $notif_count ?></sup> 
 
-
-
-<div class="mw-admin-notifications-holder">
-  <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
-
-    <tbody>
-      <?php foreach($data  as $item): ?>
-
-
-
-
-      <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?><?php endif; ?>">
-
-        <?php
-	 $mod_info = false;
-	 if(isset($item['module']) and $item['module'] != ''){
-		 $mod_info = module_info($item['module']);
-		}
-?>
-      <td>
-        <?php if($mod_info != false and isset($mod_info['name'])): ?>
-            <a href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>">
-      
-            <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
-          
-        </a>
-          <?php endif; ?>
-        </td>
-
-       <td>
-
-
-
-          <?php if($mod_info != false and isset($mod_info['name'])): ?>
-
-          <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>"><span class="ellipsis"><?php print $item['title'] ?></span></a>
-  		  <?php elseif(isset($item['rel']) and $item['rel'] == 'content'): ?>
-		  <a class="mw-ui-link" href="<?php print admin_url() ?>view:content#action=editpage:<?php print ($item['rel_id']) ?>"> <?php print $item['title'] ?></a>
-          <?php else : ?>
-          <span>          <?php print $item['title'] ?></span>
-          <?php endif; ?>
-          <div class="mw_clear"></div>
-          <time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
-          <?php if($mod_info != false and isset($mod_info['name'])): ?>
-           
-
-          <?php endif; ?>
-
-          </td>
-
-
-
-
-      </tr>
-      <?php endforeach ; ?>
-    </tbody>
-  </table>
-</div>
 <?php endif; ?>
+<script>
+ $(document).ready(function() {
+	  mw.$("#toolbar_notifications").click(function(){
+		 var el = $(this.parentNode);
+		if(el.hasClass("active")){
+		   el.removeClass("active");
+		   mw.$(".mw-toolbar-notif-items-wrap").invisible();
+		}
+		else{
+		   el.addClass("active");
+		   mw.$(".mw-toolbar-notif-items-wrap").visible();
+		}
+		$(mwd.body).click(function(e){
+		  if(!mw.tools.hasParentsWithClass(e.target, 'mw-toolbar-notification')){
+			  var toolbar_notifications = $(mwd.getElementById('toolbar_notifications').parentNode);
+			  if(toolbar_notifications.hasClass("active")){
+				 toolbar_notifications.removeClass("active");
+				 mw.$(".mw-toolbar-notif-items-wrap").invisible();
+			  }
+		  }
+		});
+	  });
+  
+  
+  });
+ <?php if( $notif_count > 0): ?> 
+ mw.tools.fav( <?php if($notif_count < 100 ) { print $notif_count; } else { print "99+"; }; ?> );
+ <?php endif; ?>
+ </script>
+</span> </span>
+<div class="mw-toolbar-notif-items-wrap">
+	 
+	
+		<?php include(__DIR__.DS.'index.php'); ?>
+	
+	<a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>">
+	<?php _e("See all"); ?>
+	</a></div>

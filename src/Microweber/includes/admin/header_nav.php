@@ -54,21 +54,9 @@ $past_page = mw('content')->link($past_page[0]['id']);
     <?php _e("Go Live Edit"); ?>
     </a>
     <div class="mw-toolbar-notification">
-      <?php $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1'); ?>
-      <span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
-      <?php if( $notif_count > 0): ?>
-      <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
-           <script>
-                mw.tools.fav( <?php if($notif_count < 100 ) { print $notif_count; } else { print "99+"; }; ?> );
-           </script>
-      <?php endif; ?>
-      </span> </span>
-      <div class="mw-toolbar-notif-items-wrap mw-o-box">
-        <div class="mw-o-box-header">
-          <h5><?php _e("Latest activity:"); ?></h5>
-        </div>
-        <module type="admin/notifications" view="toolbar"  limit="5" />
-        <a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>"><?php _e("See all"); ?></a></div>
+	
+	<module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
+      </div>
     </div>
   </div>
     </div>
@@ -98,26 +86,7 @@ $past_page = mw('content')->link($past_page[0]['id']);
         });
       }
     });
-  mw.$("#toolbar_notifications").click(function(){
-     var el = $(this.parentNode);
-    if(el.hasClass("active")){
-       el.removeClass("active");
-       mw.$(".mw-toolbar-notif-items-wrap").invisible();
-    }
-    else{
-       el.addClass("active");
-       mw.$(".mw-toolbar-notif-items-wrap").visible();
-    }
-    $(mwd.body).click(function(e){
-      if(!mw.tools.hasParentsWithClass(e.target, 'mw-toolbar-notification')){
-          var toolbar_notifications = $(mwd.getElementById('toolbar_notifications').parentNode);
-          if(toolbar_notifications.hasClass("active")){
-             toolbar_notifications.removeClass("active");
-             mw.$(".mw-toolbar-notif-items-wrap").invisible();
-          }
-      }
-    });
-  });
+
 });
 </script>
   <?php endif; ?>

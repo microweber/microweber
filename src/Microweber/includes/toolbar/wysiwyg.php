@@ -253,9 +253,9 @@
                     mw.liveEditWYSIWYG.slideRight();
               }
           });
-          mw.$('#modules-and-layouts').hide();
+          //mw.$('#modules-and-layouts').hide();
           mw.$(".tst-modules").click(function(){
-            mw.$('#modules-and-layouts').toggle();
+            mw.$('#modules-and-layouts').toggleClass("active");
             var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
             if(!has_active){
                  mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
@@ -302,6 +302,25 @@
 
           $(modules_switcher).bind("keyup paste", function(){
              mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.value);
+             if(modules_switcher.searchIn == 'Modules_List_modules'){
+                 mw.$(".mw-autocomplete-cats-modules").show();
+                 mw.$(".mw-autocomplete-cats-elements").hide();
+             }
+             else{
+                 mw.$(".mw-autocomplete-cats-modules").hide();
+                 mw.$(".mw-autocomplete-cats-elements").show();
+             }
+          });
+
+          mw.$(".mw-autocomplete-cats li a").click(function(){
+            mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.innerHTML);
+            return false;
+          });
+
+          mw.$(".toolbars-search").hover(function(){
+             mw.tools.addClass(this, 'hover');
+          }, function(){
+             mw.tools.removeClass(this, 'hover');
           });
 
 
