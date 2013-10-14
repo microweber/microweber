@@ -7,7 +7,7 @@
  }
  $posts_parent_page = intval($params['active_ids']) ;
 ?>
-      asdasdasdasdasdsa
+       
 <select name="<?php print $params['input-name'] ?>"     >
   <option  <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
 <?php

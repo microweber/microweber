@@ -1865,7 +1865,7 @@ class Content
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . CONTENT_ID . PAGE_ID.$parent;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . CONTENT_ID . PAGE_ID . $parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
         } else {
@@ -1880,7 +1880,7 @@ class Content
         //
 
         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-     //   $cache_content = false;
+        //   $cache_content = false;
 //	if (!isset($_GET['debug'])) {
         if (($cache_content) != false) {
 
@@ -3953,7 +3953,8 @@ class Content
 
         if (isset($data_to_save['content'])) {
             if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
-                unset($data_to_save['content']);
+                //unset($data_to_save['content']);
+                $data_to_save['content'] = null;
                 //
             } else {
                 $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
@@ -4920,15 +4921,75 @@ class Content
 
         $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
 
+
         $data = parse_params($data);
-        $data['is_draft'] = 1;
-        $data['full'] = 1;
-        $data['all'] = 1;
+
+        if (isset($data['id']) and $data['id'] == 'latest_content_edit') {
+
+            if (isset($page['id'])) {
+                $page_data = $this->get_by_id($page['id']);
+
+                $results = array();
+                if(isset($page_data['title'])){
+                    $arr = array('rel'=>'content',
+                        'field'=>'title',
+                        'value'=>$page_data['title']);
+                    $results[] = $arr;
+                    if(isset($page_data['content_type'])){
+                        $arr = array('rel'=>$page_data['content_type'],
+                            'field'=>'title',
+                            'value'=>$page_data['title']);
+                        $results[] = $arr;
+                    }
+                    if(isset($page_data['subtype'])){
+                        $arr = array('rel'=>$page_data['subtype'],
+                            'field'=>'title',
+                            'value'=>$page_data['title']);
+                        $results[] = $arr;
+                    }
+                }
+                if(isset($page_data['content'])){
+                    $arr = array('rel'=>'content',
+                        'field'=>'content',
+                        'value'=>$page_data['content']);
+                    $results[] = $arr;
+                    if(isset($page_data['content_type'])){
+                        $arr = array('rel'=>$page_data['content_type'],
+                            'field'=>'content',
+                            'value'=>$page_data['content']);
+                        $results[] = $arr;
+                    }
+                    if(isset($page_data['subtype'])){
+                        $arr = array('rel'=>$page_data['subtype'],
+                            'field'=>'content',
+                            'value'=>$page_data['content']);
+                        $results[] = $arr;
+                    }
+                }
+                //$results[]
+
+            }
+
+
+        } else {
+            $data['is_draft'] = 1;
+            $data['full'] = 1;
+            $data['all'] = 1;
+            $results = $this->edit_field($data);
+        }
+
+
         $ret = array();
-        $results = $this->edit_field($data);
+
+
+        if ($results == false) {
+            return;
+        }
+
+        $i = 0;
         foreach ($results as $item) {
 
-            $i = 0;
+
 
             if (isset($item['value'])) {
                 $field_content = htmlspecialchars_decode($item['value']);

@@ -3065,8 +3065,34 @@ $(mwd.body).bind("keydown", function(e){
       }
   }
 
-})
+});
 
+
+
+
+mw.$(".mw-pin").each(function(){
+    var el = this,
+        who = $(el).dataset("for"),
+        is = mw.cookie.ui(who) == 'true';
+    if(is){
+        mw.tools.addClass(el, 'active');
+        var who = mw.$(who);
+        who.addClass("active")
+
+    }
+    $(el).click(function(){
+       if($(this).hasClass("active")){
+          mw.tools.removeClass(this, 'active');
+          var who = $(el).dataset("for");
+          mw.cookie.ui(who, "false");
+       }
+       else{
+          mw.tools.addClass(this, 'active');
+          var who = $(el).dataset("for");
+          mw.cookie.ui(who, "true");
+       }
+    });
+});
 
 
 });

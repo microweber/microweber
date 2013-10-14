@@ -2222,11 +2222,11 @@ mw.history = {
 				      if( data.constructor !== [].constructor ){ return false; }
                       var l = data.length, i = 0;
                       for( ; i<l; i++){
-                        var data = data[i];
-                        if(typeof data.field !== 'undefined' && typeof data.rel !== 'undefined'){
-                          var field = data.field;
-                          var rel = data.rel;
-                          mw.$('.edit[rel="'+rel+'"][field="'+field+'"]').html(data.value);
+                        var data_field = data[i];
+                        if(typeof data_field.field !== 'undefined' && typeof data_field.rel !== 'undefined'){
+                          var field = data_field.field;
+                          var rel = data_field.rel;
+                          mw.$('.edit[rel="'+rel+'"][field="'+field+'"]').html(data_field.value);
                         }
                       }
                       mw.$(".edit.changed").removeClass("changed");

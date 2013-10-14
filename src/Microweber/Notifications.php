@@ -151,7 +151,7 @@ class Notifications
         if($id == 'all'){
 
             $q = "DELETE FROM $table where id is not NULL  ";
-            
+
             $this->app->db->q($q);
 
         } else {

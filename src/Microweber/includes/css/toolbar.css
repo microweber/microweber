@@ -1248,14 +1248,43 @@ input.mwtb-search{
 
 
 #liveedit_wysiwyg_main_prev{
-  box-shadow:6px -4px 20px -9px #777;
   background-position: -11px 16px;
+}
 
+#liveedit_wysiwyg_main_prev:after,
+#liveedit_wysiwyg_main_next:before{
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 25px;
+  height: 100%;
+  content: "";
+  pointer-events:none;
+}
+
+#liveedit_wysiwyg_main_prev:after{
+  left: 100%;
+  background: -moz-linear-gradient(left, rgba(245,245,245,1) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(245,245,245,1)), color-stop(100%, rgba(255,255,255,0)));
+  background: -webkit-linear-gradient(left, rgba(245,245,245,1) 0%, rgba(255,255,255,0) 100%);
+  background: -o-linear-gradient(left, rgba(245,245,245,1) 0%, rgba(255,255,255,0) 100%);
+  background: -ms-linear-gradient(left, rgba(245,245,245,1) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right, rgba(245,245,245,1) 0%, rgba(255,255,255,0) 100%);
 }
 
 #liveedit_wysiwyg_main_next{
-  box-shadow:-6px -4px 20px -9px #777;
   background-position: -43px 15px;
+}
+
+
+#liveedit_wysiwyg_main_next:before{
+  right: 100%;
+  background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(245,245,245,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,0)), color-stop(100%, rgba(245,245,245,1)));
+  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(245,245,245,1) 100%);
+  background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(245,245,245,1) 100%);
+  background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(245,245,245,1) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(245,245,245,1) 100%);
 }
 
 #modules_switch{

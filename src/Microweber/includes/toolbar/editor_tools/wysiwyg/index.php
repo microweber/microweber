@@ -33,7 +33,13 @@ PrepareEditor = function(){
           el = $(this);
           typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
                HOLD = setTimeout(function(){
-               parent.mw.$("iframe#"+window.name).trigger("change", el.html());
+                 if(el[0].querySelector(".edit")===null){
+                    parent.mw.$("iframe#"+window.name).trigger("change", el.html());
+                 }
+                 else{
+                   parent.mw.$("iframe#"+window.name).trigger("change", $(el[0].querySelector(".edit")).html());
+                 }
+
           }, 600);
      });
   }

@@ -10,12 +10,16 @@ $data = false;
 $just_saved = false;
 //$data = $params;
 $is_new_content = false;
+$is_current = false;
 if(!isset($is_quick)){
 $is_quick=false;	
 }
 if(isset($params['just-saved'])){
   $just_saved = $params['just-saved'];
 } 
+if(isset($params['is-current'])){
+  $is_current = $params['is-current'];
+}
 if(isset($params['page-id'])){
   $data = mw('content')->get_by_id(intval($params["page-id"]));
 } 
@@ -344,6 +348,11 @@ mw.edit_content.after_save = function(){
 	window.parent.mw.reload_module('pages');
 
 	window.parent.mw.askusertostay=false;
+	<?php if($is_current!=false) :  ?>
+	if(window.parent.mw.history != undefined){
+		window.parent.mw.history.load('latest_content_edit');
+	}
+	<?php endif; ?>
 	
 	}		
 
