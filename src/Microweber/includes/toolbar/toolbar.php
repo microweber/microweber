@@ -52,7 +52,7 @@
          <div class="toolbars-search">
             <span
                  class="mw-pin mwt-pin"
-                 data-for="#modules-and-layouts, #tab_modules">
+                 data-for="#modules-and-layouts,#tab_modules,.tst-modules">
             </span>
              <div class="mw-autocomplete left">
                  <input

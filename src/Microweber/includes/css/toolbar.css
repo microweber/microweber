@@ -1344,4 +1344,37 @@ input.mwtb-search{
   height: 31px;
   margin-right: 5px;
   margin-top: 3px;
-}  
+}
+
+
+
+
+.show_editor{
+  display: none;
+  font-size: 25px;
+}
+
+.show_editor u{
+  padding-top: 15px;
+  display: inline-block;
+}
+
+@media (max-width: 1024px) {
+  #liveedit_wysiwyg{
+    display: none;
+  }
+
+  .show_editor{
+    display: block;
+  }
+
+  #liveedit_wysiwyg{
+    position: fixed;
+    top: 50px;
+    left: 0;
+    margin: 0 !important;
+    min-width: 100%;
+    background: #F5F5F5;
+  }
+
+}

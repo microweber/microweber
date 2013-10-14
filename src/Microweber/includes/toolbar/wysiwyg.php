@@ -29,14 +29,25 @@
               </li>
               <li><a href="javascript:;" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
-
               <li>
-                <span class="liveedit_wysiwyg_prev" id="liveedit_wysiwyg_main_prev"  title="<?php _e("Previous"); ?>" onclick="mw.liveEditWYSIWYG.slideLeft();"></span></li>
+                <a href="javascript:;" class="tst- show_editor"><u>A</u></a>
+              </li>
+              <li>
+                <span
+                     class="liveedit_wysiwyg_prev"
+                     id="liveedit_wysiwyg_main_prev"
+                     title="<?php _e("Previous"); ?>"
+                     onclick="mw.liveEditWYSIWYG.slideLeft();">
+                </span>
+              </li>
+
 
             </ul>
          </div>
           <div id="mw-toolbar-right" class="mw-defaults">
               <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next"  title="<?php _e("Next"); ?>" onclick="mw.liveEditWYSIWYG.slideRight();"></span>
+
+              <div class="right" style="padding: 10px 0;">
               <div class="mw-ui-dropdown right" id="history_dd">
                 <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("Drafts"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
                 <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
@@ -67,6 +78,7 @@
                 </div>
               </div>
           </div>
+          </div>
 
 
         <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
@@ -78,8 +90,10 @@
                 <div class="wysiwyyg-cell">
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
+
+                <div class="wysiwyyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
                 <div class="wysiwyyg-cell">
-                    <div class="wysiwyyg-cell-limitter" data-min="">
+                    <div class="wysiwyyg-cell-limitter">
                         <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
@@ -89,6 +103,7 @@
                     </div>
                 </div>
                 <div class="wysiwyyg-cell">
+                <div class="wysiwyyg-cell-limitter" style="min-width: 100px;">
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
@@ -152,28 +167,7 @@
                         </ul>
                       </div>
                     </div>
-                </div>
-                <div class="wysiwyyg-cell">
-                  <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
-                </div>
-
-               <div class="wysiwyyg-cell">
-                      <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
-                      <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
-                      <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
-                      <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
-                </div>
-                <div class="wysiwyyg-cell">
-                      <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
-                      <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
-               </div>
-              <div class="wysiwyyg-cell">
-                 <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
+                    <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
                     <span class="mw_dropdown_val_holder">
                         <span class="dd_rte_arr"></span>
                         <span class="mw_dropdown_val"><?php _e("Insert"); ?></span>
@@ -188,6 +182,31 @@
                   </div>
                 </div>
                 </div>
+                </div>
+                <div class="wysiwyyg-cell">
+                  <div class="wysiwyyg-cell-limitter">
+                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+                    <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
+
+                    <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
+                    <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
+                    <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
+                    <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
+
+                    <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
+                  </div>
+                </div>
+
+               <div class="wysiwyyg-cell">
+                 <div class="wysiwyyg-cell-limitter">
+                        <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
+                  </div>
+                </div>
+
+
 
                  <?php event_trigger('mw_editor_btn'); ?>
 
@@ -239,21 +258,18 @@
                     mw.liveEditWYSIWYG.buttons();
                });
             }
-          },
-          scale:function(){
-
           }
         }
         $(window).load(function(){
           mw.liveEditWYSIWYG.buttons();
           $(window).bind("resize", function(){
             mw.liveEditWYSIWYG.buttons();
-              var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
-              if(!!n){
-                    mw.liveEditWYSIWYG.slideRight();
-              }
+            var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
+            if(!!n){
+                mw.liveEditWYSIWYG.slideRight();
+            }
           });
-          //mw.$('#modules-and-layouts').hide();
+
           mw.$(".tst-modules").click(function(){
             mw.$('#modules-and-layouts').toggleClass("active");
             var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
@@ -316,13 +332,17 @@
             mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.innerHTML);
             return false;
           });
-
           mw.$(".toolbars-search").hover(function(){
              mw.tools.addClass(this, 'hover');
           }, function(){
              mw.tools.removeClass(this, 'hover');
           });
 
+          mw.$(".show_editor").click(function(){
+            mw.$("#liveedit_wysiwyg").toggle();
+           mw.liveEditWYSIWYG.buttons();
+          });
 
-        })
+
+        });
     </script>

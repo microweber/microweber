@@ -1,6 +1,7 @@
 <?php
 namespace Microweber;
 
+api_expose('category/reorder');
 
 class Category
 {
@@ -1446,9 +1447,9 @@ class Category
     public function reorder($data)
     {
 
-        $adm = $this->app->user->is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        $is_admin = $this->app->user->is_admin();
+        if (defined('MW_API_CALL') and $is_admin == false) {
+            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
 
         $table = MW_TABLE_PREFIX . 'categories';

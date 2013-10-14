@@ -2537,8 +2537,8 @@ Array.prototype.exposeToHash = function(name, callback){
     });
 }
 
-Array.min = function(arr){
-    return Math.min.apply(Math, arr);
+Array.prototype.min = function(){
+    return Math.min.apply(Math, this);
 };
 
 
