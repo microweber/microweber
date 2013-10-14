@@ -27,7 +27,7 @@
                   <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span>Edit Current</span></a></li>
                 </ul>
               </li>
-              <li><a href="javascript:;" onclick="mw.$('#tab_modules').toggleClass('active');" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
+              <li><a href="javascript:;" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
 
               <li>
@@ -252,6 +252,58 @@
               if(!!n){
                     mw.liveEditWYSIWYG.slideRight();
               }
-          })
+          });
+          mw.$('#modules-and-layouts').hide();
+          mw.$(".tst-modules").click(function(){
+            mw.$('#modules-and-layouts').toggle();
+            var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
+            if(!has_active){
+                 mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
+                 mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
+                 $(mwd.querySelector('.mwtb-search-modules')).focus();
+            }
+          });
+
+
+          var tab_modules = mwd.getElementById('tab_modules');
+          var tab_layouts = mwd.getElementById('tab_layouts');
+          var modules_switcher = mwd.getElementById('modules_switcher');
+          var modules_switch = mwd.getElementById('modules_switch');
+
+          modules_switcher.searchIn = 'Modules_List_modules';
+
+          mw.$(modules_switch).click(function(){
+            modules_switcher.value = '';
+            mw.$("#modules-and-layouts .modules-item").show();
+            mw.$(".modules_bar_slide_left").hide();
+
+            mw.$(".modules_bar").scrollLeft(0);
+            mw.$(".modules_bar").scrollLeft(0);
+
+            if(mw.$(modules_switcher).dataset("for") == 'modules'){
+               mw.$(modules_switcher).dataset("for", "layouts");
+               mw.$(modules_switcher).attr("placeholder", "Layouts");
+               $(modules_switch).html("Modules");
+               $(modules_switcher).focus();
+               modules_switcher.searchIn = 'Modules_List_elements';
+               mw.tools.addClass(tab_layouts, 'active');
+               mw.tools.removeClass(tab_modules, 'active');
+            }
+            else{
+               mw.$(modules_switcher).dataset("for", "modules");
+               mw.$(modules_switcher).attr("placeholder", "Modules");
+               $(modules_switch).html("Layouts");
+               $(modules_switcher).focus();
+               modules_switcher.searchIn = 'Modules_List_modules';
+               mw.tools.addClass(tab_modules, 'active');
+               mw.tools.removeClass(tab_layouts, 'active');
+            }
+          });
+
+          $(modules_switcher).bind("keyup paste", function(){
+             mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.value);
+          });
+
+
         })
     </script>

@@ -1314,6 +1314,11 @@ class Controller
                     if (is_string($api_exposed_item) and is_string($api_function_full)) {
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
+
+                        //d($api_exposed_item);
+                       // d($api_function_full);
+
+
                         if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
 
                             $err = false;

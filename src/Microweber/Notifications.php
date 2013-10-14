@@ -4,9 +4,10 @@ namespace Microweber;
 //event_bind('mw_db_init_default', '\Microweber\Notifications\db_init');
 
 
-api_expose('/mw/Notifications/delete');
-api_expose('/mw/Notifications/save');
-api_expose('/mw/Notifications/reset');
+api_expose('Notifications/delete');
+//api_expose('Notifications/save');
+api_expose('Notifications/reset');
+api_expose('Notifications/mark_all_as_read');
 
 //event_bind('mw_db_init', mw('notifications')->db_init());
 
@@ -61,6 +62,7 @@ class Notifications
         return $get;
     }
 
+
     public function mark_as_read($module)
     {
 
@@ -74,8 +76,11 @@ class Notifications
             $get_params['table'] = 'table_notifications';
             $get_params['is_read'] = 'n';
             $get_params['fields'] = 'id';
-            $get_params['module'] = $this->app->db->escape_string($module);
 
+            if ($module != 'all') {
+
+                $get_params['module'] = $this->app->db->escape_string($module);
+            }
             $data = $this->get($get_params);
             if (is_array($data)) {
                 foreach ($data as $value) {
@@ -91,12 +96,33 @@ class Notifications
         }
     }
 
+
+    public function mark_all_as_read()
+    {
+
+        $is_admin = $this->app->user->is_admin();
+        if (defined('MW_API_CALL') and $is_admin == false) {
+            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
+        }
+
+        $table = MW_DB_TABLE_NOTIFICATIONS;
+
+        $q = "UPDATE $table SET is_read='y' WHERE is_read='n' ";
+
+        $this->app->db->q($q);
+        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+
+        return true;
+
+    }
+
+
     public function reset()
     {
 
         $is_admin = $this->app->user->is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (defined('MW_API_CALL') and $is_admin == false) {
+            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
@@ -113,13 +139,27 @@ class Notifications
     {
 
         $is_admin = $this->app->user->is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (defined('MW_API_CALL') and $is_admin == false) {
+            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
+        }
+        if (is_array($id)) {
+            $id = array_pop($id);
         }
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
-        $this->app->db->delete_by_id($table, intval($id), $field_name = 'id');
+        if($id == 'all'){
+
+            $q = "DELETE FROM $table where id is not NULL  ";
+            
+            $this->app->db->q($q);
+
+        } else {
+            $this->app->db->delete_by_id($table, intval($id), $field_name = 'id');
+        }
+
+
+        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
 
         $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -163,7 +203,7 @@ class Notifications
 
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id ='notifications_'.__FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'notifications_' . __FUNCTION__ . crc32($function_cache_id);
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
         if (($cache_content) != false) {
 
@@ -187,10 +227,10 @@ class Notifications
 
         $fields_to_add[] = array('is_read', "char(1) default 'n'");
 
-         $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
-         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
-         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
         $this->app->cache->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;

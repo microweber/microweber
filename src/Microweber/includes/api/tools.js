@@ -698,16 +698,16 @@ mw.tools = {
       var window_width = $(window).width();
       mw.$(".modules_bar").each(function(){
            $(this).width(window_width - 204);
-           $(this).find(".modules_bar_slider").width(window_width - 220);
+           mw.$(".modules_bar_slider", this).width(window_width - 220);
       });
     },
     prepare:function(){
       mw.$(".modules_bar").each(function(){
           var module_item_width = 0;
-          $(this).find("li").each(function(){
+          mw.$("li", this).each(function(){
             module_item_width += $(this).outerWidth( true );
           });
-          $(this).find("ul").width( module_item_width );
+          mw.$("ul", this).width( module_item_width );
       });
     },
     init:function(){
@@ -948,7 +948,7 @@ mw.tools = {
         }
     }
   },
-  hasClass:function(classname, whattosearch){   //for strings
+  hasClass: function(classname, whattosearch){   //for strings
     if(classname === null){return false;}
     if(typeof classname === 'string'){
       return classname.split(' ').indexOf(whattosearch) > -1;
@@ -960,8 +960,16 @@ mw.tools = {
       return false;
     }
   },
-  addClass:function(el, cls){
+  addClass: function(el, cls){
     if(el === null){return false;}
+    if(cls == ' ') { return false; }
+    var arr = cls.split(" "), l=arr.length, i=0;
+    if(l > 1){
+        for( ; i<l; i++){
+            mw.tools.addClass(el, arr[i]);
+        }
+        return;
+    }
     if(typeof el === 'object'){
       if( !mw.tools.hasClass(el.className, cls) ) el.className += (' ' + cls);
     }
@@ -969,10 +977,18 @@ mw.tools = {
       if( !mw.tools.hasClass(el, cls) ) el += (' ' + cls);
     }
   },
-  removeClass:function(el, cls){
-   if(el === null) { return false; }
-   if(typeof el === 'undefined') { return false; }
-   if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
+  removeClass: function(el, cls){
+     if(el === null) { return false; }
+     if(typeof el === 'undefined') { return false; }
+     if(cls == ' ') { return false; }
+     var arr = cls.split(" "), l=arr.length, i=0;
+      if(l > 1){
+          for( ; i<l; i++){
+              mw.tools.removeClass(el, arr[i]);
+          }
+          return;
+      }
+     if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
   },
   hasParentsWithClass:function(el, cls){
     var d = {};

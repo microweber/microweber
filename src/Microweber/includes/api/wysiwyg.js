@@ -904,7 +904,13 @@ mw.wysiwyg = {
       $(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
-      var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
+      if(typeof html === 'string'){
+        var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
+      }
+      else{
+         var isembed = false;
+      }
+
       if(isembed){
         var id = 'frame-'+mw.random();
         var frame = html;

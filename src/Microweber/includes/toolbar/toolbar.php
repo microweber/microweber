@@ -48,14 +48,22 @@
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-    <div id="modules-and-layouts">
+    <div id="modules-and-layouts" style="">
+
+
 
          <div class="toolbars-search">
              <div class="mw-autocomplete">
-                <input type="mwautocomplete" class="mwtb-search" />
+                <input
+                      type="mwautocomplete"
+                      autocomplete="off"
+                      id="modules_switcher"
+                      data-for="modules"
+                      class="mwtb-search mwtb-search-modules"
+                      placeholder="Modules"/>
              </div>
              <div class="mw-autocomplete">
-                <input type="mwautocomplete" class="mwtb-search" />
+                <button class="mw-ui-btn mw-ui-btn-medium" style="width: 67px;" id="modules_switch">Layouts</button>
              </div>
          </div>
 

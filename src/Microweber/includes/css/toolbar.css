@@ -334,17 +334,17 @@ padding:0px !important;
   }
   .modules_bar_slide_left, .modules_bar_slide_right{
     display: block;
-    width: 20px;
-    height: 75px;
+    width: 19px;
+    height: 72px;
     background: url(../img/module_scrollbar.jpg) no-repeat;
     overflow: hidden;
     cursor: pointer;
     position: absolute;
-    top: -5px;
+    top: -2px;
     z-index: 2;
   }
   .modules_bar_slide_left.active, .modules_bar_slide_right.active{
-    box-shadow:inset 0px 0px 4px #484848;
+    box-shadow:inset 0px 0px 4px #A3A3A3;
   }
 .modules_bar_slide_right{
   background-position: 100% 0;
@@ -1146,20 +1146,39 @@ li .ts_action_item:last-child{
 
 .toolbars-search{
   position: absolute;
+  top: 3px;
+  left: 12px;
 }
 
-.mwtb-search{
-  border-radius: 2px;
-  border: 1px solid #D6D5D5;
-  padding: 6px 10px;
+#modules-and-layouts{
+  position: relative;
 }
+
+input.mwtb-search{
+  width: 56px;
+  border-radius: 0 2px 2px 0;
+  padding: 6px 31px 6px 4px;
+  border: 1px solid transparent;
+  background: url(../img/modules_search.png) no-repeat right top;
+  cursor: pointer;
+  color: #383838;
+}
+
+.mwtb-search:hover, .mwtb-search:focus, .mwtb-search.active{
+  border: 1px solid #D6D5D5;
+  color: #111;
+}
+
+.mwtb-search:focus, .mwtb-search.active{
+  background-position: right bottom;
+  cursor: text;
+}
+
 .toolbars-search .mw-autocomplete{
   padding-bottom: 5px;
 }
 
-.toolbars-search .mwtb-search{
-  width: 70px;
-}
+
 
 .live_editor_wrapper{
     margin: auto
@@ -1230,6 +1249,10 @@ li .ts_action_item:last-child{
 #liveedit_wysiwyg_main_next{
   box-shadow:-6px -4px 20px -9px #777;
   background-position: -43px 15px;
+}
+
+#modules_switch{
+  background: rgba(239, 236, 236, 0.7);
 }
 
 
