@@ -1362,9 +1362,9 @@ class Content
 
 
         }
-
-
-        if (isset($_GET) and !empty($_GET)) {
+        $in_empty_url = false;
+        if ($the_url == site_url()) {
+            $in_empty_url = 1;
         }
 
 
@@ -1394,11 +1394,16 @@ class Content
             $page_links[$x] = $new_url . $append_to_links;
         }
 
+
         for ($x = 1; $x <= count($page_links); $x++) {
 
             if (stristr($page_links[$x], $paging_param . ':') == false) {
-
+if($in_empty_url == false){
                 $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
+} else {
+    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . ':' . $x);
+
+}
                 $l = str_ireplace('module/', '', $l);
                 $page_links[$x] = $l . $append_to_links;
             }
@@ -4930,39 +4935,39 @@ class Content
                 $page_data = $this->get_by_id($page['id']);
 
                 $results = array();
-                if(isset($page_data['title'])){
-                    $arr = array('rel'=>'content',
-                        'field'=>'title',
-                        'value'=>$page_data['title']);
+                if (isset($page_data['title'])) {
+                    $arr = array('rel' => 'content',
+                        'field' => 'title',
+                        'value' => $page_data['title']);
                     $results[] = $arr;
-                    if(isset($page_data['content_type'])){
-                        $arr = array('rel'=>$page_data['content_type'],
-                            'field'=>'title',
-                            'value'=>$page_data['title']);
+                    if (isset($page_data['content_type'])) {
+                        $arr = array('rel' => $page_data['content_type'],
+                            'field' => 'title',
+                            'value' => $page_data['title']);
                         $results[] = $arr;
                     }
-                    if(isset($page_data['subtype'])){
-                        $arr = array('rel'=>$page_data['subtype'],
-                            'field'=>'title',
-                            'value'=>$page_data['title']);
+                    if (isset($page_data['subtype'])) {
+                        $arr = array('rel' => $page_data['subtype'],
+                            'field' => 'title',
+                            'value' => $page_data['title']);
                         $results[] = $arr;
                     }
                 }
-                if(isset($page_data['content'])){
-                    $arr = array('rel'=>'content',
-                        'field'=>'content',
-                        'value'=>$page_data['content']);
+                if (isset($page_data['content'])) {
+                    $arr = array('rel' => 'content',
+                        'field' => 'content',
+                        'value' => $page_data['content']);
                     $results[] = $arr;
-                    if(isset($page_data['content_type'])){
-                        $arr = array('rel'=>$page_data['content_type'],
-                            'field'=>'content',
-                            'value'=>$page_data['content']);
+                    if (isset($page_data['content_type'])) {
+                        $arr = array('rel' => $page_data['content_type'],
+                            'field' => 'content',
+                            'value' => $page_data['content']);
                         $results[] = $arr;
                     }
-                    if(isset($page_data['subtype'])){
-                        $arr = array('rel'=>$page_data['subtype'],
-                            'field'=>'content',
-                            'value'=>$page_data['content']);
+                    if (isset($page_data['subtype'])) {
+                        $arr = array('rel' => $page_data['subtype'],
+                            'field' => 'content',
+                            'value' => $page_data['content']);
                         $results[] = $arr;
                     }
                 }
@@ -4988,7 +4993,6 @@ class Content
 
         $i = 0;
         foreach ($results as $item) {
-
 
 
             if (isset($item['value'])) {

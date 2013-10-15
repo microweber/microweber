@@ -1364,6 +1364,10 @@ input.mwtb-search{
     display: none;
 }
 
+.wysiwyyg-convertible > *{
+  float: none;
+}
+
 
 @media (max-width: 1024px) {
 
@@ -1384,6 +1388,17 @@ input.mwtb-search{
       position: absolute;
       border: 1px solid #d1d1d1;
       box-shadow:inset 2px 2px 0 -1px white;
+}
+
+.wysiwyyg-convertible:before{
+  content: "";
+  position: absolute;
+  display: block;
+  width: 16px;
+  height: 9px;
+  background: url(../img/convertible_arr.png) no-repeat;
+  top: -8px;
+  left: 20px;
 }
 
 }

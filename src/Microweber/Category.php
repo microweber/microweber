@@ -115,17 +115,7 @@ class Category
 
             if (!empty($content)) {
                 $url = $content['url'];
-                if ($content['content_type'] == 'page') {
-                    if (function_exists('page_link')) {
-                        $url = $this->app->content->link($content['id']);
-                    }
-                }
-
-                if ($content['content_type'] == 'post') {
-                    if (function_exists('post_link')) {
-                        $url = post_link($content['id']);
-                    }
-                }
+                $url = $this->app->content->link($content['id']);
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
                     $this->app->db->delete_by_id($table, $id);
@@ -848,12 +838,12 @@ class Category
 
                             $to_print = str_replace('{id}', $item['id'], $link);
 
-                            $to_print = str_ireplace('{url}', category_link($item['id']), $to_print);
-                            $to_print = str_ireplace('{link}', category_link($item['id']), $to_print);
+                            $to_print = str_ireplace('{url}', $this->link($item['id']), $to_print);
+                            $to_print = str_ireplace('{link}', $this->link($item['id']), $to_print);
 
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 
-                            $to_print = str_ireplace('{categories_url}', category_link($item['id']), $to_print);
+                            $to_print = str_ireplace('{categories_url}', $this->link($item['id']), $to_print);
                             $to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
 
                             $to_print = str_ireplace('{title}', $item['title'], $to_print);

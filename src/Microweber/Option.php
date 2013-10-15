@@ -137,7 +137,7 @@ class Option
         $ob = " order by id desc ";
         $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2.$ob;
 
-       // d($q);
+        // d($q);
 
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
 

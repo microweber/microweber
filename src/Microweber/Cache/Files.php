@@ -21,7 +21,7 @@ if (!defined('MW_CACHE_CONTENT_PREPEND')) {
     define('MW_CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
 }
 if (!defined('MW_CACHE_EXPIRES')) {
-   // define("MW_CACHE_EXPIRES", 1200); //2 hours
+    // define("MW_CACHE_EXPIRES", 1200); //2 hours
 }
 class Files
 {
@@ -351,7 +351,6 @@ class Files
         //$debug['files_cache'] = array_walk($mw_cache_get_content_memory, 'array_keys');
 
 
-
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
             if ($this->apc != false) {
@@ -372,12 +371,12 @@ class Files
 
         global $mw_cache_get_content_memory;
         global $mw_cache_debug;
-
-        if(!isset($mw_cache_debug[$cache_group.'_'.$cache_id])){
-            $mw_cache_debug[$cache_group.'_'.$cache_id] = 1;
+        $hit_hash = $cache_group . '_' . $cache_id;
+        if (!isset($mw_cache_debug[$hit_hash])) {
+            $mw_cache_debug[$hit_hash] = 1;
         } else {
 
-            $mw_cache_debug[$cache_group.'_'.$cache_id]++;
+            $mw_cache_debug[$hit_hash]++;
 
         }
         if (is_array($mw_cache_get_content_memory) and isset($mw_cache_get_content_memory[$cache_group]) and isset($mw_cache_get_content_memory[$cache_group][$cache_id])) {
@@ -430,6 +429,7 @@ class Files
             }
         }*/
         $ret = $this->cache_get_content($cache_id, $cache_group, $time);
+
         $mw_cache_get_content_memory[$cache_group][$cache_id] = $ret;
 
         if ($apc_obj != false) {

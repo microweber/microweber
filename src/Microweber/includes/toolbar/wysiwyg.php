@@ -107,7 +107,9 @@
 
                 <div class="relative">
 
-                <span class="mw_editor_btn wysiwyyg-convertible-toggler" onclick="$(this).next().toggle()"><span class="dd_rte_arr"></span> <span style="padding: 4px;">Tt</span></span>
+                <span class="mw_editor_btn mw_editor_t wysiwyyg-convertible-toggler" onclick="$(this).next().toggle()">
+                    <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
+                </span>
 
                 <div class="wysiwyyg-convertible">
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
