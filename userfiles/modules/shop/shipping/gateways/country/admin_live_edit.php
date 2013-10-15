@@ -10,10 +10,20 @@
 			</a></li>
 	</ul>
 	<div class="tab">
-	<?php include_once($config['path_to_module'].'admin_backend.php'); ?>
+	<?php 
+	
+ 
+	include_once($config['path_to_module'].'admin_backend.php'); ?>
 
 	</div>
-	<div class="tab"><module type="admin/modules/templates" id="shupping_list_templ"  />
+	<div class="tab">
+	
+	<?php 
+	 
+	print($config['module_name']); ?>
+	
+	
+	<module type="admin/modules/templates" id="shupping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
 </div>
 	<div class="mw_clear"></div>
 	<div class="vSpace"></div>
