@@ -88,11 +88,24 @@ $(document).ready(function(){
 
 
 </script>
- <?php
-$module_template = 'default';
-if(isset($params['template'])){
+<?php
+
+$module_template = get_option('data-template',$params['id']);
+
+
+if($module_template == false and isset($params['template'])){
 	$module_template = $params['template'];
+} elseif($module_template == false ){
+	$module_template = 'default';
 }
+
+
+
+
+
+
+
+
 if($module_template != false){
 	$template_file = module_templates( $config['module'], $module_template);
 

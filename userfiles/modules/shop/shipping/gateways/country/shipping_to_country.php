@@ -51,12 +51,14 @@ class shipping_to_country
         }
 
         if ($shipping_country == false) {
+            $this->app->user->session_set('shipping_country', 'none');
 
+            $this->app->user->session_set('shipping_cost', 0);
             return false;
         }
 
 
- 
+
 
         if (isset($shipping_country['id'])) {
             if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {

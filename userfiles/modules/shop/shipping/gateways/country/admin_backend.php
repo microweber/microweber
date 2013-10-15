@@ -1,3 +1,4 @@
+<?php only_admin_access(); ?>
 <?php $rand1 = 'shipping_to_country_holder'.uniqid(); ?>
  
 	 
