@@ -2,6 +2,9 @@
 
 
 $language_content_saved = false;
+$mw_new_language_entires = array();
+;
+
 /**
  * Saves the language file after page load
  * @package Language
@@ -11,14 +14,15 @@ function __store_lang_file()
 {
 
     global $language_content_saved;
+
+
     if ($language_content_saved == true) {
         return;
     }
-
-    if(is_admin() == false){
+    if (is_admin() == false) {
         return false;
     }
-
+    global $mw_new_language_entires;
     $language_content = get_language_file_content();
 
     $lang = current_lang();
@@ -27,23 +31,17 @@ function __store_lang_file()
     $language_content2 = array();
     if (is_array($language_content)) {
 
-        if (is_file($lang_file)) {
-            include ($lang_file);
+            $language_content2 = $mw_new_language_entires;
 
-            if ((isset($language) and is_array($language))) {
+            if (!empty($language_content2)) {
+                foreach ($language_content2 as $key => $value) {
 
-                $language_content2 = $language;
+                    if (!isset($language_content[$key])) {
 
-                if (!empty($language_content2)) {
-                    foreach ($language_content2 as $key => $value) {
-                        if (!isset($language_content[$key])) {
-                            $language_content[$key] = $value;
-                        }
+                        $language_content[$key] = $value;
                     }
                 }
 
-
-            }
 
         }
 
@@ -63,6 +61,8 @@ function __store_lang_file()
         if (is_admin() == true) {
             $c1 = count($language_content);
             $c2 = count($language_content2);
+
+
             if ($c1 > $c2) {
 
                 file_put_contents($lang_file, $lang_file_str);
@@ -123,6 +123,7 @@ function current_lang()
     return $lang;
 
 }
+
 /**
  * Prints a string in the current language
  *
@@ -131,7 +132,7 @@ function current_lang()
  *   //print something in the user language
  *  _e('Pages');
  * </code>
- *  @example
+ * @example
  * <code>
  *   //get a string in the user language
  *  $pages_string = _e('Pages',1);
@@ -140,14 +141,14 @@ function current_lang()
  *
  * @package Language
  * @use current_lang()
-  */
+ */
 function _e($k, $to_return = false)
 {
 
     static $lang_file;
+    global $mw_new_language_entires;
 
-
-    $k1 =mw('url')->slug($k);
+    $k1 = mw('url')->slug($k);
 
     $lang = current_lang();
 
@@ -155,20 +156,13 @@ function _e($k, $to_return = false)
 
     if (isset($language_content[$k1]) == false) {
         if (is_admin() == true) {
-            $k2 = addslashes($k);
-
-
-
+            $k2 = ($k);
+            $mw_new_language_entires[$k1] = $k2;
             $language_content[$k1] = $k2;
-            $b = '$language["' . $k1 . '"]' . "= '{$k2}' ; \n";
-
-
             $scheduler = new \Microweber\Utils\Events();
             // schedule a global scope function:
             $scheduler->registerShutdownEvent("__store_lang_file");
 
-
-            //@file_put_contents($lang_file, $b, FILE_APPEND);
         }
         if ($to_return == true) {
             return $k;
@@ -213,11 +207,11 @@ api_expose('save_language_file_content');
  */
 function save_language_file_content($data)
 {
-    
-	if(isset($_POST) and !empty($_POST)){
-	$data = $_POST;
-	}
-	if (is_admin() == true) {
+
+    if (isset($_POST) and !empty($_POST)) {
+        $data = $_POST;
+    }
+    if (is_admin() == true) {
         if (isset($data['unicode_temp_remove'])) {
             unset($data['unicode_temp_remove']);
         }
@@ -268,7 +262,7 @@ function get_language_file_content()
 {
     global $language_content;
 
-    if(!empty($language_content)){
+    if (!empty($language_content)) {
         return $language_content;
     }
 
@@ -277,51 +271,51 @@ function get_language_file_content()
 
     $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
-	
-	 $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR.'custom'.DIRECTORY_SEPARATOR. $lang . '.php';
-	 $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
- 
-   if (is_file($lang_file2)) {
+    $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
+
+
+    if (is_file($lang_file2)) {
         include ($lang_file2);
 
         if (isset($language) and is_array($language)) {
-			foreach($language as $k => $v){
-				if (isset($language_content[$k]) == false) {
-				$language_content[$k] = $v;
-				}
-			}
-		 }
+            foreach ($language as $k => $v) {
+                if (isset($language_content[$k]) == false) {
+                    $language_content[$k] = $v;
+                }
+            }
+        }
     }
- 
- 
+
+
     if (is_file($lang_file)) {
         include ($lang_file);
 
         if (isset($language) and is_array($language)) {
-			foreach($language as $k => $v){
-				if (isset($language_content[$k]) == false) {
+            foreach ($language as $k => $v) {
+                if (isset($language_content[$k]) == false) {
 
-				$language_content[$k] = $v;
-				}
-			}
-		 }
+                    $language_content[$k] = $v;
+                }
+            }
+        }
     }
-	 if (is_file($lang_file3)) {
+    if (is_file($lang_file3)) {
         include ($lang_file3);
 
         if (isset($language) and is_array($language)) {
-			foreach($language as $k => $v){
-				if (isset($language_content[$k]) == false) {
+            foreach ($language as $k => $v) {
+                if (isset($language_content[$k]) == false) {
 
-				$language_content[$k] = $v;
-				}
-			}
-		 }
+                    $language_content[$k] = $v;
+                }
+            }
+        }
     }
-	
-	  return $language_content;
-	
+
+    return $language_content;
+
 
 }
 
