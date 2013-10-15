@@ -121,9 +121,6 @@ class Shop
                     $item = $this->_render_item_custom_fields_data($item);
 
 
-
-
-
                 }
 
                 $return[] = $item;
@@ -155,9 +152,6 @@ class Shop
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
 
             $item = $this->_render_item_custom_fields_data($item);
-
-
-
 
 
         }
@@ -409,8 +403,22 @@ class Shop
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
             $additional_fields = $this->app->fields->get($data['for'], $data['for_id'], 1);
+        }
+
+        $seach_address_keys = array('country','city', 'address', 'state', 'zip');
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                foreach ($seach_address_keys as $item) {
+                    if (!isset($data[$item]) and isset($v[$item])) {
+                        $data[$item] = $v[$item];
+                    }
+                }
+
+            }
 
         }
+
+
         $save_custom_fields_for_order = array();
         if (is_array($additional_fields) and !empty($additional_fields)) {
             foreach ($additional_fields as $cf) {
@@ -511,6 +519,7 @@ class Shop
 
             $place_order['order_completed'] = 'n';
             $items_count = 0;
+
             foreach ($flds_from_data as $value) {
                 if (isset($data[$value]) and ($data[$value]) != false) {
                     $place_order[$value] = $data[$value];
@@ -518,6 +527,11 @@ class Shop
 
                 }
             }
+
+
+
+            //d($place_order);
+
             $amount = $this->cart_sum();
             if ($amount == 0) {
                 $checkout_errors['cart_sum'] = 'Cart sum is 0?';

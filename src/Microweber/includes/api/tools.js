@@ -3667,16 +3667,35 @@ mw.image = {
       settings:function(){
         var src = mw.current_element.src;
         var title = mw.current_element.title;
-        var html = ""
-        
+        var html = mwd.getElementById('image_settings_modal_holder').innerHTML;
         var modal = mw.tools.modal.init({
           html:html,
           template:"mw_modal_simple"
         });
-
-
-
+        mw.$(".image_settings_modal", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
         mw.image.current = modal.container.querySelector("#mwimagecurrent");
+        mw.image.current_align = mw.CSSParser(mw.current_element).get.alignNormalize();
+        mw.$(".mw-img-align-"+mw.image.current_align, modal.container).addClass("active");
+        mw.$("textarea", modal.container).val(title);
+        mw.$(".mw-ui-btn-saveIMG", modal.container).click(function(){
+          mw.current_element.src = mw.image.current.src;
+          mw.current_element.align = mw.image.current_align;
+          mw.current_element.title = mw.$("textarea", modal.container).val();
+          mw.image.preload(mw.image.current.src, function(w,h){
+               mw.current_element.style.width = w+'px';
+               mw.current_element.style.height = 'auto';
+          })
+        });
+        mw.$(".mw-img-align", modal.container).click(function(){
+          if(!$(this).hasClass("active")){
+               mw.$(".mw-img-align", modal.container).removeClass("active");
+               mw.$(this).addClass("active");
+               mw.image.current_align = $(this).dataset("align");
+
+
+          }
+
+        });
       }
     }
 

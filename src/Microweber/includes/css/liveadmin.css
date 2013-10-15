@@ -2880,6 +2880,26 @@ a.module-icon-title{
 
 
 
+[class*="mw-img-align-"]{
+  display: inline-block;
+  width: 32px;
+  height: 29px;
+  margin-right: 10px;
+  background:  url(../img/image_alignment.png) no-repeat;
+  cursor: pointer;
+  border: 1px solid #efecec;
+}
+[class*="mw-img-align-"]:hover,
+[class*="mw-img-align-"].active{
+  border: 1px solid #ccc;
+}
+
+.mw-img-align-left{  background-position: 3px 3px;}
+.mw-img-align-center{  background-position: -34px 3px;}
+.mw-img-align-right{  background-position: -75px 3px;}
+
+
+
 
 
 

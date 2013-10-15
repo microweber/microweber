@@ -329,17 +329,17 @@ mw.setLiveEditor();
         }
     });
 
-    mw.$("#mw-text-editor").mousedown(function(){
+    mw.$("#liveedit_wysiwyg").mousedown(function(){
       if(mw.$(".mw_editor_btn_hover").length==0){
         mw.mouseDownOnEditor = true;
         $(this).addClass("hover");
       }
     });
-    mw.$("#mw-text-editor").mouseup(function(){
+    mw.$("#liveedit_wysiwyg").mouseup(function(){
         mw.mouseDownOnEditor = false;
         $(this).removeClass("hover");
     });
-    mw.$("#mw-text-editor").mouseleave(function(){
+    mw.$("#liveedit_wysiwyg").mouseleave(function(){
         if(mw.mouseDownOnEditor){
             mw.$("#mw_small_editor").visible().draggable({ disabled: false });
             mw.$("#mw-text-editor").invisible() ;

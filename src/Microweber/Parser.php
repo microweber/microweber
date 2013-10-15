@@ -497,6 +497,7 @@ class Parser
                                 if ($mod_no_wrapper == false) {
                                     $module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
                                 } else {
+
                                     $module_html = $mod_content;
                                 }
                                 //} else {

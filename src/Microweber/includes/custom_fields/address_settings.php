@@ -58,7 +58,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
      $opt = array(
         'country'=>'Country',
         'city'=>'City',
-        'addr'=>'Address',
+        'address'=>'Address',
         'state'=>'State/Province',
         'zip'=>'Zip/Postal Code'
      );

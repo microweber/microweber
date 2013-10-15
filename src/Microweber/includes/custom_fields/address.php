@@ -44,6 +44,12 @@ include('empty_field_vals.php');
 	} else {
 	$kv =  $v[0];	
 	}
+	if($kv == ''){
+	$kv = ucwords($k);		
+	}
+ 
+	
+	
 	?>
      <label><?php print ($kv); ?></label>
 
