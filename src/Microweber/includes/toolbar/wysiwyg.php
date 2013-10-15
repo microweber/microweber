@@ -103,7 +103,13 @@
                     </div>
                 </div>
                 <div class="wysiwyyg-cell">
-                <div class="wysiwyyg-cell-limitter" style="min-width: 100px;">
+
+
+                <div class="relative">
+
+                <span class="mw_editor_btn wysiwyyg-convertible-toggler" onclick="$(this).next().toggle()"><span class="dd_rte_arr"></span> <span style="padding: 4px;">Tt</span></span>
+
+                <div class="wysiwyyg-convertible">
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
@@ -181,7 +187,7 @@
                     </ul>
                   </div>
                 </div>
-                </div>
+                </div> </div>
                 </div>
                 <div class="wysiwyyg-cell">
                   <div class="wysiwyyg-cell-limitter">
@@ -341,6 +347,7 @@
           mw.$(".show_editor").click(function(){
             mw.$("#liveedit_wysiwyg").toggle();
            mw.liveEditWYSIWYG.buttons();
+           $(this).toggleClass("active");
           });
 
 

@@ -1699,7 +1699,7 @@ mw.tools = {
   },
   tabGroup : function(obj, master){
     var master = master || mwd.body;
-    var active = obj.activeNav || "active";
+    var active = obj.activeNav || obj.activeClass || "active";
     mw.$(obj.nav).click(function(){
       if(!$(this).hasClass(active)){
         var i = mw.tools.index(this, master, obj.nav);

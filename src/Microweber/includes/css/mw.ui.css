@@ -1069,7 +1069,25 @@ div.mw-date{
 
 
 
+@media (max-width: 1024px) {
+    .hide-1024{ display: none;  }
+    .show-1024{ display: block;  }
+}
 
+@media (max-width:960px) {
+    .hide-960{ display: none;  }
+    .show-960{ display: block;  }
+}
+
+@media (max-width: 768px) {
+    .hide-768{ display: none;  }
+    .show-768{ display: block;  }
+}
+
+@media (max-width: 768px) {
+    .hide-768{ display: none;  }
+    .show-768{ display: block;  }
+}
 
 
 

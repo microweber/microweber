@@ -77,7 +77,9 @@
                           data-for="elements" />
                  </div>
                  <div class="mw_clear"></div>
+
                  <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
+
              </div>
          </div>
         <div id="tab_modules" class="mw_toolbar_tab">
