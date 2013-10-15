@@ -1158,7 +1158,7 @@ li .ts_action_item:last-child{
 }
 
 input.mwtb-search{
-  width: 115px;
+  width: 95px;
   margin: 3px 0;
   border-radius: 0 2px 2px 0;
   padding: 6px 31px 6px 4px;
@@ -1339,7 +1339,7 @@ input.mwtb-search{
   float: left;
   width: 24px;
   height: 31px;
-  margin-right: 5px;
+  margin-right: 17px;
   margin-top: 3px;
 }
 

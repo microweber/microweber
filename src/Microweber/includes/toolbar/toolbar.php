@@ -104,6 +104,18 @@
     <div id="mw-saving-loader"></div>
   </div>
 </div>
+<div id="image_settings_modal_holder" style="display: none">
+    <div class='image_settings_modal'>
+        <img src='' id='mwimagecurrent' />
+        <hr>
+        <span title="Vintage Effect" onclick="mw.image.vintage(mw.image.current);" class="ed_item ed_nobg ed_item_image_gray left"> <span></span> </span>
+        <span title="Convert to Grayscale" onclick="mw.image.grayscale(mw.image.current);" class="ed_item ed_nobg ed_item_image_gray left"> <span></span> </span>
+        <span onclick="mw.image.rotate(mw.image.current);" class="ed_item ed_nobg ed_item_image_rotate left"> <span></span> </span>
+        <div class='vSpace'></div><hr>
+        <textarea placeholder='Image Description'>"+title+"</textarea>
+        <span class='mw-ui-btn mw-ui-btn-green' onclick='mw.current_element.src = mw.image.current.src'>Update</span>
+    </div>
+</div>
 <?php event_trigger('mw_after_editor_toolbar'); ?>
 <?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
 <?php } else { ?>

@@ -3354,8 +3354,8 @@ mw.image = {
       create_resizer:function(){
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
-          resizer.className = 'mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
+          resizer.className = 'mw-defaults mw_image_resizer';
+          resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change" style="right:70px;">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }
@@ -3663,8 +3663,24 @@ mw.image = {
             area.val(curr);
             area.show();
         }
+      },
+      settings:function(){
+        var src = mw.current_element.src;
+        var title = mw.current_element.title;
+        var html = ""
+        
+        var modal = mw.tools.modal.init({
+          html:html,
+          template:"mw_modal_simple"
+        });
+
+
+
+        mw.image.current = modal.container.querySelector("#mwimagecurrent");
       }
     }
+
+
 
 
 

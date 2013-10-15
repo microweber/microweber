@@ -2868,6 +2868,17 @@ a.module-icon-title{
 }
 
 
+.image_settings_modal{
+  height: 440px;
+  overflow: auto;
+}
+#mwimagecurrent{
+  max-height: 250px;
+  display: block;
+  margin: auto
+}
+
+
 
 
 
