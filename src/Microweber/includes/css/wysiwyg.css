@@ -89,7 +89,7 @@
 }
 
 
-.mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyyg-convertible-toggler.active{
+.mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyg-convertible-toggler.active{
   border: 1px solid #D2D2D2;
   padding: 0;
   background: #F3F3F3;
@@ -219,7 +219,7 @@
   height: 68px;
   border:1px solid #DCDCDC;
   background: #F5F5F5;
-  border-radius: 3px;
+  border-radius: 1px;
 }
 
 #mw_small_editor .mw_dlm{

@@ -723,8 +723,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
     min-width: -webkit-calc(100% - 2px);
     background: #F5F5F5;
     border: 1px solid #C2BFBF;
-    box-shadow: 0 2px 3px #888;
-    box-shadow: 0 2px 3px -1px #888;
+    box-shadow: 0 2px 3px -3px #888;
     cursor: default;
 }
 
@@ -761,8 +760,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 .mw-dropdown-list li li li li a{ padding-left: 40px }
 
 .mw-dropdown-list > li a:hover{
-  background-color: #ACACAC;
-  color: #fff;
+  background-color: #EEEEEE;
 }
 
 .mw-dropdown-list > li:last-child a{

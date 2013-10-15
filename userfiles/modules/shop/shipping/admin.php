@@ -49,6 +49,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
     <div style="padding: 15px;">
       <div class="mw-set-shipping-gw-options" >
+	  
 	  		
         <module type="<?php print $shipping_module['module'] ?>" view="admin" />
       </div>

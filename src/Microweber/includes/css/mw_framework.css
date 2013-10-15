@@ -1101,7 +1101,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 
-.mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);border-color: #BAD7F6;border-bottom-color: #89B6D9;}
+.mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
 .mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
 
 
@@ -1128,6 +1128,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 .mw-ui-btn-green{
   background: url(../img/grad.php?top=d8ffc3&bot=d0ebb1) no-repeat;
+  background: #d8ffc3;
   border-color: #8DBF2D;
 }
 .mw-ui-btn-green:hover{

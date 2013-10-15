@@ -2092,7 +2092,7 @@ mw.tools = {
     $.each(curr.attributes, function(index, attr) {
       attributes[attr.name] = attr.value;
     });
-    data1 = attributes
+    var data1 = attributes;
 	var module_type = null
     if(data1['data-type'] != undefined){
   	 module_type = data1['data-type'];

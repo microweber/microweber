@@ -21,8 +21,7 @@
   <?php endif; ?>
   <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>
   <div class="controls">
-    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>">
-    </textarea>
+    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>"></textarea>
   </div>
   <?php else : ?>
   <div class="controls">

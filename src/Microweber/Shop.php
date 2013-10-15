@@ -1,6 +1,6 @@
 <?php
 namespace Microweber;
-    //event_bind('mw_db_init_default', mw('Microweber\Shop')->db_init());
+//event_bind('mw_db_init_default', mw('shop')->db_init());
 
     /**
      *
@@ -117,27 +117,12 @@ class Shop
                 }
 
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
 
-                    $tmp_val = '';
-                    if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
-                        $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-                        foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-                            if (is_array($cfv)) {
-                                $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
-                                $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-                                foreach ($cfv as $cfk1 => $cfv1) {
-                                    $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
-                                }
-                                $tmp_val .= '</ul>';
-                                $tmp_val .= '</li>';
-                            } else {
-                                $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
-                            }
-                        }
-                        $tmp_val .= '</ul>';
-                        $item['custom_fields'] = $tmp_val;
-                    }
+                    $item = $this->_render_item_custom_fields_data($item);
+
+
+
+
 
                 }
 
@@ -165,7 +150,19 @@ class Shop
 
         $params['id'] = intval($id);
 
-        return $this->app->db->get($params);
+        $item = $this->app->db->get($params);
+
+        if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+
+            $item = $this->_render_item_custom_fields_data($item);
+
+
+
+
+
+        }
+
+        return $item;
 
     }
 
@@ -337,6 +334,8 @@ class Shop
         if (!session_id() and !headers_sent()) {
             session_start();
         }
+
+
         $exec_return = false;
         $sid = session_id();
         $cart = array();
@@ -405,6 +404,27 @@ class Shop
                 return $this->app->url->redirect($return_to);
 
             }
+        }
+
+        $additional_fields = false;
+        if (isset($data['for']) and isset($data['for_id'])) {
+            $additional_fields = $this->app->fields->get($data['for'], $data['for_id'], 1);
+
+        }
+        $save_custom_fields_for_order = array();
+        if (is_array($additional_fields) and !empty($additional_fields)) {
+            foreach ($additional_fields as $cf) {
+                foreach ($data as $k => $item) {
+                    $key1 = str_replace('_', ' ', $cf['custom_field_name']);
+                    $key2 = str_replace('_', ' ', $k);
+                    if ($key1 == $key2) {
+                        $save_custom_fields_for_order[$key1] = $this->app->format->clean_html($item);
+
+                    }
+
+                }
+            }
+            // d($save_custom_fields_for_order);
         }
 
 
@@ -515,6 +535,7 @@ class Shop
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
 
+
 //            if (intval($shipping_cost_above) > 0 and intval($shipping_cost_max) > 0) {
 //                if ($amount > $shipping_cost_above) {
 //                    $shipping_cost = $shipping_cost_max;
@@ -531,6 +552,11 @@ class Shop
             $place_order['payment_verify_token'] = $cart_checksum;
 
             define('FORCE_SAVE', $table_orders);
+
+            if (isset($save_custom_fields_for_order) and !empty($save_custom_fields_for_order)) {
+                $place_order['custom_fields_data'] = $this->app->format->array_to_base64($save_custom_fields_for_order);
+            }
+
 
             $temp_order = $this->app->db->save($table_orders, $place_order);
             if ($temp_order != false) {
@@ -1020,7 +1046,8 @@ class Shop
                 if (isset($item)) {
                     if ($found == true) {
                         if ($k != 'price' and !in_array($k, $skip_keys)) {
-                            $add[$k] = ($item);
+                            // $add[$k] = ($item);
+                            $add[$k] = $this->app->format->clean_html($item);
                         }
                     }
                 }
@@ -1230,14 +1257,8 @@ class Shop
             mw_var('FORCE_ANON_UPDATE', $table_orders);
 
 
-
-
             $ord = $this->app->db->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
-
-
-
-
 
 
             if (isset($update_order['is_paid']) and $update_order['is_paid'] == 'y') {
@@ -1467,6 +1488,8 @@ class Shop
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $fields_to_add[] = array('user_ip', 'varchar(255)  default NULL ');
         $fields_to_add[] = array('items_count', 'int(11) default NULL');
+        $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
+
         $fields_to_add[] = array('payment_gw', 'TEXT  default NULL ');
         $fields_to_add[] = array('payment_verify_token', 'TEXT  default NULL ');
         $fields_to_add[] = array('payment_amount', 'float default NULL');
@@ -1796,6 +1819,35 @@ class Shop
         } else
             return FALSE;
         //if format of ip address doesn't matches
+    }
+
+
+    private function _render_item_custom_fields_data($item)
+    {
+        if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+            $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
+
+            $tmp_val = '';
+            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
+                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+                    if (is_array($cfv)) {
+                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+                        foreach ($cfv as $cfk1 => $cfv1) {
+                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+                        }
+                        $tmp_val .= '</ul>';
+                        $tmp_val .= '</li>';
+                    } else {
+                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+                    }
+                }
+                $tmp_val .= '</ul>';
+                $item['custom_fields'] = $tmp_val;
+            }
+        }
+        return $item;
     }
 
 

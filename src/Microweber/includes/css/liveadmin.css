@@ -802,6 +802,7 @@ form.add-edit-page-post textarea{
 
 .mw-quick-links li > a:hover, .mw-quick-links li.active > a, .mw-quick-links li > strong:hover, .mw-quick-links li.active > strong{
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
+  background: #F5F5F5;
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
   border-bottom-color: #A1A0A0;
