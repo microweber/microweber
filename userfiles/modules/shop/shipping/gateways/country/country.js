@@ -9,6 +9,9 @@ mw.shipping_country = {
             $.post(mw.shipping_country.url + "/shipping_to_country/delete",  obj, function(data){
               mw.$(".country-id-"+id).fadeOut();
               mw.reload_module('[data-parent-module="shop/shipping"]');
+			   if(window.parent != undefined && window.parent.mw != undefined){
+					window.parent.mw.reload_module('shop/shipping/gateways/country');
+				}
             });
         });
     },

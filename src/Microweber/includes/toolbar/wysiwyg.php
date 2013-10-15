@@ -93,7 +93,12 @@
 
                 <div class="wysiwyyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
                 <div class="wysiwyyg-cell">
-                    <div class="wysiwyyg-cell-limitter">
+                   <div class="relative">
+
+                        <span class="mw_editor_btn mw_editor_bold wysiwyyg-convertible-toggler wysiwyyg-convertible-toggler-1024">
+                            <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
+                        </span>
+                        <div class="wysiwyyg-convertible wysiwyyg-convertible-1024">
                         <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
@@ -102,16 +107,17 @@
                         <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
                     </div>
                 </div>
+                </div>
                 <div class="wysiwyyg-cell">
 
 
                 <div class="relative">
 
-                <span class="mw_editor_btn mw_editor_t wysiwyyg-convertible-toggler" onclick="$(this).next().toggle()">
+                <span class="mw_editor_btn mw_editor_t wysiwyyg-convertible-toggler wysiwyg-convertible-1366">
                     <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
                 </span>
 
-                <div class="wysiwyyg-convertible">
+                <div class="wysiwyyg-convertible wysiwyg-convertible-1366">
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
@@ -192,7 +198,16 @@
                 </div> </div>
                 </div>
                 <div class="wysiwyyg-cell">
-                  <div class="wysiwyyg-cell-limitter">
+                  <div class="relative">
+
+                <span class="mw_editor_btn mw_editor_ul wysiwyyg-convertible-toggler wysiwyyg-convertible-toggler-1440">
+                    <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
+                </span>
+
+                <div class="wysiwyyg-convertible wysiwyyg-convertible-1440">
+
+
+
                     <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
                     <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span>
 
@@ -203,21 +218,24 @@
 
                     <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>
                   </div>
+                  </div>
                 </div>
-
                <div class="wysiwyyg-cell">
-                 <div class="wysiwyyg-cell-limitter">
+                 <div class="relative">
+
+                <span class="mw_editor_btn mw_editor_justifyleft wysiwyyg-convertible-toggler wysiwyyg-convertible-toggler-1440">
+                    <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
+                </span>
+
+                <div class="wysiwyyg-convertible wysiwyyg-convertible-1440">
                         <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
                   </div>
                 </div>
-
-
-
+                </div>
                  <?php event_trigger('mw_editor_btn'); ?>
-
             </div>
         </div>
     </div>
@@ -266,6 +284,26 @@
                     mw.liveEditWYSIWYG.buttons();
                });
             }
+          },
+          fixConvertible:function(who){
+            var who = who || ".wysiwyyg-convertible";
+            var who = $(who);
+            if(who.length > 1){
+              $(who).each(function(){
+                mw.liveEditWYSIWYG.fixConvertible(this);
+              });
+              return false;
+            }
+            else{
+               var w = $(window).width();
+               var w1 = who.offset().left + who.width();
+               if(w1 > w){
+                 who.css("left", -(w1-w));
+               }
+               else{
+                 who.css("left", 0);
+               }
+            }
           }
         }
         $(window).load(function(){
@@ -277,7 +315,6 @@
                 mw.liveEditWYSIWYG.slideRight();
             }
           });
-
           mw.$(".tst-modules").click(function(){
             mw.$('#modules-and-layouts').toggleClass("active");
             var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
@@ -350,6 +387,17 @@
             mw.$("#liveedit_wysiwyg").toggle();
            mw.liveEditWYSIWYG.buttons();
            $(this).toggleClass("active");
+          });
+
+          mw.$(".wysiwyyg-convertible-toggler").click(function(){
+             var el = $(this), next = el.next();
+             mw.$(".wysiwyyg-convertible").not(next).removeClass("active");
+             mw.$(".wysiwyyg-convertible-toggler").not(el).removeClass("active");
+             next.toggleClass("active");
+             el.toggleClass("active");
+             if(el.hasClass("active")){
+                mw.liveEditWYSIWYG.fixConvertible(next);
+             }
           });
 
 

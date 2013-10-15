@@ -3,7 +3,7 @@ namespace Microweber;
 
 
 $_mw_modules_info_register = array();
- //event_bind('mw_db_init', mw('Microweber\Module')->db_init());
+//event_bind('mw_db_init', mw('Microweber\Module')->db_init());
 
 
 $mw_mod_counter = 0;
@@ -17,7 +17,8 @@ api_expose('module/save');
 class Module
 {
     public $app;
-    function __construct($app=null)
+
+    function __construct($app = null)
     {
         if (!defined("MW_DB_TABLE_MODULES")) {
             define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
@@ -41,11 +42,11 @@ class Module
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-               $this->app = mw('application');
+                $this->app = mw('application');
             }
 
         }
-		$this->db_init(); 
+        $this->db_init();
     }
 
     public function get($params = false)
@@ -192,11 +193,11 @@ class Module
                 $attrs2 = array();
                 foreach ($attrs as $attrs_k => $attrs_v) {
                     $attrs_k2 = substr($attrs_k, 0, 5);
-                     if (strtolower($attrs_k2) == 'data-') {
+                    if (strtolower($attrs_k2) == 'data-') {
                         $attrs_k21 = substr($attrs_k, 5);
                         $attrs2[$attrs_k21] = $attrs_v;
-                     }elseif(!isset($attrs['data-'.$attrs_k])){
-                        $attrs2['data-'.$attrs_k] = $attrs_v;
+                    } elseif (!isset($attrs['data-' . $attrs_k])) {
+                        $attrs2['data-' . $attrs_k] = $attrs_v;
 
                     }
 
@@ -220,11 +221,12 @@ class Module
             $config['url'] = $find_base_url;
 
             $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
-
-            $config['module_api'] = $this->app->url->site('api/' . $module_name);
+            $mod_api = str_replace('/admin', '', $module_name);
+            $config['module_api'] = $this->app->url->site('api/' . $mod_api);
             $config['module_view'] = $this->app->url->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
-            $config['module_class'] = $this->css_class($module_name);            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+            $config['module_class'] = $this->css_class($module_name);
+            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
             $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
 
@@ -261,10 +263,6 @@ class Module
 
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-
-
-
-
 
 
             $l1 = new \Microweber\View($try_file1);
@@ -357,7 +355,7 @@ class Module
         $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
-        $module_name_l_theme = normalize_path($module_name_l_theme,1);
+        $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
         if (!is_dir($module_name_l)) {
 
@@ -438,14 +436,11 @@ class Module
         }
 
         $secure_connection = false;
-        if(isset($_SERVER['HTTPS']))
-        {
-            if ($_SERVER["HTTPS"] == "on")
-            {
+        if (isset($_SERVER['HTTPS'])) {
+            if ($_SERVER["HTTPS"] == "on") {
                 $secure_connection = true;
             }
         }
-
 
 
         $args = func_get_args();
@@ -486,10 +481,9 @@ class Module
         $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
 
 
-        if($secure_connection == true){
-            $checked[$module_name] = str_ireplace('http://', 'https://',$checked[$module_name]);
+        if ($secure_connection == true) {
+            $checked[$module_name] = str_ireplace('http://', 'https://', $checked[$module_name]);
         }
-
 
 
         return $checked[$module_name];
@@ -790,17 +784,17 @@ class Module
 
         $fields_to_add[] = array('notifications', 'int(11) default 0');
 
-         $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
-         $this->app->db->add_table_index('module', $table_name, array('module(255)'));
-         $this->app->db->add_table_index('module_id', $table_name, array('module_id(255)'));
+        $this->app->db->add_table_index('module', $table_name, array('module(255)'));
+        $this->app->db->add_table_index('module_id', $table_name, array('module_id(255)'));
 
-         $this->app->db->build_table($table_name2, $fields_to_add);
+        $this->app->db->build_table($table_name2, $fields_to_add);
 
-         $this->app->db->add_table_index('module', $table_name2, array('module(255)'));
-         $this->app->db->add_table_index('module_id', $table_name2, array('module_id(255)'));
+        $this->app->db->add_table_index('module', $table_name2, array('module(255)'));
+        $this->app->db->add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
@@ -810,7 +804,7 @@ class Module
         $fields_to_add[] = array('module_id', 'TEXT default NULL');
         $fields_to_add[] = array('name', 'TEXT default NULL');
         $fields_to_add[] = array('module', 'TEXT default NULL');
-         $this->app->db->build_table($table_name3, $fields_to_add);
+        $this->app->db->build_table($table_name3, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -1146,7 +1140,7 @@ class Module
                 $to_save['installed'] = '1';
 
             }
-            if(isset($cfg['categories'])){
+            if (isset($cfg['categories'])) {
                 $to_save['categories'] = $cfg['categories'];
             }
             if ($to_save['installed'] == '1') {
@@ -1198,7 +1192,6 @@ class Module
                             $this->app->cache->delete('options/global');
                         }
                     }
-
 
 
                     if (isset($config['options']) and is_array($config['options'])) {
@@ -1322,6 +1315,7 @@ class Module
 
 
     }
+
     public function save_module_as_template($data_to_save)
     {
 
@@ -1492,9 +1486,9 @@ class Module
                     ob_start();
 
 
-                    $is_mw_ignore = dirname($value).DS.'.mwignore';
-                    if(!is_file($is_mw_ignore)){
-                    include ($value);
+                    $is_mw_ignore = dirname($value) . DS . '.mwignore';
+                    if (!is_file($is_mw_ignore)) {
+                        include ($value);
                     }
 
                     $content = ob_get_contents();

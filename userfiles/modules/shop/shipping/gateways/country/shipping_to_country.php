@@ -42,8 +42,21 @@ class shipping_to_country
 
 
         if ($shipping_country == false) {
+
+
+            $shipping_country = $this->get('order_by=position asc&one=1&is_active=y');
+
+
+            //
+        }
+
+        if ($shipping_country == false) {
+
             return false;
         }
+
+
+ 
 
         if (isset($shipping_country['id'])) {
             if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {
@@ -172,6 +185,8 @@ class shipping_to_country
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
             $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
         }
+
+        $this->app->user->session_set('shipping_country', $shipping_country['shipping_country']);
 
         $this->app->user->session_set('shipping_cost', $defined_cost);
 

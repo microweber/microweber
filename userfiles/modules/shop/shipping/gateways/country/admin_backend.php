@@ -20,6 +20,12 @@
   $data[] = array();
 
      $countries =    mw('forms')->countries_list();
+	 
+	 if(is_array($countries)){
+asort($countries);
+
+}
+	 
 	 if(!is_array($countries)){
 
 
@@ -30,10 +36,7 @@
 	 }
 
 
-if(is_array($countries)){
-asort($countries);
 
-}
 
 
 
@@ -76,6 +79,9 @@ mw.shipping_country.url = "<?php print $config['module_api']; ?>";
          });
          $.post("<?php print $config['module_api']; ?>/shipping_to_country/reorder", obj, function(){
 		    mw.reload_module('[data-parent-module="shop/shipping"]');
+			 if(window.parent != undefined && window.parent.mw != undefined){
+				window.parent.mw.reload_module('shop/shipping/gateways/country');
+			  }
 		 });
        },
        start:function(a,ui){
@@ -215,14 +221,22 @@ SaveShipping = function(form, dataType){
 
   if(dataType == 'new'){
         mw.reload_module('<?php print $config['the_module']; ?>', function(){
-          mw.notification.success("<?php _e("All changes are saved"); ?>");
+          mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
         });
   }
   else{
         mw.reload_module(dataType, function(){
-          mw.notification.success("<?php _e("All changes are saved"); ?>");
+          mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
         });
   }
+  
+  
+  
+  if(window.parent != undefined && window.parent.mw != undefined){
+    window.parent.mw.reload_module('shop/shipping/gateways/country');
+  }
+  
+  
 
     }
 

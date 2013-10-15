@@ -89,11 +89,10 @@
 }
 
 
-.mw_editor_btn:hover, .mw_editor_btn_active{
+.mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyyg-convertible-toggler.active{
   border: 1px solid #D2D2D2;
   padding: 0;
-  background: url(../img/grad.php?top=F3F3F3&bot=E5E5E5);
-  background: #F3F3F3
+  background: #F3F3F3;
 }
 
 

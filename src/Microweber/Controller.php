@@ -1157,7 +1157,14 @@ class Controller
                 break;
 
             default :
+
+
+               // d($mod_api_class);
+
+
+
                 if ($mod_class_api == true and $mod_api_class != false) {
+                    $mod_api_class = str_replace('..', '', $mod_api_class);
 
                     $try_class = str_replace('/', '\\', $mod_api_class);
                     $try_class_full = str_replace('/', '\\', $api_function_full);
@@ -1220,7 +1227,6 @@ class Controller
                             }
 
                         }
-
 
                         if (!class_exists($try_class, false)) {
                             $try_class_mw = ltrim($try_class, '/');
@@ -1315,7 +1321,7 @@ class Controller
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
 
-                        //d($api_exposed_item);
+                         //d($api_exposed_item);
                        // d($api_function_full);
 
 
