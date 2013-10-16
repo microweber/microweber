@@ -601,12 +601,13 @@ mw.wysiwyg = {
         }
     },
     applier:function(tag, classname, style_object){
+      var classname = classname || '';
       if(mw.wysiwyg.isSelectionEditable()){
           var range = window.getSelection().getRangeAt(0);
           var selectionContents = range.extractContents();
-          var el = document.createElement(tag);
+          var el = mwd.createElement(tag);
           el.className = classname;
-          style_object!=undefined?$(el).css(style_object):'';
+          typeof style_object !== 'undefined'? $(el).css(style_object) :'';
           el.appendChild(selectionContents);
           range.insertNode(el);
           return el;
@@ -975,8 +976,12 @@ mw.wysiwyg = {
 
     },
     format:function(command){
-      d(command)
+      if(mw.wysiwyg.selection_length() > 0){
+        mw.wysiwyg.applier(command);
+      }
+      else{
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+      }
     },
     _undo:true,
     _redo:false,

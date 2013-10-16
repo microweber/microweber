@@ -774,3 +774,4 @@ $language["paypal-pro-payment-gateway"]= 'Paypal Pro payment gateway' ;
 $language["content-medium"]= 'Content medium' ; 
 $language["shipping-to-country-module"]= 'Shipping to country module' ; 
 $language["your-posts-module-is-empty"]= 'Your posts module is empty' ; 
+$language["click-on-settings-to-edit-your-custom-fields"]= 'Click on settings to edit your custom fields.' ; 

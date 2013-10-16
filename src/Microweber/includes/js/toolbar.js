@@ -350,6 +350,7 @@ mw.setLiveEditor();
             mw.$("#mw-text-editor").invisible() ;
             mw.$("#mw-text-editor").removeClass("hover");
         }
+        
     });
     $(document.body).mouseup(function(event){
          mw.target.item = event.target;

@@ -62,6 +62,10 @@ class Parser
                 }
             }
         }
+
+
+
+
         $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
 
@@ -560,70 +564,7 @@ class Parser
         if ($layout == '') {
             return $layout;
         }
-        //$layout =htmlspecialchars_decode($layout ,  ENT_COMPAT );
-        // $layout = html_entity_decode($layout);
-
-        // $layout= html_entity_decode($layout,ENT_QUOTES,"UTF-8");
-        // $layout= html_entity_decode($layout,ENT_COMPAT);
-
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-
-
-        $layout = str_replace("\u00a0", ' ', $layout);
-
-
-        $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
-        $replaced_scripts = array();
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
-
-        if (!empty($mw_script_matches)) {
-            foreach ($mw_script_matches [0] as $key => $value) {
-                if ($value != '') {
-
-                    $v1 = ' ';
-                    //  $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
-                    //..  $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
-
-                    $v1 = str_replace('<script', '<code language=javascript ', $value);
-                    $v1 = str_replace('</script', '</code', $v1);
-
-                    $layout = str_replace($value, $v1, $layout);
-
-                }
-            }
-        }
-
-        $layout = str_replace('<script>', '<code>', $layout);
-        $layout = str_replace('</script>', '</code>', $layout);
-        $layout = str_replace('&lt;\/script', '&lt;\/code', $layout);
-        $layout = str_replace('&lt;script', '&lt;code', $layout);
-
-
-        $layout = str_replace('<script', '&lt;pre', $layout);
-        $layout = str_replace('</script', '&gt/pre', $layout);
-
-        $layout = str_replace('<?', '&lt;?', $layout);
-        $layout = str_replace('?>', '?&gt;', $layout);
-
-
-//        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
-//        $replaced_scripts = array();
-//        preg_match_all($script_pattern, $layout, $mw_script_matches);
-//
-//        if (!empty($mw_script_matches)) {
-//            foreach ($mw_script_matches [0] as $key => $value) {
-//                if ($value != '') {
-//
-//                    //	$v1 = crc32($value);
-//                    $v1 = ' ';
-//                   // $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
-//                   // $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
-//
-//                    $layout = str_replace($value, $v1, $layout);
-//
-//                }
-//            }
-//        }
 
         $pq = \phpQuery::newDocument($layout);
         // print first list outer HTML
@@ -651,7 +592,77 @@ class Parser
 
 
         $layout = $pq->htmlOuter();
-        // d($layout);
+
+
+        //$layout =htmlspecialchars_decode($layout ,  ENT_COMPAT );
+        // $layout = html_entity_decode($layout);
+
+        // $layout= html_entity_decode($layout,ENT_QUOTES,"UTF-8");
+        // $layout= html_entity_decode($layout,ENT_COMPAT);
+
+
+
+        $layout = str_replace("\u00a0", ' ', $layout);
+
+
+//        $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
+//        $replaced_scripts = array();
+//        preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//        if (!empty($mw_script_matches)) {
+//            foreach ($mw_script_matches [0] as $key => $value) {
+//                if ($value != '') {
+//
+//                    $v1 = ' ';
+//                    //  $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+//                    //..  $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
+//
+//                    $v1 = str_replace('<script', '<pre language=javascript ', $value);
+//                    $v1 = str_replace('</script', '</pre', $v1);
+//
+//                    $layout = str_replace($value, $v1, $layout);
+//
+//                }
+//            }
+//        }
+//
+//        $layout = str_replace('<script>', '<pre>', $layout);
+//        $layout = str_replace('</script>', '</pre>', $layout);
+//        $layout = str_replace('&lt;\/script', '&lt;\/pre', $layout);
+//        $layout = str_replace('&lt;script', '&lt;pre', $layout);
+//
+//
+//        $layout = str_replace('<script', '&lt;pre', $layout);
+//        $layout = str_replace('</script', '&gt/pre', $layout);
+
+
+
+
+        $layout = str_replace('<?', '&lt;?', $layout);
+        $layout = str_replace('?>', '?&gt;', $layout);
+
+
+//        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+//        $replaced_scripts = array();
+//        preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//        if (!empty($mw_script_matches)) {
+//            foreach ($mw_script_matches [0] as $key => $value) {
+//                if ($value != '') {
+//
+//                    //	$v1 = crc32($value);
+//                    $v1 = ' ';
+//                   // $v1 = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+//                   // $v1 =htmlspecialchars ( $v1,  ENT_COMPAT );
+//
+//                    $layout = str_replace($value, $v1, $layout);
+//
+//                }
+//            }
+//        }
+
+
+
         // return $pq->htmlOuter();
 
         return $layout;
@@ -841,7 +852,7 @@ class Parser
 
                 return $passed_reps[$parser_mem_crc];
             }
-
+            $no_cache = 1;
             if ($no_cache == false) {
                 $cache = $this->app->cache->get($parser_mem_crc, 'content_fields/global/parser');
 
@@ -1238,22 +1249,23 @@ class Parser
                          if ($apc_field_content != false) {
                          $ch2 = true;
                          $field_content = $apc_field_content;
-                         //	d($field_content);
+                         //
                          pq($elem) -> html($field_content);
                          }
                          }*/
 
                         if ($ch2 == false) {
-                            //$field_content = mw('parser')->process($field_content, $options, $coming_from_parent, $coming_from_parent_id);
-                            if ($field_content != false and $field_content != '') {
-
+                             if ($field_content != false and $field_content != '') {
 
                                 $mw_found_elems = ',' . $parser_mem_crc2;
-                                //$field_content = htmlspecialchars_decode(html_entity_decode($field_content, ENT_COMPAT, "UTF-8"));
-                                $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
 
-                                //pq($elem) -> html('<!--mw_replace_back_this_editable_' . $parser_mem_crc2.'-->');
-                                pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+//                                $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+//                                pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+
+
+                                pq($elem)->html($field_content);
+
+
 
                             }
                             /*

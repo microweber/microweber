@@ -474,7 +474,7 @@ mw.edit_content.handle_form_submit = function(go_live){
                 mw.session.checkPauseExplicitly = false;
                 mw.session.logRequest();
               }
-              mw.edit_content.saving = false;	    
+              mw.edit_content.saving = false;
           }
         })
 	

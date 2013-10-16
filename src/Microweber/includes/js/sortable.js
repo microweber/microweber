@@ -256,11 +256,15 @@ mw.drag = {
             if(!mw.settings.resize_started){
 
            if(mw.mouseDownOnEditor){
-            $("#mw_small_editor").css({
-               top:event.pageY-$(window).scrollTop(),
-               left:event.pageX-100
-            });
-            mw.$("#mw-text-editor").slideUp('fast', function(){mw.toolbar.fixPad()})
+
+
+                  $("#mw_small_editor").css({
+                     top:event.pageY-$(window).scrollTop(),
+                     left:event.pageX-100,
+                     visibility: "visible"
+                  });
+                mw.$("#mw-text-editor").slideUp('fast', function(){mw.toolbar.fixPad()})
+
            }
            if(mw.SmallEditorIsDragging){
                 var offset_small = mw.smallEditor.offset();
@@ -619,6 +623,7 @@ mw.drag = {
 
         $(mwd.body).mousedown(function(event){
           var target = event.target;
+          d(target)
           if($(target).hasClass("image_free_text")){
             mw.image._dragcurrent = target;
             mw.image._dragparent = target.parentNode;
