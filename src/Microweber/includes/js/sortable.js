@@ -623,7 +623,7 @@ mw.drag = {
 
         $(mwd.body).mousedown(function(event){
           var target = event.target;
-          d(target)
+
           if($(target).hasClass("image_free_text")){
             mw.image._dragcurrent = target;
             mw.image._dragparent = target.parentNode;

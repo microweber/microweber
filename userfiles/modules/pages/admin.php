@@ -5,6 +5,13 @@
 <?php $include_categories =  get_option('include_categories', $params['id']); ?>
 
 
+
+<?php 
+ 
+?>
+
+
+
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">
 	<li><a class="active" href="javascript:;"><?php _e("Options"); ?></a></li>
@@ -23,7 +30,7 @@
           $pt_opts['link'] = "{empty}{title}";
           $pt_opts['list_tag'] = " ";
           $pt_opts['list_item_tag'] = "option";
-
+		  
           $pt_opts['active_ids'] =$posts_parent_page;
 
           $pt_opts['active_code_tag'] = '   selected="selected"  ';
@@ -31,8 +38,9 @@
           mw('content')->pages_tree($pt_opts);
 
 
-          ?>
-
+          ?><?php if(defined('PAGE_ID')): ?>
+				<option  value="<?php print PAGE_ID; ?>" >[use current page]</option>
+<?php endif; ?>
 			</select>
 		</div>
 		<span class="left label-arrow" style="margin-left: 45px;"></span>

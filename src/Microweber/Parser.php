@@ -914,7 +914,7 @@ class Parser
             } else {
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-                $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+               // $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
                 //$layout = htmlspecialchars_decode($layout);
 
                 $pq = \phpQuery::newDocument($layout);
@@ -1259,11 +1259,11 @@ class Parser
 
                                 $mw_found_elems = ',' . $parser_mem_crc2;
 
-//                                $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-//                                pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+                                 pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 
 
-                                pq($elem)->html($field_content);
+                           //     pq($elem)->html($field_content);
 
 
 

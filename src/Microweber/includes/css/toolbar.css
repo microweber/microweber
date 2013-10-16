@@ -1137,10 +1137,23 @@ li .ts_action_item:last-child{
   border-top:none;
 }
 
-.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list a { padding: 5px; background-color: white }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list {
+  background: white;
+}
+
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list a { padding: 5px; background-color: transparent; }
 .toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li a{ padding-left: 20px; }
 .toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li li a{ padding-left: 40px; }
 .toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li li li a{ padding-left: 60px; }
+
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list ul{ background: white url(../img/deeparr.png) no-repeat 21px 9px; }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list a:hover{
+     text-decoration: underline
+}
+
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list ul ul{ background-position: 41px 9px; }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list ul ul ul{ background-position: 61px 9px; }
+
 
 .toolbar-sections-tabs > ul > li > ul > li > a:hover,
 .toolbar-sections-tabs > ul > li > ul > li > a:focus{
