@@ -342,8 +342,12 @@ mw.tools = {
             var id = $(id)[0].id;
           }
         }
-        $(mwd.getElementById(id).overlay).remove();
-        $(mwd.getElementById(id)).remove();
+        var el = mwd.getElementById(id);
+        if(el===null){ return false; }
+        if(!!el.overlay){
+          $(el.overlay).remove();
+        }
+        $(el).remove();
     },
     resize:function(modal, w, h, center, doc){
       var doc = doc || document;

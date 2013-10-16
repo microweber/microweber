@@ -26,6 +26,16 @@ if(isset($params['page-id'])){
 if(isset($params['content-id'])){
   $data = mw('content')->get_by_id(intval($params["content-id"]));
 }
+$recommended_parent = false;
+if(isset($params['recommended_parent']) and $params['recommended_parent'] != false){
+	 
+  $recommended_parent = $params['recommended_parent'];
+ 
+}
+
+
+
+
 
 
 
@@ -155,7 +165,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 		<div class="right"  >
 			<?php if($data['content_type'] == 'page'){ ?>
 			<div class="left">
-				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>"  />
+				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
 			</div>
 			<?php } ?>
 			<div class="right">

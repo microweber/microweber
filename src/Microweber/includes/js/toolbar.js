@@ -350,7 +350,7 @@ mw.setLiveEditor();
             mw.$("#mw-text-editor").invisible() ;
             mw.$("#mw-text-editor").removeClass("hover");
         }
-        
+
     });
     $(document.body).mouseup(function(event){
          mw.target.item = event.target;
@@ -426,7 +426,7 @@ mw.quick = {
           h : 500,
           page : function(){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,

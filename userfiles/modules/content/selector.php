@@ -21,6 +21,13 @@ if(isset($params['no-parent-title'])){
 $no_parent_title = $params['no-parent-title'];
 }
 
+$top_item = false;
+if(isset($params['recommended-id']) and $params['recommended-id'] != false){
+	 
+  $recommended_parent = $params['recommended-id'];
+  $top_item = mw('content')->get_by_id(intval($recommended_parent));
+}
+//
 
  
 ?> 
@@ -49,6 +56,11 @@ $(document).ready(function(){
 	
 <?php } ?> 
 <select name="<?php print $field_name ?>" class="selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>" title="Select a parent page">
+	<?php if(isset($top_item) and is_array($top_item) and !empty($top_item)) : ?>
+   <option value="<?php print $top_item['id'] ?>" >-- <?php print $top_item['title'] ?></option>
+     <?php endif; ?>
+
+	
 	<option value="0"   <?php if((0 == intval($selected))): ?>   selected="selected"  <?php endif; ?>>
 	<?php print $no_parent_title ?>
 	</option>
