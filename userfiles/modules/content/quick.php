@@ -277,6 +277,8 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 
 mw.edit_content = {};
 
+mw.edit_content.saving = false;
+
 mw.edit_content.load_editor  = function(element_id){
 
 
@@ -424,6 +426,8 @@ mw.edit_content.render_category_tree = function(){
 
 
 mw.edit_content.handle_form_submit = function(go_live){
+        if(mw.edit_content.saving){ return false; }
+        mw.edit_content.saving = true;
 		var el = this;
 		var go_live_edit = go_live || false;
 		var el = mwd.getElementById('quickform-<?php print $rand; ?>');
@@ -455,7 +459,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 			}
 			
  
-				  
+			mw.edit_content.saving = false;
           },
           onError:function(){
               module.removeClass('loading');
@@ -470,6 +474,7 @@ mw.edit_content.handle_form_submit = function(go_live){
                 mw.session.checkPauseExplicitly = false;
                 mw.session.logRequest();
               }
+              mw.edit_content.saving = false;	    
           }
         })
 	

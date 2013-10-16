@@ -1019,9 +1019,6 @@ class Content
 
         $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
-        //var_dump($q);
-        //  var_dump($taxonomies);
-        //  exit;
 
         if (!empty($taxonomies)) {
 

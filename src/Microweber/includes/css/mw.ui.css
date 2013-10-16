@@ -588,7 +588,6 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   position: relative;
   background: #EEEEEE;
   cursor: move;
-  box-shadow: 0 0 2px #aaa;
 }
 
 .mw_modal_basic .mw_modal_toolbar{

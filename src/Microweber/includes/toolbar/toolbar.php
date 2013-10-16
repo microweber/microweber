@@ -61,20 +61,8 @@
                       data-for="modules"
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
-                 <div class="mw-autocomplete-cats mw-autocomplete-cats-modules">
-                    <module
-                          type="categories"
-                          data-no-wrap=1
-                          template="liveedit_toolbar"
-                          data-for="modules" />
-                 </div>
-                 <div class="mw-autocomplete-cats mw-autocomplete-cats-elements">
-                    <module
-                          type="categories"
-                          data-no-wrap=1
-                          template="liveedit_toolbar"
-                          data-for="elements" />
-                 </div>
+
+
                  <div class="mw_clear"></div>
 
                  <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
@@ -108,7 +96,7 @@
 
     <div class="mw-o-box mw-o-box-content">
 
-   <hr style="border-bottom: none">  
+   <hr style="border-bottom: none">
         <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Alignment</label>
 

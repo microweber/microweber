@@ -20,17 +20,12 @@ class Url
             }
 
             $subdir_append = false;
-            if (isset($_SERVER['PATH_INFO'])) {
-                // $subdir_append = $_SERVER ['PATH_INFO'];
-            } elseif (isset($_SERVER['REDIRECT_URL'])) {
+            if (isset($_SERVER['REDIRECT_URL'])) {
                 $subdir_append = $_SERVER['REDIRECT_URL'];
-            } else {
-                //  $subdir_append = $_SERVER ['REQUEST_URI'];
             }
 
             $pageURL .= "://";
-            //error_log(serialize($_SERVER));
-            if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+             if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];
@@ -62,9 +57,7 @@ class Url
                 $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
             }
 
-            if (isset($_SERVER['REDIRECT_URL'])) {
-                //  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
-            }
+
 
             $uz = parse_url($pageURL);
             if (isset($uz['query'])) {
@@ -163,7 +156,7 @@ class Url
             $u1 = $page_url;
         }
 
-        //if ($u == false) {
+
 
         $u2 = $this->site_url();
 
@@ -183,7 +176,6 @@ class Url
             $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
 
         }
-        //}
 
 
         return $k != -1 ? v($u[$k]) : $u;
@@ -216,20 +208,19 @@ class Url
         } else {
             $url = false;
         }
-        //static $u1;
-        //if ($u1 == false) {
+
         $u1 = implode('/', $this->segment(-1, $url));
-        //}
+
         return $u1;
     }
 
     function link_to_file($path)
     {
-        // var_dump($path);
+
         $path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
-        //var_dump($path);
+
         return $this->site_url($path);
     }
 
@@ -308,20 +299,15 @@ class Url
             } else {
                 $param_sub_position = false;
 
-                // var_dump($seg1);
+
                 if (trim($seg1[0]) == trim($param)) {
 
-                    // if (stristr ( $segment, $param . ':' ) == true) {
                     if ($param_sub_position == false) {
 
                         $the_param = str_ireplace($param . ':', '', $segment);
 
                         if ($param == 'custom_fields_criteria') {
-
-                            // $the_param1 = base64_decode ( $the_param );
-
-                            $the_param1 = $this->app->format->base64_to_array($the_param);
-
+                             $the_param1 = $this->app->format->base64_to_array($the_param);
                             return $the_param1;
                         }
 
@@ -341,9 +327,7 @@ class Url
                             return $the_param1;
                         }
 
-                        // $param_value = $params_list [$param_sub_position - 1];
-                        // $param_value = $the_param;
-                        return $the_param;
+                      return $the_param;
                     }
                 }
             }
@@ -377,7 +361,6 @@ class Url
 
             if ($segment[0] == $param) {
 
-                // return $segment [1];
             } else {
 
                 $segs_clean[] = $origsegment;

@@ -1110,6 +1110,15 @@ li .ts_action_item:last-child{
   min-width: 100%;
   display: none;
 }
+
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list {
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+
 .toolbar-sections-tabs > ul > li.hover > ul,
 .toolbar-sections-tabs > ul > li.active > ul{
   display: block;
@@ -1127,6 +1136,11 @@ li .ts_action_item:last-child{
   border:1px solid #EAEAEA;
   border-top:none;
 }
+
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list a { padding: 5px; background-color: white }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li a{ padding-left: 20px; }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li li a{ padding-left: 40px; }
+.toolbar-sections-tabs > ul > li > ul.mw-dropdown-list li li li a{ padding-left: 60px; }
 
 .toolbar-sections-tabs > ul > li > ul > li > a:hover,
 .toolbar-sections-tabs > ul > li > ul > li > a:focus{
@@ -1369,6 +1383,14 @@ input.mwtb-search{
   display: none !important;
 }
 
+.visible-1366{
+  display: none !important;
+}
+
+.visible-1440{
+  display: none !important;
+}
+
 @media (max-width: 1024px) {
   .hidden-1024{
     display: none !important;
@@ -1411,6 +1433,9 @@ input.mwtb-search{
 }
 
 @media (max-width: 1440px) {
+.visible-1440{
+  display: inherit !important;
+}
   .wysiwyg-convertible-toggler-1440{
     display: inline-block;
     width: 35px;
@@ -1445,6 +1470,9 @@ input.mwtb-search{
 }
 
 @media (max-width: 1366px) {
+  .visible-1366{
+    display: inherit !important;
+  }
   .wysiwyg-convertible-toggler-1366{
     display: inline-block;
     width: 35px;

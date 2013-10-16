@@ -1,8 +1,8 @@
 <div id="mw-text-editor" class="mw-defaults mw_editor">
         <div class="toolbar-sections-tabs">
             <ul>
-              <li><a href="javascript:;" class="tst-logo" title="Microweber"><span>Microweber</span></a>
-                  <div style="display: none">
+              <li class="create-content-dropdown"><a href="javascript:;" class="tst-logo" title="Microweber"><span>Microweber</span></a>
+
                       <?php
                           $pt_opts = array();
                           $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
@@ -14,7 +14,7 @@
                           $pt_opts['active_code_tag'] = '   class="active"  ';
                           mw('content')->pages_tree($pt_opts);
                       ?>
-                  </div>
+
               </li>
               <li class="create-content-dropdown">
                 <a href="javascript:;" class="tst-add" title="Create or manage your content"><span>Create or manage your content</span></a>
@@ -91,8 +91,9 @@
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
 
-                <div class="wysiwyg-cell visible-1024">
+                <div class="wysiwyg-cell visible-1440">
                     <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+                    <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>
                 </div>
 
                 <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
@@ -368,20 +369,10 @@
 
           $(modules_switcher).bind("keyup paste", function(){
              mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.value);
-             if(modules_switcher.searchIn == 'Modules_List_modules'){
-                 mw.$(".mw-autocomplete-cats-modules").show();
-                 mw.$(".mw-autocomplete-cats-elements").hide();
-             }
-             else{
-                 mw.$(".mw-autocomplete-cats-modules").hide();
-                 mw.$(".mw-autocomplete-cats-elements").show();
-             }
+
           });
 
-          mw.$(".mw-autocomplete-cats li a").click(function(){
-            mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.innerHTML);
-            return false;
-          });
+
           mw.$(".toolbars-search").hover(function(){
              mw.tools.addClass(this, 'hover');
           }, function(){
