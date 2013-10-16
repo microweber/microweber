@@ -19,12 +19,11 @@ mw.askusertostay = false;
 
   if (top === self){
     window.onbeforeunload = function() {
-
         if(mw.askusertostay){
             mw.notification.warning("<?php _e("You have unsaved changes"); ?>!");
             return "<?php _e("You have unsaved changes"); ?>!";
         }
-    }
+   }
   }
 
   warnOnLeave = function(){
@@ -416,7 +415,7 @@ mw.askusertostay = false;
 
 
   mw._ = function(obj, sendSpecific, DONOTREPLACE) {
-
+    mw.on.DOMChangePause = true;
     var DONOTREPLACE = DONOTREPLACE || false;
     var sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
@@ -467,6 +466,7 @@ mw.askusertostay = false;
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
         mw.on.moduleReload(id, "", true);
       }
+      mw.on.DOMChangePause = false;
     });
 
   }

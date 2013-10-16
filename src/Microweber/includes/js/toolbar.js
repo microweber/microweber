@@ -32,7 +32,7 @@ mw.designTool = {
 
 
 
-$(window).load(function(){
+$(window).bind("load",function(){
 
 
 mw.$(".mw_dropdown_type_navigation a").each(function(){
@@ -283,7 +283,10 @@ mw.setLiveEditor = function(){
 
 
 
-$(window).load(function(){
+$(window).bind("load", function(){
+
+
+
 
 
 mw.setLiveEditor();

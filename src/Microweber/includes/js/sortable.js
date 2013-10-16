@@ -1786,7 +1786,7 @@ if(typeof el === 'object' && el !==null){
     if(!mw.tools.isEmptyObject(master)){
             if(is_draft){
              master['is_draft']  = true;
-			       mw.askusertostay = true;
+			       //mw.askusertostay = true;
             }
 
 
@@ -1800,8 +1800,9 @@ if(typeof el === 'object' && el !==null){
 
             },
             success: function(data) {
+         
                 if(is_draft){
-                    mw.askusertostay = true;
+                    //mw.askusertostay = true;
                 }
                 else{
                   mw.askusertostay = false;

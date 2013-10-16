@@ -96,7 +96,10 @@ DOMChange:function(element, callback, attr, a){
 
         }
     }, false);
-    element.addEventListener("DOMNodeInserted", function(){
+    element.addEventListener("DOMNodeInserted", function(e){
+        if(mw.tools.hasClass(e.target, 'element') || mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
+          return false;
+        }
         if( !mw.on.DOMChangePause ) {
           if(!a){
               callback.call(this);

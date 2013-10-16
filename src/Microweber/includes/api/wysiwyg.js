@@ -72,7 +72,7 @@ mw.wysiwyg = {
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
                     !mw.tools.hasClass(this.className, 'changed') ? $(this).addClass("changed") :'';
-                    mw.askusertostay = true;
+                   mw.askusertostay = true;
                     if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
                     }

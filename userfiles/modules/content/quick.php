@@ -454,6 +454,12 @@ mw.edit_content.handle_form_submit = function(go_live){
              // el.reset();
              // $(editor).contents().find("#mw-iframe-editor-area").empty();
 	 
+	 
+	 if(window.parent != undefined && window.parent.mw != undefined){
+		window.parent.mw.askusertostay=false;
+	}
+	 
+	 
 			if(go_live_edit != false){
 				 
 				   

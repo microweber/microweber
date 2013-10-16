@@ -172,7 +172,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 	}
 
 
-//  d( $post_params);
+
 
 
 $tn_size = array('150');
@@ -325,7 +325,7 @@ if(!isset( $post_params['parent']) and !isset($post_params['category']) and $cat
  	
 }
   
-  // d($post_params);
+  // 
 
 
 if(isset($params['search-parent'])){
@@ -339,7 +339,7 @@ if(isset($params['search-parent'])){
 	 unset($post_params['data-id']);
  }
  
- 
+  
 $content   = get_content($post_params);
 $data = array();
 
