@@ -1364,7 +1364,19 @@ input.mwtb-search{
   float: none;
 }
 
+
+.visible-1024{
+  display: none !important;
+}
+
 @media (max-width: 1024px) {
+  .hidden-1024{
+    display: none !important;
+  }
+  .visible-1024{
+    display: inherit !important;
+  }
+
   .wysiwyg-convertible-toggler-1024{
     display: inline-block;
     width: 35px;

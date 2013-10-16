@@ -116,37 +116,6 @@ class Api
         }
 
         return $arrayItems;
-        $arrayItems = array();
-        $skipByExclude = false;
-        $directory = rtrim($directory, DIRECTORY_SEPARATOR);
-        $handle = opendir($directory);
-        if ($handle) {
-            while (false !== ($file = readdir($handle))) {
-                preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/iu", $file, $skip);
-                if ($exclude) {
-                    preg_match($exclude, $file, $skipByExclude);
-                }
-                if (!$skip && !$skipByExclude) {
-                    if (is_dir($directory . DIRECTORY_SEPARATOR . $file)) {
-                        if ($listDirs) {
-                            $file = $directory . DIRECTORY_SEPARATOR . $file;
-                            $arrayItems['dirs'][] = $file;
-                        }
-                        if ($recursive) {
-                            $arrayItems = array_merge($arrayItems, dir_to_array($directory . DIRECTORY_SEPARATOR . $file, $recursive, $listDirs, $listFiles, $exclude));
-                        }
-
-                    } else {
-                        if ($listFiles) {
-                            $file = $directory . DIRECTORY_SEPARATOR . $file;
-                            $arrayItems['files'][] = $file;
-                        }
-                    }
-                }
-            }
-            closedir($handle);
-        }
-        array_unique($arrayItems);
-        return $arrayItems;
+        
     }
 }

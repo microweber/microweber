@@ -30,6 +30,8 @@ mw.designTool = {
 
 
 
+
+
 $(window).load(function(){
 
 
@@ -263,6 +265,9 @@ mw.toolbar = {
       var img_height = parseFloat(Istyle.height);
       img_height < 32 ? $(this).css("marginTop", 16 - img_height/2) : '';
     });
+  },
+  fixPad : function(){
+   mwd.body.style.paddingTop = mw.toolbar.minTop + mw.$("#live_edit_toolbar").height() + 'px';
   }
 }
 
@@ -376,6 +381,10 @@ if(typeof mw.hasDraft === 'object'){
    }, 10000);
 
  }
+
+
+
+    mw.toolbar.fixPad()
 
 });
 

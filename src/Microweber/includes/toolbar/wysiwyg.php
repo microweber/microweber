@@ -91,6 +91,10 @@
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
 
+                <div class="wysiwyg-cell visible-1024">
+                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+                </div>
+
                 <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
                 <div class="wysiwyg-cell">
                    <div class="relative">
@@ -323,6 +327,7 @@
                  mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
                  $(mwd.querySelector('.mwtb-search-modules')).focus();
             }
+            mw.toolbar.fixPad();
           });
 
 

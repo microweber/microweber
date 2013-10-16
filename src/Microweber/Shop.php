@@ -409,7 +409,8 @@ class Shop
         foreach ($data as $k => $v) {
             if (is_array($v)) {
                 foreach ($seach_address_keys as $item) {
-                    if (!isset($data[$item]) and isset($v[$item])) {
+                    $case1 = ucfirst($item);
+                     if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
                         $data[$item] = $v[$item];
                     }
                 }

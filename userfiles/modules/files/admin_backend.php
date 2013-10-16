@@ -197,7 +197,7 @@ deleteItem = function(url, name, frommodal){
 
   mw.tools.confirm(msg, function(){ $(mwd.body).addClass("loading");
       if(frommodal == true ){mw.$("#prfile").remove()}
-      $.post(mw.settings.api_url + "delete_media_file", obj, function(a){
+      $.post(mw.settings.api_url + "media/delete_media_file", obj, function(a){
            $(mwd.body).removeClass("loading");
            _mw_admin_files_manage('all');
            mw.notification.msg(a);

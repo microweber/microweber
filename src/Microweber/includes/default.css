@@ -105,9 +105,15 @@ body.state-element .mw-row .element{
 }
 
 
-img.element{
-  display: inline-block;
+
+
+img[align='center'],
+img[align='middle']{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
+
 
 .element, .mw-col, .mw_item{
  -ms-transform-origin:50% 50%;

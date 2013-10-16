@@ -196,9 +196,12 @@ mw.tools = {
         }
         if(!height.toString().contains("%")){
            modal_object.css("top", ($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
+
+
         }
         else{
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
+              modal_object.css("overflow", "auto");
         }
         modal_object.show();
         var draggable = draggable || true;
@@ -331,10 +334,16 @@ mw.tools = {
         return modal;
     },
     remove:function(id){
-        if(typeof id === 'object') var id = $(id)[0].id;
-        $(document.getElementById(id)).remove();
-        //$("div.mw_overlay[rel='"+id+"']").remove();
-        $("div.mw_overlay").remove();
+        if(typeof id === 'object'){
+          if(id.constructor === {}.constructor){
+            var id = $(id.main)[0].id;
+          }
+          else{
+            var id = $(id)[0].id;
+          }
+        }
+        $(mwd.getElementById(id).overlay).remove();
+        $(mwd.getElementById(id)).remove();
     },
     resize:function(modal, w, h, center, doc){
       var doc = doc || document;
@@ -3355,7 +3364,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change" style="right:70px;">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
+          resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }
@@ -3665,36 +3674,53 @@ mw.image = {
         }
       },
       settings:function(){
+        mw.image.current_need_resize = false;
+        if($(mw.current_element).dataset("original") == ""){
+            mw.image.current_original = mw.current_element.src;
+            $(mw.current_element).dataset("original", mw.current_element.src)
+        }
+        else{
+            mw.image.current_original = $(mw.current_element).dataset("original");
+        }
         var src = mw.current_element.src;
         var title = mw.current_element.title;
         var html = mwd.getElementById('image_settings_modal_holder').innerHTML;
         var modal = mw.tools.modal.init({
           html:html,
-          template:"mw_modal_simple"
+          template:"mw_modal_basic",
+          overlay:true,
+          width:600,
+          height:"80%"
         });
-        mw.$(".image_settings_modal", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
+        mw.$(".mw-o-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
         mw.image.current = modal.container.querySelector("#mwimagecurrent");
-        mw.image.current_align = mw.CSSParser(mw.current_element).get.alignNormalize();
-        mw.$(".mw-img-align-"+mw.image.current_align, modal.container).addClass("active");
+
         mw.$("textarea", modal.container).val(title);
         mw.$(".mw-ui-btn-saveIMG", modal.container).click(function(){
           mw.current_element.src = mw.image.current.src;
           mw.current_element.align = mw.image.current_align;
           mw.current_element.title = mw.$("textarea", modal.container).val();
-          mw.image.preload(mw.image.current.src, function(w,h){
-               mw.current_element.style.width = w+'px';
-               mw.current_element.style.height = 'auto';
-          })
+          if(mw.image.current_need_resize){
+              mw.image.preload(mw.image.current.src, function(w,h){
+                   mw.current_element.style.width = w+'px';
+                   mw.current_element.style.height = 'auto';
+              });
+          }
+          mw.tools.modal.remove(modal);
         });
         mw.$(".mw-img-align", modal.container).click(function(){
           if(!$(this).hasClass("active")){
                mw.$(".mw-img-align", modal.container).removeClass("active");
                mw.$(this).addClass("active");
                mw.image.current_align = $(this).dataset("align");
-
-
           }
-
+        });
+        mw.$("#mw_image_reset").click(function(){
+          if(!$(this).hasClass("disabled")){
+            d(mw.image.current_original);
+            mw.image.current.src = mw.image.current_original;
+            mw.image.current_need_resize = true;
+          }
         });
       }
     }

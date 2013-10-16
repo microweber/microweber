@@ -66,12 +66,23 @@ description: Full width cart template
   </table>
 
    <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active'); ?>
-	<?php if(is_array($shipping_options)) :?>
+	<?php
+	
+	$show_shipping_info =  get_option('show_shipping', $params['id']);
+ 
+	if($show_shipping_info === false or $show_shipping_info == 'y'){
+	$show_shipping_stuff = true;	
+	} else {
+	$show_shipping_stuff = false;	
+	}
+	 
+	 if(is_array($shipping_options)) :?>
     <div>
     <h3><?php _e("Order summary"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table">
         <tbody>
-            <tr>
+		
+            <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
                 <td colspan="3"></td>
                 <td style="width: 260px;" colspan="2" class="cell-shipping-country">
 				
@@ -79,9 +90,10 @@ description: Full width cart template
 				
 				<label><?php _e("Shipping to"); ?>:</label> <module type="shop/shipping"  view="select" /></td>
             </tr>
+			
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label> <module type="shop/shipping"  view="cost" /> </td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
             </tr>
             <tr>
                 <td colspan="3"></td>

@@ -18,12 +18,9 @@
 	</div>
 	<div class="tab">
 	
-	<?php 
 	 
-	print($config['module_name']); ?>
 	
-	
-	<module type="admin/modules/templates" id="shupping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
+	<module type="admin/modules/templates" id="shipping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
 </div>
 	<div class="mw_clear"></div>
 	<div class="vSpace"></div>

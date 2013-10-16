@@ -215,6 +215,14 @@ mw_error("Invalid order id");
 					<td valign="top"><p><b>
 							<?php _e("Shipping Address"); ?>
 							</b></p>
+							
+							
+						 
+							
+							
+							
+							
+							
 						<ul class="order-table-info-list">
 							<?php if(isset($ord['country']) and $ord['country'] != ''): ?>
 							<li><?php print $ord['country'] ?></li>

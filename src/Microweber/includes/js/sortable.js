@@ -260,7 +260,7 @@ mw.drag = {
                top:event.pageY-$(window).scrollTop(),
                left:event.pageX-100
             });
-            mw.$("#mw-text-editor").slideUp('fast')
+            mw.$("#mw-text-editor").slideUp('fast', function(){mw.toolbar.fixPad()})
            }
            if(mw.SmallEditorIsDragging){
                 var offset_small = mw.smallEditor.offset();
@@ -271,7 +271,7 @@ mw.drag = {
                     mw.bigEditor.visible();
 
                    mw.smallEditor.draggable({ disabled: true });
-                   mw.$("#mw-text-editor").slideDown('fast')
+                   mw.$("#mw-text-editor").slideDown('fast', function(){mw.toolbar.fixPad()})
                 }
            }
 

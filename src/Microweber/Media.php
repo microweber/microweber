@@ -14,6 +14,7 @@ api_expose('thumbnail_img');
 api_expose('create_media_dir');
 
 api_expose('media/upload');
+api_expose('media/delete_media_file');
 
 class Media
 {

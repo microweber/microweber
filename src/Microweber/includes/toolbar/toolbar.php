@@ -22,8 +22,7 @@
 <link href="<?php print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
     $(document).ready(function () {
-        mw.toolbar.max = 170;
-        document.body.style.paddingTop = mw.toolbar.max + 'px';
+        mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
         setTimeout(function(){
             mw.history.init();
         }, 500);
@@ -109,23 +108,27 @@
 
     <div class="mw-o-box mw-o-box-content">
 
+   <hr style="border-bottom: none">  
         <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Alignment</label>
+
         <span class="mw-img-align mw-img-align-left" title="Left" data-align="left"></span>
         <span class="mw-img-align mw-img-align-center" title="Center" data-align="center"></span>
         <span class="mw-img-align mw-img-align-right" title="Right" data-align="right"></span>
+
         </div>
         <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Effects</label>
         <div class="mw-ui-btn-nav">
-            <span title="Vintage Effect" onclick="mw.image.vintage(mw.image.current);" class="mw-ui-btn">Vintage Effect</span>
-            <span title="Convert to Grayscale" onclick="mw.image.grayscale(mw.image.current);" class="mw-ui-btn">Convert to Grayscale</span>
-            <span class="mw-ui-btn" onclick="mw.image.rotate(mw.image.current);">Rotate</span>
+            <span title="Vintage Effect" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')" class="mw-ui-btn">Vintage Effect</span>
+            <span title="Convert to Grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')" class="mw-ui-btn">Convert to Grayscale</span>
+            <span class="mw-ui-btn" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">Rotate</span>
+            <span class="mw-ui-btn disabled" id="mw_image_reset">Reset</span>
         </div>
          </div>
          <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Image Description</label>
-        <textarea class="mw-ui-field" placeholder='Enter Description' style="width: 405px;"></textarea>
+        <textarea class="mw-ui-field" placeholder='Enter Description' style="width: 505px; height: 35px;"></textarea>
         </div>
         <hr style="border-bottom: none">
         <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'>Update</span>
