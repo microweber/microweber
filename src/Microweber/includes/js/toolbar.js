@@ -437,6 +437,16 @@ mw.quick = {
               title:'New Page'
            });
         },
+        category : function(){
+           mw.tools.modal.frame({
+              url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=true&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
+              template:'mw_modal_simple',
+              width:mw.quick.w,
+              height:mw.quick.h,
+              name:'quick_page',
+              title:'New Category'
+           });
+        },
         edit : function(id){
            mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&is-current=true&id=mw-quick-page&content-id="+id,
@@ -447,6 +457,7 @@ mw.quick = {
               title:'New Page'
            });
         },
+
 		 page_2 : function(){
            mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",

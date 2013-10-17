@@ -1619,7 +1619,6 @@ mw.drag = {
 
                         var last_container = last_after_remove.find(".mw-col-container");
 
-
                         var nodes = fragment.childNodes, i=0, l=nodes.length;
 
                         for( ; i<l; i++){
@@ -1649,26 +1648,35 @@ mw.drag = {
    *
    * @method mw.drag.save()
    */
-
+  saveOnce:false,
   save: function(el, callback, is_draft) {
   var is_draft = is_draft || false;
   if( mw.isDrag || mw.pauseSave ) return false;
 
   if(is_draft){
+    mw.drag.saveOnce = true;
     if(mw.$(".edit.changed").length == 0){return false;}
   }
   else{
-	  
-	if(saveStaticElementsStyles != undefined){  
-    saveStaticElementsStyles();
+
+	if(typeof saveStaticElementsStyles === 'function'){
+        saveStaticElementsStyles();
 	}
 
-    if(mw.$(".edit.orig_changed").length == 0){return false;}
+    if(mw.$(".edit.orig_changed").length == 0 && !mw.drag.saveOnce){
+      mw.drag.saveOnce = 1;
+                             if(mw.$(".edit.changed").length != 0){
+                                mw.$(".edit.changed").addClass('orig_changed');
+                             }  else {
+
+                             return false;
+                             }
+
+
+
+
+    }
   }
-
-
-
-
 
 
 if(typeof el === 'object' && el !==null){
@@ -1676,18 +1684,14 @@ if(typeof el === 'object' && el !==null){
     return false;
   }
   var html = el.innerHTML;
-    if(is_draft != undefined){
+    if(is_draft){
 		  $(el).addClass('disabled').html('Draft...').dataset("html", html);
-
 	} else {
 		  $(el).addClass('disabled').html('Saving...').dataset("html", html);
-
 	}
 }
 
  var doc = mw.tools.parseHtml(mwd.body.innerHTML);
-
-
   mw.$('.element-current', doc).removeClass('element-current');
   mw.$('.element-active', doc).removeClass('element-active');
   mw.$('.disable-resize', doc).removeClass('disable-resize');
@@ -1695,34 +1699,18 @@ if(typeof el === 'object' && el !==null){
   mw.$('.empty-element', doc).remove();
   mw.$('.edit .ui-resizable-handle', doc).remove();
   mw.tools.classNamespaceDelete('all', 'ui-', doc);
-
   mw.$("[contenteditable]", doc).removeAttr("contenteditable");
-
-
-
-
-
-    if(is_draft){
-
- 			var edits = mw.$(".edit.changed", doc);
-
-
-
-    } else {
-
-		  var edits = $(".edit.changed", doc);
-
-		 if(edits.length == 0){
-           var edits = $(".edit.orig_changed", doc);
-
-         }
-
-
+  if(is_draft){
+    var edits = mw.$(".edit.changed", doc);
+  }
+  else {
+    var edits = $(".edit.changed", doc);
+	if(edits.length == 0){
+        var edits = $(".edit.orig_changed", doc);
     }
+}
 
-//
-
-    var master = {};
+   var master = {};
 
 
 

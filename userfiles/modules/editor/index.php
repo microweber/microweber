@@ -42,7 +42,7 @@ return;
 </style>
 <?php
 $here = MW_INCLUDES_DIR;
- include($here.'toolbar'.DS.'wysiwyg.php');
+  include($here.'toolbar'.DS.'wysiwyg.php');
 include($here.'toolbar'.DS.'wysiwyg_tiny.php');
  
 

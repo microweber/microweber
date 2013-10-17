@@ -1118,13 +1118,7 @@ li .ts_action_item:last-child{
 }
 
 
-.mw-dropdown-list-search{
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  background:white;
-}
+
 
 
 .mw-dropdown-list{
@@ -1151,7 +1145,7 @@ li .ts_action_item:last-child{
   list-style: none
 }
 
-.toolbar-sections-tabs > ul > li > ul > li > a{
+.toolbar-sections-tabs .mw-dropdown-list a{
   display: block;
   background: white;
   padding: 15px;
@@ -1164,7 +1158,7 @@ li .ts_action_item:last-child{
   background: white;
 }
 
-.toolbar-sections-tabs > ul > li > .mw-dropdown-list a { padding: 5px; background-color: transparent; }
+
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 20px; }
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a{ padding-left: 40px; }
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li li a{ padding-left: 60px; }
@@ -1211,7 +1205,6 @@ li .ts_action_item:last-child{
 input.mwtb-search{
   width: 95px;
   margin: 3px 0;
-  border-radius: 0 2px 2px 0;
   padding: 6px 31px 6px 4px;
   border: 1px solid transparent;
   background: url(../img/modules_search.png) no-repeat right top;
@@ -1390,155 +1383,18 @@ input.mwtb-search{
 }
 
 
-
-
-
-
-.show_editor{
-  display: none;
-  font-size: 25px;
-}
-
-.show_editor u{
-  padding-top: 15px;
-  display: inline-block;
-}
-
-
-.wysiwyg-convertible-toggler{
-    display: none;
-}
-.wysiwyg-convertible > *{
-  float: none;
+.mw-dropdown-list-search{
+  padding: 5px;
+  background: white;
+  position: relative;
+  z-index: 1;
 }
 
 
 
 
 
-.visible-1024{
-  display: none !important;
-}
 
-.visible-1366{
-  display: none !important;
-}
 
-.visible-1440{
-  display: none !important;
-}
 
-@media (max-width: 1024px) {
-  .hidden-1024{
-    display: none !important;
-  }
-  .visible-1024{
-    display: inherit !important;
-  }
 
-  .wysiwyg-convertible-toggler-1024{
-    display: inline-block;
-    width: 35px;
-  }
-  .wysiwyg-convertible-1024.active{
-    display: block;
-  }
-  .wysiwyg-convertible-1024{
-        display: none;
-        padding: 4px;
-        left: -4px;
-        z-index: 3;
-        width:auto;
-        position: absolute;
-        top: 37px;
-        background: #F2F2F2;
-        position: absolute;
-        border: 1px solid #d1d1d1;
-        box-shadow:inset 2px 2px 0 -1px white;
-  }
-
-  .wysiwyg-convertible-1024:before{
-      content: "";
-      position: absolute;
-      display: block;
-      width: 16px;
-      height: 9px;
-      background: url(../img/convertible_arr.png) no-repeat;
-      top: -8px;
-      left: 20px;
-  }
-}
-
-@media (max-width: 1440px) {
-.visible-1440{
-  display: inherit !important;
-}
-  .wysiwyg-convertible-toggler-1440{
-    display: inline-block;
-    width: 35px;
-  }
-  .wysiwyg-convertible-1440.active{
-    display: block;
-  }
-  .wysiwyg-convertible-1440{
-        display: none;
-        padding: 4px;
-        left: -4px;
-        z-index: 3;
-        width:auto;
-        position: absolute;
-        top: 37px;
-        background: #F2F2F2;
-        position: absolute;
-        border: 1px solid #d1d1d1;
-        box-shadow:inset 2px 2px 0 -1px white;
-  }
-
-  .wysiwyg-convertible-1440:before{
-      content: "";
-      position: absolute;
-      display: block;
-      width: 16px;
-      height: 9px;
-      background: url(../img/convertible_arr.png) no-repeat;
-      top: -8px;
-      left: 20px;
-  }
-}
-
-@media (max-width: 1366px) {
-  .visible-1366{
-    display: inherit !important;
-  }
-  .wysiwyg-convertible-toggler-1366{
-    display: inline-block;
-    width: 35px;
-  }
-  .wysiwyg-convertible-1366.active{
-    display: block;
-  }
-  .wysiwyg-convertible-1366{
-        display: none;
-        padding: 4px;
-        left: -4px;
-        z-index: 3;
-        width:auto;
-        position: absolute;
-        top: 37px;
-        background: #F2F2F2;
-        position: absolute;
-        border: 1px solid #d1d1d1;
-        box-shadow:inset 2px 2px 0 -1px white;
-  }
-
-  .wysiwyg-convertible-1366:before{
-      content: "";
-      position: absolute;
-      display: block;
-      width: 16px;
-      height: 9px;
-      background: url(../img/convertible_arr.png) no-repeat;
-      top: -8px;
-      left: 20px;
-  }
-}

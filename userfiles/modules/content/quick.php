@@ -14,6 +14,12 @@ $is_current = false;
 if(!isset($is_quick)){
 $is_quick=false;	
 }
+
+
+
+if(isset($params['quick_edit'])){
+  $is_quick = $params['quick_edit'];
+}
 if(isset($params['just-saved'])){
   $just_saved = $params['just-saved'];
 } 
@@ -176,14 +182,14 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 			</div>
 		</div>
 	</div>
-	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
+	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
 	<div class="mw-ui-field-holder">
 		<div>
 			<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
 				<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
 			</div>
 			<div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-				<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'){ ?>
+				<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
 				<module
                     type="categories/selector"
                     for="content"
@@ -191,36 +197,36 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 					subtype="<?php print $data['subtype']; ?>"
 					categories_active_ids="<?php print $categories_active_ids; ?>"
 					for-id="<?php print $data['id']; ?>" />
-				<?php } ?>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
-	<?php } ?>
-	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'){ ?>
+	<?php endif; ?>
+	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
 	<div class="mw-ui-field-holder">
 		<textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
 	</div>
-	<?php } ?>
-	<?php if($data['content_type'] == 'page'){ ?>
+	<?php endif; ?>
+	<?php if($data['content_type'] == 'page'):  ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
-	<?php } ?>
+	<?php endif; ?>
 	<div class="mw-ui-field-holder">
 		
-
-	<?php
-	
-	 
-	 if(intval($data['id']) != 0){ ?>
+<?php if($is_quick==false): ?>
+	<?php if(intval($data['id']) != 0): ?>
 	 	
 			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
 
-	<?php } else { ?>
+	<?php else: ?>
 			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
 
-	<?php } ?>
-	
-	
+	<?php endif; ?>
 	<span class="mw-ui-btn go-live right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
+
+<?php else: ?>	
+	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
+
+<?php endif; ?>	
 	
 	
 	</div>
@@ -233,37 +239,38 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 		</div>
 	</div>
 	<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
-	<?php if($data['content_type'] == 'page'){ ?>
-	<?php if($is_quick==false){ ?>
-	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-menu-settings-holder-wrap', this);"  href="javascript:;">
-	<?php _e('Add to navigation menu'); ?>
-	</a>
-	<div id="edit-menu-settings-holder-wrap" style="display: none;">
-		<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-	</div>
-	<?php } ?>
+	<?php if($data['content_type'] == 'page'): ?>
+		<?php if($is_quick==false): ?>
+		<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-menu-settings-holder-wrap', this);"  href="javascript:;">
+		<?php _e('Add to navigation menu'); ?>
+		</a>
+		<div id="edit-menu-settings-holder-wrap" style="display: none;">
+			<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+		</div>
+		<?php endif; ?>
 	<?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-	<?php } ?>
-	<?php if($is_quick==false){ ?>
-	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-custom-fields-holder-wrap', this);"  href="javascript:;">
-	<?php _e("Custom fields"); ?>
-	</a>
-	<div id="edit-custom-fields-holder-wrap" style="display: none;">
-		<module type="custom_fields/admin"    
-		<?php if(trim($data['subtype']) == 'product'): ?> default-fields="price" <?php endif; ?>
-		content-id="<?php print $data['id'] ?>" 
-		id="fields_for_post_<?php print $rand; ?>" 	 />
-	</div>
-	<?php  if(trim($data['subtype']) == 'product'): ?>
-	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-product-options-holder-wrap', this);"  href="javascript:;">
-	<?php _e("Product options"); ?>
-	</a>
-	<div id="edit-product-options-holder-wrap" style="display: none;">
-		<?php event_trigger('mw_edit_product_admin', $data); ?>
-	</div>
 	<?php endif; ?>
-	<?php } ?>
-	<?php if($is_quick==false){ ?>
+		<?php if($is_quick==false): ?>
+		<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-custom-fields-holder-wrap', this);"  href="javascript:;">
+		<?php _e("Custom fields"); ?>
+		</a>
+		<div id="edit-custom-fields-holder-wrap" style="display: none;">
+			<module type="custom_fields/admin"    
+			<?php if(trim($data['subtype']) == 'product'): ?> default-fields="price" <?php endif; ?>
+			content-id="<?php print $data['id'] ?>" 
+			id="fields_for_post_<?php print $rand; ?>" 	 />
+		</div>
+		<?php  if(trim($data['subtype']) == 'product'): ?>
+		<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-product-options-holder-wrap', this);"  href="javascript:;">
+		<?php _e("Product options"); ?>
+		</a>
+		<div id="edit-product-options-holder-wrap" style="display: none;">
+			<?php event_trigger('mw_edit_product_admin', $data); ?>
+		</div>
+		<?php endif; ?>
+	<?php endif; ?>
+	
+	<?php if($is_quick==false): ?>
 	<a class="mw-ui-more" onclick="mw.tools.toggle('#edit-advanced-settings-holder-wrap', this);"  href="javascript:;">
 	<?php _e('Advanced Settings'); ?>
 	</a>
@@ -271,7 +278,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 	<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
 	<div>
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
-	<?php } ?>
+	<?php endif; ?>
 </form>
 <div class="quick_done_alert" style="display: none">
 	<h2><span style="text-transform: capitalize"><?php print $data['subtype'] ?></span> has been created.</h2>

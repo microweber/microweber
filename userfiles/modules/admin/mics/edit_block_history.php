@@ -1,6 +1,7 @@
 <?php
- only_admin_access();
-
+ if(!is_admin()){
+	return; 
+ }
 
 $cont_id = false;
 if(isset($params['post_id']) and intval($params['post_id']) != 0){

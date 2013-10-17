@@ -74,7 +74,7 @@ $past_page = mw('content')->link($past_page[0]['id']);
          navli.removeClass('active');
          $(this).addClass('active');}
        });
-    var go_livebtn_admin = mw.$("#mw-go_livebtn_admin");
+/*    var go_livebtn_admin = mw.$("#mw-go_livebtn_admin");
     go_livebtn_admin.click(function(event){
       var ex = mw.$(".mw_admin_edit_content_form").length;
       if(ex > 0){
@@ -85,7 +85,7 @@ $past_page = mw('content')->link($past_page[0]['id']);
           return false;
         });
       }
-    });
+    });*/
 
 });
 </script>

@@ -415,7 +415,9 @@ mw.askusertostay = false;
 
 
   mw._ = function(obj, sendSpecific, DONOTREPLACE) {
+    if(mw.on != undefined){
     mw.on.DOMChangePause = true;
+    }
     var DONOTREPLACE = DONOTREPLACE || false;
     var sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
