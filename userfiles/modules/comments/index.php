@@ -247,13 +247,18 @@ var comm_module_id = "<?php print $params['id'] ?>";
 
 
 
-
+		mw.comments_is_saving = false;
 
         mw.$('form#comments-form-<?php print $params['id'] ?>').submit(function() {
-
+			
+			if(mw.comments_is_saving == true){
+				 return false;
+			}
+			
+			mw.comments_is_saving = true;
             mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print site_url('api/post_comment'); ?>',
 			function(msg) {
-
+				mw.comments_is_saving = false;
 				var resp = this;
 				 var data2 =  (resp);
 				 if(typeof(data2.error) != 'undefined'){

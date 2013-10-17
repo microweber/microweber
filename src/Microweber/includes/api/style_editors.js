@@ -560,6 +560,14 @@ $(mwd.body).bind("click", function(e){
          $(".element-current").height($("#height_slider").slider("value"));
     });
 
+    mw.$("#design_bnav").hover(function(){
+       $(mwd.body).addClass('design_hover')
+    }, function(){
+       $(mwd.body).removeClass('design_hover')
+    });
+
+
+
 
     });
 
@@ -567,7 +575,7 @@ $(mwd.body).bind("click", function(e){
 
 
 
-});//onlive
+});
 
 
 

@@ -262,11 +262,17 @@ function get_comments($params) {
 if($date_format == false){
 $date_format = "Y-m-d H:i:s";
 }
- 
+ $aj =  mw('url')->is_ajax();
    
 	if(is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
+			 if($aj == true){
+				 $item =  mw('format')->clean_html($item);
+				 
+			 }
+			
+			
 			if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
 				$comments[$i]['comment_name'] = user_name($item['created_by']);
 			}
@@ -288,6 +294,7 @@ $date_format = "Y-m-d H:i:s";
 				  $comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
 			}
 			 
+			
 			
 			
 			
