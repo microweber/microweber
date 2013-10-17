@@ -3743,8 +3743,6 @@ if($in_empty_url == false){
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
                 $data['url'] = $this->app->url->slug($data['title']);
-
-
             }
         }
 

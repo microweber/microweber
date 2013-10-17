@@ -168,19 +168,17 @@
                   <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
                   <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
 
-                  <span class="mw_editor_btn" onclick="mw.$('#historycontainer').toggle();"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
+                  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
 
 
 
                   <div class="mw-ui-dropdown left" id="history_dd">
 
-                <div class="mw-dropdown-content" style="width: 150px;right: 5px;left: auto;display: none;visibility: visible" id="historycontainer">
-                  <ul class="mw-dropdown-list">
-                      <li>
-                          <div id="mw-history-panel"></div>
-                      </li>
-                  </ul>
-                </div>
+
+
+                          <div class="mw-dropdown-list" id="mw-history-panel"></div>
+
+
               </div>
 
                 </div>

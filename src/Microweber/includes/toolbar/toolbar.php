@@ -56,9 +56,9 @@
                   <span>Microweber</span>
                   <i class="ico idownarr right"></i>
                 </a>
-                <div class="mw-dropdown-list">
+                <div class="mw-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;">
                    <div class="mw-dropdown-list-search">
-                         <input type="mwautocomplete" class="mwtb-search" />
+                         <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" />
                    </div>
                   <?php
                       $pt_opts = array();
@@ -346,23 +346,17 @@
            $(this).toggleClass("active");
           });
 
-          mw.$(".wysiwyg-convertible-toggler").click(function(){
-             var el = $(this), next = el.next();
-             mw.$(".wysiwyg-convertible").not(next).removeClass("active");
-             mw.$(".wysiwyg-convertible-toggler").not(el).removeClass("active");
-             next.toggleClass("active");
-             el.toggleClass("active");
-             if(el.hasClass("active")){
-                mw.liveEditWYSIWYG.fixConvertible(next);
-             }
-          });
+
 
           mw.$(".create-content-dropdown").hover(function(){
             var el = $(this);
+            var list = mw.$(".mw-dropdown-list", el[0]);
+
             el.addClass("over");
             setTimeout(function(){
+              mw.$(".mw-dropdown-list").not(list).hide();
                 if(el.hasClass("over")){
-                  mw.$(".mw-dropdown-list", el[0]).stop().show().css("opacity", 1);
+                  list.stop().show().css("opacity", 1);
                 }
             }, 222);
 
@@ -371,8 +365,7 @@
              el.removeClass("over");
              setTimeout(function(){
                 if(!el.hasClass("over")){
-
-                  mw.$(".mw-dropdown-list", el[0]).stop().fadeOut(500);
+                  mw.$(".mw-dropdown-list", el[0]).stop().fadeOut(322);
                 }
             }, 322);
           });

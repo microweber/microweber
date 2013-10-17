@@ -2380,3 +2380,6 @@ function lnotif($sting, $class = 'success'){
     return mw('format')->lnotif($sting,$class);
 }
 
+function random_color(){
+    return "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+}

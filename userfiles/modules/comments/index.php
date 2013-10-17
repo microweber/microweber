@@ -283,6 +283,7 @@ $(document).ready(function(){
 
 </script>
 <?php
+
  include($template_file);
 switch ($template_file):  case true:  ?>
 

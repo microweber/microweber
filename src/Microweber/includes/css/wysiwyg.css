@@ -452,6 +452,32 @@
   float: none;
 }
 
+.wysiwyg-table{
+  display: table;
+  padding-top: 12px;
+  position: relative;
+  left: 0;
+}
+.wysiwyg-table > .wysiwyg-cell{
+  display: table-cell;
+  vertical-align: middle;
+  float: none;
+  white-space: nowrap;
+  padding: 0 6px;
+  background: url(../img/mw_dlm.png) no-repeat right center;
+}
+
+.wysiwyg-table > .wysiwyg-cell:first-child{
+
+}
+.wysiwyg-table > .wysiwyg-cell:last-child{
+  background-image: none;
+}
+
+
+.wysiwyg-table > .wysiwyg-cell > *, .wysiwyg-table .wysiwyg-cell-limitter > *{
+  float: none;
+}
 
 
 

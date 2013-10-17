@@ -163,7 +163,9 @@ class Format
         } else {
            // $var = html_entity_decode($var);
             //$var = stripslashes($var);
+
             $var = htmlentities($var, ENT_QUOTES, "UTF-8");
+           // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
             $var = str_ireplace("<script>", '', $var);
             $var = str_ireplace("</script>", '', $var);
 
@@ -172,10 +174,10 @@ class Format
             $var = str_ireplace("<module", '&lt;module', $var);
             $var = str_ireplace("<microweber", '&lt;microweber', $var);
 
-            $var = str_ireplace("javascript:", '', $var);
-            $var = str_ireplace("vbscript:", '', $var);
-            $var = str_ireplace("livescript:", '', $var);
-            $var = str_ireplace("HTTP-EQUIV=", '', $var);
+            //$var = str_ireplace("javascript:", '', $var);
+           // $var = str_ireplace("vbscript:", '', $var);
+           // $var = str_ireplace("livescript:", '', $var);
+            //$var = str_ireplace("HTTP-EQUIV=", '', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
 
 

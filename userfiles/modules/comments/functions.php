@@ -177,10 +177,10 @@ function post_comment($data) {
 
 if(isset($data['comment_body'])){
 $comment_body = ($data['comment_body']);	
- //$data['allow_html'] = true;        
+  //$data['allow_html'] = true;        
  //$res_1 = htmlentities($comment_body, ENT_QUOTES, "UTF-8");
 //$data['comment_body'] = $res_1;
-            $data =  mw('format')->clean_html($data);
+            //$data =  mw('format')->clean_html($data);
 
   
  
@@ -255,15 +255,15 @@ function get_comments($params) {
 
 	$table = MODULE_DB_COMMENTS;
 	$params['table'] = $table;
-
+  
 	$comments = get($params);
-	
+	 
 	 $date_format = get_option('date_format','website');
 if($date_format == false){
 $date_format = "Y-m-d H:i:s";
 }
  
-  $aj =  mw('url')->is_ajax();
+   
 	if(is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
@@ -285,11 +285,9 @@ $date_format = "Y-m-d H:i:s";
 			// $item =  mw('format')->clean_html($item);
 			if(isset($item['comment_body']) and ($item['comment_body'] != '')){
 				
-				$comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
+				  $comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
 			}
-			if( $aj == true){
-				$comments[$i]['comment_body'] = htmlentities($comments[$i]['comment_body'], ENT_QUOTES, "UTF-8");
-			}
+			 
 			
 			
 			

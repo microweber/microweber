@@ -18,22 +18,7 @@
     var hash = hash!=='' ? hash : 'insert_link';
 
 
-
-    mw.search = function(keyword, limit, callback){
-      is_searching = true;
-      var obj = {
-        limit:limit,
-        keyword:keyword,
-        order_by:'updated_on desc',
-        search_in_fields:'title'
-      }
-      $.post(mw.settings.site_url + "api/get_content_admin", obj, function(data){
-        callback.call(data);
-        is_searching = false;
-      });
-    }
-
-    mw.dd_autocomplete = function(id){
+      mw.dd_autocomplete = function(id){
       var el = $(id);
 
       el.bind("change keyup focus", function(event){
@@ -47,7 +32,7 @@
                 return false;
               }
             }
-            mw.search(val, 10, function(){
+            mw.tools.ajaxSearch({keyword:val, limit:10}, function(){
               var lis = "";
               var json = this;
               for(var item in json){

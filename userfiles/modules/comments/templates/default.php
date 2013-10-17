@@ -88,7 +88,7 @@ description: Default comments template
                 <?php if(isset( $comment['comment_website'])){ ?> </a> <?php } ?>
 				
 				<?php if(isset($comment['updated_on'])): ?>
-				 
+				 <small class="muted"><date><?php print $comment['updated_on']; ?></date></small>
 				 <?php endif; ?>
 				
           </div>

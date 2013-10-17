@@ -1380,18 +1380,36 @@ mw.tools = {
   },
   search:function(string, selector, callback){
     var string = string.toLowerCase();
-
     if(typeof selector === 'object'){
        var items = selector;
     }
-    else{
-       var items = mwd.querySelectorAll(selector)
+    else if(typeof selector === 'string'){
+       var items = mwd.querySelectorAll(selector);
     }
-
+    else{
+      return false;
+    }
     var i=0, l=items.length;
     for( ; i<l; i++){
       items[i].textContent.toLowerCase().contains(string) ? callback.call(items[i], true) : callback.call(items[i], false);
     }
+  },
+  ajaxIsSearching:false,
+  ajaxSearcSetting:{
+      limit:10,
+      keyword:'',
+      order_by:'updated_on desc',
+      search_in_fields:'title'
+  },
+  ajaxSearch:function(o, callback){
+    if(!mw.tools.ajaxIsSearching){
+        mw.tools.ajaxIsSearching = true;
+        var obj = $.extend(mw.tools.ajaxSearcSetting, o, {});
+        $.post(mw.settings.site_url + "api/get_content_admin", obj, function(data){
+          callback.call(data);
+          mw.tools.ajaxIsSearching = false;
+        });
+     }
   },
   tag:function(obj){
 
@@ -3024,6 +3042,38 @@ crawl = false;
 crawlc = [];
 
 $(document).ready(function(){
+
+
+
+mw.$(".wysiwyg-convertible-toggler").click(function(){
+   var el = $(this), next = el.next();
+   mw.$(".wysiwyg-convertible").not(next).removeClass("active");
+   mw.$(".wysiwyg-convertible-toggler").not(el).removeClass("active");
+   next.toggleClass("active");
+   el.toggleClass("active");
+   if(el.hasClass("active")){
+     if(typeof mw.liveEditWYSIWYG === 'object'){
+          mw.liveEditWYSIWYG.fixConvertible(next);
+     }
+   }
+});
+
+
+
+mw.$(".mw-dropdown-search").keyup(function(e){
+    var el = $(this);
+    mw.tools.ajaxSearch({keyword:this.value, limit:20}, function(){
+        var html = "<ul>", l=this.length,i=0;
+        for(;i<l;i++){
+          var a = this[i];
+          html+='<li><a href="'+a.url+'">'+a.title+'</a></li>';
+        }
+        html+='</ul>';
+       el.parent().next("ul").replaceWith(html);
+    });
+});
+
+
   if(crawl){
     Alert("Crawling !");
   $(mwd.links).each(function(){
