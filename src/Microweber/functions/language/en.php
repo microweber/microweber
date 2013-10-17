@@ -787,3 +787,4 @@ $language["click-to-insert-embed-code"]= 'Click to insert Embed Code' ;
 $language["insert-embed-code"]= 'Insert Embed Code' ; 
 $language["reply"]= 'Reply' ; 
 $language["mark-as-spam"]= 'Mark as spam' ; 
+$language["can-users-create-content"]= 'Can users create content' ; 

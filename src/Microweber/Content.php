@@ -3733,7 +3733,8 @@ if($in_empty_url == false){
 
 
         if (isset($data['title'])) {
-            $data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);
+           // $data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);
+           // $data['title'] = htmlentities($data['title'], ENT_QUOTES, "UTF-8");
 
             $data['title'] = strip_tags($data['title']);
             $data_to_save['title'] = $data['title'];

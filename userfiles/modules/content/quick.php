@@ -202,7 +202,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 	</div>
 	<?php } ?>
 	<?php if($data['content_type'] == 'page'){ ?>
-	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php } ?>
 	<div class="mw-ui-field-holder">
 		

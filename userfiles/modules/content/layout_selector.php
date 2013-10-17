@@ -18,7 +18,12 @@ $live_edit_styles_check = false;
 if(isset($params["live_edit_styles_check"])){
 	$live_edit_styles_check = true;
 }
+$template_selector_position = 'top';
+if(isset($params["template-selector-position"])){
+	$template_selector_position = $params["template-selector-position"];
+}
 
+ 
 
 
 
@@ -470,10 +475,19 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
  
 
  ?>
+ 
+ 
+ 
+
+<?php if($template_selector_position == 'top'): ?>
+ 
 	<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
 		<label class="mw-ui-label">
 			<?php _e("Template");   ?>
 		</label>
+		
+		
+		
 		<div class="mw-ui-select" style="width: 200px">
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
@@ -495,6 +509,12 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 			<?php endif; ?>
 		</div>
 	</div>
+<?php endif; ?>	
+	
+	
+	
+	
+	
 	<?php 
 	 $is_layout_file_set = false;
 	if(isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
@@ -597,7 +617,46 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
         ?>
 			</div>
 		</div>
+		
+		<?php if($template_selector_position == 'bottom'): ?>
+ 
+	<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 10px;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
+		<label class="mw-ui-label">
+			<?php _e("Template");   ?>
+		</label>
+		
+		
+		
+		<div class="mw-ui-select" style="width: 200px">
+			<?php if($templates != false and !empty($templates)): ?>
+			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
+				<?php if( trim($data['active_site_template']) != ''): ?>
+				<option value="<?php print $data['active_site_template'] ?>"      selected="selected"   ><?php print $data['active_site_template'] ?></option>
+				<?php endif ?>
+				<!--        <option value="default"   <?php if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>Default</option>
+
+
+  <option value="inherit"   <?php if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>From parent page</option>-->
+				<?php foreach($templates as $item): ?>
+				<?php $attrs = '';
+  foreach($item as $k=>$v): ?>
+				<?php $attrs .= "data-$k='{$v}'"; ?>
+				<?php endforeach ?>
+				<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php endforeach; ?>
+			</select>
+			<?php endif; ?>
+		</div>
 	</div>
+<?php endif; ?>
+	</div>
+	
+	
+	
+	
+	
+	
+	
 	<div class="mw_clear">&nbsp;</div>
 	<?php if($live_edit_styles_check != false): ?>
 	<module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>" template="<?php print $data['active_site_template'] ?>" />
