@@ -79,6 +79,43 @@ mw.on.hashParam("comments_for_content", function(){
 
 
     mw.adminComments = {
+		
+		 actionssss:function(comment_id, val){
+         
+          var conf = true;
+          if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
+          if(conf){
+             
+			  
+			  var data = {};
+			  data.id = comment_id;
+			  data.action = val;
+			  
+			 
+			  $.post( "<?php print site_url('api/post_comment'); ?>",data, function( data ) {
+				  
+				  if(val=='delete'){
+				  $('#comment-'+comment_id).fadeOut();
+				  }
+				  // mw.reload_module('comments/comments_for_post', function(){
+					  
+					  
+					 // $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
+				//  });
+				  
+				  
+				  
+				  
+				});
+							  
+			  
+              
+			
+          }
+      },
+		
+		
+		
       action:function(form, val){
           var form = $(form);
           var field = form.find('.comment_state');
@@ -88,10 +125,18 @@ mw.on.hashParam("comments_for_content", function(){
           if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
           if(conf){
               var id = form.attr('id');
-              mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
-			  mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
-				  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
-			  });
+			  
+			  var data = form.serialize();
+			   
+			  $.post( "<?php print site_url('api/post_comment'); ?>",data, function( data ) {
+				   mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
+					  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
+				  });
+				});
+							  
+			  
+              
+			
           }
       },
       toggleEdit:function(id){
@@ -126,7 +171,7 @@ mw.on.hashParam("comments_for_content", function(){
           else{
               $([_new, _old]).show();
               $(master).addClass("active");
-			  d(master);
+			  
 			  
 				var  is_cont = $(master).attr('content-id')
 				
@@ -196,9 +241,7 @@ $(document).ready(function(){
       <div class="vSpace"></div>
       <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green"><?php _e("Get more templates"); ?></a>
 
- <?php if(is_module('help')): ?>
-          <a href="<?php print admin_url(); ?>view:help/module:<?php print $config['module_name_url_safe'] ?>"><?php _e("Help"); ?></a>
-         <?php endif; ?>
+  
        </div>
 
   </div>

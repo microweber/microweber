@@ -86,6 +86,11 @@ description: Default comments template
                 <?php if(isset( $comment['comment_website'])){ ?> <a href="<?php print $comment['comment_website']; ?>"> <?php } ?>
                     <?php print $comment['comment_name'] ?>
                 <?php if(isset( $comment['comment_website'])){ ?> </a> <?php } ?>
+				
+				<?php if(isset($comment['updated_on'])): ?>
+				 
+				 <?php endif; ?>
+				
           </div>
             <div class="comment-body">
               <?php if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>

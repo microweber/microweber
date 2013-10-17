@@ -28,6 +28,7 @@
   background: white;
   overflow: hidden;
   box-shadow: 0px 0px 6px #CCCCCC;
+  box-shadow: 0 0 6px -4px #111;
 }
 
 #mwpicker{

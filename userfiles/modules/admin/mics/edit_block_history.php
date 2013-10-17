@@ -63,7 +63,7 @@ foreach ($history_files as $value) {
 } ?>
 <script  type="text/javascript">
 
-     mw.historyActive = typeof mw.historyActive === 'number' ? mw.historyActive : 0; 
+     mw.historyActive = typeof mw.historyActive === 'number' ? mw.historyActive : 0;
 
 			mw.undoHistory = {
 
@@ -77,8 +77,15 @@ foreach ($history_files as $value) {
 
         </script>
 
-<small>Saved drafts:</small>
+
+
+
+
 <ul id="mw_history_files">
+
+    
+
+    <li><small>Saved drafts:</small></li>
 	<?php foreach ($history_files as $item) : ?>
 	<li rel="load-draft-<?php print ($item['id']) ?>">
 		<?php //$mtime= filemtime($filename ); ?>

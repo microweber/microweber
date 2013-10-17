@@ -320,7 +320,8 @@ mw.wysiwyg = {
 
       mw.wysiwyg.external = mw.wysiwyg._external();
 
-      mw.$("#mw-text-editor").bind("mousedown mouseup click", function(event){event.preventDefault()});
+      mw.$("#liveedit_wysiwyg").bind("mousedown mouseup click", function(event){event.preventDefault()});
+
       var items = $(".element").not(".module");
       $(mwd.body).bind("paste", function(event){
         if(event.target.isContentEditable){
@@ -983,7 +984,7 @@ mw.wysiwyg = {
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
       }
     },
-    _undo:true,
+    _undo:false,
     _redo:false,
     undoRedoFixes:function(){
         var curr = mw.historyActive;

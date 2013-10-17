@@ -115,6 +115,7 @@ function post_comment($data) {
 
 				case 'delete' :
 				$del = mw('db')->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+				return array('success' => 'Deleted comment with id:'. $id);
 				return $del;
 				break;
 
@@ -176,17 +177,17 @@ function post_comment($data) {
 
 if(isset($data['comment_body'])){
 $comment_body = ($data['comment_body']);	
- $data['allow_html'] = true;        
-
-
+ //$data['allow_html'] = true;        
+ //$res_1 = htmlentities($comment_body, ENT_QUOTES, "UTF-8");
+//$data['comment_body'] = $res_1;
             $data =  mw('format')->clean_html($data);
-$res_1 = htmlentities($comment_body, ENT_QUOTES, "UTF-8");
 
-$data['comment_body'] = $res_1;	
+  
+ 
 
 
-
-}
+} 
+ 
 	$saved_data = mw('db')->save($table, $data);
 
 
@@ -256,7 +257,13 @@ function get_comments($params) {
 	$params['table'] = $table;
 
 	$comments = get($params);
+	
+	 $date_format = get_option('date_format','website');
+if($date_format == false){
+$date_format = "Y-m-d H:i:s";
+}
  
+  $aj =  mw('url')->is_ajax();
 	if(is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
@@ -264,11 +271,28 @@ function get_comments($params) {
 				$comments[$i]['comment_name'] = user_name($item['created_by']);
 			}
 			
+			if(isset( $item['created_on']) and  trim($item['created_on']) != ''){
+				$comments[$i]['created_on'] =  date($date_format, strtotime($item['created_on']));
+			}
+
+			if(isset( $item['updated_on']) and  trim($item['updated_on']) != ''){
+				$comments[$i]['updated_on'] =  date($date_format, strtotime($item['updated_on']) );
+			}
 			
+			
+			
+			
+			// $item =  mw('format')->clean_html($item);
 			if(isset($item['comment_body']) and ($item['comment_body'] != '')){
 				
 				$comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
 			}
+			if( $aj == true){
+				$comments[$i]['comment_body'] = htmlentities($comments[$i]['comment_body'], ENT_QUOTES, "UTF-8");
+			}
+			
+			
+			
 			
 			
 			

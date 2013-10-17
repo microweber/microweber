@@ -49,10 +49,6 @@
     <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
     <div id="modules-and-layouts" style="">
          <div class="toolbars-search">
-            <span
-                 class="mw-pin mwt-pin"
-                 data-for="#modules-and-layouts,#tab_modules,.tst-modules">
-            </span>
              <div class="mw-autocomplete left">
                  <input
                       type="mwautocomplete"
@@ -61,12 +57,8 @@
                       data-for="modules"
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
-
-
                  <div class="mw_clear"></div>
-
                  <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
-
              </div>
          </div>
         <div id="tab_modules" class="mw_toolbar_tab">

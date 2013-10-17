@@ -376,8 +376,9 @@ body.dragStart #items_handle{
 
 
 li.module-item.ui-draggable-dragging{
-  border-radius: 2px;
-  box-shadow: 0 0 3px #7A7A7A;
+  border-radius: 1px;
+  box-shadow: 0 0 2px #7A7A7A;
+  box-shadow: 0 0 6px -4px #111;
   background: white;
   padding: 5px !important;
   border: 1px solid #C7C7C7;

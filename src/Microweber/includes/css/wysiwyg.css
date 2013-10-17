@@ -427,7 +427,10 @@
 }
 
 
-
+ .mw_editor_redo.disabled,
+ .mw_editor_undo.disabled{
+   display: none;
+ }
 
 
 

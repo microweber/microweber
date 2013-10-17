@@ -1,24 +1,34 @@
 <div id="mw-text-editor" class="mw-defaults mw_editor">
         <div class="toolbar-sections-tabs">
             <ul>
-              <li class="create-content-dropdown"><a href="javascript:;" class="tst-logo" title="Microweber"><span>Microweber</span></a>
-
-                      <?php
-                          $pt_opts = array();
-                          $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
-                          $pt_opts['list_tag'] = "ul";
-                          $pt_opts['ul_class'] = "mw-dropdown-list";
-                          $pt_opts['list_item_tag'] = "li";
-                          $pt_opts['active_ids'] = CONTENT_ID;
-                          $pt_opts['limit'] = 1000;
-                          $pt_opts['active_code_tag'] = '   class="active"  ';
-                          mw('content')->pages_tree($pt_opts);
-                      ?>
+              <li class="create-content-dropdown">
+                <a href="javascript:;" class="tst-logo" title="Microweber">
+                  <span>Microweber</span>
+                  <i class="ico idownarr right"></i>
+                </a>
+                <div class="mw-dropdown-list">
+                   <div class="mw-dropdown-list-search">
+                         <input type="mwautocomplete" class="mwtb-search" />
+                   </div>
+                  <?php
+                      $pt_opts = array();
+                      $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
+                      $pt_opts['list_tag'] = "ul";
+                      $pt_opts['ul_class'] = "";
+                      $pt_opts['list_item_tag'] = "li";
+                      $pt_opts['active_ids'] = CONTENT_ID;
+                      $pt_opts['limit'] = 1000;
+                      $pt_opts['active_code_tag'] = 'class="active"';
+                      mw('content')->pages_tree($pt_opts);
+                  ?>
+                </div>
 
               </li>
               <li class="create-content-dropdown">
-                <a href="javascript:;" class="tst-add" title="Create or manage your content"><span>Create or manage your content</span></a>
-                <ul>
+                <a href="javascript:;" class="tst-add" title="Create or manage your content">
+                    <span>Create or manage your content</span>
+                </a>
+                <ul class="mw-dropdown-list">
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
@@ -27,7 +37,7 @@
                   <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span>Edit Current</span></a></li>
                 </ul>
               </li>
-              <li><a href="javascript:;" class="tst-modules" title="Modules & Layouts"><span>Modules & Layouts</span></a></li>
+              <li><a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span></a></li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
               <li>
                 <a href="javascript:;" class="tst- show_editor"><u>A</u></a>
@@ -48,16 +58,7 @@
               <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next"  title="<?php _e("Next"); ?>" onclick="mw.liveEditWYSIWYG.slideRight();"></span>
 
               <div class="right" style="padding: 10px 0;">
-              <div class="mw-ui-dropdown right" id="history_dd">
-                <a class="mw-ui-btn mw-ui-btn-hover mw-btn-single-ico" onclick="mw.$('#historycontainer').toggle();" title="<?php _e("Drafts"); ?>"><span class="ico ihistory" style="height: 22px;"></span></a>
-                <div class="mw-dropdown-content" style="width: 150px;right: -50px;left: auto;display: none;visibility: visible" id="historycontainer">
-                  <ul class="mw-dropdown-list">
-                      <li>
-                          <div id="mw-history-panel"></div>
-                      </li>
-                  </ul>
-                </div>
-              </div>
+
               <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
               <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
                 <div class="mw-dropdown-content" style="width: 155px;">
@@ -83,20 +84,11 @@
 
         <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
             <div class="wysiwyg-table">
-                <div class="wysiwyg-cell">
-                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-                </div>
+
+
                 <div class="wysiwyg-cell">
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
-
-                <div class="wysiwyg-cell visible-1440">
-                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
-                    <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>
-                </div>
-
-                <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
                 <div class="wysiwyg-cell">
                    <div class="relative">
 
@@ -113,6 +105,17 @@
                     </div>
                 </div>
                 </div>
+
+
+
+
+                <div class="wysiwyg-cell visible-1440">
+                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+                    <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>
+                </div>
+
+                <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
+
                 <div class="wysiwyg-cell">
 
 
@@ -240,6 +243,29 @@
                   </div>
                 </div>
                 </div>
+
+
+                <div class="wysiwyg-cell">
+                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
+
+                  <span class="mw_editor_btn" onclick="mw.$('#historycontainer').toggle();"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
+
+
+
+                  <div class="mw-ui-dropdown left" id="history_dd">
+
+                <div class="mw-dropdown-content" style="width: 150px;right: 5px;left: auto;display: none;visibility: visible" id="historycontainer">
+                  <ul class="mw-dropdown-list">
+                      <li>
+                          <div id="mw-history-panel"></div>
+                      </li>
+                  </ul>
+                </div>
+              </div>
+
+                </div>
+
                  <?php event_trigger('mw_editor_btn'); ?>
             </div>
         </div>
@@ -401,13 +427,21 @@
             el.addClass("over");
             setTimeout(function(){
                 if(el.hasClass("over")){
-                  mw.$("ul", el[0]).show();
+                  mw.$(".mw-dropdown-list", el[0]).show();
                 }
             }, 222);
           }, function(){
              $(this).removeClass("over");
-             mw.$("ul", this).hide();
+             mw.$(".mw-dropdown-list", this).hide();
           });
+
+
+
+
+
+
+
+
 
 
         });

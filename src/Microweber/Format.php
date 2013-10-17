@@ -161,11 +161,17 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
-            $var = html_entity_decode($var);
+           // $var = html_entity_decode($var);
             //$var = stripslashes($var);
-
+            $var = htmlentities($var, ENT_QUOTES, "UTF-8");
             $var = str_ireplace("<script>", '', $var);
             $var = str_ireplace("</script>", '', $var);
+
+            $var = str_replace('<?', '&lt;?', $var);
+            $var = str_replace('?>', '?&gt;', $var);
+            $var = str_ireplace("<module", '&lt;module', $var);
+            $var = str_ireplace("<microweber", '&lt;microweber', $var);
+
             $var = str_ireplace("javascript:", '', $var);
             $var = str_ireplace("vbscript:", '', $var);
             $var = str_ireplace("livescript:", '', $var);
@@ -180,7 +186,7 @@ class Format
             $output = $var;
             return $output;
         }
-        return $var;
+        return $output;
 
     }
 

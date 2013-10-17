@@ -14,6 +14,7 @@ mw.currentDragMouseOver = null;
 
 
 mw.mouseDownOnEditor = false;
+mw.mouseDownStarted = false;
 mw.SmallEditorIsDragging = false;
 
 
@@ -248,6 +249,11 @@ mw.drag = {
          //mw.$(".edit .module").addClass("element");
 
 
+
+
+
+
+
          $(mwd.body).mousemove(function(event){
 
 
@@ -255,9 +261,8 @@ mw.drag = {
 
             if(!mw.settings.resize_started){
 
-           if(mw.mouseDownOnEditor){
-
-
+           if(mw.mouseDownOnEditor && (mw.tools.hasClass(event.target, 'editor_wrapper') || mw.tools.hasClass(event.target, 'wysiwyg-table') || mw.mouseDownStarted)){
+                  mw.mouseDownStarted = true;
                   $("#mw_small_editor").css({
                      top:event.pageY-$(window).scrollTop(),
                      left:event.pageX-100,
@@ -584,6 +589,7 @@ mw.drag = {
         mw.resizable_columns();
 
         $(mwd.body).mouseup(function(event){
+            mw.mouseDownStarted = false;
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").css({top:0,left:0});
         	}
@@ -1800,7 +1806,7 @@ if(typeof el === 'object' && el !==null){
 
             },
             success: function(data) {
-         
+
                 if(is_draft){
                     //mw.askusertostay = true;
                 }

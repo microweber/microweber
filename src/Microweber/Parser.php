@@ -137,7 +137,7 @@ class Parser
             }
 
 
-            // d($layout);
+
 
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
