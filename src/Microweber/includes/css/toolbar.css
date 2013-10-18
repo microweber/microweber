@@ -1114,17 +1114,16 @@ li .ts_action_item:last-child{
   top: 100%;
   left: -1px;
   min-width: 100%;
-  display: none;
   background: white;
 }
 
 
 
 
-
-.mw-dropdown-list{
+.create-content-dropdown-list{
   display: none;
 }
+
 
 
 
@@ -1151,6 +1150,8 @@ li .ts_action_item:last-child{
   background: white;
   padding: 15px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   border:1px solid #EAEAEA;
   border-top:none;
 }

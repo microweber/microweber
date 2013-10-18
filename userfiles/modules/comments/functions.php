@@ -268,10 +268,10 @@ $date_format = "Y-m-d H:i:s";
 		$i = 0;
 		foreach ($comments as $item) {
 			 if($aj == true){
-				 $item =  mw('format')->clean_html($item);
+				//  $item =  mw('format')->clean_html($item);
 				 
 			 }
-			
+			 
 			
 			if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
 				$comments[$i]['comment_name'] = user_name($item['created_by']);

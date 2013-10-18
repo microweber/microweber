@@ -56,7 +56,7 @@
                   <span>Microweber</span>
                   <i class="ico idownarr right"></i>
                 </a>
-                <div class="mw-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;">
+                <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 350px;">
                    <div class="mw-dropdown-list-search">
                          <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" />
                    </div>
@@ -78,7 +78,7 @@
                 <a href="javascript:;" class="tst-add" title="Create or manage your content">
                     <span>Create or manage your content</span>
                 </a>
-                <ul class="mw-dropdown-list" style="width: 145px;">
+                <ul class="mw-dropdown-list create-content-dropdown-list" style="width: 145px;">
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
@@ -108,7 +108,7 @@
               <div class="right" style="padding: 10px 0;">
 
               <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
-              <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+              <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>?editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
                 <div class="mw-dropdown-content" style="width: 155px;">
                   <ul class="mw-dropdown-list">
                   <li>
@@ -350,11 +350,11 @@
 
           mw.$(".create-content-dropdown").hover(function(){
             var el = $(this);
-            var list = mw.$(".mw-dropdown-list", el[0]);
+            var list = mw.$(".create-content-dropdown-list", el[0]);
 
             el.addClass("over");
             setTimeout(function(){
-              mw.$(".mw-dropdown-list").not(list).hide();
+              mw.$(".create-content-dropdown-list").not(list).hide();
                 if(el.hasClass("over")){
                   list.stop().show().css("opacity", 1);
                 }
@@ -365,7 +365,7 @@
              el.removeClass("over");
              setTimeout(function(){
                 if(!el.hasClass("over")){
-                  mw.$(".mw-dropdown-list", el[0]).stop().fadeOut(322);
+                  mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
                 }
             }, 322);
           });

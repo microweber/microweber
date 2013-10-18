@@ -3038,8 +3038,6 @@ mw.contact = {
     }
 }
 
-crawl = false;
-crawlc = [];
 
 $(document).ready(function(){
 
@@ -3074,19 +3072,7 @@ mw.$(".mw-dropdown-search").keyup(function(e){
 });
 
 
-  if(crawl){
-    Alert("Crawling !");
-  $(mwd.links).each(function(){
-    if(top.crawlc.indexOf(this.href) === -1){
-      top.crawlc.push(this.href);
-       var frame = mwd.createElement('iframe');
-       frame.className = 'semi_hidden';
-        frame.src = this.href;
-        mwd.body.appendChild(frame);
-    }
-    else{return false;}
-  });
-   }
+
 
 
 _mwoldww = $(window).width();

@@ -66,7 +66,7 @@ class Parser
 
 
 
-        $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
+      //  $layout = html_entity_decode($layout, ENT_COMPAT, "UTF-8");
 
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
