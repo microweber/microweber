@@ -3600,7 +3600,7 @@ class Content
         if (defined('MW_API_CALL') and $checks != $table) {
             if ($adm == false) {
                 $data = $this->app->format->strip_unsafe($data);
-                
+
                 $stop = true;
 
 

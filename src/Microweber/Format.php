@@ -162,12 +162,13 @@ class Format
             return $string;
         } else {
 
-
         // Unsafe HTML tags that members may abuse
         $unsafe=array(
             '/<iframe(.*?)<\/iframe>/is',
             '/<title(.*?)<\/title>/is',
-            '/<pre(.*?)<\/pre>/is',
+            //'/<pre(.*?)<\/pre>/is',
+            '/<audio(.*?)<\/audio>/is',
+            '/<video(.*?)<\/video>/is',
             '/<frame(.*?)<\/frame>/is',
             '/<frameset(.*?)<\/frameset>/is',
             '/<object(.*?)<\/object>/is',
@@ -177,13 +178,13 @@ class Format
             '/<meta(.*?)>/is',
             '/<!doctype(.*?)>/is',
             '/<link(.*?)>/is',
+            '/<style(.*?)<\/style>/is',
             '/<body(.*?)>/is',
             '/<\/body>/is',
             '/<head(.*?)>/is',
             '/<\/head>/is',
             '/onload="(.*?)"/is',
             '/onunload="(.*?)"/is',
-
             '/onafterprint="(.*?)"/is',
             '/onbeforeprint="(.*?)"/is',
             '/onbeforeunload="(.*?)"/is',
@@ -192,7 +193,6 @@ class Format
             '/onoffline="(.*?)"/is',
             '/ononline="(.*?)"/is',
             '/onpagehide="(.*?)"/is',
-
             '/onpageshow="(.*?)"/is',
             '/onpopstate="(.*?)"/is',
             '/onredo="(.*?)"/is',
@@ -203,7 +203,6 @@ class Format
             '/onblur="(.*?)"/is',
             '/onchange="(.*?)"/is',
             '/oncontextmenu="(.*?)"/is',
-
             '/onfocus="(.*?)"/is',
             '/onformchange="(.*?)"/is',
             '/onforminput="(.*?)"/is',
@@ -214,7 +213,6 @@ class Format
             '/onblur="(.*?)"/is',
             '/onsubmit="(.*?)"/is',
             '/onkeydown="(.*?)"/is',
-
             '/onkeypress="(.*?)"/is',
             '/onkeyup="(.*?)"/is',
             '/onclick="(.*?)"/is',
@@ -225,8 +223,6 @@ class Format
             '/ondragleave="(.*?)"/is',
             '/ondragover="(.*?)"/is',
             '/ondragstart="(.*?)"/is',
-
-
             '/ondrop="(.*?)"/is',
             '/onmousedown="(.*?)"/is',
             '/onmousemove="(.*?)"/is',
@@ -237,8 +233,6 @@ class Format
             '/ondragleave="(.*?)"/is',
             '/onabort="(.*?)"/is',
             '/oncanplay="(.*?)"/is',
-
-
             '/oncanplaythrough="(.*?)"/is',
             '/ondurationchange="(.*?)"/is',
             '/onended="(.*?)"/is',
@@ -249,7 +243,6 @@ class Format
             '/onplay="(.*?)"/is',
             '/onabort="(.*?)"/is',
             '/onplaying="(.*?)"/is',
-
             '/onprogress="(.*?)"/is',
             '/onratechange="(.*?)"/is',
             '/onreadystatechange="(.*?)"/is',
@@ -257,14 +250,11 @@ class Format
             '/onseeking="(.*?)"/is',
             '/onstalled="(.*?)"/is',
             '/onsuspend="(.*?)"/is',
-
             '/ontimeupdate="(.*?)"/is',
             '/onvolumechange="(.*?)"/is',
             '/onwaiting="(.*?)"/is',
-
             '/<html(.*?)>/is',
             '/<\/html>/is');
-
 
         // Remove graphic too if the user wants
         if ($img==true)
