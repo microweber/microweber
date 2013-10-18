@@ -1395,12 +1395,12 @@ class Content
         for ($x = 1; $x <= count($page_links); $x++) {
 
             if (stristr($page_links[$x], $paging_param . ':') == false) {
-if($in_empty_url == false){
-                $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
-} else {
-    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . ':' . $x);
+                if ($in_empty_url == false) {
+                    $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
+                } else {
+                    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . ':' . $x);
 
-}
+                }
                 $l = str_ireplace('module/', '', $l);
                 $page_links[$x] = $l . $append_to_links;
             }
@@ -3599,7 +3599,8 @@ if($in_empty_url == false){
 
         if (defined('MW_API_CALL') and $checks != $table) {
             if ($adm == false) {
-
+                $data = $this->app->format->strip_unsafe($data);
+                
                 $stop = true;
 
 
@@ -3716,6 +3717,10 @@ if($in_empty_url == false){
             }
             $thetitle = $data['title'];
         }
+        if (isset($data['title'])) {
+            $data['title'] = strip_tags($data['title']);
+            $data_to_save['title'] = $data['title'];
+        }
 
         if (isset($data['id']) and intval($data['id']) == 0) {
             if (!isset($data['title']) or ($data['title']) == '') {
@@ -3727,18 +3732,11 @@ if($in_empty_url == false){
                         $data['title'] = "New " . $data['subtype'];
                     }
                 }
+                $data_to_save['title'] = $data['title'];
 
             }
         }
 
-
-        if (isset($data['title'])) {
-           // $data['title'] = htmlspecialchars_decode($data['title'], ENT_QUOTES);
-           // $data['title'] = htmlentities($data['title'], ENT_QUOTES, "UTF-8");
-
-            $data['title'] = strip_tags($data['title']);
-            $data_to_save['title'] = $data['title'];
-        }
 
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {

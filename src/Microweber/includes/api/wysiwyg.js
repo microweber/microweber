@@ -126,11 +126,6 @@ mw.wysiwyg = {
       $(window).bind("onEditMouseDown", function(e, el, target){
         mw.wysiwyg.removeEditable();
 
-
-
-
-
-
         mw.$(".edit").attr("contentEditable", "false");
         $(el).attr("contentEditable", "true");
 
