@@ -444,6 +444,22 @@
   display: inline-block;
 }
 
+#history_dd{
+  position: relative;
+}
+
+#mw-history-panel{
+  right: 0;
+  left: auto;
+  width: 150px;
+  border: 1px solid #D2D2D2;
+
+}
+#mw_history_files a{
+  display: block;
+  padding: 5px 10px;
+}
+
 
 .wysiwyg-convertible-toggler{
     display: none;

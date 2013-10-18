@@ -814,3 +814,5 @@ $language["content-is-deleted"]= 'Content is deleted!' ;
 $language["are-you-sure-you-want-restore-the-selected-content"]= 'Are you sure you want restore the selected content' ; 
 $language["content-is-restored"]= 'Content is restored!' ; 
 $language["restore-this-content"]= 'Restore this content' ; 
+$language["sub-category-name"]= 'Sub-category Name' ; 
+$language["comments-posting-is-disabled-from-the-admin-panel"]= 'Comments posting is disabled from the admin panel' ; 

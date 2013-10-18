@@ -1155,8 +1155,8 @@ li .ts_action_item:last-child{
   display: block;
   background-color: white;
   background-repeat: no-repeat;
-  background-position: 6px 50%;
-  padding: 15px 15px 15px 25px;
+  background-position: 10px 50%;
+  padding: 15px 15px 15px 30px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1379,6 +1379,8 @@ input.mwtb-search{
 .mw-dropdown-list-search .mwtb-search{
   width:175px;
 }
+
+
 
 
 

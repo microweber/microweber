@@ -84,7 +84,6 @@
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
-                  <li><a href="javascript:;"><span>BROWSE SITE</span></a></li>
                   <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span>Edit Current</span></a></li>
                 </ul>
               </li>
@@ -246,6 +245,7 @@
             if(!mw.liveEditWYSIWYG.denied){
                mw.liveEditWYSIWYG.denied = true;
                var el = mw.liveEditWYSIWYG.ed.firstElementChild;
+
                var to = mw.tools.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
                $(el).animate({left: to}, function(){
                     mw.liveEditWYSIWYG.denied = false;
@@ -278,6 +278,7 @@
           mw.liveEditWYSIWYG.buttons();
           $(window).bind("resize", function(){
             mw.liveEditWYSIWYG.buttons();
+
             var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
             if(!!n){
                 mw.liveEditWYSIWYG.slideRight();

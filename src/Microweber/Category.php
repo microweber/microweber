@@ -636,7 +636,15 @@ class Category
             $orderby[1] = 'ASC';
         }
 
-        if (!empty($remove_ids)) {
+
+
+        if (isset($remove_ids) and !is_array($remove_ids)) {
+            $temp = $remove_ids;
+            $remove_ids = array();
+            $remove_ids[] = $temp;
+        }
+
+        if (is_array($remove_ids) and !empty($remove_ids)) {
 
             $remove_ids_q = implode(',', $remove_ids);
 

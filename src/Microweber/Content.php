@@ -2387,6 +2387,12 @@ class Content
 
                         }
 
+
+                        if (isset($categories_removed_ids)) {
+                            $cat_params['remove_ids'] = $categories_removed_ids;
+
+                        }
+
                         if (isset($active_code)) {
                             $cat_params['active_code'] = $active_code;
 
@@ -2435,7 +2441,7 @@ class Content
 
                         }
                         //d($cat_params);
-                        //d($cat_params);
+                       //d($cat_params);
                         $this->app->category->tree($cat_params);
 
                     }

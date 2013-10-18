@@ -1,5 +1,6 @@
 
 
+
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -104,7 +105,8 @@ mw.dropables = {
 
 
 $(document).ready(function(){
-   mw.drag.create();
+
+  mw.drag.create();
 
    $(mwd.body).keyup(function(e){
      mw.$(".mw_master_handle").css({
@@ -228,31 +230,20 @@ mw.drag = {
     noop:mwd.createElement('div'),
 	create: function () {
          mw.top_half = false;
-
-          mw.$(".edit", mwd.body).each(function(){
-           var els = this.querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
-
-           for( ; i<l; i++){
-             var el = els[i];
-             var cls = el.className
-             if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
-               $(el).addClass('element');
-             }
-           }
-
-         });
-
+         var edits = mwd.body.querySelectorAll(".edit"), elen = edits.length, ei = 0;
+         for(;ei < elen;ei++){
+           var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
+            for( ; i<l; i++){
+               var el = els[i];
+               var cls = el.className;
+               if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
+                  mw.tools.addClass(el, 'element');
+               }
+            }
+         }
 
 
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
-         //mw.$(".edit .mw-row").addClass("element");
-         //mw.$(".edit .module").addClass("element");
-
-
-
-
-
-
 
          $(mwd.body).mousemove(function(event){
 
@@ -577,6 +568,9 @@ mw.drag = {
            $(".currentDragMouseOver").removeClass("currentDragMouseOver");
            $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
          });
+
+
+
 
 
         mw.dropables.prepare();

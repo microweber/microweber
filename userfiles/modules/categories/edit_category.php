@@ -111,9 +111,9 @@ $(document).ready(function(){
  // set_category_parent_<?php print $form_rand_id ?>();
  mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/save_category') ?>', function(){
 	 
-	 mw.category_is_saving = false;
+	 
 	   mw.notification.success("Category changes are saved");
-	 		$('.mw-cat-save-submit').removeClass('disabled');
+	 		
 
 	 
 	 mw.reload_module('[data-type="categories"]');
@@ -135,7 +135,8 @@ $(document).ready(function(){
 	 	mw.url.windowHashParam("action", "editcategory:" + this);
      <?php endif; ?>
 	 });
-
+    mw.category_is_saving = false;
+    $('.mw-cat-save-submit').removeClass('disabled');
     return false;
  });
 });
@@ -186,7 +187,7 @@ $(document).ready(function(){
 
        ?>
 		<div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
-			<module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio"   />
+			<module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"   />
 		</div>
 	</div>
 	<script type="text/javascript">

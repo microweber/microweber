@@ -265,6 +265,12 @@ if (isset($params['active_ids'])) {
 	 
 
 }
+
+if (isset($params['categories_removed_ids'])) {
+	 $tree['categories_removed_ids'] = $params['categories_removed_ids'];
+
+}
+  
  
 mw('content')->pages_tree($tree);
 ?>
