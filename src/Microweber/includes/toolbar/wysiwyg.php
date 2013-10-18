@@ -174,7 +174,7 @@
 
 
 
-                          <div class="mw-dropdown-list" id="mw-history-panel"></div>
+                          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
 
 
               </div>

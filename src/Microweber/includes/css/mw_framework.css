@@ -373,6 +373,12 @@ body.not-allowed{
   z-index: 998;
 
 }
+
+#live_edit_toolbar.scrolling{
+  box-shadow:0 2px 7px -6px #333333;
+}
+
+
 #live_edit_toolbar{
   opacity: 0;
   transition: opacity 1s;

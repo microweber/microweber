@@ -783,7 +783,9 @@ class Controller
                         $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'toolbar_back.php';
 
                         $layout_toolbar = new $this->app->view($tb);
+
                         $layout_toolbar = $layout_toolbar->__toString();
+
                         if ($layout_toolbar != '') {
                             $layout_toolbar = $this->app->parser->process($layout_toolbar, $options = array('no_apc' => 1));
                             $c = 1;

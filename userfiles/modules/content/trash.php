@@ -6,9 +6,14 @@ $post_params = $params;
 
  
 
- 
- 
+if (isset($post_params['paging_param'])) {
+  $paging_param = $post_params['paging_param'];
+}
 
+  $curent_page  =1;
+if (isset($params['curent_page'])) {
+  $curent_page = $params['curent_page'];
+}
 
 
 $show_fields = false;
@@ -68,10 +73,10 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 $post_params = array();
 $post_params['is_deleted'] = 'y';
- 
+$post_params['limit'] = 250;
+
 $content   =$data = get_content($post_params);
-?>
-<?php
+ 
 $post_params_paging = $post_params;
 //$post_params_paging['count'] = true;
 
@@ -79,10 +84,11 @@ $post_params_paging = $post_params;
 
 
 $post_params_paging['page_count'] = true;
-$pages = get_content($post_params_paging);
+//$pages = get_content($post_params_paging);
+$pages_count = false;
 
 $paging_links = false;
-$pages_count = intval($pages);
+//$pages_count = intval($pages);
 ?>
 <?php if (intval($pages_count) > 1): ?>
 <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>

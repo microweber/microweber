@@ -256,6 +256,16 @@ $(document).ready(function(){
           }
       }
     });
+
+
+
+  $(window).scroll(function(){
+        if($(window).scrollTop() > 10){
+          mw.tools.addClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
+        }
+        else{mw.tools.removeClass(mwd.getElementById('live_edit_toolbar'), 'scrolling'); }
+
+  });
 });
 
 mw.toolbar = {

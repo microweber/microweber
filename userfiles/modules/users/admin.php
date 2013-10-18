@@ -205,7 +205,7 @@ function mw_admin_delete_user_by_id($user_id){
       <label class="mw-side-nav-label">Sort Users by Status</label>
       <div class="vSpace"></div>
       <ul class="mw-admin-side-nav">
-        <li> <a class="mw-users-is-active mw-users-is-active-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');"><?php _e("All users"); ?></a> </li>
+        <li> <a class="mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');"><?php _e("All users"); ?></a> </li>
         <li> <a class="mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');"><?php _e("Active users"); ?></a> </li>
         <li> <a class="mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');"><?php _e("Disabled users"); ?></a> </li>
       </ul>
