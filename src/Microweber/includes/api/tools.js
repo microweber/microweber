@@ -3064,7 +3064,7 @@ mw.$(".mw-dropdown-search").keyup(function(e){
         var html = "<ul>", l=this.length,i=0;
         for(;i<l;i++){
           var a = this[i];
-          html+='<li><a href="'+a.url+'">'+a.title+'</a></li>';
+          html+='<li class="'+a.content_type+' '+a.subtype +'"><a href="'+a.url+'" title="'+a.title+'">'+a.title+'</a></li>';
         }
         html+='</ul>';
        el.parent().next("ul").replaceWith(html);

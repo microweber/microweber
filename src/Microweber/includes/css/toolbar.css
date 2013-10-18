@@ -1098,7 +1098,7 @@ li .ts_action_item:last-child{
 }
 
 .tst-logo span{ left: -6px; top: 15px; }
-.tst-logo .idownarr{ position: absolute; top: 15px; right: -2px; opacity: 0.4 }
+.tst-logo .dd_rte_arr{ margin-right: 8px; margin-top: 3px;opacity: 0.4 }
 .tst-modules span{ top: 16px; background-position: -99px 0; }
 .tst-add span{ top: 16px; background-position: -46px 0; }
 .tst-design span{ top: 16px; background-position: -149px 0; }
@@ -1124,16 +1124,18 @@ li .ts_action_item:last-child{
   display: none;
 }
 
-.create-content-dropdown-list li.is_page > a{ background-image: url(../img/tree.pageico.png); }
+.create-content-dropdown-list li.is_page > a, .create-content-dropdown-list li.page > a{ background-image: url(../img/tree.pageico.png); }
+.create-content-dropdown-list li.post > a{ background-image: url(../img/tree.post.png); }
 .create-content-dropdown-list li.is_category > a{ background-image: url(../img/tree.cat.png); }
-.create-content-dropdown-list li.have_category > a{ background-image: url(../img/tree.dynamic.png); }
+.create-content-dropdown-list li.have_category > a, .create-content-dropdown-list li.page.dynamic > a{ background-image: url(../img/tree.dynamic.png); }
 
 
 
 
 
 .mw-dropdown-list > ul {
-  max-height: 450px;
+  max-height: 265px;
+
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -1371,10 +1373,11 @@ input.mwtb-search{
   position: relative;
   z-index: 1;
   border: 1px solid #EAEAEA;
+  box-shadow: -2px 8px 18px -22px #111111;
 }
 
 .mw-dropdown-list-search .mwtb-search{
-  width:300px;
+  width:175px;
 }
 
 

@@ -54,9 +54,10 @@
               <li class="create-content-dropdown">
                 <a href="javascript:;" class="tst-logo" title="Microweber">
                   <span>Microweber</span>
-                  <i class="ico idownarr right"></i>
+                  <i class=" dd_rte_arr right"></i>
+
                 </a>
-                <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 350px;">
+                <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
                    <div class="mw-dropdown-list-search">
                          <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" />
                    </div>
@@ -108,7 +109,8 @@
               <div class="right" style="padding: 10px 0;">
 
               <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
-              <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>?editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+              <div class="mw-ui-dropdown right">
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
                 <div class="mw-dropdown-content" style="width: 155px;">
                   <ul class="mw-dropdown-list">
                   <li>
