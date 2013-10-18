@@ -253,7 +253,13 @@ class Format
             '/ontimeupdate="(.*?)"/is',
             '/onvolumechange="(.*?)"/is',
             '/onwaiting="(.*?)"/is',
+            '/href="javascript:[^"]+"/',
+         //   '/href=javascript:[^"]+"/',
+            '/href=javascript:/is',
+          //  '/href=javascript:[^"]+/',
             '/<html(.*?)>/is',
+            '/<iframe(.*?)>/is',
+            '/<iframe(.*?)/is',
             '/<\/html>/is');
 
         // Remove graphic too if the user wants

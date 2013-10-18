@@ -173,16 +173,15 @@ if (($template == false or ($template == '')) and isset($params['template'])) {
 
 }
 
-
-
+ 
 $template_file = false;
 if ($template != false and strtolower($template) != 'none') {
 //
-    $template_file = module_templates($params['type'], $template);
+    $template_file = module_templates($config['module'], $template);
 
 //
 } else {
-  $template_file = module_templates($params['type'], 'default');
+  $template_file = module_templates($config['module'], 'default');
 }
  
  
