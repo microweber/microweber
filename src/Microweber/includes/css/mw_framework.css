@@ -584,7 +584,7 @@ body.view-shop .mw_action_post{
 }
 
 
-
+/*
 
 #mw_edit_page_left .is_home > a:before{
   position: absolute;
@@ -595,6 +595,11 @@ body.view-shop .mw_action_post{
   top: 12px;
   right: 0;
   content: "";
+}     */
+
+
+#mw_edit_page_left .is_home > a{
+  background-image: url(../img/is_home.gif);
 }
 
 #mw_edit_page_left .is_home > a:hover:before{

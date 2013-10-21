@@ -161,7 +161,7 @@ delete_module = function(inner_node){
 }
 
 #mw-iframe-editor-area{
-  line-height: 20px;
+  line-height: 1.85;
 }
 
 

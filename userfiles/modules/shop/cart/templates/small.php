@@ -51,7 +51,7 @@ description: Small cart template
 }
 
 .mw-cart-small-fixed .mw-cart-small{
-  position: fixed;
+  position: static;
   top: 10px;
   right: 10px;
   box-shadow: 0 0 10px #ccc;

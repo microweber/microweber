@@ -24,7 +24,6 @@ api_expose('content/menu_delete');
 api_expose('content/menu_item_save');
 
 
-
 class Content
 {
     public $app;
@@ -394,7 +393,7 @@ class Content
 
         if (($cache_content) != false) {
 
-            return $cache_content;
+               return $cache_content;
         }
 
         $render_file = false;
@@ -504,7 +503,7 @@ class Content
             }
         }
 
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
 
             $inherit_from = $this->get_parents($page['id']);
 
@@ -545,10 +544,13 @@ class Content
 
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false) {
             $look_for_post = $page;
+
             if (isset($page['parent'])) {
-
-                $par_page = $this->get_by_id($page['parent']);
-
+                $par_page = false;
+                $inh_par_page = $this->get_inherited_parent($page['parent']);
+                if ($inh_par_page) {
+                    $par_page = $this->get_by_id($inh_par_page);
+                }
                 if (is_array($par_page)) {
                     $page = $par_page;
                 } else {
@@ -563,6 +565,7 @@ class Content
 
 
             }
+
         }
 
         if ($render_file == false and isset($page['simply_a_file'])) {
@@ -632,7 +635,7 @@ class Content
         }
 
 
-        if ($render_file == false and isset($page['active_site_template']) and $render_file == false and isset($page['layout_file'])) {
+        if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
             if ($look_for_post != false) {
                 $f1 = $page['layout_file'];
 

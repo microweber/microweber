@@ -827,3 +827,5 @@ $language["enter-source"]= 'Enter Source' ;
 $language["the-cart-is-empty"]= 'The cart is empty' ; 
 $language["cannot-get-order-s-items"]= 'Cannot get order\'s items' ; 
 $language["additional-details"]= 'Additional Details' ; 
+$language["cart"]= 'Cart' ; 
+$language["user-stats"]= 'User stats' ; 
