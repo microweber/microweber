@@ -1,6 +1,10 @@
 <?php
 namespace Microweber;
 
+api_expose('fields/reorder');
+api_expose('fields/delete');
+api_expose('fields/make');
+api_expose('fields/save');
 
 class Fields
 {

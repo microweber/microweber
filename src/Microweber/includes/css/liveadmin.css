@@ -2838,6 +2838,16 @@ a.module-icon-title{
 
 }
 
+.quick-add-nav-title{
+  position: relative;
+  top: 4px;
+  font-size: 11px;
+  margin-left: 3px;
+}
+.quick-add-nav li.active .quick-add-nav-title{
+  top: 2px;
+}
+
 .quick-add-module{
   padding: 12px;
     min-height: 365px;

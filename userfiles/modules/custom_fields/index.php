@@ -67,7 +67,7 @@ if(isset($field['custom_field_type'])  and $field['custom_field_type'] =='price'
 	$price_fields[] = $field;
 } else {
 	$prined_items_count++;
-print  make_field($field);  
+print  mw('fields')->make($field);  
 }
  }
  ?>
@@ -82,7 +82,7 @@ print  make_field($field);
        <?php 
 	   $prined_items_count++;
 	   if($price_fields_c >1){ $field['make_select'] = true; } ?>
-      <?php  print  make_field($field);   ?>
+      <?php  print  mw('fields')->make($field);   ?>
       <?php endforeach; ?>
       <?php if($price_fields_c >1) : ?>
     </select>

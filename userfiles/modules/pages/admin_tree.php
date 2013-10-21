@@ -12,7 +12,7 @@ only_admin_access();
  * @usage  type="pages" append_to_link="/editmode:y"
  */
 
-
+ 
 if(!isset($params['link'])){
 	if(isset($params['append_to_link'])){
 		$append_to_link = $params['append_to_link'];
@@ -71,7 +71,7 @@ if (isset($params['data-include_categories']) and isset($params['parent'])) {
  ?><?php
 
 	$params['return_data'] = true;
-
+  
 ?>
 <?php $pages_tree= mw('content')->pages_tree($params);  ?>
 

@@ -1884,6 +1884,11 @@ class Content
         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
         //   $cache_content = false;
 //	if (!isset($_GET['debug'])) {
+
+        if (isset($params['no_cache'])) {
+            $cache_content = false;
+        }
+
         if (($cache_content) != false) {
 
             if (isset($params['return_data'])) {
@@ -2441,7 +2446,7 @@ class Content
 
                         }
                         //d($cat_params);
-                       //d($cat_params);
+
                         $this->app->category->tree($cat_params);
 
                     }

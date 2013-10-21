@@ -67,7 +67,7 @@ __sort_fields = function(){
           var id = $(this).dataset("id");
           obj.ids.push(id);
         });
-        $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
+        $.post(mw.settings.api_url+"fields/reorder", obj, function(){
           if(window.parent != undefined && window.parent.mw != undefined){
            window.parent.mw.reload_module('custom_fields');
          }

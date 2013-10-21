@@ -1,19 +1,24 @@
 <div id="main" class="liquid">
  <div class="mw-ui-row dashboard-top-row">
-   <div class="mw-ui-col" style="width: 55%">
+   <div class="mw-ui-col" style="width: 55%"> 
         <module type="site_stats/admin" subtype="graph" />
    </div>
    <div class="mw-ui-col" style="width: 45%">
        <div class="quick-add">
             <ul class="quick-add-nav" id="quick-add-nav">
                 <li class="active">
-                    <span title="Create Post" data-subtype="post"><i class="mw-ui-btn-plus"></i><i class="ico ipost"></i></span></li>
+                    <span title="Create Post" data-subtype="post">
+                        <i class="mw-ui-btn-plus"></i>
+                        <i class="ico ipost"></i>
+                        <span class="quick-add-nav-title">Post</span>
+                    </span>
+                </li>
                 <li>
-                    <span title="Create Product" data-subtype="product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i></span></li>
+                    <span title="Create Product" data-subtype="product"><i class="mw-ui-btn-plus"></i><i class="ico iproduct"></i><span class="quick-add-nav-title">Product</span></span></li>
                 <li>
-                    <span title="Create Page" data-subtype="page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i></span></li>
+                    <span title="Create Page" data-subtype="page"><i class="mw-ui-btn-plus"></i><i class="ico ipage"></i><span class="quick-add-nav-title">Page</span></span></li>
                 <li>
-                    <span title="Create Category" data-subtype="category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i></span></li>
+                    <span title="Create Category" data-subtype="category"><i class="mw-ui-btn-plus"></i><i class="ico icategory"></i><span class="quick-add-nav-title">Category</span></span></li>
             </ul><div class="quick-add-module">
                 <module type="content/quick" quick_edit="true" data-subtype="post" id="mw-quick-content" />
             </div>

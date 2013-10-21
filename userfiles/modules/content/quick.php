@@ -213,14 +213,10 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 	<div class="mw-ui-field-holder">
 		
 <?php if($is_quick==false): ?>
-	<?php if(intval($data['id']) != 0): ?>
-	 	
+ 	 	
 			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
 
-	<?php else: ?>
-			<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Publish</button>
-
-	<?php endif; ?>
+	 
 	<span class="mw-ui-btn go-live right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
 
 <?php else: ?>	
@@ -361,6 +357,7 @@ mw.edit_content.after_save = function(){
 		
 		
 	if(window.parent != undefined && window.parent.mw != undefined){
+
     window.parent.mw.reload_module('posts');
     window.parent.mw.reload_module('shop/products');
     window.parent.mw.reload_module('content');

@@ -862,7 +862,7 @@ mw.tools = {
     },
 	del_category : function(id){
       mw.tools.confirm('Are you sure you want to delete this?', function(){
-         $.post(mw.settings.site_url + "api/delete_category", {id:id}, function(data) {
+         $.post(mw.settings.site_url + "api/category/delete", {id:id}, function(data) {
             var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
                  todelete.remove();
@@ -3059,7 +3059,12 @@ mw.$(".wysiwyg-convertible-toggler").click(function(){
 
 
 mw.$(".mw-dropdown-search").keyup(function(e){
+  if(e.keyCode == '27'){
+    $(this.parentNode.parentNode).hide();
+  }
+  if(e.keyCode != '13' && e.keyCode != '27' && e.keyCode != '32'){
     var el = $(this);
+    el.addClass('mw-dropdown-searchSearching');
     mw.tools.ajaxSearch({keyword:this.value, limit:20}, function(){
         var html = "<ul>", l=this.length,i=0;
         for(;i<l;i++){
@@ -3068,7 +3073,10 @@ mw.$(".mw-dropdown-search").keyup(function(e){
         }
         html+='</ul>';
        el.parent().next("ul").replaceWith(html);
+       el.removeClass('mw-dropdown-searchSearching');
     });
+  }
+
 });
 
 

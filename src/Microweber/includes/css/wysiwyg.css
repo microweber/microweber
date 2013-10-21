@@ -371,6 +371,7 @@
   overflow-y:auto;
   padding: 10px;
   clear: both;
+  resize: both;
 }
 .mw-admin-editor .mw-admin-editor-area ul,
 .mw-admin-editor .mw-admin-editor-area ol{

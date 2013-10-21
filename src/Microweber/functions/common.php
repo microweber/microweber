@@ -935,32 +935,12 @@ function get_user($id = false)
 }
 
 
-function make_default_custom_fields($rel, $rel_id, $fields_csv_str)
-{
-    return mw('fields')->make_default($rel, $rel_id, $fields_csv_str);
-}
-
-api_expose('make_custom_field');
-function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
-{
-    return mw('fields')->make_field($field_id, $field_type, $settings);
-}
-
-api_expose('save_custom_field');
-
-function save_custom_field($data)
-{
 
 
-    return mw('fields')->save($data);
-}
-api_expose('save_content_data');
-function save_content_data($data)
-{
 
 
-    return mw('content')->save_content_data($data);
-}
+
+
 function content_data($content_id, $field_name = false)
 {
 
@@ -970,12 +950,6 @@ function content_data($content_id, $field_name = false)
 
 
 
-api_expose('reorder_custom_fields');
-
-function reorder_custom_fields($data)
-{
-    return mw('fields')->reorder($data);
-}
 
 function get_custom_fields($params)
 {
@@ -984,40 +958,9 @@ function get_custom_fields($params)
 
 
 
-api_expose('remove_field');
-
-function remove_field($id)
-{
-    return mw('fields')->delete($id);
-}
-
-/**
- * make_field
- *
- * @desc make_field
- * @access      public
- * @category    forms
- * @author      Microweber
- * @link        http://microweber.com
- * @param string $field_type
- * @param string $field_id
- * @param array $settings
- */
-function make_field($field_id = 0, $field_type = 'text', $settings = false)
-{
-    return mw('fields')->make($field_id, $field_type, $settings);
-
-}
+ 
 
 
-api_expose('save_category');
-
-function save_category($data, $preserve_cache = false)
-{
-    return mw('category')->save($data, $preserve_cache);
-
-
-}
 
 
 

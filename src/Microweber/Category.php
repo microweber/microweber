@@ -2,7 +2,8 @@
 namespace Microweber;
 
 api_expose('category/reorder');
-
+api_expose('category/save');
+api_expose('category/delete');
 class Category
 {
     public $app;
@@ -397,8 +398,8 @@ class Category
             $function_cache_id .= CATEGORY_ID;
         }
         $cache_group = 'categories/global';
-       // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-           $cache_content = false;
+        // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = false;
 
 
         //if (!isset($_GET['debug'])) {
@@ -499,6 +500,8 @@ class Category
             if (!isset($params['for'])) {
                 $params['for'] = 'content';
             }
+
+
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
 
                 $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
@@ -560,6 +563,7 @@ class Category
             $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($str0);
 
+
         }
 
         if (isset($params['debug'])) {
@@ -585,7 +589,7 @@ class Category
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
 
-       // $this->app->cache->save($content, $function_cache_id, $cache_group);
+        // $this->app->cache->save($content, $function_cache_id, $cache_group);
         //}
         ob_end_clean();
         print $content;
@@ -637,18 +641,17 @@ class Category
         }
 
 
-
         if (isset($remove_ids) and !is_array($remove_ids)) {
-            $temp = $remove_ids;
-            $remove_ids = array();
-            $remove_ids[] = $temp;
-        }
+            $temp = intval($remove_ids);
 
-        if (is_array($remove_ids) and !empty($remove_ids)) {
+            $remove_ids_q = " and id not in ($temp) ";
+
+        } elseif (is_array($remove_ids) and !empty($remove_ids)) {
 
             $remove_ids_q = implode(',', $remove_ids);
-
-            $remove_ids_q = " and id not in ($remove_ids_q) ";
+            if ($remove_ids_q != '') {
+                $remove_ids_q = " and id not in ($remove_ids_q) ";
+            }
         } else {
 
             $remove_ids_q = false;
@@ -663,8 +666,7 @@ class Category
 
             $add_ids_q = false;
         }
-        //$add_ids_q = '';
-        //$remove_ids_q =   '';
+
         if ($max_level != false and $depth_level_counter != false) {
 
             if (intval($depth_level_counter) >= intval($max_level)) {
@@ -693,6 +695,8 @@ class Category
         $hard_limit = " LIMIT 300 ";
         $inf_loop_fix = "  and $table.id!=$table.parent_id  ";
         //	$inf_loop_fix = "     ";
+
+
         if ($content_type == false) {
 
             if ($include_first == true) {
@@ -702,7 +706,6 @@ class Category
                 $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
                 $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 
-                // $sql = "SELECT * from $table where id=$parent  and data_type='category'   $remove_ids_q    $inf_loop_fix group by id   ";
 
             } else {
 
@@ -710,6 +713,7 @@ class Category
                 $sql = $sql . "$remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 
             }
+
         } else {
 
             if ($include_first == true) {
@@ -733,20 +737,10 @@ class Category
             $my_limit_q = false;
         }
         $output = '';
-        //$children_of_the_main_parent = $this->get_items($parent, $type = 'category_item', $visible_on_frontend, $limit);
-        //
-
-        //
         $q = $this->app->db->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
-        //$q = $this->app->db->query($sql);
-
-        // $q = $this->core_model->dbQuery ( $sql, $cache_id =
-        // 'self::html_tree_parent_cats_q_' . md5 ( $sql ),
-        // 'categories/' . intval ( $parent ) );
 
         $result = $q;
 
-        //
 
         $only_with_content2 = $only_with_content;
 
@@ -756,7 +750,7 @@ class Category
 
         if (isset($result) and is_array($result) and !empty($result)) {
 
-            // $output = "<ul>";
+
             $depth_level_counter++;
             $i = 0;
 
@@ -784,7 +778,7 @@ class Category
 
 
                 print $print1;
-                // print($type);
+
                 foreach ($result as $item) {
 
                     if ($only_with_content == true) {
@@ -870,13 +864,9 @@ class Category
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
 
-                            //$to_print = str_ireplace('{title2}', $item ['title2'], $to_print);
-                            // $to_print = str_ireplace('{title3}', $item ['title3'], $to_print);
-
                             $to_print = str_ireplace('{categories_content_type}', trim($item['categories_content_type']), $to_print);
                             $to_print = str_replace('{empty}', $empty, $to_print);
 
-                            //   $to_print = str_ireplace('{content_count}', $item ['content_count'], $to_print);
                             $active_found = false;
 
                             if (is_string($active_ids)) {
@@ -949,30 +939,10 @@ class Category
                             print $output . $item['title'];
                         }
 
-                        // $parent, $link = false, $active_ids = false,
-                        // $active_code = false, $remove_ids = false,
-                        // $removed_ids_code = false, $ul_class_name = false,
-                        // $include_first = false, $content_type = false,
-                        // $li_class_name = false) {
-                        // $li_class_name = false, $add_ids = false, $orderby =
-                        // false, $only_with_content = false
-                        $children_of_the_main_parent1 = array();
-                        // $children_of_the_main_parent1 = get_category_children($item ['id'], $type = 'category', $visible_on_frontend = false);
-                        // p($children_of_the_main_parent1 );
-                        $remove_ids[] = $item['id'];
-                        if (!empty($children_of_the_main_parent1)) {
-                            foreach ($children_of_the_main_parent1 as $children_of_the_main_par) {
 
-                                // $remove_ids[] = $children_of_the_main_par;
-                                // $children = CI::model ( 'content'
-                                // )->self::html_tree (
-                                // $children_of_the_main_par, $link, $active_ids,
-                                // $active_code, $remove_ids, $removed_ids_code,
-                                // $ul_class_name, false, $content_type,
-                                // $li_class_name, $add_ids, $orderby,
-                                // $only_with_content, $visible_on_frontend );
-                            }
-                        }
+                        $children_of_the_main_parent1 = array();
+                        $remove_ids[] = $item['id'];
+
 
                         $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
 

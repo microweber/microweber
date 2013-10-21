@@ -109,7 +109,7 @@ $(document).ready(function(){
   mw.notification.success("Saving category... Please wait...",10000);
 
  // set_category_parent_<?php print $form_rand_id ?>();
- mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/save_category') ?>', function(){
+ mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
 	 
 	 
 	   mw.notification.success("Category changes are saved");

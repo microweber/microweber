@@ -61,7 +61,7 @@ mw.custom_fields = {
         holder.find('.custom-field-edit-title').html('<span class="'+curr.querySelector('span').className+'"></span><strong>' + curr.textContent + '</strong>');
       }
 
-      mw.$($selector).load(mw.settings.api_html+ 'make_custom_field',data , function(){
+      mw.$($selector).load(mw.settings.api_html+ 'fields/make',data , function(){
         mw.is.func(callback) ? callback.call(this) : '';
 
         mw.$(".mw-admin-custom-field-edit-item-wrapper input").bind("keyup", function(){
@@ -80,7 +80,7 @@ mw.custom_fields = {
         var copy_str = '&copy_from='+ $copy;
       }
 
-      mw.$($selector).load(mw.settings.api_html+'make_custom_field?settings=y&basic=y&for_module_id='+ $for_id + '&for='+ $for_table +'&custom_field_type='+$type + copy_str , function(){
+      mw.$($selector).load(mw.settings.api_html+'fields/make?settings=y&basic=y&for_module_id='+ $for_id + '&for='+ $for_table +'&custom_field_type='+$type + copy_str , function(){
         mw.is.func(callback) ? callback.call($type) : '';
       });
   },
@@ -93,7 +93,7 @@ mw.custom_fields = {
       data.save_on_copy =1;
       data.rel =$for_table;
       data.rel_id =$for_id;
-      $.post(mw.settings.api_html+'make_custom_field' , data , function(){
+      $.post(mw.settings.api_html+'fields/make' , data , function(){
 		  mw.reload_module('custom_fields/list');
 		  mw.is.func(callback) ? callback.call($type) : '';
       });
@@ -193,7 +193,7 @@ mw.custom_fields.serialize = function(id){
 
 mw.custom_fields.save = function(id, callback){
     var obj = mw.custom_fields.serialize(id);
-    $.post(mw.settings.api_url+'save_custom_field', obj, function(data) {
+    $.post(mw.settings.api_url+'fields/save', obj, function(data) {
         
 		
 		if(data.error != undefined){
@@ -241,7 +241,7 @@ mw.custom_fields.del = function(id, toremove){
       var obj = {
         id:id
       }
-      $.post(mw.settings.api_url+"remove_field",  obj, function(data){
+      $.post(mw.settings.api_url+"fields/delete",  obj, function(data){
          mw.reload_module('custom_fields/list', function(){
             if(typeof __sort_fields === 'function'){
                  __sort_fields();
@@ -281,7 +281,7 @@ mw.custom_fields.del = function(id, toremove){
                     var id = $(this).dataset("id");
                     obj.ids.push(id);
                 });
-                $.post(mw.settings.api_url+"reorder_custom_fields", obj, function(){
+                $.post(mw.settings.api_url+"fields/reorder", obj, function(){
             if(window.parent != undefined && window.parent.mw != undefined){
          window.parent.mw.reload_module('custom_fields');
        }
