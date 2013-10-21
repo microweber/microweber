@@ -44,7 +44,6 @@ if (isset($params['data-parent'])) {
 	 }
 }
 $include_categories = false;
-
 if (isset($params['data-include_categories'])) {
      $params['include_categories'] = intval($params['parent']);
 } else {
@@ -67,8 +66,7 @@ $params['include_first'] =  true;
 	 if(is_admin() == false){
 	  $params['is_active'] = 'y';
 	 }
- 
- 
+
 		 $module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
 					$module_template =$params['template'];

@@ -16,10 +16,8 @@ position: 4
 
 <div id="content">
 	<div class="container">
-		<div class="edit">
-			<div class="mw-empty"></div>
-		</div>
-		<h2 class="edit element section-title">
+		
+		<h2 class="element section-title">
 			<div class="mw-row">
 				<div class="mw-col" style="width:40%">
 					<div class="mw-col-container">
@@ -42,7 +40,7 @@ position: 4
 				</div>
 			</div>
 		</h2>
-		<div class="edit" field="content" rel="page">
+		<div class="edit" field="content" rel="content">
 			<module type="google_maps" />
 			<div class="element page-post-content">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</div>
 

@@ -129,9 +129,23 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 
 
 
-
 });
 
+
+$(window).load(function(){
+
+    var master = mwd.getElementById('the_admin_editor');
+
+  master.addEventListener("DOMAttrModified", function(e){
+      var attr = e.attrName;
+      if(attr == 'style'){
+        parent.mw.$("#" + window.name).css({
+          width:$(master).width() + 4,
+          height:$(master).height() + 4
+        });
+      }
+  }, false);
+})
 
 
 
@@ -202,6 +216,8 @@ delete_module = function(inner_node){
     background: #787878;
 }
 
+
+
 </style>
 </head>
 <body style="padding: 0;margin: 0;">
@@ -211,10 +227,12 @@ delete_module = function(inner_node){
   }
  ?>
 
-<div class="mw-admin-editor">
+
+<div class="mw-admin-editor" id="the_admin_editor">
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
-  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus">{content}</div>
+  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" onresize="alert(1)">{content}</div>
 </div>
+
 <?php mw_var('plain_modules', false); ?>
 </body>
 </html>
