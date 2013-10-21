@@ -108,7 +108,7 @@ _modulesSort = function(){
 		update: function(){
           var serial = el.sortable('serialize');
           $.ajax({
-            url: mw.settings.api_url+'reorder_modules',
+            url: mw.settings.api_url+'module/reorder_modules',
             type:"post",
             data:serial
           });

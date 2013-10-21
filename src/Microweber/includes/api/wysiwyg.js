@@ -882,7 +882,8 @@ mw.wysiwyg = {
         });
     },
     media:function(hash){
-        if(typeof mw.target.item === 'undefined') return false;
+
+        if(mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;
         var hash = hash || '#insert_html';
         if($("#mw_rte_image").length>0){
            $("#mw_rte_image").remove();

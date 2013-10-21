@@ -24,13 +24,13 @@ description: Default comments template
         ?>
   <?php if (is_array($comments)): ?>
   <?php if($form_title != false): ?>
-  <h2><?php print $form_title ?></h2>
+  <h4><?php print $form_title ?></h4>
   <?php elseif($display_comments_from  != false and $display_comments_from   == 'recent'): ?>
-  <h2><?php _e("Recent comments"); ?></h2>
+  <h4><?php _e("Recent comments"); ?></h4>
   <?php else : ?>
-  <h2><?php _e("Comments for"); ?> <strong>
+  <h4><?php _e("Comments for"); ?> <strong>
     <?php  $post = mw('content')->get_by_id($data['rel_id']); print $post['title']; ?>
-    </strong></h2>
+    </strong></h4>
   <?php endif; ?>
   <div class="comments" id="comments-list-<?php print $data['id'] ?>">
     <?php foreach ($comments as $comment) : ?>
@@ -108,7 +108,7 @@ description: Default comments template
     <?php endif; ?>
   </div>
   <?php else: ?>
-  <h2><?php _e("No comments"); ?></h2>
+  <h4><?php _e("No comments"); ?></h4>
   <?php endif; ?>
   <hr>
   <?php if(!$login_required or $cur_user != false): ?>
@@ -119,7 +119,7 @@ description: Default comments template
       <?php if($form_title != false): ?>
       <input type="hidden" name="comment_subject" value="<?php print $form_title ?>">
       <?php endif; ?>
-      <h2><?php _e("Leave a comment"); ?></h2>
+      <h4><?php _e("Leave a comment"); ?></h4>
       <?php if( $cur_user == false) :  ?>
       <div class="row-fluid">
         <div class="span4 comment-field">

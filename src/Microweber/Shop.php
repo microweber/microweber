@@ -13,6 +13,7 @@ namespace Microweber;
 
 // ------------------------------------------------------------------------
 
+api_expose('shop/update_order');
 
 class Shop
 {

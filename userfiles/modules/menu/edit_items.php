@@ -44,7 +44,7 @@ if( $id != 0){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<?php print mw('url')->api_link('edit_menu_item'); ?>', function(){
+        	mw.form.post(selector, '<?php print mw('url')->api_link('content/menu_item_save'); ?>', function(){
 
 				 <?php if(isset($params['data-parent-module-id'])): ?>
 				 mw.reload_module('#<?php print $params['data-parent-module-id'] ?>');

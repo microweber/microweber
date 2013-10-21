@@ -941,6 +941,10 @@ class Category
 
 
                         $children_of_the_main_parent1 = array();
+
+                        if(!isset($remove_ids) or !is_array($remove_ids)){
+                            $remove_ids = array();
+                        }
                         $remove_ids[] = $item['id'];
 
 

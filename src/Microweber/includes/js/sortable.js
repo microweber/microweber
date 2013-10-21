@@ -1304,10 +1304,10 @@ mw.drag = {
 
             //el.children('.empty-element').height('auto');
 			el.height('auto');
-            mw.tools.firstParentWithClass(this, 'mw-row').style.height = 'auto';
-			//el.parents('.mw-row:first').height('auto')
-
-
+            var mwr = mw.tools.firstParentWithClass(this, 'mw-row');
+            if(!!mwr) {
+              mwr.style.height = 'auto';
+            }
             mw.tools.fixDeniedParagraphHierarchy();
 
 		}); }, 222);
@@ -2019,7 +2019,7 @@ $(".mw-row").each(function(){
 					minWidth: 150,
 
 					resize: function (event, ui) {
-						mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
+					  mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
                         if(mw.global_resizes.next.width()<151){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }

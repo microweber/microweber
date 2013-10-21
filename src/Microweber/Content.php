@@ -19,6 +19,10 @@ api_expose('content/set_published');
 api_expose('content/set_unpublished');
 api_expose('content/menu_item_delete');
 api_expose('content/menu_items_reorder');
+api_expose('content/menu_create');
+api_expose('content/menu_delete');
+api_expose('content/menu_item_save');
+
 
 
 class Content
@@ -2830,7 +2834,7 @@ class Content
             return $menus;
         } else {
             if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                add_new_menu('id=0&title=' . $params['title']);
+                mw('content')->menu_create('id=0&title=' . $params['title']);
             }
 
         }

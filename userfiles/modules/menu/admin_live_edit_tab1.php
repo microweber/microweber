@@ -119,7 +119,7 @@ body.module-settings-page #custom_link_controller {
 
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
-      $.post("<?php print site_url('api/add_new_menu') ?>",  obj, function(data){
+      $.post("<?php print site_url('api/content/menu_create') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
  	   /* mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
 		mw.reload_module('#<?php print $params['id'] ?>');
@@ -156,7 +156,7 @@ var data = {}
 data.id = $id
 
 
-      $.post("<?php print site_url('api/menu_delete') ?>",  data, function(resp){
+      $.post("<?php print site_url('api/content/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
 			   menuSelectorInit();
       });
@@ -182,7 +182,17 @@ data.id = $id
 
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
-     mw.$(selector + ' input[type="radio"]').commuter(function(){
+	 
+	 var items =  mw.$(selector + ' input[type="radio"]');
+	 
+	 if(items == null){
+		return; 
+	 }
+	  if(items.commuter == undefined){
+		  return; 
+		  
+	  }
+    items.commuter(function(){
 
         var content_id =  mw.$(".module-menu-edit-item input[name='content_id']");
         var categories_id =  mw.$(".module-menu-edit-item input[name='categories_id']");
@@ -201,6 +211,9 @@ data.id = $id
         mw.menu_save_new_item('.menu_item_edit');
         mw.$(selector).hide();
      });
+	 
+	 
+	 
 
 
  }
@@ -245,7 +258,7 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<?php print mw('url')->api_link('edit_menu_item'); ?>', function(){
+        	mw.form.post(selector, '<?php print mw('url')->api_link('content/menu_item_save'); ?>', function(){
 				
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
 
@@ -288,7 +301,7 @@ $menu_name = get_option('menu_name', $params['id']);
   if($menu_id == false and $menu_name != false){
   $menu_id = get_menu('one=1&title='.$menu_name);
 	  if($menu_id == false and isset($params['title'])){
-	  add_new_menu('id=0&title=' . $params['title']);
+	  mw('content')->menu_create('id=0&title=' . $params['title']);
 	    $menu_id = get_menu('one=1&title='.$menu_name);
 	  }
 

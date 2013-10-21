@@ -19,7 +19,7 @@ mw.client_edit = {
   mw.$('.mw-client-information').addClass('nonactive');
 },
 save:function(){
- var URL = '<?php print mw('url')->api_link('update_order') ?>';
+ var URL = '<?php print mw('url')->api_link('shop/update_order') ?>';
  if(!mw.$('.mw-client-information').hasClass('nonactive')){
    var obj = mw.form.serialize('.mw-client-information');
    $.post(URL, obj ,function(data) {

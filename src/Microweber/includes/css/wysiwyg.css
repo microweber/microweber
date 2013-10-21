@@ -371,7 +371,7 @@
   overflow-y:auto;
   padding: 10px;
   clear: both;
-  resize: both;
+  resize: vertical;
 }
 .mw-admin-editor .mw-admin-editor-area ul,
 .mw-admin-editor .mw-admin-editor-area ol{
@@ -384,6 +384,11 @@
   background: white;
   border: 1px solid #D1D1D1;
   border-radius:2px;
+
+  max-width: 100%;
+  min-width: 200px;
+
+
 }
 
 

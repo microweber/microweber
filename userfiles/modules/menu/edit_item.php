@@ -35,7 +35,7 @@ if($id == 0){
 //	$data['categories_id'] = '';
 } else {
 
-	$data = get_menu_item($id);
+	$data = mw('content')->menu_item_get($id);
 }
 if( $id != 0){
 //$data = menu_tree( $id);
@@ -47,7 +47,7 @@ if( $id != 0){
 
 
 <div class="vSpace"></div>
-<div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_edit_menu_item_<?php  print $rand ?>">
+<div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_content/menu_item_save_<?php  print $rand ?>">
   <?php if((!isset($data['title']) or $data['title']=='' ) and isset($data["content_id"]) and intval($data["content_id"]) > 0 ): ?>
   <?php $cont = mw('content')->get_by_id($data["content_id"]);
 	if(isset($cont['title'])){

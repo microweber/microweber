@@ -1257,3 +1257,7 @@ input.mw-captcha-input{
 	margin: 10px 7px 0 15px;
 	display: inline-block;
 }
+
+.post-content{
+  padding-bottom: 20px;
+}

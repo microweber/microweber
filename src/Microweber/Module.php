@@ -13,6 +13,7 @@ $mw_defined_module_classes = array();
 
 
 api_expose('module/save');
+api_expose('module/reorder_modules');
 
 class Module
 {
@@ -840,10 +841,11 @@ class Module
                 }
 
                 mw('db')->update_position_field($table, $indx);
-                return true;
+                return $indx;
                 // d($indx);
             }
         }
+
         $this->db_init();
     }
 

@@ -16,29 +16,25 @@ description: Post inner layout
 		<div class="row">
 			<div class="span8" id="blog-main-inner">
 				<h3 class="edit" field="title" rel="content">Page Title</h3>
-				<div class="edit"  field="content" rel="content">
-					<div class="clearfix post-comments">
-						<module data-type="pictures" data-template="slider"  rel="content"  />
-					</div>
+
+                
+				<div class="edit post-content" field="content" rel="content">
+                    <module data-type="pictures" data-template="slider"  rel="content"  />
 					<div class="element" style="width:95%">
 						<p align="justify">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
 					</div>
-					<div class="element">
-						<hr class="visible-desktop column-hr">
-					</div>
-					<module data-type="comments" data-template="default" data-content-id="<?php print CONTENT_ID; ?>"  />
 				</div>
+                <div class="edit" rel="content" field="comments"><module data-type="comments" data-template="default" data-content-id="<?php print CONTENT_ID; ?>"  /></div>
 			</div>
 			<div class="span3 offset1" id="blog-sidebar">
-				<?php 
-
-if(is_file(THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
- include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php"; 
- 
-} else if(is_file(DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
-	include DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php"; 
-}
- ?>
+				<?php
+                      if(is_file(THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
+                        include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php";
+                      }
+                      else if(is_file(DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
+                      	include DEFAULT_TEMPLATE_DIR. "layouts/blog_sidebar.php";
+                      }
+                ?>
 			</div>
 		</div>
 	</div>

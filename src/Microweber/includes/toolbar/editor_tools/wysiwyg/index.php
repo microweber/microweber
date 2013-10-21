@@ -21,9 +21,7 @@ scaleHeight = function(){
   var pt = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingTop"));
   var pb = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingBottom"));
   var h = $(window).height() - mw.$("#mw-admin-text-editor").outerHeight() - pt - pb - 4;
-
-
-  $("#mw-iframe-editor-area").height(h)
+  mw.$("#mw-iframe-editor-area").height(h)
 }
 
 PrepareEditor = function(){
@@ -133,14 +131,12 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 
 
 $(window).load(function(){
-
-    var master = mwd.getElementById('the_admin_editor');
-
+  var master = mwd.getElementById('the_admin_editor');
   master.addEventListener("DOMAttrModified", function(e){
       var attr = e.attrName;
       if(attr == 'style'){
         parent.mw.$("#" + window.name).css({
-          width:$(master).width() + 4,
+          width: $(master).width() + 4,
           height:$(master).height() + 4
         });
       }
@@ -148,17 +144,12 @@ $(window).load(function(){
 })
 
 
-
-
 delete_module = function(inner_node){
     mw.tools.confirm(mw.msg.del, function(){
       $(mw.tools.firstParentWithClass(inner_node, 'module')).remove();
     });
 }
-
-
-
-  </script>
+</script>
 
 
 
@@ -169,13 +160,19 @@ delete_module = function(inner_node){
   padding: 0;
 }
 
+#mw-iframe-editor-area{
+  line-height: 20px;
+}
+
+
+
 .module {
 	display: block;
 	padding: 10px;
 	border: 1px solid #ccc;
 	background: #efecec;
 	text-align: center;
-	margin: 5px;
+	margin: 10px 5px;
 	font-size: 11px;
     width: auto !important;
     height: auto !important;

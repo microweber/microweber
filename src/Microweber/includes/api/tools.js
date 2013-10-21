@@ -1299,10 +1299,16 @@ mw.tools = {
     }
   },
   index:function(el, parent, selector){
+    var el = $(el)[0];
     var selector = selector || el.tagName.toLowerCase();
     var parent = parent || el.parentNode;
-    var all = parent.querySelectorAll(selector), i=0, l=all.length;
-    var all = mw.$(selector, parent), i=0, l=all.length;
+    if(parent.constructor === [].constructor){
+       var all = parent;
+    }
+    else{
+       var all = mw.$(selector, parent)
+    }
+    var i=0, l=all.length;
     for ( ; i<l; i++){
         if( el===all[i] ) return i;
     }
@@ -1733,7 +1739,7 @@ mw.tools = {
     var active = obj.activeNav || obj.activeClass || "active";
     mw.$(obj.nav).click(function(){
       if(!$(this).hasClass(active)){
-        var i = mw.tools.index(this, master, obj.nav);
+        var i = mw.tools.index(this, mw.$(obj.nav).get(), mw.$(obj.nav)[0].nodeName);
         mw.$(obj.nav).removeClass(active);
         $(this).addClass(active);
         mw.$(obj.tabs).hide().eq(i).show();

@@ -1,10 +1,10 @@
 <div id="main" class="liquid">
  <div class="mw-ui-row dashboard-top-row">
-   <div class="mw-ui-col" style="width: 55%"> 
+   <div class="mw-ui-col" style="width: 55%">
         <module type="site_stats/admin" subtype="graph" />
    </div>
    <div class="mw-ui-col" style="width: 45%">
-       <div class="quick-add">
+       <div class="quick-add" style="margin-top: 71px;">
             <ul class="quick-add-nav" id="quick-add-nav">
                 <li class="active">
                     <span title="Create Post" data-subtype="post">

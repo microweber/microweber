@@ -11,7 +11,13 @@
   </div>
 </div>
 
+<?php 
+if($data['custom_field_value'] == ''){
+	
+$data['custom_field_value'] = 0;	
+}
 
+?>
 
 <div class="custom-field-col-right">
   <div class="mw-custom-field-group">

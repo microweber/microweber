@@ -20,7 +20,7 @@ $menu_name = false;
       <?php foreach($menus  as $item): ?>
       <li>
           <label class="mw-ui-check">
-            <input id="menuid-<?php print $item['id'] ?>" name="add_content_to_menu[]"  <?php if(is_in_menu($item['id'],$content_id)): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>" type="checkbox">
+            <input id="menuid-<?php print $item['id'] ?>" name="add_content_to_menu[]"  <?php if(mw('content')->is_in_menu($item['id'],$content_id)): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>" type="checkbox">
             <span></span><span class="mw-menuselector-menu-title"><?php print ucwords(($item['title'])) ?></span>
           </label>
       </li>

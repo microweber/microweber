@@ -28,12 +28,19 @@ description: Add to cart default
 
 <?php else: ?>
   <button class="btn pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>');"><i class="icon-shopping-cart"></i> <?php _e("Add to cart"); ?></button>
-  <?php endif; ?>
+ 
   
   
   
   
-</div>
+  <?php $i++; endif; ?>
+
+ </div>
+  <?php if($i > 1) : ?>
+   <br />
+    <?php endif; ?>
+
+ 
 <?php $i++; endforeach ; ?>
 <?php endif; ?>
  

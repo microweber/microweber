@@ -92,7 +92,7 @@ mw.treeRenderer = {
                      });
 
             		 if(cat_found == true){
-            		    $.post("<?php print site_url('api/reorder_categories'); ?>", obj, function(){
+            		    $.post("<?php print site_url('api/category/reorder'); ?>", obj, function(){
 
 
                 _mw_ui_will_init_tree = true;

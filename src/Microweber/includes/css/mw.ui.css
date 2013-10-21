@@ -550,8 +550,8 @@
   z-index: 1000;
   width: 100%;
   height: 100%;
-  background: black;
-  opacity:.2;
+  background: white;
+  opacity:.7;
 }
 
 .mw_modal_type_iframe .mw_modal_container{

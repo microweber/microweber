@@ -439,31 +439,34 @@ mw.quick = {
           h : 500,
           page : function(){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_page',
+              overlay:true,
               title:'New Page'
            });
         },
         category : function(){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=true&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
+              url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_page',
+              overlay:true,
               title:'New Category'
            });
         },
         edit : function(id){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&is-current=true&id=mw-quick-page&content-id="+id,
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_page',
+              overlay:true,
               title:'New Page'
            });
         },
@@ -475,6 +478,7 @@ mw.quick = {
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_page',
+              overlay:true,
               title:'New Page'
            });
         },
@@ -482,21 +486,23 @@ mw.quick = {
 
         post : function(){
             mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post",
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_post',
+              overlay:true,
               title:'New Post'
             });
         },
         product : function(){
            mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-product&subtype=product",
+              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product",
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_product',
+              overlay:true,
               title:'New Product'
            });
         }

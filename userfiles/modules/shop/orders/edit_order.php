@@ -148,10 +148,41 @@ mw_error("Invalid order id");
      var obj = {
        id:"<?php print $ord['id']; ?>"
      }
+	 
+	 mw.$(".mw-order-is-paid-change").change(function(){
+        var val = this.value;
+		
+	 	
+		
+		
+		
+		
+		obj.is_paid = val;
+        $.post(mw.settings.site_url+"api/shop/update_order", obj, function(){
+			
+			
+			var upd_msg = "Order is marked as un-paid"
+			if(obj.is_paid == 'y'){
+			 var upd_msg = "Order is marked as paid"
+	
+			}
+			
+			mw.notification.success(upd_msg);
+           mw.reload_module('shop/orders');
+		   
+        });
+		
+		
+		
+     });
+	 
+	 
+	 
+	 
      mw.$("input[name='order_status']").commuter(function(){
         var val = this.value;
         obj.order_status = val;
-        $.post(mw.settings.site_url+"api/update_order", obj, function(){
+        $.post(mw.settings.site_url+"api/shop/update_order", obj, function(){
             mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
             var states = {
               'y':'<?php _e("Completed"); ?>',
@@ -310,19 +341,26 @@ mw_error("Invalid order id");
 							<li>
 								<?php _e("Payment Method"); ?>
 								: <?php print $ord['payment_gw']; ?></li>
-							<?php if(isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?>
+								
+								
 							<li>
 								<?php _e("Is Paid"); ?>
 								:
-								<?php _e("Yes"); ?>
-							</li>
-							<?php else: ?>
-							<li>
-								<?php _e("Is Paid"); ?>
-								:
-								<?php _e("No"); ?>
-							</li>
-							<?php endif; ?>
+								<select name="is_paid" class="mw-ui-simple-select mw-order-is-paid-change">
+								 
+								<option value="y" <?php if(isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+								
+								<option value="n" <?php if(isset($ord['is_paid']) and $ord['is_paid'] != 'y'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+
+								
+								</select>
+							 
+							
+							
+								
+							</li>	
+								
+							
 							<?php if(isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
 							<li>
 								<?php _e("Transaction ID"); ?>

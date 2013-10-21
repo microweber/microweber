@@ -1161,8 +1161,7 @@ class Controller
             default :
 
 
-               // d($mod_api_class);
-
+                // d($mod_api_class);
 
 
                 if ($mod_class_api == true and $mod_api_class != false) {
@@ -1323,8 +1322,8 @@ class Controller
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
 
-                         //d($api_exposed_item);
-                       // d($api_function_full);
+                        //d($api_exposed_item);
+                        // d($api_function_full);
 
 
                         if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
@@ -2051,8 +2050,17 @@ class Controller
 
 
         }
+        if (isset($page['content']) and $page['content'] == '') {
+            if (isset($page['content_type']) and $page['content_type'] != 'page') {
+                $render_file = $this->app->content->get_layout($page);
 
+                $page['render_file'] = $render_file;
+                $l = new $this->app->view($page['render_file']);
+                $l = $l->__toString();
+                $page['content'] = $this->app->parser->isolate_content_field($l);
+            }
 
+        }
         if (isset($page['content'])) {
 
 
