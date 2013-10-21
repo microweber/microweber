@@ -27,7 +27,7 @@ description: shop layout
 					<div class="mw-row">
 						<div class="mw-col" style="width:50%">
 							<div class="mw-col-container">
-								<module type="pictures" rel="post" template="product_gallery" />
+								<module type="pictures" rel="content" template="product_gallery" />
 							</div>
 						</div>
 						<div class="mw-col" style="width:50%">

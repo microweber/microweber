@@ -150,10 +150,20 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 			</div>
 			<?php } ?>
 			<div class="right">
-				<select name="is_active">
-					<option <?php if($data['is_active'] != 'n'): ?> selected="selected" <?php endif; ?> value="y">Published</option>
-					<option <?php if($data['is_active'] == 'n'): ?> selected="selected" <?php endif; ?>value="n">Unpublished</option>
-				</select>
+				
+
+                <input type="hidden" name="is_active" value="<?php print $data['is_active']; ?>" />
+
+
+                <div class="mw-ui-btn-nav">
+                   <span class="mw-ui-btn<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>">Unpublished</span>
+                   <span class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>">Published</span>
+                </div>
+
+
+
+
+
 			</div>
 		</div>
 	</div>
@@ -339,10 +349,10 @@ mw.edit_content.after_save = function(){
 	var content_id =  mw.$('#mw-content-id-value').val();
  
 	if(content_id == 0){
-	mw.reload_module('#<?php print $module_id ?>');
+	    mw.reload_module('#<?php print $module_id ?>');
  	}
 		
-		
+
 	if(window.parent != undefined && window.parent.mw != undefined){
 
     window.parent.mw.reload_module('posts');
@@ -490,7 +500,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 
 </script>
 <script>
-    
+
 /* ON DOCUMENT READY */	
     $(document).ready(function(){
 		 mw.edit_content.load_editor();
