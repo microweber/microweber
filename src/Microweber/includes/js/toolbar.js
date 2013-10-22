@@ -438,7 +438,7 @@ mw.quick = {
           w : 700,
           h : 500,
           page : function(){
-           mw.tools.modal.frame({
+           var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
               template:'mw_modal_simple',
               width:mw.quick.w,
@@ -447,9 +447,10 @@ mw.quick = {
               overlay:true,
               title:'New Page'
            });
+           modal.overlay.style.backgroundColor = "white";
         },
         category : function(){
-           mw.tools.modal.frame({
+           var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
               template:'mw_modal_simple',
               width:mw.quick.w,
@@ -458,21 +459,23 @@ mw.quick = {
               overlay:true,
               title:'New Category'
            });
+           modal.overlay.style.backgroundColor = "white";
         },
         edit : function(id){
-           mw.tools.modal.frame({
+           var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id,
               template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,
               name:'quick_page',
               overlay:true,
-              title:'New Page'
+              title:'Edit content'
            });
+           modal.overlay.style.backgroundColor = "white";
         },
 
 		 page_2 : function(){
-           mw.tools.modal.frame({
+           var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
               template:'mw_modal_simple',
               width:mw.quick.w,
@@ -481,11 +484,12 @@ mw.quick = {
               overlay:true,
               title:'New Page'
            });
+           modal.overlay.style.backgroundColor = "white";
         },
 
 
         post : function(){
-            mw.tools.modal.frame({
+            var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post",
               template:'mw_modal_simple',
               width:mw.quick.w,
@@ -494,9 +498,10 @@ mw.quick = {
               overlay:true,
               title:'New Post'
             });
+            modal.overlay.style.backgroundColor = "white";
         },
         product : function(){
-           mw.tools.modal.frame({
+           var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product",
               template:'mw_modal_simple',
               width:mw.quick.w,
@@ -505,6 +510,7 @@ mw.quick = {
               overlay:true,
               title:'New Product'
            });
+           modal.overlay.style.backgroundColor = "white";
         }
     }
 

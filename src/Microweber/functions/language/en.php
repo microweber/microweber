@@ -849,3 +849,4 @@ $language["year"]= 'Year' ;
 $language["verification-code"]= 'Verification Code' ; 
 $language["transaction-id"]= 'Transaction ID' ; 
 $language["payer-id"]= 'Payer ID' ; 
+$language["select"]= 'Select' ; 

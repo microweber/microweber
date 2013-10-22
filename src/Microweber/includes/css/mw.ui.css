@@ -102,10 +102,18 @@
   line-height: 0;
   height: 0;
 }
+@media (max-width: 1024px) {
+   .mw-ui-row-drop-on-1024 > .mw-ui-col{
+      display: block;
+      clear: both;
+      width: auto !important;
+   }
+}
 @media (max-width: 768px) {
   .mw-ui-row, .mw-ui-col{
     display: block;
     clear: both;
+    width: auto !important;
   }
 }
 
@@ -529,7 +537,7 @@
   z-index: 1000;
   width: 100%;
   height: 100%;
-  background: white;
+  background: black;
   opacity:.7;
 }
 

@@ -303,8 +303,6 @@ class Fields
     }
 
 
-
-
     public function save($data)
     {
 
@@ -450,10 +448,8 @@ class Fields
         $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
 
 
-
-
         if ($rel_id != '0' and $is_made == 'yes') {
-            return;
+              return;
         }
 
 
@@ -463,9 +459,13 @@ class Fields
             $rel = $this->app->db->assoc_table_name($rel);
             $rel_id = $this->app->db->escape_string($rel_id);
 
-            $fields_csv_str = explode(',', $fields_csv_str);
-            $fields_csv_str = array_trim($fields_csv_str);
-            //d($fields_csv_str);
+            if (strstr($fields_csv_str, ',')) {
+                $fields_csv_str = explode(',', $fields_csv_str);
+                $fields_csv_str = array_trim($fields_csv_str);
+            } else {
+                $fields_csv_str = array($fields_csv_str);
+            }
+
             $pos = 0;
             if (is_array($fields_csv_str)) {
                 foreach ($fields_csv_str as $field_type) {
@@ -487,11 +487,11 @@ class Fields
                 }
 
                 if ($rel_id != '0') {
-                $option = array();
-                $option['option_value'] = 'yes';
-                $option['option_key'] = $function_cache_id;
-                $option['option_group'] = 'make_default_custom_fields';
-                $this->app->option->save($option);
+                    $option = array();
+                    $option['option_value'] = 'yes';
+                    $option['option_key'] = $function_cache_id;
+                    $option['option_group'] = 'make_default_custom_fields';
+                    $this->app->option->save($option);
                 }
 
             }
@@ -722,7 +722,12 @@ class Fields
             //
 
             $l->assign('settings', $settings);
+            if (isset($data['params'])) {
+                $l->assign('params', $data['params']);
+             } else {
+                $l->assign('params', false);
 
+            }
             //  $l->settings = $settings;
 
             if (isset($data) and !empty($data)) {
@@ -736,7 +741,7 @@ class Fields
 
             //var_dump($data);
             $layout = $l->__toString();
-//var_dump($layout);
+
             return $layout;
         }
     }

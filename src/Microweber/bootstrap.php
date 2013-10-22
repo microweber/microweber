@@ -55,7 +55,7 @@ if (!defined('MW_CACHE_ROOT_DIR')) {
 if (!defined('MW_CACHE_DIR')) {
     $mw_cache_subfolder = 'mw_cache';
     if (isset($_SERVER["SERVER_NAME"])) {
-        $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
+     //   $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
     }
     define('MW_CACHE_DIR', MW_CACHE_ROOT_DIR . $mw_cache_subfolder . DS);
 }

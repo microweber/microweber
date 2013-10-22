@@ -9,14 +9,23 @@ include('empty_field_vals.php');
     $is_required = (isset($data['options']) == true and in_array('required',$data['options']) == true);
        // d($is_required)         ;
           //d($data['options']);
-
+ $skip = array();
+ if(isset($params['skip-fields'])){
+	 $skips = explode(',',$params['skip-fields']);
+	  $skips = array_trim($skips);
+ }
+ 
+ 
 ?>
 
 
 
 <?php
-
-
+if(!is_array($data['custom_field_values'])){
+	$default_data = array('country'=>'Country','city'=>'City', 'zip'=>'Zip', 'state'=>'State', 'address'=>'Address');
+	$data['custom_field_values'] = $default_data;
+}
+ 
 //print $data["custom_field_value"]; ?>
 <?php if(is_array($data['custom_field_values'])) : ?>
 
@@ -38,7 +47,7 @@ include('empty_field_vals.php');
    
    
     <?php foreach($data['custom_field_values'] as $k=>$v): ?>
-    <?php if(in_array($k,$data['options']) == true) : ?>
+    <?php if((!in_array($data['custom_field_name'], $skips) and !in_array($k, $skips)) and (!isset($data['options']) or in_array($k,$data['options']) == true)) : ?>
     <?php if(is_string( $v)){
 	$kv =  $v;
 	} else {

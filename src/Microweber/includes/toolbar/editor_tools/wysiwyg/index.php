@@ -47,7 +47,7 @@ $(window).load(function(){
 
 scaleHeight()
 
-  //  $("#mw-iframe-editor-area").height($(window).height()-60);
+    // $("#mw-iframe-editor-area").height($(window).height()-60);
      __area = mwd.getElementById('mw-iframe-editor-area');
 	// $('.edit').attr('contenteditable',true);
 
@@ -82,22 +82,16 @@ $(".edit").attr("contentEditable", true);
 
 $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
   var el= $(e.target);
-
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
     e.preventDefault();
-  //  var curr =  mw.tools.hasClass(e.target.className, 'module') ? e.target : mw.tools.firstParentWithClass(e.target, 'module');
-
- }
-
-
+    //var curr =  mw.tools.hasClass(e.target.className, 'module') ? e.target : mw.tools.firstParentWithClass(e.target, 'module');
+  }
   if(el.hasClass('edit')){
     el.addClass('changed');
   }
   else{
      $(mw.tools.firstParentWithClass(e.target, 'edit')).addClass('changed');
   }
-
-
 });
 
  mw.$(".module").each(function(){
@@ -107,13 +101,11 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
       _next.className = 'mw-wysiwyg-module-helper';
       _next.innerHTML = '&nbsp;';
     }
-
     if($(curr).prev().length == 0){
       _prev = mwd.createElement('div');
       _prev.className = 'mw-wysiwyg-module-helper';
       _prev.innerHTML = '&nbsp;';
     }
-
     if(mw.tools.hasParentsWithClass(curr,'edit')){
         $(curr).append("<span class='mw-close' onclick='delete_module(this);'></span>");
     }
@@ -136,11 +128,11 @@ $(window).load(function(){
       var attr = e.attrName;
       if(attr == 'style'){
         parent.mw.$("#" + window.name).css({
-          width: $(master).width() + 4,
           height:$(master).height() + 4
         });
       }
   }, false);
+
 })
 
 
@@ -227,7 +219,7 @@ delete_module = function(inner_node){
 
 <div class="mw-admin-editor" id="the_admin_editor">
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
-  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" onresize="alert(1)">{content}</div>
+  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus">{content}</div>
 </div>
 
 <?php mw_var('plain_modules', false); ?>

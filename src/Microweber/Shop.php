@@ -407,13 +407,18 @@ class Shop
         }
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
+        $addr_found_from_search_in_post = false;
         foreach ($data as $k => $v) {
             if (is_array($v)) {
                 foreach ($seach_address_keys as $item) {
                     $case1 = ucfirst($item);
                     if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
                         $data[$item] = $v[$item];
-                        unset($data[$k]);
+                        if ($addr_found_from_search_in_post == false) {
+                            unset($data[$k]);
+                        }
+                        $addr_found_from_search_in_post = 1;
+
                     }
                 }
 
@@ -568,7 +573,7 @@ class Shop
             $items_count = $this->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
-            $cart_checksum = md5($sid . serialize($check_cart). uniqid());
+            $cart_checksum = md5($sid . serialize($check_cart) . uniqid());
 
             $place_order['payment_verify_token'] = $cart_checksum;
 
@@ -1332,7 +1337,7 @@ class Shop
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
 
-              // $this->app->db->q($q);
+                // $this->app->db->q($q);
                 $this->app->cache->delete('cart/global');
                 $this->app->cache->delete('cart_orders/global');
                 return true;

@@ -2958,11 +2958,12 @@ a.module-icon-title{
 
 .post-save-and-go-live{
   text-align: right;
+  padding-bottom: 20px;
 }
 
 .post-save-and-go-live .mw-ui-btn{
   margin-left: 12px;
-  min-width: 80px;
+  min-width: 95px;
 }
 
 .quick-parent-selector select{
