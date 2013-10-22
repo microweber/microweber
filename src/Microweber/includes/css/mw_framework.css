@@ -1342,12 +1342,23 @@ div.mw-ui-field:after{
 
 
 div.mw-custom-fields-tags{
-  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
-  background: #EDEDED url(../img/tag_plus.png) no-repeat 98% 10px;
+  background: #EDEDED ;
   margin-bottom: 14px;
   display: block;
   cursor: pointer;
   padding-right: 46px;
+  position: relative;
+}
+div.mw-custom-fields-tags a:last-child:after{
+    background: url("../img/tag_plus.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: inline-block;
+    height: 24px;
+    position: absolute;
+    right: -35px;
+    top: -2px;
+    width: 28px;
+    pointer-events:none;
 }
 
 .mw-tag-selector .mw-ui-invisible-field{

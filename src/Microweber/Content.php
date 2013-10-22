@@ -548,11 +548,17 @@ class Content
             if (isset($page['parent'])) {
                 $par_page = false;
                 $inh_par_page = $this->get_inherited_parent($page['parent']);
-                if ($inh_par_page) {
+                if ($inh_par_page != false) {
                     $par_page = $this->get_by_id($inh_par_page);
+                } else {
+                    $par_page = $this->get_by_id($page['parent']);
+
                 }
+
+
                 if (is_array($par_page)) {
-                    $page = $par_page;
+
+                     $page = $par_page;
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
                     $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
