@@ -165,18 +165,11 @@
 .iadmin{background-position:-788px -82px;}
 .mw-ui-btn .iadmin{opacity:0.6;}
 .mw-ui-btn:hover .iadmin{opacity:1;}
-
 .i-back-arr{ background-position:-951px -31px; }
 .mw-ui-btn .i-back-arr{ opacity:0.6; }
 .mw-ui-btn:hover .i-back-arr{ opacity:1; }
-
-
-.icomobilemenu{
-  background-position: -1341px -132px;
-}
-
-/* Custom fields icons */
-
+ .icomobilemenu{ background-position: -1341px -132px; }
+ /* Custom fields icons */
 .iSingleText, .ico-text{background-position:-976px -36px;}
 .iPText, .ico-paragraph{background-position:-976px -66px;}
 .iRadio, .ico-radio{background-position:-976px -98px;}
@@ -192,12 +185,9 @@
 .iTime, .ico-time{background-position:-1090px -32px;}
 .iAddr, .ico-address{background-position:-1091px -63px;}
 .iPrice, .ico-price{background-position:-1092px -93px;}
-
 .ico-extools{background-position:-1341px -46px;}
-
 .mw-ui-btn > .ico-extools{margin:0 -5px;}
 .mw-ui-btn.active > .ico-extools{background-position:-1341px -74px;}
-
 .iSpace{background-position:-1092px -127px;}
 .iAdd{background-position:-976px 1px;}
 .iRemove{background-position:-1013px 1px;}
@@ -233,8 +223,16 @@
   margin: 0 7px 0 0;
 }
 .backico2{  background-position: -1379px -26px; }
-
 .iexcell{ background-position: -1283px -65px;  }
+
+
+.itabpic  {background-position: -1436px 5px; }
+.itabprice{background-position: -1440px -63px; }
+.itabtruck{background-position: -1440px -133px; width: 27px; }
+.itabpublished{background-position: -1500px 5px; }
+.itabadvanced{background-position: -1500px -35px; }
+.itabcustoms{background-position: -1505px -85px;width: 32px;}
+.itabaddtonav{ background-position: -1505px -132px; width: 33px;}
 
 
 
@@ -343,23 +341,6 @@
          padding:3px 6px 3px 26px;
        }
 
-       .mw_dropdown_type_navigation li:first-child a{
-          -webkit-border-top-left-radius: 2px;
-          -webkit-border-top-right-radius: 2px;
-          -moz-border-radius-topleft: 2px;
-          -moz-border-radius-topright: 2px;
-          border-top-left-radius: 2px;
-          border-top-right-radius: 2px;
-       }
-       .mw_dropdown_type_navigation li:last-child a{
-          -webkit-border-bottom-right-radius: 2px;
-          -webkit-border-bottom-left-radius: 2px;
-          -moz-border-radius-bottomright: 2px;
-          -moz-border-radius-bottomleft: 2px;
-          border-bottom-right-radius: 2px;
-          border-bottom-left-radius: 2px;
-       }
-
        .mw_dropdown_type_navigation li a:hover{
             border:1px solid #8CB2CA;
             padding: 4px 5px 4px 12px;
@@ -392,8 +373,6 @@
         border-top: none;
         background: #F1F1F1 url(../img/dropdown.png) no-repeat right top;
         padding: 8px 39px 7px 11px;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
         border-radius: 2px;
         box-shadow:inset 0px 1px 0px #B8B8B8;
     }
@@ -575,7 +554,6 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 
   background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=E0E0E0&bot=D0D0D0);
   border: 1px solid #C7C7C7;
-
   background-repeat: no-repeat, repeat;
   background-position: center center;
 }
@@ -654,24 +632,24 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
 
 .deactivated:after{
   content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .deactivated:before{
-    display: block;
-    position: absolute;
-    content: " ";
-    z-index: 9;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-    opacity:0.5;
+  display: block;
+  position: absolute;
+  content: " ";
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity:0.5;
 }
 
 .mw-notif-bubble{
@@ -929,11 +907,11 @@ div.mw-date{
 /* Gallery */
 
 .mw_modal_gallery, .mw_modal_gallery > *{
-   -moz-user-select: none;
+  -moz-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
   -khtml-user-select: none;
-   user-select: none;
+  user-select: none;
 }
 
 .mw_modal_gallery .mwf-gallery-description{

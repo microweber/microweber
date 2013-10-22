@@ -406,13 +406,14 @@ class Shop
             $additional_fields = $this->app->fields->get($data['for'], $data['for_id'], 1);
         }
 
-        $seach_address_keys = array('country','city', 'address', 'state', 'zip');
+        $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
         foreach ($data as $k => $v) {
             if (is_array($v)) {
                 foreach ($seach_address_keys as $item) {
                     $case1 = ucfirst($item);
-                     if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
+                    if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
                         $data[$item] = $v[$item];
+                        unset($data[$k]);
                     }
                 }
 
@@ -501,6 +502,11 @@ class Shop
                 $checkout_errors['last_name'] = 'Last name is required';
             }
 
+            if (isset($data['payment_gw']) and $data['payment_gw'] != '') {
+                $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+            }
+
+
             $posted_fields = array();
             $place_order = array();
             //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
@@ -529,7 +535,6 @@ class Shop
 
                 }
             }
-
 
 
             //d($place_order);
@@ -563,7 +568,7 @@ class Shop
             $items_count = $this->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
-            $cart_checksum = md5($sid . serialize($check_cart));
+            $cart_checksum = md5($sid . serialize($check_cart). uniqid());
 
             $place_order['payment_verify_token'] = $cart_checksum;
 
@@ -590,6 +595,10 @@ class Shop
                 if ($data['payment_gw'] != 'none') {
 
                     $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_process.php';
+                    if (!is_file($gw_process)) {
+                        $gw_process = normalize_path(MW_MODULES_DIR . $data['payment_gw'] . DS . 'process.php', false);
+
+                    }
 
                     $mw_return_url = $this->app->url->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_cancel_url = $this->app->url->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . $return_url_after;
@@ -986,6 +995,19 @@ class Shop
         $prices = array();
         $found_price = false;
         $skip_keys = array();
+
+
+        if (is_array($cfs)) {
+            foreach ($cfs as $cf) {
+
+                if (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
+
+                    $prices[$cf['custom_field_name']] = $cf['custom_field_value'];
+                }
+            }
+        }
+
+
         foreach ($data as $k => $item) {
 
             if ($k != 'for' and $k != 'for_id' and $k != 'title') {
@@ -1023,6 +1045,14 @@ class Shop
                         }
                         //$item[$cf['custom_field_name']] = $cf['custom_field_value'];
                         // unset($item[$k]);
+                    } elseif (isset($cf['type']) and $cf['type'] == 'price') {
+                        if ($cf['custom_field_value'] != '') {
+
+                            $prices[$cf['custom_field_name']] = $cf['custom_field_value'];
+
+                        }
+                        //$item[$cf['custom_field_name']] = $cf['custom_field_value'];
+                        // unset($item[$k]);
                     } else {
                         //unset($item);
                     }
@@ -1031,6 +1061,7 @@ class Shop
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
+
                 if (is_array($prices)) {
 
                     foreach ($prices as $price_key => $price) {
@@ -1210,6 +1241,7 @@ class Shop
         //$data = $_POST;
         //}
         if (isset($data['payment_verify_token'])) {
+
             $payment_verify_token = ($data['payment_verify_token']);
         }
 
@@ -1227,9 +1259,8 @@ class Shop
 
         //$data = $this->app->cache->get($cache_id, $cache_gr);
 
-        //d($payment_verify_token);
-        $ord_data = $this->get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
-        //  cache_save($ord_data,__FUNCTION__,'debug');
+        //$ord_data = $this->get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
+        //cache_save($ord_data,__FUNCTION__,'debug');
 
         // d($ord_data);.
         $payment_verify_token = $this->app->db->escape_string($payment_verify_token);
@@ -1256,6 +1287,14 @@ class Shop
 
 
         $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
+
+
+        if (!is_file($gw_process)) {
+            $gw_process = normalize_path(MW_MODULES_DIR . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
+
+        }
+
+
         $update_order = array();
         //$update_order['id'] = $ord;
         if (is_file($gw_process)) {
@@ -1285,15 +1324,15 @@ class Shop
                 $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   ";
-                //d($q);
-                $this->app->db->q($q);
+
+                //$this->app->db->q($q);
 
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
-                //	 d($q);
-                $this->app->db->q($q);
+
+              // $this->app->db->q($q);
                 $this->app->cache->delete('cart/global');
                 $this->app->cache->delete('cart_orders/global');
                 return true;

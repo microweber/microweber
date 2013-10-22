@@ -13,8 +13,8 @@
  * @author      Md Emran Hasan <phpfour@gmail.com>
  * @link        http://www.phpfour.com
  */
-
-include_once ('lib/PaymentGateway.php');
+$parent_dir = dirname(dirname(__FILE__)).DS;
+include_once ($parent_dir.'lib/PaymentGateway.php');
 
 class Paypal extends PaymentGateway {
 

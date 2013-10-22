@@ -1,6 +1,7 @@
 <?php
-
-include_once ('lib/paypal_pro.inc.php');
+$parent_dir = dirname(dirname(__FILE__)).DS;
+ 
+include_once ($parent_dir.'lib/paypal_pro.inc.php');
 
 $firstName = urlencode(trim($_POST['cc_first_name']));
 $lastName = urlencode(trim($_POST['cc_last_name']));

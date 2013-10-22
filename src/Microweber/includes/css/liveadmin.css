@@ -2817,6 +2817,14 @@ a.module-icon-title{
   background-color: white;
 }
 
+.quick-add-nav .ico{
+  margin-right: 5px;
+}
+.quick-add-nav .ico + span{
+  position: relative;
+  top: 2px;
+}
+
 .quick-add-nav li .mw-ui-btn-plus{
   float: left;
   margin-top: 10px;
@@ -2838,15 +2846,7 @@ a.module-icon-title{
 
 }
 
-.quick-add-nav-title{
-  position: relative;
-  top: 4px;
-  font-size: 11px;
-  margin-left: 3px;
-}
-.quick-add-nav li.active .quick-add-nav-title{
-  top: 2px;
-}
+
 
 .quick-add-module{
   padding: 12px;
@@ -2911,6 +2911,66 @@ a.module-icon-title{
   display: none;
 }
 
+.mw-ui-btn-nav-post-state{
+    display: table;
+}
+
+.mw-ui-btn-nav-post-state > span{
+    display: inline-block;
+    background:white;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+    vertical-align: bottom;
+    padding: 3px 6px;
+    font-size: 11px;
+    color: #535353;
+    cursor: pointer;
+    margin-left: -1px;
+}
+
+.mw-ui-btn-nav-post-state > span:hover{
+  border-color: #DBDBDB
+}
+
+
+.mw-ui-btn-nav-post-state > span > span{
+  display: none;
+}
+
+
+.mw-ui-btn-nav-post-state span.active{
+  font-size: 13px;
+  background: #F6F6F6;
+  display: inline-block;
+  pointer-events:none;
+  cursor: default;
+  padding: 8px 10px 4px 6px;
+}
+.mw-ui-btn-nav-post-state span.active > span{
+  display: block;
+}
+#quick-add-post-options-item-advanced textarea{
+  width: 90%;
+  width: calc(100% - 22px);
+  width: -webkit-calc(100% - 22px);
+}
+
+
+.post-save-and-go-live{
+  text-align: right;
+}
+
+.post-save-and-go-live .mw-ui-btn{
+  margin-left: 12px;
+  min-width: 80px;
+}
+
+.quick-parent-selector select{
+  clear: both;
+  float: left;
+  margin-top: 11px;
+  width: 395px;
+}
 
 
 

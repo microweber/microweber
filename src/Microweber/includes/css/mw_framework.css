@@ -1010,7 +1010,6 @@ right: 15px;
 }
 
 .mw-ui-btn-nav .mw-ui-btn{
-  border-radius:0;
   border-width: 1px 1px 1px 0;
   float: left;
 }
@@ -1023,11 +1022,9 @@ right: 15px;
     font-size: 18px;
 }
 
-button.mw-ui-btn,
-input.mw-ui-btn{
 
-}
-
+.mw-ui-btn-light{ background: #F6F6F6; color: #B8B8B8 }
+.mw-ui-btn-white{ background: #fff; color: #B8B8B8 }
 
 
 
@@ -1623,7 +1620,7 @@ textarea.mw-ui-field{
 
 select.mw-ui-simple-dropdown{
   border: 1px solid #B9B9B9;
-  border-radius:2px;
+  border-radius:1px;
   padding: 4px;
 }
 select.mw-ui-simple-dropdown:focus{
@@ -2061,7 +2058,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 }
 
 .mw-ui-btn.go-live:hover{
-  background: url(../img/grad.php?top=D3EEFE&bot=8CC4E9);
+  background: #D3EEFE;
   border-color: #A1D1EF #589DC8 #4991C0;
 }
 

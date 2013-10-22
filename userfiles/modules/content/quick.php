@@ -143,21 +143,20 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
 			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
 			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
-		<div class="right"  >
+
 			<?php if($data['content_type'] == 'page'){ ?>
-			<div class="left">
+        	<div class="quick-parent-selector">
 				<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
 			</div>
 			<?php } ?>
 			<div class="right">
-				
-
-                <input type="hidden" name="is_active" value="<?php print $data['is_active']; ?>" />
 
 
-                <div class="mw-ui-btn-nav">
-                   <span class="mw-ui-btn<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>">Unpublished</span>
-                   <span class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>">Published</span>
+                <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+
+
+                <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
+                   <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
                 </div>
 
 
@@ -165,7 +164,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 
 
 			</div>
-		</div>
+
 	</div>
 	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
 	<div class="mw-ui-field-holder">
@@ -199,11 +198,11 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 	
 	
 	<?php if($is_live_edit == false) : ?>
-	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
 
-	 
-	<span class="mw-ui-btn go-live right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></span>
-
+    <div class="post-save-and-go-live">
+    	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
+    	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+    </div>
 	<?php else: ?>
 	 
 	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
@@ -217,12 +216,22 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
 
 
 
+
+
+
+
+
+
     <ul class="quick-add-nav" id="quick-add-post-options">
-        <li class="active"><span>Picture Gallery</span></li>
-        <?php if($data['content_type'] == 'page'): ?> <li class="active"><span><?php _e('Add to navigation menu'); ?> </span></li><?php endif; ?>
-        <li><span>Price & Fields</span></li>
-        <?php  if(trim($data['subtype']) == 'product'): ?> <li><span>Shipping & Options</span></li> <?php endif; ?>
-        <li><span>Advanced</span></li>
+        <li class="active"><span><span class="ico itabpic"></span><span><?php _e("Picture Gallery"); ?></span></span></li>
+        <?php if($data['content_type'] == 'page'): ?> <li><span><span class="ico itabaddtonav"></span><span><?php _e('Add to navigation menu'); ?></span> </span></li><?php endif; ?>
+        <?php  if(trim($data['subtype']) == 'product'): ?>
+          <li><span><span class="ico itabprice"></span><span><?php _e("Price & Fields"); ?></span></span></li>
+          <li><span><span class="ico itabtruck"></span><span><?php _e("Shipping & Options"); ?></span></span></li>
+        <?php else: ?>
+          <li><span><span class="ico itabcustoms"></span><span><?php _e("Custom Fields"); ?></span></span></li>
+        <?php endif; ?>
+        <li><span><span class="ico itabadvanced"></span><span><?php _e("Advanced"); ?></span></span></li>
     </ul>
     <div class="mw-o-box">
       <div class="mw-o-box-content">
@@ -251,7 +260,7 @@ Go to see them at this link <a target="_top" class="btn" href="<?php print conte
             </div>
         <?php endif; ?>
 
-      <div class="quick-add-post-options-item">
+      <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
 
            <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
 
@@ -377,7 +386,7 @@ mw.edit_content.after_save = function(){
         }
 
      });
-	 
+
 	 
 	 
 
@@ -528,8 +537,20 @@ mw.edit_content.handle_form_submit = function(go_live){
           tabs: mw.$(".quick-add-post-options-item")
         });
 
-	  
+        var piblished_nav = mwd.getElementById("un-or-published");
+
+        mw.ui.btn.radionav(piblished_nav, 'span');
+
+        $(piblished_nav.getElementsByTagName('span')).bind("click", function(){
+            if($(this).hasClass("active")){
+                mw.$("#is_post_active").val($(this).dataset("val"));
+            }
+        });
+
     });
 
-/* END OF ON DOCUMENT READY */		
-</script> 
+/* END OF ON DOCUMENT READY */
+</script>
+
+
+

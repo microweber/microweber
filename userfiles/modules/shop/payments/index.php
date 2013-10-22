@@ -15,7 +15,7 @@ $(document).ready(function(){
 <?php if(count($payment_options) > 0): ?>
 
 
- 	     <h2 style="margin-top:0 " class="edit nodrop" field="checkout_payment_information_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Payment method"); ?></h2>
+<h2 style="margin-top:0 " class="edit nodrop" field="checkout_payment_information_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Payment method"); ?></h2>
    
    
 	  

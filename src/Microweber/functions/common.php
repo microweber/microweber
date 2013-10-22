@@ -364,7 +364,7 @@ event_bind('recover_shopping_cart', 'mw_shop_recover_shopping_cart');
 function mw_shop_recover_shopping_cart($sid=false)
 {
 
-return mw('shop')->recover_shopping_cart($sid);
+    return mw('shop')->recover_shopping_cart($sid);
 }
 
 
@@ -958,7 +958,7 @@ function get_custom_fields($params)
 
 
 
- 
+
 
 
 
@@ -974,9 +974,24 @@ function get_categories($data)
 }
 
 
+api_expose('delete_category');
+
+function delete_category($data)
+{
+
+    return mw('category')->delete($data);
+
+}
 
 
+api_expose('reorder_categories');
 
+function reorder_categories($data)
+{
+
+    return mw('category')->reorder($data);
+
+}
 
 function get_categories_for_content($content_id, $data_type = 'categories')
 {
@@ -1058,14 +1073,51 @@ function get_menu($params = false)
 
 }
 
+api_expose('add_new_menu');
+function add_new_menu($data_to_save)
+{
+    return mw('content')->menu_create($data_to_save);
+
+}
+
+api_expose('menu_delete');
+function menu_delete($id = false)
+{
+    return mw('content')->menu_delete($id);
+
+}
+
+api_expose('delete_menu_item');
+function delete_menu_item($id)
+{
+
+    return mw('content')->menu_item_delete($id);
+
+}
+
+function get_menu_item($id)
+{
+
+    return mw('content')->menu_item_get($id);
+
+}
+
+api_expose('edit_menu_item');
+function edit_menu_item($data_to_save)
+{
+    return mw('content')->menu_item_save($data_to_save);
 
 
+}
 
+api_expose('reorder_menu_items');
 
+function reorder_menu_items($data)
+{
 
+    return mw('content')->menu_items_reorder($data);
 
-
-
+}
 
 function menu_tree($menu_id, $maxdepth = false)
 {
@@ -1074,11 +1126,15 @@ function menu_tree($menu_id, $maxdepth = false)
 
 }
 
+function is_in_menu($menu_id = false, $content_id = false)
+{
+    return mw('content')->is_in_menu($menu_id, $content_id);
 
+}
 
-api_hook('save_content', 'mw_add_content_to_menu');
+api_hook('save_content', 'add_content_to_menu');
 
-function mw_add_content_to_menu($content_id, $menu_id = false)
+function add_content_to_menu($content_id, $menu_id = false)
 {
     return mw('content')->add_content_to_menu($content_id, $menu_id);
 
@@ -1086,7 +1142,13 @@ function mw_add_content_to_menu($content_id, $menu_id = false)
 }
 
 
+api_expose('reorder_modules');
 
+function reorder_modules($data)
+{
+
+    return mw('module')->reorder_modules($data);
+}
 
 
 /**
@@ -1217,7 +1279,7 @@ function module($params)
 
 
 
-$_mw_modules_info_register = array();
+
 function module_info($module_name)
 {
     return mw('module')->info($module_name);
@@ -1870,15 +1932,7 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 
         if (($cache_content_init) == false) {
             event_trigger('mw_db_init');
-            //mw('cache')->save('true', $c_id, 'db');
-
-            // $installed = array();
-//            $installed['option_group'] = ('mw_system');
-//            $installed['option_key'] = ('is_installed');
-//            $installed['option_value'] = 'yes';
-//            mw('option')->save_static($installed);
-
-        }
+         }
 
         //event_trigger('mw_cron');
     }
@@ -1927,7 +1981,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
 {
     $update_api = mw('option');
     $iudates = $update_api->get($key, $option_group, $return_full, $orderby, $module);
-return $iudates;
+    return $iudates;
 }
 
 
@@ -2263,4 +2317,50 @@ function lnotif($sting, $class = 'success'){
 
 function random_color(){
     return "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+}
+
+
+
+
+
+function mw_error_handler($errno, $errstr, $errfile, $errline)
+{
+
+
+    if (!(error_reporting() & $errno)) {
+        // This error code is not included in error_reporting
+        return;
+    }
+
+    switch ($errno) {
+        case E_USER_ERROR:
+            if (!headers_sent()) {
+                header("Content-Type:text/plain");
+
+            }
+            echo "<b>ERROR</b> [$errno] $errstr<br />\n";
+            echo "  Fatal error on line $errline in file $errfile";
+            echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+            print_r(debug_backtrace());
+            echo "Aborting...<br />\n";
+            exit(1);
+            break;
+
+        case E_USER_WARNING:
+            echo "<b>WARNING</b> [$errno] $errstr<br />\n";
+            break;
+
+        case E_USER_NOTICE:
+            // echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+            break;
+
+        default:
+            // echo "Unknown error type: [$errno] $errstr<br />\n";
+            break;
+    }
+
+    /* Don't execute PHP internal error handler */
+    return true;
+
+
 }
