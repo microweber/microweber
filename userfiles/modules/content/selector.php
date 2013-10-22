@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
  
@@ -55,7 +55,7 @@ $(document).ready(function(){
 	
 	
 <?php } ?> 
-<select name="<?php print $field_name ?>" class="selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>" title="Select a parent page">
+<select name="<?php print $field_name ?>" class="mw-ui-simple-dropdown selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>" title="Select a parent page">
 	<?php if(isset($top_item) and is_array($top_item) and !empty($top_item)) : ?>
    <option value="<?php print $top_item['id'] ?>" >-- <?php print $top_item['title'] ?></option>
      <?php endif; ?>

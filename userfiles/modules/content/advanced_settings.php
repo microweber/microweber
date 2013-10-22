@@ -1,4 +1,4 @@
-<?php 
+<?php
 only_admin_access();
 $data = false;
 if(isset($params['content-id'])){
@@ -27,22 +27,19 @@ $show_page_settings = 1;
 		<?php _e("Description"); ?>
 		<small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
 	<textarea
-				class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?>
-		</textarea>
+				class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?></textarea>
 </div>
 <div class="mw-ui-field-holder">
 	<label class="mw-ui-label">
 		<?php _e("Meta Title"); ?>
 		<small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
-	<textarea class="mw-ui-field" name="content_meta_title"  placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
-		</textarea>
+	<textarea class="mw-ui-field" name="content_meta_title"  placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?></textarea>
 </div>
 <div class="mw-ui-field-holder">
 	<label class="mw-ui-label">
 		<?php _e("Meta Keywords"); ?>
 		<small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
-	<textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
-		</textarea>
+	<textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?></textarea>
 </div>
 <div class="vSpace"></div>
 <div class="vSpace"></div>

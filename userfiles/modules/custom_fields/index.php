@@ -67,6 +67,9 @@ if(isset($field['custom_field_type'])  and $field['custom_field_type'] =='price'
 	$price_fields[] = $field;
 } else {
 	$prined_items_count++;
+	
+	
+	$field['params'] = $params;
 print  mw('fields')->make($field);  
 }
  }
