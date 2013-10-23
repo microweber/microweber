@@ -658,6 +658,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
   position: absolute;
   top: -25px;
   left: 0;
+  border: 1px solid #eaeaea;
 }
 
 html.mw_pages #design_bnav{
@@ -672,6 +673,7 @@ html.mw_pages #design_bnav{
 .toolbar_bnav .ts_main_ul{
   background:  #fff;
   border: 1px solid #EAEAEA;
+  width: 100%;
 }
 
 .ts_main_a{
@@ -680,7 +682,6 @@ html.mw_pages #design_bnav{
   text-decoration: none;
   color:#595959;
   font-size: 10px;
-  padding: 10px 0 10px 42px;
   padding: 9px 0 11px 42px;
   background: url(../img/toobar_dropdown_design_icons.png) no-repeat;
 }
@@ -713,9 +714,7 @@ html.mw_pages #design_bnav{
 .ts_main_li:hover{
   background: #f7f7f7;
 }
-.ts_main_li:hover .ts_main_a{
-  padding-bottom: 10px;
-}
+
 
 .ts_main_a:hover{
   text-decoration: none;
@@ -1378,7 +1377,10 @@ input.mwtb-search.mw-dropdown-searchSearching{
   width:165px;
 }
 
-
+body.design_hover .element-current{
+  outline: 6px solid #227BD1 !important;
+  outline: 6px solid rgba(34, 123, 209, 0.5) !important;
+}
 
 
 

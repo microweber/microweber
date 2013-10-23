@@ -55,14 +55,14 @@ $(document).ready(function(){
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="h1"><a href="#"><h1><?php _e("Heading"); ?> 1</h1></a></li>
-                  <li value="h2"><a href="#"><h2><?php _e("Heading"); ?> 2</h2></a></li>
-                  <li value="h3"><a href="#"><h3><?php _e("Heading"); ?> 3</h3></a></li>
-                  <li value="h4"><a href="#"><h4><?php _e("Heading"); ?> 4</h4></a></li>
-                  <li value="h5"><a href="#"><h5><?php _e("Heading"); ?> 5</h5></a></li>
-                  <li value="h6"><a href="#"><h6><?php _e("Heading"); ?> 6</h6></a></li>
-                  <li value="p"><a href="#"><p><?php _e("Paragraph"); ?></p></a></li>
-                  <li value="pre"><a href="#"><div><?php _e("Pre formatted"); ?></div></a></li>
+                  <li value="h1"><a href="javascript:;"><h1><?php _e("Heading"); ?> 1</h1></a></li>
+                  <li value="h2"><a href="javascript:;"><h2><?php _e("Heading"); ?> 2</h2></a></li>
+                  <li value="h3"><a href="javascript:;"><h3><?php _e("Heading"); ?> 3</h3></a></li>
+                  <li value="h4"><a href="javascript:;"><h4><?php _e("Heading"); ?> 4</h4></a></li>
+                  <li value="h5"><a href="javascript:;"><h5><?php _e("Heading"); ?> 5</h5></a></li>
+                  <li value="h6"><a href="javascript:;"><h6><?php _e("Heading"); ?> 6</h6></a></li>
+                  <li value="p"><a href="javascript:;"><p><?php _e("Paragraph"); ?></p></a></li>
+                  <li value="pre"><a href="javascript:;"><div><?php _e("Pre formatted"); ?></div></a></li>
                 </ul>
               </div>
             </div>
@@ -76,11 +76,11 @@ $(document).ready(function(){
               </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
-                  <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
-                  <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
-                  <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
-                  <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+                  <li value="Arial"><a href="javascript:;" style="font-family:Arial">Arial</a></li>
+                  <li value="Tahoma"><a href="javascript:;" style="font-family:Tahoma">Tahoma</a></li>
+                  <li value="Verdana"><a href="javascript:;" style="font-family:Verdana">Verdana</a></li>
+                  <li value="Georgia"><a href="javascript:;" style="font-family:Georgia">Georgia</a></li>
+                  <li value="Times New Roman"><a href="javascript:;" style="font-family: 'Times New Roman'">Times New Roman</a></li>
                 </ul>
               </div>
             </div>
@@ -96,13 +96,13 @@ $(document).ready(function(){
                 </span>
               <div class="mw_dropdown_fields">
                 <ul>
-                  <li value="1"><a href="#" style="font-size: 10px">8pt</a></li>
-                  <li value="2"><a href="#" style="font-size: 13px">10pt</a></li>
-                  <li value="3"><a href="#" style="font-size: 16px">12pt</a></li>
-                  <li value="4"><a href="#" style="font-size: 18px">14pt</a></li>
-                  <li value="5"><a href="#" style="font-size: 24px">18pt</a></li>
-                  <li value="6"><a href="#" style="font-size: 32px">24pt</a></li>
-                  <li value="7"><a href="#" style="font-size: 48px">36pt</a></li>
+                  <li value="1"><a href="javascript:;" style="font-size: 10px">8pt</a></li>
+                  <li value="2"><a href="javascript:;" style="font-size: 13px">10pt</a></li>
+                  <li value="3"><a href="javascript:;" style="font-size: 16px">12pt</a></li>
+                  <li value="4"><a href="javascript:;" style="font-size: 18px">14pt</a></li>
+                  <li value="5"><a href="javascript:;" style="font-size: 24px">18pt</a></li>
+                  <li value="6"><a href="javascript:;" style="font-size: 32px">24pt</a></li>
+                  <li value="7"><a href="javascript:;" style="font-size: 48px">36pt</a></li>
                 </ul>
               </div>
             </div>
@@ -127,24 +127,16 @@ $(document).ready(function(){
 
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit/Remove Link"); ?>"><span class="ed-ico"></span></span>
 
-                                                      <?php if(is_admin() and isset($_REQUEST['modules'])){
-                                                          $mods = explode(',',$_REQUEST['modules']);
-                                                           $mods = array_trim($mods);
-                                                          if(is_array($mods)){
-                                                            foreach($mods as $mod){
-                                                              print load_module($mod);
-                                                            }
-                                                          }
-
-                                                      } ?>
-
-
-
-
-
-
-
-
+            <?php
+                if(is_admin() and isset($_REQUEST['modules'])){
+                     $mods = explode(',',$_REQUEST['modules']);
+                     $mods = array_trim($mods);
+                    if(is_array($mods)){
+                      foreach($mods as $mod){
+                        print load_module($mod);
+                      }
+                    }
+                }
+            ?>
         </div>
-
     </div>

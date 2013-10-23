@@ -701,6 +701,7 @@ right: 20px;
 .mw-toolbar-notification .mw-toolbar-notif-items-wrap img{
   position: relative;
   top: -4px;
+  margin: 0 10px;
 }
 
 .mw-toolbar-notification .mw-toolbar-notif-items-wrap tr{
