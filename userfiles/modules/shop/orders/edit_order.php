@@ -209,7 +209,10 @@ mw_error("Invalid order id");
 		</div>
 	</div>
 	<div class="mw-o-box mw-o-box-client-info">
-		<div class="mw-o-box-header"> <a href="<?php print url_current(true); ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
+		<div class="mw-o-box-header"> 
+		
+		 
+		<a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium right">
 			<?php _e("Edit"); ?>
 			</a> <span class="ico iusers"></span><span>
 			<?php _e("Client Information"); ?>
@@ -253,22 +256,30 @@ mw_error("Invalid order id");
 							
 							
 							
-							
+						<?php 
+						$map_click_str = false;
+						$map_click = array();?>	
 						<ul class="order-table-info-list">
 							<?php if(isset($ord['country']) and $ord['country'] != ''): ?>
 							<li><?php print $ord['country'] ?></li>
+							 <?php $map_click[] =  $ord['country'] ;?>	
 							<?php endif; ?>
 							<?php if(isset($ord['city']) and $ord['city'] != ''): ?>
 							<li><?php print $ord['city'] ?></li>
+							<?php $map_click[] =  $ord['city'] ;?>	
+
 							<?php endif; ?>
 							<?php if(isset($ord['state']) and $ord['state'] != ''): ?>
 							<li><?php print $ord['state'] ?></li>
+							<?php $map_click[] =  $ord['city'] ;?>	
 							<?php endif; ?>
 							<?php if(isset($ord['zip']) and $ord['zip'] != ''): ?>
 							<li><?php print $ord['zip'] ?></li>
+							
 							<?php endif; ?>
 							<?php if(isset($ord['address']) and $ord['address'] != ''): ?>
 							<li><?php print $ord['address'] ?></li>
+							<?php $map_click[] =  $ord['address'] ;?>	
 							<?php endif; ?>
 							<?php if(isset($ord['address2']) and $ord['address2'] != ''): ?>
 							<li><?php print $ord['address2'] ?></li>
@@ -279,10 +290,19 @@ mw_error("Invalid order id");
 								<?php print $ord['phone'] ?> </li>
 							<?php endif; ?>
 						</ul></td>
-					<td><a target="_blank" href="https://maps.google.com/maps?q=<?php print urlencode($ord['country'].','.$ord['address']) ?>&safe=off"> <img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($ord['country'].','.$ord['address']); ?>&sensor=true&center=<?php print urlencode($ord['country'].','.$ord['address']); ?>" /> </a>
+					<td>
+					<?php 
+					if(!empty($map_click)){
+						$map_click = array_unique($map_click);
+					$map_click_str = implode(', ',$map_click);
+					}
+					
+					?>	
+					
+					<a target="_blank" href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off"> <img src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>" /> </a>
 						<div class="vSpace"></div>
 						<center>
-							<a target="_blank" href="https://maps.google.com/maps?q=<?php print urlencode($ord['country'].','.$ord['address']) ?>&safe=off">
+							<a target="_blank" href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
 							<?php _e("See Location on map"); ?>
 							</a>
 						</center></td>

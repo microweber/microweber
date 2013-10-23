@@ -389,10 +389,16 @@ function get_visits($range = 'daily') {
 	if ($q == false or $results == false) {
 		return false;
 	}
+	$url = site_url();
+	$res = array();
 	if (is_array($results)) {
 		foreach ($results as $item) {
-
+			if(isset($item['last_page'])){
+				$item['last_page'] = str_replace($url,'',$item['last_page']);
+			}
+			$res[] = $item;
 		}
+	 return $res;
 	}
 
 	return $results;

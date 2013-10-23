@@ -115,7 +115,7 @@ $(document).ready(function(){
 
 <div class="<?php print $config['module_class'] ?>-holder">
 
-
+ <label class="mw-ui-label">Edit and explore your custom fields</label>
  
 
 <module
@@ -125,13 +125,7 @@ $(document).ready(function(){
     <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
     id="mw_custom_fields_list_<?php print $params['id']; ?>"  <?php if(isset($params['default-fields'])): ?> default-fields="<?php  print $params['default-fields'] ?>" <?php endif; ?>/>
 
-
-
-
-
-
-
-  <div id="custom-field-editor" style="display: none">
+ <div id="custom-field-editor" style="display: none">
     <label class="mw-ui-label"><small><?php _e("Edit"); ?> <b id="which_field"></b> <?php _e("Field"); ?></small></label>
     <div class="custom-field-edit">
       <div  class="custom-field-edit-header">

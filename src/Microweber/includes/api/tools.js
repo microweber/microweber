@@ -1458,7 +1458,7 @@ mw.tools = {
                     if(mw.tools.hasClass(this.className, 'mw-ui-category-selector')){
                        mw.tools.stopLoop(loop);
                     }
-                    if(this.tagName=='LI'){
+                    if(this.tagName === 'LI'){
                       $(this).addClass('active');
                     }
                   });
@@ -1524,8 +1524,17 @@ mw.tools = {
 
     tagholder.click(function(e){
       if(e.target.tagName != 'INPUT'){ field.focus(); }
-
+        itemsWrapper.style.top = '100%';
         itemsWrapper.style.display = 'block';
+        var off = $(itemsWrapper).offset();
+        if( (off.top + $(itemsWrapper).outerHeight()) > ($(window).scrollTop() + $(window).height())){
+            itemsWrapper.style.top = 'auto';
+            itemsWrapper.style.bottom = '100%';
+        }
+        else{
+           itemsWrapper.style.top = '100%';
+           itemsWrapper.style.bottom = 'auto';
+        }
         if(itemsWrapper.querySelector('input').binded != true){
             itemsWrapper.querySelector('input').binded = true;
             var checks = itemsWrapper.querySelectorAll('input[type="radio"], input[type="checkbox"]');

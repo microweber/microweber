@@ -14,7 +14,6 @@
       <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules"><?php _e("Modules"); ?></a></li>
       <?php event_trigger('mw_admin_header_menu'); ?>
       <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users"><?php _e("Users"); ?></a></li>
-
     <li><a href="javascript:;" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a></li>
 
   <?php
@@ -50,19 +49,19 @@ $past_page = mw('content')->link($past_page[0]['id']);
 	$past_page=get_content("order_by=updated_on desc&limit=1");
 $past_page = mw('content')->link($past_page[0]['id']);
 }  ?>
-  <div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
-    <?php _e("Go Live Edit"); ?>
-    </a>
-    <div class="mw-toolbar-notification">
-	
-	<module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
+    <div id="mw-admin-toolbar-right">
+      <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a>
+      <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
+          <?php _e("Go Live Edit"); ?>
+      </a>
+      <div class="mw-toolbar-notification">
+	    <module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
       </div>
     </div>
   </div>
     </div>
   </div>
 <script type="text/javascript">
-
    try{
     mwd.querySelector('#mw_tabs li.active').previousElementSibling.className = 'active-prev';
   }catch(e){}

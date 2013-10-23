@@ -121,6 +121,9 @@ body.module-settings-page #custom_link_controller {
       var obj = mw.form.serialize($selector);
       $.post("<?php print site_url('api/content/menu_create') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
+		
+		 menuSelectorInit();
+		
  	   /* mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
 		mw.reload_module('#<?php print $params['id'] ?>');
 		menuSelectorInit();*/
@@ -155,11 +158,19 @@ body.module-settings-page #custom_link_controller {
 var data = {}
 data.id = $id
 
-
-      $.post("<?php print site_url('api/content/menu_delete') ?>",  data, function(resp){
+var r=confirm("Are you sure you want to delete this menu?")
+if (r==true)
+  {
+  
+  
+   $.post("<?php print site_url('api/content/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
 			   menuSelectorInit();
       });
+  
+  }
+
+     
 
  }
 
@@ -269,6 +280,7 @@ $(document).ready(function(){
         		if(self!==parent && typeof parent.mw === 'object'){
         			parent.mw.reload_module('menu');
         		}
+				 menuSelectorInit();
         	});
         }
     }

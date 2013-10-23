@@ -856,3 +856,4 @@ $language["the-website-will-use-this-name-for-the-emails"]= 'The website will us
 $language["ex-website-support"]= 'ex. Website Support' ; 
 $language["the-website-will-send-emails-as-this-address"]= 'The website will send emails as this address' ; 
 $language["the-website-will-send-emails-on-behalf-of-this-address"]= 'The website will send emails on behalf of this address' ; 
+$language["click-here-to-edit-the-ants"]= 'Click here to edit the Ants' ; 

@@ -76,9 +76,20 @@ mw.$("#available_providers").sortable({
     $(this).sortable("refreshPositions");
 
   },
+  	update: function(){
+          var serial = $(this).sortable('serialize');
+          $.ajax({
+            url: mw.settings.api_url+'module/reorder_modules',
+            type:"post",
+            data:serial
+          });
+        },
   stop:function(){
-    Alert("<?php _e("Saving"); ?> ... ");
+  //  Alert("<?php _e("Saving"); ?> ... ");
   }
+  
+  
+  
 })
 
 
@@ -176,17 +187,14 @@ mw.$("#available_providers").sortable({
 <?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
 $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
+
+
+//$modules = mw('module')->get();
 // d($payment_modules);
 ?>
 
 <div class="vSpace"></div>
-<?php
-/**
- *
- */
-
-?>
-<div class="mw-admin-wrap">
+ <div class="mw-admin-wrap">
 	<div class="mw-o-box has-options-bar">
 		<div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
 			<?php _e("Options"); ?>
@@ -215,14 +223,17 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 					<?php if(is_array($payment_modules )): ?>
 					<div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
 						<?php foreach($payment_modules  as $payment_module): ?>
-						<div class="mw-o-box mw-o-box-accordion mw-accordion-active">
 							<?php 
 
 			
 			        $module_info = (module_info($payment_module['module']));
-
+ if(!isset($module_info['id']) or $module_info['id'] == false){
+	$module_info['id'] = 0; 
+ }
 			 
 			 ?>
+						<div class="mw-o-box mw-o-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
+						
 							<div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
 								<div class="gateway-icon-title"> <span class="ico iMove"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?></span> </div>
 								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 

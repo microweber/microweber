@@ -1468,6 +1468,9 @@ class Db
                 $curent_page = isset($criteria['data-curent-page']) ? $criteria['data-curent-page'] : false;
             }
             if ($curent_page == false) {
+                $curent_page = isset($criteria['current_page']) ? $criteria['current_page'] : false;
+            }
+            if ($curent_page == false) {
                 $curent_page = isset($criteria['page']) ? $criteria['page'] : false;
             }
 
@@ -1663,6 +1666,13 @@ class Db
 
             $include_categories = false;
         }
+        if(!isset($criteria['exclude_ids']) and isset($criteria['exclude'])){
+            $criteria['exclude_ids'] = $criteria['exclude'];
+        }
+
+        if(!isset($criteria['ids']) and isset($criteria['include'])){
+            $criteria['ids'] = $criteria['include'];
+        }
 
         if (!empty($criteria['exclude_ids'])) {
 
@@ -1671,6 +1681,9 @@ class Db
             // unset($criteria['only_those_fields']);
             // no unset xcause f cache
         }
+
+
+
         if (isset($criteria['ids']) and is_string($criteria['ids'])) {
             $criteria['ids'] = explode(',', $criteria['ids']);
         }

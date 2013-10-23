@@ -9,8 +9,8 @@ include('empty_field_vals.php');
     $is_required = (isset($data['options']) == true and in_array('required',$data['options']) == true);
        // d($is_required)         ;
           //d($data['options']);
- $skip = array();
- if(isset($params['skip-fields'])){
+ $skips = array();
+ if(isset($params['skip-fields']) and $params['skip-fields'] != ''){
 	 $skips = explode(',',$params['skip-fields']);
 	  $skips = array_trim($skips);
  }

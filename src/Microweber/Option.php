@@ -253,7 +253,7 @@ class Option
         $function_cache_id = __FUNCTION__ . crc32($q);
         $res1 = false;
 
-        //d($q);
+
 
         $res = $this->app->db->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {

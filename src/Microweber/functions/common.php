@@ -7,6 +7,42 @@ function get_content($params = false)
 }
 
 
+function get_content_by_id($params = false)
+{
+    return mw('content')->get_by_id($params);
+}
+
+
+api_expose('content_link');
+
+
+function content_link($id = false)
+{
+
+    return mw('content')->link($id);
+}
+
+
+
+function save($table, $data)
+{
+    return mw('db')->save($table, $data);
+
+}
+
+function get($params)
+{
+    return mw('db')->get($params);
+
+}
+
+
+
+
+
+
+
+
 api_expose('delete_content');
 
 function delete_content($data)
@@ -50,14 +86,6 @@ function paging($params)
 {
     return mw('content')->paging($params);
 
-}
-api_expose('content_link');
-
-
-function content_link($id = false)
-{
-
-    return mw('content')->link($id);
 }
 
 
@@ -1055,10 +1083,7 @@ function mw_print_admin_menu_selector($params = false)
     print module('view=edit_page_menus&type=menu' . $add);
 }
 
-function get_content_by_id($params = false)
-{
-    return mw('content')->get_by_id($params);
-}
+
 
 function get_user_by_id($params = false)
 {
@@ -2108,17 +2133,7 @@ $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
 $mw_escaped_strings = array();
-function save($table, $data)
-{
-    return mw('db')->save($table, $data);
 
-}
-
-function get($params)
-{
-    return mw('db')->get($params);
-
-}
 
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
 {

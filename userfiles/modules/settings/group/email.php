@@ -28,12 +28,12 @@ mw.email_send_test = function(){
 <div class="mw-o-box-content">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label"><?php _e("Your email address"); ?><br>
-      <small><?php _e("Your email address"); ?> (<?php _e("ex. my@email.com"); ?> )</small> </label>
+      <small><?php _e("The website will send emails on behalf of this address"); ?> (<?php _e("ex. my@email.com"); ?> )</small> </label>
     <input name="email_from" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print get_option('email_from','email'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label"><?php _e("From name"); ?><br>
-      <small><?php _e("example"); ?>: <?php _e("Site Admin"); ?></small> </label>
+      <small><?php _e("The website will use this name for the emails"); ?> (<?php _e("ex. Website Support"); ?> )</small> </label>
     <input name="email_from_name" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print get_option('email_from_name','email'); ?>" />
   </div>
 

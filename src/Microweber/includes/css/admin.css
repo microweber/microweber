@@ -98,7 +98,8 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 #mw_toolbar_logo:hover{opacity:1;}
 #mw_toolbar_nav{
   height: 48px;
-  background-image: url(../img/navbg_admin.jpg);
+  background: none repeat scroll 0 0 #F5F5F5;
+    border-bottom: 1px solid #E5E5E5;
 }
 #mw_toolbar_nav .ilive{
   opacity:0.4;
@@ -192,7 +193,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   border-radius: 2px;
 }
 #stats li a.active{
-  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  background: #F5F5F5;
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
   border-bottom-color: #A1A0A0;
@@ -1078,7 +1079,7 @@ right: 20px;
 
 #mw-admin-toolbar-right{
   float: right;
-  width: 300px;
+  width: 230px;
 }
 
 #mw-admin-toolbar-right .ilogout,

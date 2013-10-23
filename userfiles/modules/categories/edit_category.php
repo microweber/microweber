@@ -21,43 +21,38 @@ mw.require('forms.js');
 </script>
 <script  type="text/javascript">
  function set_category_parent_<?php print $form_rand_id ?>(){
+	 var sel = mw.$('#edit_category_set_par_<?php print $form_rand_id; ?> input:checked').parents('li').first(),
+	     is_cat = sel.attr("data-category-id"),
+	     is_page = sel.attr("data-page-id");
 
-	 $sel = mw.$('#edit_category_set_par_<?php print $form_rand_id ?> input:checked').parents('li').first();
-
-	 is_cat = $sel.attr("data-category-id");
-	 is_page = $sel.attr("data-page-id");
-
-	 if(is_cat != undefined){
-    	 mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
-    	    mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
-    	 }
-		 if(is_page != undefined){
-		    mw.$('#rel_id_<?php print $form_rand_id ?>').val(is_page);
-		    mw.$('#parent_id_<?php print $form_rand_id ?>').val(0);
-         }
+	 if(typeof is_cat !== "undefined"){
+        mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
+        mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
+     }
+     if(typeof is_page !== "undefined"){
+        mw.$('#rel_id_<?php print $form_rand_id ?>').val(is_page);
+        mw.$('#parent_id_<?php print $form_rand_id ?>').val(0);
+     }
 
  }
 
 
   function onload_set_parent_<?php print $form_rand_id ?>(){
-	   var tti = mw.$('#rel_id_<?php print $form_rand_id ?>').val();
-
+	     var tti = mw.$('#rel_id_<?php print $form_rand_id ?>').val();
 		 var par_cat   = mw.$('#parent_id_<?php print $form_rand_id ?>').val();
-		// mw.log(par_cat);
 		 if(par_cat != undefined && parseFloat(par_cat) > 0 ){
 		    var tree =  mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
             var li =  tree.querySelector('li[data-category-id="'+par_cat+'"]');
             var radio = li.querySelector('input[type="radio"]');
             radio.checked = true;
 
-		 }  else  if(tti != undefined && parseFloat(tti) > 0 ){
-                   var tree =  mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
+		 }
+         else  if(tti != undefined && parseFloat(tti) > 0 ){
+            var tree =  mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
             var li =  tree.querySelector('li[data-page-id="'+tti+'"]');
             var radio = li.querySelector('input[type="radio"]');
             radio.checked = true;
-
-                }
-
+         }
   }
 
   save_cat = function(){
@@ -74,15 +69,9 @@ mw.require('forms.js');
 
 
 $(document).ready(function(){
-	
-	
 	mw.category_is_saving = false;
-	
-	//
-	 <?php if(intval($data['id']) == 0): ?>
-	// onload_set_parent_<?php print $form_rand_id ?>();
-	// set_category_parent_<?php print $form_rand_id ?>()
-	 <?php endif; ?>
+	<?php if(intval($data['id']) == 0): ?>
+    <?php endif; ?>
 
 
 
@@ -107,23 +96,12 @@ $(document).ready(function(){
 		 $('.mw-cat-save-submit').addClass('disabled');
 		 
   mw.notification.success("Saving category... Please wait...",10000);
-
- // set_category_parent_<?php print $form_rand_id ?>();
- mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
-	 
-	 
-	   mw.notification.success("Category changes are saved");
-	 		
-
-	 
+mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
+	 mw.notification.success("Category changes are saved");
 	 mw.reload_module('[data-type="categories"]');
-	 if(window.parent != undefined && window.parent.mw != undefined){
-    window.parent.mw.reload_module('categories');
-	
+	 if(self !== parent && !!window.parent.mw){
+        window.parent.mw.reload_module('categories');
 	 }
-	 
-	 
-	 
 	 mw.reload_module('[data-type="categories/manage"]');
      mw.$('[data-type="pages"]').removeClass("activated");
 	  mw.reload_module('[data-type="pages"]', function(){
@@ -141,14 +119,15 @@ $(document).ready(function(){
  });
 });
 </script>
-<?php if(intval($data['id']) == 0){
+<?php
+    if(intval($data['id']) == 0){
 	  if(isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0){
 		  $data['parent_id'] = intval($params['selected-category-id']);
-	  } elseif(isset($params['page-id'])){
+	  }
+      else if(isset($params['page-id'])){
 		  $data['rel_id'] = intval($params['page-id']);
 	  }
-
-  }
+    }
 
   ?>
 <?php  //d($params);?>
@@ -163,14 +142,14 @@ $(document).ready(function(){
 	<div class="mw-ui-field-holder">
 		<?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
 		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
-		<input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php _e("Sub-category Name"); ?>" />
+		<input  class="mw-ui-field mw-title-field" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
 		<?php else: ?>
-		<?php if(isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+		<?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
 		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
 		<?php else: ?>
 		<span class="mw-title-field-label mw-title-field-label-category"></span>
 		<?php endif; ?>
-		<input  class="mw-ui-field mw-title-field" name="title" type="text" value="<?php print ($data['title'])?>" />
+		<input  class="mw-ui-field mw-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
 		<?php endif; ?>
 	</div>
 	<div class="mw-ui-field-holder">
@@ -196,33 +175,38 @@ $(document).ready(function(){
         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
     });
   </script>
-	<div class="mw-ui-field-holder">
-		<label class="mw-ui-label">
-			<?php _e("Description"); ?>
-		</label>
-		<textarea style="width: 600px;height: 50px;" class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
-	</div>
+	
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 	<input type="submit" class="semi hidden" name="save" />
 
 
 
 
-	<div class="post-save-bottom">
-		<input type="submit" name="save" class="semi_hidden mw-cat-save-submit"    value="<?php _e("Save"); ?>" />
-		<div class="vSpace"></div>
-		<span style="min-width: 66px;" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-cat-save-submit">
+	<div class="post-save-and-go-live">
+
+
+		<button type="button" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-green">
 		<?php _e("Save"); ?>
-		</span> </div>
-	<div class="vSpace"></div>
+		</button>
+
+        </div>
+	
 	<div class="vSpace"></div>
 	<div class="advanced_settings">
 	<a href="javascript:;"  id="advanced-settings-toggler" onclick="mw.tools.toggle('.category_advanced_settings_holder', this);"   class="toggle_advanced_settings mw-ui-more">
 	<?php _e('Advanced Settings'); ?>
 	</a>
-	 
+
 	<div class="category_advanced_settings_holder" style="display:none">
 		<div class="vSpace"></div>
+		
+		<div class="mw-ui-field-holder">
+		<label class="mw-ui-label">
+			<?php _e("Description"); ?>
+		</label>
+		<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
+	</div>
+		
 		<div class="mw-ui-field-holder">
 			<?php if(!isset($data['users_can_create_content'])) {
 					$data['users_can_create_content'] = 'n';
@@ -250,5 +234,6 @@ $(document).ready(function(){
 		<div class="pictures-editor-holder" >
 			<module type="pictures/admin" for="categories" for-id=<?php print $data['id'] ?>  />
 		</div>
+	</div>
 	</div>
 </form>
