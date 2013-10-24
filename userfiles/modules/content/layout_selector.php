@@ -473,6 +473,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 	}
 }
  
+$global_template = $this->app->option->get('current_template', 'template');
 
  ?>
  
@@ -491,19 +492,24 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 		<div class="mw-ui-select" style="width: 200px">
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
-				<?php if( trim($data['active_site_template']) != ''): ?>
-				<option value="<?php print $data['active_site_template'] ?>"      selected="selected"   ><?php print $data['active_site_template'] ?></option>
-				<?php endif ?>
-				<!--        <option value="default"   <?php if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>Default</option>
-
-
-  <option value="inherit"   <?php if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>From parent page</option>-->
+		 
 				<?php foreach($templates as $item): ?>
 				<?php $attrs = '';
-  foreach($item as $k=>$v): ?>
+  				foreach($item as $k=>$v): ?>
 				<?php $attrs .= "data-$k='{$v}'"; ?>
 				<?php endforeach ?>
-				<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				
+				
+				
+ 				<?php if( trim($item['dir_name']) == $global_template): ?>
+				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php else: ?>
+			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php endif ?>
+ 
+				
+				
+				
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>
@@ -629,19 +635,20 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" class="mw-ui-simple-dropdown" style="width: 205px;font-size: 11px;" id="active_site_template_<?php print $rand; ?>">
-				<?php if( trim($data['active_site_template']) != ''): ?>
-				<option value="<?php print $data['active_site_template'] ?>"      selected="selected"   ><?php print $data['active_site_template'] ?></option>
-				<?php endif ?>
-				<!--        <option value="default"   <?php if(('' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>Default</option>
-
-
-  <option value="inherit"   <?php if(('inherit' == trim($data['active_site_template']))): ?>   selected="selected"  <?php endif; ?>>From parent page</option>-->
 				<?php foreach($templates as $item): ?>
 				<?php $attrs = '';
-  foreach($item as $k=>$v): ?>
+  				foreach($item as $k=>$v): ?>
 				<?php $attrs .= "data-$k='{$v}'"; ?>
 				<?php endforeach ?>
-				<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				
+				
+				
+ 				<?php if( trim($item['dir_name']) == $global_template): ?>
+				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php else: ?>
+			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php endif ?>
+ 
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>

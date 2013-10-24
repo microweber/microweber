@@ -56,67 +56,60 @@ mw.require('forms.js');
   }
 
   save_cat = function(){
-
     if(mwd.querySelector('.mw-ui-category-selector input:checked') !== null){
        $(document.forms['admin_edit_category_form_<?php print $form_rand_id ?>']).submit();
     }
-
     else{
       Alert('<?php _e("Please choose Page or Category"); ?>.');
     }
 
   }
 
-
 $(document).ready(function(){
 	mw.category_is_saving = false;
 	<?php if(intval($data['id']) == 0): ?>
     <?php endif; ?>
-
-
-
-
      var h = mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
-
 	  mw.$('label', h).click(function() {
   	     set_category_parent_<?php print $form_rand_id ?>();
       });
-
-
-
 	 mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function() {
-		 
-		 
-		 
 		 if(mw.category_is_saving == true){
 			 return false;
 		 }
-		 
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
-		 
-  mw.notification.success("Saving category... Please wait...",10000);
-mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
-	 mw.notification.success("Category changes are saved");
-	 mw.reload_module('[data-type="categories"]');
-	 if(self !== parent && !!window.parent.mw){
-        window.parent.mw.reload_module('categories');
-	 }
-	 mw.reload_module('[data-type="categories/manage"]');
-     mw.$('[data-type="pages"]').removeClass("activated");
-	  mw.reload_module('[data-type="pages"]', function(){
-	    mw.treeRenderer.appendUI('[data-type="pages"]');
-        mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
-	  });
-	  <?php if(intval($data['id']) == 0): ?>
-	 	mw.url.windowHashParam("new_content", "true");
-	 	mw.url.windowHashParam("action", "editcategory:" + this);
-     <?php endif; ?>
-	 });
-    mw.category_is_saving = false;
-    $('.mw-cat-save-submit').removeClass('disabled');
+
+        mw.notification.success("Saving category... Please wait...",10000);
+        mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
+        	  mw.notification.success("Category changes are saved");
+        	  mw.reload_module('[data-type="categories"]');
+        	  if(self !== parent && !!window.parent.mw){
+                window.parent.mw.reload_module('categories');
+        	  }
+        	  mw.reload_module('[data-type="categories/manage"]');
+              mw.$('[data-type="pages"]').removeClass("activated");
+        	  mw.reload_module('[data-type="pages"]', function(){
+        	    mw.treeRenderer.appendUI('[data-type="pages"]');
+                mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
+        	  });
+        	  <?php if(intval($data['id']) == 0): ?>
+        	 	mw.url.windowHashParam("new_content", "true");
+        	 	mw.url.windowHashParam("action", "editcategory:" + this);
+             <?php endif; ?>
+	    });
+        mw.category_is_saving = false;
+        $('.mw-cat-save-submit').removeClass('disabled');
     return false;
  });
+
+ mw.tools.tabGroup({
+          nav: mw.$("#quick-add-post-options li"),
+          tabs: mw.$(".quick-add-post-options-item"),
+          toggle:true
+       });
+
+
 });
 </script>
 <?php
@@ -130,8 +123,6 @@ mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<
     }
 
   ?>
-<?php  //d($params);?>
-
 <form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="Off">
 	<input name="id" type="hidden" value="<?php print ($data['id'])?>" />
 	<input name="table" type="hidden" value="categories" />
@@ -156,15 +147,7 @@ mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<
 		<label class="mw-ui-label">
 			<?php _e("Parent"); ?>
 		</label>
-		<?php
-      $is_shop = '';
-    if (isset($params['is_shop'])) {
-    	//$is_shop = '&is_shop=' . $params['is_shop'];
-    }
-
-
-
-       ?>
+		<?php  $is_shop = '';    ?>
 		<div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
 			<module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"   />
 		</div>
@@ -175,65 +158,47 @@ mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<
         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
     });
   </script>
-	
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 	<input type="submit" class="semi hidden" name="save" />
-
-
-
-
 	<div class="post-save-and-go-live">
-
-
-		<button type="button" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-green">
-		<?php _e("Save"); ?>
-		</button>
-
-        </div>
-	
+		<button type="button" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-green"><?php _e("Save"); ?></button>
+    </div>
 	<div class="vSpace"></div>
 	<div class="advanced_settings">
-	<a href="javascript:;"  id="advanced-settings-toggler" onclick="mw.tools.toggle('.category_advanced_settings_holder', this);"   class="toggle_advanced_settings mw-ui-more">
-	<?php _e('Advanced Settings'); ?>
-	</a>
-
-	<div class="category_advanced_settings_holder" style="display:none">
-		<div class="vSpace"></div>
-		
-		<div class="mw-ui-field-holder">
-		<label class="mw-ui-label">
-			<?php _e("Description"); ?>
-		</label>
-		<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
-	</div>
-		
-		<div class="mw-ui-field-holder">
-			<?php if(!isset($data['users_can_create_content'])) {
-					$data['users_can_create_content'] = 'n';
-				}
-				
-				
-				?>
-			<div class="mw-ui-check-selector">
-				<div class="mw-ui-label left" style="width: 230px">
-					<?php _e("Can users create content"); ?>
-					<small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
-				<label class="mw-ui-check">
-					<input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-					<span></span><span>
-					<?php _e("No"); ?>
-					</span></label>
-				<label class="mw-ui-check">
-					<input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-					<span></span><span>
-					<?php _e("Yes"); ?>
-					</span></label>
-			</div>
-		</div>
-		<div class="clear vSpace"></div>
-		<div class="pictures-editor-holder" >
-			<module type="pictures/admin" for="categories" for-id=<?php print $data['id'] ?>  />
-		</div>
-	</div>
+       <ul id="quick-add-post-options" class="quick-add-nav">
+          <li><span><span class="ico itabpic"></span><span>Picture Gallery</span></span></li>
+          <li><span><span class="ico itabadvanced"></span><span>Advanced</span></span></li>
+       </ul>
+       <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+            <div class="pictures-editor-holder">
+    			<module type="pictures/admin" for="categories" for-id=<?php print $data['id'] ?>  />
+    		</div>
+       </div>
+       <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+           <div class="mw-ui-field-holder">
+        		<label class="mw-ui-label">
+        			<?php _e("Description"); ?>
+        		</label>
+        		<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
+        	</div>
+            <div class="mw-ui-field-holder">
+    			<?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 'n'; } 	?>
+    			<div class="mw-ui-check-selector">
+    				<div class="mw-ui-label left" style="width: 230px">
+    					<?php _e("Can users create content"); ?>
+    					<small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
+    				<label class="mw-ui-check">
+    					<input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+    					<span></span><span>
+    					<?php _e("No"); ?>
+    					</span></label>
+    				<label class="mw-ui-check">
+    					<input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+    					<span></span><span>
+    					<?php _e("Yes"); ?>
+    					</span></label>
+    			</div>
+    		</div>
+       </div>
 	</div>
 </form>

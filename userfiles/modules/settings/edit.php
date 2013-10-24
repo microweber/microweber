@@ -44,7 +44,7 @@ if(!isset($data['name'])){
 <script  type="text/javascript">
 $(document).ready(function(){
 	
-	<?php if(isset($data['option_key']) and  trim($data['option_key']) == 'curent_template'): ?>
+	<?php if(isset($data['option_key']) and  trim($data['option_key']) == 'current_template'): ?>
     
 	
 	
@@ -71,7 +71,7 @@ $(document).ready(function(){
   $data['custom_field_value'] = $data['option_value'];
   $data['custom_field_values'] = $data['field_values'];
   $data['input_class'] = 'mw-ui-field';  
-  if( $data['custom_field_name'] == 'curent_template'){
+  if( $data['custom_field_name'] == 'current_template'){
 	  $data['custom_field_type'] = 'website_template';
   }
 

@@ -145,9 +145,6 @@ Go to see them at this link
           <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
              <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
           </div>
-
-
-
     </div>
 
 	<div class="mw-ui-field-holder" style="padding: 0 0 1px;">
@@ -181,16 +178,33 @@ Go to see them at this link
 	</div>
 	<?php endif; ?>
 	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-	<div class="mw-ui-field-holder">
+	<div class="mw-ui-field-holder" style="padding-bottom: 25px;">
 		<textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
 	</div>
 	<?php endif; ?>
+
+
+
+
+
 	<?php if($data['content_type'] == 'page'):  ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php endif; ?>
 
+
+    	<?php if($is_live_edit == false) : ?>
+        <div class="post-save-and-go-live">
+        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
+        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        </div>
+    	<?php else: ?>
+    	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
+        <?php endif; ?>
+
+
+
     <ul class="quick-add-nav" id="quick-add-post-options">
-        <li class="active"><span><span class="ico itabpic"></span><span><?php _e("Picture Gallery"); ?></span></span></li>
+        <li><span><span class="ico itabpic"></span><span><?php _e("Picture Gallery"); ?></span></span></li>
         <?php if($data['content_type'] == 'page'): ?> <li><span><span class="ico itabaddtonav"></span><span><?php _e('Add to navigation menu'); ?></span> </span></li><?php endif; ?>
         <?php  if(trim($data['subtype']) == 'product'): ?>
           <li><span><span class="ico itabprice"></span><span><?php _e("Price & Fields"); ?></span></span></li>
@@ -200,19 +214,18 @@ Go to see them at this link
         <?php endif; ?>
         <li><span><span class="ico itabadvanced"></span><span><?php _e("Advanced"); ?></span></span></li>
     </ul>
-    <div class="mw-o-box">
-      <div class="mw-o-box-content">
-          <div class="quick-add-post-options-item" style="display: block">
+
+          <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
              <microweber module="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
              <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
           </div>
         <?php if($data['content_type'] == 'page'): ?>
-            <div class="quick-add-post-options-item">
+            <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
                <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
                <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
             </div>
         <?php endif; ?>
-            <div class="quick-add-post-options-item">
+            <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
                 <module
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
@@ -220,27 +233,22 @@ Go to see them at this link
                     id="fields_for_post_<?php print $rand; ?>" 	 />
             </div>
         <?php  if(trim($data['subtype']) == 'product'): ?>
-            <div class="quick-add-post-options-item">
+            <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
                 <?php event_trigger('mw_edit_product_admin', $data); ?>
             </div>
         <?php endif; ?>
 
-        <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+
+
+
+        <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
              <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
         </div>
-      </div>
-    </div>
 
-    <div class="mw-ui-field-holder">
-    	<?php if($is_live_edit == false) : ?>
-        <div class="post-save-and-go-live">
-        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
-        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
-        </div>
-    	<?php else: ?>
-    	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
-        <?php endif; ?>
-	</div>
+
+
+
+
 
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
  </form>
@@ -352,7 +360,7 @@ mw.edit_content.set_category = function(id){
         mw.$('#mw-parent-page-value').val(0).trigger("change");
       }
 }
-	
+
 mw.edit_content.render_category_tree = function(id){
     if(mw.treeRenderer != undefined){
     	   mw.treeRenderer.appendUI('#mw-category-selector-'+id);
@@ -440,7 +448,8 @@ mw.edit_content.handle_form_submit = function(go_live){
        });
        mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
-          tabs: mw.$(".quick-add-post-options-item")
+          tabs: mw.$(".quick-add-post-options-item"),
+          toggle:true
        });
        var piblished_nav = mwd.getElementById("un-or-published");
        mw.ui.btn.radionav(piblished_nav, 'span');
