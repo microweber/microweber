@@ -130,18 +130,27 @@ Go to see them at this link
 	<input type="hidden" name="subtype" id="mw-content-subtype-value"   value="<?php print $data['subtype']; ?>" />
 	<input type="hidden" name="content_type" id="mw-content-type-value"   value="<?php print $data['content_type']; ?>" />
 	<input type="hidden" name="parent"  id="mw-parent-page-value" value="<?php print $data['parent']; ?>" />
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder"  style="padding-bottom: 5px;">
 	    <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
 		<input
               autofocus
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
-              class="mw-ui-field mw-title-field"
+              class="mw-ui-field mw-title-field left"
               value="<?php print $data['title']; ?>" />
+
+
+          <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+          <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
+             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
+          </div>
+
+
+
     </div>
 
-	<div class="mw-ui-field-holder">
+	<div class="mw-ui-field-holder" style="padding: 0 0 1px;">
 		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
 			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
 			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
@@ -151,15 +160,10 @@ Go to see them at this link
              <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
           </div>
         <?php } ?>
-        <div class="right">
-          <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
-          <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
-             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
-          </div>
-        </div>
+
 	</div>
 	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-	<div class="mw-ui-field-holder">
+	<div class="mw-ui-field-holder" style="padding-top: 0">
     	<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
     		<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
     	</div>
@@ -184,16 +188,7 @@ Go to see them at this link
 	<?php if($data['content_type'] == 'page'):  ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php endif; ?>
-	<div class="mw-ui-field-holder">
-    	<?php if($is_live_edit == false) : ?>
-        <div class="post-save-and-go-live">
-        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
-        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
-        </div>
-    	<?php else: ?>
-    	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
-    	<?php endif; ?>
-	</div>
+
     <ul class="quick-add-nav" id="quick-add-post-options">
         <li class="active"><span><span class="ico itabpic"></span><span><?php _e("Picture Gallery"); ?></span></span></li>
         <?php if($data['content_type'] == 'page'): ?> <li><span><span class="ico itabaddtonav"></span><span><?php _e('Add to navigation menu'); ?></span> </span></li><?php endif; ?>
@@ -235,6 +230,18 @@ Go to see them at this link
         </div>
       </div>
     </div>
+
+    <div class="mw-ui-field-holder">
+    	<?php if($is_live_edit == false) : ?>
+        <div class="post-save-and-go-live">
+        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
+        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        </div>
+    	<?php else: ?>
+    	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
+        <?php endif; ?>
+	</div>
+
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
  </form>
   <div class="quick_done_alert" style="display: none">

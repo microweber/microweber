@@ -1052,7 +1052,7 @@ li .ts_action_item:last-child{
   margin-bottom: -1px;
   text-align: center;
   border-right: 1px solid #EAEAEA;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px solid transparent;
 }
 
 .toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active{

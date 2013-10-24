@@ -45,38 +45,22 @@ if( $id != 0){
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
         	mw.form.post(selector, '<?php print mw('url')->api_link('content/menu_item_save'); ?>', function(){
-
-				 <?php if(isset($params['data-parent-module-id'])): ?>
-				 mw.reload_module('#<?php print $params['data-parent-module-id'] ?>');
-				 <?php else: ?>
-				 
-				 mw.reload_module('#<?php print $params['id'] ?>');
-				 <?php endif; ?>
-
-        		if( self !== parent && typeof parent.mw === 'object'){
-        			parent.mw.reload_module('menu');
-        		}
+ 				mw.menu_item_after_save();
         	});
         }
     }
-</script>
-<script  type="text/javascript">
-
+ 
+mw.menu_item_after_save = function(){
+	 if( self !== parent && typeof parent.mw === 'object'){
+    		      parent.mw.reload_module('menu');
+    }
+	
+}
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
     	 $.get("<?php print site_url('api/content/menu_item_delete'); ?>/?id="+$item_id, function(){
     		 	mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
-				
-				
-				<?php if(isset($params['parent-module-id']) and trim($params['parent-module-id']) != ''): ?>
-        		//mw.reload_module('#<?php print $params['id'] ?>');
-				<?php else: ?>
-				//mw.reload_module('#<?php print $params['parent-module-id'] ?>');
-				<?php endif; ?>
-
-                if( self !== parent && typeof parent.mw === 'object'){
-    		      parent.mw.reload_module('menu');
-    	        }
+			 	mw.menu_item_after_save();
 
     	  });
     });
@@ -151,19 +135,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 			 	 if(mw.notification != undefined){
 			 mw.notification.success('Menu changes are saved');
 			 }
-
-
-
-
-			var t=setTimeout(function(){
-				if(self !== parent && typeof parent.mw !== 'undefined'){
-			    parent.mw.reload_module('menu');
-			 } else {
-			    mw.reload_module('menu');
-			 }
-				
-				
-				},300)
+ 			mw.menu_item_after_save();
 			 
 			 });
              

@@ -4,8 +4,6 @@
   background: #F5F5F5;
   border-top: 1px solid white;
   z-index: 996;
-  box-shadow:0 1px 0 #F3F3F3;
-  zoom:1;
 }
 
 .mw_editor.disabled, #mw_small_editor.disabled,

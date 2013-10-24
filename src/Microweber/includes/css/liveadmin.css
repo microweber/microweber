@@ -304,7 +304,7 @@ html.mw_pages #mw_tabs li.active a{
 
 
 .mw_tree_title{
-  background: url(../img/ico.tree.png) no-repeat 9px 0;
+  background: url(../img/ico.tree.png) no-repeat 14px 7px;
   padding: 12px 0 13px 55px;
   margin: 0;
   font-family: 'Kozuka Gothic Pro', 'Myriad Pro', Arial, sans-serif;
@@ -2842,7 +2842,7 @@ a.module-icon-title{
   clear: both;
 }
 .dashboard-top-row{
-  background:#F4F4F4;
+  background:#F5f5f5;
   border-bottom: 1px solid #E5E5E5;
 }
 
@@ -2912,6 +2912,11 @@ a.module-icon-title{
     color: #535353;
     cursor: pointer;
     margin-left: -1px;
+}
+
+#un-or-published{
+  float: right;
+  margin-top: -4px;
 }
 
 .mw-ui-btn-nav-post-state > span:hover{
