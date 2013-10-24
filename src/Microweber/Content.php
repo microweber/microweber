@@ -393,7 +393,7 @@ class Content
 
         if (($cache_content) != false) {
 
-               return $cache_content;
+            return $cache_content;
         }
 
         $render_file = false;
@@ -558,7 +558,7 @@ class Content
 
                 if (is_array($par_page)) {
 
-                     $page = $par_page;
+                    $page = $par_page;
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
                     $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
@@ -2855,6 +2855,10 @@ class Content
     {
 
         static $passed_ids;
+        static $passed_actives;
+        if (!is_array($passed_actives)) {
+            $passed_actives = array();
+        }
         if (!is_array($passed_ids)) {
             $passed_ids = array();
         }
@@ -2886,7 +2890,7 @@ class Content
 
         $sql = "SELECT * FROM {$menus}
 	WHERE parent_id=$menu_id
-    and   id!=$menu_id
+    AND   id!=$menu_id
 	ORDER BY position ASC ";
         //and item_type='menu_item'
         $menu_params = array();
@@ -3022,20 +3026,22 @@ class Content
             } elseif (CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
                 $active_class = 'active';
             } elseif (isset($cont['parent']) and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
-                $active_class = 'active';
+               // $active_class = 'active';
+
             } elseif (isset($cont['parent']) and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
+
                 $active_class = 'active';
             } else {
                 $active_class = '';
             }
+
 
             if ($is_active == false) {
                 $title = '';
             }
             if ($title != '') {
                 $item['url'] = $url;
-                //$full_item['the_url'] = page_link($full_item['content_id']);
-                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
                 if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -3153,9 +3159,8 @@ class Content
                 $res_count++;
                 $to_print .= '</' . $li_tag . '>';
 
-               // $passed_ids[] = $item['id'];
+                // $passed_ids[] = $item['id'];
             }
-
 
 
             $cur_depth++;
@@ -3445,8 +3450,6 @@ class Content
         }
 
 
-
-
         if ($menu_id != false) {
             $_REQUEST['add_content_to_menu'] = $menu_id;
         }
@@ -3482,7 +3485,7 @@ class Content
         if (isset($_REQUEST['add_content_to_menu_auto_parent']) and ($_REQUEST['add_content_to_menu_auto_parent']) != false) {
             $add_under_parent_page = true;
             //
-           //
+            //
             $content_data = $this->get_by_id($content_id);
 
         }
@@ -3499,7 +3502,6 @@ class Content
             $q = $this->app->db->q($sql);
 
 
-
             foreach ($add_to_menus_int as $value) {
                 $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
                 if ($check == 0) {
@@ -3508,10 +3510,10 @@ class Content
                     //	$save['debug'] = $menus;
                     $save['parent_id'] = $value;
                     $save['position'] = 999999;
-                    if($add_under_parent_page != false and is_array($content_data) and isset($content_data['parent'])){
+                    if ($add_under_parent_page != false and is_array($content_data) and isset($content_data['parent'])) {
                         $parent_cont = $content_data['parent'];
                         $check_par = $this->get_menu_items("limit=1&one=1&content_id=$parent_cont");
-                        if(is_array($check_par) and isset($check_par['id'])){
+                        if (is_array($check_par) and isset($check_par['id'])) {
                             $save['parent_id'] = $check_par['id'];
 
 
@@ -5605,7 +5607,7 @@ class Content
                 $i = 0;
                 foreach ($value as $value2) {
                     $indx[$i] = $value2;
-                     $this->app->cache->delete('menus/' . $value2);
+                    $this->app->cache->delete('menus/' . $value2);
 
                     $i++;
                 }

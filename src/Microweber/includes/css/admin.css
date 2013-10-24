@@ -99,7 +99,8 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 #mw_toolbar_nav{
   height: 48px;
   background: none repeat scroll 0 0 #F5F5F5;
-    border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #E5E5E5;
+  box-shadow:0 2px 7px -8px #111;
 }
 #mw_toolbar_nav .ilive{
   opacity:0.4;
@@ -115,7 +116,15 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 #mw_tabs li a{
-  padding: 15px 20px;
+  padding: 15px 15px;
+
+}
+
+#mw_tabs li a .ico{ position: relative; top: -2px; left: -2px;margin-right: 6px; opacity: 0.3; }
+#mw_tabs li a .inavmodules{ top: -3px; left: -4px; }
+#mw_tabs li a .inavwebsite{ top: 0; left: -2px; }
+#mw_tabs li.active a .ico{
+  opacity: 1;
 }
 
 /* new */
@@ -131,12 +140,9 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 #mw_tabs li{
   display: table-cell;
   float: none;
-  width: 107px;
 }
 
-#mw_tabs li a{
-  padding: 15px 5px;
-}
+
 
 /* /new */
 

@@ -104,10 +104,10 @@
 
 
 
-      mw.tools.tabGroup({
+  /*    mw.tools.tabGroup({
          nav:".comments-group",
          tabs:".comments-tab"
-      });
+      });*/
 
 
       mw.$(".avatartype-randomcolor").parent().parent().hover(function(){

@@ -376,17 +376,7 @@ function create_mw_shop_default_options()
 
 }
 
-event_bind('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
 
-function mw_print_admin_menu_shop_btn()
-{
-    $active = mw('url')->param('view');
-    $cls = '';
-    if ($active == 'shop') {
-        $cls = ' class="active" ';
-    }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop">' . _e('Online Shop', true) . '</a></li>';
-}
 event_bind('recover_shopping_cart', 'mw_shop_recover_shopping_cart');
 
 function mw_shop_recover_shopping_cart($sid=false)
@@ -1590,11 +1580,6 @@ function mw_print_admin_backup_settings_link()
         print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\">Backup</a></li>";
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
-    //$notif_count = mw('Notifications')->get('module=comments&is_read=n&count=1');
-    /*if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
-    }*/
-    //print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">' . $notif_html . '</span><span>Comments</span></a></li>';
 }
 
 
@@ -1973,27 +1958,6 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 }
 
 
-/**
- *
- * Settings module api
- *
- * @package     modules
- * @subpackage      settings
- * @since       Version 0.1
- */
-
-// ------------------------------------------------------------------------
-event_bind('mw_admin_header_menu', 'mw_print_admin_menu_settings_btn');
-
-function mw_print_admin_menu_settings_btn()
-{
-    $active = mw('url')->param('view');
-    $cls = '';
-    if ($active == 'settings') {
-        $cls = ' class="active" ';
-    }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:settings">' . _e("Settings", true) . '</a></li>';
-}
 
 
 /**

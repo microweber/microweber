@@ -24,3 +24,16 @@ function mw_print_admin_shop_product_settings($data = false) {
 	 print '<module data-type="shop/products/product_options" id="mw_admin_product_settings" data-content-id="'.$content_id.'" />';
 }
 
+
+
+event_bind('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
+
+function mw_print_admin_menu_shop_btn()
+{
+    $active = mw('url')->param('view');
+    $cls = '';
+    if ($active == 'shop') {
+        $cls = ' class="active" ';
+    }
+    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop"><i class="ico inavshop"></i>' . _e('Online Shop', true) . '</a></li>';
+}
