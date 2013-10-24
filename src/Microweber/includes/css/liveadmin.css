@@ -2123,7 +2123,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   max-height: 359px;
   overflow-x:hidden;
   overflow-y:auto;
-  background:#EDEDED;
+  background:#F5F5F5;
 }
 
 .layouts_box ul{
@@ -2137,22 +2137,21 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   list-style: none;
   white-space: nowrap;
   height: 18px;
-  padding: 4px 14px 2px;
-  margin: 9px 0;
+  padding: 9px 14px;
   cursor: pointer;
   border: 1px solid transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
-  color: #868686;
   font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/*.layouts_box li:hover, */.layouts_box li.active{
-  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+.layouts_box li.active{
+  background: white;
+  font-weight: bold;
   border: 1px solid #DFDDDD;
   border-top-color: #E9E6E6;
-  border-bottom-color: #A1A0A0;
+  border-bottom-color: #AEADAD;
   color: #111111;
 }
 

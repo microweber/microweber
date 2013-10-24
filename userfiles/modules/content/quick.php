@@ -25,10 +25,10 @@
     $is_current = $params['is-current'];
   }
   if(isset($params['page-id'])){
-    $data = mw('content')->get_by_id(intval($params["page-id"]));
+    $data = get_content_by_id(intval($params["page-id"]));
   }
   if(isset($params['content-id'])){
-    $data = mw('content')->get_by_id(intval($params["content-id"]));
+    $data = get_content_by_id(intval($params["content-id"]));
   }
   $recommended_parent = false;
   if(isset($params['recommended_parent']) and $params['recommended_parent'] != false){
@@ -112,8 +112,6 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 }
 /* END OF CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
-
-
  $module_id = $params['id'];
  
 ?> 
@@ -122,8 +120,6 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 Well done, you have saved your changes.
 
 Go to see them at this link
-
-
 
 <a target="_top" class="btn" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a> Or create new content
 
@@ -137,6 +133,7 @@ Go to see them at this link
     <div class="mw-ui-field-holder">
 	    <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
 		<input
+              autofocus
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
@@ -445,6 +442,7 @@ mw.edit_content.handle_form_submit = function(go_live){
                 mw.$("#is_post_active").val($(this).dataset("val"));
             }
        });
+
     });
 </script>
 

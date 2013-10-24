@@ -857,3 +857,5 @@ $language["ex-website-support"]= 'ex. Website Support' ;
 $language["the-website-will-send-emails-as-this-address"]= 'The website will send emails as this address' ; 
 $language["the-website-will-send-emails-on-behalf-of-this-address"]= 'The website will send emails on behalf of this address' ; 
 $language["click-here-to-edit-the-ants"]= 'Click here to edit the Ants' ; 
+$language["you-have-no-exising-menus-please-create-one"]= 'You have no exising menus. Please create one.' ; 
+$language["there-are-no-items-in-the-menu-b-footer-menu-b"]= 'There are no items in the menu <b>footer_menu</b>' ; 

@@ -619,17 +619,16 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 		</div>
 		
 		<?php if($template_selector_position == 'bottom'): ?>
- 
+
 	<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 10px;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
 		<label class="mw-ui-label">
 			<?php _e("Template");   ?>
 		</label>
 		
 		
-		
-		<div class="mw-ui-select" style="width: 200px">
+
 			<?php if($templates != false and !empty($templates)): ?>
-			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
+			<select name="active_site_template" class="mw-ui-simple-dropdown" style="width: 205px;font-size: 11px;" id="active_site_template_<?php print $rand; ?>">
 				<?php if( trim($data['active_site_template']) != ''): ?>
 				<option value="<?php print $data['active_site_template'] ?>"      selected="selected"   ><?php print $data['active_site_template'] ?></option>
 				<?php endif ?>
@@ -646,7 +645,7 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>
-		</div>
+
 	</div>
 <?php endif; ?>
 	</div>

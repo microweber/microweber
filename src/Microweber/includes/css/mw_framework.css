@@ -1234,6 +1234,7 @@ input.mw-title-field{
 }
 
 
+
 .mw-tag-selector {
   cursor: text;
   width: auto;
@@ -1269,25 +1270,6 @@ input.mw-ui-field{
 }
 
 
-.mw-ui-field::-webkit-input-placeholder {
-  color: #AAAAAA;
-}
-.mw-ui-field:-moz-placeholder {
-  color: #AAAAAA;
-}
-.mw-ui-field::-moz-placeholder {
-  color: #AAAAAA;
-}
-
-.mw-ui-invisible-field::-webkit-input-placeholder {
-  color: #AAAAAA;
-}
-.mw-ui-invisible-field:-moz-placeholder {
-  color: #AAAAAA;
-}
-.mw-ui-invisible-field::-moz-placeholder {
-  color: #AAAAAA;
-}
 
 
 input.mw-ui-field{
@@ -1296,9 +1278,6 @@ input.mw-ui-field{
 }
 
 
- .mw-ui-field[placeholder]{
-  color: #8C8C8C;
-}
 
 
 
@@ -1780,6 +1759,8 @@ select.mw-ui-simple-dropdown:focus{
 .mw-post-media-img-edit input::-moz-placeholder {
   color: #AAAAAA;
 }
+
+
 
 
 

@@ -1078,9 +1078,18 @@ function mw_print_admin_menu_selector($params = false)
     //d($params);
     $add = '';
     if (isset($params['id'])) {
+        $par = $params;
+
+        $par['content_id'] =  $params['id'];
+        $par['type'] =  'menu';
+        $par['view'] =  'edit_page_menus';
+
+        unset($par['id']);
         $add = '&content_id=' . $params['id'];
+
+        print module($par);
+
     }
-    print module('view=edit_page_menus&type=menu' . $add);
 }
 
 

@@ -1019,41 +1019,7 @@ mw.wysiwyg = {
          mw.wysiwyg.undoRedoFixes()
       }
     },
-    set_cursor : function(where, element){
-        var el = $(element)[0];
-        var range = document.createRange();
-        if(where=='after'){
-          if($(el).next().length>0) {
-            var next = $(el).next()[0];
-          }
-          else{
-            $(el).after("<span></span>");
-            var next = $(el).next()[0];
-          }
-          range.selectNodeContents(next);
-          range.collapse(false);
-        }
-        else if(where=='before'){
-            if($(el).prev().length>0) {
-              var prev = $(el).prev()[0];
-            }
-            else{
-              $(el).before("<div></div>");
-              var prev = $(el).prev()[0];
-            }
-            range.selectNodeContents(prev);
-            range.collapse(true);
-        }
-        else if(where=='end'){
 
-        }
-        else if(where=='beginning'){
-
-        }
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    },
     fontFamilies:['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
     initFontFamilies:function(){
         var body_font = window.getComputedStyle(mwd.body, null).fontFamily.split(',')[0].replace(/'/g, "").replace(/"/g, '');
@@ -1247,40 +1213,23 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
     }
   });
 
- /* $(window).bind("onElementClick", function(e, el){
-    if($(el).hasClass("lipsum")){
-       $(el).removeClass("lipsum");
 
-       mw.wysiwyg.select_all(el);
-       mw.wysiwyg.select_all(el);
-    }
-  });   */
 
 
  if(!window['mwAdmin']){
    mw.wysiwyg.prepareContentEditable();
  }
 
-
  mw.wysiwyg.editorFonts = [];
  mw.wysiwyg.editorFontSizes = {};
-
-
 
   mw.$(".mw_dropdown_action_font_family li").each(function(){
       mw.wysiwyg.editorFonts.push(this.getAttribute('value'));
   });
 
-
-
   mw.$(".mw_dropdown_action_font_size li a").each(function(i){
      mw.wysiwyg.editorFontSizes[Math.round(parseFloat(mw.CSSParser(this).get.font().size))] = this.parentNode.getAttribute("value");
   });
-
-
-
-
-
 
 });
 
@@ -1321,8 +1270,6 @@ $(window).load(function(){
   $(window).bind("keydown paste mousedown mouseup", function(e){
     mw.wysiwyg.globalTarget = e.target;
     var selection = window.getSelection();
-
-
     if( mw.wysiwyg.globalTarget.isContentEditable
         && selection.containsNode(mw.wysiwyg.globalTarget, true)
         && !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'nodrop')
@@ -1340,7 +1287,6 @@ $(window).load(function(){
 
   if(e.ctrlKey && e.type =='keydown') {
         var code = e.keyCode;
-
         if( code == 66){
                mw.wysiwyg.execCommand('bold');
                e.preventDefault();
@@ -1354,30 +1300,19 @@ $(window).load(function(){
             e.preventDefault();
         }
   }
-
-
-
-
-
-
-  });
+});
 
   $(mwd.body).bind("paste", function(event){
-
-        if(event.target.isContentEditable){
-            mw.wysiwyg.paste(event);
-        }
-      });
+    if(event.target.isContentEditable){
+        mw.wysiwyg.paste(event);
+    }
+  });
 
 
 
   mw.$(".mw_editor").each(function(){
      mw.tools.dropdown(this);
   });
-
-
-
-
 
 
 

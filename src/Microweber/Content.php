@@ -2886,17 +2886,19 @@ class Content
 
         $sql = "SELECT * FROM {$menus}
 	WHERE parent_id=$menu_id
-
+    and   id!=$menu_id
 	ORDER BY position ASC ";
         //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
+        $menu_params['menu_id'] = $menu_id;
+
         $menu_params['table'] = $menus;
         $menu_params['orderby'] = "position ASC";
 
         //$q = $this->app->db->get($menu_params);
 
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'menus/global/' . $menu_id);
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'menus/global');
 
         // $data = $q;
         if (empty($q)) {
@@ -2947,7 +2949,7 @@ class Content
         if (!isset($link) or $link == false) {
             $link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
         }
-        //d($link);
+
         // $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
         $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
@@ -3064,7 +3066,7 @@ class Content
                     $ext_classes .= ' child-' . $res_count . '';
                 }
 
-                if (in_array($item['id'], $passed_ids) == false) {
+                if (in_array($item['parent_id'], $passed_ids) == false) {
 
                     if ($maxdepth == false) {
 
@@ -3110,6 +3112,7 @@ class Content
 
                             $test1 = $this->menu_tree($menu_params);
                         } else {
+
                             $test1 = $this->menu_tree($item['id']);
 
                         }
@@ -3120,9 +3123,11 @@ class Content
                         if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
 
                             if (isset($params) and is_array($params)) {
+
                                 $test1 = $this->menu_tree($menu_params);
 
                             } else {
+
                                 $test1 = $this->menu_tree($item['id']);
 
                             }
@@ -3148,9 +3153,10 @@ class Content
                 $res_count++;
                 $to_print .= '</' . $li_tag . '>';
 
+               // $passed_ids[] = $item['id'];
             }
 
-            $passed_ids[] = $item['id'];
+
 
             $cur_depth++;
         }
@@ -3438,6 +3444,9 @@ class Content
             return;
         }
 
+
+
+
         if ($menu_id != false) {
             $_REQUEST['add_content_to_menu'] = $menu_id;
         }
@@ -3450,11 +3459,11 @@ class Content
             foreach ($add_to_menus as $value) {
                 if ($value == 'remove_from_all') {
                     $sql = "DELETE FROM {$menus}
-				WHERE
-				item_type='menu_item'
-				AND content_id={$content_id}
-				";
-                    //d($sql);
+                    WHERE
+                    item_type='menu_item'
+                    AND content_id={$content_id}
+				    ";
+
                     $this->app->cache->delete('menus');
                     $q = $this->app->db->q($sql);
                     return;
@@ -3467,6 +3476,17 @@ class Content
             }
 
         }
+        $add_under_parent_page = false;
+        $content_data = false;
+
+        if (isset($_REQUEST['add_content_to_menu_auto_parent']) and ($_REQUEST['add_content_to_menu_auto_parent']) != false) {
+            $add_under_parent_page = true;
+            //
+           //
+            $content_data = $this->get_by_id($content_id);
+
+        }
+
 
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
             $add_to_menus_int_implode = implode(',', $add_to_menus_int);
@@ -3478,20 +3498,42 @@ class Content
 
             $q = $this->app->db->q($sql);
 
+
+
             foreach ($add_to_menus_int as $value) {
                 $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
-                //d($check);
                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
                     //	$save['debug'] = $menus;
                     $save['parent_id'] = $value;
+                    $save['position'] = 999999;
+                    if($add_under_parent_page != false and is_array($content_data) and isset($content_data['parent'])){
+                        $parent_cont = $content_data['parent'];
+                        $check_par = $this->get_menu_items("limit=1&one=1&content_id=$parent_cont");
+                        if(is_array($check_par) and isset($check_par['id'])){
+                            $save['parent_id'] = $check_par['id'];
+
+
+                        }
+
+
+                    }
+
                     $save['url'] = '';
                     $save['content_id'] = $content_id;
-                    $this->app->db->save($menus, $save);
+                    $new_item = $this->app->db->save($menus, $save);
+                    $this->app->cache->delete('menus/' . $save['parent_id']);
+                    $this->app->cache->delete('menus/' . $save['parent_id']);
+
+                    $this->app->cache->delete('menus/' . $value);
+
                 }
             }
+
             $this->app->cache->delete('menus/global');
+            $this->app->cache->delete('menus');
+
         }
 
     }
@@ -5550,6 +5592,7 @@ class Content
                     // d($sql);
                     $q = $this->app->db->q($sql);
                     $this->app->cache->delete('menus/' . $k);
+                    $this->app->cache->delete('menus/' . $value2);
                 }
 
             }
@@ -5562,13 +5605,18 @@ class Content
                 $i = 0;
                 foreach ($value as $value2) {
                     $indx[$i] = $value2;
+                     $this->app->cache->delete('menus/' . $value2);
+
                     $i++;
                 }
 
                 $this->app->db->update_position_field($table, $indx);
-                return true;
+                //return true;
             }
         }
+        $this->app->cache->delete('menus/global');
+
+        $this->app->cache->delete('menus');
         return false;
     }
 

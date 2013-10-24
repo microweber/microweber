@@ -336,7 +336,7 @@ $menu_name = get_option('menu_name', $params['id']);
       <?php if($active_menu == false){
 		$active_menu =   $item['title'];
 	  }?>
-      <option <?php  if($menu_name == $item['title'] or $menu_id == $item['id']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print $item['title'] ?></option>
+      <option <?php  if($menu_name == $item['title'] or $menu_id == $item['id']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></option>
       <?php endforeach ; ?>
     </select>
   </div>

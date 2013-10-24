@@ -1068,18 +1068,18 @@ li .ts_action_item:last-child{
   position: relative;
   background: url(../img/toolbar_icons.png) no-repeat;
   text-indent: -9999px;
-  opacity: 0.3;
+
 }
 
 .toolbar-sections-tabs li:hover > [class*='tst-'] span,
 [class*='tst-']:hover span,
 [class*='tst-']:hover .idownarr,
 [class*='tst-'].active span{
-  opacity: 1;
+
 }
 
 .tst-logo span{ left: -6px; top: 15px; }
-.tst-logo .dd_rte_arr{ margin-right: 8px; margin-top: 3px;opacity: 0.4 }
+.tst-logo .dd_rte_arr{ margin-right: 8px; margin-top: 3px; }
 .tst-modules span{ top: 16px; background-position: -99px 0; }
 .tst-add span{ top: 16px; background-position: -46px 0; }
 .tst-design span{ top: 16px; background-position: -149px 0; }
@@ -1200,6 +1200,7 @@ li .ts_action_item:last-child{
 #modules-and-layouts{
   position: absolute;
   top: -9999px;
+  border-top: 1px solid #E5E5E5;
 }
 #modules-and-layouts.active{
   position: relative;

@@ -69,9 +69,9 @@ mw.menu_item_delete = function($item_id){
 				
 				
 				<?php if(isset($params['parent-module-id']) and trim($params['parent-module-id']) != ''): ?>
-        		mw.reload_module('#<?php print $params['id'] ?>');
+        		//mw.reload_module('#<?php print $params['id'] ?>');
 				<?php else: ?>
-				mw.reload_module('#<?php print $params['parent-module-id'] ?>');
+				//mw.reload_module('#<?php print $params['parent-module-id'] ?>');
 				<?php endif; ?>
 
                 if( self !== parent && typeof parent.mw === 'object'){
@@ -146,12 +146,31 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
     			}
 			}
          });
-         $.post("<?php print site_url('api/content/menu_items_reorder'); ?>", obj);
-            if(self !== parent && typeof parent.mw !== 'undefined'){
+         $.post("<?php print site_url('api/content/menu_items_reorder'); ?>", obj,function(msg){
+			 
+			 	 if(mw.notification != undefined){
+			 mw.notification.success('Menu changes are saved');
+			 }
+
+
+
+
+			var t=setTimeout(function(){
+				if(self !== parent && typeof parent.mw !== 'undefined'){
 			    parent.mw.reload_module('menu');
 			 } else {
 			    mw.reload_module('menu');
 			 }
+				
+				
+				},300)
+			 
+			 });
+             
+		
+			
+			
+			
        },
        start:function(a,ui){
               $(this).height($(this).outerHeight());

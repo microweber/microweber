@@ -266,6 +266,12 @@ $(document).ready(function(){
         else{mw.tools.removeClass(mwd.getElementById('live_edit_toolbar'), 'scrolling'); }
 
   });
+
+
+
+
+
+
 });
 
 mw.toolbar = {

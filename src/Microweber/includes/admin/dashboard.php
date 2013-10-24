@@ -51,15 +51,19 @@
             var frame = mwd.querySelector("#mw-quick-content iframe.mw-iframe-editor");
             if(frame !== null){
                   frame.onload = function(){
-                       mw.$("#mw-quick-content").removeClass("loading")
+                       mw.$("#mw-quick-content").removeClass("loading");
+                       mw.$(".mw-title-field").focus();
                   }
                   frame.onerror = function(){
-                       mw.$("#mw-quick-content").removeClass("loading")
+                       mw.$("#mw-quick-content").removeClass("loading");
+                       mw.$(".mw-title-field").focus();
                   }
             }
             else{
                 mw.$("#mw-quick-content").removeClass("loading");
+                mw.$(".mw-title-field").focus();
             }
+
 
           });
        }
