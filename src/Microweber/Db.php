@@ -110,18 +110,23 @@ class Db
             $params = $params2;
             extract($params);
         }
-        if (!isset($params['from']) and isset($params['to']) and is_string($params['to'])) {
-            $params['from'] = $params['to'];
-        }
-        if (isset($params['from']) and is_string($params['from'])) {
-            $fr = $params['from'];
-            if (substr(strtolower($fr), 0, 6) != 'table_') {
-                $fr = 'table_' . $fr;
-            }
-            $params['table'] = $fr;
-            unset($params['from']);
 
+        if (!isset($params['table'])) {
+            if (!isset($params['from']) and isset($params['to']) and is_string($params['to'])) {
+                $params['from'] = $params['to'];
+            }
+            if (isset($params['from']) and is_string($params['from'])) {
+                $fr = $params['from'];
+                if (substr(strtolower($fr), 0, 6) != 'table_') {
+                    $fr = 'table_' . $fr;
+                }
+                $params['table'] = $fr;
+                unset($params['from']);
+
+            }
         }
+
+
         /*
          if (isset($params['table']) and is_string($params['table'])) {
          $fr = $params['table'];
@@ -140,7 +145,7 @@ class Db
 
             }
 
-            if ($k == 'what' and !isset($params['rel'])) {
+            if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
                 $table = guess_table_name($v);
             }
 
@@ -1666,11 +1671,11 @@ class Db
 
             $include_categories = false;
         }
-        if(!isset($criteria['exclude_ids']) and isset($criteria['exclude'])){
+        if (!isset($criteria['exclude_ids']) and isset($criteria['exclude'])) {
             $criteria['exclude_ids'] = $criteria['exclude'];
         }
 
-        if(!isset($criteria['ids']) and isset($criteria['include'])){
+        if (!isset($criteria['ids']) and isset($criteria['include'])) {
             $criteria['ids'] = $criteria['include'];
         }
 
@@ -1681,7 +1686,6 @@ class Db
             // unset($criteria['only_those_fields']);
             // no unset xcause f cache
         }
-
 
 
         if (isset($criteria['ids']) and is_string($criteria['ids'])) {
@@ -2085,7 +2089,7 @@ class Db
 
             if (isset($search_data_fields) and $search_data_fields != false) {
                 if (defined('MW_DB_TABLE_CONTENT_DATA')) {
-                    $table_custom_fields =MW_DB_TABLE_CONTENT_DATA;
+                    $table_custom_fields = MW_DB_TABLE_CONTENT_DATA;
 
                     $where_q1 = " id in (select content_id from $table_custom_fields where
 			 				field_value REGEXP '$to_search' ) OR ";

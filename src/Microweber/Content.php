@@ -382,8 +382,8 @@ class Content
         $function_cache_id = $function_cache_id . serialize($page);
 
 
-        $cache_id = __CLASS__ . __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'content/global';
+        $cache_id =  __FUNCTION__ . crc32($function_cache_id);
+        $cache_group = 'global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
                 $this->define_constants($page);
@@ -396,9 +396,15 @@ class Content
             return $cache_content;
         }
 
+
+
+       // d($page);
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
+
+
+
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
             $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
@@ -1605,7 +1611,7 @@ class Content
             define('MAIN_PAGE_ID', false);
         }
 
-        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit') {
+        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
 
             $the_active_site_template = $content['active_site_template'];
         } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
@@ -1615,7 +1621,7 @@ class Content
 
             $the_active_site_template = $content['active_site_template'];
         } else {
-            $the_active_site_template = $this->app->option->get('curent_template', 'template');
+            $the_active_site_template = $this->app->option->get('current_template', 'template');
             //
         }
 
@@ -4319,10 +4325,9 @@ class Content
 
 
         } else if ($is_admin == false) {
-            return array('error' => 'Not logged in as admin');
+            return array('error' => 'Not logged in as admin to use '.__FUNCTION__);
 
-            //exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+         }
 
 
         $save_as_draft = false;
@@ -4500,9 +4505,6 @@ class Content
                                 $history_to_save['value'] = $old;
                                 $history_to_save['field'] = $field;
 
-                                if ($is_no_save != true) {
-                                    //	save_history($history_to_save);
-                                }
                                 $cont_field = array();
                                 $cont_field['rel'] = 'content';
                                 $cont_field['rel_id'] = $content_id_for_con_field;
@@ -4582,8 +4584,7 @@ class Content
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url->string(true);
-                                //$cont_field['rel'] = $rel_ch;
-                                $cont_field_new = $this->save_content_field($cont_field);
+                                 $cont_field_new = $this->save_content_field($cont_field);
                             } else {
                                 $cont_field_new = $this->save_content_field($cont_field);
 
@@ -4601,9 +4602,7 @@ class Content
                                 $history_to_save['field'] = $field;
                                 $history_to_save['page_element_id'] = $page_element_id;
 
-                                if ($is_no_save != true) {
-                                    //	save_history($history_to_save);
-                                }
+
                             }
                             if ($save_global == false and $save_layout == true) {
 
@@ -4636,11 +4635,9 @@ class Content
         $history_to_save['id'] = (parse_url(strtolower($_SERVER['HTTP_REFERER']), PHP_URL_PATH));
         $history_to_save['value'] = $json_print;
         $history_to_save['field'] = 'html_content';
-        //save_history($history_to_save);
-        // }
+
         print $json_print;
-        //$this->app->cache->delete('global/blocks');
-        exit();
+         exit();
     }
 
 
@@ -4732,6 +4729,7 @@ class Content
 
             $draft_url = $this->app->db->escape_string($data['url']);
             $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
+            $last_saved_date = date("Y-m-d H:i:s", strtotime("-1 week"));
 
             $history_files_params = array();
             $history_files_params['order_by'] = 'id desc';
@@ -4739,39 +4737,35 @@ class Content
             $history_files_params['field'] = $data['field'];
             $history_files_params['rel'] = $data['rel'];
             $history_files_params['rel_id'] = $data['rel_id'];
+            //$history_files_params['page'] = 2;
 
+            $history_files_params['debug'] = 1;
             $history_files_params['is_draft'] = 1;
             $history_files_params['limit'] = 20;
             $history_files_params['url'] = $draft_url;
-            $history_files_params['created_on'] = '[mt]' . $last_saved_date;
-            $history_files = $this->edit_field($history_files_params);
+            $history_files_params['current_page'] = 2;
+            $history_files_params['created_on'] = '[lt]' . $last_saved_date;
 
+
+
+            // $history_files_params['created_on'] = '[mt]' . $last_saved_date;
+            $history_files = $this->edit_field($history_files_params);
+            //
             // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
             }
 
-            if (isset($history_files_ids) and is_array($history_files_ids)) {
+            if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
+
                 $this->app->db->q($del_q);
             }
 
 
-            $history_files_params['curent_page'] = 2;
-            unset($history_files_params['created_on']);
-            $history_files = $this->edit_field($history_files_params);
-            // d($history_files);
-            // d($history_files_params);
-            //$history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=10&url=' . $draft_url);
-            if (is_array($history_files)) {
-                $history_files_ids = $this->app->format->array_values($history_files);
-            }
-            if (isset($history_files_ids) and is_array($history_files_ids)) {
-                $history_files_ids_impopl = implode(',', $history_files_ids);
-                $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
-                $this->app->db->q($del_q);
-            }
+
+
 
 
         }

@@ -147,7 +147,7 @@ REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("2","2013-05-23 08:53:49"
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("3","2013-05-23 08:53:49","2013-05-23 08:53:49","website_keywords","free website, free shop, free blog, make web, mw, microweber","","","3","website","Website keywords","Write keywords for your site.","textarea","","","1"); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("4","2013-05-23 08:53:49","2013-05-23 08:53:49","curent_template","default","","","5","template","Website template","This is your current template. You can easy change it anytime.","website_template","","","1"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("4","2013-05-23 08:53:49","2013-05-23 08:53:49","current_template","default","","","5","template","Website template","This is your current template. You can easy change it anytime.","website_template","","","1"); /* MW_QUERY_SEPERATOR */
 
 
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("5","2013-05-23 08:53:49","2013-05-23 08:53:49","items_per_page","30","","","6","website","Items per page","Select how many items you want to have per page? example 10,25,50...","dropdown","YTo1OntpOjEwO3M6MjoiMTAiO2k6MzA7czoyOiIzMCI7aTo1MDtzOjI6IjUwIjtpOjEwMDtzOjM6IjEwMCI7aToyMDA7czozOiIyMDAiO30=","","1"); /* MW_QUERY_SEPERATOR */

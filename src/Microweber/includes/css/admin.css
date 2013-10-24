@@ -1086,7 +1086,16 @@ right: 20px;
 
 #mw-admin-toolbar-right{
   float: right;
-  width: 230px;
+  width: 260px;
+}
+#helpbtn{
+    color: #999999;
+    margin-top: 14px;
+    padding: 1px 5px;
+    cursor: help;
+}
+#helpbtn:hover{
+  background: rgba(233, 230, 230, 0.5);
 }
 
 #mw-admin-toolbar-right .ilogout,

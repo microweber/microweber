@@ -70,10 +70,10 @@ class Layouts
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = $this->app->option->get('curent_template', 'template');
+                    $the_active_site_template = $this->app->option->get('current_template', 'template');
                 }
             } else {
-                $the_active_site_template = $this->app->option->get('curent_template', 'template');
+                $the_active_site_template = $this->app->option->get('current_template', 'template');
             }
             if ($the_active_site_template == '') {
                 $the_active_site_template = 'default';
@@ -408,7 +408,7 @@ class Layouts
 
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
-            //$page_url_segment_1 =	$the_active_site_template = $this->app->option->get('curent_template');
+            //$page_url_segment_1 =	$the_active_site_template = $this->app->option->get('current_template');
             //$td_base = MW_TEMPLATES_DIR .  $the_active_site_template.DS;
         } else {
 

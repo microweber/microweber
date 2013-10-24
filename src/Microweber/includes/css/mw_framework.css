@@ -1233,7 +1233,9 @@ input.mw-title-field{
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
-#mw-quick-content input.mw-title-field{
+.mw-title-field-label-post + input.mw-title-field,
+.mw-title-field-label-product + input.mw-title-field,
+.mw-title-field-label-page + input.mw-title-field{
   width: 355px;
   float: left;
 }

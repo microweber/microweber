@@ -217,6 +217,8 @@ body.cross{
 #mw_tabs li a{
   display: block;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   border-right: 1px solid #EAEAEA;
   padding: 15px 20px 12px;
   text-align: center;
@@ -250,22 +252,22 @@ body.cross{
   border:none;
 }
 
-
-
 #mw_tabs li.active a:active{
   box-shadow : none;
 }
 
-
 #mw_toolbar_logo{
   display: block;
-  float: left;
-  text-indent: -100%;
-  background: url(../img/mw_live.png) no-repeat;
-  width:159px;
   height: 29px;
-  overflow: hidden;
-  margin: 12px 47px 0 20px;
+  text-indent: -999px;
+  width: 201px;
+  height: 55px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#mw_toolbar_logo:hover{
+    background-color: #fff;
 }
 
 #mw_logo_modules{
@@ -1109,9 +1111,7 @@ div .mw-custom-field-form-controls:last-child{
 }
 
 
-form.add-edit-page-post{
-  padding-left: 20px;
-}
+
 
 body.loading:after, .mw-loading:after{
     content: "";
@@ -2951,6 +2951,9 @@ a.module-icon-title{
   text-align: right;
   padding-bottom: 20px;
 }
+.quick-save-2 .post-save-and-go-live{
+  padding-bottom: 0;
+}
 
 .post-save-and-go-live .mw-ui-btn{
   margin-left: 12px;
@@ -2963,6 +2966,89 @@ a.module-icon-title{
   margin-top: 11px;
   width: 395px;
 }
+
+#quick-add-post-options{
+  background:#F7F7F7;
+  height: 37px;
+}
+
+
+.mw-dropdown-list > ul {
+  max-height: 265px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+
+.toolbar-sections-tabs > ul > li.hover > ul,
+.toolbar-sections-tabs > ul > li.active > ul{
+  display: block;
+}
+
+.toolbar-sections-tabs > ul > li > ul > li{
+  list-style: none
+}
+
+.toolbar-sections-tabs .mw-dropdown-list a{
+  display: block;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 15px 50%;
+  padding: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border:1px solid #EAEAEA;
+  border-top:none;
+}
+
+.mw-dropdown-list .pages_tree a{
+  padding-left: 35px;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list {
+  background: white;
+}
+
+
+
+
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 35px;  }
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a{
+  padding-left: 21px;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a{ padding-left: 40px; background-position: 21px 50%; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li li li a{ padding-left: 60px; background-position: 46px 50%; }
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul{ background: white url(../img/deeparr.png) no-repeat 21px 9px; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list a:hover{
+     text-decoration: underline
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul ul{ background-position: 41px 9px; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul ul ul{ background-position: 61px 9px; }
+
+
+.toolbar-sections-tabs > ul > li > ul > li > a:hover,
+.toolbar-sections-tabs > ul > li > ul > li > a:focus{
+  background-color: #F7F7F7;
+}
+
+.toolbar-sections-tabs > ul > li > ul > li > a:active{
+  box-shadow: inset 0 0 9px -3px #ddd;
+
+}
+
+.toolbar-sections-tabs > ul > li > ul > li > a .mw-ui-btn-plus{
+  top: 9px;
+}
+
+
 
 
 

@@ -1,10 +1,10 @@
 </div> <!--  /#mw-admin-content  -->
 <div id="footer">
     <div id="footer-content">
-        <div id="PowerdBy">
+        <?php /*<div id="PowerdBy">
             <a href="http://microweber.com" target="_blank" id="PowerdByLink" title="<?php _e("Powered by Microweber"); ?>"><?php _e("(MW)"); ?></a>
             <div id="PowerdByInfo">Powered By <a target="_blank" href="http://microweber.com"><?php _e("Microweber"); ?></a></div>
-        </div>
+        </div> */ ?>
     </div>
 </div>
 </div> <!--  /#mw-admin-container -->

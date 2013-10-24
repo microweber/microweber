@@ -737,6 +737,12 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   margin:-1px -9px -12px 1px;
 }
 
+.mw-ui-dropdown .dd_rte_arr{
+  margin-right: 0;
+    margin-top: 7px;
+    margin-left: 8px;
+}
+
 .mw-dropdown-list{
   list-style: none;
 }
@@ -755,10 +761,7 @@ background-image: url(../img/popup_settings_bar.png), url(../img/grad.php?top=8C
   background-color: #EEEEEE;
 }
 
-.mw-dropdown-list > li:last-child a{
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
+
 
 
 .mw-help{

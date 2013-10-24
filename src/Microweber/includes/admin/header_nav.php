@@ -1,8 +1,14 @@
 <?php if(!isset($_REQUEST['no_toolbar'])): ?>
 <div>
   <div class="mw-v-table" id="mw_toolbar_nav">
-    <div class="mw-v-cell">
-       <a href="<?php print admin_url(); ?>view:dashboard" id="mw_toolbar_logo"></a>
+
+    <div class="mw-ui-dropdown toolbar-sections-tabs">
+        <a class="mw-v-cell" id="mw_toolbar_logo" href="<?php print admin_url(); ?>">  </a>
+        <div class="mw-dropdown-content">
+            <ul class="mw-dropdown-list">
+              <li><a href="javascript:;">Back to Live Edit</a></li>
+            </ul>
+        </div>
     </div>
     <div class="mw-v-cell" style="width: 100%">
   <?php if(is_admin()): ?>
@@ -14,21 +20,6 @@
       <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules"><i class="ico inavmodules"></i><?php _e("Modules"); ?></a></li>
       <?php event_trigger('mw_admin_header_menu'); ?>
       <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users"><i class="ico inavusers"></i><?php _e("Users"); ?></a></li>
-    <li><a href="javascript:;" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a></li>
-
-  <?php
-
-
-  /*
-      <?php if(is_module('help')): ?>
-      <li <?php if($active == 'help'): ?> class="active" <?php endif; ?> ><a href="<?php print admin_url(); ?>view:help"><?php _e("Help"); ?></a></li>
-      <?php endif; ?>
-
-*/
-
-
-?>
-
       <?php event_trigger('mw_admin_header_menu_end'); ?>
     </ul>
     </div>
@@ -57,6 +48,7 @@ $past_page = mw('content')->link($past_page[0]['id']);
       <div class="mw-toolbar-notification">
 	    <module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
       </div>
+      <a href="javascript:;" class="right" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a>
     </div>
   </div>
     </div>
@@ -73,19 +65,6 @@ $past_page = mw('content')->link($past_page[0]['id']);
          navli.removeClass('active');
          $(this).addClass('active');}
        });
-/*    var go_livebtn_admin = mw.$("#mw-go_livebtn_admin");
-    go_livebtn_admin.click(function(event){
-      var ex = mw.$(".mw_admin_edit_content_form").length;
-      if(ex > 0){
-        mw.tools.confirm("<?php _e("Do you want to save the changes?"); ?>", function(){
-          mw.$(".mw_admin_edit_content_form").find('.go-live').click();
-          event.stopPropagation();
-          event.preventDefault()
-          return false;
-        });
-      }
-    });*/
-
 });
 </script>
   <?php endif; ?>

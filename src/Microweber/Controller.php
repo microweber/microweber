@@ -308,7 +308,7 @@ class Controller
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
 
-                $the_active_site_template = $this->app->option->get('curent_template', 'template');
+                $the_active_site_template = $this->app->option->get('current_template', 'template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
 
                 if ($preview_module != false) {
@@ -355,7 +355,7 @@ class Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('curent_template', 'template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('current_template', 'template');
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);

@@ -77,14 +77,17 @@
               </li>
               <li class="create-content-dropdown">
                 <a href="javascript:;" class="tst-add" title="Create or manage your content">
+
                     <span>Create or manage your content</span>
+                    <i class=" dd_rte_arr right"></i>
                 </a>
-                <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 145px;">
+                <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px;">
+                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage"></span>&nbsp;<span>EDIT CURRENT</span></a></li>
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span>EDIT CURRENT</span></a></li>
+
                 </ul>
               </li>
               <li><a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span></a></li>
@@ -109,12 +112,11 @@
 
               <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
               <div class="toolbar-sections-tabs mw-ui-dropdown right">
-                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><span class="dd_rte_arr right"></span><?php _e("Actions"); ?></a>
                 <div class="mw-dropdown-content" style="width: 155px;">
                   <ul class="mw-dropdown-list">
                   <li>
                       <a title="Back to Admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
-
                   </li>
                     <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
                     <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>

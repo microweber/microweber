@@ -541,7 +541,7 @@ class Option
         $data['help'] = 'This is your current template. You can easy change it anytime.';
 
         $data['option_group'] = 'template';
-        $data['option_key'] = 'curent_template';
+        $data['option_key'] = 'current_template';
         $data['option_value'] = 'default';
         $data['field_type'] = 'website_template';
         $data['position'] = '5';
