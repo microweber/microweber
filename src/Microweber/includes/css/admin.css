@@ -125,6 +125,11 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 #mw_tabs li a .ico + span{
   display: inline-block;
 }
+@media (max-width: 1024px) {
+  #mw_tabs li a .ico + span{
+    display:none;
+  }
+}
 
 /* new */
 #mw_toolbar_nav .mw-v-cell{

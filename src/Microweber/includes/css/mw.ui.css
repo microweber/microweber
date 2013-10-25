@@ -253,6 +253,7 @@
 .iviewsite{ background-position: -1381px -98px;}
 .iUnpublish{ background-position: -1409px -133px;}
 .iPublish{ background-position: -1381px -133px;}
+.iDenied{ background-position: -1381px -133px;}
 
 
 
@@ -890,7 +891,7 @@
   float: none !important;
 }
 
-.mw-date{
+.mw-date, .mw-small{
   color: #707070;
   font-size: 10px;
   font-weight: normal;

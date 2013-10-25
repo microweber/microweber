@@ -4,20 +4,15 @@
 
           <?php  $module_info = false;
 		  if(isset($params['module'])): ?>
-           <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']);    ?>
-           <?php endif; ?>
-
-
+          <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']);    ?>
+          <?php endif; ?>
           <script type="text/javascript" src="<?php   print(MW_SITE_URL); ?>apijs"></script>
-
           <script type="text/javascript">
-             mw.require("jquery.js", true);
-          </script>
-          <script type="text/javascript">
-            mw.lib.require("jqueryui");
-            liveEditSettings = true;
+             mw.require("jquery.js");
           </script>
     	  <script type="text/javascript">
+              liveEditSettings = true;
+              mw.lib.require("jqueryui");
               mw.require('<?php print MW_INCLUDES_URL; ?>default.css', true);
               mw.require('<?php print MW_INCLUDES_URL; ?>api/api.css', true);
               mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css', true);

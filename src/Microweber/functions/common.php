@@ -1393,6 +1393,13 @@ function delete_module_as_template($data)
 
 }
 
+
+function get_modules($options = false)
+{
+
+    return mw('module')->get($options);
+}
+
 api_expose('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
@@ -1417,15 +1424,10 @@ $params['cache_group'] = 'modules/global'; // allows custom cache group
 $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
 $params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
 
-$data = modules_list($params);
+$data = scan_for_modules($params);
 
  */
 
-function modules_list($options = false)
-{
-
-    return mw('module')->scan_for_modules($options);
-}
 
 event_bind('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)

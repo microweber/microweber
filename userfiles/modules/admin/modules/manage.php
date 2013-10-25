@@ -22,7 +22,7 @@ if(isset($params['reload_modules'])){
 		$s.= '&cleanup_db=1';
 	}
 	
-	 $mods = modules_list($s); 
+	 $mods = scan_for_modules($s); 
 }
 if(isset($params['category'])){
 	

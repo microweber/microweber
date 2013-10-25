@@ -24,7 +24,7 @@ $dynamic_layouts = false;
 										//
 }     else {
 
- $modules = mw('module')->get();
+ $modules = mw('module')->get('ui=1');
  
 
 $sortout_el = array();

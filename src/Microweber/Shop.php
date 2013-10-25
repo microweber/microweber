@@ -696,9 +696,38 @@ class Shop
             $option_key_q = "&limit=1&option_key={$option_key}";
 
         }
-
         $providers = $this->app->option->get_all('option_group=payments' . $option_key_q);
-        //d( $providers);
+
+        $payment_modules = get_modules('type=payment_gateway');
+        $str = 'payment_gw_';
+        $l = strlen($str);
+        $enabled_providers = array();
+        if (!empty($payment_modules)) {
+            foreach ($payment_modules as $payment_module) {
+                foreach ($providers as $value) {
+                    if ($value['option_value'] == 'y') {
+                        if (substr($value['option_key'], 0, $l) == $str) {
+                            $title = substr($value['option_key'], $l);
+                            $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
+                            $value['gw_file'] = $title;
+
+                            if (isset($payment_module['module']) and $value['gw_file'] == $payment_module['module']) {
+                                $payment_module['gw_file'] = $title;
+                                $enabled_providers[] = $payment_module;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+ 
+        if (!empty($enabled_providers)) {
+            return $enabled_providers;
+        }
+
+
+        // the rest is for comaptibily and will be removed in the near future
         $str = 'payment_gw_';
         $l = strlen($str);
         if (is_array($providers)) {
@@ -715,11 +744,12 @@ class Shop
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;
                             $value['gw_file'] = $title;
+                            $valid[] = $value;
                         } else {
-                            $value['name'] = $title;
+                            // $value['name'] = $title;
                         }
                         //
-                        $valid[] = $value;
+
 
                     }
                 }

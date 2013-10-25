@@ -186,8 +186,16 @@ mw.$("#available_providers").sortable({
 </style>
 <?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
-$payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 
+
+$payment_modules = get_modules('type=payment_gateway');
+if($payment_modules == false){
+$payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}");
+	
+}
+
+//
+//$active_payment_modules =  payment_options();  
 
 //$modules = mw('module')->get();
 // d($payment_modules);
@@ -235,7 +243,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
 						<div class="mw-o-box mw-o-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
 						
 							<div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
-								<div class="gateway-icon-title"> <span class="ico iMove"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?></span> </div>
+								<div class="gateway-icon-title"> <span class="ico iMove"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?> <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> <small class="mw-small">(disabled)</small><?php endif; ?></span></div>
 								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 
 								
 							</div>
@@ -261,7 +269,7 @@ $payment_modules = modules_list("cache_group=modules/global&dir_name={$here}");
                 </div>-->
 								</label>
 								<div class="mw-set-payment-gw-options" >
-									<module type="<?php print $payment_module['module'] ?>" view="admin" />
+ 									<module type="<?php print $payment_module['module'] ?>" view="admin" />
 								</div>
 							</div>
 						</div>

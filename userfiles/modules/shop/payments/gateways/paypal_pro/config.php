@@ -6,5 +6,6 @@ $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";
 $config['position'] = 11;
+$config['type'] = "payment_gateway";
 
 

@@ -7,6 +7,7 @@ $config['ui_admin'] = true;
 $config['ui'] = '0';
 $config['position'] = 30;
 $config['version'] = 0.3;
+$config['type'] = "stats";
  
 $config['tables'] = array();
 $fields_to_add = array();

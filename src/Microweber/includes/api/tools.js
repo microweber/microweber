@@ -1671,8 +1671,11 @@ mw.tools = {
     }
   },
   is_field:function(obj){
+    if(obj === null || typeof obj === 'undefined' || obj.nodeType === 3){
+      return false;
+    }
     var t = obj.tagName.toLowerCase();
-    if(t=='input' || t=='textarea' || t=='select') return true;
+    if(t=='input' || t=='textarea' || t=='select') {return true};
     return false;
   },
   getAttrs : function(el){

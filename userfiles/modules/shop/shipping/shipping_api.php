@@ -19,7 +19,7 @@ class shipping_api
         $here = $this->here;
 
 
-        $this->modules_list = modules_list("cache_group=modules/global&dir_name={$here}");
+        $this->modules_list = scan_for_modules("cache_group=modules/global&dir_name={$here}");
     }
 
     // getInstance method

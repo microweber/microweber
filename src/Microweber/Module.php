@@ -71,7 +71,7 @@ class Module
             $params['module'] = str_replace('/admin', '', $params['module']);
         }
         if (!isset($params['ui'])) {
-            $params['ui'] = 1;
+          //  $params['ui'] = 1;
             //
         }
 
@@ -773,6 +773,7 @@ class Module
         $fields_to_add[] = array('author', 'TEXT default NULL');
         $fields_to_add[] = array('website', 'TEXT default NULL');
         $fields_to_add[] = array('help', 'TEXT default NULL');
+        $fields_to_add[] = array('type', 'TEXT default NULL');
 
         $fields_to_add[] = array('installed', 'int(11) default NULL');
         $fields_to_add[] = array('ui', 'int(11) default 0');
@@ -1475,7 +1476,7 @@ class Module
                     $value_fn = $mod_name = str_replace('config.php', '', $value_fn);
                     $value_fn = $mod_name = str_replace('index.php', '', $value_fn);
 
-                    //  d( $value_fn);
+
 
                     $value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
                     $value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);

@@ -192,7 +192,7 @@ body.cross{
 }
 
 #mw_toolbar_nav .mw-ui-btn{
-    margin: 4px 6px 0 12px;
+    margin:4px 6px 0;
 }
 
 #mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 2px;}
