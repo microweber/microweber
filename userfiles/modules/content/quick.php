@@ -133,6 +133,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   <script>
   $(mwd).ready(function(){
     mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+
   });
 
   </script>
@@ -414,6 +415,7 @@ mw.edit_content.handle_form_submit = function(go_live){
     			 mw.edit_content.after_save();
 			}
 			mw.edit_content.saving = false;
+            module.removeClass('loading');
           },
           onError:function(){
               module.removeClass('loading');
