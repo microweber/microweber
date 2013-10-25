@@ -1428,7 +1428,10 @@ mw.tools = {
 
     var tagholder = $(obj.tagholder);
     var field = mw.$('input[type="text"]', tagholder[0]);
-
+    
+    if(field == null){
+      return false;
+    }
     var def =  field.dataset('default');
     o.createTag = function(el){
         var span_holder = mwd.createElement('span');

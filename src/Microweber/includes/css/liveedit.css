@@ -316,6 +316,7 @@ body .mw-col > .ui-resizable-e *{
 
 #module-modal-settings-menu-holder .mw-ui-btn-small{
   padding: 3px 10px;
+  top: 4px;
 }
 
 #module-modal-settings-menu-holder .mw-dropdown-content{

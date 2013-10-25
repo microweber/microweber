@@ -393,7 +393,7 @@ class Content
 
         if (($cache_content) != false) {
 
-            return $cache_content;
+              return $cache_content;
         }
 
 
@@ -420,55 +420,91 @@ class Content
                 }
             }
 
-            if (isset($page['content_type'])) {
-                $page['content_type'] = str_replace('..', '', $page['content_type']);
+        }
+        if (isset($page['content_type'])) {
+            $page['content_type'] = str_replace('..', '', $page['content_type']);
+
+        }
+        if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
+            $get_layout_from_parent = false;
+            $par = $this->get_by_id($page['parent']);
+            if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
+                $get_layout_from_parent = $par;
+            } else {
+                $inh = $this->get_inherited_parent($page['parent']);
+                if ($inh != false) {
+                    $par = $this->get_by_id($inh);
+                    if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
+                        $get_layout_from_parent = $par;
+                    }
+                }
+            }
+
+            if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
+                $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
+                $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
+                $render_file_temp = TEMPLATES_DIR . $get_layout_from_parent['active_site_template'] . DS . $get_layout_from_parent['layout_file'];
+                $render_use_default = TEMPLATES_DIR . $get_layout_from_parent['active_site_template'] . DS . 'use_default_layouts.php';
+                if (is_file($render_file_temp)) {
+                    $render_file = $render_file_temp;
+                } elseif (is_file($render_use_default)) {
+                    $render_file_temp = DEFAULT_TEMPLATE_DIR . $get_layout_from_parent['layout_file'];
+                    if (is_file($render_file_temp)) {
+                        $render_file = $render_file_temp;
+                    }
+                }
 
             }
 
 
-            if ($render_file != false and isset($page['content_type']) and ($page['content_type']) != 'page') {
-                $f1 = $render_file;
-                $f2 = $render_file;
+            //d($get_layout_from_parent);
+        }
 
 
-                $stringA = $f1;
-                $stringB = "_inner";
+        if ($render_file != false and isset($page['content_type']) and ($page['content_type']) != 'page') {
+
+
+            $f1 = $render_file;
+            $f2 = $render_file;
+
+
+            $stringA = $f1;
+            $stringB = "_inner";
+            $length = strlen($stringA);
+            $temp1 = substr($stringA, 0, $length - 4);
+            $temp2 = substr($stringA, $length - 4, $length);
+            $f1 = $temp1 . $stringB . $temp2;
+            $f1 = normalize_path($f1, false);
+            if (is_file($f1)) {
+                $render_file = $f1;
+            } else {
+                $stringA = $f2;
+                $stringB = '_' . $page['content_type'];
                 $length = strlen($stringA);
                 $temp1 = substr($stringA, 0, $length - 4);
                 $temp2 = substr($stringA, $length - 4, $length);
-                $f1 = $temp1 . $stringB . $temp2;
-                $f1 = normalize_path($f1, false);
-                if (is_file($f1)) {
-                    $render_file = $f1;
+                $f3 = $temp1 . $stringB . $temp2;
+                $f3 = normalize_path($f3, false);
+                if (is_file($f3)) {
+                    $render_file = $f3;
                 } else {
-                    $stringA = $f2;
-                    $stringB = '_' . $page['content_type'];
-                    $length = strlen($stringA);
-                    $temp1 = substr($stringA, 0, $length - 4);
-                    $temp2 = substr($stringA, $length - 4, $length);
-                    $f3 = $temp1 . $stringB . $temp2;
-                    $f3 = normalize_path($f3, false);
-                    if (is_file($f3)) {
-                        $render_file = $f3;
-                    } else {
-                        $check_inner = dirname($render_file);
-                        if (is_dir($check_inner)) {
-                            $in_file = $check_inner . DS . 'inner.php';
-                            $in_file = normalize_path($in_file, false);
-                            if (is_file($in_file)) {
-                                $render_file = $in_file;
-                            }
-
+                    $check_inner = dirname($render_file);
+                    if (is_dir($check_inner)) {
+                        $in_file = $check_inner . DS . 'inner.php';
+                        $in_file = normalize_path($in_file, false);
+                        if (is_file($in_file)) {
+                            $render_file = $in_file;
                         }
+
                     }
-
-
                 }
 
 
             }
 
+
         }
+
 
         if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
 
@@ -4454,19 +4490,21 @@ class Content
                             $content_id = $page_id;
                             $check_if_page = $this->get_by_id($content_id);
 
-                            if(is_array($check_if_page)
+                            if (is_array($check_if_page)
                                 and isset($check_if_page['content_type'])
-                                    and $check_if_page['content_type'] != ''
-                                    and $check_if_page['content_type'] != 'page'){
-                                $inh = $this->get_inherited_parent($page_id);
+                                    and isset($check_if_page['parent'])
+                                        and $check_if_page['content_type'] != ''
+                                            and intval($check_if_page['parent']) != 0
+                                                and $check_if_page['content_type'] != 'page'
+                            ) {
+                                // $inh = $this->get_inherited_parent($page_id);
+                                $inh = $check_if_page['parent'];
                                 if ($inh != false) {
                                     $content_id_for_con_field = $content_id = $inh;
 
                                 }
 
                             }
-
-
 
 
                         }

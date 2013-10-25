@@ -7,42 +7,29 @@
            <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']);    ?>
            <?php endif; ?>
 
-          <script type="text/javascript" src="<?php   print(MW_INCLUDES_URL); ?>js/jquery.js"></script>
-          <script type="text/javascript" src="<?php   print(MW_INCLUDES_URL); ?>api/jquery-ui.js"></script>
+
           <script type="text/javascript" src="<?php   print(MW_SITE_URL); ?>apijs"></script>
 
           <script type="text/javascript">
-
-            liveEditSettings = true;
-
+             mw.require("jquery.js", true);
           </script>
-
-
-
-          
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>api/api.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css?v=<?php print uniqid(); ?>"/>
-          <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/popup.css?v=<?php print uniqid(); ?>"/>
-
-
-		   <script type="text/javascript">
-  //document.body.className+=' loading';
-
-
-  //mw.require("http://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.js");
-
-
-
-    mw.require("events.js", true);
-    mw.require("url.js", true);
-    mw.require("tools.js", true);
-    mw.require("forms.js", true);
-    mw.require('wysiwyg.js', true);
-
-</script>
+          <script type="text/javascript">
+            mw.lib.require("jqueryui");
+            liveEditSettings = true;
+          </script>
+    	  <script type="text/javascript">
+              mw.require('<?php print MW_INCLUDES_URL; ?>default.css', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>api/api.css', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/liveadmin.css', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css', true);
+              mw.require("events.js", true);
+              mw.require("url.js", true);
+              mw.require("tools.js", true);
+              mw.require("forms.js", true);
+              mw.require('wysiwyg.js', true);
+          </script>
 
 <style>
 

@@ -7,6 +7,31 @@ if(isset($params['global']) and $params['global'] != false){
 	$set_content_type =  get_option('data-content-type', $params['id']); 
 }
 $rand = uniqid(); ?>
+<script type="text/javascript">
+
+    function mw_reload_content_mod_window(){
+		
+	
+	$(mwd.body).ajaxStop(function() {
+		
+		 setTimeout(function(){
+		 
+		 window.location.reload()
+		 
+		 },100)
+		
+	});
+		
+		
+	
+		 
+		 
+		 
+		 
+ 	}
+ 
+
+ </script>
 <?php if(!isset($is_shop) or $is_shop == false): ?>
 <?php $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
 <?php else:  ?>
@@ -18,9 +43,12 @@ $rand = uniqid(); ?>
 <?php $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
 <?php endif; ?>
 
+
+
+
 <label class="mw-ui-label"><?php _e("Content type"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"  >
+  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw_option_field"  onchange="mw_reload_content_mod_window()"  >
     <option  <?php if(('' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Choose content type"); ?></option>
     <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Pages"); ?></option>
     <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Posts"); ?></option>
@@ -33,7 +61,7 @@ $rand = uniqid(); ?>
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?>  <?php _e("from page"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
+  <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" onchange="mw_reload_content_mod_window()"   >
     <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
     <?php
 $pt_opts = array();

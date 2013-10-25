@@ -11,15 +11,27 @@ mw.require('events.js');
 
 
 if(typeof Selection.prototype.containsNode === 'undefined'){
-        Selection.prototype.containsNode = function(a){
-            var f = this.getRangeAt(0).cloneContents(), all = f.querySelectorAll('*'), l = all.length, i=0;
-            for( ;i<l; i++){
-                if(all[i] === a){
-                  return true;
+      Selection.prototype.containsNode = function(a){
+          var r = this.getRangeAt(0);
+          if(r.commonAncestorContainer === a){ return true; }
+          if(r.endContainer === a){ return true; }
+          if(r.startContainer === a){ return true; }
+          if(r.commonAncestorContainer.parentNode === a){ return true; }
+          if(a.nodeType!==3){
+            var c = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer),
+                b = c.querySelectorAll(a.nodeName.toLowerCase()),
+                l = b.length,
+                i = 0;
+                if(l>0){
+                  for( ; i<l; i++){
+                      if(b[i] === a){
+                        return true;
+                      }
+                  }
                 }
-            }
-            return false;
-        }
+          }
+          return false;
+      }
 }
 
 
@@ -166,7 +178,7 @@ mw.wysiwyg = {
                         }
                     }
                 }
-            } 
+            }
         }
       });
     },
@@ -194,9 +206,9 @@ mw.wysiwyg = {
                 var b = b || false;
                 var c = c || false;
                 if(window.getSelection().rangeCount>0){
-                   $.browser.mozilla?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
+                   ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
                    mwd.execCommand(a,b,c);
-                   $.browser.mozilla?mwd.designMode = 'off':'';
+                   ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'off':'';
                  }
             }
         }
@@ -339,6 +351,21 @@ mw.wysiwyg = {
        //mw.$(".mw_editor, #mw_small_editor").addClass("disabled");
        mw.wysiwyg.editors_disabled = false;
     },
+    checkForTextOnlyElements:function(e, method){
+      var e = e || false;
+      var method = method || 'selection';
+      if(mwthod == 'selection'){
+          var sel = mww.getSelection();
+          var f = sel.focusNode;
+          var f = mw.tools.hasClass(f, 'edit') ? f : mw.tools.firstParentWithClass(f, 'edit');
+          if(!!f.attributes.field && f.attributes.field.nodeValue == 'title'){
+            if(!!e){
+              mw.e.cancel(e, true);
+            }
+            return false;
+          }
+      }
+    },
     init:function(selector){
       var selector = selector || ".mw_editor_btn";
       var mw_editor_btns = mw.$(selector);
@@ -393,8 +420,11 @@ mw.wysiwyg = {
            if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'TEXTAREA'){
              return true;
            }
-
            var sel = window.getSelection();
+           if(event.keyCode == 13) {
+              mw.wysiwyg.checkForTextOnlyElements(event);
+           }
+
            if(sel.rangeCount > 0){
            var r = sel.getRangeAt(0);
            if(event.keyCode == 9 && !event.shiftKey && sel.focusNode.parentNode.iscontentEditable && sel.isCollapsed){
@@ -567,6 +597,7 @@ mw.wysiwyg = {
             e.target.innerHTML = '&zwnj;&nbsp;';
          }
          if(e.keyCode == 13) {
+
                mw.$(".element-current").removeClass("element-current");
                var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                for( ; i<l; i++){

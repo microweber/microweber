@@ -1,5 +1,5 @@
 <?php
-
+ 
   only_admin_access();
 
   $rand = uniqid();
@@ -52,9 +52,10 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['
     $data['parent'] = $params['parent-page-id'];
     if(isset($params['subtype']) and $params['subtype'] == 'product'){
         $parent_content = get_content_by_id($params['parent-page-id']);
-        if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 'y'){
-            $data['parent'] = 0;
-        }
+       // if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 'y'){
+			  
+           // $data['parent'] = 0;
+       // }
     }
     if(isset($params['parent-category-id']) and $params['parent-category-id'] != 0){
         $categories_active_ids =$params['parent-category-id'];
@@ -73,7 +74,7 @@ else if(intval($data['id']) != 0){
 }
 /* END OF SETTING PARENT AND ACTIVE CATEGORY  */
 
- 
+
 
 /* CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 if(intval($data['id']) == 0 and intval($data['parent']) == 0){

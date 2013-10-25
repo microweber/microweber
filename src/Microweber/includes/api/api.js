@@ -155,7 +155,7 @@ mw.askusertostay = false;
     visible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: /*@cc_on!@*/false
+    ie: (/*@cc_on!@*/false || !!window.MSStream)
   }
 
 
