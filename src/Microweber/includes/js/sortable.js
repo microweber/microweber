@@ -1173,6 +1173,7 @@ mw.drag = {
                         else{
 
                             var hovered =  $(mw.currentDragMouseOver);
+
                             if(mw.dragCurrent.tagName.toLowerCase()=='li'){
                                mw.dragCurrent = $(mw.dragCurrent).clone(true);
                                $(mw.dragCurrent).removeAttr("id");
@@ -2252,6 +2253,9 @@ __createRow = function(hovered, mw_drag_current, pos){
 
 dropInside = function(el){
     if(el.tagName == 'IMG') {
+      return false;
+    }
+    if(!hasAbilityToDropElementsInside(el)){
       return false;
     }
     var css = mw.CSSParser(el).get;
