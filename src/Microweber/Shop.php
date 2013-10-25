@@ -1619,8 +1619,8 @@ class Shop
         $this->app->db->build_table($table_name, $fields_to_add);
 
         // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        $this->app->db->add_table_index('rel', $table_name, array('rel'));
-        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+      //  $this->app->db->add_table_index('rel', $table_name, array('rel'));
+      //  $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
 
         $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
 

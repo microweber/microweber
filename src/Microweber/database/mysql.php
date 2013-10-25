@@ -140,7 +140,7 @@ if ($is_mysqli != false) {
                 mw_error('Query failed: ' . $err);
             }
         } else {
-
+ 
             mw_error('Query failed: ' . $err);
         }
         return false;

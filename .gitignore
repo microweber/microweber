@@ -35,3 +35,7 @@ Thumbs.db
 application
 /userfiles/removed_modules
 /userfiles/modules/accounting
+/userfiles/templates/plain
+/userfiles/templates/cosmo
+/userfiles/templates/cyborg
+/userfiles/templates/geo

@@ -2675,7 +2675,7 @@ class Db
 ";
             //
             //if (isset($_GET['debug'])) {
-            //	d($sql);
+            
             $this->q($sql);
             //}
         }
@@ -2715,6 +2715,8 @@ class Db
                     } else {
                         $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
+					
+						
                     if ($sql) {
                         $this->q($sql);
 
@@ -2729,6 +2731,7 @@ class Db
                 if (!isset($exisiting_fields[$the_field[0]])) {
 
                     $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
+					
                     $this->q($sql);
                 } else {
 //                     $sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
@@ -3047,7 +3050,7 @@ class Db
 
         if ($query == false) {
             $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
-            // var_dump($q);
+            
             $this->q($q);
         }
 

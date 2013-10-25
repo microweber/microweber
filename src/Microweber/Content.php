@@ -2565,8 +2565,6 @@ class Content
 
         $this->app->db->build_table($table_name, $fields_to_add);
 
-        $this->app->db->add_table_index('content_id', $table_name, array('rel(55)'));
-
 
         $table_name = MW_DB_TABLE_CONTENT_FIELDS;
 

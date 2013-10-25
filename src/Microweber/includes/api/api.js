@@ -366,30 +366,38 @@ mw.askusertostay = false;
     return int;
   }
 
-  mw.reload_module = function($module_name, callback) {
+  mw.reload_module = function(module, callback) {
+    if(module.constructor === [].constructor){
+        var l = module.length, i=0, w = 1;
+        for( ; i<l; i++){
+          mw.reload_module(module[i], function(){
+            w++;
+            if(w === l && typeof callback === 'function'){
+              callback.call();
+            }
+          });
+        }
+        return false;
+    }
     var done = callback || false;
-    if (typeof $module_name != 'undefined') {
-      if (typeof $module_name == 'object') {
+    if (typeof module != 'undefined') {
+      if (typeof module == 'object') {
         mw._({
-          selector: $module_name,
+          selector: module,
           done:done
         });
       } else {
-        var module_name = $module_name.toString();
+        var module_name = module.toString();
         var refresh_modules_explode = module_name.split(",");
         for (var i = 0; i < refresh_modules_explode.length; i++) {
-          var $module_name = refresh_modules_explode[i];
-
-          if (typeof $module_name != 'undefined') {
-			   $module_name = $module_name.replace(/##/g, '#');
-
-            $mods = mw.$(".module[data-type='" + $module_name + "']");
-            if ($mods.length == 0) {
-                try {
-                    $mods = $($module_name);
-                  } catch(err) {}
+          var module = refresh_modules_explode[i];
+          if (typeof module != 'undefined') {
+		    var module = module.replace(/##/g, '#');
+            var m = mw.$(".module[data-type='" + module + "']");
+            if (m.length === 0) {
+                try { var m = $(module); }  catch(e) {};
              }
-             $mods.each(function() {
+             m.each(function() {
                 mw._({
                   selector: this,
                   done:done

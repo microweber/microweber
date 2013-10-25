@@ -130,13 +130,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
   </div>
 
-  <script>
-  $(mwd).ready(function(){
-    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 
-  });
-
-  </script>
 
 
 
@@ -313,16 +307,18 @@ mw.edit_content.before_save = function(){
 	}
 }
 mw.edit_content.after_save = function(){
+
 	mw.askusertostay=false;
 	var content_id =  mw.$('#mw-content-id-value').val();
 	if(content_id == 0){
-	    mw.reload_module('#<?php print $module_id ?>');
+	    mw.reload_module('#<?php print $module_id ?>', function(){
+	       mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+	    });
  	}
 	if(parent !== self && !!parent.mw){
-        parent.mw.reload_module('posts');
-        parent.mw.reload_module('shop/products');
-        parent.mw.reload_module('content');
-    	parent.mw.reload_module('pages');
+        parent.mw.reload_module(['posts', 'shop/products', 'pages','content'], function(){
+           mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+        });
     	parent.mw.askusertostay=false;
     	<?php if($is_current!=false) :  ?>
     	if(window.parent.mw.history != undefined){
@@ -336,6 +332,7 @@ mw.edit_content.after_save = function(){
             mw.treeRenderer.appendUI('#pages_tree_toolbar');
             mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
         }
+        mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
      });
 }
 
@@ -415,7 +412,7 @@ mw.edit_content.handle_form_submit = function(go_live){
     			 mw.edit_content.after_save();
 			}
 			mw.edit_content.saving = false;
-            module.removeClass('loading');
+
           },
           onError:function(){
               module.removeClass('loading');

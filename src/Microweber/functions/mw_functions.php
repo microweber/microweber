@@ -96,14 +96,10 @@ if (defined('MW_IS_INSTALLED') == true) {
 
 
 $c_id = 'mw_init_all';
-$cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
+//$cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
 
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-    if ($cache_content_init != 'yes') {
-        event_trigger('mw_db_init_default');
-        event_trigger('mw_db_init_options');
-        event_trigger('mw_db_init_users');
-    }
+   
     $curent_time_zone = mw('option')->get('time_zone', 'website');
     if ($curent_time_zone != false and $curent_time_zone != '') {
         $default_time_zone = date_default_timezone_get();

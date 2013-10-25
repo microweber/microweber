@@ -8,21 +8,12 @@ REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart VALUES("1","My T-shirt Product","y"
 
 
  
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_orders VALUES("1","2013-05-23 09:23:46","2013-05-23 09:23:46","Bulgaria","","35","","shop/shipping/gateways/country","15","USD","","Boris","Sokolov","sokolov.boris@gmail.com","Sofia","","1172","sv. pimen zografski 14","","4951424","0","0","j7i9l0qe881ghsjhffkjcbv226","y","n","{SITE_URL}checkout","::1","1","shop/payments/gateways/paypal","9d259a104c8b990ceb726356209c4bd8","35","USD","","","","","","","","","","","","","pending","15","y","","","","","","n"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_orders VALUES("1","2013-05-23 09:23:46","2013-05-23 09:23:46","Bulgaria","","35","","shop/shipping/gateways/country","15","USD","","Boris","Sokolov","sokolov.boris@gmail.com","Sofia","","1172","sv. pimen zografski 14","","4951424","0","0","j7i9l0qe881ghsjhffkjcbv226","y","n","{SITE_URL}checkout","::1","1","shop/payments/gateways/paypal","9d259a104c8b990ceb726356209c4bd8","35","USD","","","","","","","","","","","","","","pending","15","y","","","","","","n"); /* MW_QUERY_SEPERATOR */
  
 
  
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_shipping VALUES("1","2013-05-23 09:11:03","2013-05-23 09:10:38","y","10","5","300","Worldwide","999"); /* MW_QUERY_SEPERATOR */
-
-
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_shipping VALUES("2","2013-05-23 09:11:51","2013-05-23 09:11:33","y","15","10","300","Bulgaria","999"); /* MW_QUERY_SEPERATOR */
-
-
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_shipping VALUES("3","2013-05-23 09:12:16","2013-05-23 09:12:16","y","10","0","300","United Kingdom","999"); /* MW_QUERY_SEPERATOR */
-
-
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_shipping VALUES("4","2013-05-23 09:12:55","2013-05-23 09:12:46","y","5","0","100","United States","999"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */cart_shipping VALUES("1","2013-05-23 09:11:03","2013-05-23 09:10:38","y","10","5","300","Worldwide","999","","","","",""); /* MW_QUERY_SEPERATOR */
 
  
  

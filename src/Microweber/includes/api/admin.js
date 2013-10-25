@@ -49,8 +49,40 @@ $(document).ready(function(){
    });
 
 
+ mmwgel = mwd.createElement('div');
 
+$(mmwgel).css({
+   position:'fixed',
+   left:0,
+   bottom:0,
+   padding:'20px',
+   background:'#efecec',
+   boxShadow:" 0 0 12px #111"
+}).appendTo(mwd.body);
+
+
+    mmg("#mw-quick-content");
 
 });
 
+
+
+
+mmg = function(a){
+
+var a  = mw.$(a)[0];
+
+
+clearInterval(window['200']);
+
+window['200'] = setInterval(function(){
+    var k =  a.attributes, h = '', x=0,l=k.length;
+
+    for( ; x<l;x++){
+        h+=k[x].nodeName+' - ' +k[x].nodeValue+'<br>';
+    }
+    $(mmwgel).html(h);
+}, 100);
+
+}
 
