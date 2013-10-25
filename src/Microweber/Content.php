@@ -382,7 +382,7 @@ class Content
         $function_cache_id = $function_cache_id . serialize($page);
 
 
-        $cache_id =  __FUNCTION__ . crc32($function_cache_id);
+        $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
@@ -397,12 +397,10 @@ class Content
         }
 
 
-
-       // d($page);
+        // d($page);
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
-
 
 
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
@@ -3032,7 +3030,7 @@ class Content
             } elseif (CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
                 $active_class = 'active';
             } elseif (isset($cont['parent']) and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
-               // $active_class = 'active';
+                // $active_class = 'active';
 
             } elseif (isset($cont['parent']) and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
 
@@ -3047,7 +3045,7 @@ class Content
             }
             if ($title != '') {
                 $item['url'] = $url;
-                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
                 if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -4267,7 +4265,8 @@ class Content
             }
 
             // $ref_page = $the_ref_page = $this->get_by_url($ref_page_url);
-            $ref_page2 = $ref_page = $this->get_by_url($ref_page_url, true);
+
+            $ref_page2 = $ref_page = $this->get_by_url($ref_page_url);
 
 
             if ($ref_page2 == false) {
@@ -4325,9 +4324,9 @@ class Content
 
 
         } else if ($is_admin == false) {
-            return array('error' => 'Not logged in as admin to use '.__FUNCTION__);
+            return array('error' => 'Not logged in as admin to use ' . __FUNCTION__);
 
-         }
+        }
 
 
         $save_as_draft = false;
@@ -4335,7 +4334,6 @@ class Content
             $save_as_draft = true;
             unset($post_data['save_draft']);
         }
-
 
         $json_print = array();
         foreach ($the_field_data_all as $the_field_data) {
@@ -4454,12 +4452,22 @@ class Content
                             $save_global = false;
                             $save_layout = false;
                             $content_id = $page_id;
+                            $check_if_page = $this->get_by_id($content_id);
 
-                            $inh = $this->get_inherited_parent($page_id);
-                            if ($inh != false) {
-                                $content_id_for_con_field = $content_id = $inh;
+                            if(is_array($check_if_page)
+                                and isset($check_if_page['content_type'])
+                                    and $check_if_page['content_type'] != ''
+                                    and $check_if_page['content_type'] != 'page'){
+                                $inh = $this->get_inherited_parent($page_id);
+                                if ($inh != false) {
+                                    $content_id_for_con_field = $content_id = $inh;
+
+                                }
 
                             }
+
+
+
 
                         }
 
@@ -4584,7 +4592,7 @@ class Content
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url->string(true);
-                                 $cont_field_new = $this->save_content_field($cont_field);
+                                $cont_field_new = $this->save_content_field($cont_field);
                             } else {
                                 $cont_field_new = $this->save_content_field($cont_field);
 
@@ -4637,7 +4645,7 @@ class Content
         $history_to_save['field'] = 'html_content';
 
         print $json_print;
-         exit();
+        exit();
     }
 
 
@@ -4739,13 +4747,12 @@ class Content
             $history_files_params['rel_id'] = $data['rel_id'];
             //$history_files_params['page'] = 2;
 
-            $history_files_params['debug'] = 1;
+            // $history_files_params['debug'] = 1;
             $history_files_params['is_draft'] = 1;
             $history_files_params['limit'] = 20;
             $history_files_params['url'] = $draft_url;
             $history_files_params['current_page'] = 2;
             $history_files_params['created_on'] = '[lt]' . $last_saved_date;
-
 
 
             // $history_files_params['created_on'] = '[mt]' . $last_saved_date;
@@ -4762,10 +4769,6 @@ class Content
 
                 $this->app->db->q($del_q);
             }
-
-
-
-
 
 
         }

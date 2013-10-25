@@ -1657,19 +1657,16 @@ mw.drag = {
         saveStaticElementsStyles();
 	}
 
-    if(mw.$(".edit.orig_changed").length == 0 && !is_draft){
-      mw.drag.saveOnce = 1;
-                             if(mw.$(".edit.changed").length != 0){
-                                mw.$(".edit.changed").addClass('orig_changed');
-                             }  else {
+    // if(mw.$(".edit.orig_changed").length == 0){
+      
+    //                          if(mw.$(".edit.changed").length != 0){
+    //                             mw.$(".edit.changed").addClass('orig_changed');
+    //                          }  else {
 
-                             return false;
-                             }
+    //                          return true;
+    //                          }
 
-
-
-
-    }
+    // }
   }
 
 
