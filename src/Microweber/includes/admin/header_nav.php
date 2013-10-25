@@ -32,12 +32,12 @@
   <?php if(is_admin()): ?>
   <?php   $active = mw('url')->param('view'); ?>
     <ul id="mw_tabs">
-      <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<?php endif; ?>><a href="<?php print admin_url(); ?>view:dashboard"><i class="ico inavdashboard"></i><?php _e("Dashboard"); ?></a></li>
-      <li <?php if($active == 'content'): ?> class="active" id="mw-admin-nav-website" <?php endif; ?>><a href="<?php print admin_url(); ?>view:content"><i class="ico inavwevsite"></i><?php _e("Website"); ?></a></li>
+      <li <?php if($active == 'dashboard' or $active == false): ?>class="active"<?php endif; ?>><a href="<?php print admin_url(); ?>view:dashboard"><i class="ico inavdashboard"></i><span><?php _e("Dashboard"); ?></span></a></li>
+      <li <?php if($active == 'content'): ?> class="active" id="mw-admin-nav-website" <?php endif; ?>><a href="<?php print admin_url(); ?>view:content"><i class="ico inavwevsite"></i><span><?php _e("Website"); ?></span></a></li>
       <?php event_trigger('mw_admin_header_menu_start'); ?>
-      <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules"><i class="ico inavmodules"></i><?php _e("Modules"); ?></a></li>
+      <li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules"><i class="ico inavmodules"></i><span><?php _e("Modules"); ?></span></a></li>
       <?php event_trigger('mw_admin_header_menu'); ?>
-      <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users"><i class="ico inavusers"></i><?php _e("Users"); ?></a></li>
+      <li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users"><i class="ico inavusers"></i><span><?php _e("Users"); ?></span></a></li>
       <?php event_trigger('mw_admin_header_menu_end'); ?>
     </ul>
     </div>

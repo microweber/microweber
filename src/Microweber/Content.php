@@ -397,7 +397,7 @@ class Content
         }
 
 
-        // d($page);
+
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
@@ -428,9 +428,9 @@ class Content
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
             $get_layout_from_parent = false;
             $par = $this->get_by_id($page['parent']);
-            if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
+            if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
-            } else {
+             } else {
                 $inh = $this->get_inherited_parent($page['parent']);
                 if ($inh != false) {
                     $par = $this->get_by_id($inh);
@@ -438,6 +438,9 @@ class Content
                         $get_layout_from_parent = $par;
                     }
                 }
+
+
+
             }
 
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {

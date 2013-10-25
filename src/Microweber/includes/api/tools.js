@@ -269,7 +269,7 @@ mw.tools = {
     },
     minimize:function(id){
 
-        var doc = document;
+        var doc = mwd;
         var modal = mw.$("#"+id);
         var window_h = $(doc.defaultView).height();
         var window_w = $(doc.defaultView).width();
@@ -288,13 +288,18 @@ mw.tools = {
             left:window_w-modal_width,
             height:24
         });
-        modal.draggable("option", "disabled", true);
+        if(typeof $.fn.draggable === 'function'){
+          modal.draggable("option", "disabled", true);
+        }
+
     },
     maximize:function(id){
        var modal = $("#"+id);
        modal.removeClass("is_minimized");
        modal.animate(modal.data("old_position"));
-       modal.draggable("option", "disabled", false);
+       if(typeof $.fn.draggable === 'function'){
+          modal.draggable("option", "disabled", false);
+        }
     },
     minimax:function(id){
       //check the state of the modal and toggle it;
