@@ -46,7 +46,7 @@ if(!isset($tn[1])){
                   <?php endif; ?>
               </div>
               <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                <p class="description" itemprop="headline"><?php print $item['description'] ?></p>
+                <p class="description" itemprop="description"><?php print $item['description'] ?></p>
               <?php endif; ?>
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>

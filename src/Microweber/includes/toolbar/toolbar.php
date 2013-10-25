@@ -59,7 +59,7 @@
                 </a>
                 <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
                    <div class="mw-dropdown-list-search">
-                         <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" />
+                         <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" placeholder="Search content" />
                    </div>
                   <?php
                       $pt_opts = array();

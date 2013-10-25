@@ -1,6 +1,8 @@
 <?php
 namespace Microweber;
-$passed_reps = array();
+$mw_parser_passed_replaces = array();
+$mw_parser_passed_hashes = array();
+
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
 $replaced_modules = array();
@@ -11,6 +13,7 @@ $replaced_codes = array();
 class Parser
 {
     public $app;
+    private $_mw_parser_passed_hashes = array();
 
     function __construct($app = null)
     {
@@ -494,7 +497,7 @@ class Parser
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-             }
+            }
         }
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
@@ -779,8 +782,15 @@ class Parser
 
         if ($layout != '') {
             global $mw_replaced_modules;
-            global $passed_reps;
+            global $mw_parser_passed_replaces;
+
+
             $replaced_codes = array();
+
+            if ($mw_parser_passed_replaces == NULL) {
+                $mw_parser_passed_replaces = array();
+
+            }
 
 
             $mw_found_elems = '';
@@ -795,9 +805,9 @@ class Parser
             }
 
 
-            if (isset($passed_reps[$parser_mem_crc])) {
+            if (isset($mw_parser_passed_replaces[$parser_mem_crc])) {
 
-                return $passed_reps[$parser_mem_crc];
+                return $mw_parser_passed_replaces[$parser_mem_crc];
             }
             $no_cache = 1;
             if ($no_cache == false) {
@@ -1181,7 +1191,7 @@ class Parser
                         //$field_content = html_entity_decode($field_content, ENT_COMPAT, "UTF-8");
                         // pecata d($field_content);
                         //d($field_content);
-                        $parser_mem_crc2 = 'parser_field_content_' . crc32($field_content);
+                        $parser_mem_crc2 = 'parser_field_content_' . $field . crc32($field_content);
 
                         $ch2 = mw_var($parser_mem_crc);
 
@@ -1201,18 +1211,24 @@ class Parser
                          }*/
 
                         if ($ch2 == false) {
-                            if ($field_content != false and $field_content != '') {
 
-                                $mw_found_elems = ',' . $parser_mem_crc2;
+                            //if (!in_array($parser_mem_crc2, $this->_mw_parser_passed_hashes)) {
+                                $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
+                                if ($field_content != false and $field_content != '') {
 
-                                $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-                                pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                    $mw_found_elems = ',' . $parser_mem_crc2;
+
+                                    $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+                                    pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
 
 
-                                //     pq($elem)->html($field_content);
+                                    // pq($elem)->html($field_content);
 
 
-                            }
+                                }
+                            //}
+
+
                             /*
                              if ($use_apc == true) {
                              @apc_store($cache_id_apc, $field_content, APC_EXPIRES);
@@ -1268,15 +1284,12 @@ class Parser
                 //if ($ch == false) {
                 $reps = $mw_to_cache['elems'];
 
-                if ($passed_reps == NULL) {
-                    $passed_reps = array();
 
-                }
-
+                $c = 1;
                 foreach ($reps as $elk => $value) {
                     $elk_crc = crc32($elk);
-                    if (!in_array($elk_crc, $passed_reps)) {
-                        $passed_reps[] = $elk_crc;
+                    if (!in_array($elk_crc, $mw_parser_passed_replaces)) {
+                        $mw_parser_passed_replaces[] = $elk_crc;
 
                         if ($value != '') {
                             //$layout = $ch;
@@ -1297,13 +1310,14 @@ class Parser
                             $rep = 'mw_replace_back_this_editable_' . $elk . '';
                             //$modified_layout = $rep;
                             //d($val_rep);
+
                             $modified_layout = str_replace($rep, $val_rep, $modified_layout);
                             //	mw_var($val_rep_parser_mem_crc, $modified_layout);
 
 
                         }
                     } else {
-                        //$passed_reps[] = $elk_crc;
+                        //$mw_parser_passed_replaces[] = $elk_crc;
                         $rep = 'mw_replace_back_this_editable_' . $elk . '';
                         //$modified_layout = $rep;
 
@@ -1343,7 +1357,7 @@ class Parser
         }
 
 
-        $passed_reps[$parser_mem_crc] = $layout;
+        $mw_parser_passed_replaces[$parser_mem_crc] = $layout;
         return $layout;
 
 

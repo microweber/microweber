@@ -203,8 +203,8 @@ $(document).ready(function(){
 
 
 hasAbilityToDropElementsInside = function(target){
-  //var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
-  var items = /^(span|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
+
+  var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
   var x =  items.test(target.nodeName);
 
   if(x){
@@ -852,8 +852,8 @@ mw.drag = {
                     }
                 }
                 if(!$(curr).hasClass('module')){
-                        mw.wysiwyg.select_element($(curr)[0]);
-                      }
+                    mw.wysiwyg.select_element($(curr)[0]);
+                }
             });
             $(mw.handle_module).mouseenter(function(){
                 var curr = $(this).data("curr");
@@ -1100,32 +1100,21 @@ mw.drag = {
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
 
-
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
-
-
                         if($(mw.currentDragMouseOver).hasClass("mw-empty")){
-
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
                         }
-
-
-                         if($(mw.currentDragMouseOver).hasClass("empty-element")){
+                        if($(mw.currentDragMouseOver).hasClass("empty-element")){
                               if(mw.tools.hasChildrenWithClass(mw.currentDragMouseOver.parentNode, 'mw-col-container')){
                                 $(mw.currentDragMouseOver.parentNode).children('.mw-col-container:last').append(mw.dragCurrent);
                               }
                               else{
-
                                  $(mw.currentDragMouseOver).before(mw.dragCurrent);
                               }
-
                               return false;
                          }
-
-
-
 
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
@@ -1212,9 +1201,7 @@ mw.drag = {
                                         hovered.append(mw.dragCurrent);
                                      }
                                      else{
-
-                                            hovered.after(mw.dragCurrent);
-
+                                        hovered.after(mw.dragCurrent);
                                      }
                                      $(mw.dragCurrent).addClass("clear");
                                   }
@@ -1226,15 +1213,13 @@ mw.drag = {
                                         __createRow(hovered, mw.dragCurrent, position);
                                   }
                             }
-
                             if(curr_prev.length==0 && curr_next.hasClass("empty-element") && curr_parent.hasClass("temp_column") && !hovered.hasClass("empty-element")){
                                  var row = curr_parent.parents(".mw-row").eq(0);
                                  curr_parent.remove();
                                  row.find(".empty-element").remove();
                                  row.replaceWith(row.find(".mw-col").html());
                             }
-
-                        }
+                    }
                     if(mw.have_new_items == true){
                         mw.drag.load_new_modules();
                     }
@@ -1258,18 +1243,12 @@ mw.drag = {
                     $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                     mw.currentDragMouseOver = null;
 
-
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
-
 
 				}, 77);
 			}
-
 		});
         }//toremove
-
-
-
 	},
 	/**
 	 * Various fixes
@@ -2090,6 +2069,7 @@ $(".mw-row").each(function(){
 
 
 mw.drop_regions = {
+  enabled:false,
   ContainsDisabledSideClass:function(el){
     var cls = ['edit', 'mw-col', 'mw-row', 'mw-col-container'], i=0, l=cls.length;
     var elcls = el.className;
@@ -2104,7 +2084,6 @@ mw.drop_regions = {
   dropTimeout:null,
   global_drop_is_in_region:false,
   which : 'none',
-
   create:function(element){
     var el = $(element);
     var height = el.height();
@@ -2129,9 +2108,6 @@ mw.drop_regions = {
   },
   is_in_region:function(regions, event){
 
-
-     return 'none';     /* Remove this Line to enable drop to left and Right sides */
-
     var l = regions.left;
     var r = regions.right;
     var mx = event.pageX;
@@ -2148,22 +2124,28 @@ mw.drop_regions = {
 
     if(mw.drop_regions.dropTimeout==null){
         mw.drop_regions.dropTimeout = setTimeout(function(){
-            var regions = mw.drop_regions.create(element);
-            var is_in_region = mw.drop_regions.is_in_region(regions, event);
-            if(is_in_region=='left' && !mw.drop_regions.ContainsDisabledSideClass(element)){
+            if(mw.drop_regions.enabled){
+                var regions = mw.drop_regions.create(element);
+                var is_in_region = mw.drop_regions.is_in_region(regions, event);
+                if(is_in_region=='left' && !mw.drop_regions.ContainsDisabledSideClass(element)){
 
-               callback.call(this, 'left');
-               mw.drop_regions.global_drop_is_in_region = true;
-               mw.drop_regions.which = 'left';
-            }
-            else if(is_in_region=='right' && !mw.drop_regions.ContainsDisabledSideClass(element)){
-               callback.call(this, 'right');
-               mw.drop_regions.global_drop_is_in_region = true;
-               mw.drop_regions.which = 'right';
+                   callback.call(this, 'left');
+                   mw.drop_regions.global_drop_is_in_region = true;
+                   mw.drop_regions.which = 'left';
+                }
+                else if(is_in_region=='right' && !mw.drop_regions.ContainsDisabledSideClass(element)){
+                   callback.call(this, 'right');
+                   mw.drop_regions.global_drop_is_in_region = true;
+                   mw.drop_regions.which = 'right';
+                }
+                else{
+                  mw.drop_regions.global_drop_is_in_region = false;
+                  mw.drop_regions.which = 'none';
+                }
             }
             else{
-              mw.drop_regions.global_drop_is_in_region = false;
-               mw.drop_regions.which = 'none';
+                mw.drop_regions.global_drop_is_in_region = false;
+                mw.drop_regions.which = 'none';
             }
             mw.drop_regions.dropTimeout = null;
         }, 37);

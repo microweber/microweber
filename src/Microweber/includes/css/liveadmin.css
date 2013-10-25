@@ -261,7 +261,7 @@ body.cross{
   height: 29px;
   text-indent: -999px;
   width: 201px;
-  height: 55px;
+  height: 52px;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -3006,6 +3006,11 @@ a.module-icon-title{
 
 .mw-dropdown-list .pages_tree a{
   padding-left: 35px;
+}
+
+.toolbar-sections-tabs .mw-dropdown-list a .ico + span{
+  position: relative;
+  top: 2px;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list {

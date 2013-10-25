@@ -862,3 +862,4 @@ $language["there-are-no-items-in-the-menu-b-footer-menu-b"]= 'There are no items
 $language["see-all-comments"]= 'See all comments' ; 
 $language["error-with-the-database-connection-or-database-probably-does"]= 'Error with the database connection or database probably does not exist!' ; 
 $language["activated"]= 'Activated?' ; 
+$language["edit-region"]= 'Edit region' ; 

@@ -115,10 +115,6 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 
 }
 
-#mw_tabs li a{
-  padding: 15px 15px;
-
-}
 
 #mw_tabs li a .ico{ position: relative; top: -2px; left: -2px;margin-right: 6px; opacity: 0.3; }
 #mw_tabs li a .inavmodules{ top: -3px; left: -4px; }

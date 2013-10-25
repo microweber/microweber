@@ -465,16 +465,25 @@
 }
 
 .mw_modal_default .mw_modal_close{
-  position: absolute;
-  display: block;
-  width: 27px;
-  height: 20px;
-  background: url(../img/popup_ctrls.png) no-repeat;
-  top: 1px;
-  right: 1px;
-  cursor: pointer;
-  text-indent: -9999px;
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    position: absolute;
+    right: 0px;
+    text-indent: -9999px;
+    top: 0px;
+    width: 27px;
+    border-left: 1px solid #C4C4C4;
+    background: url(../img/popup_ctrls.png) no-repeat 0 2px;
 }
+.mw_modal_default .mw_modal_close:hover,
+.mw_modal_default .mw_modal_close:focus{
+  background-color: #EEEEEE;
+}
+.mw_modal_default .mw_modal_close:active{
+  box-shadow: inset 0 0 4px #CCCCCC;
+}
+
 .mw_modal_simple .mw_modal_close, .mw_modal_basic .mw_modal_close{
   position: absolute;
   display: block;
@@ -762,6 +771,10 @@
 
 .mw-dropdown-list > li a:hover{
   background-color: #EEEEEE;
+}
+
+.toolbar-sections-tabs .mw-dropdown-list > li a:hover{
+  background-color: white;
 }
 
 

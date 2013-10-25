@@ -354,7 +354,7 @@ mw.wysiwyg = {
     checkForTextOnlyElements:function(e, method){
       var e = e || false;
       var method = method || 'selection';
-      if(mwthod == 'selection'){
+      if(method == 'selection'){
           var sel = mww.getSelection();
           var f = sel.focusNode;
           var f = mw.tools.hasClass(f, 'edit') ? f : mw.tools.firstParentWithClass(f, 'edit');
