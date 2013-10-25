@@ -116,16 +116,17 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 
-#mw_tabs li a .ico{ position: relative; top: -2px; left: -2px;margin-right: 6px; opacity: 0.3; }
-#mw_tabs li a .inavmodules{ top: -3px; left: -4px; }
-#mw_tabs li a .inavwebsite{ top: 0; left: -2px; }
+#mw_tabs li a .ico{ position: relative; top: -2px;  opacity: 0.3; }
+#mw_tabs li a .inavmodules{ top: -3px;  }
+#mw_tabs li a .inavwebsite{ top: 0;  }
 #mw_tabs li.active a .ico{
   opacity: 1;
 }
 #mw_tabs li a .ico + span{
   display: inline-block;
+  margin-left: 6px;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   #mw_tabs li a .ico + span{
     display:none;
   }

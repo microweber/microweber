@@ -15,11 +15,36 @@ class shipping_api
     function __construct()
     {
         $this->here = dirname(__FILE__) . DS . 'gateways' . DS;
-        ;
+         
         $here = $this->here;
 
+ 
+		$shipping_gateways = get_modules('type=shipping_gateway');
+		 
+		if($shipping_gateways == false){
+		$shipping_gateways = scan_for_modules("cache_group=modules/global&dir_name={$here}");
+			
+		}
+		
+		if(!empty($shipping_gateways)){
+			$gw = array();
+			foreach($shipping_gateways as $item){
+				if(!isset($item['gw_file']) and isset($item['module'])){
+					$item['gw_file']= $item['module'];
+				}
+				if(!isset($item['module_base']) and isset($item['module'])){
+					$item['module_base']= $item['module'];
+				}
+				$gw[] = $item;
+				
+			}
+			
+			 $this->modules_list = $gw;
+		} else {
+			 $this->modules_list = $shipping_gateways;
+		}
 
-        $this->modules_list = scan_for_modules("cache_group=modules/global&dir_name={$here}");
+       
     }
 
     // getInstance method

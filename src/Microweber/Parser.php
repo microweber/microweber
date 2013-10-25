@@ -3,7 +3,9 @@ namespace Microweber;
 
 $parser_cache_object = false; //if apc is found it will automacally use it; you can use any object compatible with the cache interface
 //$parse_micrwober_max_nest_level = 3;
+$mw_replaced_modules = array();
 
+$mw_replaced_modules_values = array();
 
 class Parser
 {
@@ -33,6 +35,8 @@ class Parser
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
 
+global $mw_replaced_modules;
+        global $mw_replaced_modules_values;
 
         $layout = str_replace('<?', '&lt;?', $layout);
 
@@ -70,8 +74,8 @@ class Parser
                     $v1 = crc32($value);
                     $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
-                    if (!isset($this->_replaced_modules[$v1])) {
-                        $this->_replaced_modules[$v1] = $value;
+                    if (!isset($mw_replaced_modules[$v1])) {
+                        $mw_replaced_modules[$v1] = $value;
                     }
                 }
             }
@@ -148,9 +152,9 @@ class Parser
                         $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
                         // $layout = str_replace_count($value, $v1, $layout,1);
-                        if (!isset($this->_replaced_modules[$v1])) {
+                        if (!isset($mw_replaced_modules[$v1])) {
 
-                            $this->_replaced_modules[$v1] = $value;
+                            $mw_replaced_modules[$v1] = $value;
                         }
                         // p($value);
                     }
@@ -169,7 +173,7 @@ class Parser
             }
 
 
-            if (is_array($this->_replaced_modules)) {
+            if (is_array($mw_replaced_modules)) {
 
                 $attribute_pattern = '@
 			(?P<name>\w+)# attribute name
@@ -185,8 +189,8 @@ class Parser
                 $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
                 //$attribute_pattern = '@([a-z-A-Z]+)=\"([^"]*)@xsi';
                 $attrs = array();
-                foreach ($this->_replaced_modules as $key => $value) {
-                    //unset($this->_replaced_modules[$key]);
+                foreach ($mw_replaced_modules as $key => $value) {
+                    //unset($mw_replaced_modules[$key]);
                     if ($value != '') {
 
 
@@ -448,7 +452,7 @@ class Parser
                                         }
                                     }
                                 }
-                                unset($this->_replaced_modules[$key]);
+                                unset($mw_replaced_modules[$key]);
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -457,7 +461,7 @@ class Parser
                                 } else {
                                     $module_html = $mod_content;
                                 }
-                                $this->_replaced_modules_values[$replace_key] = $module_html;
+                                $mw_replaced_modules_values[$replace_key] = $module_html;
                                 $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
                             }
@@ -477,8 +481,8 @@ class Parser
                 unset($this->_replaced_codes[$key]);
             }
         }
-        if (!empty($this->_replaced_modules_values)) {
-            foreach ($this->_replaced_modules_values as $key => $value) {
+        if (!empty($mw_replaced_modules_values)) {
+            foreach ($mw_replaced_modules_values as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }

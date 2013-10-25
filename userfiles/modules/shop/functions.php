@@ -35,5 +35,5 @@ function mw_print_admin_menu_shop_btn()
     if ($active == 'shop') {
         $cls = ' class="active" ';
     }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop"><i class="ico inavshop"></i><span>' . _e('Online Shop', true) . '</span></a></li>';
+    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop" title="'._e("Online Shop", true).'"><i class="ico inavshop"></i><span>' . _e('Online Shop', true) . '</span></a></li>';
 }

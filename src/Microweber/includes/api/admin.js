@@ -41,9 +41,9 @@ $(window).bind('load resize', function(){
 
 $(document).ready(function(){
 
-   mw.$('#mw-menu-liquify').hide();
+
    mw.tools.sidebar();
-   mw.$('#mw-menu-liquify').show();
+
    $(window).bind('hashchange', function(){
      mw.tools.sidebar();
    });

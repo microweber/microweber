@@ -721,7 +721,7 @@ class Shop
             }
 
         }
- 
+
         if (!empty($enabled_providers)) {
             return $enabled_providers;
         }

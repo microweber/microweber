@@ -863,3 +863,4 @@ $language["see-all-comments"]= 'See all comments' ;
 $language["error-with-the-database-connection-or-database-probably-does"]= 'Error with the database connection or database probably does not exist!' ; 
 $language["activated"]= 'Activated?' ; 
 $language["edit-region"]= 'Edit region' ; 
+$language["click-here-to-edit-shipping-options"]= 'Click here to edit Shipping Options' ; 

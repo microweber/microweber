@@ -2,7 +2,7 @@
 <?php 
   
  $shipping_options =  api('shop/shipping/shipping_api/get_active');
- 
+  
  
   ?>
 <?php if(is_array($shipping_options) and !empty($shipping_options)) :?>

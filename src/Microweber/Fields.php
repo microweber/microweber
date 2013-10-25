@@ -5,11 +5,14 @@ api_expose('fields/reorder');
 api_expose('fields/delete');
 api_expose('fields/make');
 api_expose('fields/save');
+$_mw_made_default_fields_register = array();
 
 class Fields
 {
 
     public $app;
+
+    private $skip_cache = false;
 
     function __construct($app = null)
     {
@@ -187,7 +190,7 @@ class Fields
             if ($debug != false) {
                 //
 
-//d($q);
+
             }
 
 
@@ -195,9 +198,17 @@ class Fields
 
             $cache_id = __FUNCTION__ . '_' . $crc;
             if ($debug != false) {
-                // d($q);
+                d($q);
             }
-            $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
+            if($this->skip_cache == false){
+                $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
+
+            } else {
+                $q = $this->app->db->query($q);
+
+            }
+
+
 
             if (!empty($q)) {
 
@@ -396,7 +407,7 @@ class Fields
 
             $data_to_save['allow_html'] = true;
 
-
+            $this->skip_cache = true;
             $save = $this->app->db->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields');
 
@@ -422,7 +433,7 @@ class Fields
 
     public function make_default($rel, $rel_id, $fields_csv_str)
     {
-
+        global $_mw_made_default_fields_register;
         if (!defined('SKIP_CF_ADMIN_CHECK')) {
             define('SKIP_CF_ADMIN_CHECK', 1);
         }
@@ -445,13 +456,16 @@ class Fields
         $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
 
-        $is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
+        //$is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
+        $is_made = $this->get($rel, $rel_id, $return_full = 0, $field_for = false, $debug = 0);
 
-
-        if ($rel_id != '0' and $is_made == 'yes') {
-              return;
+        if (isset($_mw_made_default_fields_register[$function_cache_id])) {
+            return;
         }
-
+        if (is_array($is_made)) {
+            return;
+        }
+        $_mw_made_default_fields_register[$function_cache_id] = true;
 
         $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
@@ -466,6 +480,7 @@ class Fields
                 $fields_csv_str = array($fields_csv_str);
             }
 
+
             $pos = 0;
             if (is_array($fields_csv_str)) {
                 foreach ($fields_csv_str as $field_type) {
@@ -473,6 +488,7 @@ class Fields
 
                     if (is_array($ex) == false) {
                         $make_field = array();
+                        $make_field['id'] = 0;
                         $make_field['rel'] = $rel;
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
@@ -486,12 +502,19 @@ class Fields
                     }
                 }
 
+
+                if ($pos > 0) {
+                    $this->app->cache->delete('custom_fields/global');
+
+                }
+
+
                 if ($rel_id != '0') {
                     $option = array();
                     $option['option_value'] = 'yes';
                     $option['option_key'] = $function_cache_id;
                     $option['option_group'] = 'make_default_custom_fields';
-                    $this->app->option->save($option);
+                    //   $this->app->option->save($option);
                 }
 
             }
@@ -724,7 +747,7 @@ class Fields
             $l->assign('settings', $settings);
             if (isset($data['params'])) {
                 $l->assign('params', $data['params']);
-             } else {
+            } else {
                 $l->assign('params', false);
 
             }

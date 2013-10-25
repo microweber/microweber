@@ -2846,6 +2846,24 @@ a.module-icon-title{
   border-bottom: 1px solid #E5E5E5;
 }
 
+.quick-post-done{
+  text-align: center;
+  padding-top: 70px;
+}
+
+.quick-post-done-link{
+  display: inline-block;
+  color: #439DD9;
+  text-align: center;
+  padding: 10px 50px 10px 70px;
+  border: 1px solid #DFDFDF;
+  background: url(../img/quick_post_done.png) no-repeat 14px 50%;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #mw-quick-content.loading > *{
   visibility: hidden;
 }

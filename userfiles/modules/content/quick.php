@@ -115,14 +115,28 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
  $module_id = $params['id'];
  
-?> 
+?>
 <?php if($just_saved!=false) : ?>
 
-Well done, you have saved your changes.
 
-Go to see them at this link
+  <div class="quick-post-done">
+    <h2>Well done, you have saved your changes. </h2>
+    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
+    <div class="vSpace"></div>
+    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <div class="vSpace"></div>
+    <label class="mw-ui-label"><small>Or create new content again</small></label>
+    <div class="vSpace"></div>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
+  </div>
 
-<a target="_top" class="btn" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a> Or create new content
+  <script>
+  $(mwd).ready(function(){
+    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+  });
+
+  </script>
+
 
 
 <?php endif; ?>
@@ -239,18 +253,9 @@ Go to see them at this link
             </div>
         <?php endif; ?>
 
-
-
-
         <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
              <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
         </div>
-
-
-
-
-
-
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
  </form>
   <div class="quick_done_alert" style="display: none">
