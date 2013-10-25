@@ -116,16 +116,16 @@
                 <div class="mw-dropdown-content" style="width: 155px;">
                   <ul class="mw-dropdown-list">
                   <li>
-                      <a title="Back to Admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
+                      <a title="Back to Admin" href="<?php print $back_url; ?>"><span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
                   </li>
-                    <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
-                    <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
+                    <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><span class="ico iviewsite"></span><span><?php _e("View Website"); ?></span></a></li>
+                    <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
                     <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                     <?php $pub_or_inpub  = mw('content')->get_by_id(CONTENT_ID); ?>
-                    <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
-                    <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
+                    <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span class="ico iUnpublish"></span><span><?php _e("Unpublish"); ?></span></a></li>
+                    <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span class="ico iPublish"></span><span><?php _e("Publish"); ?></span></a></li>
                     <?php endif; ?>
-                    <li><a href="<?php print mw('url')->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
+                    <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span class="ico ilogout"></span><span><?php _e("Logout"); ?></span></a></li>
                   </ul>
                 </div>
               </div>

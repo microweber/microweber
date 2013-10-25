@@ -6,7 +6,7 @@
         <a class="mw-v-cell" id="mw_toolbar_logo" href="<?php print admin_url(); ?>">  </a>
         <div class="mw-dropdown-content">
             <ul class="mw-dropdown-list">
-              <li><a href="javascript:;">Back to Live Edit</a></li>
+              <li><a href="javascript:;"><span class="ico ibackarr"></span><span>Back to Live Edit</span></a></li>
             </ul>
         </div>
     </div>

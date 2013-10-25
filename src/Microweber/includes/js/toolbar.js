@@ -404,7 +404,8 @@ if(typeof mw.hasDraft === 'object'){
 
 
 
-    mw.toolbar.fixPad()
+    mw.toolbar.fixPad();
+
 
 });
 
