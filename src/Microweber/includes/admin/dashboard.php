@@ -43,7 +43,9 @@
 			if(st == 'category'){
 			 var module_to_load = "categories/edit_category";
 			}
-			mw.$("#mw-quick-content").attr("data-type",module_to_load);
+			mw.$("#mw-quick-content").dataset("type",module_to_load);
+			mw.$("#mw-quick-content").dataset("subtype",$(this).dataset("subtype"));
+			mw.$("#mw-quick-content").attr("content-id", 0);
             mw.reload_module('#mw-quick-content', function(){
             mw.$("#mw-quick-content").height("auto");
             var frame = mwd.querySelector("#mw-quick-content iframe.mw-iframe-editor");
@@ -67,7 +69,7 @@
     });
 
 
-    
+
  });
  </script>
 

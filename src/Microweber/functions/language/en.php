@@ -870,3 +870,5 @@ $language["convert-rate-to-from-default-currency-to-payment-currency"]= 'Convert
 $language["suggested"]= 'Suggested' ; 
 $language["use"]= 'use' ; 
 $language["equals-to"]= 'Equals to' ; 
+$language["edit-categories"]= 'Edit categories' ; 
+$language["show-categories-from"]= 'Show Categories From' ; 
