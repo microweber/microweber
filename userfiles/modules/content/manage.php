@@ -64,7 +64,7 @@ if($params['page-id'] == 'global'){
    $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
  }
  else {
-   $page_info = mw('content')->homepage();
+   $page_info = false;
  }
 
 }
@@ -101,7 +101,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 
     });
 </script>
-
+<?php if(isset($page_info) and is_array($page_info)): ?>
 <div class="mw-admin-page-preview-holder">
 	<div  class="mw-admin-page-preview-page">
 		<div style="width: 395px;margin-left: 30px;" class="left">
@@ -184,6 +184,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 	</div>
 	<div class="mw-admin-page-preview-page-info"> </div>
 </div>
+<?php endif; ?>
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]);
 //d($cat_info );

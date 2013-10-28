@@ -578,21 +578,21 @@ $global_template = $this->app->option->get('current_template', 'template');
 			
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-				 
-			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
+			  <span class="">11</span>
+			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
+
+            </div>
 			<?php endif; ?>
 			<div class="preview_frame_container"></div>
 			<?php if( !isset($params['edit_page_id'])): ?>
 			<div class="mw-overlay" onclick="mw.templatePreview.zoom();">&nbsp;</div>
 			<?php else: ?>
-			<div class="mw-overlay mw-overlay-quick-link"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
- 			
+			<div class="mw-overlay mw-overlay-quick-link"  onclick="mw.templatePreview.zoom();"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
+
 				<div id="preview-edit-links"> 
 				
 				
-				<a onclick="mw.templatePreview.zoom();" class="mw-ui-btn" href="javascript:void(0);"> <span class="ico ieditpage"></span><span>
-					<?php _e("Zoom"); ?>
-					</span> </a>
+
 					
 				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
@@ -631,7 +631,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<?php _e("Template");   ?>
 		</label>
 		
-		
+
 
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" class="mw-ui-simple-dropdown" style="width: 205px;font-size: 11px;" id="active_site_template_<?php print $rand; ?>">

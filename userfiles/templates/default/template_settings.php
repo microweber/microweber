@@ -137,7 +137,6 @@
   mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
 </script>
 <script type="text/javascript">
-
 $(document).ready(function(){
     mw.$(".pattern.bgi").click(function(){
         if(!$(this).hasClass("active")){
@@ -184,8 +183,9 @@ $(document).ready(function(){
 
 
 });
-
-
-
 </script>
 
+
+<?php print template_name(); ?>
+
+<module type="content/layout_selector_custom_css" template="<?php print template_name(); ?>"

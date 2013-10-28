@@ -220,7 +220,7 @@ body.cross{
   overflow: hidden;
   text-overflow: ellipsis;
   border-right: 1px solid #EAEAEA;
-  padding: 15px 20px 12px;
+  padding: 17px 20px 10px;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -262,7 +262,7 @@ body.cross{
   text-indent: -999px;
   width: 201px;
   height: 52px;
-  background-position: center;
+  background-position: center 12px;
   background-repeat: no-repeat;
 }
 
@@ -1968,14 +1968,15 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 .preview_frame_wrapper .mw-overlay{
     z-index: 1;
     cursor: pointer;
+    cursor: zoom-in;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
 }
 
-.preview_frame_wrapper .mw-overlay:hover{
-  background: url(../img/magn.png) no-repeat center center;
-}
+
 
 .preview_frame_wrapper .mw-overlay-quick-link:hover{
-  /*background: rgba(198, 198, 198, 0.2); */
+
   background: rgba(255, 255, 255, 0.6);
 }
 
@@ -2993,7 +2994,6 @@ a.module-icon-title{
 
 .mw-dropdown-list > ul {
   max-height: 265px;
-
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -3009,7 +3009,7 @@ a.module-icon-title{
   list-style: none
 }
 
-.toolbar-sections-tabs .mw-dropdown-list a{
+.toolbar-sections-tabs .mw-dropdown-list li a{
   display: block;
   background-color: white;
   background-repeat: no-repeat;
@@ -3020,6 +3020,14 @@ a.module-icon-title{
   text-overflow: ellipsis;
   border:1px solid #EAEAEA;
   border-top:none;
+}
+
+.mw-dropdown-list-icons a > .ico{
+  opacity: 0.5;
+}
+
+.mw-dropdown-list-icons a:hover > .ico{
+  opacity: 1;
 }
 
 .mw-dropdown-list .pages_tree a{
@@ -3069,6 +3077,28 @@ a.module-icon-title{
 
 .toolbar-sections-tabs > ul > li > ul > li > a .mw-ui-btn-plus{
   top: 9px;
+}
+
+
+a#backtoadminindropdown{
+   padding: 14px;
+   display: block;
+   text-align: left;
+}
+
+#backtoadminindropdown a{
+  padding: 5px 14px;
+  background: #CDE1FB;width: 126px;
+}
+
+#backtoadminindropdown{
+  text-align: center;
+  box-shadow: 0 -3px 1px -2px #DDDDDD;
+  background: white;
+}
+#backtoadminindropdown a .ico + span,
+a#backtoadminindropdown .ico + span{
+  top: 0;
 }
 
 

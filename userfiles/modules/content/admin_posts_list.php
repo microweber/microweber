@@ -156,11 +156,20 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
+ 
 
+if(isset($post_params['page-id']) and $post_params['page-id'] != 'global'){
+	$post_params['content_type'] = 'post';
+}elseif(isset($post_params['page-id']) and $post_params['page-id'] == 'global'){
+	$post_params['orderby'] = 'updated_on desc';
+}
+if(isset($post_params['type'])){
 
-
- // $post_params['debug'] = 'posts';
-$post_params['content_type'] = 'post';
+unset($post_params['type']);
+}
+//d($post_params['page-id']);
+//d( $post_params);
+  // $post_params['debug'] = 'posts';
 
 $content   =$data = get_content($post_params);
 ?>
@@ -201,6 +210,33 @@ $pages_count = intval($pages);
         <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+	  
+	  
+	  
+
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       <?php
     	$pic  = get_picture(  $item['id']);
 
@@ -215,8 +251,43 @@ $pages_count = intval($pages);
       <?php $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
 
       <div class="manage-post-main">
-        <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h3>
-        <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
+        <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
+		
+		
+			  
+	  
+	  <!-- ICONS -->
+	  
+	  
+	  
+	  <small><?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+		<?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
+        <span class="ico iorder"></span>
+
+		<?php else : ?>
+		<span class="ico ipage"></span>
+
+		<?php endif; ?>
+
+
+
+		<?php elseif(isset($item['content_type']) and $item['content_type'] == 'post'):  ?>
+		<?php if(isset($item['subtype']) and $item['subtype'] == 'product'): ?>
+		<span class="ico iproduct"></span>
+
+		<?php else : ?>
+		<span class="ico ipost"></span>
+		<?php endif; ?>
+		<?php else : ?>
+		<?php endif; ?>
+	  
+	   <!-- /ICONS -->
+	  
+
+		
+		
+		<?php print strip_tags($item['title']) ?></a></h3>
+        <a  class="manage-post-item-link-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <?php print mw('format')->limit(strip_tags($item['description']), 60);
       ?> </div>
         <div class="manage-post-item-links"> <a target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a> </div>

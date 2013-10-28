@@ -55,10 +55,10 @@
                 <a href="javascript:;" class="tst-logo" title="Microweber">
                   <span>Microweber</span>
                   <i class=" dd_rte_arr right"></i>
-
                 </a>
                 <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
-                   <div class="mw-dropdown-list-search">
+
+                    <div class="mw-dropdown-list-search">
                          <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" placeholder="Search content" />
                    </div>
                   <?php
@@ -72,6 +72,9 @@
                       $pt_opts['active_code_tag'] = 'class="active"';
                       mw('content')->pages_tree($pt_opts);
                   ?>
+                   <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin">
+                        <span class="ico ibackarr"></span><span>Back to Admin</span>
+                    </a>
                 </div>
 
               </li>
@@ -107,16 +110,14 @@
          </div>
           <div id="mw-toolbar-right" class="mw-defaults">
               <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next"  title="<?php _e("Next"); ?>" onclick="mw.liveEditWYSIWYG.slideRight();"></span>
-
               <div class="right" style="padding: 10px 0;">
-
               <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
               <div class="toolbar-sections-tabs mw-ui-dropdown right">
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><span class="dd_rte_arr right"></span><?php _e("Actions"); ?></a>
                 <div class="mw-dropdown-content" style="width: 155px;">
-                  <ul class="mw-dropdown-list">
+                  <ul class="mw-dropdown-list mw-dropdown-list-icons">
                   <li>
-                      <a title="Back to Admin" href="<?php print $back_url; ?>"><span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
+                      <a title="Back to Admin" href="<?php print $back_url; ?>" style="background: #CDE1FB;"><span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
                   </li>
                     <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><span class="ico iviewsite"></span><span><?php _e("View Website"); ?></span></a></li>
                     <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
@@ -133,12 +134,15 @@
           </div>
 
 
-    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
+        <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
 
          </div>
 
 
     <div id="modules-and-layouts" style="">
+
+
+
          <div class="toolbars-search">
              <div class="mw-autocomplete left">
                  <input
@@ -179,13 +183,13 @@
 
     <div class="mw-o-box mw-o-box-content">
 
-   <hr style="border-bottom: none">
+        <hr style="border-bottom: none">
         <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Alignment</label>
+          <label class="mw-ui-label">Alignment</label>
 
-        <span class="mw-img-align mw-img-align-left" title="Left" data-align="left"></span>
-        <span class="mw-img-align mw-img-align-center" title="Center" data-align="center"></span>
-        <span class="mw-img-align mw-img-align-right" title="Right" data-align="right"></span>
+          <span class="mw-img-align mw-img-align-left" title="Left" data-align="left"></span>
+          <span class="mw-img-align mw-img-align-center" title="Center" data-align="center"></span>
+          <span class="mw-img-align mw-img-align-right" title="Right" data-align="right"></span>
 
         </div>
         <div class="mw-ui-field-holder">

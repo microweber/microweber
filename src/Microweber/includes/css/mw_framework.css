@@ -634,6 +634,31 @@ body.view-shop .mw_action_post{
   margin-left:3px;
   resize: none; /* Chrome */
 }
+#mw_edit_page_left .mw-tree .module a{
+  height: 18px;
+}
+
+#mw_edit_page_left .pages_tree_link_text{
+  max-width: 80%;
+}
+
+#mw_edit_page_left a:hover .pages_tree_link_text{
+  max-width: 50%;
+}
+#mw_edit_page_left .mw_ed_tree_show_posts,
+#mw_edit_page_left .mw_ed_tree_content,
+#mw_edit_page_left .mw_tree_sub_page,
+#mw_edit_page_left .mw_del_tree_content{
+  display: none;
+}
+#mw_edit_page_left a:hover .mw_ed_tree_show_posts,
+#mw_edit_page_left a:hover .mw_ed_tree_content,
+#mw_edit_page_left a:hover .mw_tree_sub_page,
+#mw_edit_page_left a:hover .mw_del_tree_content{
+  display: block;
+}
+
+#mw_edit_page_left .pages_tree_link_text
 
 li li li .pages_tree_link_text{
   max-width: 42%;
@@ -1174,6 +1199,10 @@ a.mw-ui-btn, span.mw-ui-btn{
   background: #E1E1E1;
   border-color:#d5d1d1 #c2bfbf #A1A0A0;
   box-shadow: inset 0 1px 0px 0px #fff;
+}
+.mw-ui-btn-hover-white:hover{
+  background: #fff;
+  border-color:#CCCCCC #CCCCCC #CCCCCC;
 }
 
 .mw-ui-btn-hover-blue:hover, .mw-ui-btn-hover-blue.active{

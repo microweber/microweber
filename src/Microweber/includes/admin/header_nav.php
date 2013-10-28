@@ -19,15 +19,12 @@
 ?>
 
   <div class="mw-v-table" id="mw_toolbar_nav">
-
-    <div class="mw-ui-dropdown toolbar-sections-tabs">
-        <a class="mw-v-cell" id="mw_toolbar_logo" href="<?php print admin_url(); ?>">  </a>
-        <div class="mw-dropdown-content" style="width: 100%;border:none;">
-            <ul class="mw-dropdown-list">
-              <li><a style="padding: 5px 14px;border: none" href="<?php print $past_page; ?>?editmode=y"><span class="ico ibackarr"></span><span>Back to Live Edit</span></a></li>
-            </ul>
-        </div>
-    </div>
+    <a class="mw-cube-holder" id="mw-admin-toolbar-cube" href="<?php print $past_page; ?>?editmode=y">
+      <span class="mw-cube">
+        <span class="mw-cube1"><span id="mw_toolbar_logo" href="<?php print admin_url(); ?>"></span></span>
+        <span class="mw-cube2"><span class="ico ilive"></span><span>Go Live Edit</span></span>
+      </span>
+    </a>
     <div class="mw-v-cell" style="width: 100%">
   <?php if(is_admin()): ?>
   <?php   $active = mw('url')->param('view'); ?>
@@ -43,18 +40,18 @@
     </div>
     <div class="mw-v-cell">
 
-    <div id="mw-admin-toolbar-right">
-      <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a>
-      <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
-          <?php _e("Go Live Edit"); ?>
-      </a>
-      <div class="mw-toolbar-notification">
-	    <module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
+      <div id="mw-admin-toolbar-right">
+        <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a>
+        <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
+            <?php _e("Go Live Edit"); ?>
+        </a>
+        <div class="mw-toolbar-notification">
+  	        <module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
+        </div>
+        <a href="javascript:;" class="right" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a>
       </div>
-      <a href="javascript:;" class="right" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a>
     </div>
-  </div>
-    </div>
+</div>
 
 <script type="text/javascript">
    try{

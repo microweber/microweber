@@ -23,7 +23,6 @@ function content_link($id = false)
 }
 
 
-
 function save($table, $data)
 {
     return mw('db')->save($table, $data);
@@ -35,12 +34,6 @@ function get($params)
     return mw('db')->get($params);
 
 }
-
-
-
-
-
-
 
 
 api_expose('delete_content');
@@ -111,7 +104,6 @@ function pages_tree($params = false)
 }
 
 
-
 /**
  *
  * Limits a string to a number of characters
@@ -178,18 +170,11 @@ function get_posts($params = false)
 }
 
 
-
-
 function api_url($str = '')
 {
     $str = ltrim($str, '/');
     return site_url('api/' . $str);
 }
-
-
-
-
-
 
 
 /**
@@ -223,9 +208,6 @@ function category_tree($params = false)
 }
 
 
-
-
-
 function is_arr($var)
 {
     return isarr($var);
@@ -239,7 +221,9 @@ function isarr($var)
         return false;
     }
 }
-function url_segment($k = -1, $page_url = false) {
+
+function url_segment($k = -1, $page_url = false)
+{
     return mw('url')->segment($k, $page_url);
 
 }
@@ -249,7 +233,8 @@ function url_segment($k = -1, $page_url = false) {
  *
  * @return string the url string
  */
-function url_path($skip_ajax = false) {
+function url_path($skip_ajax = false)
+{
     return mw('url')->string($skip_ajax);
 }
 
@@ -258,7 +243,8 @@ function url_path($skip_ajax = false) {
  *
  * @return string the url string
  */
-function url_string($skip_ajax = false) {
+function url_string($skip_ajax = false)
+{
     return mw('url')->string($skip_ajax);
 }
 
@@ -267,9 +253,11 @@ function url_param($param, $skip_ajax = false)
     return mw('url')->param($param, $skip_ajax);
 }
 
-function url_current($skip_ajax = false, $no_get = false){
-    return mw('url')->current($skip_ajax,$no_get);
+function url_current($skip_ajax = false, $no_get = false)
+{
+    return mw('url')->current($skip_ajax, $no_get);
 }
+
 api_expose('save_edit');
 function save_edit($post_data)
 {
@@ -330,6 +318,27 @@ function get_content_field($data, $debug = false)
 }
 
 
+function template_dir()
+{
+
+    return mw('content')->template_dir();
+
+}
+
+
+function template_url()
+{
+    return mw('content')->template_url();
+
+}
+
+
+function template_name()
+{
+
+    return mw('content')->template_name();
+}
+
 
 function template_header($script_src)
 {
@@ -349,11 +358,6 @@ function current_template_save_custom_css($data)
     return mw('layouts')->template_save_css($data);
 
 }
-
-
-
-
-
 
 
 /**
@@ -379,12 +383,11 @@ function create_mw_shop_default_options()
 
 event_bind('recover_shopping_cart', 'mw_shop_recover_shopping_cart');
 
-function mw_shop_recover_shopping_cart($sid=false)
+function mw_shop_recover_shopping_cart($sid = false)
 {
 
     return mw('shop')->recover_shopping_cart($sid);
 }
-
 
 
 event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
@@ -474,7 +477,6 @@ function checkout($data)
 }
 
 
-
 api_expose('checkout_confirm_email_test');
 function checkout_confirm_email_test($params)
 {
@@ -523,11 +525,11 @@ function payment_options($option_key = false)
 
 }
 
-function session_set($name, $val)
+function session_set($key, $val)
 {
 
 
-    return mw('user')->session_set($name, $val);
+    return mw('user')->session_set($key, $val);
 }
 
 function session_get($name)
@@ -556,6 +558,7 @@ function currency_format($amount, $curr = false)
 
 
 }
+
 api_expose('user_login');
 function user_login($params)
 {
@@ -928,7 +931,7 @@ function user_name($user_id = false, $mode = 'full')
  *
  * @return array of users;
  */
-function get_users($params)
+function get_users($params = false)
 {
     return mw('user')->get_all($params);
 }
@@ -953,35 +956,18 @@ function get_user($id = false)
 }
 
 
-
-
-
-
-
-
 function content_data($content_id, $field_name = false)
 {
 
 
-    return mw('content')->data($content_id,$field_name);
+    return mw('content')->data($content_id, $field_name);
 }
-
-
 
 
 function get_custom_fields($params)
 {
     return mw('fields')->get($params);
 }
-
-
-
-
-
-
-
-
-
 
 
 function get_categories($data)
@@ -1011,11 +997,23 @@ function reorder_categories($data)
 
 }
 
-function get_categories_for_content($content_id, $data_type = 'categories')
+function content_categories($content_id=false, $data_type = 'categories')
+{
+
+    return get_categories_for_content($content_id, $data_type);
+}
+
+function get_categories_for_content($content_id=false, $data_type = 'categories')
 {
     if (intval($content_id) == 0) {
 
-        return false;
+        if (!defined("CONTENT_ID")) {
+            return false;
+        } else {
+            $content_id = CONTENT_ID;
+        }
+
+
     }
 
     return mw('category')->get_for_content($content_id, $data_type);
@@ -1070,9 +1068,9 @@ function mw_print_admin_menu_selector($params = false)
     if (isset($params['id'])) {
         $par = $params;
 
-        $par['content_id'] =  $params['id'];
-        $par['type'] =  'menu';
-        $par['view'] =  'edit_page_menus';
+        $par['content_id'] = $params['id'];
+        $par['type'] = 'menu';
+        $par['view'] = 'edit_page_menus';
 
         unset($par['id']);
         $add = '&content_id=' . $params['id'];
@@ -1081,7 +1079,6 @@ function mw_print_admin_menu_selector($params = false)
 
     }
 }
-
 
 
 function get_user_by_id($params = false)
@@ -1290,18 +1287,6 @@ function module($params)
 
     return $res;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function module_info($module_name)
@@ -1953,13 +1938,11 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('
 
         if (($cache_content_init) == false) {
             event_trigger('mw_db_init');
-         }
+        }
 
         //event_trigger('mw_cron');
     }
 }
-
-
 
 
 /**
@@ -2293,24 +2276,20 @@ function html_cleanup($s, $tags = false)
 }
 
 
-
-
-
-
-function notif($sting, $class = 'success'){
-    return mw('format')->notif($sting,$class);
+function notif($sting, $class = 'success')
+{
+    return mw('format')->notif($sting, $class);
 }
 
-function lnotif($sting, $class = 'success'){
-    return mw('format')->lnotif($sting,$class);
+function lnotif($sting, $class = 'success')
+{
+    return mw('format')->lnotif($sting, $class);
 }
 
-function random_color(){
-    return "#".sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+function random_color()
+{
+    return "#" . sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
 }
-
-
-
 
 
 function mw_error_handler($errno, $errstr, $errfile, $errline)

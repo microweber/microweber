@@ -578,7 +578,7 @@ class Media
             if (is_file($src)) {
 
             } else {
-                return pixum_img();
+                return $this->pixum_img();
             }
 
             if ($src == false) {
@@ -616,7 +616,7 @@ class Media
 
                 if (($ext) == 'svg') {
                     $res1 = file_get_contents($src);
-                    $res1 = svgScaleHack($res1, $width, $height);
+                    $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
 
                 } else {
@@ -627,7 +627,7 @@ class Media
 
                         unset($tn);
                     } else {
-                        return pixum_img();
+                        return $this->pixum_img();
                     }
 
 
@@ -734,18 +734,6 @@ class Media
 
         } else {
 
-            // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
-            //
-            // if (!file_exists($dl_file)) {
-            // $is_dl = $this->app->url->download($src, false, $dl_file);
-            // } else {
-            // $is_dl = 1;
-            // }
-            // if ($is_dl == true) {
-            // $src = $dl_file;
-            // } else {
-            //
-            // }
             if ($src == false) {
                 return $this->pixum($width, $height);
             }
@@ -782,7 +770,7 @@ class Media
 
                 if (strtolower($ext) == 'svg') {
                     $res1 = file_get_contents($src);
-                    $res1 = svgScaleHack($res1, $width, $height);
+                    $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
 
                 } else {

@@ -17,9 +17,9 @@ if(!isset($notif_params['quick'])){
  ?>
 <?php $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1'); ?>
 
-<span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover<?php if( $notif_count == 0): ?> faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
+<span class="mw-ui-btn mw-btn-single-ico mw-ui-btn-hover mw-ui-btn-hover-white<?php if( $notif_count == 0): ?> notif-faded<?php endif; ?>"> <span class="ico inotification" id="toolbar_notifications">
 <?php if( $notif_count > 0): ?>
-<sup class="mw-notif-bubble"><?php print  $notif_count ?></sup> 
+<sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
 
 <?php endif; ?>
 <script>

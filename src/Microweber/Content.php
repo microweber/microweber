@@ -3112,6 +3112,43 @@ class Content
         return $to_print;
     }
 
+
+    public function template_dir()
+    {
+        if (!defined('TEMPLATE_DIR')) {
+            $this->define_constants();
+        }
+        if (defined('TEMPLATE_DIR')) {
+            return TEMPLATE_DIR;
+        }
+
+    }
+
+
+    public function template_url()
+    {
+        if (!defined('TEMPLATE_URL')) {
+            $this->define_constants();
+        }
+        if (defined('TEMPLATE_URL')) {
+            return TEMPLATE_URL;
+        }
+
+    }
+
+
+    public function template_name()
+    {
+
+        if (!defined('TEMPLATE_NAME')) {
+            $this->define_constants();
+        }
+        if (defined('TEMPLATE_NAME')) {
+            return TEMPLATE_NAME;
+        }
+    }
+
+
     public function template_header($script_src)
     {
         static $mw_template_headers;

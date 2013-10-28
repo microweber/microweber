@@ -516,7 +516,9 @@ table[class*='mw-wysiwyg-table'] td{
 .mw-wysiwyg-table-zebra > tbody > tr > td{
   border:  1px solid #DDDDDD;
   background-color: #F3F3F3;
+
 }
+
 
 .mw-wysiwyg-table-zebra > tbody > tr:nth-child(2n+1) > td{
   background-color: #EDEDED;

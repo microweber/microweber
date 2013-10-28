@@ -106,7 +106,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   opacity:0.4;
 }
 
-#mw_toolbar_nav .mw-ui-btn:hover .ilive{
+#mw_toolbar_nav :hover > .ilive{
   opacity:1;
 }
 
@@ -116,10 +116,10 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 
-#mw_tabs li a .ico{ position: relative; top: -2px;  opacity: 0.3; }
+#mw_tabs li a .ico{ position: relative; top: -2px;  opacity: 0.5; }
 #mw_tabs li a .inavmodules{ top: -3px;  }
 #mw_tabs li a .inavwebsite{ top: 0;  }
-#mw_tabs li.active a .ico{
+#mw_tabs li.active a .ico, #mw_tabs li a:hover .ico{
   opacity: 1;
 }
 #mw_tabs li a .ico + span{
@@ -339,7 +339,7 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
 }
 
 
-a:hover > .ilogout, .ilogout:hover{background-position:-880px -47px;}
+
 
 
 .shipping-country-holder{
@@ -764,6 +764,12 @@ right: 20px;
 #toolbar_notifications{
   cursor: pointer;
 }
+.notif-faded{
+  opacity: 0.5;
+}
+.notif-faded:hover{
+  opacity:1;
+}
 
 
 #admin_notifications table{
@@ -1092,9 +1098,9 @@ right: 20px;
 #mw-admin-toolbar-right{
   float: right;
   width: 260px;
+  padding-top: 3px;
 }
 #helpbtn{
-    color: #999999;
     margin-top: 14px;
     padding: 1px 5px;
     cursor: help;
@@ -1112,6 +1118,10 @@ right: 20px;
 #mw-admin-toolbar-right .ilogout{
   margin-top: 10px;
   margin-right: 10px;
+  opacity:0.5;
+}
+#mw-admin-toolbar-right .ilogout:hover{
+  opacity: 1;
 }
 
 .mw-admin-templates-browse-holder{
@@ -1200,6 +1210,97 @@ table.users-list-table .del-row{
 .module-settings-group-email.mw-o-box select{
   width: 320px;
 }
+
+
+
+.mw-cube {
+  -webkit-transition: -webkit-transform .33s;
+  transition: transform .33s;
+  -moz-transition: transform .33s;
+  -o-transition: transform .33s;
+  -ms-transition: none;
+  -webkit-transform-style: preserve-3d;
+  -ms-transform-style:  none;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -moz-transform-origin: center;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  -o-transform-origin: center;
+  transform-origin: center;
+}
+
+
+.mw-cube1 {
+  -webkit-transform: translateZ(52px);
+  -moz-transform: translateZ(52px);
+  -o-transform: translateZ(52px);
+  transform: translateZ(52px);
+  -ms-transform:  none;
+  display: block;
+
+}
+
+.mw-cube2{
+  -webkit-transform: rotateX(-90deg) translateZ(-52px);
+  -moz-transform: rotateX(-90deg) translateZ(-52px);
+  -o-transform: rotateX(-90deg) translateZ(-52px);
+  transform: rotateX(-90deg) translateZ(-52px);
+  -ms-transform: none;
+  display: block;
+}
+
+.mw-cube-holder{
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.mw-cube-holder:hover .mw-cube  {
+  -webkit-transform: rotateX(90deg);
+  -moz-transform: rotateX(90deg);
+
+  -o-transform: rotateX(90deg);
+  transform: rotateX(90deg);
+  -ms-transform:  none;
+}
+
+#mw-admin-toolbar-cube .mw-cube,
+#mw-admin-toolbar-cube .mw-cube,
+#mw-admin-toolbar-cube .mw-cube1,
+#mw-admin-toolbar-cube .mw-cube2,
+#mw-admin-toolbar-cube{
+  height: 52px;
+  width:201px;
+}
+
+#mw-admin-toolbar-cube .mw-cube2{
+  text-align:center;
+  background: white;
+  padding-top: 12px;
+  position: relative;
+}
+
+#mw-admin-toolbar-cube .mw-cube2 .ilive{
+  float: none;
+  top: 9px;
+  margin-right: 14px;
+}
+
+
+.quick-add .mw-title-field::-moz-placeholder{ color: #212121; }
+.quick-add .mw-title-field::-webkit-input-placeholder{ color: #212121; }
+
+
+
+
+
+
+
 
 
 
