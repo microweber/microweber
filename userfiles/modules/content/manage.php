@@ -184,6 +184,11 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 	</div>
 	<div class="mw-admin-page-preview-page-info"> </div>
 </div>
+
+<?php else: ?>
+
+
+
 <?php endif; ?>
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]);
@@ -197,6 +202,15 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 </div>
 <?php endif; ?>
 <?php endif; ?>
+
+<?php if(isset($page_info) and ($page_info) == false): ?>
+<div style="width: 370px;margin-left: 30px;" class="left">
+
+<h2  style="  ">Last Edited</h2>
+</div>
+<?php endif; ?>
+
+
 <div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
 	<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
 		<label>

@@ -1,4 +1,9 @@
 <?php
+
+category_tree();
+
+
+return;
 $params = array();
 $params['parent'] = 0; //parent id
 $params['link'] = '<a href="{link}" id="category-{id}">{title}</a>'; // the link on for the <a href

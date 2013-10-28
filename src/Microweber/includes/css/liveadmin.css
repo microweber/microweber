@@ -1959,6 +1959,15 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   right: 7px;
   top: 10px;
   height:21px;
+  text-align: right;
+}
+
+.preview_frame_ctrls{
+  position: static;
+   background-color: #F5F5F5;
+  height: 22px;
+
+  border: 1px solid #C7C7C7;
 }
 
 .zoom .preview_frame_ctrls{
@@ -1989,12 +1998,15 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   visibility: visible;
 }
 
+.preview_frame_ctrls{
+  display: none;
+}
 
-.preview_frame_ctrls span{
-  display: block;
+
+.preview_frame_ctrls > span{
+  display: inline-block;
   cursor: pointer;
-  float: left;
-  margin:0 3px;
+  margin:0;
   width: 20px;
   height: 21px;
   background: url(../img/iframe_preview_ctrls.png) no-repeat;
@@ -2014,8 +2026,12 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   display: none;
 }
 
-.zoom .preview_frame_ctrls span.close{
+.zoom .preview_frame_ctrls {
   display: block;
+}
+
+.zoom .preview_frame_ctrls span.close{
+  display: inline-block;
 }
 
 .preview_frame_wrapper.loading{
@@ -2073,7 +2089,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   left: 10%;
   z-index: 9999;
   background-color: white;
-  box-shadow:0 0 10px #5B5B5B;
+  box-shadow:0 0 10px -7px #5B5B5B;
 }
 #mw-admin-container .preview_frame_wrapper.zoom iframe,  .preview_frame_wrapper.zoom iframe{
   width: 100%;

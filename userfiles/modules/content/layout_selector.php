@@ -575,10 +575,10 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<div class="preview_frame_ctrls">
 				<?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
 				<span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
-			
+
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-			  <span class="">11</span>
+			  <a href="javascript:;">Maiuu masie maiu</a>
 			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
             </div>
