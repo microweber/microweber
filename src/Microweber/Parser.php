@@ -35,7 +35,7 @@ class Parser
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
 
-global $mw_replaced_modules;
+        global $mw_replaced_modules;
         global $mw_replaced_modules_values;
 
         $layout = str_replace('<?', '&lt;?', $layout);
@@ -62,6 +62,8 @@ global $mw_replaced_modules;
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
         $layout = str_replace('</microweber>', '', $layout);
         $layout = str_replace('></module>', '/>', $layout);
+
+
         $script_pattern = "/<module[^>]*>/Uis";
         //$script_pattern = "/<module.*.[^>]*>/is";
 
@@ -72,7 +74,7 @@ global $mw_replaced_modules;
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
+                    $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($mw_replaced_modules[$v1])) {
                         $mw_replaced_modules[$v1] = $value;
@@ -461,6 +463,7 @@ global $mw_replaced_modules;
                                 } else {
                                     $module_html = $mod_content;
                                 }
+
                                 $mw_replaced_modules_values[$replace_key] = $module_html;
                                 $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
@@ -764,6 +767,8 @@ global $mw_replaced_modules;
 
         return $l;
     }
+
+
 
     private function _replace_editable_fields($layout, $no_cache = false)
     {

@@ -16,7 +16,7 @@ if($data == false or empty($data )){
 ?>
 <script  type="text/javascript">
 
-mw.require('forms.js');
+    mw.require('forms.js');
 
 </script>
 <script  type="text/javascript">
@@ -104,10 +104,10 @@ $(document).ready(function(){
  });
 
  mw.tools.tabGroup({
-          nav: mw.$("#quick-add-post-options li"),
-          tabs: mw.$(".quick-add-post-options-item"),
-          toggle:true
-       });
+    nav: mw.$("#quick-add-post-options li"),
+    tabs: mw.$(".quick-add-post-options-item"),
+    toggle:true
+ });
 
 
 });

@@ -574,6 +574,8 @@ class Db
             $idq = '';
             if ((mw_var('FORCE_ANON_UPDATE') != false and $table == mw_var('FORCE_ANON_UPDATE')) or (defined('FORCE_ANON_UPDATE') and $table == FORCE_ANON_UPDATE)) {
                 $idq = " and id={$data['id']} ";
+            } elseif ((mw_var('FORCE_ANON_SAVE') != false and $table == mw_var('FORCE_ANON_SAVE')) or (defined('FORCE_ANON_SAVE') and $table == FORCE_ANON_SAVE)) {
+                $idq = " and id={$data['id']} ";
             } else {
                 if ($the_user_id != 0) {
                     if (isset($data['created_by'])) {
@@ -2675,7 +2677,7 @@ class Db
 ";
             //
             //if (isset($_GET['debug'])) {
-            
+
             $this->q($sql);
             //}
         }
@@ -2715,8 +2717,8 @@ class Db
                     } else {
                         $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
-					
-						
+
+
                     if ($sql) {
                         $this->q($sql);
 
@@ -2731,7 +2733,7 @@ class Db
                 if (!isset($exisiting_fields[$the_field[0]])) {
 
                     $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
-					
+
                     $this->q($sql);
                 } else {
 //                     $sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
@@ -3050,7 +3052,7 @@ class Db
 
         if ($query == false) {
             $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
-            
+
             $this->q($q);
         }
 

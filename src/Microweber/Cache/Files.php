@@ -10,9 +10,10 @@ $mw_skip_memory = array();
 if (!defined('MW_USE_APC_CACHE')) {
     $apc_exists = function_exists('apc_fetch');
     define("MW_USE_APC_CACHE", $apc_exists);
-    if (!defined('APC_EXPIRES')) {
-        define("APC_EXPIRES", 60);
-    }
+
+}
+if (!defined('APC_EXPIRES')) {
+    define("APC_EXPIRES", 60);
 }
 if (!defined('MW_CACHE_FILES_EXTENSION')) {
     define('MW_CACHE_FILES_EXTENSION', '.php');

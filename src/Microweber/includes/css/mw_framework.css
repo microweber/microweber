@@ -958,13 +958,10 @@ a:hover .mw_ed_tree_content{
   top: 0;
 }
 
-.mw-ui-category-selector ul ul{padding-left: 20px;}
-.mw-ui-category-selector ul ul ul{padding-left: 40px;}
-.mw-ui-category-selector ul ul ul ul{padding-left: 60px;}
-.mw-ui-category-selector ul ul ul ul ul{padding-left: 80px;}
-.mw-ui-category-selector ul ul ul ul ul ul{padding-left: 100px;}
 
-
+.mw-ui-category-selector ul ul{
+  padding-left: inherit;
+}
 
 
 .cat_selector_view_ctrl{
