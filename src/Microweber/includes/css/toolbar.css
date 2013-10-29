@@ -1109,6 +1109,7 @@ li .ts_action_item:last-child{
 .create-content-dropdown-list li.is_page > a, .create-content-dropdown-list li.page > a{ background-image: url(../img/tree.pageico.png); }
 .create-content-dropdown-list li.post > a{ background-image: url(../img/tree.post.png); }
 .create-content-dropdown-list li.is_category > a{ background-image: url(../img/tree.cat.png); }
+.create-content-dropdown-list li.is_blog > a{ background-image: url(../img/tree.blog.png); }
 .create-content-dropdown-list li.have_category > a, .create-content-dropdown-list li.page.dynamic > a{ background-image: url(../img/tree.dynamic.png); }
 
 
@@ -1146,6 +1147,11 @@ input.mwtb-search{
 }
 #mod_switch{
   cursor: pointer;
+  float: right;
+}
+
+#mod_switch:hover{
+  text-decoration: underline
 }
 
 input.mwtb-search.mw-dropdown-searchSearching{

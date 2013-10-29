@@ -2612,8 +2612,9 @@ a.module-icon-title{
 
 #mw-quick-page,
 #mw-quick-post,
+#module-id-mw-quick-category,
 #mw-quick-product{
-  padding-right: 20px;
+  padding: 20px;
 }
 
 

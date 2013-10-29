@@ -92,7 +92,7 @@
                 </ul>
               </li>
               <li class="create-content-dropdown modules-layouts-menu">
-                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span style="left: -3px">Modules & Layouts</span><?php /*<i class=" dd_rte_arr right"></i>*/ ?></a>
+                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span><?php /*<i class=" dd_rte_arr right"></i>*/ ?></a>
                 <?php
 
                 /* <ul class="mw-dropdown-list create-content-dropdown-list">
