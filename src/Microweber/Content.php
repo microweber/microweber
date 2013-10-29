@@ -2097,6 +2097,9 @@ class Content
                         case 'dynamic' :
                             $content_type_li_class = 'have_category';
 
+
+
+
                             break;
 
                         case 'module' :
@@ -2109,6 +2112,16 @@ class Content
 
                             break;
                     }
+
+
+                    //$content_type_li_class .=' ' .$item ['layout_file'];
+
+                    if(isset($item ['layout_file']) and stristr($item ['layout_file'],'blog')){
+                        $content_type_li_class  = ' is_blog';
+
+                    }
+
+
 
                     if ($item['is_home'] != 'y') {
 

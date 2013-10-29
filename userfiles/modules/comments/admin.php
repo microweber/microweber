@@ -143,7 +143,7 @@ $comment_modules['limit'] =  '200';
       <?php endif; ?>
       <?php   $curent_val = get_option('module_id', $params['id']); ?>
       <?php if(is_array($comments_module_select )): ?>
-      <select name="module_id" class="mw_option_field mw-ui-field"   type="text" >
+      <select name="module_id" class="mw_option_field mw-ui-field"   type="text" parent-reload="true">
         <option value="<?php print $params['id'] ?>" <?php if($curent_val == $params['id']): ?> selected="selected" <?php endif; ?>><?php _e("This module"); ?></option>
         <?php foreach($comments_module_select  as $key=>$item): ?>
         <?php if($key != $params['id']): ?>
@@ -156,7 +156,7 @@ $comment_modules['limit'] =  '200';
         <?php endforeach ; ?>
       </select>
       <?php else : ?>
-      <input type="text"  placeholder="<?php print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
+      <input type="text" parent-reload="true"  placeholder="<?php print $params['id'] ?>"   class="mw-ui-field mw_option_field"  name="module_id"   value="<?php print get_option('module_id', $params['id']) ?>" />
       <?php endif; ?>
     </div>
     
@@ -170,14 +170,14 @@ $comment_modules['limit'] =  '200';
     <hr>
     <label class="mw-ui-check">
       <?php  $enable_comments_paging = get_option('enable_comments_paging',  $params['id'])=='y';  ?>
-      <input type="checkbox"   <?php if($enable_comments_paging): ?>   checked="checked"  <?php endif; ?> value="y" name="enable_comments_paging" class="mw_option_field" />
+      <input type="checkbox"   <?php if($enable_comments_paging): ?>   checked="checked"  <?php endif; ?> value="y" name="enable_comments_paging" class="mw_option_field" parent-reload="true" />
       <span></span> <span><?php _e("Show paging"); ?></span> </label>
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline"><?php _e("Comments per page"); ?></label>
-    <input type="text"  placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" />
+    <input type="text"  placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"  name="comments_per_page"   value="<?php print get_option('comments_per_page', $params['id']) ?>" parent-reload="true" />
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline"><?php _e("Form title"); ?> </label>
-    <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" />
+    <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" parent-reload="true" />
   </div>
 </div>
 <?php endif; ?>

@@ -482,10 +482,10 @@ body.view-shop .mw_action_post{
 
 
 .mw_edit_pages_nav{
-  height: 96px;
+  height: 100px;
   border-bottom: 1px solid #E2E2E2;
   background: white;
-  padding:18px 0 0 13px;
+  padding:14px 0 0 13px;
   position: relative;
 }
 
@@ -495,6 +495,7 @@ body.view-shop .mw_action_post{
 
 .mw_edit_pages_nav .mw-ui-btn{
   padding: 3px 4px;
+  background: #f5f5f5;
 }
 
 .mw_edit_pages_nav .mw-ui-btn .iplus{
@@ -511,9 +512,7 @@ body.view-shop .mw_action_post{
 .mw-tree{
   padding: 10px 0;
 }
-#pages_tree_toolbar{
-  background: #F3F3F3;
-}
+
 
 .mw-tree *{
   margin: 0;
@@ -775,6 +774,12 @@ html.mw_pages, html.mw_pages body{
   min-height: 100%;
   width: 333px;
   float: left;
+  background: #f4f4f4;
+  border-right: 1px solid #E2E2E2;
+  -webkit-transition: width 0.4s;
+  -moz-transition: width 0.4s;
+  -o-transition: width 0.4s;
+  transition: width 0.4s;
 }
 
 

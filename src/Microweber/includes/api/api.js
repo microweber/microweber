@@ -366,6 +366,13 @@ mw.askusertostay = false;
     return int;
   }
 
+
+
+  mw.reload_module_parent = function(module, callback) {
+    if(self !== parent && !!parent.mw){
+       parent.mw.reload_module(module, callback)
+    }
+  }
   mw.reload_module = function(module, callback) {
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;

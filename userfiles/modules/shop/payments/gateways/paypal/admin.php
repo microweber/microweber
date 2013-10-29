@@ -1,4 +1,4 @@
-
+<?php only_admin_access(); ?>
 <ul class="mw-ui-inline-selector">
 <li><label class="mw-ui-label"><?php _e("Test mode"); ?>:</label></li>
  

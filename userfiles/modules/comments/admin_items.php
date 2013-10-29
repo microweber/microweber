@@ -10,8 +10,8 @@
 		<input type="text" name="action" class="comment_state semi_hidden" />
 		<div class="manage-bar">
 			<div class="edit-comment"> <small  class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print mw('format')->ago($comment['created_on']) ?>)</small>
-				<textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-				<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">
+				<textarea name="comment_body"><?php print strip_tags($comment['comment_body']); ?></textarea>
+				<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-green mw-ui-btn-small mw-ui-btn right">
 				<?php _e("Update"); ?>
 				</a>
 				<div class="mw_clear"></div>
@@ -47,7 +47,7 @@
 	<div class="manage-bar">
 		<div class="edit-comment">
 			<textarea name="comment_body"><?php print $comment['comment_body']; ?></textarea>
-			<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small mw-ui-btn right">
+			<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-green mw-ui-btn-small mw-ui-btn right">
 			<?php _e("Update"); ?>
 			</a>
 			<div class="mw_clear"></div>

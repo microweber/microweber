@@ -1,4 +1,7 @@
-<script  type="text/javascript">
+<?php 
+only_admin_access();
+
+?><script  type="text/javascript">
 function mw_delete_shop_client($email){
 	 var r=confirm("<?php _e("Are you sure you want to delete this client"); ?>?")
 if (r==true){

@@ -876,3 +876,7 @@ $language["you-have-one-new-comment"]= 'You have one new comment' ;
 $language["see-new"]= 'See new' ; 
 $language["you-are-now-logged-in"]= 'You are now logged in' ; 
 $language["change-image"]= 'Change Image' ; 
+$language["also-show-cart"]= 'Also show cart' ; 
+$language["show-shopping-cart-in-checkout"]= 'Show shopping cart in checkout?' ; 
+$language["show-shipping"]= 'Show shipping?' ; 
+$language["show-payments"]= 'Show payments?' ; 

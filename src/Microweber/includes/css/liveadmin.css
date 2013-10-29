@@ -148,12 +148,7 @@ body.cross{
 
 
 
-.has_sidebar{
-  background-image: url("../img/treebg.gif");
-  background-repeat:  repeat-y;
-  background-position:  -999px 0;
-  background-color: white;
-}
+
 
 
 
@@ -306,11 +301,10 @@ html.mw_pages #mw_tabs li.active a{
 
 
 .mw_tree_title{
-  background: url(../img/ico.tree.png) no-repeat 14px 7px;
-  padding: 12px 0 13px 55px;
+  background: url(../img/ico.tree.png) no-repeat 14px 0px;
+  padding:5px 0 18px 55px;
   margin: 0;
-  font-family: 'Kozuka Gothic Pro', 'Myriad Pro', Arial, sans-serif;
-  font-family: Arial, sans-serif;
+
   text-transform: uppercase;
   font-weight: bold;
   color: #777777;

@@ -141,6 +141,7 @@
               <input
                 type="checkbox"
                 name="enable_comments"
+				parent-reload="true"
                 value="y"
                 class="mw_option_field"
                 option-group="comments"
@@ -162,6 +163,7 @@
                 type="checkbox"
                 name="user_must_be_logged"
                 value="y"
+				parent-reload="true"
                 class="mw_option_field"
                 option-group="comments"
                 <?php if(get_option('user_must_be_logged', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
@@ -172,6 +174,7 @@
                   <label class="mw-ui-check">
                     <input
               type="checkbox"
+			  parent-reload="true"
               name="require_moderation"
                data-reload="comments/comments_for_post"                       
               value="y"
@@ -186,14 +189,15 @@
                     <input
               type="checkbox"
               name="set_paging"
+			  parent-reload="true"
               value="y"
               class="mw_option_field"
               option-group="comments"
               <?php if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span><?php _e("Set paging in the comments"); ?></span> </label>
-                  <div option-group="comments" name="comments_per_page" class="mw-ui-select right" style="min-width: 70px;">
-                    <select name="paging" option-group="comments" class="mw_option_field">
+                  <div option-group="comments" name="comments_per_page" parent-reload="true" class="mw-ui-select right" style="min-width: 70px;">
+                    <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw_option_field">
                     
                       <?php
         $per_page = get_option('paging', 'comments');
@@ -225,13 +229,14 @@
               type="checkbox"
               name="email_on_new_comment"
               value="y"
+			  parent-reload="true"
               class="mw_option_field"
               option-group="comments"
               <?php if($email_enabled): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span><?php _e("New comment"); ?></span> </label>
                   <div class="right <?php if($email_enabled==false){ print " deactivated"; }; ?>" id="receive_email_holder">
-                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
+                    <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" parent-reload="true" class="mw-ui-field mw_option_field" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>" />
                   </div>
                 </div>
               </div>
@@ -246,6 +251,7 @@
               type="checkbox"
               name="avatar_enabled"
               value="y"
+			  parent-reload="true"
               class="mw_option_field"
               option-group="comments"
               <?php if($avatar_enabled): ?>   checked="checked"  <?php endif; ?>
@@ -264,6 +270,7 @@
         name="avatar_style"
         value="1"
         class="mw_option_field"
+		parent-reload="true"
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='1'): ?>   checked="checked"  <?php endif; ?>
     />
@@ -276,6 +283,7 @@
         name="avatar_style"
         value="2"
         class="mw_option_field"
+		parent-reload="true"
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='2'): ?>   checked="checked"  <?php endif; ?>
     />
@@ -288,6 +296,7 @@
         name="avatar_style"
         value="3"
         class="mw_option_field"
+		parent-reload="true"
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
     />
@@ -300,11 +309,12 @@
         name="avatar_style"
         value="4"
         class="mw_option_field"
+		parent-reload="true"
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='4'): ?>   checked="checked"  <?php endif; ?>
     />
                     <span></span><span>
-                    <input type="hidden" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print get_option('avatartype_custom', 'comments'); ?>" />
+                    <input type="hidden" parent-reload="true" name="avatartype_custom" class="mw_option_field"  option-group="comments" value="<?php print get_option('avatartype_custom', 'comments'); ?>" />
                     <i class="avatartype avatartype-upload"></i> <?php _e("Upload Picture"); ?></span></label>
                 </div>
               </div>

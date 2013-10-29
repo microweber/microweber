@@ -11,8 +11,11 @@
   if(!isset($is_quick)){
       $is_quick=false;
   }
+  
   if(isset($params['live_edit'])){
     $is_live_edit = $params['live_edit'];
+  } elseif(isset($params['from_live_edit'])){
+   $is_live_edit = $params['from_live_edit'];
   }
   
   if(isset($params['quick_edit'])){
@@ -201,17 +204,18 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php endif; ?>
 
-
+<div class="post-save-and-go-live">
     	<?php if($is_live_edit == false) : ?>
-        <div class="post-save-and-go-live">
+        
         	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
         	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
-        </div>
-    	<?php else: ?>
-    	<span class="mw-ui-btn go-live right mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></span>
+      
+    	<?php else: ?> 
+    	        	<button type="button" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></button>
+
         <?php endif; ?>
 
-
+  </div>
 
     <ul class="quick-add-nav" id="quick-add-post-options">
         <li><span><span class="ico itabpic"></span><span><?php _e("Picture Gallery"); ?></span></span></li>
@@ -305,6 +309,10 @@ mw.edit_content.before_save = function(){
 	if(window.parent != undefined && window.parent.mw != undefined){
 		window.parent.mw.askusertostay=false;
 	}
+	
+	if(mw.notification != undefined){
+	 mw.notification.success('Saving...',5000);
+	 }
 }
 mw.edit_content.after_save = function(){
 
@@ -398,15 +406,28 @@ mw.edit_content.handle_form_submit = function(go_live){
         module.addClass('loading');
         mw.content.save(data, {
           onSuccess:function(){
+			 if(mw.notification != undefined){
+				 mw.notification.success('Content saved!');
+				 }
+			  
              if(parent !== self && !!window.parent.mw){
         		window.parent.mw.askusertostay=false;
         	 }
 			if(go_live_edit != false){
+				
 				   $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
+					   		if(mw.notification != undefined){
+							 mw.notification.success('Going to live edit...', 5000);
+							 }		
+
 					 window.top.location.href = data+'/editmode:y';
 				   });
 			}
             else {
+				
+				
+				
+				
     			 mw.$("#<?php print $module_id ?>").attr("content-id",this);
     			 mw.$("#<?php print $module_id ?>").attr("just-saved",this);
     			 mw.edit_content.after_save();

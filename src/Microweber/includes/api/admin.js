@@ -1,5 +1,5 @@
 set_main_height = function(){
-  mw.$("#mw-admin-container").css("minHeight", $(window).height()-41)
+  mw.$("#mw_edit_page_left").css("minHeight", $(mwd.body).height()-41)
 }
 
 

@@ -59,14 +59,16 @@ $(document).ready(function(){
 
 
 </script>
+  <?php $cart_show_payments =  get_option('data-show-payments', $params['id']); ?>
+
+  <?php $cart_show_shipping =  get_option('data-show-shipping', $params['id']); ?>
+
 <?php if($payment_success == false): ?>
   <div class="vSpace"></div>
 <form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print mw('url')->api_link('checkout') ?>" >
   
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
-  <?php
-  
-   if($cart_show_enanbled != 'n'): ?>
+  <?php if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />
   <?php endif ;?>
     <div class="row-fluid mw-cart-data-holder">
@@ -93,8 +95,14 @@ $(document).ready(function(){
           <input name="phone" class="field-full"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
         </div>
       </div>
+	  <?php if($cart_show_shipping != 'n'): ?>
       <div class="span4"><module type="shop/shipping" />  </div>
+	   <?php endif ;?>
+	   	  <?php if($cart_show_payments != 'n'): ?>
+
       <div class="span4"><module type="shop/payments" /></div>
+	  	   <?php endif ;?>
+
     </div>
     <div class="alert hide"></div>
     <div class="mw-cart-action-holder">

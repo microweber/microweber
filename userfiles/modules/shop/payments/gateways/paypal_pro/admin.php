@@ -1,4 +1,4 @@
-<div class="mw-notification mw-warning">
+<?php only_admin_access(); ?><div class="mw-notification mw-warning">
   <div> <?php _e("Unfortunately, Paypal Website Payments Pro will not work for countries other than the United Kingdom, United States and Canada"); ?>. </div>
 </div>
 <img src="<?php print $config['url_to_module'] ?>paypal_pro_inner.png" />

@@ -136,8 +136,8 @@ if(og1 != undefined){
 					    o_data.option_type = have_option_type;
 					}
 				}
-
-
+				var reaload_in_parent = el.attr('parent-reload');
+				
 				if(opt_id !== undefined){
 
 
@@ -150,8 +150,16 @@ if(og1 != undefined){
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
                     success: function (data) {
+						
+						
+						if(reaload_in_parent != undefined && reaload_in_parent !== null){
+							d(reaload_in_parent);
+						return false;	
+						}
+						
+						
 						if(also_reload != undefined){
-							if (window.mw != undefined) {
+							if (window.mw != undefined && reaload_in_parent !== true) {
                                 if (window.mw.reload_module !== undefined) {
 
 									window.mw.reload_module(also_reload, function(reloaded_el){
@@ -165,7 +173,7 @@ if(og1 != undefined){
 
 
 
-						 if (for_m_id != undefined && for_m_id != '') {
+						 if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
                                 if (window.mw.reload_module !== undefined) {
@@ -176,9 +184,13 @@ if(og1 != undefined){
 									});
                                 }
                             }
-                        } else   if (refresh_modules11 != undefined && refresh_modules11 != '') {
+                        } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
                             if (window.mw != undefined) {
+								
+								
+							 
+								if(reaload_in_parent !== true){
                                 if (window.mw.reload_module !== undefined) {
                                     window.mw.reload_module(refresh_modules11, function(reloaded_el){
 
@@ -189,6 +201,9 @@ if(og1 != undefined){
 									});
 
                                 }
+								
+								}
+								
                             }
                         }
 

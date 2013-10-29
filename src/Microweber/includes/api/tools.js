@@ -1344,16 +1344,7 @@ mw.tools = {
     return rotator;
   },
   sidebar:function(){
-    if(mw.$("#mw_edit_page_left").length > 0){
-      if(mw.$("#mw-admin-container").length > 0){
-          $("#mw-admin-container").addClass('has_sidebar');
-          $("#mw-admin-container").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
-      }
-      else if(mw.$("#mw_edit_pages").length > 0){
-        $("#mw_edit_pages_content").addClass('has_sidebar');
-        $("#mw_edit_pages_content").css('backgroundPosition',  '-'+(500-$("#mw_edit_page_left").width()) + 'px 0');
-      }
-    }
+    
   },
   highlight:function(el, color, speed1, speed2){
     if(typeof el === 'undefined') return false;

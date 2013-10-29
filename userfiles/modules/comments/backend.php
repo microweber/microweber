@@ -2,7 +2,7 @@
 <script type="text/javascript">
 
 
-    mw.require('<?php print $config['url_to_module'] ?>style.css');
+    mw.require('<?php print $config['url_to_module'] ?>style.css', true);
     mw.require('color.js', true);
 </script>
 <script type="text/javascript">
