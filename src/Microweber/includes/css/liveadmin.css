@@ -314,13 +314,13 @@ html.mw_pages #mw_tabs li.active a{
 }
 .mw_tree_title_shop{
   background-image: url(../img/shop.big.png);
-  background-position: 9px 7px;
+  background-position: 9px 0;
+    opacity: 0.7;
 }
 
 #mw_edit_pages_content{
   position: relative;
-  /*overflow: auto;*/
-  width: 980px;
+
 }
 
 
@@ -519,6 +519,10 @@ form.add-edit-page-post textarea{
   color: #4D4D4D;
 }
 
+.manage-post-item a:hover{
+  text-decoration: underline;
+}
+
 .manage-post-item:after{
   content: ".";
   display: block;
@@ -560,8 +564,15 @@ form.add-edit-page-post textarea{
   background: url(../img/cmnts.png) no-repeat;
 }
 .manage-post-item-title, .manage-post-item-title a{
-  font-size: 14px;
+  font-size: 18px;
   font-weight: normal;
+}
+.manage-post-item-title{
+  padding-bottom: 2px;
+}
+
+.manage-post-item-title a .ico{
+  top: 4px;
 }
 
 .manage-post-item-title a:hover{
@@ -1243,7 +1254,7 @@ body.still-loading:before{
 }
 
 #mw-admin-shop-navigation ul{
-  padding: 14px 6px;
+  padding: 14px 6px 14px 20px;
   overflow: hidden;
 }
 

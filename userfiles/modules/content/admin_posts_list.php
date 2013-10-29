@@ -211,37 +211,12 @@ $pages_count = intval($pages);
         <span></span></label>
       <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
 	  
-	  
-	  
-
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-      <?php
-    	$pic  = get_picture(  $item['id']);
 
 
-		 ?>
+     <?php  	$pic  = get_picture(  $item['id']);    		 ?>
+
+
+
       <?php if($pic == true ): ?>
       <a class="manage-post-image left" style="background-image: url('<?php print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
       <?php else : ?>
@@ -251,7 +226,11 @@ $pages_count = intval($pages);
       <?php $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
 
       <div class="manage-post-main">
-        <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
+        <h3 class="manage-post-item-title">
+
+
+
+        <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
 		
 		
 			  
@@ -260,7 +239,7 @@ $pages_count = intval($pages);
 	  
 	  
 	  
-	  <small><?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+	  <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
 		<?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
         <span class="ico iorder"></span>
 
@@ -282,12 +261,12 @@ $pages_count = intval($pages);
 		<?php endif; ?>
 	  
 	   <!-- /ICONS -->
-	  
 
-		
-		
+
+
+
 		<?php print strip_tags($item['title']) ?></a></h3>
-        <a  class="manage-post-item-link-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
+        <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <?php print mw('format')->limit(strip_tags($item['description']), 60);
       ?> </div>
         <div class="manage-post-item-links"> <a target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a> </div>

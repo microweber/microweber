@@ -848,10 +848,10 @@ class Shop
             return;
         } else {
             if ($cur_sid != false) {
-                $c_id = $this->app->db->sanitize($sid);
+               // $c_id = $this->app->db->sanitize($sid);
 
-                $c_id = $this->app->db->escape_string($c_id);
-
+                //$c_id = $this->app->db->escape_string($c_id);
+$c_id =$sid;
 
                 $table = MODULE_DB_SHOP;
 

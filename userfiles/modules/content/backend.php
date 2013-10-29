@@ -245,27 +245,25 @@ mw.on.hashParam("action", function(){
   if(arr[0]==='new'){
 
       if(arr[1]==='page'){
-        //$(mwd.body).addClass("loading");
         mw_select_page_for_editing(0);
       }
       else if(arr[1]==='post'){
-        //$(mwd.body).addClass("loading");
         mw_select_post_for_editing(0);
       }
       else if(arr[1]==='category'){
-       // $(mwd.body).addClass("loading");
         mw_select_category_for_editing(0);
       }
       else if(arr[1]==='product'){
-       // $(mwd.body).addClass("loading");
         mw_add_product(0);
       }
+
+
 
      mw.$(".mw_action_nav").addClass("not-active");
      mw.$(".mw_action_"+arr[1]).removeClass("not-active");
   }
   else{
-        //mw.url.windowHashParam("pg", 1);
+
       mw.$(".active-bg").removeClass('active-bg');
       mw.$(".mw_action_nav").removeClass("not-active");
 
@@ -384,14 +382,9 @@ function mw_select_category_for_editing($p_id){
 				   }
 
 
-
-
 	 mw.$('#pages_edit_container').attr('data-category-id',$p_id);
-  	// mw.load_module('categories/edit_category','#pages_edit_container');
-
 
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-
     edit_load('categories/edit_category');
 
 
@@ -436,26 +429,20 @@ function mw_select_post_for_editing($p_id, $subtype){
 
 	 var  active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
 	 var active_item_is_page = active_item.attr('data-page-id');
-
         mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         mw.$('#pages_edit_container').removeAttr('data-category-id');
         mw.$('#pages_edit_container').removeAttr('category_id');
-
-
-
 	  var active_item_is_category = active_item.attr('data-category-id');
-
 	 if(active_item_is_category != undefined){
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
 			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
 			   if(active_item_parent_page != undefined){
 					var active_item_is_page = active_item_parent_page.attr('data-page-id');
-
-			   } else {
+			   }
+               else {
 				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
 				   if(active_item_parent_page != undefined){
 						var active_item_is_page = active_item_parent_page.attr('data-page-id');
-
 				   }
 
 			   }

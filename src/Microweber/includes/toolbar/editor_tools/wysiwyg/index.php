@@ -37,7 +37,6 @@ PrepareEditor = function(){
                  else{
                    parent.mw.$("iframe#"+window.name).trigger("change", $(el[0].querySelector(".edit")).html());
                  }
-
           }, 600);
      });
   }
@@ -46,12 +45,7 @@ PrepareEditor = function(){
 $(window).load(function(){
 
 scaleHeight()
-
-    // $("#mw-iframe-editor-area").height($(window).height()-60);
-     __area = mwd.getElementById('mw-iframe-editor-area');
-	// $('.edit').attr('contenteditable',true);
-
-
+    __area = mwd.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
    scaleHeight()
 });
@@ -110,7 +104,7 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
         $(curr).append("<span class='mw-close' onclick='delete_module(this);'></span>");
     }
     else{
-        $(curr).addClass('disabled');
+      //  $(curr).addClass('disabled');
     }
  });
 

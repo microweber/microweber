@@ -1955,19 +1955,9 @@ mw.tools = {
               cont.html(area.html())
             }
         }
-
-
         if(typeof frame.contentWindow.PrepareEditor === 'function'){
           frame.contentWindow.PrepareEditor();
         }
-
-
-
-/*     var links = mwd.querySelectorAll('link'), l=links.length, i=0;
-      for( ; i<l; i++){
-        frame.contentWindow.mw.require(links[i].href);
-      }*/
-
     });
     $(frame).bind('change', function(e, val){
       if(area[0].tagName === 'TEXTAREA'){

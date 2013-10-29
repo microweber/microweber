@@ -578,7 +578,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-			  <a href="javascript:;">Maiuu masie maiu</a>
+
 			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
             </div>

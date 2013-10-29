@@ -489,9 +489,7 @@ body.view-shop .mw_action_post{
   position: relative;
 }
 
-#mw_edit_page_left .mw_edit_pages_nav{
-    border-right: 1px solid #E2E2E2;
-}
+
 
 .mw_edit_pages_nav .mw-ui-btn{
   padding: 3px 4px;
@@ -786,14 +784,14 @@ html.mw_pages, html.mw_pages body{
 .mw_edit_page_right{
   padding-bottom: 50px;
 
-  width: 696px;
+
   padding: 20px;
   float: left;
   position: relative;
 }
 
 #mw_edit_page_left + .mw_edit_page_right{
-  width: 645px;
+
   padding: 0;
 }
 
@@ -1264,9 +1262,8 @@ input.mw-title-field{
   font-size: 18px;
   padding-top:5px;
   padding-bottom: 5px;
-  width: 300px;
-  width: calc(100% - 68px);
-  width: -webkit-calc(100% - 68px);
+  width: 328px;
+
   height: 23px;
   border-left: none;
   border-top-left-radius: 0px;
@@ -1422,7 +1419,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 .mw-tag-selector > span > i.is_page{ background-image: url(../img/context.page.png); background-position: 2px 1px; }
 .mw-tag-selector > span > i.category_element{ background-image: url(../img/context.category.png); }
 .mw-tag-selector > span > i.is_shop{ background-image: url(../img/tree.shopico.png); }
-.mw-tag-selector > span > i.is_blog{ background-image: url(../img/tree.blog.png); }
+.mw-tag-selector > span > i.is_blog{ background-image: url(../img/tree.blog.png); background-position: 0 -1px; }
 
 .mw-custom-fields-tags .mw-ui-btn-small{
   padding-left: 2px;
@@ -1853,10 +1850,15 @@ select.mw-ui-simple-dropdown:focus{
   /*padding: 6px 0 0 30px;*/
   padding-bottom: 300px;
   position: relative;
+  width: 680px;
 -webkit-transition: left 0.4s;
 -moz-transition: left 0.4s;
 -o-transition: left 0.4s;
 transition: left 0.4s;
+}
+
+#pages_edit_container  > form{
+  padding: 20px;
 }
 
 

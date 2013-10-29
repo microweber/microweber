@@ -2,8 +2,6 @@ set_main_height = function(){
   mw.$("#mw_edit_page_left").css("minHeight", $(mwd.body).height()-41)
 }
 
-
-
 mw.admin = {
   scale:function(obj, to){
     if(obj === null) return false;
@@ -18,45 +16,7 @@ mw.admin = {
     }
   }
 }
-
-
 urlParams = mw.url.mwParams(window.location.href);
-
-
-$(window).bind('load resize', function(){
-
-
-
-
+$(window).bind('load resize ajaxStop', function(){
     set_main_height();
-    if(urlParams.view === 'dashboard' || urlParams.view === undefined){
-      /*
-      var visitstable = mwd.getElementById('visits_info_table');
-      var visitsnumb = mwd.getElementById('users_online');
-      mw.admin.scale(visitstable, visitsnumb);  */
-    }
-
 });
-
-
-$(document).ready(function(){
-
-
-   mw.tools.sidebar();
-
-   $(window).bind('hashchange', function(){
-     mw.tools.sidebar();
-   });
-
-
- mmwgel = mwd.createElement('div');
-
-
-
-});
-
-
-
-
-
-

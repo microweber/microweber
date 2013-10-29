@@ -388,6 +388,10 @@ class Parser
 
                                 $userclass = str_replace(trim($module_class), '', $userclass);
                                 $userclass = trim(str_replace(' module ', ' ', $userclass));
+								 $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
+								 $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
+
+								
                                 $userclass = trim(str_replace(' module module ', ' module ', $userclass));
 
                                 $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);

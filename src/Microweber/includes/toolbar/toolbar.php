@@ -92,11 +92,16 @@
                 </ul>
               </li>
               <li class="create-content-dropdown modules-layouts-menu">
-                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span style="left: -3px">Modules & Layouts</span><i class=" dd_rte_arr right"></i></a>
-                <ul class="mw-dropdown-list create-content-dropdown-list">
+                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span style="left: -3px">Modules & Layouts</span><?php /*<i class=" dd_rte_arr right"></i>*/ ?></a>
+                <?php
+
+                /* <ul class="mw-dropdown-list create-content-dropdown-list">
                   <li><a href="javascript:;" onclick="toolbar_set('modules');" ><span>Modules</span></a></li>
                   <li><a href="javascript:;" onclick="toolbar_set('layouts');" ><span>Layouts</span></a></li>
-                </ul>
+                </ul>*/
+                ?>
+
+
               </li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
 
@@ -157,6 +162,7 @@
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
                  <div class="mw_clear"></div>
+                 <span class="mw-small" id="mod_switch">Layouts</span>
                  <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
              </div>
          </div>
@@ -363,7 +369,11 @@
 
 
 
-
+         mw.$("#mod_switch").click(function(){
+             var h = this.innerHTML.toLowerCase();
+             toolbar_set(h);
+             this.innerHTML = h=='layouts'?'<?php _e("Modules"); ?>' : '<?php _e("Layouts"); ?>';
+         });
 
 
 

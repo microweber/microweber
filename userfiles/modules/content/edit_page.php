@@ -1,4 +1,4 @@
-<div style="padding: 20px;">
+
 <?php
 $is_quick=false;
 if(isset($params["quick_edit"])){
@@ -11,4 +11,3 @@ include('quick.php');
 
 
 ?>
-</div>

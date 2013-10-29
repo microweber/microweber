@@ -310,9 +310,7 @@ mw.edit_content.before_save = function(){
 		window.parent.mw.askusertostay=false;
 	}
 	
-	if(mw.notification != undefined){
-	 mw.notification.success('Saving...',5000);
-	 }
+	
 }
 mw.edit_content.after_save = function(){
 
@@ -404,8 +402,18 @@ mw.edit_content.handle_form_submit = function(go_live){
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
         module.addClass('loading');
+		
+		
+		
+		
+		
         mw.content.save(data, {
           onSuccess:function(){
+			  
+			  
+		
+			  
+			  
 			 if(mw.notification != undefined){
 				 mw.notification.success('Content saved!');
 				 }

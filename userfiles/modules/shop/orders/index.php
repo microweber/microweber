@@ -177,7 +177,7 @@ $kw = '';
     									<?php  endif ?></td>
     								<td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
     								<td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-    								<td class="mw-order-item-count" width="100"><?php print  mw('shop')->currency_format($item_total, $ord['currency']); ?></td>
+    								<td class="mw-order-item-count" width="100"><?php print  mw('shop')->currency_format($item_total); ?></td>
     							</tr>
     							<?php endforeach; ?>
     							<tr class="mw-o-box-table-footer last">
@@ -185,7 +185,7 @@ $kw = '';
     								<td class="mw-o-box-table-green"><b>
     									<?php _e("Total:"); ?>
     									</b></td>
-    								<td class="mw-o-box-table-green"><b><?php print  mw('shop')->currency_format($grandtotal, $ord['currency']); ?></b></td>
+    								<td class="mw-o-box-table-green"><b><?php print  mw('shop')->currency_format($grandtotal); ?></b></td>
     							</tr>
     						</tbody>
     					</table>
