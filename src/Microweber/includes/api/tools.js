@@ -1192,13 +1192,11 @@ mw.tools = {
      }
   },
   confirm:function(question, callback){
-
     var conf = confirm(question);
     if(conf && typeof callback === 'function'){
       callback.call(window);
     }
     return conf;
-
   },
   el_switch:function(arr, type){
     if(type==='semi'){
@@ -1344,7 +1342,7 @@ mw.tools = {
     return rotator;
   },
   sidebar:function(){
-    
+
   },
   highlight:function(el, color, speed1, speed2){
     if(typeof el === 'undefined') return false;
@@ -1435,7 +1433,7 @@ mw.tools = {
 
         span_holder.className = 'mw-ui-btn mw-ui-btn-small';
         span_holder.id = 'id-'+el.value;
-        span_holder.innerHTML = el.parentNode.textContent;
+        span_holder.innerHTML = '<span class="tag-label-content">' + el.parentNode.textContent + '</span>';
 
         var icon = mwd.createElement('i');
         icon.className = mw.tools.firstParentWithTag(el, 'li').className;
@@ -1443,7 +1441,6 @@ mw.tools = {
         $(span_holder).prepend(icon);
 
         span_holder.onclick = function(e){
-
 
             if(e.target.className != 'mw-ui-btnclose'){
                 mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
@@ -1461,8 +1458,6 @@ mw.tools = {
                       $(this).addClass('active');
                     }
                   });
-
-
 
                   var label = itemsWrapper.querySelector(".item_"+el.value + " label");
 

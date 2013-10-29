@@ -178,6 +178,38 @@ $comment_modules['limit'] =  '200';
     <div class="mw_clear vSpace"></div>
     <label class="mw-ui-label-inline"><?php _e("Form title"); ?> </label>
     <input type="text"  placeholder="Use default"   class="mw-ui-field mw_option_field"  name="form_title"   value="<?php print get_option('form_title', $params['id']) ?>" parent-reload="true" />
+	
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	    
+	 
+	  <label class="mw-ui-check">
+              <?php  $are_enabled = get_option('enable_comments', 'comments')=='y';  ?>
+              <input
+                type="checkbox"
+                name="enable_comments"
+                 value="y"
+                class="mw_option_field"
+                option-group="comments"
+                <?php if($are_enabled): ?>   checked="checked"  <?php endif; ?>
+              />
+              
+              <span></span> <span>Enable comments for the site?</span> </label>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
   </div>
 </div>
 <?php endif; ?>

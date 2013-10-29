@@ -240,8 +240,11 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 			  var also_reload =  $(this).attr('data-also-reload');
 
 			 
+			  var og =  $(this).attr('option-group');
+				if(og== undefined || og == null){
+					var og = '<?php print $params['id'] ?>';
 
-				var og = '<?php print $params['id'] ?>';
+				}
 				 
 
 

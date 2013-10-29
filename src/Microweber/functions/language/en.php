@@ -880,3 +880,4 @@ $language["also-show-cart"]= 'Also show cart' ;
 $language["show-shopping-cart-in-checkout"]= 'Show shopping cart in checkout?' ; 
 $language["show-shipping"]= 'Show shipping?' ; 
 $language["show-payments"]= 'Show payments?' ; 
+$language["allow-people-to-post-comments-on-the-site"]= 'Allow people to post comments on the site?' ; 

@@ -1411,9 +1411,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
     height: 18px;
     margin-right: 3px;
     background-repeat: no-repeat;
+    float: left;
 }
+.tag-label-content{
+  position: relative;
+  top: 3px;
+}
+
 .mw-tag-selector > span > i.have_category{ background-image: url(../img/tree.dynamic.png); }
-.mw-tag-selector > span > i.is_page{ background-image: url(../img/context.page.png); }
+.mw-tag-selector > span > i.is_page{ background-image: url(../img/context.page.png); background-position: 2px 1px; }
 .mw-tag-selector > span > i.category_element{ background-image: url(../img/context.category.png); }
 .mw-tag-selector > span > i.is_shop{ background-image: url(../img/tree.shopico.png); }
 .mw-tag-selector > span > i.is_blog{ background-image: url(../img/tree.blog.png); }
