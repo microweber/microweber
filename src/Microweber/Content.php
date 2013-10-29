@@ -1926,6 +1926,8 @@ class Content
 
         }
 
+
+
         if ($include_first == true) {
             $sql = "SELECT * from $table where  id={$parent}    and   is_deleted='n' and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
             //
@@ -2062,6 +2064,20 @@ class Content
             $q = $this->get($params2);
 
         }
+
+
+//        if (isset($params['home_first'])) {
+//
+//            $home_first = $params['home_first'];
+//            unset($params['home_first']);
+//            $hp = $this->homepage();
+//
+//            if($q != false and !empty($q) and !empty($hp)){
+//                array_push($hp, $q);
+//
+//            }
+//        }
+
 
 
         $result = $q;

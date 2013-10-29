@@ -1408,7 +1408,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 .mw-tag-selector > span > i{
     display: inline-block;
     width: 15px;
-    height: 15px;
+    height: 18px;
     margin-right: 3px;
     background-repeat: no-repeat;
 }
@@ -1416,6 +1416,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 .mw-tag-selector > span > i.is_page{ background-image: url(../img/context.page.png); }
 .mw-tag-selector > span > i.category_element{ background-image: url(../img/context.category.png); }
 .mw-tag-selector > span > i.is_shop{ background-image: url(../img/tree.shopico.png); }
+.mw-tag-selector > span > i.is_blog{ background-image: url(../img/tree.blog.png); }
 
 .mw-custom-fields-tags .mw-ui-btn-small{
   padding-left: 2px;
@@ -1909,7 +1910,13 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 
 #pages_edit_container .page_posts_list_tree li.is_shop > a{
     background-image: url(../img/shop.big.png);
-    background-position:  17px 50%;
+    background-position:  21px 50%;
+    background-size: 24px auto;
+}
+
+#pages_edit_container .page_posts_list_tree li.is_blog > a{
+   background-image: url(../img/blog.big.png);
+   background-position: 23px 50%;
 }
 
 

@@ -59,6 +59,9 @@ if (isset($params['data-include_categories'])) {
 		 $params['maxdepth'] =  $o;
 	 }
 	 
+	 
+	 
+	 
 	 if(isset($params['parent']) and $params['parent']  != 0){
 $params['include_first'] =  true;
 	 }
