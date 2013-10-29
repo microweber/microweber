@@ -1097,16 +1097,15 @@ right: 20px;
 
 #mw-admin-toolbar-right{
   float: right;
-  width: 260px;
+  width: 245px;
   padding-top: 3px;
 }
 #helpbtn{
-    margin-top: 14px;
-    padding: 1px 5px;
-    cursor: help;
+   opacity: 0.4;
+   top: 12px;
 }
 #helpbtn:hover{
-  background: rgba(233, 230, 230, 0.5);
+  opacity:1;
 }
 
 #mw-admin-toolbar-right .ilogout,
@@ -1294,6 +1293,11 @@ table.users-list-table .del-row{
 
 .quick-add .mw-title-field::-moz-placeholder{ color: #212121; }
 .quick-add .mw-title-field::-webkit-input-placeholder{ color: #212121; }
+
+
+#pages_edit_container_data{
+  padding: 12px;
+}
 
 
 

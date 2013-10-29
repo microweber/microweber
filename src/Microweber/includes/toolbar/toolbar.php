@@ -80,20 +80,24 @@
               </li>
               <li class="create-content-dropdown">
                 <a href="javascript:;" class="tst-add" title="Create or manage your content">
-
                     <span>Create or manage your content</span>
                     <i class=" dd_rte_arr right"></i>
                 </a>
                 <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px;">
-                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage"></span>&nbsp;<span>EDIT CURRENT</span></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage" style="margin-right: 12px;"></span><span>EDIT CURRENT</span></a></li>
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
                   <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
-
                 </ul>
               </li>
-              <li><a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span></a></li>
+              <li class="create-content-dropdown modules-layouts-menu">
+                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span></a>
+                <ul class="mw-dropdown-list create-content-dropdown-list">
+                  <li><a href="javascript:;" onclick="toolbar_set('modules');" ><span>Modules</span></a></li>
+                  <li><a href="javascript:;" onclick="toolbar_set('layouts');" ><span>Layouts</span></a></li>
+                </ul>
+              </li>
               <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a></li>
 
               <li>
@@ -117,7 +121,7 @@
                 <div class="mw-dropdown-content" style="width: 155px;">
                   <ul class="mw-dropdown-list mw-dropdown-list-icons">
                   <li>
-                      <a title="Back to Admin" href="<?php print $back_url; ?>" style="background: #CDE1FB;"><span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
+                      <a title="Back to Admin" href="<?php print $back_url; ?>"><span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
                   </li>
                     <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><span class="ico iviewsite"></span><span><?php _e("View Website"); ?></span></a></li>
                     <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
@@ -153,7 +157,7 @@
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
                  <div class="mw_clear"></div>
-                 <button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>
+                 <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
              </div>
          </div>
         <div id="tab_modules" class="mw_toolbar_tab">
@@ -292,6 +296,7 @@
           });
           mw.$(".tst-modules").click(function(){
             mw.$('#modules-and-layouts').toggleClass("active");
+            mw.$()
             var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
             if(!has_active){
                  mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
@@ -305,37 +310,11 @@
           var tab_modules = mwd.getElementById('tab_modules');
           var tab_layouts = mwd.getElementById('tab_layouts');
           var modules_switcher = mwd.getElementById('modules_switcher');
-          var modules_switch = mwd.getElementById('modules_switch');
+         // var modules_switch = mwd.getElementById('modules_switch');
 
           modules_switcher.searchIn = 'Modules_List_modules';
 
-          mw.$(modules_switch).click(function(){
-            modules_switcher.value = '';
-            mw.$("#modules-and-layouts .modules-item").show();
-            mw.$(".modules_bar_slide_left").hide();
 
-            mw.$(".modules_bar").scrollLeft(0);
-            mw.$(".modules_bar").scrollLeft(0);
-
-            if(mw.$(modules_switcher).dataset("for") == 'modules'){
-               mw.$(modules_switcher).dataset("for", "layouts");
-               mw.$(modules_switcher).attr("placeholder", "Layouts");
-               $(modules_switch).html("Modules");
-               $(modules_switcher).focus();
-               modules_switcher.searchIn = 'Modules_List_elements';
-               mw.tools.addClass(tab_layouts, 'active');
-               mw.tools.removeClass(tab_modules, 'active');
-            }
-            else{
-               mw.$(modules_switcher).dataset("for", "modules");
-               mw.$(modules_switcher).attr("placeholder", "Modules");
-               $(modules_switch).html("Layouts");
-               $(modules_switcher).focus();
-               modules_switcher.searchIn = 'Modules_List_modules';
-               mw.tools.addClass(tab_modules, 'active');
-               mw.tools.removeClass(tab_layouts, 'active');
-            }
-          });
 
           $(modules_switcher).bind("keyup paste", function(){
              mw.tools.toolbar_searh(window[modules_switcher.searchIn], this.value);
@@ -389,6 +368,40 @@
 
 
         });
+
+
+        toolbar_set = function(a){
+            mw.$("#modules-and-layouts").addClass("active");
+            modules_switcher.value = '';
+            mw.$("#modules-and-layouts .modules-item").show();
+            mw.$(".modules_bar_slide_left").hide();
+
+            mw.$(".modules_bar").scrollLeft(0);
+            mw.$(".modules_bar").scrollLeft(0);
+            mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", true);
+            mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
+
+          if(a=='layouts'){
+               mw.$(modules_switcher).dataset("for", "layouts");
+               mw.$(modules_switcher).attr("placeholder", "Layouts");
+              // $(modules_switch).html("Modules");
+               $(modules_switcher).focus();
+               modules_switcher.searchIn = 'Modules_List_elements';
+               mw.tools.addClass(tab_layouts, 'active');
+               mw.tools.removeClass(tab_modules, 'active');
+          }
+          else if(a=='modules'){
+               mw.$(modules_switcher).dataset("for", "modules");
+               mw.$(modules_switcher).attr("placeholder", "Modules");
+            //   $(modules_switch).html("Layouts");
+               $(modules_switcher).focus();
+               modules_switcher.searchIn = 'Modules_List_modules';
+               mw.tools.addClass(tab_modules, 'active');
+               mw.tools.removeClass(tab_layouts, 'active');
+          }
+        }
+
+
     </script>
 <?php event_trigger('mw_after_editor_toolbar'); ?>
 <?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>

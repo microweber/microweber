@@ -13,9 +13,7 @@
 
  </script>
 
-<a href="javascript:mw.live_edit_load_cats_list();">
-<?php _e("Edit categories"); ?>
-</a>
+ 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">
 		<li><a class="active" href="javascript:;">
@@ -24,7 +22,7 @@
 		<li><a href="javascript:;">
 			<?php _e("Skin/Template"); ?>
 			</a></li>
-		<li id="mw-live-edit-cats-tab"><a href="javascript:mw.live_edit_load_cats_list();">
+		<li id="mw-live-edit-cats-tab"><a href="javascript:;" onclick="mw.live_edit_load_cats_list()">
 			<?php _e("Edit categories"); ?>
 			</a></li>
 	</ul>

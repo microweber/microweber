@@ -5,7 +5,8 @@ $mw_cache_get_content_memory = array();
 $mw_cache_debug = array();
 
 $mw_skip_memory = array();
-
+$mw_cache_deleted_groups = array();
+$mw_apc_cache_instance = false;
 
 if (!defined('MW_USE_APC_CACHE')) {
     $apc_exists = function_exists('apc_fetch');
@@ -37,6 +38,29 @@ class Files
     private $mw_cache_lock_timeout = 0;
     private $mw_cache_lock_time = false;
     private $time_now = false;
+
+
+    public function __construct()
+    {
+
+       global $mw_apc_cache_instance;
+
+        if(is_object($mw_apc_cache_instance)){
+            $this->apc = $mw_apc_cache_instance;
+        } else {
+            if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
+
+                if ($this->apc == false) {
+                    $apc_obj = new \Microweber\Cache\Apc();
+                    $this->apc =$mw_apc_cache_instance=$apc_obj;
+                } else {
+                    $mw_apc_cache_instance = $this->apc;
+                }
+            }
+        }
+
+
+    }
 
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
@@ -176,21 +200,27 @@ class Files
     public function delete($cache_group = 'global')
     {
         $apc_obj = false;
-
+        global $mw_cache_deleted_groups;
         if ($this->mw_cache_deleted_groups == null) {
             $this->mw_cache_deleted_groups = array();
         }
-        if (!in_array($cache_group, $this->mw_cache_deleted_groups)) {
-            $this->mw_cache_deleted_groups[] = $cache_group;
+        if (!is_array($mw_cache_deleted_groups)) {
+            $mw_cache_deleted_groups = array();
+        }
 
+
+        if (!in_array($cache_group, $mw_cache_deleted_groups)) {
+            // $this->mw_cache_deleted_groups[] = $cache_group;
+            $mw_cache_deleted_groups[] = $cache_group;
         } else {
-            //print $cache_group;
+            //   print $cache_group;
             return true;
             //	print $cache_id;
         }
 
 
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
+
             if ($this->apc != false) {
 
                 $this->apc->delete($cache_group);
@@ -369,6 +399,17 @@ class Files
         if ($time == false and defined('MW_CACHE_EXPIRES') and MW_CACHE_EXPIRES != false) {
             $time = MW_CACHE_EXPIRES;
         }
+
+
+        global $mw_cache_deleted_groups;
+
+        if (!is_array($mw_cache_deleted_groups)) {
+            $mw_cache_deleted_groups = array();
+        }
+        if (in_array($cache_group, $mw_cache_deleted_groups)) {
+            return false;
+        }
+
 
         global $mw_cache_get_content_memory;
         global $mw_cache_debug;

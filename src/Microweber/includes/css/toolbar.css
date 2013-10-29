@@ -1135,8 +1135,8 @@ li .ts_action_item:last-child{
 }
 
 input.mwtb-search{
-  width: 95px;
-  margin: 3px 0;
+  width: 137px;
+  margin: 19px 0 0;
   padding: 6px 31px 6px 4px;
   border: 1px solid transparent;
   background: url(../img/modules_search.png) no-repeat right top;

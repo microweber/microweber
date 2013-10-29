@@ -411,6 +411,7 @@ $hide_db_setup = 1;
                     <input name="with_default_content" type="checkbox" checked="checked" value="1">
                     <span></span>&nbsp;
                     <?php _e("Install default content"); ?>
+                    <span class="mw-help" data-help="<?php _e("If checked, some default content will be added."); ?>">?</span>
                   </label>
                 </div>
                 <?php endif; ?>

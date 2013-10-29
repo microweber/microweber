@@ -79,17 +79,11 @@ $(document).ready(function(){
 		 }
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
-
-
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
-
-
-
-
-        mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
+         mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
         	  mw.notification.success("Category changes are saved");
         	  mw.reload_module('[data-type="categories"]');
-        	  if(self !== parent && !!window.parent.mw){
+        	   if(window.parent != undefined && !!window.parent.mw){
                 window.parent.mw.reload_module('categories');
         	  }
         	  mw.reload_module('[data-type="categories/manage"]');

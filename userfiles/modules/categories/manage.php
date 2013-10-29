@@ -1,19 +1,29 @@
 <?php 
-
-
- 
-
 $field_name="categories";
 $selected = 0;
 $tree = array();
+$tree['ul_class'] = 'cat_tree_live_edit';
+$tree['li_class'] = 'sub-nav';
 $tree['rel'] = 'content';
-$tree['link'] = "<a   href='javascript:mw.load_quick_cat_edit({id})'>{title}</a>";
-
-mw('category')->tree($tree);
+$tree['link'] = "<a href='javascript:mw.load_quick_cat_edit({id})'>{title}</a>";
+ mw('category')->tree($tree);
 ?>
+ 
+  
+  
+ 
 <script type="text/javascript">
  mw.load_quick_cat_edit = function($id){
-	     mw.$("#mw_quick_edit_category").attr("data-category-id",$id);
+	 	
+		if($id == undefined){
+			 mw.$("#mw_select_cat_to_edit_dd").val();
+		}
+	 		
+	 	
+	      mw.$("#mw_quick_edit_category").attr("data-category-id",$id);
+		
+		 
+		 
 	     mw.load_module('categories/edit_category', '#mw_quick_edit_category', function(){
        })
  	}
@@ -42,7 +52,14 @@ mw.manage_cat_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print site_url('api/category/reorder'); ?>", obj, function(){});
+       $.post("<?php print site_url('api/category/reorder'); ?>", obj, function(){
+		 
+		   if(self !== parent && !!window.parent.mw){
+                window.parent.mw.reload_module('categories');
+        	  }
+		 
+		   
+		   });
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());
@@ -59,7 +76,6 @@ mw.manage_cat_sort = function(){
  
 }	
 mw.manage_cat_sort();	
-</script>
-
+</script> 
 <a href='javascript:mw.load_quick_cat_edit(0)'>+Add new category</a>
 <div id="mw_quick_edit_category"></div>

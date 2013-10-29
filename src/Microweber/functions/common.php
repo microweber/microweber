@@ -1379,6 +1379,32 @@ function delete_module_as_template($data)
 }
 
 
+
+
+function layouts_list($options = false)
+{
+
+    return mw('layouts')->scan($options);
+}
+
+function get_layouts_from_db($options = false)
+{
+
+    return mw('layouts')->get($options);
+}
+
+function get_modules_from_db($options = false)
+{
+
+    return mw('module')->get($options);
+}
+
+
+
+
+
+
+
 function get_modules($options = false)
 {
 

@@ -446,6 +446,19 @@ class Category
 
             $ul_class_name = $params['ul_class_name'];
         }
+        if (isset($params['li_class'])) {
+
+            $li_class_name = $params['li_class'];
+        }
+
+        if (isset($params['li_class_name'])) {
+
+            $li_class_name = $params['li_class_name'];
+        }
+
+        if(!isset($li_class_name)){
+            $li_class_name = false;
+        }
 
         if (isset($params['include_first'])) {
             $include_first = $params['include_first'];
@@ -576,12 +589,12 @@ class Category
 
         if ($skip123 == false) {
 
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name , $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
         } else {
 
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 foreach ($fors as $cat) {
-                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name = false, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name , $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
                 }
             }
         }

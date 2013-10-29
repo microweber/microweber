@@ -27,7 +27,7 @@ api_expose('content/menu_item_save');
 class Content
 {
     public $app;
-
+    public $no_cache=false;
     function __construct($app = null)
     {
 
@@ -266,6 +266,14 @@ class Content
         }
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
+
+
+        if( $this->no_cache == true){
+            $params['cache_group'] = false;
+            $params['no_cache'] = true;
+
+        }
+
         if (isset($params['keyword'])) {
 
             $params['search_in_content_data_fields'] = true;
@@ -3505,7 +3513,7 @@ class Content
                     $save['content_id'] = $content_id;
                     $new_item = $this->app->db->save($menus, $save);
                     $this->app->cache->delete('menus/' . $save['parent_id']);
-                    $this->app->cache->delete('menus/' . $save['parent_id']);
+                    //$this->app->cache->delete('menus/' . $save['parent_id']);
 
                     $this->app->cache->delete('menus/' . $value);
 
@@ -3516,6 +3524,7 @@ class Content
             $this->app->cache->delete('menus');
 
         }
+
 
     }
 
@@ -4083,7 +4092,7 @@ class Content
         }
 
         $data_to_save['allow_html'] = true;
-
+        $this->no_cache = true;
         $save = $this->app->db->save($table, $data_to_save);
         $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');

@@ -3063,7 +3063,10 @@ a.module-icon-title{
 
 
 
+
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 35px;  }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list .modules-layouts-menu  li a{ padding-left: 15px;  }
+.toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list  li a{ padding-left: 15px;  }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a{
   padding-left: 21px;
@@ -3074,7 +3077,8 @@ a.module-icon-title{
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list ul{ background: white url(../img/deeparr.png) no-repeat 21px 9px; }
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list a:hover{
-     text-decoration: underline
+     text-decoration: underline;
+     background-color: #f5f5f5;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list ul ul{ background-position: 41px 9px; }
@@ -3100,11 +3104,15 @@ a#backtoadminindropdown{
    padding: 14px;
    display: block;
    text-align: left;
+
+}
+a#backtoadminindropdown:hover{
+     background: #f5f5f5;
 }
 
 #backtoadminindropdown a{
   padding: 5px 14px;
-  background: #CDE1FB;width: 126px;
+  width: 126px;
 }
 
 #backtoadminindropdown{

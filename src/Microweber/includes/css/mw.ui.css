@@ -254,6 +254,7 @@
 .iUnpublish{ background-position: -1409px -133px;}
 .iPublish{ background-position: -1381px -133px;}
 .iDenied{ background-position: -1381px -133px;}
+.ihelpico{ background-position: -296px -115px;}
 
 
 
@@ -775,7 +776,7 @@
 }
 
 .toolbar-sections-tabs .mw-dropdown-list > li a:hover{
-  background-color: white;
+background-color: #f5f5f5;
 }
 
 

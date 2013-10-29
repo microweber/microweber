@@ -48,7 +48,7 @@
         <div class="mw-toolbar-notification">
   	        <module type="admin/notifications" view="toolbar"  limit="5" id="mw-header-notif" />
         </div>
-        <a href="javascript:;" class="right" id="helpbtn" onclick="mw.helpinfo.init(true);"><?php _e("Help"); ?></a>
+        <a href="javascript:;" id="helpbtn" class="ico ihelpico right" onclick="mw.helpinfo.init(true);" title="<?php _e("Help"); ?>"></a>
       </div>
     </div>
 </div>

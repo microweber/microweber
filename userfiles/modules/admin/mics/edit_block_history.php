@@ -93,7 +93,7 @@ foreach ($history_files as $value) {
 		<?php
 
 	//$content_of_file = file_get_contents($filename);	?>
-		<a title="Click to Restore" href="javascript:mw.history.load('<?php print ($item['id']) ?>')"> <?php print mw('format')->ago($item['created_on'], $granularity = 1); ?> </a> </li>
+		<a title="Click to Restore" href="javascript:;" onclick="mw.history.load('<?php print ($item['id']) ?>')"> <?php print mw('format')->ago($item['created_on'], $granularity = 1); ?> </a> </li>
 	<?php endforeach; ?>
 	<?php if(is_array($history_files_fields)): ?>
 	<?php foreach ($history_files_fields as $history_files_field) : ?>

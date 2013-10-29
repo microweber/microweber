@@ -157,6 +157,10 @@ if (isset($to_save['is_installed'])) {
                 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                     set_time_limit(0);
                 }
+				
+				
+				__mw_install_log('Clearing cache');
+
                 mw('cache')->flush();
 
                 $save_config = $save_config_orig;
@@ -170,7 +174,7 @@ if (isset($to_save['is_installed'])) {
 
                 $default_htaccess_file = MW_ROOTPATH . '.htaccess';
 
-
+				__mw_install_log('Checking .htaccess');
                 $to_add_htaccess = true;
                 if (is_file($default_htaccess_file)) {
                     $default_htaccess_file_c = file_get_contents($default_htaccess_file);
