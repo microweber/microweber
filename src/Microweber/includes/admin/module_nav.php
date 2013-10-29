@@ -1,6 +1,7 @@
 <?php
     $module = mw('module')->get('one=1&ui=any&module='.$v_mod);
  ?>
+ 
 
  <script type="text/javascript">
     mwd.body.className += ' module-settings-page';

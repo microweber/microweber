@@ -875,3 +875,4 @@ $language["show-categories-from"]= 'Show Categories From' ;
 $language["you-have-one-new-comment"]= 'You have one new comment' ; 
 $language["see-new"]= 'See new' ; 
 $language["you-are-now-logged-in"]= 'You are now logged in' ; 
+$language["change-image"]= 'Change Image' ; 

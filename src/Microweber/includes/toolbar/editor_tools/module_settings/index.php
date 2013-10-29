@@ -112,7 +112,7 @@
 
 			
 			  <?php if(is_array( $module_info)): ?>
-			  <?php $mod_adm =  admin_url('view:').module_name_encode($module_info['module']);; ?>
+			  <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']);; ?>
 			  is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
 			  if(is_module_tml_holder.length > 0 ){
 

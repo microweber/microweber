@@ -225,7 +225,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         <li><span><span class="ico itabadvanced"></span><span><?php _e("Advanced"); ?></span></span></li>
     </ul>
 
-          <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+          <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
              <microweber module="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
              <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
           </div>
@@ -451,11 +451,15 @@ mw.edit_content.handle_form_submit = function(go_live){
        mw.$('#mw-parent-page-value').bind('change', function(e){
           mw.edit_content.load_editor();
        });
-       mw.tools.tabGroup({
+       var qtabs = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
           tabs: mw.$(".quick-add-post-options-item"),
           toggle:true
        });
+       if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
+           qtabs.set(0);
+       }
+
        var piblished_nav = mwd.getElementById("un-or-published");
        mw.ui.btn.radionav(piblished_nav, 'span');
        $(piblished_nav.getElementsByTagName('span')).bind("click", function(){

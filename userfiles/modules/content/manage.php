@@ -206,7 +206,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 <?php if(isset($page_info) and ($page_info) == false): ?>
 <div style="width: 370px;margin-left: 30px;" class="left">
 
-<h2  style="  ">Last Edited</h2>
+<h2>Last Edited</h2>
 </div>
 <?php endif; ?>
 

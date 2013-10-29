@@ -1079,7 +1079,7 @@ li .ts_action_item:last-child{
 }
 
 .tst-logo span{ left: -6px; top: 15px; }
-.tst-logo .dd_rte_arr, .tst-add .dd_rte_arr{ margin-right: 8px; margin-top: 3px; }
+[class*='tst-'] .dd_rte_arr{ margin-right: 8px; margin-top: 3px; }
 .tst-modules span{ top: 16px; background-position: -99px 0; }
 .tst-add span{ top: 16px; background-position: -46px 0; }
 .tst-design span{ top: 16px; background-position: -149px 0; }
@@ -1135,7 +1135,7 @@ li .ts_action_item:last-child{
 }
 
 input.mwtb-search{
-  width: 137px;
+  width: 99px;
   margin: 19px 0 0;
   padding: 6px 31px 6px 4px;
   border: 1px solid transparent;

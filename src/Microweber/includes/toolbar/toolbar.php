@@ -92,7 +92,7 @@
                 </ul>
               </li>
               <li class="create-content-dropdown modules-layouts-menu">
-                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span></a>
+                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span style="left: -3px">Modules & Layouts</span><i class=" dd_rte_arr right"></i></a>
                 <ul class="mw-dropdown-list create-content-dropdown-list">
                   <li><a href="javascript:;" onclick="toolbar_set('modules');" ><span>Modules</span></a></li>
                   <li><a href="javascript:;" onclick="toolbar_set('layouts');" ><span>Layouts</span></a></li>
@@ -296,7 +296,7 @@
           });
           mw.$(".tst-modules").click(function(){
             mw.$('#modules-and-layouts').toggleClass("active");
-            mw.$()
+            mw.$(this).next('ul').hide()
             var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
             if(!has_active){
                  mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
@@ -371,14 +371,15 @@
 
 
         toolbar_set = function(a){
-            mw.$("#modules-and-layouts").addClass("active");
+            mw.$("#modules-and-layouts, .tst-modules").addClass("active");
             modules_switcher.value = '';
-            mw.$("#modules-and-layouts .modules-item").show();
+            mw.$("#modules-and-layouts .module-item").show();
+
             mw.$(".modules_bar_slide_left").hide();
 
             mw.$(".modules_bar").scrollLeft(0);
-            mw.$(".modules_bar").scrollLeft(0);
-            mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", true);
+
+            mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", "true");
             mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
 
           if(a=='layouts'){

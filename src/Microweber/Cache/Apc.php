@@ -7,8 +7,20 @@ class Apc
 {
     public $mw_cache_mem = array();
 
+
+    public $group_prefix = false;
+    function __construct(){
+
+        if($this->group_prefix == false and isset($_SERVER["SERVER_NAME"])){
+            $this->group_prefix  = 'apc-'.($_SERVER["SERVER_NAME"]);
+        }
+    }
+
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
+
+        $cache_group = $this->group_prefix.$cache_group;
+
 
         $cache_id = $cache_group . $cache_id;
         static $apc_apc_delete;
@@ -16,7 +28,7 @@ class Apc
             $apc_apc_delete = function_exists('apc_delete');
         }
         if ($apc_apc_delete == true) {
-            apc_delete($cache_id);
+            @apc_delete($cache_id);
         }
 
         $data_to_cache = serialize($data_to_cache);
@@ -102,6 +114,7 @@ class Apc
         if (in_array($cache_group, $mw_cache_deleted_groups)) {
             return false;
         }
+        $cache_group = $this->group_prefix.$cache_group;
 
 
         $cache_id_apc = $cache_group . $cache_id;

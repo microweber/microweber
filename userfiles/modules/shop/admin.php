@@ -32,22 +32,8 @@ $here = $here.DS.'admin_views'.DS;
 <?php //mw('content')->create_default_content('shop'); ?>
 <?php include($here .'nav.php'); ?>
 <?php $is_shop = 'y'; ?>
-<?php
-
-$display_file = MW_ADMIN_VIEWS_DIR .'content.php';
-if($active_action != false){
-	$vf = $here.$active_action.'.php' ;
-
-	if(is_file($vf)){
-	$display_file = ($vf);
-
-	}
-
-}
-
-?>
-<?php include($display_file); ?>
-<?php endif; ?>
+<module type="content/backend" id="mw-content-backend" is_shop="y" />
+ <?php endif; ?>
 
 
 

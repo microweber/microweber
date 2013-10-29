@@ -715,8 +715,8 @@ mw.tools = {
     scale:function(){
       var window_width = $(window).width();
       mw.$(".modules_bar").each(function(){
-           $(this).width(window_width - 204);
-           mw.$(".modules_bar_slider", this).width(window_width - 220);
+           $(this).width(window_width - 167);
+           mw.$(".modules_bar_slider", this).width(window_width - 183);
       });
     },
     prepare:function(){
@@ -1754,8 +1754,25 @@ mw.tools = {
       }
     }
   },
-  tabGroup : function(obj, master){
+  tabGroup : function(obj, master, m){
     var master = master || mwd.body;
+    var m = m || true;
+    if(m){
+      var m = {
+          set: function(i){
+                if(typeof i === 'number'){
+                    if(!$(obj.nav).eq(i).hasClass(active)){
+                        mw.$(obj.nav).removeClass(active);
+                        $(obj.nav).eq(i).addClass(active);
+                        mw.$(obj.tabs).hide().eq(i).show();
+                    }
+                }
+          },
+          toggle:function(){
+
+          }
+      }
+    }
     var active = obj.activeNav || obj.activeClass || "active";
     mw.$(obj.nav).click(function(){
       if(!$(this).hasClass(active)){
@@ -1779,6 +1796,8 @@ mw.tools = {
       }
       return false;
     });
+
+    return m;
   },
   has:function(el, what){
     return el.querySelector(what) !== null;
@@ -3438,7 +3457,8 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
+          //resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
+          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }

@@ -877,7 +877,7 @@ form.add-edit-page-post textarea{
   padding: 10px 8px;
   margin-top: 12px;
   margin-bottom: 28px;
-  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  background: #EDEDED;
   border: 1px solid #E6E6E6;
   border-top-color: #C6C6C6;
 
@@ -914,7 +914,7 @@ form.add-edit-page-post textarea{
 
 .custom-field-edit-header{
   height: 25px;
-  background: url(../img/grad.php?top=EDEDED&bot=F4F4F4);
+  background: #ededed;
 }
 .mw-custom-fields-from-page-title-text{
   display: block;
@@ -1739,11 +1739,11 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .mw-modules-admin li > .module:hover,
 .mw-modules-admin .module_item:hover{
-  background: url(../img/grad.php?top=FBFBFB&bot=F1F1F1);
+  background: #FAFAFA;
 }
 .mw-modules-admin li > .module.active,
 .mw-modules-admin .module_item.active{
-  background: url(../img/grad.php?top=FBFBFB&bot=F1F1F1);
+  background: #FAFAFA;
   font-weight: bold;
 }
 
@@ -3065,8 +3065,8 @@ a.module-icon-title{
 
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 35px;  }
-.toolbar-sections-tabs > ul > li > .mw-dropdown-list .modules-layouts-menu  li a{ padding-left: 15px;  }
-.toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list  li a{ padding-left: 15px;  }
+
+.toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list  li a{padding: 7px 15px; }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a{
   padding-left: 21px;

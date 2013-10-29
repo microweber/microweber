@@ -1,4 +1,1 @@
-Posts backend admin  not finished yet
-
-
-    <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
+<module type="content/backend" id="mw-content-backend" />

@@ -493,6 +493,14 @@ body.view-shop .mw_action_post{
     border-right: 1px solid #E2E2E2;
 }
 
+.mw_edit_pages_nav .mw-ui-btn{
+  padding: 3px 4px;
+}
+
+.mw_edit_pages_nav .mw-ui-btn .iplus{
+  margin-left: 5px;
+}
+
 
 
 
@@ -571,7 +579,7 @@ body.view-shop .mw_action_post{
     background-position: 47px 6px;
 }
 
-/* <Remove> */ .mw-tree .have_category > a[data-page-id='3536']{background-image: url(../img/tree.blog.png);} /* </Remove> */
+/* <Remove> */ .mw-tree .is_blog > a, .mw-tree .is_blog > label{background-image: url(../img/tree.blog.png);} /* </Remove> */
 
 .mw-tree .category_element > a, .mw-tree .category_element > label{
     background-image: url(../img/tree.cat.png);
@@ -1020,11 +1028,11 @@ right: 15px;
   display: inline-block;
   padding: 8px 10px;
   cursor: pointer;
-  background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
-  background: #F5F5F5;
+
+  background: url(../img/grad.php?top=F5F5F5&bot=E6E6E6) no-repeat;
   border-width: 1px;
   border-style: solid;
-  border-color:#d5d1d1 #c2bfbf #A1A0A0;
+  border-color:#EFECEC;
   color: #434343;
   font-size: 11px;
   line-height:normal;
@@ -1137,7 +1145,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 }
 
 .mw-ui-btn:hover, .mw-ui-btn2:hover{
- background: url(../img/grad.php?top=F5F5F5&bot=EBEBEB) no-repeat;
+ background: #F2F2F2;
 }
 
 
@@ -1150,7 +1158,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-red{background: url(../img/grad.php?top=FFB0B0&bot=FF7373);border-color: #FFB0B0;border-bottom-color: #FF1F1F;}
 
 .mw-ui-btn-red:hover{background: url(../img/grad.php?top=FF9E9E&bot=FF5C5C);}
-.mw-ui-btn-red:active{box-shadow: inset 0 0 5px #B80000}
+.mw-ui-btn-red:active{box-shadow: inset 0 0 5px -1px #B80000}
 
 
 

@@ -887,10 +887,8 @@ class Controller
 
                 // return $pq->htmlOuter();
             }
-            if (isset($_SESSION)) {
-                if (!headers_sent()) {
-                    setcookie('last_page', $page_url, time() + 5400);
-                }
+            if (isset($_SESSION) and !empty($_SESSION) and $is_editmode) {
+                session_set('last_content_id', CONTENT_ID);
             }
 
 
