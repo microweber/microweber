@@ -163,6 +163,7 @@ mw.on.hashParam("parent-page", function(){
 
 mw.on.hashParam("action", function(){
   $(mwd.body).addClass("loading");
+  window.scrollTo(0, 0);
   mw.$("#pages_edit_container").stop();
   mw.$('#pages_edit_container').removeAttr('mw_select_trash');
   mw.$(".mw_edit_page_right").css("overflow", "hidden");
@@ -229,11 +230,7 @@ edit_load = function(module){
   else{
       var slide = true;
   }
-
-
   mw.load_module(module,'#pages_edit_container');
-
-
 }
 
 function mw_select_category_for_editing($p_id){

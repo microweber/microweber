@@ -76,18 +76,24 @@ mw.options = {
 					var og = refresh_modules11;
 				}
 
-if(og1 != undefined){
- 	var og = og1;
-	if(refresh_modules11 == undefined){
-		if(refresh_modules12 == undefined){
-			refresh_modules11 = og1;
-			} else {
-				refresh_modules11 = refresh_modules12;
-			}
-		}
-}
-
-
+				if(og1 != undefined){
+					var og = og1;
+					if(refresh_modules11 == undefined){
+						if(refresh_modules12 == undefined){
+							refresh_modules11 = og1;
+							} else {
+								refresh_modules11 = refresh_modules12;
+							}
+						}
+				}
+				
+				if(og == null || og == ''){
+				
+				var og_test = mw.tools.firstParentWithClass(el, 'module');
+				 og = og_test.id;
+				 //alert(og);
+				}
+				
                 if(el.type==='checkbox'){
                    var val = '';
                    var items = mwd.getElementsByName(el.name), i=0, len = items.length;
@@ -153,7 +159,8 @@ if(og1 != undefined){
 						
 						
 						if(reaload_in_parent != undefined && reaload_in_parent !== null){
-							d(reaload_in_parent);
+						// window.parent.mw.reload_module("#"+refresh_modules11);
+	 
 						return false;	
 						}
 						
@@ -161,7 +168,7 @@ if(og1 != undefined){
 						if(also_reload != undefined){
 							if (window.mw != undefined && reaload_in_parent !== true) {
                                 if (window.mw.reload_module !== undefined) {
-
+ 
 									window.mw.reload_module(also_reload, function(reloaded_el){
 
 										mw.options.form(reloaded_el, callback);
@@ -171,13 +178,17 @@ if(og1 != undefined){
 
 						}
 
-
+					
 
 						 if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
+								
+								
+								
+								
                                 if (window.mw.reload_module !== undefined) {
-
+	
 									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
 
 										mw.options.form(reloaded_el, callback);
@@ -192,13 +203,18 @@ if(og1 != undefined){
 							 
 								if(reaload_in_parent !== true){
                                 if (window.mw.reload_module !== undefined) {
-                                    window.mw.reload_module(refresh_modules11, function(reloaded_el){
-
-										mw.options.form(reloaded_el, callback);
-									});
-								 	window.mw.reload_module('#'+refresh_modules11, function(reloaded_el){
-										mw.options.form(reloaded_el, callback);
-									});
+									 
+										if (window.parent.mw.reload_module != undefined) {
+											 window.parent.mw.reload_module(refresh_modules11);
+											 window.parent.mw.reload_module("#"+refresh_modules11);
+										} else {
+										window.mw.reload_module(refresh_modules11, function(reloaded_el){
+	
+											mw.options.form(reloaded_el, callback);
+										});
+									
+									}
+								 	 
 
                                 }
 								
@@ -206,7 +222,7 @@ if(og1 != undefined){
 								
                             }
                         }
-
+ 
                          typeof callback === 'function' ?  callback.call(data) : '';
 
                     }

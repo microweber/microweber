@@ -30,6 +30,20 @@ $mod_name = $params['parent-module'];
  
 $cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?php  if(is_array( $templates)): ?>
+ 
+ <div class="mw-mod-template-settings-holder">
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
 <label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
 <div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
 
@@ -94,6 +108,6 @@ $possible_dir = $template_dir . DS . 'modules' . DS .$mod_name .DS;
 </label>
 
 <a class="mw-ui-link" href="javascript:;"><?php _e("Browse Templates"); ?></a>
-
+ </div>
 <?php //d($templates); ?>
 <?php endif; ?>

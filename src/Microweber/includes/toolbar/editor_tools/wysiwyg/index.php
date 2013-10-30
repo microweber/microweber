@@ -127,6 +127,10 @@ $(window).load(function(){
       }
   }, false);
 
+  if(mw.is.ie){
+       mw.wysiwyg.nceui()
+  }
+
 })
 
 

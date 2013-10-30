@@ -59,7 +59,7 @@ if(isset($params['quick-add'])){
 
 __mw_pics_save_msg = function(){
 	 if(mw.notification != undefined){
-			 mw.notification.success('Settings are saved!');
+			 mw.notification.success('Picture settings are saved!');
 	 }
 	 
 	 var pics_from_post = $('#mw-use-post-pics:checked').val();
@@ -71,15 +71,26 @@ __mw_pics_save_msg = function(){
 		 $("#mw-pics-list-live-ed").attr('for', 'modules');
 		 $("#mw-pics-list-live-ed").attr('for-id', '<?php print $mod_id ?>');
 	 }
-	 
+	 // mw.reload_module_parent("pictures");
+	 //  mw.reload_module_parent("#<?php print $params['id'] ?>");
+	//  alert("");
+	
+	if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+		//alert("<?php print $params['id'] ?>");
+	window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+	 }
+										
+										
+										
 	 mw.reload_module("#mw-pics-list-live-ed");
+	 
 	 
 	 
 	
 }
 
 $(document).ready(function(){
-    mw.options.form('.mw_simple_tabs', __mw_pics_save_msg);
+    mw.options.form('#mw-pic-scope', __mw_pics_save_msg);
 });
  </script>
 <div class="mw_simple_tabs mw_tabs_layout_simple">
@@ -93,7 +104,7 @@ $(document).ready(function(){
   <div class="tab">
  
  <?php if($quick_add == false and $use_from_post_forced == false): ?>
-  <label class="mw-ui-check">
+  <label class="mw-ui-check" id="mw-pic-scope">
       <input type="checkbox" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field" <?php if( $use_from_post): ?>   checked="checked"  <?php endif; ?> />
       <span></span><span><?php _e("Use pictures from post"); ?></span></label>
      <?php endif; ?>

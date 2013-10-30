@@ -24,6 +24,7 @@
               mw.require("tools.js", true);
               mw.require("forms.js", true);
               mw.require('wysiwyg.js', true);
+			   mw.require('options.js', true);
           </script>
 
 <style>
@@ -220,7 +221,7 @@
 
 
 mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
- mw.$(".mw_option_field").bind("change", function (e) {
+ mw.$(".mw_option_field222222222").bind("change", function (e) {
 
 
                 if(typeof liveEditSettings === 'boolean'){
@@ -312,11 +313,13 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 								 
 								 if(reaload_in_parent != true){
 									if (window.mw.reload_module != undefined) {
-										window.mw.reload_module(refresh_modules11);
-										window.mw.reload_module('#'+refresh_modules11);
+									//	window.mw.reload_module(refresh_modules11);
+									//	window.mw.reload_module('#'+refresh_modules11);
 									}
 								 }
                             }
+							
+							
 							
 							
 							
@@ -336,6 +339,8 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 								 
 								} else {
 								 if (window.mw.reload_module != undefined) {
+									 
+									 
 										window.mw.reload_module(also_reload);
 								 
 									}
@@ -363,6 +368,7 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
             });
             });
           </script>
+		  
           </head>
           <body class="mw-external-loading loading">
 
@@ -398,6 +404,10 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
  <input type="submit" />
 <?php endif; ?>
 </form>
-          
+<script  type="text/javascript">
+         $(document).ready(function(){
+    mw.options.form('#settings-container');
+}); 
+</script>
 </body>
 </html>
