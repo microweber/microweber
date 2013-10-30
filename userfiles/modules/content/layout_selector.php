@@ -210,26 +210,20 @@ mw.templatePreview = {
         mw.$("#layout_selector<?php print $rand; ?> li").eq(which).addClass('active');
         $(mw.templatePreview.selector).trigger('change');
       },
-      zoom:function(a){
-        if(typeof a =='undefined'){
-          var holder = mw.$('.preview_frame_wrapper');
-          holder.toggleClass('zoom');
-          holder[0].querySelector('iframe').contentWindow.scrollTo(0,0);
-        }
-        else if(a=='out'){
-          mw.$('.preview_frame_wrapper').removeClass('zoom');
-        }
-        else{
-         mw.$('.preview_frame_wrapper').addClass('zoom');
-
-
-
-       }
-       mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
-
-
-
-     },
+  zoom:function(a){
+    if(typeof a =='undefined'){
+      var holder = mw.$('.preview_frame_wrapper');
+      holder.toggleClass('zoom');
+      holder[0].querySelector('iframe').contentWindow.scrollTo(0,0);
+    }
+    else if(a=='out'){
+      mw.$('.preview_frame_wrapper').removeClass('zoom');
+    }
+    else{
+     mw.$('.preview_frame_wrapper').addClass('zoom');
+   }
+   mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0,0);
+ },
 
 
      prepare:function(){
@@ -589,14 +583,14 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<?php else: ?>
 			<div class="mw-overlay mw-overlay-quick-link"  onclick="mw.templatePreview.zoom();"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
 
-				<div id="preview-edit-links"> 
-				
+				<div id="preview-edit-links">
+
 				
 
-					
-				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"> <span class="ico ieditpage"></span><span>
+
+				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
-					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><span class="ico ilive"></span>
+					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y" onclick="mw.e.cancel(event);"><span class="ico ilive"></span>
 					<?php _e("Go Live Edit"); ?>
 					</a> </div>
 			</div>

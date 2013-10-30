@@ -1,4 +1,5 @@
 set_main_height = function(){
+   mw.$("#mw_edit_page_left").css("minHeight", $(window).height());
   var h = Math.max($(mwd.body).height(), $(window).height());
   mw.$("#mw_edit_page_left").css("minHeight", h-41)
 }

@@ -10,11 +10,8 @@
 			</a></li>
 	</ul>
 	<div class="tab">
-	<?php 
-	
- 
-	include_once($config['path_to_module'].'admin_backend.php'); ?>
-
+	 
+	<module type="<?php print($config['module_name']); ?>/admin_backend" id="mw_shipping_cfg"    />
 	</div>
 	<div class="tab">
 	

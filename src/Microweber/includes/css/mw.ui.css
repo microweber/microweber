@@ -253,9 +253,9 @@
 .iviewsite{ background-position: -1381px -98px;}
 .iUnpublish{ background-position: -1409px -133px;}
 .iPublish{ background-position: -1381px -133px;}
-.iDenied{ background-position: -1381px -133px;}
+.iDenied{  background-position: -1381px -133px;}
 .ihelpico{ background-position: -296px -115px;}
-
+.iloading{ background-image: url(../img/img_check_loading.gif); background-position: center;  }
 
 
 

@@ -47,7 +47,7 @@ class shipping_api
        
     }
 
-    // getInstance method
+
     function save($data)
     {
         if (is_admin() == false) {
@@ -132,8 +132,7 @@ class shipping_api
 
                 db_update_position($table, $indx);
                 return true;
-                // d($indx);
-            }
+             }
         }
     }
 

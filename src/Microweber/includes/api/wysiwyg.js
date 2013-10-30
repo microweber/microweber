@@ -410,11 +410,7 @@ mw.wysiwyg = {
             mw.tools.removeClass(mw.image_resizer, 'active');
         }
 
-          if(event.type == 'keyup'){
-             if(event.keyCode == 46 || event.keyCode == 8){
 
-          }
-          }
           if(event.type == 'keydown'){
 
            if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'TEXTAREA'){
@@ -433,6 +429,11 @@ mw.wysiwyg = {
            }
 
            if(event.keyCode == 46 || event.keyCode == 8){
+
+
+             if(!mw.settings.liveEdit){
+               return true;
+             }
 
               if(typeof mw.current_element !== 'undefined' && mw.current_element.innerHTML == ''){
                    $(mw.current_element).remove();

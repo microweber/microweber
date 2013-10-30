@@ -8,8 +8,12 @@ mw.iframecallbacks = {
       var target = target || '_self';
       mw.wysiwyg.restore_selection();
 
-
          var range = window.getSelection().getRangeAt(0);
+
+         mw.tools.addClass(mw.tools.firstParentWithClass(range.startContainer, 'edit'), 'changed orig_changed');
+
+         mw.askusertostay = true;
+
          if(range.commonAncestorContainer.nodeName === 'A'){
             $(range.commonAncestorContainer).attr("href", url).attr("target", target);
             return false;
@@ -47,14 +51,13 @@ mw.iframecallbacks = {
              else{
                var html = "<a href='" + url + "' target='"+target+"'>" + url + "</a>";
              }
-
              mw.wysiwyg.insert_html(html);
           }
       }
 
     },
     insert_html:function(html){ return mw.wysiwyg.insert_html(html);},
-    insert_image:function(url){ return mw.wysiwyg.insert_image(url);},
+    insert_image:function(url){  return mw.wysiwyg.insert_image(url);},
     set_bg_image:function(url){ return mw.wysiwyg.set_bg_image(url);},
     fontColor:function(color){ return mw.wysiwyg.fontColor(color);},
     fontbg:function(color){ return mw.wysiwyg.fontbg(color);},
@@ -64,6 +67,9 @@ mw.iframecallbacks = {
     editimage:function(url){
         mw.image.currentResizing.attr("src", url);
         mw.image.currentResizing.css('height', 'auto');
+        //d(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'))
+        mw.tools.addClass(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
+        mw.askusertostay = true;
     },
     add_link_to_menu:function(){
 
@@ -72,6 +78,9 @@ mw.iframecallbacks = {
       mw.wysiwyg.restore_selection();
       var link = mw.wysiwyg.findTagAcrossSelection('a');
       link.href = a;
+
+      mw.tools.addClass(mw.tools.firstParentWithClass(link, 'edit'), 'changed orig_changed');
+       mw.askusertostay = true;
     }
 
 }

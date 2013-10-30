@@ -221,7 +221,12 @@ function isarr($var)
         return false;
     }
 }
+function is_ajax()
 
+{
+    return mw('url')->is_ajax();
+
+}
 function url_segment($k = -1, $page_url = false)
 {
     return mw('url')->segment($k, $page_url);

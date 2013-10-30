@@ -888,7 +888,8 @@ class Controller
                 // return $pq->htmlOuter();
             }
             if (isset($_SESSION) and !empty($_SESSION) and $is_editmode) {
-                session_set('last_content_id', CONTENT_ID);
+                 session_set('last_content_id',CONTENT_ID);
+
             }
 
 
@@ -1810,14 +1811,19 @@ class Controller
         }
 
         if (isset($_REQUEST['live_edit'])) {
-            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new $this->app->view($p_index);
-            $l->params = $data;
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
+
+
+              $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+              $p_index = normalize_path($p_index, false);
+              $l = new $this->app->view($p_index);
+              $l->params = $data;
+              $layout = $l->__toString();
+              $res = str_replace('{content}', $res, $layout);
+              $res = $this->app->parser->process($res, $options = false);
+
+
+
         }
-        $res = $this->app->parser->process($res, $options = false);
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {

@@ -2121,7 +2121,7 @@ mw.tools = {
   },
   module_settings:function(a, view){
   if(typeof a === 'string'){
-      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&type="+a;
+      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&module_settings=true&type="+a;
       return mw.tools.modal.frame({
         url:src,
         width:532,
@@ -2170,6 +2170,7 @@ mw.tools = {
   	  delete(data1.contenteditable);
     }
 	data1.live_edit = 'true';
+	data1.module_settings = 'true';
 	if(view != undefined){
 	    data1.view = view;
 	}
@@ -2293,14 +2294,14 @@ Alert = mw.tools.alert;
 
 
 
-Wait('$', function(){
+Wait('jQuery', function(){
 
-  $.fn.getDropdownValue = function() {
+  jQuery.fn.getDropdownValue = function() {
     return this.dataset("value");
   };
 
 
-  $.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
+  jQuery.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
      var isCustom = isCustom || false;
      var triggerChange = triggerChange || false;
      var isValidOption = false;
@@ -2331,7 +2332,7 @@ Wait('$', function(){
 
 
 
-$.fn.commuter = function(a,b) {
+jQuery.fn.commuter = function(a,b) {
   if(a===undefined){return false}
   var b = b || function(){};
   return this.each(function(){

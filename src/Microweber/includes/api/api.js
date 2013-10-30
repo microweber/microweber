@@ -465,11 +465,15 @@ mw.askusertostay = false;
 
 
     $.post(url, to_send, function(data) {
+
+
+
       if(mw.session != undefined){
         mw.session.checkPause = false;
       }
       if(DONOTREPLACE){
           obj.done.call($(selector)[0], data);
+          mw.tools.removeClass(mwd.body, 'loading');
           return false;
       }
       $(selector).after(data);
@@ -485,14 +489,14 @@ mw.askusertostay = false;
 
       if(!!mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
-          if(mw.on != undefined){
+          if(!!mw.on){
             mw.on.moduleReload(id, "", true);
           }
       }
        if(mw.on != undefined){
         mw.on.DOMChangePause = false;
        }
-      
+       mw.tools.removeClass(mwd.body, 'loading');
     });
 
   }

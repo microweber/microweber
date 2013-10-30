@@ -39,8 +39,14 @@ class shipping_to_country
         $shipping_country = $this->app->user->session_get('shipping_country');
         $defined_cost = 0;
         $shipping_country = $this->get('one=1&is_active=y&shipping_country=' . $shipping_country);
-
-
+$is_worldwide = false;
+		 if ($shipping_country == false) {
+			  $shipping_country = $this->get('one=1&is_active=y&shipping_country=Worldwide');
+					if (is_array($shipping_country)) {
+					$is_worldwide = true;
+					 
+					}
+		 }
         if ($shipping_country == false) {
 
 
@@ -187,8 +193,9 @@ class shipping_to_country
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
             $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
         }
-
+if($is_worldwide == false){
         $this->app->user->session_set('shipping_country', $shipping_country['shipping_country']);
+} 
 
         $this->app->user->session_set('shipping_cost', $defined_cost);
 
@@ -269,13 +276,24 @@ class shipping_to_country
     {
 
         if (isset($params['country'])) {
-
+			$is_worldwide = false;
             $active = $this->get('one=1&is_active=y&shipping_country=' . $params['country']);
             if (!is_array($active)) {
                 $active = $this->get('one=1&is_active=y&shipping_country=Worldwide');
+				if (is_array($active)) {
+				$is_worldwide = true;
+				}
             }
             if (is_array($active) and isset($active['shipping_country'])) {
-                $this->app->user->session_set('shipping_country', $active['shipping_country']);
+				
+				if($is_worldwide  == true){
+					 $active['shipping_country'] = $params['country'];
+ 				} 
+				$this->app->user->session_set('shipping_country', $active['shipping_country']);
+			 
+				
+				
+               
                 $active['cost'] = $this->get_cost();
 
             }

@@ -139,12 +139,13 @@ class Module
         $mod_d = $module_in_template_dir;
         $mod_d1 = normalize_path($mod_d, 1);
         $try_file1zz = $mod_d1 . 'index.php';
-
+        $in_dir = false;
         if (is_dir($module_in_template_dir) and is_file($try_file1zz)) {
             $try_file1 = $try_file1zz;
-
+            $in_dir = true;
         } elseif (is_file($module_in_template_file)) {
             $try_file1 = $module_in_template_file;
+            $in_dir = false;
         } else {
 
             $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
@@ -160,7 +161,7 @@ class Module
             $module_in_default_file = normalize_path($module_in_default_file, false);
 
             if (is_file($module_in_default_file)) {
-
+                $in_dir = false;
                 if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
                     $try_file1 = $module_in_default_file_custom_view;
                 } else {
@@ -169,7 +170,7 @@ class Module
                 }
             } else {
                 if (is_dir($module_in_default_dir)) {
-
+                    $in_dir = true;
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
 
                     if ($custom_view == true) {
@@ -179,7 +180,7 @@ class Module
                         $try_file1 = $mod_d1 . 'index.php';
                     }
                 } elseif (is_file($element_in_default_file)) {
-
+                    $in_dir = false;
                     $is_element = true;
 
                     $try_file1 = $element_in_default_file;
@@ -210,8 +211,8 @@ class Module
             $config['path_to_module'] = $config['mp'] = $config['path'] = normalize_path((dirname($try_file1)) . '/', true);
             $config['the_module'] = $module_name;
             $config['module'] = $module_name;
-
-            $config['module_name'] = dirname($module_name);
+            $module_name_dir = dirname($module_name);
+            $config['module_name'] = $module_name_dir;
 
             $config['module_name_url_safe'] = module_name_encode($module_name);
             $find_base_url = $this->app->url->current(1);
@@ -222,7 +223,14 @@ class Module
             $config['url'] = $find_base_url;
 
             $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
-            $mod_api = str_replace('/admin', '', $module_name);
+
+if($in_dir != false){
+    $mod_api = str_replace('/admin', '', $module_name);
+} else {
+    $mod_api = str_replace('/admin', '', $module_name_dir);
+}
+
+
             $config['module_api'] = $this->app->url->site('api/' . $mod_api);
             $config['module_view'] = $this->app->url->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);

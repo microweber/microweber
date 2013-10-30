@@ -883,3 +883,4 @@ $language["show-payments"]= 'Show payments?' ;
 $language["allow-people-to-post-comments-on-the-site"]= 'Allow people to post comments on the site?' ; 
 $language["switch-to-modules"]= 'Switch to Modules' ; 
 $language["switch-to-layouts"]= 'Switch to Layouts' ; 
+$language["you-don-t-have-any-orders"]= 'You don\'t have any orders' ; 

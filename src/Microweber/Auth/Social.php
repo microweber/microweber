@@ -54,11 +54,18 @@ class Social {
 		require_once ($class);
 		$class = $this->here . DS . 'hybridauth' . DS . 'Hybrid/Endpoint.php';
 		require_once ($class);
-
-		$res = Hybrid_Endpoint::process();
-
-		//$err = Hybrid_Auth::isUserConnected();
-		//var_dump($res);
+		try {
+			
+			
+			$res = Hybrid_Endpoint::process();
+			
+			 
+			 
+ 		} catch( Exception $e ) {
+			die("<b>got an error!</b> " . $e -> getMessage());
+		}
+		// $err = Hybrid_Auth::isUserConnected();
+		// var_dump($res);
 		//exit();
 
 	}

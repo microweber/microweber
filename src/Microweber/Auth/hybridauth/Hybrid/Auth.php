@@ -147,6 +147,7 @@ class Hybrid_Auth {
 			Hybrid_Logger::error("Hybrid_Auth initialize: A stored Error found, Throw an new Exception and delete it from the store: Error#$c, '$m'");
 
 			Hybrid_Error::clearError();
+			return array('error' => $m);
 
 			// try to provide the previous if any
 			// Exception::getPrevious (PHP 5 >= 5.3.0) http://php.net/manual/en/exception.getprevious.php

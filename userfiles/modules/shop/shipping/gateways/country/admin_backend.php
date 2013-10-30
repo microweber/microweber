@@ -196,7 +196,7 @@ $truck_class = 'green';
 
 
 
- ?>
+ ?> 
 <?php if(is_array($data ) and !empty($data)): ?>
 <div class="mw-shipping-left-bar"> <span class="shipping-truck shipping-truck-<?php print $truck_class ?>"></span> <span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<?php _e("Add Country"); ?>

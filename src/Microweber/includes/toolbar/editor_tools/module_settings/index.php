@@ -66,8 +66,15 @@
          <?php if(is_array( $module_info)): ?>
 
            mw_module_settings_info  = <?php print json_encode($module_info); ?>
+		   <?php $mpar =$params; 
+		   if(isset($mpar['module_settings'])){
+		 unset($mpar['module_settings']);   
+		   }
 		   
-		   mw_module_params  = <?php print  json_encode($params); ?>
+		   ?>
+		   
+		   
+		   mw_module_params  = <?php print  json_encode($mpar); ?>
  
          <?php endif; ?>
 
@@ -233,6 +240,9 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 				if(refresh_modules11 == undefined){
 				    var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
                     var refresh_modules11 = '#'+refresh_modules11;
+					
+					
+					
 				}
 
 
@@ -243,10 +253,14 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 			  var og =  $(this).attr('option-group');
 				if(og== undefined || og == null){
 					var og = '<?php print $params['id'] ?>';
+					
+					
+					
+					
 
 				}
 				 
-
+ 
 
                  if(this.type==='checkbox'){
                    var val = '';
@@ -283,18 +297,11 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
                         if (refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
  
-                         
+ 
+	 
+						  
 						 
-						 
-						 
-						 
-							 if(also_reload != undefined){
-								 if (window.mw.reload_module != undefined) {
-										window.mw.reload_module(also_reload);
-								 
-									}
-							 }
-							
+							 
 							 if (window.parent.mw != undefined) {
 								  if (window.parent.mw.reload_module != undefined) {
                                    // window.parent.mw.reload_module(refresh_modules11);
@@ -304,13 +311,39 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 							 } else   if (window.mw != undefined) {
 								 
 								 if(reaload_in_parent != true){
-									
 									if (window.mw.reload_module != undefined) {
 										window.mw.reload_module(refresh_modules11);
 										window.mw.reload_module('#'+refresh_modules11);
 									}
 								 }
                             }
+							
+							
+							
+							
+							
+							if(also_reload != undefined){
+								 
+								var curm = ""; 
+								 
+								   <?php if(isset( $params['module'])): ?>
+									var curm = "<?php print $params['module'] ?>";
+								 <?php endif; ?>
+								 
+								  
+								if(curm == also_reload){
+									//$('#mw_reload_this_module_popup_form').submit();
+								 
+								} else {
+								 if (window.mw.reload_module != undefined) {
+										window.mw.reload_module(also_reload);
+								 
+									}
+								}
+							 }
+							
+							
+							
 							
 							
 							
@@ -344,14 +377,21 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 
           </div>
           
-          
-          
-          
+         
+         
           
           
           <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
+		   <?php $mpar =$params; 
+		   if(isset($mpar['module_settings'])){
+		 unset($mpar['module_settings']);   
+		   }
+		   
+		   ?>
 <?php if(is_array($params )): ?>
   <?php foreach($params  as $k=> $item): ?> 
+  
+  
 <input type="text" name="<?php print $k ?>" value="<?php print $item ?>" />
 
  <?php endforeach ; ?>

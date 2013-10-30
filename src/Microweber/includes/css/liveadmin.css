@@ -571,7 +571,12 @@ form.add-edit-page-post textarea{
 }
 
 .manage-post-item-title a .ico{
-  top: 4px;
+  top: 0px;
+  left: -5px;
+}
+
+.manage-post-item-title a .ico.iorder{
+  background: url(../img/tree.shopico.png) no-repeat center;
 }
 
 .manage-post-item-title a:hover{
@@ -682,8 +687,10 @@ form.add-edit-page-post textarea{
 }
 
 .manage-toolbar-top .mw-ui-btn{
-  margin-right: 4px;
-  float: left;
+float: left;
+    margin-right: 7px;
+    padding: 4px 10px;
+    top: 3px;
 }
 
 .manage-toolbar-top .manage-search{

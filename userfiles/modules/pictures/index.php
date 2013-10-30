@@ -39,15 +39,16 @@ if(isset($params['for'])){
 
 
  
+$use_from_post = get_option('data-use-from-post', $params['id']) ;
 
-
-if(get_option('data-use-from-post', $params['id']) =='y'){
+if($use_from_post=='y'){
 	 if(POST_ID != false){
 	$params['content-id'] = POST_ID;
 	 } else {
 	 $params['content-id'] = PAGE_ID;
 
 	 }
+	
 } elseif(!isset($params['for']) and get_option('data-use-from-post', $params['id']) ==''){
 	  $for = 'modules';
 	   $params['rel_id'] = $params['id']; 
