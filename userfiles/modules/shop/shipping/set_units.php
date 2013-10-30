@@ -8,6 +8,7 @@ $(document).ready(function(){
 	
   mw.options.form('#shipping-units-setup', function(){
       mw.notification.success("<?php _e("Shipping units are saved!"); ?>");
+	  
     });
 });
 </script>

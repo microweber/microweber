@@ -160,7 +160,7 @@ mw.options = {
 						
 						if(reaload_in_parent != undefined && reaload_in_parent !== null){
 						// window.parent.mw.reload_module("#"+refresh_modules11);
-	 
+	
 						return false;	
 						}
 						
@@ -198,8 +198,7 @@ mw.options = {
                         } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
                             if (window.mw != undefined) {
-								
-								
+							
 							 
 								if(reaload_in_parent !== true){
                                 if (window.mw.reload_module !== undefined) {
@@ -240,6 +239,7 @@ mw.options.form = function($selector, callback, beforepost){
           var item = $(this);
           if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
+			  item.unbind("change");
               item.bind("change", function(e){
               	  if(typeof beforepost === 'function'){
               	  	beforepost.call(this);

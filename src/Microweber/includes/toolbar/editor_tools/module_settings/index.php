@@ -221,7 +221,7 @@
 
 
 mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
- mw.$(".mw_option_field222222222").bind("change", function (e) {
+ mw.$(".mw_option_field").bind("change", function (e) {
 
 
                 if(typeof liveEditSettings === 'boolean'){
@@ -406,7 +406,21 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 </form>
 <script  type="text/javascript">
          $(document).ready(function(){
-    mw.options.form('#settings-container');
+			 
+			 __global_options_save_msg = function(){
+	 if(mw.notification != undefined){
+			 mw.notification.success('Settings are updated!');
+	 }
+	 
+	 
+	 if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+	 
+	window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+	 }
+	
+}
+			 
+   // mw.options.form('#settings-container');
 }); 
 </script>
 </body>

@@ -8,6 +8,12 @@ __checkout_options_save_msg = function(){
 	 if(mw.notification != undefined){
 			 mw.notification.success('Checkout updated!');
 	 }
+	 
+	 
+	 if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+	 
+	window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+	 }
 	
 }
 

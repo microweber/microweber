@@ -31,6 +31,14 @@ setActiveProvider = function(el){
 	
   mw.options.form('.mw-set-payment-options', function(){
     mw.notification.success("<?php _e("Settings are saved"); ?>.");
+	
+	
+	 if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+	 
+	window.parent.mw.reload_module("shop/payments");
+	 }
+	
+	
   });
 
 	
