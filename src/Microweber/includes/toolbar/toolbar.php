@@ -13,8 +13,8 @@
     mw.require("files.js");
     mw.require("content.js", true);
     mw.require("session.js");
-    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
-    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
+    mw.require("liveedit.js");
+
 </script>
 <link href="<?php print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />

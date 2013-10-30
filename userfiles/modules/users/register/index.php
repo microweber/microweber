@@ -2,7 +2,11 @@
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 <?php if($user != false): ?>
-<module type="users/profile"  />
+   <div class="mw-logged-in"><?php _e("Welcome"); ?> <?php print user_name(); ?> 
+   
+   <div class="mw-logged-in-links">
+  <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" ><?php _e("Log Out"); ?></a> </div>
+  </div>
 <?php elseif(isset($_GET['reset_password_link'])): ?>
 <module type="users/forgot_password" />
 <?php else:  ?>
