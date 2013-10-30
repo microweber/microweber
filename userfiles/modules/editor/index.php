@@ -1,7 +1,7 @@
 <?php
 
 if(user_id() == 0){
-return;	
+    return;
 }
 ?>
 
@@ -22,15 +22,12 @@ return;
   mw.require("tools.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");
-   mw.require("forms.js");
+  mw.require ("forms.js");
   mw.require("files.js");
   mw.require("content.js", true);
-  
   mw.require("liveedit.js");
-
-
   mw.require(mw.settings.includes_url + "css/liveedit.css");
- mw.require(mw.settings.includes_url + "css/wysiwyg.css");
+  mw.require(mw.settings.includes_url + "css/wysiwyg.css");
 
   
   

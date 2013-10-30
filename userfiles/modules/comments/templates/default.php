@@ -45,7 +45,8 @@ description: Default comments template
 
   $avatars_enabled = get_option('avatar_enabled', 'comments')=='y';
 
-  $comment_author =  get_user($comment['created_by']) ;
+  $comment_author =  get_user_by_id($comment['created_by']) ;
+  
   if(!empty($comment_author)){
 	  // $comment['comment_name'] = user_name($comment_author['id']);
   }
@@ -60,7 +61,20 @@ description: Default comments template
         <div class="mw-ui-col comment-image-holder">
         <div class="mw-ui-col-container">
           <?php $avatar_style =  get_option('avatar_style', 'comments'); ?>
-          <?php  if (isset($comment_author['thumbnail'])  and isset($comment_author['thumbnail']) != ''){ ?>
+		  
+		  
+		  
+		  
+		         
+
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+          <?php  if (isset($comment_author['thumbnail'])  and  trim($comment_author['thumbnail']) != ''){ ?>
           <img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="img-polaroid comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
           <?php  }  else  {   ?>
           <?php   if($avatar_style == '4'){ ?>

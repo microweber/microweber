@@ -315,7 +315,6 @@ html.mw_pages #mw_tabs li.active a{
 .mw_tree_title_shop{
   background-image: url(../img/shop.big.png);
   background-position: 9px 0;
-    opacity: 0.7;
 }
 
 #mw_edit_pages_content{
@@ -698,7 +697,6 @@ form.add-edit-page-post textarea{
   bottom: 0;
   left: 0;
   position: static;
-  width: 610px;
   overflow: hidden;
 }
 

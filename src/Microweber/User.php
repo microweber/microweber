@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-event_bind('mw_db_init', mw('Microweber\User')->db_init());
+//event_bind('mw_db_init', mw('Microweber\User')->db_init());
 
 class User
 {
@@ -25,6 +25,13 @@ class User
             }
 
         }
+		
+		
+		 if (!defined("MW_DB_USER_INIT")) {
+            define('MW_DB_USER_INIT', 1);
+			$this->db_init();
+        }
+		
     }
 
 
@@ -1390,9 +1397,15 @@ class User
     }
 
 
+
+
+
     public function  social_login($params)
     {
-        set_exception_handler('mw_social_login_exception_handler');
+        
+		
+		
+		set_exception_handler($this->social_login_exception_handler);
         $params2 = array();
 
         if (is_string($params)) {
@@ -1420,6 +1433,10 @@ class User
             try {
 
                 $authenticate = $api->authenticate($provider);
+				
+			
+				
+				
                 if (is_array($authenticate) and isset($authenticate['identifier'])) {
 
                     $data = array();
@@ -1461,7 +1478,7 @@ class User
                             $this->app->log->save($notif);
 
                         }
-                        //d($save);
+                        
                     }
 
                     $data_ex = $this->get_all($data);
@@ -1479,32 +1496,65 @@ class User
                         if ($return_after_login != false) {
                             $this->app->url->redirect($return_after_login);
                             exit();
-                        }
-
-                        //d($user_session);
+                        } else {
+							if($return_after_login != false){
+								 $this->app->url->redirect($return_after_login);
+                            	exit();
+							} else {
+								
+								  $go_sess = $this->session_get('user_after_login');
+								if($go_sess != false){
+									 $this->app->url->redirect($go_sess);
+								} else {
+									 $this->app->url->redirect(site_url());
+								}
+								
+								
+                            	exit();
+							}
+						}
+ 
                     }
 
                 }
 
-                //d($authenticate);
+                
 
             } catch (Exception $e) {
+				
+			
                 die("<b>got an error!</b> " . $e->getMessage());
             }
 
         }
     }
 
-    public function social_login_process()
+    public function social_login_process($params=false)
     {
-        set_exception_handler('mw_social_login_exception_handler');
+       
+	   
+	    if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
+            $return_after_login = $_SERVER["HTTP_REFERER"];
+            $this->session_set('user_after_login', $return_after_login);
 
-        $api = new \Microweber\Auth\Social();
-        $api->process();
+        }
+	   
+	   
+	    set_exception_handler($this->social_login_exception_handler);
 
-        // d($err);
-        //$err= $api->is_error();
+        
+		 try{
+			 $api = new \Microweber\Auth\Social();
+       	 
+		  
+		 $api->process();
+		 
+		 
+		 } catch( Exception $e ){
+			   echo "Ooophs, we got an error: " . $e->getMessage();
+		   }
 
+     
     }
 
 
@@ -1521,23 +1571,29 @@ class User
 
         return $data;
     }
+	
+	
+	function social_login_exception_handler($exception=false){
+		
+		
+		if ($this->app->url->is_ajax()) {
+			 if( $exception == false){
+				return; 
+			 }
+			 
+			 
+			return array('error' => $exception->getMessage());
+		}
+		$after_log = $this->session_get('user_after_login');
+		if ($after_log != false) {
+			$this->app->url->redirect($after_log);
+		} else {
+			$this->app->url->redirect(site_url());
+		}
+	}
 
 
 }
 
 
-function mw_social_login_exception_handler($exception)
-{
-
-    if ($this->app->url->is_ajax()) {
-        return array('error' => $exception->getMessage());
-    }
-
-    $after_log = $this->session_get('user_after_login');
-    if ($after_log != false) {
-        $this->app->url->redirect($after_log);
-    } else {
-        $this->app->url->redirect(site_url());
-    }
-
-}
+ 

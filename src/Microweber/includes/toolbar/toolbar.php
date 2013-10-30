@@ -162,7 +162,7 @@
                       class="mwtb-search mwtb-search-modules"
                       placeholder="Modules"/>
                  <div class="mw_clear"></div>
-                 <span class="mw-small" id="mod_switch">Layouts</span>
+                 <span class="mw-ui-btn mw-ui-btn-small mw-small" id="mod_switch" data-action="layouts">Switch to Layouts</span>
                  <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
              </div>
          </div>
@@ -370,9 +370,16 @@
 
 
          mw.$("#mod_switch").click(function(){
-             var h = this.innerHTML.toLowerCase();
+             var h = $(this).dataset("action");
              toolbar_set(h);
-             this.innerHTML = h=='layouts'?'<?php _e("Modules"); ?>' : '<?php _e("Layouts"); ?>';
+             if( h == 'layouts' ) {
+                this.innerHTML = '<?php _e("Switch to Modules"); ?>';
+                $(this).dataset("action", 'modules');
+             }
+             else{
+                this.innerHTML = '<?php _e("Switch to Layouts"); ?>';
+                $(this).dataset("action", 'layouts');
+             }
          });
 
 

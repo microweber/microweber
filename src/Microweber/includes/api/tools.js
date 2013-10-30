@@ -3022,9 +3022,12 @@ mw.beforeleave = function(url){
             var go = modal.container.querySelector('.confirm-btn-red');
 
             $(save).click(function(){
+              $(mwd.body).addClass("loading");
+              mw.tools.modal.remove(modal);
               mw.drag.save(mwd.getElementById('main-save-btn'), function(){
                 mw.askusertostay = false;
                 window.location.href = url;
+                mw.notification.success("Redirecting to: " + url);
               });
             });
             $(go).click(function(){

@@ -1137,7 +1137,7 @@ li .ts_action_item:last-child{
 
 input.mwtb-search{
   width: 99px;
-  margin: 14px 0 0;
+  margin: 7px 0 0;
   padding: 6px 31px 6px 4px;
   border: 1px solid transparent;
   background: url(../img/modules_search.png) no-repeat right top;
@@ -1146,8 +1146,11 @@ input.mwtb-search{
   border: 1px solid #DEDEDE;
 }
 #mod_switch{
-  cursor: pointer;
-  float: right;
+    clear: both;
+    float: right;
+    margin-top: 4px;
+    padding: 3px;
+    width: 129px;
 }
 
 #mod_switch:hover{

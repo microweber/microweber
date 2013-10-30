@@ -429,7 +429,7 @@ body.loaded #live_edit_toolbar{
 }
 
 .mw_action_nav label{
-  color: #6C6C6C;
+  /*color: #6C6C6C; */
   font-size: 10px;
   cursor: pointer;
   display: block;
@@ -1032,10 +1032,10 @@ right: 15px;
   padding: 8px 10px;
   cursor: pointer;
 
-  background: url(../img/grad.php?top=F5F5F5&bot=E6E6E6) no-repeat;
+  background: #F5F5F5;
   border-width: 1px;
   border-style: solid;
-  border-color:#EFECEC;
+  border-color:#ddd;
   color: #434343;
   font-size: 11px;
   line-height:normal;

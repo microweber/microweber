@@ -881,3 +881,5 @@ $language["show-shopping-cart-in-checkout"]= 'Show shopping cart in checkout?' ;
 $language["show-shipping"]= 'Show shipping?' ; 
 $language["show-payments"]= 'Show payments?' ; 
 $language["allow-people-to-post-comments-on-the-site"]= 'Allow people to post comments on the site?' ; 
+$language["switch-to-modules"]= 'Switch to Modules' ; 
+$language["switch-to-layouts"]= 'Switch to Layouts' ; 
