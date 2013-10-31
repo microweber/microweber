@@ -68,8 +68,14 @@ if(isset($params['just-saved'])){
     }
 
   }
+ <?php if($just_saved != false) : ?>
+	  $('#<?php print $params['id'] ?>').removeClass('loading');
+	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
 
+	 <?php endif; ?>
 $(document).ready(function(){
+	
+	
 
 	mw.category_is_saving = false;
 	<?php if(intval($data['id']) == 0): ?>
@@ -86,8 +92,14 @@ $(document).ready(function(){
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
-         mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
+         mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(val){
         	  mw.notification.success("Category changes are saved");
+			  
+			  var v = val.toString();
+			   $('#mw_admin_edit_cat_id').val(v);
+			    $('#mw-cat-pics-admin').attr("for-id",v);
+			  //   mw.reload_module('#mw-cat-pics-admin');
+			   
         	  mw.reload_module('[data-type="categories"]');
         	   if(self !== parent && !!parent.mw){
                 parent.mw.reload_module('categories');
@@ -99,8 +111,8 @@ $(document).ready(function(){
                 mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
-        	 	mw.url.windowHashParam("new_content", "true");
-        	 	mw.url.windowHashParam("action", "editcategory:" + this);
+        	  	mw.url.windowHashParam("new_content", "true");
+        	  	mw.url.windowHashParam("action", "editcategory:" + this);
              <?php endif; ?>
 
 
@@ -109,20 +121,23 @@ $(document).ready(function(){
              <?php if(isset($params['quick_edit'])){ ?>
 
              $(module).attr("just-saved", true);
-
-             mw.reload_module(module, function(){
-                  mw.tools.removeClass(module, 'loading');
-             });
+			mw.tools.removeClass(module, 'loading');
+             //mw.reload_module(module, function(){
+//
+//             });
 
              <?php } else { ?>
 
               mw.tools.removeClass(module, 'loading');
 
              <?php } ?>
+			 
+			 
+			    mw.category_is_saving = false;
+        $('.mw-cat-save-submit').removeClass('disabled');
 
 	    });
-        mw.category_is_saving = false;
-        $('.mw-cat-save-submit').removeClass('disabled');
+     
     return false;
  });
 
@@ -139,6 +154,8 @@ $(document).ready(function(){
     if(intval($data['id']) == 0){
 	  if(isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0){
 		  $data['parent_id'] = intval($params['selected-category-id']);
+	  }  else if(isset($params['recommended_parent'])){
+		  $data['rel_id'] = intval($params['recommended_parent']);
 	  }
       else if(isset($params['page-id'])){
 		  $data['rel_id'] = intval($params['page-id']);
@@ -158,17 +175,17 @@ $(document).ready(function(){
     <div class="vSpace"></div>
     <label class="mw-ui-label"><small>Or create new content again</small></label>
     <div class="vSpace"></div>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('categories/edit_category')">Create New</a>
   </div>
 
 <?php endif; ?>
 
 
 
-<pre><?php var_dump($data); ?>   </pre>
 
-<form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="Off">
-	<input name="id" type="hidden" value="<?php print ($data['id'])?>" />
+
+<form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
+	<input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
 	<input name="table" type="hidden" value="categories" />
 	<input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
 	<input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
@@ -215,7 +232,7 @@ $(document).ready(function(){
        </ul>
        <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
             <div class="pictures-editor-holder">
-    			<module type="pictures/admin" for="categories" for-id=<?php print $data['id'] ?>  />
+    			<module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
     		</div>
        </div>
        <div class="mw-o-box mw-o-box-content quick-add-post-options-item">

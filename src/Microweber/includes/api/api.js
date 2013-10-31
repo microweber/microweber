@@ -170,6 +170,8 @@ mw.askusertostay = false;
 
   mw.msg = {
     ok: "<?php _e('OK');  ?>",
+    save: "<?php _e('Save');  ?>",
+    saved: "<?php _e('Saved');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
     to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
     del:"<?php _e('Are you sure you want to delete this?'); ?>",

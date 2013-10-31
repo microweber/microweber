@@ -386,16 +386,16 @@ class Category
         } else {
             $parent = 0;
         }
-
+        asort($params);
 
         $function_cache_id = false;
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . serialize($params));
+        $function_cache_id = __FUNCTION__ . crc32(serialize($params));
         if (defined(PAGE_ID)) {
-            $function_cache_id .= PAGE_ID;
+         //   $function_cache_id .= PAGE_ID;
         }
         if (defined(CATEGORY_ID)) {
-            $function_cache_id .= CATEGORY_ID;
+           // $function_cache_id .= CATEGORY_ID;
         }
         $cache_group = 'categories/global';
          $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
@@ -490,7 +490,7 @@ class Category
         }
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
-            $page = mw('content')->get_by_id($params['for_page']);
+            $page = $this->app->content->get_by_id($params['for_page']);
              $parent = $page['subtype_value'];
         }
         $active_code_tag = false;
@@ -514,13 +514,13 @@ class Category
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
                 $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
                 $skip123 = true;
-                $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
+                $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
                 $fors = $this->app->db->get($str0);
             }
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
-                $str1 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
+                $str1 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
                 $fors1 = $this->app->db->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
@@ -529,7 +529,7 @@ class Category
         }
 
         if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
-            $page = mw('content')->get_page($params['not_for_page']);
+            $page = $this->app->content->get_page($params['not_for_page']);
             $remove_ids = array($page['subtype_value']);
         }
 
@@ -559,7 +559,7 @@ class Category
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
             $table_assoc_name = $this->app->db->assoc_table_name($params['rel']);
             $skip123 = true;
-            $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+            $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($str0);
 
 
@@ -968,7 +968,7 @@ class Category
         if ($category != false) {
             if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
                 if ($category["rel"] == 'content') {
-                    $res = mw('content')->get_by_id($category["rel_id"]);
+                    $res = $this->app->content->get_by_id($category["rel_id"]);
                     if (is_array($res)) {
                         return $res;
                     }
@@ -984,7 +984,7 @@ class Category
                             $category2 = $this->get_by_id($value);
                             if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
                                 if ($category2["rel"] == 'content') {
-                                    $res = mw('content')->get_by_id($category2["rel_id"]);
+                                    $res = $this->app->content->get_by_id($category2["rel_id"]);
                                     if (is_array($res)) {
                                         return $res;
                                     }
@@ -1274,16 +1274,23 @@ class Category
         if (isset($data['table']) and ($data['table'] != '')) {
             $table = $data['table'];
         }
-        //$data['debug'] = '1';
-        //d($data);
+        if (isset($data['id']) and intval($data['id']) != 0 and isset($data['parent_id']) and intval($data['parent_id']) != 0) {
+            if($data['id'] == $data['parent_id']){
+                unset($data['parent_id']);
+            }
+        }
+
 
         if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
 
+            $cont_check = $this->app->content->get_by_id($data['rel_id']);
+            if($cont_check != false and isset($cs['subtype']) and $cs['subtype'] !='dynamic'){
             $cs = array();
             $cs['id'] = intval($data['rel_id']);
             $cs['subtype'] = 'dynamic';
             $table_c = MW_TABLE_PREFIX . 'content';
             $save = $this->app->db->save($table_c, $cs);
+            }
 
         }
 
@@ -1291,7 +1298,7 @@ class Category
 
         $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
         if (isset($data['parent_id'])) {
             $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));

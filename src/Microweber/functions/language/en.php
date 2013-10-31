@@ -888,3 +888,4 @@ $language["you-are-using-paypal-pro-in-test-mode"]= 'You are using Paypal Pro in
 $language["this-item-is-out-of-stock-and-cannot-be-ordered"]= 'This item is out of stock and cannot be ordered' ; 
 $language["out-of-stock"]= 'Out of stock' ; 
 $language["save-go-live-edit"]= 'Save & Go Live Edit' ; 
+$language["select-category-to-edit"]= 'Select category to edit' ; 

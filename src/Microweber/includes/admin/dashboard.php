@@ -46,6 +46,11 @@
 			mw.$("#mw-quick-content").dataset("type",module_to_load);
 			mw.$("#mw-quick-content").dataset("subtype",$(this).dataset("subtype"));
 			mw.$("#mw-quick-content").attr("content-id", 0);
+			mw.$("#mw-quick-content").removeAttr("just-saved");
+			
+			
+			
+			
             mw.reload_module('#mw-quick-content', function(){
             mw.$("#mw-quick-content").height("auto");
             var frame = mwd.querySelector("#mw-quick-content iframe.mw-iframe-editor");
