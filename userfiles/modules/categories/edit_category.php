@@ -106,14 +106,13 @@ $(document).ready(function(){
 
              var module = mw.tools.firstParentWithClass(form, 'module');
 
-
-
-             <?php if(isset($data['quick_edit'])){ ?>
-
+             <?php if(isset($params['quick_edit'])){ ?>
 
              $(module).attr("just-saved", true);
 
-             mw.reload_module(module);
+             mw.reload_module(module, function(){
+                  mw.tools.removeClass(module, 'loading');
+             });
 
              <?php } else { ?>
 
@@ -149,23 +148,18 @@ $(document).ready(function(){
   ?>
 
 
-  <?php if($just_saved!=false) : ?>
-
+  <?php if($just_saved != false) : ?>
 
   <div class="quick-post-done">
     <h2>Well done, you have saved your changes. </h2>
     <label class="mw-ui-label"><small>Go to see them at this link</small></label>
     <div class="vSpace"></div>
-    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <a target="_top" class="quick-post-done-link" href="<?php print category_link($data['id']); ?>?editmode=y"><?php print category_link($data['id']); ?></a>
     <div class="vSpace"></div>
     <label class="mw-ui-label"><small>Or create new content again</small></label>
     <div class="vSpace"></div>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
   </div>
-
-
-
-
 
 <?php endif; ?>
 
