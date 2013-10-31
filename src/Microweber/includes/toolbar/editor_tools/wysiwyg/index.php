@@ -127,13 +127,7 @@ $(window).load(function(){
       }
   }, false);
 
-  if(mw.is.ie){
-    mw.$("#mw-iframe-editor-area .element").each(function(){
-       $(this).attr("contenteditable", "true");
-    });
 
-    mw.$("#mw-iframe-editor-area").removeAttr("contenteditable");
-  }
 
 })
 

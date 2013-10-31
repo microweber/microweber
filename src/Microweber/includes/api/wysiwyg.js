@@ -1002,7 +1002,10 @@ mw.wysiwyg = {
     },
     _undo:false,
     _redo:false,
+    undoredo:false,
     undoRedoFixes:function(){
+        mw.wysiwyg.undoredo = true;
+        mw.askusertostay = true;
         var curr = mw.historyActive;
         var len  = mw.tools.objLenght(mw.undoHistory);
         if(typeof mw.undoHistory[curr] === 'undefined' && curr > 0){
@@ -1020,13 +1023,15 @@ mw.wysiwyg = {
         }
     },
     historyUndo:function(){
+      mw.wysiwyg.undoredo = true;
+      mw.askusertostay = true;
       if(typeof mw.undoHistory === 'object'){
         var len = mw.tools.objLenght(mw.undoHistory);
          if( len > 0 ){
             var active = mw.historyActive ++;
          }
          mw.history.load(mw.undoHistory[active]);
-         mw.wysiwyg.undoRedoFixes()
+         mw.wysiwyg.undoRedoFixes();
         }
     },
     historyRedo:function(){
@@ -1036,7 +1041,7 @@ mw.wysiwyg = {
             var active = mw.historyActive --;
          }
          mw.history.load(mw.undoHistory[active]);
-         mw.wysiwyg.undoRedoFixes()
+         mw.wysiwyg.undoRedoFixes();
       }
     },
 

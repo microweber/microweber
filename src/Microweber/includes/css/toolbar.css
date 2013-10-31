@@ -1151,6 +1151,8 @@ input.mwtb-search{
     margin-top: 4px;
     padding: 3px;
     width: 129px;
+    text-shadow: 0 1px 0 #DDDDDD;
+
 }
 
 #mod_switch:hover{

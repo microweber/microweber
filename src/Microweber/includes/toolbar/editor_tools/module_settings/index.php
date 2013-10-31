@@ -222,6 +222,7 @@
 
 mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
  mw.$(".mw_option_field").bind("change", function (e) {
+              $(this).addClass('mw-options-form-binded');
 
 
                 if(typeof liveEditSettings === 'boolean'){

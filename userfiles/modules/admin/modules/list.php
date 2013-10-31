@@ -94,11 +94,11 @@ if(!empty($modules)){
 
   $module2['module'] = rtrim($module2['module'],'/');
   $module2['module'] = rtrim($module2['module'],'\\');
-                 $module2['categories'] =   get('group_by=parent_id&fields=parent_id,id&limit=100&what=category_items&for='.$mod_obj_str.'&rel_id='.$module2['id']);
+               //  $module2['categories'] =   get('group_by=parent_id&fields=parent_id,id&limit=100&what=category_items&for='.$mod_obj_str.'&rel_id='.$module2['id']);
                               //d($module2['categories']);
                $temp = array();
 			   // $temp2 = array();
-			     if(is_array($module2['categories']) and !empty($module2['categories'])){
+			     if(isset($module2['categories']) and is_array($module2['categories']) and !empty($module2['categories'])){
 
 
                    foreach($module2['categories'] as $it){
@@ -114,7 +114,7 @@ if(!empty($modules)){
 	<?php $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>
 	<?php $module2['name_clean'] = str_replace('/','-',$module2['module']); ?>
 	<?php $module2['name_clean'] = str_replace(' ','-',$module2['name_clean']);
-if(is_array($module2['categories'])){
+if(isset($module2['categories']) and is_array($module2['categories'])){
 $module2['categories'] = implode(',',$module2['categories']);
 }
 
@@ -126,8 +126,8 @@ $module2['categories'] = implode(',',$module2['categories']);
        id:'<?php print($module_id); ?>',
        name:'<?php print $module2["module"] ?>',
        title:'<?php print $module2["name"] ?>',
-       description:'<?php print addslashes($module2["description"]) ?>',
-       category:'<?php print addslashes($module2["categories"]); ?>'
+       description:'<?php print addslashes($module2["description"]) ?>' 
+       
      }
 
 

@@ -56,7 +56,6 @@ class Option
      *
      *
      */
-
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
 
@@ -96,16 +95,7 @@ class Option
         }
 
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
-        if (($cache_content) == '--false--') {
-            return false;
-        }
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
 
 
         $table = MW_DB_TABLE_OPTIONS;
@@ -129,7 +119,7 @@ class Option
         if ($module != false) {
             $module = $this->app->db->escape_string($module);
             $data['module'] = $module;
-          //  $ok1 = " AND module='{$module}' ";
+            //  $ok1 = " AND module='{$module}' ";
         }
         $data['limit'] = 1;
         // $get = $this->app->db->get_long($table, $data, $cache_group);
@@ -145,10 +135,10 @@ class Option
         $get_all = $this->app->db->query($q, __FUNCTION__.$q_cache_id, $cache_group);
 
 
-       // $get_all = $this->app->db->query($q);
+        // $get_all = $this->app->db->query($q);
 
         if (!is_array($get_all)) {
-            $this->app->cache->save('--false--', $function_cache_id, $cache_group);
+           // $this->app->cache->save('--false--', $function_cache_id, $cache_group);
 
             return false;
         }

@@ -56,7 +56,7 @@ class Category
             $data_type_q = "and data_type = 'tag_item' ";
         }
         $data['table'] = $table_items;
-        //$data['debug'] = $table;
+       //  $data['debug'] = $table;
         //$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
         //$data['only_those_fields'] = array('parent_id');
 

@@ -15,7 +15,7 @@ if (!defined('MW_CACHE_EXPIRES')) {
 }
 if(!defined('MW_USE_APC_CACHE')) {
 	
-	 //  define('MW_USE_APC_CACHE', true); //if true mw will automatically use apc if its found, but you can turn it off
+	  define('MW_USE_APC_CACHE',false); //if true mw will automatically use apc if its found, but you can turn it off
 
 }
 

@@ -365,7 +365,7 @@ if (!empty($content)){
 				$item['updated_on'] =  date($date_format, strtotime($item['updated_on']) );
 			}
 
-			$item['link'] = mw('content')->link($item['id']);
+			$item['link'] = content_link($item['id']);
 			
  
 			if(!isset( $item['description']) or $item['description'] == ''){

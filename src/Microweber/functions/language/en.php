@@ -884,3 +884,7 @@ $language["allow-people-to-post-comments-on-the-site"]= 'Allow people to post co
 $language["switch-to-modules"]= 'Switch to Modules' ; 
 $language["switch-to-layouts"]= 'Switch to Layouts' ; 
 $language["you-don-t-have-any-orders"]= 'You don\'t have any orders' ; 
+$language["you-are-using-paypal-pro-in-test-mode"]= 'You are using Paypal Pro in test mode!' ; 
+$language["this-item-is-out-of-stock-and-cannot-be-ordered"]= 'This item is out of stock and cannot be ordered' ; 
+$language["out-of-stock"]= 'Out of stock' ; 
+$language["save-go-live-edit"]= 'Save & Go Live Edit' ; 

@@ -239,7 +239,8 @@ mw.options.form = function($selector, callback, beforepost){
           var item = $(this);
           if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
-			  item.unbind("change");
+			  //item.unbind("change");
+			 
               item.bind("change", function(e){
               	  if(typeof beforepost === 'function'){
               	  	beforepost.call(this);

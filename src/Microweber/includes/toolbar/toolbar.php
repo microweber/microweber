@@ -31,6 +31,13 @@
         mw.tools.toolbar_slider.init();
         mw_save_draft_int = self.setInterval(function(){
            mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
+           if(mw.askusertostay){
+                mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
+           }
+           else{
+               mw.tools.addClass(mwd.getElementById('main-save-btn'), 'disabled');
+           }
+
         },1000);
     });
 </script>
@@ -38,10 +45,10 @@
     $back_url = site_url().'admin/view:content';
     if(defined('CONTENT_ID')){
           $back_url .= '#action=editpage:'.CONTENT_ID;
-    }
-    if(isset($_COOKIE['back_to_admin'])){
+    } else if(isset($_COOKIE['back_to_admin'])){
           $back_url = $_COOKIE['back_to_admin'];
     }
+   
 ?>
 
 <div class="mw-defaults" id="live_edit_toolbar_holder">

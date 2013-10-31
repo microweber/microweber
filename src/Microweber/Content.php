@@ -239,7 +239,7 @@ class Content
     {
 
         if (defined('PAGE_ID') == false) {
-            $this->define_constants();
+         //   $this->define_constants();
         }
 
 
@@ -279,6 +279,8 @@ class Content
             $params['search_in_content_data_fields'] = true;
 
         }
+
+
         $get = $this->app->db->get($params);
 
 
@@ -389,7 +391,7 @@ class Content
 
 
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'global';
+        $cache_group = 'content/global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
                 $this->define_constants($page);
@@ -798,7 +800,7 @@ class Content
             return false;
         }
 
-        //$q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
+         $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
 
         $params = array();
         $params['id'] = $id;
@@ -808,11 +810,11 @@ class Content
         $params['cache_group'] = 'content/' . $id;
 
 
-        $q = $this->app->db->get($params);
+        //$q = $this->app->db->get($params);
 
         //  $q = $this->app->db->get_long($table, $params, $cache_group = 'content/' . $id);
-        //  $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-        if (isset($q[0])) {
+           $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        if (is_array($q) and isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
                 $content['title'] = $this->app->format->clean_html($content['title']);
@@ -1407,9 +1409,14 @@ class Content
     public function define_constants($content = false)
     {
 
+
+
+
         if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
+
                 $ref_page = $_SERVER['HTTP_REFERER'];
+
                 if ($ref_page != '') {
                     $ref_page = $this->get_by_url($ref_page);
                     if (!empty($ref_page)) {
@@ -1419,7 +1426,8 @@ class Content
                 }
             }
         }
-//
+
+//}
         $page = false;
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
@@ -2031,13 +2039,14 @@ class Content
         }
 
 
-        $params['limit'] = 50;
+        $params['limit'] = 5000;
         $params['orderby'] = 'position desc';
 
         $params['curent_page'] = 1;
 
         $params['is_deleted'] = 'n';
-
+        $params['cache_group'] = false;
+        $params['no_cache'] = true;
         $skip_pages_from_tree = false;
         $params2 = $params;
 
@@ -2058,8 +2067,8 @@ class Content
         }
 
         if ($include_first_set != false) {
-            $q = $this->get("id=" . $include_first_set);
-
+             $q = $this->get("id=" . $include_first_set);
+         //   $q = $this->get_by_id("id=" . $include_first_set);
         } else {
             $q = $this->get($params2);
 
@@ -2853,8 +2862,28 @@ class Content
             $menu_params = $menu_id;
             extract($menu_id);
         }
-        $params_o = $menu_params;
+
         $cache_group = 'menus/global';
+        $function_cache_id = false;
+        $args = func_get_args();
+        foreach ($args as $k => $v) {
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) ;
+        if(defined('CONTENT_ID')){
+            $function_cache_id=$function_cache_id.CONTENT_ID;
+        }
+       // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+       // if (($cache_content) != false) {
+          //  return $cache_content;
+        //}
+
+
+
+        $params_o = $menu_params;
+
         $function_cache_id = false;
 
 
@@ -3146,6 +3175,8 @@ class Content
         }
 
         $to_print .= '</' . $ul_tag . '>';
+      //  $this->app->cache->save($to_print, $function_cache_id, $cache_group);
+
         return $to_print;
     }
 

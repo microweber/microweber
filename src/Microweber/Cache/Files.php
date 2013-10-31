@@ -25,6 +25,12 @@ if (!defined('MW_CACHE_CONTENT_PREPEND')) {
 if (!defined('MW_CACHE_EXPIRES')) {
     // define("MW_CACHE_EXPIRES", 1200); //2 hours
 }
+
+if (!defined('MW_CACHE_COMPILE')) {
+    define("MW_CACHE_COMPILE", true);
+}
+
+
 class Files
 {
 
@@ -43,16 +49,16 @@ class Files
     public function __construct()
     {
 
-       global $mw_apc_cache_instance;
+        global $mw_apc_cache_instance;
 
-        if(is_object($mw_apc_cache_instance)){
+        if (is_object($mw_apc_cache_instance)) {
             $this->apc = $mw_apc_cache_instance;
         } else {
             if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
 
                 if ($this->apc == false) {
                     $apc_obj = new \Microweber\Cache\Apc();
-                    $this->apc =$mw_apc_cache_instance=$apc_obj;
+                    $this->apc = $mw_apc_cache_instance = $apc_obj;
                 } else {
                     $mw_apc_cache_instance = $this->apc;
                 }
@@ -61,6 +67,8 @@ class Files
 
 
     }
+
+
 
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
@@ -79,7 +87,7 @@ class Files
             }
             $apc_obj_gt = $apc_obj->save($data_to_cache, $cache_id, $cache_group);
         }
-        $dir_lock = $this->cache_get_dir('delete_lock');
+        //  $dir_lock = $this->cache_get_dir('delete_lock');
         return $this->cache_save($data_to_cache, $cache_id, $cache_group);
 
     }
