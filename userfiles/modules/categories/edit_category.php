@@ -70,6 +70,7 @@ if(isset($params['just-saved'])){
   }
 
 $(document).ready(function(){
+
 	mw.category_is_saving = false;
 	<?php if(intval($data['id']) == 0): ?>
     <?php endif; ?>
@@ -102,7 +103,24 @@ $(document).ready(function(){
         	 	mw.url.windowHashParam("action", "editcategory:" + this);
              <?php endif; ?>
 
-             mw.tools.removeClass(mw.tools.firstParentWithClass(form, 'module'), 'loading');
+
+             var module = mw.tools.firstParentWithClass(form, 'module');
+
+
+
+             <?php if(isset($data['quick_edit'])){ ?>
+
+
+             $(module).attr("just-saved", true);
+
+             mw.reload_module(module);
+
+             <?php } else { ?>
+
+              mw.tools.removeClass(module, 'loading');
+
+             <?php } ?>
+
 	    });
         mw.category_is_saving = false;
         $('.mw-cat-save-submit').removeClass('disabled');
@@ -150,6 +168,10 @@ $(document).ready(function(){
 
 
 <?php endif; ?>
+
+
+
+<pre><?php var_dump($data); ?>   </pre>
 
 <form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="Off">
 	<input name="id" type="hidden" value="<?php print ($data['id'])?>" />

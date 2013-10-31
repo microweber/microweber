@@ -17,6 +17,16 @@ if (r==true)
   {
    
    $.post("<?php print api_url('layouts/template_remove_custom_css') ?>", { template: $template, time: "2pm" }, function(data) {
+	     if(self !== parent){
+        var css = parent.mw.$("#mw-template-settings")[0];
+		   
+		if(css !== undefined && css !== null){
+			$(css).remove();
+		}
+	   }
+	   
+	   
+	   
 	   
 	   $('.layout_selector_custom_css_clear_custom_style').fadeOut();
 	
@@ -28,6 +38,10 @@ if (r==true)
   if(mw.templatePreview != undefined){
 	  mw.templatePreview.generate();
 	  }
+	  
+	 
+			
+			
 	  
 	  mw.reload_module('#<?php print $params['id'];?>');
    

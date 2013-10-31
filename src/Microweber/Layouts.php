@@ -692,14 +692,39 @@ class Layouts
 
                 $css_cont = $fcont;
                 $css_cont_new = $css_cont;
+
+
+                //@import on top
+                $sort_params = array();
+                $sort_params2 = array();
+                foreach ($params as $item) {
+                    if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
+                        $sort_params[] = $item;
+                    } else {
+                        $sort_params2[] = $item;
+
+                    }
+                }
+                $params = array_merge($sort_params,$sort_params2);
+
+
                 foreach ($params as $item) {
 
                     if (!isset($item["css"]) and isset($item["property"]) and isset($item['value'])) {
-                        $props = explode(',', $item['property']);
-                        $curr = "";
-                        foreach ($props as $prop) {
-                            $curr .= $prop . ":" . $item['value'] . ";";
+                        if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
+                            $props = explode(',', $item['property']);
+                            $curr = "";
+                            foreach ($props as $prop) {
+                                $curr .= $prop . " " . $item['value'] . ";";
+                            }
+                        } else {
+                            $props = explode(',', $item['property']);
+                            $curr = "";
+                            foreach ($props as $prop) {
+                                $curr .= $prop . ":" . $item['value'] . ";";
+                            }
                         }
+
                         $item["css"] = $curr;
                     }
 
@@ -745,7 +770,12 @@ class Layouts
 
 
                             $css_cont_new .= $delim;
-                            $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                            if (isset($sel) and trim($sel) == '@import') {
+                                $css_cont_new .= $sel . ' ' . $item["css"] . ' ';
+                            } else {
+                                $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                            }
+
                             $css_cont_new .= $delim;
                         }
                     }

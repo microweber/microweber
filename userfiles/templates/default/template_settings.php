@@ -1,6 +1,7 @@
 <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet">
 
 
+   
 
       <label class="mw-ui-label">Default Font</label>
 
@@ -174,7 +175,15 @@ $(document).ready(function(){
         mw.tpl.save();
     });
 
-
+  mw.$("#mw_set_template_style").bind("change", function(){
+	  
+	   var val = $(this).val();
+        mw.$("#import_css").val('url("'+val+'")');
+		
+		
+		
+         mw.tpl.save();
+    });
 
     mw.$("#font_family").setDropdownValue(mw.$("#font").val());
 
@@ -185,7 +194,20 @@ $(document).ready(function(){
 });
 </script>
 
+   <select id="mw_set_template_style">
+	  <option value="css/styles/spacelab.css">spacelab</option>
+	  <option value="css/styles/superhero.css">superhero</option>
+	  	  <option value="css/styles/amelia.css">superhero</option>
 
-<?php print template_name(); ?>
+	  </select>
+	  
+	  <input type="text"
+             class="tpl-field"
+             data-selector="@import"
+             value = "<?php if(isset($arr['import']) and isset($arr['import']['value'])){ print $arr['import']['value']; } ?>"
+             name="import"
+             id="import_css"
+             />
 
-<module type="content/layout_selector_custom_css" template="<?php print template_name(); ?>"
+
+<module type="content/layout_selector_custom_css" template=""<?php print template_name(); ?>

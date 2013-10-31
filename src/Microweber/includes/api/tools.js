@@ -1802,7 +1802,6 @@ mw.tools = {
     img.className = 'semi_hidden';
     img.src = a.src;
     mwd.body.appendChild(img);
-
     img.onload = function(){
         callback.call({width:$(img).width(), height: $(img).height()});
         $(img).remove();
@@ -1813,6 +1812,7 @@ mw.tools = {
     return node;
   },
   refresh:function(a){
+    if(a === null || typeof a === 'undefined') { return false; }
     if(a.src != '' && typeof a.src != 'undefined'){
        a.src =  mw.url.set_param('mwrefresh', mw.random(), a.src);
     }
@@ -1871,11 +1871,8 @@ mw.tools = {
     window[arr[0]] = t;
   },
   parseHtml: function(html){
-
-    var doc = document.implementation.createHTMLDocument("");
-
-     doc.body.innerHTML = html;
-
+    var doc = mwd.implementation.createHTMLDocument("");
+    doc.body.innerHTML = html;
     return doc;
   },
   isEmpty:function(node){
@@ -1903,23 +1900,23 @@ mw.tools = {
       return false;
     }
   },
-  toJSON:function(whatever){
-    if(typeof whatever === 'object' && mw.tools.isJSON(whatever)){
-      return whatever;
+  toJSON:function(w){
+    if(typeof w === 'object' && mw.tools.isJSON(w)){
+      return w;
     }
-    if(typeof whatever === 'string'){
+    if(typeof w === 'string'){
       try {
-          var r = JSON.parse(whatever);
+          var r = JSON.parse(w);
       }
       catch (e) {
-          var r = {"0":whatever};
+          var r = {"0":w};
       }
       return r;
     }
-    if(typeof whatever === 'object' && whatever.constructor === [].constructor){
-        var obj = {}, i=0, l=whatever.length;
+    if(typeof w === 'object' && w.constructor === [].constructor){
+        var obj = {}, i=0, l=w.length;
         for( ; i<l; i++){
-          obj[i] = whatever[i];
+          obj[i] = w[i];
         }
         return obj;
     }

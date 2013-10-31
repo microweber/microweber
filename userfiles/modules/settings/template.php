@@ -132,7 +132,11 @@ mw.tpl = {
     $.post(u,obj, function(){
       if(self !== parent){
         var css = parent.mw.$("#mw-template-settings")[0];
-		if(css === null){
+		
+		mw.reload_module('content/layout_selector_custom_css');
+		
+		
+		if(css === undefined || css === null){
 			  var l = parent.mwd.createElement('link');
               l.href = mw.settings.template_url + "live_edit.css";
               l.id = "mw-template-settings";
