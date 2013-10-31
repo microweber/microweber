@@ -27,7 +27,7 @@
   }
  ?>
 
-<div class="mw-v-table" id="mw_toolbar_nav"> <a class="mw-cube-holder" id="mw-admin-toolbar-cube" href="<?php print $past_page; ?>?editmode=y"> <span class="mw-cube"> <span class="mw-cube1"><span id="mw_toolbar_logo" href="<?php print admin_url(); ?>"></span></span> <span class="mw-cube2"><span class="ico ilive"></span><span>Go Live Edit</span></span> </span> </a>
+<div class="mw-v-table" id="mw_toolbar_nav"> <a class="mw-cube-holder mw-admin-go-live-now-btn" id="mw-admin-toolbar-cube" href="<?php print $past_page; ?>?editmode=y"> <span class="mw-cube"> <span class="mw-cube1"><span id="mw_toolbar_logo" href="<?php print admin_url(); ?>"></span></span> <span class="mw-cube2"><span class="ico ilive"></span><span>Go Live Edit</span></span> </span> </a>
 	<div class="mw-v-cell" style="width: 100%">
 		<?php if(is_admin()): ?>
 		<?php   $active = mw('url')->param('view'); ?>
@@ -50,7 +50,7 @@
 		</ul>
 	</div>
 	<div class="mw-v-cell">
-		<div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
+		<div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie mw-admin-go-live-now-btn" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
 			<?php _e("Go Live Edit"); ?>
 			</a>
 			<div class="mw-toolbar-notification">
@@ -75,6 +75,31 @@
          navli.removeClass('active');
          $(this).addClass('active');}
        });
+	   
+	   var nav_go_live_btns = mw.$(".mw-admin-go-live-now-btn");
+       nav_go_live_btns.click(function(e){
+         if(!$(this).attr('contrent-id')){
+        
+		var go_cont = $(this).attr('content-id');
+		if(go_cont != undefined && go_cont != 0){
+			//alert(go_cont);
+			
+			 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+go_cont, function(data) {
+					   		if(mw.notification != undefined){
+							 mw.notification.success('Going to live edit...', 1000);
+							 }		
+
+					 window.top.location.href = data+'/editmode:y';
+				   });
+			
+			mw.e.cancel(e,true);
+		}
+		
+		
+		}
+       });
+	   
+	   
 });
 </script>
 <?php endif; ?>

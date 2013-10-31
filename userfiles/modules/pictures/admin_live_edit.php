@@ -23,11 +23,11 @@ $for_module_id = $mod_id = $params['id'];
 		unset($params['rel']);
 	 }
  }
- 
-if( $use_from_post == true){
- 
-
- 
+if(isset($params['content-id']) and $params['content-id'] != 0){
+	 $use_from_post = true;
+	  $use_from_post_forced = 1;
+	
+}else if( $use_from_post == true){
  if(POST_ID != false){
 	$params['content-id'] = POST_ID;
  }

@@ -301,6 +301,14 @@ if($in_dir != false){
                 $_GET = $mw_restore_get;
             }
 
+
+            if (defined('MW_MODULE_ONDROP')) {
+                if(!isset($attrs['ondrop'])){
+                    $attrs['ondrop'] = true;
+                }
+
+            }
+
             $l1->params = $attrs;
             if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 

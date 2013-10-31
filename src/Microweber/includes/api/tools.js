@@ -1924,6 +1924,22 @@ mw.tools = {
         return obj;
     }
   },
+  mwattr:function(el,a,b){
+    if(!b){
+        var data = $(el).dataset(a);
+        var attr = $(el)[0].attributes[a];
+        if(data !== ''){
+            return data;
+        }
+        if(!!attr){
+          return attr.nodeValue;
+        }
+        return false;
+    }
+    else{
+       $(el).dataset(a, b);
+    }
+  },
   iframe_editor:function(area, params, k){
     var params = params || {};
     var k = k || false;
@@ -1950,7 +1966,7 @@ mw.tools = {
          if(!mw.is.ie){
            cont[0].contentEditable = true;
          }
-         else{ 
+         else{
             mw.$(".edit", cont[0]).removeAttr("contenteditable");
             mw.$(".element", cont[0]).each(function(){
                $(this).attr("contenteditable", "true");

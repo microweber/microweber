@@ -888,7 +888,7 @@ class Controller
                 // return $pq->htmlOuter();
             }
             if (isset($_SESSION) and !empty($_SESSION) and $is_editmode) {
-                 session_set('last_content_id',CONTENT_ID);
+                session_set('last_content_id', CONTENT_ID);
 
             }
 
@@ -1752,20 +1752,29 @@ class Controller
         if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
             $data['id'] = $_REQUEST['id'];
         }
+        if (isset($data['ondrop']) ) {
+
+            if (!defined('MW_MODULE_ONDROP')) {
+               	define('MW_MODULE_ONDROP', true);
+            }
+
+        unset($data['ondrop']);
+        }
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
             foreach ($data as $k => $v) {
+                if ($k != 'ondrop') {
+                    if ($k == 'id') {
+                        $has_id = true;
+                    }
 
-                if ($k == 'id') {
-                    $has_id = true;
-                }
-
-                if (is_array($v)) {
-                    $v1 = $this->app->format->array_to_base64($v);
-                    $tags .= "{$k}=\"$v1\" ";
-                } else {
-                    $tags .= "{$k}=\"$v\" ";
+                    if (is_array($v)) {
+                        $v1 = $this->app->format->array_to_base64($v);
+                        $tags .= "{$k}=\"$v1\" ";
+                    } else {
+                        $tags .= "{$k}=\"$v\" ";
+                    }
                 }
             }
         }
@@ -1813,14 +1822,13 @@ class Controller
         if (isset($_REQUEST['live_edit'])) {
 
 
-              $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-              $p_index = normalize_path($p_index, false);
-              $l = new $this->app->view($p_index);
-              $l->params = $data;
-              $layout = $l->__toString();
-              $res = str_replace('{content}', $res, $layout);
-              $res = $this->app->parser->process($res, $options = false);
-
+            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new $this->app->view($p_index);
+            $l->params = $data;
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+            $res = $this->app->parser->process($res, $options = false);
 
 
         }

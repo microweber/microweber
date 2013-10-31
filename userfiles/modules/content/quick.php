@@ -230,7 +230,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     </ul>
 
           <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
-             <microweber module="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+             <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
              <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
           </div>
         <?php if($data['content_type'] == 'page'): ?>
@@ -309,11 +309,8 @@ mw.edit_content.before_save = function(){
 	if(window.parent != undefined && window.parent.mw != undefined){
 		window.parent.mw.askusertostay=false;
 	}
-	
-	
 }
 mw.edit_content.after_save = function(){
-
 	mw.askusertostay=false;
 	var content_id =  mw.$('#mw-content-id-value').val();
 	if(content_id == 0){
@@ -402,46 +399,31 @@ mw.edit_content.handle_form_submit = function(go_live){
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
         module.addClass('loading');
-		
-		
-		
-		
-		
         mw.content.save(data, {
           onSuccess:function(){
-			  
-			  
-		
-			  
-			  
-			 if(mw.notification != undefined){
-				 mw.notification.success('Content saved!');
-				 }
-			  
-             if(parent !== self && !!window.parent.mw){
-        		window.parent.mw.askusertostay=false;
-        	 }
-			if(go_live_edit != false){
-				
-				   $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-					   		if(mw.notification != undefined){
-							 mw.notification.success('Going to live edit...', 5000);
-							 }		
-
-					 window.top.location.href = data+'/editmode:y';
-				   });
-			}
-            else {
-				
-				
-				
-				
-    			 mw.$("#<?php print $module_id ?>").attr("content-id",this);
-    			 mw.$("#<?php print $module_id ?>").attr("just-saved",this);
-    			 mw.edit_content.after_save();
-			}
-			mw.edit_content.saving = false;
-
+              mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
+              if(mw.notification != undefined){
+                mw.notification.success('Content saved!');
+              }
+              if(parent !== self && !!window.parent.mw){
+                 window.parent.mw.askusertostay=false;
+              }
+              if(go_live_edit != false){
+                $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
+                  if(mw.notification != undefined){
+                    mw.notification.success('Going to live edit...', 5000);
+                  }
+                  window.top.location.href = data+'/editmode:y';
+                });
+              }
+              else {
+                  mw.$("#<?php print $module_id ?>").attr("content-id",this);
+                  <?php if($is_quick !=false) : ?>
+                  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+                  <?php endif; ?>
+                  mw.edit_content.after_save();
+              }
+              mw.edit_content.saving = false;
           },
           onError:function(){
               module.removeClass('loading');

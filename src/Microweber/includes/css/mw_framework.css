@@ -1857,8 +1857,8 @@ select.mw-ui-simple-dropdown:focus{
 transition: left 0.4s;
 }
 
-#pages_edit_container  > form{
-  padding: 20px;
+#pages_edit_container > form{
+  padding: 1px 20px 20px;
 }
 
 

@@ -404,6 +404,18 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 
 
+#design_close{
+  background: url("../img/popup_ctrls.png") no-repeat  0 2px;
+    border-left: 1px solid #eaeaea;
+    cursor: pointer;
+    display: block;
+    height: 25px;
+    position: absolute;
+    right: 0;
+    text-indent: -9999px;
+    top: 0;
+    width: 27px;
+}
 
 
 .mwtb-search{

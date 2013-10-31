@@ -22,6 +22,9 @@ if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and
 
 
 
+
+
+
 if(isset($params['for'])){
 	 $for = $params['for'];
 } else {
@@ -64,7 +67,7 @@ if($use_from_post=='y'){
 }
  
 if(isset($params['content-id'])){
-	$params['rel_id'] = intval($params['content-id']); 
+	$params['rel_id'] = intval($params['content-id']);
 	 $for = 'content';
 }
 if($params['rel_id'] == false){
@@ -90,6 +93,26 @@ if($module_template == false and isset($params['template'])){
 
 
 ?>
+
+
+<?php  if(isset($params['ondrop'])){  ?>
+
+    <script>
+
+        var _this = mwd.getElementById('<?php print $params['id']; ?>');
+        var _edit =  mw.tools.firstParentWithClass(_this, 'edit');
+        var rel = mw.tools.mwattr(_edit, 'rel');
+        var field = mw.tools.mwattr(_edit, 'field');
+        var is = (!!rel && !!field) && ( (rel=='content' || rel=='page' || rel=='post') && field =='content' );
+        if(is && (_edit.querySelector('.module[data-type="pictures"][content-id]') === null)){
+          $(_this).attr('content-id', "<?php print CONTENT_ID ?>");
+          mw.reload_module(_this);
+        }
+    </script>
+
+<?php  } ?>
+
+
 <?php if(defined('IN_EDIT')): ?>
 	<a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a>
 <?php  endif; ?>

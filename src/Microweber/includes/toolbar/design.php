@@ -1,6 +1,7 @@
 
 <div id="design_bnav" class="mw-defaults toolbar_bnav" style="width: 160px;">
-  <div id="design_bnav_handle"></div>
+  <div id="design_bnav_handle"><a id="design_close" class="mw_ex_tools" href="#design_bnav" onclick="mw.$('.mw_ex_tools').removeClass('active');"></a></div>
+
   <ul class="ts_main_ul">
     <li class="ts_main_li mw-designtype-universal">
         <a class="ts_main_a dd_tpl_settings" style="cursor: pointer" href="javascript:;" onclick="mw.drag.module_settings('settings/template');">Template Settings</a>
